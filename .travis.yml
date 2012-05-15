@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+  - 1.9.3
+before_script:
+  - "ruby lib/initial_setup.rb ../.travis_setup"
+  - "mysql -e 'create database reading_test;'"
+  - "bundle exec rake db:migrate"

@@ -1,0 +1,23 @@
+<% @title = 'Users' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if current_user.system_admin? and false %>
+      <%= link_to "Create User", new_user_path, class: 'btn btn-mini btn-primary' %>
+    <% end %>
+  </h1>
+</div>
+
+<%= form_tag users_path, method: :get, remote: true, id: "users_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<div id="users"><center><%= image_tag "ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#users_search").attr("action"), $("#users_search").serialize(), null, "script");
+  });
+<% end %>

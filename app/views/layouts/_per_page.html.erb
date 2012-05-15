@@ -1,0 +1,19 @@
+<% if true %>
+  <div class="pagination pagination-right">
+    <ul>
+      <li class="disabled"><a href="#">Per Page</a></li>
+      <li class="active per_page"><%= link_to (defined?(per_page) and per_page ? per_page : 20), "#" %></li>
+      <% if defined?(object_count) and object_count %><li class="disabled"><a href="#">out of <%= object_count %></a></li><% end %>
+    </ul>
+  </div>
+<% else %>
+  <div class="pagination pagination-right">
+    <ul>
+      <li class="disabled"><a href="#">Per Page</a></li>
+      <% [10,25,50].each do |count| %>
+        <li class="<%= 'active' if current_user.send(type+"_per_page") == count %> per_page"><%= link_to count, "#", 'data-count' => count, 'data-object' => type, id: "count_#{count}" %></li>
+      <% end %>
+      <% if defined?(object_count) and object_count %><li class="disabled"><a href="#">out of <%= object_count %></a></li><% end %>
+    </ul>
+  </div>
+<% end %>

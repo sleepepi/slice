@@ -1,0 +1,12 @@
+Reading::Application.routes.draw do
+
+  devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
+
+  resources :users
+
+  match "/about" => "sites#about", as: :about
+  match "/dashboard" => "sites#dashboard", as: :dashboard
+
+  root to: 'sites#dashboard'
+
+end

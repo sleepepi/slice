@@ -1,0 +1,10 @@
+ActionMailer::Base.delivery_method = :smtp
+ActionMailer::Base.smtp_settings = {
+  :enable_starttls_auto => true, 
+  :address => "<%= print "Enter SMTP Address [localhost]: "; s = gets.chomp().gsub('"', '\"').gsub("\\", "\\\\"); s == '' ? 'localhost' : s %>",
+  :port => <%= print "Enter SMTP Port [25]: "; s = gets.chomp(); s == '' ? '25' : s %>,
+  :domain => "<%= print "Enter SMTP Domain: "; gets.chomp().gsub('"', '\"').gsub("\\", "\\\\") %>",
+  :authentication => :plain, # :plain, :login or :cram_md5
+  :user_name => "<%= print "Enter SMTP User Name [username]: "; s = gets.chomp().gsub('"', '\"').gsub("\\", "\\\\"); s == '' ? 'username' : s %>",
+  :password => "<%= print "Enter SMTP Password [password]: "; s = gets.chomp().gsub('"', '\"').gsub("\\", "\\\\"); s == '' ? 'password' : s %>"
+}

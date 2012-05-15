@@ -1,0 +1,9 @@
+Hello <%= @system_admin.first_name %>,
+
+<%= @user.name %> [<%= @user.email %>] has signed up for an account.
+
+Please login <%= "#{SITE_URL}/users/#{@user.id}/edit" %> to approve or deny the request.
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> System Mailer

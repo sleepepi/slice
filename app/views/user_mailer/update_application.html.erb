@@ -1,0 +1,9 @@
+Hello <%= @applicant.first_name %>,<br />
+<br />
+<%= @user.name %> has requested that you update your application information.<br />
+<br />
+You can access your application here: <%= link_to "#{SITE_URL}?auth_token=#{@applicant.authentication_token}", "#{SITE_URL}?auth_token=#{@applicant.authentication_token}" %><br />
+<br />
+Thank you!<br />
+<br />
+<%= DEFAULT_APP_NAME %> System Mailer
