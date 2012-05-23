@@ -8,6 +8,7 @@ jQuery ->
   $("#ui-datepicker-div").hide()
 
   $(document).on('click', ".pagination a, .page a, .next a, .prev a", () ->
+    return false if $(this).parent().is('.active, .disabled, .per_page')
     $.get(this.href, null, null, "script")
     false
   )
