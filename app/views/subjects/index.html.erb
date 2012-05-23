@@ -1,0 +1,21 @@
+<% @title = 'Subjects' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Create Subject", new_subject_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
+
+<%= form_tag subjects_path, method: :get, remote: true, id: "subjects_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<div id="subjects"><center><%= image_tag "ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#subjects_search").attr("action"), $("#subjects_search").serialize(), null, "script");
+  });
+<% end %>

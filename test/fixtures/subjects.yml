@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  project: one
+  subject_code: Code01
+  user: valid
+  deleted: false
+
+two:
+  project: one
+  subject_code: Code02
+  user: valid
+  deleted: false

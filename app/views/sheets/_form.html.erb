@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @sheet, html: { class: 'form-horizontal' } do |f| %>
+  <% if @sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sheet.errors.count, "error") %> prohibited this sheet from being saved:</h2>
+
+      <ul>
+      <% @sheet.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :description, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :design_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :design_id, [['---', nil]] + Design.current.collect{|d| [d.name, d.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :study_date, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :study_date, class: 'datepicker', value: @sheet.study_date ? @sheet.study_date.strftime('%m/%d/%Y') : '' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :project_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :subject_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :subject_id, [['---', nil]] + Subject.current.collect{|s| [s.name, s.id]} %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>

@@ -25,6 +25,11 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :authentications
+  has_many :designs, conditions: { deleted: false }
+  has_many :projects, conditions: { deleted: false }
+  has_many :sheets, conditions: { deleted: false }
+  has_many :subjects, conditions: { deleted: false }
+  has_many :variables, conditions: { deleted: false }
 
   # User Methods
   # Overriding Devise built-in active_for_authentication? method

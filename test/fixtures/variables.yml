@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: Variable One
+  description: MyText
+  header: MyString
+  variable_type: MyString
+  values: MyText
+  response: MyText
+  user: valid
+  deleted: false
+
+two:
+  name: Variable Two
+  description: MyText
+  header: MyString
+  variable_type: MyString
+  values: MyText
+  response: MyText
+  user: valid
+  deleted: false

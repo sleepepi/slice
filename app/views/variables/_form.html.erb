@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @variable, html: { class: 'form-horizontal' } do |f| %>
+  <% if @variable.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@variable.errors.count, "error") %> prohibited this variable from being saved:</h2>
+
+      <ul>
+      <% @variable.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :header, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :header %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :description, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :variable_type, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :variable_type, [['---', nil]] + Variable::TYPE %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :values, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :values, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :response, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :response, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>

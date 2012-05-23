@@ -1,0 +1,26 @@
+<%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20 } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.subject_code', 'Subject Code', 'subjects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.project_id', 'Project', 'subjects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.user_id', 'Creator', 'subjects_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @subjects.each do |subject| %>
+    <tr>
+      <td><%= link_to subject.subject_code, subject %></td>
+      <td><%= link_to subject.project.name, subject.project if subject.project %></td>
+      <td><%= link_to subject.user.name, subject.user if subject.user %></td>
+      <td>
+        <%= link_to 'Edit', edit_subject_path(subject), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', subject, confirm: "Are you sure you want to delete Subject #{subject.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @subjects %></center>

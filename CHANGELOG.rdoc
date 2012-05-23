@@ -1,5 +1,13 @@
 == 0.1.0
 
+* Enhancements
+  * Added Design and Variable Libraries
+    * Designs are used to create templates of forms for subjects
+    * Variables are used to define data collected on the forms
+  * Added Projects, Subjects, and Sheets
+    * Projects group together specific a set of subjects
+    * Sheets are filled out forms
+
 == 0.0.0
 
 * Skeleton files to initialize Rails application with testing framework and continuous integration

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: Project One
+  description: MyText
+  user: valid
+  deleted: false
+
+two:
+  name: Project Two
+  description: MyText
+  user: valid
+  deleted: false

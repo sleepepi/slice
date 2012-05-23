@@ -1,0 +1,32 @@
+<% @title = "Sheet: #{@sheet.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Edit Sheet", edit_sheet_path(@sheet), class: 'btn btn-mini' %>
+    <%= link_to "Delete Sheet", @sheet, confirm: "Are you sure you want to delete Sheet #{@sheet.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <%= link_to "View Sheets", sheets_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Name</dt>
+  <dd><%= @sheet.name %></dd>
+
+  <dt>Description</dt>
+  <dd><%= simple_format @sheet.description %></dd>
+
+  <dt>Design</dt>
+  <dd><%= link_to @sheet.design.name, @sheet.design if @sheet.design %></dd>
+
+  <dt>Study Date</dt>
+  <dd><%= @sheet.study_date %></dd>
+
+  <dt>Project</dt>
+  <dd><%= link_to @sheet.project.name, @sheet.project if @sheet.project %></dd>
+
+  <dt>Subject</dt>
+  <dd><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></dd>
+
+  <dt>Creator</dt>
+  <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
+</dl>

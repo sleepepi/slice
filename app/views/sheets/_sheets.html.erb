@@ -1,0 +1,34 @@
+<%= render partial: 'layouts/per_page', locals: { type: 'sheets', per_page: 20 } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.name', 'Name', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.description', 'Description', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.design_id', 'Design', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.study_date', 'Study Date', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.project_id', 'Project', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.subject_id', 'Subject', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.user_id', 'Creator', 'sheets_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @sheets.each do |sheet| %>
+    <tr>
+      <td><%= link_to sheet.name, sheet %></td>
+      <td><%= sheet.description %></td>
+      <td><%= link_to sheet.design.name, sheet.design if sheet.design %></td>
+      <td><%= sheet.study_date %></td>
+      <td><%= link_to sheet.project.name, sheet.project if sheet.project %></td>
+      <td><%= link_to sheet.subject.name, sheet.subject if sheet.subject %></td>
+      <td><%= link_to sheet.user.name, sheet.user if sheet.user %></td>
+      <td>
+        <%= link_to 'Edit', edit_sheet_path(sheet), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', sheet, confirm: "Are you sure you want to delete Sheet #{sheet.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @sheets %></center>

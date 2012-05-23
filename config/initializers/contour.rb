@@ -33,6 +33,18 @@ Contour.setup do |config|
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
     {
+      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
+      links: [{ name: 'Create', path: 'new_project_path' }]
+    },
+    {
+      name: 'Design Library', display: 'signed_in', path: 'designs_path', position: 'left',
+      links: [{ name: 'Create Design', path: 'new_design_path' }]
+    },
+    {
+      name: 'Variable Library', display: 'signed_in', path: 'variables_path', position: 'left',
+      links: [{ name: 'Create Variable', path: 'new_variable_path' }]
+    },
+    {
       name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'current_user.system_admin?'
     },
     {
