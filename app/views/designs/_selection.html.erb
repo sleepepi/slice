@@ -1,0 +1,24 @@
+<%# This file loads a design to be used in a sheet %>
+<% if @design %>
+  <hr>
+
+  <div class="control-group">
+    <%= label 'sheet', 'name', 'Design Name', class: 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag 'sheet[name]', @design.name, disabled: true %>
+      <%= hidden_field_tag 'sheet[name]', @design.name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label 'sheet', 'description', 'Design Description', class: 'control-label' %>
+    <div class="controls">
+      <%= text_area_tag 'sheet[description]', @design.description, rows: 7, style: 'width:95%', disabled: true %>
+      <%= hidden_field_tag 'sheet[description]', @design.description %>
+    </div>
+  </div>
+
+  <% @design.variables.each do |variable| %>
+    <%= @variable = variable; render partial: 'designs/variable' %>
+  <% end %>
+<% end %>

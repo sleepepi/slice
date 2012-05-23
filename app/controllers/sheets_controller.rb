@@ -46,6 +46,10 @@ class SheetsController < ApplicationController
   # POST /sheets
   # POST /sheets.json
   def create
+    if params[:sheet] and not params[:sheet][:project_id].blank? and not params[:subject_code].blank?
+      params[:sheet][:subject_id] = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id })
+    end
+
     @sheet = current_user.sheets.new(post_params)
 
     respond_to do |format|
@@ -97,7 +101,7 @@ class SheetsController < ApplicationController
 
     params[:sheet] ||= {}
     params[:sheet].slice(
-      :name, :description, :design_id, :study_date, :project_id, :subject_id
+      :name, :description, :design_id, :study_date, :project_id, :subject_id, :variable_ids
     )
   end
 end

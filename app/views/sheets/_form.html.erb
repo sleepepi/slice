@@ -15,6 +15,7 @@
     </div>
   <% end %>
 
+<% if false %>
   <div class="control-group">
     <%= f.label :name, nil, class: 'control-label' %>
     <div class="controls">
@@ -28,11 +29,19 @@
       <%= f.text_area :description, rows: 7, style: 'width:95%' %>
     </div>
   </div>
+<% end %>
 
   <div class="control-group">
-    <%= f.label :design_id, nil, class: 'control-label' %>
+    <%= f.label :project_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :design_id, [['---', nil]] + Design.current.collect{|d| [d.name, d.id]} %>
+      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label 'sheet', 'subject_id', 'Subject Code', class: 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : '', name: 'subject_code' %>
     </div>
   </div>
 
@@ -43,18 +52,17 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :project_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+  <% if @sheet.new_record? %>
+    <div class="control-group">
+      <%= f.label :design_id, nil, class: 'control-label' %>
+      <div class="controls">
+        <%= f.select :design_id, [['---', nil]] + Design.current.collect{|d| [d.name, d.id]} %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
-  <div class="control-group">
-    <%= f.label :subject_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :subject_id, [['---', nil]] + Subject.current.collect{|s| [s.name, s.id]} %>
-    </div>
+  <div id="design">
+    <%= @design = @sheet.design; render partial: 'designs/selection' if @sheet.design %>
   </div>
 
   <div class="form-actions">

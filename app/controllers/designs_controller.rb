@@ -1,6 +1,11 @@
 class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
+  def selection
+    @sheet = Sheet.new
+    @design = Design.current.find_by_id(params[:sheet][:design_id])
+  end
+
   def add_variable
     @design = Design.new(params[:design])
     @variable = Variable.new

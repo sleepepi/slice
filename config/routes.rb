@@ -4,6 +4,7 @@ Reading::Application.routes.draw do
     collection do
       post :add_variable
       post :variables
+      post :selection
     end
   end
 
