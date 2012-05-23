@@ -1,6 +1,15 @@
 class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
+  def add_variable
+    @design = Design.new(params[:design])
+    @variable = Variable.new
+  end
+
+  def variables
+    @design = Design.new(params[:design])
+  end
+
   # GET /designs
   # GET /designs.json
   def index
@@ -97,7 +106,7 @@ class DesignsController < ApplicationController
 
     params[:design] ||= {}
     params[:design].slice(
-      :name, :description, :project_id
+      :name, :description, :project_id, :variable_ids
     )
   end
 end

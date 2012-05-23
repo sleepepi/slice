@@ -1,6 +1,11 @@
 Reading::Application.routes.draw do
 
-  resources :designs
+  resources :designs do
+    collection do
+      post :add_variable
+      post :variables
+    end
+  end
 
   resources :projects
 

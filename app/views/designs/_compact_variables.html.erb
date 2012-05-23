@@ -1,0 +1,16 @@
+<table class="table table-striped table-bordered table-condensed" style="width:100%;table-layout:fixed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Variable Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <% @design.variables.each do |variable| %>
+    <tr>
+      <td><%= link_to variable.name, variable %></td>
+      <td><%= variable.variable_type %></td>
+      <td><%= variable.description %></td>
+    </tr>
+  <% end %>
+</table>

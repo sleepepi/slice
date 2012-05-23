@@ -2,12 +2,12 @@ class VariablesController < ApplicationController
   before_filter :authenticate_user!
 
   def add_option
-    @variable = Variable.current.new(params[:variable])
-    @option = { }
+    @variable = Variable.new(params[:variable])
+    @option = { name: '', value: '', description: '', position: @variable.options.size }
   end
 
   def options
-    @variable = Variable.current.new(params[:variable])
+    @variable = Variable.new(params[:variable])
   end
 
   # GET /variables

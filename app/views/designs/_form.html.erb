@@ -29,6 +29,16 @@
     </div>
   </div>
 
+  <div id="variables">
+    <%= render partial: 'variables' %>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">
+      <%= link_to 'Add Another Variable', '#', id: 'add_more_variables', class: 'btn btn-mini' %>
+    </label>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>

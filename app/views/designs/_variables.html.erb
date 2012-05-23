@@ -1,0 +1,8 @@
+<% if @design.variables.size == 0 %>
+  <% @variable = Variable.new %>
+  <%= render partial: 'edit_variable' %>
+<% else %>
+  <% @design.variables.each do |variable| %>
+    <%= @variable = variable; render partial: 'edit_variable' %>
+  <% end %>
+<% end %>

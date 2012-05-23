@@ -1,5 +1,5 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name
+  attr_accessible :description, :name, :variable_ids
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
