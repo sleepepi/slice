@@ -6,6 +6,19 @@ class VariablesControllerTest < ActionController::TestCase
     @variable = variables(:one)
   end
 
+  test "should add option" do
+    post :add_option, variable: { description: @variable.description, header: @variable.header, name: 'Variable Temp', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_not_nil assigns(:option)
+    assert_template 'add_option'
+  end
+
+  test "should get options" do
+    post :options, variable: { description: @variable.description, header: @variable.header, name: 'Variable Temp', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_template 'options'
+  end
+
   test "should get index" do
     get :index
     assert_response :success
@@ -25,7 +38,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create variable" do
     assert_difference('Variable.count') do
-      post :create, variable: { description: @variable.description, header: @variable.header, name: 'Variable Three', response: @variable.response, values: @variable.values, variable_type: @variable.variable_type }
+      post :create, variable: { description: @variable.description, header: @variable.header, name: 'Variable Three', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }
     end
 
     assert_redirected_to variable_path(assigns(:variable))
@@ -42,7 +55,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should update variable" do
-    put :update, id: @variable, variable: { description: @variable.description, header: @variable.header, name: @variable.name, response: @variable.response, values: @variable.values, variable_type: @variable.variable_type }
+    put :update, id: @variable, variable: { description: @variable.description, header: @variable.header, name: @variable.name, response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }
     assert_redirected_to variable_path(assigns(:variable))
   end
 

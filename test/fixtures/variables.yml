@@ -5,7 +5,7 @@ one:
   description: MyText
   header: MyString
   variable_type: MyString
-  values: MyText
+  options: [{name: 'Name', value: 'Value', position: 0, description: 'Description'}]
   response: MyText
   user: valid
   deleted: false
@@ -15,7 +15,7 @@ two:
   description: MyText
   header: MyString
   variable_type: MyString
-  values: MyText
+  options: [{name: 'Name', value: 'Value', position: 0, description: 'Description'}]
   response: MyText
   user: valid
   deleted: false

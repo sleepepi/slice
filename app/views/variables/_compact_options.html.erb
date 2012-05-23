@@ -1,0 +1,19 @@
+<table class="table table-striped table-bordered table-condensed" style="width:100%;table-layout:fixed">
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <% @variable.options.each do |option| %>
+    <% option = option.symbolize_keys %>
+    <tr>
+      <td><%= option[:position] %></td>
+      <td><%= option[:name] %></td>
+      <td><%= option[:value] %></td>
+      <td><%= option[:description] %></td>
+    </tr>
+  <% end %>
+</table>

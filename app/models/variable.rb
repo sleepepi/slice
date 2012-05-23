@@ -1,7 +1,10 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :response, :values, :variable_type
+  attr_accessible :description, :header, :name, :options, :response, :variable_type, :option_tokens
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
+
+  serialize :options, Array
+  # attr_reader :option_tokens
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -19,4 +22,17 @@ class Variable < ActiveRecord::Base
   def destroy
     update_attribute :deleted, true
   end
+
+  def option_tokens=(tokens)
+    self.options = []
+    tokens.each_pair do |key, option_hash|
+      self.options << { name: option_hash[:name],
+                        value: option_hash[:value],
+                        position: option_hash[:position],
+                        description: option_hash[:description]
+                      } unless option_hash[:name].blank?
+    end
+    self.options.sort!{ |a,b| a.symbolize_keys[:position].to_i <=> b.symbolize_keys[:position].to_i }
+  end
+
 end

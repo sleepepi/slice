@@ -1,6 +1,15 @@
 class VariablesController < ApplicationController
   before_filter :authenticate_user!
 
+  def add_option
+    @variable = Variable.current.new(params[:variable])
+    @option = { }
+  end
+
+  def options
+    @variable = Variable.current.new(params[:variable])
+  end
+
   # GET /variables
   # GET /variables.json
   def index
@@ -97,7 +106,7 @@ class VariablesController < ApplicationController
 
     params[:variable] ||= {}
     params[:variable].slice(
-      :name, :description, :header, :variable_type, :values, :response
+      :name, :description, :header, :variable_type, :option_tokens, :response
     )
   end
 end

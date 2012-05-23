@@ -8,7 +8,12 @@ Reading::Application.routes.draw do
 
   resources :subjects
 
-  resources :variables
+  resources :variables do
+    collection do
+      post :add_option
+      post :options
+    end
+  end
 
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 

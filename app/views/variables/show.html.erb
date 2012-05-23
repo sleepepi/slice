@@ -21,9 +21,6 @@
   <dt>Variable Type</dt>
   <dd><%= @variable.variable_type %></dd>
 
-  <dt>Values</dt>
-  <dd><%= simple_format @variable.values %></dd>
-
   <dt>Response</dt>
   <dd><%= simple_format @variable.response %></dd>
 
@@ -33,3 +30,5 @@
   <dt>Project</dt>
   <dd><%= link_to @variable.project.name, @variable.project if @variable.project %></dd>
 </dl>
+
+<%= render partial: 'compact_options' %>
