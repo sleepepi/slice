@@ -1,11 +1,28 @@
 <%# This file shows a variable for use in a sheet %>
+<% unless @variable.header.blank? %>
+  <div class="page-header">
+    <h3>
+      <%= @variable.header %>
+    </h3>
+  </div>
+<% end %>
 <div class="control-group">
-  <%= label "sheet[variable][#{@variable.id}]", @variable.name, class: 'control-label' %>
+  <%= label 'variables', "#{@variable.id}", @variable.name, class: 'control-label' %>
   <div class="controls">
-    <% if @variable.variable_type == 'dropdown' %>
-      <%= select_tag "sheet[variable][#{@variable.id}]", options_for_select([[nil, '---']] + @variable.options.collect{|opt| [opt[:name], opt[:value]]}) %>
+    <% response = (params[:variables].blank? ? @variable.response : params[:variables][@variable.id.to_s]) %>
+    <% case @variable.variable_type when 'dropdown' %>
+      <%= select_tag "variables[#{@variable.id}]", options_for_select([['---', nil]] + @variable.options.collect{|opt| [opt[:name], opt[:value]]}, response) %>
       <%#= text_field_tag 'sheet[description]', @design.description %>
+    <% when 'string' %>
+      <%= text_field_tag "variables[#{@variable.id}]", response %>
+    <% when 'text' %>
+      <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%' %>
+    <% when 'integer' %>
+      <%= number_field_tag "variables[#{@variable.id}]", response %>
+    <% when 'date' %>
+      <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker' %>
     <% else %>
+      <%= hidden_field_tag "variables[#{@variable.id}]" %>
       Unsupported Variable Type <%= @variable.variable_type %>
     <% end %>
   </div>

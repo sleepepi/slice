@@ -12,7 +12,7 @@ class Sheet < ActiveRecord::Base
   belongs_to :project
   belongs_to :subject
   belongs_to :design
-  has_and_belongs_to_many :variables, conditions: { deleted: false }
+  has_many :variables, conditions: { deleted: false }
 
   # Model Methods
   def destroy

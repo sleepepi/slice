@@ -13,7 +13,7 @@ class VariablesController < ApplicationController
   # GET /variables
   # GET /variables.json
   def index
-    variable_scope = Variable.current
+    variable_scope = Variable.current.where( sheet_id: nil )
     @order = Variable.column_names.collect{|column_name| "variables.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "variables.name"
     variable_scope = variable_scope.order(@order)
     @variables = variable_scope.page(params[:page]).per( 20 )

@@ -5,7 +5,7 @@
   <div class="control-group">
     <%= label_tag "design_variable_ids_", 'Variable', class: 'control-label' %>
     <div class="controls">
-      <%= select_tag "design[variable_ids][]", options_for_select([['---', nil]] + Variable.current.collect{|v| [v.name, v.id]}, @variable.id), style: 'width:99%' %>
+      <%= select_tag "design[variable_ids][]", options_for_select([['---', nil]] + Variable.current.where(sheet_id: nil).collect{|v| [v.name, v.id]}, @variable.id), style: 'width:99%' %>
     </div>
   </div>
 

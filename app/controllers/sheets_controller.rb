@@ -54,6 +54,16 @@ class SheetsController < ApplicationController
 
     respond_to do |format|
       if @sheet.save
+
+        (params[:variables] || {}).each_pair do |variable_id, response|
+          v = Variable.find_by_id(variable_id).dup
+          v.response = (v.variable_type == 'date') ? parse_date(response) : response
+          v.project_id = @sheet.project_id
+          v.user_id = current_user.id
+          v.sheet_id = @sheet.id
+          v.save
+        end
+
         format.html { redirect_to @sheet, notice: 'Sheet was successfully created.' }
         format.json { render json: @sheet, status: :created, location: @sheet }
       else
@@ -70,6 +80,14 @@ class SheetsController < ApplicationController
 
     respond_to do |format|
       if @sheet.update_attributes(post_params)
+
+        (params[:variables] || {}).each_pair do |variable_id, response|
+          v = @sheet.variables.find_by_id(variable_id)
+          v.response = (v.variable_type == 'date') ? parse_date(response) : response
+          v.user_id = current_user.id
+          v.save
+        end
+
         format.html { redirect_to @sheet, notice: 'Sheet was successfully updated.' }
         format.json { head :no_content }
       else
@@ -105,7 +123,4 @@ class SheetsController < ApplicationController
     )
   end
 
-  def variables_placeholders
-
-  end
 end

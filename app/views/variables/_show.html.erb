@@ -1,0 +1,9 @@
+<% unless @variable.header.blank? %>
+  <div class="page-header">
+    <h4><%= @variable.header %></h4>
+  </div>
+<% end %>
+<dl class="dl-horizontal">
+  <dt><%= @variable.name %></dt>
+  <dd><%= @variable.response_name %></dd>
+</dl>

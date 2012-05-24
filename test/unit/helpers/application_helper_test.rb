@@ -42,14 +42,6 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal time.strftime("on %b %d, %Y at %I:%M %p"), simple_time(time)
   end
 
-  test "should show sort field helper" do
-    assert sort_field_helper("first_name DESC", "last_name", "First Name").kind_of?(String)
-  end
-
-  test "should show sort field helper with same order" do
-    assert sort_field_helper("first_name", "first_name", "First Name").kind_of?(String)
-  end
-
   test "should show recent activity" do
     assert recent_activity(nil).kind_of?(String)
     assert recent_activity('').kind_of?(String)

@@ -30,3 +30,11 @@
   <dt>Creator</dt>
   <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
 </dl>
+
+<div class="page-header">
+  <h3><%= @sheet.name %></h3>
+</div>
+
+<% @sheet.variables.each do |variable| %>
+  <%= @variable = variable; render partial: 'variables/show' %>
+<% end %>
