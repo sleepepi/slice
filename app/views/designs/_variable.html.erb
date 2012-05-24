@@ -32,6 +32,15 @@
       <%= number_field_tag "variables[#{@variable.id}]", response %>
     <% when 'date' %>
       <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker' %>
+      <%= javascript_tag do %>
+        $(".datepicker").datepicker({
+          showOtherMonths: true,
+          selectOtherMonths: true,
+          changeMonth: true,
+          changeYear: true
+        });
+        $("#ui-datepicker-div").hide();
+      <% end %>
     <% else %>
       <%= hidden_field_tag "variables[#{@variable.id}]" %>
       Unsupported Variable Type <%= @variable.variable_type %>
