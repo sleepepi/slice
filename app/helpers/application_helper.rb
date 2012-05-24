@@ -1,9 +1,5 @@
 module ApplicationHelper
 
-  def cancel
-    link_to 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'btn btn-danger'
-  end
-
   # Prints out '6 hours ago, Yesterday, 2 weeks ago, 5 months ago, 1 year ago'
   def recent_activity(past_time)
     return '' unless past_time.kind_of?(Time)
@@ -48,16 +44,6 @@ module ApplicationHelper
 
   def simple_check(checked)
     image_tag("gentleface/16/#{checked ? 'checkbox_checked' : 'checkbox_unchecked'}.png", alt: '', style: 'vertical-align:text-bottom')
-  end
-
-  def sort_field_helper(order, sort_field, display_name, search_form_id  = 'search_form')
-    result = ''
-    if order == sort_field
-      result = "<span class='selected'>#{display_name} #{ link_to_function('&raquo;'.html_safe, "$('#order').val('#{sort_field} DESC');$('##{search_form_id}').submit();", style: 'text-decoration:none')}</span>"
-    elsif order == sort_field + ' DESC' or order.split(' ').first != sort_field
-      result = "<span #{'class="selected"' if order == sort_field + ' DESC'}>#{display_name} #{link_to_function((order == sort_field + ' DESC' ? '&laquo;'.html_safe : '&laquo;&raquo;'.html_safe), "$('#order').val('#{sort_field}');$('##{search_form_id}').submit();", style: 'text-decoration:none')}</span>"
-    end
-    result
   end
 
 end

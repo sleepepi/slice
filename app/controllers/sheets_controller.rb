@@ -104,4 +104,8 @@ class SheetsController < ApplicationController
       :name, :description, :design_id, :study_date, :project_id, :subject_id, :variable_ids
     )
   end
+
+  def variables_placeholders
+
+  end
 end
