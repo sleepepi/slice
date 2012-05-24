@@ -57,6 +57,7 @@ class SheetsController < ApplicationController
 
         (params[:variables] || {}).each_pair do |variable_id, response|
           v = Variable.find_by_id(variable_id).dup
+          response = [] if v.variable_type == 'checkbox' and response.blank?
           v.response = (v.variable_type == 'date') ? parse_date(response) : response
           v.project_id = @sheet.project_id
           v.user_id = current_user.id
@@ -83,6 +84,7 @@ class SheetsController < ApplicationController
 
         (params[:variables] || {}).each_pair do |variable_id, response|
           v = @sheet.variables.find_by_id(variable_id)
+          response = [] if v.variable_type == 'checkbox' and response.blank?
           v.response = (v.variable_type == 'date') ? parse_date(response) : response
           v.user_id = current_user.id
           v.save

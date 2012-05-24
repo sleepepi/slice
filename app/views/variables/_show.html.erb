@@ -5,5 +5,15 @@
 <% end %>
 <dl class="dl-horizontal">
   <dt><%= @variable.name %></dt>
-  <dd><%= @variable.response_name %></dd>
+  <dd>
+    <% if @variable.variable_type == 'text' %>
+      <%= simple_format @variable.response_name.to_s %>
+    <% elsif @variable.variable_type == 'checkbox' %>
+      <% @variable.response_name.each do |response| %>
+        <p><%= response %></p>
+      <% end %>
+    <% else %>
+      <%= @variable.response_name %>
+    <% end %>
+  </dd>
 </dl>

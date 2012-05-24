@@ -36,8 +36,11 @@ class Variable < ActiveRecord::Base
   end
 
   def response_name
-    case self.variable_type when 'dropdown'
+    if ['dropdown', 'radio'].include?(self.variable_type)
       (self.options.select{|option| option[:value] == self.response}.first || {})[:name]
+    elsif ['checkbox'].include?(self.variable_type)
+      array = YAML::load(self.response) rescue []
+      (self.options.select{|option| array.include?(option[:value])}).collect{|option| option[:name]}
     else
       self.response
     end
