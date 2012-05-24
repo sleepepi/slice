@@ -18,6 +18,7 @@ class Variable < ActiveRecord::Base
   belongs_to :project
   # has_and_belongs_to_many :sheets, conditions: { deleted: false }
 
+
   # Model Methods
   def destroy
     update_attribute :deleted, true
@@ -40,7 +41,7 @@ class Variable < ActiveRecord::Base
       (self.options.select{|option| option[:value] == self.response}.first || {})[:name]
     elsif ['checkbox'].include?(self.variable_type)
       array = YAML::load(self.response) rescue []
-      (self.options.select{|option| array.include?(option[:value])}).collect{|option| option[:name]}
+      (self.options.select{|option| array.include?(option[:value])}).collect{|option| option[:name]} || []
     else
       self.response
     end
