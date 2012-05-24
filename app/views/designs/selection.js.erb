@@ -1,1 +1,8 @@
 $("#design").html("<%= escape_javascript(render("designs/selection")) %>");
+$(".datepicker").datepicker({
+  showOtherMonths: true,
+  selectOtherMonths: true,
+  changeMonth: true,
+  changeYear: true
+});
+$("#ui-datepicker-div").hide();
