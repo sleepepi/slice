@@ -58,6 +58,17 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to sheet_path(assigns(:sheet))
   end
 
+  test "should not create sheet on same design project subject study_date" do
+    assert_difference('Sheet.count', 0) do
+      post :create, sheet: { description: @sheet.description, design_id: @sheet.design_id, name: @sheet.name, project_id: @sheet.project_id, study_date: '05/21/2012' }, subject_code: 'Code01'
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal ['has already been taken'], assigns(:sheet).errors[:study_date]
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should show sheet" do
     get :show, id: @sheet
     assert_response :success

@@ -3,6 +3,7 @@
 * Bug Fix
   * Variable options now correctly load when editing a variable
   * Subjects now correctly linked to their appropriate sheets
+  * Sheets are restricted to one per design_id, project_id, subject_id, and study_date
 
 == 0.1.0
 
