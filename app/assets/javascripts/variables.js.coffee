@@ -4,7 +4,7 @@
 
 @toggleOptions = (element) ->
   if $(element).val() in ['dropdown', 'checkbox', 'radio']
-      $('[data-object~="options"]').show()
+    $('[data-object~="options"]').show()
   else
     $('[data-object~="options"]').hide()
 
@@ -14,9 +14,9 @@ jQuery ->
     false
   )
 
-  $('#variable_variable_type')
-    .on('change', () -> toggleOptions($(this)))
-    .ready(       () -> toggleOptions($(this)))
+  $(document)
+    .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
+    .ready('#variable_variable_type', () -> toggleOptions($(this)))
 
   $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
