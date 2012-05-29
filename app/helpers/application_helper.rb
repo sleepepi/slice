@@ -49,13 +49,12 @@ module ApplicationHelper
 
   # Move to Contour
   def sort_field_helper_new(order, sort_field, display_name, search_form_id  = 'search_form')
-    result = ''
-    if order == sort_field
-      result = "<span class='selected'>#{display_name} #{ link_to('&raquo;'.html_safe, '#', 'data-object' => 'order', 'data-order' => "#{sort_field} DESC", 'data-form' => "##{search_form_id}",  style: 'text-decoration:none')}</span>"
-    elsif order == sort_field + ' DESC' or order.split(' ').first != sort_field
-      result = "<span #{'class="selected"' if order == sort_field + ' DESC'}>#{display_name} #{link_to((order == sort_field + ' DESC' ? '&laquo;'.html_safe : '&laquo;&raquo;'.html_safe), '#', 'data-object' => 'order', 'data-order' => "#{sort_field}", 'data-form' => "##{search_form_id}", style: 'text-decoration:none')}</span>"
-    end
-    result
+    sort_field_order = (order == sort_field) ? "#{sort_field} DESC" : sort_field
+    symbol = (order == sort_field) ? '&raquo;' : (order == sort_field + ' DESC' ? '&laquo;' : '&laquo;&raquo;')
+    selected_class = (order == sort_field) ? 'selected' : (order == sort_field + ' DESC' ? 'selected' : '')
+    content_tag(:span, class: selected_class) do
+      display_name.to_s.html_safe + ' ' + link_to(raw(symbol), '#', data: { object: 'order', order: sort_field_order, form: "##{search_form_id}" }, style: 'text-decoration:none')
+    end.html_safe
   end
 
 end
