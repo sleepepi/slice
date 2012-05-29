@@ -3,7 +3,7 @@ class VariablesController < ApplicationController
 
   def add_option
     @variable = Variable.new(params[:variable])
-    @option = { name: '', value: '', description: '', position: @variable.options.size }
+    @option = { name: '', value: '', description: '' }
   end
 
   def options

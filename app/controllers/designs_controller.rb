@@ -8,7 +8,7 @@ class DesignsController < ApplicationController
 
   def add_variable
     @design = Design.new(params[:design])
-    @variable = Variable.new
+    @option = { variable_id: '' }
   end
 
   def variables
@@ -111,7 +111,7 @@ class DesignsController < ApplicationController
 
     params[:design] ||= {}
     params[:design].slice(
-      :name, :description, :project_id, :variable_ids
+      :name, :description, :project_id, :option_tokens
     )
   end
 end

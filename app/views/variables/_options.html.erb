@@ -1,5 +1,5 @@
 <% if @variable.options.size == 0 %>
-  <% @option = { name: '', value: '', description: '', position: 0 } %>
+  <% @option = { name: '', value: '', description: '' } %>
   <%= render partial: 'edit_option' %>
 <% else %>
   <% @variable.options.each do |option| %>

@@ -2,8 +2,21 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@toggleOptions = (element) ->
+  if $(element).val() in ['dropdown', 'checkbox', 'radio']
+      $('[data-object~="options"]').show()
+  else
+    $('[data-object~="options"]').hide()
+
 jQuery ->
-  $('#add_more_options').click( () ->
+  $('#add_more_options').on('click', () ->
     $.post(root_url + 'variables/add_option', $("form").serialize() + "&_method=post", null, "script")
     false
   )
+
+  $('#variable_variable_type')
+    .on('change', () -> toggleOptions($(this)))
+    .ready(       () -> toggleOptions($(this)))
+
+  $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
+

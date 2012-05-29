@@ -4,7 +4,6 @@ class Variable < ActiveRecord::Base
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
 
   serialize :options, Array
-  # attr_reader :option_tokens
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -16,8 +15,7 @@ class Variable < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  # has_and_belongs_to_many :sheets, conditions: { deleted: false }
-
+  belongs_to :sheet
 
   # Model Methods
   def destroy
@@ -29,11 +27,9 @@ class Variable < ActiveRecord::Base
     tokens.each_pair do |key, option_hash|
       self.options << { name: option_hash[:name],
                         value: option_hash[:value],
-                        position: option_hash[:position],
                         description: option_hash[:description]
                       } unless option_hash[:name].blank?
     end
-    self.options.sort!{ |a,b| a.symbolize_keys[:position].to_i <=> b.symbolize_keys[:position].to_i }
   end
 
   def response_name

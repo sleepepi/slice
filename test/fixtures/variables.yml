@@ -5,7 +5,7 @@ one:
   description: MyText
   header: MyString
   variable_type: MyString
-  options: [{name: 'Name', value: 'Value', position: 0, description: 'Description'}]
+  options: [{name: 'Name', value: 'Value', description: 'Description'}]
   response: MyText
   user: valid
   deleted: false
@@ -15,7 +15,173 @@ two:
   description: MyText
   header: MyString
   variable_type: MyString
-  options: [{name: 'Name', value: 'Value', position: 0, description: 'Description'}]
+  options: [{name: 'Name', value: 'Value', description: 'Description'}]
   response: MyText
   user: valid
   deleted: false
+
+dropdown:
+  name: Gender
+  description: MyText
+  header: MyString
+  variable_type: dropdown
+  options: [{name: 'Male', value: 'm', description: 'Male Gender'},
+            {name: 'Female', value: 'f', description: 'Female Gender'}]
+  user: valid
+
+checkbox:
+  name: Course Work
+  description: All the courses I've taken
+  header: MyString
+  variable_type: checkbox
+  options: [{name: 'ACCT 101', value: 'acct101', description: 'Introduction to Accounting'},
+            {name: 'ECON 101', value: 'econ101', description: 'Introduction to Microeconomics'},
+            {name: 'MATH 123', value: 'math123', description: 'Basic Algebra'},
+            {name: 'PHYS 500', value: 'phys500', description: 'Physics - Special Topic'},
+            {name: 'BIOL 327', value: 'biol327', description: 'Cells for Beginners'}]
+  user: valid
+
+radio:
+  name: Year
+  description: Year in School
+  header: MyString
+  variable_type: radio
+  options: [{name: 'Freshman', value: '1', description: 'Year 1'},
+            {name: 'Sophomore', value: '2', description: 'Year 2'},
+            {name: 'Junior', value: '3', description: 'Year 3'},
+            {name: 'Senior', value: '4', description: 'Year 4'},
+            {name: 'Professional Student', value: '5+', description: 'Year 5+'}]
+  user: valid
+
+string:
+  name: Hobbies
+  description: List your Hobbies
+  header: MyString
+  variable_type: string
+  user: valid
+
+text:
+  name: Life Goals
+  description: What is the meaning of your life?
+  header: MyString
+  variable_type: text
+  user: valid
+
+integer:
+  name: Age
+  description: Approximate Age in Years
+  header: Demographics
+  variable_type: integer
+  user: valid
+
+numeric:
+  name: Weight
+  description: Weight (lbs)
+  variable_type: numeric
+  user: valid
+
+date:
+  name: Today's Date
+  description: Enter Today's Date!
+  header: Other
+  variable_type: date
+  user: valid
+
+file:
+  name: No File Upload Available
+  description: Not yet available
+  header: MyString
+  variable_type: file
+  user: valid
+
+response_dropdown:
+  name: Gender
+  description: MyText
+  header: MyString
+  variable_type: dropdown
+  options: [{name: 'Male', value: 'm', description: 'Male Gender'},
+            {name: 'Female', value: 'f', description: 'Female Gender'}]
+  user: valid
+  response: m
+  sheet: one
+
+response_checkbox:
+  name: Course Work
+  description: All the courses I've taken
+  header: MyString
+  variable_type: checkbox
+  options: [{name: 'ACCT 101', value: 'acct101', description: 'Introduction to Accounting'},
+            {name: 'ECON 101', value: 'econ101', description: 'Introduction to Microeconomics'},
+            {name: 'MATH 123', value: 'math123', description: 'Basic Algebra'},
+            {name: 'PHYS 500', value: 'phys500', description: 'Physics - Special Topic'},
+            {name: 'BIOL 327', value: 'biol327', description: 'Cells for Beginners'}]
+  user: valid
+  response: ['acct101', 'econ101']
+  sheet: one
+
+response_radio:
+  name: Year
+  description: Year in School
+  header: MyString
+  variable_type: radio
+  options: [{name: 'Freshman', value: '1', description: 'Year 1'},
+            {name: 'Sophomore', value: '2', description: 'Year 2'},
+            {name: 'Junior', value: '3', description: 'Year 3'},
+            {name: 'Senior', value: '4', description: 'Year 4'},
+            {name: 'Professional Student', value: '5+', description: 'Year 5+'}]
+  user: valid
+  response: 5+
+  sheet: one
+
+response_string:
+  name: Hobbies
+  description: List your Hobbies
+  header: MyString
+  variable_type: string
+  user: valid
+  response: "Acrobatics, Swimming, Flying"
+  sheet: one
+
+response_text:
+  name: Life Goals
+  description: What is the meaning of your life?
+  header: MyString
+  variable_type: text
+  user: valid
+  response: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  sheet: one
+
+response_integer:
+  name: Age
+  description: Approximate Age in Years
+  header: Demographics
+  variable_type: integer
+  user: valid
+  response: 27
+  sheet: one
+
+response_numeric:
+  name: Weight
+  description: Weight (lbs)
+  variable_type: numeric
+  user: valid
+  response: 150.2
+  sheet: one
+
+response_date:
+  name: Today's Date
+  description: Enter Today's Date!
+  header: Other
+  variable_type: date
+  user: valid
+  response: 2012-05-22
+  sheet: one
+
+response_file:
+  name: No File Upload Available
+  description: Not yet available
+  header: MyString
+  variable_type: file
+  user: valid
+  response:
+  sheet: one

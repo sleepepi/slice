@@ -44,6 +44,21 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to variable_path(assigns(:variable))
   end
 
+  test "should create dropdown variable" do
+    assert_difference('Variable.count') do
+      post :create, variable: { name: 'Favorite Icecream', variable_type: "dropdown",
+                                option_tokens: {
+                                  "1338308398442263" => { "name" => "Chocolate", "value" => "1", "description" => "" },
+                                  "133830842117151" => { "name" => "Vanilla", "value" => "2", "description" => ""}
+                                }
+                              }
+    end
+
+    assert_not_nil assigns(:variable)
+    assert_equal 2, assigns(:variable).options.size
+    assert_redirected_to variable_path(assigns(:variable))
+  end
+
   test "should show variable" do
     get :show, id: @variable
     assert_response :success

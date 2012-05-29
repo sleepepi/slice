@@ -3,7 +3,9 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  $('#add_more_variables').click( () ->
+  $('#add_more_variables').on('click', () ->
     $.post(root_url + 'designs/add_variable', $("form").serialize() + "&_method=post", null, "script")
     false
   )
+
+  $('#variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )

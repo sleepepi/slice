@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 jQuery ->
-  $("#sheet_design_id").change( () ->
+  $("#sheet_design_id").on('change', () ->
     $.post(root_url + 'designs/selection', $("#sheet_design_id").serialize(), null, "script")
     false
   )

@@ -1,19 +1,19 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 <div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well">
-  <div class="page-header" style="margin-top:0px"><h3>Variable <%= link_to_function 'Remove', "$('#variable_#{position}').remove()", class: 'btn btn-mini btn-danger' %></h3></div>
+  <div class="page-header" style="margin-top:0px"><h3>Variable <%= link_to 'Remove', "#", 'data-object' => 'remove', 'data-target' => "variable_#{position}", class: 'btn btn-mini btn-danger' %></h3></div>
 
   <div class="control-group">
-    <%= label_tag "design_variable_ids_", 'Variable', class: 'control-label' %>
+    <%= label_tag "design_option_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
     <div class="controls">
-      <%= select_tag "design[variable_ids][]", options_for_select([['---', nil]] + Variable.current.where(sheet_id: nil).collect{|v| [v.name, v.id]}, @variable.id), style: 'width:99%' %>
+      <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([['---', nil]] + Variable.current.where(sheet_id: nil).collect{|v| [v.name, v.id]}, @option[:variable_id]), style: 'width:99%' %>
     </div>
   </div>
 
 <% if false %>
   <div class="control-group">
-    <%= label_tag "design_variable_tokens_#{position}_position", 'Position', class: 'control-label' %>
+    <%= label_tag "design_option_tokens_#{position}_position", 'Position', class: 'control-label' %>
     <div class="controls">
-      <%= number_field_tag "design[variable_tokens][#{position}][position]", @variable[:position] || 0, { min: 0 } %>
+      <%= number_field_tag "design[option_tokens][#{position}][position]", @option[:position] || 0, { min: 0 } %>
     </div>
   </div>
 <% end %>

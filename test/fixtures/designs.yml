@@ -3,11 +3,28 @@
 one:
   name: Design One
   description: MyText
+  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }]
   user: valid
   deleted: false
 
 two:
   name: Design Two
   description: MyText
+  options: []
+  user: valid
+  deleted: false
+
+all_variable_types:
+  name: All Variable Types
+  description: A Design with all types of variables used
+  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:date) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }]
   user: valid
   deleted: false

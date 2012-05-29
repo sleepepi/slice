@@ -1,8 +1,8 @@
-<% if @design.variables.size == 0 %>
-  <% @variable = Variable.new %>
+<% if @design.options.size == 0 %>
+  <% @option = { variable_id: '' } %>
   <%= render partial: 'edit_variable' %>
 <% else %>
-  <% @design.variables.each do |variable| %>
-    <%= @variable = variable; render partial: 'edit_variable' %>
+  <% @design.options.each do |option| %>
+    <%= @option = option; render partial: 'edit_variable' %>
   <% end %>
 <% end %>

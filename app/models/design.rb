@@ -1,5 +1,7 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name, :variable_ids
+  attr_accessible :description, :name, :options, :option_tokens
+
+  serialize :options, Array
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -12,10 +14,26 @@ class Design < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :sheets, conditions: { deleted: false }
-  has_and_belongs_to_many :variables, conditions: { deleted: false }
 
   # Model Methods
   def destroy
     update_attribute :deleted, true
+  end
+
+  def option_tokens=(tokens)
+    self.options = []
+    tokens.each_pair do |key, option_hash|
+      self.options << { variable_id: option_hash[:variable_id] } unless option_hash[:variable_id].blank?
+    end
+  end
+
+  def variable_ids
+    @variable_ids ||= begin
+      self.options.collect{|option| option[:variable_id].to_i}
+    end
+  end
+
+  def variables
+    Variable.current.where(id: variable_ids).sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
   end
 end
