@@ -25,7 +25,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should create sheet" do
     assert_difference('Sheet.count') do
-      post :create, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: @sheet.project_id, study_date: '05/23/2012', subject_id: @sheet.subject_id },
+      post :create, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code,
                     variables: {
                       "#{variables(:dropdown).id}" => 'm',
                       "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
@@ -41,6 +41,19 @@ class SheetsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sheet)
     assert_equal 9, assigns(:sheet).variables.size
+
+    assert_redirected_to sheet_path(assigns(:sheet))
+  end
+
+  test "should create new subject for different project" do
+    assert_difference('Subject.count') do
+      assert_difference('Sheet.count') do
+        post :create, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: sheets(:two).project_id, study_date: '05/23/2012' }, subject_code: 'Code01'
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal Subject.last, assigns(:sheet).subject
 
     assert_redirected_to sheet_path(assigns(:sheet))
   end

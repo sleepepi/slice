@@ -2,6 +2,7 @@
 
 * Bug Fix
   * Variable options now correctly load when editing a variable
+  * Subjects now correctly linked to their appropriate sheets
 
 == 0.1.0
 
