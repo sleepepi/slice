@@ -46,15 +46,4 @@ module ApplicationHelper
     image_tag("gentleface/16/#{checked ? 'checkbox_checked' : 'checkbox_unchecked'}.png", alt: '', style: 'vertical-align:text-bottom')
   end
 
-
-  # Move to Contour
-  def sort_field_helper_new(order, sort_field, display_name, search_form_id  = 'search_form')
-    sort_field_order = (order == sort_field) ? "#{sort_field} DESC" : sort_field
-    symbol = (order == sort_field) ? '&raquo;' : (order == sort_field + ' DESC' ? '&laquo;' : '&laquo;&raquo;')
-    selected_class = (order == sort_field) ? 'selected' : (order == sort_field + ' DESC' ? 'selected' : '')
-    content_tag(:span, class: selected_class) do
-      display_name.to_s.html_safe + ' ' + link_to(raw(symbol), '#', data: { object: 'order', order: sort_field_order, form: "##{search_form_id}" }, style: 'text-decoration:none')
-    end.html_safe
-  end
-
 end

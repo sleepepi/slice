@@ -3,9 +3,9 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper_new(@order, 'projects.name', 'Name', 'projects_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper_new(@order, 'projects.description', 'Description', 'projects_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper_new(@order, 'projects.user_id', 'Creator', 'projects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.name', 'Name', 'projects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.description', 'Description', 'projects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.user_id', 'Creator', 'projects_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>

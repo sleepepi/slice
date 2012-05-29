@@ -6,10 +6,3 @@ jQuery ->
     $('#' + $(this).data('target')).remove()
     false
   )
-
-  # Move to Contour
-  $(document).on('click', '[data-object~="order"]', () ->
-    $('#order').val($(this).data('order'))
-    $($(this).data('form')).submit()
-    false
-  )
