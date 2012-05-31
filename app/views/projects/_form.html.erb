@@ -29,6 +29,13 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= f.label :emails, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :emails, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>

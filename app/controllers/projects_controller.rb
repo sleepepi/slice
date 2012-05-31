@@ -97,7 +97,7 @@ class ProjectsController < ApplicationController
 
     params[:project] ||= {}
     params[:project].slice(
-      :name, :description
+      :name, :description, :emails
     )
   end
 end

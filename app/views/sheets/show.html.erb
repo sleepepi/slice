@@ -53,14 +53,14 @@
       <div class="control-group">
         <%= label_tag :to, nil, class: 'control-label' %>
         <div class="controls">
-          <%= text_field_tag :to, '', style: 'width:95%' %>
+          <%= text_field_tag :to, @sheet.subject.site.emails.to_s.split(',').collect{|email| email.strip}.uniq.join(', '), style: 'width:95%' %>
         </div>
       </div>
 
       <div class="control-group">
         <%= label_tag :cc, nil, class: 'control-label' %>
         <div class="controls">
-          <%= text_field_tag :cc, (@sheet.subject.site.emails.gsub(/\s/, '').split(',') + [@sheet.project.user.email, current_user.email]).uniq.join(', '), style: 'width:95%' %>
+          <%= text_field_tag :cc, (@sheet.project.emails.to_s.split(',').collect{|email| email.strip} + [@sheet.project.user.email, current_user.email]).uniq.join(', '), style: 'width:95%' %>
         </div>
       </div>
 

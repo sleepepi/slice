@@ -19,7 +19,7 @@
   <dd><%= link_to @site.project.name, @site.project if @site.project %></dd>
 
   <dt>Emails</dt>
-  <dd><%= simple_format @site.emails %></dd>
+  <dd><%= @site.emails %></dd>
 
   <dt>Creator</dt>
   <dd><%= link_to @site.user.name, @site.user if @site.user %></dd>

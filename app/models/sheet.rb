@@ -21,11 +21,11 @@ class Sheet < ActiveRecord::Base
   end
 
   def email_receipt(current_user, to, cc, subject, body)
-    UserMailer.sheet_receipt(current_user, to, cc, subject, body).deliver if Rails.env.production?
+    UserMailer.sheet_receipt(current_user, to, cc, subject, body).deliver #if Rails.env.production?
   end
 
   def email_body_template(current_user)
-    %Q{Dear _____:
+    %Q{Dear #{self.subject.site.name}:
 
 On #{self.created_at.strftime("%m/%d/%Y")} I reviewed #{self.name} for #{self.subject.subject_code} collected on #{self.study_date.strftime("%m/%d/%Y")} and have some comments (see below).
 

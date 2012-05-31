@@ -18,6 +18,9 @@
   <dt>Creator</dt>
   <dd><%= link_to @project.user.name, @project.user if @project.user %></dd>
 
+  <dt>Emails</dt>
+  <dd><%= @project.emails %></dd>
+
   <dt>Sites</dt>
   <dd>
     <ul>
