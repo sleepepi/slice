@@ -20,7 +20,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def sheet_receipt(current_user, to, cc, subject, body)
-    mail(to: to, cc: cc, subject: subject, body: body)
+    mail(to: to, cc: cc, reply_to: current_user.email, subject: subject, body: body)
   end
 
   protected
