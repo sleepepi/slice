@@ -16,8 +16,25 @@ class SheetsController < ApplicationController
   # GET /sheets.json
   def index
     sheet_scope = Sheet.current
+
+    @sheet_after = parse_date(params[:sheet_after])
+    @sheet_before = parse_date(params[:sheet_before])
+
+    sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+    sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
+
+    sheet_scope = sheet_scope.with_user(params[:user_id]) unless params[:user_id].blank?
+
+    sheet_scope = sheet_scope.with_project(params[:project_id]) unless params[:project_id].blank?
+
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| sheet_scope = sheet_scope.search(search_term) }
+
     @order = Sheet.column_names.collect{|column_name| "sheets.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "sheets.name"
     sheet_scope = sheet_scope.order(@order)
+
+    @sheet_count = sheet_scope.count
+
     @sheets = sheet_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|

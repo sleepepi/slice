@@ -8,8 +8,50 @@
 
 <%= form_tag sheets_path, method: :get, remote: true, id: "sheets_search", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :search, 'Search', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :sheet_after, 'Study date after', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker' %>
+      </div>
+    </div>
+
+    <div class="span4 control-group">
+      <%= label :sheet_before, 'Study date before', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :project_id, 'Project', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :project_id, options_for_select([['---', nil]] + Project.current.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ) %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :user_id, 'Creator', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_sheet.collect{|u| [u.name, u.id]}, params[:user_id]) %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+  </div>
 <% end %>
 
 <div id="sheets"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>

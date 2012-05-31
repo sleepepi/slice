@@ -3,6 +3,11 @@ class Sheet < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', false, '%' + args.first.downcase.split(' ').join('%') + '%'  ] } }
+  scope :sheet_before, lambda { |*args| { conditions: ["sheets.study_date < ?", (args.first+1.day)]} }
+  scope :sheet_after, lambda { |*args| { conditions: ["sheets.study_date >= ?", args.first]} }
+  scope :with_user, lambda { |*args| { conditions: ["sheets.user_id in (?)", args.first] } }
+  scope :with_project, lambda { |*args| { conditions: ["sheets.project_id IN (?)", args.first] } }
 
   # Model Validation
   validates_presence_of :design_id, :name, :project_id, :study_date, :subject_id, :user_id
