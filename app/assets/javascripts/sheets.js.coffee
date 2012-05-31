@@ -11,3 +11,8 @@ jQuery ->
     $.post(root_url + 'sites/selection', 'project_id=' + $("#sheet_project_id").val() + '&' + $("#sheet_subject_id").serialize(), null, "script")
     false
   )
+
+  $("#email_popup").on('click', () ->
+    $('#send_email_modal').modal({ dynamic: true })
+    false
+  )

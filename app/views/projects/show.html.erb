@@ -17,4 +17,24 @@
 
   <dt>Creator</dt>
   <dd><%= link_to @project.user.name, @project.user if @project.user %></dd>
+
+  <dt>Sites</dt>
+  <dd>
+    <ul>
+      <% @project.sites.each do |site| %>
+      <li>
+        <%= link_to site.name, site %>
+      </li>
+      <% end %>
+    </ul>
+    <div class="btn-group">
+      <%= link_to "Sites", sites_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Create', new_site_path(site: { project_id: @project.id }) %></li>
+      </ul>
+    </div>
+  </dd>
 </dl>

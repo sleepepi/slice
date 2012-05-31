@@ -10,7 +10,11 @@ Reading::Application.routes.draw do
 
   resources :projects
 
-  resources :sheets
+  resources :sheets do
+    member do
+      post :send_email
+    end
+  end
 
   resources :sites do
     collection do

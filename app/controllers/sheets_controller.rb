@@ -1,6 +1,17 @@
 class SheetsController < ApplicationController
   before_filter :authenticate_user!
 
+  def send_email
+    @sheet = Sheet.current.find(params[:id])
+
+    @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body])
+
+    respond_to do |format|
+      format.html { redirect_to @sheet, notice: 'Sheet receipt email was successfully sent.' }
+      format.json { render json: @sheet }
+    end
+  end
+
   # GET /sheets
   # GET /sheets.json
   def index
@@ -46,25 +57,12 @@ class SheetsController < ApplicationController
   # POST /sheets
   # POST /sheets.json
   def create
-    if params[:sheet] and not params[:sheet][:project_id].blank? and not params[:subject_code].blank? and not params[:site_id].blank?
-      subject = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id, site_id: params[:site_id] })
-      params[:sheet][:subject_id] = subject.id if subject
-    end
-
     @sheet = current_user.sheets.new(post_params)
 
     respond_to do |format|
       if @sheet.save
 
-        (params[:variables] || {}).each_pair do |variable_id, response|
-          v = Variable.find_by_id(variable_id).dup
-          response = [] if v.variable_type == 'checkbox' and response.blank?
-          v.response = (v.variable_type == 'date') ? parse_date(response) : response
-          v.project_id = @sheet.project_id
-          v.user_id = current_user.id
-          v.sheet_id = @sheet.id
-          v.save
-        end
+        create_variables!
 
         format.html { redirect_to @sheet, notice: 'Sheet was successfully created.' }
         format.json { render json: @sheet, status: :created, location: @sheet }
@@ -83,13 +81,7 @@ class SheetsController < ApplicationController
     respond_to do |format|
       if @sheet.update_attributes(post_params)
 
-        (params[:variables] || {}).each_pair do |variable_id, response|
-          v = @sheet.variables.find_by_id(variable_id)
-          response = [] if v.variable_type == 'checkbox' and response.blank?
-          v.response = (v.variable_type == 'date') ? parse_date(response) : response
-          v.user_id = current_user.id
-          v.save
-        end
+        update_variables!
 
         format.html { redirect_to @sheet, notice: 'Sheet was successfully updated.' }
         format.json { head :no_content }
@@ -115,15 +107,43 @@ class SheetsController < ApplicationController
   private
 
   def post_params
+    params[:sheet] ||= {}
+
+    unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
+      subject = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id, site_id: params[:site_id] })
+    end
+
+    params[:sheet][:subject_id] = (subject ? subject.id : nil)
 
     [:study_date].each do |date|
       params[:sheet][date] = parse_date(params[:sheet][date])
     end
 
-    params[:sheet] ||= {}
     params[:sheet].slice(
       :name, :description, :design_id, :study_date, :project_id, :subject_id, :variable_ids
     )
+  end
+
+  def create_variables!
+    (params[:variables] || {}).each_pair do |variable_id, response|
+      v = Variable.find_by_id(variable_id).dup
+      response = [] if v.variable_type == 'checkbox' and response.blank?
+      v.response = (v.variable_type == 'date') ? parse_date(response) : response
+      v.project_id = @sheet.project_id
+      v.user_id = current_user.id
+      v.sheet_id = @sheet.id
+      v.save
+    end
+  end
+
+  def update_variables!
+    (params[:variables] || {}).each_pair do |variable_id, response|
+      v = @sheet.variables.find_by_id(variable_id)
+      response = [] if v.variable_type == 'checkbox' and response.blank?
+      v.response = (v.variable_type == 'date') ? parse_date(response) : response
+      v.user_id = current_user.id
+      v.save
+    end
   end
 
 end

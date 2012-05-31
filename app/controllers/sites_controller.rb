@@ -36,7 +36,7 @@ class SitesController < ApplicationController
   # GET /sites/new
   # GET /sites/new.json
   def new
-    @site = Site.new
+    @site = Site.new(params[:site])
 
     respond_to do |format|
       format.html # new.html.erb

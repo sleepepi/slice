@@ -13,7 +13,7 @@
     <%= select_tag :site_id, options_for_select([['---', nil]] + @project.sites.collect{|s| [s.name, s.id]}, (@subject ? @subject.site_id : nil)) %>
   <% else %>
     <span class="help-block" style="margin-top:6px">
-      You need to <%= link_to 'add', new_site_path(project_id: @project.id) %> at least one site to this project.
+      You need to <%= link_to 'add', new_site_path(site: { project_id: @project.id }) %> at least one site to this project.
     </span>
   <% end %>
 <% end %>

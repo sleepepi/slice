@@ -19,6 +19,10 @@ class UserMailer < ActionMailer::Base
 #         reply_to: user.email)
   end
 
+  def sheet_receipt(current_user, to, cc, subject, body)
+    mail(to: to, cc: cc, subject: subject, body: body)
+  end
+
   protected
 
   def setup_email
