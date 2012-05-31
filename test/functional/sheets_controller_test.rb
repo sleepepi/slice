@@ -25,7 +25,9 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should create sheet" do
     assert_difference('Sheet.count') do
-      post :create, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code,
+      post :create, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: @sheet.project_id, study_date: '05/23/2012' },
+                    subject_code: @sheet.subject.subject_code,
+                    site_id: @sheet.subject.site_id,
                     variables: {
                       "#{variables(:dropdown).id}" => 'm',
                       "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
@@ -48,7 +50,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create new subject for different project" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: sheets(:two).project_id, study_date: '05/23/2012' }, subject_code: 'Code01'
+        post :create, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: sheets(:two).project_id, study_date: '05/23/2012' }, subject_code: 'Code01', site_id: sites(:two).id
       end
     end
 
@@ -60,7 +62,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should not create sheet on same design project subject study_date" do
     assert_difference('Sheet.count', 0) do
-      post :create, sheet: { description: @sheet.description, design_id: @sheet.design_id, name: @sheet.name, project_id: @sheet.project_id, study_date: '05/21/2012' }, subject_code: 'Code01'
+      post :create, sheet: { description: @sheet.description, design_id: @sheet.design_id, name: @sheet.name, project_id: @sheet.project_id, study_date: '05/21/2012' }, subject_code: 'Code01', site_id: @sheet.subject.site_id
     end
 
     assert_not_nil assigns(:sheet)
@@ -80,7 +82,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should update sheet" do
-    put :update, id: @sheet, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', project_id: @sheet.project_id, study_date: '05/23/2012', subject_id: @sheet.subject_id },
+    put :update, id: @sheet, sheet: { description: @sheet.description, design_id: designs(:all_variable_types), name: 'All Variable Types', study_date: '05/23/2012' },
                     variables: {
                       "#{variables(:response_dropdown).id}" => 'f',
                       "#{variables(:response_checkbox).id}" => nil,

@@ -11,6 +11,8 @@ class Project < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   has_many :sheets, conditions: { deleted: false }
+  has_many :sites, conditions: { deleted: false }
+  has_many :subjects, conditions: { deleted: false }
 
   # Model Methods
   def destroy

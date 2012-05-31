@@ -15,6 +15,9 @@
   <dt>Subject Code</dt>
   <dd><%= @subject.subject_code %></dd>
 
+  <dt>Site</dt>
+  <dd><%= link_to @subject.site.name, @subject.site if @subject.site %></dd>
+
   <dt>Creator</dt>
   <dd><%= link_to @subject.user.name, @subject.user if @subject.user %></dd>
 </dl>

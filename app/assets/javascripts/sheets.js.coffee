@@ -6,3 +6,8 @@ jQuery ->
     $.post(root_url + 'designs/selection', $("#sheet_design_id").serialize(), null, "script")
     false
   )
+
+  $("#sheet_project_id, #sheet_subject_id").on('change', () ->
+    $.post(root_url + 'sites/selection', 'project_id=' + $("#sheet_project_id").val() + '&' + $("#sheet_subject_id").serialize(), null, "script")
+    false
+  )

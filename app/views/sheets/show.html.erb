@@ -27,6 +27,9 @@
   <dt>Subject</dt>
   <dd><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></dd>
 
+  <dt>Site</dt>
+  <dd><%= link_to @sheet.subject.site.name, @sheet.subject.site if @sheet.subject and @sheet.subject.site %></dd>
+
   <dt>Creator</dt>
   <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
 </dl>

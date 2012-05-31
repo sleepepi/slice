@@ -12,6 +12,12 @@ Reading::Application.routes.draw do
 
   resources :sheets
 
+  resources :sites do
+    collection do
+      post :selection
+    end
+  end
+
   resources :subjects
 
   resources :variables do
@@ -25,8 +31,7 @@ Reading::Application.routes.draw do
 
   resources :users
 
-  match "/about" => "sites#about", as: :about
-  match "/dashboard" => "sites#dashboard", as: :dashboard
+  match "/about" => "application#about", as: :about
 
   root to: 'sheets#index'
 

@@ -2,6 +2,7 @@
 
 * Enhancements
   * Sheets are restricted to one per design_id, project_id, subject_id, and study_date
+  * Projects can now have multiple sites, and each subject is assigned to a specific site
 
 * Bug Fix
   * Variable options now correctly load when editing a variable

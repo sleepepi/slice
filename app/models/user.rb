@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
   has_many :designs, conditions: { deleted: false }
   has_many :projects, conditions: { deleted: false }
   has_many :sheets, conditions: { deleted: false }
+  has_many :sites, conditions: { deleted: false }
   has_many :subjects, conditions: { deleted: false }
   has_many :variables, conditions: { deleted: false }
 

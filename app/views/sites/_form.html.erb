@@ -1,0 +1,50 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @site, html: { class: 'form-horizontal' } do |f| %>
+  <% if @site.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@site.errors.count, "error") %> prohibited this site from being saved:</h2>
+
+      <ul>
+      <% @site.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :description, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :project_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :emails, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :emails, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>

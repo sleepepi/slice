@@ -41,7 +41,14 @@
   <div class="control-group">
     <%= label 'sheet', 'subject_id', 'Subject Code', class: 'control-label' %>
     <div class="controls">
-      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : '', name: 'subject_code' %>
+      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag 'site_id', 'Site', class: 'control-label' %>
+    <div class="controls" id="site">
+      <%= @project = @sheet.project; @subject = @sheet.subject; render partial: 'sites/selection' %>
     </div>
   </div>
 

@@ -1,15 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  name: Site One
+  description: MyText
   project: one
-  subject_code: Code01
+  emails: MyText
   user: valid
-  site: one
   deleted: false
 
 two:
-  project: one
-  subject_code: Code02
+  name: Site Two
+  description: MyText
+  project: two
+  emails: MyText
   user: valid
-  site: one
   deleted: false

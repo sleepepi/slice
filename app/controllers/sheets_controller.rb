@@ -46,8 +46,9 @@ class SheetsController < ApplicationController
   # POST /sheets
   # POST /sheets.json
   def create
-    if params[:sheet] and not params[:sheet][:project_id].blank? and not params[:subject_code].blank?
-      params[:sheet][:subject_id] = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id }).id
+    if params[:sheet] and not params[:sheet][:project_id].blank? and not params[:subject_code].blank? and not params[:site_id].blank?
+      subject = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id, site_id: params[:site_id] })
+      params[:sheet][:subject_id] = subject.id if subject
     end
 
     @sheet = current_user.sheets.new(post_params)

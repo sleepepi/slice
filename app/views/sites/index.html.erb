@@ -1,0 +1,21 @@
+<% @title = 'Sites' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Create Site", new_site_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
+
+<%= form_tag sites_path, method: :get, remote: true, id: "sites_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<div id="sites"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#sites_search").attr("action"), $("#sites_search").serialize(), null, "script");
+  });
+<% end %>

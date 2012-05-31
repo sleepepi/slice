@@ -23,6 +23,13 @@
   </div>
 
   <div class="control-group">
+    <%= label_tag 'site_id', 'Site', class: 'control-label' %>
+    <div class="controls" id="site">
+      <%= @project = @subject.project; render partial: 'sites/selection' %>
+    </div>
+  </div>
+
+  <div class="control-group">
     <%= f.label :subject_code, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :subject_code %>

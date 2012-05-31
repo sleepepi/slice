@@ -1,0 +1,30 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'sites', per_page: 20 } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.name', 'Name', 'sites_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.description', 'Description', 'sites_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.project_id', 'Project', 'sites_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.emails', 'Emails', 'sites_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.user_id', 'Creator', 'sites_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @sites.each do |site| %>
+    <tr>
+      <td><%= site.name %></td>
+      <td><%= site.description %></td>
+      <td><%= link_to site.project.name, site.project if site.project %></td>
+      <td><%= site.emails %></td>
+      <td><%= link_to site.user.name, site.user if site.user %></td>
+      <td>
+        <%= link_to 'Edit', edit_site_path(site), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', site, confirm: "Are you sure you want to delete Site #{site.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @sites %></center>

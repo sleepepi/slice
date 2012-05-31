@@ -90,14 +90,12 @@ class SubjectsController < ApplicationController
   private
 
   def post_params
-
-    [].each do |date|
-      params[:subject][date] = parse_date(params[:subject][date])
-    end
-
     params[:subject] ||= {}
+
+    params[:subject][:site_id] = params[:site_id]
+
     params[:subject].slice(
-      :project_id, :subject_code
+      :project_id, :subject_code, :site_id
     )
   end
 end

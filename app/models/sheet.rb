@@ -6,13 +6,13 @@ class Sheet < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :design_id, :name, :project_id, :study_date, :subject_id, :user_id
-  validates_uniqueness_of :study_date, scope: [:project_id, :subject_id, :design_id]
+  validates_uniqueness_of :study_date, scope: [:project_id, :subject_id, :design_id, :deleted]
 
   # Model Relationships
   belongs_to :user
+  belongs_to :design
   belongs_to :project
   belongs_to :subject
-  belongs_to :design
   has_many :variables, conditions: { deleted: false }
 
   # Model Methods
