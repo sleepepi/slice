@@ -22,6 +22,10 @@ class Variable < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def copyable_attributes
+    self.attributes.reject{|key, val| ['id', 'response', 'sheet_id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+  end
+
   def description_range
     ["#{ "Min: #{self.minimum}" if self.minimum}", "#{ "Max: #{self.maximum}" if self.maximum}", self.description].select{|i| not i.blank?}.join(', ')
   end

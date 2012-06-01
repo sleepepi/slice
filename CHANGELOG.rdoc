@@ -9,6 +9,7 @@
   * Variable creating or updating:
      * A confirmation box now displays that warns the user that options with blank names will be removed
      * Hard Minimum and Maximum values can be added for Numeric and Integer variables
+  * Variables in Library can now be copied as templates for new variables
 
 * Bug Fix
   * Variable options now correctly load when editing a variable

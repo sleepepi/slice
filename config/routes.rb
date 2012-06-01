@@ -25,6 +25,9 @@ Reading::Application.routes.draw do
   resources :subjects
 
   resources :variables do
+    member do
+      get :copy
+    end
     collection do
       post :add_option
       post :options

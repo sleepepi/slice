@@ -1,6 +1,12 @@
 class VariablesController < ApplicationController
   before_filter :authenticate_user!
 
+  def copy
+    variable = Variable.current.find(params[:id])
+    @variable = current_user.variables.new(variable.copyable_attributes)
+    render 'new'
+  end
+
   def add_option
     @variable = Variable.new(params[:variable])
     @option = { name: '', value: '', description: '' }
