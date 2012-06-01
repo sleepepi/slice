@@ -11,7 +11,7 @@
   <div class="controls <%= @variable.variable_type if ['radio', 'checkbox'].include?(@variable.variable_type) %>">
     <% response = (params[:variables].blank? ? @variable.response : params[:variables][@variable.id.to_s]) %>
     <% case @variable.variable_type when 'dropdown' %>
-      <%= select_tag "variables[#{@variable.id}]", options_for_select([['---', nil]] + @variable.options.collect{|opt| [opt[:name], opt[:value]]}, response) %>
+      <%= select_tag "variables[#{@variable.id}]", options_for_select([['---', nil]] + @variable.options.collect{|opt| [opt[:name], opt[:value]]}, response), data: { content: @variable.description, title: @variable.name }, rel: "#{'popover' unless @variable.description.blank?}" %>
     <% when 'radio' %>
       <% @variable.options.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
         <%= radio_button_tag "variables[#{@variable.id}]", "#{value}", value == response %> <label><%= name %></label>
@@ -23,16 +23,15 @@
         <%= check_box_tag "variables[#{@variable.id}][]", "#{value}", array.include?(value) %> <label><%= name %></label>
       <% end %>
     <% when 'string' %>
-      <%= text_field_tag "variables[#{@variable.id}]", response %>
+      <%= text_field_tag "variables[#{@variable.id}]", response, data: { content: @variable.description, title: @variable.name }, rel: "#{'popover' unless @variable.description.blank?}" %>
     <% when 'text' %>
-      <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%' %>
+      <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%', data: { content: @variable.description, title: @variable.name, placement: 'bottom' }, rel: "#{'popover' unless @variable.description.blank?}" %>
     <% when 'integer' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax', content: @variable.description_range, title: 'Range' }, rel: 'popover' %>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax', content: @variable.description_range, title: @variable.name }, rel: "#{'popover' unless @variable.description_range.blank?}" %>
     <% when 'numeric' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax', content: @variable.description_range, title: 'Range' }, rel: 'popover' %>
-      <span class="help-block"><%= @variable.description_range %></span>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax', content: @variable.description_range, title: @variable.name }, rel: "#{'popover' unless @variable.description_range.blank?}" %>
     <% when 'date' %>
-      <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker' %>
+      <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker', data: { content: @variable.description, title: @variable.name }, rel: "#{'popover' unless @variable.description.blank?}" %>
     <% else %>
       <%= hidden_field_tag "variables[#{@variable.id}]" %>
       Unsupported Variable Type <%= @variable.variable_type %>

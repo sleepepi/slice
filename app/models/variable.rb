@@ -23,7 +23,7 @@ class Variable < ActiveRecord::Base
   end
 
   def description_range
-    ["#{ "Min: #{self.minimum}" if self.minimum}", "#{ "Max: #{self.maximum}" if self.maximum}"].join(', ')
+    ["#{ "Min: #{self.minimum}" if self.minimum}", "#{ "Max: #{self.maximum}" if self.maximum}", self.description].select{|i| not i.blank?}.join(', ')
   end
 
   def option_tokens=(tokens)
