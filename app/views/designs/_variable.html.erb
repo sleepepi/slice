@@ -27,9 +27,10 @@
     <% when 'text' %>
       <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%' %>
     <% when 'integer' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum %>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax', content: @variable.description_range, title: 'Range' }, rel: 'popover' %>
     <% when 'numeric' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum %>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax', content: @variable.description_range, title: 'Range' }, rel: 'popover' %>
+      <span class="help-block"><%= @variable.description_range %></span>
     <% when 'date' %>
       <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker' %>
     <% else %>
@@ -38,3 +39,12 @@
     <% end %>
   </div>
 </div>
+
+<%= javascript_tag do %>
+$(function(){
+  $("[rel=popover]")
+    .popover({
+      offset: 10
+    });
+});
+<% end %>

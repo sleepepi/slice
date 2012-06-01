@@ -21,6 +21,16 @@
     return false
   true
 
+@checkMinMax = () ->
+  number_fields = $('[data-object~="minmax"]').filter( () ->
+    parseInt($.trim($(this).val())) < parseInt($(this).attr('min')) or parseInt($.trim($(this).val())) > parseInt($(this).attr('max'))
+  )
+  number_fields.parent().parent().addClass('error')
+  if number_fields.size() > 0
+    alert('Some numeric fields are out of range!')
+    return false
+  true
+
 jQuery ->
   $('#add_more_options').on('click', () ->
     $.post(root_url + 'variables/add_option', $("form").serialize() + "&_method=post", null, "script")
@@ -34,6 +44,13 @@ jQuery ->
 
   $(document).on('click', '[data-object~="form-check-before-submit"]', () ->
     if checkForBlankOptions() == false
+      return false
+    $($(this).data('target')).submit()
+    false
+  )
+
+  $(document).on('click', '[data-object~="variable-check-before-submit"]', () ->
+    if checkMinMax() == false
       return false
     $($(this).data('target')).submit()
     false

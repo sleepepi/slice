@@ -22,6 +22,10 @@ class Variable < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def description_range
+    ["#{ "Min: #{self.minimum}" if self.minimum}", "#{ "Max: #{self.maximum}" if self.maximum}"].join(', ')
+  end
+
   def option_tokens=(tokens)
     self.options = []
     tokens.each_pair do |key, option_hash|
