@@ -7,6 +7,10 @@
     $('[data-object~="options"]').show()
   else
     $('[data-object~="options"]').hide()
+  if $(element).val() in ['integer', 'numeric']
+    $('[data-object~="number"]').show()
+  else
+    $('[data-object~="number"]').hide()
 
 @checkForBlankOptions = () ->
   blank_options = $('[data-object~="option-name"]').filter( () ->

@@ -53,6 +53,20 @@
     </label>
   </div>
 
+  <div class="control-group" data-object="number">
+    <%= f.label :minimum, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :minimum %>
+    </div>
+  </div>
+
+  <div class="control-group" data-object="number">
+    <%= f.label :maximum, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :maximum %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
     <%= f.submit nil, class: 'btn btn-primary', data: { target: "##{form_name}", object: "form-check-before-submit" } %>

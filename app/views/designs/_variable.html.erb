@@ -27,9 +27,9 @@
     <% when 'text' %>
       <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%' %>
     <% when 'integer' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response %>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum %>
     <% when 'numeric' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response %>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum %>
     <% when 'date' %>
       <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker' %>
     <% else %>

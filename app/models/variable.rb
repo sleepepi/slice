@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :options, :response, :variable_type, :option_tokens, :sheet_id
+  attr_accessible :description, :header, :name, :options, :response, :variable_type, :option_tokens, :sheet_id, :minimum, :maximum
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
 
