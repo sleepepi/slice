@@ -81,7 +81,7 @@
   </div>
 
   <div class="modal-footer">
-    <%= link_to_function "Close", "$('#send_email_modal').modal('hide');", class: 'btn' %>
-    <%= link_to_function 'Send Email', "$('#send_email_form').submit();", class: 'btn btn-primary' %>
+    <%= link_to 'Close', '#', class: 'btn', data: { target: '#send_email_modal', object: 'modal-hide' } %>
+    <%= link_to 'Send Email', '#', class: 'btn btn-primary', data: { target: '#send_email_form', object: 'submit' } %>
   </div>
 </div>

@@ -6,3 +6,13 @@ jQuery ->
     $('#' + $(this).data('target')).remove()
     false
   )
+
+  $(document).on('click', '[data-object~="modal-hide"]', () ->
+    $($(this).data('target')).modal('hide');
+    false
+  )
+
+  $(document).on('click', '[data-object~="submit"]', () ->
+    $($(this).data('target')).submit();
+    false
+  )
