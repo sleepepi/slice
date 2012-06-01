@@ -16,3 +16,9 @@ jQuery ->
     $($(this).data('target')).submit();
     false
   )
+
+  $(document).on('click', '[data-object~="reset-filters"]', () ->
+    $('[data-object~="filter"]').val('')
+    $($(this).data('target')).submit()
+    false
+  )

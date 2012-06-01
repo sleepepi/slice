@@ -3,7 +3,7 @@
 * Enhancements
   * Sheets are restricted to one per design_id, project_id, subject_id, and study_date
   * Sheet receipts can now be emailed to the associated subject's site
-  * Sheets can now be filtered by study date, project, and creator
+  * Sheets can now be filtered by study date, project, design, and creator
   * Projects can have emails to be cc'd on sheet receipts
   * Projects can now have multiple sites, and each subject is assigned to a specific site
 

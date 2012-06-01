@@ -8,6 +8,7 @@ class Sheet < ActiveRecord::Base
   scope :sheet_after, lambda { |*args| { conditions: ["sheets.study_date >= ?", args.first]} }
   scope :with_user, lambda { |*args| { conditions: ["sheets.user_id in (?)", args.first] } }
   scope :with_project, lambda { |*args| { conditions: ["sheets.project_id IN (?)", args.first] } }
+  scope :with_design, lambda { |*args| { conditions: ["sheets.design_id IN (?)", args.first] } }
 
   # Model Validation
   validates_presence_of :design_id, :name, :project_id, :study_date, :subject_id, :user_id

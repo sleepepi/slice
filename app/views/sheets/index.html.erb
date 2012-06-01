@@ -13,20 +13,20 @@
     <div class="span4 control-group">
       <%= label :search, 'Search', class: 'control-label' %>
       <div class="controls">
-        <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+        <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' } %>
       </div>
     </div>
     <div class="span4 control-group">
       <%= label :sheet_after, 'Study date after', class: 'control-label' %>
       <div class="controls">
-        <%= text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker' %>
+        <%= text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker', data: { object: 'filter' } %>
       </div>
     </div>
 
     <div class="span4 control-group">
       <%= label :sheet_before, 'Study date before', class: 'control-label' %>
       <div class="controls">
-        <%= text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker' %>
+        <%= text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker', data: { object: 'filter' } %>
       </div>
     </div>
   </div>
@@ -35,22 +35,26 @@
     <div class="span4 control-group">
       <%= label :project_id, 'Project', class: 'control-label' %>
       <div class="controls">
-        <%= select_tag :project_id, options_for_select([['---', nil]] + Project.current.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ) %>
+        <%= select_tag :project_id, options_for_select([['---', nil]] + Project.current.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :design_id, 'Design', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :design_id, options_for_select([['---', nil]] + Design.current.order(:name).collect{|d| [d.name, d.id]}, params[:design_id]), data: { object: 'filter' } %>
       </div>
     </div>
     <div class="span4 control-group">
       <%= label :user_id, 'Creator', class: 'control-label' %>
       <div class="controls">
-        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_sheet.collect{|u| [u.name, u.id]}, params[:user_id]) %>
+        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_sheet.order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' } %>
       </div>
-    </div>
-    <div class="span4 control-group">
-
     </div>
   </div>
 
   <div class="form-actions">
     <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+    <%= link_to 'Reset', '#', class: 'btn', data: { target: '#sheets_search', object: 'reset-filters' } %>
   </div>
 <% end %>
 
