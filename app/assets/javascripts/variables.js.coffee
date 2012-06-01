@@ -8,6 +8,15 @@
   else
     $('[data-object~="options"]').hide()
 
+@checkForBlankOptions = () ->
+  blank_options = $('[data-object~="option-name"]').filter( () ->
+    $.trim($(this).val()) == ''
+  )
+  blank_options.parent().parent().addClass('error')
+  unless blank_options.size() == 0 or confirm('Options with blank names will be removed. Proceed anyways?')
+    return false
+  true
+
 jQuery ->
   $('#add_more_options').on('click', () ->
     $.post(root_url + 'variables/add_option', $("form").serialize() + "&_method=post", null, "script")
@@ -19,3 +28,9 @@ jQuery ->
 
   $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
+  $(document).on('click', '[data-object~="form-check-before-submit"]', () ->
+    if checkForBlankOptions() == false
+      return false
+    $($(this).data('target')).submit()
+    false
+  )

@@ -6,6 +6,8 @@
   * Sheets can now be filtered by study date, project, site, design, and creator
   * Projects can have emails to be cc'd on sheet receipts
   * Projects can now have multiple sites, and each subject is assigned to a specific site
+  * Variable creating or updating:
+     * A confirmation box now displays that warns the user that options with blank names will be removed
 
 * Bug Fix
   * Variable options now correctly load when editing a variable

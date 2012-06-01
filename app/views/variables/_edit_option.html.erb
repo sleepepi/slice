@@ -5,7 +5,7 @@
   <div class="control-group">
     <%= label_tag "variable_option_tokens_#{position}_name", 'Name', class: 'control-label' %>
     <div class="controls">
-      <%= text_field_tag "variable[option_tokens][#{position}][name]", @option[:name], style: 'width:99%' %>
+      <%= text_field_tag "variable[option_tokens][#{position}][name]", @option[:name], style: 'width:99%', data: { object: 'option-name' } %>
     </div>
   </div>
 
