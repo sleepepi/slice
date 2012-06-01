@@ -11,6 +11,7 @@
      * Hard Minimum and Maximum values can be added for Numeric and Integer variables
   * Variables in Library can now be copied as templates for new variables
   * Previews now show for Designs and Variables
+  * Sheets track who last updated the sheet
 
 * Bug Fix
   * Variable options now correctly load when editing a variable

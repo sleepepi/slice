@@ -33,6 +33,16 @@
 
   <dt>Creator</dt>
   <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
+
+  <dt>Created</dt>
+  <dd><%= simple_time @sheet.created_at %>
+
+  <dt>Last Updated By</dt>
+  <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
+
+  <dt>Updated</dt>
+  <dd><%= simple_time @sheet.updated_at %>
+
 </dl>
 
 <div class="page-header">

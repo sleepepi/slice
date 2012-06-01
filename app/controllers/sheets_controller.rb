@@ -139,13 +139,14 @@ class SheetsController < ApplicationController
     end
 
     params[:sheet][:subject_id] = (subject ? subject.id : nil)
+    params[:sheet][:last_user_id] = current_user.id
 
     [:study_date].each do |date|
       params[:sheet][date] = parse_date(params[:sheet][date])
     end
 
     params[:sheet].slice(
-      :name, :description, :design_id, :study_date, :project_id, :subject_id, :variable_ids
+      :name, :description, :design_id, :study_date, :project_id, :subject_id, :variable_ids, :last_user_id
     )
   end
 
