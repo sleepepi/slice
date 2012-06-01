@@ -58,3 +58,9 @@
     <%= cancel %>
   </div>
 <% end %>
+
+<%= javascript_tag do %>
+  $(function(){
+    toggleOptions($('#variable_variable_type'));
+  });
+<% end %>

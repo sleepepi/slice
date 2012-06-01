@@ -16,7 +16,6 @@ jQuery ->
 
   $(document)
     .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
-    .ready('#variable_variable_type', () -> toggleOptions($(this)))
 
   $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
