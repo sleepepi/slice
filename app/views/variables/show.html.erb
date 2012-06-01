@@ -32,4 +32,10 @@
   <dd><%= link_to @variable.project.name, @variable.project if @variable.project %></dd>
 </dl>
 
-<%= render partial: 'compact_options' %>
+<% if @variable.options.size > 0 %>
+  <%= render partial: 'compact_options' %>
+<% end %>
+
+<form class='form-horizontal well'>
+  <%= render partial: 'designs/variable' %>
+</form>

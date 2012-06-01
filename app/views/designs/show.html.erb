@@ -23,3 +23,12 @@
 </dl>
 
 <%= render partial: 'compact_variables' %>
+
+<form class='form-horizontal well'>
+  <div class="page-header">
+    <h2><%= @design.name %></h2>
+  </div>
+  <% @design.variables.each do |variable| %>
+    <%= @variable = variable; render partial: 'designs/variable' %>
+  <% end %>
+</form>
