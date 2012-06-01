@@ -39,16 +39,29 @@
       </div>
     </div>
     <div class="span4 control-group">
+      <%= label :site_id, 'Site', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :site_id, options_for_select([['---', nil]] + Site.current.order(:name).collect{|s| [s.name_with_project, s.id]}, params[:site_id]), data: { object: 'filter' } %>
+      </div>
+    </div>
+    <div class="span4 control-group">
       <%= label :design_id, 'Design', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :design_id, options_for_select([['---', nil]] + Design.current.order(:name).collect{|d| [d.name, d.id]}, params[:design_id]), data: { object: 'filter' } %>
       </div>
     </div>
+  </div>
+
+  <div class="row">
     <div class="span4 control-group">
       <%= label :user_id, 'Creator', class: 'control-label' %>
       <div class="controls">
         <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_sheet.order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' } %>
       </div>
+    </div>
+    <div class="span4 control-group">
+    </div>
+    <div class="span4 control-group">
     </div>
   </div>
 

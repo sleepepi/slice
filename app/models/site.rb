@@ -17,4 +17,8 @@ class Site < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def name_with_project
+    [self.name, self.project.name].compact.join(' - ')
+  end
+
 end

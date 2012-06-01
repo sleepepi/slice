@@ -9,6 +9,10 @@ class Sheet < ActiveRecord::Base
   scope :with_user, lambda { |*args| { conditions: ["sheets.user_id in (?)", args.first] } }
   scope :with_project, lambda { |*args| { conditions: ["sheets.project_id IN (?)", args.first] } }
   scope :with_design, lambda { |*args| { conditions: ["sheets.design_id IN (?)", args.first] } }
+  scope :with_site, lambda { |*args| { conditions: ["sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first] } }
+
+  scope :order_by_site, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id", order: 'subjects.site_id' } }
+  scope :order_by_site_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id", order: 'subjects.site_id DESC' } }
 
   # Model Validation
   validates_presence_of :design_id, :name, :project_id, :study_date, :subject_id, :user_id

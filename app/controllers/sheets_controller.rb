@@ -23,15 +23,23 @@ class SheetsController < ApplicationController
     sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
     sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
 
-    sheet_scope = sheet_scope.with_user(params[:user_id]) unless params[:user_id].blank?
-    sheet_scope = sheet_scope.with_project(params[:project_id]) unless params[:project_id].blank?
-    sheet_scope = sheet_scope.with_design(params[:design_id]) unless params[:design_id].blank?
+    ['design', 'project', 'site', 'user'].each do |filter|
+      sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
+    end
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sheet_scope = sheet_scope.search(search_term) }
 
-    @order = Sheet.column_names.collect{|column_name| "sheets.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "sheets.name"
-    sheet_scope = sheet_scope.order(@order)
+    @order = params[:order]
+    case params[:order] when 'sheets.site_id'
+      sheet_scope = sheet_scope.order_by_site
+    when 'sheets.site_id DESC'
+      sheet_scope = sheet_scope.order_by_site_desc
+    else
+      @order = Sheet.column_names.collect{|column_name| "sheets.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "sheets.name"
+      sheet_scope = sheet_scope.order(@order)
+    end
+
 
     @sheet_count = sheet_scope.count
 
