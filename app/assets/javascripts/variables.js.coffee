@@ -13,7 +13,7 @@
     $.trim($(this).val()) == ''
   )
   blank_options.parent().parent().addClass('error')
-  unless blank_options.size() == 0 or confirm('Options with blank names will be removed. Proceed anyways?')
+  unless $('#variable_variable_type').val() not in ['dropdown', 'checkbox', 'radio'] or blank_options.size() == 0 or confirm('Options with blank names will be removed. Proceed anyways?')
     return false
   true
 
