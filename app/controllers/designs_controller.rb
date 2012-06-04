@@ -19,6 +19,10 @@ class DesignsController < ApplicationController
   # GET /designs.json
   def index
     design_scope = Design.current
+
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| design_scope = design_scope.search(search_term) }
+
     @order = Design.column_names.collect{|column_name| "designs.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "designs.name"
     design_scope = design_scope.order(@order)
     @designs = design_scope.page(params[:page]).per( 20 )
