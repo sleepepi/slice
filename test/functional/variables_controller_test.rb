@@ -6,6 +6,13 @@ class VariablesControllerTest < ActionController::TestCase
     @variable = variables(:one)
   end
 
+  test "should get copy" do
+    get :copy, id: @variable
+    assert_not_nil assigns(:variable)
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should add option" do
     post :add_option, variable: { description: @variable.description, header: @variable.header, name: 'Variable Temp', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
     assert_not_nil assigns(:variable)

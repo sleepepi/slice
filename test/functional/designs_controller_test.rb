@@ -6,6 +6,13 @@ class DesignsControllerTest < ActionController::TestCase
     @design = designs(:one)
   end
 
+  test "should get copy" do
+    get :copy, id: @design
+    assert_not_nil assigns(:design)
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

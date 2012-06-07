@@ -1,6 +1,12 @@
 class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
+  def copy
+    design = Design.current.find(params[:id])
+    @design = current_user.designs.new(design.copyable_attributes)
+    render 'new'
+  end
+
   def selection
     @sheet = Sheet.new
     @design = Design.current.find_by_id(params[:sheet][:design_id])

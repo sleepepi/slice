@@ -21,6 +21,10 @@ class Design < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def copyable_attributes
+    self.attributes.reject{|key, val| ['id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+  end
+
   def option_tokens=(tokens)
     self.options = []
     tokens.each_pair do |key, option_hash|

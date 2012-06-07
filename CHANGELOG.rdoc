@@ -9,7 +9,7 @@
   * Variable creating or updating:
      * A confirmation box now displays that warns the user that options with blank names will be removed
      * Hard Minimum and Maximum values can be added for Numeric and Integer variables
-  * Variables in Library can now be copied as templates for new variables
+  * Variables and Designs in Library can now be copied as templates for new variables or new designs
   * Previews now show for Designs and Variables
   * Sheets track who last updated the sheet
 
