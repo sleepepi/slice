@@ -5,6 +5,8 @@ class Design < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_user, lambda { |*args| { conditions: ['designs.user_id IN (?)', args.first] } }
+  scope :with_user_or_global, lambda { |*args| { conditions: ['designs.user_id IN (?) or designs.project_id IS NULL', args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
@@ -19,6 +21,10 @@ class Design < ActiveRecord::Base
   # Model Methods
   def destroy
     update_attribute :deleted, true
+  end
+
+  def editable_by?(current_user)
+    current_user.all_designs.pluck(:id).include?(self.id) or (current_user.librarian? and self.project_id.blank?)
   end
 
   def copyable_attributes

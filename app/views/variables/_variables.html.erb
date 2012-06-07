@@ -26,9 +26,11 @@
       <td><%= link_to variable.user.name, variable.user if variable.user %></td>
       <td><%= link_to variable.project.name, variable.project if variable.project %></td>
       <td>
-        <%= link_to 'Edit', edit_variable_path(variable), class: 'btn btn-mini' %>
         <%= link_to 'Copy', copy_variable_path(variable), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', variable, confirm: "Are you sure you want to delete Variable #{variable.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+        <% if variable.editable_by?(current_user) %>
+          <%= link_to 'Edit', edit_variable_path(variable), class: 'btn btn-mini' %>
+          <%= link_to 'Delete', variable, confirm: "Are you sure you want to delete Variable #{variable.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+        <% end %>
       </td>
     </tr>
   <% end %>

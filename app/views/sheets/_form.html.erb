@@ -63,7 +63,7 @@
     <div class="control-group">
       <%= f.label :design_id, nil, class: 'control-label' %>
       <div class="controls">
-        <%= f.select :design_id, [['---', nil]] + Design.current.collect{|d| [d.name, d.id]} %>
+        <%= f.select :design_id, [['---', nil]] + current_user.all_viewable_designs.collect{|d| [d.name, d.id]} %>
       </div>
     </div>
 

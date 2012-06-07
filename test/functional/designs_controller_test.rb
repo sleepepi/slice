@@ -51,6 +51,17 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to design_path(assigns(:design))
   end
 
+  test "should not create design without project" do
+    assert_difference('Design.count', 0) do
+      post :create, post :create, design: { project_id: nil, description: "Design description", name: 'Design Three', option_tokens: {} }
+    end
+
+    assert_not_nil assigns(:design)
+    assert assigns(:design).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:design).errors[:project_id]
+    assert_template 'new'
+  end
+
   test "should show design" do
     get :show, id: @design
     assert_response :success

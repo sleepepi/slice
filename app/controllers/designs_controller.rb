@@ -2,14 +2,18 @@ class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
   def copy
-    design = Design.current.find(params[:id])
-    @design = current_user.designs.new(design.copyable_attributes)
-    render 'new'
+    design = current_user.all_viewable_designs.find_by_id(params[:id])
+    if design
+      @design = current_user.designs.new(design.copyable_attributes)
+      render 'new'
+    else
+      render nothing: true
+    end
   end
 
   def selection
     @sheet = Sheet.new
-    @design = Design.current.find_by_id(params[:sheet][:design_id])
+    @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id])
   end
 
   def add_variable
@@ -24,7 +28,7 @@ class DesignsController < ApplicationController
   # GET /designs
   # GET /designs.json
   def index
-    design_scope = Design.current
+    design_scope = current_user.all_viewable_designs
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| design_scope = design_scope.search(search_term) }
@@ -43,18 +47,23 @@ class DesignsController < ApplicationController
   # GET /designs/1
   # GET /designs/1.json
   def show
-    @design = Design.current.find(params[:id])
+    @design = current_user.all_viewable_designs.find_by_id(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @design }
+      if @design
+        format.html # show.html.erb
+        format.json { render json: @design }
+      else
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
     end
   end
 
   # GET /designs/new
   # GET /designs/new.json
   def new
-    @design = Design.new
+    @design = current_user.designs.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -64,7 +73,8 @@ class DesignsController < ApplicationController
 
   # GET /designs/1/edit
   def edit
-    @design = Design.current.find(params[:id])
+    @design = current_user.all_designs.find_by_id(params[:id])
+    redirect_to root_path unless @design
   end
 
   # POST /designs
@@ -86,15 +96,20 @@ class DesignsController < ApplicationController
   # PUT /designs/1
   # PUT /designs/1.json
   def update
-    @design = Design.current.find(params[:id])
+    @design = current_user.all_designs.find_by_id(params[:id])
 
     respond_to do |format|
-      if @design.update_attributes(post_params)
-        format.html { redirect_to @design, notice: 'Design was successfully updated.' }
-        format.json { head :no_content }
+      if @design
+        if @design.update_attributes(post_params)
+          format.html { redirect_to @design, notice: 'Design was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @design.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render action: "edit" }
-        format.json { render json: @design.errors, status: :unprocessable_entity }
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
       end
     end
   end
@@ -102,12 +117,17 @@ class DesignsController < ApplicationController
   # DELETE /designs/1
   # DELETE /designs/1.json
   def destroy
-    @design = Design.current.find(params[:id])
-    @design.destroy
+    @design = current_user.all_designs.find_by_id(params[:id])
 
     respond_to do |format|
-      format.html { redirect_to designs_url }
-      format.json { head :no_content }
+      if @design
+        @design.destroy
+        format.html { redirect_to designs_path }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
     end
   end
 

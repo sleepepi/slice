@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :system_admins, conditions: { system_admin: true }
+  scope :librarians, conditions: { librarian: true }
   scope :with_sheet, lambda { |*args| { conditions: ["users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false] }  }
 
   # Model Validation
@@ -34,6 +35,31 @@ class User < ActiveRecord::Base
   has_many :variables, conditions: { deleted: false }
 
   # User Methods
+
+  def all_designs
+    @all_designs ||= begin
+      Design.current.with_user(self.id)
+    end
+  end
+
+  def all_viewable_designs
+    @all_viewable_designs ||= begin
+      Design.current.with_user_or_global(self.id)
+    end
+  end
+
+  def all_variables
+    @all_variables ||= begin
+      Variable.current.with_user(self.id)
+    end
+  end
+
+  def all_viewable_variables
+    @all_viewable_variables ||= begin
+      Variable.current.with_user_or_global(self.id)
+    end
+  end
+
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
     super and self.status == 'active' and not self.deleted?

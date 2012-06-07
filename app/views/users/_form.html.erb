@@ -44,6 +44,13 @@
   </div>
 
   <div class="control-group">
+    <%= label_tag :librarian, 'Librarian', class: 'control-label' %>
+    <div class="controls">
+      <%= check_box_tag :librarian, '1', @user.librarian %>
+    </div>
+  </div>
+
+  <div class="control-group">
     <%= label_tag :system_admin, 'System Admin', class: 'control-label' %>
     <div class="controls">
       <%= check_box_tag :system_admin, '1', @user.system_admin %>

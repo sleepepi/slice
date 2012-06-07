@@ -46,6 +46,7 @@ class UsersController < ApplicationController
     if @user and @user.update_attributes(params[:user])
       @user.update_attribute :system_admin, params[:system_admin]
       @user.update_attribute :status, params[:status]
+      @user.update_attribute :librarian, params[:librarian]
       redirect_to @user, notice: 'User was successfully updated.'
     elsif @user
       render action: "edit"

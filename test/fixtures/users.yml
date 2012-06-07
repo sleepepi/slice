@@ -39,3 +39,12 @@ deleted:
   deleted: true
   system_admin: false
   email: deleted@example.com
+
+librarian:
+  first_name: MyString
+  last_name: MyString
+  status: active
+  deleted: false
+  system_admin: false
+  librarian: true
+  email: librarian@example.com

@@ -51,6 +51,17 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to variable_path(assigns(:variable))
   end
 
+  test "should not create variable without project" do
+    assert_difference('Variable.count', 0) do
+      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'Variable Three', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }
+    end
+
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:variable).errors[:project_id]
+    assert_template 'new'
+  end
+
   test "should create dropdown variable" do
     assert_difference('Variable.count') do
       post :create, variable: { name: 'Favorite Icecream', variable_type: "dropdown",
