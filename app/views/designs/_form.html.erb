@@ -23,6 +23,13 @@
   </div>
 
   <div class="control-group">
+    <%= f.label :project_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :project_id, [['---', nil]] + current_user.all_projects.current.collect{|p| [p.name, p.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
     <%= f.label :description, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_area :description, rows: 7, style: 'width:95%' %>

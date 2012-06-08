@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_user, lambda { |*args| { conditions: ['projects.user_id IN (?)', args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation

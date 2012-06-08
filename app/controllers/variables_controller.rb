@@ -3,11 +3,14 @@ class VariablesController < ApplicationController
 
   def copy
     variable = current_user.all_viewable_variables.find_by_id(params[:id])
-    if variable
-      @variable = current_user.variables.new(variable.copyable_attributes)
-      render 'new'
-    else
-      render nothing: true
+    respond_to do |format|
+      if variable and @variable = current_user.variables.new(variable.copyable_attributes)
+        format.html { render 'new' }
+        format.json { render json: @variable }
+      else
+        format.html { redirect_to variables_path }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -49,7 +52,7 @@ class VariablesController < ApplicationController
         format.html # show.html.erb
         format.json { render json: @variable }
       else
-        format.html { redirect_to root_path }
+        format.html { redirect_to variables_path }
         format.json { head :no_content }
       end
     end
@@ -69,7 +72,7 @@ class VariablesController < ApplicationController
   # GET /variables/1/edit
   def edit
     @variable = current_user.all_variables.find_by_id(params[:id])
-    redirect_to root_path unless @variable
+    redirect_to variables_path unless @variable
   end
 
   # POST /variables
@@ -78,7 +81,7 @@ class VariablesController < ApplicationController
     @variable = current_user.variables.new(post_params)
 
     respond_to do |format|
-      if @variable.save
+      if @variable.saveable?(current_user, post_params[:project_id]) and @variable.save
         format.html { redirect_to @variable, notice: 'Variable was successfully created.' }
         format.json { render json: @variable, status: :created, location: @variable }
       else
@@ -95,7 +98,7 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @variable
-        if @variable.update_attributes(post_params)
+        if @variable.saveable?(current_user, post_params[:project_id]) and @variable.update_attributes(post_params)
           format.html { redirect_to @variable, notice: 'Variable was successfully updated.' }
           format.json { head :no_content }
         else
@@ -103,7 +106,7 @@ class VariablesController < ApplicationController
           format.json { render json: @variable.errors, status: :unprocessable_entity }
         end
       else
-        format.html { redirect_to root_path }
+        format.html { redirect_to variables_path }
         format.json { head :no_content }
       end
     end
@@ -113,16 +116,11 @@ class VariablesController < ApplicationController
   # DELETE /variables/1.json
   def destroy
     @variable = current_user.all_variables.find_by_id(params[:id])
-    @variable.destroy
+    @variable.destroy if @variable
 
     respond_to do |format|
-      if @variable
-        format.html { redirect_to variables_path }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to variables_path }
+      format.json { head :no_content }
     end
   end
 
@@ -136,7 +134,7 @@ class VariablesController < ApplicationController
 
     params[:variable] ||= {}
     params[:variable].slice(
-      :name, :description, :header, :variable_type, :option_tokens, :response, :minimum, :maximum
+      :name, :description, :header, :variable_type, :option_tokens, :response, :minimum, :maximum, :project_id
     )
   end
 end

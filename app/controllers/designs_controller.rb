@@ -3,11 +3,14 @@ class DesignsController < ApplicationController
 
   def copy
     design = current_user.all_viewable_designs.find_by_id(params[:id])
-    if design
-      @design = current_user.designs.new(design.copyable_attributes)
-      render 'new'
-    else
-      render nothing: true
+    respond_to do |format|
+      if design and @design = current_user.designs.new(design.copyable_attributes)
+        format.html { render 'new' }
+        format.json { render json: @design }
+      else
+        format.html { redirect_to designs_path }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -54,7 +57,7 @@ class DesignsController < ApplicationController
         format.html # show.html.erb
         format.json { render json: @design }
       else
-        format.html { redirect_to root_path }
+        format.html { redirect_to designs_path }
         format.json { head :no_content }
       end
     end
@@ -74,7 +77,7 @@ class DesignsController < ApplicationController
   # GET /designs/1/edit
   def edit
     @design = current_user.all_designs.find_by_id(params[:id])
-    redirect_to root_path unless @design
+    redirect_to designs_path unless @design
   end
 
   # POST /designs
@@ -83,7 +86,7 @@ class DesignsController < ApplicationController
     @design = current_user.designs.new(post_params)
 
     respond_to do |format|
-      if @design.save
+      if @design.saveable?(current_user, post_params[:project_id]) and @design.save
         format.html { redirect_to @design, notice: 'Design was successfully created.' }
         format.json { render json: @design, status: :created, location: @design }
       else
@@ -100,7 +103,7 @@ class DesignsController < ApplicationController
 
     respond_to do |format|
       if @design
-        if @design.update_attributes(post_params)
+        if @design.saveable?(current_user, post_params[:project_id]) and @design.update_attributes(post_params)
           format.html { redirect_to @design, notice: 'Design was successfully updated.' }
           format.json { head :no_content }
         else
@@ -108,7 +111,7 @@ class DesignsController < ApplicationController
           format.json { render json: @design.errors, status: :unprocessable_entity }
         end
       else
-        format.html { redirect_to root_path }
+        format.html { redirect_to designs_path }
         format.json { head :no_content }
       end
     end
@@ -118,16 +121,11 @@ class DesignsController < ApplicationController
   # DELETE /designs/1.json
   def destroy
     @design = current_user.all_designs.find_by_id(params[:id])
+    @design.destroy if @design
 
     respond_to do |format|
-      if @design
-        @design.destroy
-        format.html { redirect_to designs_path }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to designs_path }
+      format.json { head :no_content }
     end
   end
 

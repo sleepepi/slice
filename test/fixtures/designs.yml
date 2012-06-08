@@ -5,6 +5,7 @@ one:
   description: MyText
   options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }]
   user: valid
+  project: one
   deleted: false
 
 two:

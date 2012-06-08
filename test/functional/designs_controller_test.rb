@@ -32,7 +32,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should create design" do
     assert_difference('Design.count') do
-      post :create, design: { description: "Design description", name: 'Design Three',
+      post :create, design: { project_id: projects(:one).id, description: "Design description", name: 'Design Three',
                               option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::Fixtures.identify(:dropdown) },
                                                "13383078795389" =>  { "variable_id" => ActiveRecord::Fixtures.identify(:checkbox) },
                                                "13383078797210" =>  { "variable_id" => ActiveRecord::Fixtures.identify(:radio) },
@@ -53,13 +53,23 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should not create design without project" do
     assert_difference('Design.count', 0) do
-      post :create, post :create, design: { project_id: nil, description: "Design description", name: 'Design Three', option_tokens: {} }
+      post :create, design: { project_id: nil, description: "Design description", name: 'Design Three', option_tokens: {} }
     end
 
     assert_not_nil assigns(:design)
     assert assigns(:design).errors.size > 0
     assert_equal ["can't be blank"], assigns(:design).errors[:project_id]
     assert_template 'new'
+  end
+
+  test "should create global design for librarian" do
+    login(users(:librarian))
+    assert_difference('Design.count', 1) do
+      post :create, design: { project_id: nil, description: "Global Design", name: 'Global Design', option_tokens: {} }
+    end
+
+    assert_not_nil assigns(:design)
+    assert_redirected_to design_path(assigns(:design))
   end
 
   test "should show design" do
@@ -98,7 +108,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should update design" do
-    put :update, id: @design, design: { description: @design.description, name: @design.name }
+    put :update, id: @design, design: { project_id: projects(:one).id, description: @design.description, name: @design.name }
     assert_redirected_to design_path(assigns(:design))
   end
 

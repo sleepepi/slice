@@ -1,5 +1,5 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name, :options, :option_tokens
+  attr_accessible :description, :name, :options, :option_tokens, :project_id
 
   serialize :options, Array
 
@@ -29,6 +29,14 @@ class Design < ActiveRecord::Base
 
   def copyable_attributes
     self.attributes.reject{|key, val| ['id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+  end
+
+  # Check that user has selected an editable project  OR
+  #            user is a librarian and project_id is blank
+  def saveable?(current_user, params_project_id)
+    result = (current_user.all_projects.pluck(:id).include?(params_project_id.to_i) or (current_user.librarian? and params_project_id.blank? and self.project_id.blank?))
+    self.errors.add(:project_id, "can't be blank" ) unless result
+    result
   end
 
   def option_tokens=(tokens)

@@ -36,6 +36,18 @@ class User < ActiveRecord::Base
 
   # User Methods
 
+  def all_projects
+    @all_projects ||= begin
+      Project.current.with_user(self.id)
+    end
+  end
+
+  def all_viewable_projects
+    @all_viewable_projects ||= begin
+      self.all_projects # Temporary
+    end
+  end
+
   def all_designs
     @all_designs ||= begin
       Design.current.with_user(self.id)

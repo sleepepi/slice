@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :options, :response, :variable_type, :option_tokens, :sheet_id, :minimum, :maximum
+  attr_accessible :description, :header, :name, :options, :response, :variable_type, :option_tokens, :sheet_id, :minimum, :maximum, :project_id
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
 
@@ -31,6 +31,14 @@ class Variable < ActiveRecord::Base
 
   def copyable_attributes
     self.attributes.reject{|key, val| ['id', 'response', 'sheet_id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+  end
+
+  # Check that user has selected an editable project  OR
+  #            user is a librarian and project_id is blank
+  def saveable?(current_user, params_project_id)
+    result = (current_user.all_projects.pluck(:id).include?(params_project_id.to_i) or (current_user.librarian? and params_project_id.blank? and self.project_id.blank?))
+    self.errors.add(:project_id, "can't be blank" ) unless result
+    result
   end
 
   def description_range

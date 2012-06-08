@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    project_scope = Project.current
+    project_scope = current_user.all_viewable_projects
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| project_scope = project_scope.search(search_term) }
@@ -23,18 +23,23 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @project = Project.current.find(params[:id])
+    @project = current_user.all_viewable_projects.find_by_id(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @project }
+      if @project
+        format.html # show.html.erb
+        format.json { render json: @project }
+      else
+        format.html { redirect_to projects_path }
+        format.json { head :no_content }
+      end
     end
   end
 
   # GET /projects/new
   # GET /projects/new.json
   def new
-    @project = Project.new
+    @project = current_user.projects.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +49,8 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
-    @project = Project.current.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
+    redirect_to projects_path unless @project
   end
 
   # POST /projects
@@ -66,15 +72,20 @@ class ProjectsController < ApplicationController
   # PUT /projects/1
   # PUT /projects/1.json
   def update
-    @project = Project.current.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
 
     respond_to do |format|
-      if @project.update_attributes(post_params)
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
-        format.json { head :no_content }
+      if @project
+        if @project.update_attributes(post_params)
+          format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @project.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render action: "edit" }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.html { redirect_to projects_path }
+        format.json { head :no_content }
       end
     end
   end
@@ -82,11 +93,11 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    @project = Project.current.find(params[:id])
-    @project.destroy
+    @project = current_user.all_projects.find_by_id(params[:id])
+    @project.destroy if @project
 
     respond_to do |format|
-      format.html { redirect_to projects_url }
+      format.html { redirect_to projects_path }
       format.json { head :no_content }
     end
   end
