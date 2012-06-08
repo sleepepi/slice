@@ -1,0 +1,30 @@
+<span>
+  <% if current_user.all_projects.include?(@project) %>
+    <%= form_tag project_users_path(project_user: { project_id: @project.id, librarian: @relation == 'librarians' }), method: :post, remote: true, style: 'display:inline', class: 'form-search' do %>
+      <b><%= @relation.humanize %><br /></b>
+      <%= text_field_tag "#{@relation}_text", '', style: "width:300px;" %>
+      <%= submit_tag 'Add', class: 'btn btn-primary' %>
+    <% end %>
+    <span class="help-block">
+      <% if @relation == 'librarians' %>
+        Can create and edit Variables and Designs for project.
+      <% elsif @relation == 'members' %>
+        Can create and edit Sheets for the project.
+      <% end %>
+    </span>
+    <%= javascript_tag "$(function(){$(\"##{@relation}_text\").autocomplete({source:[#{User.current.human.collect{|user| "'#{user.name} <#{user.email}>'"}.join(', ')}]});});" %>
+  <% else %>
+      <b><%= @relation.humanize %></b>
+  <% end %>
+</span>
+<ul>
+<% @project.send(@relation).each do |user| %>
+  <% project_user = @project.project_users.find_by_user_id(user.id) %>
+  <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();" style="line-height:25px">
+    <%= link_to user.name, user %>
+    <span id="project_user_<%= project_user.id %>_delete" style="display:none">
+      <%= link_to 'Remove', project_user, method: :delete, confirm: "Are you sure you want to remove #{user.name} from the list of #{@relation}?", remote: true, class: 'btn btn-mini btn-danger' if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
+    </span>
+  </li>
+<% end %>
+</ul>

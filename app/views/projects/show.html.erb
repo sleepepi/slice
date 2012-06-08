@@ -41,3 +41,19 @@
     </div>
   </dd>
 </dl>
+
+<div class="page-header">
+  <h2>Sharing</h2>
+</div>
+
+<div class="row">
+  <% ['librarians', 'members'].each do |relation, librarian| %>
+    <div class="span6">
+      <% @relation = relation; @librarian = librarian %>
+      <% @users = User.current.order('last_name, first_name') %>
+      <p>
+        <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
+      </p>
+    </div>
+  <% end %>
+</div>

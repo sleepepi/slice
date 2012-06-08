@@ -13,6 +13,8 @@ Reading::Application.routes.draw do
 
   resources :projects
 
+  resources :project_users
+
   resources :sheets do
     member do
       post :send_email

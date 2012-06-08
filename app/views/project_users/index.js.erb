@@ -1,0 +1,5 @@
+<% @relation = 'librarians' %>
+$("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index') %>");
+
+<% @relation = 'members' %>
+$("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index') %>");

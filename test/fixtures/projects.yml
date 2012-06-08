@@ -11,3 +11,9 @@ two:
   description: MyText
   user: valid
   deleted: false
+
+three:
+  name: Project Three
+  description: MyText
+  user: admin
+  deleted: false

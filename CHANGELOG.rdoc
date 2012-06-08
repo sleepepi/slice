@@ -12,6 +12,9 @@
   * Variables and Designs in Library can now be copied as templates for new variables or new designs
   * Previews now show for Designs and Variables
   * Sheets track who last updated the sheet
+  * Projects can now have:
+    * Librarians who can modify project designs and variables
+    * Members who can modify project sheets
 
 * Bug Fix
   * Variable options now correctly load when editing a variable

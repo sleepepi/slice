@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :human, conditions: { } # Placeholder
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :system_admins, conditions: { system_admin: true }
@@ -38,13 +39,13 @@ class User < ActiveRecord::Base
 
   def all_projects
     @all_projects ||= begin
-      Project.current.with_user(self.id)
+      Project.current.with_librarian(self.id, true)
     end
   end
 
   def all_viewable_projects
     @all_viewable_projects ||= begin
-      self.all_projects # Temporary
+      Project.current.with_librarian(self.id, [true, false])
     end
   end
 
