@@ -12,7 +12,7 @@
     * Projects can now have multiple sites, and each subject is assigned to a specific site
     * Projects can now have:
       * Librarians who can modify project designs and variables
-      * Members who can modify project sheets
+      * Members who can modify project sheets, subjects, and sites
   * Design and Variable Changes:
     * Variable creating or updating:
        * A confirmation box now displays that warns the user that options with blank names will be removed
