@@ -6,6 +6,13 @@ class SheetsControllerTest < ActionController::TestCase
     @sheet = sheets(:one)
   end
 
+  test "should get csv" do
+    get :index, format: 'csv'
+    assert_not_nil assigns(:csv_string)
+    assert_not_nil assigns(:sheet_count)
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

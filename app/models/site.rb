@@ -1,8 +1,9 @@
 class Site < ActiveRecord::Base
   attr_accessible :description, :emails, :name, :project_id
 
-    # Named Scopes
+  # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_project, lambda { |*args| { conditions: ["sites.project_id IN (?)", args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation

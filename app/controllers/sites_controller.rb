@@ -10,7 +10,7 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
-    site_scope = Site.current
+    site_scope = current_user.all_viewable_sites
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| site_scope = site_scope.search(search_term) }
@@ -29,18 +29,23 @@ class SitesController < ApplicationController
   # GET /sites/1
   # GET /sites/1.json
   def show
-    @site = Site.current.find(params[:id])
+    @site = current_user.all_viewable_sites.find_by_id(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @site }
+      if @site
+        format.html # show.html.erb
+        format.json { render json: @site }
+      else
+        format.html { redirect_to sites_path }
+        format.json { head :no_content }
+      end
     end
   end
 
   # GET /sites/new
   # GET /sites/new.json
   def new
-    @site = Site.new(params[:site])
+    @site = current_user.sites.new(params[:site])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -50,7 +55,8 @@ class SitesController < ApplicationController
 
   # GET /sites/1/edit
   def edit
-    @site = Site.current.find(params[:id])
+    @site = current_user.all_sites.find_by_id(params[:id])
+    redirect_to sites_path unless @site
   end
 
   # POST /sites
@@ -72,15 +78,20 @@ class SitesController < ApplicationController
   # PUT /sites/1
   # PUT /sites/1.json
   def update
-    @site = Site.current.find(params[:id])
+    @site = current_user.all_sites.find_by_id(params[:id])
 
     respond_to do |format|
-      if @site.update_attributes(post_params)
-        format.html { redirect_to @site, notice: 'Site was successfully updated.' }
-        format.json { head :no_content }
+      if @site
+        if @site.update_attributes(post_params)
+          format.html { redirect_to @site, notice: 'Site was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @site.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render action: "edit" }
-        format.json { render json: @site.errors, status: :unprocessable_entity }
+        format.html { redirect_to sites_path }
+        format.json { head :no_content }
       end
     end
   end
@@ -88,11 +99,11 @@ class SitesController < ApplicationController
   # DELETE /sites/1
   # DELETE /sites/1.json
   def destroy
-    @site = Site.current.find(params[:id])
-    @site.destroy
+    @site = current_user.all_sites.find_by_id(params[:id])
+    @site.destroy if @site
 
     respond_to do |format|
-      format.html { redirect_to sites_url }
+      format.html { redirect_to sites_path }
       format.json { head :no_content }
     end
   end

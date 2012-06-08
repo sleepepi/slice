@@ -16,3 +16,8 @@ jQuery ->
     $('#send_email_modal').modal({ dynamic: true })
     false
   )
+
+  $(document).on('click', '[data-object~="export"]', () ->
+    window.location = $('#sheets_search').attr('action') + '.' + $(this).data('format') + '?' + $('#sheets_search').serialize()
+    false
+  )

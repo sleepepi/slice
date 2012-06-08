@@ -67,6 +67,7 @@
 
   <div class="form-actions">
     <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+    <%= link_to 'Export', '#', class: 'btn', data: { object: 'export', format: 'csv' } %>
     <%= link_to 'Reset', '#', class: 'btn', data: { target: '#sheets_search', object: 'reset-filters' } %>
   </div>
 <% end %>

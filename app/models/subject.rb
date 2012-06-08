@@ -3,6 +3,7 @@ class Subject < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_project, lambda { |*args| { conditions: ["subjects.project_id IN (?)", args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(subject_code) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation

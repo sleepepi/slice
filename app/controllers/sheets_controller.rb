@@ -15,7 +15,7 @@ class SheetsController < ApplicationController
   # GET /sheets
   # GET /sheets.json
   def index
-    sheet_scope = Sheet.current
+    sheet_scope = current_user.all_viewable_sheets
 
     @sheet_after = parse_date(params[:sheet_after])
     @sheet_before = parse_date(params[:sheet_before])
@@ -43,6 +43,34 @@ class SheetsController < ApplicationController
 
     @sheet_count = sheet_scope.count
 
+    if params[:format] == 'csv'
+      @csv_string = CSV.generate do |csv|
+        variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
+        csv << ["Name", "Description", "Study Date", "Project", "Site", "Subject", "Creator"] + variable_names
+        sheet_scope.each do |sheet|
+          row = [sheet.name,
+                  sheet.description,
+                  sheet.study_date.blank? ? '' : sheet.study_date.strftime("%m-%d-%Y"),
+                  sheet.project.name,
+                  sheet.subject.site.name,
+                  sheet.subject.name,
+                  sheet.user.name]
+          variable_names.each do |variable_name|
+            row << if variable = sheet.variables.find_by_name(variable_name)
+              variable.response_name
+            else
+              ''
+            end
+          end
+          Rails.logger.debug "ROW SIZE: #{row.size}"
+          csv << row
+        end
+      end
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                            disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+      return
+    end
+
     @sheets = sheet_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|
@@ -55,18 +83,23 @@ class SheetsController < ApplicationController
   # GET /sheets/1
   # GET /sheets/1.json
   def show
-    @sheet = Sheet.current.find(params[:id])
+    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @sheet }
+      if @sheet
+        format.html # show.html.erb
+        format.json { render json: @sheet }
+      else
+        format.html { redirect_to sheets_path }
+        format.json { head :no_content }
+      end
     end
   end
 
   # GET /sheets/new
   # GET /sheets/new.json
   def new
-    @sheet = Sheet.new
+    @sheet = current_user.sheets.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -76,7 +109,8 @@ class SheetsController < ApplicationController
 
   # GET /sheets/1/edit
   def edit
-    @sheet = Sheet.current.find(params[:id])
+    @sheet = current_user.all_sheets.find_by_id(params[:id])
+    redirect_to sheets_path unless @sheet
   end
 
   # POST /sheets
@@ -86,7 +120,6 @@ class SheetsController < ApplicationController
 
     respond_to do |format|
       if @sheet.save
-
         create_variables!
 
         format.html { redirect_to @sheet, notice: 'Sheet was successfully created.' }
@@ -101,18 +134,22 @@ class SheetsController < ApplicationController
   # PUT /sheets/1
   # PUT /sheets/1.json
   def update
-    @sheet = Sheet.current.find(params[:id])
+    @sheet = current_user.all_sheets.find_by_id(params[:id])
 
     respond_to do |format|
-      if @sheet.update_attributes(post_params)
+      if @sheet
+        if @sheet.update_attributes(post_params)
+          update_variables!
 
-        update_variables!
-
-        format.html { redirect_to @sheet, notice: 'Sheet was successfully updated.' }
-        format.json { head :no_content }
+          format.html { redirect_to @sheet, notice: 'Sheet was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @sheet.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render action: "edit" }
-        format.json { render json: @sheet.errors, status: :unprocessable_entity }
+        format.html { redirect_to sheets_path }
+        format.json { head :no_content }
       end
     end
   end
@@ -120,11 +157,11 @@ class SheetsController < ApplicationController
   # DELETE /sheets/1
   # DELETE /sheets/1.json
   def destroy
-    @sheet = Sheet.current.find(params[:id])
-    @sheet.destroy
+    @sheet = current_user.all_sheets.find_by_id(params[:id])
+    @sheet.destroy if @sheet
 
     respond_to do |format|
-      format.html { redirect_to sheets_url }
+      format.html { redirect_to sheets_path }
       format.json { head :no_content }
     end
   end

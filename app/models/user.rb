@@ -73,6 +73,36 @@ class User < ActiveRecord::Base
     end
   end
 
+  def all_sheets
+    self.all_viewable_sheets # Members and Librarians can modify sheets
+  end
+
+  def all_viewable_sheets
+    @all_viewable_sheets ||= begin
+      Sheet.current.with_project(self.all_viewable_projects.pluck(:id)) # .order('created_at DESC')
+    end
+  end
+
+  def all_sites
+    self.all_viewable_sites # Members and Librarians can modify sites
+  end
+
+  def all_viewable_sites
+    @all_viewable_sites ||= begin
+      Site.current.with_project(self.all_viewable_projects.pluck(:id)) # .order('created_at DESC')
+    end
+  end
+
+  def all_subjects
+    self.all_viewable_subjects # Members and Librarians can modify subjects
+  end
+
+  def all_viewable_subjects
+    @all_viewable_subjects ||= begin
+      Subject.current.with_project(self.all_viewable_projects.pluck(:id)) # .order('created_at DESC')
+    end
+  end
+
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
     super and self.status == 'active' and not self.deleted?
