@@ -51,7 +51,11 @@ class User < ActiveRecord::Base
 
   def all_designs
     @all_designs ||= begin
-      Design.current.with_user(self.id)
+      if self.librarian?
+        Design.current.with_user_or_global(self.id)
+      else
+        Design.current.with_user(self.id)
+      end
     end
   end
 

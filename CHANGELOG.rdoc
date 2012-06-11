@@ -4,7 +4,7 @@
   * Sheets are now updated to reflect changes to the associated design
 
 * Bug Fix
-  * Librarians can edit/update all global variables (variables not on projects), or variables that they have created themselves
+  * Librarians can edit/update all global designs/variables (designs/variables not on projects), or designs/variables that they have created themselves
 
 == 0.2.0
 

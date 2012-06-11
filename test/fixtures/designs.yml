@@ -29,3 +29,9 @@ all_variable_types:
             { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }]
   user: valid
   deleted: false
+
+global:
+  name: Global
+  description: For testing that librarian who didn't create design can update and delete design.
+  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }, { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %> }]
+  user: two

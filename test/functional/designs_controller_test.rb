@@ -107,14 +107,35 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get edit for global design for librarian" do
+    login(users(:librarian))
+    get :edit, id: designs(:global)
+    assert_response :success
+  end
+
   test "should update design" do
     put :update, id: @design, design: { project_id: projects(:one).id, description: @design.description, name: @design.name }
+    assert_redirected_to design_path(assigns(:design))
+  end
+
+  test "should update for global design for librarian" do
+    login(users(:librarian))
+    put :update, id: designs(:global), design: { project_id: nil, description: designs(:global).description, name: designs(:global).name }
     assert_redirected_to design_path(assigns(:design))
   end
 
   test "should destroy design" do
     assert_difference('Design.current.count', -1) do
       delete :destroy, id: @design
+    end
+
+    assert_redirected_to designs_path
+  end
+
+  test "should destroy global design for librarian" do
+    login(users(:librarian))
+    assert_difference('Design.current.count', -1) do
+      delete :destroy, id: designs(:global)
     end
 
     assert_redirected_to designs_path
