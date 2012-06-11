@@ -97,14 +97,35 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get edit for global variable for librarian" do
+    login(users(:librarian))
+    get :edit, id: variables(:global)
+    assert_response :success
+  end
+
   test "should update variable" do
     put :update, id: @variable, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    assert_redirected_to variable_path(assigns(:variable))
+  end
+
+  test "should update for global variable for librarian" do
+    login(users(:librarian))
+    put :update, id: variables(:global), variable: { project_id: nil, description: variables(:global).description, header: variables(:global).header, name: variables(:global).name, display_name: variables(:global).display_name, options: variables(:global).options, variable_type: variables(:global).variable_type }
     assert_redirected_to variable_path(assigns(:variable))
   end
 
   test "should destroy variable" do
     assert_difference('Variable.current.count', -1) do
       delete :destroy, id: @variable
+    end
+
+    assert_redirected_to variables_path
+  end
+
+  test "should destroy global variable for librarian" do
+    login(users(:librarian))
+    assert_difference('Variable.current.count', -1) do
+      delete :destroy, id: variables(:global)
     end
 
     assert_redirected_to variables_path

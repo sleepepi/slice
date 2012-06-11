@@ -20,6 +20,14 @@ two:
   user: valid
   deleted: false
 
+global:
+  name: global
+  display_name: Global
+  description: MyText
+  header: MyString
+  variable_type: MyString
+  user: two
+
 dropdown:
   name: var_gender
   display_name: Gender
