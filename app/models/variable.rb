@@ -26,6 +26,10 @@ class Variable < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def name_with_project
+    self.project ? "#{self.name} - #{self.project.name}" : "#{self.name} - Global"
+  end
+
   def editable_by?(current_user)
     current_user.all_variables.pluck(:id).include?(self.id) or (current_user.librarian? and self.project_id.blank?)
   end
