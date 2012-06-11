@@ -63,7 +63,11 @@ class User < ActiveRecord::Base
 
   def all_variables
     @all_variables ||= begin
-      Variable.current.with_user(self.id)
+      if self.librarian?
+        Variable.current.with_user_or_global(self.id)
+      else
+        Variable.current.with_user(self.id)
+      end
     end
   end
 
