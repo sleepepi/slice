@@ -26,7 +26,7 @@ class VariablesController < ApplicationController
   # GET /variables
   # GET /variables.json
   def index
-    variable_scope = current_user.all_viewable_variables.where( sheet_id: nil )
+    variable_scope = current_user.all_viewable_variables
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| variable_scope = variable_scope.search(search_term) }
@@ -134,7 +134,7 @@ class VariablesController < ApplicationController
 
     params[:variable] ||= {}
     params[:variable].slice(
-      :name, :description, :header, :variable_type, :option_tokens, :response, :minimum, :maximum, :project_id
+      :name, :display_name, :description, :header, :variable_type, :option_tokens, :minimum, :maximum, :project_id
     )
   end
 end

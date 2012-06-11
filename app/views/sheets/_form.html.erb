@@ -74,7 +74,8 @@
     <div class="page-header">
       <h2><%= @sheet.name %></h2>
     </div>
-    <% @sheet.variables.each do |variable| %>
+
+    <% @sheet.design.variables.each do |variable| %>
       <%= @variable = variable; render partial: 'designs/variable' %>
     <% end %>
   <% end %>

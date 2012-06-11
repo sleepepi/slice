@@ -14,14 +14,14 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should add option" do
-    post :add_option, variable: { description: @variable.description, header: @variable.header, name: 'Variable Temp', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+    post :add_option, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
     assert_not_nil assigns(:variable)
     assert_not_nil assigns(:option)
     assert_template 'add_option'
   end
 
   test "should get options" do
-    post :options, variable: { description: @variable.description, header: @variable.header, name: 'Variable Temp', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+    post :options, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
     assert_not_nil assigns(:variable)
     assert_template 'options'
   end
@@ -45,7 +45,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create variable" do
     assert_difference('Variable.count') do
-      post :create, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: 'Variable Three', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }
+      post :create, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
     end
 
     assert_redirected_to variable_path(assigns(:variable))
@@ -53,7 +53,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create dropdown variable" do
     assert_difference('Variable.count') do
-      post :create, variable: { project_id: projects(:one).id, name: 'Favorite Icecream', variable_type: "dropdown",
+      post :create, variable: { project_id: projects(:one).id, name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: "dropdown",
                                 option_tokens: {
                                   "1338308398442263" => { "name" => "Chocolate", "value" => "1", "description" => "" },
                                   "133830842117151" => { "name" => "Vanilla", "value" => "2", "description" => ""}
@@ -68,7 +68,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not create variable without project" do
     assert_difference('Variable.count', 0) do
-      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'Variable Three', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }
+      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
     end
 
     assert_not_nil assigns(:variable)
@@ -80,7 +80,7 @@ class VariablesControllerTest < ActionController::TestCase
   test "should create global variable for librarian" do
     login(users(:librarian))
     assert_difference('Variable.count', 1) do
-      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'Global Variable', response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }
+      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'global_variable', display_name: 'Global Variable', options: @variable.options, variable_type: @variable.variable_type }
     end
 
     assert_not_nil assigns(:variable)
@@ -98,7 +98,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should update variable" do
-    put :update, id: @variable, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, response: @variable.response, options: @variable.options, variable_type: @variable.variable_type }
+    put :update, id: @variable, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
     assert_redirected_to variable_path(assigns(:variable))
   end
 

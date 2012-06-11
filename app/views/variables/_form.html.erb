@@ -26,6 +26,15 @@
     <%= f.label :name, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :name %>
+      <div class="help-block">Letter followed by letters, numbers, or underscores.</div>
+      <i>var1_population</i>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :display_name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :display_name %>
     </div>
   </div>
 
@@ -61,14 +70,14 @@
   </div>
 
   <div class="control-group" data-object="number">
-    <%= f.label :minimum, nil, class: 'control-label' %>
+    <%= f.label :minimum, 'Hard Minimum', class: 'control-label' %>
     <div class="controls">
       <%= f.number_field :minimum %>
     </div>
   </div>
 
   <div class="control-group" data-object="number">
-    <%= f.label :maximum, nil, class: 'control-label' %>
+    <%= f.label :maximum, 'Hard Maximum', class: 'control-label' %>
     <div class="controls">
       <%= f.number_field :maximum %>
     </div>

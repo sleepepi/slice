@@ -1,5 +1,8 @@
 == 0.2.1
 
+* Enhancements
+  * Sheets are now updated to reflect changes to the associated design
+
 == 0.2.0
 
 * Enhancements

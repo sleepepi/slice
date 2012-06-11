@@ -4,16 +4,16 @@
   </div>
 <% end %>
 <dl class="dl-horizontal">
-  <dt><%= @variable.name %></dt>
+  <dt><%= @variable.display_name %></dt>
   <dd>
     <% if @variable.variable_type == 'text' %>
-      <%= simple_format @variable.response_name.to_s %>
+      <%= simple_format @variable.response_name(@sheet).to_s %>
     <% elsif @variable.variable_type == 'checkbox' %>
-      <% @variable.response_name.each do |response| %>
+      <% @variable.response_name(@sheet).each do |response| %>
         <p><%= response %></p>
       <% end %>
     <% else %>
-      <%= @variable.response_name %>
+      <%= @variable.response_name(@sheet) %>
     <% end %>
   </dd>
 </dl>

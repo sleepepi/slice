@@ -95,15 +95,15 @@ class SheetsControllerTest < ActionController::TestCase
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     variables: {
-                      "#{variables(:response_dropdown).id}" => 'f',
-                      "#{variables(:response_checkbox).id}" => nil,
-                      "#{variables(:response_radio).id}" => '1',
-                      "#{variables(:response_string).id}" => 'This is an updated string',
-                      "#{variables(:response_text).id}" => 'Lorem ipsum dolor sit amet',
-                      "#{variables(:response_integer).id}" => 31,
-                      "#{variables(:response_numeric).id}" => 190.5,
-                      "#{variables(:response_date).id}" => '05/29/2012',
-                      "#{variables(:response_file).id}" => ''
+                      "#{variables(:dropdown).id}" => 'f',
+                      "#{variables(:checkbox).id}" => nil,
+                      "#{variables(:radio).id}" => '1',
+                      "#{variables(:string).id}" => 'This is an updated string',
+                      "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet',
+                      "#{variables(:integer).id}" => 31,
+                      "#{variables(:numeric).id}" => 190.5,
+                      "#{variables(:date).id}" => '05/29/2012',
+                      "#{variables(:file).id}" => ''
                     }
 
     assert_not_nil assigns(:sheet)

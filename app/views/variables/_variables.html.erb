@@ -4,11 +4,11 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.name', 'Name', 'variables_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.display_name', 'Display Name', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.description', 'Description', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.header', 'Header', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.variable_type', 'Variable Type', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.options', 'Options', 'variables_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.response', 'Response', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.user_id', 'Creator', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.project_id', 'Project', 'variables_search') %></th>
       <th>Actions</th>
@@ -18,11 +18,11 @@
   <% @variables.each do |variable| %>
     <tr>
       <td><%= link_to variable.name, variable %></td>
+      <td><%= link_to variable.display_name, variable %></td>
       <td><%= variable.description %></td>
       <td><%= variable.header %></td>
       <td><%= variable.variable_type %></td>
       <td><%= variable.options %></td>
-      <td><%= variable.response %></td>
       <td><%= link_to variable.user.name, variable.user if variable.user %></td>
       <td><%= link_to variable.project.name, variable.project if variable.project %></td>
       <td>

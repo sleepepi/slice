@@ -1,4 +1,4 @@
-<% @title = "Variable: #{@variable.name}" %>
+<% @title = "Variable: #{@variable.display_name}" %>
 <div class="page-header">
   <h1>
     <%= @title %>
@@ -18,14 +18,22 @@
   <dt>Name</dt>
   <dd><%= @variable.name %></dd>
 
+  <dt>Display Name</dt>
+  <dd><%= @variable.display_name %></dd>
+
   <dt>Description</dt>
   <dd><%= simple_format @variable.description %></dd>
 
   <dt>Variable Type</dt>
   <dd><%= @variable.variable_type %></dd>
 
-  <dt>Response</dt>
-  <dd><%= simple_format @variable.response %></dd>
+  <% if ['integer', 'numeric'].include?(@variable.variable_type) %>
+    <dt>Hard Minimum</dt>
+    <dd><%= @variable.minimum %></dd>
+
+    <dt>Hard Maximum</dt>
+    <dd><%= @variable.maximum %></dd>
+  <% end %>
 
   <dt>Creator</dt>
   <dd><%= link_to @variable.user.name, @variable.user if @variable.user %></dd>

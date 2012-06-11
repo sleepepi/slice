@@ -24,7 +24,8 @@ class Sheet < ActiveRecord::Base
   belongs_to :design
   belongs_to :project
   belongs_to :subject
-  has_many :variables, conditions: { deleted: false }
+  has_many :sheet_variables
+  has_many :variables, through: :sheet_variables, conditions: { deleted: false }
 
   # Model Methods
   def destroy
@@ -53,7 +54,7 @@ Feel free to contact me if you have any questions.  Thank you.
   Date Received:    #{self.created_at.strftime("%m/%d/%Y")}
 
 
-#{self.variables.collect{|v| '  ' + v.name.to_s + ':  ' + v.response_name.to_s}.join("\n\n")}
+#{self.design.variables.collect{|v| '  ' + v.name.to_s + ':  ' + v.response_name(self).to_s}.join("\n\n")}
 
   Comments:
 

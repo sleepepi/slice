@@ -2,6 +2,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Display Name</th>
       <th>Variable Type</th>
       <th>Description</th>
     </tr>
@@ -9,6 +10,7 @@
   <% @design.variables.each do |variable| %>
     <tr>
       <td><%= link_to variable.name, variable %></td>
+      <td><%= link_to variable.display_name, variable %></td>
       <td><%= variable.variable_type %></td>
       <td><%= variable.description %></td>
     </tr>

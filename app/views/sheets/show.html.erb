@@ -49,7 +49,7 @@
   <h3><%= @sheet.name %></h3>
 </div>
 
-<% @sheet.variables.each do |variable| %>
+<% @sheet.design.variables.each do |variable| %>
   <%= @variable = variable; render partial: 'variables/show' %>
 <% end %>
 

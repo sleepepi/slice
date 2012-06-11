@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :options, :response, :variable_type, :option_tokens, :sheet_id, :minimum, :maximum, :project_id
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :minimum, :maximum, :project_id
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
 
@@ -9,16 +9,17 @@ class Variable < ActiveRecord::Base
   scope :current, conditions: { deleted: false }
   scope :with_user, lambda { |*args| { conditions: ['variables.user_id IN (?)', args.first] } }
   scope :with_user_or_global, lambda { |*args| { conditions: ['variables.user_id IN (?) or variables.project_id IS NULL', args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
-  validates_presence_of :name, :variable_type
-  validates_uniqueness_of :name, scope: [:deleted, :project_id, :sheet_id]
+  validates_presence_of :name, :display_name, :variable_type
+  validates_format_of :name, with: /\A[a-z]\w*\Z/i
+  validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  belongs_to :sheet
+  # belongs_to :sheet
 
   # Model Methods
   def destroy
@@ -30,7 +31,7 @@ class Variable < ActiveRecord::Base
   end
 
   def copyable_attributes
-    self.attributes.reject{|key, val| ['id', 'response', 'sheet_id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+    self.attributes.reject{|key, val| ['id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
 
   # Check that user has selected an editable project  OR
@@ -55,14 +56,16 @@ class Variable < ActiveRecord::Base
     end
   end
 
-  def response_name
+  def response_name(sheet)
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    response = (sheet_variable ? sheet_variable.response : nil)
     if ['dropdown', 'radio'].include?(self.variable_type)
-      (self.options.select{|option| option[:value] == self.response}.first || {})[:name]
+      (self.options.select{|option| option[:value] == response}.first || {})[:name]
     elsif ['checkbox'].include?(self.variable_type)
-      array = YAML::load(self.response) rescue []
+      array = YAML::load(response) rescue []
       (self.options.select{|option| array.include?(option[:value])}).collect{|option| option[:name]} || []
     else
-      self.response
+      response
     end
   end
 
