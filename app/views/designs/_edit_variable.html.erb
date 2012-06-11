@@ -5,7 +5,7 @@
   <div class="control-group">
     <%= label_tag "design_option_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
     <div class="controls">
-      <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([['---', nil]] + current_user.all_viewable_variables.order(:project_id).collect{|v| [v.name_with_project, v.id]}, @option[:variable_id]), style: 'width:99%' %>
+      <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([['---', nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:variable_id]), style: 'width:99%' %>
     </div>
   </div>
 </div>

@@ -2,6 +2,7 @@
 
 * Enhancements
   * Sheets are now updated to reflect changes to the associated design
+  * Variables now display Project Name or Global when adding variables to designs
 
 * Bug Fix
   * Librarians can edit/update all global designs/variables (designs/variables not on projects), or designs/variables that they have created themselves
