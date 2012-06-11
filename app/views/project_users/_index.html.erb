@@ -1,5 +1,5 @@
 <span>
-  <% if current_user.all_projects.include?(@project) %>
+  <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
     <%= form_tag project_users_path(project_user: { project_id: @project.id, librarian: @relation == 'librarians' }), method: :post, remote: true, style: 'display:inline', class: 'form-search' do %>
       <b><%= @relation.humanize %><br /></b>
       <%= text_field_tag "#{@relation}_text", '', style: "width:300px;" %>

@@ -20,4 +20,13 @@
 
   <dt>Creator</dt>
   <dd><%= link_to @subject.user.name, @subject.user if @subject.user %></dd>
+
+  <dt>Sheets</dt>
+  <dd>
+    <ul>
+      <% @subject.sheets.order(:study_date).each do |sheet| %>
+        <li><%= simple_date sheet.study_date %> - <%= link_to sheet.name, sheet %></li>
+      <% end %>
+    </ul>
+  </dd>
 </dl>

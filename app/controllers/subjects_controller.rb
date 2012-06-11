@@ -6,6 +6,10 @@ class SubjectsController < ApplicationController
   def index
     subject_scope = current_user.all_viewable_subjects
 
+    ['project'].each do |filter|
+      subject_scope = subject_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
+    end
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| subject_scope = subject_scope.search(search_term) }
 
@@ -39,7 +43,7 @@ class SubjectsController < ApplicationController
   # GET /subjects/new
   # GET /subjects/new.json
   def new
-    @subject = current_user.subjects.new
+    @subject = current_user.subjects.new(post_params)
 
     respond_to do |format|
       format.html # new.html.erb

@@ -12,6 +12,10 @@ class SitesController < ApplicationController
   def index
     site_scope = current_user.all_viewable_sites
 
+    ['project'].each do |filter|
+      site_scope = site_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
+    end
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| site_scope = site_scope.search(search_term) }
 
@@ -45,7 +49,7 @@ class SitesController < ApplicationController
   # GET /sites/new
   # GET /sites/new.json
   def new
-    @site = current_user.sites.new(params[:site])
+    @site = current_user.sites.new(post_params)
 
     respond_to do |format|
       format.html # new.html.erb
