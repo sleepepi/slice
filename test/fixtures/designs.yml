@@ -3,7 +3,7 @@
 one:
   name: Design One
   description: MyText
-  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }]
+  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }, { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %> }]
   user: valid
   project: one
   deleted: false

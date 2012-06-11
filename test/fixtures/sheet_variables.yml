@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  variable_id: 1
-  sheet_id: 1
-  response: MyText
-  user_id: 1
+  variable: one
+  sheet: two
+  response: Value
+  user: valid
 
 two:
-  variable_id: 1
-  sheet_id: 1
-  response: MyText
-  user_id: 1
+  variable: two
+  sheet: two
+  response: Value
+  user: valid

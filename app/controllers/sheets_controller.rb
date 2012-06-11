@@ -57,12 +57,11 @@ class SheetsController < ApplicationController
                   sheet.user.name]
           variable_names.each do |variable_name|
             row << if variable = sheet.variables.find_by_name(variable_name)
-              variable.response_name
+              variable.response_name(sheet)
             else
               ''
             end
           end
-          Rails.logger.debug "ROW SIZE: #{row.size}"
           csv << row
         end
       end

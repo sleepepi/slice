@@ -18,7 +18,6 @@
         <%= radio_button_tag "variables[#{@variable.id}]", "#{value}", value == response %> <label><%= name %></label>
       <% end %>
     <% when 'checkbox' %>
-      <% Rails.logger.debug "RESPONSE #{response}" %>
       <% array = YAML::load(response) rescue array = [] %>
       <%= hidden_field_tag "variables[#{@variable.id}][]", 'nil' %>
       <% @variable.options.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
