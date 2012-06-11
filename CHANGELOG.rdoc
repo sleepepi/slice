@@ -6,6 +6,7 @@
 
 * Bug Fix
   * Librarians can edit/update all global designs/variables (designs/variables not on projects), or designs/variables that they have created themselves
+  * Subjects and Sites creation are now limited to projects a user can access
 
 == 0.2.0
 

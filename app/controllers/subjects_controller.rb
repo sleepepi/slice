@@ -109,6 +109,8 @@ class SubjectsController < ApplicationController
 
     params[:subject][:site_id] = params[:site_id]
 
+    params[:subject][:project_id] = nil unless current_user.all_viewable_projects.pluck(:id).include?(params[:subject][:project_id].to_i)
+
     params[:subject].slice(
       :project_id, :subject_code, :site_id
     )

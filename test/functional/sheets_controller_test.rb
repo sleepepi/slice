@@ -80,6 +80,19 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not create sheet on invalid project" do
+    assert_difference('Sheet.count', 0) do
+      post :create, sheet: { description: @sheet.description, design_id: @sheet.design_id, name: @sheet.name, project_id: projects(:four), study_date: '05/21/2012' },
+                    subject_code: 'Code01',
+                    site_id: @sheet.subject.site_id
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal ["can't be blank"], assigns(:sheet).errors[:project_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should show sheet" do
     get :show, id: @sheet
     assert_response :success

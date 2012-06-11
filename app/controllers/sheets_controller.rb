@@ -170,6 +170,8 @@ class SheetsController < ApplicationController
   def post_params
     params[:sheet] ||= {}
 
+    params[:sheet][:project_id] = nil unless current_user.all_viewable_projects.pluck(:id).include?(params[:sheet][:project_id].to_i)
+
     unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
       subject = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id, site_id: params[:site_id] })
     end

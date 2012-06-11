@@ -31,6 +31,17 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to subject_path(assigns(:subject))
   end
 
+  test "should not create subject for invalid project" do
+    assert_difference('Subject.count', 0) do
+      post :create, subject: { project_id: projects(:four), subject_code: 'Code03' }, site_id: @subject.site_id
+    end
+
+    assert_not_nil assigns(:subject)
+    assert_equal ["can't be blank"], assigns(:subject).errors[:project_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should show subject" do
     get :show, id: @subject
     assert_response :success

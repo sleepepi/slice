@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :project_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+      <%= f.select :project_id, [['---', nil]] + current_user.all_viewable_projects.collect{|p| [p.name, p.id]} %>
     </div>
   </div>
 

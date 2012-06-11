@@ -17,3 +17,9 @@ three:
   description: MyText
   user: admin
   deleted: false
+
+four:
+  name: Project Four
+  description: Only Admin should be on this project
+  user: admin
+  deleted: false

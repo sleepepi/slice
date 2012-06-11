@@ -15,26 +15,10 @@
     </div>
   <% end %>
 
-<% if false %>
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :name %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :description, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
-    </div>
-  </div>
-<% end %>
-
   <div class="control-group">
     <%= f.label :project_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+      <%= f.select :project_id, [['---', nil]] + current_user.all_viewable_projects.collect{|p| [p.name, p.id]} %>
     </div>
   </div>
 

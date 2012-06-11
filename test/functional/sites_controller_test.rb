@@ -25,6 +25,17 @@ class SitesControllerTest < ActionController::TestCase
     assert_redirected_to site_path(assigns(:site))
   end
 
+  test "should not create site for invalid project" do
+    assert_difference('Site.count', 0) do
+      post :create, site: { description: 'Second Site on Project One', emails: 'email@example.com', name: 'Site Two', project_id: projects(:four).id }
+    end
+
+    assert_not_nil assigns(:site)
+    assert_equal ["can't be blank"], assigns(:site).errors[:project_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should show site" do
     get :show, id: @site
     assert_response :success

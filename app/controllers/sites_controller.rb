@@ -2,7 +2,7 @@ class SitesController < ApplicationController
   before_filter :authenticate_user!
 
   def selection
-    @project = Project.current.find_by_id(params[:project_id])
+    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
     @subject = @project.subjects.find_by_subject_code(params[:subject_code]) if @project
     @disable_selection = (params[:select] != '1')
   end
@@ -114,6 +114,8 @@ class SitesController < ApplicationController
     [].each do |date|
       params[:site][date] = parse_date(params[:site][date])
     end
+
+    params[:site][:project_id] = nil unless current_user.all_viewable_projects.pluck(:id).include?(params[:site][:project_id].to_i)
 
     params[:site] ||= {}
     params[:site].slice(
