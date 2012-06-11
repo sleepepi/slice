@@ -132,12 +132,12 @@ class DesignsController < ApplicationController
   private
 
   def post_params
+    params[:design] ||= {}
 
     [].each do |date|
       params[:design][date] = parse_date(params[:design][date])
     end
 
-    params[:design] ||= {}
     params[:design].slice(
       :name, :description, :project_id, :option_tokens
     )

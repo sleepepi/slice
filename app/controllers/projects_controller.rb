@@ -105,12 +105,12 @@ class ProjectsController < ApplicationController
   private
 
   def post_params
+    params[:project] ||= {}
 
     [].each do |date|
       params[:project][date] = parse_date(params[:project][date])
     end
 
-    params[:project] ||= {}
     params[:project].slice(
       :name, :description, :emails
     )

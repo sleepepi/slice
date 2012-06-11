@@ -115,13 +115,14 @@ class SitesController < ApplicationController
   private
 
   def post_params
+    params[:site] ||= {}
+
     [].each do |date|
       params[:site][date] = parse_date(params[:site][date])
     end
 
     params[:site][:project_id] = nil unless current_user.all_viewable_projects.pluck(:id).include?(params[:site][:project_id].to_i)
 
-    params[:site] ||= {}
     params[:site].slice(
       :name, :description, :project_id, :emails
     )
