@@ -55,6 +55,13 @@ class Variable < ActiveRecord::Base
     original_options = self.options
     existing_options = tokens.reject{|key, hash| ['new', nil].include?(hash[:option_index]) }
 
+    # Reset any sheets that specified an option that has been removed
+    original_options.each_with_index do |hash, index|
+      unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
+        self.sheet_variables.where(response: hash.symbolize_keys[:value]).update_all(response: nil)
+      end
+    end
+
     # Update all existing sheets to intermediate value for values that already existed and have changed
     existing_options.each_pair do |key, hash|
       old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value]

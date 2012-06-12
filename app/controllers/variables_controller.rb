@@ -15,7 +15,7 @@ class VariablesController < ApplicationController
   end
 
   def add_option
-    @variable = Variable.new(params[:variable])
+    @variable = Variable.new(params[:variable].except(:option_tokens))
     @option = { name: '', value: '', description: '' }
   end
 

@@ -1,9 +1,17 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 <% option_index = 'new' if option_index.blank? %>
+<% sheet_variables_size = @variable.sheet_variables.where(response: @option[:value]).size %>
 <div id="option_<%= position %>" class="<%= 'fieldset_with_errors' if @variable.errors.keys.include?(:options) %> well">
   <div class="page-header" style="margin-top:0px">
-    <h3>Option <%= link_to 'Remove', '#', 'data-object' => 'remove', 'data-target' => "option_#{position}", class: 'btn btn-mini btn-danger' %></h3>
-    <%= pluralize @variable.sheet_variables.where(response: @option[:value]).size, 'sheet' %> uses this option.
+    <h3>
+      Option <%= link_to 'Remove', '#', class: 'btn btn-mini btn-danger', data: { object: 'remove', target: "option_#{position}", count: sheet_variables_size} %>
+    </h3>
+    <% if sheet_variables_size > 0 %>
+      <span class="muted">
+        <%= pluralize sheet_variables_size, 'sheet' %> uses this option.
+      </span>
+    <% end %>
+
   </div>
 
   <%= hidden_field_tag "variable[option_tokens][#{position}][option_index]", option_index %>
