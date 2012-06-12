@@ -7,6 +7,7 @@
   * Subject's page shows sheets entered for that subject
   * Updating existing variable option values now updates sheets accordingly
   * Removing an existing variable option now resets sheets with that option selected
+  * Option values can't contain colons, must be unique and can't be blank
 
 * Bug Fix
   * Librarians can edit/update all global designs/variables (designs/variables not on projects), or designs/variables that they have created themselves

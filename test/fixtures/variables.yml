@@ -5,7 +5,7 @@ one:
   display_name: Variable One
   description: MyText
   header: MyString
-  variable_type: MyString
+  variable_type: dropdown
   options: [{name: 'Name', value: 'Value', description: 'Description'}]
   user: valid
   deleted: false

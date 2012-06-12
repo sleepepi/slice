@@ -77,6 +77,53 @@ class VariablesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should not create variable where options have non-unique values" do
+    assert_difference('Variable.count', 0) do
+      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
+                                option_tokens: {
+                                  "1338308398442263" => { name: "Chocolate", value: "1", description: "" },
+                                  "133830842117151" => { name: "Vanilla", value: "1", description: ""}
+                                }
+                              }
+    end
+
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["values must be unique"], assigns(:variable).errors[:option_tokens]
+    assert_template 'new'
+  end
+
+  test "should not create variable where options have colons as part of the value" do
+    assert_difference('Variable.count', 0) do
+      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
+                                option_tokens: {
+                                  "1338308398442263" => { name: "Chocolate", value: "1-chocolate", description: "" },
+                                  "133830842117151" => { name: "Vanilla", value: "2:vanilla", description: ""}
+                                }
+                              }
+    end
+
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["values can't contain colons"], assigns(:variable).errors[:option_tokens]
+    assert_template 'new'
+  end
+
+  test "should not create variable where options have blank value" do
+    assert_difference('Variable.count', 0) do
+      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
+                                option_tokens: {
+                                  "1338308398442263" => { name: "Chocolate", value: "", description: "" }
+                                }
+                              }
+    end
+
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["values can't be blank"], assigns(:variable).errors[:option_tokens]
+    assert_template 'new'
+  end
+
   test "should create global variable for librarian" do
     login(users(:librarian))
     assert_difference('Variable.count', 1) do

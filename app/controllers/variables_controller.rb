@@ -81,7 +81,7 @@ class VariablesController < ApplicationController
     @variable = current_user.variables.new(post_params)
 
     respond_to do |format|
-      if @variable.saveable?(current_user, post_params[:project_id]) and @variable.save
+      if @variable.saveable?(current_user, post_params) and @variable.save
         format.html { redirect_to @variable, notice: 'Variable was successfully created.' }
         format.json { render json: @variable, status: :created, location: @variable }
       else
@@ -98,7 +98,7 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @variable
-        if @variable.saveable?(current_user, post_params[:project_id]) and @variable.update_attributes(post_params)
+        if @variable.saveable?(current_user, post_params) and @variable.update_attributes(post_params)
           format.html { redirect_to @variable, notice: 'Variable was successfully updated.' }
           format.json { head :no_content }
         else

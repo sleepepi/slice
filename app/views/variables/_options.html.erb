@@ -2,7 +2,13 @@
   <% @option = { name: '', value: '', description: '' } %>
   <%= render partial: 'edit_option' %>
 <% else %>
-  <% @variable.options.each_with_index do |option, index| %>
-    <%= @option = option; render partial: 'edit_option', locals: { option_index: index } %>
+  <% if params[:variable] and params[:variable][:option_tokens] %>
+    <% params[:variable][:option_tokens].each_pair do |position, option|  %>
+      <%= @option = option; render partial: 'edit_option', locals: { option_index: option[:option_index], position: position } %>
+    <% end %>
+  <% else %>
+    <% @variable.options.each_with_index do |option, index| %>
+      <%= @option = option; render partial: 'edit_option', locals: { option_index: index } %>
+    <% end %>
   <% end %>
 <% end %>

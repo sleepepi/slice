@@ -1,4 +1,4 @@
-<% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<% position = Time.now.to_i.to_s + Time.now.usec.to_s unless position %>
 <% option_index = 'new' if option_index.blank? %>
 <% sheet_variables_size = @variable.sheet_variables.where(response: @option[:value]).size %>
 <div id="option_<%= position %>" class="<%= 'fieldset_with_errors' if @variable.errors.keys.include?(:options) %> well">
