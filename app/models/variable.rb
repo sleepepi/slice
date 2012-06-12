@@ -55,15 +55,15 @@ class Variable < ActiveRecord::Base
     result = true
     option_values = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:name].strip.blank?}.collect{|key, hash| hash.symbolize_keys[:value]}
     if option_values.join('').count(':') > 0
-      self.errors.add(:option_tokens, "values can't contain colons" )
+      self.errors.add(:option, "values can't contain colons" )
       result = false
     end
     if option_values.uniq.size < option_values.size
-      self.errors.add(:option_tokens, "values must be unique" )
+      self.errors.add(:option, "values must be unique" )
       result = false
     end
     if option_values.select{|opt| opt.strip.blank?}.size > 0
-      self.errors.add(:option_tokens, "values can't be blank" )
+      self.errors.add(:option, "values can't be blank" )
       result = false
     end
     result

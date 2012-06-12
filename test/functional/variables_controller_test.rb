@@ -89,7 +89,7 @@ class VariablesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
-    assert_equal ["values must be unique"], assigns(:variable).errors[:option_tokens]
+    assert_equal ["values must be unique"], assigns(:variable).errors[:option]
     assert_template 'new'
   end
 
@@ -105,7 +105,7 @@ class VariablesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
-    assert_equal ["values can't contain colons"], assigns(:variable).errors[:option_tokens]
+    assert_equal ["values can't contain colons"], assigns(:variable).errors[:option]
     assert_template 'new'
   end
 
@@ -120,7 +120,7 @@ class VariablesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
-    assert_equal ["values can't be blank"], assigns(:variable).errors[:option_tokens]
+    assert_equal ["values can't be blank"], assigns(:variable).errors[:option]
     assert_template 'new'
   end
 
