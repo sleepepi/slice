@@ -8,6 +8,7 @@ one:
   variable_type: dropdown
   options: [{name: 'Name', value: 'Value', description: 'Description'}]
   user: valid
+  project: one
   deleted: false
 
 two:

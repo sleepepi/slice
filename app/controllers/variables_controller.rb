@@ -50,9 +50,11 @@ class VariablesController < ApplicationController
     respond_to do |format|
       if @variable
         format.html # show.html.erb
+        format.js
         format.json { render json: @variable }
       else
         format.html { redirect_to variables_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end

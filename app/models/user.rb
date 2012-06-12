@@ -52,32 +52,32 @@ class User < ActiveRecord::Base
   def all_designs
     @all_designs ||= begin
       if self.librarian?
-        Design.current.with_user_or_global(self.id)
+        Design.current.with_project_or_global(self.all_projects.pluck(:id))
       else
-        Design.current.with_user(self.id)
+        Design.current.with_project(self.all_projects.pluck(:id))
       end
     end
   end
 
   def all_viewable_designs
     @all_viewable_designs ||= begin
-      Design.current.with_user_or_global(self.id)
+      Design.current.with_project_or_global(self.all_viewable_projects.pluck(:id))
     end
   end
 
   def all_variables
     @all_variables ||= begin
       if self.librarian?
-        Variable.current.with_user_or_global(self.id)
+        Variable.current.with_project_or_global(self.all_projects.pluck(:id))
       else
-        Variable.current.with_user(self.id)
+        Variable.current.with_project(self.all_projects.pluck(:id))
       end
     end
   end
 
   def all_viewable_variables
     @all_viewable_variables ||= begin
-      Variable.current.with_user_or_global(self.id)
+      Variable.current.with_project_or_global(self.all_viewable_projects.pluck(:id))
     end
   end
 
