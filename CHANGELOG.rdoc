@@ -11,6 +11,7 @@
   * Selecting variables when designing a form now show a preview of the variable
   * Designs are filterable by project and creator
   * Variables are filterable by project, variable type, and creator
+  * Prototype for conditional hiding and showing of form variables
 
 * Bug Fix
   * Librarians can edit/update all global designs/variables (designs/variables not on projects), or designs/variables that they have created themselves

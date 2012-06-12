@@ -48,8 +48,24 @@ class Design < ActiveRecord::Base
   def option_tokens=(tokens)
     self.options = []
     tokens.each_pair do |key, option_hash|
-      self.options << { variable_id: option_hash[:variable_id] } unless option_hash[:variable_id].blank?
+      self.options << {
+                        variable_id: option_hash[:variable_id],
+                        condition_variable_id: option_hash[:condition_variable_id],
+                        condition_value: option_hash[:condition_value].to_s.strip
+                      } unless option_hash[:variable_id].blank?
     end
+  end
+
+  def condition_value(variable)
+    target_condition_values = self.options.select{|item| item[:condition_variable_id].to_i == variable.id }.collect{|item| item[:condition_value]}.join(',')
+  end
+
+  def condition_parent(variable)
+    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| "variables_#{item[:condition_variable_id]}"}.join(',')
+  end
+
+  def condition_value(variable)
+    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{ |item| item[:condition_value] }.join(',')
   end
 
   def variable_ids

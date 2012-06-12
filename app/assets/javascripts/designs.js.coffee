@@ -8,6 +8,18 @@
     $.get(root_url + 'variables/' + variable_id, 'position=' + position, null, "script")
   false
 
+@toggleCondition = (element) ->
+  conditional_variable_id = $(element).attr('id')
+  # + $(element).val()
+  selector = '[data-condition-parent~="' + conditional_variable_id + '"]'
+  $(selector).each( (index, el) ->
+    if String($(element).val()) == String($(el).data('condition-value'))
+      $(el).show()
+    else
+      $(el).hide()
+  )
+  false
+
 
 jQuery ->
   $('#add_more_variables').on('click', () ->
@@ -16,6 +28,10 @@ jQuery ->
   )
 
   $('#variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
+
+  $(document).on('change', '[data-object~="condition"]', () ->
+    toggleCondition($(this))
+  )
 
   # $('[data-object~="variable-load"]').change( () ->
   #   retrieveVariable($(this).data('position'))

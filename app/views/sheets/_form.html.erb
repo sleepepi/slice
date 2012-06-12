@@ -60,7 +60,7 @@
     </div>
 
     <% @sheet.design.variables.each do |variable| %>
-      <%= @variable = variable; render partial: 'designs/variable' %>
+      <%= @design = @sheet.design; @variable = variable; render partial: 'designs/variable' %>
     <% end %>
   <% end %>
 

@@ -12,6 +12,14 @@
       </div>
     </div>
   </div>
+
+  <div class="control-group">
+    <%= label_tag "design_option_tokens_#{position}_condition", 'Show If', class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag "design[option_tokens][#{position}][condition_variable_id]", options_for_select([['---', nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:condition_variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %> has value:
+      <%= text_field_tag "design[option_tokens][#{position}][condition_value]", @option[:condition_value] %>
+    </div>
+  </div>
 </div>
 
 <%= javascript_tag do %>
