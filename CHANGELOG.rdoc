@@ -5,6 +5,7 @@
   * Variables now display Project Name or Global when adding variables to designs
   * Projects now link to subjects and sites
   * Subject's page shows sheets entered for that subject
+  * Updating Existing Variable option values now updates sheets accordingly
 
 * Bug Fix
   * Librarians can edit/update all global designs/variables (designs/variables not on projects), or designs/variables that they have created themselves

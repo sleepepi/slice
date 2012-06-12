@@ -1,6 +1,9 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<% option_index = 'new' if option_index.blank? %>
 <div id="option_<%= position %>" class="<%= 'fieldset_with_errors' if @variable.errors.keys.include?(:options) %> well">
   <div class="page-header" style="margin-top:0px"><h3>Option <%= link_to 'Remove', '#', 'data-object' => 'remove', 'data-target' => "option_#{position}", class: 'btn btn-mini btn-danger' %></h3></div>
+
+  <%= hidden_field_tag "variable[option_tokens][#{position}][option_index]", option_index %>
 
   <div class="control-group">
     <%= label_tag "variable_option_tokens_#{position}_name", 'Name', class: 'control-label' %>
@@ -8,7 +11,6 @@
       <%= text_field_tag "variable[option_tokens][#{position}][name]", @option[:name], style: 'width:99%', data: { object: 'option-name' } %>
     </div>
   </div>
-
 
   <div class="control-group">
     <%= label_tag "variable_option_tokens_#{position}_value", 'Value', class: 'control-label' %>
@@ -24,13 +26,4 @@
       <%= text_field_tag "variable[option_tokens][#{position}][description]", @option[:description], style: 'width:99%' %>
     </div>
   </div>
-
-<% if false %>
-  <div class="control-group">
-    <%= label_tag "variable_option_tokens_#{position}_position", 'Position', class: 'control-label' %>
-    <div class="controls">
-      <%= number_field_tag "variable[option_tokens][#{position}][position]", @option[:position] || 0, { min: 0 } %>
-    </div>
-  </div>
-<% end %>
 </div>

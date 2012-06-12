@@ -111,6 +111,17 @@ file:
   variable_type: file
   user: valid
 
+change_options:
+  name: change_options
+  display_name: Change Option Values
+  description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets.
+  variable_type: dropdown
+  options: [{name: 'Option 1', value: '2', description: 'Should have value 1'},
+            {name: 'Option 2', value: '3', description: 'Should have value 2'},
+            {name: 'Option 3', value: '1', description: 'Should have value 3'}]
+  user: valid
+  project: one
+
 # response_dropdown:
 #   name: var_gender
 #   display_name: Gender

@@ -2,7 +2,7 @@
   <% @option = { name: '', value: '', description: '' } %>
   <%= render partial: 'edit_option' %>
 <% else %>
-  <% @variable.options.each do |option| %>
-    <%= @option = option; render partial: 'edit_option' %>
+  <% @variable.options.each_with_index do |option, index| %>
+    <%= @option = option; render partial: 'edit_option', locals: { option_index: index } %>
   <% end %>
 <% end %>

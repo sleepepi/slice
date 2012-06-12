@@ -19,7 +19,7 @@ class Variable < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  # belongs_to :sheet
+  has_many :sheet_variables
 
   # Model Methods
   def destroy
@@ -50,7 +50,31 @@ class Variable < ActiveRecord::Base
     ["#{ "Min: #{self.minimum}" if self.minimum}", "#{ "Max: #{self.maximum}" if self.maximum}", self.description].select{|i| not i.blank?}.join(', ')
   end
 
+
   def option_tokens=(tokens)
+    original_options = self.options
+    existing_options = tokens.reject{|key, hash| ['new', nil].include?(hash[:option_index]) }
+
+    # Update all existing sheets to intermediate value for values that already existed and have changed
+    existing_options.each_pair do |key, hash|
+      old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value]
+      new_value = hash[:value]
+      if old_value != new_value
+        intermediate_value = old_value + ":" + new_value
+        self.sheet_variables.where(response: old_value).update_all(response: intermediate_value)
+      end
+    end
+
+    # Update all existing sheets to new value
+    existing_options.each_pair do |key, hash|
+      old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value]
+      new_value = hash[:value]
+      if old_value != new_value
+        intermediate_value = old_value + ":" + new_value
+        self.sheet_variables.where(response: intermediate_value).update_all(response: new_value)
+      end
+    end
+
     self.options = []
     tokens.each_pair do |key, option_hash|
       self.options << { name: option_hash[:name],
