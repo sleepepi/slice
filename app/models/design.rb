@@ -38,7 +38,7 @@ class Design < ActiveRecord::Base
   # Check that user has selected an editable project  OR
   #            user is a librarian and project_id is blank
   def saveable?(current_user, params_project_id)
-    result = (current_user.all_projects.pluck(:id).include?(params_project_id.to_i) or (current_user.librarian? and params_project_id.blank? and self.project_id.blank?))
+    result = (current_user.all_projects.pluck(:id).include?(params_project_id.to_i) or (current_user.librarian? and params_project_id.blank?))
     self.errors.add(:project_id, "can't be blank" ) unless result
     result
   end
