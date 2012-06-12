@@ -28,11 +28,18 @@ class VariablesController < ApplicationController
   def index
     variable_scope = current_user.all_viewable_variables
 
+    ['project'].each do |filter|
+      variable_scope = variable_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
+    end
+
+    variable_scope = variable_scope.with_variable_type(params[:variable_type]) unless params[:variable_type].blank?
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| variable_scope = variable_scope.search(search_term) }
 
     @order = Variable.column_names.collect{|column_name| "variables.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "variables.name"
     variable_scope = variable_scope.order(@order)
+    @variable_count = variable_scope.count
     @variables = variable_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|

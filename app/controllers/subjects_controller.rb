@@ -15,6 +15,7 @@ class SubjectsController < ApplicationController
 
     @order = Subject.column_names.collect{|column_name| "subjects.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "subjects.subject_code"
     subject_scope = subject_scope.order(@order)
+    @subject_count = subject_scope.count
     @subjects = subject_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|

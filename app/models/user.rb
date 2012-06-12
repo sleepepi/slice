@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   scope :system_admins, conditions: { system_admin: true }
   scope :librarians, conditions: { librarian: true }
   scope :with_sheet, lambda { |*args| { conditions: ["users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false] }  }
+  scope :with_design, lambda { |*args| { conditions: ["users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false] }  }
+  scope :with_variable, lambda { |*args| { conditions: ["users.id in (select DISTINCT(variables.user_id) from variables where variables.deleted = ?)", false] }  }
 
   # Model Validation
   validates_presence_of :first_name, :last_name

@@ -33,11 +33,16 @@ class DesignsController < ApplicationController
   def index
     design_scope = current_user.all_viewable_designs
 
+    ['project'].each do |filter|
+      design_scope = design_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
+    end
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| design_scope = design_scope.search(search_term) }
 
     @order = Design.column_names.collect{|column_name| "designs.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "designs.name"
     design_scope = design_scope.order(@order)
+    @design_count = design_scope.count
     @designs = design_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|
