@@ -33,7 +33,7 @@ class DesignsController < ApplicationController
   def index
     design_scope = current_user.all_viewable_designs
 
-    ['project'].each do |filter|
+    ['project', 'user'].each do |filter|
       design_scope = design_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
     end
 

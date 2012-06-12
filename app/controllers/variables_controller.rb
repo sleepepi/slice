@@ -28,7 +28,7 @@ class VariablesController < ApplicationController
   def index
     variable_scope = current_user.all_viewable_variables
 
-    ['project'].each do |filter|
+    ['project', 'user'].each do |filter|
       variable_scope = variable_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
     end
 
