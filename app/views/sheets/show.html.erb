@@ -9,41 +9,48 @@
   </h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Name</dt>
-  <dd><%= @sheet.name %></dd>
+<div class="row">
+  <div class="span6">
+    <dl class="dl-horizontal">
 
-  <dt>Description</dt>
-  <dd><%= simple_format @sheet.description %></dd>
+      <dt>Design</dt>
+      <dd><%= link_to @sheet.design.name, @sheet.design %></dd>
 
-  <dt>Design</dt>
-  <dd><%= link_to @sheet.design.name, @sheet.design if @sheet.design %></dd>
+      <dt>Design Description</dt>
+      <dd><%= simple_format @sheet.design.description %></dd>
 
-  <dt>Study Date</dt>
-  <dd><%= @sheet.study_date %></dd>
+      <dt>Study Date</dt>
+      <dd><%= @sheet.study_date %></dd>
 
-  <dt>Project</dt>
-  <dd><%= link_to @sheet.project.name, @sheet.project if @sheet.project %></dd>
+      <dt>Project</dt>
+      <dd><%= link_to @sheet.project.name, @sheet.project if @sheet.project %></dd>
 
-  <dt>Subject</dt>
-  <dd><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></dd>
+      <dt>Subject</dt>
+      <dd><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></dd>
 
-  <dt>Site</dt>
-  <dd><%= link_to @sheet.subject.site.name, @sheet.subject.site if @sheet.subject and @sheet.subject.site %></dd>
+      <dt>Site</dt>
+      <dd><%= link_to @sheet.subject.site.name, @sheet.subject.site if @sheet.subject and @sheet.subject.site %></dd>
 
-  <dt>Creator</dt>
-  <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
+    </dl>
+  </div>
+  <div class="span6">
+    <dl class="dl-horizontal">
 
-  <dt>Created</dt>
-  <dd><%= simple_time @sheet.created_at %>
+      <dt>Creator</dt>
+      <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
 
-  <dt>Last Updated By</dt>
-  <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
+      <dt>Created</dt>
+      <dd><%= simple_time @sheet.created_at %>
 
-  <dt>Updated</dt>
-  <dd><%= simple_time @sheet.updated_at %>
+      <dt>Last Updated By</dt>
+      <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
 
-</dl>
+      <dt>Updated</dt>
+      <dd><%= simple_time @sheet.updated_at %>
+
+    </dl>
+  </div>
+</div>
 
 <div class="page-header">
   <h3><%= @sheet.name %></h3>

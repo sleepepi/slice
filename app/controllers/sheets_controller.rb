@@ -36,7 +36,7 @@ class SheetsController < ApplicationController
     when 'sheets.site_id DESC'
       sheet_scope = sheet_scope.order_by_site_desc
     else
-      @order = Sheet.column_names.collect{|column_name| "sheets.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "sheets.name"
+      @order = Sheet.column_names.collect{|column_name| "sheets.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "sheets.study_date DESC"
       sheet_scope = sheet_scope.order(@order)
     end
 
@@ -184,7 +184,7 @@ class SheetsController < ApplicationController
     end
 
     params[:sheet].slice(
-      :name, :description, :design_id, :study_date, :project_id, :subject_id, :variable_ids, :last_user_id
+      :design_id, :study_date, :project_id, :subject_id, :variable_ids, :last_user_id
     )
   end
 

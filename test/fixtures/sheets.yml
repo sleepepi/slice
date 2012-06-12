@@ -1,21 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: Sheet One
-  description: MyText
   design: one
   study_date: 2012-05-21
   project: one
   subject: one
   user: valid
-  deleted: false
 
 two:
-  name: Sheet Two
-  description: MyText
   design: one
   study_date: 2012-05-22
   project: two
   subject: one
   user: valid
-  deleted: false

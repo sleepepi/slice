@@ -3,8 +3,6 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.name', 'Name', 'sheets_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.description', 'Description', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.design_id', 'Design', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.study_date', 'Study Date', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.project_id', 'Project', 'sheets_search') %></th>
@@ -17,9 +15,7 @@
 
   <% @sheets.each do |sheet| %>
     <tr>
-      <td><%= link_to sheet.name, sheet %></td>
-      <td><%= sheet.description %></td>
-      <td><%= link_to sheet.design.name, sheet.design if sheet.design %></td>
+      <td><%= link_to sheet.design.name, sheet %></td>
       <td><%= sheet.study_date %></td>
       <td><%= link_to sheet.project.name, sheet.project if sheet.project %></td>
       <td><%= link_to sheet.subject.site.name, sheet.subject.site if sheet.subject and sheet.subject.site %></td>

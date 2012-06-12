@@ -1,9 +1,9 @@
 class Sheet < ActiveRecord::Base
-  attr_accessible :description, :design_id, :name, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id
+  attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', false, '%' + args.first.downcase.split(' ').join('%') + '%'  ] } }
+  scope :search, lambda { |*args| { conditions: [ 'subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?)', false, '%' + args.first.downcase.split(' ').join('%') + '%'  ] } }
   scope :sheet_before, lambda { |*args| { conditions: ["sheets.study_date < ?", (args.first+1.day)]} }
   scope :sheet_after, lambda { |*args| { conditions: ["sheets.study_date >= ?", args.first]} }
   scope :with_user, lambda { |*args| { conditions: ["sheets.user_id in (?)", args.first] } }
@@ -30,6 +30,14 @@ class Sheet < ActiveRecord::Base
   # Model Methods
   def destroy
     update_attribute :deleted, true
+  end
+
+  def name
+    self.design.name
+  end
+
+  def description
+    self.design.description
   end
 
   def email_receipt(current_user, to, cc, subject, body)
