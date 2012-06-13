@@ -1,6 +1,12 @@
 class SheetsController < ApplicationController
   before_filter :authenticate_user!
 
+  def project_selection
+    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+    @subject = @project.subjects.find_by_subject_code(params[:subject_code]) if @project
+    @disable_selection = (params[:select] != '1')
+  end
+
   def send_email
     @sheet = Sheet.current.find(params[:id])
 

@@ -3,12 +3,12 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 jQuery ->
   $("#sheet_design_id").on('change', () ->
-    $.post(root_url + 'designs/selection', $("#sheet_design_id").serialize(), null, "script")
+    $.post(root_url + 'designs/selection', $(this).serialize(), null, "script")
     false
   )
 
   $("#sheet_project_id, #sheet_subject_id").on('change', () ->
-    $.post(root_url + 'sites/selection', 'project_id=' + $("#sheet_project_id").val() + '&' + $("#sheet_subject_id").serialize(), null, "script")
+    $.post(root_url + 'sheets/project_selection', 'project_id=' + $("#sheet_project_id").val() + '&' + $("#sheet_subject_id").serialize() + '&' + $("#sheet_design_id").serialize(), null, "script")
     false
   )
 

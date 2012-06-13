@@ -16,6 +16,9 @@ Reading::Application.routes.draw do
   resources :project_users
 
   resources :sheets do
+    collection do
+      post :project_selection
+    end
     member do
       post :send_email
     end

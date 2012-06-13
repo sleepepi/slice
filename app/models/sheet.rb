@@ -15,7 +15,7 @@ class Sheet < ActiveRecord::Base
   scope :order_by_site_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id", order: 'subjects.site_id DESC' } }
 
   # Model Validation
-  validates_presence_of :design_id, :name, :project_id, :study_date, :subject_id, :user_id, :last_user_id
+  validates_presence_of :design_id, :project_id, :study_date, :subject_id, :user_id, :last_user_id
   validates_uniqueness_of :study_date, scope: [:project_id, :subject_id, :design_id, :deleted]
 
   # Model Relationships

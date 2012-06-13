@@ -32,6 +32,7 @@
   <div class="control-group">
     <%= label_tag 'site_id', 'Site', class: 'control-label' %>
     <div class="controls" id="site">
+      <% @disable_selection = true unless @sheet.new_record? %>
       <%= @project = @sheet.project; @subject = @sheet.subject; render partial: 'sites/selection' %>
     </div>
   </div>
@@ -46,8 +47,7 @@
   <% if @sheet.new_record? %>
     <div class="control-group">
       <%= f.label :design_id, nil, class: 'control-label' %>
-      <div class="controls">
-        <%= f.select :design_id, [['---', nil]] + current_user.all_viewable_designs.collect{|d| [d.name, d.id]} %>
+      <div class="controls" id="select_design">
       </div>
     </div>
 
