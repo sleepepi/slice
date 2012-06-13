@@ -8,15 +8,28 @@
     $.get(root_url + 'variables/' + variable_id, 'position=' + position, null, "script")
   false
 
+@intersection = (a, b) ->
+  [a, b] = [b, a] if a.length > b.length
+  value for value in a when value in b
+
 @toggleCondition = (element) ->
   conditional_variable_id = $(element).data('condition-target')
   selector = '[data-condition-parent~="' + conditional_variable_id + '"]'
   $(selector).each( (index, el) ->
-    return false if $(element).is(':checkbox') and String($(element).val()) != String($(el).data('condition-value'))
-    if (not $(element).is(':checkbox') or ($(element).is(':checkbox') and $(element).is(':checked'))) and String($(element).val()) == String($(el).data('condition-value'))
-      $(el).show()
+    if $(element).is(':checkbox')
+      values = []
+      $.each($("input[name='" + $(element).attr('name') + "']:checked"), () ->
+        values.push($(this).val())
+      )
+      if intersection(values, String($(el).data('condition-value')).split(',')).length > 0
+        $(el).show()
+      else
+        $(el).hide()
     else
-      $(el).hide()
+      if String($(element).val()) in String($(el).data('condition-value')).split(',')
+        $(el).show()
+      else
+        $(el).hide()
   )
   false
 
