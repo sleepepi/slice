@@ -1,12 +1,15 @@
 <%# This file shows a variable for use in a sheet %>
-<% unless @variable.header.blank? %>
-  <div class="page-header">
-    <h3>
-      <%= @variable.header %>
-    </h3>
-  </div>
-<% end %>
+
 <div class="control-group" data-condition-parent="<%= @design.condition_parent(@variable) if @design %>" data-condition-value="<%= @design.condition_value(@variable) if @design %>">
+
+  <% unless @variable.header.blank? %>
+    <div class="page-header" style="margin-top:0px">
+      <h4>
+        <%= @variable.header %>
+      </h4>
+    </div>
+  <% end %>
+
   <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' %>
   <div class="controls <%= @variable.variable_type if ['radio', 'checkbox'].include?(@variable.variable_type) %>">
     <% sheet_variable = (@sheet ? @sheet.sheet_variables.find_by_variable_id(@variable.id) : nil) %>
