@@ -21,7 +21,7 @@
       <td><%= link_to site.user.name, site.user if site.user %></td>
       <td>
         <%= link_to 'Edit', edit_site_path(site), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', site, confirm: "Are you sure you want to delete Site #{site.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+        <%= link_to 'Delete', site, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{site.name}?" } %>
       </td>
     </tr>
   <% end %>

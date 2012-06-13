@@ -3,7 +3,7 @@
   <h1>
     <%= @title %>
     <%= link_to "Edit Sheet", edit_sheet_path(@sheet), class: 'btn btn-mini' %>
-    <%= link_to "Delete Sheet", @sheet, confirm: "Are you sure you want to delete Sheet #{@sheet.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <%= link_to "Delete Sheet", @sheet, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
     <%= link_to "View Sheets", sheets_path, class: 'btn btn-mini' %>
     <%= link_to "Send Email", '#', class: 'btn btn-primary btn-mini', id: 'email_popup' %>
   </h1>

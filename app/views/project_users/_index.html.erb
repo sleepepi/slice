@@ -23,7 +23,7 @@
   <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();" style="line-height:25px">
     <%= link_to user.name, user %>
     <span id="project_user_<%= project_user.id %>_delete" style="display:none">
-      <%= link_to 'Remove', project_user, method: :delete, confirm: "Are you sure you want to remove #{user.name} from the list of #{@relation}?", remote: true, class: 'btn btn-mini btn-danger' if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
+      <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove #{user.name} from the list of #{@relation}?" } if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
     </span>
   </li>
 <% end %>

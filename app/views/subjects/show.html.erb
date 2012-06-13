@@ -3,7 +3,7 @@
   <h1>
     <%= @title %>
     <%= link_to "Edit Subject", edit_subject_path(@subject), class: 'btn btn-mini' %>
-    <%= link_to "Delete Subject", @subject, confirm: "Are you sure you want to delete Subject #{@subject.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <%= link_to "Delete Subject", @subject, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" } %>
     <%= link_to "View Subjects", subjects_path, class: 'btn btn-mini' %>
   </h1>
 </div>

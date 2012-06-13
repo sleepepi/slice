@@ -4,7 +4,7 @@
   <div class="btn-toolbar">
     <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
       <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
-      <div class="btn-group"><%= link_to "Delete Project", @project, confirm: "Are you sure you want to delete Project #{@project.name}?", method: :delete, class: 'btn btn-mini btn-danger' %></div>
+      <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
     <% end %>
 
     <div class="btn-group">

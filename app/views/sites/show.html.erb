@@ -3,7 +3,7 @@
   <h1>
     <%= @title %>
     <%= link_to "Edit Site", edit_site_path(@site), class: 'btn btn-mini' %>
-    <%= link_to "Delete Site", @site, confirm: "Are you sure you want to delete Site #{@site.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <%= link_to "Delete Site", @site, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" } %>
     <%= link_to "View Sites", sites_path, class: 'btn btn-mini' %>
   </h1>
 </div>
