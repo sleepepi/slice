@@ -13,6 +13,7 @@
   * Variables are filterable by project, variable type, and creator
   * Prototype for conditional hiding and showing of form variables
   * Subjects can be filtered by designs that haven't been filled out
+  * Subjects can be filtered by site
   * Updated to Rails 3.2.6
 
 * Bug Fix

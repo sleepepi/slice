@@ -5,6 +5,7 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.subject_code', 'Subject Code', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.project_id', 'Project', 'subjects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.site_id', 'Site', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.user_id', 'Creator', 'subjects_search') %></th>
       <th>Actions</th>
     </tr>
@@ -14,6 +15,7 @@
     <tr>
       <td><%= link_to subject.subject_code, subject %></td>
       <td><%= link_to subject.project.name, subject.project if subject.project %></td>
+      <td><%= link_to subject.site.name, subject.site if subject.site %></td>
       <td><%= link_to subject.user.name, subject.user if subject.user %></td>
       <td>
         <%= link_to 'Edit', edit_subject_path(subject), class: 'btn btn-mini' %>

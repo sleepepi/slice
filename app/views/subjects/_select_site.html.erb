@@ -1,0 +1,6 @@
+<%= label :site_id, 'Site', class: 'control-label' %>
+<% sites = current_user.all_viewable_sites %>
+<% sites = sites.with_project(params[:project_id]) unless params[:project_id].blank? %>
+<div class="controls">
+  <%= select_tag :site_id, options_for_select([['---', nil]] + sites.order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), data: { object: 'filter' } %>
+</div>
