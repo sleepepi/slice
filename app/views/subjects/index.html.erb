@@ -22,6 +22,13 @@
         <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>
       </div>
     </div>
+
+    <div class="span4 control-group">
+      <%= label :without_design_id, 'Without Design', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :without_design_id, options_for_select([['---', nil]] + current_user.all_viewable_designs.order('name').collect{|d| [d.name, d.id]}, params[:without_design_id] ), data: { object: 'filter' } %>
+      </div>
+    </div>
   </div>
 
   <div class="form-actions">

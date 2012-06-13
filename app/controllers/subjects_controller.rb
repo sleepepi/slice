@@ -10,6 +10,15 @@ class SubjectsController < ApplicationController
       subject_scope = subject_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
     end
 
+    subject_scope = subject_scope.without_design(params[:without_design_id]) unless params[:without_design_id].blank?
+
+    # inverse_subject_scope = subject_scope
+
+    # (params[:design_ids] || []).each do |design_id|
+    #   inverse_subject_scope = inverse_subject_scope.with_design(design_id)
+    # end
+    # Inverse Subject Scope contains all subjects that have all the specified designs
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| subject_scope = subject_scope.search(search_term) }
 
