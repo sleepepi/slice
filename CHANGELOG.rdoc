@@ -1,19 +1,24 @@
 == 0.2.1
 
 * Enhancements
-  * Sheets are now updated to reflect changes to the associated design
-  * Variables now display Project Name or Global when adding variables to designs
-  * Projects now link to subjects and sites
-  * Subject's page shows sheets entered for that subject
-  * Updating existing variable option values now updates sheets accordingly
-  * Removing an existing variable option now resets sheets with that option selected
-  * Option values can't contain colons, must be unique and can't be blank
-  * Selecting variables when designing a form now show a preview of the variable
-  * Designs are filterable by project and creator
-  * Variables are filterable by project, variable type, and creator
-  * Prototype for conditional hiding and showing of form variables
-  * Subjects can be filtered by designs that haven't been filled out
-  * Subjects can be filtered by site
+  * Sheet Changes
+    * Sheets are now updated to reflect changes to the associated design
+  * Variable Changes
+    * Variables now display Project Name or Global when adding variables to designs
+    * Updating existing variable option values now updates sheets accordingly
+    * Removing an existing variable option now resets sheets with that option selected
+    * Option values can't contain colons, must be unique and can't be blank
+    * Variables are filterable by project, variable type, and creator
+  * Design Changes
+    * Designs are filterable by project and creator
+    * Selecting variables when designing a form now show a preview of the variable
+    * Conditional logic added to hide variables on designs based on values in other variables
+  * Project Changes
+    * Projects now link to subjects and sites
+  * Subject Changes
+    * Subject's page shows sheets entered for that subject
+    * Subjects can be filtered by designs that haven't been filled out
+    * Subjects can be filtered by site
   * Updated to Rails 3.2.6
 
 * Bug Fix
