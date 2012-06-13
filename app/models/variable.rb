@@ -120,10 +120,11 @@ class Variable < ActiveRecord::Base
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
     if ['dropdown', 'radio'].include?(self.variable_type)
-      (self.options.select{|option| option[:value] == response}.first || {})[:name]
+      hash = (self.options.select{|option| option[:value] == response}.first || {})
+      hash[:value] + ": " + hash[:name]
     elsif ['checkbox'].include?(self.variable_type)
-      array = YAML::load(response) rescue []
-      (self.options.select{|option| array.include?(option[:value])}).collect{|option| option[:name]} || []
+      array = YAML::load(response) rescue array = []
+      (self.options.select{|option| array.include?(option[:value])}).collect{|option| option[:value] + ": " + option[:name]} || []
     else
       response
     end
