@@ -16,7 +16,7 @@
   conditional_variable_id = $(element).data('condition-target')
   selector = '[data-condition-parent~="' + conditional_variable_id + '"]'
   $(selector).each( (index, el) ->
-    if $(element).is(':checkbox')
+    if $(element).is(':checkbox, :radio')
       values = []
       $.each($("input[name='" + $(element).attr('name') + "']:checked"), () ->
         values.push($(this).val())
