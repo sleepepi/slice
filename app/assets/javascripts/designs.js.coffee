@@ -9,11 +9,11 @@
   false
 
 @toggleCondition = (element) ->
-  conditional_variable_id = $(element).attr('id')
-  # + $(element).val()
+  conditional_variable_id = $(element).data('condition-target')
   selector = '[data-condition-parent~="' + conditional_variable_id + '"]'
   $(selector).each( (index, el) ->
-    if String($(element).val()) == String($(el).data('condition-value'))
+    return false if $(element).is(':checkbox') and String($(element).val()) != String($(el).data('condition-value'))
+    if (not $(element).is(':checkbox') or ($(element).is(':checkbox') and $(element).is(':checked'))) and String($(element).val()) == String($(el).data('condition-value'))
       $(el).show()
     else
       $(el).hide()
