@@ -24,6 +24,11 @@ class Project < ActiveRecord::Base
   has_many :sites, conditions: { deleted: false }
   has_many :subjects, conditions: { deleted: false }
 
+  def site_id_with_prefix(prefix)
+    prefix_sites = self.sites.select{|s| not s.prefix.blank? and prefix.start_with?(s.prefix) }
+    prefix_sites.size == 1 ? prefix_sites.first.id : nil
+  end
+
   # Model Methods
   def destroy
     update_attribute :deleted, true

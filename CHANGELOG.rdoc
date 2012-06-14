@@ -4,6 +4,8 @@
   * Reset Filters added to Designs, Variables, Subjects, and Sites Index pages
   * CSV export now requires at least one sheet to be filtered
   * Variable name field now only allows a maximum length of 32 characters
+  * Sites can now have prefixes
+    * Entering new subjects will now attempt to guess the site based on the subject code and site prefixes
 
 == 0.2.1
 

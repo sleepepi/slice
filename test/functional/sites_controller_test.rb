@@ -19,7 +19,7 @@ class SitesControllerTest < ActionController::TestCase
 
   test "should create site" do
     assert_difference('Site.count') do
-      post :create, site: { description: 'Second Site on Project One', emails: 'email@example.com', name: 'Site Two', project_id: projects(:one).id }
+      post :create, site: { description: 'Second Site on Project One', emails: 'email@example.com', name: 'Site Two', project_id: projects(:one).id, prefix: 'Prefix' }
     end
 
     assert_redirected_to site_path(assigns(:site))
@@ -27,7 +27,7 @@ class SitesControllerTest < ActionController::TestCase
 
   test "should not create site for invalid project" do
     assert_difference('Site.count', 0) do
-      post :create, site: { description: 'Second Site on Project One', emails: 'email@example.com', name: 'Site Two', project_id: projects(:four).id }
+      post :create, site: { description: 'Second Site on Project One', emails: 'email@example.com', name: 'Site Two', project_id: projects(:four).id, prefix: 'Prefix' }
     end
 
     assert_not_nil assigns(:site)
@@ -47,7 +47,7 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test "should update site" do
-    put :update, id: @site, site: { description: 'First Site on Project One', emails: 'email@example.com, email2@example.com', name: 'Site One', project_id: @site.project_id }
+    put :update, id: @site, site: { description: 'First Site on Project One', emails: 'email@example.com, email2@example.com', name: 'Site One', project_id: @site.project_id, prefix: 'Prefix' }
     assert_redirected_to site_path(assigns(:site))
   end
 

@@ -1,5 +1,5 @@
 class Site < ActiveRecord::Base
-  attr_accessible :description, :emails, :name, :project_id
+  attr_accessible :description, :emails, :name, :project_id, :prefix
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -9,6 +9,7 @@ class Site < ActiveRecord::Base
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
   validates_uniqueness_of :name, scope: [:project_id, :deleted]
+  validates_uniqueness_of :prefix, allow_blank: true, scope: [:project_id, :deleted]
 
   # Model Relationships
   belongs_to :user

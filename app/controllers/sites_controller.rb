@@ -124,7 +124,7 @@ class SitesController < ApplicationController
     params[:site][:project_id] = nil unless current_user.all_viewable_projects.pluck(:id).include?(params[:site][:project_id].to_i)
 
     params[:site].slice(
-      :name, :description, :project_id, :emails
+      :name, :description, :project_id, :emails, :prefix
     )
   end
 end

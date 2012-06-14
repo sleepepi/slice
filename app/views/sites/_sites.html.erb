@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.name', 'Name', 'sites_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.prefix', 'Prefix', 'sites_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.description', 'Description', 'sites_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.project_id', 'Project', 'sites_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.emails', 'Emails', 'sites_search') %></th>
@@ -15,6 +16,7 @@
   <% @sites.each do |site| %>
     <tr>
       <td><%= site.name %></td>
+      <td><%= site.prefix %></td>
       <td><%= site.description %></td>
       <td><%= link_to site.project.name, site.project if site.project %></td>
       <td><%= site.emails %></td>
