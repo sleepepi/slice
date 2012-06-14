@@ -1,5 +1,8 @@
 == 0.3.0
 
+* Enhancements
+  * Reset Filters added to Designs, Variables, Subjects, and Sites Index pages
+
 == 0.2.1
 
 * Enhancements
