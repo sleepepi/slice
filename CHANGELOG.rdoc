@@ -2,6 +2,7 @@
 
 * Enhancements
   * Reset Filters added to Designs, Variables, Subjects, and Sites Index pages
+  * CSV export now requires at least one sheet to be filtered
 
 == 0.2.1
 

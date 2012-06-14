@@ -13,6 +13,12 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not get csv when no sheets are selected" do
+    get :index, format: 'csv', project_id: -1
+    assert_equal 0, assigns(:sheet_count)
+    assert_redirected_to sheets_path
+  end
+
   test "should get index" do
     get :index
     assert_response :success

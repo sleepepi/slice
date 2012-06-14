@@ -50,6 +50,10 @@ class SheetsController < ApplicationController
     @sheet_count = sheet_scope.count
 
     if params[:format] == 'csv'
+      if @sheet_count == 0
+        redirect_to sheets_path, alert: 'No data was exported since no sheets matched the specified filters.'
+        return
+      end
       @csv_string = CSV.generate do |csv|
         variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
         csv << ["Name", "Description", "Study Date", "Project", "Site", "Subject", "Creator"] + variable_names
