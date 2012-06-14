@@ -16,25 +16,25 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :header, nil, class: 'control-label' %>
+    <%= f.label :name, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :header %>
+      <%= f.text_field :name, maxlength: 32, style: 'width:225px' %>
+      <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 32 characters.</div>
+      <i>var1_population</i>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
+    <%= f.label :header, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name %>
-      <div class="help-block">Letter followed by letters, numbers, or underscores.</div>
-      <i>var1_population</i>
+      <%= f.text_field :header, style: 'width:95%' %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :display_name, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :display_name %>
+      <%= f.text_field :display_name, style: 'width:95%' %>
     </div>
   </div>
 
