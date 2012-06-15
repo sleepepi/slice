@@ -33,7 +33,7 @@
     <td><%= variable.display_name %></td>
     <td>
       <% if variable.variable_type == 'date' %>
-        ____/____/________
+        ____ /____ /________
       <% elsif ['checkbox'].include?(variable.variable_type) %>
         <% variable.options.each do |option| %>
           <span style="white-space:nowrap;margin-right:20px"><%= check_box_tag "variable_#{variable}_#{option[:value]}" %> <%= option[:value] %>: <%= option[:name] %></span>
