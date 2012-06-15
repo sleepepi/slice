@@ -3,6 +3,7 @@ Reading::Application.routes.draw do
   resources :designs do
     member do
       get :copy
+      get :print
     end
     collection do
       post :add_variable

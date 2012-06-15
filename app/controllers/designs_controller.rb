@@ -52,6 +52,15 @@ class DesignsController < ApplicationController
     end
   end
 
+  def print
+    @design = current_user.all_viewable_designs.find_by_id(params[:id])
+    if @design
+      render layout: false
+    else
+      render nothing: true
+    end
+  end
+
   # GET /designs/1
   # GET /designs/1.json
   def show
