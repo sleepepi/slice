@@ -25,7 +25,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should create subject" do
     assert_difference('Subject.count') do
-      post :create, subject: { project_id: @subject.project_id, subject_code: 'Code03' }, site_id: @subject.site_id
+      post :create, subject: { project_id: @subject.project_id, subject_code: 'Code03', valid: @subject.valid }, site_id: @subject.site_id
     end
 
     assert_redirected_to subject_path(assigns(:subject))
@@ -33,7 +33,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should not create subject for invalid project" do
     assert_difference('Subject.count', 0) do
-      post :create, subject: { project_id: projects(:four), subject_code: 'Code03' }, site_id: @subject.site_id
+      post :create, subject: { project_id: projects(:four), subject_code: 'Code03', valid: @subject.valid }, site_id: @subject.site_id
     end
 
     assert_not_nil assigns(:subject)
@@ -53,7 +53,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should update subject" do
-    put :update, id: @subject, subject: { project_id: @subject.project_id, subject_code: @subject.subject_code }, site_id: @subject.site_id
+    put :update, id: @subject, subject: { project_id: @subject.project_id, subject_code: @subject.subject_code, valid: @subject.valid }, site_id: @subject.site_id
     assert_redirected_to subject_path(assigns(:subject))
   end
 
