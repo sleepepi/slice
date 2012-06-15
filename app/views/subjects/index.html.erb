@@ -17,6 +17,15 @@
     </div>
 
     <div class="span4 control-group">
+      <%= label :validated, 'Validated', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :validated, options_for_select([['---', nil], ['validated', 1], ['not validated', 0]],params[:validated]), data: { object: 'filter' } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span4 control-group">
       <%= label :project_id, 'Project', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>
@@ -26,9 +35,7 @@
     <div class="span4 control-group" id="select_site">
       <%#= render partial: 'subjects/select_site' %>
     </div>
-  </div>
 
-  <div class="row">
     <div class="span4 control-group" id="select_design">
       <%#= render partial: 'subjects/select_design' %>
     </div>

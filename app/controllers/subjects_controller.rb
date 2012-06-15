@@ -15,6 +15,7 @@ class SubjectsController < ApplicationController
     end
 
     subject_scope = subject_scope.without_design(params[:without_design_id]) unless params[:without_design_id].blank?
+    subject_scope = subject_scope.validated(params[:validated] == '1') unless params[:validated].blank?
 
     # inverse_subject_scope = subject_scope
 
