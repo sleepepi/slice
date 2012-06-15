@@ -6,7 +6,7 @@
     <%= link_to "Delete Sheet", @sheet, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
     <%= link_to "View Sheets", sheets_path, class: 'btn btn-mini' %>
     <%= link_to "Send Email", '#', class: 'btn btn-primary btn-mini', id: 'email_popup' %>
-    <%= link_to "Print", print_sheet_path(@sheet), class: 'btn btn-mini' %>
+    <%= link_to "Print", print_sheet_path(@sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
   </h1>
 </div>
 
