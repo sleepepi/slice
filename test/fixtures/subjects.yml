@@ -6,7 +6,7 @@ one:
   user: valid
   site: one
   deleted: false
-  valid: false
+  validated: false
 
 two:
   project: one
@@ -14,4 +14,4 @@ two:
   user: valid
   site: one
   deleted: false
-  valid: false
+  validated: false

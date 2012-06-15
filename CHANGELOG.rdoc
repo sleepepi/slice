@@ -6,7 +6,7 @@
   * Variable name field now only allows a maximum length of 32 characters
   * Sites can now have prefixes
     * Entering new subjects will now attempt to guess the site based on the subject code and site prefixes
-  * Subjects can now be marked as valid to allow detection of erroneously added subject codes
+  * Subjects can now be marked as validated to allow detection of erroneously added subject codes
 
 == 0.2.1
 
