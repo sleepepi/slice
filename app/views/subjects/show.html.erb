@@ -15,6 +15,9 @@
   <dt>Subject Code</dt>
   <dd><%= @subject.subject_code %></dd>
 
+  <dt>Validated</dt>
+  <dd><%= simple_check @subject.validated? %></dd>
+
   <dt>Site</dt>
   <dd><%= link_to @subject.site.name, @subject.site if @subject.site %></dd>
 

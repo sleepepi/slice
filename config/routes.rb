@@ -21,6 +21,7 @@ Reading::Application.routes.draw do
     end
     member do
       post :send_email
+      get :print
     end
   end
 

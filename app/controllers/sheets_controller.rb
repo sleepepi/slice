@@ -89,6 +89,15 @@ class SheetsController < ApplicationController
     end
   end
 
+  def print
+    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
+    if @sheet
+      render layout: false
+    else
+      render nothing: true
+    end
+  end
+
   # GET /sheets/1
   # GET /sheets/1.json
   def show

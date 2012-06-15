@@ -1,8 +1,9 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20, object_count: @subject_count } %>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped table-bordered" style="width:100%"><col width="30px"/>
   <thead>
     <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.validated', '', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.subject_code', 'Subject Code', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.project_id', 'Project', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.site_id', 'Site', 'subjects_search') %></th>
@@ -13,6 +14,7 @@
 
   <% @subjects.each do |subject| %>
     <tr>
+      <td><%= simple_check subject.validated? %></td>
       <td><%= link_to subject.subject_code, subject %></td>
       <td><%= link_to subject.project.name, subject.project if subject.project %></td>
       <td><%= link_to subject.site.name, subject.site if subject.site %></td>
