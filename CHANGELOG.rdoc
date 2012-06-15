@@ -7,6 +7,8 @@
   * Sites can now have prefixes
     * Entering new subjects will now attempt to guess the site based on the subject code and site prefixes
   * Subjects can now be marked as validated to allow detection of erroneously added subject codes
+  * Designs and Sheets can now be printed to PDF
+  * Information returned if a subject code is valid, invalid, or new
 
 == 0.2.1
 

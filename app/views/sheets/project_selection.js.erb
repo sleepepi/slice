@@ -4,3 +4,16 @@ $("#sheet_design_id").on('change', function(){
   $.post(root_url + 'designs/selection', $(this).serialize(), null, "script");
   return false;
 });
+$("#sheet_subject_id").parent().parent().removeClass('warning success error');
+<% if @subject %>
+  <% if @subject.validated? %>
+  $("#sheet_subject_id").parent().parent().addClass('success');
+  $("#subject_id_info").html("Validated Subject Code!")
+  <% else %>
+  $("#sheet_subject_id").parent().parent().addClass('error');
+  $("#subject_id_info").html("Subject Code NOT Validated!")
+  <% end %>
+<% else %>
+  $("#sheet_subject_id").parent().parent().addClass('warning');
+  $("#subject_id_info").html("Subject Code not found. New Subject will be created!")
+<% end %>

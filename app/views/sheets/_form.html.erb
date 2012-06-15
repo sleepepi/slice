@@ -26,6 +26,7 @@
     <%= label 'sheet', 'subject_id', 'Subject Code', class: 'control-label' %>
     <div class="controls">
       <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code' %>
+      <span id="subject_id_info" class="help-inline"></span>
     </div>
   </div>
 
