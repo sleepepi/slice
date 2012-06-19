@@ -13,12 +13,6 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Name</dt>
-  <dd><%= @design.name %></dd>
-
-  <dt>Description</dt>
-  <dd><%= simple_format @design.description %></dd>
-
   <dt>Project</dt>
   <dd><%= link_to @design.project.name, @design.project if @design.project %></dd>
 
@@ -28,11 +22,22 @@
 
 <%= render partial: 'compact_variables' %>
 
-<form class='form-horizontal well'>
-  <div class="page-header">
-    <h2><%= @design.name %></h2>
-  </div>
-  <% @design.variables.each do |variable| %>
-    <%= @variable = variable; render partial: 'designs/variable' %>
+<hr />
+
+<div class="page-header">
+  <h2>
+    <%= @design.name %>
+    <small><%= simple_format @design.description unless @design.description.blank? %></small>
+  </h2>
+</div>
+
+<%= render partial: 'designs/navigation' %>
+
+<% @design.options.each do |option| %>
+  <% @option = option %>
+  <% if @option[:variable_id].blank? %>
+    <%= render partial: 'designs/section' %>
+  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+    <%= render partial: 'designs/variable' %>
   <% end %>
-</form>
+<% end %>

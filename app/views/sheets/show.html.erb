@@ -57,8 +57,15 @@
   <h3><%= @sheet.name %></h3>
 </div>
 
-<% @sheet.design.variables.each do |variable| %>
-  <%= @variable = variable; render partial: 'variables/show' %>
+<%= @design = @sheet.design; render partial: 'designs/navigation' %>
+
+<% @design.options.each do |option| %>
+  <% @option = option %>
+  <% if @option[:variable_id].blank? %>
+    <%= render partial: 'designs/section' %>
+  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+    <%= render partial: 'variables/show' %>
+  <% end %>
 <% end %>
 
 <div id="send_email_modal" class="modal" style="display:none">

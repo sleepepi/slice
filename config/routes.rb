@@ -7,6 +7,7 @@ Reading::Application.routes.draw do
     end
     collection do
       post :add_variable
+      post :add_section
       post :variables
       post :selection
     end

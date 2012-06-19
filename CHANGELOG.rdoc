@@ -9,6 +9,7 @@
   * Subjects can now be marked as validated to allow detection of erroneously added subject codes
   * Designs and Sheets can now be printed to PDF
   * Information returned if a subject code is valid, invalid, or new
+  * Designs can now have section headers
 
 == 0.2.1
 

@@ -40,6 +40,11 @@ jQuery ->
     false
   )
 
+  $('#add_more_sections').on('click', () ->
+    $.post(root_url + 'designs/add_section', $("form").serialize() + "&_method=post", null, "script")
+    false
+  )
+
   $('#variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
   $(document).on('change', '[data-object~="condition"]', () ->

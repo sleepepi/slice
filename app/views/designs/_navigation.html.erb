@@ -1,0 +1,2 @@
+<% links = @design.options.select{|opt| not opt[:section_name].blank?}.collect{|opt| { name: opt[:section_name] , href: "##{opt[:section_id]}" }} %>
+<%= render partial: 'contour/layouts/subnav', locals: { links: links } unless links.blank? %>

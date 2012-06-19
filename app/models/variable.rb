@@ -29,6 +29,10 @@ class Variable < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def header_anchor
+    "_"+self.header.to_s.gsub(/[^\w]/, '_').downcase
+  end
+
   def name_with_project
     self.project ? "#{self.name} - #{self.project.name}" : "#{self.name} - Global"
   end

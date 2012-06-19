@@ -48,11 +48,19 @@ class Design < ActiveRecord::Base
   def option_tokens=(tokens)
     self.options = []
     tokens.each_pair do |key, option_hash|
-      self.options << {
-                        variable_id: option_hash[:variable_id],
-                        condition_variable_id: option_hash[:condition_variable_id],
-                        condition_value: option_hash[:condition_value].to_s.strip
-                      } unless option_hash[:variable_id].blank?
+      if option_hash[:section_name].blank?
+        self.options << {
+                          variable_id: option_hash[:variable_id],
+                          condition_variable_id: option_hash[:condition_variable_id],
+                          condition_value: option_hash[:condition_value].to_s.strip
+                        } unless option_hash[:variable_id].blank?
+      else
+        self.options << {
+                          section_name: option_hash[:section_name].strip,
+                          section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
+                          section_description: option_hash[:section_description].strip
+                        }
+      end
     end
   end
 

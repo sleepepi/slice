@@ -19,6 +19,11 @@ class DesignsController < ApplicationController
     @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id])
   end
 
+  def add_section
+    @design = Design.new(post_params.except(:option_tokens))
+    @option = { }
+  end
+
   def add_variable
     @design = Design.new(post_params.except(:option_tokens))
     @option = { variable_id: '' }

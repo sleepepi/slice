@@ -3,6 +3,11 @@
   <%= render partial: 'edit_variable' %>
 <% else %>
   <% @design.options.each do |option| %>
-    <%= @option = option; render partial: 'edit_variable' %>
+    <% @option = option %>
+    <% if @option[:variable_id].blank? %>
+      <%= render partial: 'edit_section' %>
+    <% else %>
+      <%= render partial: 'edit_variable' %>
+    <% end %>
   <% end %>
 <% end %>
