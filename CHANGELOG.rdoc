@@ -12,7 +12,7 @@
   * Designs can now have section headers
   * Design section names and variable headers are now included in the sheet email template
   * Sheet emails now also include a PDF attachment
-  * Project page now links to project specific designs
+  * Project page now lists designs and links to project specific designs
 
 == 0.2.1
 
