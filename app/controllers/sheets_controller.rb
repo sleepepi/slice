@@ -123,7 +123,7 @@ class SheetsController < ApplicationController
   # GET /sheets/new
   # GET /sheets/new.json
   def new
-    @sheet = current_user.sheets.new
+    @sheet = current_user.sheets.new(post_params)
 
     respond_to do |format|
       format.html # new.html.erb
