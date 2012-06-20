@@ -62,7 +62,7 @@ Feel free to contact me if you have any questions.  Thank you.
   Date Received:    #{self.created_at.strftime("%m/%d/%Y")}
 
 
-#{self.design.variables.collect{|v| '  ' + v.name.to_s + ':  ' + v.response_name(self).to_s}.join("\n\n")}
+#{self.email_body_template_options(current_user)}
 
   Comments:
 
@@ -72,6 +72,10 @@ Thanks,
 
 #{current_user.name}
   }
+  end
+
+  def email_body_template_options(current_user)
+    self.design.options.collect{|opt| (v = Variable.current.find_by_id(opt[:variable_id])) ? (v.header.blank? ? '' : " #{v.header}\n") + '  ' + v.name.to_s + ':  ' + v.response_name(self).to_s : "\n#{opt[:section_name]}"}.join("\n\n")
   end
 
   def email_subject_template(current_user)
