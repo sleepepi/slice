@@ -85,7 +85,7 @@ class DesignsController < ApplicationController
   # GET /designs/new
   # GET /designs/new.json
   def new
-    @design = current_user.designs.new
+    @design = current_user.designs.new(post_params)
 
     respond_to do |format|
       format.html # new.html.erb
