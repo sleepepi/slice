@@ -53,7 +53,7 @@ jQuery ->
     )
     .on('click', '[data-object~="expand-details"]', () ->
       $('[data-object~="' + $(this).data('selector') + '"]').hide()
-      $($(this).data('target')).show('blind')
+      $($(this).data('target')).show()
       false
     )
 
