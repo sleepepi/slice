@@ -47,9 +47,16 @@ jQuery ->
 
   $('#variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
-  $(document).on('change', '[data-object~="condition"]', () ->
-    toggleCondition($(this))
-  )
+  $(document)
+    .on('change', '[data-object~="condition"]', () ->
+      toggleCondition($(this))
+    )
+    .on('click', '[data-object~="expand-details"]', () ->
+      $('[data-object~="' + $(this).data('selector') + '"]').hide()
+      $($(this).data('target')).show('blind')
+      false
+    )
+
 
   # $('[data-object~="variable-load"]').change( () ->
   #   retrieveVariable($(this).data('position'))

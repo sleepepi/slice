@@ -1,18 +1,21 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
-<div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well">
+<div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well" style="padding:2px;" data-object="expand-details" data-target="#variable_<%= position %>_details" data-selector="variabledetails">
   <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
 
-  <div class="control-group">
+  <div class="control-group" style="margin-bottom:0px">
     <%= label_tag "design_option_tokens_#{position}_section_name", 'Section', class: 'control-label' %>
     <div class="controls">
       <%= text_field_tag "design[option_tokens][#{position}][section_name]", @option[:section_name] %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="control-group" style="margin-bottom:0px;display:none" data-object="variabledetails" id="variable_<%= position %>_details">
     <%= label_tag "design_option_tokens_#{position}_section_description", 'Description', class: 'control-label' %>
     <div class="controls">
       <%= text_area_tag "design[option_tokens][#{position}][section_description]", @option[:section_description], rows: 3, style: 'width:90%' %>
     </div>
   </div>
 </div>
+<%= javascript_tag do %>
+$('#variable_<%= position %>').click();
+<% end %>

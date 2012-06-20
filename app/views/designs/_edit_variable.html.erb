@@ -1,5 +1,5 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
-<div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well">
+<div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well" style="padding:2px;" data-object="expand-details" data-target=".variable_<%= position %>_details" data-selector="variabledetails">
   <% if false %>
   <div class="page-header" style="margin-top:0px">
     <h3>Variable <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger' %></h3>
@@ -9,19 +9,19 @@
   <div class="row">
     <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
     <div class="span4">
-      <div class="control-group">
+      <div class="control-group" style="margin-bottom:0px">
         <%= label_tag "design_option_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
         <div class="controls">
           <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([['---', nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %>
         </div>
       </div>
-      <div class="control-group">
+      <div class="control-group variable_<%= position %>_details" style="display:none" data-object="variabledetails">
         <%= label_tag "design_option_tokens_#{position}_condition", 'Show If', class: 'control-label' %>
         <div class="controls">
           <%= select_tag "design[option_tokens][#{position}][condition_variable_id]", options_for_select([['---', nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:condition_variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %>
         </div>
       </div>
-      <div class="control-group">
+      <div class="control-group variable_<%= position %>_details" style="margin-bottom:0px;display:none" data-object="variabledetails">
         <%= label_tag "design_option_tokens_#{position}_condition_value", 'Values', class: 'control-label' %>
         <div class="controls">
           <%= text_field_tag "design[option_tokens][#{position}][condition_value]", @option[:condition_value] %>
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="span4">
+    <div class="span4 variable_<%= position %>_details" style="margin-bottom:-18px;display:none" data-object="variabledetails">
       <div id="design_<%= position %>_variable_preview">
         <% @variable = current_user.all_viewable_variables.find_by_id(@option[:variable_id]) %>
         <%= render partial: 'designs/variable' if @variable %>
@@ -43,4 +43,5 @@ $('[data-object~="variable-load"]').change( function(){
   retrieveVariable(<%= escape_javascript(position) %>);
   return false;
 });
+$('#variable_<%= position %>').click();
 <% end %>
