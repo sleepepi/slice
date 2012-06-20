@@ -6,3 +6,7 @@ $(".datepicker").datepicker({
   changeYear: true
 });
 $("#ui-datepicker-div").hide();
+
+$('[data-spy="scroll"]').each(function () {
+  var $spy = $(this).scrollspy('refresh')
+});
