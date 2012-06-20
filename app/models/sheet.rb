@@ -40,8 +40,8 @@ class Sheet < ActiveRecord::Base
     self.design.description
   end
 
-  def email_receipt(current_user, to, cc, subject, body)
-    UserMailer.sheet_receipt(current_user, to, cc, subject, body).deliver #if Rails.env.production?
+  def email_receipt(current_user, to, cc, subject, body, attachment)
+    UserMailer.sheet_receipt(current_user, to, cc, subject, body, "#{self.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{self.study_date.strftime("%Y-%m-%d")}_#{self.name.strip.gsub(/[^\w]/, '-')}.pdf", attachment).deliver #if Rails.env.production?
   end
 
   def email_body_template(current_user)

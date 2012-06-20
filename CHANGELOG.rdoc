@@ -11,6 +11,7 @@
   * Information returned if a subject code is valid, invalid, or new
   * Designs can now have section headers
   * Design section names and variable headers are now included in the sheet email template
+  * Sheet emails now also include a PDF attachment
 
 == 0.2.1
 

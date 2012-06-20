@@ -19,7 +19,8 @@ class UserMailer < ActionMailer::Base
 #         reply_to: user.email)
   end
 
-  def sheet_receipt(current_user, to, cc, subject, body)
+  def sheet_receipt(current_user, to, cc, subject, body, attachment_name, attachment)
+    attachments[attachment_name] = { mime_type: 'application/pdf', content: attachment }
     mail(to: to, cc: cc, reply_to: current_user.email, subject: subject, body: body)
   end
 

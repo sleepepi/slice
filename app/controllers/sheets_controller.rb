@@ -10,7 +10,13 @@ class SheetsController < ApplicationController
   def send_email
     @sheet = Sheet.current.find(params[:id])
 
-    @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body])
+    html = render_to_string action: 'print', id: params[:id], layout: false
+
+    kit = PDFKit.new(html)
+    stylesheet_file = "#{Rails.root}/public/assets/application.css"
+    kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
+
+    @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body], kit.to_pdf)
 
     respond_to do |format|
       format.html { redirect_to @sheet, notice: 'Sheet receipt email was successfully sent.' }
