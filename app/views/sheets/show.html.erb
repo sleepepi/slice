@@ -53,6 +53,8 @@
   </div>
 </div>
 
+<%#= @design = @sheet.design; render partial: 'designs/show_section_and_variables' %>
+
 <div class="page-header">
   <h3><%= @sheet.name %></h3>
 </div>
@@ -67,6 +69,7 @@
     <%= render partial: 'variables/show' %>
   <% end %>
 <% end %>
+
 
 <div id="send_email_modal" class="modal" style="display:none">
   <div class="modal-header">

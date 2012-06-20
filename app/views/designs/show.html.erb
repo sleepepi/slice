@@ -24,20 +24,4 @@
 
 <hr />
 
-<div class="page-header">
-  <h2>
-    <%= @design.name %>
-    <small><%= simple_format @design.description unless @design.description.blank? %></small>
-  </h2>
-</div>
-
-<%= render partial: 'designs/navigation' %>
-
-<% @design.options.each do |option| %>
-  <% @option = option %>
-  <% if @option[:variable_id].blank? %>
-    <%= render partial: 'designs/section' %>
-  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-    <%= render partial: 'designs/variable' %>
-  <% end %>
-<% end %>
+<%= render partial: 'section_and_variables' %>

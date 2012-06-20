@@ -4,7 +4,7 @@
   </div>
 <% end %>
 <dl class="dl-horizontal">
-  <dt title="<%= @variable.display_name %>"><%= @variable.display_name %></dt>
+  <dt><%= @variable.display_name %></dt>
   <dd>
     <% if @variable.variable_type == 'text' %>
       <%= simple_format @variable.response_name(@sheet).to_s %>

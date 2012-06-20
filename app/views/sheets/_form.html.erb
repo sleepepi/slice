@@ -57,13 +57,7 @@
       <%= @design = @sheet.design; render partial: 'designs/selection' if @sheet.design %>
     </div>
   <% else %>
-    <div class="page-header">
-      <h2><%= @sheet.name %></h2>
-    </div>
-
-    <% @sheet.design.variables.each do |variable| %>
-      <%= @design = @sheet.design; @variable = variable; render partial: 'designs/variable' %>
-    <% end %>
+    <%= @design = @sheet.design; render partial: 'designs/section_and_variables' %>
   <% end %>
 
   <div class="form-actions">
