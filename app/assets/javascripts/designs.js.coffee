@@ -45,6 +45,16 @@ jQuery ->
     false
   )
 
+  $('#add_more_variables_top').on('click', () ->
+    $.post(root_url + 'designs/add_variable', $("form").serialize() + "&location=top&_method=post", null, "script")
+    false
+  )
+
+  $('#add_more_sections_top').on('click', () ->
+    $.post(root_url + 'designs/add_section', $("form").serialize() + "&location=top&_method=post", null, "script")
+    false
+  )
+
   $('#variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
   $(document)

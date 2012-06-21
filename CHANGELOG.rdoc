@@ -14,6 +14,7 @@
   * Sheet emails now also include a PDF attachment
   * Project page now lists designs and links to project specific designs
   * Project page now links to project specific sheets
+  * Sections and Variables can now be added to the top in the design builder
 
 == 0.2.1
 

@@ -1,1 +1,5 @@
-$("#variables").append("<%= escape_javascript(render("edit_section")) %>");
+<% if params[:location] == 'top' %>
+  $("#variables").prepend("<%= escape_javascript(render("edit_section")) %>");
+<% else %>
+  $("#variables").append("<%= escape_javascript(render("edit_section")) %>");
+<% end %>

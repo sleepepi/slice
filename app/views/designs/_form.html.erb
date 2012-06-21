@@ -36,6 +36,11 @@
     </div>
   </div>
 
+  <div class="btn-toolbar">
+    <%= link_to 'Add Another Variable', '#', id: 'add_more_variables_top', class: 'btn btn-mini' %>
+    <%= link_to 'Add Section', '#', id: 'add_more_sections_top', class: 'btn btn-mini' %>
+  </div>
+
   <div id="variables" data-object="sortable">
     <%= render partial: 'variables' %>
   </div>
