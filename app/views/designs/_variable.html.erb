@@ -1,6 +1,6 @@
 <%# This file shows a variable for use in a sheet %>
 
-<div class="control-group" data-condition-parent="<%= @design.condition_parent(@variable) if @design %>" data-condition-value="<%= @design.condition_value(@variable) if @design %>">
+<div class="control-group" data-condition-parent="<%= @design.condition_parent(@variable) if @design %>" data-condition-value="<%= @design.condition_value(@variable) if @design %>" id="varvar_<%= @variable.id %>">
 
   <% unless @variable.header.blank? %>
     <div class="page-header" style="margin-top:0px">
@@ -22,7 +22,7 @@
       <% end %>
     <% when 'checkbox' %>
       <% array = YAML::load(response) rescue array = response || [] %>
-      <%= hidden_field_tag "variables[#{@variable.id}][]", 'nil' %>
+      <%= hidden_field_tag "variables[#{@variable.id}][]", nil %>
       <% @variable.options.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
         <%= check_box_tag "variables[#{@variable.id}][]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition", condition_target: "variables_#{@variable.id}" } %> <label><%= value %>: <%= name %></label>
       <% end %>
@@ -49,8 +49,8 @@ $(function(){
     .popover({
       offset: 10
     });
-  $('[data-object~="condition"]').each(function(index, element){
-    toggleCondition($(element));
-  });
+//  $('[data-object~="condition"]').each(function(index, element){
+//    toggleCondition($(element));
+//  });
 });
 <% end %>

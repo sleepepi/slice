@@ -12,29 +12,55 @@
   [a, b] = [b, a] if a.length > b.length
   value for value in a when value in b
 
+@dmsg = (message) ->
+  # $('#error_log').prepend('<li style="margin-left:' + window.indentcount + '00px">' + message + '</li>')
+  false
+
+
 @toggleCondition = (element) ->
+  dmsg("Checking Locked #{$(element).attr('id')} Locked: '#{$(element).data('locked')}'")
+  if $(element).data('locked') == 1
+    dmsg("Skipping #{$(element).attr('id')}")
+    return false
+  $(element).data('locked', 1)
+  dmsg("Locking #{$(element).attr('id')}")
+  window.indentcount = window.indentcount + 1
   conditional_variable_id = $(element).data('condition-target')
   selector = '[data-condition-parent~="' + conditional_variable_id + '"]'
   $(selector).each( (index, el) ->
-    if $(element).is(':checkbox, :radio')
+    if $(element).is(':hidden')
+      $(el).hide()
+      dmsg("Hiding #{$(el).attr('id')}")
+    else if $(element).is(':checkbox, :radio')
       values = []
       $.each($("input[name='" + $(element).attr('name') + "']:checked"), () ->
         values.push($(this).val())
       )
       if intersection(values, String($(el).data('condition-value')).split(',')).length > 0
         $(el).show()
+        dmsg("Showing #{$(el).attr('id')}")
       else
         $(el).hide()
+        dmsg("Hiding #{$(el).attr('id')}")
     else
       if String($(element).val()) in String($(el).data('condition-value')).split(',')
         $(el).show()
+        dmsg("Showing #{$(el).attr('id')}")
       else
         $(el).hide()
+        dmsg("Hiding #{$(el).attr('id')}")
+    $(el).find('[data-object~="condition"]').change()
   )
+  window.indentcount = window.indentcount - 1
+  dmsg("Unlocking #{$(element).attr('id')}")
+  dmsg("")
+  $(element).data('locked', 0)
   false
 
 
 jQuery ->
+  window.indentcount = 0
+
   $('#add_more_variables').on('click', () ->
     $.post(root_url + 'designs/add_variable', $("form").serialize() + "&_method=post", null, "script")
     false
