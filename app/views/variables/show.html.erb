@@ -40,6 +40,15 @@
 
   <dt>Project</dt>
   <dd><%= link_to @variable.project.name, @variable.project if @variable.project %></dd>
+
+  <dt>Designs</dt>
+  <dd>
+    <ul>
+      <% @variable.designs.each do |design| %>
+        <li><%= link_to design.name, design %></li>
+      <% end %>
+    </ul>
+  </dd>
 </dl>
 
 <% if @variable.options.size > 0 %>

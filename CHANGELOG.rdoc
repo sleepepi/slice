@@ -15,6 +15,7 @@
   * Project page now lists designs and links to project specific designs
   * Project page now links to project specific sheets
   * Sections and Variables can now be added to the top in the design builder
+  * Variable show page now displays all designs that include the variable
 
 == 0.2.1
 

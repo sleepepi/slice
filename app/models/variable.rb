@@ -29,6 +29,17 @@ class Variable < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def designs
+    @designs ||= begin
+      result = []
+      Design.current.each do |d|
+        result << d if d.variable_ids.include?(self.id)
+      end
+      result.sort_by(&:name)
+    end
+
+  end
+
   def header_anchor
     "_"+self.header.to_s.gsub(/[^\w]/, '_').downcase
   end
