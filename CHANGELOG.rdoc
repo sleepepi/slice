@@ -2,20 +2,27 @@
 
 * Enhancements
   * Reset Filters added to Designs, Variables, Subjects, and Sites Index pages
-  * CSV export now requires at least one sheet to be filtered
-  * Variable name field now only allows a maximum length of 32 characters
-  * Sites can now have prefixes
-    * Entering new subjects will now attempt to guess the site based on the subject code and site prefixes
-  * Subjects can now be marked as validated to allow detection of erroneously added subject codes
   * Designs and Sheets can now be printed to PDF
-  * Information returned if a subject code is valid, invalid, or new
-  * Designs can now have section headers
-  * Design section names and variable headers are now included in the sheet email template
-  * Sheet emails now also include a PDF attachment
-  * Project page now lists designs and links to project specific designs
-  * Project page now links to project specific sheets
-  * Sections and Variables can now be added to the top in the design builder
-  * Variable show page now displays all designs that include the variable
+  * Sheet Changes
+    * CSV export now requires at least one sheet to be filtered
+    * Sheet emails now also include a PDF attachment
+  * Designs
+    * Designs can now have section headers
+    * Design section names and variable headers are now included in the sheet email template
+    * Sections and Variables can now be added to the top in the design builder
+    * Conditional logic improved to allow cascading of conditional logic
+  * Variable Changes
+    * Variable name field now only allows a maximum length of 32 characters
+    * Variable show page now displays all designs that include the variable
+  * Site Changes
+    * Sites can now have prefixes
+    * Entering new subjects will now attempt to guess the site based on the subject code and site prefixes
+  * Subject Changes
+    * Subjects can now be marked as validated to allow detection of erroneously added subject codes
+    * Entering a subject code will now inform the user subject code is valid, invalid, or new
+  * Project Changes
+    * Project page now lists designs and links to project specific designs
+    * Project page now links to project specific sheets
 
 == 0.2.1
 
