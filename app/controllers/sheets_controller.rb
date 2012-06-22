@@ -12,11 +12,16 @@ class SheetsController < ApplicationController
 
     html = render_to_string action: 'print', id: params[:id], layout: false
 
-    kit = PDFKit.new(html)
-    stylesheet_file = "#{Rails.root}/public/assets/application.css"
-    kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
+    pdf_attachment = begin
+      kit = PDFKit.new(html)
+      stylesheet_file = "#{Rails.root}/public/assets/application.css"
+      kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
+      kit.to_pdf
+    rescue
+      nil
+    end
 
-    @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body], kit.to_pdf)
+    @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body], pdf_attachment)
 
     respond_to do |format|
       format.html { redirect_to @sheet, notice: 'Sheet receipt email was successfully sent.' }

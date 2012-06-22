@@ -13,6 +13,12 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not get copy for invalid design" do
+    get :copy, id: -1
+    assert_nil assigns(:design)
+    assert_redirected_to designs_path
+  end
+
   test "should get index" do
     get :index
     assert_response :success
@@ -74,6 +80,25 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should show design" do
     get :show, id: @design
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should not show invalid design" do
+    get :show, id: -1
+    assert_nil assigns(:design)
+    assert_redirected_to designs_path
+  end
+
+  test "should print design" do
+    get :print, id: @design
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should not print invalid design" do
+    get :print, id: -1
+    assert_nil assigns(:design)
     assert_response :success
   end
 
@@ -88,8 +113,18 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should add section" do
+    post :add_section, design: { description: "New description", name: 'Design Four' }, format: 'js'
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:option)
+    assert_template 'add_section'
+    assert_response :success
+  end
+
   test "should add variable" do
     post :add_variable, design: { description: "New description", name: 'Design Four' }, format: 'js'
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:option)
     assert_template 'add_variable'
     assert_response :success
   end

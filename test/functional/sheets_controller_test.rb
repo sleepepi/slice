@@ -6,6 +6,20 @@ class SheetsControllerTest < ActionController::TestCase
     @sheet = sheets(:one)
   end
 
+  test "should get project selection" do
+    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:disable_selection)
+    assert_template 'project_selection'
+  end
+
+  test "should send email" do
+    post :send_email, id: @sheet, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
+    assert_not_nil assigns(:sheet)
+    assert_redirected_to assigns(:sheet)
+  end
+
   test "should get csv" do
     get :index, format: 'csv'
     assert_not_nil assigns(:csv_string)
@@ -27,6 +41,18 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should get paginated index" do
     get :index, format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index order by site" do
+    get :index, order: 'sheets.site_id', format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index order by site descending" do
+    get :index, order: 'sheets.site_id DESC', format: 'js'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
@@ -101,6 +127,25 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should show sheet" do
     get :show, id: @sheet
+    assert_not_nil assigns(:sheet)
+    assert_response :success
+  end
+
+  test "should not show invalid sheet" do
+    get :show, id: -1
+    assert_nil assigns(:sheet)
+    assert_redirected_to sheets_path
+  end
+
+  test "should print sheet" do
+    get :print, id: @sheet
+    assert_not_nil assigns(:sheet)
+    assert_response :success
+  end
+
+  test "should not print invalid sheet" do
+    get :print, id: -1
+    assert_nil assigns(:sheet)
     assert_response :success
   end
 

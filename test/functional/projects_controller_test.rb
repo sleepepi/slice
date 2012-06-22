@@ -33,7 +33,14 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should show project" do
     get :show, id: @project
+    assert_not_nil assigns(:project)
     assert_response :success
+  end
+
+  test "should not show invalid project" do
+    get :show, id: -1
+    assert_nil assigns(:project)
+    assert_redirected_to projects_path
   end
 
   test "should get edit" do
