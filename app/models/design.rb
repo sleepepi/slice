@@ -74,7 +74,7 @@ class Design < ActiveRecord::Base
   end
 
   def condition_value(variable)
-    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{ |item| item[:condition_value].split(",") }.flatten
+    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{ |item| item[:condition_value].to_s.split(",") }.flatten
   end
 
   def variable_ids
