@@ -19,7 +19,8 @@
 <%= javascript_tag do %>
 $(function(){
   $('[data-object~="condition"]').each(function(index, element){
-    toggleCondition($(element));
+    // toggleCondition($(element));
   });
+  updateAllVariables();
 });
 <% end %>

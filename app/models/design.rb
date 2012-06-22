@@ -64,16 +64,21 @@ class Design < ActiveRecord::Base
     end
   end
 
-  def condition_value(variable)
-    target_condition_values = self.options.select{|item| item[:condition_variable_id].to_i == variable.id }.collect{|item| item[:condition_value]}.join(',')
+  # [{"location": "#varvar_145", "values": []}, {"location": "#varvar_145", "values": []}]
+  def values_hash(variable)
+    [{ location: self.condition_parent(variable), values: self.condition_value(variable) }].to_json
   end
+
+  # def condition_value(variable)
+  #   target_condition_values = self.options.select{|item| item[:condition_variable_id].to_i == variable.id }.collect{|item| item[:condition_value]}.join(',')
+  # end
 
   def condition_parent(variable)
-    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| "variables_#{item[:condition_variable_id]}"}.join(',')
+    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| "#varvar_#{item[:condition_variable_id]}"}.join(',')
   end
 
   def condition_value(variable)
-    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{ |item| item[:condition_value] }.join(',')
+    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{ |item| item[:condition_value].split(",") }.flatten
   end
 
   def variable_ids
