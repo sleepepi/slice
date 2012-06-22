@@ -6,7 +6,7 @@
   * Sheet Changes
     * CSV export now requires at least one sheet to be filtered
     * Sheet emails now also include a PDF attachment
-  * Designs
+  * Designs Changes
     * Designs can now have section headers
     * Design section names and variable headers are now included in the sheet email template
     * Sections and Variables can now be added to the top in the design builder
