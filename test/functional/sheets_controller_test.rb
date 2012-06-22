@@ -175,6 +175,19 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to sheet_path(assigns(:sheet))
   end
 
+  test "should not update sheet with blank study date" do
+    put :update, id: @sheet, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+    assert_not_nil assigns(:sheet)
+    assert_equal ["can't be blank"], assigns(:sheet).errors[:study_date]
+    assert_template 'edit'
+  end
+
+  test "should not update invalid sheet" do
+    put :update, id: -1, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+    assert_nil assigns(:sheet)
+    assert_redirected_to sheets_path
+  end
+
   test "should destroy sheet" do
     assert_difference('Sheet.current.count', -1) do
       delete :destroy, id: @sheet

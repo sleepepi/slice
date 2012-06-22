@@ -153,6 +153,20 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to design_path(assigns(:design))
   end
 
+  test "should not update design with blank name" do
+    put :update, id: @design, design: { project_id: projects(:one).id, description: @design.description, name: '' }
+    assert_not_nil assigns(:design)
+    assert assigns(:design).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:design).errors[:name]
+    assert_template 'edit'
+  end
+
+  test "should not update invalid design" do
+    put :update, id: -1, design: { project_id: projects(:one).id, description: @design.description, name: @design.name }
+    assert_nil assigns(:design)
+    assert_redirected_to designs_path
+  end
+
   test "should update for global design for librarian" do
     login(users(:librarian))
     put :update, id: designs(:global), design: { project_id: nil, description: designs(:global).description, name: designs(:global).name }

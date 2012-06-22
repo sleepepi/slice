@@ -138,10 +138,6 @@ class VariablesController < ApplicationController
   def post_params
     params[:variable] ||= {}
 
-    [].each do |date|
-      params[:variable][date] = parse_date(params[:variable][date])
-    end
-
     params[:variable].slice(
       :name, :display_name, :description, :header, :variable_type, :option_tokens, :minimum, :maximum, :project_id
     )

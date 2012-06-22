@@ -13,6 +13,12 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not copy invalid variable" do
+    get :copy, id: -1
+    assert_nil assigns(:variable)
+    assert_redirected_to variables_path
+  end
+
   test "should add option" do
     post :add_option, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
     assert_not_nil assigns(:variable)
@@ -137,7 +143,14 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should show variable" do
     get :show, id: @variable
+    assert_not_nil assigns(:variable)
     assert_response :success
+  end
+
+  test "should not show invalid variable" do
+    get :show, id: -1
+    assert_nil assigns(:variable)
+    assert_redirected_to variables_path
   end
 
   test "should get edit" do
@@ -154,6 +167,20 @@ class VariablesControllerTest < ActionController::TestCase
   test "should update variable" do
     put :update, id: @variable, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
     assert_redirected_to variable_path(assigns(:variable))
+  end
+
+  test "should not update variable with blank display name" do
+    put :update, id: @variable, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: '', options: @variable.options, variable_type: @variable.variable_type }
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
+    assert_template 'edit'
+  end
+
+  test "should not update invalid variable" do
+    put :update, id: -1, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    assert_nil assigns(:variable)
+    assert_redirected_to variables_path
   end
 
   test "should update for global variable for librarian" do

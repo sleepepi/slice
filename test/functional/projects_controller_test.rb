@@ -31,6 +31,17 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(assigns(:project))
   end
 
+  test "should not create project with blank name" do
+    assert_difference('Project.count', 0) do
+      post :create, project: { description: @project.description, name: '' }
+    end
+
+    assert_not_nil assigns(:project)
+    assert assigns(:project).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:project).errors[:name]
+    assert_template 'new'
+  end
+
   test "should show project" do
     get :show, id: @project
     assert_not_nil assigns(:project)
@@ -51,6 +62,20 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should update project" do
     put :update, id: @project, project: { description: @project.description, name: @project.name }
     assert_redirected_to project_path(assigns(:project))
+  end
+
+  test "should not update project with blank name" do
+    put :update, id: @project, project: { description: @project.description, name: '' }
+    assert_not_nil assigns(:project)
+    assert assigns(:project).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:project).errors[:name]
+    assert_template 'edit'
+  end
+
+  test "should not update invalid project" do
+    put :update, id: -1, project: { description: @project.description, name: @project.name }
+    assert_nil assigns(:project)
+    assert_redirected_to projects_path
   end
 
   test "should destroy project" do

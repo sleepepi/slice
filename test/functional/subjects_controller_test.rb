@@ -44,7 +44,14 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should show subject" do
     get :show, id: @subject
+    assert_not_nil assigns(:subject)
     assert_response :success
+  end
+
+  test "should not show invalid subject" do
+    get :show, id: -1
+    assert_nil assigns(:subject)
+    assert_redirected_to subjects_path
   end
 
   test "should get edit" do
@@ -55,6 +62,20 @@ class SubjectsControllerTest < ActionController::TestCase
   test "should update subject" do
     put :update, id: @subject, subject: { project_id: @subject.project_id, subject_code: @subject.subject_code, validated: @subject.validated }, site_id: @subject.site_id
     assert_redirected_to subject_path(assigns(:subject))
+  end
+
+  test "should update subject with blank subject code" do
+    put :update, id: @subject, subject: { project_id: @subject.project_id, subject_code: '', validated: @subject.validated }, site_id: @subject.site_id
+    assert_not_nil assigns(:subject)
+    assert assigns(:subject).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:subject).errors[:subject_code]
+    assert_template 'edit'
+  end
+
+  test "should not update invalid subject" do
+    put :update, id: -1, subject: { project_id: @subject.project_id, subject_code: @subject.subject_code, validated: @subject.validated }, site_id: @subject.site_id
+    assert_nil assigns(:subject)
+    assert_redirected_to subjects_path
   end
 
   test "should destroy subject" do
