@@ -32,7 +32,7 @@
     <div class="span4 variable_<%= position %>_details" style="margin-bottom:-18px;display:none" data-object="variabledetails">
       <div id="design_<%= position %>_variable_preview">
         <% @variable = current_user.all_viewable_variables.find_by_id(@option[:variable_id]) %>
-        <%= render partial: 'designs/variable' if @variable %>
+        <%= render partial: 'designs/variable', locals: { disabled: 'disabled' } if @variable %>
       </div>
     </div>
   </div>

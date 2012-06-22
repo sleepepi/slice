@@ -69,10 +69,6 @@ class Design < ActiveRecord::Base
     [{ location: self.condition_parent(variable), values: self.condition_value(variable) }].to_json
   end
 
-  # def condition_value(variable)
-  #   target_condition_values = self.options.select{|item| item[:condition_variable_id].to_i == variable.id }.collect{|item| item[:condition_value]}.join(',')
-  # end
-
   def condition_parent(variable)
     self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| "#varvar_#{item[:condition_variable_id]}"}.join(',')
   end

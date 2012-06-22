@@ -1,5 +1,5 @@
 <%# This file shows a variable for use in a sheet %>
-
+<% disabled = '' if defined?(disabled) == nil %>
 <div class="control-group" data-object="variable-container" id="varvar_<%= @variable.id %>">
 
   <%# data-condition-parent="<%= @design.condition_parent(@variable) if @design % >" data-condition-value="<%= @design.condition_value(@variable) if @design % >"  %>
@@ -17,29 +17,29 @@
     <% sheet_variable = (@sheet ? @sheet.sheet_variables.find_by_variable_id(@variable.id) : nil) %>
     <% response = (params[:variables].blank? ? (sheet_variable ? sheet_variable.response : nil) : params[:variables][@variable.id.to_s]) %>
     <% case @variable.variable_type when 'dropdown' %>
-      <%= select_tag "variables[#{@variable.id}]", options_for_select([['---', nil]] + @variable.options.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '), opt[:value]]}, response), data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}" %>
+      <%= select_tag "variables[#{@variable.id}]", options_for_select([['---', nil]] + @variable.options.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '), opt[:value]]}, response), data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% when 'radio' %>
       <% @variable.options.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <%= radio_button_tag "variables[#{@variable.id}]", "#{value}", value == response, data: { object: "condition" } %> <label><%= value %>: <%= name %></label>
+        <%= radio_button_tag "variables[#{@variable.id}]", "#{value}", value == response, data: { object: "condition" }, disabled: disabled %> <label><%= value %>: <%= name %></label>
       <% end %>
     <% when 'checkbox' %>
       <% array = YAML::load(response) rescue array = response || [] %>
-      <%= hidden_field_tag "variables[#{@variable.id}][]", nil %>
+      <%= hidden_field_tag "variables[#{@variable.id}][]", nil, disabled: disabled %>
       <% @variable.options.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <%= check_box_tag "variables[#{@variable.id}][]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" } %> <label><%= value %>: <%= name %></label>
+        <%= check_box_tag "variables[#{@variable.id}][]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <label><%= value %>: <%= name %></label>
       <% end %>
     <% when 'string' %>
-      <%= text_field_tag "variables[#{@variable.id}]", response, data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}" %>
+      <%= text_field_tag "variables[#{@variable.id}]", response, data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% when 'text' %>
-      <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%', data: { content: @variable.description, title: @variable.display_name, placement: 'bottom' }, rel: "#{'popover' unless @variable.description.blank?}" %>
+      <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%', data: { content: @variable.description, title: @variable.display_name, placement: 'bottom' }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% when 'integer' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax condition', content: @variable.description_range, title: @variable.display_name }, rel: "#{'popover' unless @variable.description_range.blank?}" %>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax condition', content: @variable.description_range, title: @variable.display_name }, rel: "#{'popover' unless @variable.description_range.blank?}", disabled: disabled %>
     <% when 'numeric' %>
-      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax condition', content: @variable.description_range, title: @variable.display_name }, rel: "#{'popover' unless @variable.description_range.blank?}" %>
+      <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.minimum, max: @variable.maximum, data: { object: 'minmax condition', content: @variable.description_range, title: @variable.display_name }, rel: "#{'popover' unless @variable.description_range.blank?}", disabled: disabled %>
     <% when 'date' %>
-      <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker', data: { content: @variable.description, title: @variable.display_name }, rel: "#{'popover' unless @variable.description.blank?}" %>
+      <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker', data: { content: @variable.description, title: @variable.display_name }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% else %>
-      <%= hidden_field_tag "variables[#{@variable.id}]" %>
+      <%= hidden_field_tag "variables[#{@variable.id}]", disabled: disabled %>
       Unsupported Variable Type <%= @variable.variable_type %>
     <% end %>
   </div>
