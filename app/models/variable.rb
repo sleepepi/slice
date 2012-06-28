@@ -31,13 +31,8 @@ class Variable < ActiveRecord::Base
 
   def designs
     @designs ||= begin
-      result = []
-      Design.current.each do |d|
-        result << d if d.variable_ids.include?(self.id)
-      end
-      result.sort_by(&:name)
+      Design.current.select{|d| d.variable_ids.include?(self.id)}.sort_by(&:name)
     end
-
   end
 
   def header_anchor
