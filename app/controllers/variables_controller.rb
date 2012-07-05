@@ -130,6 +130,7 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to variables_path }
+      format.js { render 'destroy' }
       format.json { head :no_content }
     end
   end

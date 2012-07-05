@@ -191,6 +191,7 @@ class SheetsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to sheets_path }
+      format.js { render 'destroy' }
       format.json { head :no_content }
     end
   end

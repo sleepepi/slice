@@ -14,7 +14,7 @@
   </thead>
 
   <% @sheets.each do |sheet| %>
-    <tr>
+    <tr id="sheet_<%= sheet.id %>">
       <td><%= link_to sheet.design.name, sheet %></td>
       <td><%= sheet.study_date %></td>
       <td><%= link_to sheet.project.name, sheet.project if sheet.project %></td>
@@ -23,7 +23,7 @@
       <td><%= link_to sheet.user.name, sheet.user if sheet.user %></td>
       <td>
         <%= link_to 'Edit', edit_sheet_path(sheet), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', sheet, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{sheet.name}?" } %>
+        <%= link_to 'Delete', sheet, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{sheet.name}?" } %>
       </td>
     </tr>
   <% end %>

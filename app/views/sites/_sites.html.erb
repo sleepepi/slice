@@ -14,7 +14,7 @@
   </thead>
 
   <% @sites.each do |site| %>
-    <tr>
+    <tr id="site_<%= site.id %>">
       <td><%= site.name %></td>
       <td><%= site.prefix %></td>
       <td><%= site.description %></td>
@@ -23,7 +23,7 @@
       <td><%= link_to site.user.name, site.user if site.user %></td>
       <td>
         <%= link_to 'Edit', edit_site_path(site), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', site, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{site.name}?" } %>
+        <%= link_to 'Delete', site, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{site.name}?" } %>
       </td>
     </tr>
   <% end %>

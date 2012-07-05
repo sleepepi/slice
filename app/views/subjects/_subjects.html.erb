@@ -13,7 +13,7 @@
   </thead>
 
   <% @subjects.each do |subject| %>
-    <tr>
+    <tr id="subject_<%= subject.id %>">
       <td><%= simple_check subject.validated? %></td>
       <td><%= link_to subject.subject_code, subject %></td>
       <td><%= link_to subject.project.name, subject.project if subject.project %></td>
@@ -21,7 +21,7 @@
       <td><%= link_to subject.user.name, subject.user if subject.user %></td>
       <td>
         <%= link_to 'Edit', edit_subject_path(subject), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', subject, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Subject #{subject.name}?" } %>
+        <%= link_to 'Delete', subject, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Subject #{subject.name}?" } %>
       </td>
     </tr>
   <% end %>

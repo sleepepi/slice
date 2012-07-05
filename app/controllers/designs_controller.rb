@@ -145,6 +145,7 @@ class DesignsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to designs_path }
+      format.js { render 'destroy' }
       format.json { head :no_content }
     end
   end
