@@ -1,5 +1,8 @@
 == 0.4.0
 
+* Enhancements
+  * About page reformatted to include links to github and contact information
+
 * Refactoring
   * Index page ordering and sorting now done consistently across project
 

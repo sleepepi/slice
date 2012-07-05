@@ -1,7 +1,42 @@
-<% @title = "About" %>
+<% @title = "About #{DEFAULT_APP_NAME}" %>
 
-<div class="page-header">
-  <h1><%= @title %></h1>
+<div class="row" style="margin-top:54px">
+  <div class="span12">
+    <h1 class="about-title"><%= @title %></h1>
+    <p class="about-tagline">Visit our <%= link_to 'online community', ABOUT_PAGE_FORUM, target: '_blank' %> or contact us <%= mail_to ABOUT_PAGE_CONTACT, 'via email', target: '_blank', subject: "#{DEFAULT_APP_NAME} Question" %>.</p>
+    <p class="about-signup"><%= link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-large" %></p>
+  </div>
 </div>
 
-Reading Center Interface for dynamic PDF report generation and quality checking.
+<hr class="soften">
+
+<p class="about-description"><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use*', 'https://github.com/remomueller/reading/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' } %> and <%= link_to 'open source', 'https://github.com/remomueller/reading', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' } %> for dynamic PDF report generation and quality checking.</p>
+
+<div class="row">
+  <div class="span4">
+    <h2 class="about-title">Design Forms</h2>
+    <ul>
+      <li>Create new designs and variables, or copy from existing libraries.</li>
+      <li>Updating variables migrates already filled-out form data keeping all of your project data in sync.</li>
+    </ul>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Manage Multi-site Projects</h2>
+    <ul>
+      <li>Enroll subjects across sites.</li>
+      <li>Sites can view their subjects and receipts.</li>
+    </ul>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Email Receipts</h2>
+    <ul>
+      <li>Email PDF receipts to sites when a subject form is completed.</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="soften">
+
+<footer class="footer">
+  <p class="muted about-footer"><%= DEFAULT_APP_NAME %> Version <%= link_to Reading::VERSION::STRING, "https://github.com/remomueller/reading/tree/#{Reading::VERSION::MAJOR}.#{Reading::VERSION::MINOR}.#{Reading::VERSION::TINY}" %></p>
+</footer>
