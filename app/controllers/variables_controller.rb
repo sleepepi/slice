@@ -37,8 +37,9 @@ class VariablesController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| variable_scope = variable_scope.search(search_term) }
 
-    @order = Variable.column_names.collect{|column_name| "variables.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "variables.name"
+    @order = scrub_order(Variable, params[:order], 'variables.name')
     variable_scope = variable_scope.order(@order)
+
     @variable_count = variable_scope.count
     @variables = variable_scope.page(params[:page]).per( 20 )
 

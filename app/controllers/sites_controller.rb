@@ -19,8 +19,9 @@ class SitesController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| site_scope = site_scope.search(search_term) }
 
-    @order = Site.column_names.collect{|column_name| "sites.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "sites.name"
+    @order = scrub_order(Site, params[:order], 'sites.name')
     site_scope = site_scope.order(@order)
+
     @sites = site_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|

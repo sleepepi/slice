@@ -53,7 +53,7 @@ class SheetsController < ApplicationController
     when 'sheets.site_id DESC'
       sheet_scope = sheet_scope.order_by_site_desc
     else
-      @order = Sheet.column_names.collect{|column_name| "sheets.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "sheets.study_date DESC"
+      @order = scrub_order(Sheet, params[:order], 'sheets.study_date DESC')
       sheet_scope = sheet_scope.order(@order)
     end
 

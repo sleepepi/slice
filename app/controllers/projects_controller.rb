@@ -9,8 +9,9 @@ class ProjectsController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| project_scope = project_scope.search(search_term) }
 
-    @order = Project.column_names.collect{|column_name| "projects.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "projects.name"
+    @order = scrub_order(Project, params[:order], 'projects.name')
     project_scope = project_scope.order(@order)
+
     @projects = project_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|

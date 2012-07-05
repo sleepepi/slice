@@ -1,5 +1,8 @@
 == 0.4.0
 
+* Refactoring
+  * Index page ordering and sorting now done consistently across project
+
 == 0.3.1
 
 * Bug Fix
