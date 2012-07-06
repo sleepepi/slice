@@ -120,9 +120,18 @@ class Variable < ActiveRecord::Base
     tokens.each_pair do |key, option_hash|
       self.options << { name: option_hash[:name].strip,
                         value: option_hash[:value].strip,
-                        description: option_hash[:description].strip
+                        description: option_hash[:description].strip,
+                        missing_code: option_hash[:missing_code].to_s.strip
                       } unless option_hash[:name].strip.blank?
     end
+  end
+
+  def missing_codes
+    self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
+  end
+
+  def missing_codes_with_description
+    self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| "#{opt[:value]} #{opt[:name]}"}
   end
 
   def response_name(sheet)

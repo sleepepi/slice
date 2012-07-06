@@ -59,16 +59,6 @@
     </div>
   </div>
 
-  <div id="options" data-object="options sortable">
-    <%= render partial: 'options' %>
-  </div>
-
-  <div class="control-group" data-object="options">
-    <label class="control-label">
-      <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
-    </label>
-  </div>
-
   <div class="control-group" data-object="number">
     <%= f.label :hard_minimum, nil, class: 'control-label' %>
     <div class="controls">
@@ -130,6 +120,16 @@
     <div class="controls">
       <%= f.text_field :calculation, style: 'width:95%' %>
     </div>
+  </div>
+
+  <div id="options" data-object="options sortable">
+    <%= render partial: 'options' %>
+  </div>
+
+  <div class="control-group" data-object="options">
+    <label class="control-label">
+      <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
+    </label>
   </div>
 
   <div class="form-actions">

@@ -19,22 +19,28 @@
   <div class="control-group">
     <%= label_tag "variable_option_tokens_#{position}_name", 'Name', class: 'control-label' %>
     <div class="controls">
-      <%= text_field_tag "variable[option_tokens][#{position}][name]", @option[:name], style: 'width:99%', data: { object: 'option-name' } %>
+      <%= text_field_tag "variable[option_tokens][#{position}][name]", @option[:name], style: 'width:95%', data: { object: 'option-name' } %>
     </div>
   </div>
 
   <div class="control-group">
     <%= label_tag "variable_option_tokens_#{position}_value", 'Value', class: 'control-label' %>
     <div class="controls">
-      <%= text_field_tag "variable[option_tokens][#{position}][value]", @option[:value], style: 'width:99%' %>
+      <%= text_field_tag "variable[option_tokens][#{position}][value]", @option[:value], style: 'width:95%' %>
     </div>
   </div>
-
 
   <div class="control-group">
     <%= label_tag "variable_option_tokens_#{position}_description", 'Description', class: 'control-label' %>
     <div class="controls">
-      <%= text_field_tag "variable[option_tokens][#{position}][description]", @option[:description], style: 'width:99%' %>
+      <%= text_field_tag "variable[option_tokens][#{position}][description]", @option[:description], style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag "variable_option_tokens_#{position}_missing_code", 'Missing Code', class: 'control-label' %>
+    <div class="controls">
+      <%= check_box_tag "variable[option_tokens][#{position}][missing_code]", '1', @option[:missing_code] == '1', style: 'width:95%', class: 'checkbox' %>
     </div>
   </div>
 </div>

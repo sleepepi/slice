@@ -6,6 +6,7 @@
   * Hard Maximums and Hard Minimums added for date variables
   * Soft Ranges can be added to Integer, Numeric, and Date variables
   * Calculated variables are now supported
+  * Missing codes can now be added to numerics and integers
 * Email Changes:
   * Default application name is now added to the from: field for emails
   * Email subjects no longer include the application name

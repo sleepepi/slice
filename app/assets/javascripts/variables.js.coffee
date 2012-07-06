@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 @toggleOptions = (element) ->
-  if $(element).val() in ['dropdown', 'checkbox', 'radio']
+  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
     $('[data-object~="options"]').show()
   else
     $('[data-object~="options"]').hide()
@@ -32,7 +32,8 @@
 @checkMinMax = () ->
   $('[data-object~="minmax"]').parent().parent().removeClass('error')
   number_fields = $('[data-object~="minmax"]').filter( () ->
-    (isNaN(parseInt($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseInt($.trim($(this).val())) < parseInt($(this).attr('min')) or parseInt($.trim($(this).val())) > parseInt($(this).attr('max'))
+    # value is not in missing_codes and ()
+    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(parseInt($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseInt($.trim($(this).val())) < parseInt($(this).data('hard-minimum')) or parseInt($.trim($(this).val())) > parseInt($(this).data('hard-maximum')))
   )
   number_fields.parent().parent().addClass('error')
   if number_fields.size() > 0
@@ -43,7 +44,7 @@
 @checkSoftMinMax = () ->
   $('[data-object~="minmax"]').parent().parent().removeClass('warning')
   number_fields = $('[data-object~="minmax"]').filter( () ->
-    (isNaN(parseInt($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseInt($.trim($(this).val())) < parseInt($(this).data('soft-minimum')) or parseInt($.trim($(this).val())) > parseInt($(this).data('soft-maximum'))
+    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(parseInt($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseInt($.trim($(this).val())) < parseInt($(this).data('soft-minimum')) or parseInt($.trim($(this).val())) > parseInt($(this).data('soft-maximum')))
   )
   number_fields.parent().parent().addClass('warning')
   if number_fields.size() > 0 and !confirm('Some numeric fields are out of the recommended range. Proceed anyways?')
@@ -56,7 +57,7 @@
 @checkDateMinMax = () ->
   $('[data-object~="dateminmax"]').parent().parent().removeClass('error')
   date_fields = $('[data-object~="dateminmax"]').filter( () ->
-    (isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-hard-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-hard-maximum'))
+    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-hard-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-hard-maximum')))
   )
   date_fields.parent().parent().addClass('error')
   if date_fields.size() > 0
@@ -67,7 +68,7 @@
 @checkSoftDateMinMax = () ->
   $('[data-object~="dateminmax"]').parent().parent().removeClass('warning')
   date_fields = $('[data-object~="dateminmax"]').filter( () ->
-    (isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-soft-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-soft-maximum'))
+    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-soft-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-soft-maximum')))
   )
   date_fields.parent().parent().addClass('warning')
   if date_fields.size() > 0 and !confirm('Some dates are out of the recommended range. Proceed anyways?')

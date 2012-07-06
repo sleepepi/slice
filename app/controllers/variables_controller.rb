@@ -142,6 +142,8 @@ class VariablesController < ApplicationController
   def post_params
     params[:variable] ||= {}
 
+    params[:variable][:option_tokens] ||= {}
+
     [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
       params[:variable][date] = parse_date(params[:variable][date])
     end
