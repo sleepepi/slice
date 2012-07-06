@@ -4,6 +4,9 @@
   * About page reformatted to include links to github and contact information
   * Deleting items from lists uses partial page update to keep selected filters in place
   * Hard Maximums and Hard Minimums added for date variables
+* Email Changes:
+  * Default application name is now added to the from: field for emails
+  * Email subjects no longer include the application name
 
 * Refactoring
   * Index page ordering and sorting now done consistently across project
