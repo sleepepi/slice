@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :minimum, :maximum, :project_id
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :hard_minimum, :hard_maximum, :project_id
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
 
@@ -80,7 +80,7 @@ class Variable < ActiveRecord::Base
   end
 
   def description_range
-    ["#{ "Min: #{self.minimum}" if self.minimum}", "#{ "Max: #{self.maximum}" if self.maximum}", self.description].select{|i| not i.blank?}.join(', ')
+    ["#{ "Min: #{self.hard_minimum}" if self.hard_minimum}", "#{ "Max: #{self.hard_maximum}" if self.hard_maximum}", self.description].select{|i| not i.blank?}.join(', ')
   end
 
 

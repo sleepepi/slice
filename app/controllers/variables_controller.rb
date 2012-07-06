@@ -141,7 +141,7 @@ class VariablesController < ApplicationController
     params[:variable] ||= {}
 
     params[:variable].slice(
-      :name, :display_name, :description, :header, :variable_type, :option_tokens, :minimum, :maximum, :project_id
+      :name, :display_name, :description, :header, :variable_type, :option_tokens, :hard_minimum, :hard_maximum, :project_id
     )
   end
 end
