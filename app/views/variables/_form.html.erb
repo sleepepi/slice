@@ -125,6 +125,13 @@
     </div>
   </div>
 
+  <div class="control-group" data-object="calculated">
+    <%= f.label :calculation, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :calculation, style: 'width:95%' %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
     <%= f.submit nil, class: 'btn btn-primary', data: { target: "##{form_name}", object: "form-check-before-submit" } %>

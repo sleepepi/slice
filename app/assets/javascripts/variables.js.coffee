@@ -15,6 +15,10 @@
     $('[data-object~="date"]').show()
   else
     $('[data-object~="date"]').hide()
+  if $(element).val() in ['calculated']
+    $('[data-object~="calculated"]').show()
+  else
+    $('[data-object~="calculated"]').hide()
 
 @checkForBlankOptions = () ->
   blank_options = $('[data-object~="option-name"]').filter( () ->
@@ -70,6 +74,18 @@
     return false
   true
 
+@updateCalculatedVariables = () ->
+  $.each($('[data-object~="calculated"]'), () ->
+    # alert($(this).data('calculation'))
+    calculation = $(this).data('calculation')
+    # calculation = calculation.replace(/([\w]+)/g, "parseInt($('[data-name=\"\$1\"]').val())");
+    calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseInt($('[data-name=\"\$1\"]').val())");
+    # alert(calculation)
+    calculation_result = eval(calculation)
+    $(this).val(calculation_result)
+    $($(this).data('target')).html(calculation_result)
+  )
+
 jQuery ->
   $('#add_more_options').on('click', () ->
     $.post(root_url + 'variables/add_option', $("form").serialize() + "&_method=post", null, "script")
@@ -99,4 +115,7 @@ jQuery ->
       return false
     $($(this).data('target')).submit()
     false
+  )
+  .on('change', '[data-object~="condition"]', () ->
+    updateCalculatedVariables()
   )

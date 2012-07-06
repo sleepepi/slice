@@ -1,7 +1,7 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation
 
-  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
+  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file', 'calculated'].collect{|i| [i,i]}
 
   serialize :options, Array
 

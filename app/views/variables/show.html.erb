@@ -53,7 +53,11 @@
 
     <dt>Date Soft Maximum</dt>
     <dd><%= simple_date @variable.date_soft_maximum %></dd>
+  <% end %>
 
+  <% if ['calculated'].include?(@variable.variable_type) %>
+    <dt>Calculation</dt>
+    <dd><tt><%= @variable.calculation %></tt></dd>
   <% end %>
 
   <dt>Creator</dt>
