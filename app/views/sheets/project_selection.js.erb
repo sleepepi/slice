@@ -8,12 +8,17 @@ $("#sheet_subject_id").parent().parent().removeClass('warning success error');
 <% if @subject %>
   <% if @subject.validated? %>
   $("#sheet_subject_id").parent().parent().addClass('success');
-  $("#subject_id_info").html("Validated Subject Code!")
+  $("#subject_id_info").html("Subject Found!")
   <% else %>
   $("#sheet_subject_id").parent().parent().addClass('error');
-  $("#subject_id_info").html("Subject Code NOT Validated!")
+  $("#subject_id_info").html("Subject Found, but subject code has not been validated!")
   <% end %>
 <% else %>
-  $("#sheet_subject_id").parent().parent().addClass('warning');
-  $("#subject_id_info").html("Subject Code not found. New Subject will be created!")
+  <% if @subject_code_valid %>
+    $("#sheet_subject_id").parent().parent().addClass('success');
+    $("#subject_id_info").html("Subject Code Valid. New Subject will be created!")
+  <% else %>
+    $("#sheet_subject_id").parent().parent().addClass('warning');
+    $("#subject_id_info").html("Subject Code not Validated. New Subject will be created!")
+  <% end %>
 <% end %>

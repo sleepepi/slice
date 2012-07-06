@@ -4,6 +4,15 @@ class SheetsController < ApplicationController
   def project_selection
     @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
     @subject = @project.subjects.find_by_subject_code(params[:subject_code]) if @project
+
+    @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code])) if @project
+
+    @subject_code_valid = if @site and params[:subject_code] <= @site.code_maximum.to_s and params[:subject_code].size <= @site.code_maximum.to_s.size and params[:subject_code] >= @site.code_minimum.to_s and params[:subject_code].size >= @site.code_minimum.to_s.size
+      true
+    else
+      false
+    end
+
     @disable_selection = (params[:select] != '1')
   end
 
