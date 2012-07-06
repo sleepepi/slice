@@ -33,6 +33,12 @@
 
     <dt>Hard Maximum</dt>
     <dd><%= @variable.hard_maximum %></dd>
+
+    <dt>Soft Minimum</dt>
+    <dd><%= @variable.soft_minimum %></dd>
+
+    <dt>Soft Maximum</dt>
+    <dd><%= @variable.soft_maximum %></dd>
   <% end %>
 
   <% if ['date'].include?(@variable.variable_type) %>
@@ -41,6 +47,13 @@
 
     <dt>Date Hard Maximum</dt>
     <dd><%= simple_date @variable.date_hard_maximum %></dd>
+
+    <dt>Date Soft Minimum</dt>
+    <dd><%= simple_date @variable.date_soft_minimum %></dd>
+
+    <dt>Date Soft Maximum</dt>
+    <dd><%= simple_date @variable.date_soft_maximum %></dd>
+
   <% end %>
 
   <dt>Creator</dt>

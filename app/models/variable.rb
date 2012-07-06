@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :hard_minimum, :hard_maximum, :project_id, :date_hard_maximum, :date_hard_minimum
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
 
@@ -82,7 +82,6 @@ class Variable < ActiveRecord::Base
   def description_range
     ["#{ "Min: #{self.hard_minimum}" if self.hard_minimum}", "#{ "Max: #{self.hard_maximum}" if self.hard_maximum}", self.description].select{|i| not i.blank?}.join(', ')
   end
-
 
   def option_tokens=(tokens)
     unless self.new_record?

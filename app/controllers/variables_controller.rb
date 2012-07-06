@@ -88,10 +88,11 @@ class VariablesController < ApplicationController
   # POST /variables
   # POST /variables.json
   def create
-    @variable = current_user.variables.new(post_params)
+    post_params_copy = post_params
+    @variable = current_user.variables.new(post_params_copy)
 
     respond_to do |format|
-      if @variable.saveable?(current_user, post_params) and @variable.save
+      if @variable.saveable?(current_user, post_params_copy) and @variable.save
         format.html { redirect_to @variable, notice: 'Variable was successfully created.' }
         format.json { render json: @variable, status: :created, location: @variable }
       else
@@ -104,11 +105,12 @@ class VariablesController < ApplicationController
   # PUT /variables/1
   # PUT /variables/1.json
   def update
+    post_params_copy = post_params
     @variable = current_user.all_variables.find_by_id(params[:id])
 
     respond_to do |format|
       if @variable
-        if @variable.saveable?(current_user, post_params) and @variable.update_attributes(post_params)
+        if @variable.saveable?(current_user, post_params_copy) and @variable.update_attributes(post_params_copy)
           format.html { redirect_to @variable, notice: 'Variable was successfully updated.' }
           format.json { head :no_content }
         else
@@ -140,12 +142,12 @@ class VariablesController < ApplicationController
   def post_params
     params[:variable] ||= {}
 
-    [:date_hard_maximum, :date_hard_minimum].each do |date|
+    [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
       params[:variable][date] = parse_date(params[:variable][date])
     end
 
     params[:variable].slice(
-      :name, :display_name, :description, :header, :variable_type, :option_tokens, :hard_minimum, :hard_maximum, :project_id, :date_hard_maximum, :date_hard_minimum
+      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum
     )
   end
 end
