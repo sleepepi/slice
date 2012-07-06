@@ -22,6 +22,7 @@
       <td><%= link_to sheet.subject.name, sheet.subject if sheet.subject %></td>
       <td><%= link_to sheet.user.name, sheet.user if sheet.user %></td>
       <td>
+        <%= link_to 'PDF', print_sheet_path(sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
         <%= link_to 'Edit', edit_sheet_path(sheet), class: 'btn btn-mini' %>
         <%= link_to 'Delete', sheet, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{sheet.name}?" } %>
       </td>
