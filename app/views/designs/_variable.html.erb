@@ -37,7 +37,7 @@
     <% when 'numeric' %>
       <%= number_field_tag "variables[#{@variable.id}]", response, min: @variable.hard_minimum, max: @variable.hard_maximum, data: { object: 'minmax condition', content: @variable.description_range, title: @variable.display_name }, rel: "#{'popover' unless @variable.description_range.blank?}", disabled: disabled %>
     <% when 'date' %>
-      <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker', data: { content: @variable.description, title: @variable.display_name }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
+      <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker', data: { object: 'dateminmax', content: @variable.description, title: @variable.display_name, date_hard_minimum: (@variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (@variable.date_hard_maximum.strftime('%m/%d/%Y') rescue '') }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% else %>
       <%= hidden_field_tag "variables[#{@variable.id}]", disabled: disabled %>
       Unsupported Variable Type <%= @variable.variable_type %>

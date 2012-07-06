@@ -11,6 +11,10 @@
     $('[data-object~="number"]').show()
   else
     $('[data-object~="number"]').hide()
+  if $(element).val() in ['date']
+    $('[data-object~="date"]').show()
+  else
+    $('[data-object~="date"]').hide()
 
 @checkForBlankOptions = () ->
   blank_options = $('[data-object~="option-name"]').filter( () ->
@@ -22,12 +26,27 @@
   true
 
 @checkMinMax = () ->
+  $('[data-object~="minmax"]').parent().parent().removeClass('error')
   number_fields = $('[data-object~="minmax"]').filter( () ->
-    parseInt($.trim($(this).val())) < parseInt($(this).attr('min')) or parseInt($.trim($(this).val())) > parseInt($(this).attr('max'))
+    (isNaN(parseInt($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseInt($.trim($(this).val())) < parseInt($(this).attr('min')) or parseInt($.trim($(this).val())) > parseInt($(this).attr('max'))
   )
   number_fields.parent().parent().addClass('error')
   if number_fields.size() > 0
     alert('Some numeric fields are out of range!')
+    return false
+  true
+
+# Select dates that don't parse as dates, and are not blank
+# or dates where the value is less than the hard minimum
+# or dates where the value is greater than the hard maximum
+@checkDateMinMax = () ->
+  $('[data-object~="dateminmax"]').parent().parent().removeClass('error')
+  date_fields = $('[data-object~="dateminmax"]').filter( () ->
+    (isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-hard-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-hard-maximum'))
+  )
+  date_fields.parent().parent().addClass('error')
+  if date_fields.size() > 0
+    alert('Some dates are out of range!')
     return false
   true
 
@@ -51,6 +70,8 @@ jQuery ->
 
   $(document).on('click', '[data-object~="variable-check-before-submit"]', () ->
     if checkMinMax() == false
+      return false
+    if checkDateMinMax() == false
       return false
     $($(this).data('target')).submit()
     false

@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :hard_minimum, :hard_maximum, :project_id
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :hard_minimum, :hard_maximum, :project_id, :date_hard_maximum, :date_hard_minimum
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'file'].collect{|i| [i,i]}
 
