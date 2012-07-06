@@ -15,7 +15,7 @@
 
   <% @sites.each do |site| %>
     <tr id="site_<%= site.id %>">
-      <td><%= site.name %></td>
+      <td><%= link_to site.name, site %></td>
       <td><%= site.prefix %></td>
       <td><%= site.description %></td>
       <td><%= link_to site.project.name, site.project if site.project %></td>

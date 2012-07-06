@@ -205,6 +205,9 @@ class SheetsController < ApplicationController
 
     unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
       subject = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id, site_id: params[:site_id] })
+      if subject.site and params[:subject_code] <= subject.site.code_maximum.to_s and params[:subject_code].size <= subject.site.code_maximum.to_s.size and params[:subject_code] >= subject.site.code_minimum.to_s and params[:subject_code].size >= subject.site.code_minimum.to_s.size
+        subject.update_attribute :validated, true
+      end
     end
 
     params[:sheet][:subject_id] = (subject ? subject.id : nil)

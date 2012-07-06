@@ -1,5 +1,5 @@
 class Site < ActiveRecord::Base
-  attr_accessible :description, :emails, :name, :project_id, :prefix
+  attr_accessible :description, :emails, :name, :project_id, :prefix, :code_minimum, :code_maximum
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
