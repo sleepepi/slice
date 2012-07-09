@@ -6,7 +6,7 @@
 # This function updates all variables starting with lowest one and progressing up in visibility.
 @updateAllVariables = () ->
   variableContainers = $('[data-object~="variable-container"]')
-  dmsg("Updating #{variableContainers.length} Variables")
+  # dmsg("Updating #{variableContainers.length} Variables")
   # $(variableContainers.get().reverse()).each( (index, variableContainer) ->
   variableContainers.each( (index, variableContainer) ->
     updateVariableContainer(variableContainer)
@@ -18,7 +18,7 @@
 # Show if none of the values evaluate to false [1,1,1,1] or [], but not [1,0,1,1] or [0]
 @updateVariableContainer = (element) ->
   # dmsg("Updating #{$(element).attr('id')}")
-  values_hash = $(element).data('values-hash')
+  values_hash = $(element).data('values-hash') || []
   truth_table = []
   $.each(values_hash, (index, condition_hash) ->
     result = checkCondition(condition_hash)
