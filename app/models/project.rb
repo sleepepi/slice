@@ -20,6 +20,7 @@ class Project < ActiveRecord::Base
   has_many :members, through: :project_users, source: :user, conditions: ['project_users.librarian = ? and users.deleted = ?', false, false]
 
   has_many :designs, conditions: { deleted: false }
+  has_many :variables, conditions: { deleted: false }
   has_many :sheets, conditions: { deleted: false }
   has_many :sites, conditions: { deleted: false }
   has_many :subjects, conditions: { deleted: false }

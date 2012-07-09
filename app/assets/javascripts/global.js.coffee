@@ -26,4 +26,3 @@ jQuery ->
     $($(this).data('target')).submit()
     false
   )
-

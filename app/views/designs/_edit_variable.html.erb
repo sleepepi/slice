@@ -12,7 +12,7 @@
       <div class="control-group" style="margin-bottom:0px">
         <%= label_tag "design_option_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
         <div class="controls">
-          <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([['---', nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %>
+          <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
         </div>
       </div>
       <div class="control-group variable_<%= position %>_details" style="margin-top:18px;display:none" data-object="variabledetails">
@@ -43,5 +43,6 @@ $('[data-object~="variable-load"]').change( function(){
   retrieveVariable(<%= escape_javascript(position) %>);
   return false;
 });
+$('.chzn-select').chosen();
 $('#variable_<%= position %>').click();
 <% end %>
