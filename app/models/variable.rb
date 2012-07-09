@@ -143,7 +143,7 @@ class Variable < ActiveRecord::Base
   end
 
   def grouped_by_missing
-    [ [self.display_name, self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}],
+    [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}],
       ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}]
     ]
   end
