@@ -9,6 +9,7 @@
   * Missing codes can now be added to numerics and integers
   * Subjects can be automatically validated for sites that indicated valid subject ranges
   * Sheet PDFs can be downloaded from Sheets Index page
+  * Dropdown Variables are now have options grouped by missing codes
 * Email Changes:
   * Default application name is now added to the from: field for emails
   * Email subjects no longer include the application name
