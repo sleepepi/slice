@@ -148,12 +148,6 @@ class Variable < ActiveRecord::Base
     ]
   end
 
-  # def grouped_by_missing
-  #   [ [self.display_name, self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}],
-  #     ['Missing', []]
-  #   ]
-  # end
-
   def response_name(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
