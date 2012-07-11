@@ -125,6 +125,20 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not create sheet or subject if site_id is missing" do
+    assert_difference('Sheet.count', 0) do
+      assert_difference('Subject.count', 0) do
+        post :create, sheet: { design_id: @sheet.design_id, project_id: @sheet.project_id, study_date: '05/21/2012' },
+                      subject_code: 'Code01'
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should show sheet" do
     get :show, id: @sheet
     assert_not_nil assigns(:sheet)

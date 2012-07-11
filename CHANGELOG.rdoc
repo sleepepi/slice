@@ -1,5 +1,8 @@
 == 0.4.1
 
+* Testing
+  * Added test to assure that subjects can't be created without being assigned to a site
+
 == 0.4.0
 
 * Enhancements
