@@ -1,5 +1,8 @@
 == 0.5.0
 
+* Testing
+  * Use ActionDispatch for Integration tests instead of ActionController
+
 == 0.4.1
 
 * Testing
