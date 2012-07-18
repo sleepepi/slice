@@ -40,7 +40,9 @@ class Variable < ActiveRecord::Base
   end
 
   def name_with_project
-    self.project ? "#{self.name} - #{self.project.name}" : "#{self.name} - Global"
+    @name_with_project ||= begin
+      self.project ? "#{self.name} - #{self.project.name}" : "#{self.name} - Global"
+    end
   end
 
   def editable_by?(current_user)

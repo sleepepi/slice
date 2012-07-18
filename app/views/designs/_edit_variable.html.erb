@@ -8,17 +8,18 @@
 
   <div class="row">
     <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
+
     <div class="span4">
       <div class="control-group" style="margin-bottom:0px">
         <%= label_tag "design_option_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
         <div class="controls">
-          <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
+          <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + @select_variables, @option[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
         </div>
       </div>
       <div class="control-group variable_<%= position %>_details" style="margin-top:18px;display:none" data-object="variabledetails">
         <%= label_tag "design_option_tokens_#{position}_condition", 'Show If', class: 'control-label' %>
         <div class="controls">
-          <%= select_tag "design[option_tokens][#{position}][condition_variable_id]", options_for_select([['---', nil]] + current_user.all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}, @option[:condition_variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %>
+          <%= select_tag "design[option_tokens][#{position}][condition_variable_id]", options_for_select([['---', nil]] + @select_variables, @option[:condition_variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %>
         </div>
       </div>
       <div class="control-group variable_<%= position %>_details" style="margin-bottom:0px;display:none" data-object="variabledetails">
@@ -31,7 +32,7 @@
 
     <div class="span4 variable_<%= position %>_details" style="margin-bottom:-18px;display:none" data-object="variabledetails">
       <div id="design_<%= position %>_variable_preview">
-        <% @variable = current_user.all_viewable_variables.find_by_id(@option[:variable_id]) %>
+        <% @variable = @all_viewable_variables.find_by_id(@option[:variable_id]) %>
         <%= render partial: 'designs/variable', locals: { disabled: 'disabled' } if @variable %>
       </div>
     </div>
