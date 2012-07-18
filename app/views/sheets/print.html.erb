@@ -24,6 +24,13 @@
   </tbody>
 </table>
 
+
+  <div class="page-header">
+    <h1><%= @sheet.design.name %></h1>
+  </div>
+  <p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @sheet.design.description %></p>
+
+<% if false %>
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
@@ -36,13 +43,14 @@
     </tr>
   </tbody>
 </table>
+<% end %>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped table-bordered" style="width:100%"><col width="60%"/><col width="40%"/>
   <tbody>
     <% @sheet.design.options.each_with_index do |option, index| %>
       <% @option = option %>
       <% if @option[:variable_id].blank? %>
-        <% unless index == 0 %></tbody></table><table class="table table-striped table-bordered" style="width:100%"><tbody><% end %>
+        <% unless index == 0 %></tbody></table><table class="table table-striped table-bordered" style="width:100%"><col width="60%"/><col width="40%"/><tbody><% end %>
         <tr><td colspan="2"><h4><%= @option[:section_name] %></h4></td></tr>
       <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
 

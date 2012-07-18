@@ -5,6 +5,13 @@
   <%= stylesheet_link_tag "application", media: 'all' %>
 </head>
 <body style="padding-top:0px">
+
+  <div class="page-header">
+    <h1><%= @design.name %></h1>
+  </div>
+  <p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @design.description %></p>
+
+<% if false %>
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
@@ -17,13 +24,14 @@
     </tr>
   </tbody>
 </table>
+<% end %>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped table-bordered" style="width:100%"><col width="25%"/><col width="75%"/>
   <tbody>
   <% @design.options.each_with_index do |option, index| %>
     <% @option = option %>
     <% if @option[:variable_id].blank? %>
-      <% unless index == 0 %></tbody></table><table class="table table-striped table-bordered" style="width:100%"><tbody><% end %>
+      <% unless index == 0 %></tbody></table><table class="table table-striped table-bordered" style="width:100%"><col width="25%"/><col width="75%"/><tbody><% end %>
       <tr><td colspan="2"><h4><%= @option[:section_name] %></h4></td></tr>
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
       <% unless @variable.header.blank? %>
@@ -35,12 +43,12 @@
           <% if @variable.variable_type == 'date' %>
             ____ /____ /________ <span class="muted">MM / DD / YYYY</span>
           <% elsif ['checkbox'].include?(@variable.variable_type) %>
-            <% @variable.options.each do |option| %>
-              <span style="white-space:nowrap;margin-right:20px"><%= check_box_tag "variable_#{@variable.id}_#{option[:value]}" %> <%= option[:value] %>: <%= option[:name] %></span>
+            <% @variable.options_without_missing.each do |option| %>
+              <p style="white-space:nowrap"><%= check_box_tag "variable_#{@variable.id}_#{option[:value]}" %> <%= option[:value] %>: <%= option[:name] %></p>
             <% end %>
           <% elsif ['radio','dropdown'].include?(@variable.variable_type) %>
-            <% @variable.options.each do |option| %>
-              <span style="white-space:nowrap;margin-right:20px"><%= radio_button_tag "variable_#{@variable.id}", option[:value] %> <%= option[:value] %>: <%= option[:name] %></span>
+            <% @variable.options_without_missing.each do |option| %>
+              <p style="white-space:nowrap"><%= radio_button_tag "variable_#{@variable.id}", option[:value] %> <%= option[:value] %>: <%= option[:name] %></p>
             <% end %>
           <% else %>
             <%#= @variable.response_name(@sheet) %>
