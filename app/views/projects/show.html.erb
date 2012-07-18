@@ -62,29 +62,63 @@
 
   <dt>Emails</dt>
   <dd><%= @project.emails %></dd>
-
-  <dt>Sites</dt>
-  <dd>
-    <ul>
-      <% @project.sites.order('name').each do |site| %>
-      <li>
-        <%= link_to site.name, site %>
-      </li>
-      <% end %>
-    </ul>
-  </dd>
-
-  <dt>Designs</dt>
-  <dd>
-    <ul>
-      <% @project.designs.order('name').each do |design| %>
-      <li>
-        <%= link_to design.name, design %>
-      </li>
-      <% end %>
-    </ul>
-  </dd>
 </dl>
+
+<div class="page-header">
+  <h2>Sites</h2>
+</div>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Site</th>
+      <th>Prefix</th>
+      <th>Subject Code Range</th>
+      <th># Subjects</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @project.sites.order('name').each do |site| %>
+    <tr>
+      <td><%= link_to site.name, site %></td>
+      <td><%= site.prefix %></td>
+      <td>
+        <% if site.code_minimum.blank? and site.code_maximum.blank? %>
+          <span class="muted">No Range</span>
+        <% elsif not site.code_minimum.blank? and site.code_maximum.blank? %>
+          Starts at <%= site.code_minimum %>
+        <% elsif site.code_minimum.blank? and not site.code_maximum.blank? %>
+          Ends at <%= site.code_maximum %>
+        <% else %>
+          <%= site.code_minimum %> to <%= site.code_maximum %>
+        <% end %>
+      </td>
+      <td><%= site.subjects.count %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="page-header">
+  <h2>Designs</h2>
+</div>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Design</th>
+      <th># Sheets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @project.designs.order('name').each do |design| %>
+    <tr>
+      <td><%= link_to design.name, design %></td><td><%= Sheet.current.where(project_id: @project.id, design_id: design.id).count %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
 
 <div class="page-header">
   <h2>Sharing</h2>
