@@ -110,7 +110,7 @@ class ProjectsController < ApplicationController
     params[:project] ||= {}
 
     params[:project].slice(
-      :name, :description, :emails
+      :name, :description, :emails, :acrostic_enabled
     )
   end
 end

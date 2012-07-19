@@ -30,6 +30,13 @@
     </div>
   </div>
 
+  <div class="control-group" style="<%= 'display:none' unless @sheet.project and @sheet.project.acrostic_enabled? %>" id="acrostic-container">
+    <%= label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic' %>
+    </div>
+  </div>
+
   <div class="control-group">
     <%= f.label :study_date, nil, class: 'control-label' %>
     <div class="controls">

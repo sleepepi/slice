@@ -1,1 +1,6 @@
 $("#site").html("<%= escape_javascript(render("sites/selection")) %>");
+<% if @project and @project.acrostic_enabled? %>
+$('#acrostic-container').show();
+<% else %>
+$('#acrostic-container').hide();
+<% end %>

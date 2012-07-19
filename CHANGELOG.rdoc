@@ -4,6 +4,7 @@
   * Printable version of designs and sheets have been improved
   * Project specific page now shows more information on associated designs and sites
   * Sheets can now be exported as labeled or unlabeled CSV files
+  * Projects can now enable acrostic codes for subjects
 
 * Bug Fix
   * Designs loading time for editing has been improved

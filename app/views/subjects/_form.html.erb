@@ -36,6 +36,13 @@
     </div>
   </div>
 
+  <div class="control-group" style="<%= 'display:none' unless @subject.project and @subject.project.acrostic_enabled? %>" id="acrostic-container">
+    <%= f.label :acrostic, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :acrostic %>
+    </div>
+  </div>
+
   <div class="control-group">
     <%= label_tag :validated, nil, class: 'control-label' %>
     <div class="controls">

@@ -13,6 +13,7 @@ $("#sheet_subject_id").parent().parent().removeClass('warning success error');
   $("#sheet_subject_id").parent().parent().addClass('error');
   $("#subject_id_info").html("Subject Found, but subject code has not been validated!")
   <% end %>
+  $('#sheet_subject_acrostic').val('<%= escape_javascript(@subject.acrostic) %>');
 <% else %>
   <% if @subject_code_valid %>
     $("#sheet_subject_id").parent().parent().addClass('success');
@@ -21,4 +22,11 @@ $("#sheet_subject_id").parent().parent().removeClass('warning success error');
     $("#sheet_subject_id").parent().parent().addClass('warning');
     $("#subject_id_info").html("Subject Code not Validated. New Subject will be created!")
   <% end %>
+  $('#sheet_subject_acrostic').val('');
+<% end %>
+
+<% if @project and @project.acrostic_enabled? %>
+$('#acrostic-container').show();
+<% else %>
+$('#acrostic-container').hide();
 <% end %>

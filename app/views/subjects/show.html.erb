@@ -15,6 +15,11 @@
   <dt>Subject Code</dt>
   <dd><%= @subject.subject_code %></dd>
 
+  <% if @subject.project.acrostic_enabled? %>
+    <dt>Acrostic</dt>
+    <dd><%= @subject.acrostic %></dd>
+  <% end %>
+
   <dt>Validated</dt>
   <dd><%= simple_check @subject.validated? %></dd>
 

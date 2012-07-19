@@ -6,9 +6,9 @@ class SubjectsController < ApplicationController
   def index
     subject_scope = current_user.all_viewable_subjects
 
-    project = Project.find_by_id(params[:project_id])
-    params[:site_id] = nil if project and not project.sites.pluck(:id).include?(params[:site_id].to_i)
-    params[:design_id] = nil if project and not project.designs.pluck(:id).include?(params[:design_id].to_i)
+    @project = Project.find_by_id(params[:project_id])
+    params[:site_id] = nil if @project and not @project.sites.pluck(:id).include?(params[:site_id].to_i)
+    params[:design_id] = nil if @project and not @project.designs.pluck(:id).include?(params[:design_id].to_i)
 
     ['project', 'site'].each do |filter|
       subject_scope = subject_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
@@ -126,7 +126,7 @@ class SubjectsController < ApplicationController
     params[:subject][:project_id] = nil unless current_user.all_viewable_projects.pluck(:id).include?(params[:subject][:project_id].to_i)
 
     params[:subject].slice(
-      :project_id, :subject_code, :site_id, :validated
+      :project_id, :subject_code, :site_id, :validated, :acrostic
     )
   end
 end

@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :description, :name, :emails
+  attr_accessible :description, :name, :emails, :acrostic_enabled
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

@@ -5,6 +5,11 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.validated', '', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.subject_code', 'Subject Code', 'subjects_search') %></th>
+
+      <% if (@project and @project.acrostic_enabled?) or not @project %>
+        <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.acrostic', 'Acrostic', 'subjects_search') %></th>
+      <% end %>
+
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.project_id', 'Project', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.site_id', 'Site', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.user_id', 'Creator', 'subjects_search') %></th>
@@ -16,6 +21,9 @@
     <tr id="subject_<%= subject.id %>">
       <td><%= simple_check subject.validated? %></td>
       <td><%= link_to subject.subject_code, subject %></td>
+      <% if (@project and @project.acrostic_enabled?) or not @project %>
+      <td><%= subject.acrostic %></td>
+      <% end %>
       <td><%= link_to subject.project.name, subject.project if subject.project %></td>
       <td><%= link_to subject.site.name, subject.site if subject.site %></td>
       <td><%= link_to subject.user.name, subject.user if subject.user %></td>

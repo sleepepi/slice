@@ -1,5 +1,5 @@
 class Subject < ActiveRecord::Base
-  attr_accessible :project_id, :subject_code, :user_id, :site_id, :validated
+  attr_accessible :project_id, :subject_code, :user_id, :site_id, :validated, :acrostic
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
