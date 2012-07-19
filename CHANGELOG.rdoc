@@ -6,6 +6,7 @@
 
 * Bug Fix
   * Designs loading time for editing has been improved
+  * Scroll-spy now works correctly on designs where variables are dynamically shown and hidden
 
 * Testing
   * Use ActionDispatch for Integration tests instead of ActionController
