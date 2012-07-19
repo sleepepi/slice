@@ -36,6 +36,28 @@
     </div>
   </div>
 
+      Variable values can be referenced using $(variable_name)
+      Variable display names can be referenced using $(variable_name).name
+      Subject code can be referenced by #(subject).code
+      Subject acrostic can be referenced by #(subject).acrostic
+
+
+  <div class="control-group">
+    <%= f.label :email_template, nil, class: 'control-label' %>
+    <div class="controls" rel="popover" data-content="
+      <table class='table table-bordered'>
+        <thead><tr><th>Code</th><th>Example Output</th></tr></thead>
+        <tr><td>$(age)</td><td>28</td></tr>
+        <tr><td>$(age).name</td><td>Age at Study</td></tr>
+        <tr><td>#(subject)</td><td>1234</td></tr>
+        <tr><td>#(subject).acrostic</td><td>REMU</td></tr>
+      </table>
+      " data-title="Reference Variables" data-placement='top'>
+      <%= f.text_area :email_template, rows: 7, style: 'width:95%' %>
+
+    </div>
+  </div>
+
   <div class="btn-toolbar">
     <%= link_to 'Add Another Variable', '#', id: 'add_more_variables_top', class: 'btn btn-mini' %>
     <%= link_to 'Add Section', '#', id: 'add_more_sections_top', class: 'btn btn-mini' %>

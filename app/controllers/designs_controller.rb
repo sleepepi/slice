@@ -156,7 +156,7 @@ class DesignsController < ApplicationController
     params[:design] ||= {}
 
     params[:design].slice(
-      :name, :description, :project_id, :option_tokens
+      :name, :description, :project_id, :option_tokens, :email_template
     )
   end
 end

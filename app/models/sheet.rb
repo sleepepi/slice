@@ -45,38 +45,63 @@ class Sheet < ActiveRecord::Base
   end
 
   def email_body_template(current_user)
-    %Q{Dear #{self.subject.site.name}:
-
-On #{self.created_at.strftime("%m/%d/%Y")} I reviewed #{self.name} for #{self.subject.subject_code} collected on #{self.study_date.strftime("%m/%d/%Y")} and have some comments (see below).
-
-
-
-Feel free to contact me if you have any questions.  Thank you.
-
-
-
-  Participant ID:    #{self.subject.subject_code}
-
-  Date of Study:    #{self.study_date.strftime("%m/%d/%Y")}
-
-  Date Received:    #{self.created_at.strftime("%m/%d/%Y")}
-
-
-#{self.email_body_template_options(current_user)}
-
-  Comments:
-
-Thanks,
-
-
-
-#{current_user.name}
-  }
+    self.design.email_template.to_s.gsub(/\$\((.*?)\)(\.name)?/){|m| variable_replacement($1,$2)}.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
   end
 
-  def email_body_template_options(current_user)
-    self.design.options.collect{|opt| (v = Variable.current.find_by_id(opt[:variable_id])) ? (v.header.blank? ? '' : " #{v.header}\n") + '  ' + v.name.to_s + ':  ' + v.response_name(self).to_s : "\n#{opt[:section_name]}"}.join("\n\n")
+  def variable_replacement(variable_name, display_name)
+    variable = self.variables.find_by_name(variable_name)
+    if variable and display_name.blank?
+      variable.response_name(self)
+    elsif variable and display_name == '.name'
+      variable.display_name
+    else
+      ''
+    end
   end
+
+  def subject_replacement(property)
+    if property.blank?
+      self.subject.subject_code
+    elsif property == '.acrostic'
+      self.subject.acrostic.to_s
+    else
+      ''
+    end
+  end
+
+#   def email_body_template(current_user)
+#     %Q{Dear #{self.subject.site.name}:
+
+# On #{self.created_at.strftime("%m/%d/%Y")} I reviewed #{self.name} for #{self.subject.subject_code} collected on #{self.study_date.strftime("%m/%d/%Y")} and have some comments (see below).
+
+
+
+# Feel free to contact me if you have any questions.  Thank you.
+
+
+
+#   Participant ID:    #{self.subject.subject_code}
+
+#   Date of Study:    #{self.study_date.strftime("%m/%d/%Y")}
+
+#   Date Received:    #{self.created_at.strftime("%m/%d/%Y")}
+
+
+# #{self.email_body_template_options(current_user)}
+
+#   Comments:
+
+# Thanks,
+
+
+
+# #{current_user.name}
+#   }
+#   end
+
+  # def email_body_template_options(current_user)
+  #   self.design.options.collect{|opt| (v = Variable.current.find_by_id(opt[:variable_id])) ? (v.header.blank? ? '' : " #{v.header}\n") + '  ' + v.name.to_s + ':  ' + v.response_name(self).to_s : "\n#{opt[:section_name]}"}.join("\n\n")
+  # end
 
   def email_subject_template(current_user)
     "#{self.project.name} #{self.name} Receipt: #{self.subject.subject_code}"
