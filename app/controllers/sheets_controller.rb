@@ -69,34 +69,19 @@ class SheetsController < ApplicationController
 
     @sheet_count = sheet_scope.count
 
-    if params[:format] == 'csv'
+    if params[:format] == 'labeled_csv'
       if @sheet_count == 0
         redirect_to sheets_path, alert: 'No data was exported since no sheets matched the specified filters.'
         return
       end
-      @csv_string = CSV.generate do |csv|
-        variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
-        csv << ["Name", "Description", "Study Date", "Project", "Site", "Subject", "Creator"] + variable_names
-        sheet_scope.each do |sheet|
-          row = [sheet.name,
-                  sheet.description,
-                  sheet.study_date.blank? ? '' : sheet.study_date.strftime("%m-%d-%Y"),
-                  sheet.project.name,
-                  sheet.subject.site.name,
-                  sheet.subject.name,
-                  sheet.user.name]
-          variable_names.each do |variable_name|
-            row << if variable = sheet.variables.find_by_name(variable_name)
-              variable.response_name(sheet)
-            else
-              ''
-            end
-          end
-          csv << row
-        end
+      generate_csv(sheet_scope, false)
+      return
+    elsif params[:format] == 'raw_csv'
+      if @sheet_count == 0
+        redirect_to sheets_path, alert: 'No data was exported since no sheets matched the specified filters.'
+        return
       end
-      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                            disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+      generate_csv(sheet_scope, true)
       return
     end
 
@@ -206,6 +191,32 @@ class SheetsController < ApplicationController
   end
 
   private
+
+  def generate_csv(sheet_scope, raw_data)
+    @csv_string = CSV.generate do |csv|
+      variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
+      csv << ["Name", "Description", "Study Date", "Project", "Site", "Subject", "Creator"] + variable_names
+      sheet_scope.each do |sheet|
+        row = [sheet.name,
+                sheet.description,
+                sheet.study_date.blank? ? '' : sheet.study_date.strftime("%m-%d-%Y"),
+                sheet.project.name,
+                sheet.subject.site.name,
+                sheet.subject.name,
+                sheet.user.name]
+        variable_names.each do |variable_name|
+          row << if variable = sheet.variables.find_by_name(variable_name)
+            raw_data ? variable.response_raw(sheet) : (variable.variable_type == 'checkbox' ? variable.response_name(sheet).join(',') : variable.response_name(sheet))
+          else
+            ''
+          end
+        end
+        csv << row
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")} #{raw_data ? 'raw' : 'labeled' }.csv\""
+  end
 
   def post_params
     params[:sheet] ||= {}

@@ -67,7 +67,20 @@
 
   <div class="form-actions">
     <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
-    <%= link_to 'Export', '#', class: 'btn', data: { object: 'export', format: 'csv' } %>
+    <%#= link_to 'Export', '#', class: 'btn', data: { object: 'export', format: 'csv' } %>
+
+    <span class="dropdown">
+      <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', 'data-toggle' => "dropdown" %>
+      <ul id="export-submenu" class="dropdown-menu" style="margin-top:9px">
+        <li>
+          <%= link_to 'Unlabeled Data', '#', data: { object: 'export', format: 'raw_csv' } %>
+        </li>
+        <li>
+          <%= link_to 'Labeled Data', '#', data: { object: 'export', format: 'labeled_csv' } %>
+        </li>
+      </ul>
+    </span>
+
     <%= link_to 'Reset', '#', class: 'btn', data: { target: '#sheets_search', object: 'reset-filters' } %>
   </div>
 <% end %>

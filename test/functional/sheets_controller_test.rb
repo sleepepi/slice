@@ -20,15 +20,28 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:sheet)
   end
 
-  test "should get csv" do
-    get :index, format: 'csv'
+  test "should get raw csv" do
+    get :index, format: 'raw_csv'
     assert_not_nil assigns(:csv_string)
     assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
-  test "should not get csv when no sheets are selected" do
-    get :index, format: 'csv', project_id: -1
+  test "should get labeled csv" do
+    get :index, format: 'labeled_csv'
+    assert_not_nil assigns(:csv_string)
+    assert_not_nil assigns(:sheet_count)
+    assert_response :success
+  end
+
+  test "should not get raw csv when no sheets are selected" do
+    get :index, format: 'raw_csv', project_id: -1
+    assert_equal 0, assigns(:sheet_count)
+    assert_redirected_to sheets_path
+  end
+
+  test "should not get labeled csv when no sheets are selected" do
+    get :index, format: 'labeled_csv', project_id: -1
     assert_equal 0, assigns(:sheet_count)
     assert_redirected_to sheets_path
   end

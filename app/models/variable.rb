@@ -158,7 +158,20 @@ class Variable < ActiveRecord::Base
       [hash[:value], hash[:name]].compact.join(': ')
     elsif ['checkbox'].include?(self.variable_type)
       array = YAML::load(response) rescue array = []
-      (self.options.select{|option| array.include?(option[:value])}).collect{|option| option[:value] + ": " + option[:name]} || []
+      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
+    else
+      response
+    end
+  end
+
+  def response_raw(sheet)
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    response = (sheet_variable ? sheet_variable.response : nil)
+    if ['dropdown', 'radio'].include?(self.variable_type)
+      response
+    elsif ['checkbox'].include?(self.variable_type)
+      array = YAML::load(response) rescue array = []
+      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
     else
       response
     end

@@ -65,7 +65,7 @@
               <%= simple_format @variable.response_name(@sheet).to_s %>
             <% elsif @variable.variable_type == 'checkbox' %>
               <% @variable.response_name(@sheet).each do |response| %>
-                <%= response %>
+                <p><%= response %></p>
               <% end %>
             <% else %>
               <%= @variable.response_name(@sheet) %>
