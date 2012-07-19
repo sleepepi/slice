@@ -3,9 +3,9 @@
     <h4><%= @variable.header %></h4>
   </div>
 <% end %>
-<dl class="dl-horizontal">
-  <dt><%= @variable.display_name %></dt>
-  <dd>
+<div class="control-group">
+  <label class="control-label"><%= @variable.display_name %></label>
+  <div class="controls" style="padding-top:5px">
     <% if @variable.variable_type == 'text' %>
       <%= simple_format @variable.response_name(@sheet).to_s %>
     <% elsif @variable.variable_type == 'checkbox' %>
@@ -15,5 +15,5 @@
     <% else %>
       <%= @variable.response_name(@sheet) %>
     <% end %>
-  </dd>
-</dl>
+  </div>
+</div>
