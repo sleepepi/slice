@@ -7,6 +7,7 @@
   * Projects can now enable acrostic codes for subjects
   * Each design can have its email template customized
   * Sheets can be exported as a PDF collation
+  * Missing codes for numerics are now displayed as a name and value when viewing sheets
 
 * Bug Fix
   * Designs loading time for editing has been improved

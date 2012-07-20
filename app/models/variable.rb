@@ -159,6 +159,9 @@ class Variable < ActiveRecord::Base
     elsif ['checkbox'].include?(self.variable_type)
       array = YAML::load(response) rescue array = []
       self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
+    elsif ['integer', 'numeric'].include?(self.variable_type)
+      hash = self.options_only_missing.select{|option| option[:value] == response}.first
+      hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
     else
       response
     end
