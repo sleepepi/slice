@@ -85,12 +85,13 @@ class SheetsController < ApplicationController
       return
     end
 
-    @sheets = sheet_scope.page(params[:page]).per( 20 )
-
     if params[:format] == 'scope'
+      @sheets = sheet_scope
       render 'scope', layout: false
       return
     end
+
+    @sheets = sheet_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
