@@ -17,25 +17,10 @@
   </tbody>
 </table>
 
-  <div class="page-header">
-    <h1><%= @sheet.design.name %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %></div></h1>
-  </div>
-  <p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @sheet.design.description %></p>
-
-<% if false %>
-<table class="table table-striped table-bordered" style="width:100%">
-  <thead>
-    <tr>
-      <th><%= @sheet.design.name %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= simple_format @sheet.design.description %></td>
-    </tr>
-  </tbody>
-</table>
-<% end %>
+<div class="page-header">
+  <h1><%= @sheet.design.name %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %></div></h1>
+</div>
+<p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @sheet.design.description %></p>
 
 <table class="table table-striped table-bordered" style="width:100%"><col width="60%"/><col width="40%"/>
   <tbody>

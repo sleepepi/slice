@@ -40,6 +40,9 @@
       <%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker', data: { object: 'dateminmax', content: @variable.description, title: @variable.display_name,
        date_hard_minimum: (@variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (@variable.date_hard_maximum.strftime('%m/%d/%Y') rescue ''),
        date_soft_minimum: (@variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (@variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''), missing_codes: @variable.missing_codes }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
+    <% when 'time' %>
+      <%= text_field_tag "variables[#{@variable.id}]", (Time.parse(response).strftime('%H:%M:%S') rescue response), data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
+      <%= javascript_tag "$(function(){ $('#variables_#{@variable.id}').timepicker({ 'timeFormat': 'H:i:s' }); });" %>
     <% when 'calculated'  %>
       <%= hidden_field_tag "variables[#{@variable.id}]", nil, disabled: disabled, data: { object: 'calculated', calculation: @variable.calculation, target: "#variable_#{@variable.id}_calculation_result", name: @variable.name } %>
       <span id="variable_<%= @variable.id %>_calculation_result" rel="<%= 'popover' unless @variable.calculation.blank? %>" data-content="<tt><center><%= @variable.calculation %></center></tt><%= simple_format ("<hr/>" + @variable.description.to_s) unless @variable.description.blank? %>" data-title="<%= @variable.display_name %>"></span>

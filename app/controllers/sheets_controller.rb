@@ -261,7 +261,8 @@ class SheetsController < ApplicationController
     (params[:variables] || {}).each_pair do |variable_id, response|
       sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: current_user.id } )
       response = [] if sv.variable.variable_type == 'checkbox' and response.blank?
-      response = (sv.variable.variable_type == 'date') ? parse_date(response) : response
+      response = (sv.variable.variable_type == 'date') ? parse_date(response, response) : response
+      response = (sv.variable.variable_type == 'time') ? parse_time(response) : response # Currently things that aren't parsed are stored as blank.
       sv.update_attribute :response, response
     end
   end
