@@ -34,6 +34,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get pdf collation" do
+    get :index, format: 'scope'
+    assert_not_nil assigns(:sheet_count)
+    assert_not_nil assigns(:sheets)
+    assert_template 'scope'
+    assert_response :success
+  end
+
   test "should not get raw csv when no sheets are selected" do
     get :index, format: 'raw_csv', project_id: -1
     assert_equal 0, assigns(:sheet_count)

@@ -1,10 +1,15 @@
 PDFKit.configure do |config|
   config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
   config.default_options = {
-    :disable_external_links => true,
-    :disable_internal_links => true
-  #   :page_size => 'Legal',
-  #   :print_media_type => true
+    disable_external_links: true,
+    disable_internal_links: true,
+    footer_font_name: 'Helvetica Neue',
+    footer_right: "Page [page] of [toPage]",
+    footer_left: '[section]'
+    #, header_right: "Page [page] of [toPage]"
+    #, footer_center: "Page [page] of [toPage]"
+    #, page_size: 'Legal'
+    #, print_media_type: true
   }
   # config.root_url = "http://localhost" # Use only if your external hostname is unavailable on the server.
 end

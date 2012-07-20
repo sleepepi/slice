@@ -6,6 +6,7 @@
   * Sheets can now be exported as labeled or unlabeled CSV files
   * Projects can now enable acrostic codes for subjects
   * Each design can have its email template customized
+  * Sheets can be exported as a PDF collation
 
 * Bug Fix
   * Designs loading time for editing has been improved

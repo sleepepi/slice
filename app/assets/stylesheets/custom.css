@@ -52,3 +52,9 @@ p.about-footer {
   text-align:center;
   font-weight:300;
 }
+
+@media print {
+  table {
+    page-break-inside:avoid;
+  }
+}

@@ -5,5 +5,8 @@
   <%= stylesheet_link_tag "application", media: 'all' %>
 </head>
 <body style="padding-top:0px">
-  <%= render partial: 'sheets/print' %>
+  <% @sheets.each do |sheet| %>
+    <%= @sheet = sheet; render partial: 'sheets/print' %>
+    <hr class="soften" style="margin-top:54px; margin-bottom:54px;page-break-after:always">
+  <% end %>
 </body>
