@@ -15,6 +15,8 @@ class Site < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :subjects, conditions: { deleted: false }
+  has_many :site_users
+  has_many :users, through: :site_users, conditions: { deleted: false }, order: 'last_name, first_name'
 
   # Model Methods
   def destroy

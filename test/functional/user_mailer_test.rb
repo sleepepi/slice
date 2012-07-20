@@ -42,4 +42,15 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/Body/, email.encoded)
   end
 
+  test "user invited to site email" do
+    site_user = site_users(:invited)
+
+    email = UserMailer.invite_user_to_site(site_user).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [site_user.invite_email], email.to
+    assert_equal "#{site_user.creator.name} Invites You to View #{site_user.site.name}", email.subject
+    assert_match(/#{site_user.creator.name} has invited you to Site #{site_user.site.name}/, email.encoded)
+  end
+
 end

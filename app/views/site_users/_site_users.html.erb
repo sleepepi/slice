@@ -1,0 +1,28 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'site_users', per_page: 20 } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'site_users.project_id', 'Project', 'site_users_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'site_users.site_id', 'Site', 'site_users_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'site_users.user_id', 'User', 'site_users_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'site_users.creator_id', 'Creator', 'site_users_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @site_users.each do |site_user| %>
+    <tr>
+      <td><%= link_to site_user.project.name, site_user.project if site_user.project %></td>
+      <td><%= link_to site_user.site.name, site_user.site if site_user.site %></td>
+      <td><%= link_to site_user.user.name, site_user.user if site_user.user %></td>
+      <td><%= link_to site_user.creator.name, site_user.creator if site_user.creator %></td>
+      <td>
+        <%= link_to 'Edit', edit_site_user_path(site_user), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', site_user, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site User #{site_user.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @site_users %></center>

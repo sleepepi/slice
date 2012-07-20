@@ -1,0 +1,50 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @site_user, html: { class: 'form-horizontal' } do |f| %>
+  <% if @site_user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@site_user.errors.count, "error") %> prohibited this site_user from being saved:</h2>
+
+      <ul>
+      <% @site_user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :project_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :site_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :site_id, [['---', nil]] + Site.current.collect{|s| [s.name, s.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :user_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :user_id, [['---', nil]] + User.current.collect{|u| [u.name, u.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :creator_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :creator_id, [['---', nil]] + Creator.current.collect{|c| [c.name, c.id]} %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>

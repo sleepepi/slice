@@ -33,3 +33,55 @@
   <dt>Creator</dt>
   <dd><%= link_to @site.user.name, @site.user if @site.user %></dd>
 </dl>
+
+
+<div class="page-header">
+  <h2>
+    <%= form_tag site_users_path(site_user: { site_id: @site.id } ), method: :post, remote: true, class: 'form-inline' do %>
+      Site Members
+      <span style="white-space:nowrap">
+        <%= text_field_tag :invite_email, nil, placeholder: 'Email' %>
+        <%= submit_tag 'Send Invitation', class: 'btn btn-primary' %>
+      </span>
+    <% end %>
+  </h2>
+</div>
+
+<div id="site_users">
+  <%= render partial: 'site_users/index' %>
+</div>
+
+
+<% if false %>
+<span>
+  <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+    <%= form_tag project_users_path(project_user: { project_id: @project.id, librarian: @relation == 'librarians' }), method: :post, remote: true, style: 'display:inline', class: 'form-search' do %>
+      <b><%= @relation.humanize %><br /></b>
+      <%= text_field_tag "#{@relation}_text", '', style: "width:300px;" %>
+      <%= submit_tag 'Add', class: 'btn btn-primary' %>
+    <% end %>
+    <span class="help-block">
+      <% if @relation == 'librarians' %>
+        Can create and edit Variables and Designs for project.
+      <% elsif @relation == 'members' %>
+        Can create and edit Sheets for the project.
+      <% end %>
+    </span>
+    <%= javascript_tag "$(function(){$(\"##{@relation}_text\").autocomplete({source:[#{User.current.human.collect{|user| "'#{user.name} <#{user.email}>'"}.join(', ')}]});});" %>
+  <% else %>
+      <b><%= @relation.humanize %></b>
+  <% end %>
+</span>
+<ul>
+
+<% @project.send(@relation).each do |user| %>
+  <% project_user = @project.project_users.find_by_user_id(user.id) %>
+  <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();" style="line-height:25px">
+    <%= link_to user.name, user %>
+    <span id="project_user_<%= project_user.id %>_delete" style="display:none">
+      <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove #{user.name} from the list of #{@relation}?" } if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
+    </span>
+  </li>
+<% end %>
+</ul>
+<% end %>

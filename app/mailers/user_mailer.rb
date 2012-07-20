@@ -24,6 +24,14 @@ class UserMailer < ActionMailer::Base
     mail(to: to, cc: cc, reply_to: current_user.email, subject: subject, body: body)
   end
 
+  def invite_user_to_site(site_user)
+    setup_email
+    @site_user = site_user
+    mail(to: site_user.invite_email,
+         subject: "#{site_user.creator.name} Invites You to View #{site_user.site.name}",
+         reply_to: site_user.creator.email)
+  end
+
   protected
 
   def setup_email

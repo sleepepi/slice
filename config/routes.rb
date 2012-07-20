@@ -33,6 +33,12 @@ Reading::Application.routes.draw do
     end
   end
 
+  resources :site_users do
+    collection do
+      get :accept
+    end
+  end
+
   resources :subjects
 
   resources :variables do
