@@ -83,33 +83,43 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Project Librarians and Members can modify sheets
   def all_sheets
-    self.all_viewable_sheets # Members and Librarians can modify sheets
+    @all_sheets ||= begin
+      Sheet.current.with_project(self.all_viewable_projects.pluck(:id))
+    end
   end
 
+  # Project Librarians and Members and Site Members can modify sheets
   def all_viewable_sheets
     @all_viewable_sheets ||= begin
-      Sheet.current.with_project(self.all_viewable_projects.pluck(:id)) # .order('created_at DESC')
+      Sheet.current.with_site(self.all_viewable_sites.pluck(:id))
     end
   end
 
+  # Project Librarians
   def all_sites
-    self.all_viewable_sites # Members and Librarians can modify sites
+    @all_sites ||= begin
+      Site.current.with_project(self.all_projects.pluck(:id))
+    end
   end
 
+  # Project Librarians and Members and Site Members
   def all_viewable_sites
     @all_viewable_sites ||= begin
-      Site.current.with_project(self.all_viewable_projects.pluck(:id)) # .order('created_at DESC')
+      Site.current.with_project_or_as_site_user(self.all_viewable_projects.pluck(:id), self)
     end
   end
 
+  # Project Librarians and Members can modify subjects
   def all_subjects
-    self.all_viewable_subjects # Members and Librarians can modify subjects
+    Subject.current.with_project(self.all_viewable_projects.pluck(:id))
   end
 
+  # Project Librarians and Members can view subjects
   def all_viewable_subjects
     @all_viewable_subjects ||= begin
-      Subject.current.with_project(self.all_viewable_projects.pluck(:id)) # .order('created_at DESC')
+      Subject.current.with_site(self.all_viewable_sites.pluck(:id))
     end
   end
 

@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Create Site", new_site_path, class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Site", new_site_path, class: 'btn btn-mini btn-primary' if current_user.all_projects.size > 0 %>
   </h1>
 </div>
 

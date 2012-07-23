@@ -48,3 +48,12 @@ librarian:
   system_admin: false
   librarian: true
   email: librarian@example.com
+
+site_one_user:
+  first_name: SiteOne
+  last_name: MyString
+  status: active
+  deleted: false
+  system_admin: false
+  librarian: false
+  email: site_one_user@example.com

@@ -27,7 +27,7 @@ class SitesControllerTest < ActionController::TestCase
 
   test "should create site" do
     assert_difference('Site.count') do
-      post :create, site: { description: 'Second Site on Project One', emails: 'email@example.com', name: 'Site Two', project_id: projects(:one).id, prefix: 'Prefix' }
+      post :create, site: { description: 'New Site on Project One', emails: 'email@example.com', name: 'Site New', project_id: projects(:one).id, prefix: 'Prefix' }
     end
 
     assert_redirected_to site_path(assigns(:site))
@@ -35,7 +35,19 @@ class SitesControllerTest < ActionController::TestCase
 
   test "should not create site for invalid project" do
     assert_difference('Site.count', 0) do
-      post :create, site: { description: 'Second Site on Project One', emails: 'email@example.com', name: 'Site Two', project_id: projects(:four).id, prefix: 'Prefix' }
+      post :create, site: { description: 'New Site on Project One', emails: 'email@example.com', name: 'Site New', project_id: projects(:four).id, prefix: 'Prefix' }
+    end
+
+    assert_not_nil assigns(:site)
+    assert_equal ["can't be blank"], assigns(:site).errors[:project_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
+  test "should not create site for site user" do
+    login(users(:site_one_user))
+    assert_difference('Site.count', 0) do
+      post :create, site: { description: 'New Site on Project One', emails: 'email@example.com', name: 'Site New', project_id: projects(:one).id, prefix: 'Prefix' }
     end
 
     assert_not_nil assigns(:site)
@@ -45,6 +57,13 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test "should show site" do
+    get :show, id: @site
+    assert_not_nil assigns(:site)
+    assert_response :success
+  end
+
+  test "should show site for site user" do
+    login(users(:site_one_user))
     get :show, id: @site
     assert_not_nil assigns(:site)
     assert_response :success

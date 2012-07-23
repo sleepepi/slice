@@ -4,6 +4,7 @@ class Site < ActiveRecord::Base
   # Named Scopes
   scope :current, conditions: { deleted: false }
   scope :with_project, lambda { |*args| { conditions: ["sites.project_id IN (?)", args.first] } }
+  scope :with_project_or_as_site_user, lambda { |*args| { conditions: ["sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation

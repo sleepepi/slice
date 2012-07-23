@@ -20,6 +20,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:sheet)
   end
 
+  test "should not send email for site user" do
+    login(users(:site_one_user))
+    post :send_email, id: @sheet, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
+    assert_nil assigns(:sheet)
+    assert_equal 'You do not have sufficient privileges to send a sheet receipt email.', flash[:alert]
+    assert_redirected_to sheets_path
+  end
+
   test "should get raw csv" do
     get :index, format: 'raw_csv'
     assert_not_nil assigns(:csv_string)
@@ -146,6 +154,20 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not create sheet for site user" do
+    login(users(:site_one_user))
+    assert_difference('Sheet.count', 0) do
+      post :create, sheet: { design_id: @sheet.design_id, project_id: projects(:one), study_date: '05/21/2012' },
+                    subject_code: 'Code01',
+                    site_id: sites(:one).id
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal ["can't be blank"], assigns(:sheet).errors[:project_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should not create sheet or subject if site_id is missing" do
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
@@ -168,6 +190,13 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should not show invalid sheet" do
     get :show, id: -1
+    assert_nil assigns(:sheet)
+    assert_redirected_to sheets_path
+  end
+
+  test "should not show sheet for user from different site" do
+    login(users(:site_one_user))
+    get :show, id: sheets(:three)
     assert_nil assigns(:sheet)
     assert_redirected_to sheets_path
   end

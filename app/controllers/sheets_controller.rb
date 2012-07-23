@@ -17,24 +17,31 @@ class SheetsController < ApplicationController
   end
 
   def send_email
-    @sheet = Sheet.current.find(params[:id])
+    @sheet = current_user.all_sheets.find_by_id(params[:id])
 
-    html = render_to_string action: 'print', id: params[:id], layout: false
+    if @sheet
+      html = render_to_string action: 'print', id: params[:id], layout: false
 
-    pdf_attachment = begin
-      kit = PDFKit.new(html)
-      stylesheet_file = "#{Rails.root}/public/assets/application.css"
-      kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
-      kit.to_pdf
-    rescue
-      nil
-    end
+      pdf_attachment = begin
+        kit = PDFKit.new(html)
+        stylesheet_file = "#{Rails.root}/public/assets/application.css"
+        kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
+        kit.to_pdf
+      rescue
+        nil
+      end
 
-    @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body], pdf_attachment)
+      @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body], pdf_attachment)
 
-    respond_to do |format|
-      format.html { redirect_to @sheet, notice: 'Sheet receipt email was successfully sent.' }
-      format.json { render json: @sheet }
+      respond_to do |format|
+        format.html { redirect_to @sheet, notice: 'Sheet receipt email was successfully sent.' }
+        format.json { render json: @sheet }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to sheets_path, alert: 'You do not have sufficient privileges to send a sheet receipt email.' }
+        format.json { render head :no_content }
+      end
     end
   end
 

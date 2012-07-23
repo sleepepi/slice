@@ -7,7 +7,7 @@ one:
   emails: MyText
   user: valid
   deleted: false
-  prefix: MyString
+  prefix: S1
 
 two:
   name: Site Two
@@ -17,3 +17,12 @@ two:
   user: valid
   deleted: false
   prefix: MyString
+
+three:
+  name: Site Two
+  description: Second project one site
+  project: one
+  emails: MyText
+  user: valid
+  deleted: false
+  prefix: S2

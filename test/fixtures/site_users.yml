@@ -18,3 +18,11 @@ invited:
   creator: valid
   invite_token: abc123
   invite_email: invited_user@example.com
+
+site_user:
+  project: one
+  site: one
+  creator: valid
+  user: site_one_user
+  invite_token: site1usertoken
+  invite_email: site_one_user@example.com

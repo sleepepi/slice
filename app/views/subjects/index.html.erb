@@ -33,10 +33,12 @@
     </div>
 
     <div class="span4 control-group" id="select_site">
+      <%= hidden_field_tag :site_id, params[:site_id] %>
       <%#= render partial: 'subjects/select_site' %>
     </div>
 
     <div class="span4 control-group" id="select_design">
+      <%= hidden_field_tag :design_id, params[:design_id] %>
       <%#= render partial: 'subjects/select_design' %>
     </div>
   </div>

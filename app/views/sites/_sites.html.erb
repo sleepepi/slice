@@ -22,8 +22,10 @@
       <td><%= site.emails %></td>
       <td><%= link_to site.user.name, site.user if site.user %></td>
       <td>
-        <%= link_to 'Edit', edit_site_path(site), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', site, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{site.name}?" } %>
+        <% if current_user.all_sites.pluck(:id).include?(site.id) %>
+          <%= link_to 'Edit', edit_site_path(site), class: 'btn btn-mini' %>
+          <%= link_to 'Delete', site, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{site.name}?" } %>
+        <% end %>
       </td>
     </tr>
   <% end %>

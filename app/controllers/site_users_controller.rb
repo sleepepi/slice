@@ -96,13 +96,19 @@ class SiteUsersController < ApplicationController
   # DELETE /site_users/1
   # DELETE /site_users/1.json
   def destroy
-    @site_user = SiteUser.current.find(params[:id])
+    @site_user = SiteUser.current.find_by_id(params[:id])
     @site = current_user.all_sites.find_by_id(@site_user.site_id) if @site_user
 
     respond_to do |format|
       if @site
-        @site_user.destroy if @site
+        @site_user.destroy
         format.html { redirect_to @site }
+        format.json { head :no_content }
+        format.js { render 'index' }
+      elsif @site_user.user == current_user
+        @site = @site_user.site
+        @site_user.destroy
+        format.html { redirect_to root_path }
         format.json { head :no_content }
         format.js { render 'index' }
       else

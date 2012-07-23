@@ -2,10 +2,12 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Edit Sheet", edit_sheet_path(@sheet), class: 'btn btn-mini' %>
-    <%= link_to "Delete Sheet", @sheet, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
+    <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
+      <%= link_to "Edit Sheet", edit_sheet_path(@sheet), class: 'btn btn-mini' %>
+      <%= link_to "Delete Sheet", @sheet, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
+      <%= link_to "Send Email", '#', class: 'btn btn-primary btn-mini', id: 'email_popup' %>
+    <% end %>
     <%= link_to "View Sheets", sheets_path, class: 'btn btn-mini' %>
-    <%= link_to "Send Email", '#', class: 'btn btn-primary btn-mini', id: 'email_popup' %>
     <%= link_to "Print", print_sheet_path(@sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
   </h1>
 </div>
@@ -72,45 +74,47 @@
   <% end %>
 </form>
 
-<div id="send_email_modal" class="modal" style="display:none">
-  <div class="modal-header">
-    Send Email:
-    <a class="close" data-dismiss="modal">×</a>
+<% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
+  <div id="send_email_modal" class="modal" style="display:none">
+    <div class="modal-header">
+      Send Email:
+      <a class="close" data-dismiss="modal">×</a>
+    </div>
+    <div class="modal-body">
+      <%= form_tag send_email_sheet_path(@sheet), method: :post, id: "send_email_form" do %>
+        <div class="control-group">
+          <%= label_tag :to, nil, class: 'control-label' %>
+          <div class="controls">
+            <%= text_field_tag :to, @sheet.subject.site.emails.to_s.split(',').collect{|email| email.strip}.uniq.join(', '), style: 'width:95%' %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <%= label_tag :cc, nil, class: 'control-label' %>
+          <div class="controls">
+            <%= text_field_tag :cc, (@sheet.project.emails.to_s.split(',').collect{|email| email.strip} + [@sheet.project.user.email, current_user.email]).uniq.join(', '), style: 'width:95%' %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <%= label_tag :subject, nil, class: 'control-label' %>
+          <div class="controls">
+            <%= text_field_tag :subject, @sheet.email_subject_template(current_user), style: 'width:95%' %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <%= label_tag :body, nil, class: 'control-label' %>
+          <div class="controls">
+            <%= text_area_tag :body, @sheet.email_body_template(current_user), rows: 20, style: 'width:95%' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="modal-footer">
+      <%= link_to 'Close', '#', class: 'btn', data: { target: '#send_email_modal', object: 'modal-hide' } %>
+      <%= link_to 'Send Email', '#', class: 'btn btn-primary', data: { target: '#send_email_form', object: 'submit' } %>
+    </div>
   </div>
-  <div class="modal-body">
-    <%= form_tag send_email_sheet_path(@sheet), method: :post, id: "send_email_form" do %>
-      <div class="control-group">
-        <%= label_tag :to, nil, class: 'control-label' %>
-        <div class="controls">
-          <%= text_field_tag :to, @sheet.subject.site.emails.to_s.split(',').collect{|email| email.strip}.uniq.join(', '), style: 'width:95%' %>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <%= label_tag :cc, nil, class: 'control-label' %>
-        <div class="controls">
-          <%= text_field_tag :cc, (@sheet.project.emails.to_s.split(',').collect{|email| email.strip} + [@sheet.project.user.email, current_user.email]).uniq.join(', '), style: 'width:95%' %>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <%= label_tag :subject, nil, class: 'control-label' %>
-        <div class="controls">
-          <%= text_field_tag :subject, @sheet.email_subject_template(current_user), style: 'width:95%' %>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <%= label_tag :body, nil, class: 'control-label' %>
-        <div class="controls">
-          <%= text_area_tag :body, @sheet.email_body_template(current_user), rows: 20, style: 'width:95%' %>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="modal-footer">
-    <%= link_to 'Close', '#', class: 'btn', data: { target: '#send_email_modal', object: 'modal-hide' } %>
-    <%= link_to 'Send Email', '#', class: 'btn btn-primary', data: { target: '#send_email_form', object: 'submit' } %>
-  </div>
-</div>
+<% end %>

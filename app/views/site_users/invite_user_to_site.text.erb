@@ -1,0 +1,15 @@
+Hello,
+
+<%= @site_user.creator.name %> has invited you to Site <%= @site_user.site.name %> located here <%= "#{SITE_URL}/sites/#{@site_user.site.id}" %>.
+
+Click the following link to accept the invitation:
+
+
+    <%= SITE_URL + accept_site_users_path(invite_token: @site_user.invite_token) %>
+
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> Mailer
+
+<%= @footer_txt %>

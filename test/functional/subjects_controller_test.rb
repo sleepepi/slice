@@ -33,7 +33,19 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should not create subject for invalid project" do
     assert_difference('Subject.count', 0) do
-      post :create, subject: { project_id: projects(:four), subject_code: 'Code03', validated: @subject.validated }, site_id: @subject.site_id
+      post :create, subject: { project_id: projects(:four).id, subject_code: 'Code03', validated: @subject.validated }, site_id: @subject.site_id
+    end
+
+    assert_not_nil assigns(:subject)
+    assert_equal ["can't be blank"], assigns(:subject).errors[:project_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
+  test "should not create subject for site user" do
+    login(users(:site_one_user))
+    assert_difference('Subject.count', 0) do
+      post :create, subject: { project_id: projects(:one).id, subject_code: 'Code03', validated: true }, site_id: sites(:one).id
     end
 
     assert_not_nil assigns(:subject)
@@ -48,8 +60,22 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show subject to site user" do
+    login(users(:site_one_user))
+    get :show, id: @subject
+    assert_not_nil assigns(:subject)
+    assert_response :success
+  end
+
   test "should not show invalid subject" do
     get :show, id: -1
+    assert_nil assigns(:subject)
+    assert_redirected_to subjects_path
+  end
+
+  test "should not show subject on different site to site user" do
+    login(users(:site_one_user))
+    get :show, id: subjects(:three)
     assert_nil assigns(:subject)
     assert_redirected_to subjects_path
   end

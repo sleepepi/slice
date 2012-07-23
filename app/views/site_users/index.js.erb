@@ -1,2 +1,7 @@
 $("#site_users").html("<%= escape_javascript(render("index")) %>");
 $("#invite_email").val('');
+<% if @site_user.destroyed? %>
+  flashMessage("Site user <strong><%= escape_javascript(@site_user.invite_email) %></strong> removed.")
+<% else %>
+  flashMessage("Site invite email sent to <strong><%= escape_javascript(@site_user.invite_email) %></strong>. You can copy the invite url if you need to resend the invite.");
+<% end %>
