@@ -28,7 +28,7 @@
   <dd><%= simple_format @site.description %></dd>
 
   <dt>Project</dt>
-  <dd><%= link_to @site.project.name, @site.project if @site.project %></dd>
+  <dd><%= @project = @site.project; render partial: 'projects/logo_small' %> <%= link_to @site.project.name, @site.project if @site.project %></dd>
 
   <dt>Emails</dt>
   <dd><%= @site.emails %></dd>

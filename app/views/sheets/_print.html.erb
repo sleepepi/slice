@@ -18,7 +18,7 @@
 </table>
 
 <div class="page-header">
-  <h1><%= @sheet.design.name %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %></div></h1>
+  <h1><%= @sheet.design.name %> <%= image_tag @sheet.project.logo_url, style: "height:30px;vertical-align:bottom" unless @sheet.project.logo_url.blank? %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %></div></h1>
 </div>
 <p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @sheet.design.description %></p>
 

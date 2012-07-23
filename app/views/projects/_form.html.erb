@@ -43,6 +43,14 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :logo %>
+      <%= f.hidden_field :logo_cache %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>

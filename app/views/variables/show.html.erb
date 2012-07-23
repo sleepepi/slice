@@ -64,7 +64,7 @@
   <dd><%= link_to @variable.user.name, @variable.user if @variable.user %></dd>
 
   <dt>Project</dt>
-  <dd><%= link_to @variable.project.name, @variable.project if @variable.project %></dd>
+  <dd><%= @project = @variable.project; render partial: 'projects/logo_small' %> <%= link_to @variable.project.name, @variable.project if @variable.project %></dd>
 
   <dt>Designs</dt>
   <dd>

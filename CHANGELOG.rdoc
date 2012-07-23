@@ -10,6 +10,7 @@
   * Missing codes for numerics are now displayed as a name and value when viewing sheets
   * Time variables have been added
   * Users can be invited to sites by email
+  * Project logos can be added to projects
 
 * Bug Fix
   * Designs loading time for editing has been improved

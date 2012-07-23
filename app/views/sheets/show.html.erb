@@ -26,7 +26,7 @@
       <dd><%= @sheet.study_date %></dd>
 
       <dt>Project</dt>
-      <dd><%= link_to @sheet.project.name, @sheet.project if @sheet.project %></dd>
+      <dd><%= @project = @sheet.project; render partial: 'projects/logo_small' %> <%= link_to @sheet.project.name, @sheet.project if @sheet.project %></dd>
 
       <dt>Subject</dt>
       <dd><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></dd>

@@ -110,7 +110,9 @@ class ProjectsController < ApplicationController
     params[:project] ||= {}
 
     params[:project].slice(
-      :name, :description, :emails, :acrostic_enabled
+      :name, :description, :emails, :acrostic_enabled,
+      # Uploaded Logo
+      :logo, :logo_uploaded_at, :logo_cache
     )
   end
 end

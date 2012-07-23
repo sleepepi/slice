@@ -12,7 +12,10 @@
 
   <% @projects.each do |project| %>
     <tr id="project_<%= project.id %>">
-      <td><%= link_to project.name, project %></td>
+      <td>
+        <%= @project = project; render partial: 'projects/logo_small' %>
+        <%= link_to project.name, project %>
+      </td>
       <td><%= project.description %></td>
       <td><%= link_to project.user.name, project.user if project.user %></td>
       <td>

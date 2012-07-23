@@ -1,5 +1,7 @@
 class Project < ActiveRecord::Base
-  attr_accessible :description, :name, :emails, :acrostic_enabled
+  attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache
+
+  mount_uploader :logo, ImageUploader
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

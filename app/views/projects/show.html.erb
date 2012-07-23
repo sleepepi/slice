@@ -1,5 +1,6 @@
 <% @title = "Project: #{@project.name}" %>
 <div class="page-header">
+  <%= image_tag @project.logo_url, style: "float:right;height:128px" unless @project.logo_url.blank? %>
   <h1><%= @title %></h1>
   <div class="btn-toolbar">
     <% if current_user.all_projects.pluck(:id).include?(@project.id) %>

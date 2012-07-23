@@ -11,6 +11,7 @@ gem 'eventmachine',         '~> 1.0.0.rc.4',      :platforms => [ :mswin, :mingw
 # Gems used by project
 gem 'contour',              '~> 1.0.3'
 gem 'kaminari',             '~> 0.13.0'
+gem 'carrierwave',          '~> 0.6.2'
 gem 'pdfkit',               '~> 0.5.2'
 
 # Gems used only for assets and not required
