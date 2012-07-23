@@ -103,10 +103,11 @@ class DesignsController < ApplicationController
   # POST /designs
   # POST /designs.json
   def create
-    @design = current_user.designs.new(post_params)
+    post_params_copy = post_params
+    @design = current_user.designs.new(post_params_copy)
 
     respond_to do |format|
-      if @design.saveable?(current_user, post_params[:project_id]) and @design.save
+      if @design.saveable?(current_user, post_params_copy) and @design.save
         format.html { redirect_to @design, notice: 'Design was successfully created.' }
         format.json { render json: @design, status: :created, location: @design }
       else
@@ -119,11 +120,12 @@ class DesignsController < ApplicationController
   # PUT /designs/1
   # PUT /designs/1.json
   def update
+    post_params_copy = post_params
     @design = current_user.all_designs.find_by_id(params[:id])
 
     respond_to do |format|
       if @design
-        if @design.saveable?(current_user, post_params[:project_id]) and @design.update_attributes(post_params)
+        if @design.saveable?(current_user, post_params_copy) and @design.update_attributes(post_params_copy)
           format.html { redirect_to @design, notice: 'Design was successfully updated.' }
           format.json { head :no_content }
         else

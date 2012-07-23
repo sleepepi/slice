@@ -68,6 +68,20 @@ class DesignsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should not create design with a duplicated variable" do
+    assert_difference('Design.count', 0) do
+      post :create, design: { project_id: projects(:one).id, description: "Design description", name: 'Design Three',
+                              option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::Fixtures.identify(:dropdown) },
+                                               "13383078795389" =>  { "variable_id" => ActiveRecord::Fixtures.identify(:dropdown) }
+                                             }
+                            }
+    end
+
+    assert_not_nil assigns(:design)
+    assert_equal ["can only be added once"], assigns(:design).errors[:variables]
+    assert_template 'new'
+  end
+
   test "should create global design for librarian" do
     login(users(:librarian))
     assert_difference('Design.count', 1) do

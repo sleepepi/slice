@@ -39,9 +39,25 @@ class Design < ActiveRecord::Base
 
   # Check that user has selected an editable project  OR
   #            user is a librarian and project_id is blank
-  def saveable?(current_user, params_project_id)
-    result = (current_user.all_projects.pluck(:id).include?(params_project_id.to_i) or (current_user.librarian? and params_project_id.blank?))
+  def saveable?(current_user, params)
+    result = (current_user.all_projects.pluck(:id).include?(params[:project_id].to_i) or (current_user.librarian? and params[:project_id].blank?))
     self.errors.add(:project_id, "can't be blank" ) unless result
+    result = (valid_option_tokens?(current_user, params) and result)
+    result
+  end
+
+  def valid_option_tokens?(current_user, params)
+    result = true
+    option_variable_ids = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:variable_id].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:variable_id]}
+    if option_variable_ids.uniq.size < option_variable_ids.size
+      self.errors.add(:variables, "can only be added once")
+      result = false
+    end
+    section_names = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:section_name].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:section_name]}
+    if section_names.uniq.size < section_names.size
+      self.errors.add(:section_names, "must be unique")
+      result = false
+    end
     result
   end
 

@@ -63,9 +63,9 @@ class Variable < ActiveRecord::Base
   end
 
   def valid_option_tokens?(current_user, params)
-    return true unless ['dropdown', 'checkbox', 'radio'].include?(params[:variable_type])
+    # return true unless ['dropdown', 'checkbox', 'radio', 'integer', 'numeric'].include?(params[:variable_type])
     result = true
-    option_values = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:name].strip.blank?}.collect{|key, hash| hash.symbolize_keys[:value]}
+    option_values = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:name].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:value]}
     if option_values.join('').count(':') > 0
       self.errors.add(:option, "values can't contain colons" )
       result = false
@@ -74,7 +74,7 @@ class Variable < ActiveRecord::Base
       self.errors.add(:option, "values must be unique" )
       result = false
     end
-    if option_values.select{|opt| opt.strip.blank?}.size > 0
+    if ['dropdown', 'checkbox', 'radio'].include?(params[:variable_type]) and option_values.select{|opt| opt.to_s.strip.blank?}.size > 0
       self.errors.add(:option, "values can't be blank" )
       result = false
     end
