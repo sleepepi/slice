@@ -44,6 +44,12 @@
               <% @variable.response_name(@sheet).each do |response| %>
                 <p><%= response %></p>
               <% end %>
+            <% elsif @variable.variable_type == 'file' and not @variable.response_file_url(@sheet).blank? %>
+              <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.downcase) %>
+                <%= image_tag @variable.response_file_url(@sheet), style: "height:64px;border:0px solid white" %>
+              <% else %>
+                <%= @variable.response_file_url(@sheet).split('/').last %>
+              <% end %>
             <% else %>
               <%= @variable.response_name(@sheet) %>
             <% end %>

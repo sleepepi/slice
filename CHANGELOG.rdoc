@@ -12,6 +12,7 @@
   * Users can be invited to sites by email
   * Project logos can be added to projects
   * Designs can no longer be saved with duplicate variables
+  * File upload variables now available
 
 * Bug Fix
   * Designs loading time for editing has been improved

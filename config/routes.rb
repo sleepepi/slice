@@ -24,6 +24,7 @@ Reading::Application.routes.draw do
     member do
       post :send_email
       get :print
+      post :remove_file
     end
   end
 

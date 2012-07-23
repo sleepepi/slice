@@ -46,6 +46,9 @@
     <% when 'calculated'  %>
       <%= hidden_field_tag "variables[#{@variable.id}]", nil, disabled: disabled, data: { object: 'calculated', calculation: @variable.calculation, target: "#variable_#{@variable.id}_calculation_result", name: @variable.name } %>
       <span id="variable_<%= @variable.id %>_calculation_result" rel="<%= 'popover' unless @variable.calculation.blank? %>" data-content="<tt><center><%= @variable.calculation %></center></tt><%= simple_format ("<hr/>" + @variable.description.to_s) unless @variable.description.blank? %>" data-title="<%= @variable.display_name %>"></span>
+    <% when 'file' %>
+      <%= file_field_tag "variables[#{@variable.id}][response_file]", data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
+      <%= hidden_field_tag "variables[#{@variable.id}][response_file][cache]" %>
     <% else %>
       <%= hidden_field_tag "variables[#{@variable.id}]", nil, disabled: disabled %>
       Unsupported Variable Type <%= @variable.variable_type %>

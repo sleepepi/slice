@@ -149,6 +149,18 @@ class SheetsController < ApplicationController
     redirect_to sheets_path unless @sheet
   end
 
+  def remove_file
+    @sheet = current_user.all_sheets.find_by_id(params[:id])
+    @sheet_variable = @sheet.sheet_variables.find_by_variable_id(params[:variable_id]) if @sheet
+    @variable = @sheet_variable.variable if @sheet_variable
+    if @sheet_variable and @variable
+      @sheet_variable.remove_response_file!
+      @sheet_variable.update_attribute :remove_response_file, true
+    else
+      render nothing: true
+    end
+  end
+
   # POST /sheets
   # POST /sheets.json
   def create
@@ -267,10 +279,15 @@ class SheetsController < ApplicationController
   def update_variables!
     (params[:variables] || {}).each_pair do |variable_id, response|
       sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: current_user.id } )
+      respone = {} if sv.variable.variable_type == 'file' and response.blank?
       response = [] if sv.variable.variable_type == 'checkbox' and response.blank?
       response = (sv.variable.variable_type == 'date') ? parse_date(response, response) : response
       response = (sv.variable.variable_type == 'time') ? parse_time(response) : response # Currently things that aren't parsed are stored as blank.
-      sv.update_attribute :response, response
+      if sv.variable.variable_type == 'file'
+        sv.update_attributes response
+      else
+        sv.update_attribute :response, response
+      end
     end
   end
 

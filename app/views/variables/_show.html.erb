@@ -12,6 +12,10 @@
       <% @variable.response_name(@sheet).each do |response| %>
         <p><%= response %></p>
       <% end %>
+    <% elsif @variable.variable_type == 'file' %>
+      <div id="variable_<%= @variable.id %>_file_container">
+        <%= render partial: 'variables/response_file' %>
+      </div>
     <% else %>
       <%= @variable.response_name(@sheet) %>
     <% end %>

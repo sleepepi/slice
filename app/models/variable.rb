@@ -150,6 +150,20 @@ class Variable < ActiveRecord::Base
     ]
   end
 
+  def response_file(sheet)
+    result = ''
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    result = sheet_variable.response_file if sheet_variable
+    result
+  end
+
+  def response_file_url(sheet)
+    result = ''
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    result = sheet_variable.response_file_url if sheet_variable
+    result
+  end
+
   def response_name(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)

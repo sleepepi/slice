@@ -105,7 +105,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:integer).id}" => 30,
                       "#{variables(:numeric).id}" => 180.5,
                       "#{variables(:date).id}" => '05/28/2012',
-                      "#{variables(:file).id}" => ''
+                      "#{variables(:file).id}" => { response_file: '' }
                     }
     end
 
@@ -231,7 +231,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:integer).id}" => 31,
                       "#{variables(:numeric).id}" => 190.5,
                       "#{variables(:date).id}" => '05/29/2012',
-                      "#{variables(:file).id}" => ''
+                      "#{variables(:file).id}" => { response_file: '' }
                     }
 
     assert_not_nil assigns(:sheet)

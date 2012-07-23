@@ -2,7 +2,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_for @sheet, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for @sheet, html: { class: 'form-horizontal', multipart: true } do |f| %>
   <% if @sheet.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sheet.errors.count, "error") %> prohibited this sheet from being saved:</h2>
