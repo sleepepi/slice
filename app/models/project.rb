@@ -34,6 +34,6 @@ class Project < ActiveRecord::Base
 
   # Model Methods
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
   end
 end

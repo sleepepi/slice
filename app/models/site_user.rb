@@ -1,5 +1,5 @@
 class SiteUser < ActiveRecord::Base
-  attr_accessible :creator_id, :site_id, :user_id, :project_id, :invite_email
+  attr_accessible :creator_id, :site_id, :user_id, :project_id, :invite_email, :invite_token
 
   # Named Scopes
   scope :current, conditions: { }
@@ -21,7 +21,7 @@ class SiteUser < ActiveRecord::Base
   end
 
   def generate_invite_token!(invite_token = SecureRandom.hex(64))
-    self.update_attribute :invite_token, invite_token if self.respond_to?('invite_token') and self.invite_token.blank? and SiteUser.where(invite_token: invite_token).count == 0
+    self.update_attributes invite_token: invite_token if self.respond_to?('invite_token') and self.invite_token.blank? and SiteUser.where(invite_token: invite_token).count == 0
     UserMailer.invite_user_to_site(self).deliver if Rails.env.production? and not self.invite_token.blank?
   end
 

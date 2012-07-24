@@ -21,7 +21,7 @@ class Site < ActiveRecord::Base
 
   # Model Methods
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
   end
 
   def name_with_project

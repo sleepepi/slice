@@ -129,8 +129,9 @@ class User < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
-    update_attribute :status, 'inactive'
+    update_column :deleted, true
+    update_column :status, 'inactive'
+    update_column :updated_at, Time.now
   end
 
   # def email_on?(value)

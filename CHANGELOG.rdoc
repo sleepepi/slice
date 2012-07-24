@@ -13,6 +13,8 @@
   * Project logos can be added to projects
   * Designs can no longer be saved with duplicate variables
   * File upload variables now available
+  * Updated to Rails 3.2.7.rc1
+    * Removed deprecated use of update_attribute for Rails 4.0 compatibility
 
 * Bug Fix
   * Designs loading time for editing has been improved

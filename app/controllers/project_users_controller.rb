@@ -10,7 +10,7 @@ class ProjectUsersController < ApplicationController
 
     respond_to do |format|
       if @project and @user and @project_user = @project.project_users.find_or_create_by_user_id(@user.id)
-        @project_user.update_attribute :librarian, (params[:project_user][:librarian] == 'true')
+        @project_user.update_attributes librarian: (params[:project_user][:librarian] == 'true')
         format.js { render 'index' }
         format.json { render json: @project_user, status: :created, location: @project_user }
       else

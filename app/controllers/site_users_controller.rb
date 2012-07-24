@@ -69,7 +69,7 @@ class SiteUsersController < ApplicationController
     elsif @site_user and @site_user.user
       redirect_to root_path, alert: "This invite has already been claimed."
     elsif @site_user
-      @site_user.update_attribute :user_id, current_user.id
+      @site_user.update_attributes user_id: current_user.id
       redirect_to @site_user.site, notice: "You have been successfully been added to the site."
     else
       redirect_to root_path, alert: 'Invalid invitation token.'
