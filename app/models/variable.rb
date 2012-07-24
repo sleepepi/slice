@@ -176,6 +176,8 @@ class Variable < ActiveRecord::Base
     elsif ['integer', 'numeric'].include?(self.variable_type)
       hash = self.options_only_missing.select{|option| option[:value] == response}.first
       hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
+    elsif ['file'].include?(self.variable_type)
+      self.response_file(sheet).to_s.split('/').last
     else
       response
     end
@@ -189,6 +191,8 @@ class Variable < ActiveRecord::Base
     elsif ['checkbox'].include?(self.variable_type)
       array = YAML::load(response) rescue array = []
       self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
+    elsif ['file'].include?(self.variable_type)
+      self.response_file(sheet).to_s.split('/').last
     else
       response
     end
