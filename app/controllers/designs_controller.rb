@@ -49,6 +49,16 @@ class DesignsController < ApplicationController
     design_scope = design_scope.order(@order)
 
     @design_count = design_scope.count
+
+    if params[:format] == 'csv'
+      if @design_count == 0
+        redirect_to designs_path, alert: 'No data was exported since no designs matched the specified filters.'
+        return
+      end
+      generate_csv(design_scope)
+      return
+    end
+
     @designs = design_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|
@@ -151,6 +161,29 @@ class DesignsController < ApplicationController
   end
 
   private
+
+  def generate_csv(design_scope)
+    @csv_string = CSV.generate do |csv|
+      variable_ids = design_scope.collect{|d| d.variable_ids}.flatten
+      variables = current_user.all_viewable_variables.where(id: variable_ids)
+
+      csv << ["Variable Name", "Variable Display Name", "Variable Header", "Variable Description", "Variable Type", "Variable Options", "Variable Project"]
+      variables.each do |variable|
+        row = [
+                variable.name,
+                variable.display_name,
+                variable.header,
+                variable.description,
+                variable.variable_type,
+                variable.options,
+                variable.project.name
+              ]
+        csv << row
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                           disposition: "attachment; filename=\"Designs DD #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
 
   def post_params
     params[:design] ||= {}

@@ -18,6 +18,6 @@ jQuery ->
   )
 
   $(document).on('click', '[data-object~="export"]', () ->
-    window.location = $('#sheets_search').attr('action') + '.' + $(this).data('format') + '?' + $('#sheets_search').serialize()
+    window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
     false
   )

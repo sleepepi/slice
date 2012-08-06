@@ -19,6 +19,13 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to designs_path
   end
 
+  test "should get csv" do
+    get :index, format: 'csv'
+    assert_not_nil assigns(:csv_string)
+    assert_not_nil assigns(:design_count)
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success
