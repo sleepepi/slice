@@ -25,7 +25,7 @@ class DesignsController < ApplicationController
   end
 
   def add_variable
-    @design = Design.new(post_params.except(:option_tokens))
+    @design = Design.new(post_params)
     @option = { variable_id: '' }
   end
 
