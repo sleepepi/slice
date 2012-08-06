@@ -151,6 +151,14 @@ jQuery ->
       $($(this).data('target')).show()
       false
     )
+    .on('click', '[data-object~="variable-insert-after"]', () ->
+      $.post(root_url + 'designs/add_variable', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
+      false
+    )
+    .on('click', '[data-object~="section-insert-after"]', () ->
+      $.post(root_url + 'designs/add_section', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
+      false
+    )
 
 
   # $('[data-object~="variable-load"]').change( () ->

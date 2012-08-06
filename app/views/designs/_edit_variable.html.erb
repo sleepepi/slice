@@ -28,6 +28,13 @@
           <%= text_field_tag "design[option_tokens][#{position}][condition_value]", @option[:condition_value] %>
         </div>
       </div>
+      <div class="control-group variable_<%= position %>_details" style="margin-bottom:0px;display:none" data-object="variabledetails">
+        &nbsp;
+        <div class="controls">
+          <%= link_to 'Add Variable After', '#', class: 'btn btn-mini', data: { object: 'variable-insert-after', position: position } %>
+          <%= link_to 'Add Section After', '#', class: 'btn btn-mini', data: { object: 'section-insert-after', position: position } %>
+        </div>
+      </div>
     </div>
 
     <div class="span4 variable_<%= position %>_details" style="margin-bottom:-18px;display:none" data-object="variabledetails">

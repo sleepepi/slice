@@ -1,5 +1,7 @@
 <% if params[:location] == 'top' %>
   $("#variables").prepend("<%= escape_javascript(render("edit_section")) %>");
+<% elsif params[:location].to_i > 0 %>
+  $("#variable_<%= params[:location] %>").after("<%= escape_javascript(render("edit_section")) %>");
 <% else %>
   $("#variables").append("<%= escape_javascript(render("edit_section")) %>");
 <% end %>
