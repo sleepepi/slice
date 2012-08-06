@@ -23,6 +23,20 @@
   <dd><%= simple_format @design.email_template if @design.email_template %></dd>
 </dl>
 
+<span class="pagination">
+  <ul>
+    <li class="disabled"><a href="#">Sections</a></li>
+    <li class="active"><a href="#"><%= @design.section_names.count %></a></li>
+  </ul>
+</span>
+
+<span class="pagination">
+  <ul>
+    <li class="disabled"><a href="#">Variables</a></li>
+    <li class="active"><a href="#"><%= @design.variable_ids.count %></a></li>
+  </ul>
+</span>
+
 <%= render partial: 'compact_variables' %>
 
 <hr class="soften">
