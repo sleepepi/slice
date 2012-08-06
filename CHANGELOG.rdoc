@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Hovering over a site user now displays who invited the user to the site
   * User show page now displays the sites and projects the user can view
   * Variables and sections can now be added in the middle of a form when editing a design
   * Variable branching logic is now limited to variables already on the design
