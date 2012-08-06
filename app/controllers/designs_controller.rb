@@ -165,7 +165,7 @@ class DesignsController < ApplicationController
   def generate_csv(design_scope)
     @csv_string = CSV.generate do |csv|
       variable_ids = design_scope.collect{|d| d.variable_ids}.flatten
-      variables = current_user.all_viewable_variables.where(id: variable_ids)
+      variables = current_user.all_viewable_variables.where(id: variable_ids).order(:name)
 
       csv << ["Variable Name", "Variable Display Name", "Variable Header", "Variable Description", "Variable Type", "Variable Options", "Variable Project"]
       variables.each do |variable|
