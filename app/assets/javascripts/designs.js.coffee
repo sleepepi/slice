@@ -147,8 +147,10 @@ jQuery ->
       updateAllVariables()
     )
     .on('click', '[data-object~="expand-details"]', () ->
+      $('[data-object~="' + $(this).data('inverse-selector') + '"]').show()
       $('[data-object~="' + $(this).data('selector') + '"]').hide()
       $($(this).data('target')).show()
+      $($(this).data('target-hide')).hide()
       false
     )
     .on('click', '[data-object~="variable-insert-after"]', () ->

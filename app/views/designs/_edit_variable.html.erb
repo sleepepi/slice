@@ -1,5 +1,5 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
-<div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well" data-object="expand-details" data-target=".variable_<%= position %>_details" data-selector="variabledetails">
+<div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well" data-object="expand-details" data-target=".variable_<%= position %>_details" data-target-hide=".variable_<%= position %>_compact" data-selector="variabledetails" data-inverse-selector="variablecompact">
   <% if false %>
   <div class="page-header" style="margin-top:0px">
     <h3>Variable <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger' %></h3>
@@ -36,9 +36,10 @@
       </div>
     </div>
 
-    <div class="span4 variable_<%= position %>_details" style="margin-bottom:-18px;display:none" data-object="variabledetails">
-      <div id="design_<%= position %>_variable_preview">
-        <% @variable = @all_viewable_variables.find_by_id(@option[:variable_id]) %>
+    <div class="span4">
+      <% @variable = @all_viewable_variables.find_by_id(@option[:variable_id]) %>
+      <div class="variable_<%= position %>_compact" id="design_<%= position %>_variable_preview_name" data-object="variablecompact"><%= @variable.display_name if @variable %></div>
+      <div class="variable_<%= position %>_details" id="design_<%= position %>_variable_preview" style="margin-bottom:-18px;display:none" data-object="variabledetails">
         <%= render partial: 'designs/variable', locals: { disabled: 'disabled' } if @variable %>
       </div>
     </div>
