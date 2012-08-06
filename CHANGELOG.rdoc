@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * User show page now displays the sites and projects the user can view
   * Variables and sections can now be added in the middle of a form when editing a design
   * Variable branching logic is now limited to variables already on the design
   * Numeric fields have been changed back to text fields to be consistent across browsers

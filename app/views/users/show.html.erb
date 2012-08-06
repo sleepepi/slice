@@ -24,4 +24,26 @@
     <dt>System Admin</dt>
     <dd><%= simple_check @user.system_admin? %></dd>
   <% end %>
+
+  <dt>Projects</dt>
+  <dd>
+    <ul>
+      <% @user.all_viewable_projects.each do |project| %>
+        <% if current_user.all_viewable_projects.pluck(:id).include?(project.id) %>
+          <li><%= link_to project.name, project %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </dd>
+
+  <dt>Sites</dt>
+  <dd>
+    <ul>
+      <% @user.all_viewable_sites.each do |site| %>
+        <% if current_user.all_viewable_sites.pluck(:id).include?(site.id) %>
+          <li><%= link_to site.name_with_project, site %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </dd>
 </dl>
