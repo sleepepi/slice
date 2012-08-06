@@ -9,6 +9,7 @@
 
 * Bug Fix
   * Designs no longer lose temporary modifications when changes aren't saved due to validation errors
+  * Variables no longer lose temporary modifications when changes aren't saved due to validation errors
 
 == 0.5.0
 

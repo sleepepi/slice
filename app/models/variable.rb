@@ -1,9 +1,11 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation, :updater_id
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated'].collect{|i| [i,i]}
 
   serialize :options, Array
+
+  before_save :check_option_validations
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -23,6 +25,7 @@ class Variable < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :sheet_variables
+  belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
   def destroy
@@ -53,28 +56,46 @@ class Variable < ActiveRecord::Base
     self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
 
-  # Check that user has selected an editable project  OR
-  #            user is a librarian and project_id is blank
-  def saveable?(current_user, params)
-    result = (current_user.all_projects.pluck(:id).include?(params[:project_id].to_i) or (current_user.librarian? and params[:project_id].blank?))
+  # We want all validations to run so all errors will show up when submitting a form
+  def check_option_validations
+    result_a = check_project_id
+    result_b = check_for_colons
+    result_c = check_value_uniqueness
+    result_d = check_for_blank_values
+
+    result_a and result_b and result_c and result_d
+  end
+
+  def check_project_id
+    result = (self.updater.all_projects.pluck(:id).include?(self.project_id) or (self.updater.librarian? and self.project_id.blank?))
     self.errors.add(:project_id, "can't be blank" ) unless result
-    result = (valid_option_tokens?(current_user, params) and result)
     result
   end
 
-  def valid_option_tokens?(current_user, params)
-    # return true unless ['dropdown', 'checkbox', 'radio', 'integer', 'numeric'].include?(params[:variable_type])
+  def check_for_colons
     result = true
-    option_values = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:name].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:value]}
+    option_values = self.options.collect{|option| option[:value]}
     if option_values.join('').count(':') > 0
       self.errors.add(:option, "values can't contain colons" )
       result = false
     end
+    result
+  end
+
+  def check_value_uniqueness
+    result = true
+    option_values = self.options.collect{|option| option[:value]}
     if option_values.uniq.size < option_values.size
       self.errors.add(:option, "values must be unique" )
       result = false
     end
-    if ['dropdown', 'checkbox', 'radio'].include?(params[:variable_type]) and option_values.select{|opt| opt.to_s.strip.blank?}.size > 0
+    result
+  end
+
+  def check_for_blank_values
+    result = true
+    option_values = self.options.collect{|option| option[:value]}
+    if ['dropdown', 'checkbox', 'radio'].include?(self.variable_type) and option_values.select{|opt| opt.to_s.strip.blank?}.size > 0
       self.errors.add(:option, "values can't be blank" )
       result = false
     end
@@ -85,6 +106,8 @@ class Variable < ActiveRecord::Base
     ["#{ "Min: #{self.hard_minimum}" if self.hard_minimum}", "#{ "Max: #{self.hard_maximum}" if self.hard_maximum}", self.description].select{|i| not i.blank?}.join(', ')
   end
 
+  # All of these changes are rolled back if the sheet is not saved successfully
+  # Wrapped in single transaction
   def option_tokens=(tokens)
     unless self.new_record?
       original_options = self.options

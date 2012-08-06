@@ -88,11 +88,10 @@ class VariablesController < ApplicationController
   # POST /variables
   # POST /variables.json
   def create
-    post_params_copy = post_params
-    @variable = current_user.variables.new(post_params_copy)
+    @variable = current_user.variables.new(post_params)
 
     respond_to do |format|
-      if @variable.saveable?(current_user, post_params_copy) and @variable.save
+      if @variable.save
         format.html { redirect_to @variable, notice: 'Variable was successfully created.' }
         format.json { render json: @variable, status: :created, location: @variable }
       else
@@ -105,12 +104,11 @@ class VariablesController < ApplicationController
   # PUT /variables/1
   # PUT /variables/1.json
   def update
-    post_params_copy = post_params
     @variable = current_user.all_variables.find_by_id(params[:id])
 
     respond_to do |format|
       if @variable
-        if @variable.saveable?(current_user, post_params_copy) and @variable.update_attributes(post_params_copy)
+        if @variable.update_attributes(post_params)
           format.html { redirect_to @variable, notice: 'Variable was successfully updated.' }
           format.json { head :no_content }
         else
@@ -142,6 +140,8 @@ class VariablesController < ApplicationController
   def post_params
     params[:variable] ||= {}
 
+    params[:variable][:updater_id] = current_user.id
+
     params[:variable][:option_tokens] ||= {}
 
     [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
@@ -149,7 +149,7 @@ class VariablesController < ApplicationController
     end
 
     params[:variable].slice(
-      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id,
+      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id, :updater_id,
       # For Integers and Numerics
       :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
       # For Dates
