@@ -7,6 +7,9 @@
   * Copying variables retains the original project from which they were copied
   * Updated to Rails 3.2.8.rc2
 
+* Bug Fix
+  * Designs no longer lose temporary modifications when changes aren't saved due to validation errors
+
 == 0.5.0
 
 * Enhancements

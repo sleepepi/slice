@@ -1,7 +1,9 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template
+  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :updater_id
 
   serialize :options, Array
+
+  before_save :check_option_validations
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -19,6 +21,7 @@ class Design < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :sheets, conditions: { deleted: false }
+  belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
   def destroy
@@ -37,24 +40,57 @@ class Design < ActiveRecord::Base
     self.attributes.reject{|key, val| ['id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
 
-  # Check that user has selected an editable project  OR
-  #            user is a librarian and project_id is blank
-  def saveable?(current_user, params)
-    result = (current_user.all_projects.pluck(:id).include?(params[:project_id].to_i) or (current_user.librarian? and params[:project_id].blank?))
+  # # Check that user has selected an editable project  OR
+  # #            user is a librarian and project_id is blank
+  # def saveable?(current_user, params)
+  #   result = (current_user.all_projects.pluck(:id).include?(params[:project_id].to_i) or (current_user.librarian? and params[:project_id].blank?))
+  #   self.errors.add(:project_id, "can't be blank" ) unless result
+  #   result = (valid_option_tokens?(current_user, params) and result)
+  #   result
+  # end
+
+  # def valid_option_tokens?(current_user, params)
+  #   result = true
+  #   option_variable_ids = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:variable_id].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:variable_id]}
+  #   if option_variable_ids.uniq.size < option_variable_ids.size
+  #     self.errors.add(:variables, "can only be added once")
+  #     result = false
+  #   end
+  #   section_names = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:section_name].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:section_name]}
+  #   if section_names.uniq.size < section_names.size
+  #     self.errors.add(:section_names, "must be unique")
+  #     result = false
+  #   end
+  #   result
+  # end
+
+  # We want all validations to run so all errors will show up when submitting a form
+  def check_option_validations
+    result_a = check_project_id
+    result_b = check_variable_ids
+    result_c = check_section_names
+
+    result_a and result_b and result_c
+  end
+
+  def check_project_id
+    result = (self.updater.all_projects.pluck(:id).include?(self.project_id) or (self.updater.librarian? and self.project_id.blank?))
     self.errors.add(:project_id, "can't be blank" ) unless result
-    result = (valid_option_tokens?(current_user, params) and result)
     result
   end
 
-  def valid_option_tokens?(current_user, params)
+  def check_variable_ids
     result = true
-    option_variable_ids = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:variable_id].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:variable_id]}
-    if option_variable_ids.uniq.size < option_variable_ids.size
+    if self.variable_ids.uniq.size < self.variable_ids.size
       self.errors.add(:variables, "can only be added once")
       result = false
     end
-    section_names = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:section_name].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:section_name]}
-    if section_names.uniq.size < section_names.size
+    result
+  end
+
+  def check_section_names
+    result = true
+    if self.section_names.uniq.size < self.section_names.size
       self.errors.add(:section_names, "must be unique")
       result = false
     end
@@ -95,7 +131,13 @@ class Design < ActiveRecord::Base
 
   def variable_ids
     @variable_ids ||= begin
-      self.options.collect{|option| option[:variable_id].to_i}
+      self.options.select{|option| not option[:variable_id].blank?}.collect{|option| option[:variable_id].to_i}
+    end
+  end
+
+  def section_names
+    @section_names ||= begin
+      self.options.select{|option| not option[:section_name].blank?}.collect{|option| option[:section_name]}
     end
   end
 
