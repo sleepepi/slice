@@ -50,7 +50,7 @@ class Variable < ActiveRecord::Base
   end
 
   def copyable_attributes
-    self.attributes.reject{|key, val| ['id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+    self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
 
   # Check that user has selected an editable project  OR
