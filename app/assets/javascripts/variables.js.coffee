@@ -80,7 +80,7 @@
     # alert($(this).data('calculation'))
     calculation = $(this).data('calculation')
     # calculation = calculation.replace(/([\w]+)/g, "parseInt($('[data-name=\"\$1\"]').val())");
-    calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseInt($('[data-name=\"\$1\"]').val())");
+    calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]').val())");
     # alert(calculation)
     calculation_result = eval(calculation)
     $(this).val(calculation_result)
