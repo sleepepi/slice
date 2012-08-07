@@ -175,8 +175,9 @@ class Design < ActiveRecord::Base
   end
 
   def reorder(rows, current_user)
-    original_options = self.options
+    return if rows.size != self.options.size
 
+    original_options = self.options
     new_options = []
 
     rows.each_with_index do |row, new_location|
@@ -185,8 +186,11 @@ class Design < ActiveRecord::Base
       new_options << original_options[old_location]
     end
 
-    self.update_attributes updater_id: current_user.id, options: new_options
-    self.reload
+    # Only change if the options match up
+    if new_options.size == original_options.size
+      self.update_attributes updater_id: current_user.id, options: new_options
+      self.reload
+    end
   end
 
 end
