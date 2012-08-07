@@ -32,7 +32,7 @@
         <div class="control-group">
           <%= label_tag "design_option_tokens_#{position}_branching_logic", 'Branching Logic', class: 'control-label' %>
           <div class="controls">
-            <%= text_field_tag "design[option_tokens][#{position}][branching_logic]", @option[:branching_logic],
+            <%= text_area_tag "design[option_tokens][#{position}][branching_logic]", @option[:branching_logic], rows: 3, style: 'width:90%',
                 rel: "popover", data: { content: "
                   <table class='table table-bordered'>
                   <tbody>
@@ -42,7 +42,7 @@
                     <tr><td style='font-weight:bold'>Checkbox</td><td>intersection(variable, ['5']).length > 0</td></tr>
                   </tbody>
                   </table>
-                  ", title: "Branching Logic Examples", placement: 'right' } %>
+                  ", title: "Branching Logic Examples", placement: 'bottom' } %>
           </div>
         </div>
         <div class="control-group" style="margin-bottom:0px;">
