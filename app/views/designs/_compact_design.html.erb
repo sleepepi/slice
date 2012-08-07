@@ -1,0 +1,30 @@
+<%= form_tag reorder_design_path(@design), method: :post, remote: true, id: 'reorder_design_form' do %>
+  <ul class="design-list" id="compact_design" data-object="sortable">
+  <% @design.options.each_with_index do |option, position| %>
+    <% if option[:variable_id].blank? %>
+      <li id="option_<%= position %>" class="li-section">
+        <a href="#"><%= option[:section_name] %></a>
+      </li>
+    <% elsif variable = Variable.current.find_by_id(option[:variable_id]) %>
+      <li id="option_<%= position %>" class="li-variable">
+        <div style="width:28px;display:inline-block"><a href="#">&curren;</a></div>
+        <div style="width:20%;display:inline-block"><%= link_to variable.name, variable %></div>
+        <div style="display:inline-block;overflow:hidden;white-space:nowrap;width:50%"><%= variable.display_name %></div>
+        <div style="display:inline-block"><span class="label label-<%= variable.variable_type %>"><%= variable.variable_type %></span></div>
+      </li>
+    <% end %>
+  <% end %>
+  </ul>
+<% end %>
+
+<%= javascript_tag do %>
+$(function(){
+  $('#compact_design[data-object~="sortable"]').sortable({
+    placeholder: "li-section li-placeholder",
+    stop: function(){
+      rows = $(this).sortable('toArray').toString();
+      $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script');
+    }
+  });
+});
+<% end %>

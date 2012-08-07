@@ -173,4 +173,20 @@ class Design < ActiveRecord::Base
   def variables
     pure_variables.sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
   end
+
+  def reorder(rows, current_user)
+    original_options = self.options
+
+    new_options = []
+
+    rows.each_with_index do |row, new_location|
+      old_location = row.gsub('option_', '').to_i
+      Rails.logger.debug "Moving: #{old_location} to #{new_location}"
+      new_options << original_options[old_location]
+    end
+
+    self.update_attributes updater_id: current_user.id, options: new_options
+    self.reload
+  end
+
 end

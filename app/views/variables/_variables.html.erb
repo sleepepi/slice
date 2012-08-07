@@ -21,7 +21,7 @@
       <td><%= link_to variable.display_name, variable %></td>
       <td><%= variable.description %></td>
       <td><%= variable.header %></td>
-      <td><%= variable.variable_type %></td>
+      <td><span class="label label-<%= variable.variable_type %>"><%= variable.variable_type %></span></td>
       <td><%= variable.options %></td>
       <td><%= link_to variable.user.name, variable.user if variable.user %></td>
       <td><%= link_to variable.project.name, variable.project if variable.project %></td>

@@ -37,11 +37,15 @@
   </ul>
 </span>
 
-<%= render partial: 'compact_variables' %>
+<div id="compact_design_container">
+  <%= render partial: 'compact_design' %>
+</div>
+
+<%#= render partial: 'compact_variables' %>
 
 <hr class="soften">
 
-<form class="form-horizontal">
+<form class="form-horizontal" id="full_design_container">
   <%= render partial: 'section_and_variables' %>
 </form>
 

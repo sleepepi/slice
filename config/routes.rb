@@ -4,6 +4,7 @@ Reading::Application.routes.draw do
     member do
       get :copy
       get :print
+      post :reorder
     end
     collection do
       post :add_variable

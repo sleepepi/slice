@@ -25,7 +25,7 @@
   <dd><%= simple_format @variable.description %></dd>
 
   <dt>Variable Type</dt>
-  <dd><%= @variable.variable_type %></dd>
+  <dd><span class="label label-<%= @variable.variable_type %>"><%= @variable.variable_type %></span></dd>
 
   <% if ['integer', 'numeric'].include?(@variable.variable_type) %>
     <dt>Hard Minimum</dt>

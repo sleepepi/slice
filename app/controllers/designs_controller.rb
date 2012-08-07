@@ -33,6 +33,16 @@ class DesignsController < ApplicationController
     @design = Design.new(params[:design])
   end
 
+  def reorder
+    @design = current_user.all_designs.find_by_id(params[:id])
+    if @design
+      @design.reorder(params[:rows].split(','), current_user)
+      render 'reorder'
+    else
+      render nothing: true
+    end
+  end
+
   # GET /designs
   # GET /designs.json
   def index
