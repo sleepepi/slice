@@ -118,7 +118,16 @@
   <div class="control-group" data-object="calculated">
     <%= f.label :calculation, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :calculation, style: 'width:95%' %>
+      <%= f.text_field :calculation, style: 'width:95%',
+          rel: "popover", data: { content: "
+          <table class='table table-bordered'>
+          <tbody>
+            <tr><td style='font-weight:bold'>General</td><td>var1 + var2</td></tr>
+            <tr><td style='font-weight:bold'>Missing Values</td><td>var1 == -9 ? -9 : var1 + var2</td></tr>
+            <tr><td style='font-weight:bold'>Parentheses</td><td>(var1 + var2) / var3</td></tr>
+          </tbody>
+          </table>
+          ", title: "Calculation Examples", placement: 'bottom' } %>
     </div>
   </div>
 
@@ -141,6 +150,7 @@
 
 <%= javascript_tag do %>
   $(function(){
+    $("[rel=popover]").popover({ offset: 10 });
     toggleOptions($('#variable_variable_type'));
   });
 <% end %>
