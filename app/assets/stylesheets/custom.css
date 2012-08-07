@@ -58,3 +58,8 @@ p.about-footer {
     page-break-inside:avoid;
   }
 }
+
+
+.subnav {
+  height: auto;
+}
