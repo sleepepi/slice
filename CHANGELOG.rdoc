@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Numeric and integer max/min hard/soft range information is now displayed in a table under the variable description
   * Missing codes are now displayed distinctly for check boxes and radio button groups
   * Design sections and variables can be reordered on the design show page
   * Users can specify how many items are displayed on index pages
