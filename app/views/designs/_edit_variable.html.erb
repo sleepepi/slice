@@ -16,22 +16,40 @@
           <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + @select_variables, @option[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
         </div>
       </div>
-      <div class="control-group variable_<%= position %>_details" style="margin-top:18px;display:none" data-object="variabledetails">
-        <%= label_tag "design_option_tokens_#{position}_condition", 'Show If', class: 'control-label' %>
-        <div class="controls">
-          <%= select_tag "design[option_tokens][#{position}][condition_variable_id]", options_for_select([['---', nil]] + @design.variables.select{|v| v.id != @option[:variable_id].to_i}.collect{|v| [v.name, v.id]}, @option[:condition_variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %>
+      <div class="variable_<%= position %>_details" style="display:none" data-object="variabledetails">
+        <div class="control-group" style="margin-top:18px">
+          <%= label_tag "design_option_tokens_#{position}_condition", 'Show If', class: 'control-label' %>
+          <div class="controls">
+            <%= select_tag "design[option_tokens][#{position}][condition_variable_id]", options_for_select([['---', nil]] + @design.variables.select{|v| v.id != @option[:variable_id].to_i}.collect{|v| [v.name, v.id]}, @option[:condition_variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position } %>
+          </div>
         </div>
-      </div>
-      <div class="control-group variable_<%= position %>_details" style="display:none" data-object="variabledetails">
-        <%= label_tag "design_option_tokens_#{position}_condition_value", 'Values', class: 'control-label' %>
-        <div class="controls">
-          <%= text_field_tag "design[option_tokens][#{position}][condition_value]", @option[:condition_value] %>
+        <div class="control-group">
+          <%= label_tag "design_option_tokens_#{position}_condition_value", 'Values', class: 'control-label' %>
+          <div class="controls">
+            <%= text_field_tag "design[option_tokens][#{position}][condition_value]", @option[:condition_value] %>
+          </div>
         </div>
-      </div>
-      <div class="control-group variable_<%= position %>_details" style="margin-bottom:0px;display:none" data-object="variabledetails">
-        <div class="controls">
-          <%= link_to 'Add Variable After', '#', class: 'btn btn-mini', data: { object: 'variable-insert-after', position: position } %>
-          <%= link_to 'Add Section After', '#', class: 'btn btn-mini', data: { object: 'section-insert-after', position: position } %>
+        <div class="control-group">
+          <%= label_tag "design_option_tokens_#{position}_branching_logic", 'Branching Logic', class: 'control-label' %>
+          <div class="controls">
+            <%= text_field_tag "design[option_tokens][#{position}][branching_logic]", @option[:branching_logic],
+                rel: "popover", data: { content: "
+                  <table class='table table-bordered'>
+                  <tbody>
+                    <tr><td style='font-weight:bold'>General</td><td>variable == 5</td></tr>
+                    <tr><td style='font-weight:bold'>OR</td><td>a > 5 || b < 2</td></tr>
+                    <tr><td style='font-weight:bold'>AND</td><td>a > 5 && a < 10</td></tr>
+                    <tr><td style='font-weight:bold'>Checkbox</td><td>intersection(variable, ['5']).length > 0</td></tr>
+                  </tbody>
+                  </table>
+                  ", title: "Branching Logic Examples", placement: 'right' } %>
+          </div>
+        </div>
+        <div class="control-group" style="margin-bottom:0px;">
+          <div class="controls">
+            <%= link_to 'Add Variable After', '#', class: 'btn btn-mini', data: { object: 'variable-insert-after', position: position } %>
+            <%= link_to 'Add Section After', '#', class: 'btn btn-mini', data: { object: 'section-insert-after', position: position } %>
+          </div>
         </div>
       </div>
     </div>
@@ -51,6 +69,6 @@ $('[data-object~="variable-load"]').change( function(){
   retrieveVariable(<%= escape_javascript(position) %>);
   return false;
 });
-$('.chzn-select').chosen();
+$('#design_option_tokens_<%= position %>_variable_id.chzn-select').chosen();
 $('#variable_<%= position %>').click();
 <% end %>

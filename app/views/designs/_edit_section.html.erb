@@ -9,17 +9,36 @@
     </div>
   </div>
 
-  <div class="control-group variable_<%= position %>_details" style="margin-top:18px;display:none" data-object="variabledetails">
-    <%= label_tag "design_option_tokens_#{position}_section_description", 'Description', class: 'control-label' %>
-    <div class="controls">
-      <%= text_area_tag "design[option_tokens][#{position}][section_description]", @option[:section_description], rows: 3, style: 'width:90%' %>
+  <div class="variable_<%= position %>_details" style="display:none" data-object="variabledetails">
+    <div class="control-group" style="margin-top:18px">
+      <%= label_tag "design_option_tokens_#{position}_section_description", 'Description', class: 'control-label' %>
+      <div class="controls">
+        <%= text_area_tag "design[option_tokens][#{position}][section_description]", @option[:section_description], rows: 3, style: 'width:90%' %>
+      </div>
     </div>
-  </div>
 
-  <div class="control-group variable_<%= position %>_details" style="margin-bottom:0px;display:none" data-object="variabledetails">
-    <div class="controls">
-      <%= link_to 'Add Variable After', '#', class: 'btn btn-mini', data: { object: 'variable-insert-after', position: position } %>
-      <%= link_to 'Add Section After', '#', class: 'btn btn-mini', data: { object: 'section-insert-after', position: position } %>
+    <div class="control-group">
+      <%= label_tag "design_option_tokens_#{position}_branching_logic", 'Branching Logic', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag "design[option_tokens][#{position}][branching_logic]", @option[:branching_logic],
+        rel: "popover", data: { content: "
+          <table class='table table-bordered'>
+          <tbody>
+            <tr><td style='font-weight:bold'>General</td><td>variable == 5</td></tr>
+            <tr><td style='font-weight:bold'>OR</td><td>a > 5 || b < 2</td></tr>
+            <tr><td style='font-weight:bold'>AND</td><td>a > 5 && a < 10</td></tr>
+            <tr><td style='font-weight:bold'>Checkbox</td><td>intersection(variable, ['5']).length > 0</td></tr>
+          </tbody>
+          </table>
+          ", title: "Branching Logic Examples", placement: 'right' } %>
+      </div>
+    </div>
+
+    <div class="control-group" style="margin-bottom:0px">
+      <div class="controls">
+        <%= link_to 'Add Variable After', '#', class: 'btn btn-mini', data: { object: 'variable-insert-after', position: position } %>
+        <%= link_to 'Add Section After', '#', class: 'btn btn-mini', data: { object: 'section-insert-after', position: position } %>
+      </div>
     </div>
   </div>
 </div>

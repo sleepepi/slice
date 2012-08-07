@@ -62,7 +62,8 @@ $(function(){
     .popover({
       offset: 10
     });
-  $('#varvar_<%= @variable.id %>').data('values-hash', <%= raw @design ? @design.values_hash(@variable) : [].to_json %>)
-  $('.chzn-select').chosen({ allow_single_deselect: true });
+  $('#varvar_<%= @variable.id %>').data('values-hash', <%= raw @design ? @design.values_hash(@variable) : [].to_json %>);
+  $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design ? @design.branching_logic(@variable) : ''.to_json %>);
+  $('#variables_<%= @variable.id %>.chzn-select').chosen({ allow_single_deselect: true });
 });
 <% end %>

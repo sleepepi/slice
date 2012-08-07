@@ -104,13 +104,15 @@ class Design < ActiveRecord::Base
         self.options << {
                           variable_id: option_hash[:variable_id],
                           condition_variable_id: option_hash[:condition_variable_id],
-                          condition_value: option_hash[:condition_value].to_s.strip
+                          condition_value: option_hash[:condition_value].to_s.strip,
+                          branching_logic: option_hash[:branching_logic].to_s.strip
                         } unless option_hash[:variable_id].blank?
       else
         self.options << {
                           section_name: option_hash[:section_name].strip,
                           section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
-                          section_description: option_hash[:section_description].strip
+                          section_description: option_hash[:section_description].strip,
+                          branching_logic: option_hash[:branching_logic].to_s.strip
                         }
       end
     end
@@ -119,6 +121,27 @@ class Design < ActiveRecord::Base
   # [{"location": "#varvar_145", "values": []}, {"location": "#varvar_145", "values": []}]
   def values_hash(variable)
     [{ location: self.condition_parent(variable), values: self.condition_value(variable) }].to_json
+  end
+
+  def branching_logic_section(section_id)
+    self.options.select{|item| item[:section_id].to_s == section_id.to_s }.collect{|item| item[:branching_logic].to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}}.join(' ').to_json
+  end
+
+  def branching_logic(variable)
+    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| item[:branching_logic].to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}}.join(' ').to_json
+  end
+
+  def variable_replacement(variable_name)
+    variable = self.pure_variables.find_by_name(variable_name)
+    if variable and ['radio'].include?(variable.variable_type)
+      "$(\"[name='variables[#{variable.id}]']:checked\").val()"
+    elsif variable and ['checkbox'].include?(variable.variable_type)
+      "$.map($(\"[name='variables[#{variable.id}][]']:checked\"),function(el){return $(el).val();})"
+    elsif variable
+      "$(\"#variables_#{variable.id}\").val()"
+    else
+      variable_name
+    end
   end
 
   def condition_parent(variable)
@@ -141,7 +164,13 @@ class Design < ActiveRecord::Base
     end
   end
 
+  # ActiveRecord...
+  def pure_variables
+    Variable.current.where(id: variable_ids)
+  end
+
+  # Array...
   def variables
-    Variable.current.where(id: variable_ids).sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
+    pure_variables.sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
   end
 end

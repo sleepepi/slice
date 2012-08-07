@@ -1,8 +1,12 @@
-<div class="page-header" style="padding-top:76px" id="<%= @option[:section_id] %>">
+<div class="page-header" style="padding-top:76px" id="<%= @option[:section_id] %>" data-object="variable-container">
   <h2>
     <%= @option[:section_name] %>
     <small><%= simple_format @option[:section_description] unless @option[:section_description].blank? %></small>
   </h2>
 </div>
 
-
+<%= javascript_tag do %>
+$(function(){
+  $('#<%= @option[:section_id] %>').data('branching-logic', <%= raw @design ? @design.branching_logic_section(@option[:section_id]) : ''.to_json %>);
+});
+<% end %>

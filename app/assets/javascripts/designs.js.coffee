@@ -29,6 +29,20 @@
     result = checkCondition(condition_hash)
     truth_table.push(result)
   )
+  branching_logic = $(element).data('branching-logic') || ''
+
+  if branching_logic != ''
+    try
+      # alert branching_logic
+      branching_logic_result = eval(branching_logic)
+    catch error
+      alert('Error in branching logic syntax.' + error)
+      branching_logic_result = true
+    if branching_logic_result
+      truth_table.push(1)
+    else
+      truth_table.push(0)
+
   # dmsg truth_table
   if 0 in truth_table
     $(element).hide()
@@ -75,48 +89,6 @@
   # $('#error_log').prepend('<li>' + message + '</li>')
   false
 
-
-# @toggleCondition = (element) ->
-#   dmsg("Checking Locked #{$(element).attr('id')} Locked: '#{$(element).data('locked')}'")
-#   if $(element).data('locked') == 1
-#     dmsg("Skipping #{$(element).attr('id')}")
-#     return false
-#   $(element).data('locked', 1)
-#   dmsg("Locking #{$(element).attr('id')}")
-#   window.indentcount = window.indentcount + 1
-#   conditional_variable_id = $(element).data('condition-target')
-#   selector = '[data-condition-parent~="' + conditional_variable_id + '"]'
-#   $(selector).each( (index, el) ->
-#     if $(element).is(':hidden')
-#       $(el).hide()
-#       dmsg("Hiding #{$(el).attr('id')}")
-#     else if $(element).is(':checkbox, :radio')
-#       values = []
-#       $.each($("input[name='" + $(element).attr('name') + "']:checked"), () ->
-#         values.push($(this).val())
-#       )
-#       if intersection(values, String($(el).data('condition-value')).split(',')).length > 0
-#         $(el).show()
-#         dmsg("Showing #{$(el).attr('id')}")
-#       else
-#         $(el).hide()
-#         dmsg("Hiding #{$(el).attr('id')}")
-#     else
-#       if String($(element).val()) in String($(el).data('condition-value')).split(',')
-#         $(el).show()
-#         dmsg("Showing #{$(el).attr('id')}")
-#       else
-#         $(el).hide()
-#         dmsg("Hiding #{$(el).attr('id')}")
-#     $(el).find('[data-object~="condition"]').change()
-#   )
-#   window.indentcount = window.indentcount - 1
-#   dmsg("Unlocking #{$(element).attr('id')}")
-#   dmsg("")
-#   $(element).data('locked', 0)
-#   false
-# TODO Remove Above
-
 jQuery ->
 
   $('#add_more_variables').on('click', () ->
@@ -143,7 +115,6 @@ jQuery ->
 
   $(document)
     .on('change', '[data-object~="condition"]', () ->
-      # toggleCondition($(this))
       updateAllVariables()
     )
     .on('click', '[data-object~="expand-details"]', () ->

@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Advanced branching logic can now be added to variables and sections on designs
   * Data dictionaries in CSV format can now be downloaded by filtering designs
   * Design show page now includes section and variable counts
   * Hovering over a site user now displays who invited the user to the site
