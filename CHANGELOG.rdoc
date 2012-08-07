@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Missing codes are now displayed distinctly for check boxes and radio button groups
   * Design sections and variables can be reordered on the design show page
   * Users can specify how many items are displayed on index pages
   * Advanced branching logic can now be added to variables and sections on designs
