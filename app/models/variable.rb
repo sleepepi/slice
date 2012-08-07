@@ -103,7 +103,18 @@ class Variable < ActiveRecord::Base
   end
 
   def description_range
-    ["#{ "Min: #{self.hard_minimum}" if self.hard_minimum}", "#{ "Max: #{self.hard_maximum}" if self.hard_maximum}", self.description].select{|i| not i.blank?}.join(', ')
+    [self.description, self.range_table].select{|i| not i.blank?}.join('<br /><br />')
+  end
+
+  def range_table
+    if self.hard_minimum or self.hard_maximum or self.soft_minimum or self.soft_maximum
+      "<table class='table table-bordered table-striped' style='margin-bottom:0px'>
+        <thead><tr><th>Hard Min</th><th>Soft Min</th><th>Soft Max</th><th>Hard Max</th></tr></thead>
+        <tbody><tr><td>#{self.hard_minimum}</td><td>#{self.soft_minimum}</td><td>#{self.soft_maximum}</td><td>#{self.hard_maximum}</td></tr></tbody>
+      </table>"
+    else
+      ""
+    end
   end
 
   # All of these changes are rolled back if the sheet is not saved successfully
