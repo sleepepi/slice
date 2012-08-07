@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Users can specify how many items are displayed on index pages
   * Advanced branching logic can now be added to variables and sections on designs
   * Data dictionaries in CSV format can now be downloaded by filtering designs
   * Design show page now includes section and variable counts

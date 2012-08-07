@@ -36,6 +36,7 @@ class DesignsController < ApplicationController
   # GET /designs
   # GET /designs.json
   def index
+    current_user.pagination_set!('designs', params[:designs_per_page].to_i) if params[:designs_per_page].to_i > 0
     design_scope = current_user.all_viewable_designs
 
     ['project', 'user'].each do |filter|
@@ -59,7 +60,7 @@ class DesignsController < ApplicationController
       return
     end
 
-    @designs = design_scope.page(params[:page]).per( 20 )
+    @designs = design_scope.page(params[:page]).per( current_user.pagination_count('designs') )
 
     respond_to do |format|
       format.html # index.html.erb

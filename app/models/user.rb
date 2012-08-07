@@ -6,7 +6,9 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me  # attr_accessible :title, :body
-  attr_accessible :first_name, :last_name
+  attr_accessible :first_name, :last_name, :pagination
+
+  serialize :pagination, Hash
 
   # Callbacks
   after_create :notify_system_admins
@@ -38,6 +40,16 @@ class User < ActiveRecord::Base
   has_many :variables, conditions: { deleted: false }
 
   # User Methods
+
+  def pagination_count(model)
+    self.pagination[model.to_s].to_i > 0 ? self.pagination[model.to_s].to_i : 25
+  end
+
+  def pagination_set!(model, count)
+    original_pagination = self.pagination
+    original_pagination[model.to_s] = count
+    self.update_attributes pagination: original_pagination
+  end
 
   def all_projects
     @all_projects ||= begin

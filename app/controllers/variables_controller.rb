@@ -26,6 +26,7 @@ class VariablesController < ApplicationController
   # GET /variables
   # GET /variables.json
   def index
+    current_user.pagination_set!('variables', params[:variables_per_page].to_i) if params[:variables_per_page].to_i > 0
     variable_scope = current_user.all_viewable_variables
 
     ['project', 'user'].each do |filter|
@@ -41,7 +42,7 @@ class VariablesController < ApplicationController
     variable_scope = variable_scope.order(@order)
 
     @variable_count = variable_scope.count
-    @variables = variable_scope.page(params[:page]).per( 20 )
+    @variables = variable_scope.page(params[:page]).per( current_user.pagination_count('variables') )
 
     respond_to do |format|
       format.html # index.html.erb

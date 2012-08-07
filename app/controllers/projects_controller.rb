@@ -4,6 +4,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
+    current_user.pagination_set!('projects', params[:projects_per_page].to_i) if params[:projects_per_page].to_i > 0
     project_scope = current_user.all_viewable_projects
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
@@ -12,7 +13,8 @@ class ProjectsController < ApplicationController
     @order = scrub_order(Project, params[:order], 'projects.name')
     project_scope = project_scope.order(@order)
 
-    @projects = project_scope.page(params[:page]).per( 20 )
+    @project_count = project_scope.count
+    @projects = project_scope.page(params[:page]).per( current_user.pagination_count('projects') )
 
     respond_to do |format|
       format.html # index.html.erb

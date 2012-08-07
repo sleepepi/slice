@@ -10,6 +10,7 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
+    current_user.pagination_set!('sites', params[:sites_per_page].to_i) if params[:sites_per_page].to_i > 0
     site_scope = current_user.all_viewable_sites
 
     ['project'].each do |filter|
@@ -22,7 +23,8 @@ class SitesController < ApplicationController
     @order = scrub_order(Site, params[:order], 'sites.name')
     site_scope = site_scope.order(@order)
 
-    @sites = site_scope.page(params[:page]).per( 20 )
+    @site_count = site_scope.count
+    @sites = site_scope.page(params[:page]).per( current_user.pagination_count('sites') )
 
     respond_to do |format|
       format.html # index.html.erb

@@ -48,6 +48,7 @@ class SheetsController < ApplicationController
   # GET /sheets
   # GET /sheets.json
   def index
+    current_user.pagination_set!('sheets', params[:sheets_per_page].to_i) if params[:sheets_per_page].to_i > 0
     sheet_scope = current_user.all_viewable_sheets
 
     @sheet_after = parse_date(params[:sheet_after])
@@ -98,7 +99,7 @@ class SheetsController < ApplicationController
       return
     end
 
-    @sheets = sheet_scope.page(params[:page]).per( 20 )
+    @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
 
     respond_to do |format|
       format.html # index.html.erb

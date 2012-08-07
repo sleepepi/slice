@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
       return
     end
-    # current_user.update_attributes users_per_page: params[:users_per_page].to_i if params[:users_per_page].to_i >= 10 and params[:users_per_page].to_i <= 200
+    current_user.pagination_set!('users', params[:users_per_page].to_i) if params[:users_per_page].to_i > 0
     user_scope = User.current
     @search_terms = (params[:search] || params[:q]).to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| user_scope = user_scope.search(search_term) }
@@ -15,7 +15,8 @@ class UsersController < ApplicationController
     @order = scrub_order(User, params[:order], 'users.current_sign_in_at DESC')
     user_scope = user_scope.order(@order)
 
-    @users = user_scope.page(params[:page]).per(20) # (current_user.users_per_page)
+    @user_count = user_scope.count
+    @users = user_scope.page(params[:page]).per( current_user.pagination_count('users') )
     respond_to do |format|
       format.html
       format.js

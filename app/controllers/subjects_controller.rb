@@ -4,6 +4,7 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.json
   def index
+    current_user.pagination_set!('subjects', params[:subjects_per_page].to_i) if params[:subjects_per_page].to_i > 0
     subject_scope = current_user.all_viewable_subjects
 
     @project = Project.find_by_id(params[:project_id])
@@ -24,7 +25,7 @@ class SubjectsController < ApplicationController
     subject_scope = subject_scope.order(@order)
 
     @subject_count = subject_scope.count
-    @subjects = subject_scope.page(params[:page]).per( 20 )
+    @subjects = subject_scope.page(params[:page]).per( current_user.pagination_count('subjects') )
 
     respond_to do |format|
       format.html # index.html.erb
