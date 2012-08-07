@@ -78,6 +78,7 @@ p.about-footer {
 }
 
 .design-list li.li-variable a, .design-list li.li-section a {
+  cursor: move;
   line-height: 14px;
   /*display: block;*/
   margin-bottom: 3px;
