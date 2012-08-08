@@ -217,6 +217,25 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def response_label(sheet)
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    response = (sheet_variable ? sheet_variable.response : nil)
+    if ['dropdown', 'radio'].include?(self.variable_type)
+      hash = (self.options.select{|option| option[:value] == response}.first || {})
+      hash[:name]
+    elsif ['checkbox'].include?(self.variable_type)
+      array = YAML::load(response) rescue array = []
+      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}
+    elsif ['integer', 'numeric'].include?(self.variable_type)
+      hash = self.options_only_missing.select{|option| option[:value] == response}.first
+      hash.blank? ? response : hash[:name]
+    elsif ['file'].include?(self.variable_type)
+      self.response_file(sheet).to_s.split('/').last
+    else
+      response
+    end
+  end
+
   def response_raw(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)

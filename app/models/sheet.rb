@@ -45,7 +45,12 @@ class Sheet < ActiveRecord::Base
   end
 
   def email_body_template(current_user)
-    self.design.email_template.to_s.gsub(/\$\((.*?)\)(\.name)?/){|m| variable_replacement($1,$2)}.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
+    result = ''
+    result = self.design.email_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
+    result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
+    result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
+    result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
+    result
   end
 
   def variable_replacement(variable_name, display_name)
@@ -54,6 +59,10 @@ class Sheet < ActiveRecord::Base
       variable.response_name(self)
     elsif variable and display_name == '.name'
       variable.display_name
+    elsif variable and display_name == '.label'
+      variable.response_label(self)
+    elsif variable and display_name == '.value'
+      variable.response_raw(self)
     else
       ''
     end
@@ -67,6 +76,14 @@ class Sheet < ActiveRecord::Base
     else
       ''
     end
+  end
+
+  def site_replacement(property)
+    self.subject.site.name
+  end
+
+  def date_replacement(property)
+    self.study_date
   end
 
 #   def email_body_template(current_user)

@@ -1,6 +1,12 @@
 == 0.6.0
 
 * Enhancements
+  * Added more options for email templates
+    * Site Name: #(site)
+    * Study Date: #(date)
+    * Variable: $(variable),             i.e. $(scorer_id)       => 1: John Smith
+    * Variable Label: $(variable).label, i.e. $(scorer_id).label => John Smith
+    * Variable Value: $(variable).value, i.e. $(scorer_id).value => 1
   * Numeric and integer max/min hard/soft range information is now displayed in a table under the variable description
   * Missing codes are now displayed distinctly for check boxes and radio button groups
   * Design sections and variables can be reordered on the design show page

@@ -41,12 +41,18 @@
     <div class="controls" rel="popover" data-content="
       <table class='table table-bordered'>
         <thead><tr><th>Code</th><th>Example Output</th></tr></thead>
-        <tr><td>$(age)</td><td>28</td></tr>
-        <tr><td>$(age).name</td><td>Age at Study</td></tr>
         <tr><td>#(subject)</td><td>1234</td></tr>
         <tr><td>#(subject).acrostic</td><td>REMU</td></tr>
+        <tr><td>#(site)</td><td>Site A</td></tr>
+        <tr><td>#(date)</td><td>2012-02-14</td></tr>
+        <tr><td>$(age)</td><td>28</td></tr>
+        <tr><td>$(age).name</td><td>Age at Study</td></tr>
+        <tr><td>$(scorer_id).name</td><td>Scorer</td></tr>
+        <tr><td>$(scorer_id)</td><td>1: John Smith</td></tr>
+        <tr><td>$(scorer_id).label</td><td>John Smith</td></tr>
+        <tr><td>$(scorer_id).value</td><td>1</td></tr>
       </table>
-      " data-title="Reference Variables" data-placement='top'>
+      " data-title="Reference Variables" data-placement='bottom'>
       <%= f.text_area :email_template, rows: 7, style: 'width:95%' %>
 
     </div>
