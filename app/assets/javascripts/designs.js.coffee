@@ -131,17 +131,19 @@ jQuery ->
 
   $('#reorder_design_button').on('click', () ->
     if $(this).attr('disabled') != 'disabled'
-      $(this).attr('disabled', 'disabled')
+      $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
       rows = $('#compact_design').sortable('toArray').toString()
       $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script')
+      $('#saving_modal').modal(backdrop: 'static', keyboard: false)
     false
   )
 
   $('#reorder_design_sections_button').on('click', () ->
     if $(this).attr('disabled') != 'disabled'
-      $(this).attr('disabled', 'disabled')
+      $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
       sections = $('#reorder_sections_design').sortable('toArray').toString()
       $.post($('#reorder_sections_design_form').attr('action'), '&sections='+sections, null, 'script')
+      $('#saving_modal').modal(backdrop: 'static', keyboard: false)
     false
   )
 
