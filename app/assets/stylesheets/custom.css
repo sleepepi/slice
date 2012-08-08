@@ -134,7 +134,7 @@ p.about-footer {
 .label-text { background-color: #9c6f6f; }
 .label-integer { background-color: #43d691; }
 .label-numeric { background-color: #fcda00; }
-.label-date { background-color: #fad0fa; }
+.label-date { background-color: #ff4c4c; }
 .label-time { background-color: #27f5c2; }
-.label-file { background-color: #ff4c4c; }
+.label-file { background-color: #fad0fa; }
 .label-calculated { background-color: #b4defa; }
