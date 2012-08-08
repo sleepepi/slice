@@ -158,9 +158,13 @@ class Design < ActiveRecord::Base
     end
   end
 
+  def sections
+    self.options.select{|option| not option[:section_name].blank?}
+  end
+
   def section_names
     @section_names ||= begin
-      self.options.select{|option| not option[:section_name].blank?}.collect{|option| option[:section_name]}
+      self.sections.collect{|option| option[:section_name]}
     end
   end
 
@@ -174,14 +178,44 @@ class Design < ActiveRecord::Base
     pure_variables.sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
   end
 
+  # sections = ["section_0","section_2","section_1"]
+  def reorder_sections(section_positions, current_user)
+    new_sections = section_positions.collect{|a| a.gsub('section_', '').to_i}
+    return if new_sections.size == 0 or new_sections.sort != (0..self.section_names.size - 1).to_a
+    original_sections = {}
+
+    current_section = nil
+    range_start = 0
+    section_count = 0
+    self.options.each_with_index do |option, index|
+      if option[:section_name].blank?
+        original_sections[current_section] = [range_start, index]
+      else
+        current_section = section_count
+        section_count += 1
+        range_start = index
+        original_sections[current_section] = [range_start, index]
+      end
+    end
+
+    rows = original_sections[nil].blank? ? [] : (original_sections[nil][0]..original_sections[nil][1]).to_a
+
+    new_sections.each do |position|
+      rows = rows + (original_sections[position][0]..original_sections[position][1]).to_a
+    end
+
+    self.reorder(rows.collect{|i| "option_#{i}"}, current_user)
+  end
+
   def reorder(rows, current_user)
-    return if rows.size != self.options.size
+    new_rows = rows.collect{|a| a.gsub('option_', '').to_i}
+    return if new_rows.size == 0 or new_rows.sort != (0..self.options.size - 1).to_a
 
     original_options = self.options
     new_options = []
 
-    rows.each_with_index do |row, new_location|
-      old_location = row.gsub('option_', '').to_i
+    new_rows.each_with_index do |row, new_location|
+      old_location = row
       Rails.logger.debug "Moving: #{old_location} to #{new_location}"
       new_options << original_options[old_location]
     end

@@ -1,2 +1,6 @@
 $('#compact_design_container').html("<%= escape_javascript(render("compact_design")) %>");
+$('#reorder_sections_container').html("<%= escape_javascript(render("reorder_sections")) %>");
+
+$('#reorder_design_button').attr('disabled', 'disabled');
+$('#reorder_design_sections_button').attr('disabled', 'disabled');
 // $('#full_design_container').html("<%= escape_javascript(render("section_and_variables")) %>");

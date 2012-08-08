@@ -25,20 +25,27 @@
 
 <span class="pagination">
   <ul>
-    <li class="disabled"><a href="#">Sections</a></li>
+    <li><a href="#" id="sections_link">Sections</a></li>
     <li class="active"><a href="#"><%= @design.section_names.count %></a></li>
   </ul>
 </span>
 
 <span class="pagination">
   <ul>
-    <li class="disabled"><a href="#">Variables</a></li>
+    <li class="disabled"><a href="#" id="variables_link">Variables</a></li>
     <li class="active"><a href="#"><%= @design.variable_ids.count %></a></li>
   </ul>
 </span>
 
+<%= link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary', disabled: 'disabled', style: 'margin-top:4px;margin-bottom:4px;vertical-align:top' %>
+<%= link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary', disabled: 'disabled', style: 'margin-top:4px;margin-bottom:4px;vertical-align:top;display:none' %>
+
 <div id="compact_design_container">
   <%= render partial: 'compact_design' %>
+</div>
+
+<div id="reorder_sections_container" style="display:none">
+  <%= render partial: 'reorder_sections' %>
 </div>
 
 <%#= render partial: 'compact_variables' %>

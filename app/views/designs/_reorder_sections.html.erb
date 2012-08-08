@@ -1,0 +1,22 @@
+<%= form_tag reorder_design_path(@design), method: :post, remote: true, id: 'reorder_sections_design_form' do %>
+  <ul class="design-list" id="reorder_sections_design" data-object="sortable">
+  <% @design.sections.each_with_index do |option, position| %>
+    <li id="section_<%= position %>" class="li-section">
+      <a href="#"><%= option[:section_name] %></a>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
+<% if current_user.all_viewable_designs.pluck(:id).include?(@design.id) %>
+  <%= javascript_tag do %>
+  $(function(){
+    $('#reorder_sections_design[data-object~="sortable"]').sortable({
+      placeholder: "li-section li-placeholder",
+      stop: function(){
+        toggleReorderSectionsSubmitButton();
+      }
+    });
+  });
+  <% end %>
+<% end %>

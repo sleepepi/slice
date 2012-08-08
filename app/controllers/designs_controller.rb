@@ -36,7 +36,11 @@ class DesignsController < ApplicationController
   def reorder
     @design = current_user.all_designs.find_by_id(params[:id])
     if @design
-      @design.reorder(params[:rows].split(','), current_user)
+      if params[:rows].blank?
+        @design.reorder_sections(params[:sections].to_s.split(','), current_user)
+      else
+        @design.reorder(params[:rows].to_s.split(','), current_user)
+      end
       render 'reorder'
     else
       render nothing: true

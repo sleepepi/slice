@@ -89,6 +89,22 @@
   # $('#error_log').prepend('<li>' + message + '</li>')
   false
 
+@toggleReorderDesignSubmitButton = () ->
+  rows = $.map($('#compact_design').sortable('toArray'), (val, i) -> parseInt(val.replace('option_', '')))
+  if rows.toString() == rows.sort((a,b) -> a - b).toString()
+    $('#reorder_design_button').attr('disabled', 'disabled')
+  else
+    $('#reorder_design_button').removeAttr('disabled')
+  false
+
+@toggleReorderSectionsSubmitButton = () ->
+  sections = $.map($('#reorder_sections_design').sortable('toArray'), (val, i) -> parseInt(val.replace('section_', '')))
+  if sections.toString() == sections.sort((a,b) -> a - b).toString()
+    $('#reorder_design_sections_button').attr('disabled', 'disabled')
+  else
+    $('#reorder_design_sections_button').removeAttr('disabled')
+  false
+
 jQuery ->
 
   $('#add_more_variables').on('click', () ->
@@ -113,6 +129,38 @@ jQuery ->
 
   $('#variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
+  $('#reorder_design_button').on('click', () ->
+    if $(this).attr('disabled') != 'disabled'
+      $(this).attr('disabled', 'disabled')
+      rows = $('#compact_design').sortable('toArray').toString()
+      $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script')
+    false
+  )
+
+  $('#reorder_design_sections_button').on('click', () ->
+    if $(this).attr('disabled') != 'disabled'
+      $(this).attr('disabled', 'disabled')
+      sections = $('#reorder_sections_design').sortable('toArray').toString()
+      $.post($('#reorder_sections_design_form').attr('action'), '&sections='+sections, null, 'script')
+    false
+  )
+
+  $('#sections_link').on('click', () ->
+    $(this).closest('li').addClass('disabled')
+    $('#variables_link').closest('li').removeClass('disabled')
+    $('#reorder_design_button, #compact_design_container').hide()
+    $('#reorder_design_sections_button, #reorder_sections_container').show()
+    false
+  )
+
+  $('#variables_link').on('click', () ->
+    $(this).closest('li').addClass('disabled')
+    $('#sections_link').closest('li').removeClass('disabled')
+    $('#reorder_design_button, #compact_design_container').show()
+    $('#reorder_design_sections_button, #reorder_sections_container').hide()
+    false
+  )
+
   $(document)
     .on('change', '[data-object~="condition"]', () ->
       updateAllVariables()
@@ -132,6 +180,7 @@ jQuery ->
       $.post(root_url + 'designs/add_section', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
       false
     )
+
 
 
   # $('[data-object~="variable-load"]').change( () ->
