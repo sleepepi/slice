@@ -3,7 +3,7 @@
   <% @design.options.each_with_index do |option, position| %>
     <% if option[:variable_id].blank? %>
       <li id="option_<%= position %>" class="li-section">
-        <a href="#"><%= option[:section_name] %></a>
+        <div style="display:inline-block"><a href="#"><%= option[:section_name] %></a></div>
       </li>
     <% elsif variable = Variable.current.find_by_id(option[:variable_id]) %>
       <li id="option_<%= position %>" class="li-variable">

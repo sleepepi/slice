@@ -2,7 +2,7 @@
   <ul class="design-list" id="reorder_sections_design" data-object="sortable">
   <% @design.sections.each_with_index do |option, position| %>
     <li id="section_<%= position %>" class="li-section">
-      <a href="#"><%= option[:section_name] %></a>
+      <div style="display:inline-block"><a href="#"><%= option[:section_name] %></a></div>
     </li>
   <% end %>
   </ul>
