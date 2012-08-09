@@ -3,11 +3,11 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.design_id', 'Design', 'sheets_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.study_date', 'Study Date', 'sheets_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.project_id', 'Project', 'sheets_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.site_id', 'Site', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.design_id', 'Sheet', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.subject_id', 'Subject', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.study_date', 'Study Date', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.site_id', 'Site', 'sheets_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.project_id', 'Project', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.user_id', 'Creator', 'sheets_search') %></th>
       <th>Actions</th>
     </tr>
@@ -16,10 +16,10 @@
   <% @sheets.each do |sheet| %>
     <tr id="sheet_<%= sheet.id %>">
       <td><%= link_to sheet.design.name, sheet %></td>
-      <td><%= sheet.study_date %></td>
-      <td><%= link_to sheet.project.name, sheet.project if sheet.project %></td>
-      <td><%= link_to sheet.subject.site.name, sheet.subject.site if sheet.subject and sheet.subject.site %></td>
       <td><%= link_to sheet.subject.name, sheet.subject if sheet.subject %></td>
+      <td><%= sheet.study_date %></td>
+      <td><%= link_to sheet.subject.site.name, sheet.subject.site if sheet.subject and sheet.subject.site %></td>
+      <td><%= link_to sheet.project.name, sheet.project if sheet.project %></td>
       <td><%= link_to sheet.user.name, sheet.user if sheet.user %></td>
       <td>
         <%= link_to 'PDF', print_sheet_path(sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
