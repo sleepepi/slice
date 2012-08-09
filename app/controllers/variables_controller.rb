@@ -83,7 +83,16 @@ class VariablesController < ApplicationController
   # GET /variables/1/edit
   def edit
     @variable = current_user.all_variables.find_by_id(params[:id])
-    redirect_to variables_path unless @variable
+
+    respond_to do |format|
+      if @variable
+        format.html { render 'edit' }
+        format.js { render 'popup' }
+      else
+        format.html { redirect_to variables_path }
+        format.js { render nothing: true }
+      end
+    end
   end
 
   # POST /variables
@@ -111,13 +120,16 @@ class VariablesController < ApplicationController
       if @variable
         if @variable.update_attributes(post_params)
           format.html { redirect_to @variable, notice: 'Variable was successfully updated.' }
+          format.js { render 'update' }
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
+          format.js { render 'update' }
           format.json { render json: @variable.errors, status: :unprocessable_entity }
         end
       else
         format.html { redirect_to variables_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end

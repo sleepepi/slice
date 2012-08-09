@@ -8,6 +8,8 @@
 
   <div class="row">
     <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
+    <% @variable = @all_viewable_variables.find_by_id(@option[:variable_id]) %>
+    <%= link_to 'Edit', '#', class: 'btn btn-mini', style: 'float:right;margin-right:5px', data: { object: 'popup-variable', position: position } %>
 
     <div class="span4">
       <div class="control-group" style="margin-bottom:0px">
@@ -65,10 +67,6 @@
 </div>
 
 <%= javascript_tag do %>
-$('[data-object~="variable-load"]').change( function(){
-  retrieveVariable(<%= escape_javascript(position) %>);
-  return false;
-});
 $('#design_option_tokens_<%= position %>_variable_id.chzn-select').chosen();
 $('#variable_<%= position %>').click();
 <% end %>

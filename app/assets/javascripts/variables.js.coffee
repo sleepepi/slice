@@ -88,7 +88,7 @@
   )
 
 jQuery ->
-  $('#add_more_options').on('click', () ->
+  $(document).on('click', '#add_more_options', () ->
     $.post(root_url + 'variables/add_option', $("form").serialize() + "&_method=post", null, "script")
     false
   )
@@ -119,4 +119,19 @@ jQuery ->
   )
   .on('change', '[data-object~="condition"]', () ->
     updateCalculatedVariables()
+  )
+  .on('click', '[data-object~="update-variable"]', () ->
+    $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize() + "&_method=put", null, "script")
+  )
+  .on('click', '[data-object~="popup-variable"]', () ->
+    position = $(this).data('position')
+    variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
+    if variable_id
+      $.get(root_url + 'variables/' + variable_id + '/edit', 'position=' + position, null, "script")
+    false
+  )
+  .on('change', '[data-object~="variable-load"]', () ->
+    position = $(this).data('position')
+    retrieveVariable(position)
+    false
   )

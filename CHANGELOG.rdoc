@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Variables can now be edited while updating a design
   * Added more options for email templates
     * Site Name: #(site)
     * Study Date: #(date)

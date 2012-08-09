@@ -1,0 +1,17 @@
+<div class="modal hide" id="variable_edit_modal">
+  <div class="modal-header">
+    <h3>Edit Variable</h3>
+  </div>
+  <div class="modal-body">
+    <%= form_for @variable, html: { class: 'form-horizontal' }, remote: true do |f| %>
+      <%= hidden_field_tag :position, params[:position] %>
+      <%= render partial: 'variables/inner_form', locals: { f: f } %>
+    <% end %>
+  </div>
+  <div class="modal-footer form-actions">
+    <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
+    <%#= submit_tag 'Update Variable', class: 'btn btn-primary', data: { object: 'update-variable', target: "##{form_name}" } %>
+    <%= submit_tag 'Update Variable', class: 'btn btn-primary', data: { object: 'submit', target: "##{form_name}" } %>
+    <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#variable_edit_modal', object: 'modal-hide', remove_class: 'error' } %>
+  </div>
+</div>

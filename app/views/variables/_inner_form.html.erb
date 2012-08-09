@@ -1,0 +1,125 @@
+<div class="control-group">
+  <%= f.label :name, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :name, maxlength: 32, style: 'width:225px' %>
+    <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 32 characters.</div>
+    <i>var1_population</i>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :header, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :header, style: 'width:95%' %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :display_name, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :display_name, style: 'width:95%' %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :project_id, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.select :project_id, [['---', nil]] + current_user.all_projects.current.collect{|p| [p.name, p.id]} %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :description, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :variable_type, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.select :variable_type, [['---', nil]] + Variable::TYPE %>
+  </div>
+</div>
+
+<div class="control-group" data-object="number">
+  <%= f.label :hard_minimum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.number_field :hard_minimum %>
+  </div>
+</div>
+
+<div class="control-group" data-object="number">
+  <%= f.label :hard_maximum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.number_field :hard_maximum %>
+  </div>
+</div>
+
+<div class="control-group" data-object="number">
+  <%= f.label :soft_minimum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.number_field :soft_minimum %>
+  </div>
+</div>
+
+<div class="control-group" data-object="number">
+  <%= f.label :soft_maximum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.number_field :soft_maximum %>
+  </div>
+</div>
+
+<div class="control-group" data-object="date">
+  <%= f.label :date_hard_minimum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :date_hard_minimum, class: 'datepicker', value: @variable.date_hard_minimum ? @variable.date_hard_minimum.strftime('%m/%d/%Y') : '' %>
+  </div>
+</div>
+
+<div class="control-group" data-object="date">
+  <%= f.label :date_hard_maximum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :date_hard_maximum, class: 'datepicker', value: @variable.date_hard_maximum ? @variable.date_hard_maximum.strftime('%m/%d/%Y') : '' %>
+  </div>
+</div>
+
+<div class="control-group" data-object="date">
+  <%= f.label :date_soft_minimum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :date_soft_minimum, class: 'datepicker', value: @variable.date_soft_minimum ? @variable.date_soft_minimum.strftime('%m/%d/%Y') : '' %>
+  </div>
+</div>
+
+<div class="control-group" data-object="date">
+  <%= f.label :date_soft_maximum, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :date_soft_maximum, class: 'datepicker', value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime('%m/%d/%Y') : '' %>
+  </div>
+</div>
+
+<div class="control-group" data-object="calculated">
+  <%= f.label :calculation, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :calculation, style: 'width:95%',
+        rel: "popover", data: { content: "
+        <table class='table table-bordered'>
+        <tbody>
+          <tr><td style='font-weight:bold'>General</td><td>var1 + var2</td></tr>
+          <tr><td style='font-weight:bold'>Missing Values</td><td>var1 == -9 ? -9 : var1 + var2</td></tr>
+          <tr><td style='font-weight:bold'>Parentheses</td><td>(var1 + var2) / var3</td></tr>
+        </tbody>
+        </table>
+        ", title: "Calculation Examples", placement: 'bottom' } %>
+  </div>
+</div>
+
+<div id="options" data-object="options sortable">
+  <%= render partial: 'options' %>
+</div>
+
+<div class="control-group" data-object="options">
+  <label class="control-label">
+    <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
+  </label>
+</div>

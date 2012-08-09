@@ -1,0 +1,6 @@
+$("#variable_popup_container").html("<%= escape_javascript(render("popup_form")) %>");
+$("#variable_edit_modal").modal({ dynamic: true });
+
+$("[rel=popover]").popover({ offset: 10 });
+toggleOptions($('#variable_variable_type'));
+$('#options[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
