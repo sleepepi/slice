@@ -83,8 +83,12 @@
     calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]').val())");
     # alert(calculation)
     calculation_result = eval(calculation)
-    $(this).val(calculation_result)
-    $($(this).data('target')).html(calculation_result)
+
+
+    $.get(root_url + 'variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result, null, "script")
+
+    # $(this).val(calculation_result)
+    # $($(this).data('target')).html(calculation_result)
   )
 
 jQuery ->

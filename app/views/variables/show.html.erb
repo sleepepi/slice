@@ -58,6 +58,9 @@
   <% if ['calculated'].include?(@variable.variable_type) %>
     <dt>Calculation</dt>
     <dd><tt><%= @variable.calculation %></tt></dd>
+
+    <dt>Format</dt>
+    <dd><%= @variable.format %></dd>
   <% end %>
 
   <dt>Creator</dt>

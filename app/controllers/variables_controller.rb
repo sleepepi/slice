@@ -1,6 +1,20 @@
 class VariablesController < ApplicationController
   before_filter :authenticate_user!
 
+  def format_number
+    @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+
+    if @variable
+      unless @variable.format.blank?
+        @result = @variable.format % params[:calculated_number] rescue params[:calculated_number]
+      end
+
+      render 'format_number'
+    else
+      render nothing: true
+    end
+  end
+
   def copy
     variable = current_user.all_viewable_variables.find_by_id(params[:id])
     respond_to do |format|
@@ -191,7 +205,7 @@ class VariablesController < ApplicationController
       # For Dates
       :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
       # For Calculated Variables
-      :calculation
+      :calculation, :format
     )
   end
 end

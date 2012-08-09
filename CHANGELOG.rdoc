@@ -1,6 +1,9 @@
 == 0.6.0
 
 * Enhancements
+  * Calculated variables can now have a specified format
+    * Precision, i.e. %0.02f, 4.127 => 4.13
+    * Leading Zeros, i.e. %04d, 45 => 0045
   * Sheet Receipt emails can now optionally include an attached PDF of the sheet
   * Variables can now be edited while updating a design
   * Added more options for email templates

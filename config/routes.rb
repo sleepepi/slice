@@ -46,6 +46,7 @@ Reading::Application.routes.draw do
   resources :variables do
     member do
       get :copy
+      get :format_number
     end
     collection do
       post :add_option
