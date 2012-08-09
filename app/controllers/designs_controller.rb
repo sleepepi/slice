@@ -179,25 +179,54 @@ class DesignsController < ApplicationController
 
   def generate_csv(design_scope)
     @csv_string = CSV.generate do |csv|
-      variable_ids = design_scope.collect{|d| d.variable_ids}.flatten
-      variables = current_user.all_viewable_variables.where(id: variable_ids).order(:name)
+      csv << ['Variable Project', 'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Header', 'Variable Description', 'Variable Type', 'Variable Options', 'Variable Branching Logic', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Variable Creator']
 
-      csv << ["Variable Name", "Variable Display Name", "Variable Header", "Variable Description", "Variable Type", "Variable Options", "Variable Project"]
-      variables.each do |variable|
-        row = [
-                variable.name,
-                variable.display_name,
-                variable.header,
-                variable.description,
-                variable.variable_type,
-                variable.options,
-                variable.project.name
-              ]
-        csv << row
+      design_scope.each do |design|
+        design.options.each do |option|
+          if option[:variable_id].blank?
+            row = [
+                    design.project ? design.project.name : '',
+                    design.name,
+                    option[:section_id],
+                    option[:section_name],
+                    nil, # Variable Header
+                    option[:section_description], # Variable Description
+                    'section',
+                    nil, # Variable Options
+                    option[:branching_logic],
+                    nil, # Hard Min
+                    nil, # Soft Min
+                    nil, # Soft Max
+                    nil, # Hard Max
+                    nil, # Calculation
+                    nil # Creator
+                  ]
+            csv << row
+          elsif variable = current_user.all_viewable_variables.find_by_id(option[:variable_id])
+            row = [
+                    variable.project ? variable.project.name : '',
+                    design.name,
+                    variable.name,
+                    variable.display_name,
+                    variable.header, # Variable Header
+                    variable.description, # Variable Description
+                    variable.variable_type,
+                    variable.options, # Variable Options
+                    option[:branching_logic],
+                    variable.hard_minimum, # Hard Min
+                    variable.soft_minimum, # Soft Min
+                    variable.soft_maximum, # Soft Max
+                    variable.hard_maximum, # Hard Max
+                    variable.calculation, # Calculation
+                    variable.user.name # Creator
+                  ]
+            csv << row
+          end
+        end
       end
     end
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                           disposition: "attachment; filename=\"Designs DD #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+                           disposition: "attachment; filename=\"Designs #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 
   def post_params

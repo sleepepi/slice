@@ -150,6 +150,29 @@ class VariablesController < ApplicationController
 
   private
 
+  # def generate_csv(design_scope)
+  #   @csv_string = CSV.generate do |csv|
+  #     variable_ids = design_scope.collect{|d| d.variable_ids}.flatten
+  #     variables = current_user.all_viewable_variables.where(id: variable_ids).order(:name)
+
+  #     csv << ["Variable Name", "Variable Display Name", "Variable Header", "Variable Description", "Variable Type", "Variable Options", "Variable Project"]
+  #     variables.each do |variable|
+  #       row = [
+  #               variable.name,
+  #               variable.display_name,
+  #               variable.header,
+  #               variable.description,
+  #               variable.variable_type,
+  #               variable.options,
+  #               variable.project.name
+  #             ]
+  #       csv << row
+  #     end
+  #   end
+  #   send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+  #                          disposition: "attachment; filename=\"Designs DD #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  # end
+
   def post_params
     params[:variable] ||= {}
 
