@@ -104,6 +104,12 @@
         </div>
 
         <div class="control-group">
+          <div class="controls checkbox">
+            <%= check_box_tag :pdf_attachment, '1', false %> <%= label_tag :pdf_attachment, 'PDF Attachment', class: 'control-label' %>
+          </div>
+        </div>
+
+        <div class="control-group">
           <%= label_tag :body, nil, class: 'control-label' %>
           <div class="controls">
             <%= text_area_tag :body, @sheet.email_body_template(current_user), rows: 20, style: 'width:95%' %>

@@ -22,13 +22,17 @@ class SheetsController < ApplicationController
     if @sheet
       html = render_to_string action: 'print', id: params[:id], layout: false
 
-      pdf_attachment = begin
-        kit = PDFKit.new(html)
-        stylesheet_file = "#{Rails.root}/public/assets/application.css"
-        kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
-        kit.to_pdf
-      rescue
-        nil
+      pdf_attachment = nil
+
+      if params[:pdf_attachment] == '1'
+        pdf_attachment = begin
+          kit = PDFKit.new(html)
+          stylesheet_file = "#{Rails.root}/public/assets/application.css"
+          kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
+          kit.to_pdf
+        rescue
+          nil
+        end
       end
 
       @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body], pdf_attachment)
