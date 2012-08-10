@@ -1,4 +1,4 @@
-<% unless @variable.response_file_url(@sheet).blank? %>
+<% if @variable.response_file(@sheet).size > 0 %>
   <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.to_s.downcase) %>
     <%= link_to image_tag(@variable.response_file_url(@sheet), style: "height:64px;border:0px solid white"), @variable.response_file_url(@sheet), target: '_blank' %>
   <% else %>

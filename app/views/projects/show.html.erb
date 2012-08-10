@@ -1,6 +1,18 @@
 <% @title = "Project: #{@project.name}" %>
 <div class="page-header">
-  <%= image_tag @project.logo_url, style: "float:right;height:128px" unless @project.logo_url.blank? %>
+  <% if @project.logo.size > 0 %>
+  <div onmouseover="$('#project_logo_delete_icon').show();" onmouseout="$('#project_logo_delete_icon').hide();" style="float:right" id="logo_container">
+    <div style="float:right;background-color:white">
+      <%= image_tag @project.logo_url, style: "height:128px" %>
+    </div>
+    <div id="project_logo_delete_icon" style="float:right;clear:right;display:none">
+      <%= number_to_human_size(@project.logo.size) %>
+      <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+        <%= link_to 'remove logo', remove_file_project_path(@project), method: :post, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove the project logo?" } %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
   <h1><%= @title %></h1>
   <div class="btn-toolbar">
     <% if current_user.all_projects.pluck(:id).include?(@project.id) %>

@@ -211,7 +211,7 @@ class Variable < ActiveRecord::Base
       hash = self.options_only_missing.select{|option| option[:value] == response}.first
       hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
     elsif ['file'].include?(self.variable_type)
-      self.response_file(sheet).to_s.split('/').last
+      self.response_file(sheet).size > 0 ? self.response_file(sheet).to_s.split('/').last : ''
     else
       response
     end

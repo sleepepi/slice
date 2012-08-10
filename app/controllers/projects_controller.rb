@@ -1,6 +1,15 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
 
+  def remove_file
+    @project = current_user.all_projects.find_by_id(params[:id])
+    if @project
+      @project.remove_logo!
+    else
+      render nothing: true
+    end
+  end
+
   # GET /projects
   # GET /projects.json
   def index

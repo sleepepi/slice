@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Project logos can be removed from the project show page
   * Sheets index columns reordered
     * Sheet, Subject, Study Date, Site, Project, Creator, Actions
   * Calculated variables can now have a specified format

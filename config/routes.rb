@@ -14,7 +14,11 @@ Reading::Application.routes.draw do
     end
   end
 
-  resources :projects
+  resources :projects do
+    member do
+      post :remove_file
+    end
+  end
 
   resources :project_users
 

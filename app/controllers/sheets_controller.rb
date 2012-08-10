@@ -160,7 +160,6 @@ class SheetsController < ApplicationController
     @variable = @sheet_variable.variable if @sheet_variable
     if @sheet_variable and @variable
       @sheet_variable.remove_response_file!
-      @sheet_variable.update_attributes remove_response_file: true
     else
       render nothing: true
     end
