@@ -109,10 +109,18 @@ date:
   variable_type: date
   user: valid
 
+time:
+  name: var_time
+  display_name: 24 Hour Clock
+  description: Enter your favorite time of day.
+  # header: Other
+  variable_type: time
+  user: valid
+
 file:
   name: var_file
-  display_name: No File Upload Available
-  description: Not yet available
+  display_name: Upload a Picture
+  description: Please do not use a picture from a social site.
   header: MyString
   variable_type: file
   user: valid

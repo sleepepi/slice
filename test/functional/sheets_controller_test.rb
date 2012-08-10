@@ -74,6 +74,13 @@ class SheetsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should get index and set per page" do
+    get :index, format: 'js', sheets_per_page: 50
+    assert_not_nil assigns(:sheets)
+    assert_equal 50, users(:valid).reload.pagination_count('sheets')
+    assert_template 'index'
+  end
+
   test "should get paginated index order by site" do
     get :index, order: 'sheets.site_name', format: 'js'
     assert_not_nil assigns(:sheets)
@@ -175,12 +182,14 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:integer).id}" => 30,
                       "#{variables(:numeric).id}" => 180.5,
                       "#{variables(:date).id}" => '05/28/2012',
-                      "#{variables(:file).id}" => { response_file: '' }
+                      "#{variables(:file).id}" => { response_file: '' },
+                      "#{variables(:time).id}" => '14:30:00',
+                      "#{variables(:calculated).id}" => '1234'
                     }
     end
 
     assert_not_nil assigns(:sheet)
-    assert_equal 9, assigns(:sheet).variables.size
+    assert_equal 11, assigns(:sheet).variables.size
 
     assert_redirected_to sheet_path(assigns(:sheet))
   end
