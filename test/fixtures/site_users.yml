@@ -5,6 +5,7 @@ one:
   project: one
   user: valid
   creator: valid
+  invite_token: validintwo
 
 two:
   site: one
