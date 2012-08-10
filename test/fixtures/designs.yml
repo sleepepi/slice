@@ -5,7 +5,7 @@
 one:
   name: Design One
   description: MyText
-  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }, { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %> }]
+  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }, { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %>, branching_logic: "var_1 == 'Value'" }]
   user: valid
   project: one
   deleted: false
@@ -23,7 +23,7 @@ all_variable_types:
   options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %>, branching_logic: "var_year == 1 || intersection(var_course_work, ['acct101', 'econ101']).length > 0" },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },
@@ -31,7 +31,7 @@ all_variable_types:
             { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }]
   user: valid
   deleted: false
-  email_template: "Dear #(site): #(subject) #(subject).acrostic #(date) $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label"
+  email_template: "Dear #(site): #(subject) #(subject).acrostic #(date) $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label $(var_age).label $(var_file).label $(var_date).label"
 
 global:
   name: Global

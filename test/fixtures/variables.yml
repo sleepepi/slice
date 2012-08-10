@@ -88,6 +88,10 @@ integer:
   description: Approximate Age in Years
   header: Demographics
   variable_type: integer
+  hard_minimum: 0
+  soft_minimum: 18
+  soft_maximum: 65
+  hard_maximum: 120
   user: valid
 
 numeric:

@@ -117,7 +117,7 @@ class Design < ActiveRecord::Base
         self.options << {
                           section_name: option_hash[:section_name].strip,
                           section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
-                          section_description: option_hash[:section_description].strip,
+                          section_description: option_hash[:section_description].to_s.strip,
                           branching_logic: option_hash[:branching_logic].to_s.strip
                         }
       end
