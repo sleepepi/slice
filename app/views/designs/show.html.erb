@@ -9,6 +9,7 @@
     <%= link_to "View Designs", designs_path, class: 'btn btn-mini' %>
     <%= link_to "Copy Design", copy_design_path(@design), class: 'btn btn-mini' %>
     <%= link_to "Print", print_design_path(@design, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
+    <%= link_to 'Export', designs_path(design_ids: [@design.id], format: 'csv'), class: 'btn btn-mini' %>
   </h1>
 </div>
 
