@@ -90,7 +90,7 @@
       <th>Site</th>
       <th>Prefix</th>
       <th>Subject Code Range</th>
-      <th># Subjects</th>
+      <th>Subjects</th>
     </tr>
   </thead>
   <tbody>
@@ -109,7 +109,7 @@
           <%= site.code_minimum %> to <%= site.code_maximum %>
         <% end %>
       </td>
-      <td><%= site.subjects.count %></td>
+      <td><%= link_to site.subjects.count, subjects_path(project_id: @project.id, site_id: site.id) %></td>
     </tr>
     <% end %>
   </tbody>
@@ -123,13 +123,14 @@
   <thead>
     <tr>
       <th>Design</th>
-      <th># Sheets</th>
+      <th>Sheets</th>
     </tr>
   </thead>
   <tbody>
     <% @project.designs.order('name').each do |design| %>
     <tr>
-      <td><%= link_to design.name, design %></td><td><%= Sheet.current.where(project_id: @project.id, design_id: design.id).count %></td>
+      <td><%= link_to design.name, design %></td>
+      <td><%= link_to Sheet.current.where(project_id: @project.id, design_id: design.id).count, sheets_path(project_id: @project.id, design_id: design.id) %></td>
     </tr>
     <% end %>
   </tbody>

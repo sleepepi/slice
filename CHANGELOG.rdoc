@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Project show page sheet and subject counts now link to the corresponding filtered sheet or subject index pages
   * Project logos can be removed from the project show page
   * Sheets index columns reordered
     * Sheet, Subject, Study Date, Site, Project, Creator, Actions
