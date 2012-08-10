@@ -1,4 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+# Load options to be accessible via symbol or string
+--- !map:HashWithIndifferentAccess
 
 one:
   name: Design One
@@ -35,3 +37,23 @@ global:
   description: For testing that librarian who didn't create design can update and delete design.
   options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }, { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %> }]
   user: two
+
+sections_and_variables:
+  name: Section and Variables
+  description: Used to test section and variable reordering
+  options: [
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:date) %> },
+              { section_name: 'Section A', section_id: '_section_a' },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
+              { section_name: 'Section B', section_id: '_section_b' },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }
+           ]
+  user: valid
+  project: one
+  deleted: false

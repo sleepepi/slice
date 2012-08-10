@@ -19,6 +19,71 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to designs_path
   end
 
+  test "should reorder variables" do
+    post :reorder, id: @design, rows: "option_1,option_0", format: 'js'
+    assert_not_nil assigns(:design)
+    assert_equal [ActiveRecord::Fixtures.identify(:two), ActiveRecord::Fixtures.identify(:one)], assigns(:design).options.collect{|option| option[:variable_id]}
+    assert_template 'reorder'
+  end
+
+  test "should reorder sections" do
+    post :reorder, id: designs(:sections_and_variables), sections: "section_1,section_0", format: 'js'
+    assert_not_nil assigns(:design)
+    assert_equal [
+                    ActiveRecord::Fixtures.identify(:date),
+                    'Section B',
+                    ActiveRecord::Fixtures.identify(:string),
+                    ActiveRecord::Fixtures.identify(:text),
+                    ActiveRecord::Fixtures.identify(:integer),
+                    ActiveRecord::Fixtures.identify(:numeric),
+                    ActiveRecord::Fixtures.identify(:file),
+                    'Section A',
+                    ActiveRecord::Fixtures.identify(:dropdown),
+                    ActiveRecord::Fixtures.identify(:checkbox),
+                    ActiveRecord::Fixtures.identify(:radio)
+                 ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
+    assert_template 'reorder'
+  end
+
+  test "should reorder sections (keep same order)" do
+    post :reorder, id: designs(:sections_and_variables), sections: "section_0,section_1", format: 'js'
+    assert_not_nil assigns(:design)
+
+    assert_equal [
+                    ActiveRecord::Fixtures.identify(:date),
+                    'Section A',
+                    ActiveRecord::Fixtures.identify(:dropdown),
+                    ActiveRecord::Fixtures.identify(:checkbox),
+                    ActiveRecord::Fixtures.identify(:radio),
+                    'Section B',
+                    ActiveRecord::Fixtures.identify(:string),
+                    ActiveRecord::Fixtures.identify(:text),
+                    ActiveRecord::Fixtures.identify(:integer),
+                    ActiveRecord::Fixtures.identify(:numeric),
+                    ActiveRecord::Fixtures.identify(:file)
+                 ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
+    assert_template 'reorder'
+  end
+
+  test "should not reorder sections with different section count" do
+    post :reorder, id: designs(:sections_and_variables), sections: "section_1", format: 'js'
+    assert_not_nil assigns(:design)
+    assert_equal [
+                ActiveRecord::Fixtures.identify(:date),
+                'Section A',
+                ActiveRecord::Fixtures.identify(:dropdown),
+                ActiveRecord::Fixtures.identify(:checkbox),
+                ActiveRecord::Fixtures.identify(:radio),
+                'Section B',
+                ActiveRecord::Fixtures.identify(:string),
+                ActiveRecord::Fixtures.identify(:text),
+                ActiveRecord::Fixtures.identify(:integer),
+                ActiveRecord::Fixtures.identify(:numeric),
+                ActiveRecord::Fixtures.identify(:file)
+             ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
+    assert_template 'reorder'
+  end
+
   test "should get csv" do
     get :index, format: 'csv'
     assert_not_nil assigns(:csv_string)

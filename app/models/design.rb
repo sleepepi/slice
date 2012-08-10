@@ -222,7 +222,6 @@ class Design < ActiveRecord::Base
 
     new_rows.each_with_index do |row, new_location|
       old_location = row
-      Rails.logger.debug "Moving: #{old_location} to #{new_location}"
       new_options << original_options[old_location]
     end
 
