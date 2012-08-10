@@ -27,7 +27,7 @@
   * Variable branching logic is now limited to variables already on the design
   * Numeric fields have been changed back to text fields to be consistent across browsers
   * Copying variables retains the original project from which they were copied
-  * Updated to Rails 3.2.8.rc2
+  * Updated to Rails 3.2.8
 
 * Bug Fix
   * Designs no longer lose temporary modifications when changes aren't saved due to validation errors
