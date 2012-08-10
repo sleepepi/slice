@@ -13,6 +13,12 @@ class Design < ActiveRecord::Base
   scope :with_user_or_global, lambda { |*args| { conditions: ['designs.user_id IN (?) or designs.project_id IS NULL', args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
+  scope :order_by_project_name, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name' } }
+  scope :order_by_project_name_desc, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name DESC' } }
+
+  scope :order_by_user_name, lambda { |*args| { joins: "LEFT JOIN users ON users.id = designs.user_id", order: 'users.last_name, users.first_name' } }
+  scope :order_by_user_name_desc, lambda { |*args| { joins: "LEFT JOIN users ON users.id = designs.user_id", order: 'users.last_name DESC, users.first_name DESC' } }
+
   # Model Validation
   validates_presence_of :name, :user_id
   validates_uniqueness_of :name, scope: [:deleted, :project_id]

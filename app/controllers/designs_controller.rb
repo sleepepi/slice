@@ -62,8 +62,19 @@ class DesignsController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| design_scope = design_scope.search(search_term) }
 
-    @order = scrub_order(Design, params[:order], 'designs.name')
-    design_scope = design_scope.order(@order)
+    @order = params[:order]
+    case params[:order] when 'designs.project_name'
+      design_scope = design_scope.order_by_project_name
+    when 'designs.project_name DESC'
+      design_scope = design_scope.order_by_project_name_desc
+    when 'designs.user_name'
+      design_scope = design_scope.order_by_user_name
+    when 'designs.user_name DESC'
+      design_scope = design_scope.order_by_user_name_desc
+    else
+      @order = scrub_order(Design, params[:order], 'designs.name')
+      design_scope = design_scope.order(@order)
+    end
 
     @design_count = design_scope.count
 

@@ -1,7 +1,8 @@
 == 0.6.0
 
 * Enhancements
-  * Design index now sorts by design name, subject code, site name, project name, and creator name
+  * Design index now sorts by project name and creator name
+  * Sheet index now sorts by design name, subject code, site name, project name, and creator name
   * Design index displays variable count per design
   * Project show page sheet and subject counts now link to the corresponding filtered sheet or subject index pages
   * Project logos can be removed from the project show page
