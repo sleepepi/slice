@@ -6,6 +6,24 @@ class VariablesControllerTest < ActionController::TestCase
     @variable = variables(:one)
   end
 
+  test "should format number" do
+    get :format_number, id: variables(:calculated), calculated_number: "25.359", format: 'js'
+
+    assert_not_nil assigns(:variable)
+    assert_equal "25.36", assigns(:result)
+
+    assert_template 'format_number'
+  end
+
+  test "should not format number for invalid variable" do
+    get :format_number, id: -1, calculated_number: "25.359", format: 'js'
+
+    assert_nil assigns(:variable)
+    assert_nil assigns(:result)
+
+    assert_response :success
+  end
+
   test "should get copy" do
     get :copy, id: @variable
     assert_not_nil assigns(:variable)
@@ -162,6 +180,14 @@ class VariablesControllerTest < ActionController::TestCase
     login(users(:librarian))
     get :edit, id: variables(:global)
     assert_response :success
+  end
+
+  test "should not get edit for site user" do
+    login(users(:site_one_user))
+    get :edit, id: @variable
+
+    assert_nil assigns(:variable)
+    assert_redirected_to variables_path
   end
 
   test "should update variable" do

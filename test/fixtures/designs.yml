@@ -31,7 +31,7 @@ all_variable_types:
             { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }]
   user: valid
   deleted: false
-  email_template: "Dear #(site): #(subject) #(subject).acrostic #(date) $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value"
+  email_template: "Dear #(site): #(subject) #(subject).acrostic #(date) $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label"
 
 global:
   name: Global

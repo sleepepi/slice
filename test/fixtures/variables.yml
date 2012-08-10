@@ -113,6 +113,30 @@ file:
   variable_type: file
   user: valid
 
+height:
+  name: height
+  display_name: Height (m)
+  # description:
+  variable_type: numeric
+  user: valid
+
+weight:
+  name: weight
+  display_name: Weight (kg)
+  # description:
+  variable_type: numeric
+  user: valid
+
+calculated:
+  name: var_bmi
+  display_name: Body Mass Index
+  description: Automatically calculated variable
+  # header:
+  variable_type: calculated
+  user: valid
+  calculation: "weight / (height * height)"
+  format: "%0.02f"
+
 change_options:
   name: change_options
   display_name: Change Option Values

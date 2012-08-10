@@ -38,9 +38,10 @@ class Variable < ActiveRecord::Base
     end
   end
 
-  def header_anchor
-    "_"+self.header.to_s.gsub(/[^\w]/, '_').downcase
-  end
+  # No longer required
+  # def header_anchor
+  #   "_"+self.header.to_s.gsub(/[^\w]/, '_').downcase
+  # end
 
   def name_with_project
     @name_with_project ||= begin
@@ -107,14 +108,14 @@ class Variable < ActiveRecord::Base
   end
 
   def range_table
+    result = ""
     if self.hard_minimum or self.hard_maximum or self.soft_minimum or self.soft_maximum
-      "<table class='table table-bordered table-striped' style='margin-bottom:0px'>
-        <thead><tr><th>Hard Min</th><th>Soft Min</th><th>Soft Max</th><th>Hard Max</th></tr></thead>
-        <tbody><tr><td>#{self.hard_minimum}</td><td>#{self.soft_minimum}</td><td>#{self.soft_maximum}</td><td>#{self.hard_maximum}</td></tr></tbody>
-      </table>"
-    else
-      ""
+      result += "<table class='table table-bordered table-striped' style='margin-bottom:0px'>"
+      result += "<thead><tr><th>Hard Min</th><th>Soft Min</th><th>Soft Max</th><th>Hard Max</th></tr></thead>"
+      result += "<tbody><tr><td>#{self.hard_minimum}</td><td>#{self.soft_minimum}</td><td>#{self.soft_maximum}</td><td>#{self.hard_maximum}</td></tr></tbody>"
+      result += "</table>"
     end
+    result
   end
 
   # All of these changes are rolled back if the sheet is not saved successfully
@@ -166,9 +167,10 @@ class Variable < ActiveRecord::Base
     self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
   end
 
-  def missing_codes_with_description
-    self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| "#{opt[:value]} #{opt[:name]}"}
-  end
+  # Currently unused
+  # def missing_codes_with_description
+  #   self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| "#{opt[:value]} #{opt[:name]}"}
+  # end
 
   def options_without_missing
     self.options.select{|opt| opt[:missing_code] != '1'}
@@ -179,9 +181,7 @@ class Variable < ActiveRecord::Base
   end
 
   def grouped_by_missing
-    [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}],
-      ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}]
-    ]
+    [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}] ]
   end
 
   def response_file(sheet)
