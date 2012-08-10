@@ -1,38 +1,43 @@
 == 0.6.0
 
 * Enhancements
-  * Design index now sorts by project name and creator name
-  * Sheet index now sorts by design name, subject code, site name, project name, and creator name
-  * Design index displays variable count per design
-  * Project show page sheet and subject counts now link to the corresponding filtered sheet or subject index pages
-  * Project logos can be removed from the project show page
-  * Sheets index columns reordered
-    * Sheet, Subject, Study Date, Site, Project, Creator, Actions
-  * Calculated variables can now have a specified format
-    * Precision, i.e. %0.02f, 4.127 => 4.13
-    * Leading Zeros, i.e. %04d, 45 => 0045
-  * Sheet Receipt emails can now optionally include an attached PDF of the sheet
-  * Variables can now be edited while updating a design
-  * Added more options for email templates
-    * Site Name: #(site)
-    * Study Date: #(date)
-    * Variable: $(variable),             i.e. $(scorer_id)       => 1: John Smith
-    * Variable Label: $(variable).label, i.e. $(scorer_id).label => John Smith
-    * Variable Value: $(variable).value, i.e. $(scorer_id).value => 1
-  * Numeric and integer max/min hard/soft range information is now displayed in a table under the variable description
-  * Missing codes are now displayed distinctly for check boxes and radio button groups
-  * Design sections and variables can be reordered on the design show page
-  * Users can specify how many items are displayed on index pages
-  * Advanced branching logic can now be added to variables and sections on designs
-  * Data dictionaries in CSV format can now be downloaded by filtering designs
-  * Design data dictionaries can be individually downloaded
-  * Design show page now includes section and variable counts
-  * Hovering over a site user now displays who invited the user to the site
-  * User show page now displays the sites and projects the user can view
-  * Variables and sections can now be added in the middle of a form when editing a design
-  * Variable branching logic is now limited to variables already on the design
-  * Numeric fields have been changed back to text fields to be consistent across browsers
-  * Copying variables retains the original project from which they were copied
+  * Project Changes
+    * Sheet and subject counts on the project page now link to the corresponding filtered sheet or subject index pages
+    * Project logos can be removed by hovering over the logo on the project show page
+    * Hovering over a site user now displays who invited the user to the site
+  * Sheet Changes
+    * Sheet index allows sorting by design name, subject code, site name, project name, and creator name
+    * Sheets index columns reordered
+      * Sheet, Subject, Study Date, Site, Project, Creator, Actions
+    * Attaching a PDF to sheet receipt emails is now optional
+  * Design Changes
+    * Sections and variables can be reordered on the design show page
+    * Section and variable counts are now displayed on the design show page
+    * Added more options for email templates
+      * Site Name: #(site)
+      * Study Date: #(date)
+      * Variable: $(variable),             i.e. $(scorer_id)       => 1: John Smith
+      * Variable Label: $(variable).label, i.e. $(scorer_id).label => John Smith
+      * Variable Value: $(variable).value, i.e. $(scorer_id).value => 1
+    * Design index allows sorting by project name and creator name
+    * Design index displays variable count per design
+    * Variables and sections can now be added in the middle of a form when editing a design
+    * Variables can now be edited while updating a design
+    * Variable branching logic is now limited to variables already on the design
+    * Advanced branching logic syntax can now be added to variables and sections
+    * Data dictionaries in CSV format can now be downloaded by filtering designs
+      * Invidual data dictionaries are also available for designs
+  * Variable Changes
+    * Calculated variables can now have a specified format
+      * Precision, i.e. %0.02f, 4.127 => 4.13
+      * Leading Zeros, i.e. %04d, 45 => 0045
+    * Numeric and integer max/min hard/soft range information is now displayed in a table under the variable description
+    * Missing codes are now displayed distinctly for check boxes and radio button groups
+    * Numeric fields have been changed back to text fields to be consistent across browsers
+    * Copying variables retains the original project from which they were copied
+  * Miscellaneous
+    * Users can specify how many items are displayed on index pages
+    * User show page now displays the sites and projects the user can view
   * Updated to Rails 3.2.8
 
 * Bug Fix
