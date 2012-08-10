@@ -1,4 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+--- !map:HashWithIndifferentAccess
 
 valid:
   first_name: FirstName

@@ -55,3 +55,9 @@ file_attachment:
   sheet: file_attached
   response_file: test_file.txt
   user: valid
+
+gender_male:
+  variable: dropdown
+  sheet: all_variables
+  response: m
+  user: valid

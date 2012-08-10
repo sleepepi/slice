@@ -55,6 +55,15 @@ class SiteUsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not create site user with invalid site id" do
+    assert_difference('SiteUser.count', 0) do
+      post :create, site_user: { site_id: -1 }, invite_email: 'invite@example.com', format: 'js'
+    end
+
+    assert_nil assigns(:site_user)
+    assert_response :success
+  end
+
   test "should destroy site_user" do
     assert_difference('SiteUser.count', -1) do
       delete :destroy, id: @site_user, format: 'js'

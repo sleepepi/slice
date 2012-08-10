@@ -286,6 +286,13 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show sheet with completed email template" do
+    get :show, id: sheets(:all_variables)
+    assert_not_nil assigns(:sheet)
+    assert_equal "Dear #{assigns(:sheet).subject.site.name}: #{assigns(:sheet).subject.name} #{assigns(:sheet).subject.acrostic} #{assigns(:sheet).study_date.strftime("%Y-%m-%d")} #{variables(:dropdown).display_name} #{variables(:dropdown).response_name(assigns(:sheet))} #{variables(:dropdown).response_label(assigns(:sheet))} #{variables(:dropdown).response_raw(assigns(:sheet))}", assigns(:sheet).email_body_template(users(:valid))
+    assert_response :success
+  end
+
   test "should not show invalid sheet" do
     get :show, id: -1
     assert_nil assigns(:sheet)

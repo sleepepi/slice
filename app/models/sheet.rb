@@ -11,9 +11,6 @@ class Sheet < ActiveRecord::Base
   scope :with_design, lambda { |*args| { conditions: ["sheets.design_id IN (?)", args.first] } }
   scope :with_site, lambda { |*args| { conditions: ["sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first] } }
 
-  # scope :order_by_site, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id", order: 'subjects.site_id' } }
-  # scope :order_by_site_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id", order: 'subjects.site_id DESC' } }
-
   scope :order_by_site_name, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name' } }
   scope :order_by_site_name_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name DESC' } }
 
@@ -100,40 +97,6 @@ class Sheet < ActiveRecord::Base
   def date_replacement(property)
     self.study_date
   end
-
-#   def email_body_template(current_user)
-#     %Q{Dear #{self.subject.site.name}:
-
-# On #{self.created_at.strftime("%m/%d/%Y")} I reviewed #{self.name} for #{self.subject.subject_code} collected on #{self.study_date.strftime("%m/%d/%Y")} and have some comments (see below).
-
-
-
-# Feel free to contact me if you have any questions.  Thank you.
-
-
-
-#   Participant ID:    #{self.subject.subject_code}
-
-#   Date of Study:    #{self.study_date.strftime("%m/%d/%Y")}
-
-#   Date Received:    #{self.created_at.strftime("%m/%d/%Y")}
-
-
-# #{self.email_body_template_options(current_user)}
-
-#   Comments:
-
-# Thanks,
-
-
-
-# #{current_user.name}
-#   }
-#   end
-
-  # def email_body_template_options(current_user)
-  #   self.design.options.collect{|opt| (v = Variable.current.find_by_id(opt[:variable_id])) ? (v.header.blank? ? '' : " #{v.header}\n") + '  ' + v.name.to_s + ':  ' + v.response_name(self).to_s : "\n#{opt[:section_name]}"}.join("\n\n")
-  # end
 
   def email_subject_template(current_user)
     "#{self.project.name} #{self.name} Receipt: #{self.subject.subject_code}"
