@@ -81,13 +81,13 @@ class Sheet < ActiveRecord::Base
   end
 
   def subject_replacement(property)
-    if property.blank?
+    result = ''
+    result = if property.blank?
       self.subject.subject_code
     elsif property == '.acrostic'
       self.subject.acrostic.to_s
-    else
-      ''
     end
+    result
   end
 
   def site_replacement(property)

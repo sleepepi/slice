@@ -14,8 +14,24 @@ class SheetsControllerTest < ActionController::TestCase
     assert_template 'project_selection'
   end
 
-  test "should send email" do
+  test "should get project selection for valid subject code for a new subject" do
+    post :project_selection, project_id: projects(:one), subject_code: 'A200', format: 'js'
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:subject)
+    assert_not_nil assigns(:disable_selection)
+    assert_not_nil assigns(:site)
+    assert_equal true, assigns(:subject_code_valid)
+    assert_template 'project_selection'
+  end
+
+  test "should send email without pdf attachment" do
     post :send_email, id: @sheet, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
+    assert_not_nil assigns(:sheet)
+    assert_redirected_to assigns(:sheet)
+  end
+
+  test "should send email with pdf attachment" do
+    post :send_email, id: @sheet, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid)), pdf_attachment: '1'
     assert_not_nil assigns(:sheet)
     assert_redirected_to assigns(:sheet)
   end
