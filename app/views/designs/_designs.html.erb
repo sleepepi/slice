@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'designs.name', 'Name', 'designs_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'designs.description', 'Description', 'designs_search') %></th>
+      <th style="white-space:nowrap">Variables</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'designs.project_id', 'Project', 'designs_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'designs.user_id', 'Creator', 'designs_search') %></th>
       <th>Actions</th>
@@ -14,7 +14,7 @@
   <% @designs.each do |design| %>
     <tr id="design_<%= design.id %>">
       <td><%= link_to design.name, design %></td>
-      <td><%= design.description %></td>
+      <td><%= design.variable_ids.count %></td>
       <td><%= link_to design.project.name, design.project if design.project %></td>
       <td><%= link_to design.user.name, design.user if design.user %></td>
       <td>
