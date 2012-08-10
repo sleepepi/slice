@@ -19,6 +19,7 @@
       <td><%= link_to design.user.name, design.user if design.user %></td>
       <td>
         <%= link_to 'Copy', copy_design_path(design), class: 'btn btn-mini' %>
+        <%= link_to 'Export', designs_path(design_ids: [design.id], format: 'csv'), class: 'btn btn-mini' %>
         <% if design.editable_by?(current_user) %>
           <%= link_to 'Edit', edit_design_path(design), class: 'btn btn-mini' %>
           <%= link_to 'Delete', design, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Design #{design.name}?" } %>

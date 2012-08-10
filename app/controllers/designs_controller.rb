@@ -53,6 +53,8 @@ class DesignsController < ApplicationController
     current_user.pagination_set!('designs', params[:designs_per_page].to_i) if params[:designs_per_page].to_i > 0
     design_scope = current_user.all_viewable_designs
 
+    design_scope = design_scope.where(id: params[:design_ids]) unless params[:design_ids].blank?
+
     ['project', 'user'].each do |filter|
       design_scope = design_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
     end
@@ -211,7 +213,7 @@ class DesignsController < ApplicationController
                     variable.header, # Variable Header
                     variable.description, # Variable Description
                     variable.variable_type,
-                    variable.options, # Variable Options
+                    variable.options.blank? ? '' : variable.options, # Variable Options
                     option[:branching_logic],
                     variable.hard_minimum, # Hard Min
                     variable.soft_minimum, # Soft Min
@@ -225,8 +227,9 @@ class DesignsController < ApplicationController
         end
       end
     end
+    file_name = (design_scope.size == 1 ? "#{design_scope.first.name.gsub(/[^ a-zA-Z0-9_-]/, '_')} DD" : 'Designs')
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                           disposition: "attachment; filename=\"Designs #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+                           disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 
   def post_params

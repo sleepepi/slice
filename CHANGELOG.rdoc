@@ -23,6 +23,7 @@
   * Users can specify how many items are displayed on index pages
   * Advanced branching logic can now be added to variables and sections on designs
   * Data dictionaries in CSV format can now be downloaded by filtering designs
+  * Design data dictionaries can be individually downloaded
   * Design show page now includes section and variable counts
   * Hovering over a site user now displays who invited the user to the site
   * User show page now displays the sites and projects the user can view
