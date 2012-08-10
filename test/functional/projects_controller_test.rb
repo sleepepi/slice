@@ -6,6 +6,19 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should remove attached file" do
+    post :remove_file, id: @project, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_template 'remove_file'
+  end
+
+  test "should not remove attached file" do
+    login(users(:site_one_user))
+    post :remove_file, id: @project, format: 'js'
+    assert_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success
@@ -25,8 +38,11 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should create project" do
     assert_difference('Project.count') do
-      post :create, project: { description: @project.description, name: 'Project New Name' }
+      post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png') }
     end
+
+    assert_not_nil assigns(:project)
+    assert_equal "#{Rails.root}/public/uploads/project/logo/#{assigns(:project).id}/rails.png", assigns(:project).logo.path
 
     assert_redirected_to project_path(assigns(:project))
   end

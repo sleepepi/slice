@@ -49,3 +49,9 @@ value_to_update_c3:
   sheet: two
   response: 1
   user: valid
+
+file_attachment:
+  variable: file
+  sheet: file_attached
+  response_file: test_file.txt
+  user: valid

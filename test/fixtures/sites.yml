@@ -26,3 +26,14 @@ three:
   user: valid
   deleted: false
   prefix: S2
+
+valid_range:
+  name: Site Three
+  description: Valid Codes A100 to A500
+  project: one
+  emails: MyText
+  user: valid
+  deleted: false
+  prefix: A
+  code_minimum: A100
+  code_maximum: A500

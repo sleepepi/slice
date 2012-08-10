@@ -75,15 +75,85 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should get paginated index order by site" do
-    get :index, order: 'sheets.site_id', format: 'js'
+    get :index, order: 'sheets.site_name', format: 'js'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
   test "should get paginated index order by site descending" do
-    get :index, order: 'sheets.site_id DESC', format: 'js'
+    get :index, order: 'sheets.site_name DESC', format: 'js'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
+  end
+
+
+  test "should get paginated index by design_name" do
+    get :index, format: 'js', order: 'sheets.design_name'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by design_name desc" do
+    get :index, format: 'js', order: 'sheets.design_name DESC'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by subject_code" do
+    get :index, format: 'js', order: 'sheets.subject_code'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by subject_code desc" do
+    get :index, format: 'js', order: 'sheets.subject_code DESC'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by project_name" do
+    get :index, format: 'js', order: 'sheets.project_name'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by project_name desc" do
+    get :index, format: 'js', order: 'sheets.project_name DESC'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by user_name" do
+    get :index, format: 'js', order: 'sheets.user_name'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by user_name desc" do
+    get :index, format: 'js', order: 'sheets.user_name DESC'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should remove attached file" do
+    post :remove_file, id: sheets(:file_attached), variable_id: variables(:file), format: 'js'
+
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:variable)
+    assert_not_nil assigns(:sheet_variable)
+
+    assert_template 'remove_file'
+  end
+
+  test "should not remove attached file" do
+    login(users(:site_one_user))
+    post :remove_file, id: sheets(:file_attached), variable_id: variables(:file), format: 'js'
+
+    assert_nil assigns(:sheet)
+    assert_nil assigns(:variable)
+    assert_nil assigns(:sheet_variable)
+
+    assert_response :success
   end
 
   test "should get new" do
@@ -124,6 +194,34 @@ class SheetsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sheet)
     assert_equal Subject.last, assigns(:sheet).subject
+
+    assert_redirected_to sheet_path(assigns(:sheet))
+  end
+
+  test "should create new validated subject" do
+    assert_difference('Subject.count') do
+      assert_difference('Sheet.count') do
+        post :create, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: 'A400', site_id: sites(:valid_range).id
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal Subject.last, assigns(:sheet).subject
+    assert_equal true, assigns(:sheet).subject.validated?
+
+    assert_redirected_to sheet_path(assigns(:sheet))
+  end
+
+ test "should create new non-validated subject" do
+    assert_difference('Subject.count') do
+      assert_difference('Sheet.count') do
+        post :create, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: 'A600', site_id: sites(:valid_range).id
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal Subject.last, assigns(:sheet).subject
+    assert_equal false, assigns(:sheet).subject.validated?
 
     assert_redirected_to sheet_path(assigns(:sheet))
   end

@@ -57,3 +57,14 @@ sections_and_variables:
   user: valid
   project: one
   deleted: false
+
+section_and_file:
+  name: Section and File Variable
+  description: Test file upload and removal.
+  options: [
+              { section_name: 'Section A', section_id: '_section_a' },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }
+           ]
+  user: valid
+  project: one
+  deleted: false

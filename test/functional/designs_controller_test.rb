@@ -84,11 +84,26 @@ class DesignsControllerTest < ActionController::TestCase
     assert_template 'reorder'
   end
 
+  test "should not reorder for invalid design" do
+    login(users(:site_one_user))
+    post :reorder, id: designs(:sections_and_variables), sections: "section_0,section_1", format: 'js'
+    assert_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should get csv" do
     get :index, format: 'csv'
     assert_not_nil assigns(:csv_string)
     assert_not_nil assigns(:design_count)
     assert_response :success
+  end
+
+  test "should not get csv if no designs are selected" do
+    get :index, format: 'csv', design_ids: [-1]
+    assert_equal 0, assigns(:design_count)
+    assert_nil assigns(:csv_string)
+    assert_equal flash[:alert], 'No data was exported since no designs matched the specified filters.'
+    assert_redirected_to designs_path
   end
 
   test "should get index" do
@@ -99,6 +114,30 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should get paginated index" do
     get :index, format: 'js'
+    assert_not_nil assigns(:designs)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by project_name" do
+    get :index, format: 'js', order: 'designs.project_name'
+    assert_not_nil assigns(:designs)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by project_name desc" do
+    get :index, format: 'js', order: 'designs.project_name DESC'
+    assert_not_nil assigns(:designs)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by user_name" do
+    get :index, format: 'js', order: 'designs.user_name'
+    assert_not_nil assigns(:designs)
+    assert_template 'index'
+  end
+
+  test "should get paginated index by user_name desc" do
+    get :index, format: 'js', order: 'designs.user_name DESC'
     assert_not_nil assigns(:designs)
     assert_template 'index'
   end
