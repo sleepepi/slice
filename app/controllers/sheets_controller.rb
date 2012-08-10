@@ -69,10 +69,26 @@ class SheetsController < ApplicationController
     @search_terms.each{|search_term| sheet_scope = sheet_scope.search(search_term) }
 
     @order = params[:order]
-    case params[:order] when 'sheets.site_id'
-      sheet_scope = sheet_scope.order_by_site
-    when 'sheets.site_id DESC'
-      sheet_scope = sheet_scope.order_by_site_desc
+    case params[:order] when 'sheets.site_name'
+      sheet_scope = sheet_scope.order_by_site_name
+    when 'sheets.site_name DESC'
+      sheet_scope = sheet_scope.order_by_site_name_desc
+    when 'sheets.design_name'
+      sheet_scope = sheet_scope.order_by_design_name
+    when 'sheets.design_name DESC'
+      sheet_scope = sheet_scope.order_by_design_name_desc
+    when 'sheets.subject_code'
+      sheet_scope = sheet_scope.order_by_subject_code
+    when 'sheets.subject_code DESC'
+      sheet_scope = sheet_scope.order_by_subject_code_desc
+    when 'sheets.project_name'
+      sheet_scope = sheet_scope.order_by_project_name
+    when 'sheets.project_name DESC'
+      sheet_scope = sheet_scope.order_by_project_name_desc
+    when 'sheets.user_name'
+      sheet_scope = sheet_scope.order_by_user_name
+    when 'sheets.user_name DESC'
+      sheet_scope = sheet_scope.order_by_user_name_desc
     else
       @order = scrub_order(Sheet, params[:order], 'sheets.study_date DESC')
       sheet_scope = sheet_scope.order(@order)
