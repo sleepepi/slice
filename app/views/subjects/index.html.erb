@@ -6,7 +6,7 @@
   </h1>
 </div>
 
-<%= form_tag subjects_path, method: :get, remote: true, id: "subjects_search", class: 'form-search' do %>
+<%= form_tag subjects_path, method: :get, remote: true, id: "subjects_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="span4 control-group">
@@ -50,9 +50,3 @@
 <% end %>
 
 <div id="subjects"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#subjects_search").attr("action"), $("#subjects_search").serialize(), null, "script");
-  });
-<% end %>

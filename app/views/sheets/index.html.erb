@@ -6,7 +6,7 @@
   </h1>
 </div>
 
-<%= form_tag sheets_path, method: :get, remote: true, id: "sheets_search", class: 'form-search' do %>
+<%= form_tag sheets_path, method: :get, remote: true, id: "sheets_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
 
   <div class="row">
@@ -89,9 +89,3 @@
 <% end %>
 
 <div id="sheets"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#sheets_search").attr("action"), $("#sheets_search").serialize(), null, "script");
-  });
-<% end %>
