@@ -200,7 +200,9 @@ jQuery ->
       true
   )
 
+  $('.chzn-select').chosen()
 
+  $("#variables div").last().click()
 
 
   # $('[data-object~="variable-load"]').change( () ->

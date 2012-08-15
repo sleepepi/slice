@@ -1,4 +1,5 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<% @position = position %>
 <div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well" data-object="expand-details" data-target=".variable_<%= position %>_details" data-target-hide=".variable_<%= position %>_compact" data-selector="variabledetails" data-inverse-selector="variablecompact">
   <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
 
@@ -42,6 +43,3 @@
     </div>
   </div>
 </div>
-<%= javascript_tag do %>
-$('#variable_<%= position %>').click();
-<% end %>

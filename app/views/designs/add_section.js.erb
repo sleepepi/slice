@@ -5,3 +5,5 @@
 <% else %>
   $("#variables").append("<%= escape_javascript(render("edit_section")) %>");
 <% end %>
+
+$('#variable_<%= @position %>').click();

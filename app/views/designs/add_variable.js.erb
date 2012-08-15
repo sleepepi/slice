@@ -8,3 +8,6 @@
 <% else %>
   $("#variables").append("<%= escape_javascript(render("edit_variable")) %>");
 <% end %>
+
+$('#design_option_tokens_<%= @position %>_variable_id.chzn-select').chosen();
+$('#variable_<%= @position %>').click();

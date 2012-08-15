@@ -1,4 +1,5 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<% @position = position %>
 <div id="variable_<%= position %>" class="<%= 'fieldset_with_errors' if @design.errors.keys.include?(:variables) %> well" data-object="expand-details" data-target=".variable_<%= position %>_details" data-target-hide=".variable_<%= position %>_compact" data-selector="variabledetails" data-inverse-selector="variablecompact">
   <% if false %>
   <div class="page-header" style="margin-top:0px">
@@ -65,8 +66,3 @@
     </div>
   </div>
 </div>
-
-<%= javascript_tag do %>
-$('#design_option_tokens_<%= position %>_variable_id.chzn-select').chosen();
-$('#variable_<%= position %>').click();
-<% end %>
