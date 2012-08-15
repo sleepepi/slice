@@ -50,6 +50,8 @@
               <% else %>
                 <%= @variable.response_file_url(@sheet).split('/').last %>
               <% end %>
+            <% elsif not @variable.units.blank? %>
+              <%= @variable.response_name(@sheet) %> <%= @variable.units %>
             <% else %>
               <%= @variable.response_name(@sheet) %>
             <% end %>
