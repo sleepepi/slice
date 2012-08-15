@@ -19,7 +19,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should create project user" do
     assert_difference('ProjectUser.count') do
-      post :create, project_user: { project_id: projects(:one).id, allow_editing: true }, librarians_text: users(:two).name + " <#{users(:two).email}>", format: 'js'
+      post :create, project_user: { project_id: projects(:one).id, allow_editing: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
     end
 
     assert_not_nil assigns(:project_user)
@@ -28,7 +28,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should not create project user with invalid project id" do
     assert_difference('ProjectUser.count', 0) do
-      post :create, project_user: { project_id: -1, allow_editing: true }, librarians_text: users(:two).name + " <#{users(:two).email}>", format: 'js'
+      post :create, project_user: { project_id: -1, allow_editing: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
     end
 
     assert_nil assigns(:project_user)
