@@ -59,7 +59,7 @@
        date_hard_minimum: (@variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (@variable.date_hard_maximum.strftime('%m/%d/%Y') rescue ''),
        date_soft_minimum: (@variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (@variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''), missing_codes: @variable.missing_codes }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% when 'time' %>
-      <%= text_field_tag "variables[#{@variable.id}]", (Time.parse(response).strftime('%H:%M:%S') rescue response), data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
+      <%= text_field_tag "variables[#{@variable.id}]", (Time.parse(response).strftime('%H:%M:%S') rescue response), class: 'timepicker', data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% when 'calculated'  %>
       <%= hidden_field_tag "variables[#{@variable.id}]", nil, disabled: disabled, data: { object: 'calculated', calculation: @variable.calculation, variable_id: @variable.id, target: "#variable_#{@variable.id}_calculation_result", name: @variable.name } %>
       <span id="variable_<%= @variable.id %>_calculation_result" rel="<%= 'popover' unless @variable.calculation.blank? %>" data-content="<tt><center><%= @variable.calculation %></center></tt><%= simple_format ("<hr/>" + @variable.description.to_s) unless @variable.description.blank? %>" data-title="<%= @variable.display_name %>"></span>
@@ -80,7 +80,7 @@ window.onload = function() {
     $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design ? @design.branching_logic(@variable) : ''.to_json %>);
     $('#variables_<%= @variable.id %>.chzn-select').chosen({ allow_single_deselect: true });
     <% if @variable.variable_type == 'time' %>
-      $('#variables_<%= @variable.id %>').timepicker({ 'timeFormat': 'H:i:s' });
+      $('#variables_<%= @variable.id %>.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
     <% end %>
   });
 }

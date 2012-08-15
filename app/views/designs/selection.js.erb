@@ -1,4 +1,6 @@
 $("#design").html("<%= escape_javascript(render("designs/selection")) %>");
+$('.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
+$('.chzn-select').chosen({ allow_single_deselect: true });
 $(".datepicker").datepicker({
   showOtherMonths: true,
   selectOtherMonths: true,
