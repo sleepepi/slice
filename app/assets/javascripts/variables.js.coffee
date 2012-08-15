@@ -139,3 +139,6 @@ jQuery ->
     retrieveVariable(position)
     false
   )
+
+  if $('#variable_variable_type')
+    toggleOptions($('#variable_variable_type'));

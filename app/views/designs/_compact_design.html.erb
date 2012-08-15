@@ -16,16 +16,3 @@
   <% end %>
   </ul>
 <% end %>
-
-<% if current_user.all_viewable_designs.pluck(:id).include?(@design.id) %>
-  <%= javascript_tag do %>
-  $(function(){
-    $('#compact_design[data-object~="sortable"]').sortable({
-      placeholder: "li-section li-placeholder",
-      stop: function(){
-        toggleReorderDesignSubmitButton();
-      }
-    });
-  });
-  <% end %>
-<% end %>

@@ -26,3 +26,5 @@ jQuery ->
     $($(this).data('target')).submit()
     false
   )
+
+  $("[rel=popover]").popover( offset: 10 )

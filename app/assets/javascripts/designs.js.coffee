@@ -183,6 +183,24 @@ jQuery ->
       false
     )
 
+  updateAllVariables()
+  updateCalculatedVariables()
+
+  $('#compact_design[data-object~="sortable"]').sortable(
+    placeholder: "li-section li-placeholder"
+    stop: () ->
+      toggleReorderDesignSubmitButton()
+      true
+  )
+
+  $('#reorder_sections_design[data-object~="sortable"]').sortable(
+    placeholder: "li-section li-placeholder"
+    stop: () ->
+      toggleReorderSectionsSubmitButton()
+      true
+  )
+
+
 
 
   # $('[data-object~="variable-load"]').change( () ->

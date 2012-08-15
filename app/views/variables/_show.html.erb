@@ -16,6 +16,8 @@
       <div id="variable_<%= @variable.id %>_file_container">
         <%= render partial: 'variables/response_file' %>
       </div>
+    <% elsif ['numeric', 'integer'].include?(@variable.variable_type) %>
+      <%= @variable.response_name(@sheet) %> <%= @variable.units unless @variable.units.blank? %>
     <% else %>
       <%= @variable.response_name(@sheet) %>
     <% end %>
