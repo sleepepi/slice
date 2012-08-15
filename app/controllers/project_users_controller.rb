@@ -5,7 +5,7 @@ class ProjectUsersController < ApplicationController
   # POST /project_users.json
   def create
     @project = current_user.all_projects.find_by_id(params[:project_user][:project_id])
-    user_email = (params[:librarians_text] || params[:members_text]).to_s.split('<').last.to_s.split('>').first
+    user_email = (params[:librarians_text] || params[:members_text]).to_s.split('[').last.to_s.split(']').first
     @user = User.current.find_by_email(user_email)
 
     respond_to do |format|

@@ -2,7 +2,7 @@
   <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
     <%= form_tag project_users_path(project_user: { project_id: @project.id, librarian: @relation == 'librarians' }), method: :post, remote: true, style: 'display:inline', class: 'form-search' do %>
       <b><%= @relation.humanize %><br /></b>
-      <%= text_field_tag "#{@relation}_text", '', style: "width:300px;" %>
+      <%= text_field_tag "#{@relation}_text", '', style: "width:300px;", data: { provide: 'typeahead', items: 5, source: User.current.human.collect{|user| "#{user.name} [#{user.email}]"}.to_json } %>
       <%= submit_tag 'Add', class: 'btn btn-primary' %>
     <% end %>
     <span class="help-block">
@@ -12,7 +12,6 @@
         Can create and edit Sheets for the project.
       <% end %>
     </span>
-    <%= javascript_tag "$(function(){$(\"##{@relation}_text\").autocomplete({source:[#{User.current.human.collect{|user| "'#{user.name} <#{user.email}>'"}.join(', ')}]});});" %>
   <% else %>
       <b><%= @relation.humanize %></b>
   <% end %>
