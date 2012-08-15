@@ -62,7 +62,7 @@
       <%= text_field_tag "variables[#{@variable.id}]", (Time.parse(response).strftime('%H:%M:%S') rescue response), class: 'timepicker', data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
     <% when 'calculated'  %>
       <%= hidden_field_tag "variables[#{@variable.id}]", nil, disabled: disabled, data: { object: 'calculated', calculation: @variable.calculation, variable_id: @variable.id, target: "#variable_#{@variable.id}_calculation_result", name: @variable.name } %>
-      <span id="variable_<%= @variable.id %>_calculation_result" rel="<%= 'popover' unless @variable.calculation.blank? %>" data-content="<tt><center><%= @variable.calculation %></center></tt><%= simple_format ("<hr/>" + @variable.description.to_s) unless @variable.description.blank? %>" data-title="<%= @variable.display_name %>"></span>
+      <span id="variable_<%= @variable.id %>_calculation_result" rel="<%= 'popover' unless @variable.calculation.blank? %>" data-content="<tt><center><%= @variable.calculation %></center></tt><%= simple_format ("<hr/>" + @variable.description.to_s) unless @variable.description.blank? %>" data-title="<%= @variable.display_name %>" style="line-height:30px"></span>
     <% when 'file' %>
       <%= file_field_tag "variables[#{@variable.id}][response_file]", data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "#{'popover' unless @variable.description.blank?}", disabled: disabled %>
       <%= hidden_field_tag "variables[#{@variable.id}][response_file][cache]" %>
