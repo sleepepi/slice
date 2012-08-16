@@ -2,6 +2,7 @@
 
 * Enhancements
   * Units now available for numeric and integer variables
+  * Sites are now sorted alphabetically when creating a sheet
 
 == 0.6.0
 
