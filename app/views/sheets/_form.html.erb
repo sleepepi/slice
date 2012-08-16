@@ -2,6 +2,8 @@
   <h1><%= @title %></h1>
 </div>
 
+<%= hidden_field_tag 'isdirty', '1' %>
+
 <%= form_for @sheet, html: { class: 'form-horizontal', multipart: true } do |f| %>
   <% if @sheet.errors.any? %>
     <div id="error_explanation">

@@ -3,6 +3,7 @@
 * Enhancements
   * Units now available for numeric and integer variables
   * Projects and Sites are now sorted alphabetically when creating a sheet
+  * Unsaved changes while editing sheets now asks the user if they want leave the page
 
 == 0.6.0
 

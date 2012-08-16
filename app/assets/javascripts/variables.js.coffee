@@ -116,6 +116,7 @@ jQuery ->
       return false
     if checkSoftDateMinMax() == false
       return false
+    window.$isDirty = false
     $($(this).data('target')).submit()
     false
   )
