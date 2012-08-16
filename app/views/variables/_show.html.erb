@@ -17,7 +17,7 @@
         <%= render partial: 'variables/response_file' %>
       </div>
     <% elsif not @variable.units.blank? %>
-      <%= @variable.response_name(@sheet) %> <%= @variable.units %>
+      <%= @variable.response_name(@sheet) %> <%= @variable.units unless @variable.response_name(@sheet).blank? %>
     <% else %>
       <%= @variable.response_name(@sheet) %>
     <% end %>
