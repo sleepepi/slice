@@ -28,6 +28,11 @@
       <dt>Subject</dt>
       <dd><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></dd>
 
+      <% if @sheet.subject and not @sheet.subject.acrostic.blank? %>
+        <dt>Acrostic</dt>
+        <dd><%= link_to @sheet.subject.acrostic, @sheet.subject if @sheet.subject %></dd>
+      <% end %>
+
       <dt>Site</dt>
       <dd><%= link_to @sheet.subject.site.name, @sheet.subject.site if @sheet.subject and @sheet.subject.site %></dd>
 
