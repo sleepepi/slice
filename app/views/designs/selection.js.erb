@@ -24,6 +24,7 @@ $("#ui-datepicker-div").hide();
 updateAllVariables();
 updateCalculatedVariables();
 
+$("[rel=popover]").popover({offset: 10});
 
 $('[data-spy="scroll"]').each(function () {
   var $spy = $(this).scrollspy('refresh')
