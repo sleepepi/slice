@@ -193,7 +193,7 @@ class DesignsController < ApplicationController
 
   def generate_csv(design_scope)
     @csv_string = CSV.generate do |csv|
-      csv << ['Variable Project', 'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Header', 'Variable Description', 'Variable Type', 'Variable Options', 'Variable Branching Logic', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Variable Creator']
+      csv << ['Variable Project', 'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Header', 'Variable Description', 'Variable Type', 'Variable Options', 'Variable Branching Logic', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Units', 'Variable Creator']
 
       design_scope.each do |design|
         design.options.each do |option|
@@ -213,7 +213,8 @@ class DesignsController < ApplicationController
                     nil, # Soft Max
                     nil, # Hard Max
                     nil, # Calculation
-                    nil # Creator
+                    nil, # Variable Units
+                    nil  # Creator
                   ]
             csv << row
           elsif variable = current_user.all_viewable_variables.find_by_id(option[:variable_id])
@@ -232,6 +233,7 @@ class DesignsController < ApplicationController
                     variable.soft_maximum, # Soft Max
                     variable.hard_maximum, # Hard Max
                     variable.calculation, # Calculation
+                    variable.units, # Variable Units
                     variable.user.name # Creator
                   ]
             csv << row
