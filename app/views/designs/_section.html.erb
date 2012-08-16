@@ -4,11 +4,3 @@
     <small><%= simple_format @option[:section_description] unless @option[:section_description].blank? %></small>
   </h2>
 </div>
-
-<%= javascript_tag do %>
-window.onload = function() {
-  $(function(){
-//    $('#<%= @option[:section_id] %>').data('branching-logic', <%= raw @design ? @design.branching_logic_section(@option[:section_id]) : ''.to_json %>);
-  });
-};
-<% end %>

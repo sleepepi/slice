@@ -64,7 +64,9 @@
       <%= @design = @sheet.design; render partial: 'designs/selection' if @sheet.design %>
     </div>
   <% else %>
-    <%= @design = @sheet.design; render partial: 'designs/section_and_variables' %>
+    <div id="design">
+      <center><%= image_tag 'contour/ajax-loader.gif' %></center>
+    </div>
   <% end %>
 
   <div class="form-actions">
@@ -72,4 +74,8 @@
     <%= f.submit nil, class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }  %>
     <%= cancel %>
   </div>
+<% end %>
+
+<% unless @sheet.new_record? %>
+  <%= form_tag selection_designs_path(sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }), remote: true, method: :post, data: { object: 'form-load' } %>
 <% end %>

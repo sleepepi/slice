@@ -15,7 +15,8 @@ class DesignsController < ApplicationController
   end
 
   def selection
-    @sheet = Sheet.new
+    @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
+    @sheet = Sheet.new unless @sheet
     @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id])
   end
 
