@@ -76,11 +76,11 @@
 <%= javascript_tag do %>
 window.onload = function() {
   $(function(){
-    $('#varvar_<%= @variable.id %>').data('values-hash', <%= raw @design ? @design.values_hash(@variable) : [].to_json %>);
-    $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design ? @design.branching_logic(@variable) : ''.to_json %>);
-    $('#variables_<%= @variable.id %>.chzn-select').chosen({ allow_single_deselect: true });
+//    $('#varvar_<%= @variable.id %>').data('values-hash', <%= raw @design ? @design.values_hash(@variable) : [].to_json %>);
+//    $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design ? @design.branching_logic(@variable) : ''.to_json %>);
+//    $('#variables_<%= @variable.id %>.chzn-select').chosen({ allow_single_deselect: true });
     <% if @variable.variable_type == 'time' %>
-      $('#variables_<%= @variable.id %>.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
+//      $('#variables_<%= @variable.id %>.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
     <% end %>
   });
 }
