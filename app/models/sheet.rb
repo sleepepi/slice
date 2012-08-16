@@ -54,6 +54,7 @@ class Sheet < ActiveRecord::Base
 
   def email_receipt(current_user, to, cc, subject, body, attachment)
     UserMailer.sheet_receipt(current_user, to, cc, subject, body, "#{self.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{self.study_date.strftime("%Y-%m-%d")}_#{self.name.strip.gsub(/[^\w]/, '-')}.pdf", attachment).deliver if Rails.env.production?
+    self.update_column :last_emailed_at, Time.now
   end
 
   def email_body_template(current_user)
