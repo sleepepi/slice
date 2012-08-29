@@ -1,0 +1,9 @@
+<% @variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+  <label class="<%= 'radio inline' if @is_grid %>"><%= radio_button_tag "variables[#{@variable.id}]", "#{value}", value == response, data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
+<% end %>
+<% if @variable.options_only_missing.size > 0 %>
+  <label class="<%= 'radio inline' if @is_grid %>"><span class="label label-info">Missing Codes</span></label>
+<% end %>
+<% @variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+  <label class="<%= 'radio inline' if @is_grid %>"><%= radio_button_tag "variables[#{@variable.id}]", "#{value}", value == response, data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
+<% end %>

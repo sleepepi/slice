@@ -1,0 +1,3 @@
+<%= text_field_tag "variables[#{@variable.id}]", (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker', data: { object: 'dateminmax', content: @variable.description, title: @variable.display_name,
+   date_hard_minimum: (@variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (@variable.date_hard_maximum.strftime('%m/%d/%Y') rescue ''),
+   date_soft_minimum: (@variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (@variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''), missing_codes: @variable.missing_codes }, rel: "tooltip #{'popover' unless @variable.description.blank?}", disabled: disabled, title: @variable.display_name %>
