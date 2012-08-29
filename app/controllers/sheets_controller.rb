@@ -193,8 +193,8 @@ class SheetsController < ApplicationController
       if @sheet.save
         update_variables!
 
-        if params[:current_design_page].to_i < @sheet.design.total_pages
-          format.html { render 'edit' }
+        if params[:current_design_page].to_i <= @sheet.design.total_pages
+          format.html { render action: 'edit' }
           format.json { head :no_content }
         else
           format.html { redirect_to @sheet, notice: 'Sheet was successfully created.' }
@@ -219,7 +219,7 @@ class SheetsController < ApplicationController
           update_variables!
 
           if params[:current_design_page].to_i <= @sheet.design.total_pages
-            format.html { render 'edit' }
+            format.html { render action: 'edit' }
             format.json { head :no_content }
           else
             format.html { redirect_to @sheet, notice: 'Sheet was successfully updated.' }

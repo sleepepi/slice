@@ -211,6 +211,24 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to sheet_path(assigns(:sheet))
   end
 
+  test "should create sheet and go to page two" do
+    post :create, sheet: { design_id: designs(:two_page), project_id: projects(:one), study_date: '08/27/2012' },
+                    subject_code: sheets(:two_page).subject.subject_code,
+                    site_id: sheets(:two_page).subject.site_id,
+                    current_design_page: 2,
+                    variables: {
+                      "#{variables(:dropdown).id}" => 'f',
+                      "#{variables(:checkbox).id}" => nil,
+                      "#{variables(:radio).id}" => '1',
+                    }
+
+    assert_not_nil assigns(:sheet)
+    assert_equal [], assigns(:sheet).errors.full_messages
+    assert_equal 3, assigns(:sheet).variables.size
+    assert_template 'edit'
+    assert_response :success
+  end
+
   test "should create new subject for different project" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
@@ -372,6 +390,24 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheet)
     assert_equal 9, assigns(:sheet).variables.size
     assert_redirected_to sheet_path(assigns(:sheet))
+  end
+
+  test "should update sheet and go to page two" do
+    put :update, id: sheets(:two_page), sheet: { design_id: designs(:two_page), project_id: sheets(:two_page).project_id, study_date: '08/28/2012' },
+                    subject_code: sheets(:two_page).subject.subject_code,
+                    site_id: sheets(:two_page).subject.site_id,
+                    current_design_page: 2,
+                    variables: {
+                      "#{variables(:dropdown).id}" => 'f',
+                      "#{variables(:checkbox).id}" => nil,
+                      "#{variables(:radio).id}" => '1',
+                    }
+
+    assert_not_nil assigns(:sheet)
+    assert_equal [], assigns(:sheet).errors.full_messages
+    assert_equal 3, assigns(:sheet).variables.size
+    assert_template 'edit'
+    assert_response :success
   end
 
   test "should not update sheet with blank study date" do

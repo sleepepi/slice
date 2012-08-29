@@ -71,3 +71,21 @@ section_and_file:
   user: valid
   project: one
   deleted: false
+
+two_page:
+  name: Two Pages
+  description:  Sections and Variables across two pages
+  options: [
+              { section_name: 'Section A', section_id: '_section_a', break_before: '1' },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
+              { section_name: 'Section B', section_id: '_section_b' },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }
+           ]
+  user: valid
+  project: one

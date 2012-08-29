@@ -34,3 +34,10 @@ all_variables:
   project: one
   subject: one
   user: valid
+
+two_page:
+  design: two_page
+  study_date: 2012-08-29
+  project: one
+  subject: one
+  user: valid
