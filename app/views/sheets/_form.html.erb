@@ -72,12 +72,17 @@
   <% end %>
 
   <div class="form-actions">
+    <% link_name = "Next Page" if @sheet.design and params[:current_design_page].to_i + 1 < @sheet.design.total_pages %>
     <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
-    <%= f.submit nil, class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }  %>
+    <% if link_name.blank? %>
+      <%= f.submit nil,       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
+    <% else %>
+      <%= f.submit link_name, class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }  %>
+    <% end %>
     <%= cancel %>
   </div>
 <% end %>
 
 <% unless @sheet.new_record? %>
-  <%= form_tag selection_designs_path(sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }), remote: true, method: :post, data: { object: 'form-load' } %>
+  <%= form_tag selection_designs_path(sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, current_design_page: params[:current_design_page].to_i), remote: true, method: :post, data: { object: 'form-load' } %>
 <% end %>

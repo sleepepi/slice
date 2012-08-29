@@ -172,7 +172,6 @@ jQuery ->
       $('[data-object~="' + $(this).data('selector') + '"]').hide()
       $($(this).data('target')).show()
       $($(this).data('target-hide')).hide()
-      false
     )
     .on('click', '[data-object~="variable-insert-after"]', () ->
       $.post(root_url + 'designs/add_variable', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")

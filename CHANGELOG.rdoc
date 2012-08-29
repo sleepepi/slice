@@ -5,6 +5,7 @@
   * Projects and Sites are now sorted alphabetically when creating a sheet
   * Unsaved changes while editing sheets now asks the user if they want leave the page
   * Add last_emailed_at to sheets
+  * Designs can be split across multiple pages by setting "break before" to true on a section
 
 == 0.6.0
 

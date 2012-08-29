@@ -98,6 +98,9 @@ jQuery ->
   $(document)
     .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
 
+  if $('#variable_variable_type')
+    toggleOptions($('#variable_variable_type'));
+
   $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
   $(document).on('click', '[data-object~="form-check-before-submit"]', () ->
@@ -117,6 +120,8 @@ jQuery ->
     if checkSoftDateMinMax() == false
       return false
     window.$isDirty = false
+    if $(this).data('page')?
+      $('#current_design_page').val($(this).data('page'))
     $($(this).data('target')).submit()
     false
   )
@@ -138,6 +143,3 @@ jQuery ->
     retrieveVariable(position)
     false
   )
-
-  if $('#variable_variable_type')
-    toggleOptions($('#variable_variable_type'));

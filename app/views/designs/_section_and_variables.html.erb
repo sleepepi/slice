@@ -7,11 +7,38 @@
 
 <%= render partial: 'designs/navigation' %>
 
-<% @design.options.each do |option| %>
+<%= hidden_field_tag :current_design_page, params[:current_design_page].to_i %>
+
+<% @design.options_page(params[:current_design_page].to_i).each do |option| %>
   <% @option = option %>
   <% if @option[:variable_id].blank? %>
     <%= render partial: 'designs/section' %>
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
     <%= render partial: 'designs/variable' %>
+  <% end %>
+<% end %>
+
+<% if @design.total_pages > 1 %>
+  <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
+  <nav class="pagination pagination-centered">
+    <ul>
+      <% (1..@design.total_pages).each do |page| %>
+        <% if page == params[:current_design_page].to_i + 1 %>
+          <li class="page active"><%= link_to page, '#' %></li>
+        <% else %>
+          <li class="page">
+            <%= link_to page, '#', data: { target: "##{form_name}", object: "variable-check-before-submit", page: page - 2 }  %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </nav>
+<% end %>
+
+<% if false %>
+  <% if params[:current_design_page].to_i + 1 < @design.total_pages %>
+    <%= link_to "Save and Next Page", '#', class: 'btn btn-primary' %>
+  <% else %>
+    Last Page reached
   <% end %>
 <% end %>

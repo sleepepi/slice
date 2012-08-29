@@ -46,30 +46,6 @@ class Design < ActiveRecord::Base
     self.attributes.reject{|key, val| ['id', 'user_id', 'project_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
 
-  # # Check that user has selected an editable project  OR
-  # #            user is a librarian and project_id is blank
-  # def saveable?(current_user, params)
-  #   result = (current_user.all_projects.pluck(:id).include?(params[:project_id].to_i) or (current_user.librarian? and params[:project_id].blank?))
-  #   self.errors.add(:project_id, "can't be blank" ) unless result
-  #   result = (valid_option_tokens?(current_user, params) and result)
-  #   result
-  # end
-
-  # def valid_option_tokens?(current_user, params)
-  #   result = true
-  #   option_variable_ids = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:variable_id].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:variable_id]}
-  #   if option_variable_ids.uniq.size < option_variable_ids.size
-  #     self.errors.add(:variables, "can only be added once")
-  #     result = false
-  #   end
-  #   section_names = (params[:option_tokens] || {}).select{|key, hash| not hash.symbolize_keys[:section_name].to_s.strip.blank?}.collect{|key, hash| hash.symbolize_keys[:section_name]}
-  #   if section_names.uniq.size < section_names.size
-  #     self.errors.add(:section_names, "must be unique")
-  #     result = false
-  #   end
-  #   result
-  # end
-
   # We want all validations to run so all errors will show up when submitting a form
   def check_option_validations
     result_a = check_project_id
@@ -103,6 +79,22 @@ class Design < ActiveRecord::Base
     result
   end
 
+  def options_page(page_number = 0)
+    current_page = 0
+    options_subset = []
+    self.options.each do |option|
+      current_page += 1 if option[:break_before] == '1'
+      options_subset << option if current_page == page_number
+    end
+    options_subset
+  end
+
+  def total_pages
+    @total_pages ||= begin
+      self.options.select{|option| option[:break_before] == '1'}.count + 1
+    end
+  end
+
   def option_tokens=(tokens)
     self.options = []
     tokens.each_pair do |key, option_hash|
@@ -118,7 +110,8 @@ class Design < ActiveRecord::Base
                           section_name: option_hash[:section_name].strip,
                           section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
                           section_description: option_hash[:section_description].to_s.strip,
-                          branching_logic: option_hash[:branching_logic].to_s.strip
+                          branching_logic: option_hash[:branching_logic].to_s.strip,
+                          break_before: option_hash[:break_before]
                         }
       end
     end
