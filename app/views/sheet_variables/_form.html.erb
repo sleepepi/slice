@@ -25,7 +25,7 @@
     <%= check_box_tag "variables[#{@variable.id}][]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <label><%= value %>: <%= name %></label>
   <% end %>
 <% when 'string' %>
-  <%= text_field_tag "variables[#{@variable.id}]", response, data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "tooltip #{'popover' unless @variable.description.blank?}", disabled: disabled, title: @variable.display_name %>
+  <%= text_field_tag "variables[#{@variable.id}]", response, data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "tooltip #{'popover' unless @variable.description.blank?}", disabled: disabled, title: @variable.display_name, placeholder: @variable.display_name %>
 <% when 'text' %>
   <%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%', data: { content: @variable.description, title: @variable.display_name, placement: 'bottom' }, rel: "tooltip #{'popover' unless @variable.description.blank?}", disabled: disabled, title: @variable.display_name %>
 <% when 'integer' %>
