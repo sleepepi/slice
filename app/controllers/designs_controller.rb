@@ -15,6 +15,7 @@ class DesignsController < ApplicationController
   end
 
   def selection
+    params[:current_design_page] = (params[:current_design_page].blank? ? 1 : params[:current_design_page].to_i)
     @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
     @sheet = Sheet.new unless @sheet
     @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id])

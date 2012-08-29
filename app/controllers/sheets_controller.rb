@@ -156,6 +156,8 @@ class SheetsController < ApplicationController
   # GET /sheets/new
   # GET /sheets/new.json
   def new
+    params[:current_design_page] = 1
+
     @sheet = current_user.sheets.new(post_params)
 
     respond_to do |format|
@@ -166,6 +168,7 @@ class SheetsController < ApplicationController
 
   # GET /sheets/1/edit
   def edit
+    params[:current_design_page] = 1
     @sheet = current_user.all_sheets.find_by_id(params[:id])
     redirect_to sheets_path unless @sheet
   end
@@ -190,9 +193,7 @@ class SheetsController < ApplicationController
       if @sheet.save
         update_variables!
 
-        params[:current_design_page] = params[:current_design_page].to_i + 1
-
-        if params[:current_design_page] < @sheet.design.total_pages
+        if params[:current_design_page].to_i < @sheet.design.total_pages
           format.html { render 'edit' }
           format.json { head :no_content }
         else
@@ -200,7 +201,7 @@ class SheetsController < ApplicationController
           format.json { render json: @sheet, status: :created, location: @sheet }
         end
       else
-        params[:current_design_page] = 0
+        params[:current_design_page] = 1
         format.html { render action: "new" }
         format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end
@@ -217,9 +218,7 @@ class SheetsController < ApplicationController
         if @sheet.update_attributes(post_params)
           update_variables!
 
-          params[:current_design_page] = params[:current_design_page].to_i + 1
-
-          if params[:current_design_page] < @sheet.design.total_pages
+          if params[:current_design_page].to_i <= @sheet.design.total_pages
             format.html { render 'edit' }
             format.json { head :no_content }
           else
@@ -227,7 +226,7 @@ class SheetsController < ApplicationController
             format.json { head :no_content }
           end
         else
-          params[:current_design_page] = 0
+          params[:current_design_page] = 1
           format.html { render action: "edit" }
           format.json { render json: @sheet.errors, status: :unprocessable_entity }
         end

@@ -7,8 +7,6 @@
 
 <%= render partial: 'designs/navigation' %>
 
-<%= hidden_field_tag :current_design_page, params[:current_design_page].to_i %>
-
 <% @design.options_page(params[:current_design_page].to_i).each do |option| %>
   <% @option = option %>
   <% if @option[:variable_id].blank? %>
@@ -23,22 +21,14 @@
   <nav class="pagination pagination-centered">
     <ul>
       <% (1..@design.total_pages).each do |page| %>
-        <% if page == params[:current_design_page].to_i + 1 %>
+        <% if page == params[:current_design_page].to_i %>
           <li class="page active"><%= link_to page, '#' %></li>
         <% else %>
           <li class="page">
-            <%= link_to page, '#', data: { target: "##{form_name}", object: "variable-check-before-submit", page: page - 2 }  %>
+            <%= link_to page, '#', data: { target: "##{form_name}", object: "variable-check-before-submit", page: page }  %>
           </li>
         <% end %>
       <% end %>
     </ul>
   </nav>
-<% end %>
-
-<% if false %>
-  <% if params[:current_design_page].to_i + 1 < @design.total_pages %>
-    <%= link_to "Save and Next Page", '#', class: 'btn btn-primary' %>
-  <% else %>
-    Last Page reached
-  <% end %>
 <% end %>

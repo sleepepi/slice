@@ -79,8 +79,8 @@ class Design < ActiveRecord::Base
     result
   end
 
-  def options_page(page_number = 0)
-    current_page = 0
+  def options_page(page_number = 1)
+    current_page = 1
     options_subset = []
     self.options.each do |option|
       current_page += 1 if option[:break_before] == '1'

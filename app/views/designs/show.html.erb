@@ -62,6 +62,6 @@
   <center><%= image_tag 'contour/ajax-loader.gif' %></center>
 </form>
 
-<%= form_tag selection_designs_path(sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :current_design_page, params[:current_design_page].to_i %>
+<%= form_tag selection_designs_path(sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' }, id: 'new_sheet' do %>
+  <%= hidden_field_tag :current_design_page, 1 %>
 <% end %>
