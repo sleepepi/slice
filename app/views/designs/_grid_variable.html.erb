@@ -1,9 +1,8 @@
 <%# This file shows a variable for use in a sheet %>
 <% disabled = '' if defined?(disabled) == nil %>
-<div class="control-group" data-object="variable-container" id="varvar_<%= @variable.id %>">
+<span data-object="variable-container" id="varvar_<%= @variable.id %>">
 
-  <%# data-condition-parent="<%= @design.condition_parent(@variable) if @design % >" data-condition-value="<%= @design.condition_value(@variable) if @design % >"  %>
-
+<% if false %>
   <% unless @variable.header.blank? %>
     <div class="page-header" style="margin-top:0px">
       <h4>
@@ -11,12 +10,15 @@
       </h4>
     </div>
   <% end %>
-
   <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' %>
 
+
+
+
   <div class="controls <%= @variable.variable_type if ['radio', 'checkbox'].include?(@variable.variable_type) %>">
-    <div style="line-height:30px">
-      <%= render partial: 'sheet_variables/form', locals: { disabled: disabled } %>
-    </div>
+    <%= render partial: 'sheet_variables/form', locals: { disabled: disabled } %>
   </div>
 </div>
+<% end %>
+
+<%= render partial: 'sheet_variables/form', locals: { disabled: disabled } %>
