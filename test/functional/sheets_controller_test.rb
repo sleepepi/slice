@@ -189,6 +189,7 @@ class SheetsControllerTest < ActionController::TestCase
       post :create, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
+                    current_design_page: 2,
                     variables: {
                       "#{variables(:dropdown).id}" => 'm',
                       "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
@@ -213,7 +214,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create new subject for different project" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, sheet: { design_id: designs(:all_variable_types), project_id: sheets(:two).project_id, study_date: '05/23/2012' }, subject_code: 'Code01', site_id: sites(:two).id
+        post :create, sheet: { design_id: designs(:all_variable_types), project_id: sheets(:two).project_id, study_date: '05/23/2012' }, subject_code: 'Code01', site_id: sites(:two).id, current_design_page: 2
       end
     end
 
@@ -226,7 +227,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create new validated subject" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: 'A400', site_id: sites(:valid_range).id
+        post :create, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: 'A400', site_id: sites(:valid_range).id, current_design_page: 2
       end
     end
 
@@ -240,7 +241,7 @@ class SheetsControllerTest < ActionController::TestCase
  test "should create new non-validated subject" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: 'A600', site_id: sites(:valid_range).id
+        post :create, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: 'A600', site_id: sites(:valid_range).id, current_design_page: 2
       end
     end
 
@@ -255,7 +256,8 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.count', 0) do
       post :create, sheet: { design_id: @sheet.design_id, project_id: @sheet.project_id, study_date: '05/21/2012' },
                     subject_code: 'Code01',
-                    site_id: @sheet.subject.site_id
+                    site_id: @sheet.subject.site_id,
+                    current_design_page: 2
     end
 
     assert_not_nil assigns(:sheet)
@@ -268,7 +270,8 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.count', 0) do
       post :create, sheet: { design_id: @sheet.design_id, project_id: projects(:four), study_date: '05/21/2012' },
                     subject_code: 'Code01',
-                    site_id: @sheet.subject.site_id
+                    site_id: @sheet.subject.site_id,
+                    current_design_page: 2
     end
 
     assert_not_nil assigns(:sheet)
@@ -282,7 +285,8 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.count', 0) do
       post :create, sheet: { design_id: @sheet.design_id, project_id: projects(:one), study_date: '05/21/2012' },
                     subject_code: 'Code01',
-                    site_id: sites(:one).id
+                    site_id: sites(:one).id,
+                    current_design_page: 2
     end
 
     assert_not_nil assigns(:sheet)
@@ -295,7 +299,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
         post :create, sheet: { design_id: @sheet.design_id, project_id: @sheet.project_id, study_date: '05/21/2012' },
-                      subject_code: 'Code01'
+                      subject_code: 'Code01', current_design_page: 2
       end
     end
 
@@ -352,6 +356,7 @@ class SheetsControllerTest < ActionController::TestCase
     put :update, id: @sheet, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
+                    current_design_page: 2,
                     variables: {
                       "#{variables(:dropdown).id}" => 'f',
                       "#{variables(:checkbox).id}" => nil,
@@ -370,14 +375,14 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should not update sheet with blank study date" do
-    put :update, id: @sheet, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+    put :update, id: @sheet, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
     assert_not_nil assigns(:sheet)
     assert_equal ["can't be blank"], assigns(:sheet).errors[:study_date]
     assert_template 'edit'
   end
 
   test "should not update invalid sheet" do
-    put :update, id: -1, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+    put :update, id: -1, sheet: { design_id: designs(:all_variable_types), project_id: @sheet.project_id, study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
     assert_nil assigns(:sheet)
     assert_redirected_to sheets_path
   end
