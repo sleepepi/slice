@@ -28,6 +28,11 @@ class VariablesController < ApplicationController
     end
   end
 
+  def add_grid_row
+    @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    render nothing: true unless @variable
+  end
+
   def add_grid_variable
     @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
     @grid_variable = { variable_id: '' }

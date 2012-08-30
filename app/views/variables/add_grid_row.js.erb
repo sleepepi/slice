@@ -1,0 +1,2 @@
+<% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+$("#grid_<%= params[:position] %>").append("<%= escape_javascript(render partial: "sheet_variables/form/grid_variables", locals: { variable: @variable, position: position, row_hash: {}, disabled: false } ) %>");

@@ -1,23 +1,15 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 
-<% variable.grid_variables.each do |grid_variable| %>
-  <% @grid_variable = Variable.find_by_id(grid_variable[:variable_id]) %>
-  <% response = nil %>
+<% response = YAML::load(response) rescue response = { } unless response.kind_of?(Hash) %>
 
-  <% if Variable::TYPE.flatten.uniq.include?(@grid_variable.variable_type) and @grid_variable.variable_type != 'grid' %>
-    <%= render partial: "sheet_variables/form/#{@grid_variable.variable_type}", locals: { response: response, disabled: disabled, variable: @grid_variable, field_name: "variables[#{variable.id}][#{position}][#{@grid_variable.id}]", grid: variable } %>
+<% response = { "0" => {} } if response.blank? %>
+
+<div id="grid_<%= position %>">
+  <% response.each_pair do |position, row_hash| %>
+
+    <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, variable: variable, position: position, row_hash: row_hash } %>
+
   <% end %>
+</div>
 
-<% end %>
-
-<% if false %>
-<% variable.grid_variables.each do |grid_variable| %>
-  <% @grid_variable = Variable.find_by_id(grid_variable[:variable_id]) %>
-  <% response = nil %>
-
-  <% if Variable::TYPE.flatten.uniq.include?(@grid_variable.variable_type) and @grid_variable.variable_type != 'grid' %>
-    <%= render partial: "sheet_variables/form/#{@grid_variable.variable_type}", locals: { response: response, disabled: disabled, variable: @grid_variable, field_name: "variables[#{variable.id}][b][#{@grid_variable.id}]", grid: variable } %>
-  <% end %>
-
-<% end %>
-<% end %>
+<%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', position: position, variable_id: variable.id } %>

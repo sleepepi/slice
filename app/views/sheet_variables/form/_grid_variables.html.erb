@@ -1,0 +1,9 @@
+<% variable.grid_variables.each do |grid_variable| %>
+  <% @grid_variable = Variable.find_by_id(grid_variable[:variable_id]) %>
+
+  <% r = row_hash[grid_variable[:variable_id].to_s] rescue r = nil %>
+
+  <% if Variable::TYPE.flatten.uniq.include?(@grid_variable.variable_type) and @grid_variable.variable_type != 'grid' %>
+    <%= render partial: "sheet_variables/form/#{@grid_variable.variable_type}", locals: { response: r, disabled: disabled, variable: @grid_variable, field_name: "variables[#{variable.id}][#{position}][#{@grid_variable.id}]", grid: variable } %>
+  <% end %>
+<% end %>
