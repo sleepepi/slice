@@ -19,6 +19,10 @@
     $('[data-object~="calculated"]').show()
   else
     $('[data-object~="calculated"]').hide()
+  if $(element).val() in ['grid']
+    $('[data-object~="grid"]').show()
+  else
+    $('[data-object~="grid"]').hide()
 
 @checkForBlankOptions = () ->
   blank_options = $('[data-object~="option-name"]').filter( () ->
@@ -141,5 +145,10 @@ jQuery ->
   .on('change', '[data-object~="variable-load"]', () ->
     position = $(this).data('position')
     retrieveVariable(position)
+    false
+  )
+  .on('click', '#add_grid_variable', () ->
+    position = $(this).data('position')
+    $.post(root_url + 'variables/add_grid_variable', 'position=' + position, null, "script")
     false
   )

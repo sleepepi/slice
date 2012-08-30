@@ -1,11 +1,13 @@
+<% is_grid = defined?(grid) %>
+
 <% array = YAML::load(response) rescue array = response || [] %>
-<%= hidden_field_tag "variables[#{@variable.id}][]", nil, disabled: disabled %>
-<% @variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-  <label class="<%= 'checkbox inline' if @is_grid %>"><%= check_box_tag "variables[#{@variable.id}][]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
+<%= hidden_field_tag "#{field_name}[]", nil, disabled: disabled %>
+<% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+  <label class="<%= 'checkbox inline' if is_grid %>"><%= check_box_tag "#{field_name}[]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
 <% end %>
-<% if @variable.options_only_missing.size > 0 %>
-  <label class="<%= 'checkbox inline' if @is_grid %>"><span class="label label-info">Missing Codes</span></label>
+<% if variable.options_only_missing.size > 0 %>
+  <label class="<%= 'checkbox inline' if is_grid %>"><span class="label label-info">Missing Codes</span></label>
 <% end %>
-<% @variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-  <label class="<%= 'checkbox inline' if @is_grid %>"><%= check_box_tag "variables[#{@variable.id}][]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
+<% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+  <label class="<%= 'checkbox inline' if is_grid %>"><%= check_box_tag "#{field_name}[]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
 <% end %>

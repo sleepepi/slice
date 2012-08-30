@@ -6,20 +6,19 @@
 <div class="control-group">
   <label class="control-label"><%= @variable.display_name %></label>
   <div class="controls" style="padding-top:5px">
-    <% if @variable.variable_type == 'text' %>
-      <%= simple_format @variable.response_name(@sheet).to_s %>
-    <% elsif @variable.variable_type == 'checkbox' %>
-      <% @variable.response_name(@sheet).each do |response| %>
-        <p><%= response %></p>
+    <% if @variable.variable_type == 'grid' %>
+      <% @variable.response_name(@sheet).each_pair do |key, values| %>
+        <p>
+          <% values.each_pair do |variable_id, response| %>
+            <% v = Variable.find_by_id(variable_id) %>
+            <% if Variable::TYPE.flatten.uniq.include?(v.variable_type) %>
+              <%= render partial: "sheet_variables/show/#{v.variable_type}", locals: { response: response, variable: v, grid: @variable } unless v.variable_type == 'grid' %>
+            <% end %>
+          <% end %>
+        </p>
       <% end %>
-    <% elsif @variable.variable_type == 'file' %>
-      <div id="variable_<%= @variable.id %>_file_container">
-        <%= render partial: 'variables/response_file' %>
-      </div>
-    <% elsif not @variable.units.blank? %>
-      <%= @variable.response_name(@sheet) %> <%= @variable.units unless @variable.response_name(@sheet).blank? %>
-    <% else %>
-      <%= @variable.response_name(@sheet) %>
+    <% elsif Variable::TYPE.flatten.uniq.include?(@variable.variable_type) %>
+      <%= render partial: "sheet_variables/show/#{@variable.variable_type}", locals: { response: @variable.response_raw(@sheet), variable: @variable } %>
     <% end %>
   </div>
 </div>

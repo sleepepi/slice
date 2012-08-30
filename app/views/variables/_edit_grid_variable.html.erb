@@ -1,0 +1,16 @@
+<% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<% @position = position %>
+<div id="variable_<%= position %>">
+  <div class="row">
+    <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
+
+    <div class="span4">
+      <div class="control-group" style="margin-bottom:0px">
+        <%= label_tag "variable_grid_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
+        <div class="controls">
+          <%= select_tag "variable[grid_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + @select_variables, @grid_variable[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

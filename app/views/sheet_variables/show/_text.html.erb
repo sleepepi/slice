@@ -1,0 +1,7 @@
+<% is_grid = defined?(grid) %>
+
+<% if is_grid %>
+  <%= simple_format variable.response_name_helper(response).to_s %>
+<% else %>
+  <%= simple_format variable.response_name(@sheet).to_s %>
+<% end %>

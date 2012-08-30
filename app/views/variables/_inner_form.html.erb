@@ -146,3 +146,13 @@
     <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
   </label>
 </div>
+
+<div id="variables" data-object="grid sortable">
+  <% @variable.grid_variables.each do |grid_variable| %>
+    <%= @grid_variable = grid_variable; render partial: 'edit_grid_variable' %>
+  <% end %>
+</div>
+
+<div class="btn-toolbar" data-object="grid">
+  <%= link_to 'Add Another Variable', '#', id: 'add_grid_variable', class: 'btn btn-mini', data: { position: 'bottom' } %>
+</div>

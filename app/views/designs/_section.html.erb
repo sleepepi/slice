@@ -4,3 +4,5 @@
     <small><%= simple_format @option[:section_description] unless @option[:section_description].blank? %></small>
   </h2>
 </div>
+
+<%= link_to 'add more', '#', class: 'btn btn-mini', data: { object: 'copy-repeatables', target: "[data-object~=repeatable_#{@repeatable_id}]" } if @is_repeatable %>

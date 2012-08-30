@@ -29,6 +29,8 @@ class DesignsController < ApplicationController
   def add_variable
     @design = Design.new(post_params)
     @option = { variable_id: '' }
+    @all_viewable_variables = current_user.all_viewable_variables
+    @select_variables = @all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
   end
 
   def variables

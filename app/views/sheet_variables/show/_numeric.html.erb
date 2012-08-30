@@ -1,0 +1,7 @@
+<% is_grid = defined?(grid) %>
+
+<% if is_grid %>
+  <%= variable.response_name_helper(response) %>
+<% else %>
+  <%= variable.response_name(@sheet) %> <%= variable.units if not variable.response_name(@sheet).blank? and not variable.units.blank? %>
+<% end %>

@@ -54,6 +54,7 @@ Reading::Application.routes.draw do
     end
     collection do
       post :add_option
+      post :add_grid_variable
       post :options
     end
   end

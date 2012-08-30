@@ -1,1 +1,7 @@
-<%= render partial: 'sheet_variables/form/numeric', locals: { response: response, disabled: disabled } %>
+<% is_grid = defined?(grid) %>
+
+<% if is_grid %>
+  <%= render partial: 'sheet_variables/form/numeric', locals: { response: response, disabled: disabled, variable: variable, field_name: field_name, grid: grid } %>
+<% else %>
+  <%= render partial: 'sheet_variables/form/numeric', locals: { response: response, disabled: disabled, variable: variable, field_name: field_name } %>
+<% end %>

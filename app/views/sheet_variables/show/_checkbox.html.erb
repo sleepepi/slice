@@ -1,0 +1,11 @@
+<% is_grid = defined?(grid) %>
+
+<% if is_grid %>
+  <% variable.response_name_helper(response).each do |r| %>
+    <%= r %>
+  <% end %>
+<% else %>
+  <% variable.response_name(@sheet).each do |response| %>
+    <p><%= response %></p>
+  <% end %>
+<% end %>

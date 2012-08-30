@@ -1,0 +1,9 @@
+<% if params[:location] == 'top' %>
+  $("#variables").prepend("<%= escape_javascript(render("edit_grid_variable")) %>");
+<% elsif params[:location].to_i > 0 %>
+  $("#variable_<%= params[:location] %>").after("<%= escape_javascript(render("edit_grid_variable")) %>");
+<% else %>
+  $("#variables").append("<%= escape_javascript(render("edit_grid_variable")) %>");
+<% end %>
+
+$('#variable_grid_tokens_<%= @position %>_variable_id.chzn-select').chosen();

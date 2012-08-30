@@ -1,9 +1,10 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation, :updater_id, :format, :units
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation, :updater_id, :format, :units, :grid_tokens, :grid_variables
 
-  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated'].collect{|i| [i,i]}
+  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].collect{|i| [i,i]}
 
   serialize :options, Array
+  serialize :grid_variables, Array
 
   before_save :check_option_validations
 
@@ -12,6 +13,7 @@ class Variable < ActiveRecord::Base
   scope :with_user, lambda { |*args| { conditions: ['variables.user_id IN (?)', args.first] } }
   scope :with_project, lambda { |*args| { conditions: ['variables.project_id IN (?)', args.first] } }
   scope :with_variable_type, lambda { |*args| { conditions: ['variables.variable_type IN (?)', args.first] } }
+  scope :without_variable_type, lambda { |*args| { conditions: ['variables.variable_type NOT IN (?)', args.first] } }
   scope :with_project_or_global, lambda { |*args| { conditions: ['variables.project_id IN (?) or variables.project_id IS NULL', args.first] } }
   scope :with_user_or_global, lambda { |*args| { conditions: ['variables.user_id IN (?) or variables.project_id IS NULL', args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
@@ -163,6 +165,13 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def grid_tokens=(tokens)
+    self.grid_variables = []
+    tokens.each_pair do |key, grid_hash|
+      self.grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i } if grid_hash[:variable_id].strip.to_i > 0
+    end
+  end
+
   def missing_codes
     self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
   end
@@ -198,15 +207,16 @@ class Variable < ActiveRecord::Base
     result
   end
 
-  def response_name(sheet)
-    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-    response = (sheet_variable ? sheet_variable.response : nil)
+  def response_name_helper(response, sheet=nil)
     if ['dropdown', 'radio'].include?(self.variable_type)
       hash = (self.options.select{|option| option[:value] == response}.first || {})
       [hash[:value], hash[:name]].compact.join(': ')
     elsif ['checkbox'].include?(self.variable_type)
-      array = YAML::load(response) rescue array = []
-      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
+      response = YAML::load(response) rescue response = [] unless response.kind_of?(Array)
+      self.options.select{|option| response.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
+    elsif ['grid'].include?(self.variable_type)
+      response = YAML::load(response) rescue response = {} unless response.kind_of?(Hash)
+      response
     elsif ['integer', 'numeric'].include?(self.variable_type)
       hash = self.options_only_missing.select{|option| option[:value] == response}.first
       hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
@@ -215,6 +225,12 @@ class Variable < ActiveRecord::Base
     else
       response
     end
+  end
+
+  def response_name(sheet)
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    response = (sheet_variable ? sheet_variable.response : nil)
+    response_name_helper(response, sheet)
   end
 
   def response_label(sheet)

@@ -16,7 +16,7 @@
 
   <div class="controls <%= @variable.variable_type if ['radio', 'checkbox'].include?(@variable.variable_type) %>">
     <div style="line-height:30px">
-      <%= render partial: 'sheet_variables/form', locals: { disabled: disabled } %>
+      <%= render partial: 'sheet_variables/form', locals: { disabled: disabled, variable: @variable } %>
     </div>
   </div>
 </div>

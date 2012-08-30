@@ -1,1 +1,3 @@
-<%= text_area_tag "variables[#{@variable.id}]", response, rows: 7, style: 'width:95%', data: { content: @variable.description, title: @variable.display_name, placement: 'bottom' }, rel: "tooltip #{'popover' unless @variable.description.blank?}", disabled: disabled, title: @variable.display_name %>
+<% is_grid = defined?(grid) %>
+
+<%= text_area_tag field_name, response, rows: 7, style: 'width:95%', data: { content: variable.description, title: variable.display_name, placement: 'bottom' }, rel: "tooltip #{'popover' unless variable.description.blank?}", disabled: disabled, title: variable.display_name %>

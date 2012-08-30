@@ -1,11 +1,11 @@
-<% if @variable.response_file(@sheet).size > 0 %>
-  <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.to_s.downcase) %>
-    <%= link_to image_tag(@variable.response_file_url(@sheet), style: "height:64px;border:0px solid white"), @variable.response_file_url(@sheet), target: '_blank' %>
+<% if variable.response_file(@sheet).size > 0 %>
+  <% if ['jpg', 'jpeg', 'gif', 'png'].include?(variable.response_file_url(@sheet).to_s.split('.').last.to_s.downcase) %>
+    <%= link_to image_tag(variable.response_file_url(@sheet), style: "height:64px;border:0px solid white"), variable.response_file_url(@sheet), target: '_blank' %>
   <% else %>
-    <%= link_to @variable.response_file_url(@sheet).split('/').last, @variable.response_file_url(@sheet), target: '_blank', class: 'btn btn-mini' %>
+    <%= link_to variable.response_file_url(@sheet).split('/').last, variable.response_file_url(@sheet), target: '_blank', class: 'btn btn-mini' %>
   <% end %>
-  <%= number_to_human_size(@variable.response_file(@sheet).size) %>
+  <%= number_to_human_size(variable.response_file(@sheet).size) %>
   <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
-    <%= link_to 'remove', remove_file_sheet_path(@sheet, variable_id: @variable.id), method: :post, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove the #{@variable.response_file_url(@sheet).split('/').last}?" } %>
+    <%= link_to 'remove', remove_file_sheet_path(@sheet, variable_id: variable.id), method: :post, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove the #{variable.response_file_url(@sheet).split('/').last}?" } %>
   <% end %>
 <% end %>

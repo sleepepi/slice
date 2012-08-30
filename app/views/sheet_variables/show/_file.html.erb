@@ -1,0 +1,12 @@
+<% is_grid = defined?(grid) %>
+
+<% if is_grid %>
+  <div id="variable_<%= grid.id %>_<%= variable.id %>_file_container">
+    <%#= variable.response_name_helper(response) %>
+    <%#= render partial: 'variables/response_file', locals: { variable: variable, grid: grid } %>
+  </div>
+<% else %>
+  <div id="variable_<%= variable.id %>_file_container">
+    <%= render partial: 'variables/response_file', locals: { variable: variable } %>
+  </div>
+<% end %>

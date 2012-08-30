@@ -7,19 +7,12 @@
 
 <%= render partial: 'designs/navigation' %>
 
-<% @is_grid = false %>
-
 <% @design.options_page(params[:current_design_page].to_i).each do |option| %>
   <% @option = option %>
   <% if @option[:variable_id].blank? %>
-    <% @is_grid = (@option[:is_grid] == '1') %>
     <%= render partial: 'designs/section' %>
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-    <% if @is_grid %>
-      <%= render partial: 'designs/grid_variable' %>
-    <% else %>
-      <%= render partial: 'designs/variable' %>
-    <% end %>
+    <%= render partial: 'designs/variable' %>
   <% end %>
 <% end %>
 

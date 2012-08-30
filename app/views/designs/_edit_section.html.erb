@@ -41,12 +41,6 @@
       </div>
     </div>
 
-    <div class="control-group">
-      <div class="controls checkbox">
-        <%= check_box_tag "design[option_tokens][#{position}][is_grid]", '1', @option[:is_grid] == '1' %> <%= label_tag "design_option_tokens_#{position}_is_grid", 'Is Grid' %>
-      </div>
-    </div>
-
     <div class="control-group" style="margin-bottom:0px">
       <div class="controls">
         <%= link_to 'Add Variable After', '#', class: 'btn btn-mini', data: { object: 'variable-insert-after', position: position } %>

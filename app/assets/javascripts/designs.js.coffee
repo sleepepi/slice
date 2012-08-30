@@ -181,6 +181,13 @@ jQuery ->
       $.post(root_url + 'designs/add_section', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
       false
     )
+    .on('click', '[data-object~="copy-repeatables"]', () ->
+      parent = $(this)
+      val = $($($(this).data('target')).get().reverse()).each( () ->
+        parent.after($(this).html())
+      )
+      false
+    )
 
   updateAllVariables()
   updateCalculatedVariables()

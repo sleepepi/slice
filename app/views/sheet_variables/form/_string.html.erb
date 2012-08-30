@@ -1,1 +1,3 @@
-<%= text_field_tag "variables[#{@variable.id}]", response, data: { content: @variable.description, title: @variable.display_name, object: "condition" }, rel: "tooltip #{'popover' unless @variable.description.blank?}", disabled: disabled, title: @variable.display_name, placeholder: @variable.display_name %>
+<% is_grid = defined?(grid) %>
+
+<%= text_field_tag field_name, response, data: { content: variable.description, title: variable.display_name, object: "condition" }, rel: "tooltip #{'popover' unless variable.description.blank?}", disabled: disabled, title: variable.display_name, placeholder: variable.display_name %>

@@ -1,1 +1,3 @@
-<%= select_tag "variables[#{@variable.id}]", "<option value=''></option>".html_safe + grouped_options_for_select(@variable.grouped_by_missing, response), data: { content: @variable.description, title: @variable.display_name, object: "condition", name: @variable.name }, rel: "tooltip #{'popover' unless @variable.description.blank?}", disabled: disabled, class: 'chzn-select', title: @variable.display_name %>
+<% is_grid = defined?(grid) %>
+
+<%= select_tag field_name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, response), data: { content: variable.description, title: variable.display_name, object: "condition", name: variable.name }, rel: "tooltip #{'popover' unless variable.description.blank?}", disabled: disabled, class: 'chzn-select', title: variable.display_name %>

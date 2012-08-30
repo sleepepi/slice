@@ -28,6 +28,11 @@ class VariablesController < ApplicationController
     end
   end
 
+  def add_grid_variable
+    @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
+    @grid_variable = { variable_id: '' }
+  end
+
   def add_option
     @variable = Variable.new(params[:variable].except(:option_tokens))
     @option = { name: '', value: '', description: '' }
@@ -97,6 +102,7 @@ class VariablesController < ApplicationController
   # GET /variables/1/edit
   def edit
     @variable = current_user.all_variables.find_by_id(params[:id])
+    @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
 
     respond_to do |format|
       if @variable
@@ -205,7 +211,9 @@ class VariablesController < ApplicationController
       # For Dates
       :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
       # For Calculated Variables
-      :calculation, :format
+      :calculation, :format,
+      # For Grid Variables
+      :grid_tokens
     )
   end
 end
