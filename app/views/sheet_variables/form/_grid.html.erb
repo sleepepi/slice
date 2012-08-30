@@ -5,9 +5,9 @@
 <% response = { "0" => {} } if response.blank? %>
 
 <div id="grid_<%= position %>">
-  <% response.each_pair do |position, row_hash| %>
+  <% response.each_pair do |pos, row_hash| %>
 
-    <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, variable: variable, position: position, row_hash: row_hash } %>
+    <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, variable: variable, position: pos, row_hash: row_hash } %>
 
   <% end %>
 </div>
