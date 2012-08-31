@@ -2,6 +2,7 @@
   <thead>
     <tr>
       <th>Subject</th>
+      <% if @sheet.project.acrostic_enabled? %><th>Acrostic</th><% end %>
       <th>Project</th>
       <th>Site</th>
       <th>Study Date</th>
@@ -10,6 +11,7 @@
   <tbody>
     <tr>
       <td><%= @sheet.subject.subject_code %></td>
+      <% if @sheet.project.acrostic_enabled? %><td><%= @sheet.subject.acrostic %></td><% end %>
       <td><%= @sheet.project.name if @sheet.project %></td>
       <td><%= @sheet.subject.site.name if @sheet.subject and @sheet.subject.site %></td>
       <td><%= @sheet.study_date %></td>
@@ -18,7 +20,7 @@
 </table>
 
 <div class="page-header">
-  <h1><%= @sheet.design.name %> <%= image_tag @sheet.project.logo_url, style: "height:30px;vertical-align:bottom" if @sheet.project.logo.size > 0 %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %></div></h1>
+  <h1><%= @sheet.design.name %> <%= image_tag @sheet.project.logo_url, style: "height:30px;vertical-align:bottom" if @sheet.project.logo.size > 0 %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= @sheet.subject.acrostic %><% end %></div></h1>
 </div>
 <p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @sheet.design.description %></p>
 

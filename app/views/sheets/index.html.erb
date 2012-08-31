@@ -13,7 +13,7 @@
     <div class="span4 control-group">
       <%= label :search, 'Search', class: 'control-label' %>
       <div class="controls">
-        <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' } %>
+        <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' }, placeholder: 'Design Name or Subject Code' %>
       </div>
     </div>
     <div class="span4 control-group">
@@ -70,8 +70,8 @@
     <%#= link_to 'Export', '#', class: 'btn', data: { object: 'export', format: 'csv' } %>
 
     <span class="dropdown">
-      <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', 'data-toggle' => "dropdown" %>
-      <ul id="export-submenu" class="dropdown-menu" style="margin-top:9px">
+      <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
+      <ul class="dropdown-menu" style="margin-top:9px">
         <li>
           <%= link_to 'Unlabeled Data', '#', data: { object: 'export', format: 'raw_csv', target: '#sheets_search' } %>
         </li>
