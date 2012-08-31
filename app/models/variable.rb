@@ -271,4 +271,9 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  # def response_description(value)
+  #   option = self.options.select{|opt| opt[:value].to_s == value.to_s}.first
+  #   option ? option[:description] : ''
+  # end
+
 end

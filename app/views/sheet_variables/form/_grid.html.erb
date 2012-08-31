@@ -1,6 +1,14 @@
 <div id="variable_<%= variable.id %>_grid_container">
-  <% max_position = sheet_variable ? sheet_variable.grids.pluck(:position).max.to_i : 0 %>
-  <% (0..max_position).each do |position| %>
+
+  <%# Range should either be the existing positions (which are long strings) or the positions from the sheet_variables %>
+  <% if not params[:variables].blank? and not params[:variables][variable.id.to_s].blank? %>
+    <% range = params[:variables][variable.id.to_s].keys %>
+  <% else %>
+    <% max_position = sheet_variable ? sheet_variable.grids.pluck(:position).max.to_i : 0 %>
+    <% range = (0..max_position) %>
+  <% end %>
+
+  <% range.each do |position| %>
     <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, sheet_variable: sheet_variable, position: position, variable: variable } %>
   <% end %>
 </div>

@@ -3,8 +3,11 @@
     <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) if sheet_variable %>
     <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: position) unless grid %>
 
+    <%# The following line sets the response for the grid variable to that from the params hash, and if that doesn't exist, it checks if there was something stored in the database (grid variable) %>
+    <% response = ((not params[:variables].blank? and not params[:variables][variable.id.to_s].blank? and not params[:variables][variable.id.to_s][position.to_s].blank?) ? params[:variables][variable.id.to_s][position.to_s][grid_variable[:variable_id].to_s] : (grid ? grid.response : nil)) %>
+
     <% if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) and grid.variable.variable_type != 'grid' %>
-      <%= render partial: "sheet_variables/form/#{grid.variable.variable_type}", locals: { response: grid.response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", grid: grid.variable } %>
+      <%= render partial: "sheet_variables/form/#{grid.variable.variable_type}", locals: { response: response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", grid: variable } %>
     <% end %>
   <% end %>
 
