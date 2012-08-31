@@ -1,0 +1,30 @@
+<% sheet_variable = (@sheet ? @sheet.sheet_variables.find_by_variable_id(variable.id) : nil) %>
+
+<% if sheet_variable %>
+  <table class="table table-striped table-bordered" style="width:100%">
+    <thead>
+      <tr>
+        <% variable.grid_variables.each do |grid_variable| %>
+          <th>
+            <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
+            <%= v.display_name if v %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position| %>
+        <tr>
+          <% variable.grid_variables.each do |grid_variable| %>
+            <td>
+              <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
+              <% if grid and Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) %>
+                <%= render partial: "sheet_variables/show/#{grid.variable.variable_type}", locals: { response: grid.response, variable: grid.variable, grid: variable } unless grid.variable.variable_type == 'grid' %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

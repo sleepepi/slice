@@ -153,8 +153,7 @@ jQuery ->
     false
   )
   .on('click', '[data-object~="grid-row-add"]', () ->
-    position = $(this).data('position')
     variable_id = $(this).data('variable-id')
-    $.post(root_url + 'variables/' + variable_id + '/add_grid_row', 'position=' + position, null, "script")
+    $.post(root_url + 'variables/' + variable_id + '/add_grid_row', null, null, "script")
     false
   )

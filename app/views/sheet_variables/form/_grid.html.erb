@@ -1,15 +1,8 @@
-<% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
-
-<% response = YAML::load(response) rescue response = { } unless response.kind_of?(Hash) %>
-
-<% response = { "0" => {} } if response.blank? %>
-
-<div id="grid_<%= position %>">
-  <% response.each_pair do |pos, row_hash| %>
-
-    <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, variable: variable, position: pos, row_hash: row_hash } %>
-
+<div id="variable_<%= variable.id %>_grid_container">
+  <% max_position = sheet_variable ? sheet_variable.grids.pluck(:position).max.to_i : 0 %>
+  <% (0..max_position).each do |position| %>
+    <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, sheet_variable: sheet_variable, position: position, variable: variable } %>
   <% end %>
 </div>
 
-<%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', position: position, variable_id: variable.id } %>
+<%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', variable_id: variable.id } %>

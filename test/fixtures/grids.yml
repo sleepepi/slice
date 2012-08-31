@@ -1,0 +1,62 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+--- !map:HashWithIndifferentAccess
+
+one:
+  sheet_variable: one
+  variable: one
+  response: MyText
+  response_file: MyText
+  position: 1346421705668091
+  user: valid
+
+two:
+  sheet_variable: one
+  variable: one
+  response: MyText
+  response_file: MyText
+  position: 1346421728304564
+  user: valid
+
+# This grid had "Option 1" selected that was incorrectly mapped to the value '2'
+# Updating the "change_options" variable should also change this grid value to '1'
+value_to_update_a:
+  sheet_variable: grid
+  variable: change_options
+  response: 2
+  user: valid
+  position: 0
+
+value_to_update_b1:
+  sheet_variable: grid
+  variable: change_options
+  response: 3
+  user: valid
+  position: 1
+
+value_to_update_b2:
+  sheet_variable: grid
+  variable: change_options
+  response: 3
+  user: valid
+  position: 2
+
+value_to_update_c1:
+  sheet_variable: grid
+  variable: change_options
+  response: 1
+  user: valid
+  position: 3
+
+value_to_update_c2:
+  sheet_variable: grid
+  variable: change_options
+  response: 1
+  user: valid
+  position: 4
+
+value_to_update_c3:
+  sheet_variable: grid
+  variable: change_options
+  response: 1
+  user: valid
+  position: 5

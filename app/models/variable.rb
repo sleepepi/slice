@@ -27,6 +27,7 @@ class Variable < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :sheet_variables
+  has_many :grids
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
@@ -131,6 +132,7 @@ class Variable < ActiveRecord::Base
       original_options.each_with_index do |hash, index|
         unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
           self.sheet_variables.where(response: hash.symbolize_keys[:value]).update_all(response: nil)
+          self.grids.where(response: hash.symbolize_keys[:value]).update_all(response: nil)
         end
       end
 
@@ -141,6 +143,7 @@ class Variable < ActiveRecord::Base
         if old_value != new_value
           intermediate_value = old_value + ":" + new_value
           self.sheet_variables.where(response: old_value).update_all(response: intermediate_value)
+          self.grids.where(response: old_value).update_all(response: intermediate_value)
         end
       end
 
@@ -151,6 +154,7 @@ class Variable < ActiveRecord::Base
         if old_value != new_value
           intermediate_value = old_value + ":" + new_value
           self.sheet_variables.where(response: intermediate_value).update_all(response: new_value)
+          self.grids.where(response: intermediate_value).update_all(response: new_value)
         end
       end
     end

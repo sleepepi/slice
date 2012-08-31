@@ -160,6 +160,16 @@ change_options:
   user: valid
   project: one
 
+grid:
+  name: grid
+  display_name: Grid of Variables
+  description: Testing for grid of Variables
+  variable_type: grid
+  # options:
+  grid_variables: [{variable_id: <%= ActiveRecord::Fixtures.identify(:change_options) %> }]
+  user: valid
+  project: one
+
 # response_dropdown:
 #   name: var_gender
 #   display_name: Gender

@@ -1,12 +1,12 @@
 <div id="variable_<%= variable.id %>_grid_row_<%= position %>">
   <% variable.grid_variables.each do |grid_variable| %>
-    <% @grid_variable = Variable.find_by_id(grid_variable[:variable_id]) %>
+    <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) if sheet_variable %>
+    <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: position) unless grid %>
 
-    <% r = row_hash[grid_variable[:variable_id].to_s] rescue r = nil %>
-
-    <% if Variable::TYPE.flatten.uniq.include?(@grid_variable.variable_type) and @grid_variable.variable_type != 'grid' %>
-      <%= render partial: "sheet_variables/form/#{@grid_variable.variable_type}", locals: { response: r, disabled: disabled, variable: @grid_variable, field_name: "variables[#{variable.id}][#{position}][#{@grid_variable.id}]", grid: variable } %>
+    <% if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) and grid.variable.variable_type != 'grid' %>
+      <%= render partial: "sheet_variables/form/#{grid.variable.variable_type}", locals: { response: grid.response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", grid: grid.variable } %>
     <% end %>
   <% end %>
+
   <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger' %>
 </div>

@@ -67,3 +67,9 @@ course_work:
   sheet: all_variables
   response: "['acct101','econ101']"
   user: valid
+
+grid:
+  variable: grid
+  sheet: all_variables
+  # response:
+  user: valid

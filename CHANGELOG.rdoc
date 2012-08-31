@@ -6,7 +6,8 @@
   * Unsaved changes while editing sheets now asks the user if they want leave the page
   * Add last_emailed_at to sheets
   * Designs can be split across multiple pages by setting "break before" to true on a section
-  * Grid layout added for design sections
+  * Grid variable added that can display a list of variables in a grid format
+    * Variables in a grid can also be repeated if more rows are needed in the grid
 
 == 0.6.0
 

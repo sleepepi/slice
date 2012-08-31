@@ -314,15 +314,23 @@ class SheetsController < ApplicationController
   def update_variables!
     (params[:variables] || {}).each_pair do |variable_id, response|
       sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: current_user.id } )
-      response = {} if sv.variable.variable_type == 'file' and response.blank?
-      response = [] if sv.variable.variable_type == 'checkbox' and response.blank?
-      response = (sv.variable.variable_type == 'date') ? parse_date(response, response) : response
-      response = (sv.variable.variable_type == 'time') ? parse_time(response) : response # Currently things that aren't parsed are stored as blank.
-      if sv.variable.variable_type == 'file'
-        sv.update_attributes response
+      if sv.variable.variable_type == 'grid'
+        sv.update_grid_responses!(response)
       else
-        sv.update_attributes response: response
+        sv.update_attributes sv.format_response(sv.variable.variable_type, response)
       end
+
+      # response = {} if sv.variable.variable_type == 'file' and response.blank?
+      # response = [] if sv.variable.variable_type == 'checkbox' and response.blank?
+      # response = (sv.variable.variable_type == 'date') ? parse_date(response, response) : response
+      # response = (sv.variable.variable_type == 'time') ? parse_time(response) : response # Currently things that aren't parsed are stored as blank.
+      # if sv.variable.variable_type == 'file'
+      #   sv.update_attributes response
+      # elsif sv.variable.variable_type == 'grid'
+      #   sv.update_grid_responses!(response)
+      # else
+      #   sv.update_attributes response: response
+      # end
     end
   end
 
