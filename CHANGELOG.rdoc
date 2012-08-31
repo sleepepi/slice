@@ -9,6 +9,7 @@
   * Grid variable added that can display a list of variables in a grid format
     * Variables in a grid can also be repeated if more rows are needed in the grid
   * Sheets on projects with acrostic enabled now display the subject's acrostic on the PDF
+  * Subject acrostic added to data exports
 
 == 0.6.0
 
