@@ -30,7 +30,7 @@
 
       <% if @sheet.subject and not @sheet.subject.acrostic.blank? %>
         <dt>Acrostic</dt>
-        <dd><%= link_to @sheet.subject.acrostic, @sheet.subject if @sheet.subject %></dd>
+        <dd><%= @sheet.subject.acrostic if @sheet.subject %></dd>
       <% end %>
 
       <dt>Site</dt>

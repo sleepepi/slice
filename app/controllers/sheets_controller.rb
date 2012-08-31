@@ -291,6 +291,8 @@ class SheetsController < ApplicationController
       end
     end
 
+    subject.update_attributes acrostic: params[:subject_acrostic].to_s if subject
+
     params[:sheet][:subject_id] = (subject ? subject.id : nil)
     params[:sheet][:last_user_id] = current_user.id
 

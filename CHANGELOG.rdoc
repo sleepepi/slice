@@ -11,6 +11,9 @@
   * Sheets on projects with acrostic enabled now display the subject's acrostic on the PDF
   * Subject acrostic added to data exports
 
+* Bug Fix
+  * Updating a subject's acrostic when editing a sheet now correctly updates the subject's acrostic
+
 == 0.6.0
 
 * Enhancements
