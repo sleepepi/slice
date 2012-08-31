@@ -8,5 +8,5 @@
     <% end %>
   <% end %>
 
-  <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger' %>
+  <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger' if variable.multiple_rows? %>
 </div>

@@ -218,7 +218,7 @@ class VariablesController < ApplicationController
       # For Calculated Variables
       :calculation, :format,
       # For Grid Variables
-      :grid_tokens
+      :grid_tokens, :multiple_rows
     )
   end
 end

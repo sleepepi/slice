@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation, :updater_id, :format, :units, :grid_tokens, :grid_variables
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation, :updater_id, :format, :units, :grid_tokens, :grid_variables, :multiple_rows
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].collect{|i| [i,i]}
 

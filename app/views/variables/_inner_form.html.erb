@@ -147,6 +147,13 @@
   </label>
 </div>
 
+<div class="control-group" data-object="grid">
+  <%= f.label :multiple_rows, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.check_box :multiple_rows %>
+  </div>
+</div>
+
 <div id="variables" data-object="grid sortable">
   <% @variable.grid_variables.each do |grid_variable| %>
     <%= @grid_variable = grid_variable; render partial: 'edit_grid_variable' %>
