@@ -1,7 +1,6 @@
 <% is_grid = defined?(grid) %>
 
-<% if is_grid %>
-  <%= simple_format variable.response_name_helper(response).to_s %>
-<% else %>
-  <%= simple_format variable.response_name(@sheet).to_s %>
-<% end %>
+<% response = {} %>
+<% response = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
+
+<span rel="tooltip" title="<%= response[:description] %>" data-placement="top" style="display:inline-block"><%= simple_format response[:name].to_s %></span>

@@ -76,7 +76,7 @@ class SheetVariable < ActiveRecord::Base
         result[:value] = object.response
         result[:description] = object.variable.description
       else
-        result[:name] = hash[:name]
+        result[:name] = hash[:value] + ": " + hash[:name]
         result[:value] = hash[:value]
         result[:description] = hash[:description]
       end
@@ -90,7 +90,11 @@ class SheetVariable < ActiveRecord::Base
       result[:name] = object.response # Potentially format this in the future
       result[:value] = object.response
       result[:description] = object.variable.description
-    elsif ['string'].include?(object.variable.variable_type)
+    elsif ['time'].include?(object.variable.variable_type)
+      result[:name] = object.response # Potentially format this in the future
+      result[:value] = object.response
+      result[:description] = object.variable.description
+    elsif ['string', 'text'].include?(object.variable.variable_type)
       result[:name] = object.response
       result[:value] = object.response
       result[:description] = object.variable.description
