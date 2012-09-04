@@ -58,35 +58,35 @@ class UsersControllerTest < ActionController::TestCase
   # end
 
   test "should show user" do
-    get :show, id: @user.to_param
+    get :show, id: @user
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @user.to_param
+    get :edit, id: @user
     assert_response :success
   end
 
   test "should update user" do
-    put :update, id: @user.to_param, user: { first_name: 'FirstName', last_name: 'LastName', email: 'valid_updated_email@example.com' }, status: 'active', system_admin: false
+    put :update, id: @user, user: { first_name: 'FirstName', last_name: 'LastName', email: 'valid_updated_email@example.com' }, status: 'active', system_admin: false, librarian: false
     assert_redirected_to user_path(assigns(:user))
   end
 
   test "should not update user with blank name" do
-    put :update, id: @user.to_param, user: { first_name: '', last_name: '' }
+    put :update, id: @user, user: { first_name: '', last_name: '' }
     assert_not_nil assigns(:user)
     assert_template 'edit'
   end
 
   test "should not update user with invalid id" do
-    put :update, id: -1, user: @user.attributes
+    put :update, id: -1, user: { first_name: 'FirstName', last_name: 'LastName', email: 'valid_updated_email@example.com' }, status: 'active', system_admin: false, librarian: false
     assert_nil assigns(:user)
     assert_redirected_to users_path
   end
 
   test "should destroy user" do
     assert_difference('User.current.count', -1) do
-      delete :destroy, id: @user.to_param
+      delete :destroy, id: @user
     end
 
     assert_redirected_to users_path
