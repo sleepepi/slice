@@ -9,6 +9,7 @@
         <%= label_tag "variable_grid_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
         <div class="controls">
           <%= select_tag "variable[grid_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + @select_variables, @grid_variable[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
+          <%= select_tag "variable[grid_tokens][#{position}][control_size]", options_for_select(Variable::CONTROL_SIZE, @grid_variable[:control_size] || 'medium') %>
         </div>
       </div>
     </div>

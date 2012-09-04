@@ -2,6 +2,7 @@ class Variable < ActiveRecord::Base
   attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :hard_minimum, :hard_maximum, :date_hard_maximum, :date_hard_minimum, :soft_minimum, :soft_maximum, :date_soft_maximum, :date_soft_minimum, :calculation, :updater_id, :format, :units, :grid_tokens, :grid_variables, :multiple_rows
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].collect{|i| [i,i]}
+  CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
 
   serialize :options, Array
   serialize :grid_variables, Array
@@ -183,7 +184,9 @@ class Variable < ActiveRecord::Base
   def grid_tokens=(tokens)
     self.grid_variables = []
     tokens.each_pair do |key, grid_hash|
-      self.grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i } if grid_hash[:variable_id].strip.to_i > 0
+      self.grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i,
+                               control_size: Variable::CONTROL_SIZE.flatten.uniq.include?(grid_hash[:control_size].to_s.strip) ? grid_hash[:control_size].to_s.strip : 'medium'
+                             } if grid_hash[:variable_id].strip.to_i > 0
     end
   end
 
@@ -221,7 +224,6 @@ class Variable < ActiveRecord::Base
     result = sheet_variable.response_file_url if sheet_variable
     result
   end
-
 
   def response_name_helper(response, sheet=nil)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
