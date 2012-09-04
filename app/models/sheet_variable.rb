@@ -68,7 +68,7 @@ class SheetVariable < ActiveRecord::Base
         results << result
       end
       result = results
-    elsif ['integer', 'numeric'].include?(object.variable.variable_type)
+    elsif ['integer', 'numeric', 'calculated'].include?(object.variable.variable_type)
       hash = object.variable.options_only_missing.select{|option| option[:value] == object.response}.first
       if hash.blank?
         result[:name] = object.response + (object.variable.units.blank? ? '' : " #{object.variable.units}")

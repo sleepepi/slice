@@ -185,7 +185,7 @@ class Variable < ActiveRecord::Base
     self.grid_variables = []
     tokens.each_pair do |key, grid_hash|
       self.grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i,
-                               control_size: Variable::CONTROL_SIZE.flatten.uniq.include?(grid_hash[:control_size].to_s.strip) ? grid_hash[:control_size].to_s.strip : 'medium'
+                               control_size: Variable::CONTROL_SIZE.flatten.uniq.include?(grid_hash[:control_size].to_s.strip) ? grid_hash[:control_size].to_s.strip : 'large'
                              } if grid_hash[:variable_id].strip.to_i > 0
     end
   end

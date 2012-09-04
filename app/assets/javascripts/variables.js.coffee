@@ -23,6 +23,10 @@
     $('[data-object~="grid"]').show()
   else
     $('[data-object~="grid"]').hide()
+  if $(element).val() in ['calculated', 'integer', 'numeric']
+    $('[data-object~="calculated-or-number"]').show()
+  else
+    $('[data-object~="calculated-or-number"]').hide()
 
 @checkForBlankOptions = () ->
   blank_options = $('[data-object~="option-name"]').filter( () ->
