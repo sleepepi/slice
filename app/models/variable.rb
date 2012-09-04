@@ -66,8 +66,9 @@ class Variable < ActiveRecord::Base
     result_b = check_for_colons
     result_c = check_value_uniqueness
     result_d = check_for_blank_values
+    result_e = check_for_duplicate_variables
 
-    result_a and result_b and result_c and result_d
+    result_a and result_b and result_c and result_d and result_e
   end
 
   def check_project_id
@@ -101,6 +102,16 @@ class Variable < ActiveRecord::Base
     option_values = self.options.collect{|option| option[:value]}
     if ['dropdown', 'checkbox', 'radio'].include?(self.variable_type) and option_values.select{|opt| opt.to_s.strip.blank?}.size > 0
       self.errors.add(:option, "values can't be blank" )
+      result = false
+    end
+    result
+  end
+
+  def check_for_duplicate_variables
+    result = true
+    variable_ids = self.grid_variables.collect{|grid_variable| grid_variable[:variable_id]}
+    if variable_ids.uniq.size < variable_ids.size
+      self.errors.add(:grid, "variables must be unique" )
       result = false
     end
     result

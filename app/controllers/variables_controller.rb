@@ -130,6 +130,7 @@ class VariablesController < ApplicationController
         format.html { redirect_to @variable, notice: 'Variable was successfully created.' }
         format.json { render json: @variable, status: :created, location: @variable }
       else
+        @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
         format.html { render action: "new" }
         format.json { render json: @variable.errors, status: :unprocessable_entity }
       end
@@ -148,6 +149,7 @@ class VariablesController < ApplicationController
           format.js { render 'update' }
           format.json { head :no_content }
         else
+          @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
           format.html { render action: "edit" }
           format.js { render 'update' }
           format.json { render json: @variable.errors, status: :unprocessable_entity }

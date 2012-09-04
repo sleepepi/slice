@@ -149,6 +149,22 @@ class VariablesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should not create grid variable with non-unique variables" do
+    assert_difference('Variable.count', 0) do
+      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'var_grid_tmp', display_name: 'Variable Grid', variable_type: 'grid',
+                                grid_tokens: {
+                                  "1338308398442263" => { variable_id: ActiveRecord::Fixtures.identify(:integer) },
+                                  "1338308421171512" => { variable_id: ActiveRecord::Fixtures.identify(:integer) }
+                                }
+                              }
+    end
+
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["variables must be unique"], assigns(:variable).errors[:grid]
+    assert_template 'new'
+  end
+
   test "should create global variable for librarian" do
     login(users(:librarian))
     assert_difference('Variable.count', 1) do
