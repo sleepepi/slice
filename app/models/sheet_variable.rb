@@ -17,6 +17,7 @@ class SheetVariable < ActiveRecord::Base
     # {"13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
     #  "1346351022118849"=>{"123"=>"1", "494"=>[""], "493"=>""},
     #  "1346351034600475"=>{"494"=>["", "0"], "493"=>""}}
+    response.select!{|key, vhash| vhash.values.select{|v| (not v.kind_of?(Array) and not v.blank?) or (v.kind_of?(Array) and not v.join.blank?)}.size > 0}
     response.each_with_index do |(key, variable_response_hash), position|
       variable_response_hash.each_pair do |variable_id, res|
         grid = self.grids.find_or_create_by_variable_id_and_position(variable_id, position, { user_id: self.user_id })
