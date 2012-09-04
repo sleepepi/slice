@@ -32,33 +32,64 @@
         <% unless index == 0 %></tbody></table><table class="table table-striped table-bordered" style="width:100%"><col width="60%"/><col width="40%"/><tbody><% end %>
         <tr><td colspan="2"><h4><%= @option[:section_name] %></h4></td></tr>
       <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-
-        <% unless @variable.header.blank? %>
-          <tr><td colspan="2" style="padding-left:20px"><i><%= @variable.header %></i></td></tr>
-        <% end %>
-
-        <tr>
-          <td style="padding-left:40px"><%= @variable.display_name %></td>
-          <td>
-            <% if @variable.variable_type == 'text' %>
-              <%= simple_format @variable.response_name(@sheet).to_s %>
-            <% elsif @variable.variable_type == 'checkbox' %>
-              <% @variable.response_name(@sheet).each do |response| %>
-                <p><%= response %></p>
+        <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
+          </tbody></table>
+          <% @variable.header unless @variable.header.blank? %>
+          <h4><%= @variable.display_name %></h4>
+          <table class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <% @variable.grid_variables.each do |grid_variable| %>
+                <th>
+                  <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
+                  <%= v.display_name if v %>
+                </th>
               <% end %>
-            <% elsif @variable.variable_type == 'file' and @variable.response_file(@sheet).size > 0 %>
-              <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.downcase) %>
-                <%= image_tag @variable.response_file_url(@sheet), style: "height:64px;border:0px solid white" %>
+            </thead>
+            <tbody>
+
+              <% (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position| %>
+                <tr>
+                  <% @variable.grid_variables.each do |grid_variable| %>
+                    <td>
+                      <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
+                      <%= grid.response_label if grid %>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <table class="table table-striped table-bordered" style="width:100%"><col width="60%"/><col width="40%"/><tbody>
+        <% else %>
+
+          <% unless @variable.header.blank? %>
+            <tr><td colspan="2" style="padding-left:20px"><i><%= @variable.header %></i></td></tr>
+          <% end %>
+
+          <tr>
+            <td style="padding-left:40px"><%= @variable.display_name %></td>
+            <td>
+              <% if @variable.variable_type == 'text' %>
+                <%= simple_format @variable.response_name(@sheet).to_s %>
+              <% elsif @variable.variable_type == 'checkbox' %>
+                <% @variable.response_name(@sheet).each do |response| %>
+                  <p><%= response %></p>
+                <% end %>
+              <% elsif @variable.variable_type == 'file' and @variable.response_file(@sheet).size > 0 %>
+                <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.downcase) %>
+                  <%= image_tag @variable.response_file_url(@sheet), style: "height:64px;border:0px solid white" %>
+                <% else %>
+                  <%= @variable.response_file_url(@sheet).split('/').last %>
+                <% end %>
+              <% elsif not @variable.units.blank? %>
+                <%= @variable.response_name(@sheet) %> <%= @variable.units unless @variable.response_name(@sheet).blank? %>
               <% else %>
-                <%= @variable.response_file_url(@sheet).split('/').last %>
+                <%= @variable.response_name(@sheet) %>
               <% end %>
-            <% elsif not @variable.units.blank? %>
-              <%= @variable.response_name(@sheet) %> <%= @variable.units unless @variable.response_name(@sheet).blank? %>
-            <% else %>
-              <%= @variable.response_name(@sheet) %>
-            <% end %>
-          </td>
-        </tr>
+            </td>
+          </tr>
+
+        <% end %>
       <% end %>
     <% end %>
   </tbody>
