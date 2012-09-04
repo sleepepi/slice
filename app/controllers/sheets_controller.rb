@@ -175,10 +175,17 @@ class SheetsController < ApplicationController
 
   def remove_file
     @sheet = current_user.all_sheets.find_by_id(params[:id])
-    @sheet_variable = @sheet.sheet_variables.find_by_variable_id(params[:variable_id]) if @sheet
-    @variable = @sheet_variable.variable if @sheet_variable
-    if @sheet_variable and @variable
-      @sheet_variable.remove_response_file!
+    @sheet_variable = @sheet.sheet_variables.find_by_id(params[:sheet_variable_id]) if @sheet
+
+    @object = if params[:position].blank? or params[:variable_id].blank?
+      @sheet_variable if @sheet and @sheet_variable # SheetVariable
+    else
+      @sheet_variable.grids.find_by_variable_id_and_position(params[:variable_id], params[:position].to_i) if @sheet_variable  # Grid
+    end
+
+    @variable = @sheet_variable.variable if @object
+    if @object and @variable
+      @object.remove_response_file!
     else
       render nothing: true
     end

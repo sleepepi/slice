@@ -1,7 +1,6 @@
 <% is_grid = defined?(grid) %>
 
-<% if is_grid %>
-  <%= variable.response_name_helper(response) %>
-<% else %>
-  <%= variable.response_name(@sheet) %>
-<% end %>
+<% response = {} %>
+<% response = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
+
+<span rel="tooltip" title="<%= response[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= response[:value] %>: <%= response[:name] %></span>

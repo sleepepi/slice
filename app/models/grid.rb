@@ -1,5 +1,5 @@
 class Grid < ActiveRecord::Base
-  attr_accessible :response, :response_file, :sheet_variable_id, :user_id, :variable_id, :position
+  attr_accessible :response, :response_file, :response_file_cache, :sheet_variable_id, :user_id, :variable_id, :position
 
   belongs_to :sheet_variable, touch: true
   belongs_to :variable

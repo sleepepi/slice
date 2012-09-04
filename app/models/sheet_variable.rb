@@ -83,9 +83,17 @@ class SheetVariable < ActiveRecord::Base
     elsif ['file'].include?(object.variable.variable_type)
       if object.response_file.size > 0
         result[:name] = object.response_file.to_s.split('/').last
-        result[:value] = object.response_file.to_s.split('/').last
+        result[:value] = object.response_file
         result[:description] = object.variable.description
       end
+    elsif ['date'].include?(object.variable.variable_type)
+      result[:name] = object.response # Potentially format this in the future
+      result[:value] = object.response
+      result[:description] = object.variable.description
+    elsif ['string'].include?(object.variable.variable_type)
+      result[:name] = object.response
+      result[:value] = object.response
+      result[:description] = object.variable.description
     end
     result
   end

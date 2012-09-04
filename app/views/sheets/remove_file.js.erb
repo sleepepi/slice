@@ -1,1 +1,1 @@
-$("#variable_<%= @variable.id %>_file_container").html("<%= escape_javascript(render partial: "variables/response_file", locals: { variable: @variable }) %>");
+$("#variable<%= "_#{@variable.id}" if @object.kind_of?(Grid) %><%= "_#{params[:position]}" if @object.kind_of?(Grid) %>_<%= @object.variable.id %>_file_container").html("");

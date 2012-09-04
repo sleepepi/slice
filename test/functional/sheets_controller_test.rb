@@ -159,7 +159,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should remove attached file" do
-    post :remove_file, id: sheets(:file_attached), variable_id: variables(:file), format: 'js'
+    post :remove_file, id: sheets(:file_attached), sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil, format: 'js'
 
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:variable)
@@ -170,7 +170,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should not remove attached file" do
     login(users(:site_one_user))
-    post :remove_file, id: sheets(:file_attached), variable_id: variables(:file), format: 'js'
+    post :remove_file, id: sheets(:file_attached), sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil, format: 'js'
 
     assert_nil assigns(:sheet)
     assert_nil assigns(:variable)

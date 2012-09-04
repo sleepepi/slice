@@ -3,5 +3,4 @@
 <% response = {} %>
 <% response = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
 
-
 <span rel="tooltip" title="<%= response[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= response[:name] %></span>
