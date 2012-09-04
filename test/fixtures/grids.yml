@@ -6,7 +6,7 @@ one:
   variable: one
   response: MyText
   response_file: MyText
-  position: 1346421705668091
+  position: 0
   user: valid
 
 two:
@@ -14,7 +14,7 @@ two:
   variable: one
   response: MyText
   response_file: MyText
-  position: 1346421728304564
+  position: 1
   user: valid
 
 # This grid had "Option 1" selected that was incorrectly mapped to the value '2'
