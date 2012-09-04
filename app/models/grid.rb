@@ -9,4 +9,33 @@ class Grid < ActiveRecord::Base
 
   mount_uploader :response_file, GenericUploader
 
+
+  def response_raw
+    case self.variable.variable_type when 'checkbox'
+      array = YAML::load(self.response) rescue array = []
+      self.variable.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
+    when 'file'
+      self.response_file.to_s.split('/').last
+    else
+      self.response
+    end
+  end
+
+  def response_label
+    if self.variable.variable_type == 'checkbox'
+      array = YAML::load(self.response) rescue array = []
+      self.variable.options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}.join(',')
+    elsif ['dropdown', 'radio'].include?(self.variable.variable_type)
+      hash = (self.variable.options.select{|option| option[:value] == self.response}.first || {})
+      [hash[:value], hash[:name]].compact.join(': ')
+    elsif ['integer', 'numeric'].include?(self.variable.variable_type)
+      hash = self.variable.options_only_missing.select{|option| option[:value] == self.response}.first
+      hash.blank? ? self.response : hash[:name]
+    elsif self.variable.variable_type == 'file'
+      self.response_file.to_s.split('/').last
+    else
+      self.response
+    end
+  end
+
 end

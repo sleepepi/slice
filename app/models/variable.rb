@@ -212,15 +212,25 @@ class Variable < ActiveRecord::Base
   end
 
   def response_name_helper(response, sheet=nil)
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+
     if ['dropdown', 'radio'].include?(self.variable_type)
       hash = (self.options.select{|option| option[:value] == response}.first || {})
       [hash[:value], hash[:name]].compact.join(': ')
     elsif ['checkbox'].include?(self.variable_type)
       response = YAML::load(response) rescue response = [] unless response.kind_of?(Array)
       self.options.select{|option| response.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
-    elsif ['grid'].include?(self.variable_type)
-      response = YAML::load(response) rescue response = {} unless response.kind_of?(Hash)
-      response
+    elsif ['grid'].include?(self.variable_type) and sheet_variable
+      grid_labeled = []
+      (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
+        self.grid_variables.each do |grid_variable|
+          grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
+          grid_labeled[position] ||= {}
+          grid_labeled[position][grid.variable.name] = grid.response_label if grid
+        end
+      end
+      grid_labeled.to_json
+
     elsif ['integer', 'numeric'].include?(self.variable_type)
       hash = self.options_only_missing.select{|option| option[:value] == response}.first
       hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
@@ -245,7 +255,17 @@ class Variable < ActiveRecord::Base
       hash[:name]
     elsif ['checkbox'].include?(self.variable_type)
       array = YAML::load(response) rescue array = []
-      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}
+      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}.join(',')
+    elsif ['grid'].include?(self.variable_type) and sheet_variable
+      grid_labeled = []
+      (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
+        self.grid_variables.each do |grid_variable|
+          grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
+          grid_labeled[position] ||= {}
+          grid_labeled[position][grid.variable.name] = grid.response_label if grid
+        end
+      end
+      grid_labeled.to_json
     elsif ['integer', 'numeric'].include?(self.variable_type)
       hash = self.options_only_missing.select{|option| option[:value] == response}.first
       hash.blank? ? response : hash[:name]
@@ -266,6 +286,16 @@ class Variable < ActiveRecord::Base
       self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
     elsif ['file'].include?(self.variable_type)
       self.response_file(sheet).to_s.split('/').last
+    elsif ['grid'].include?(self.variable_type) and sheet_variable
+      grid_raw = []
+      (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
+        self.grid_variables.each do |grid_variable|
+          grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
+          grid_raw[position] ||= {}
+          grid_raw[position][grid.variable_id] = grid.response_raw if grid
+        end
+      end
+      grid_raw.to_json
     else
       response
     end
