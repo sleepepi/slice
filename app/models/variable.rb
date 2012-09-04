@@ -222,6 +222,7 @@ class Variable < ActiveRecord::Base
     result
   end
 
+
   def response_name_helper(response, sheet=nil)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
 

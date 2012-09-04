@@ -32,6 +32,8 @@ jQuery ->
 
   $("[rel=popover]").popover( offset: 10 )
 
+  $("span[rel~=tooltip]").tooltip( trigger: 'hover' )
+
   window.$isDirty = false
   msg = 'You haven\'t saved your changes.'
 

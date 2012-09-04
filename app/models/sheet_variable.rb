@@ -44,6 +44,51 @@ class SheetVariable < ActiveRecord::Base
     response
   end
 
+
+  # Return a hash that represents the name, value, and description of the response
+  # Ex: Given Variable Gender With Response Male, returns: { label: 'Male', value: 'm', description: 'Male gender of human species' }
+  def response_hash(position = nil, variable_id = nil)
+    result = { name: '', value: '', description: '' }
+
+    object = if position.blank? or variable_id.blank?
+      self # SheetVariable
+    else
+      self.grids.find_by_variable_id_and_position(variable_id, position) # Grid
+    end
+
+    if ['dropdown', 'radio'].include?(object.variable.variable_type)
+      hash = (object.variable.options.select{|option| option[:value] == object.response}.first || {})
+      result[:name] = hash[:name]
+      result[:value] = hash[:value]
+      result[:description] = hash[:description]
+    elsif ['checkbox'].include?(object.variable.variable_type)
+      results = []
+      object.variable.options.select{|option| object.response.include?(option[:value])}.each do |option|
+        result = { name: option[:name], value: option[:value], description: option[:description] }
+        results << result
+      end
+      result = results
+    elsif ['integer', 'numeric'].include?(object.variable.variable_type)
+      hash = object.variable.options_only_missing.select{|option| option[:value] == object.response}.first
+      if hash.blank?
+        result[:name] = object.response + (object.variable.units.blank? ? '' : " #{object.variable.units}")
+        result[:value] = object.response
+        result[:description] = object.variable.description
+      else
+        result[:name] = hash[:name]
+        result[:value] = hash[:value]
+        result[:description] = hash[:description]
+      end
+    elsif ['file'].include?(object.variable.variable_type)
+      if object.response_file.size > 0
+        result[:name] = object.response_file.to_s.split('/').last
+        result[:value] = object.response_file.to_s.split('/').last
+        result[:description] = object.variable.description
+      end
+    end
+    result
+  end
+
   private
 
   # Copied from Application Controller

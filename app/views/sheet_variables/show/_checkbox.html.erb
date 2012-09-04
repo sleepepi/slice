@@ -1,13 +1,10 @@
 <% is_grid = defined?(grid) %>
 
-<% if is_grid %>
-  <% variable.response_name_helper(response).each do |r| %>
-    <%= r %>
-  <% end %>
-<% else %>
-  <% variable.response_name(@sheet).each do |response| %>
-    <p>
-      <%= response %>
-    </p>
-  <% end %>
+<% responses = [] %>
+<% responses = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
+
+<% responses.each do |hash| %>
+  <% unless is_grid %><p><% end %>
+  <span rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= hash[:value] %>: <%= hash[:name] %></span>
+  <% unless is_grid %></p><% end %>
 <% end %>
