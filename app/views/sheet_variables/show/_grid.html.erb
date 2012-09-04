@@ -17,7 +17,6 @@
             <td>
               <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
               <% if grid and Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) %>
-              <%= grid_variable[:control_size] %>
                 <%= render partial: "sheet_variables/show/#{grid.variable.variable_type}", locals: { response: grid.response, variable: grid.variable, grid: variable, sheet_variable: sheet_variable, position: position } unless grid.variable.variable_type == 'grid' %>
               <% end %>
             </td>
