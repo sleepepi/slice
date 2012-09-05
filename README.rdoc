@@ -1,4 +1,4 @@
-= Reading Center Interface {<img src="https://secure.travis-ci.org/remomueller/reading.png"/>}[http://travis-ci.org/remomueller/reading] {<img src="https://gemnasium.com/remomueller/reading.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/reading]
+= Reading Center Interface {<img src="https://secure.travis-ci.org/remomueller/reading.png"/>}[http://travis-ci.org/remomueller/reading] {<img src="https://gemnasium.com/remomueller/reading.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/reading] {<img src="https://codeclimate.com/badge.png" />}[https://codeclimate.com/github/remomueller/reading]
 
 Reading Center Interface for dynamic PDF report generation and quality checking. Using Rails 3.2+ and Ruby 1.9.3+.
 
