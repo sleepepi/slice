@@ -1,16 +1,19 @@
 == 0.7.0
 
 * Enhancements
-  * Units now available for numeric and integer variables
-  * Projects and Sites are now sorted alphabetically when creating a sheet
-  * Unsaved changes while editing sheets now asks the user if they want leave the page
-  * Add last_emailed_at to sheets
-  * Designs can be split across multiple pages by setting "break before" to true on a section
-  * Grid variable added that can display a list of variables in a grid format
-    * Variables in a grid can also be repeated if more rows are needed in the grid
-    * Variable control sizes can be defined for grid variables
-  * Sheets on projects with acrostic enabled now display the subject's acrostic on the PDF
-  * Subject acrostic added to data exports
+  * Design Changes
+    * Multi-page designs can be created by setting "break before" to true on sections
+  * Sheet Changes
+    * Projects and Sites are now sorted alphabetically when creating a sheet
+    * Unsaved changes while editing sheets now asks the user if they want leave the page
+    * Add last_emailed_at to sheets
+    * Sheets on projects with acrostic enabled now display the subject's acrostic on the PDF
+    * Subject acrostic added to data exports
+  * Variable Changes
+    * Units now available for numeric, integer, and calculated variables
+    * Grid variable added that can display a list of variables in a grid format
+      * Variables in a grid can also be repeated if more rows are needed in the grid
+      * Variable input control sizes can be defined for grid variables
 
 * Bug Fix
   * Updating a subject's acrostic when editing a sheet now correctly updates the subject's acrostic
