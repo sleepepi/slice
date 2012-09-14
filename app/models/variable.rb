@@ -41,6 +41,10 @@ class Variable < ActiveRecord::Base
   has_many :grids
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
+  def autocomplete_array
+    self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}
+  end
+
   # Model Methods
   def destroy
     update_column :deleted, true

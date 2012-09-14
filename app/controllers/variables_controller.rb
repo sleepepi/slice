@@ -4,7 +4,7 @@ class VariablesController < ApplicationController
   def typeahead
     @variable = current_user.all_viewable_variables.find_by_id(params[:id])
     if @variable and ['string'].include?(@variable.variable_type)
-      render json: @variable.autocomplete_values.to_s.split(/[,\n\r]/).collect{|i| i.strip}
+      render json: @variable.autocomplete_array
     else
       render json: []
     end

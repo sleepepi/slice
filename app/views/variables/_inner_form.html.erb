@@ -167,6 +167,15 @@
 <div class="control-group" data-object="autocomplete">
   <%= f.label :autocomplete_values, nil, class: 'control-label' %>
   <div class="controls">
-    <%= f.text_area :autocomplete_values, rows: 7, style: 'width:95%', rel: "tooltip", title: "Comma-separated Strings" %>
+    <%= f.text_area :autocomplete_values, rows: 7, style: 'width:95%', rel: "tooltip", title: "Line-separated Strings" %>
+  </div>
+</div>
+
+<div class="control-group" data-object="autocomplete">
+  <label class="control-label">User submitted</label>
+  <div class="controls">
+    <div style="line-height:30px">
+      <%= @variable.sheet_variables.collect{|sv| sv.response }.select{|res| not @variable.autocomplete_array.include?(res.strip)}.join(', ') %>
+    </div>
   </div>
 </div>
