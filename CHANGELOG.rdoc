@@ -4,6 +4,9 @@
   * Autocomplete values can be added to string variables
   * Detailed sheet information added to popup on the sheets show page
 
+* Bug Fix
+  * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position
+
 == 0.7.0
 
 * Enhancements

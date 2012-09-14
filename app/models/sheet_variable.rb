@@ -1,5 +1,5 @@
 class SheetVariable < ActiveRecord::Base
-  attr_accessible :response, :sheet_id, :user_id, :variable_id, :response_file, :response_file_uploaded_at, :response_file_cache
+  attr_accessible :response, :sheet_id, :user_id, :variable_id, :response_file, :response_file_uploaded_at, :response_file_cache, :remove_response_file
 
   belongs_to :sheet, touch: true
   belongs_to :variable
@@ -21,6 +21,19 @@ class SheetVariable < ActiveRecord::Base
     response.each_with_index do |(key, variable_response_hash), position|
       variable_response_hash.each_pair do |variable_id, res|
         grid = self.grids.find_or_create_by_variable_id_and_position(variable_id, position, { user_id: self.user_id })
+        if grid.variable.variable_type == 'file'
+          grid_old = self.grids.find_by_variable_id_and_position(variable_id, key)
+          if not res[:response_file].kind_of?(Hash) or (res[:response_file].kind_of?(Hash) and not res[:response_file][:cache].blank?)
+            # New file added, do nothing
+          elsif grid_old
+            # Found preexisting grid
+            # copy from existing grid
+            res = { response_file: grid_old.response_file }
+          else
+            # No old grid found, remove file
+            res = { remove_response_file: '1' }
+          end
+        end
         grid.update_attributes format_response(grid.variable.variable_type, res)
       end
     end
