@@ -1,6 +1,15 @@
 class VariablesController < ApplicationController
   before_filter :authenticate_user!
 
+  def typeahead
+    @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    if @variable and ['string'].include?(@variable.variable_type)
+      render json: @variable.autocomplete_values.to_s.split(/[,\n\r]/).collect{|i| i.strip}
+    else
+      render json: []
+    end
+  end
+
   def format_number
     @variable = current_user.all_viewable_variables.find_by_id(params[:id])
 
@@ -220,7 +229,9 @@ class VariablesController < ApplicationController
       # For Calculated Variables
       :calculation, :format,
       # For Grid Variables
-      :grid_tokens, :multiple_rows
+      :grid_tokens, :multiple_rows,
+      # For Autocomplete Strings
+      :autocomplete_values
     )
   end
 end

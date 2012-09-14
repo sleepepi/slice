@@ -52,6 +52,7 @@ Reading::Application.routes.draw do
       get :copy
       get :format_number
       post :add_grid_row
+      get :typeahead
     end
     collection do
       post :add_option

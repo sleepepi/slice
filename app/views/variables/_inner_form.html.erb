@@ -163,3 +163,10 @@
 <div class="btn-toolbar" data-object="grid">
   <%= link_to 'Add Another Variable', '#', id: 'add_grid_variable', class: 'btn btn-mini', data: { position: 'bottom' } %>
 </div>
+
+<div class="control-group" data-object="autocomplete">
+  <%= f.label :autocomplete_values, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_area :autocomplete_values, rows: 7, style: 'width:95%', rel: "tooltip", title: "Comma-separated Strings" %>
+  </div>
+</div>

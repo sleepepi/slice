@@ -66,6 +66,11 @@
     <dd><%= @variable.format %></dd>
   <% end %>
 
+  <% if ['string'].include?(@variable.variable_type) %>
+    <dt>Autocomplete Values</dt>
+    <dd><%= @variable.autocomplete_values %></dd>
+  <% end %>
+
   <dt>Creator</dt>
   <dd><%= link_to @variable.user.name, @variable.user if @variable.user %></dd>
 

@@ -9,6 +9,20 @@ $(".datepicker").datepicker({
 });
 $("#ui-datepicker-div").hide();
 
+$('[data-object~="variable-typeahead"]').each(function() {
+  var $this = $(this);
+  $this.typeahead({
+    source: function(query, process) {
+      var variable_id = $this.data('variable-id');
+      return $.get(root_url + 'variables/' + variable_id + '/typeahead', {
+        query: query
+      }, function(data) {
+        return process(data);
+      });
+    }
+  });
+});
+
 <% if @design and params[:current_design_page].to_i < @design.total_pages %>
   $('#sheet_submit_btn').val('Next Page');
 <% elsif @sheet.new_record? %>
@@ -17,7 +31,9 @@ $("#ui-datepicker-div").hide();
   $('#sheet_submit_btn').val('Update Sheet');
 <% end %>
 
-$('#sheet_submit_btn').data('page') = <%= params[:current_design_page].to_i + 1 %>;
+$('#sheet_submit_btn').data('page', '<%= params[:current_design_page].to_i + 1 %>');
+
+$("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
 
 <% if @design %>
 
@@ -34,8 +50,6 @@ $('#sheet_submit_btn').data('page') = <%= params[:current_design_page].to_i + 1 
 
 updateAllVariables();
 updateCalculatedVariables();
-
-$("[rel=popover]").popover({offset: 10});
 
 $('[data-spy="scroll"]').each(function () {
   var $spy = $(this).scrollspy('refresh')

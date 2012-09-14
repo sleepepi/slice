@@ -1,5 +1,8 @@
 == 0.8.0
 
+* Enhancements
+  * Autocomplete values can be added to string variables
+
 == 0.7.0
 
 * Enhancements

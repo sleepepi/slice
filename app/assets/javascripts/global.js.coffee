@@ -30,7 +30,7 @@ jQuery ->
     false
   )
 
-  $("[rel=popover]").popover( offset: 10 )
+  $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
 
   $("span[rel~=tooltip]").tooltip( trigger: 'hover' )
 

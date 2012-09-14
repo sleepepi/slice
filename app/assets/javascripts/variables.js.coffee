@@ -27,6 +27,11 @@
     $('[data-object~="calculated-or-number"]').show()
   else
     $('[data-object~="calculated-or-number"]').hide()
+  if $(element).val() in ['string']
+    $('[data-object~="autocomplete"]').show()
+  else
+    $('[data-object~="autocomplete"]').hide()
+
 
 @checkForBlankOptions = () ->
   blank_options = $('[data-object~="option-name"]').filter( () ->
@@ -161,3 +166,14 @@ jQuery ->
     $.post(root_url + 'variables/' + variable_id + '/add_grid_row', null, null, "script")
     false
   )
+
+  $('[data-object~="variable-typeahead"]').each( () ->
+    $this = $(this)
+    $this.typeahead(
+      source: (query, process) ->
+        variable_id = $this.data('variable-id')
+        return $.get(root_url + 'variables/' + variable_id + '/typeahead', query: query, (data) -> return process(data))
+    )
+  )
+
+
