@@ -175,7 +175,7 @@
   <label class="control-label">User submitted</label>
   <div class="controls">
     <div style="line-height:30px">
-      <%= @variable.sheet_variables.select{|sv| not @variable.autocomplete_array.include?(sv.response.strip)}.collect{|sv| link_to sv.response, sv.sheet }.join(', ').html_safe %>
+      <%= @variable.sheet_variables.select{|sv| not @variable.autocomplete_array.include?(sv.response.to_s.strip) and not sv.response.to_s.strip.blank?}.collect{|sv| link_to sv.response.to_s, sv.sheet }.join(', ').html_safe %>
     </div>
   </div>
 </div>
