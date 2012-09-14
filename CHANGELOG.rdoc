@@ -2,6 +2,7 @@
 
 * Enhancements
   * Autocomplete values can be added to string variables
+  * Detailed sheet information added to popup on the sheets show page
 
 == 0.7.0
 

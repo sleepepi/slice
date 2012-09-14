@@ -17,6 +17,11 @@ jQuery ->
     false
   )
 
+  $("#info_popup").on('click', () ->
+    $('#info_modal').modal({ dynamic: true })
+    false
+  )
+
   $(document).on('click', '[data-object~="export"]', () ->
     window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
     false

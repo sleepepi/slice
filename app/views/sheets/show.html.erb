@@ -9,9 +9,32 @@
     <% end %>
     <%= link_to "View Sheets", sheets_path, class: 'btn btn-mini' %>
     <%= link_to "PDF", print_sheet_path(@sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
+    <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
   </h1>
 </div>
 
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <% if @sheet.project.acrostic_enabled? %><th>Acrostic</th><% end %>
+      <th>Project</th>
+      <th>Site</th>
+      <th>Study Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></td>
+      <% if @sheet.project.acrostic_enabled? %><td><%= @sheet.subject.acrostic %></td><% end %>
+      <td><%= @project = @sheet.project; render partial: 'projects/logo_small' %> <%= link_to @sheet.project.name, @sheet.project if @sheet.project %></td>
+      <td><%= link_to @sheet.subject.site.name, @sheet.subject.site if @sheet.subject and @sheet.subject.site %></td>
+      <td><%= @sheet.study_date %></td>
+    </tr>
+  </tbody>
+</table>
+
+<% if false %>
 <div class="row">
   <div class="span6">
     <dl class="dl-horizontal">
@@ -59,11 +82,9 @@
   </div>
 </div>
 
-<%#= @design = @sheet.design; render partial: 'designs/show_section_and_variables' %>
+<% end %>
 
-<div class="page-header">
-  <h3><%= @sheet.name %></h3>
-</div>
+<%#= @design = @sheet.design; render partial: 'designs/show_section_and_variables' %>
 
 <%= @design = @sheet.design; render partial: 'designs/navigation' %>
 
@@ -128,3 +149,62 @@
     </div>
   </div>
 <% end %>
+
+<div id="info_modal" class="modal" style="display:none">
+  <div class="modal-header">
+    <strong><%= @sheet.design.name %></strong> Information
+    <a class="close" data-dismiss="modal">×</a>
+  </div>
+  <div class="modal-body">
+<div class="row">
+  <div class="span6">
+    <dl class="dl-horizontal">
+
+      <dt>Design</dt>
+      <dd><%= link_to @sheet.design.name, @sheet.design %></dd>
+
+      <dt>Study Date</dt>
+      <dd><%= @sheet.study_date %></dd>
+
+      <dt>Project</dt>
+      <dd><%= @project = @sheet.project; render partial: 'projects/logo_small' %> <%= link_to @sheet.project.name, @sheet.project if @sheet.project %></dd>
+
+      <dt>Subject</dt>
+      <dd><%= link_to @sheet.subject.name, @sheet.subject if @sheet.subject %></dd>
+
+      <% if @sheet.subject and not @sheet.subject.acrostic.blank? %>
+        <dt>Acrostic</dt>
+        <dd><%= @sheet.subject.acrostic if @sheet.subject %></dd>
+      <% end %>
+
+      <dt>Site</dt>
+      <dd><%= link_to @sheet.subject.site.name, @sheet.subject.site if @sheet.subject and @sheet.subject.site %></dd>
+
+    </dl>
+  </div>
+  <div class="span6">
+    <dl class="dl-horizontal">
+
+      <dt>Creator</dt>
+      <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
+
+      <dt>Created</dt>
+      <dd><%= simple_time @sheet.created_at %>
+
+      <dt>Last Updated By</dt>
+      <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
+
+      <dt>Updated</dt>
+      <dd><%= simple_time @sheet.updated_at %>
+
+      <dt>Last Emailed</dt>
+      <dd><%= simple_time @sheet.last_emailed_at %>
+    </dl>
+  </div>
+</div>
+  </div>
+
+  <div class="modal-footer">
+    <%= link_to 'Close', '#', class: 'btn', data: { target: '#info_modal', object: 'modal-hide' } %>
+  </div>
+</div>
