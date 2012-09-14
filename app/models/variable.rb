@@ -11,7 +11,7 @@ class Variable < ActiveRecord::Base
                   # Autocomplete
                   :autocomplete_values
 
-  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].collect{|i| [i,i]}
+  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].sort.collect{|i| [i,i]}
   CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
 
   serialize :options, Array
