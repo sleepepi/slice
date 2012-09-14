@@ -156,8 +156,6 @@
     <a class="close" data-dismiss="modal">×</a>
   </div>
   <div class="modal-body">
-<div class="row">
-  <div class="span6">
     <dl class="dl-horizontal">
 
       <dt>Design</dt>
@@ -180,11 +178,6 @@
       <dt>Site</dt>
       <dd><%= link_to @sheet.subject.site.name, @sheet.subject.site if @sheet.subject and @sheet.subject.site %></dd>
 
-    </dl>
-  </div>
-  <div class="span6">
-    <dl class="dl-horizontal">
-
       <dt>Creator</dt>
       <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
 
@@ -200,8 +193,6 @@
       <dt>Last Emailed</dt>
       <dd><%= simple_time @sheet.last_emailed_at %>
     </dl>
-  </div>
-</div>
   </div>
 
   <div class="modal-footer">
