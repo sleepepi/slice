@@ -1,4 +1,4 @@
-<div class="page-header" style="padding-top:76px" id="<%= @option[:section_id] %>" data-object="variable-container">
+<div class="page-header" <% if false %>style="padding-top:76px"<% end %> id="<%= @option[:section_id] %>" data-object="variable-container">
   <h2>
     <%= @option[:section_name] %>
     <small><%= simple_format @option[:section_description] unless @option[:section_description].blank? %></small>
