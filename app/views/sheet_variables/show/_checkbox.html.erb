@@ -5,6 +5,6 @@
 
 <% responses.each do |hash| %>
   <% unless is_grid %><p><% end %>
-  <span rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= hash[:value] %>: <%= hash[:name] %></span>
+  <span rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= "#{hash[:value]}: #{hash[:name]}" unless hash[:value].blank? %></span>
   <% unless is_grid %></p><% end %>
 <% end %>
