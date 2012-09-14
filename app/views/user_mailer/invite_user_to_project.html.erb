@@ -1,0 +1,13 @@
+Hello,<br />
+<br />
+<%= @project_user.creator.name %> has <span style="border:1px solid #003db8;background-color:#a8c5ff">INVITED</span> you to Project <b><%= link_to @project_user.project.name, "#{SITE_URL}/projects/#{@project_user.project.id}" %></b>.<br />
+<br />
+Click the following link to accept the invitation:<br />
+<br />
+<%= link_to SITE_URL + accept_project_users_path(invite_token: @project_user.invite_token), SITE_URL + accept_project_users_path(invite_token: @project_user.invite_token) %><br />
+<br />
+Thank you!<br />
+<br />
+<%= DEFAULT_APP_NAME %> Mailer<br />
+<br />
+<%= @footer_html %>

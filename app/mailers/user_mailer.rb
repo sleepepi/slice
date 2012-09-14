@@ -32,6 +32,22 @@ class UserMailer < ActionMailer::Base
          reply_to: site_user.creator.email)
   end
 
+  def user_added_to_project(project_user)
+    setup_email
+    @project_user = project_user
+    mail(to: project_user.user.email,
+         subject: "#{project_user.creator.name} Allows You to View #{project_user.project.name}",
+         reply_to: project_user.creator.email)
+  end
+
+  def invite_user_to_project(project_user)
+    setup_email
+    @project_user = project_user
+    mail(to: project_user.invite_email,
+         subject: "#{project_user.creator.name} Invites You to View #{project_user.project.name}",
+         reply_to: project_user.creator.email)
+  end
+
   protected
 
   def setup_email

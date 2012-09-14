@@ -20,7 +20,11 @@ Reading::Application.routes.draw do
     end
   end
 
-  resources :project_users
+  resources :project_users do
+    collection do
+      get :accept
+    end
+  end
 
   resources :sheets do
     collection do

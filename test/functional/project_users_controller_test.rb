@@ -19,20 +19,68 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should create project user" do
     assert_difference('ProjectUser.count') do
-      post :create, project_user: { project_id: projects(:one).id, allow_editing: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
+      post :create, project_user: { project_id: projects(:one).id, librarian: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
     end
 
     assert_not_nil assigns(:project_user)
     assert_template 'index'
   end
 
+  test "should create project user invitation" do
+    assert_difference('ProjectUser.count') do
+      post :create, project_user: { project_id: projects(:one).id, librarian: true }, librarians_text: "invite@example.com", format: 'js'
+    end
+
+    assert_not_nil assigns(:project_user)
+    assert_not_nil assigns(:project_user).invite_token
+
+    assert_template 'index'
+  end
+
   test "should not create project user with invalid project id" do
     assert_difference('ProjectUser.count', 0) do
-      post :create, project_user: { project_id: -1, allow_editing: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
+      post :create, project_user: { project_id: -1, librarian: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
     end
 
     assert_nil assigns(:project_user)
     assert_response :success
+  end
+
+  test "should accept project user" do
+    login(users(:two))
+    get :accept, invite_token: project_users(:invited).invite_token
+
+    assert_not_nil assigns(:project_user)
+    assert_equal users(:two), assigns(:project_user).user
+    assert_equal "You have been successfully been added to the project.", flash[:notice]
+    assert_redirected_to assigns(:project_user).project
+  end
+
+  test "should accept existing project user" do
+    get :accept, invite_token: project_users(:two).invite_token
+
+    assert_not_nil assigns(:project_user)
+    assert_equal users(:valid), assigns(:project_user).user
+    assert_equal "You have already been added to #{assigns(:project_user).project.name}.", flash[:notice]
+    assert_redirected_to assigns(:project_user).project
+  end
+
+  test "should not accept invalid token for project user" do
+    get :accept, invite_token: 'imaninvalidtoken'
+
+    assert_nil assigns(:project_user)
+    assert_equal 'Invalid invitation token.', flash[:alert]
+    assert_redirected_to root_path
+  end
+
+  test "should not accept project user if invite token is already claimed" do
+    login(users(:two))
+    get :accept, invite_token: 'validintwo'
+
+    assert_not_nil assigns(:project_user)
+    assert_not_equal users(:two), assigns(:project_user).user
+    assert_equal "This invite has already been claimed.", flash[:alert]
+    assert_redirected_to root_path
   end
 
   # test "should show project_user" do

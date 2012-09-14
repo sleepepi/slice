@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   scope :with_sheet, lambda { |*args| { conditions: ["users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false] }  }
   scope :with_design, lambda { |*args| { conditions: ["users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false] }  }
   scope :with_variable, lambda { |*args| { conditions: ["users.id in (select DISTINCT(variables.user_id) from variables where variables.deleted = ?)", false] }  }
+  scope :with_project, lambda { |*args| { conditions: ["users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.librarian IN (?))", args.first, false, args.first, args[1]] } }
 
   # Model Validation
   validates_presence_of :first_name, :last_name
@@ -39,6 +40,10 @@ class User < ActiveRecord::Base
   has_many :variables, conditions: { deleted: false }
 
   # User Methods
+
+  def associated_users
+    User.current.human.with_project(self.all_projects.pluck(:id), [true, false])
+  end
 
   def pagination_count(model)
     self.pagination[model.to_s].to_i > 0 ? self.pagination[model.to_s].to_i : 25

@@ -1,0 +1,15 @@
+Hello,
+
+<%= @project_user.creator.name %> has invited you to Project <%= @project_user.project.name %> located here <%= "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
+
+Click the following link to accept the invitation:
+
+
+    <%= SITE_URL + accept_project_users_path(invite_token: @project_user.invite_token) %>
+
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> Mailer
+
+<%= @footer_txt %>

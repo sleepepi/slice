@@ -1,0 +1,11 @@
+Hello <%= @project_user.user.first_name %>,
+
+<%= @project_user.creator.name %> has added you to Project <%= @project_user.project.name %> located here <%= "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
+
+<% if @project_user.librarian? %>You may edit the project and add new designs and variables to it!<% else %>You may view the project and add sheets to it!<% end %>
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> Mailer
+
+<%= @footer_txt %>
