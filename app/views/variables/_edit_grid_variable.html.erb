@@ -1,8 +1,8 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 <% @position = position %>
-<div id="variable_<%= position %>">
+<div id="form_grid_variable_<%= position %>">
   <div class="row">
-    <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
+    <%= link_to 'Remove', "#", data: { object: 'remove', target: "form_grid_variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
 
     <div class="span4">
       <div class="control-group" style="margin-bottom:0px">

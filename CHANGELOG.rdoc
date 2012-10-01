@@ -8,6 +8,7 @@
 * Bug Fix
   * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position
   * Date and Time fields now display properly in grid views
+  * Editing Grid variables from design page popup fixed
 
 == 0.7.0
 

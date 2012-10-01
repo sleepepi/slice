@@ -127,7 +127,7 @@ jQuery ->
     false
   )
 
-  $('#variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
+  $('#variables[data-object~="sortable"], #form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
   $('#reorder_design_button').on('click', () ->
     if $(this).attr('disabled') != 'disabled'
@@ -207,8 +207,9 @@ jQuery ->
   )
 
   $('.chzn-select').chosen()
+  $('.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
 
-  $("#variables div").last().click()
+  $("#variables div, #form_grid_variables div").last().click()
 
 
   # $('[data-object~="variable-load"]').change( () ->
