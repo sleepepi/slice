@@ -9,6 +9,7 @@
   * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position
   * Date and Time fields now display properly in grid views
   * Editing Grid variables from design page popup fixed
+  * Reordering sections and variables on a design fixed when attempting to reorder after saving once
 
 == 0.7.0
 
