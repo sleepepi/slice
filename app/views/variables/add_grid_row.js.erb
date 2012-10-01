@@ -1,4 +1,12 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 $("#variable_<%= @variable.id %>_grid_container").append("<%= escape_javascript(render partial: "sheet_variables/form/grid_variables", locals: { disabled: false, sheet_variable: nil, position: position, variable: @variable } ) %>");
 
-$('#variable_<%= @variable.id %>_grid_container .chzn-select').chosen();
+$('#variable_<%= @variable.id %>_grid_container .chzn-select').chosen({ allow_single_deselect: true });
+$('#variable_<%= @variable.id %>_grid_container .timepicker').timepicker({ 'timeFormat': 'H:i:s' });
+$('#variable_<%= @variable.id %>_grid_container .datepicker').datepicker({
+  showOtherMonths: true,
+  selectOtherMonths: true,
+  changeMonth: true,
+  changeYear: true
+});
+$("#ui-datepicker-div").hide();
