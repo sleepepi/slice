@@ -10,6 +10,7 @@
     * Added more options for email templates
       * Project Name: #(project)
       * Design Date: #(design)
+    * Simple HTML formatting available for email templates
 
 * Bug Fix
   * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position
