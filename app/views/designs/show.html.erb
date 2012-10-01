@@ -20,6 +20,9 @@
   <dt>Creator</dt>
   <dd><%= link_to @design.user.name, @design.user if @design.user %></dd>
 
+  <dt>Email Subject Template</dt>
+  <dd><%= @design.email_subject_template %></dd>
+
   <dt>Email Template</dt>
   <dd><%= simple_format @design.email_template if @design.email_template %></dd>
 </dl>

@@ -57,12 +57,26 @@ class Sheet < ActiveRecord::Base
     self.update_column :last_emailed_at, Time.now
   end
 
+  def email_subject_template(current_user)
+    return "#{self.project.name} #{self.name} Receipt: #{self.subject.subject_code}" if self.design.email_subject_template.to_s.strip.blank?
+    result = ''
+    result = self.design.email_subject_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
+    result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
+    result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
+    result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
+    result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
+    result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
+    result
+  end
+
   def email_body_template(current_user)
     result = ''
     result = self.design.email_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
     result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
     result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
     result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
+    result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
+    result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
     result
   end
 
@@ -99,7 +113,11 @@ class Sheet < ActiveRecord::Base
     self.study_date
   end
 
-  def email_subject_template(current_user)
-    "#{self.project.name} #{self.name} Receipt: #{self.subject.subject_code}"
+  def project_replacement(property)
+    self.project.name
+  end
+
+  def design_replacement(property)
+    self.design.name
   end
 end

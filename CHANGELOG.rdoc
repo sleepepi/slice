@@ -5,6 +5,12 @@
   * Detailed sheet information added to popup on the sheets show page
   * New users can now be added to projects by email
 
+   * Design Changes
+    * Email subjects can be configured
+    * Added more options for email templates
+      * Project Name: #(project)
+      * Design Date: #(design)
+
 * Bug Fix
   * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position
   * Date and Time fields now display properly in grid views

@@ -1,5 +1,5 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :updater_id
+  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id
 
   serialize :options, Array
 
