@@ -1,5 +1,7 @@
 <%# sheets = @project.sheets.scoped() %>
-<% sheets = @project.sheets.sheet_after(Date.today - 1.year).sheet_before(Date.today + 6.months).scoped() %>
+<% sheets = @project.sheets.scoped() %>
+<% sheets = sheets.sheet_after(@sheet_after) unless @sheet_after.blank? %>
+<% sheets = sheets.sheet_before(@sheet_before) unless @sheet_before.blank? %>
 
 <% by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "week" # "month" or "year" %>
 <% percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none' %>

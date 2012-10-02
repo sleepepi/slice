@@ -4,6 +4,9 @@ class ProjectsController < ApplicationController
   def report
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
 
+    @sheet_before = parse_date(params[:sheet_before])
+    @sheet_after = parse_date(params[:sheet_after])
+
     respond_to do |format|
       if @project
         format.html # report.html.erb
