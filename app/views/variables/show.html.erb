@@ -21,6 +21,9 @@
   <dt>Display Name</dt>
   <dd><%= @variable.display_name %></dd>
 
+  <dt>Hide display name</dt>
+  <dd><%= simple_check @variable.hide_display_name? %></dd>
+
   <dt>Description</dt>
   <dd><%= simple_format @variable.description %></dd>
 

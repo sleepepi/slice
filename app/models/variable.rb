@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :updater_id,
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :updater_id, :hide_display_name,
                   # Integer and Numeric
                   :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
                   # Date
