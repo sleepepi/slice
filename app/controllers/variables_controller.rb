@@ -221,13 +221,15 @@ class VariablesController < ApplicationController
     end
 
     params[:variable].slice(
-      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id, :updater_id, :hide_display_name,
+      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id, :updater_id, :hide_display_name, :prepend, :append,
       # For Integers and Numerics
-      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :units,
+      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
       # For Dates
       :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
       # For Calculated Variables
       :calculation, :format,
+      # For Integer, Numeric, and Calculated
+      :units,
       # For Grid Variables
       :grid_tokens, :multiple_rows,
       # For Autocomplete Strings

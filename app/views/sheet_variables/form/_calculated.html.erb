@@ -2,11 +2,13 @@
 
 <% location_id = field_name.gsub('[','_').gsub(']', '') %>
 
-<div class="<% unless variable.units.blank? %>input-append<% end %>" style="display:inline-block">
+<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> <% unless variable.units.blank? and variable.append.blank? %>input-append<% end %>" style="display:inline-block">
   <%= hidden_field_tag field_name, response, disabled: disabled, data: { object: 'calculated', calculation: variable.calculation, variable_id: variable.id, target: "##{location_id}_calculation_result", name: variable.name } %>
 
+  <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
   <%= text_field_tag "#{location_id}_calculation_result", response, disabled: 'disabled', rel: "#{'popover' unless variable.calculation.blank?}",
                      data: { content: "<tt><center>#{variable.calculation}</center></tt>#{simple_format ("<hr/>" + variable.description.to_s) unless variable.description.blank?}",
                              title: variable.display_name } %>
   <% unless variable.units.blank? %><span class="add-on"><%= variable.units %></span><% end %>
+  <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
 </div>

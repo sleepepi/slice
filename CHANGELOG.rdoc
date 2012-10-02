@@ -12,6 +12,7 @@
     * Simple HTML formatting available for email templates
   * Variable Changes
     * Display name can be hidden for variables to avoid redundancy with header
+    * Extra strings can be prepended and appended to variables
 
 * Bug Fix
   * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position

@@ -11,6 +11,7 @@
 	-moz-box-shadow:0 5px 10px rgba(0,0,0,0.2);
 	box-shadow:0 5px 10px rgba(0,0,0,0.2);
 	outline: none;
+	font-size: 14px;
 }
 
 .ui-timepicker-list.ui-timepicker-with-duration {

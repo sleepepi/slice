@@ -30,6 +30,12 @@
   <dt>Variable Type</dt>
   <dd><span class="label label-<%= @variable.variable_type %>"><%= @variable.variable_type %></span></dd>
 
+  <dt>Prepend</dt>
+  <dd><%= @variable.prepend %></dd>
+
+  <dt>Append</dt>
+  <dd><%= @variable.append %></dd>
+
   <% if ['integer', 'numeric'].include?(@variable.variable_type) %>
     <dt>Hard Minimum</dt>
     <dd><%= @variable.hard_minimum %></dd>
@@ -42,7 +48,9 @@
 
     <dt>Soft Maximum</dt>
     <dd><%= @variable.soft_maximum %></dd>
+  <% end %>
 
+  <% if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type) %>
     <dt>Units</dt>
     <dd><%= @variable.units %></dd>
   <% end %>

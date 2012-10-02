@@ -1,3 +1,7 @@
 <% is_grid = defined?(grid) %>
 
-<%= text_field_tag field_name, (Time.parse(response).strftime('%H:%M:%S') rescue response), class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}", data: { content: variable.description, title: variable.display_name, object: "condition" }, rel: "tooltip #{'popover' unless variable.description.blank?}", disabled: disabled, title: variable.display_name %>
+<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> <% unless variable.append.blank? %>input-append<% end %>" style="display:inline-block">
+  <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
+  <%= text_field_tag field_name, (Time.parse(response).strftime('%H:%M:%S') rescue response), class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}", data: { content: variable.description, title: variable.display_name, object: "condition", placement: 'right' }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name %>
+  <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+</div>

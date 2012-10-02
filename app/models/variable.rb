@@ -1,11 +1,13 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :updater_id, :hide_display_name,
+  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :updater_id, :hide_display_name, :prepend, :append,
                   # Integer and Numeric
                   :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
                   # Date
                   :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
                   # Calculated
-                  :calculation, :format, :units,
+                  :calculation, :format,
+                  # Integer and Numeric and Calculated
+                  :units,
                   # Grid
                   :grid_tokens, :grid_variables, :multiple_rows,
                   # Autocomplete
