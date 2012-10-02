@@ -85,7 +85,10 @@ class SheetVariable < ActiveRecord::Base
     elsif ['integer', 'numeric', 'calculated'].include?(object.variable.variable_type)
       hash = object.variable.options_only_missing.select{|option| option[:value] == object.response}.first
       if hash.blank?
-        result[:name] = object.response + ((not object.response.blank? and not object.response == 'NaN' and not object.variable.units.blank?) ? " #{object.variable.units}" : '')
+        result[:name] = ((not object.response.blank? and not object.response == 'NaN' and not object.variable.prepend.blank?) ? "#{object.variable.prepend} " : '') +
+                        object.response +
+                        ((not object.response.blank? and not object.response == 'NaN' and not object.variable.units.blank?) ? " #{object.variable.units}" : '') +
+                        ((not object.response.blank? and not object.response == 'NaN' and not object.variable.append.blank?) ? " #{object.variable.append}" : '')
         result[:value] = object.response
         result[:description] = object.variable.description
       else
@@ -100,19 +103,28 @@ class SheetVariable < ActiveRecord::Base
         result[:description] = object.variable.description
       end
     elsif ['date'].include?(object.variable.variable_type)
-      result[:name] = object.response # Potentially format this in the future
+      result[:name] = object.response_with_add_on # Potentially format this in the future
       result[:value] = object.response
       result[:description] = object.variable.description
     elsif ['time'].include?(object.variable.variable_type)
-      result[:name] = object.response # Potentially format this in the future
+      result[:name] = object.response_with_add_on # Potentially format this in the future
       result[:value] = object.response
       result[:description] = object.variable.description
     elsif ['string', 'text'].include?(object.variable.variable_type)
-      result[:name] = object.response
+      result[:name] = object.response_with_add_on
       result[:value] = object.response
       result[:description] = object.variable.description
     end
     result
+  end
+
+  def response_with_add_on
+    prepend_string = ''
+    append_string = ''
+
+    prepend_string = self.variable.prepend + " " if not self.response.blank? and not self.variable.prepend.blank?
+    append_string =  " " + self.variable.append if not self.response.blank? and not self.variable.append.blank?
+    prepend_string + self.response + append_string
   end
 
   private
@@ -126,6 +138,5 @@ class SheetVariable < ActiveRecord::Base
   def parse_time(time_string, default_time = '')
     Time.parse(time_string).strftime('%H:%M:%S') rescue default_time
   end
-
 
 end
