@@ -17,6 +17,8 @@ Reading::Application.routes.draw do
   resources :projects do
     member do
       post :remove_file
+      get :report
+      post :report
     end
   end
 

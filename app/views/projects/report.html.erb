@@ -1,0 +1,29 @@
+<% @title = "#{@project.name} Report" %>
+  <h3>
+    <%= pluralize @project.designs.count, ' design' %> for <b><%= link_to @project.name, @project %></b>
+  </h3>
+
+
+<%= form_tag report_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, id: 'report_form' do %>
+  <% by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "week" # "month" or "year" %>
+  <%= hidden_field_tag :by, by %>
+
+  <% percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none' %>
+  <%= hidden_field_tag :percent, percent %>
+
+  <div class="btn-toolbar">
+    <div class="btn-group" data-toggle="buttons-radio">
+      <button data-object="set-by" data-value="week" class="btn btn-mini <%= 'active' if by == 'week' %>">Week</button>
+      <button data-object="set-by" data-value="month" class="btn btn-mini <%= 'active' if by == 'month' %>">Month</button>
+      <button data-object="set-by" data-value="year" class="btn btn-mini <%= 'active' if by == 'year' %>">Year</button>
+    </div>
+
+    <div class="btn-group" data-toggle="buttons-radio">
+      <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if percent == 'none' %>">No Percents</button>
+      <button data-object="set-percent" data-value="row" class="btn btn-mini <%= 'active' if percent == 'row' %>">% Row</button>
+      <button data-object="set-percent" data-value="column" class="btn btn-mini <%= 'active' if percent == 'column' %>">% Column</button>
+    </div>
+  </div>
+<% end %>
+
+<div id="report"></div>

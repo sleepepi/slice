@@ -141,3 +141,14 @@ p.about-footer {
 .label-file { background-color: #fad0fa; }
 .label-calculated { background-color: #b4defa; }
 .label-grid { background-color: #ffd08a; }
+
+.count-rot315 {
+  -moz-transform:rotate(315deg);
+  -o-transform:rotate(315deg);
+  -webkit-transform:rotate(315deg);
+  -ms-transform:rotate(315deg);
+  transform:rotate(315deg);
+  font-size:0.9em;
+  display:inline-block;
+  margin:10px 0;
+}
