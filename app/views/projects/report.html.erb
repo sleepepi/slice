@@ -28,7 +28,7 @@
 
     <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date After' %>
     to
-    <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today + 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date Before' %>
+    <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date Before' %>
 
     <button type="submit" class="btn">Refresh</button>
   </div>

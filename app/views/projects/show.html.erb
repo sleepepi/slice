@@ -77,6 +77,9 @@
   <dt>Emails</dt>
   <dd><%= @project.emails %></dd>
 
+  <dt>Subject code name</dt>
+  <dd><%= @project.subject_code_name_full %></dd>
+
   <dt>Acrostic enabled</dt>
   <dd><%= simple_check @project.acrostic_enabled? %></dd>
 </dl>
@@ -90,7 +93,7 @@
     <tr>
       <th>Site</th>
       <th>Prefix</th>
-      <th>Subject Code Range</th>
+      <th><%= @project.subject_code_name_full %> Range</th>
       <th>Subjects</th>
     </tr>
   </thead>

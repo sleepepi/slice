@@ -30,3 +30,9 @@ $('#acrostic-container').show();
 <% else %>
 $('#acrostic-container').hide();
 <% end %>
+
+<% if @project %>
+$('#subject_code_name_full').html("<%= escape_javascript(@project.subject_code_name_full) %>");
+<% else %>
+$('#subject_code_name_full').html("Subject Code");
+<% end %>

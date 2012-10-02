@@ -37,6 +37,13 @@
   </div>
 
   <div class="control-group">
+    <%= f.label :subject_code_name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :subject_code_name, placeholder: "Subject Code" %>
+    </div>
+  </div>
+
+  <div class="control-group">
     <%= f.label :acrostic_enabled, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.check_box :acrostic_enabled %>

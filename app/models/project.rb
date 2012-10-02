@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache
+  attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache, :subject_code_name
 
   mount_uploader :logo, ImageUploader
 
@@ -30,6 +30,10 @@ class Project < ActiveRecord::Base
   def site_id_with_prefix(prefix)
     prefix_sites = self.sites.select{|s| not s.prefix.blank? and prefix.start_with?(s.prefix) }
     prefix_sites.size == 1 ? prefix_sites.first.id : nil
+  end
+
+  def subject_code_name_full
+    self.subject_code_name.to_s.strip.blank? ? 'Subject Code' : self.subject_code_name.to_s.strip
   end
 
   # Model Methods

@@ -15,6 +15,7 @@
     * Extra strings can be prepended and appended to variables
   * Project Changes
     * Added reports that show the overall distribution of sheets by design and study date
+    * Subject Code can be renamed to be project-specific (i.e. Participant ID, etc.)
 
 * Bug Fix
   * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position
