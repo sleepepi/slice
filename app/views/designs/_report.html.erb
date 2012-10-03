@@ -2,6 +2,8 @@
 <% sheets = sheets.sheet_after(@sheet_after) unless @sheet_after.blank? %>
 <% sheets = sheets.sheet_before(@sheet_before) unless @sheet_before.blank? %>
 
+<% sheets = sheets.with_any_variable_response(@variable) if @variable and params[:include_blank] != '1' %>
+
 <% @min = sheets.pluck(:study_date).min || Date.today %>
 <% @max = sheets.pluck(:study_date).max || Date.today %>
 
@@ -74,7 +76,8 @@
   </tfoot>
   <tbody>
     <% if @variable %>
-      <% strata = @variable.options + [{ name: '', value: nil }] %>
+      <% strata = @variable.options %>
+      <% strata = strata + [{ name: '', value: nil }] if params[:include_blank].to_s == '1' %>
     <% else %>
       <% strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} %>
     <% end %>
