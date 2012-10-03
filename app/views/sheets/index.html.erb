@@ -60,6 +60,19 @@
       </div>
     </div>
     <div class="span4 control-group">
+      <%= hidden_field_tag :stratum_id, params[:stratum_id], data: { object: 'filter' } %>
+      <%= hidden_field_tag :stratum_value, params[:stratum_value], data: { object: 'filter' } %>
+      <% @variable = current_user.all_viewable_variables.find_by_id(params[:stratum_id]) %>
+      <% if @variable %>
+        <div data-object="filter-html">
+          <%= label :stratum_id, 'Stratum', class: 'control-label' %>
+          <div class="controls">
+            <%= @variable.display_name %>:
+            <% option = @variable.options.select{|opt| opt[:value] == params[:stratum_value]}.first %>
+            <%= option[:name] if option %>
+          </div>
+        </div>
+      <% end %>
     </div>
     <div class="span4 control-group">
     </div>

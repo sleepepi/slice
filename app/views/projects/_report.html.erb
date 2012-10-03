@@ -72,7 +72,7 @@
     </tr>
   </tfoot>
   <tbody>
-    <% @project.designs.each do |design| %>
+    <% @project.designs.order('name').each do |design| %>
       <tr>
         <% row_counts = ranges.collect{|hash| sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_design(design.id).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>

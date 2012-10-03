@@ -38,7 +38,13 @@
   <thead>
     <tr>
       <th></th>
-      <th>Site</th>
+      <th>
+        <% if @variable %>
+          <%= @variable.display_name %>
+        <% else %>
+          Site
+        <% end %>
+      </th>
       <% ranges.each do |hash| %>
         <th><span class="count-rot315" rel="tooltip" title="<%= hash[:tooltip] %>"><%= hash[:name] %></span></th>
       <% end %>
@@ -67,15 +73,21 @@
     </tr>
   </tfoot>
   <tbody>
-    <% @design.project.sites.each do |site| %>
+    <% if @variable %>
+      <% strata = @variable.options + [{ name: '', value: nil }] %>
+    <% else %>
+      <% strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} %>
+    <% end %>
+
+    <% strata.each do |stratum| %>
       <tr>
-        <% row_counts = ranges.collect{|hash| sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_site(site.id).count } %>
+        <% row_counts = ranges.collect{|hash| sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_stratum(@variable, stratum[:value]).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
-        <td><%= link_to site.name, '#', data: { object: 'suppress-click' } %></td>
+        <td><%= link_to stratum[:name], '#', data: { object: 'suppress-click' } %></td>
         <% ranges.each do |hash| %>
-          <% count = sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_site(site.id).count %>
+          <% count = sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_stratum(@variable, stratum[:value]).count %>
           <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">
-            <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, site_id: site.id, sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y")) %>
+            <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y")) %>
             <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
               <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
             <% end %>
@@ -84,9 +96,9 @@
             <% end %>
           </td>
         <% end %>
-        <% count = sheets.with_site(site.id).count %>
-        <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= site.name if count > 0 %>" data-placement="left">
-          <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, site_id: site.id) %>
+        <% count = sheets.with_stratum(@variable, stratum[:value]).count %>
+        <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= stratum[:name] if count > 0 %>" data-placement="left">
+          <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value]) %>
           <% if @percent == 'column' and count > 0 and sheets.count > 0 %>
             <span class="muted" style="font-size:0.7em"><%= (count * 100 / sheets.count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
           <% end %>

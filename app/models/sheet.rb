@@ -11,6 +11,10 @@ class Sheet < ActiveRecord::Base
   scope :with_design, lambda { |*args| { conditions: ["sheets.design_id IN (?)", args.first] } }
   scope :with_site, lambda { |*args| { conditions: ["sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first] } }
 
+  scope :with_variable_response, lambda { |*args| { conditions: ["sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)", args.first, args[1]] } }
+
+  scope :without_variable_response, lambda { |*args| { conditions: ["sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and (sheet_variables.response IS NOT NULL or sheet_variables.response != ''))", args.first] } }
+
   scope :order_by_site_name, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name' } }
   scope :order_by_site_name_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name DESC' } }
 
@@ -119,5 +123,16 @@ class Sheet < ActiveRecord::Base
 
   def design_replacement(property)
     self.design.name
+  end
+
+  # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
+  def self.with_stratum(stratum_id, stratum_value)
+    if stratum_id == nil
+      self.with_site(stratum_value)
+    elsif stratum_id != nil and stratum_value != nil
+      self.with_variable_response(stratum_id, stratum_value)
+    else
+      self.without_variable_response(stratum_id)
+    end
   end
 end

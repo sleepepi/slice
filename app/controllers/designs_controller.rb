@@ -10,6 +10,8 @@ class DesignsController < ApplicationController
     @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "week" # "month" or "year"
     @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
 
+    @variable = @design.pure_variables.find_by_id(params[:variable_id]) if @design
+
 
     respond_to do |format|
       if @design
