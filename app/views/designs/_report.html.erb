@@ -61,7 +61,7 @@
       <% ranges.each do |hash| %>
         <% count = sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).count %>
         <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">
-          <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y")) %>
+          <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y")) %>
           <% hash[:column_count] = count %>
           <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
             <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
@@ -70,13 +70,13 @@
       <% end %>
       <% count = sheets.count %>
       <td class="<%= 'muted' if count == 0 %>">
-        <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path %>
+        <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id) %>
       </td>
     </tr>
   </tfoot>
   <tbody>
     <% if @variable %>
-      <% strata = @variable.options %>
+      <% strata = @variable.options_or_autocomplete %>
       <% strata = strata + [{ name: '', value: nil }] if params[:include_blank].to_s == '1' %>
     <% else %>
       <% strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} %>
@@ -86,7 +86,10 @@
       <tr>
         <% row_counts = ranges.collect{|hash| sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_stratum(@variable, stratum[:value]).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
-        <td><%= link_to stratum[:name], '#', data: { object: 'suppress-click' } %></td>
+        <td>
+          <%= link_to stratum[:name], '#', data: { object: 'suppress-click' } %>
+          <% unless stratum[:info].blank? %><span class="muted"><%= stratum[:info] %></span><% end %>
+        </td>
         <% ranges.each do |hash| %>
           <% count = sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_stratum(@variable, stratum[:value]).count %>
           <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">

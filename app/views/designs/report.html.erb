@@ -36,7 +36,7 @@
   </div>
   <div class="row">
     <div class="span12">
-      <%= select_tag :variable_id, options_for_select([['--By Site--', nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:variable_id] ), data: { object: 'filter' }, class: 'input-medium' %>
+      <%= select_tag :variable_id, options_for_select([['--By Site--', nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio', 'string']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:variable_id] ), data: { object: 'filter' }, class: 'input-medium' %>
       <%= check_box_tag :include_blank, '1', params[:include_blank] %> <%= label_tag :include_blank %>
     </div>
   </div>

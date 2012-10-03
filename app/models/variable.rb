@@ -331,6 +331,19 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def options_or_autocomplete
+    if self.variable_type == 'string'
+      self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }} + self.user_submitted_sheet_variables.collect{|sv| { name: sv.response, value: sv.response, info: 'User Submitted' }}
+    else
+      self.options
+    end
+  end
+
+  # Responses that are user submitted and not on autocomplete list
+  def user_submitted_sheet_variables
+    self.sheet_variables.select{|sv| not self.autocomplete_array.include?(sv.response.to_s.strip) and not sv.response.to_s.strip.blank?}
+  end
+
   # def response_description(value)
   #   option = self.options.select{|opt| opt[:value].to_s == value.to_s}.first
   #   option ? option[:description] : ''
