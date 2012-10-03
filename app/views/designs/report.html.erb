@@ -27,17 +27,17 @@
     </div>
 
     <div class="span8">
-      <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date After' %>
+      <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date After', data: { object: 'form-reload', target: '#report_form' } %>
       to
-      <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date Before' %>
+      <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date Before', data: { object: 'form-reload', target: '#report_form' } %>
 
       <button type="submit" class="btn">Refresh</button>
     </div>
   </div>
   <div class="row">
     <div class="span12">
-      <%= select_tag :variable_id, options_for_select([['--By Site--', nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio', 'string']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:variable_id] ), data: { object: 'filter' }, class: 'input-medium' %>
-      <%= check_box_tag :include_blank, '1', params[:include_blank].to_s != '0' %> <%= label_tag :include_blank %>
+      <%= select_tag :variable_id, options_for_select([['--By Site--', nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio', 'string']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:variable_id] ), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium' %>
+      <%= check_box_tag :include_blank, '1', params[:include_blank].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :include_blank %>
     </div>
   </div>
 <% end %>

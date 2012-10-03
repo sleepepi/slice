@@ -19,3 +19,6 @@ jQuery ->
       $("#report_form").submit()
       false
     )
+    .on('change', '[data-object~="form-reload"]', () ->
+      $($(this).data('target')).submit()
+    )
