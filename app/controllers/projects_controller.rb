@@ -7,6 +7,9 @@ class ProjectsController < ApplicationController
     @sheet_before = parse_date(params[:sheet_before])
     @sheet_after = parse_date(params[:sheet_after])
 
+    @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
+    @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+
     respond_to do |format|
       if @project
         format.html # report.html.erb
