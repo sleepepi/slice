@@ -113,3 +113,7 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to '#permalink', report_design_path(@design, by: @by, percent: @percent, include_blank: (params[:include_blank].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after ? @sheet_after.strftime("%m/%d/%Y") : nil),
+                                              sheet_before: (@sheet_before ? @sheet_before.strftime("%m/%d/%Y") : nil), variable_id: (@variable ? @variable.id : nil) ), class: 'pull-right' %>
+

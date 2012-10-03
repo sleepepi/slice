@@ -15,6 +15,7 @@
     * Extra strings can be prepended and appended to variables
   * Project Changes
     * Added reports that show the overall distribution of sheets by design and study date
+    * Reports now include permalinks to allow report configurations to be shared
     * Project reports can drill down to the design level to view
       * Sheet distribution by site
       * Sheet distribution by any dropdown, radio, or autocomplete string variables on the design
