@@ -96,3 +96,6 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to '#permalink', report_project_path(@project, by: @by, percent: @percent, sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
+                                              sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")) ), class: 'pull-right' %>
