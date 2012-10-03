@@ -1,6 +1,30 @@
 class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
+  def report
+    @design = current_user.all_viewable_designs.find_by_id(params[:id])
+
+    @sheet_before = parse_date(params[:sheet_before])
+    @sheet_after = parse_date(params[:sheet_after])
+
+    @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "week" # "month" or "year"
+    @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+
+
+    respond_to do |format|
+      if @design
+        format.html # report.html.erb
+        format.json { render json: @design }
+        format.js { render 'report' }
+      else
+        format.html { redirect_to designs_path }
+        format.json { head :no_content }
+        format.js { render nothing: true }
+      end
+    end
+  end
+
+
   def copy
     design = current_user.all_viewable_designs.find_by_id(params[:id])
     respond_to do |format|

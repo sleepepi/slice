@@ -15,6 +15,7 @@
     * Extra strings can be prepended and appended to variables
   * Project Changes
     * Added reports that show the overall distribution of sheets by design and study date
+    * Project reports can drill down to the design level to view sheet distribution by site
     * Subject Code can be renamed to be project-specific (i.e. Participant ID, etc.)
 
 * Bug Fix

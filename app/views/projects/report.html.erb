@@ -1,6 +1,6 @@
 <% @title = "#{@project.name} Report" %>
   <h3>
-    <%= pluralize @project.designs.count, ' design' %> for <b><%= link_to @project.name, @project %></b>
+    <%= pluralize @project.designs.count, ' design' %> for <%= link_to @project.name, @project %>
   </h3>
 
 
