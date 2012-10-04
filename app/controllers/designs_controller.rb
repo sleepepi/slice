@@ -387,7 +387,7 @@ class DesignsController < ApplicationController
     params[:design][:updater_id] = current_user.id
 
     params[:design].slice(
-      :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id
+      :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id, :study_date_name
     )
   end
 end

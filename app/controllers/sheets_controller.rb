@@ -270,7 +270,7 @@ class SheetsController < ApplicationController
   def generate_csv(sheet_scope, raw_data)
     @csv_string = CSV.generate do |csv|
       variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
-      csv << ["Name", "Description", "Study Date", "Project", "Site", "Subject", "Acrostic", "Creator"] + variable_names
+      csv << ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Creator"] + variable_names
       sheet_scope.each do |sheet|
         row = [sheet.name,
                 sheet.description,

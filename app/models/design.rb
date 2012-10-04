@@ -1,5 +1,5 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id
+  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id, :study_date_name
 
   serialize :options, Array
 
@@ -35,8 +35,7 @@ class Design < ActiveRecord::Base
   end
 
   def study_date_name_full
-    # self.subject_code_name.to_s.strip.blank? ? 'Subject Code' : self.subject_code_name.to_s.strip
-    'Study Date'
+    self.study_date_name.to_s.strip.blank? ? 'Study Date' : self.study_date_name.to_s.strip
   end
 
   def name_with_project

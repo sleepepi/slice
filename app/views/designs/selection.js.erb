@@ -51,6 +51,13 @@ $("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
 updateAllVariables();
 updateCalculatedVariables();
 
+<% if @design %>
+$('#study_date_name_full').html("<%= escape_javascript(@design.study_date_name_full) %>");
+<% else %>
+$('#study_date_name_full').html("Study Date");
+<% end %>
+
 $('[data-spy="scroll"]').each(function () {
   var $spy = $(this).scrollspy('refresh')
 });
+

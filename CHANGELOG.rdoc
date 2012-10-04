@@ -10,6 +10,7 @@
       * Project Name: #(project)
       * Design Date: #(design)
     * Simple HTML formatting available for email templates
+    * Study Date can be renamed to be design-specific (i.e. Visit Date, etc.)
   * Variable Changes
     * Display name can be hidden for variables to avoid redundancy with header
     * Extra strings can be prepended and appended to variables

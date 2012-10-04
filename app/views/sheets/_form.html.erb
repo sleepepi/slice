@@ -49,7 +49,7 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :study_date, nil, class: 'control-label' %>
+    <%= f.label :study_date, nil, class: 'control-label', id: 'study_date_name_full' %>
     <div class="controls">
       <%= f.text_field :study_date, class: 'datepicker', value: @sheet.study_date ? @sheet.study_date.strftime('%m/%d/%Y') : '' %>
     </div>

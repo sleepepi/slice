@@ -5,7 +5,7 @@
       <% if @sheet.project.acrostic_enabled? %><th>Acrostic</th><% end %>
       <th>Project</th>
       <th>Site</th>
-      <th>Study Date</th>
+      <th><%= @sheet.design.study_date_name_full %></th>
     </tr>
   </thead>
   <tbody>
