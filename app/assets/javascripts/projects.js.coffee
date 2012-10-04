@@ -22,3 +22,19 @@ jQuery ->
     .on('change', '[data-object~="form-reload"]', () ->
       $($(this).data('target')).submit()
     )
+
+  $('#column_variable_id').on('change', () ->
+    if $(this).val() == '' or $(this).val() == null
+      $('#column-include-blank').hide()
+      $('#column-by-time').show()
+    else
+      $('#column-by-time').hide()
+      $('#column-include-blank').show()
+  )
+
+  $('#variable_id').on('change', () ->
+    if $(this).val() == '' or $(this).val() == null
+      $('#row-include-blank').hide()
+    else
+      $('#row-include-blank').show()
+  )
