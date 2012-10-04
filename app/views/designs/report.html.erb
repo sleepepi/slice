@@ -1,11 +1,10 @@
 <% @title = "#{@design.name} Report" %>
 <h3>
   <%= link_to "&lsaquo; ".html_safe + @design.project.name, report_project_path(@design.project, by: @by, percent: @percent) %> Report
-</h3>
-<h3>
-  <%= pluralize @design.project.sites.count, ' site' %> for <%= link_to @design.name, @design %>
+  <span class="pull-right"><%= pluralize @design.project.sites.count, ' site' %> for <%= link_to @design.name, @design %></span>
 </h3>
 
+<hr class="soften" style="margin-top:20px">
 
 <%= form_tag report_design_path(@design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <%= hidden_field_tag :by, @by %>
@@ -56,5 +55,7 @@
     </div>
   </div>
 <% end %>
+
+<hr class="soften" style="margin-top:20px;margin-bottom:54px">
 
 <div id="report"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
