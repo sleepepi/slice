@@ -34,6 +34,11 @@ class Design < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def study_date_name_full
+    # self.subject_code_name.to_s.strip.blank? ? 'Subject Code' : self.subject_code_name.to_s.strip
+    'Study Date'
+  end
+
   def name_with_project
     self.project ? "#{self.name} - #{self.project.name}" : "#{self.name} - Global"
   end

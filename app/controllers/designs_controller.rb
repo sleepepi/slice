@@ -10,8 +10,76 @@ class DesignsController < ApplicationController
     @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
     @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
 
-    @variable = @design.pure_variables.find_by_id(params[:variable_id]) if @design
+    if @design
+      @variable = @design.pure_variables.find_by_id(params[:variable_id])
+      @column_variable = @design.pure_variables.find_by_id(params[:column_variable_id])
 
+
+      sheet_scope = @design.sheets.scoped()
+      sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
+      sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+
+      sheet_scope = sheet_scope.with_any_variable_response(@variable) if @variable and params[:include_blank] != '1'
+      sheet_scope = sheet_scope.with_any_variable_response(@column_variable) if @column_variable and params[:column_include_blank] != '1'
+
+      min = sheet_scope.pluck(:study_date).min || Date.today
+      max = sheet_scope.pluck(:study_date).max || Date.today
+
+      # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
+      @ranges = []
+
+      if @column_variable
+        column_strata = @column_variable.options_or_autocomplete
+        column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_blank].to_s == '1'
+        column_strata.each do |stratum|
+          scope = sheet_scope.with_stratum(@column_variable, stratum[:value])
+          @ranges << { name: stratum[:name].truncate(10), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count }
+        end
+      else # Default columns over Study Date
+        case @by when "week"
+          current_cweek = min.cweek
+          (min.year..max.year).each do |year|
+            (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
+              start_date = Date.commercial(year,cweek) - 1.day
+              end_date = Date.commercial(year,cweek) + 5.days
+              scope = sheet_scope.sheet_after(start_date).sheet_before(end_date)
+              @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
+              break if year == max.year and cweek == max.cweek
+            end
+            current_cweek = 1
+          end
+        when "month"
+          current_month = min.month
+          (min.year..max.year).each do |year|
+            (current_month..12).each do |month|
+              start_date = Date.parse("#{year}-#{month}-01")
+              end_date = Date.parse("#{year}-#{month}-01").end_of_month
+              scope = sheet_scope.sheet_after(start_date).sheet_before(end_date)
+              @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
+              break if year == max.year and month == max.month
+            end
+            current_month = 1
+          end
+        when "year"
+          (min.year..max.year).each do |year|
+            start_date = Date.parse("#{year}-01-01")
+            end_date = Date.parse("#{year}-12-31")
+            scope = sheet_scope.sheet_after(start_date).sheet_before(end_date)
+            @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
+          end
+        end
+      end
+
+      # Row Stratification by Site (default) or by Variable on Design (currently supported: radio, dropdown, and string)
+      if @variable
+        @strata = @variable.options_or_autocomplete
+        @strata = @strata + [{ name: '', value: nil }] if params[:include_blank].to_s == '1'
+      else
+        @strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }}
+      end
+
+      @sheets = sheet_scope
+    end
 
     respond_to do |format|
       if @design
