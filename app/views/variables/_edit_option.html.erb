@@ -43,4 +43,17 @@
       <%= check_box_tag "variable[option_tokens][#{position}][missing_code]", '1', @option[:missing_code] == '1', style: 'width:95%', class: 'checkbox' %>
     </div>
   </div>
+
+  <div class="control-group">
+    <%= label_tag "variable_option_tokens_#{position}_color", 'Color', class: 'control-label' %>
+    <div class="controls">
+      <%= hidden_field_tag "variable[option_tokens][#{position}][color]", '', id: "variable_option_tokens_#{position}_hexcolor" %>
+      <div class="custom_widget">
+        <div class="colorselector" data-object="color-selector" data-target="#variable_option_tokens_<%= position %>_hexcolor" data-color="<%= @option[:color].blank? ? '#ffffff' : @option[:color] %>">
+          <div id="variable_option_tokens_<%= position %>_hexcolor_display" style="background-color: <%= @option[:color].blank? ? '#ffffff' : @option[:color] %>"></div>
+        </div>
+      </div>
+      <%#= check_box_tag "variable[option_tokens][#{position}][color]", '1', @option[:missing_code] == '1', style: 'width:95%', class: 'checkbox' %>
+    </div>
+  </div>
 </div>

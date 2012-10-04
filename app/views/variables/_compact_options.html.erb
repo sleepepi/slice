@@ -5,6 +5,7 @@
       <th>Value</th>
       <th>Description</th>
       <th>Missing Code</th>
+      <th>Color</th>
     </tr>
   </thead>
   <% @variable.options.each do |option| %>
@@ -14,6 +15,7 @@
       <td><%= option[:value] %></td>
       <td><%= option[:description] %></td>
       <td><%= simple_check(option[:missing_code] == '1') %></td>
+      <td style="background-color: <%= option[:color].blank? ? '#ffffff' : option[:color] %>"><%= option[:color] %></td>
     </tr>
   <% end %>
 </table>
