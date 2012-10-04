@@ -19,8 +19,8 @@ class DesignsController < ApplicationController
       sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
       sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
 
-      sheet_scope = sheet_scope.with_any_variable_response(@variable) if @variable and params[:include_blank] != '1'
-      sheet_scope = sheet_scope.with_any_variable_response(@column_variable) if @column_variable and params[:column_include_blank] != '1'
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] != '1'
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
 
       min = sheet_scope.pluck(:study_date).min || Date.today
       max = sheet_scope.pluck(:study_date).max || Date.today
@@ -29,8 +29,8 @@ class DesignsController < ApplicationController
       @ranges = []
 
       if @column_variable
-        column_strata = @column_variable.options_or_autocomplete
-        column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_blank].to_s == '1'
+        column_strata = @column_variable.options_or_autocomplete(params[:column_include_missing].to_s == '1')
+        column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
         column_strata.each do |stratum|
           scope = sheet_scope.with_stratum(@column_variable, stratum[:value])
           @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]).truncate(10), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value] }
@@ -72,8 +72,8 @@ class DesignsController < ApplicationController
 
       # Row Stratification by Site (default) or by Variable on Design (currently supported: radio, dropdown, and string)
       if @variable
-        @strata = @variable.options_or_autocomplete
-        @strata = @strata + [{ name: '', value: nil }] if params[:include_blank].to_s == '1'
+        @strata = @variable.options_or_autocomplete(params[:include_missing].to_s == '1')
+        @strata = @strata + [{ name: '', value: nil }] if params[:include_missing].to_s == '1'
       else
         @strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }}
       end

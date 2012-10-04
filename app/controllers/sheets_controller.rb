@@ -66,10 +66,7 @@ class SheetsController < ApplicationController
       params[:stratum_value] = nil
     end
 
-    if not params[:stratum_id].blank?
-      sheet_scope = sheet_scope.with_stratum(params[:stratum_id], params[:stratum_value]) # if not params[:stratum_value].blank? and not params[:stratum_id].blank?
-    end
-
+    sheet_scope = sheet_scope.with_stratum(params[:stratum_id], params[:stratum_value]) unless params[:stratum_id].blank?
     sheet_scope = sheet_scope.with_stratum(params[:column_stratum_id], params[:column_stratum_value]) unless params[:column_stratum_id].blank?
 
     ['design', 'project', 'site', 'user'].each do |filter|
