@@ -44,7 +44,12 @@
         <% row_counts = @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
         <td>
-          <%= link_to ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name], '#', data: { object: 'suppress-click' } %>
+          <% link_name = ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name] %>
+          <% if stratum[:name].blank? %>
+            <span class="muted">Unknown</span>
+          <% else %>
+            <%= link_to link_name, '#', data: { object: 'suppress-click' } %>
+          <% end %>
           <% unless stratum[:info].blank? %><span class="muted"><%= stratum[:info] %></span><% end %>
         </td>
         <% @ranges.each do |hash| %>
@@ -60,7 +65,7 @@
           </td>
         <% end %>
         <% count = @sheets.with_stratum(@variable, stratum[:value]).count %>
-        <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= stratum[:name] if count > 0 %>" data-placement="left">
+        <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= stratum[:name].blank? ? 'Unknown' : stratum[:name] if count > 0 %>" data-placement="left">
           <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value]) %>
           <% if @percent == 'column' and count > 0 and @sheets.count > 0 %>
             <span class="muted" style="font-size:0.7em"><%= (count * 100 / @sheets.count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>

@@ -22,7 +22,7 @@
       Column
       <%= select_tag :column_variable_id, options_for_select([[@design.study_date_name_full, nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio', 'string']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:column_variable_id] ), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium' %>
       <span id="column-include-blank" style="white-space:nowrap; <%= 'display:none' unless @column_variable %>">
-        <%= check_box_tag :column_include_blank, '1', params[:column_include_blank].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :column_include_blank %>
+        <%= check_box_tag :column_include_blank, '1', params[:column_include_blank].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :column_include_blank, 'Include blank' %>
       </span>
       <span class="btn-toolbar" id="column-by-time" style="<%= 'display:none' if @column_variable %>">
         <div class="btn-group" data-toggle="buttons-radio">
