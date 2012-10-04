@@ -69,12 +69,33 @@
           <div class="controls">
             <%= @variable.display_name %>:
             <% option = @variable.options.select{|opt| opt[:value] == params[:stratum_value]}.first %>
-            <%= option[:name] if option %>
+            <% if option %>
+              <%= option[:name] %>
+            <% else %>
+              <span class="muted">Unknown</span>
+            <% end %>
           </div>
         </div>
       <% end %>
     </div>
     <div class="span4 control-group">
+      <%= hidden_field_tag :column_stratum_id, params[:column_stratum_id], data: { object: 'filter' } %>
+      <%= hidden_field_tag :column_stratum_value, params[:column_stratum_value], data: { object: 'filter' } %>
+      <% @variable = current_user.all_viewable_variables.find_by_id(params[:column_stratum_id]) %>
+      <% if @variable %>
+        <div data-object="filter-html">
+          <%= label :column_stratum_id, 'Stratum', class: 'control-label' %>
+          <div class="controls">
+            <%= @variable.display_name %>:
+            <% option = @variable.options.select{|opt| opt[:value] == params[:column_stratum_value]}.first %>
+            <% if option %>
+              <%= option[:name] %>
+            <% else %>
+              <span class="muted">Unknown</span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 
