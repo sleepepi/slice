@@ -51,7 +51,23 @@
     </div>
 
     <div class="span4">
-      <button type="submit" class="btn btn-primary pull-right">Refresh</button>
+      <div class="pull-right">
+
+        <span class="dropdown">
+          <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
+          <ul class="dropdown-menu" style="margin-top:9px">
+            <li>
+              <%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %>
+            </li>
+            <% if false %>
+            <li>
+              <%= link_to 'PDF', '#', data: { object: 'export', format: 'pdf', target: '#report_form' } %>
+            </li>
+            <% end %>
+          </ul>
+        </span>
+        <button type="submit" class="btn btn-primary">Refresh</button>
+      </div>
     </div>
   </div>
 <% end %>

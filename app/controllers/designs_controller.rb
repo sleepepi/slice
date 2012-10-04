@@ -79,6 +79,11 @@ class DesignsController < ApplicationController
       end
 
       @sheets = sheet_scope
+
+      if params[:format] == 'csv'
+        generate_table_csv(@design, @sheets, @ranges, @strata, @variable, @column_variable)
+        return
+      end
     end
 
     respond_to do |format|
@@ -343,6 +348,35 @@ class DesignsController < ApplicationController
       end
     end
     file_name = (design_scope.size == 1 ? "#{design_scope.first.name.gsub(/[^ a-zA-Z0-9_-]/, '_')} DD" : 'Designs')
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                           disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
+  def generate_table_csv(design, sheets, ranges, strata, variable, column_variable)
+    @csv_string = CSV.generate do |csv|
+      header = [(variable ? variable.display_name : 'Site')]
+      header += ranges.collect{|hash| hash[:name].blank? ? 'Unknown' : hash[:name]}
+      header += ['Total']
+      csv << header
+
+      strata.each do |stratum|
+        row = []
+        row_counts = ranges.collect{|hash| hash[:scope].with_stratum(variable, stratum[:value]).count }
+        link_name = ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name]
+        row << (stratum[:name].blank? ? 'Unknown' : link_name)
+        ranges.each do |hash|
+          row << hash[:scope].with_stratum(variable, stratum[:value]).count
+        end
+        row << sheets.with_stratum(variable, stratum[:value]).count
+        csv << row
+      end
+
+      footer = ['Total']
+      footer += ranges.collect{|hash| hash[:count]}
+      footer += [sheets.count]
+      csv << footer
+    end
+    file_name = "#{design.name} Report"
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                            disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end

@@ -17,6 +17,7 @@
     * Added reports that show the overall distribution of sheets by design and study date
     * Design reports allow column stratification by Study Date or any dropdown, radio, or string variable on the design
     * Reports now include permalinks to allow report configurations to be shared
+    * Design reports can be downloaded to CSV
     * Project reports can drill down to the design level to view
       * Sheet distribution by site
       * Sheet distribution by any dropdown, radio, or autocomplete string variables on the design
