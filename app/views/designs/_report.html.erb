@@ -44,7 +44,7 @@
         <% row_counts = @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
         <td>
-          <%= link_to stratum[:name], '#', data: { object: 'suppress-click' } %>
+          <%= link_to ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name], '#', data: { object: 'suppress-click' } %>
           <% unless stratum[:info].blank? %><span class="muted"><%= stratum[:info] %></span><% end %>
         </td>
         <% @ranges.each do |hash| %>

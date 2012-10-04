@@ -12,14 +12,6 @@
   <%= hidden_field_tag :percent, @percent %>
 
   <div class="row">
-    <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if @percent == 'none' %>">No Percents</button>
-        <button data-object="set-percent" data-value="row" class="btn btn-mini <%= 'active' if @percent == 'row' %>">% by Row</button>
-        <button data-object="set-percent" data-value="column" class="btn btn-mini <%= 'active' if @percent == 'column' %>">% by Column</button>
-      </div>
-    </div>
-
     <div class="span4">
       Row
       <%= select_tag :variable_id, options_for_select([['Site', nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio', 'string']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:variable_id] ), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium' %>
@@ -41,14 +33,26 @@
         </div>
       </span>
     </div>
+
+    <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px">
+      <div class="btn-group pull-right" data-toggle="buttons-radio">
+        <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if @percent == 'none' %>">No Percents</button>
+        <button data-object="set-percent" data-value="row" class="btn btn-mini <%= 'active' if @percent == 'row' %>">% by Row</button>
+        <button data-object="set-percent" data-value="column" class="btn btn-mini <%= 'active' if @percent == 'column' %>">% by Column</button>
+      </div>
+    </div>
   </div>
   <div class="row">
-    <div class="span12">
-      <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date After', data: { object: 'form-reload', target: '#report_form' } %>
-      to
-      <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date Before', data: { object: 'form-reload', target: '#report_form' } %>
+    <div class="span4">
+      After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date After', data: { object: 'form-reload', target: '#report_form' } %>
+    </div>
 
-      <% if false %><button type="submit" class="btn">Refresh</button><% end %>
+    <div class="span4">
+      Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Study Date Before', data: { object: 'form-reload', target: '#report_form' } %>
+    </div>
+
+    <div class="span4">
+      <button type="submit" class="btn btn-primary pull-right">Refresh</button>
     </div>
   </div>
 <% end %>
