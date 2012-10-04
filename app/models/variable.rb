@@ -332,6 +332,13 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def response_color(sheet)
+    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    response = (sheet_variable ? sheet_variable.response : nil)
+    color = self.options.select{|option| response == option[:value]}.collect{|option| option[:color]}.first
+    color.blank? ? '#ffffff' : color
+  end
+
   def options_or_autocomplete(include_missing)
     if self.variable_type == 'string'
       self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }} +

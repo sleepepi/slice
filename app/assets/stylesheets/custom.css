@@ -152,3 +152,10 @@ p.about-footer {
   display:inline-block;
   margin:10px 0;
 }
+
+span.rounded-borders {
+  padding: 1px 4px 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
