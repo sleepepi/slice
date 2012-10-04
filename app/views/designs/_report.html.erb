@@ -12,7 +12,7 @@
         <% end %>
       </th>
       <% @ranges.each do |hash| %>
-        <th><span class="count-rot315" rel="tooltip" title="<%= hash[:tooltip] %>"><%= hash[:name] %></span></th>
+        <th><span class="count-rot315 <%= 'muted' if hash[:name].blank? %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] %>"><%= hash[:name].blank? ? 'Unknown' : hash[:name] %></span></th>
       <% end %>
       <th><span class="count-rot315">Total</span></th>
     </tr>
@@ -24,7 +24,7 @@
       <td>Total</td>
       <% @ranges.each do |hash| %>
         <% count = hash[:count] %>
-        <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">
+        <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] if count > 0 %>" data-placement="left">
           <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y"))) %>
           <%# hash[:column_count] = count %>
           <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
@@ -49,7 +49,7 @@
         </td>
         <% @ranges.each do |hash| %>
           <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
-          <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">
+          <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] if count > 0 %>" data-placement="left">
             <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y"))) %>
             <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
               <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
