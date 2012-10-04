@@ -1,5 +1,7 @@
 Reading::Application.routes.draw do
 
+  get "reports/index"
+
   resources :designs do
     member do
       get :copy
@@ -29,6 +31,8 @@ Reading::Application.routes.draw do
       get :accept
     end
   end
+
+  resources :reports
 
   resources :sheets do
     collection do

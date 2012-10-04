@@ -1,0 +1,33 @@
+<% @title = "Reports" %>
+<div class="row">
+  <div class="span12">
+    <h1 class="about-title"><%= @title %></h1>
+  </div>
+</div>
+
+<hr class="soften" style="margin-top:20px">
+
+<div class="row">
+  <div class="span4">
+    <h2 class="about-title">Project Reports</h2>
+    <ul>
+      <% current_user.all_viewable_projects.order('name').each do |project| %>
+        <li><%= link_to project.name, report_project_path(project) %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Design Reports</h2>
+    <ul>
+      <% current_user.all_viewable_designs.order('name').each do |design| %>
+        <li><%= link_to design.name, report_design_path(design) %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Custom Reports</h2>
+    <ul>
+      <li class="muted">You have not yet saved any custom templates.</li>
+    </ul>
+  </div>
+</div>
