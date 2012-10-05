@@ -55,9 +55,7 @@
           <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
           <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] if count > 0 %>" data-placement="left">
             <% if count > 0 %>
-              <span class="rounded-borders" style="background-color: <%= stratum[:color] unless stratum[:color].blank? %>">
-                <%= link_to count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y"))) %>
-              </span>
+              <span class="rounded-borders" style="background-color: <%= stratum[:color] unless stratum[:color].blank? %>"><%= link_to count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y"))) %></span>
             <% else %>
               -
             <% end %>
