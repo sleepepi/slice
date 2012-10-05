@@ -39,7 +39,7 @@
   </tfoot>
   <tbody>
     <% @strata.each do |stratum| %>
-      <tr style="background-color: <%= stratum[:color] unless stratum[:color].blank? %>">
+      <tr>
         <% row_counts = @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
         <td>
@@ -54,7 +54,13 @@
         <% @ranges.each do |hash| %>
           <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
           <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] if count > 0 %>" data-placement="left">
-            <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y"))) %>
+            <% if count > 0 %>
+              <span class="rounded-borders" style="background-color: <%= stratum[:color] unless stratum[:color].blank? %>">
+                <%= link_to count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y"))) %>
+              </span>
+            <% else %>
+              -
+            <% end %>
             <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
               <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
             <% end %>
