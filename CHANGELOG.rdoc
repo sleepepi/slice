@@ -1,32 +1,38 @@
 == 0.8.0
 
 * Enhancements
-  * Autocomplete values can be added to string variables
-  * Detailed sheet information added to popup on the sheets show page
-  * New users can now be added to projects by email
   * Design Changes
-    * Email subjects can be configured
-    * Added more options for email templates
+    * Email subject lines can be customized per design
+    * Email templates and subject lines can now reference project and design name
       * Project Name: #(project)
-      * Design Date: #(design)
+      * Design Name: #(design)
     * Simple HTML formatting available for email templates
     * Study Date can be renamed to be design-specific (i.e. Visit Date, etc.)
   * Variable Changes
+    * Autocomplete values can be added to string variables
+      * User submitted variables can be tracked when editing the variable and can also be added to the existing autocomplete list
     * Display name can be hidden for variables to avoid redundancy with header
     * Extra strings can be prepended and appended to variables
+    * Options for radio, dropdown, and checkboxes can now have a color assigned to the option that is reflected on reports
+    * Grid variables can specify the size of inputs in the grid for better formatting
+  * Reporting Added
+    * Project Reports
+      * Show the overall distribution of sheets by design and study date
+      * Drill down added to project reports to access design reports
+    * Design Reports
+      * Row stratification by Site or any dropdown, radio, or string variable on the design
+      * Column stratification by Study Date or any dropdown, radio, or string variable on the design
+      * Design reports can be downloaded as CSV
+    * Reports include permalinks that allow report configurations to be shared
   * Project Changes
-    * Added reports that show the overall distribution of sheets by design and study date
-    * Design reports allow column stratification by Study Date or any dropdown, radio, or string variable on the design
-    * Reports now include permalinks to allow report configurations to be shared
-    * Design reports can be downloaded to CSV
-    * Project reports can drill down to the design level to view
-      * Sheet distribution by site
-      * Sheet distribution by any dropdown, radio, or autocomplete string variables on the design
     * Subject Code can be renamed to be project-specific (i.e. Participant ID, etc.)
+    * New users can now be added to projects by email
+  * Sheet Changes
+    * Detailed sheet information now available as a popup on the show page
 
 * Bug Fix
   * Removing rows from a grid that contains a file upload variable, now correctly shifts existing file uploads to their new position
-  * Date and Time fields now display properly in grid views
+  * Date and Time input fields now display properly in grid views
   * Editing Grid variables from design page popup fixed
   * Reordering sections and variables on a design fixed when attempting to reorder after saving once
 
