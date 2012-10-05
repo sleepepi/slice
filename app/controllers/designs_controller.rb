@@ -78,7 +78,7 @@ class DesignsController < ApplicationController
         @strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }}
       end
 
-      between = if @sheet_after.blank? and @sheet_before.blank?
+      @report_caption = if @sheet_after.blank? and @sheet_before.blank?
         "All Sheets"
       elsif @sheet_after.blank?
         "#{@design.study_date_name_full} before #{@sheet_before.strftime("%b %d, %Y")}"
@@ -88,7 +88,6 @@ class DesignsController < ApplicationController
         "#{@design.study_date_name_full} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
       end
 
-      @report_caption = "#{between} on #{@design.project.name}"
       @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : @design.study_date_name_full}"
 
       @sheets = sheet_scope

@@ -4,7 +4,7 @@
 
 <table class="table table-hover"><col width="1px" />
   <caption style="padding-bottom:8px">
-    <%= @report_caption %>
+    <%= @design.name %> &middot; <%= @design.project.name %>
   </caption>
   <thead>
     <tr>
@@ -83,6 +83,8 @@
     <% end %>
   </tbody>
 </table>
+
+<center class="muted"><%= @report_caption %></center>
 
 <%= link_to '#permalink', report_design_path(@design, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
                                               sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")), variable_id: (@variable ? @variable.id : nil),

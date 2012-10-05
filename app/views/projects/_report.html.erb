@@ -35,7 +35,25 @@
   <% ranges = (@min.year..@max.year).collect{|year| { name: year.to_s, tooltip: year.to_s, start_date: Date.parse("#{year}-01-01"), end_date: Date.parse("#{year}-12-31") }} %>
 <% end %>
 
+<% between = if @sheet_after.blank? and @sheet_before.blank? %>
+  <% "All Sheets" %>
+<% elsif @sheet_after.blank? %>
+  <% "Date before #{@sheet_before.strftime("%b %d, %Y")}" %>
+<% elsif @sheet_before.blank? %>
+  <% "Date after #{@sheet_after.strftime("%b %d, %Y")}" %>
+<% else %>
+  <% "Date between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}" %>
+<% end %>
+
+<% @report_title = 'Design vs. Sheet Date' %>
+<% @report_caption = "#{@project.name}" %>
+
+<h3 style="text-align:center;margin:0px"><%= @report_title %></h3>
+
 <table class="table table-hover"><col width="1px" />
+  <caption style="padding-bottom:8px">
+    <%= @report_caption %>
+  </caption>
   <thead>
     <tr>
       <th></th>
