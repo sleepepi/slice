@@ -7,6 +7,9 @@
   * Report permalinks specify to right click and copy link address
   * Sheet show page displays if a sheet receipt email has been sent
 
+* Bug Fix
+  * The popup for design email template options displays correctly again
+
 == 0.8.0
 
 * Enhancements
