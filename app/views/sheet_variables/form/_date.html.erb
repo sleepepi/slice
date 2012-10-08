@@ -6,4 +6,5 @@
    date_hard_minimum: (variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (variable.date_hard_maximum.strftime('%m/%d/%Y') rescue ''),
    date_soft_minimum: (variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''), missing_codes: variable.missing_codes, placement: 'right' }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name, placeholder: variable.display_name %>
    <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+   <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn' if variable.show_current_button? %>
 </div>

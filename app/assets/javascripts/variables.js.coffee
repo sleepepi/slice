@@ -31,6 +31,10 @@
     $('[data-object~="autocomplete"]').show()
   else
     $('[data-object~="autocomplete"]').hide()
+  if $(element).val() in ['date', 'time']
+    $('[data-object~="date-or-time"]').show()
+  else
+    $('[data-object~="date-or-time"]').hide()
 
 
 @checkForBlankOptions = () ->
@@ -164,6 +168,23 @@ jQuery ->
   .on('click', '[data-object~="grid-row-add"]', () ->
     variable_id = $(this).data('variable-id')
     $.post(root_url + 'variables/' + variable_id + '/add_grid_row', null, null, "script")
+    false
+  )
+  .on('click', '[data-object~="set-current-time"]', () ->
+    currentTime = new Date()
+    day = currentTime.getDate()
+    month = currentTime.getMonth() + 1
+    year = currentTime.getFullYear()
+    hours = currentTime.getHours()
+    minutes = currentTime.getMinutes()
+
+    minutes = "0" + minutes if minutes < 10
+    month = "0" + month if month < 10
+    day = "0" + day if day < 10
+
+    $($(this).data('target-time')).val(hours+":"+minutes+":00")
+    $($(this).data('target-date')).val(month + "/" + day + "/" + year)
+
     false
   )
 

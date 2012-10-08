@@ -4,6 +4,8 @@ class Variable < ActiveRecord::Base
                   :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
                   # Date
                   :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+                  # Date and Time
+                  :show_current_button,
                   # Calculated
                   :calculation, :format,
                   # Integer and Numeric and Calculated

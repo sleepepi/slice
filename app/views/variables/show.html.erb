@@ -67,6 +67,14 @@
 
     <dt>Date Soft Maximum</dt>
     <dd><%= simple_date @variable.date_soft_maximum %></dd>
+
+    <dt>Show current date</dt>
+    <dd><%= simple_check @variable.show_current_button? %></dd>
+  <% end %>
+
+  <% if ['time'].include?(@variable.variable_type) %>
+    <dt>Show current time</dt>
+    <dd><%= simple_check @variable.show_current_button? %></dd>
   <% end %>
 
   <% if ['calculated'].include?(@variable.variable_type) %>

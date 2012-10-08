@@ -4,4 +4,5 @@
   <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
   <%= text_field_tag field_name, (Time.parse(response).strftime('%H:%M:%S') rescue response), class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}", data: { content: variable.description, title: variable.display_name, object: "condition", placement: 'right' }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name %>
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn' if variable.show_current_button? %>
 </div>

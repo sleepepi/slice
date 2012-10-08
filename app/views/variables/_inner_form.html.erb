@@ -119,10 +119,17 @@
   </div>
 </div>
 
-<div class="control-group" data-object="date">
+<div class="control-group" data-object="date-or-time">
   <%= f.label :date_soft_maximum, nil, class: 'control-label' %>
   <div class="controls">
     <%= f.text_field :date_soft_maximum, class: 'datepicker', value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime('%m/%d/%Y') : '' %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :show_current_button, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.check_box :show_current_button %>
   </div>
 </div>
 
