@@ -10,6 +10,7 @@
     <%= link_to "View Sheets", sheets_path, class: 'btn btn-mini' %>
     <%= link_to "PDF", print_sheet_path(@sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
     <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
+    <% unless @sheet.last_emailed_at.blank? %><span class="label label-success" style="vertical-align:middle" rel="tooltip" title="<%= simple_time @sheet.last_emailed_at %>">Emailed</span><% end %>
   </h1>
 </div>
 

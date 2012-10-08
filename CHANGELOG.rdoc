@@ -5,6 +5,7 @@
   * Date and time variables have the option to show a "Get Current Date/Time" button
   * Design reports can be exported to PDF
   * Report permalinks specify to right click and copy link address
+  * Sheet show page displays if a sheet receipt email has been sent
 
 == 0.8.0
 
