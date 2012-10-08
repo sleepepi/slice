@@ -88,5 +88,5 @@
 
 <%= link_to '#permalink', report_design_path(@design, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
                                               sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")), variable_id: (@variable ? @variable.id : nil),
-                                              column_variable_id: (@column_variable ? @column_variable.id : nil), column_include_missing: (params[:column_include_missing].to_s == '1' ? '1' : '0') ), class: 'pull-right print-hide' %>
+                                              column_variable_id: (@column_variable ? @column_variable.id : nil), column_include_missing: (params[:column_include_missing].to_s == '1' ? '1' : '0') ), class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } %>
 
