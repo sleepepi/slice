@@ -22,6 +22,10 @@ jQuery ->
     .on('change', '[data-object~="form-reload"]', () ->
       $($(this).data('target')).submit()
     )
+    .on('click', '[data-object~="export-report-pdf"]', () ->
+      window.location = $($(this).data('target')).attr('action') + '_print.pdf?' + $($(this).data('target')).serialize()
+      false
+    )
 
   $('#column_variable_id').on('change', () ->
     if $(this).val() == '' or $(this).val() == null

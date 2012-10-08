@@ -9,6 +9,7 @@ Reading::Application.routes.draw do
       post :reorder
       get :report
       post :report
+      get :report_print
     end
     collection do
       post :add_variable

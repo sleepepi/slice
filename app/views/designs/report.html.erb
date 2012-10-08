@@ -59,11 +59,9 @@
             <li>
               <%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %>
             </li>
-            <% if false %>
             <li>
-              <%= link_to 'PDF', '#', data: { object: 'export', format: 'pdf', target: '#report_form' } %>
+              <%= link_to 'PDF', '#', data: { object: 'export-report-pdf', target: '#report_form' } %>
             </li>
-            <% end %>
           </ul>
         </span>
         <button type="submit" class="btn btn-primary">Refresh</button>

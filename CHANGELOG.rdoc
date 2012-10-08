@@ -3,6 +3,7 @@
 * Enhancements
   * Design Library and Variable Library menu items simplified to Designs and Variables
   * Date and time variables have the option to show a "Get Current Date/Time" button
+  * Design reports can be exported to PDF
 
 == 0.8.0
 

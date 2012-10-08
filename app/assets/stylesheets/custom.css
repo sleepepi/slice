@@ -159,3 +159,9 @@ span.rounded-borders {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+
+@media print {
+  .print-hide {
+    display: none;
+  }
+}
