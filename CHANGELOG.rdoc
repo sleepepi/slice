@@ -1,5 +1,8 @@
 == 0.9.0
 
+* Enhancements
+  * Design Library and Variable Library menu items simplified to Designs and Variables
+
 == 0.8.0
 
 * Enhancements
