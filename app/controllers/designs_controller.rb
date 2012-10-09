@@ -381,7 +381,7 @@ class DesignsController < ApplicationController
               start_date = Date.commercial(year,cweek) - 1.day
               end_date = Date.commercial(year,cweek) + 5.days
               scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-              @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
+              @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
               break if year == max.year and cweek == max.cweek
             end
             current_cweek = 1
@@ -393,7 +393,7 @@ class DesignsController < ApplicationController
               start_date = Date.parse("#{year}-#{month}-01")
               end_date = Date.parse("#{year}-#{month}-01").end_of_month
               scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-              @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
+              @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
               break if year == max.year and month == max.month
             end
             current_month = 1
@@ -403,7 +403,7 @@ class DesignsController < ApplicationController
             start_date = Date.parse("#{year}-01-01")
             end_date = Date.parse("#{year}-12-31")
             scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-            @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
+            @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
           end
         end
         if @column_variable and @column_variable.variable_type == 'date' and params[:column_include_missing].to_s == '1'
