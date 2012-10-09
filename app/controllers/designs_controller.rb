@@ -414,7 +414,7 @@ class DesignsController < ApplicationController
         @strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }}
       end
 
-      date_description = (@column_variable and @column_variable.variable_type.include?('date') ? @column_variable.display_name : @design.study_date_name_full)
+      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : @design.study_date_name_full)
 
       @report_caption = if @sheet_after.blank? and @sheet_before.blank?
         "All Sheets"
