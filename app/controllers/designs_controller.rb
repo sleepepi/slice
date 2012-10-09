@@ -343,19 +343,16 @@ class DesignsController < ApplicationController
 
 
       sheet_scope = @design.sheets.scoped()
-      sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
-      sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+      sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
+      sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
 
       sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] != '1'
       sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
 
-      min = sheet_scope.pluck(:study_date).min || Date.today
-      max = sheet_scope.pluck(:study_date).max || Date.today
-
       # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
       @ranges = []
 
-      if @column_variable
+      if @column_variable and ['dropdown', 'radio', 'string'].include?(@column_variable.variable_type)
         column_strata = @column_variable.options_or_autocomplete(params[:column_include_missing].to_s == '1')
         column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
         column_strata.each do |stratum|
@@ -363,13 +360,21 @@ class DesignsController < ApplicationController
           @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]).truncate(10), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value] }
         end
       else # Default columns over Study Date
+        if @column_variable and @column_variable.variable_type == 'date'
+          min = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
+          max = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
+        else
+          min = sheet_scope.pluck(:study_date).min || Date.today
+          max = sheet_scope.pluck(:study_date).max || Date.today
+        end
+
         case @by when "week"
           current_cweek = min.cweek
           (min.year..max.year).each do |year|
             (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
               start_date = Date.commercial(year,cweek) - 1.day
               end_date = Date.commercial(year,cweek) + 5.days
-              scope = sheet_scope.sheet_after(start_date).sheet_before(end_date)
+              scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
               @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
               break if year == max.year and cweek == max.cweek
             end
@@ -381,7 +386,7 @@ class DesignsController < ApplicationController
             (current_month..12).each do |month|
               start_date = Date.parse("#{year}-#{month}-01")
               end_date = Date.parse("#{year}-#{month}-01").end_of_month
-              scope = sheet_scope.sheet_after(start_date).sheet_before(end_date)
+              scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
               @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
               break if year == max.year and month == max.month
             end
@@ -391,9 +396,13 @@ class DesignsController < ApplicationController
           (min.year..max.year).each do |year|
             start_date = Date.parse("#{year}-01-01")
             end_date = Date.parse("#{year}-12-31")
-            scope = sheet_scope.sheet_after(start_date).sheet_before(end_date)
+            scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
             @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count }
           end
+        end
+        if @column_variable and @column_variable.variable_type == 'date' and params[:column_include_missing].to_s == '1'
+          scope = sheet_scope.with_stratum(@column_variable, nil)
+          @ranges << { name: '', tooltip: '', start_date: '', end_date: '', scope: scope, count: scope.count, value: nil }
         end
       end
 
@@ -405,17 +414,19 @@ class DesignsController < ApplicationController
         @strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }}
       end
 
+      date_description = (@column_variable and @column_variable.variable_type.include?('date') ? @column_variable.display_name : @design.study_date_name_full)
+
       @report_caption = if @sheet_after.blank? and @sheet_before.blank?
         "All Sheets"
       elsif @sheet_after.blank?
-        "#{@design.study_date_name_full} before #{@sheet_before.strftime("%b %d, %Y")}"
+        "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
       elsif @sheet_before.blank?
-        "#{@design.study_date_name_full} after #{@sheet_after.strftime("%b %d, %Y")}"
+        "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
       else
-        "#{@design.study_date_name_full} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
+        "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
       end
 
-      @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : @design.study_date_name_full}"
+      @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : date_description}"
 
       @sheets = sheet_scope
     end

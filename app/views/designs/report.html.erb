@@ -20,7 +20,7 @@
     </div>
     <div class="span4">
       Column
-      <%= select_tag :column_variable_id, options_for_select([[@design.study_date_name_full, nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio', 'string']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:column_variable_id] ), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium' %>
+      <%= select_tag :column_variable_id, options_for_select([[@design.study_date_name_full, nil]] + @design.pure_variables.where(variable_type: ['dropdown', 'radio', 'string', 'date']).order('display_name').collect{|v| [v.display_name, v.id]}, params[:column_variable_id] ), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium' %>
       <span id="column-include-blank" style="white-space:nowrap; <%= 'display:none' unless @column_variable %>">
         <%= check_box_tag :column_include_missing, '1', params[:column_include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :column_include_missing, 'Include missing' %>
       </span>
