@@ -20,7 +20,7 @@ class DesignsController < ApplicationController
 
     if @design
       if params[:format] == 'csv'
-        generate_table_csv(@design, @sheets, @ranges, @strata, @variable, @column_variable)
+        generate_table_csv(@design, @sheets, @ranges, @strata, @variable, @column_variable, @report_title, @report_caption)
         return
       end
     end
@@ -291,8 +291,14 @@ class DesignsController < ApplicationController
                            disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 
-  def generate_table_csv(design, sheets, ranges, strata, variable, column_variable)
+  def generate_table_csv(design, sheets, ranges, strata, variable, column_variable, report_title, report_caption)
     @csv_string = CSV.generate do |csv|
+      csv << [report_title]
+      csv << [design.name]
+      csv << [design.project.name]
+      csv << [report_caption]
+      csv << []
+
       header = [(variable ? variable.display_name : 'Site')]
       header += ranges.collect{|hash| hash[:name].blank? ? 'Unknown' : hash[:name]}
       header += ['Total']
@@ -315,7 +321,7 @@ class DesignsController < ApplicationController
       footer += [sheets.count]
       csv << footer
     end
-    file_name = "#{design.name} Report"
+    file_name = report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                            disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
