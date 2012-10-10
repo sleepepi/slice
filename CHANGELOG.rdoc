@@ -13,6 +13,7 @@
     * Invisible: Transparent but still takes up space to the left of the variable input
     * Gone: The variable input shifts to the left and takes up the space the display name would have taken up
       * NOTE: 'Gone' best when used with a Variable Header, and with Grid variables
+  * Radio and Checkbox Variables can now be aligned vertically (default) or in a row horizontally
 
 * Bug Fix
   * The popup for design email template options displays correctly again

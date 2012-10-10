@@ -235,7 +235,9 @@ class VariablesController < ApplicationController
       # For Grid Variables
       :grid_tokens, :multiple_rows,
       # For Autocomplete Strings
-      :autocomplete_values
+      :autocomplete_values,
+      # Radio and Checkbox
+      :alignment
     )
   end
 end

@@ -35,6 +35,10 @@
     $('[data-object~="date-or-time"]').show()
   else
     $('[data-object~="date-or-time"]').hide()
+  if $(element).val() in ['checkbox', 'radio']
+    $('[data-object~="checkbox-or-radio"]').show()
+  else
+    $('[data-object~="checkbox-or-radio"]').hide()
 
 
 @checkForBlankOptions = () ->

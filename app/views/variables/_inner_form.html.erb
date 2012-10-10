@@ -126,7 +126,7 @@
   </div>
 </div>
 
-<div class="control-group">
+<div class="control-group" data-object="date-or-time">
   <%= f.label :show_current_button, nil, class: 'control-label' %>
   <div class="controls">
     <%= f.check_box :show_current_button %>
@@ -161,6 +161,13 @@
         </tbody>
         </table>
         ", title: "Calculation Examples", placement: 'bottom' } %>
+  </div>
+</div>
+
+<div class="control-group" data-object="checkbox-or-radio">
+  <%= f.label :alignment, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.select :alignment, Variable::ALIGNMENT %>
   </div>
 </div>
 

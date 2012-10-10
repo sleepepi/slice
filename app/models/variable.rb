@@ -13,11 +13,14 @@ class Variable < ActiveRecord::Base
                   # Grid
                   :grid_tokens, :grid_variables, :multiple_rows,
                   # Autocomplete
-                  :autocomplete_values
+                  :autocomplete_values,
+                  # Radio and Checkbox
+                  :alignment
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].sort.collect{|i| [i,i]}
   CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
   DISPLAY_NAME_VISIBILITY = [['Visible', 'visible'], ['Invisible', 'invisible'], ['Gone', 'gone']]
+  ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical']]
 
   serialize :options, Array
   serialize :grid_variables, Array
