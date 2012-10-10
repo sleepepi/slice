@@ -39,12 +39,12 @@
 
   <div class="row">
     <div class="span4">
-      After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "#{@design.study_date_name_full} After", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+      After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "After", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
     </div>
 
     <div class="span4">
       <span style="white-space:nowrap">
-        Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "#{@design.study_date_name_full} Before", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+        Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "Before", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
       </span>
     </div>
 
