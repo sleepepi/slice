@@ -90,6 +90,11 @@
     <dd><%= @variable.autocomplete_values %></dd>
   <% end %>
 
+  <% if ['radio', 'checkbox'].include?(@variable.variable_type) %>
+    <dt>Alignment</dt>
+    <dd><%= @variable.alignment.capitalize %></dd>
+  <% end %>
+
   <dt>Creator</dt>
   <dd><%= link_to @variable.user.name, @variable.user if @variable.user %></dd>
 
