@@ -127,66 +127,72 @@ jQuery ->
     false
   )
 
-  $(document).on('click', '[data-object~="variable-check-before-submit"]', () ->
-    if checkMinMax() == false
-      return false
-    if checkDateMinMax() == false
-      return false
-    if checkSoftMinMax() == false
-      return false
-    if checkSoftDateMinMax() == false
-      return false
-    window.$isDirty = false
-    if $(this).data('page')?
-      $('#current_design_page').val($(this).data('page'))
-    $($(this).data('target')).submit()
-    false
-  )
-  .on('change', '[data-object~="condition"]', () ->
-    updateCalculatedVariables()
-  )
-  .on('click', '[data-object~="update-variable"]', () ->
-    $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize() + "&_method=put", null, "script")
-  )
-  .on('click', '[data-object~="popup-variable"]', () ->
-    position = $(this).data('position')
-    variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
-    if variable_id
-      $.get(root_url + 'variables/' + variable_id + '/edit', 'position=' + position, null, "script")
-    false
-  )
-  .on('change', '[data-object~="variable-load"]', () ->
-    position = $(this).data('position')
-    retrieveVariable(position)
-    false
-  )
-  .on('click', '#add_grid_variable', () ->
-    position = $(this).data('position')
-    $.post(root_url + 'variables/add_grid_variable', 'position=' + position, null, "script")
-    false
-  )
-  .on('click', '[data-object~="grid-row-add"]', () ->
-    variable_id = $(this).data('variable-id')
-    $.post(root_url + 'variables/' + variable_id + '/add_grid_row', null, null, "script")
-    false
-  )
-  .on('click', '[data-object~="set-current-time"]', () ->
-    currentTime = new Date()
-    day = currentTime.getDate()
-    month = currentTime.getMonth() + 1
-    year = currentTime.getFullYear()
-    hours = currentTime.getHours()
-    minutes = currentTime.getMinutes()
+  $(document)
+    .on('click', '[data-object~="variable-check-before-submit"]', () ->
+      if checkMinMax() == false
+        return false
+      if checkDateMinMax() == false
+        return false
+      if checkSoftMinMax() == false
+        return false
+      if checkSoftDateMinMax() == false
+        return false
+      window.$isDirty = false
+      if $(this).data('page')?
+        $('#current_design_page').val($(this).data('page'))
+      $($(this).data('target')).submit()
+      false
+    )
+    .on('change', '[data-object~="condition"]', () ->
+      updateCalculatedVariables()
+    )
+    .on('click', '[data-object~="update-variable"]', () ->
+      $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize() + "&_method=put", null, "script")
+    )
+    .on('click', '[data-object~="popup-variable"]', () ->
+      position = $(this).data('position')
+      variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
+      if variable_id
+        $.get(root_url + 'variables/' + variable_id + '/edit', 'position=' + position, null, "script")
+      false
+    )
+    .on('change', '[data-object~="variable-load"]', () ->
+      position = $(this).data('position')
+      retrieveVariable(position)
+      false
+    )
+    .on('click', '#add_grid_variable', () ->
+      position = $(this).data('position')
+      $.post(root_url + 'variables/add_grid_variable', 'position=' + position, null, "script")
+      false
+    )
+    .on('click', '[data-object~="grid-row-add"]', () ->
+      variable_id = $(this).data('variable-id')
+      $.post(root_url + 'variables/' + variable_id + '/add_grid_row', null, null, "script")
+      false
+    )
+    .on('click', '[data-object~="set-current-time"]', () ->
+      currentTime = new Date()
+      day = currentTime.getDate()
+      month = currentTime.getMonth() + 1
+      year = currentTime.getFullYear()
+      hours = currentTime.getHours()
+      minutes = currentTime.getMinutes()
 
-    minutes = "0" + minutes if minutes < 10
-    month = "0" + month if month < 10
-    day = "0" + day if day < 10
+      minutes = "0" + minutes if minutes < 10
+      month = "0" + month if month < 10
+      day = "0" + day if day < 10
 
-    $($(this).data('target-time')).val(hours+":"+minutes+":00")
-    $($(this).data('target-date')).val(month + "/" + day + "/" + year)
+      $($(this).data('target-time')).val(hours+":"+minutes+":00")
+      $($(this).data('target-date')).val(month + "/" + day + "/" + year)
 
-    false
-  )
+      false
+    )
+    .on('click', '[data-object~="clear-radio"]', () ->
+      group_name = $(this).data('group')
+      $(":radio[name='" + group_name + "']").prop('checked', false)
+      false
+    )
 
   $('[data-object~="variable-typeahead"]').each( () ->
     $this = $(this)

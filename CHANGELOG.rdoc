@@ -7,6 +7,7 @@
   * Report permalinks specify to right click and copy link address
   * Sheet show page displays if a sheet receipt email has been sent
   * Design reports can now be stratified by column by any date variable captured on the design
+  * Radio variables can now be cleared using a new clear button at the bottom of the radio button group
 
 * Bug Fix
   * The popup for design email template options displays correctly again
