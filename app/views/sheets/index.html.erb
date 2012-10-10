@@ -62,7 +62,7 @@
     <div class="span4 control-group">
       <%= hidden_field_tag :stratum_id, params[:stratum_id], data: { object: 'filter' } %>
       <%= hidden_field_tag :stratum_value, params[:stratum_value], data: { object: 'filter' } %>
-      <%= hidden_field_tag :include_missing, params[:include_missing] %>
+      <%= hidden_field_tag :row_include, params[:row_include] %>
       <% @variable = current_user.all_viewable_variables.find_by_id(params[:stratum_id]) %>
       <% if @variable %>
         <div data-object="filter-html">
@@ -75,7 +75,7 @@
             <% else %>
               <span class="muted">Unknown</span>
             <% end %>
-            <% if params[:include_missing] == '1' %><br /><strong>Include Missing</strong><% end %>
+            <br /><strong>Include <%= params[:row_include] %></strong>
           </div>
         </div>
       <% end %>
@@ -83,7 +83,7 @@
     <div class="span4 control-group">
       <%= hidden_field_tag :column_stratum_id, params[:column_stratum_id], data: { object: 'filter' } %>
       <%= hidden_field_tag :column_stratum_value, params[:column_stratum_value], data: { object: 'filter' } %>
-      <%= hidden_field_tag :column_include_missing, params[:column_include_missing] %>
+      <%= hidden_field_tag :column_include, params[:column_include] %>
       <% @variable = current_user.all_viewable_variables.find_by_id(params[:column_stratum_id]) %>
       <% if @variable %>
         <div data-object="filter-html">
@@ -97,7 +97,7 @@
               <span class="muted">Unknown</span>
             <% end %>
             <% end %>
-            <% if params[:column_include_missing] == '1' %><br /><strong>Include Missing</strong><% end %>
+            <br /><strong>Include <%= params[:column_include] %></strong>
           </div>
         </div>
       <% end %>

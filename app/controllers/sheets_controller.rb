@@ -64,15 +64,37 @@ class SheetsController < ApplicationController
     sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
     sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
 
-    sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] == '0'
-    sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] == '0'
+
+    if params[:row_include] == 'all'
+      # No filter required
+    elsif @variable and params[:row_include] == 'known'
+      # Filter only known (non-missing) values for @variable
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable)
+    elsif @variable and params[:row_include] == 'missing' # Missing or Known
+      sheet_scope = sheet_scope.with_any_variable_response(@variable)
+    elsif @variable and params[:row_include] == 'unknown'
+      # Filter to only @variable where it's unknown
+      sheet_scope = sheet_scope.without_variable_response(@variable)
+    end
+
+    if params[:column_include] == 'all'
+      # No filter required
+    elsif @column_variable and params[:column_include] == 'known'
+      # Filter only known (non-missing) values for @column_variable
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
+    elsif @column_variable and params[:column_include] == 'missing'
+      sheet_scope = sheet_scope.with_any_variable_response(@column_variable)
+    elsif @column_variable and params[:column_include] == 'unknown'
+      # Filter to only @column_variable where it's unknown
+      sheet_scope = sheet_scope.without_variable_response(@column_variable)
+    end
 
     if params[:stratum_id].blank? and not params[:stratum_value].blank?
       params[:site_id] = params[:stratum_value]
       params[:stratum_value] = nil
     end
 
-    sheet_scope = sheet_scope.with_stratum(params[:stratum_id], params[:stratum_value]) unless params[:stratum_id].blank?
+    sheet_scope = sheet_scope.with_stratum(params[:stratum_id], params[:stratum_value]) unless params[:stratum_value].blank?
     sheet_scope = sheet_scope.with_stratum(params[:column_stratum_id], params[:column_stratum_value]) unless (@column_variable and @column_variable.variable_type == 'date') or params[:column_stratum_id].blank? or params[:column_stratum_value].blank?
 
     ['design', 'project', 'site', 'user'].each do |filter|
