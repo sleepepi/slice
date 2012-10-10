@@ -221,7 +221,7 @@ class VariablesController < ApplicationController
     end
 
     params[:variable].slice(
-      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id, :updater_id, :hide_display_name, :prepend, :append,
+      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
       # For Integers and Numerics
       :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
       # For Dates

@@ -4,8 +4,8 @@
   </div>
 <% end %>
 <div class="control-group">
-  <% unless @variable.hide_display_name? %><label class="control-label"><%= @variable.display_name %></label><% end %>
-  <div class="<%= "controls controls-row" unless @variable.hide_display_name? %>" style="padding-top:5px;">
+  <% if @variable.display_name_visibility == 'visible' %><label class="control-label"><%= @variable.display_name %></label><% end %>
+  <div class="<%= "controls controls-row" unless @variable.display_name_visibility == 'gone' %>" style="padding-top:5px;">
     <span class="rounded-borders" style="background-color: <%= @variable.response_color(@sheet) %>">
     <% sheet_variable = @sheet ? @sheet.sheet_variables.find_by_variable_id(@variable.id) : nil %>
     <% if Variable::TYPE.flatten.uniq.include?(@variable.variable_type) %>

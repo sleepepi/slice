@@ -22,9 +22,9 @@
 </div>
 
 <div class="control-group">
-  <%= f.label :hide_display_name, nil, class: 'control-label' %>
+  <%= f.label :display_name_visibility, nil, class: 'control-label' %>
   <div class="controls">
-    <%= f.check_box :hide_display_name %>
+    <%= f.select :display_name_visibility, Variable::DISPLAY_NAME_VISIBILITY %>
   </div>
 </div>
 

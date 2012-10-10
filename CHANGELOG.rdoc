@@ -8,6 +8,11 @@
   * Sheet show page displays if a sheet receipt email has been sent
   * Design reports can now be stratified by column by any date variable captured on the design
   * Radio variables can now be cleared using a new clear button at the bottom of the radio button group
+  * Variable display names can be set as:
+    * Visible: Shows up to the left of the variable input
+    * Invisible: Transparent but still takes up space to the left of the variable input
+    * Gone: The variable input shifts to the left and takes up the space the display name would have taken up
+      * NOTE: 'Gone' best when used with a Variable Header, and with Grid variables
 
 * Bug Fix
   * The popup for design email template options displays correctly again

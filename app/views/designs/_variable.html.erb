@@ -12,9 +12,9 @@
     </div>
   <% end %>
 
-  <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' unless @variable.hide_display_name? %>
+  <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' if @variable.display_name_visibility == 'visible' %>
 
-  <div class="<%= "controls" unless @variable.hide_display_name? %> <%= @variable.variable_type if ['radio', 'checkbox'].include?(@variable.variable_type) %>">
+  <div class="<%= "controls" unless @variable.display_name_visibility == 'gone' %> <%= @variable.variable_type if ['radio', 'checkbox'].include?(@variable.variable_type) %>">
     <div style="line-height:30px">
       <%= render partial: 'sheet_variables/form', locals: { disabled: disabled, variable: @variable } %>
     </div>
