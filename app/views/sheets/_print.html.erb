@@ -20,7 +20,7 @@
 </table>
 
 <div class="page-header">
-  <h1><%= @sheet.design.name %> <%= image_tag @sheet.project.logo_url, style: "height:30px;vertical-align:bottom" if @sheet.project.logo.size > 0 %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= @sheet.subject.acrostic %><% end %></div></h1>
+  <h1><%= @sheet.design.name %> <%= image_tag "#{request.protocol}#{request.host_with_port}" + @sheet.project.logo_url, style: "height:30px;vertical-align:bottom" if @sheet.project.logo.size > 0 %><div style="float:right;line-height:0px;font-size:0px;color:white"> - <%= @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= @sheet.subject.acrostic %><% end %></div></h1>
 </div>
 <p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @sheet.design.description %></p>
 
@@ -77,7 +77,7 @@
                 <% end %>
               <% elsif @variable.variable_type == 'file' and @variable.response_file(@sheet).size > 0 %>
                 <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.downcase) %>
-                  <%= image_tag @variable.response_file_url(@sheet), style: "height:64px;border:0px solid white" %>
+                  <%= image_tag "#{request.protocol}#{request.host_with_port}" + @variable.response_file_url(@sheet), style: "height:64px;border:0px solid white" %>
                 <% else %>
                   <%= @variable.response_file_url(@sheet).split('/').last %>
                 <% end %>
