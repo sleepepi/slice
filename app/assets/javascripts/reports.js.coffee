@@ -23,7 +23,7 @@ jQuery ->
       $($(this).data('target')).submit()
     )
     .on('click', '[data-object~="export-report-pdf"]', () ->
-      window.location = $($(this).data('target')).attr('action') + '_print.pdf?' + $($(this).data('target')).serialize()
+      window.location = $($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize()
       false
     )
 

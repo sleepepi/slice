@@ -15,6 +15,7 @@
       * NOTE: 'Gone' best when used with a Variable Header, and with Grid variables
   * Radio and Checkbox Variables can now be aligned vertically (default) or in a row horizontally
   * Radio and Checkbox choices are now displayed as they appear on the form in the variables list
+  * Design reports can be rendered in portrait (default) or landscape mode
 
 * Bug Fix
   * The popup for design email template options displays correctly again

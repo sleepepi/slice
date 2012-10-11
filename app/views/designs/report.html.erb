@@ -63,7 +63,8 @@
           <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
           <ul class="dropdown-menu" style="margin-top:9px">
             <li><%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %></li>
-            <li><%= link_to 'PDF', '#', data: { object: 'export-report-pdf', target: '#report_form' } %></li>
+            <li><%= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' } %></li>
+            <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
           </ul>
         </span>
         <button type="submit" class="btn btn-primary">Refresh</button>

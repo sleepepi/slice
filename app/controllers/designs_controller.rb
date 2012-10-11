@@ -6,8 +6,23 @@ class DesignsController < ApplicationController
 
     setup_report
 
+    orientation = ['Portrait', 'Landscape'].include?(params[:orientation].to_s.capitalize) ? params[:orientation].to_s.capitalize : 'Portrait'
+
     if @design
-      render layout: false
+      html = render_to_string( layout: false, action: 'report_print' )
+
+      pdf_attachment = begin
+        kit = PDFKit.new(html, orientation: orientation)
+        stylesheet_file = "#{Rails.root}/public/assets/application.css"
+        kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
+        kit.to_pdf
+      rescue
+        render nothing: true
+        return
+      end
+
+      file_name = @report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
+      send_data(pdf_attachment, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: 'application/pdf')
     else
       render nothing: true
     end
