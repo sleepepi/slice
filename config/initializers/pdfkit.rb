@@ -5,7 +5,8 @@ PDFKit.configure do |config|
     disable_internal_links: true,
     footer_font_name: 'Helvetica Neue',
     footer_right: "Page [page] of [toPage]",
-    footer_left: '[section]'
+    footer_left: '[section]',
+    footer_center: '[date]'
     #, header_right: "Page [page] of [toPage]"
     #, footer_center: "Page [page] of [toPage]"
     #, page_size: 'Legal'
