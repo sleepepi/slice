@@ -57,7 +57,7 @@ class Sheet < ActiveRecord::Base
   belongs_to :subject
   has_many :sheet_variables
   has_many :variables, through: :sheet_variables, conditions: { deleted: false }
-  has_many :sheet_emails
+  has_many :sheet_emails, conditions: { deleted: false }
 
   # Model Methods
   def destroy
