@@ -30,16 +30,16 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   test "sheet receipt email" do
-    valid = users(:valid)
+    sheet_email = sheet_emails(:one)
 
     # Send the email, then test that it got queued
-    email = UserMailer.sheet_receipt(valid, 'recipient@example.com', 'cc@example.com', 'Sheet Receipt Subject', 'Body', 'sheet.pdf', '').deliver
+    email = UserMailer.sheet_receipt(sheet_email).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
     # Test the body of the sent email contains what we expect it to
-    assert_equal ['recipient@example.com'], email.to
+    assert_equal ['to@example.com'], email.to
     assert_equal "Sheet Receipt Subject", email.subject
-    assert_match(/Body/, email.encoded)
+    assert_match(/Email Body/, email.encoded)
   end
 
   test "user invited to site email" do
