@@ -357,6 +357,7 @@ class DesignsController < ApplicationController
 
     @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
     @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+    @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
 
     if @design
       @variable = @design.pure_variables.find_by_id(params[:variable_id])
@@ -364,6 +365,9 @@ class DesignsController < ApplicationController
 
 
       sheet_scope = @design.sheets.scoped()
+      sheet_scope = sheet_scope.last_entry if @filter == 'last'
+      sheet_scope = sheet_scope.first_entry if @filter == 'first'
+
       sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
       sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
 
@@ -385,8 +389,8 @@ class DesignsController < ApplicationController
           min = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
           max = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
         else
-          min = sheet_scope.pluck(:study_date).min || Date.today
-          max = sheet_scope.pluck(:study_date).max || Date.today
+          min = sheet_scope.pluck("sheets.study_date").min || Date.today
+          max = sheet_scope.pluck("sheets.study_date").max || Date.today
         end
 
         case @by when "week"

@@ -9,6 +9,7 @@
 <%= form_tag report_design_path(@design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <%= hidden_field_tag :by, @by %>
   <%= hidden_field_tag :percent, @percent %>
+  <%= hidden_field_tag :filter, @filter %>
 
   <div class="row">
     <div class="span4">
@@ -57,7 +58,14 @@
     </div>
   </div>
   <div class="row">
-    <div class="span4 offset8">
+    <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px;">
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button data-object="set-filter" data-value="all" class="btn btn-mini <%= 'active' if @filter == 'all' %>">All Sheets</button>
+        <button data-object="set-filter" data-value="last" class="btn btn-mini <%= 'active' if @filter == 'last' %>">Last Sheet Entry</button>
+        <button data-object="set-filter" data-value="first" class="btn btn-mini <%= 'active' if @filter == 'first' %>">First Sheet Entry</button>
+      </div>
+    </div>
+    <div class="span4 offset4">
       <div class="pull-right">
         <span class="dropdown">
           <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>

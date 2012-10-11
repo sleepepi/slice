@@ -19,6 +19,11 @@ jQuery ->
       $("#report_form").submit()
       false
     )
+    .on('click', '[data-object~="set-filter"]', () ->
+      $("#filter").val($(this).data('value'))
+      $("#report_form").submit()
+      false
+    )
     .on('change', '[data-object~="form-reload"]', () ->
       $($(this).data('target')).submit()
     )
