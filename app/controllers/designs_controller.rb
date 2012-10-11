@@ -378,7 +378,7 @@ class DesignsController < ApplicationController
         column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
         column_strata.each do |stratum|
           scope = sheet_scope.with_stratum(@column_variable, stratum[:value])
-          @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]).truncate(10), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value] }
+          @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value] }
         end
       else # Default columns over Study Date
         if @column_variable and @column_variable.variable_type == 'date'

@@ -17,7 +17,7 @@
         <% end %>
       </th>
       <% @ranges.each do |hash| %>
-        <th><span class="count-rot315 <%= 'muted' if hash[:name].blank? %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] %>"><%= hash[:name].blank? ? 'Unknown' : hash[:name] %></span></th>
+        <th><span class="count-rot315 <%= 'muted' if hash[:name].blank? %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] %>"><%= hash[:name].blank? ? 'Unknown' : hash[:name].truncate(10) %></span></th>
       <% end %>
       <th><span class="count-rot315">Total</span></th>
     </tr>
