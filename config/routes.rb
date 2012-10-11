@@ -1,5 +1,7 @@
 Reading::Application.routes.draw do
 
+  get "sheet_emails/show"
+
   get "reports/index"
 
   resources :designs do
@@ -45,6 +47,8 @@ Reading::Application.routes.draw do
       post :remove_file
     end
   end
+
+  resources :sheet_emails
 
   resources :sites do
     collection do

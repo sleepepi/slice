@@ -19,10 +19,10 @@ class UserMailer < ActionMailer::Base
 #         reply_to: user.email)
   end
 
-  def sheet_receipt(current_user, to, cc, subject, body, attachment_name, attachment)
-    @body = body
-    attachments[attachment_name] = { mime_type: 'application/pdf', content: attachment } unless attachment.blank?
-    mail(to: to, cc: cc, reply_to: current_user.email, subject: subject)
+  def sheet_receipt(sheet_email)
+    @body = sheet_email.email_body
+    attachments[sheet_email.email_pdf_file.filename] = { mime_type: 'application/pdf', content: sheet_email.email_pdf_file.read() } unless sheet_email.email_pdf_file.size == 0
+    mail(to: sheet_email.email_to, cc: sheet_email.email_cc, reply_to: sheet_email.user.email, subject: sheet_email.email_subject)
   end
 
   def invite_user_to_site(site_user)

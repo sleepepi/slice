@@ -17,6 +17,7 @@
   * Radio and Checkbox choices are now displayed as they appear on the form in the variables list
   * Design reports can be rendered in portrait (default) or landscape mode
   * Printed PDFs have the PDF creation date in the center footer of the PDF
+  * Sheet Receipt emails are tracked and email history is viewable from the sheet show page
 
 * Bug Fix
   * The popup for design email template options displays correctly again

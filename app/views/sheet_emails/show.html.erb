@@ -1,0 +1,35 @@
+<% @title = "Sheet Email: #{@sheet_email.sheet.name}" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @sheet_email.sheet.name, @sheet_email.sheet %> Email
+  </h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Sent</dt>
+  <dd><%= simple_time @sheet_email.created_at %></dd>
+
+  <dt>From</dt>
+  <dd><%= link_to @sheet_email.user.name, @sheet_email %></dd>
+
+  <dt>To</dt>
+  <dd><%= @sheet_email.email_to %></dd>
+
+  <dt>CC</dt>
+  <dd><%= @sheet_email.email_cc %></dd>
+
+  <dt>Subject</dt>
+  <dd><%= @sheet_email.email_subject %></dd>
+
+  <dt>Attachment</dt>
+  <dd>
+    <% if @sheet_email.email_pdf_file.size > 0 %>
+      <%= link_to @sheet_email.email_pdf_file_url.to_s.split('/').last, @sheet_email.email_pdf_file.url, target: '_blank', class: 'btn btn-mini' %>
+      <%= number_to_human_size(@sheet_email.email_pdf_file.size) %>
+    <% end %>
+  </dd>
+
+  <dt>Body</dt>
+  <dd><%= simple_format @sheet_email.email_body %></dd>
+</dl>
+

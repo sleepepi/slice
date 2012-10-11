@@ -10,6 +10,7 @@
     <%= link_to "View Sheets", sheets_path, class: 'btn btn-mini' %>
     <%= link_to "PDF", print_sheet_path(@sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
     <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
+    <% if @sheet.sheet_emails.size > 0 %><%= link_to 'Email History', '#', class: 'btn btn-mini btn-info', id: 'email_history_popup' %><% end %>
     <% unless @sheet.last_emailed_at.blank? %><span class="label label-success" style="vertical-align:middle" rel="tooltip" title="<%= simple_time @sheet.last_emailed_at %>">Emailed</span><% end %>
   </h1>
 </div>
@@ -146,5 +147,38 @@
 
   <div class="modal-footer">
     <%= link_to 'Close', '#', class: 'btn', data: { target: '#info_modal', object: 'modal-hide' } %>
+  </div>
+</div>
+
+<div id="email_history_modal" class="modal" style="display:none">
+  <div class="modal-header">
+    <strong>Email History</strong>
+    <a class="close" data-dismiss="modal">×</a>
+  </div>
+  <div class="modal-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>On</th>
+          <th>From</th>
+          <th>To</th>
+          <th>PDF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sheet.sheet_emails.order('created_at DESC').each do |sheet_email| %>
+          <tr data-link="<%= sheet_email_path(sheet_email) %>" style="cursor:pointer">
+            <td style="white-space:nowrap"><%= simple_time sheet_email.created_at %></td>
+            <td><%= sheet_email.user.name %></td>
+            <td><%= sheet_email.email_to %></td>
+            <td><%= simple_check sheet_email.email_pdf_file.size > 0 %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <%= link_to 'Close', '#', class: 'btn', data: { target: '#email_history_modal', object: 'modal-hide' } %>
   </div>
 </div>

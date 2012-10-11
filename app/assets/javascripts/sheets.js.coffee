@@ -22,6 +22,15 @@ jQuery ->
     false
   )
 
+  $("#email_history_popup").on('click', () ->
+    $('#email_history_modal').modal({ dynamic: true })
+    false
+  )
+
+  $("tr[data-link]").on('click', () ->
+    window.location = $(this).data("link")
+  )
+
   $(document).on('click', '[data-object~="export"]', () ->
     window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
     false

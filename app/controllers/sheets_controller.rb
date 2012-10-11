@@ -29,13 +29,16 @@ class SheetsController < ApplicationController
           kit = PDFKit.new(html)
           stylesheet_file = "#{Rails.root}/public/assets/application.css"
           kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
-          kit.to_pdf
+          filename = "#{@sheet.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{@sheet.study_date.strftime("%Y-%m-%d")}_#{@sheet.name.strip.gsub(/[^\w]/, '-')}.pdf"
+          kit.to_file("#{Rails.root}/tmp/#{filename}")
         rescue
           nil
         end
       end
 
-      @sheet.email_receipt(current_user, params[:to], params[:cc], params[:subject], params[:body], pdf_attachment)
+      @sheet_email = @sheet.sheet_emails.create(email_body: params[:body], email_cc: params[:cc], email_pdf_file: pdf_attachment, email_subject: params[:subject], email_to: params[:to], user_id: current_user.id)
+
+      @sheet_email.email_receipt
 
       respond_to do |format|
         format.html { redirect_to @sheet, notice: 'Sheet receipt email was successfully sent.' }

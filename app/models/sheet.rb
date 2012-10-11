@@ -57,6 +57,7 @@ class Sheet < ActiveRecord::Base
   belongs_to :subject
   has_many :sheet_variables
   has_many :variables, through: :sheet_variables, conditions: { deleted: false }
+  has_many :sheet_emails
 
   # Model Methods
   def destroy
@@ -69,11 +70,6 @@ class Sheet < ActiveRecord::Base
 
   def description
     self.design.description
-  end
-
-  def email_receipt(current_user, to, cc, subject, body, attachment)
-    UserMailer.sheet_receipt(current_user, to, cc, subject, body, "#{self.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{self.study_date.strftime("%Y-%m-%d")}_#{self.name.strip.gsub(/[^\w]/, '-')}.pdf", attachment).deliver if Rails.env.production?
-    self.update_column :last_emailed_at, Time.now
   end
 
   def email_subject_template(current_user)
