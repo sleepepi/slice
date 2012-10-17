@@ -58,6 +58,10 @@ class SheetsController < ApplicationController
     current_user.pagination_set!('sheets', params[:sheets_per_page].to_i) if params[:sheets_per_page].to_i > 0
     sheet_scope = current_user.all_viewable_sheets
 
+    @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
+    sheet_scope = sheet_scope.last_entry if @filter == 'last'
+    sheet_scope = sheet_scope.first_entry if @filter == 'first'
+
     @sheet_after = parse_date(params[:sheet_after])
     @sheet_before = parse_date(params[:sheet_before])
 

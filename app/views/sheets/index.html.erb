@@ -60,6 +60,7 @@
       </div>
     </div>
     <div class="span4 control-group">
+      <%= text_field_tag :filter, @filter, data: { object: 'filter' } %>
       <%= hidden_field_tag :stratum_id, params[:stratum_id], data: { object: 'filter' } %>
       <%= hidden_field_tag :stratum_value, params[:stratum_value], data: { object: 'filter' } %>
       <%= hidden_field_tag :row_include, params[:row_include] %>

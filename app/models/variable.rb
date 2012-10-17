@@ -329,7 +329,7 @@ class Variable < ActiveRecord::Base
         self.grid_variables.each do |grid_variable|
           grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
           grid_raw[position] ||= {}
-          grid_raw[position][grid.variable_id] = grid.response_raw if grid
+          grid_raw[position][grid.variable.name] = grid.response_raw if grid
         end
       end
       grid_raw.to_json
