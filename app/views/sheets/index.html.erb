@@ -110,17 +110,19 @@
     <span class="dropdown">
       <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
       <ul class="dropdown-menu" style="margin-top:9px">
+        <% if false %>
         <li>
           <%= link_to 'Unlabeled Data', '#', data: { object: 'export', format: 'raw_csv', target: '#sheets_search' } %>
         </li>
         <li>
           <%= link_to 'Labeled Data', '#', data: { object: 'export', format: 'labeled_csv', target: '#sheets_search' } %>
         </li>
+        <% end %>
         <li>
-          <%= link_to 'PDF Collation', '#', data: { object: 'export', format: 'scope.pdf', target: '#sheets_search' } %>
+          <%= link_to 'Excel (XLS)', '#', data: { object: 'export', format: 'xls', target: '#sheets_search' } %>
         </li>
         <li>
-          <%= link_to 'XLS with Grids', '#', data: { object: 'export', format: 'xls', target: '#sheets_search' } %>
+          <%= link_to 'Collation (PDF)', '#', data: { object: 'export', format: 'scope.pdf', target: '#sheets_search' } %>
         </li>
       </ul>
     </span>
