@@ -133,6 +133,7 @@ class SheetsController < ApplicationController
       sheet_scope = sheet_scope.order(@order)
     end
 
+    @raw_data = (params[:format] == 'raw_csv')
 
     @sheet_count = sheet_scope.count
 
@@ -159,11 +160,13 @@ class SheetsController < ApplicationController
     end
 
     @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
+    @sheet_scope = sheet_scope
 
     respond_to do |format|
       format.html # index.html.erb
       format.js
       format.json { render json: @sheets }
+      format.xls
     end
   end
 

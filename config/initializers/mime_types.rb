@@ -5,3 +5,4 @@
 # Mime::Type.register_alias "text/html", :iphone
 Mime::Type.register_alias "text/csv", :raw_csv
 Mime::Type.register_alias "text/csv", :labeled_csv
+Mime::Type.register "application/xls", :xls
