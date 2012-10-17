@@ -11,7 +11,9 @@ class SheetVariable < ActiveRecord::Base
 
   mount_uploader :response_file, GenericUploader
 
-
+  def max_grids_position
+    self.variable.variable_type == 'grid' && self.grids.size > 0 ? self.grids.pluck(:position).max : -1
+  end
 
   def update_grid_responses!(response)
     # {"13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
@@ -69,6 +71,8 @@ class SheetVariable < ActiveRecord::Base
     else
       self.grids.find_by_variable_id_and_position(variable_id, position) # Grid
     end
+
+    return result unless object
 
     if ['dropdown', 'radio'].include?(object.variable.variable_type)
       hash = (object.variable.options.select{|option| option[:value] == object.response}.first || {})
