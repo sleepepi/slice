@@ -61,8 +61,8 @@
     <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px;">
       <div class="btn-group" data-toggle="buttons-radio">
         <button data-object="set-filter" data-value="all" class="btn btn-mini <%= 'active' if @filter == 'all' %>">All Sheets</button>
-        <button data-object="set-filter" data-value="last" class="btn btn-mini <%= 'active' if @filter == 'last' %>">Last Sheet Entry</button>
-        <button data-object="set-filter" data-value="first" class="btn btn-mini <%= 'active' if @filter == 'first' %>">First Sheet Entry</button>
+        <button data-object="set-filter" data-value="last" class="btn btn-mini <%= 'active' if @filter == 'last' %>" rel="tooltip" title="Select only the LAST sheet entered for subjects with multiple sheets recorded for <%= @design.name %>." data-placement="bottom">Last Sheet Entry</button>
+        <button data-object="set-filter" data-value="first" class="btn btn-mini <%= 'active' if @filter == 'first' %>" rel="tooltip" title="Select only the FIRST sheet entered for subjects with multiple sheets recorded for <%= @design.name %>." data-placement="bottom">First Sheet Entry</button>
       </div>
     </div>
     <div class="span4 offset4">
