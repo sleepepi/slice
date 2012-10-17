@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_many :designs, conditions: { deleted: false }
   has_many :projects, conditions: { deleted: false }
+  has_many :reports, conditions: { deleted: false }
   has_many :sheets, conditions: { deleted: false }
   has_many :sites, conditions: { deleted: false }
   has_many :subjects, conditions: { deleted: false }
@@ -64,6 +65,18 @@ class User < ActiveRecord::Base
   def all_viewable_projects
     @all_viewable_projects ||= begin
       Project.current.with_librarian(self.id, [true, false])
+    end
+  end
+
+  def all_reports
+    @all_reports ||= begin
+       Report.current.where(user_id: self.id)
+    end
+  end
+
+  def all_viewable_reports
+    @all_viewable_reports ||= begin
+       Report.current.where(user_id: self.id)
     end
   end
 

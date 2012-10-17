@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+# Load options to be accessible via symbol or string
+--- !map:HashWithIndifferentAccess
+
+one:
+  user_id: 1
+  name: MyString
+  options: MyText
+  deleted: false
+
+two:
+  user_id: 1
+  name: MyString
+  options: MyText
+  deleted: false

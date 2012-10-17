@@ -21,6 +21,7 @@
   * Design reports can now specify to only view reports for the first or last entered sheet for a subject
   * Sheets and grids can now be exported as an XLS file with a sheets tab and a grids tab
   * Basic auditing for sheets now enabled
+  * Custom design reports can now be saved
 
 * Bug Fix
   * The popup for design email template options displays correctly again

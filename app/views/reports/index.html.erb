@@ -27,7 +27,16 @@
   <div class="span4">
     <h2 class="about-title">Custom Reports</h2>
     <ul>
-      <li class="muted">You have not yet saved any custom templates.</li>
+      <% if current_user.reports.size > 0 %>
+        <% current_user.reports.each do |report| %>
+          <li id="report_<%= report.id %>">
+            <%= link_to report.name, report %>
+            <%= link_to 'Delete', report, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Report #{report.name}?" } %>
+          </li>
+        <% end %>
+      <% else %>
+        <li class="muted">You have not yet saved any custom templates.</li>
+      <% end %>
     </ul>
   </div>
 </div>
