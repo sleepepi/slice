@@ -14,6 +14,7 @@ gem 'kaminari',             '~> 0.14.1'
 gem 'carrierwave',          '~> 0.6.2'
 # PDFKit: Generate PDFs from webpages, https://github.com/pdfkit/pdfkit/wiki/Installing-WKHTMLTOPDF
 gem 'pdfkit',               '~> 0.5.2'
+gem 'audited-activerecord', '~> 3.0.0'
 
 # Gems used only for assets and not required
 # in production environments by default.

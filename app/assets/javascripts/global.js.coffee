@@ -14,6 +14,10 @@ jQuery ->
       else
         false
     )
+    .on('click', '[data-object~="modal-show"]', () ->
+      $($(this).data('target')).modal({ dynamic: true });
+      false
+    )
     .on('click', '[data-object~="modal-hide"]', () ->
       $($(this).data('target')).modal('hide');
       false

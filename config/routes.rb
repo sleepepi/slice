@@ -45,6 +45,7 @@ Reading::Application.routes.draw do
       post :send_email
       get :print
       post :remove_file
+      get :audits
     end
   end
 

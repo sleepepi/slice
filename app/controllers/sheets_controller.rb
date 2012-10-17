@@ -199,6 +199,20 @@ class SheetsController < ApplicationController
     end
   end
 
+  def audits
+    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
+
+    respond_to do |format|
+      if @sheet
+        format.html # audits.html.erb
+        format.json { render json: @sheet }
+      else
+        format.html { redirect_to sheets_path }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   # GET /sheets/new
   # GET /sheets/new.json
   def new

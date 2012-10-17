@@ -1,6 +1,9 @@
 class Sheet < ActiveRecord::Base
   attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id
 
+  audited
+  # has_associated_audits
+
   # Named Scopes
   scope :current, conditions: { deleted: false }
   scope :search, lambda { |*args| { conditions: [ 'subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, '%' + args.first.downcase.split(' ').join('%') + '%', false, '%' + args.first.downcase.split(' ').join('%') + '%'  ] } }

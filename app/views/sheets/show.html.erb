@@ -12,6 +12,7 @@
     <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
     <% if @sheet.sheet_emails.size > 0 %><%= link_to 'Email History', '#', class: 'btn btn-mini btn-info', id: 'email_history_popup' %><% end %>
     <% unless @sheet.last_emailed_at.blank? %><span class="label label-success" style="vertical-align:middle" rel="tooltip" title="<%= simple_time @sheet.last_emailed_at %>">Emailed</span><% end %>
+    <% if @sheet.audits.size > 0 %><%= link_to 'Audits', audits_sheet_path(@sheet), class: 'btn btn-mini btn-info' %><% end %>
   </h1>
 </div>
 
