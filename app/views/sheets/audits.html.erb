@@ -26,5 +26,16 @@
         <td><%= audit.audited_changes %></td>
       </tr>
     <% end %>
+
+     <% @sheet.associated_audits.reverse.each do |audit| %>
+      <tr>
+        <td><%= audit.version %></td>
+        <td style="white-space:nowrap"><%= simple_time audit.created_at %></td>
+        <td><%= link_to audit.user.name, audit.user if audit.user %></td>
+        <td><span class="label" style="background-color:<%= "#7ad67a" if audit.action == 'create' %><%= "#7AA6FF" if audit.action == 'update' %>"><%= audit.action %></span></td>
+        <td><%= audit.audited_changes %></td>
+      </tr>
+    <% end %>
+
   </tbody>
 </table>

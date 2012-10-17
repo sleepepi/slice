@@ -2,7 +2,7 @@ class Sheet < ActiveRecord::Base
   attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id
 
   audited
-  # has_associated_audits
+  has_associated_audits
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

@@ -1,7 +1,7 @@
 class Grid < ActiveRecord::Base
   attr_accessible :response, :response_file, :response_file_cache, :sheet_variable_id, :user_id, :variable_id, :position, :remove_response_file
 
-  # audited associated_with: :sheet_variable
+  audited associated_with: :sheet_variable
 
   belongs_to :sheet_variable, touch: true
   belongs_to :variable
