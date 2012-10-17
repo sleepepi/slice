@@ -171,6 +171,15 @@
   </div>
 </div>
 
+<div class="form-actions" data-object="options">
+  <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
+  <%= submit_tag 'Update Variable', class: 'btn btn-primary', data: { object: "form-check-before-submit", target: "##{form_name}" } %>
+  <% if @popup %>
+    <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#variable_edit_modal', object: 'modal-hide', remove_class: 'error' } %>
+  <% else %>
+    <%= cancel %>
+  <% end %>
+</div>
 
 <div id="options" data-object="options sortable">
   <%= render partial: 'options' %>
