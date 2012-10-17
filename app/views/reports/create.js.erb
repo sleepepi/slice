@@ -1,5 +1,5 @@
 <% if @report.errors.size > 0 %>
-  flashMessage("There were errors saving the report.", 'important');
+  flashMessage("There were errors saving the report.", 'error');
 <% else %>
   flashMessage("Report was successfully created.");
 <% end %>
