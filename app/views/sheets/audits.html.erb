@@ -67,8 +67,8 @@
                   <td>
                     <% ['response', 'response_file'].each do |response_type| %>
                       <% if response = audit.audited_changes[response_type] %>
-                        <span style="padding: 0px;background-color:#FAA"><% if response[0].blank? %><span class="muted">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
-                        <span style="padding: 0px;background-color:#AFA"><% if response[1].blank? %><span class="muted">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                        <span style="padding: 0px;background-color:#FAA"><% if response[0].blank? %><span class="muted" style="background-color:white">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
+                        <span style="padding: 0px;background-color:#AFA"><% if response[1].blank? %><span class="muted" style="background-color:white">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
                       <% end %>
                     <% end %>
                   </td>
