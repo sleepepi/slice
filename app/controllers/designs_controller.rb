@@ -436,7 +436,7 @@ class DesignsController < ApplicationController
         @strata = @variable.options_or_autocomplete(params[:include_missing].to_s == '1')
         @strata = @strata + [{ name: '', value: nil }] if params[:include_missing].to_s == '1'
       else
-        @strata = @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }}
+        @strata = (@design.project ? @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} : [])
       end
 
       date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : @design.study_date_name_full)

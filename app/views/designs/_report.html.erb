@@ -4,7 +4,10 @@
 
 <table class="table table-hover"><col width="1px" />
   <caption style="padding-bottom:8px">
-    <%= @design.name %> &middot; <%= @design.project.name %>
+    <%= @design.name %>
+    <% if @design.project %>
+      &middot; <%= @design.project.name %>
+    <% end %>
   </caption>
   <thead>
     <tr>

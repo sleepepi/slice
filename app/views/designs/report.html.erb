@@ -1,7 +1,11 @@
 <% @title = "#{@design.name} Report" %>
 <h3>
-  <%= link_to "&lsaquo; ".html_safe + @design.project.name, report_project_path(@design.project, by: @by, percent: @percent) %> Report
-  <span class="pull-right"><%= pluralize @design.project.sites.count, ' site' %> for <%= link_to @design.name, @design %></span>
+  <% if @design.project %>
+    <%= link_to "&lsaquo; ".html_safe + @design.project.name, report_project_path(@design.project, by: @by, percent: @percent) %> Report
+    <span class="pull-right"><%= pluralize @design.project.sites.count, ' site' %> for <%= link_to @design.name, @design %></span>
+  <% else %>
+    <span class="muted">No Project</span> &middot; <%= @title %>
+  <% end %>
 </h3>
 
 <hr class="soften" style="margin-top:20px">

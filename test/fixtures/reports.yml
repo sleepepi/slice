@@ -5,11 +5,11 @@
 one:
   user_id: 1
   name: MyString
-  options: MyText
+  options: { design_id: <%= ActiveRecord::Fixtures.identify(:one) %> }
   deleted: false
 
 two:
   user_id: 1
   name: MyString
-  options: MyText
+  options: { design_id: <%= ActiveRecord::Fixtures.identify(:one) %> }
   deleted: false
