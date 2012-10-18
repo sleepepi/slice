@@ -165,3 +165,13 @@ span.rounded-borders {
     display: none;
   }
 }
+
+.highlight-add {
+  background-color: #DFD;  /* light green */
+  /* #AFA */ /* green */
+}
+
+.highlight-subtract {
+  background-color: #FDD; /* light red */
+  /* #FAA; */ /* red */
+}

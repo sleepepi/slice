@@ -6,36 +6,79 @@
   </h1>
 </div>
 
-<table class="table table-hover"><col width="1px" />
+<table class="table table-hover"><col width="1px" /><col width="1px" /><col width="1px" /><col width="1px" /><col width="1px" />
   <thead>
     <tr>
       <th></th>
       <th>Time</th>
       <th>User</th>
       <th>Action</th>
-      <th>Changes</th>
+      <th colspan="2">Changes</th>
     </tr>
   </thead>
   <tbody>
-    <% @sheet.audits.reverse.each do |audit| %>
+    <% @sheet.all_audits.group_by{|a| [a.created_at.month, a.created_at.year]}.each do |(month, year), audits| %>
       <tr>
-        <td><%= audit.version %></td>
-        <td style="white-space:nowrap"><%= simple_time audit.created_at %></td>
-        <td><%= link_to audit.user.name, audit.user if audit.user %></td>
-        <td><span class="label" style="background-color:<%= "#7ad67a" if audit.action == 'create' %><%= "#7AA6FF" if audit.action == 'update' %>"><%= audit.action %></span></td>
-        <td><%= audit.audited_changes %></td>
+        <td colspan="6" style="font-weight:bold;font-size:2em"><%= Date::ABBR_MONTHNAMES[month] %> <%= year %></td>
       </tr>
+      <% audits.each do |audit| %>
+        <tr>
+          <td><%= audit.version if audit.auditable_type == 'Sheet' %></td>
+          <td style="white-space:nowrap"><%= simple_time audit.created_at %></td>
+          <td style="white-space:nowrap"><%= link_to audit.user.name, audit.user if audit.user %></td>
+          <td style="white-space:nowrap"><span class="label" style="background-color:<%= "#7ad67a" if audit.action == 'create' %><%= "#7AA6FF" if audit.action == 'update' %>"><%= audit.action %></span></td>
+          <% if audit.auditable_type == 'Sheet' %>
+            <td colspan="2">
+              <table class="table table-condensed table-bordered">
+                <% audit.audited_changes.each do |key, val| %>
+                  <tr>
+                    <% case key when 'design_id' %>
+                      <% d = current_user.all_viewable_designs.find_by_id(val) %>
+                      <td><b>Design</b></td>
+                      <td><% if d %><%= link_to d.name, d %><% else %><span class="muted">nil</span><% end %></td>
+                    <% when 'project_id' %>
+                      <% p = current_user.all_viewable_projects.find_by_id(val) %>
+                      <td><b>Project</b></td>
+                      <td><% if p %><%= link_to p.name, p %><% else %><span class="muted">nil</span><% end %></td>
+                    <% when 'subject_id' %>
+                      <% s = current_user.all_viewable_subjects.find_by_id(val) %>
+                      <td><b>Subject</b></td>
+                      <td><% if s %><%= link_to s.name, s %><% else %><span class="muted">nil</span><% end %></td>
+                    <% when 'user_id' %>
+                      <% u = User.current.find_by_id(val) %>
+                      <td><b>User</b></td>
+                      <td><% if u %><%= link_to u.name, u %><% else %><span class="muted">nil</span><% end %></td>
+                    <% when 'last_user_id' %>
+                      <% u = User.current.find_by_id(val) %>
+                      <td><b>Last User</b></td>
+                      <td><% if u %><%= link_to u.name, u %><% else %><span class="muted">nil</span><% end %></td>
+                    <% when 'deleted' %>
+                    <% else %>
+                      <td><b><%= key.humanize %></b></td><td><%= val %></td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </table>
+            </td>
+          <% elsif audit.auditable_type == 'SheetVariable' %>
+              <% sheet_variable = SheetVariable.find_by_id(audit.auditable_id) %>
+              <% if sheet_variable %>
+                  <td><%= sheet_variable.variable.name %></td>
+                  <td>
+                    <% ['response', 'response_file'].each do |response_type| %>
+                      <% if response = audit.audited_changes[response_type] %>
+                        <span style="padding: 0px;background-color:#FAA"><% if response[0].blank? %><span class="muted">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
+                        <span style="padding: 0px;background-color:#AFA"><% if response[1].blank? %><span class="muted">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                      <% end %>
+                    <% end %>
+                  </td>
+              <% else %>
+                <td colspan="2"></td>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
-
-     <% @sheet.associated_audits.reverse.each do |audit| %>
-      <tr>
-        <td><%= audit.version %></td>
-        <td style="white-space:nowrap"><%= simple_time audit.created_at %></td>
-        <td><%= link_to audit.user.name, audit.user if audit.user %></td>
-        <td><span class="label" style="background-color:<%= "#7ad67a" if audit.action == 'create' %><%= "#7AA6FF" if audit.action == 'update' %>"><%= audit.action %></span></td>
-        <td><%= audit.audited_changes %></td>
-      </tr>
-    <% end %>
-
   </tbody>
 </table>

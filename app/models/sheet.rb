@@ -78,6 +78,10 @@ class Sheet < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def all_audits
+    (self.audits + self.associated_audits).sort_by(&:created_at).reverse
+  end
+
   def name
     self.design.name
   end
