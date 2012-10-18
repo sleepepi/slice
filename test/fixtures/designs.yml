@@ -5,7 +5,9 @@
 one:
   name: Design One
   description: MyText
-  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }, { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %>, branching_logic: "var_1 == 'Value'" }]
+  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %>, branching_logic: "var_1 == 'Value'" },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:date) %> }]
   user: valid
   project: one
   deleted: false
@@ -89,3 +91,15 @@ two_page:
            ]
   user: valid
   project: one
+
+has_grid:
+  name: Includes a Grid Variable
+  description: Test for grid variable saving
+  options: [
+              { section_name: 'Grid to Follow', section_id: '_grid_to_follow' },
+              { variable_id: <%= ActiveRecord::Fixtures.identify(:grid) %> }
+           ]
+  user: valid
+  project: one
+
+

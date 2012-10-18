@@ -3,13 +3,16 @@
 --- !map:HashWithIndifferentAccess
 
 one:
-  user_id: 1
+  user: valid
   name: MyString
   options: { design_id: <%= ActiveRecord::Fixtures.identify(:one) %> }
-  deleted: false
 
 two:
-  user_id: 1
+  user: valid
   name: MyString
   options: { design_id: <%= ActiveRecord::Fixtures.identify(:one) %> }
-  deleted: false
+
+no_design:
+  user: valid
+  name: No Design
+  options: {  }

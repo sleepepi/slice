@@ -6,6 +6,48 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should get report" do
+    get :report, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should get report before sheet date" do
+    get :report, id: @project, sheet_before: "10/18/2012"
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should get report after sheet date" do
+    get :report, id: @project, sheet_after: "10/01/2012"
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should get report between sheet date" do
+    get :report, id: @project, sheet_after: "10/01/2012", sheet_before: "10/18/2012"
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should get report by week" do
+    get :report, id: @project, by: 'week'
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should get report by year" do
+    get :report, id: @project, by: 'year'
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should not get report for invalid project" do
+    get :report, id: -1
+    assert_nil assigns(:project)
+    assert_redirected_to projects_path
+  end
+
   test "should remove attached file" do
     post :remove_file, id: @project, format: 'js'
     assert_not_nil assigns(:project)

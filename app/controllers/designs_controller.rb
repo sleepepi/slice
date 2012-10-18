@@ -21,7 +21,7 @@ class DesignsController < ApplicationController
         return
       end
 
-      file_name = @report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
+      file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
       send_data(pdf_attachment, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: 'application/pdf')
     else
       render nothing: true

@@ -12,4 +12,9 @@ class SheetEmailsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not show invalid sheet email" do
+    get :show, id: -1
+    assert_nil assigns(:sheet_email)
+    assert_redirected_to sheets_path
+  end
 end

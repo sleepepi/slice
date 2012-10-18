@@ -6,6 +6,84 @@ class DesignsControllerTest < ActionController::TestCase
     @design = designs(:one)
   end
 
+  test "should print report" do
+    get :report_print, id: @design
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should not print invalid report" do
+    get :report_print, id: -1
+    assert_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report" do
+    get :report, id: @design
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report before sheet date" do
+    get :report, id: @design, sheet_before: "10/18/2012"
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report after sheet date" do
+    get :report, id: @design, sheet_after: "10/01/2012"
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report between sheet date" do
+    get :report, id: @design, sheet_after: "10/01/2012", sheet_before: "10/18/2012"
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report by week" do
+    get :report, id: @design, by: 'week'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report by year" do
+    get :report, id: @design, by: 'year'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report with row variable (dropdown)" do
+    get :report, id: @design, variable_id: variables(:one), include_missing: '1'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report with column variable (dropdown)" do
+    get :report, id: @design, column_variable_id: variables(:one), column_include_missing: '1'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report with column variable (date)" do
+    get :report, id: @design, column_variable_id: variables(:date), column_include_missing: '1'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report as a CSV" do
+    get :report, id: @design, format: 'csv'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should not get report for invalid design" do
+    get :report, id: -1
+    assert_nil assigns(:design)
+    assert_redirected_to designs_path
+  end
+
   test "should get copy" do
     get :copy, id: @design
     assert_not_nil assigns(:design)
@@ -20,9 +98,9 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should reorder variables" do
-    post :reorder, id: @design, rows: "option_1,option_0", format: 'js'
+    post :reorder, id: @design, rows: "option_1,option_0,option_2", format: 'js'
     assert_not_nil assigns(:design)
-    assert_equal [ActiveRecord::Fixtures.identify(:two), ActiveRecord::Fixtures.identify(:one)], assigns(:design).options.collect{|option| option[:variable_id]}
+    assert_equal [ActiveRecord::Fixtures.identify(:two), ActiveRecord::Fixtures.identify(:one), ActiveRecord::Fixtures.identify(:date)], assigns(:design).options.collect{|option| option[:variable_id]}
     assert_template 'reorder'
   end
 
