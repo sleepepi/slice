@@ -17,4 +17,12 @@ class Report < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def design
+    Design.current.find_by_id(self.options[:design_id])
+  end
+
+  def project
+    self.design ? self.design.project : nil
+  end
+
 end

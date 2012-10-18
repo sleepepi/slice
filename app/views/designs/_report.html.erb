@@ -91,7 +91,7 @@
                                               column_variable_id: (@column_variable ? @column_variable.id : nil), column_include_missing: (params[:column_include_missing].to_s == '1' ? '1' : '0'), filter: @filter ),
                                               class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>
 <%= form_tag reports_path, method: :post, remote: true, id: 'save_report_form' do %>
-  <%= hidden_field_tag "report[name]", @report_title + " - " + @design.name + " - " + @design.project.name %>
+  <%= hidden_field_tag "report[name]", @report_title + " - " + @design.name %>
   <%= hidden_field_tag "report[options][design_id]", @design.id %>
   <%= hidden_field_tag "report[options][by]", @by %>
   <%= hidden_field_tag "report[options][percent]", @percent %>

@@ -35,6 +35,16 @@ jQuery ->
     .on('click', '[data-object~="suppress-click"]', () ->
       false
     )
+    .on('mouseenter', '[data-object~="hover-show"]', () ->
+      $($(this).data('target')).show()
+      false
+    )
+    .on('mouseleave', '[data-object~="hover-show"]', () ->
+      $($(this).data('target')).hide()
+      false
+    )
+
+
 
   $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
 
