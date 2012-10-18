@@ -27,6 +27,7 @@
   * The popup for design email template options displays correctly again
   * Project logos and uploaded images now get properly embedded in Sheet receipt emails with attached PDF
   * Variable options color choices are no longer reset to white when updating a variable
+  * Variable option color selection fixed when attempting to change the color of a newly added option
 
 == 0.8.0
 

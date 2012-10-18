@@ -5,8 +5,10 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.name', 'Name', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.display_name', 'Display Name', 'variables_search') %></th>
+      <% if false %>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.description', 'Description', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.header', 'Header', 'variables_search') %></th>
+      <% end %>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.variable_type', 'Variable Type', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.options', 'Options', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.user_id', 'Creator', 'variables_search') %></th>
@@ -19,8 +21,10 @@
     <tr id="variable_<%= variable.id %>">
       <td><%= link_to variable.name, variable %></td>
       <td><%= link_to variable.display_name, variable %></td>
+      <% if false %>
       <td><%= variable.description %></td>
       <td><%= variable.header %></td>
+      <% end %>
       <td><span class="label label-<%= variable.variable_type %>"><%= variable.variable_type %></span></td>
       <td>
         <% if not variable.options.blank? and ['radio', 'checkbox'].include?(variable.variable_type) %>
