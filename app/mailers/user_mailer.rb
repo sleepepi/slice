@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @site_user = site_user
     mail(to: site_user.invite_email,
-         subject: "#{site_user.creator.name} Invites You to View #{site_user.site.name}",
+         subject: "#{site_user.creator.name} Invites You to View Site #{site_user.site.name}",
          reply_to: site_user.creator.email)
   end
 
@@ -37,7 +37,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @project_user = project_user
     mail(to: project_user.user.email,
-         subject: "#{project_user.creator.name} Allows You to View #{project_user.project.name}",
+         subject: "#{project_user.creator.name} Allows You to View Project #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
@@ -45,7 +45,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @project_user = project_user
     mail(to: project_user.invite_email,
-         subject: "#{project_user.creator.name} Invites You to View #{project_user.project.name}",
+         subject: "#{project_user.creator.name} Invites You to View Project #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
