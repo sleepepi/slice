@@ -2,13 +2,9 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_user!
 
   def report
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
+    @project = Project.current.where(id: current_user.all_viewable_sites.pluck(:project_id)).find_by_id(params[:id])
 
-    @sheet_before = parse_date(params[:sheet_before])
-    @sheet_after = parse_date(params[:sheet_after])
-
-    @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
-    @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+    setup_report
 
     respond_to do |format|
       if @project
@@ -152,6 +148,65 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def setup_report
+    @sheet_before = parse_date(params[:sheet_before])
+    @sheet_after = parse_date(params[:sheet_after])
+
+    @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
+    @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+
+    sheet_scope = current_user.all_viewable_sheets.with_project(@project.id).scoped()
+    sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
+    sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+
+    min = sheet_scope.pluck(:study_date).min || Date.today
+    max = sheet_scope.pluck(:study_date).max || Date.today
+
+    # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
+    @ranges = []
+
+    case @by when "week"
+      current_cweek = min.cweek
+      (min.year..max.year).each do |year|
+        (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
+          start_date = Date.commercial(year,cweek) - 1.day
+          end_date = Date.commercial(year,cweek) + 5.days
+          @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date }
+          break if year == max.year and cweek == max.cweek
+        end
+        current_cweek = 1
+      end
+    when "month"
+      current_month = min.month
+      (min.year..max.year).each do |year|
+        (current_month..12).each do |month|
+          start_date = Date.parse("#{year}-#{month}-01")
+          end_date = Date.parse("#{year}-#{month}-01").end_of_month
+          @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date }
+          break if year == max.year and month == max.month
+        end
+        current_month = 1
+      end
+    when "year"
+      @ranges = (min.year..max.year).collect{|year| { name: year.to_s, tooltip: year.to_s, start_date: Date.parse("#{year}-01-01"), end_date: Date.parse("#{year}-12-31") }}
+    end
+
+    between = if @sheet_after.blank? and @sheet_before.blank?
+      "All Sheets"
+    elsif @sheet_after.blank?
+      "Date before #{@sheet_before.strftime("%b %d, %Y")}"
+    elsif @sheet_before.blank?
+      "Date after #{@sheet_after.strftime("%b %d, %Y")}"
+    else
+      "Date between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
+    end
+
+    @report_title = 'Design vs. Sheet Date'
+    @report_caption = "#{@project.name}"
+
+    @sheets = sheet_scope
+  end
 
   def post_params
     params[:project] ||= {}

@@ -363,8 +363,8 @@ class DesignsController < ApplicationController
       @variable = @design.pure_variables.find_by_id(params[:variable_id])
       @column_variable = @design.pure_variables.find_by_id(params[:column_variable_id])
 
-
-      sheet_scope = @design.sheets.scoped()
+      sheet_scope = current_user.all_viewable_sheets.with_design(@design.id).scoped()
+      # sheet_scope = @design.sheets.scoped()
       sheet_scope = sheet_scope.last_entry if @filter == 'last'
       sheet_scope = sheet_scope.first_entry if @filter == 'first'
 
@@ -436,7 +436,8 @@ class DesignsController < ApplicationController
         @strata = @variable.options_or_autocomplete(params[:include_missing].to_s == '1')
         @strata = @strata + [{ name: '', value: nil }] if params[:include_missing].to_s == '1'
       else
-        @strata = (@design.project ? @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} : [])
+        # @strata = (@design.project ? @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} : [])
+        @strata = (@design.project ? current_user.all_viewable_sites.with_project(@design.project.id).order('name').collect{|s| { name: s.name, value: s.id }} : [])
       end
 
       date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : @design.study_date_name_full)

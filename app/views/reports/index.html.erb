@@ -11,7 +11,7 @@
   <div class="span4">
     <h2 class="about-title">Project Reports</h2>
     <ul>
-      <% current_user.all_viewable_projects.order('name').each do |project| %>
+      <% current_user.all_viewable_sites.collect(&:project).flatten.sort_by{|p| p.name}.each do |project| %>
         <li style="line-height:25px"><%= link_to project.name, report_project_path(project) %></li>
       <% end %>
     </ul>
