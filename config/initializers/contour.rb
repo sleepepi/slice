@@ -40,7 +40,7 @@ Contour.setup do |config|
       links: [{ name: 'Create Project', path: 'new_project_path' }]
     },
     {
-      name: 'Reports', display: 'signed_in', path: 'reports_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0'
+      name: 'Reports', display: 'signed_in', path: 'reports_path', position: 'left'
     },
     {
       name: 'Designs', display: 'signed_in', path: 'designs_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0 or current_user.librarian?',
