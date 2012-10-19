@@ -128,7 +128,7 @@
             <% elsif audit.auditable_type == 'SheetVariable' or audit.auditable_type == 'Grid' %>
               <% object = (audit.auditable_type == 'SheetVariable' ? SheetVariable.find_by_id(audit.auditable_id) : Grid.find_by_id(audit.auditable_id)) %>
               <% if object %>
-                <td><span rel="tooltip" title="<%= audit.auditable_type %><%= " #{object.position}" if object.respond_to?('position') %>" data-placement="left"><%= object.variable.name %></span></td>
+                <td><span <% if audit.auditable_type == 'Grid' %>rel="tooltip" title="<%= audit.auditable_type %><%= " #{object.position}" if object.respond_to?('position') %><% end %>" data-placement="left"><%= object.variable.name %></span></td>
                 <td>
                   <% ['response', 'response_file'].each do |response_type| %>
                     <% if response = audit.audited_changes[response_type] %>
