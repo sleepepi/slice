@@ -80,7 +80,10 @@ class Sheet < ActiveRecord::Base
   end
 
   def all_audits
-    (self.audits + self.associated_audits).sort_by(&:created_at).reverse
+    # (self.audits + self.associated_audits).sort_by(&:created_at).reverse
+    # Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(associated_type = 'SheetVariable' and associated_id IN (?))", self.sheet_variables.pluck(:id)])
+    Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(auditable_type = 'Sheet' and auditable_id = ?) or (associated_type = 'Sheet' and associated_id = ?) or (associated_type = 'SheetVariable' and associated_id IN (?))", self.id, self.id, self.sheet_variables.pluck(:id)])
+    # Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(auditable_type = 'Sheet' and auditable_id = ?) or (associated_type = 'Sheet' and associated_id = ?)", self.id, self.id])
   end
 
   def audit_show!(current_user)
