@@ -84,7 +84,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def audit_show!(current_user)
-    self.update_attributes(last_viewed_by_id: current_user, last_viewed_at: Time.now)
+    self.update_attributes(last_viewed_by_id: current_user.id, last_viewed_at: Time.now)
   end
 
   def last_emailed_at
