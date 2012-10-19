@@ -27,7 +27,7 @@ jQuery ->
     false
   )
 
-  $("tr[data-link]").on('click', () ->
+  $("[data-link]").on('click', () ->
     window.location = $(this).data("link")
   )
 

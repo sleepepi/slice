@@ -43,7 +43,13 @@ jQuery ->
       $($(this).data('target')).hide()
       false
     )
-
+    .on('click', '[data-object~="set-audit-row"]', () ->
+      if $(this).hasClass("active")
+        $('[data-audit-row~="'+$(this).data('value')+'"]').show()
+      else
+        $('[data-audit-row~="'+$(this).data('value')+'"]').hide()
+      false
+    )
 
 
   $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )

@@ -1,5 +1,5 @@
 class Sheet < ActiveRecord::Base
-  attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id
+  attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at
 
   audited
   has_associated_audits
@@ -58,6 +58,7 @@ class Sheet < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :last_user, class_name: "User"
+  belongs_to :last_viewed_by, class_name: "User"
   belongs_to :design
   belongs_to :project
   belongs_to :subject
@@ -80,6 +81,14 @@ class Sheet < ActiveRecord::Base
 
   def all_audits
     (self.audits + self.associated_audits).sort_by(&:created_at).reverse
+  end
+
+  def audit_show!(current_user)
+    self.update_attributes(last_viewed_by_id: current_user, last_viewed_at: Time.now)
+  end
+
+  def last_emailed_at
+    self.sheet_emails.order('created_at desc').pluck(:created_at).first
   end
 
   def name

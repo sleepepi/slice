@@ -190,6 +190,7 @@ class SheetsController < ApplicationController
 
     respond_to do |format|
       if @sheet
+        @sheet.audit_show!(current_user)
         format.html # show.html.erb
         format.json { render json: @sheet }
       else

@@ -6,6 +6,13 @@
   </h1>
 </div>
 
+<div class="btn-group pull-right" data-toggle="buttons-checkbox">
+  <button data-object="set-audit-row" data-value="create" class="btn btn-mini active">create</button>
+  <button data-object="set-audit-row" data-value="update" class="btn btn-mini active">update</button>
+  <button data-object="set-audit-row" data-value="view" class="btn btn-mini active">view</button>
+</div>
+
+
 <table class="table table-hover"><col width="1px" /><col width="1px" /><col width="1px" /><col width="1px" /><col width="1px" />
   <thead>
     <tr>
@@ -21,45 +28,102 @@
       <tr>
         <td colspan="6" style="font-weight:bold;font-size:2em"><%= Date::ABBR_MONTHNAMES[month] %> <%= year %></td>
       </tr>
-      <% audits.each do |audit| %>
-        <tr>
+      <% audits.each_with_index do |audit, audit_index| %>
+        <% previous_audit = audits[audit_index - 1] %>
+        <% if audit_index > 0 and previous_audit.created_at and audit.created_at and previous_audit.created_at.to_date != audit.created_at.to_date %>
+          <tr><td>&vellip;</td><td colspan="5" class="muted"><%= distance_of_time_in_words(previous_audit.created_at, audit.created_at) %></td></tr>
+        <% end %>
+        <% audit_action = if audit.audited_changes.keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or audit.audited_changes.keys.sort == ['last_viewed_at'] %>
+          <% 'view' %>
+        <% else %>
+          <% audit.action %>
+        <% end %>
+        <tr data-audit-row="<%= audit_action %>">
           <td><%= audit.version if audit.auditable_type == 'Sheet' %></td>
-          <td style="white-space:nowrap"><%= simple_time audit.created_at %></td>
-          <td style="white-space:nowrap"><%= link_to audit.user.name, audit.user if audit.user %></td>
-          <td style="white-space:nowrap"><span class="label" style="background-color:<%= "#7ad67a" if audit.action == 'create' %><%= "#7AA6FF" if audit.action == 'update' %>"><%= audit.action %></span></td>
+          <td style="white-space:nowrap">
+            <%= simple_time audit.created_at %>
+          </td>
+          <td style="white-space:nowrap">
+            <%= link_to audit.user.name, audit.user if audit.user %>
+          </td>
+          <td style="white-space:nowrap">
+            <% color = case audit_action when 'create' %>
+              <% "#7AD67A" %>
+            <% when 'update' %>
+              <% "#7AA6FF" %>
+            <% when 'destroy' %>
+              <% '#FF4040' %>
+            <% else %>
+              <% '#FFBE40' %>
+            <% end %>
+            <span class="label" style="background-color:<%= color %>"><%= audit_action %></span>
+          </td>
           <% if audit.auditable_type == 'Sheet' %>
-            <td colspan="2">
-              <table class="table table-condensed table-bordered">
-                <% audit.audited_changes.each do |key, val| %>
-                  <tr>
-                    <% case key when 'design_id' %>
-                      <% d = current_user.all_viewable_designs.find_by_id(val) %>
-                      <td><b>Design</b></td>
-                      <td><% if d %><%= link_to d.name, d %><% else %><span class="muted">nil</span><% end %></td>
-                    <% when 'project_id' %>
-                      <% p = current_user.all_viewable_projects.find_by_id(val) %>
-                      <td><b>Project</b></td>
-                      <td><% if p %><%= link_to p.name, p %><% else %><span class="muted">nil</span><% end %></td>
-                    <% when 'subject_id' %>
-                      <% s = current_user.all_viewable_subjects.find_by_id(val) %>
-                      <td><b>Subject</b></td>
-                      <td><% if s %><%= link_to s.name, s %><% else %><span class="muted">nil</span><% end %></td>
-                    <% when 'user_id' %>
-                      <% u = User.current.find_by_id(val) %>
-                      <td><b>User</b></td>
-                      <td><% if u %><%= link_to u.name, u %><% else %><span class="muted">nil</span><% end %></td>
-                    <% when 'last_user_id' %>
-                      <% u = User.current.find_by_id(val) %>
-                      <td><b>Last User</b></td>
-                      <td><% if u %><%= link_to u.name, u %><% else %><span class="muted">nil</span><% end %></td>
-                    <% when 'deleted' %>
-                    <% else %>
-                      <td><b><%= key.humanize %></b></td><td><%= val %></td>
-                    <% end %>
-                  </tr>
-                <% end %>
-              </table>
-            </td>
+              <% if audit_action == 'view' %>
+                <td colspan="2"></td>
+              <% else %>
+                <td>
+                  <% audit.audited_changes.each do |key, val| %>
+                    <div style="white-space:nowrap">
+                      <% case key when 'design_id' %>
+                        Design
+                      <% when 'project_id' %>
+                        Project
+                      <% when 'subject_id' %>
+                        Subject
+                      <% when 'user_id' %>
+                        User
+                      <% when 'last_user_id' %>
+                        Last User
+                      <% when 'deleted' %>
+                      <% else %>
+                        <%= key.humanize %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </td>
+                <td>
+                  <% audit.audited_changes.each do |key, val| %>
+                    <div>
+                      <% value = if val.kind_of?(Array) %>
+                        <% val %>
+                      <% else %>
+                        <% [nil, val] %>
+                      <% end %>
+
+                      <% response = [] %>
+
+                      <% value.each_with_index do |res, index| %>
+                        <% case key when 'design_id' %>
+                          <% d = current_user.all_viewable_designs.find_by_id(res) %>
+                          <% response[index] = { key: key, name: (d ? d.name : nil), url: (d ? design_path(d) : nil) } %>
+                        <% when 'project_id' %>
+                          <% p = current_user.all_viewable_projects.find_by_id(res) %>
+                          <% response[index] = { key: key, name: (p ? p.name : nil), url: (p ? project_path(p) : nil) } %>
+                        <% when 'subject_id' %>
+                          <% s = current_user.all_viewable_subjects.find_by_id(res) %>
+                          <% response[index] = { key: key, name: (s ? s.name : nil), url: (s ? subject_path(s) : nil) } %>
+                        <% when 'user_id' %>
+                          <% u = User.current.find_by_id(res) %>
+                          <% response[index] = { key: key, name: (u ? u.name : nil), url: (u ? user_path(u) : nil) } %>
+                        <% when 'last_user_id' %>
+                          <% u = User.current.find_by_id(res) %>
+                          <% response[index] = { key: key, name: (u ? u.name : nil), url: (u ? user_path(u) : nil) } %>
+                        <% when 'deleted' %>
+                          <%# Don't show %>
+                        <% else %>
+                          <% response[index] = { key: key, name: res, url: nil } %>
+                        <% end %>
+                      <% end %>
+
+                      <% unless response.blank? %>
+                        <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0][:name].blank? %><%= "cursor:pointer" unless response[0][:url].blank? %>" <%= "data-link='#{response[0][:url]}'".html_safe unless response[0][:url].blank? %>><% if response[0][:name].blank? %><span class="muted">null</span><% else %><%= highlight(response[0][:name].to_s, response[1][:name].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
+                        <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1][:name].blank? %><%= "cursor:pointer" unless response[1][:url].blank? %>" <%= "data-link='#{response[1][:url]}'".html_safe unless response[1][:url].blank? %>><% if response[1][:name].blank? %><span class="muted">null</span><% else %><%= highlight(response[1][:name].to_s, response[0][:name].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </td>
+              <% end %>
           <% elsif audit.auditable_type == 'SheetVariable' %>
               <% sheet_variable = SheetVariable.find_by_id(audit.auditable_id) %>
               <% if sheet_variable %>
@@ -67,8 +131,8 @@
                   <td>
                     <% ['response', 'response_file'].each do |response_type| %>
                       <% if response = audit.audited_changes[response_type] %>
-                        <span style="padding: 0px;background-color:#FAA"><% if response[0].blank? %><span class="muted" style="background-color:white">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
-                        <span style="padding: 0px;background-color:#AFA"><% if response[1].blank? %><span class="muted" style="background-color:white">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                        <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0].blank? %>"><% if response[0].blank? %><span class="muted">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
+                        <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1].blank? %>"><% if response[1].blank? %><span class="muted">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
                       <% end %>
                     <% end %>
                   </td>

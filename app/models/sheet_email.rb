@@ -17,7 +17,6 @@ class SheetEmail < ActiveRecord::Base
 
   def email_receipt
     UserMailer.sheet_receipt(self).deliver if Rails.env.production?
-    self.sheet.update_column :last_emailed_at, Time.now
   end
 
 end
