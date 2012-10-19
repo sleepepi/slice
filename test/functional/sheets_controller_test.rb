@@ -357,6 +357,12 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show sheet audits" do
+    get :audits, id: @sheet
+    assert_not_nil assigns(:sheet)
+    assert_response :success
+  end
+
   test "should show sheet with completed email template" do
     get :show, id: sheets(:all_variables)
     assert_not_nil assigns(:sheet)
@@ -366,6 +372,12 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should not show invalid sheet" do
     get :show, id: -1
+    assert_nil assigns(:sheet)
+    assert_redirected_to sheets_path
+  end
+
+  test "should not show audits for invalid sheet" do
+    get :audits, id: -1
     assert_nil assigns(:sheet)
     assert_redirected_to sheets_path
   end
