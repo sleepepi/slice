@@ -95,6 +95,20 @@
     <dd><%= @variable.alignment.capitalize %></dd>
   <% end %>
 
+  <% if ['grid'].include?(@variable.variable_type) %>
+    <dt>Variables</dt>
+    <dd>
+      <ul>
+        <% @variable.grid_variables.each do |variable_hash| %>
+          <% v = current_user.all_viewable_variables.find_by_id(variable_hash[:variable_id]) %>
+          <% if v %>
+            <li><%= link_to v.display_name, v %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </dd>
+  <% end %>
+
   <dt>Creator</dt>
   <dd><%= link_to @variable.user.name, @variable.user if @variable.user %></dd>
 
