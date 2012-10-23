@@ -3,6 +3,9 @@
 * Enhancements
   * The project has been renamed to Slice
 
+* Bug Fix
+  * Users can now correctly create designs on projects with no sites
+
 == 0.9.0
 
 * Enhancements

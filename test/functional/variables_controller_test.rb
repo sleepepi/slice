@@ -181,6 +181,12 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show variable for project with no sites" do
+    get :show, id: variables(:no_sites)
+    assert_not_nil assigns(:variable)
+    assert_response :success
+  end
+
   test "should not show invalid variable" do
     get :show, id: -1
     assert_nil assigns(:variable)

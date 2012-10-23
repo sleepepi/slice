@@ -102,4 +102,11 @@ has_grid:
   user: valid
   project: one
 
-
+no_sites:
+  name: This design is saved on a project with no sites
+  description: Valid user should be able to view and edit this design
+  options: [
+              { section_name: 'Section A', section_id: '_section_a' }
+           ]
+  user: valid
+  project: no_sites

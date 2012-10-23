@@ -301,6 +301,12 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show design for project with no sites" do
+    get :show, id: designs(:no_sites)
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should not show invalid design" do
     get :show, id: -1
     assert_nil assigns(:design)

@@ -170,6 +170,15 @@ grid:
   user: valid
   project: one
 
+no_sites:
+  name: var_no_sites
+  display_name: Variable on Project with No Sites
+  description: This variable should be editable by a user on project without sites
+  variable_type: string
+  # options:
+  user: valid
+  project: no_sites
+
 # response_dropdown:
 #   name: var_gender
 #   display_name: Gender

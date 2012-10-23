@@ -4,22 +4,23 @@ one:
   name: Project One
   description: MyText
   user: valid
-  deleted: false
 
 two:
   name: Project Two
   description: MyText
   user: valid
-  deleted: false
 
 three:
   name: Project Three
   description: MyText
   user: admin
-  deleted: false
 
 four:
   name: Project Four
   description: Only Admin should be on this project
   user: admin
-  deleted: false
+
+no_sites:
+  name: This project has no sites and one design
+  description: Use this to test that the valid user can view the design
+  user: valid
