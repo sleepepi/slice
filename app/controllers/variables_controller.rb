@@ -26,8 +26,10 @@ class VariablesController < ApplicationController
 
   def copy
     variable = current_user.all_viewable_variables.find_by_id(params[:id])
+
     respond_to do |format|
       if variable and @variable = current_user.variables.new(variable.copyable_attributes)
+        @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
         format.html { render 'new' }
         format.json { render json: @variable }
       else

@@ -31,6 +31,14 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get copy for grid variables" do
+    get :copy, id: variables(:grid)
+    assert_not_nil assigns(:variable)
+    assert_not_nil assigns(:select_variables)
+    assert_template 'new'
+    assert_response :success
+  end
+
   test "should not copy invalid variable" do
     get :copy, id: -1
     assert_nil assigns(:variable)
