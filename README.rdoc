@@ -1,6 +1,6 @@
-= Reading Center Interface {<img src="https://secure.travis-ci.org/remomueller/reading.png"/>}[http://travis-ci.org/remomueller/reading] {<img src="https://gemnasium.com/remomueller/reading.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/reading] {<img src="https://codeclimate.com/badge.png" />}[https://codeclimate.com/github/remomueller/reading]
+= Slice {<img src="https://secure.travis-ci.org/remomueller/slice.png"/>}[http://travis-ci.org/remomueller/slice] {<img src="https://gemnasium.com/remomueller/slice.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/slice] {<img src="https://codeclimate.com/badge.png" />}[https://codeclimate.com/github/remomueller/slice]
 
-Reading Center Interface for dynamic PDF report generation and quality checking. Using Rails 3.2+ and Ruby 1.9.3+.
+A clinical research interface geared at collecting robust and consistent data by providing a strong framework for designing data dictionaries and collection forms. Slice also provides exports of the data and the data dictionaries created as well as providing a simple reporting interface. Using Rails 3.2+ and Ruby 1.9.3+.
 
 == Installation
 
@@ -10,13 +10,13 @@ Once you have the prerequisites in place, you can proceed to install bundler whi
 
   gem install bundler
 
-This readme assumes the following installation directory: /var/www/reading
+This readme assumes the following installation directory: /var/www/slice
 
   cd /var/www
 
-  git clone git://github.com/remomueller/reading.git
+  git clone git://github.com/remomueller/slice.git
 
-  cd reading
+  cd slice
 
   bundle install
 
@@ -36,7 +36,7 @@ Open a browser and go to: http://localhost
 
 All done!
 
-== Contributing to Reading Center Interface
+== Contributing to Slice
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
@@ -48,4 +48,4 @@ All done!
 
 == Copyright {<img style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png"/>}[http://creativecommons.org/licenses/by-nc-sa/3.0/]
 
-Copyright (c) 2012 Remo Mueller. See {LICENSE}[https://github.com/remomueller/reading/blob/master/LICENSE] for further details.
+Copyright (c) 2012 Remo Mueller. See {LICENSE}[https://github.com/remomueller/slice/blob/master/LICENSE] for further details.

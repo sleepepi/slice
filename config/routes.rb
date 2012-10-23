@@ -1,4 +1,4 @@
-Reading::Application.routes.draw do
+Slice::Application.routes.draw do
 
   get "sheet_emails/show"
 

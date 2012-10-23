@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Reading::Application.load_tasks
+Slice::Application.load_tasks

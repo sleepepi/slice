@@ -1,4 +1,4 @@
-module Reading
+module Slice
   module VERSION #:nodoc:
     MAJOR = 0
     MINOR = 9
