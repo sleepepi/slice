@@ -4,6 +4,9 @@ $("#sheet_design_id").on('change', function(){
   $.post(root_url + 'designs/selection', $(this).serialize(), null, "script");
   return false;
 });
+<% if not params[:sheet].blank? and not params[:sheet][:design_id].blank? %>
+  $.post(root_url + 'designs/selection', $("#sheet_design_id").serialize(), null, "script");
+<% end %>
 $("#sheet_subject_id").parent().parent().removeClass('warning success error');
 <% if @subject %>
   <% if @subject.validated? %>

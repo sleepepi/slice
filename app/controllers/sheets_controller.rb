@@ -6,6 +6,10 @@ class SheetsController < ApplicationController
     @subject = @project.subjects.find_by_subject_code(params[:subject_code]) if @project
 
     @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code])) if @project
+    if @project and @project.designs.size == 1
+      params[:sheet] ||= {}
+      params[:sheet][:design_id] = @project.designs.first.id
+    end
 
     @subject_code_valid = if @site and params[:subject_code] <= @site.code_maximum.to_s and params[:subject_code].size <= @site.code_maximum.to_s.size and params[:subject_code] >= @site.code_minimum.to_s and params[:subject_code].size >= @site.code_minimum.to_s.size
       true
