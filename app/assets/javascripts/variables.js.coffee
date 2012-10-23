@@ -197,6 +197,11 @@ jQuery ->
       $(":radio[name='" + group_name + "']").prop('checked', false)
       false
     )
+    .on('click', '[data-object~="set-variable-type"]', () ->
+      $("#variable_type").val($(this).data('value'))
+      $($(this).data('target')).submit()
+      false
+    )
 
   $('[data-object~="variable-typeahead"]').each( () ->
     $this = $(this)

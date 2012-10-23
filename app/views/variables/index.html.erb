@@ -35,7 +35,15 @@
     <div class="span4 control-group">
       <%= label :variable_type, 'Variable Type', class: 'control-label' %>
       <div class="controls">
-        <%= select_tag :variable_type, options_for_select([['---', nil]] + Variable::TYPE, params[:variable_type]), data: { object: 'filter' } %>
+        <%= hidden_field_tag :variable_type, params[:variable_type], data: { object: 'filter' } %>
+        <%#= select_tag :variable_type, options_for_select([['---', nil]] + Variable::TYPE, params[:variable_type]), data: { object: 'filter' } %>
+        <div class="btn-toolbar">
+          <div class="btn-group" data-toggle="buttons-radio">
+            <% ([['ALL', nil]] + Variable::TYPE).each do |label, value| %>
+              <button data-object="set-variable-type" data-value="<%= value %>" <%= "id='variable-type-all'".html_safe if value.blank? %> data-target="#variables_search" class="btn btn-mini <%= 'active' if params[:variable_type].to_s == value.to_s %>"><%= label %></button>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

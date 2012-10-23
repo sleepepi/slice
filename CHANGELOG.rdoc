@@ -2,6 +2,7 @@
 
 * Enhancements
   * The project has been renamed to Slice
+  * Added easier variable type selection on variables index
 
 * Bug Fix
   * Users can now correctly create designs on projects with no sites

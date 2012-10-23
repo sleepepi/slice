@@ -29,6 +29,7 @@ jQuery ->
     .on('click', '[data-object~="reset-filters"]', () ->
       $('[data-object~="filter"]').val('')
       $('[data-object~="filter-html"]').html('')
+      $('#variable-type-all').button('toggle')
       $($(this).data('target')).submit()
       false
     )
