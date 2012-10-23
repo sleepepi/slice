@@ -11,5 +11,5 @@
     <% end %>
   <% end %>
 
-  <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger', id: "variable_#{variable.id}_grid_row_#{position}" if variable.multiple_rows? %>
+  <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger', style: 'display:none', id: "variable_#{variable.id}_grid_row_#{position}_delete_link" if variable.multiple_rows? %>
 </div>
