@@ -6,6 +6,8 @@
   * Simplified interface for adding variables to a grid variable
   * Projects with one design now load that design by default when creating a new sheet
   * Grid variable show pages now include links back to the variables included in the grid
+  * Variable popups now only show up if the variable description is set
+    * NOTE: The range description has been moved to the tooltip
 
 * Bug Fix
   * Users can now correctly create designs on projects with no sites
