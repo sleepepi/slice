@@ -142,12 +142,16 @@ class Variable < ActiveRecord::Base
 
   # For tooltip
   def display_name_range
-    [self.display_name, self.range_tooltip].select{|i| not i.blank?}.join(' - ')
+    [self.display_name, self.range_tooltip].select{|i| not i.blank?}.join('<br /> ')
   end
 
   def range_tooltip
     result = ""
-    if self.hard_minimum or self.hard_maximum or self.soft_minimum or self.soft_maximum
+    if self.soft_minimum.blank? and self.soft_maximum.blank? and not self.hard_minimum.blank? and not self.hard_maximum.blank?
+      result = "[#{self.hard_minimum}, #{self.hard_maximum}]" + (self.units.blank? ? "" : " #{self.units}")
+    elsif not self.soft_minimum.blank? and not self.soft_maximum.blank? and self.hard_minimum.blank? and self.hard_maximum.blank?
+      result = "(#{self.soft_minimum}, #{self.soft_maximum})" + (self.units.blank? ? "" : " #{self.units}")
+    elsif self.hard_minimum or self.hard_maximum or self.soft_minimum or self.soft_maximum
       result = "[#{self.hard_minimum.blank? ? '_' : self.hard_minimum} (#{self.soft_minimum.blank? ? '_' : self.soft_minimum}, #{self.soft_maximum.blank? ? '_' : self.soft_maximum}) #{self.hard_maximum.blank? ? '_' : self.hard_maximum}]" + (self.units.blank? ? "" : " #{self.units}")
     end
     result
