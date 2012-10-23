@@ -171,26 +171,40 @@
   </div>
 </div>
 
-<div class="form-actions" data-object="options">
-  <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
-  <% submit_name = @variable.new_record? ? 'Create Variable' : 'Update Variable' %>
-  <%= submit_tag submit_name, class: 'btn btn-primary', data: { object: "form-check-before-submit", target: "##{form_name}" } %>
-  <% if @popup %>
-    <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#variable_edit_modal', object: 'modal-hide', remove_class: 'error' } %>
-  <% else %>
-    <%= cancel %>
-  <% end %>
-</div>
+<% if true %>
+  <div class="control-group" data-object="options">
+    <label class="control-label">Options</label>
+    <div class="controls">
+      <div id="options" data-object="sortable">
+        <%= render partial: 'options' %>
+      </div>
+      <div class="btn-toolbar">
+        <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="form-actions" data-object="options">
+    <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
+    <% submit_name = @variable.new_record? ? 'Create Variable' : 'Update Variable' %>
+    <%= submit_tag submit_name, class: 'btn btn-primary', data: { object: "form-check-before-submit", target: "##{form_name}" } %>
+    <% if @popup %>
+      <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#variable_edit_modal', object: 'modal-hide', remove_class: 'error' } %>
+    <% else %>
+      <%= cancel %>
+    <% end %>
+  </div>
 
-<div id="options" data-object="options sortable">
-  <%= render partial: 'options' %>
-</div>
+  <div id="options" data-object="options sortable">
+    <%= render partial: 'options' %>
+  </div>
 
-<div class="control-group" data-object="options">
-  <label class="control-label">
-    <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
-  </label>
-</div>
+  <div class="control-group" data-object="options">
+    <label class="control-label">
+      <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
+    </label>
+  </div>
+<% end %>
 
 <div class="control-group" data-object="grid">
   <%= f.label :multiple_rows, nil, class: 'control-label' %>
