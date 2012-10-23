@@ -3,6 +3,7 @@
 * Enhancements
   * The project has been renamed to Slice
   * Added easier variable type selection on variables index
+  * Simplified interface for adding variables to a grid variable
 
 * Bug Fix
   * Users can now correctly create designs on projects with no sites
