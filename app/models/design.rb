@@ -20,7 +20,7 @@ class Design < ActiveRecord::Base
   scope :order_by_user_name_desc, lambda { |*args| { joins: "LEFT JOIN users ON users.id = designs.user_id", order: 'users.last_name DESC, users.first_name DESC' } }
 
   # Model Validation
-  validates_presence_of :name, :user_id
+  validates_presence_of :name, :user_id, :project_id
   validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships
@@ -43,7 +43,7 @@ class Design < ActiveRecord::Base
   end
 
   def editable_by?(current_user)
-    current_user.all_designs.pluck(:id).include?(self.id) or (current_user.librarian? and self.project_id.blank?)
+    current_user.all_designs.pluck(:id).include?(self.id)
   end
 
   def copyable_attributes
@@ -52,17 +52,10 @@ class Design < ActiveRecord::Base
 
   # We want all validations to run so all errors will show up when submitting a form
   def check_option_validations
-    result_a = check_project_id
-    result_b = check_variable_ids
-    result_c = check_section_names
+    result_a = check_variable_ids
+    result_b = check_section_names
 
-    result_a and result_b and result_c
-  end
-
-  def check_project_id
-    result = (self.updater.all_projects.pluck(:id).include?(self.project_id) or (self.updater.librarian? and self.project_id.blank?))
-    self.errors.add(:project_id, "can't be blank" ) unless result
-    result
+    result_a and result_b
   end
 
   def check_variable_ids

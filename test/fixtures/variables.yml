@@ -10,7 +10,6 @@ one:
   options: [{name: 'Name', value: 'Value', description: 'Description'}]
   user: valid
   project: one
-  deleted: false
 
 two:
   name: var_2
@@ -20,15 +19,7 @@ two:
   variable_type: MyString
   options: [{name: 'Name', value: 'Value', description: 'Description'}]
   user: valid
-  deleted: false
-
-global:
-  name: global
-  display_name: Global
-  description: MyText
-  header: MyString
-  variable_type: MyString
-  user: two
+  project: one
 
 dropdown:
   name: var_gender
@@ -39,6 +30,7 @@ dropdown:
   options: [{name: 'Male', value: 'm', description: 'Male Gender'},
             {name: 'Female', value: 'f', description: 'Female Gender'}]
   user: valid
+  project: one
 
 checkbox:
   name: var_course_work
@@ -52,6 +44,7 @@ checkbox:
             {name: 'PHYS 500', value: 'phys500', description: 'Physics - Special Topic'},
             {name: 'BIOL 327', value: 'biol327', description: 'Cells for Beginners'}]
   user: valid
+  project: one
 
 radio:
   name: var_year
@@ -65,6 +58,7 @@ radio:
             {name: 'Senior', value: '4', description: 'Year 4'},
             {name: 'Professional Student', value: '5+', description: 'Year 5+'}]
   user: valid
+  project: one
 
 string:
   name: var_hobbies
@@ -73,6 +67,7 @@ string:
   header: MyString
   variable_type: string
   user: valid
+  project: one
 
 text:
   name: var_life_goals
@@ -81,6 +76,7 @@ text:
   header: MyString
   variable_type: text
   user: valid
+  project: one
 
 integer:
   name: var_age
@@ -93,6 +89,7 @@ integer:
   soft_maximum: 65
   hard_maximum: 120
   user: valid
+  project: one
 
 numeric:
   name: var_weight
@@ -100,6 +97,7 @@ numeric:
   description: Weight (lbs)
   variable_type: numeric
   user: valid
+  project: one
 
 date:
   name: var_date
@@ -108,6 +106,7 @@ date:
   header: Other
   variable_type: date
   user: valid
+  project: one
 
 time:
   name: var_time
@@ -116,6 +115,7 @@ time:
   # header: Other
   variable_type: time
   user: valid
+  project: one
 
 file:
   name: var_file
@@ -124,6 +124,7 @@ file:
   header: MyString
   variable_type: file
   user: valid
+  project: one
 
 height:
   name: height
@@ -131,6 +132,7 @@ height:
   # description:
   variable_type: numeric
   user: valid
+  project: one
 
 weight:
   name: weight
@@ -138,6 +140,7 @@ weight:
   # description:
   variable_type: numeric
   user: valid
+  project: one
 
 calculated:
   name: var_bmi
@@ -148,6 +151,7 @@ calculated:
   user: valid
   calculation: "weight / (height * height)"
   format: "%0.02f"
+  project: one
 
 change_options:
   name: change_options

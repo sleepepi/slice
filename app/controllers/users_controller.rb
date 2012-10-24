@@ -49,7 +49,6 @@ class UsersController < ApplicationController
       @user.update_column :system_admin, params[:system_admin]
       @user.update_column :status, params[:status]
       UserMailer.status_activated(@user).deliver if Rails.env.production? and original_status != @user.status and @user.status = 'active'
-      @user.update_column :librarian, params[:librarian]
       redirect_to @user, notice: 'User was successfully updated.'
     elsif @user
       render action: "edit"

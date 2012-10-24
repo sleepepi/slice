@@ -38,7 +38,7 @@ class Variable < ActiveRecord::Base
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
-  validates_presence_of :name, :display_name, :variable_type
+  validates_presence_of :name, :display_name, :variable_type, :project_id
   validates_format_of :name, with: /\A[a-z]\w*\Z/i
   validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
@@ -76,7 +76,7 @@ class Variable < ActiveRecord::Base
   end
 
   def editable_by?(current_user)
-    current_user.all_variables.pluck(:id).include?(self.id) or (current_user.librarian? and self.project_id.blank?)
+    current_user.all_variables.pluck(:id).include?(self.id)
   end
 
   def copyable_attributes
@@ -85,19 +85,12 @@ class Variable < ActiveRecord::Base
 
   # We want all validations to run so all errors will show up when submitting a form
   def check_option_validations
-    result_a = check_project_id
-    result_b = check_for_colons
-    result_c = check_value_uniqueness
-    result_d = check_for_blank_values
-    result_e = check_for_duplicate_variables
+    result_a = check_for_colons
+    result_b = check_value_uniqueness
+    result_c = check_for_blank_values
+    result_d = check_for_duplicate_variables
 
-    result_a and result_b and result_c and result_d and result_e
-  end
-
-  def check_project_id
-    result = (self.updater.all_projects.pluck(:id).include?(self.project_id) or (self.updater.librarian? and self.project_id.blank?))
-    self.errors.add(:project_id, "can't be blank" ) unless result
-    result
+    result_a and result_b and result_c and result_d
   end
 
   def check_for_colons

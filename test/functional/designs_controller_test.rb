@@ -285,16 +285,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  test "should create global design for librarian" do
-    login(users(:librarian))
-    assert_difference('Design.count', 1) do
-      post :create, design: { project_id: nil, description: "Global Design", name: 'Global Design', option_tokens: {} }
-    end
-
-    assert_not_nil assigns(:design)
-    assert_redirected_to design_path(assigns(:design))
-  end
-
   test "should show design" do
     get :show, id: @design
     assert_not_nil assigns(:design)
@@ -365,12 +355,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit for global design for librarian" do
-    login(users(:librarian))
-    get :edit, id: designs(:global)
-    assert_response :success
-  end
-
   test "should update design" do
     put :update, id: @design, design: { project_id: projects(:one).id, description: @design.description, name: @design.name }
     assert_redirected_to design_path(assigns(:design))
@@ -390,24 +374,9 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to designs_path
   end
 
-  test "should update for global design for librarian" do
-    login(users(:librarian))
-    put :update, id: designs(:global), design: { project_id: nil, description: designs(:global).description, name: designs(:global).name }
-    assert_redirected_to design_path(assigns(:design))
-  end
-
   test "should destroy design" do
     assert_difference('Design.current.count', -1) do
       delete :destroy, id: @design
-    end
-
-    assert_redirected_to designs_path
-  end
-
-  test "should destroy global design for librarian" do
-    login(users(:librarian))
-    assert_difference('Design.current.count', -1) do
-      delete :destroy, id: designs(:global)
     end
 
     assert_redirected_to designs_path

@@ -68,7 +68,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    put :update, id: @user, user: { first_name: 'FirstName', last_name: 'LastName', email: 'valid_updated_email@example.com' }, status: 'active', system_admin: false, librarian: false
+    put :update, id: @user, user: { first_name: 'FirstName', last_name: 'LastName', email: 'valid_updated_email@example.com' }, status: 'active', system_admin: false
     assert_redirected_to user_path(assigns(:user))
   end
 
@@ -79,7 +79,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not update user with invalid id" do
-    put :update, id: -1, user: { first_name: 'FirstName', last_name: 'LastName', email: 'valid_updated_email@example.com' }, status: 'active', system_admin: false, librarian: false
+    put :update, id: -1, user: { first_name: 'FirstName', last_name: 'LastName', email: 'valid_updated_email@example.com' }, status: 'active', system_admin: false
     assert_nil assigns(:user)
     assert_redirected_to users_path
   end

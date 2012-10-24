@@ -43,11 +43,11 @@ Contour.setup do |config|
       name: 'Reports', display: 'signed_in', path: 'reports_path', position: 'left'
     },
     {
-      name: 'Designs', display: 'signed_in', path: 'designs_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0 or current_user.librarian?',
+      name: 'Designs', display: 'signed_in', path: 'designs_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
       links: [{ name: 'Create Design', path: 'new_design_path' }]
     },
     {
-      name: 'Variables', display: 'signed_in', path: 'variables_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0 or current_user.librarian?',
+      name: 'Variables', display: 'signed_in', path: 'variables_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
       links: [{ name: 'Create Variable', path: 'new_variable_path' }]
     },
     {

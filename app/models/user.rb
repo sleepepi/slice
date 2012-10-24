@@ -21,7 +21,6 @@ class User < ActiveRecord::Base
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :system_admins, conditions: { system_admin: true }
-  scope :librarians, conditions: { librarian: true }
   scope :with_sheet, lambda { |*args| { conditions: ["users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false] }  }
   scope :with_design, lambda { |*args| { conditions: ["users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false] }  }
   scope :with_variable, lambda { |*args| { conditions: ["users.id in (select DISTINCT(variables.user_id) from variables where variables.deleted = ?)", false] }  }
@@ -82,11 +81,7 @@ class User < ActiveRecord::Base
 
   def all_designs
     @all_designs ||= begin
-      if self.librarian?
-        Design.current.with_project_or_global(self.all_projects.pluck(:id))
-      else
-        Design.current.with_project(self.all_projects.pluck(:id))
-      end
+      Design.current.with_project(self.all_projects.pluck(:id))
     end
   end
 
@@ -98,11 +93,7 @@ class User < ActiveRecord::Base
 
   def all_variables
     @all_variables ||= begin
-      if self.librarian?
-        Variable.current.with_project_or_global(self.all_projects.pluck(:id))
-      else
-        Variable.current.with_project(self.all_projects.pluck(:id))
-      end
+      Variable.current.with_project(self.all_projects.pluck(:id))
     end
   end
 

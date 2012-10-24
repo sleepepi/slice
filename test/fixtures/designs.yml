@@ -10,14 +10,13 @@ one:
             { variable_id: <%= ActiveRecord::Fixtures.identify(:date) %> }]
   user: valid
   project: one
-  deleted: false
 
 two:
   name: Design Two
   description: MyText
   options: []
   user: valid
-  deleted: false
+  project: one
 
 all_variable_types:
   name: All Variable Types
@@ -34,14 +33,8 @@ all_variable_types:
             { variable_id: <%= ActiveRecord::Fixtures.identify(:time) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:calculated) %> }]
   user: valid
-  deleted: false
   email_template: "Dear #(site): #(subject) #(subject).acrostic #(date) $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label $(var_age).label $(var_file).label $(var_date).label"
-
-global:
-  name: Global
-  description: For testing that librarian who didn't create design can update and delete design.
-  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> }, { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %> }]
-  user: two
+  project: one
 
 sections_and_variables:
   name: Section and Variables
@@ -61,7 +54,6 @@ sections_and_variables:
            ]
   user: valid
   project: one
-  deleted: false
 
 section_and_file:
   name: Section and File Variable
@@ -72,7 +64,6 @@ section_and_file:
            ]
   user: valid
   project: one
-  deleted: false
 
 two_page:
   name: Two Pages
