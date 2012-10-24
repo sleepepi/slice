@@ -202,6 +202,10 @@ jQuery ->
       $($(this).data('target')).submit()
       false
     )
+    .on('click', '[data-object~="show-graph"]', () ->
+      drawScatter($(this).data('target'), eval($(this).data('data')), $(this).data('title'), $(this).data('y-axis-title'), $(this).data('x-axis-title'))
+      false
+    )
 
   $('[data-object~="variable-typeahead"]').each( () ->
     $this = $(this)
