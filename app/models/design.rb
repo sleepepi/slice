@@ -9,8 +9,6 @@ class Design < ActiveRecord::Base
   scope :current, conditions: { deleted: false }
   scope :with_user, lambda { |*args| { conditions: ['designs.user_id IN (?)', args.first] } }
   scope :with_project, lambda { |*args| { conditions: ['designs.project_id IN (?)', args.first] } }
-  scope :with_project_or_global, lambda { |*args| { conditions: ['designs.project_id IN (?) or designs.project_id IS NULL', args.first] } }
-  scope :with_user_or_global, lambda { |*args| { conditions: ['designs.user_id IN (?) or designs.project_id IS NULL', args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   scope :order_by_project_name, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name' } }

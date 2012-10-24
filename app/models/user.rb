@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
 
   def all_viewable_designs
     @all_viewable_designs ||= begin
-      Design.current.with_project_or_global(self.all_viewable_sites.pluck(:project_id) + self.all_viewable_projects.pluck(:id))
+      Design.current.with_project(self.all_viewable_sites.pluck(:project_id) + self.all_viewable_projects.pluck(:id))
     end
   end
 
@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
 
   def all_viewable_variables
     @all_viewable_variables ||= begin
-      Variable.current.with_project_or_global(self.all_viewable_projects.pluck(:id))
+      Variable.current.with_project(self.all_viewable_projects.pluck(:id))
     end
   end
 
