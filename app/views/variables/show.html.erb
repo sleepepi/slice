@@ -96,6 +96,12 @@
   <% end %>
 
   <% if ['grid'].include?(@variable.variable_type) %>
+    <dt>Multiple Rows</dt>
+    <dd><%= simple_check @variable.multiple_rows? %></dd>
+
+    <dt>Default Row Number</dt>
+    <dd><%= @variable.default_row_number %></dd>
+
     <dt>Variables</dt>
     <dd>
       <ul>

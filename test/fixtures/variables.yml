@@ -171,6 +171,7 @@ grid:
   variable_type: grid
   # options:
   grid_variables: [{variable_id: <%= ActiveRecord::Fixtures.identify(:change_options) %> }]
+  default_row_number: 3
   user: valid
   project: one
 

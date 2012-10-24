@@ -235,7 +235,7 @@ class VariablesController < ApplicationController
       # For Integer, Numeric, and Calculated
       :units,
       # For Grid Variables
-      :grid_tokens, :multiple_rows,
+      :grid_tokens, :multiple_rows, :default_row_number,
       # For Autocomplete Strings
       :autocomplete_values,
       # Radio and Checkbox

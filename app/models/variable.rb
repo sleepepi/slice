@@ -11,7 +11,7 @@ class Variable < ActiveRecord::Base
                   # Integer and Numeric and Calculated
                   :units,
                   # Grid
-                  :grid_tokens, :grid_variables, :multiple_rows,
+                  :grid_tokens, :grid_variables, :multiple_rows, :default_row_number,
                   # Autocomplete
                   :autocomplete_values,
                   # Radio and Checkbox
@@ -68,9 +68,7 @@ class Variable < ActiveRecord::Base
   # end
 
   def name_with_project
-    @name_with_project ||= begin
-      self.project ? "#{self.name} - #{self.project.name}" : "#{self.name} - Global"
-    end
+    "#{self.name} - #{self.project.name}"
   end
 
   def editable_by?(current_user)

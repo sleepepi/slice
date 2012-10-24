@@ -37,7 +37,7 @@ class Design < ActiveRecord::Base
   end
 
   def name_with_project
-    self.project ? "#{self.name} - #{self.project.name}" : "#{self.name} - Global"
+    "#{self.name} - #{self.project.name}"
   end
 
   def editable_by?(current_user)

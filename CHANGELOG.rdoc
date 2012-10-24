@@ -1,6 +1,8 @@
 == 0.10.0
 
 * Enhancements
+  * Variable Changes
+    * Grid variables can now specify the default number of rows that are displayed
   * Removed the global librarian role
 
 == 0.9.1
