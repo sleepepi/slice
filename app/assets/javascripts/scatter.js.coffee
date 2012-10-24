@@ -82,6 +82,8 @@
     chart:
       renderTo: element_id
       type: 'spline'
+    credits:
+      enabled: false
     title:
       text: title
     # subtitle:
