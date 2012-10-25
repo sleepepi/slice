@@ -1,0 +1,32 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'contacts', per_page: 20, object_count: @contact_count } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.title', 'Title', 'contacts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.name', 'Name', 'contacts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.phone', 'Phone', 'contacts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.fax', 'Fax', 'contacts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.email', 'Email', 'contacts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.position', 'Position', 'contacts_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @contacts.each do |contact| %>
+    <tr>
+      <td><%= link_to contact.title, [contact.project, contact] %></td>
+      <td><%= contact.name %></td>
+      <td><%= contact.phone %></td>
+      <td><%= contact.fax %></td>
+      <td><%= contact.email %></td>
+      <td><%= contact.position %></td>
+      <td>
+        <%= link_to 'Edit', edit_project_contact_path(contact.project, contact), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', [contact.project, contact], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Contact #{contact.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @contacts %></center>

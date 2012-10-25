@@ -1,11 +1,11 @@
-<div class="row" style="margin-top:54px">
+<div class="row">
   <div class="span12">
     <h1 class="about-title">Project <%= @project.name %></h1>
     <p class="about-tagline"><%= @project.description %></p>
   </div>
 </div>
 
-<hr class="soften">
+<hr class="soften" style="margin-top:20px">
 
 <% if false %>
 <p class="about-description"></p>
@@ -14,14 +14,14 @@
 <div class="row">
   <div class="span4">
     <h2 class="about-title">News</h2>
-    <%= render partial: 'projects/show/news' %>
+    <%= render partial: 'projects/show/posts' %>
   </div>
   <div class="span4">
     <h2 class="about-title">Documents</h2>
     <%= render partial: 'projects/show/documents' %>
   </div>
   <div class="span4">
-    <h2 class="about-title">Contacts</h2>
+    <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Contacts', project_contacts_path(@project) %></h2>
     <%= render partial: 'projects/show/contacts' %>
   </div>
 </div>

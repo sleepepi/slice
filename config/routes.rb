@@ -27,6 +27,8 @@ Slice::Application.routes.draw do
       get :report
       post :report
     end
+
+    resources :contacts
   end
 
   resources :project_users do

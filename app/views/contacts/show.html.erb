@@ -1,0 +1,33 @@
+<% @title = "Contact: #{@contact.name}" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to "Edit Contact", edit_project_contact_path(@contact), class: 'btn btn-mini' %>
+    <%= link_to "Delete Contact", [@contact.project, @contact], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Contact #{@contact.name}?" } %>
+    <%= link_to "View Contacts", project_contacts_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Title</dt>
+  <dd><%= @contact.title %></dd>
+
+  <dt>Name</dt>
+  <dd><%= @contact.name %></dd>
+
+  <dt>Phone</dt>
+  <dd><%= @contact.phone %></dd>
+
+  <dt>Fax</dt>
+  <dd><%= @contact.fax %></dd>
+
+  <dt>Email</dt>
+  <dd><%= @contact.email %></dd>
+
+  <dt>Position</dt>
+  <dd><%= @contact.position %></dd>
+
+  <dt>Project</dt>
+  <dd><%= link_to @contact.project.name, @contact.project if @contact.project %></dd>
+
+</dl>

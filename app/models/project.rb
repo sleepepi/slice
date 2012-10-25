@@ -27,6 +27,10 @@ class Project < ActiveRecord::Base
   has_many :sites, conditions: { deleted: false }
   has_many :subjects, conditions: { deleted: false }
 
+  has_many :contacts, conditions: { deleted: false }
+
+  # Model Methods
+
   def site_id_with_prefix(prefix)
     prefix_sites = self.sites.select{|s| not s.prefix.blank? and prefix.start_with?(s.prefix) }
     prefix_sites.size == 1 ? prefix_sites.first.id : nil
@@ -40,15 +44,11 @@ class Project < ActiveRecord::Base
     []
   end
 
-  def contacts
-    ""
-  end
-
   def documents
     []
   end
 
-  def news
+  def posts
     []
   end
 

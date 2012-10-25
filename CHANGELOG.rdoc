@@ -5,6 +5,7 @@
     * Grid variables can now specify the default number of rows that are displayed
   * Removed the global librarian role
   * New Project dashboard added
+  * Projects can now have Contacts
 
 == 0.9.1
 

@@ -1,0 +1,9 @@
+<ul>
+  <% if @project.posts.size == 0 %>
+    <li class="muted">No News</li>
+  <% else %>
+    <% @project.posts.each do |post| %>
+      <li style="line-height:25px"><%= link_to post.name, post %></li>
+    <% end %>
+  <% end %>
+</ul>
