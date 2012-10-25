@@ -1,0 +1,27 @@
+<% @title = "Document: #{@document.name}" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to "Edit Document", edit_project_document_path(@document.project, @document), class: 'btn btn-mini' %>
+    <%= link_to "Delete Document", [@document.project, @document], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Document #{@document.name}?" } %>
+    <%= link_to "View Documents", project_documents_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Name</dt>
+  <dd><%= @document.name %></dd>
+
+  <dt>Category</dt>
+  <dd><%= @document.category %></dd>
+
+  <dt>File</dt>
+  <dd>
+    <% if @document.file.size > 0 %>
+      <%= link_to @document.name, @document.file.url, target: '_blank', class: 'btn btn-mini' %> <span class="muted"><%= number_to_human_size(@document.file.size) %></span>
+    <% end %>
+  </dd>
+
+  <dt>Archived</dt>
+  <dd><%= simple_check @document.archived %></dd>
+</dl>

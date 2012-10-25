@@ -28,6 +28,7 @@ class Project < ActiveRecord::Base
   has_many :subjects, conditions: { deleted: false }
 
   has_many :contacts, conditions: { deleted: false }
+  has_many :documents, conditions: { deleted: false }
   has_many :posts, conditions: { deleted: false }
 
   # Model Methods
@@ -42,10 +43,6 @@ class Project < ActiveRecord::Base
   end
 
   def custom_reports
-    []
-  end
-
-  def documents
     []
   end
 

@@ -17,7 +17,7 @@
     <%= render partial: 'projects/show/posts' %>
   </div>
   <div class="span4">
-    <h2 class="about-title">Documents</h2>
+    <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Documents', project_documents_path(@project) %></h2>
     <%= render partial: 'projects/show/documents' %>
   </div>
   <div class="span4">

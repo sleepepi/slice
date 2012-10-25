@@ -1,3 +1,4 @@
+<hr class="soften" style="margin-top:20px">
 <% if @project.contacts.blank? %>
   <ul><li class="muted">No Contact Information</li></ul>
 <% else %>
@@ -12,5 +13,6 @@
         <% unless contact.email.blank? %><a href="mailto:<%= contact.email %>"><%= contact.email %></a><br><% end %>
       </p>
     </address>
+    <hr class="soften" style="margin-top:20px">
   <% end %>
 <% end %>

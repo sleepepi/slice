@@ -1,0 +1,51 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for [@document.project, @document], html: { class: 'form-horizontal' } do |f| %>
+  <% if @document.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@document.errors.count, "error") %> prohibited this document from being saved:</h2>
+
+      <ul>
+      <% @document.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :category, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :category, data: { provide: "typeahead", source: @document.project.documents.pluck(:category).to_json } %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :file, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :file %>
+      <%= f.hidden_field :file_cache %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :archived, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :archived %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>
