@@ -2,7 +2,7 @@
 <% if @project.documents.where(archived: false).size == 0 %>
   <ul><li class="muted">No Documents</li></ul>
 <% else %>
-  <% @project.documents.where(archived: false).group_by{|d| d.category}.sort{|a,b| (a[0] ? a[0].name : "") <=> (b[0] ? b[0].name : "")}.each do |category, documents| %>
+  <% @project.documents.where(archived: false).group_by{|d| d.category}.sort{|a,b| a[0] <=> b[0]}.each do |category, documents| %>
     <strong><%= category %></strong>
     <ul>
       <% documents.sort_by{|d| d.name}.each do |document| %>
