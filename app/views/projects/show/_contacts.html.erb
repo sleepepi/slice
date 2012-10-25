@@ -1,8 +1,8 @@
 <hr class="soften" style="margin-top:20px">
-<% if @project.contacts.blank? %>
+<% if @project.contacts.where(archived: false).size == 0 %>
   <ul><li class="muted">No Contact Information</li></ul>
 <% else %>
-  <% @project.contacts.order('position').each do |contact| %>
+  <% @project.contacts.where(archived: false).order('position').each do |contact| %>
 
     <address>
       <strong><%= contact.title %></strong><br>

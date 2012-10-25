@@ -141,7 +141,7 @@ class ContactsController < ApplicationController
     params[:contact][:position] = 0 if params[:contact][:position].blank?
 
     params[:contact].slice(
-      :title, :name, :phone, :fax, :email, :position, :user_id
+      :title, :name, :phone, :fax, :email, :position, :user_id, :archived
     )
   end
 end

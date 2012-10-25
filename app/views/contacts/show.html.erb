@@ -30,4 +30,7 @@
   <dt>Project</dt>
   <dd><%= link_to @contact.project.name, @contact.project if @contact.project %></dd>
 
+  <dt>Archived</dt>
+  <dd><%= simple_check @contact.archived %></dd>
+
 </dl>

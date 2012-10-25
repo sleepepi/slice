@@ -1,5 +1,5 @@
 class Contact < ActiveRecord::Base
-  attr_accessible :email, :fax, :name, :phone, :position, :user_id, :title, :project_id
+  attr_accessible :email, :fax, :name, :phone, :position, :user_id, :title, :project_id, :archived
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
