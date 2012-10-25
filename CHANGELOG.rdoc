@@ -4,6 +4,7 @@
   * Variable Changes
     * Grid variables can now specify the default number of rows that are displayed
   * Removed the global librarian role
+  * New Project dashboard added
 
 == 0.9.1
 

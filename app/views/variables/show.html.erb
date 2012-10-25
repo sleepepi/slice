@@ -141,8 +141,8 @@
 
 <% @chart_element_id = "variable_#{@variable.id}_graph" %>
 
-<% values_sv = @variable.sheet_variables.collect{|sv| "[Date.UTC(#{sv.sheet.study_date.year}, #{sv.sheet.study_date.month - 1}, #{sv.sheet.study_date.day}), #{sv.response.blank? ? '0' : sv.response}]"} %>
-<% values_g = @variable.grids.collect{|g| "[Date.UTC(#{g.sheet_variable.sheet.study_date.year}, #{g.sheet_variable.sheet.study_date.month - 1}, #{g.sheet_variable.sheet.study_date.day}), #{g.response.blank? ? '0' : g.response}]"} %>
+<% values_sv = @variable.sheet_variables.collect{|sv| sv.response.blank? ? nil : "[Date.UTC(#{sv.sheet.study_date.year}, #{sv.sheet.study_date.month - 1}, #{sv.sheet.study_date.day}), #{sv.response.blank? ? '0' : sv.response}]" }.compact.uniq %>
+<% values_g = @variable.grids.collect{|g| g.response.blank? ? nil : "[Date.UTC(#{g.sheet_variable.sheet.study_date.year}, #{g.sheet_variable.sheet.study_date.month - 1}, #{g.sheet_variable.sheet.study_date.day}), #{g.response.blank? ? '0' : g.response}]" }.compact.uniq %>
 
 <% values = (values_sv + values_g).uniq %>
 
@@ -150,6 +150,6 @@
 
 <%# data = "[{name: 'Variable', data: [ [Date.UTC(1970,  9, 27), 0   ], [Date.UTC(1970, 10, 10), 0.6 ]] }]" %>
 
-<%= link_to 'graph', '#', data: { object: 'show-graph', target: "#{@chart_element_id}", data: data, title: "#{@variable.display_name}", y_axis_title: "#{@variable.display_name}" + (@variable.units.blank? ? '' : " (#{@variable.units})"), x_axis_title: "Study Date" }, id: 'press' %>
+<%= link_to 'graph', '#', data: { object: 'show-graph', target: "#{@chart_element_id}", data: data, title: "#{@variable.display_name}", y_axis_title: "#{@variable.display_name}" + (@variable.units.blank? ? '' : " (#{@variable.units})"), x_axis_title: "Study Date", units: (@variable.units.blank? ? '' : " #{@variable.units}") }, id: 'press' %>
 
 <div id="<%= @chart_element_id %>"></div>

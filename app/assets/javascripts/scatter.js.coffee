@@ -1,4 +1,4 @@
-@drawScatter = (element_id, series, title, yAxisTitle, xAxisTitle) ->
+@drawScatter = (element_id, series, title, yAxisTitle, xAxisTitle, units) ->
 
   # series = [{
   #   name: 'Winter 2007-2008',
@@ -81,7 +81,7 @@
   chart = new Highcharts.Chart(
     chart:
       renderTo: element_id
-      type: 'spline'
+      type: 'scatter'
     credits:
       enabled: false
     title:
@@ -99,8 +99,8 @@
       title:
         text: yAxisTitle
       min: 0
-    # tooltip:
-    #   formatter: () ->
-    #     return '<b>'+ this.series.name + '</b><br/>' + Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' m'
+    tooltip:
+      formatter: () ->
+        return '<b>' + this.series.name + '</b><br/>' + Highcharts.dateFormat('%e. %b', this.x) + ': ' + this.y + units
     series: series
   )

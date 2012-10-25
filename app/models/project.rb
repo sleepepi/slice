@@ -36,6 +36,22 @@ class Project < ActiveRecord::Base
     self.subject_code_name.to_s.strip.blank? ? 'Subject Code' : self.subject_code_name.to_s.strip
   end
 
+  def custom_reports
+    []
+  end
+
+  def contacts
+    ""
+  end
+
+  def documents
+    []
+  end
+
+  def news
+    []
+  end
+
   # Model Methods
   def destroy
     update_column :deleted, true

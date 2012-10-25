@@ -1,0 +1,9 @@
+<ul>
+  <% if @project.documents.size == 0 %>
+    <li class="muted">No Documents</li>
+  <% else %>
+    <% @project.documents.each do |document| %>
+      <li style="line-height:25px"><%= link_to document.name, document %></li>
+    <% end %>
+  <% end %>
+</ul>

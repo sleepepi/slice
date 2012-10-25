@@ -1,0 +1,42 @@
+<div class="row" style="margin-top:54px">
+  <div class="span12">
+    <h1 class="about-title">Project <%= @project.name %></h1>
+    <p class="about-tagline"><%= @project.description %></p>
+  </div>
+</div>
+
+<hr class="soften">
+
+<% if false %>
+<p class="about-description"></p>
+<% end %>
+
+<div class="row">
+  <div class="span4">
+    <h2 class="about-title">News</h2>
+    <%= render partial: 'projects/show/news' %>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Documents</h2>
+    <%= render partial: 'projects/show/documents' %>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Contacts</h2>
+    <%= render partial: 'projects/show/contacts' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span4">
+    <h2 class="about-title">Recent Entries</h2>
+    <%= render partial: 'projects/show/recent' %>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Reports</h2>
+    <%= render partial: 'projects/show/reports' %>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Custom Reports</h2>
+    <%= render partial: 'projects/show/custom_reports' %>
+  </div>
+</div>

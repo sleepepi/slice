@@ -1,4 +1,9 @@
 <% @title = "Project: #{@project.name}" %>
+
+<%= render partial: 'projects/show/dashboard' %>
+
+<hr class="soften">
+
 <div class="page-header">
   <% if @project.logo.size > 0 %>
   <div onmouseover="$('#project_logo_delete_icon').show();" onmouseout="$('#project_logo_delete_icon').hide();" style="float:right" id="logo_container">

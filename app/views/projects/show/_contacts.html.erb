@@ -1,0 +1,5 @@
+<% if @project.contacts.blank? %>
+  <ul><li class="muted">No Contact Information</li></ul>
+<% else %>
+  <p><%= simple_format @project.contacts %></p>
+<% end %>
