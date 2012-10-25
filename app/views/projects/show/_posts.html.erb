@@ -6,10 +6,29 @@
     <p>
       <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= post.user.name %></span><br>
       <div style="margin-left:10px">
-      <%= link_to post.name, [post.project, post] %>
-      <%= post.description.truncate(50, omission: "... (#{link_to 'read more', [post.project, post]})").html_safe %>
+      <%= link_to post.name, '#', data: { object: 'modal-show', target: "#post_#{post.id}_modal" } %>
+      <%= post.description.truncate(50, omission: "... (#{link_to 'read more', '#', data: { object: 'modal-show', target: "#post_#{post.id}_modal" } })").html_safe %>
       </div>
     </p>
+    <div id="post_<%= post.id %>_modal" class="modal" style="display:none">
+      <div class="modal-header">
+        <strong><%= post.name %></strong>
+        <a class="close" data-dismiss="modal">×</a>
+      </div>
+      <div class="modal-body">
+        <p>
+          <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= post.user.name %></span>
+        </p>
+        <div style="margin-left:10px">
+          <%= simple_format post.description %>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <%= link_to 'Close', '#', class: 'btn', data: { dismiss: 'modal' } %>
+      </div>
+    </div>
+
     <hr class="soften" style="margin-top:20px">
   <% end %>
 <% end %>
