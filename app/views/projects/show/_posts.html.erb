@@ -1,8 +1,8 @@
 <hr class="soften" style="margin-top:20px">
-<% if @project.posts.size == 0 %>
+<% if @project.posts.where(archived: false).size == 0 %>
   <ul><li class="muted">No News</li></ul>
 <% else %>
-  <% @project.posts.order('created_at DESC').limit(3).each do |post| %>
+  <% @project.posts.where(archived: false).order('created_at DESC').limit(3).each do |post| %>
     <p>
       <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= post.user.name %></span><br>
       <div style="margin-left:10px">
