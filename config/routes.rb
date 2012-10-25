@@ -29,6 +29,7 @@ Slice::Application.routes.draw do
     end
 
     resources :contacts
+    resources :posts
   end
 
   resources :project_users do

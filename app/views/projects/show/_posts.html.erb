@@ -1,9 +1,15 @@
-<ul>
-  <% if @project.posts.size == 0 %>
-    <li class="muted">No News</li>
-  <% else %>
-    <% @project.posts.each do |post| %>
-      <li style="line-height:25px"><%= link_to post.name, post %></li>
-    <% end %>
+<hr class="soften" style="margin-top:20px">
+<% if @project.posts.size == 0 %>
+  <ul><li class="muted">No News</li></ul>
+<% else %>
+  <% @project.posts.order('created_at DESC').each do |post| %>
+    <p>
+      <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= post.user.name %></span><br>
+      <div style="margin-left:10px">
+      <%= link_to post.name, [post.project, post] %>
+      <%= post.description.truncate(50, omission: "... (#{link_to 'read more', [post.project, post]})").html_safe %>
+      </div>
+    </p>
+    <hr class="soften" style="margin-top:20px">
   <% end %>
-</ul>
+<% end %>

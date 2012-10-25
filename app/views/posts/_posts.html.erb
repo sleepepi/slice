@@ -1,0 +1,26 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'posts', per_page: 20, object_count: @post_count } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.name', 'Name', 'posts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.description', 'Description', 'posts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.archived', 'Archived', 'posts_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @posts.each do |post| %>
+    <tr>
+      <td><%= link_to post.name, [post.project, post] %></td>
+      <td><%= post.description %></td>
+      <td><%= simple_check post.archived %></td>
+      <td>
+        <%= link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', [post.project, post], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Post #{post.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @posts %></center>

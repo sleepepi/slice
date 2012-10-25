@@ -13,7 +13,7 @@
 
 <div class="row">
   <div class="span4">
-    <h2 class="about-title">News</h2>
+    <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'News', project_posts_path(@project) %></h2>
     <%= render partial: 'projects/show/posts' %>
   </div>
   <div class="span4">

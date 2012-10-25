@@ -56,7 +56,18 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1/edit
   def edit
-    @contact = Contact.current.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:project_id])
+    @contact = @project.contacts.find_by_id(params[:id]) if @project
+
+    respond_to do |format|
+      if @project
+        format.html # edit.html.erb
+        format.json { render json: @contact }
+      else
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
+    end
   end
 
   # POST /contacts
