@@ -58,6 +58,27 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= f.label :show_contacts, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :show_contacts %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :show_documents, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :show_documents %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :show_posts, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :show_posts %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>

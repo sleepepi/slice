@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache, :subject_code_name
+  attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache, :subject_code_name, :show_contacts, :show_documents, :show_posts
 
   mount_uploader :logo, ImageUploader
 

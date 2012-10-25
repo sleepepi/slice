@@ -11,20 +11,28 @@
 <p class="about-description"></p>
 <% end %>
 
-<div class="row">
-  <div class="span4">
-    <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'News', project_posts_path(@project) %></h2>
-    <%= render partial: 'projects/show/posts' %>
+<% if @project.show_posts? or @project.show_documents? or @project.show_contacts? %>
+  <div class="row">
+    <% if @project.show_posts? %>
+      <div class="span4">
+        <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'News', project_posts_path(@project) %></h2>
+        <%= render partial: 'projects/show/posts' %>
+      </div>
+    <% end %>
+    <% if @project.show_documents? %>
+      <div class="span4">
+        <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Documents', project_documents_path(@project) %></h2>
+        <%= render partial: 'projects/show/documents' %>
+      </div>
+    <% end %>
+    <% if @project.show_contacts? %>
+      <div class="span4">
+        <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Contacts', project_contacts_path(@project) %></h2>
+        <%= render partial: 'projects/show/contacts' %>
+      </div>
+    <% end %>
   </div>
-  <div class="span4">
-    <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Documents', project_documents_path(@project) %></h2>
-    <%= render partial: 'projects/show/documents' %>
-  </div>
-  <div class="span4">
-    <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Contacts', project_contacts_path(@project) %></h2>
-    <%= render partial: 'projects/show/contacts' %>
-  </div>
-</div>
+<% end %>
 
 <div class="row">
   <div class="span4">
