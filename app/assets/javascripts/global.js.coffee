@@ -3,8 +3,6 @@ jQuery ->
   # <div id="abc">
   # Removes a data-target id when a node with data-object="remove" is clicked
 
-  $(document).on('focus', "select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]", () -> $(this).tooltip( trigger: 'focus' ))
-
   $(document)
     .on('click', '[data-object~="remove"]', () ->
       plural = if $(this).data('count') == 1 then '' else 's'
@@ -51,11 +49,15 @@ jQuery ->
         $('[data-audit-row~="'+$(this).data('value')+'"]').hide()
       false
     )
+    # .on('focus', "select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]", () ->
+    #   $(this).tooltip( trigger: 'focus' )
+    # )
 
+
+  $("select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]").tooltip( trigger: 'focus' )
+  $("span[rel~=tooltip]").tooltip( trigger: 'hover' )
 
   $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
-
-  $("span[rel~=tooltip]").tooltip( trigger: 'hover' )
 
   window.$isDirty = false
   msg = 'You haven\'t saved your changes.'
