@@ -7,7 +7,7 @@ $(".datepicker").datepicker({
   changeMonth: true,
   changeYear: true
 });
-$("#ui-datepicker-div").hide();
+// $("#ui-datepicker-div").hide();
 
 $('[data-object~="variable-typeahead"]').each(function() {
   var $this = $(this);
@@ -33,7 +33,7 @@ $('[data-object~="variable-typeahead"]').each(function() {
 
 $('#sheet_submit_btn').data('page', '<%= params[:current_design_page].to_i + 1 %>');
 
-$("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
+// $("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
 
 <% if @design %>
 
