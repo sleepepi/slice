@@ -48,7 +48,7 @@ jQuery ->
     .on('focus', "select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]", () ->
       $(this).tooltip( trigger: 'focus' )
     )
-    .on('focus', "[rel~=popover]", () ->
+    .on('focus', "[rel~=tooltip]", () ->
       $(this).tooltip( trigger: 'hover' )
     )
     .on('focus', "[rel~=popover]", () ->
