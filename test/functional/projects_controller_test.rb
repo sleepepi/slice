@@ -120,6 +120,13 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show project to site user" do
+    login(users(:site_one_user))
+    get :show, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should not show invalid project" do
     get :show, id: -1
     assert_nil assigns(:project)

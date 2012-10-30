@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
 
     respond_to do |format|
       if @project

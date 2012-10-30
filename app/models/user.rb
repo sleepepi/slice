@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
   end
 
   def all_viewable_and_site_projects
-    @all_viewable_projects ||= begin
+    @all_viewable_and_site_projects ||= begin
       Project.current.where(id: self.all_viewable_sites.pluck(:project_id) + self.all_viewable_projects.pluck(:id))
     end
   end
