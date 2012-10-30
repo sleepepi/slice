@@ -7,6 +7,7 @@
   * New Project dashboard added
   * Projects can now have Contacts, Documents, and News Posts
   * Slice root directs a user to either a splash page with projects, or the project they are currently on
+  * Sheets are now integrated more closely with their projects
 
 == 0.9.1
 

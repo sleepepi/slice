@@ -2,13 +2,14 @@ class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
   def report_print
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
 
     setup_report
 
     orientation = ['Portrait', 'Landscape'].include?(params[:orientation].to_s.capitalize) ? params[:orientation].to_s.capitalize : 'Portrait'
 
-    if @design
+    if @project and @design
       html = render_to_string( layout: false, action: 'report_print' )
 
       pdf_attachment = begin
@@ -30,10 +31,11 @@ class DesignsController < ApplicationController
 
   def report
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
+    @project = @design.project if @design
 
     setup_report
 
-    if @design
+    if @project and @design
       if params[:format] == 'csv'
         generate_table_csv(@design, @sheets, @ranges, @strata, @variable, @column_variable, @report_title, @report_caption)
         return
@@ -154,8 +156,9 @@ class DesignsController < ApplicationController
   end
 
   def print
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
-    if @design
+    if @project and @design
       render layout: false
     else
       render nothing: true

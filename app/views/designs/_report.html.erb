@@ -33,7 +33,7 @@
       <% @ranges.each do |hash| %>
         <% count = hash[:count] %>
         <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] if count > 0 %>" data-placement="left">
-          <span class="rounded-borders"><%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y")), row_include: (params[:include_missing] == '1' ? 'all' : 'known'), column_include: (hash[:value].blank? ? 'unknown' : 'missing'), filter: @filter) %></span>
+          <span class="rounded-borders"><%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y")), row_include: (params[:include_missing] == '1' ? 'all' : 'known'), column_include: (hash[:value].blank? ? 'unknown' : 'missing'), filter: @filter) %></span>
           <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
             <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
           <% end %>
@@ -41,7 +41,7 @@
       <% end %>
       <% count = @sheets.count %>
       <td class="<%= 'muted' if count == 0 %>">
-        <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), sheet_before: params[:sheet_before], sheet_after: params[:sheet_after], column_stratum_id: (@column_variable ? @column_variable.id : nil), row_include: (params[:include_missing] == '1' ? 'all' : 'known'), column_include: (params[:column_include_missing] == '1' ? 'all' : 'known'), filter: @filter) %>
+        <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), sheet_before: params[:sheet_before], sheet_after: params[:sheet_after], column_stratum_id: (@column_variable ? @column_variable.id : nil), row_include: (params[:include_missing] == '1' ? 'all' : 'known'), column_include: (params[:column_include_missing] == '1' ? 'all' : 'known'), filter: @filter) %>
       </td>
     </tr>
   </tfoot>
@@ -63,7 +63,7 @@
           <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
           <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] if count > 0 %>" data-placement="left">
             <% if count > 0 %>
-              <span class="rounded-borders" style="background-color: <%= stratum[:color] unless stratum[:color].blank? %>"><%= link_to count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y")), row_include: (stratum[:value].blank? ? 'unknown' : 'missing'), column_include: (hash[:value].blank? ? 'unknown' : 'missing'), filter: @filter) %></span>
+              <span class="rounded-borders" style="background-color: <%= stratum[:color] unless stratum[:color].blank? %>"><%= link_to count, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y")), row_include: (stratum[:value].blank? ? 'unknown' : 'missing'), column_include: (hash[:value].blank? ? 'unknown' : 'missing'), filter: @filter) %></span>
             <% else %>
               <span class="rounded-borders">-</span>
             <% end %>
@@ -77,7 +77,7 @@
         <% end %>
         <% count = @sheets.with_stratum(@variable, stratum[:value]).count %>
         <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= stratum[:name].blank? ? 'Unknown' : stratum[:name] if count > 0 %>" data-placement="left">
-          <%= link_to_if count > 0, count == 0 ? '-' : count, sheets_path(design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), sheet_before: params[:sheet_before], sheet_after: params[:sheet_after], row_include: (stratum[:value].blank? ? 'unknown' : 'all'), column_include: (params[:column_include_missing] == '1' ? 'all' : 'known'), filter: @filter) %>
+          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), sheet_before: params[:sheet_before], sheet_after: params[:sheet_after], row_include: (stratum[:value].blank? ? 'unknown' : 'all'), column_include: (params[:column_include_missing] == '1' ? 'all' : 'known'), filter: @filter) %>
           <% if @percent == 'column' and count > 0 and @sheets.count > 0 %>
             <span class="muted" style="font-size:0.7em"><%= (count * 100 / @sheets.count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
           <% end %>
@@ -89,7 +89,7 @@
 
 <center class="muted"><%= @report_caption %></center>
 
-<%= link_to '#permalink', report_design_path(@design, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
+<%= link_to '#permalink', report_design_path(@design, project_id: @project.id, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
                                               sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")), variable_id: (@variable ? @variable.id : nil),
                                               column_variable_id: (@column_variable ? @column_variable.id : nil), column_include_missing: (params[:column_include_missing].to_s == '1' ? '1' : '0'), filter: @filter ),
                                               class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>

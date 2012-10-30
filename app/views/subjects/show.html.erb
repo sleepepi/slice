@@ -35,7 +35,7 @@
   <dd>
     <ul>
       <% @subject.sheets.order(:study_date).each do |sheet| %>
-        <li><%= simple_date sheet.study_date %> - <%= link_to sheet.name, sheet %></li>
+        <li><%= simple_date sheet.study_date %> - <%= link_to sheet.name, [sheet.project, sheet] %></li>
       <% end %>
     </ul>
   </dd>

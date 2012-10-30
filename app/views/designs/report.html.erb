@@ -10,7 +10,7 @@
 
 <hr class="soften" style="margin-top:20px">
 
-<%= form_tag report_design_path(@design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
+<%= form_tag report_design_path(@design, project_id: @project.id), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <%= hidden_field_tag :by, @by %>
   <%= hidden_field_tag :percent, @percent %>
   <%= hidden_field_tag :filter, @filter %>

@@ -1,12 +1,12 @@
 <% @title = 'Sheets' %>
 <div class="page-header">
   <h1>
-    <%= @title %>
-    <%= link_to "Create Sheet", new_sheet_path, class: 'btn btn-mini btn-primary' %>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to "Create Sheet", new_project_sheet_path(@project), class: 'btn btn-mini btn-primary' if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
   </h1>
 </div>
 
-<%= form_tag sheets_path, method: :get, remote: true, id: "sheets_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag project_sheets_path(@project), method: :get, remote: true, id: "sheets_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
 
   <div class="row">
@@ -32,33 +32,35 @@
   </div>
 
   <div class="row">
+    <% if false %>
     <div class="span4 control-group">
       <%= label :project_id, 'Project', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>
       </div>
     </div>
+    <% end %>
     <div class="span4 control-group">
       <%= label :site_id, 'Site', class: 'control-label' %>
       <div class="controls">
-        <%= select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.order(:name).collect{|s| [s.name_with_project, s.id]}, params[:site_id]), data: { object: 'filter' } %>
+        <%= select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where(project_id: @project.id).order(:name).collect{|s| [s.name, s.id]}, params[:site_id]), data: { object: 'filter' } %>
       </div>
     </div>
     <div class="span4 control-group">
       <%= label :design_id, 'Design', class: 'control-label' %>
       <div class="controls">
-        <%= select_tag :design_id, options_for_select([['---', nil]] + current_user.all_viewable_designs.order(:project_id, :name).collect{|d| [d.name_with_project, d.id]}, params[:design_id]), data: { object: 'filter' } %>
+        <%= select_tag :design_id, options_for_select([['---', nil]] + current_user.all_viewable_designs.where(project_id: @project.id).order(:name).collect{|d| [d.name, d.id]}, params[:design_id]), data: { object: 'filter' } %>
       </div>
     </div>
-  </div>
-
-  <div class="row">
     <div class="span4 control-group">
       <%= label :user_id, 'Creator', class: 'control-label' %>
       <div class="controls">
         <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_sheet.order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' } %>
       </div>
     </div>
+  </div>
+
+  <div class="row">
     <div class="span4 control-group">
       <%= hidden_field_tag :filter, @filter, data: { object: 'filter' } %>
       <%= hidden_field_tag :stratum_id, params[:stratum_id], data: { object: 'filter' } %>

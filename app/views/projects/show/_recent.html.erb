@@ -1,26 +1,28 @@
 <hr class="soften" style="margin-top:20px">
-<% if @project.sheets.size == 0 %>
-  <ul><li class="muted">No Recent Entries</li></ul>
-<% else %>
-  <table class="table table-hover table-condensed">
-    <thead>
-      <tr>
-        <th>Subject</th>
-        <th>Sheet</th>
-        <th>Date</th>
+
+<table class="table table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Sheet</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
+      <tr data-link="<%= new_project_sheet_path(@project) %>" style="cursor:pointer">
+        <td class="muted">&vellip;</td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @project.sheets.order('created_at DESC').limit(5).each do |sheet| %>
-        <tr data-link="<%= sheet_path(sheet) %>" style="cursor:pointer">
-          <td><%= sheet.subject.name %></td>
-          <td><%= sheet.name %></td>
-          <td><%= simple_date sheet.study_date %></td>
-        </tr>
-      <% end %>
-      <tr data-link="<%= sheets_path(project_id: @project.id) %>" style="cursor:pointer">
-        <td colspan="3" class="muted" style="text-align:center">&vellip;</td>
+    <% end %>
+    <% @project.sheets.order('created_at DESC').limit(5).each do |sheet| %>
+      <tr data-link="<%= project_sheet_path(sheet.project, sheet) %>" style="cursor:pointer">
+        <td><%= sheet.subject.name %></td>
+        <td><%= sheet.name %></td>
+        <td><%= simple_date sheet.study_date %></td>
       </tr>
-    </tbody>
-  </table>
-<% end %>
+    <% end %>
+    <tr data-link="<%= project_sheets_path(@project) %>" style="cursor:pointer">
+      <td class="muted">&vellip;</td><td colspan="2"><%= link_to 'View More', project_sheets_path(@project) %></td>
+    </tr>
+  </tbody>
+</table>

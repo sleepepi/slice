@@ -1,7 +1,5 @@
 Slice::Application.routes.draw do
 
-  get "sheet_emails/show"
-
   get "reports/index"
 
   resources :designs do
@@ -35,7 +33,23 @@ Slice::Application.routes.draw do
     resources :contacts
     resources :documents
     resources :posts
+
+    resources :sheets do
+      collection do
+        post :project_selection
+      end
+      member do
+        post :send_email
+        get :print
+        post :remove_file
+        get :audits
+      end
+    end
+
+    get "sheet_emails/show"
   end
+
+  # get "sheet_emails/show"
 
   resources :project_users do
     collection do
@@ -45,17 +59,17 @@ Slice::Application.routes.draw do
 
   resources :reports
 
-  resources :sheets do
-    collection do
-      post :project_selection
-    end
-    member do
-      post :send_email
-      get :print
-      post :remove_file
-      get :audits
-    end
-  end
+  # resources :sheets do
+  #   collection do
+  #     post :project_selection
+  #   end
+  #   member do
+  #     post :send_email
+  #     get :print
+  #     post :remove_file
+  #     get :audits
+  #   end
+  # end
 
   resources :sheet_emails
 

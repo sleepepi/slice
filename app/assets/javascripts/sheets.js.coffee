@@ -7,8 +7,8 @@ jQuery ->
     false
   )
 
-  $("#sheet_project_id, #sheet_subject_id").on('change', () ->
-    $.post(root_url + 'sheets/project_selection', 'project_id=' + $("#sheet_project_id").val() + '&' + $("#sheet_subject_id").serialize() + '&' + $("#sheet_design_id").serialize(), null, "script")
+  $("#sheet_subject_id").on('change', () ->
+    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/sheets/project_selection', $("#sheet_subject_id").serialize() + '&' + $("#sheet_design_id").serialize(), null, "script")
     false
   )
 

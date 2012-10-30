@@ -4,7 +4,7 @@
 
 <%= hidden_field_tag 'isdirty', '1' %>
 
-<%= form_for @sheet, html: { class: 'form-horizontal', multipart: true } do |f| %>
+<%= form_for [@sheet.project, @sheet], html: { class: 'form-horizontal', multipart: true } do |f| %>
   <% if @sheet.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sheet.errors.count, "error") %> prohibited this sheet from being saved:</h2>
@@ -17,18 +17,22 @@
     </div>
   <% end %>
 
+<% if false %>
   <div class="control-group">
     <%= f.label :project_id, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.select :project_id, [['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]} %>
     </div>
   </div>
+<% end %>
 
   <% if @sheet.new_record? %>
     <div class="control-group">
       <%= f.label :design_id, nil, class: 'control-label' %>
-      <div class="controls" id="select_design">
-        <%= render partial: 'sheets/select_design' %>
+      <div class="controls">
+        <%= f.hidden_field :project_id %>
+        <% designs = current_user.all_viewable_designs.with_project(@project.id) %>
+        <%= select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)) %>
       </div>
     </div>
   <% end %>

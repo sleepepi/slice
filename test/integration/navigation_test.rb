@@ -12,7 +12,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
   end
 
   test "pending users should be not be allowed to login" do
-    get "/sheets"
+    get "/projects"
     assert_redirected_to new_user_session_path
 
     sign_in_as(@pending, "123456", "pending-2@example.com")
@@ -21,7 +21,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
   end
 
   test "deleted users should be not be allowed to login" do
-    get "/sheets"
+    get "/projects"
     assert_redirected_to new_user_session_path
 
     sign_in_as(@deleted, "123456", "deleted-2@example.com")
@@ -36,11 +36,11 @@ class NavigationTest < ActionDispatch::IntegrationTest
   end
 
   test "friendly url forwarding after login" do
-    get "/sheets"
+    get "/projects"
     assert_redirected_to new_user_session_path
 
     sign_in_as(@valid, "123456", "valid-2@example.com")
-    assert_equal '/sheets', path
+    assert_equal '/projects', path
     assert_equal I18n.t('devise.sessions.signed_in'), flash[:notice]
   end
 end

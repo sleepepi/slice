@@ -1,7 +1,7 @@
 <% @title = "Sheet Email: #{@sheet_email.sheet.name}" %>
 <div class="page-header">
   <h1>
-    <%= link_to @sheet_email.sheet.name, @sheet_email.sheet %> Email
+    <%= link_to @sheet_email.sheet.name, [@sheet_email.sheet.project, @sheet_email.sheet] %> Email
   </h1>
 </div>
 
