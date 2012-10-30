@@ -1,0 +1,27 @@
+<% if @projects.size == 0 %>
+  <div class="row" style="margin-top:54px">
+    <div class="span12">
+      <h1 class="about-title"></h1>
+      <p class="about-tagline"></p>
+      <p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p>
+    </div>
+  </div>
+<% else %>
+  <% @projects.in_groups_of(3).each do |project_row| %>
+    <div class="row">
+      <% project_row.each do |project| %>
+        <% if project %>
+          <div class="span4" data-link="<%= project_path(project) %>" style="cursor:pointer">
+            <h2 class="about-title"><%= link_to project.name, project %></h2>
+            <div style="text-align:center;background-color:white;height:128px">
+              <% if project.logo.size > 0 %>
+                <%= image_tag project.logo_url, style: "height:128px" %>
+              <% end %>
+            </div>
+            <hr class="soften">
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

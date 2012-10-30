@@ -28,6 +28,10 @@ Slice::Application.routes.draw do
       post :report
     end
 
+    collection do
+      get :splash
+    end
+
     resources :contacts
     resources :documents
     resources :posts
@@ -89,6 +93,6 @@ Slice::Application.routes.draw do
 
   match "/about" => "application#about", as: :about
 
-  root to: 'sheets#index'
+  root to: 'projects#splash'
 
 end

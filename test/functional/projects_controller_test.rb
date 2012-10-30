@@ -6,6 +6,20 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should get splash" do
+    get :splash
+    assert_not_nil assigns(:projects)
+    assert_response :success
+  end
+
+  test "should get splash and redirect to single project" do
+    login(users(:site_one_user))
+    get :splash
+    assert_not_nil assigns(:projects)
+    assert_equal 1, assigns(:projects).count
+    assert_redirected_to projects(:one)
+  end
+
   test "should get report" do
     get :report, id: @project
     assert_not_nil assigns(:project)

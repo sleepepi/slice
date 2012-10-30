@@ -1,6 +1,11 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
 
+  def splash
+    @projects = current_user.all_viewable_and_site_projects
+    redirect_to @projects.first if @projects.size == 1
+  end
+
   def report
     @project = Project.current.where(id: current_user.all_viewable_sites.pluck(:project_id)).find_by_id(params[:id])
 
@@ -18,20 +23,6 @@ class ProjectsController < ApplicationController
       end
     end
   end
-
-  # def report
-  #   @project = current_user.all_viewable_projects.find_by_id(params[:id])
-
-  #   respond_to do |format|
-  #     if @project
-  #       format.html # report.html.erb
-  #       format.json { render json: @project }
-  #     else
-  #       format.html { redirect_to projects_path }
-  #       format.json { head :no_content }
-  #     end
-  #   end
-  # end
 
   def remove_file
     @project = current_user.all_projects.find_by_id(params[:id])

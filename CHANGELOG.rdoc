@@ -6,6 +6,7 @@
   * Removed the global librarian role
   * New Project dashboard added
   * Projects can now have Contacts, Documents, and News Posts
+  * Slice root directs a user to either a splash page with projects, or the project they are currently on
 
 == 0.9.1
 
