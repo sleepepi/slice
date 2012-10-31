@@ -12,6 +12,8 @@
   * Datepickers now retain focus after a date is selected
   * Form navigation now uses a left menu
   * Tabbing when filling in sheets simplified to tab more quickly between relevant data inputs
+  * Simplified conditional design variable logic by removing Show If and Values section
+    * NOTE: Branching Logic should be used to conditionally hide variables
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data

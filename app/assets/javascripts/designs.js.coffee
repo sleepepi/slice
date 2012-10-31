@@ -22,13 +22,8 @@
 # This function updates an individual variables container to show or be hidden based on what variable keys it depends on.
 # Show if none of the values evaluate to false [1,1,1,1] or [], but not [1,0,1,1] or [0]
 @updateVariableContainer = (element) ->
-  # dmsg("Updating #{$(element).attr('id')}")
-  values_hash = $(element).data('values-hash') || []
   truth_table = []
-  $.each(values_hash, (index, condition_hash) ->
-    result = checkCondition(condition_hash)
-    truth_table.push(result)
-  )
+
   branching_logic = $(element).data('branching-logic') || ''
 
   if branching_logic != ''
@@ -51,27 +46,6 @@
     $(element).show()
     dmsg("Showing #{$(element).attr('id')}")
   true
-
-# Check if dom element evaluates to true for any of the given values
-# If so, return 1, else return 0
-@checkCondition = (condition_hash) ->
-  element = $(condition_hash['location'])
-  # Values that make it be shown
-  condition_values = condition_hash['values']
-  return 1 if condition_values.length == 0
-  return 0 if element.is(':hidden')
-  # Elements that might be the values.
-  selected_values = []
-  $(element).find('[data-object~="condition"]').each( (index, el) ->
-    if ($(el).is(':checkbox, :radio') and $(el).is(':checked')) or not $(el).is(':checkbox, :radio')
-      selected_values.push($(el).val())
-  )
-  # dmsg "Condition values: #{condition_values} <=> Selected Values: #{selected_values}"
-  if intersection(condition_values, selected_values).length > 0
-    1
-  else
-    0
-
 
 @retrieveVariable = (position) ->
   variable_id = $('#design_option_tokens_' + position + '_variable_id').val()

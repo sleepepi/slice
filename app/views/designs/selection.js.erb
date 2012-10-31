@@ -43,7 +43,6 @@ $('#sheet_submit_btn').data('page', '<%= params[:current_design_page].to_i + 1 %
     <% if @option[:variable_id].blank? %>
       $('#<%= @option[:section_id] %>').data('branching-logic', <%= raw @design ? @design.branching_logic_section(@option[:section_id]) : ''.to_json %>);
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-      $('#varvar_<%= @variable.id %>').data('values-hash', <%= raw @design ? @design.values_hash(@variable) : [].to_json %>);
       $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design ? @design.branching_logic(@variable) : ''.to_json %>);
     <% end %>
   <% end %>

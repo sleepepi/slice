@@ -96,8 +96,6 @@ class Design < ActiveRecord::Base
       if option_hash[:section_name].blank?
         self.options << {
                           variable_id: option_hash[:variable_id],
-                          condition_variable_id: option_hash[:condition_variable_id],
-                          condition_value: option_hash[:condition_value].to_s.strip,
                           branching_logic: option_hash[:branching_logic].to_s.strip
                         } unless option_hash[:variable_id].blank?
       else
@@ -110,11 +108,6 @@ class Design < ActiveRecord::Base
                         }
       end
     end
-  end
-
-  # [{"location": "#varvar_145", "values": []}, {"location": "#varvar_145", "values": []}]
-  def values_hash(variable)
-    [{ location: self.condition_parent(variable), values: self.condition_value(variable) }].to_json
   end
 
   def branching_logic_section(section_id)
@@ -136,14 +129,6 @@ class Design < ActiveRecord::Base
     else
       variable_name
     end
-  end
-
-  def condition_parent(variable)
-    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| "#varvar_#{item[:condition_variable_id]}"}.join(',')
-  end
-
-  def condition_value(variable)
-    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{ |item| item[:condition_value].to_s.split(",") }.flatten
   end
 
   def variable_ids
