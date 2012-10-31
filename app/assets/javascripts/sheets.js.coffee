@@ -27,11 +27,12 @@ jQuery ->
     false
   )
 
-  $("[data-link]").on('click', () ->
-    window.location = $(this).data("link")
-  )
+  $(document)
+    .on('click', '[data-object~="export"]', () ->
+      window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
+      false
+    )
+    .on('click', "[data-link]", () ->
+      window.location = $(this).data("link")
+    )
 
-  $(document).on('click', '[data-object~="export"]', () ->
-    window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
-    false
-  )
