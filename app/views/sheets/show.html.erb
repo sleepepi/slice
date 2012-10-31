@@ -12,7 +12,7 @@
     <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
     <% if @sheet.sheet_emails.size > 0 %><%= link_to 'Email History', '#', class: 'btn btn-mini btn-info', id: 'email_history_popup' %><% end %>
     <% unless @sheet.last_emailed_at.blank? %><span class="label label-success" style="vertical-align:middle" rel="tooltip" title="<%= simple_time @sheet.last_emailed_at %>">Emailed</span><% end %>
-    <% if @sheet.audits.size > 0 %><%= link_to 'Audits', audits_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-mini btn-info' %><% end %>
+    <% if @sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id) %><%= link_to 'Audits', audits_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-mini btn-info' %><% end %>
   </h1>
 </div>
 
@@ -37,18 +37,23 @@
   </tbody>
 </table>
 
-<%= @design = @sheet.design; render partial: 'designs/navigation' %>
-
-<form class="form-horizontal">
-  <% @design.options.each do |option| %>
-    <% @option = option %>
-    <% if @option[:variable_id].blank? %>
-      <%= render partial: 'designs/section' %>
-    <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-      <%= render partial: 'variables/show' %>
-    <% end %>
-  <% end %>
-</form>
+<div class="row">
+  <div class="span3 bs-docs-sidebar">
+    <%= @design = @sheet.design; render partial: 'designs/navigation' %>
+  </div>
+  <div class="span9">
+    <form class="form-horizontal">
+      <% @design.options.each do |option| %>
+        <% @option = option %>
+        <% if @option[:variable_id].blank? %>
+          <%= render partial: 'designs/section' %>
+        <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+          <%= render partial: 'variables/show' %>
+        <% end %>
+      <% end %>
+    </form>
+  </div>
+</div>
 
 <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
   <div id="send_email_modal" class="modal" style="display:none">

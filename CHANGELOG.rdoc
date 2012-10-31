@@ -10,6 +10,7 @@
   * Sheets are now integrated more closely with their projects
   * Added calculation popups for calculated variables
   * Datepickers now retain focus after a date is selected
+  * Form navigation now uses a left menu
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data

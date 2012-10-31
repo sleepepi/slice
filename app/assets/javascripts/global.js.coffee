@@ -74,3 +74,7 @@ jQuery ->
   )
 
   $(".datepicker").datepicker( "option", "onClose", (dateText, inst) -> $(this).focus() )
+
+  # alert $('[data-spy~="affix"]').parent().offset().top - 42
+
+  $('[data-spy~="affix"]').affix( offset: { top: 223 } ) # 223
