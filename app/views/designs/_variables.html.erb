@@ -1,5 +1,5 @@
-<% @all_viewable_variables = current_user.all_viewable_variables %>
-<% @select_variables = @all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]} %>
+<% @all_viewable_variables = current_user.all_viewable_variables.where(project_id: @design.project.id) %>
+<% @select_variables = @all_viewable_variables.order(:name).collect{|v| [v.name, v.id]} %>
 
 <% if @design.options.size == 0 %>
   <% @option = { variable_id: '' } %>

@@ -32,7 +32,7 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @project and variable and @variable = current_user.variables.new(variable.copyable_attributes)
-        @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
+        @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
         format.html { render 'new' }
         format.json { render json: @variable }
       elsif @project
@@ -53,7 +53,7 @@ class VariablesController < ApplicationController
 
   def add_grid_variable
     @project = current_user.all_projects.find_by_id(params[:project_id])
-    @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
+    @select_variables = @project ? current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]} : []
     @grid_variable = { variable_id: '' }
   end
 
@@ -171,7 +171,7 @@ class VariablesController < ApplicationController
           format.html { redirect_to [@variable.project, @variable], notice: 'Variable was successfully created.' }
           format.json { render json: @variable, status: :created, location: @variable }
         else
-          @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
+          @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
           format.html { render action: "new" }
           format.json { render json: @variable.errors, status: :unprocessable_entity }
         end
@@ -196,7 +196,7 @@ class VariablesController < ApplicationController
             format.js { render 'update' }
             format.json { head :no_content }
           else
-            @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
+            @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
             format.html { render action: "edit" }
             format.js { render 'update' }
             format.json { render json: @variable.errors, status: :unprocessable_entity }
