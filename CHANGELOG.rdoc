@@ -11,6 +11,7 @@
   * Added calculation popups for calculated variables
   * Datepickers now retain focus after a date is selected
   * Form navigation now uses a left menu
+  * Tabbing when filling in sheets simplified to tab more quickly between relevant data inputs
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data

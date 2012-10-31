@@ -37,13 +37,17 @@
   </tbody>
 </table>
 
+<% show_navigation = (@sheet.design.sections.size > 1) %>
+
+<% if show_navigation %>
 <div class="row">
   <div class="span3 bs-docs-sidebar">
     <%= @design = @sheet.design; render partial: 'designs/navigation' %>
   </div>
   <div class="span9">
+<% end %>
     <form class="form-horizontal">
-      <% @design.options.each do |option| %>
+      <% @sheet.design.options.each do |option| %>
         <% @option = option %>
         <% if @option[:variable_id].blank? %>
           <%= render partial: 'designs/section' %>
@@ -52,8 +56,10 @@
         <% end %>
       <% end %>
     </form>
+<% if show_navigation %>
   </div>
 </div>
+<% end %>
 
 <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
   <div id="send_email_modal" class="modal" style="display:none">

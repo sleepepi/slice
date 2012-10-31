@@ -13,4 +13,4 @@
   <% end %>
 </div>
 
-<%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', variable_id: variable.id } if variable.multiple_rows? %>
+<%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', variable_id: variable.id }, tabindex: "-1" if variable.multiple_rows? %>

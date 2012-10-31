@@ -5,35 +5,43 @@
   </h2>
 </div>
 
+<% show_navigation = (@design.sections.size > 1) %>
+
+<% if show_navigation %>
 <div class="row">
   <div class="span3 bs-docs-sidebar">
     <%= render partial: 'designs/navigation' %>
   </div>
   <div class="span9">
-    <% @design.options_page(params[:current_design_page].to_i).each do |option| %>
-      <% @option = option %>
-      <% if @option[:variable_id].blank? %>
-        <%= render partial: 'designs/section' %>
-      <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-        <%= render partial: 'designs/variable' %>
-      <% end %>
-    <% end %>
+<% end %>
 
-    <% if @design.total_pages > 1 %>
-      <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
-      <nav class="pagination pagination-centered">
-        <ul>
-          <% (1..@design.total_pages).each do |page| %>
-            <% if page == params[:current_design_page].to_i %>
-              <li class="page active"><%= link_to page, '#' %></li>
-            <% else %>
-              <li class="page">
-                <%= link_to page, '#', data: { target: "##{form_name}", object: "variable-check-before-submit", page: page }  %>
-              </li>
-            <% end %>
-          <% end %>
-        </ul>
-      </nav>
-    <% end %>
+<% @design.options_page(params[:current_design_page].to_i).each do |option| %>
+  <% @option = option %>
+  <% if @option[:variable_id].blank? %>
+    <%= render partial: 'designs/section' %>
+  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+    <%= render partial: 'designs/variable' %>
+  <% end %>
+<% end %>
+
+<% if @design.total_pages > 1 %>
+  <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
+  <nav class="pagination pagination-centered">
+    <ul>
+      <% (1..@design.total_pages).each do |page| %>
+        <% if page == params[:current_design_page].to_i %>
+          <li class="page active"><%= link_to page, '#' %></li>
+        <% else %>
+          <li class="page">
+            <%= link_to page, '#', data: { target: "##{form_name}", object: "variable-check-before-submit", page: page }  %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </nav>
+<% end %>
+
+<% if show_navigation %>
   </div>
 </div>
+<% end %>
