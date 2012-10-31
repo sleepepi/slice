@@ -12,12 +12,15 @@
     <div class="row">
       <% project_row.each do |project| %>
         <% if project %>
-          <div class="span4" data-link="<%= project_path(project) %>" style="cursor:pointer">
+          <div class="span4" data-link="<%= project_path(project) %>" style="cursor:pointer" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
             <h2 class="about-title"><%= link_to project.name, project %></h2>
             <div style="text-align:center;background-color:white;height:128px">
               <% if project.logo.size > 0 %>
                 <%= image_tag project.logo_url, style: "height:128px" %>
               <% end %>
+            </div>
+            <div style="height:1px">
+              <% if current_user.all_viewable_projects.pluck(:id).include?(project.id) %><div style="text-align:center;display:none" id="project_<%= project.id %>_create_link"><%= link_to 'Create Sheet', new_project_sheet_path(project), class: 'btn btn-mini' %></div><% end %>
             </div>
             <hr class="soften">
           </div>
