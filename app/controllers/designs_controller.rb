@@ -101,7 +101,7 @@ class DesignsController < ApplicationController
 
   def variables
     @project = current_user.all_projects.find_by_id(params[:project_id])
-    @design = Design.new(params[:design])
+    @design = Design.new(post_params)
   end
 
   def reorder
