@@ -17,6 +17,8 @@
             <div style="text-align:center;background-color:white;height:128px">
               <% if project.logo.size > 0 %>
                 <%= image_tag project.logo_url, style: "height:128px" %>
+              <% else %>
+                <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
               <% end %>
             </div>
             <div style="height:1px">
@@ -28,6 +30,7 @@
           <div class="span4" data-link="<%= new_project_path %>" style="cursor:pointer">
             <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
             <div style="text-align:center;background-color:white;height:128px">
+              <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
             </div>
             <hr class="soften">
           </div>
@@ -42,6 +45,7 @@
       <div class="span4" data-link="<%= new_project_path %>" style="cursor:pointer">
         <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
         <div style="text-align:center;background-color:white;height:128px">
+          <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
         </div>
         <hr class="soften">
       </div>
