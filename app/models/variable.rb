@@ -366,4 +366,8 @@ class Variable < ActiveRecord::Base
   #   option ? option[:description] : ''
   # end
 
+  def formatted_calculation
+    self.calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
+  end
+
 end

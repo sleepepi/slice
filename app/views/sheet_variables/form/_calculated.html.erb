@@ -10,4 +10,17 @@
                              title: variable.display_name } %>
   <% unless variable.units.blank? %><span class="add-on"><%= variable.units %></span><% end %>
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+  <%= link_to 'calculation', '#', data: { object: 'modal-show', target: "#variable_#{location_id}_calculation_popup" }, class: 'btn' %>
+</div>
+
+<div class="modal hide" id="variable_<%= location_id %>_calculation_popup">
+  <div class="modal-header">
+    <h3><%= variable.display_name %></h3>
+  </div>
+  <div class="modal-body">
+    <%= variable.formatted_calculation %>
+  </div>
+  <div class="modal-footer form-actions">
+    <%= link_to 'Close', '#', class: 'btn', data: { dismiss: 'modal' } %>
+  </div>
 </div>
