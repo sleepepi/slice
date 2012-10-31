@@ -9,6 +9,7 @@
   * Slice root directs a user to either a splash page with projects, or the project they are currently on
   * Sheets are now integrated more closely with their projects
   * Added calculation popups for calculated variables
+  * Datepickers now retain focus after a date is selected
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data

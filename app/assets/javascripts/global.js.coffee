@@ -72,3 +72,5 @@ jQuery ->
       if window.$isDirty
         return msg
   )
+
+  $(".datepicker").datepicker( "option", "onClose", (dateText, inst) -> $(this).focus() )

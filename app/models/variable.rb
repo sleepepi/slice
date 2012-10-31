@@ -138,7 +138,7 @@ class Variable < ActiveRecord::Base
     result = ""
     minimum = self.hard_minimum || self.soft_minimum
     maximum = self.hard_maximum || self.soft_maximum
-    result = "[#{minimum}, #{maximum}]" + (self.units.blank? ? "" : " #{self.units}")
+    result = "[#{minimum}, #{maximum}]" + (self.units.blank? ? "" : " #{self.units}") unless minimum.blank? and maximum.blank?
     result
   end
 

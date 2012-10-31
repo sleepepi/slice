@@ -5,7 +5,8 @@ $(".datepicker").datepicker({
   showOtherMonths: true,
   selectOtherMonths: true,
   changeMonth: true,
-  changeYear: true
+  changeYear: true,
+  onClose: function (text, inst) { $(this).focus(); }
 });
 // $("#ui-datepicker-div").hide();
 
