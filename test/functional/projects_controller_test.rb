@@ -12,10 +12,10 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get splash with js" do
+  test "should get paginated splash" do
     get :splash, format: 'js'
     assert_not_nil assigns(:projects)
-    assert_template 'splash_projects'
+    assert_template 'splash'
     assert_response :success
   end
 
