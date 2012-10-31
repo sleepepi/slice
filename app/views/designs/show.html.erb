@@ -1,16 +1,16 @@
 <% @title = "Design: #{@design.name}" %>
 <div class="page-header">
   <h1>
-    <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
     <% if @design.editable_by?(current_user) %>
-      <%= link_to "Edit Design", edit_design_path(@design), class: 'btn btn-mini' %>
-      <%= link_to "Delete Design", @design, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" } %>
+      <%= link_to "Edit Design", edit_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
+      <%= link_to "Delete Design", [@design.project, @design], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" } %>
     <% end %>
-    <%= link_to "View Designs", designs_path, class: 'btn btn-mini' %>
-    <%= link_to "Copy Design", copy_design_path(@design), class: 'btn btn-mini' %>
-    <%= link_to "Print", print_design_path(@design, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
-    <%= link_to 'Export', designs_path(design_ids: [@design.id], format: 'csv'), class: 'btn btn-mini' %>
-    <%= link_to "Report", report_design_path(@design), class: 'btn btn-mini' %>
+    <%= link_to "View Designs", project_designs_path(@project), class: 'btn btn-mini' %>
+    <%= link_to "Copy Design", copy_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
+    <%= link_to "Print", print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
+    <%= link_to 'Export', project_designs_path(@design.project, design_ids: [@design.id], format: 'csv'), class: 'btn btn-mini' %>
+    <%= link_to "Report", report_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
   </h1>
 </div>
 
@@ -69,6 +69,6 @@
   <center><%= image_tag 'contour/ajax-loader.gif' %></center>
 </form>
 
-<%= form_tag selection_designs_path(sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' }, id: 'new_sheet' do %>
+<%= form_tag selection_project_designs_path(@design.project, sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' }, id: 'new_sheet' do %>
   <%= hidden_field_tag :current_design_page, 1 %>
 <% end %>

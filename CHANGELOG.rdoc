@@ -7,7 +7,7 @@
   * New Project dashboard added
   * Projects can now have Contacts, Documents, and News Posts
   * Slice root directs a user to either a splash page with projects, or the project they are currently on
-  * Variables and Sheets are now integrated more closely with their projects
+  * Designs, Variables, and Sheets are now integrated more closely with their projects
   * Added calculation popups for calculated variables
   * Datepickers now retain focus after a date is selected
   * Form navigation now uses a left menu

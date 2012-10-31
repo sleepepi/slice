@@ -2,6 +2,6 @@
 <ul>
   <li style="line-height:25px;font-weight:bold"><%= link_to @project.name + " - Overview", report_project_path(@project) %></li>
   <% @project.designs.order('name').each do |design| %>
-    <li style="line-height:25px"><%= link_to design.name, report_design_path(design, project_id: @project.id) %></li>
+    <li style="line-height:25px"><%= link_to design.name, report_project_design_path(design.project, design) %></li>
   <% end %>
 </ul>

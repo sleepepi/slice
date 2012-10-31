@@ -125,7 +125,7 @@
   <dd>
     <ul>
       <% @variable.designs.each do |design| %>
-        <li><%= link_to design.name, design %></li>
+        <li><%= link_to design.name, [design.project, design] %></li>
       <% end %>
     </ul>
   </dd>

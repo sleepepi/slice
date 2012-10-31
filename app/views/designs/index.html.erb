@@ -1,25 +1,18 @@
 <% @title = 'Designs' %>
 <div class="page-header">
   <h1>
-    <%= @title %>
-    <%= link_to "Create Design", new_design_path, class: 'btn btn-mini btn-primary' %>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to "Create Design", new_project_design_path, class: 'btn btn-mini btn-primary' %>
   </h1>
 </div>
 
-<%= form_tag designs_path, method: :get, remote: true, id: "designs_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag project_designs_path, method: :get, remote: true, id: "designs_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="span4 control-group">
       <%= label :search, 'Search', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' } %>
-      </div>
-    </div>
-
-    <div class="span4 control-group">
-      <%= label :project_id, 'Project', class: 'control-label' %>
-      <div class="controls">
-        <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>
       </div>
     </div>
 

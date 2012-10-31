@@ -1,4 +1,4 @@
-<%= form_tag reorder_design_path(@design), method: :post, remote: true, id: 'reorder_design_form' do %>
+<%= form_tag reorder_project_design_path(@design.project, @design), method: :post, remote: true, id: 'reorder_design_form' do %>
   <ul class="design-list" id="compact_design" data-object="sortable">
   <% @design.options.each_with_index do |option, position| %>
     <% if option[:variable_id].blank? %>

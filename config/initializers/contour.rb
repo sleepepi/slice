@@ -33,19 +33,16 @@ Contour.setup do |config|
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
     {
-      name: 'Sites', display: 'signed_in', path: 'sites_path', position: 'left', condition: 'current_user.all_viewable_projects.size == 0'
-    },
-    {
-      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
+      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
       links: [{ name: 'Create Project', path: 'new_project_path' }]
     },
     {
       name: 'Reports', display: 'signed_in', path: 'reports_path', position: 'left'
     },
-    {
-      name: 'Designs', display: 'signed_in', path: 'designs_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
-      links: [{ name: 'Create Design', path: 'new_design_path' }]
-    },
+    # {
+    #   name: 'Designs', display: 'signed_in', path: 'designs_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
+    #   links: [{ name: 'Create Design', path: 'new_design_path' }]
+    # },
     # {
     #   name: 'Variables', display: 'signed_in', path: 'variables_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
     #   links: [{ name: 'Create Variable', path: 'new_variable_path' }]

@@ -50,7 +50,7 @@
 @retrieveVariable = (position) ->
   variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
   if variable_id
-    $.get(root_url + 'variables/' + variable_id, 'position=' + position, null, "script")
+    $.get(root_url + 'projects/' + $("#design_project_id").val() + '/variables/' + variable_id, 'position=' + position, null, "script")
   false
 
 @intersection = (a, b) ->
@@ -82,22 +82,22 @@
 jQuery ->
 
   $('#add_more_variables').on('click', () ->
-    $.post(root_url + 'designs/add_variable', $("form").serialize() + "&_method=post", null, "script")
+    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_variable', $("form").serialize() + "&_method=post", null, "script")
     false
   )
 
   $('#add_more_sections').on('click', () ->
-    $.post(root_url + 'designs/add_section', $("form").serialize() + "&_method=post", null, "script")
+    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_section', $("form").serialize() + "&_method=post", null, "script")
     false
   )
 
   $('#add_more_variables_top').on('click', () ->
-    $.post(root_url + 'designs/add_variable', $("form").serialize() + "&location=top&_method=post", null, "script")
+    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_variable', $("form").serialize() + "&location=top&_method=post", null, "script")
     false
   )
 
   $('#add_more_sections_top').on('click', () ->
-    $.post(root_url + 'designs/add_section', $("form").serialize() + "&location=top&_method=post", null, "script")
+    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_section', $("form").serialize() + "&location=top&_method=post", null, "script")
     false
   )
 
@@ -148,11 +148,11 @@ jQuery ->
       $($(this).data('target-hide')).hide()
     )
     .on('click', '[data-object~="variable-insert-after"]', () ->
-      $.post(root_url + 'designs/add_variable', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
+      $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_variable', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
       false
     )
     .on('click', '[data-object~="section-insert-after"]', () ->
-      $.post(root_url + 'designs/add_section', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
+      $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_section', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
       false
     )
     .on('click', '[data-object~="copy-repeatables"]', () ->

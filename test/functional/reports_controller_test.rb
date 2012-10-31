@@ -34,7 +34,7 @@ class ReportsControllerTest < ActionController::TestCase
     get :show, id: @report
     assert_not_nil assigns(:report)
     assert_not_nil assigns(:design)
-    assert_redirected_to report_design_path(designs(:one), @report.options.except(:design_id))
+    assert_redirected_to report_project_design_path(designs(:one).project, designs(:one), @report.options.except(:design_id))
   end
 
   test "should not show report without design" do

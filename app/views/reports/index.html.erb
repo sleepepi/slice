@@ -23,7 +23,7 @@
       <span class="muted"><%= project ? project.name : "No Project" %></span>
       <ul>
         <% designs.sort_by{|d| d.name}.each do |design| %>
-          <li style="line-height:25px"><%= link_to design.name, report_design_path(design) %></li>
+          <li style="line-height:25px"><%= link_to design.name, report_project_design_path(design.project, design) %></li>
         <% end %>
       </ul>
     <% end %>

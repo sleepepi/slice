@@ -1,24 +1,5 @@
 Slice::Application.routes.draw do
 
-  get "reports/index"
-
-  resources :designs do
-    member do
-      get :copy
-      get :print
-      post :reorder
-      get :report
-      post :report
-      get :report_print
-    end
-    collection do
-      post :add_variable
-      post :add_section
-      post :variables
-      post :selection
-    end
-  end
-
   resources :projects do
     member do
       post :remove_file
@@ -48,6 +29,23 @@ Slice::Application.routes.draw do
 
     get "sheet_emails/show"
 
+    resources :designs do
+      member do
+        get :copy
+        get :print
+        post :reorder
+        get :report
+        post :report
+        get :report_print
+      end
+      collection do
+        post :add_variable
+        post :add_section
+        post :variables
+        post :selection
+      end
+    end
+
     resources :variables do
       member do
         get :copy
@@ -61,10 +59,9 @@ Slice::Application.routes.draw do
         post :options
       end
     end
-
   end
 
-  # get "sheet_emails/show"
+  resources :sheet_emails
 
   resources :project_users do
     collection do
@@ -85,8 +82,6 @@ Slice::Application.routes.draw do
   #     get :audits
   #   end
   # end
-
-  resources :sheet_emails
 
   resources :sites do
     collection do

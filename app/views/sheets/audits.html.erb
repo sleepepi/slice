@@ -98,7 +98,7 @@
                       <% value.each_with_index do |res, index| %>
                         <% case key when 'design_id' %>
                           <% d = current_user.all_viewable_designs.find_by_id(res) %>
-                          <% response[index] = { key: key, name: (d ? d.name : nil), url: (d ? design_path(d) : nil) } %>
+                          <% response[index] = { key: key, name: (d ? d.name : nil), url: (d ? project_design_path(d.project, d) : nil) } %>
                         <% when 'project_id' %>
                           <% p = current_user.all_viewable_projects.find_by_id(res) %>
                           <% response[index] = { key: key, name: (p ? p.name : nil), url: (p ? project_path(p) : nil) } %>

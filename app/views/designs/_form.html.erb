@@ -2,7 +2,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_for @design, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for [@design.project, @design], html: { class: 'form-horizontal' } do |f| %>
   <% if @design.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@design.errors.count, "error") %> prohibited this design from being saved:</h2>
@@ -15,17 +15,12 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field :project_id %>
+
   <div class="control-group">
     <%= f.label :name, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :name %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :project_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :project_id, [['---', nil]] + current_user.all_projects.current.collect{|p| [p.name, p.id]} %>
     </div>
   </div>
 

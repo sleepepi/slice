@@ -15,7 +15,7 @@ $('[data-object~="variable-typeahead"]').each(function() {
   $this.typeahead({
     source: function(query, process) {
       var variable_id = $this.data('variable-id');
-      return $.get(root_url + 'variables/' + variable_id + '/typeahead', {
+      return $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/typeahead', {
         query: query
       }, function(data) {
         return process(data);

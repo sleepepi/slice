@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 jQuery ->
   $("#sheet_design_id").on('change', () ->
-    $.post(root_url + 'designs/selection', $(this).serialize(), null, "script")
+    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize(), null, "script")
     false
   )
 

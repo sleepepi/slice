@@ -27,7 +27,7 @@ class ReportsController < ApplicationController
     respond_to do |format|
       if @report and @design
         format.html do
-          redirect_to report_design_path(@design, @report.options.except(:design_id))
+          redirect_to report_project_design_path(@design.project, @design, @report.options.except(:design_id))
         end
         format.json { render json: @report }
       else

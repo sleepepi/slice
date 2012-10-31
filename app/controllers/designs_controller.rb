@@ -30,8 +30,8 @@ class DesignsController < ApplicationController
   end
 
   def report
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
-    @project = @design.project if @design
 
     setup_report
 
@@ -43,12 +43,16 @@ class DesignsController < ApplicationController
     end
 
     respond_to do |format|
-      if @design
+      if @project and @design
         format.html # report.html.erb
         format.json { render json: @design }
         format.js { render 'report' }
+      elsif @project
+        format.html { redirect_to project_designs_path(@project) }
+        format.json { head :no_content }
+        format.js { render nothing: true }
       else
-        format.html { redirect_to designs_path }
+        format.html { redirect_to root_path }
         format.json { head :no_content }
         format.js { render nothing: true }
       end
@@ -57,19 +61,24 @@ class DesignsController < ApplicationController
 
 
   def copy
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     design = current_user.all_viewable_designs.find_by_id(params[:id])
     respond_to do |format|
-      if design and @design = current_user.designs.new(design.copyable_attributes)
+      if @project and design and @design = current_user.designs.new(design.copyable_attributes)
         format.html { render 'new' }
         format.json { render json: @design }
+      elsif @project
+        format.html { redirect_to project_designs_path(@project) }
+        format.json { head :no_content }
       else
-        format.html { redirect_to designs_path }
+        format.html { redirect_to root_path }
         format.json { head :no_content }
       end
     end
   end
 
   def selection
+    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
     params[:current_design_page] = (params[:current_design_page].blank? ? 1 : params[:current_design_page].to_i)
     @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
     @sheet = Sheet.new unless @sheet
@@ -77,24 +86,28 @@ class DesignsController < ApplicationController
   end
 
   def add_section
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = Design.new(post_params.except(:option_tokens))
     @option = { }
   end
 
   def add_variable
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = Design.new(post_params)
     @option = { variable_id: '' }
-    @all_viewable_variables = current_user.all_viewable_variables
-    @select_variables = @all_viewable_variables.order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
+    @all_viewable_variables = current_user.all_viewable_variables.where(project_id: @project.id)
+    @select_variables = @all_viewable_variables.order(:name).collect{|v| [v.name, v.id]}
   end
 
   def variables
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = Design.new(params[:design])
   end
 
   def reorder
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = current_user.all_designs.find_by_id(params[:id])
-    if @design
+    if @project and @design
       if params[:rows].blank?
         @design.reorder_sections(params[:sections].to_s.split(','), current_user)
       else
@@ -109,49 +122,57 @@ class DesignsController < ApplicationController
   # GET /designs
   # GET /designs.json
   def index
-    current_user.pagination_set!('designs', params[:designs_per_page].to_i) if params[:designs_per_page].to_i > 0
-    design_scope = current_user.all_viewable_designs
+    @project = current_user.all_projects.find_by_id(params[:project_id])
+    if @project
+      current_user.pagination_set!('designs', params[:designs_per_page].to_i) if params[:designs_per_page].to_i > 0
+      design_scope = current_user.all_viewable_designs
 
-    design_scope = design_scope.where(id: params[:design_ids]) unless params[:design_ids].blank?
+      design_scope = design_scope.where(id: params[:design_ids]) unless params[:design_ids].blank?
 
-    ['project', 'user'].each do |filter|
-      design_scope = design_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
-    end
+      ['project', 'user'].each do |filter|
+        design_scope = design_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
+      end
 
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| design_scope = design_scope.search(search_term) }
+      @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+      @search_terms.each{|search_term| design_scope = design_scope.search(search_term) }
 
-    @order = params[:order]
-    case params[:order] when 'designs.project_name'
-      design_scope = design_scope.order_by_project_name
-    when 'designs.project_name DESC'
-      design_scope = design_scope.order_by_project_name_desc
-    when 'designs.user_name'
-      design_scope = design_scope.order_by_user_name
-    when 'designs.user_name DESC'
-      design_scope = design_scope.order_by_user_name_desc
-    else
-      @order = scrub_order(Design, params[:order], 'designs.name')
-      design_scope = design_scope.order(@order)
-    end
+      @order = params[:order]
+      case params[:order] when 'designs.project_name'
+        design_scope = design_scope.order_by_project_name
+      when 'designs.project_name DESC'
+        design_scope = design_scope.order_by_project_name_desc
+      when 'designs.user_name'
+        design_scope = design_scope.order_by_user_name
+      when 'designs.user_name DESC'
+        design_scope = design_scope.order_by_user_name_desc
+      else
+        @order = scrub_order(Design, params[:order], 'designs.name')
+        design_scope = design_scope.order(@order)
+      end
 
-    @design_count = design_scope.count
+      @design_count = design_scope.count
 
-    if params[:format] == 'csv'
-      if @design_count == 0
-        redirect_to designs_path, alert: 'No data was exported since no designs matched the specified filters.'
+      if params[:format] == 'csv'
+        if @design_count == 0
+          redirect_to project_designs_path(@project), alert: 'No data was exported since no designs matched the specified filters.'
+          return
+        end
+        generate_csv(design_scope)
         return
       end
-      generate_csv(design_scope)
-      return
-    end
 
-    @designs = design_scope.page(params[:page]).per( current_user.pagination_count('designs') )
+      @designs = design_scope.page(params[:page]).per( current_user.pagination_count('designs') )
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @designs }
+      respond_to do |format|
+        format.html # index.html.erb
+        format.js
+        format.json { render json: @designs }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -168,14 +189,20 @@ class DesignsController < ApplicationController
   # GET /designs/1
   # GET /designs/1.json
   def show
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
 
     respond_to do |format|
-      if @design
-        format.html # show.html.erb
-        format.json { render json: @design }
+      if @project
+        if @design
+          format.html # show.html.erb
+          format.json { render json: @design }
+        else
+          format.html { redirect_to project_designs_path(@project) }
+          format.json { head :no_content }
+        end
       else
-        format.html { redirect_to designs_path }
+        format.html { redirect_to root_path }
         format.json { head :no_content }
       end
     end
@@ -184,7 +211,7 @@ class DesignsController < ApplicationController
   # GET /designs/new
   # GET /designs/new.json
   def new
-    @design = current_user.designs.new(post_params)
+    @design = current_user.designs.new(updater_id: current_user.id, project_id: params[:project_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -194,22 +221,36 @@ class DesignsController < ApplicationController
 
   # GET /designs/1/edit
   def edit
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = current_user.all_designs.find_by_id(params[:id])
-    redirect_to designs_path unless @design
+
+    if @project and @design
+      render 'edit'
+    elsif @project
+      redirect_to project_designs_path(@project)
+    else
+      redirect_to root_path
+    end
   end
 
   # POST /designs
   # POST /designs.json
   def create
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = current_user.designs.new(post_params)
 
     respond_to do |format|
-      if @design.save
-        format.html { redirect_to @design, notice: 'Design was successfully created.' }
-        format.json { render json: @design, status: :created, location: @design }
+      if @project
+        if @design.save
+          format.html { redirect_to [@design.project, @design], notice: 'Design was successfully created.' }
+          format.json { render json: @design, status: :created, location: @design }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @design.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render action: "new" }
-        format.json { render json: @design.errors, status: :unprocessable_entity }
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
       end
     end
   end
@@ -217,19 +258,26 @@ class DesignsController < ApplicationController
   # PUT /designs/1
   # PUT /designs/1.json
   def update
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = current_user.all_designs.find_by_id(params[:id])
 
     respond_to do |format|
-      if @design
-        if @design.update_attributes(post_params)
-          format.html { redirect_to @design, notice: 'Design was successfully updated.' }
-          format.json { head :no_content }
+      if @project
+        if @design
+          if @design.update_attributes(post_params)
+            format.html { redirect_to [@design.project, @design], notice: 'Design was successfully updated.' }
+            format.json { head :no_content }
+          else
+            format.html { render action: "edit" }
+            format.json { render json: @design.errors, status: :unprocessable_entity }
+          end
         else
-          format.html { render action: "edit" }
-          format.json { render json: @design.errors, status: :unprocessable_entity }
+          format.html { redirect_to project_designs_path(@project) }
+          format.json { head :no_content }
         end
       else
-        format.html { redirect_to designs_path }
+        format.html { redirect_to root_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end
@@ -238,13 +286,20 @@ class DesignsController < ApplicationController
   # DELETE /designs/1
   # DELETE /designs/1.json
   def destroy
+    @project = current_user.all_projects.find_by_id(params[:project_id])
     @design = current_user.all_designs.find_by_id(params[:id])
-    @design.destroy if @design
 
     respond_to do |format|
-      format.html { redirect_to designs_path }
-      format.js { render 'destroy' }
-      format.json { head :no_content }
+      if @project
+        @design.destroy if @design
+        format.html { redirect_to project_designs_path(@project) }
+        format.js { render 'destroy' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to root_path }
+        format.js { render nothing: true }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -348,6 +403,12 @@ class DesignsController < ApplicationController
     params[:design] ||= {}
 
     params[:design][:updater_id] = current_user.id
+
+    if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
+      params[:design][:project_id] = params[:project_id]
+    else
+      params[:design][:project_id] = nil
+    end
 
     params[:design].slice(
       :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id, :study_date_name

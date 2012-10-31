@@ -104,7 +104,7 @@
     if calculation
       calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]').val())");
       calculation_result = eval(calculation)
-      $.get(root_url + 'variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result, null, "script")
+      $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result, null, "script")
 
     # $(this).val(calculation_result)
     # $($(this).data('target')).html(calculation_result)
@@ -112,7 +112,7 @@
 
 jQuery ->
   $(document).on('click', '#add_more_options', () ->
-    $.post(root_url + 'variables/add_option', $("form").serialize() + "&_method=post", null, "script")
+    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/add_option', $("form").serialize() + "&_method=post", null, "script")
     false
   )
 
@@ -157,7 +157,7 @@ jQuery ->
       position = $(this).data('position')
       variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
       if variable_id
-        $.get(root_url + 'variables/' + variable_id + '/edit', 'position=' + position, null, "script")
+        $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/edit', 'position=' + position, null, "script")
       false
     )
     .on('change', '[data-object~="variable-load"]', () ->
@@ -167,12 +167,12 @@ jQuery ->
     )
     .on('click', '#add_grid_variable', () ->
       position = $(this).data('position')
-      $.post(root_url + 'variables/add_grid_variable', 'position=' + position, null, "script")
+      $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/add_grid_variable', 'position=' + position, null, "script")
       false
     )
     .on('click', '[data-object~="grid-row-add"]', () ->
       variable_id = $(this).data('variable-id')
-      $.post(root_url + 'variables/' + variable_id + '/add_grid_row', null, null, "script")
+      $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/add_grid_row', null, null, "script")
       false
     )
     .on('click', '[data-object~="set-current-time"]', () ->
@@ -212,7 +212,7 @@ jQuery ->
     $this.typeahead(
       source: (query, process) ->
         variable_id = $this.data('variable-id')
-        return $.get(root_url + 'variables/' + variable_id + '/typeahead', query: query, (data) -> return process(data))
+        return $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/typeahead', query: query, (data) -> return process(data))
     )
   )
 
