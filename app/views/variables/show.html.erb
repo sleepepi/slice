@@ -1,13 +1,13 @@
 <% @title = "Variable: #{@variable.display_name}" %>
 <div class="page-header">
   <h1>
-    <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
     <% if @variable.editable_by?(current_user) %>
-      <%= link_to "Edit Variable", edit_variable_path(@variable), class: 'btn btn-mini' %>
-      <%= link_to "Delete Variable", @variable, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Variable #{@variable.name}?" } %>
+      <%= link_to "Edit Variable", edit_project_variable_path(@project, @variable), class: 'btn btn-mini' %>
+      <%= link_to "Delete Variable", [@project, @variable], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Variable #{@variable.name}?" } %>
     <% end %>
-    <%= link_to "View Variables", variables_path, class: 'btn btn-mini' %>
-    <%= link_to "Copy Variable", copy_variable_path(@variable), class: 'btn btn-mini' %>
+    <%= link_to "View Variables", project_variables_path, class: 'btn btn-mini' %>
+    <%= link_to "Copy Variable", copy_project_variable_path(@project, @variable), class: 'btn btn-mini' %>
   </h1>
 </div>
 
@@ -108,7 +108,7 @@
         <% @variable.grid_variables.each do |variable_hash| %>
           <% v = current_user.all_viewable_variables.find_by_id(variable_hash[:variable_id]) %>
           <% if v %>
-            <li><%= link_to v.display_name, v %></li>
+            <li><%= link_to v.display_name, [v.project, v] %></li>
           <% end %>
         <% end %>
       </ul>

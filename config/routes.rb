@@ -47,6 +47,21 @@ Slice::Application.routes.draw do
     end
 
     get "sheet_emails/show"
+
+    resources :variables do
+      member do
+        get :copy
+        get :format_number
+        post :add_grid_row
+        get :typeahead
+      end
+      collection do
+        post :add_option
+        post :add_grid_variable
+        post :options
+      end
+    end
+
   end
 
   # get "sheet_emails/show"
@@ -86,20 +101,6 @@ Slice::Application.routes.draw do
   end
 
   resources :subjects
-
-  resources :variables do
-    member do
-      get :copy
-      get :format_number
-      post :add_grid_row
-      get :typeahead
-    end
-    collection do
-      post :add_option
-      post :add_grid_variable
-      post :options
-    end
-  end
 
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 

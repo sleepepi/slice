@@ -3,25 +3,26 @@ require 'test_helper'
 class VariablesControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
+    @project = projects(:one)
     @variable = variables(:one)
   end
 
   test "should get typeahead" do
-    get :typeahead, id: variables(:autocomplete), format: 'js'
+    get :typeahead, id: variables(:autocomplete), project_id: @project, format: 'js'
     assert_not_nil assigns(:variable)
     assert_equal ['Cat', 'Dog', 'Fish'], assigns(:variable).autocomplete_array
     assert_response :success
   end
 
   test "should get blank array for non-string typeahead" do
-    get :typeahead, id: variables(:dropdown), format: 'js'
+    get :typeahead, id: variables(:dropdown), project_id: @project, format: 'js'
     assert_not_nil assigns(:variable)
     assert_equal [], assigns(:variable).autocomplete_array
     assert_response :success
   end
 
   test "should add grid row" do
-    post :add_grid_row, id: variables(:grid), format: 'js'
+    post :add_grid_row, id: variables(:grid), project_id: @project, format: 'js'
     assert_not_nil assigns(:variable)
     assert_template 'add_grid_row'
     assert_response :success
@@ -29,13 +30,13 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not add grid row for user not on project" do
     login(users(:two))
-    post :add_grid_row, id: variables(:grid), format: 'js'
+    post :add_grid_row, id: variables(:grid), project_id: @project, format: 'js'
     assert_nil assigns(:variable)
     assert_response :success
   end
 
   test "should format number" do
-    get :format_number, id: variables(:calculated), calculated_number: "25.359", format: 'js'
+    get :format_number, id: variables(:calculated), project_id: @project, calculated_number: "25.359", format: 'js'
 
     assert_not_nil assigns(:variable)
     assert_equal "25.36", assigns(:result)
@@ -44,7 +45,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not format number for invalid variable" do
-    get :format_number, id: -1, calculated_number: "25.359", format: 'js'
+    get :format_number, id: -1, project_id: @project, calculated_number: "25.359", format: 'js'
 
     assert_nil assigns(:variable)
     assert_nil assigns(:result)
@@ -53,14 +54,14 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should get copy" do
-    get :copy, id: @variable
+    get :copy, id: @variable, project_id: @project
     assert_not_nil assigns(:variable)
     assert_template 'new'
     assert_response :success
   end
 
   test "should get copy for grid variables" do
-    get :copy, id: variables(:grid)
+    get :copy, id: variables(:grid), project_id: @project
     assert_not_nil assigns(:variable)
     assert_not_nil assigns(:select_variables)
     assert_template 'new'
@@ -68,60 +69,60 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not copy invalid variable" do
-    get :copy, id: -1
+    get :copy, id: -1, project_id: @project
     assert_nil assigns(:variable)
-    assert_redirected_to variables_path
+    assert_redirected_to project_variables_path(assigns(:project))
   end
 
   test "should add option" do
-    post :add_option, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+    post :add_option, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
     assert_not_nil assigns(:variable)
     assert_not_nil assigns(:option)
     assert_template 'add_option'
   end
 
   test "should add grid variable" do
-    post :add_grid_variable, format: 'js'
+    post :add_grid_variable, project_id: @project, format: 'js'
     assert_not_nil assigns(:select_variables)
     assert_not_nil assigns(:grid_variable)
     assert_template 'add_grid_variable'
   end
 
   test "should get options" do
-    post :options, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+    post :options, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
     assert_not_nil assigns(:variable)
     assert_template 'options'
   end
 
   test "should get index" do
-    get :index
+    get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:variables)
   end
 
   test "should get paginated index" do
-    get :index, format: 'js'
+    get :index, project_id: @project, format: 'js'
     assert_not_nil assigns(:variables)
     assert_template 'index'
   end
 
   test "should get new" do
-    get :new
+    get :new, project_id: @project
     assert_not_nil assigns(:variable)
     assert_response :success
   end
 
   test "should create variable" do
     assert_difference('Variable.count') do
-      post :create, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
+      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
     end
 
-    assert_redirected_to variable_path(assigns(:variable))
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should create dropdown variable" do
     assert_difference('Variable.count') do
-      post :create, variable: { project_id: projects(:one).id, name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: "dropdown",
+      post :create, project_id: @project, variable: { name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: "dropdown",
                                 option_tokens: {
                                   "1338308398442263" => { name: "Chocolate", value: "1", description: "" },
                                   "133830842117151" => { name: "Vanilla", value: "2", description: ""}
@@ -131,23 +132,23 @@ class VariablesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:variable)
     assert_equal 2, assigns(:variable).options.size
-    assert_redirected_to variable_path(assigns(:variable))
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
-  test "should not create variable without project" do
+  test "should not create variable without valid project" do
     assert_difference('Variable.count', 0) do
-      post :create, variable: { project_id: nil, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
+      post :create, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
     end
 
     assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:variable).errors[:project_id]
-    assert_template 'new'
+    assert_nil assigns(:project)
+
+    assert_redirected_to root_path
   end
 
   test "should not create variable where options have non-unique values" do
     assert_difference('Variable.count', 0) do
-      post :create, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
+      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
                                 option_tokens: {
                                   "1338308398442263" => { name: "Chocolate", value: "1", description: "" },
                                   "133830842117151" => { name: "Vanilla", value: "1", description: ""}
@@ -163,7 +164,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not create variable where options have colons as part of the value" do
     assert_difference('Variable.count', 0) do
-      post :create, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
+      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
                                 option_tokens: {
                                   "1338308398442263" => { name: "Chocolate", value: "1-chocolate", description: "" },
                                   "133830842117151" => { name: "Vanilla", value: "2:vanilla", description: ""}
@@ -179,7 +180,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not create variable where options have blank value" do
     assert_difference('Variable.count', 0) do
-      post :create, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
+      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
                                 option_tokens: {
                                   "1338308398442263" => { name: "Chocolate", value: "", description: "" }
                                 }
@@ -194,7 +195,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not create grid variable with non-unique variables" do
     assert_difference('Variable.count', 0) do
-      post :create, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: 'var_grid_tmp', display_name: 'Variable Grid', variable_type: 'grid',
+      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_grid_tmp', display_name: 'Variable Grid', variable_type: 'grid',
                                 grid_tokens: {
                                   "1338308398442263" => { variable_id: ActiveRecord::Fixtures.identify(:integer) },
                                   "1338308421171512" => { variable_id: ActiveRecord::Fixtures.identify(:integer) }
@@ -209,43 +210,44 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should show variable" do
-    get :show, id: @variable
+    get :show, id: @variable, project_id: @project
     assert_not_nil assigns(:variable)
     assert_response :success
   end
 
   test "should show variable for project with no sites" do
-    get :show, id: variables(:no_sites)
+    get :show, id: variables(:no_sites), project_id: @project
     assert_not_nil assigns(:variable)
     assert_response :success
   end
 
   test "should not show invalid variable" do
-    get :show, id: -1
+    get :show, id: -1, project_id: @project
     assert_nil assigns(:variable)
-    assert_redirected_to variables_path
+    assert_redirected_to project_variables_path(assigns(:project))
   end
 
   test "should get edit" do
-    get :edit, id: @variable
+    get :edit, id: @variable, project_id: @project
     assert_response :success
   end
 
   test "should not get edit for site user" do
     login(users(:site_one_user))
-    get :edit, id: @variable
+    get :edit, id: @variable, project_id: @project
 
     assert_nil assigns(:variable)
-    assert_redirected_to variables_path
+    assert_nil assigns(:project)
+    assert_redirected_to root_path
   end
 
   test "should update variable" do
-    put :update, id: @variable, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
-    assert_redirected_to variable_path(assigns(:variable))
+    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should not update variable with blank display name" do
-    put :update, id: @variable, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: '', options: @variable.options, variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: '', options: @variable.options, variable_type: @variable.variable_type }
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
     assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
@@ -253,9 +255,9 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not update invalid variable" do
-    put :update, id: -1, variable: { project_id: projects(:one).id, description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    put :update, id: -1, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
     assert_nil assigns(:variable)
-    assert_redirected_to variables_path
+    assert_redirected_to project_variables_path(assigns(:project))
   end
 
   test "should update variable and change new option value for associated sheets" do
@@ -263,7 +265,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
     assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
 
-    put :update, id: variables(:change_options), variable: {  project_id: variables(:change_options).project_id, description: variables(:change_options).description,
+    put :update, id: variables(:change_options), project_id: @project, variable: {  description: variables(:change_options).description,
                                                               header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
                                                               variable_type: variables(:change_options).variable_type,
                                                               option_tokens: {
@@ -277,7 +279,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:variable).sheet_variables.where(response: '1').size
     assert_equal 2, assigns(:variable).sheet_variables.where(response: '2').size
     assert_equal 3, assigns(:variable).sheet_variables.where(response: '3').size
-    assert_redirected_to variable_path(assigns(:variable))
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should not update variable and not change existing values for associated sheets if validation fails" do
@@ -285,7 +287,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
     assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
 
-    put :update, id: variables(:change_options), variable: {  project_id: variables(:change_options).project_id, description: variables(:change_options).description,
+    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
                                                               header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
                                                               variable_type: variables(:change_options).variable_type,
                                                               option_tokens: {
@@ -311,7 +313,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
     assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
     assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
-    put :update, id: variables(:change_options), variable: {  project_id: variables(:change_options).project_id, description: variables(:change_options).description,
+    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
                                                               header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
                                                               variable_type: variables(:change_options).variable_type,
                                                               option_tokens: {
@@ -324,7 +326,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 0, assigns(:variable).sheet_variables.where(response: '1').size
     assert_equal 1, assigns(:variable).sheet_variables.where(response: '2').size
     assert_equal 2, assigns(:variable).sheet_variables.where(response: '3').size
-    assert_redirected_to variable_path(assigns(:variable))
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should update variable and change new option value for associated grids" do
@@ -332,7 +334,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 1, variables(:change_options).grids.where(response: '2').size
     assert_equal 2, variables(:change_options).grids.where(response: '3').size
 
-    put :update, id: variables(:change_options), variable: {  project_id: variables(:change_options).project_id, description: variables(:change_options).description,
+    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
                                                               header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
                                                               variable_type: variables(:change_options).variable_type,
                                                               option_tokens: {
@@ -346,7 +348,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:variable).grids.where(response: '1').size
     assert_equal 2, assigns(:variable).grids.where(response: '2').size
     assert_equal 3, assigns(:variable).grids.where(response: '3').size
-    assert_redirected_to variable_path(assigns(:variable))
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should not update variable and not change existing values for associated grids if validation fails" do
@@ -354,7 +356,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 1, variables(:change_options).grids.where(response: '2').size
     assert_equal 2, variables(:change_options).grids.where(response: '3').size
 
-    put :update, id: variables(:change_options), variable: {  project_id: variables(:change_options).project_id, description: variables(:change_options).description,
+    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
                                                               header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
                                                               variable_type: variables(:change_options).variable_type,
                                                               option_tokens: {
@@ -380,7 +382,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 3, variables(:change_options).grids.where(response: '1').size
     assert_equal 1, variables(:change_options).grids.where(response: '2').size
     assert_equal 2, variables(:change_options).grids.where(response: '3').size
-    put :update, id: variables(:change_options), variable: {  project_id: variables(:change_options).project_id, description: variables(:change_options).description,
+    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
                                                               header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
                                                               variable_type: variables(:change_options).variable_type,
                                                               option_tokens: {
@@ -393,15 +395,15 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 0, assigns(:variable).grids.where(response: '1').size
     assert_equal 1, assigns(:variable).grids.where(response: '2').size
     assert_equal 2, assigns(:variable).grids.where(response: '3').size
-    assert_redirected_to variable_path(assigns(:variable))
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should destroy variable" do
     assert_difference('Variable.current.count', -1) do
-      delete :destroy, id: @variable
+      delete :destroy, id: @variable, project_id: @project
     end
 
-    assert_redirected_to variables_path
+    assert_redirected_to project_variables_path(assigns(:project))
   end
 
 end

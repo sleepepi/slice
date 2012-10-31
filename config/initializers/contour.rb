@@ -46,10 +46,10 @@ Contour.setup do |config|
       name: 'Designs', display: 'signed_in', path: 'designs_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
       links: [{ name: 'Create Design', path: 'new_design_path' }]
     },
-    {
-      name: 'Variables', display: 'signed_in', path: 'variables_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
-      links: [{ name: 'Create Variable', path: 'new_variable_path' }]
-    },
+    # {
+    #   name: 'Variables', display: 'signed_in', path: 'variables_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
+    #   links: [{ name: 'Create Variable', path: 'new_variable_path' }]
+    # },
     {
       name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'current_user.system_admin?'
     },

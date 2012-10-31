@@ -5,26 +5,17 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.name', 'Name', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.display_name', 'Display Name', 'variables_search') %></th>
-      <% if false %>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.description', 'Description', 'variables_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.header', 'Header', 'variables_search') %></th>
-      <% end %>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.variable_type', 'Variable Type', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.options', 'Options', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.user_id', 'Creator', 'variables_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.project_id', 'Project', 'variables_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
 
   <% @variables.each do |variable| %>
     <tr id="variable_<%= variable.id %>">
-      <td><%= link_to variable.name, variable %></td>
-      <td><%= link_to variable.display_name, variable %></td>
-      <% if false %>
-      <td><%= variable.description %></td>
-      <td><%= variable.header %></td>
-      <% end %>
+      <td><%= link_to variable.name, [variable.project, variable] %></td>
+      <td><%= link_to variable.display_name, [variable.project, variable] %></td>
       <td><span class="label label-<%= variable.variable_type %>"><%= variable.variable_type %></span></td>
       <td>
         <% if not variable.options.blank? and ['radio', 'checkbox'].include?(variable.variable_type) %>
@@ -32,12 +23,11 @@
         <% end %>
       </td>
       <td><%= link_to variable.user.name, variable.user if variable.user %></td>
-      <td><%= link_to variable.project.name, variable.project if variable.project %></td>
       <td>
-        <%= link_to 'Copy', copy_variable_path(variable), class: 'btn btn-mini' %>
+        <%= link_to 'Copy', copy_project_variable_path(variable.project, variable), class: 'btn btn-mini' %>
         <% if variable.editable_by?(current_user) %>
-          <%= link_to 'Edit', edit_variable_path(variable), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', variable, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Variable #{variable.name}?" } %>
+          <%= link_to 'Edit', edit_project_variable_path(variable.project, variable), class: 'btn btn-mini' %>
+          <%= link_to 'Delete', [variable.project, variable], method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Variable #{variable.name}?" } %>
         <% end %>
       </td>
     </tr>
