@@ -184,6 +184,16 @@ no_sites:
   user: valid
   project: no_sites
 
+autocomplete:
+  name: var_autocomplete_animals
+  display_name: Animals
+  description: What's your favorite animal
+  # header: MyString
+  variable_type: string
+  user: valid
+  project: one
+  autocomplete_values: "Cat\nDog\nFish"
+
 # response_dropdown:
 #   name: var_gender
 #   display_name: Gender

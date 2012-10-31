@@ -6,6 +6,34 @@ class VariablesControllerTest < ActionController::TestCase
     @variable = variables(:one)
   end
 
+  test "should get typeahead" do
+    get :typeahead, id: variables(:autocomplete), format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_equal ['Cat', 'Dog', 'Fish'], assigns(:variable).autocomplete_array
+    assert_response :success
+  end
+
+  test "should get blank array for non-string typeahead" do
+    get :typeahead, id: variables(:dropdown), format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_equal [], assigns(:variable).autocomplete_array
+    assert_response :success
+  end
+
+  test "should add grid row" do
+    post :add_grid_row, id: variables(:grid), format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_template 'add_grid_row'
+    assert_response :success
+  end
+
+  test "should not add grid row for user not on project" do
+    login(users(:two))
+    post :add_grid_row, id: variables(:grid), format: 'js'
+    assert_nil assigns(:variable)
+    assert_response :success
+  end
+
   test "should format number" do
     get :format_number, id: variables(:calculated), calculated_number: "25.359", format: 'js'
 
@@ -50,6 +78,13 @@ class VariablesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:variable)
     assert_not_nil assigns(:option)
     assert_template 'add_option'
+  end
+
+  test "should add grid variable" do
+    post :add_grid_variable, format: 'js'
+    assert_not_nil assigns(:select_variables)
+    assert_not_nil assigns(:grid_variable)
+    assert_template 'add_grid_variable'
   end
 
   test "should get options" do
