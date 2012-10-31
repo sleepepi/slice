@@ -2,8 +2,9 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_user!
 
   def splash
-    @projects = current_user.all_viewable_and_site_projects
-    redirect_to @projects.first if @projects.size == 1
+    project_scope = current_user.all_viewable_and_site_projects
+    @projects = project_scope.page(params[:page]).per( 8 ) # current_user.pagination_count('projects') )
+    redirect_to project_scope.first if project_scope.size == 1
   end
 
   def report

@@ -1,54 +1,7 @@
-<% if @projects.size == 0 %>
-  <div class="row" style="margin-top:54px">
-    <div class="span12">
-      <h1 class="about-title"></h1>
-      <p class="about-tagline"></p>
-      <p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p>
-    </div>
-  </div>
-<% else %>
-  <% create_project_link_added = false %>
-  <% @projects.in_groups_of(3).each do |project_row| %>
-    <div class="row">
-      <% project_row.each do |project| %>
-        <% if project %>
-          <div class="span4" data-link="<%= project_path(project) %>" style="cursor:pointer" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
-            <h2 class="about-title"><%= link_to project.name, project %></h2>
-            <div style="text-align:center;background-color:white;height:128px">
-              <% if project.logo.size > 0 %>
-                <%= image_tag project.logo_url, style: "height:128px" %>
-              <% else %>
-                <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
-              <% end %>
-            </div>
-            <div style="height:1px">
-              <% if current_user.all_viewable_projects.pluck(:id).include?(project.id) %><div style="text-align:center;display:none" id="project_<%= project.id %>_create_link"><%= link_to 'Create Sheet', new_project_sheet_path(project), class: 'btn btn-mini' %></div><% end %>
-            </div>
-            <hr class="soften">
-          </div>
-        <% elsif project.blank? and not create_project_link_added %>
-          <div class="span4" data-link="<%= new_project_path %>" style="cursor:pointer">
-            <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
-            <div style="text-align:center;background-color:white;height:128px">
-              <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
-            </div>
-            <hr class="soften">
-          </div>
-          <% create_project_link_added = true %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% unless create_project_link_added %>
-    <div class="row">
-      <div class="span4" data-link="<%= new_project_path %>" style="cursor:pointer">
-        <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
-        <div style="text-align:center;background-color:white;height:128px">
-          <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
-        </div>
-        <hr class="soften">
-      </div>
-    </div>
-  <% end %>
+<%= form_tag splash_projects_path, method: :get, remote: true, id: "splash_projects_search", class: 'form-search', data: { object: 'form-load' } do %>
+  <%#= hidden_field_tag :order %>
+  <%#= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%#= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
+
+<div id="splash_projects"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>

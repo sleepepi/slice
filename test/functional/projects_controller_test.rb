@@ -12,6 +12,13 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get splash with js" do
+    get :splash, format: 'js'
+    assert_not_nil assigns(:projects)
+    assert_template 'splash_projects'
+    assert_response :success
+  end
+
   test "should get splash and redirect to single project" do
     login(users(:site_one_user))
     get :splash
