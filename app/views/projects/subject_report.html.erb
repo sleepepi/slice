@@ -7,7 +7,7 @@
 
 <h3 style="text-align:center;margin:0px">Subject vs. Design</h3>
 
-<table class="table table-hover"><col width="1px" />
+<table class="table table-hover"><col width="1px" /><%== "<col width='#{100/(@designs.size + 1)}%'/>" * (@designs.size + 1) %><col width="1px"/>
   <caption style="padding-bottom:8px">
     <%= @project.name %>
   </caption>
