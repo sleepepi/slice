@@ -19,7 +19,7 @@
     <div class="span4 control-group">
       <%= label :user_id, 'Creator', class: 'control-label' %>
       <div class="controls">
-        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_variable.order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' } %>
+        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_variable_on_project(@project.id).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' } %>
       </div>
     </div>
   </div>
