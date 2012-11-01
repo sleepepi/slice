@@ -54,6 +54,12 @@ jQuery ->
     .on('focus', "[rel~=popover]", () ->
       $(this).popover( offset: 10, trigger: 'focus' )
     )
+    .ready( () ->
+      if $("#sheet_design_id").val() == ''
+        $("#sheet_design_id").focus()
+      else
+        $("#sheet_subject_id").focus()
+    )
 
   # $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
   # $("span[rel~=tooltip]").tooltip( trigger: 'hover' )
