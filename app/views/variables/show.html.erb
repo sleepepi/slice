@@ -147,8 +147,8 @@
 
 <% @chart_element_id = "variable_#{@variable.id}_graph" %>
 
-<% values_sv = @variable.sheet_variables.collect{|sv| sv.response.blank? ? nil : "[Date.UTC(#{sv.sheet.study_date.year}, #{sv.sheet.study_date.month - 1}, #{sv.sheet.study_date.day}), #{sv.response.blank? ? '0' : sv.response}]" }.compact.uniq %>
-<% values_g = @variable.grids.collect{|g| g.response.blank? ? nil : "[Date.UTC(#{g.sheet_variable.sheet.study_date.year}, #{g.sheet_variable.sheet.study_date.month - 1}, #{g.sheet_variable.sheet.study_date.day}), #{g.response.blank? ? '0' : g.response}]" }.compact.uniq %>
+<% values_sv = @variable.sheet_variables.collect{|sv| sv.response.blank? ? nil : "[Date.UTC(#{sv.sheet.study_date.year}, #{sv.sheet.study_date.month - 1}, #{sv.sheet.study_date.day}), #{sv.response.blank? ? '0' : sv.response.to_i}]" }.compact.uniq %>
+<% values_g = @variable.grids.collect{|g| g.response.blank? ? nil : "[Date.UTC(#{g.sheet_variable.sheet.study_date.year}, #{g.sheet_variable.sheet.study_date.month - 1}, #{g.sheet_variable.sheet.study_date.day}), #{g.response.blank? ? '0' : g.response.to_i}]" }.compact.uniq %>
 
 <% values = (values_sv + values_g).uniq %>
 
