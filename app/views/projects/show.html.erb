@@ -61,25 +61,27 @@
         </ul>
       </div>
 
-      <div class="btn-group">
-        <%= link_to "Designs", project_designs_path(@project), class: 'btn btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><%= link_to 'Create', new_project_design_path(@project) %></li>
-        </ul>
-      </div>
+      <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+        <div class="btn-group">
+          <%= link_to "Designs", project_designs_path(@project), class: 'btn btn-mini' %>
+          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Create', new_project_design_path(@project) %></li>
+          </ul>
+        </div>
 
-      <div class="btn-group">
-        <%= link_to "Variables", project_variables_path(@project), class: 'btn btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><%= link_to 'Create', new_project_variable_path(@project) %></li>
-        </ul>
-      </div>
+        <div class="btn-group">
+          <%= link_to "Variables", project_variables_path(@project), class: 'btn btn-mini' %>
+          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Create', new_project_variable_path(@project) %></li>
+          </ul>
+        </div>
+      <% end %>
 
       <div class="btn-group"><%= link_to "Report", report_project_path(@project), class: 'btn btn-mini' %></div>
     </div>
