@@ -181,7 +181,7 @@
       </thead>
       <tbody>
         <% @sheet.sheet_emails.order('created_at DESC').each do |sheet_email| %>
-          <tr data-link="<%= sheet_email_path(sheet_email) %>" style="cursor:pointer">
+          <tr data-link="<%= sheet_email_path(sheet_email, project_id: @project.id) %>" style="cursor:pointer">
             <td style="white-space:nowrap"><%= simple_time sheet_email.created_at %></td>
             <td><%= sheet_email.user.name %></td>
             <td><%= sheet_email.email_to %></td>
