@@ -165,13 +165,12 @@
     <tbody>
       <% @project.designs.order('name').each do |design| %>
       <tr>
-        <td><%= link_to design.name, [design.project, design] %></td>
+        <td><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), design.name, [design.project, design] %></td>
         <td><%= link_to Sheet.current.where(project_id: @project.id, design_id: design.id).count, project_sheets_path(@project, design_id: design.id) %></td>
       </tr>
       <% end %>
     </tbody>
   </table>
-
 
   <div class="page-header">
     <h2>Sharing</h2>
