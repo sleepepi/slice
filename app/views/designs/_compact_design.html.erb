@@ -10,7 +10,7 @@
         <div style="width:28px;display:inline-block"><a href="#">&curren;</a></div>
         <div style="width:20%;display:inline-block"><%= link_to variable.name, [variable.project, variable] %></div>
         <div style="display:inline-block;overflow:hidden;white-space:nowrap;width:50%"><%= variable.display_name %></div>
-        <div style="display:inline-block"><span class="label label-<%= variable.variable_type %>"><%= variable.variable_type %></span></div>
+        <div style="display:inline-block"><span class="label label-<%= variable.variable_type == 'scale' ? variable.scale_type : variable.variable_type %>"><%= variable.variable_type == 'scale' ? "scale " + variable.scale_type : variable.variable_type %></span></div>
       </li>
     <% end %>
   <% end %>
