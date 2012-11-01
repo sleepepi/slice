@@ -15,12 +15,15 @@ class Variable < ActiveRecord::Base
                   # Autocomplete
                   :autocomplete_values,
                   # Radio and Checkbox
-                  :alignment
+                  :alignment,
+                  # Scale
+                  :shared_options_variable_id, :scale_type
 
-  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].sort.collect{|i| [i,i]}
+  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid', 'scale'].sort.collect{|i| [i,i]}
   CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
   DISPLAY_NAME_VISIBILITY = [['Visible', 'visible'], ['Invisible', 'invisible'], ['Gone', 'gone']]
   ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical']]
+  SCALE_TYPE = ['checkbox', 'radio'].collect{|i| [i,i]}
 
   serialize :options, Array
   serialize :grid_variables, Array
@@ -43,9 +46,18 @@ class Variable < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
+  belongs_to :shared_options_variable, class_name: 'Variable'
   has_many :sheet_variables
   has_many :grids
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
+
+  def shared_options
+    if self.shared_options_variable and self.shared_options_variable != self
+      self.shared_options_variable.options
+    else
+      self.options
+    end
+  end
 
   def autocomplete_array
     self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}
@@ -222,20 +234,35 @@ class Variable < ActiveRecord::Base
   end
 
   def missing_codes
-    self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
+    self.shared_options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
   end
 
   # Currently unused
   # def missing_codes_with_description
-  #   self.options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| "#{opt[:value]} #{opt[:name]}"}
+  #   self.shared_options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| "#{opt[:value]} #{opt[:name]}"}
   # end
 
+  def first_scale_variable?(design)
+    return true unless design
+
+    previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id) > 0
+    if previous_variable and previous_variable.variable_type == 'scale' and previous_variable.shared_options == self.shared_options
+      return false
+    else
+      return true
+    end
+  end
+
+  def options_missing_at_end
+    self.shared_options.sort{|a, b| a[:missing_code].to_i <=> b[:missing_code].to_i}
+  end
+
   def options_without_missing
-    self.options.select{|opt| opt[:missing_code] != '1'}
+    self.shared_options.select{|opt| opt[:missing_code] != '1'}
   end
 
   def options_only_missing
-    self.options.select{|opt| opt[:missing_code] == '1'}
+    self.shared_options.select{|opt| opt[:missing_code] == '1'}
   end
 
   def grouped_by_missing
@@ -259,12 +286,12 @@ class Variable < ActiveRecord::Base
   def response_name_helper(response, sheet=nil)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
 
-    if ['dropdown', 'radio'].include?(self.variable_type)
-      hash = (self.options.select{|option| option[:value] == response}.first || {})
+    if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
+      hash = (self.shared_options.select{|option| option[:value] == response}.first || {})
       [hash[:value], hash[:name]].compact.join(': ')
-    elsif ['checkbox'].include?(self.variable_type)
+    elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
       response = YAML::load(response) rescue response = [] unless response.kind_of?(Array)
-      self.options.select{|option| response.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
+      self.shared_options.select{|option| response.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
     elsif ['grid'].include?(self.variable_type) and sheet_variable
       grid_labeled = []
       (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
@@ -295,12 +322,12 @@ class Variable < ActiveRecord::Base
   def response_label(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
-    if ['dropdown', 'radio'].include?(self.variable_type)
-      hash = (self.options.select{|option| option[:value] == response}.first || {})
+    if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
+      hash = (self.shared_options.select{|option| option[:value] == response}.first || {})
       hash[:name]
-    elsif ['checkbox'].include?(self.variable_type)
+    elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
       array = YAML::load(response) rescue array = []
-      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}.join(',')
+      self.shared_options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}.join(',')
     elsif ['grid'].include?(self.variable_type) and sheet_variable
       grid_labeled = []
       (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
@@ -324,11 +351,11 @@ class Variable < ActiveRecord::Base
   def response_raw(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
-    if ['dropdown', 'radio'].include?(self.variable_type)
+    if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
       response
-    elsif ['checkbox'].include?(self.variable_type)
+    elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
       array = YAML::load(response) rescue array = []
-      self.options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
+      self.shared_options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
     elsif ['file'].include?(self.variable_type)
       self.response_file(sheet).to_s.split('/').last
     elsif ['grid'].include?(self.variable_type) and sheet_variable
@@ -349,7 +376,7 @@ class Variable < ActiveRecord::Base
   def response_color(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
-    color = self.options.select{|option| response == option[:value]}.collect{|option| option[:color]}.first
+    color = self.shared_options.select{|option| response == option[:value]}.collect{|option| option[:color]}.first
     color.blank? ? '#ffffff' : color
   end
 
@@ -358,7 +385,7 @@ class Variable < ActiveRecord::Base
       self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }} +
       self.user_submitted_sheet_variables.collect{|sv| { name: sv.response, value: sv.response, info: 'User Submitted' }}.uniq{|a| a[:value].downcase }
     else
-      (include_missing ? self.options : self.options_without_missing)
+      (include_missing ? self.shared_options : self.options_without_missing)
     end
   end
 
@@ -368,7 +395,7 @@ class Variable < ActiveRecord::Base
   end
 
   # def response_description(value)
-  #   option = self.options.select{|opt| opt[:value].to_s == value.to_s}.first
+  #   option = self.shared_options.select{|opt| opt[:value].to_s == value.to_s}.first
   #   option ? option[:description] : ''
   # end
 

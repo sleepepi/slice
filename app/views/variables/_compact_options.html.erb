@@ -8,7 +8,7 @@
       <th>Color</th>
     </tr>
   </thead>
-  <% @variable.options.each do |option| %>
+  <% @variable.shared_options.each do |option| %>
     <% option = option.symbolize_keys %>
     <tr>
       <td><%= option[:name] %></td>

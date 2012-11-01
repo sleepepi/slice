@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 @toggleOptions = (element) ->
-  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
+  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric', 'scale']
     $('[data-object~="options"]').show()
   else
     $('[data-object~="options"]').hide()
@@ -39,6 +39,10 @@
     $('[data-object~="checkbox-or-radio"]').show()
   else
     $('[data-object~="checkbox-or-radio"]').hide()
+  if $(element).val() in ['scale']
+    $('[data-object~="scale"]').show()
+  else
+    $('[data-object~="scale"]').hide()
 
 
 @checkForBlankOptions = () ->
@@ -157,7 +161,7 @@ jQuery ->
       position = $(this).data('position')
       variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
       if variable_id
-        $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/edit', 'position=' + position, null, "script")
+        $.get(root_url + 'projects/' + $("#design_project_id").val() + '/variables/' + variable_id + '/edit', 'position=' + position, null, "script")
       false
     )
     .on('change', '[data-object~="variable-load"]', () ->
@@ -167,7 +171,7 @@ jQuery ->
     )
     .on('click', '#add_grid_variable', () ->
       position = $(this).data('position')
-      $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/add_grid_variable', 'position=' + position, null, "script")
+      $.post(root_url + 'projects/' + $("#variable_project_id").val() + '/variables/add_grid_variable', 'position=' + position, null, "script")
       false
     )
     .on('click', '[data-object~="grid-row-add"]', () ->
@@ -195,6 +199,11 @@ jQuery ->
     .on('click', '[data-object~="clear-radio"]', () ->
       group_name = $(this).data('group')
       $(":radio[name='" + group_name + "']").prop('checked', false)
+      false
+    )
+    .on('click', '[data-object~="clear-checkbox"]', () ->
+      group_name = $(this).data('group')
+      $(":checkbox[name='" + group_name + "']").removeAttr('checked')
       false
     )
     .on('click', '[data-object~="set-variable-type"]', () ->

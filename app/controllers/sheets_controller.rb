@@ -437,6 +437,8 @@ class SheetsController < ApplicationController
       sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: current_user.id } )
       if sv.variable.variable_type == 'grid'
         sv.update_grid_responses!(response)
+      elsif sv.variable.variable_type == 'scale'
+        sv.update_attributes sv.format_response(sv.variable.scale_type, response)
       else
         sv.update_attributes sv.format_response(sv.variable.variable_type, response)
       end

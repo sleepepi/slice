@@ -1,3 +1,5 @@
+<%= f.hidden_field :project_id %>
+
 <div class="control-group">
   <%= f.label :name, nil, class: 'control-label' %>
   <div class="controls">
@@ -164,40 +166,31 @@
   </div>
 </div>
 
-<% if true %>
-  <div class="control-group" data-object="options">
-    <label class="control-label">Options</label>
-    <div class="controls">
-      <div id="options" data-object="sortable">
-        <%= render partial: 'options' %>
-      </div>
-      <div class="btn-toolbar">
-        <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
-      </div>
+<div class="control-group" data-object="scale">
+  <%= f.label :shared_options_variable_id, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.select :shared_options_variable_id, [[nil, nil]] + @variable.project.variables.where(variable_type: 'scale').where("id != ?", (@variable.id || 0)).collect{|v| [v.name, v.id]} %>
+  </div>
+</div>
+
+<div class="control-group" data-object="scale">
+  <%= f.label :scale_type, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.select :scale_type, Variable::SCALE_TYPE %>
+  </div>
+</div>
+
+<div class="control-group" data-object="options">
+  <label class="control-label">Options</label>
+  <div class="controls">
+    <div id="options" data-object="sortable">
+      <%= render partial: 'options' %>
+    </div>
+    <div class="btn-toolbar">
+      <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
     </div>
   </div>
-<% else %>
-  <div class="form-actions" data-object="options">
-    <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
-    <% submit_name = @variable.new_record? ? 'Create Variable' : 'Update Variable' %>
-    <%= submit_tag submit_name, class: 'btn btn-primary', data: { object: "form-check-before-submit", target: "##{form_name}" } %>
-    <% if @popup %>
-      <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#variable_edit_modal', object: 'modal-hide', remove_class: 'error' } %>
-    <% else %>
-      <%= cancel %>
-    <% end %>
-  </div>
-
-  <div id="options" data-object="options sortable">
-    <%= render partial: 'options' %>
-  </div>
-
-  <div class="control-group" data-object="options">
-    <label class="control-label">
-      <%= link_to 'Add Another Option', '#', id: 'add_more_options', class: 'btn btn-mini' %>
-    </label>
-  </div>
-<% end %>
+</div>
 
 <div class="control-group" data-object="grid">
   <%= f.label :multiple_rows, nil, class: 'control-label' %>

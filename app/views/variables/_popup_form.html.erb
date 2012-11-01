@@ -3,7 +3,7 @@
     <h3>Edit Variable</h3>
   </div>
   <div class="modal-body">
-    <%= form_for @variable, html: { class: 'form-horizontal' }, remote: true do |f| %>
+    <%= form_for [@variable.project, @variable], html: { class: 'form-horizontal' }, remote: true do |f| %>
       <%= hidden_field_tag :position, params[:position] %>
       <% @popup = true %>
       <%= render partial: 'variables/inner_form', locals: { f: f } %>

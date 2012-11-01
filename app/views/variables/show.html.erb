@@ -129,9 +129,15 @@
       <% end %>
     </ul>
   </dd>
+
+  <% if @variable.shared_options_variable and @variable.shared_options_variable != @variable %>
+    <dt>Shared options variable</dt>
+    <dd><%= link_to @variable.shared_options_variable.name, [@variable.shared_options_variable.project, @variable.shared_options_variable] %></dd>
+  <% end %>
+
 </dl>
 
-<% if @variable.options.size > 0 %>
+<% if @variable.shared_options.size > 0 %>
   <%= render partial: 'compact_options' %>
 <% end %>
 

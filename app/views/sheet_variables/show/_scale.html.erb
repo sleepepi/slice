@@ -1,0 +1,21 @@
+<% is_grid = defined?(grid) %>
+
+<% if variable.scale_type == 'radio' %>
+
+  <% response = {} %>
+  <% response = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
+
+  <span rel="tooltip" title="<%= response[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= "#{response[:value]}: #{response[:name]}" unless response[:value].blank? %></span>
+
+<% else %>
+
+  <% responses = [] %>
+  <% responses = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
+
+  <% responses.each do |hash| %>
+    <% unless is_grid %><p><% end %>
+    <span rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= "#{hash[:value]}: #{hash[:name]}" unless hash[:value].blank? %></span>
+    <% unless is_grid %></p><% end %>
+  <% end %>
+
+<% end %>
