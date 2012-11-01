@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '3.2.9.rc1'
+gem 'rails',                '3.2.9.rc2'
 
 # Database Adapter
 # Install instructions for Windows: http://blog.mmediasys.com/2011/07/07/installing-mysql-on-windows-7-x64-and-using-ruby-with-it/
