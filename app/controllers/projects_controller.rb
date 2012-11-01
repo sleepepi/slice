@@ -1,6 +1,24 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
 
+  def subject_report
+    @project = Project.current.where(id: current_user.all_viewable_sites.pluck(:project_id)).find_by_id(params[:id])
+
+    respond_to do |format|
+      if @project
+        @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id)).order('subject_code')
+        @designs = @project.designs.order('name')
+        format.html # subject_report.html.erb
+        format.json { render json: @project }
+        format.js { render 'subject_report' }
+      else
+        format.html { redirect_to projects_path }
+        format.json { head :no_content }
+        format.js { render nothing: true }
+      end
+    end
+  end
+
   def splash
     project_scope = current_user.all_viewable_and_site_projects
     @projects = project_scope.page(params[:page]).per( 8 ) # current_user.pagination_count('projects') )

@@ -17,6 +17,7 @@
   * Add Scale variable type that allows options to be shared across other scale variables
     * Grouping scale variables with the same options on a design will group the options together in a table format
   * Calculated variables can now be added to grid variables and do the calculation based on the row they are in
+  * Subject vs Design project report added to view the overall status of subjects
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data

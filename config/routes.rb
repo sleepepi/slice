@@ -5,6 +5,7 @@ Slice::Application.routes.draw do
       post :remove_file
       get :report
       post :report
+      get :subject_report
     end
 
     collection do
