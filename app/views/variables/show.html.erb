@@ -28,7 +28,7 @@
   <dd><%= simple_format @variable.description %></dd>
 
   <dt>Variable Type</dt>
-  <dd><span class="label label-<%= @variable.variable_type %>"><%= @variable.variable_type %></span></dd>
+  <dd><span class="label label-<%= @variable.variable_type == 'scale' ? @variable.scale_type : @variable.variable_type %>"><%= @variable.variable_type == 'scale' ? "scale " + @variable.scale_type : @variable.variable_type %></span></dd>
 
   <dt>Prepend</dt>
   <dd><%= @variable.prepend %></dd>

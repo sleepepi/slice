@@ -16,7 +16,7 @@
     <tr id="variable_<%= variable.id %>">
       <td><%= link_to variable.name, [variable.project, variable] %></td>
       <td><%= link_to variable.display_name, [variable.project, variable] %></td>
-      <td><span class="label label-<%= variable.variable_type %>"><%= variable.variable_type %></span></td>
+      <td><span class="label label-<%= variable.variable_type == 'scale' ? variable.scale_type : variable.variable_type %>"><%= variable.variable_type == 'scale' ? "scale " + variable.scale_type : variable.variable_type %></span></td>
       <td>
         <% if not variable.options.blank? and ['radio', 'checkbox'].include?(variable.variable_type) %>
           <%= render partial: "sheet_variables/form/#{variable.variable_type}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" } %>
