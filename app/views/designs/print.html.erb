@@ -27,11 +27,11 @@
           <td>
             <% if @variable.variable_type == 'date' %>
               ____ /____ /________ <span class="muted">MM / DD / YYYY</span>
-            <% elsif ['checkbox'].include?(@variable.variable_type) %>
+            <% elsif ['checkbox'].include?(@variable.variable_type) or (@variable.variable_type == 'scale' and @variable.scale_type == 'checkbox') %>
               <% @variable.options_without_missing.each do |option| %>
                 <p style="white-space:nowrap"><%= check_box_tag "variable_#{@variable.id}_#{option[:value]}" %> <%= option[:value] %>: <%= option[:name] %></p>
               <% end %>
-            <% elsif ['radio','dropdown'].include?(@variable.variable_type) %>
+            <% elsif ['radio','dropdown'].include?(@variable.variable_type) or (@variable.variable_type == 'scale' and @variable.scale_type == 'radio') %>
               <% @variable.options_without_missing.each do |option| %>
                 <p style="white-space:nowrap"><%= radio_button_tag "variable_#{@variable.id}", option[:value] %> <%= option[:value] %>: <%= option[:name] %></p>
               <% end %>
