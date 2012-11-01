@@ -65,6 +65,7 @@
   <%= render partial: 'reorder_sections' %>
 </div>
 
+<%= hidden_field_tag 'sheet[project_id]', @project.id %>
 <form class="form-horizontal" id="design">
   <center><%= image_tag 'contour/ajax-loader.gif' %></center>
 </form>

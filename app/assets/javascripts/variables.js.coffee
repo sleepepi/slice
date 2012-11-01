@@ -104,11 +104,15 @@
   $.each($('[data-object~="calculated"]'), () ->
     # alert($(this).data('calculation'))
     calculation = $(this).data('calculation')
+    grid_position = $(this).data('grid-position')
     # calculation = calculation.replace(/([\w]+)/g, "parseInt($('[data-name=\"\$1\"]').val())");
     if calculation
-      calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]').val())");
+      grid_string = ''
+      if grid_position?
+        grid_string = '[data-grid-position="' + grid_position + '"]'
+      calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]#{grid_string}').val())");
       calculation_result = eval(calculation)
-      $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result, null, "script")
+      $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result + '&location_id=' + $(this).data('location-id'), null, "script")
 
     # $(this).val(calculation_result)
     # $($(this).data('target')).html(calculation_result)

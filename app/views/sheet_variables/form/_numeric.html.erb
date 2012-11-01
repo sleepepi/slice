@@ -4,7 +4,7 @@
   data-title="<%= variable.display_name %>">
   <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
   <%= text_field_tag field_name, response, class: "input-#{defined?(control_size) ? control_size : 'large'}", data: { object: 'minmax condition', hard_minimum: variable.hard_minimum, hard_maximum: variable.hard_maximum,
-    soft_minimum: variable.soft_minimum, soft_maximum: variable.soft_maximum, name: variable.name, missing_codes: variable.missing_codes, variable_type: variable.variable_type, content: variable.description, title: variable.display_name_range },
+    soft_minimum: variable.soft_minimum, soft_maximum: variable.soft_maximum, name: variable.name, missing_codes: variable.missing_codes, variable_type: variable.variable_type, content: variable.description, title: variable.display_name_range, grid_position: defined?(position) ? position : "" },
     disabled: disabled, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", title: variable.display_name_range, placeholder: variable.display_name %>
   <% unless variable.units.blank? %><span class="add-on"><%= variable.units %></span><% end %>
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>

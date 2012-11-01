@@ -1,2 +1,7 @@
-$('#variables_<%= @variable.id %>').val("<%= escape_javascript(@result) %>");
-$('#variables_<%= @variable.id %>_calculation_result').val("<%= escape_javascript(@result) %>");
+<% if params[:location_id].blank? %>
+  $('#variables_<%= @variable.id %>').val("<%= escape_javascript(@result) %>");
+  $('#variables_<%= @variable.id %>_calculation_result').val("<%= escape_javascript(@result) %>");
+<% else %>
+  $('#<%= params[:location_id] %>').val("<%= escape_javascript(@result) %>");
+  $('#<%= params[:location_id] %>_calculation_result').val("<%= escape_javascript(@result) %>");
+<% end %>
