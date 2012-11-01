@@ -10,7 +10,7 @@
                              title: variable.display_name } %>
   <% unless variable.units.blank? %><span class="add-on"><%= variable.units %></span><% end %>
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
-  <%= link_to 'calculation', '#', data: { object: 'modal-show', target: "#variable_#{location_id}_calculation_popup" }, class: 'btn' %>
+  <%= link_to '?', '#', data: { object: 'modal-show', target: "#variable_#{location_id}_calculation_popup" }, class: 'btn', tabindex: "-1" %>
 </div>
 
 <div class="modal hide" id="variable_<%= location_id %>_calculation_popup">
