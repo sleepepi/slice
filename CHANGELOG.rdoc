@@ -18,6 +18,8 @@
     * Domains are a set of options that can be associated to multiple variables
   * Calculated variables can now be added to grid variables and do the calculation based on the row they are in
   * Subject vs Design project report added to view the overall status of subjects
+  * Project owners are no longer automatically added to the CC field for sheet receipts
+    * To add a project owner back to be CC'd, add the email to the project's email field
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data
