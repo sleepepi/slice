@@ -1,25 +1,28 @@
 == 0.10.0
 
 * Enhancements
+  * Project Changes
+    * Slice root directs a user to either a splash page with projects, or the project they are currently on
+    * New Project dashboard added
+    * Projects can now have Contacts, Documents, and News Posts
+    * Designs, Variables, and Sheets are now integrated more closely with their projects
+    * Subject vs Design project report added to view the overall status of subjects
+    * Project owners are no longer automatically added to the CC field for sheet receipts
+      * To add a project owner back to be CC'd, add the email to the project's email field
+  * Sheet Changes
+    * Datepickers now retain focus after a date is selected
+    * Design navigation now uses a left menu
+    * Tabbing when filling in sheets simplified to tab more quickly between relevant data inputs
   * Variable Changes
     * Grid variables can now specify the default number of rows that are displayed
-  * Removed the global librarian role
-  * New Project dashboard added
-  * Projects can now have Contacts, Documents, and News Posts
-  * Slice root directs a user to either a splash page with projects, or the project they are currently on
-  * Designs, Variables, and Sheets are now integrated more closely with their projects
-  * Added calculation popups for calculated variables
-  * Datepickers now retain focus after a date is selected
-  * Form navigation now uses a left menu
-  * Tabbing when filling in sheets simplified to tab more quickly between relevant data inputs
-  * Simplified conditional design variable logic by removing Show If and Values section
-    * NOTE: Branching Logic should be used to conditionally hide variables
-  * Add Scale variable type that allows options to be specified by domains
-    * Domains are a set of options that can be associated to multiple variables
-  * Calculated variables can now be added to grid variables and do the calculation based on the row they are in
-  * Subject vs Design project report added to view the overall status of subjects
-  * Project owners are no longer automatically added to the CC field for sheet receipts
-    * To add a project owner back to be CC'd, add the email to the project's email field
+    * Added calculation popups for calculated variables
+    * Simplified conditional design variable logic by removing Show If and Values section
+      * NOTE: Branching Logic should be used to conditionally hide variables
+    * Add Scale variable type that allows options to be specified by domains
+      * Domains are a set of options that can be associated to multiple variables
+    * Calculated variables can now be added to grid variables and do the calculation based on the row they are in
+  * General Changes
+    * Removed the global librarian role
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data
