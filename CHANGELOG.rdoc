@@ -21,6 +21,7 @@
 
 * Bug Fix
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data
+  * Setting variable option colors now sets the correct option's color when adding new options in quick succession
 
 == 0.9.1
 
