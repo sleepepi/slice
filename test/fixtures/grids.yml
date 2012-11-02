@@ -60,3 +60,48 @@ value_to_update_c3:
   response: 1
   user: valid
   position: 5
+
+
+# This grid had "Option 1" selected that was incorrectly mapped to the value '2'
+# Updating the "change_domain_options" variable should also change this grid value to '1'
+domain_value_to_update_a:
+  sheet_variable: grid
+  variable: change_domain_options
+  response: 2
+  user: valid
+  position: 0
+
+domain_value_to_update_b1:
+  sheet_variable: grid
+  variable: change_domain_options
+  response: 3
+  user: valid
+  position: 1
+
+domain_value_to_update_b2:
+  sheet_variable: grid
+  variable: change_domain_options
+  response: 3
+  user: valid
+  position: 2
+
+domain_value_to_update_c1:
+  sheet_variable: grid
+  variable: change_domain_options
+  response: 1
+  user: valid
+  position: 3
+
+domain_value_to_update_c2:
+  sheet_variable: grid
+  variable: change_domain_options
+  response: 1
+  user: valid
+  position: 4
+
+domain_value_to_update_c3:
+  sheet_variable: grid
+  variable: change_domain_options
+  response: 1
+  user: valid
+  position: 5

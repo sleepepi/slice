@@ -1,0 +1,30 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: Difficulty Rating
+  options: [{ name: Easy, value: 1 },
+            { name: Medium, value: 2},
+            { name: Hard, value: 3}]
+  user: valid
+  project: one
+
+two:
+  name: Weekday
+  options: [{ name: Sunday, value: 0 },
+            { name: Monday, value: 1},
+            { name: Tuesday, value: 2},
+            { name: Wednesday, value: 3},
+            { name: Thursday, value: 4},
+            { name: Friday, value: 5},
+            { name: Saturday, value: 6}]
+  user: valid
+  project: one
+
+change_options:
+  name: Change Option Values
+  description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
+  options: [{name: 'Option 1', value: '2', description: 'Should have value 1'},
+            {name: 'Option 2', value: '3', description: 'Should have value 2'},
+            {name: 'Option 3', value: '1', description: 'Should have value 3'}]
+  user: valid
+  project: one

@@ -167,9 +167,16 @@
 </div>
 
 <div class="control-group" data-object="scale">
-  <%= f.label :shared_options_variable_id, nil, class: 'control-label' %>
+  <%= f.label :domain_id, nil, class: 'control-label' %>
   <div class="controls">
-    <%= f.select :shared_options_variable_id, [[nil, nil]] + @variable.project.variables.where(variable_type: 'scale').where("id != ?", (@variable.id || 0)).collect{|v| [v.name, v.id]} %>
+    <% if @variable.project.domains.size == 0 %>
+      <div class="alert alert-info">
+        <strong>Heads up!</strong> Scale variables need to be associated to a domain of options. Scale variables can share domains. <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-mini' %>
+      </div>
+    <% else %>
+      <%= f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] } %>
+      <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-mini' %>
+    <% end %>
   </div>
 </div>
 

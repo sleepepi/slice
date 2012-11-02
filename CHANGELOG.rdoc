@@ -14,8 +14,8 @@
   * Tabbing when filling in sheets simplified to tab more quickly between relevant data inputs
   * Simplified conditional design variable logic by removing Show If and Values section
     * NOTE: Branching Logic should be used to conditionally hide variables
-  * Add Scale variable type that allows options to be shared across other scale variables
-    * Grouping scale variables with the same options on a design will group the options together in a table format
+  * Add Scale variable type that allows options to be specified by domains
+    * Domains are a set of options that can be associated to multiple variables
   * Calculated variables can now be added to grid variables and do the calculation based on the row they are in
   * Subject vs Design project report added to view the overall status of subjects
 

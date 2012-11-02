@@ -164,6 +164,16 @@ change_options:
   user: valid
   project: one
 
+change_domain_options:
+  name: change_domain_options
+  display_name: Change Domain Option Values
+  domain: change_options
+  description: This variable's domain has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
+  variable_type: scale
+  scale_type: radio
+  user: valid
+  project: one
+
 grid:
   name: grid
   display_name: Grid of Variables

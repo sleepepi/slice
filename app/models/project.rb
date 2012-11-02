@@ -31,6 +31,8 @@ class Project < ActiveRecord::Base
   has_many :documents, conditions: { deleted: false }
   has_many :posts, conditions: { deleted: false }
 
+  has_many :domains, conditions: { deleted: false }
+
   # Model Methods
 
   def site_id_with_prefix(prefix)

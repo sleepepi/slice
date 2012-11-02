@@ -47,6 +47,12 @@ Slice::Application.routes.draw do
       end
     end
 
+    resources :domains do
+      collection do
+        post :add_option
+      end
+    end
+
     resources :variables do
       member do
         get :copy

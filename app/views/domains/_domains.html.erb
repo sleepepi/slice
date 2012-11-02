@@ -1,0 +1,30 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'domains', per_page: 20, object_count: @domain_count } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.name', 'Name', 'domains_search') %></th>
+      <th style="white-space:nowrap">Options</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.user_id', '', 'domains_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @domains.each do |domain| %>
+    <tr>
+      <td><%= link_to domain.name, [domain.project, domain] %></td>
+      <td>
+        <% if domain.options.size > 0 %>
+          <%= @domain = domain; render partial: 'compact_options' %>
+        <% end %>
+      </td>
+      <td><%= link_to domain.user.name, domain.user if domain.user %></td>
+      <td>
+        <%= link_to 'Edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', [domain.project, domain], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Domain #{domain.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @domains %></center>

@@ -1,0 +1,21 @@
+$("#options").append("<%= escape_javascript(render("edit_option")) %>");
+
+$('#option_<%= @position %> [data-object~="color-selector"]').ColorPicker({
+  color: "<%= @option[:color].blank? ? '#ffffff' : @option[:color] %>",
+  onShow: function(colpkr){
+    $(colpkr).fadeIn(500);
+    return false;
+  },
+  onHide: function(colpkr){
+    $(colpkr).fadeOut(500);
+    return false;
+  },
+  onChange: function(hsb, hex, rgb){
+    target = "#domain_option_tokens_<%= @position %>_hexcolor"
+    $(target).val('#' + hex);
+    $(target+"_display").css('backgroundColor', '#' + hex);
+  },
+  onSubmit: function(hsb, hex, rgb, el){
+    $(el).ColorPickerHide();
+  }
+});

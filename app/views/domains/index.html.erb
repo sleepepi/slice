@@ -1,0 +1,15 @@
+<% @title = 'Domains' %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to "Create Domain", new_project_domain_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
+
+<%= form_tag project_domains_path, method: :get, remote: true, id: "domains_search", class: 'form-search', data: { object: 'form-load' } do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<div id="domains"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>

@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 @toggleOptions = (element) ->
-  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric', 'scale']
+  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
     $('[data-object~="options"]').show()
   else
     $('[data-object~="options"]').hide()
@@ -119,10 +119,15 @@
   )
 
 jQuery ->
-  $(document).on('click', '#add_more_options', () ->
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/add_option', $("form").serialize() + "&_method=post", null, "script")
-    false
-  )
+  $(document)
+    .on('click', '#add_more_options', () ->
+      $.post(root_url + 'projects/' + $("#variable_project_id").val() + '/variables/add_option', $("form").serialize() + "&_method=post", null, "script")
+      false
+    )
+    .on('click', '#add_more_domain_options', () ->
+      $.post(root_url + 'projects/' + $("#domain_project_id").val() + '/domains/add_option', $("form").serialize() + "&_method=post", null, "script")
+      false
+    )
 
   $(document)
     .on('change', '#variable_variable_type', () -> toggleOptions($(this)))

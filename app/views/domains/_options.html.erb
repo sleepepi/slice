@@ -1,0 +1,14 @@
+<% if @domain.options.size == 0 %>
+  <% @option = { name: '', value: '', description: '' } %>
+  <%= render partial: 'edit_option' %>
+<% else %>
+  <% if params[:domain] and params[:domain][:option_tokens] %>
+    <% params[:domain][:option_tokens].each_pair do |position, option|  %>
+      <%= @option = option; render partial: 'edit_option', locals: { option_index: option[:option_index], position: position } %>
+    <% end %>
+  <% else %>
+    <% @domain.options.each_with_index do |option, index| %>
+      <%= @option = option; render partial: 'edit_option', locals: { option_index: index } %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -73,3 +73,43 @@ grid:
   sheet: all_variables
   # response:
   user: valid
+
+
+# This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
+# Updating the "change_options" domain should also change the associated sheet variable and grid values to '1'
+domain_value_to_update_a:
+  variable: change_domain_options
+  sheet: two
+  response: 2
+  user: valid
+
+domain_value_to_update_b1:
+  variable: change_domain_options
+  sheet: two
+  response: 3
+  user: valid
+
+domain_value_to_update_b2:
+  variable: change_domain_options
+  sheet: two
+  response: 3
+  user: valid
+
+domain_value_to_update_c1:
+  variable: change_domain_options
+  sheet: two
+  response: 1
+  user: valid
+
+domain_value_to_update_c2:
+  variable: change_domain_options
+  sheet: two
+  response: 1
+  user: valid
+
+domain_value_to_update_c3:
+  variable: change_domain_options
+  sheet: two
+  response: 1
+  user: valid
+

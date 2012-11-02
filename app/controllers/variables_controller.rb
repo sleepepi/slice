@@ -295,7 +295,7 @@ class VariablesController < ApplicationController
       # Radio and Checkbox
       :alignment,
       # Scale
-      :shared_options_variable_id, :scale_type
+      :scale_type, :domain_id
     )
   end
 end

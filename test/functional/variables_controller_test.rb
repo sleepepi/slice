@@ -309,7 +309,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   # Option 3 (value 1) being removed. Three sheets where the value existed are then reset to null.
-  test "should update variable and remove option and reset option vallue for associated sheets" do
+  test "should update variable and remove option and reset option value for associated sheets" do
     assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
     assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
     assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
@@ -378,7 +378,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   # Option 3 (value 1) being removed. Three grids where the value existed are then reset to null.
-  test "should update variable and remove option and reset option vallue for associated grids" do
+  test "should update variable and remove option and reset option value for associated grids" do
     assert_equal 3, variables(:change_options).grids.where(response: '1').size
     assert_equal 1, variables(:change_options).grids.where(response: '2').size
     assert_equal 2, variables(:change_options).grids.where(response: '3').size

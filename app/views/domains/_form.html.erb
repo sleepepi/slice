@@ -1,0 +1,59 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for [@domain.project, @domain], html: { class: 'form-horizontal' } do |f| %>
+  <% if @domain.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@domain.errors.count, "error") %> prohibited this domain from being saved:</h2>
+
+      <ul>
+      <% @domain.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :project_id %>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :description, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+<% if false %>
+  <div class="control-group">
+    <%= f.label :options, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :options, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+<% end %>
+
+  <div class="control-group">
+    <label class="control-label">Options</label>
+    <div class="controls">
+      <div id="options" data-object="sortable">
+        <%= render partial: 'domains/options' %>
+      </div>
+      <div class="btn-toolbar">
+        <%= link_to 'Add Another Option', '#', id: 'add_more_domain_options', class: 'btn btn-mini' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>

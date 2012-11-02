@@ -130,9 +130,9 @@
     </ul>
   </dd>
 
-  <% if @variable.shared_options_variable and @variable.shared_options_variable != @variable %>
-    <dt>Shared options variable</dt>
-    <dd><%= link_to @variable.shared_options_variable.name, [@variable.shared_options_variable.project, @variable.shared_options_variable] %></dd>
+  <% if ['scale'].include?(@variable.variable_type) %>
+    <dt>Domain</dt>
+    <dd><%= link_to @variable.domain.name, [@variable.domain.project, @variable.domain] if @variable.domain %></dd>
   <% end %>
 
 </dl>

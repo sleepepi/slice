@@ -17,7 +17,7 @@ class Variable < ActiveRecord::Base
                   # Radio and Checkbox
                   :alignment,
                   # Scale
-                  :shared_options_variable_id, :scale_type
+                  :scale_type, :domain_id
 
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid', 'scale'].sort.collect{|i| [i,i]}
   CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
@@ -46,14 +46,14 @@ class Variable < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  belongs_to :shared_options_variable, class_name: 'Variable'
+  belongs_to :domain
   has_many :sheet_variables
   has_many :grids
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   def shared_options
-    if self.shared_options_variable and self.shared_options_variable != self
-      self.shared_options_variable.options
+    if ['scale'].include?(self.variable_type)
+      self.domain.options
     else
       self.options
     end
@@ -246,6 +246,7 @@ class Variable < ActiveRecord::Base
     return true unless design
 
     previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id) > 0
+    # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form
     if previous_variable and previous_variable.variable_type == 'scale' and previous_variable.shared_options == self.shared_options
       return false
     else

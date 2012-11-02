@@ -3,83 +3,24 @@
 <% option_index = 'new' if option_index.blank? %>
 <% sheet_variables_size = @variable.sheet_variables.where(response: @option[:value]).size %>
 
-<% if true %>
-  <div id="option_<%= @position %>" class="<%= 'fieldset_with_errors' if @variable.errors.keys.include?(:options) %>" data-object="hover-show" data-target="#option_<%= @position %>_delete_link" style="cursor:move;line-height:25px;padding-top:5px">
-    <%= hidden_field_tag "variable[option_tokens][#{@position}][option_index]", option_index %>
-    <div class="custom_widget" style="float:left">
-      <div class="colorselector" data-object="color-selector" data-target="#variable_option_tokens_<%= @position %>_hexcolor" data-color="<%= @option[:color].blank? ? '#ffffff' : @option[:color] %>" style="background-image: none">
-        <div id="variable_option_tokens_<%= @position %>_hexcolor_display" style="background-color: <%= @option[:color].blank? ? '#ffffff' : @option[:color] %>;top:0px;left:0px"></div>
-      </div>
-    </div>
-    <div style="float:left;margin-left:30px">
-      &curren;
-      <%= text_field_tag "variable[option_tokens][#{@position}][name]", @option[:name], data: { object: 'option-name' }, placeholder: 'Name', rel: 'tooltip', title: 'Name', class: 'input-small' %>
-      <%= text_field_tag "variable[option_tokens][#{@position}][value]", @option[:value], placeholder: 'Value', rel: 'tooltip', title: 'Value', class: 'input-small' %>
-      <%= text_field_tag "variable[option_tokens][#{@position}][description]", @option[:description], placeholder: 'Description', rel: 'tooltip', title: 'Description' %>
-      <%= check_box_tag "variable[option_tokens][#{@position}][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', rel: 'tooltip', title: 'Missing Code?' %> Missing Code?
-      <%= hidden_field_tag "variable[option_tokens][#{@position}][color]", (@option[:color].blank? ? '#ffffff' : @option[:color]), id: "variable_option_tokens_#{@position}_hexcolor" %>
-      <% if sheet_variables_size > 0 %>
-        <span class="muted"><%= pluralize sheet_variables_size, 'sheet' %> uses this option.</span>
-      <% end %>
-      <%= link_to 'Remove', '#', class: 'btn btn-mini btn-danger', data: { object: 'remove', target: "option_#{@position}", count: sheet_variables_size }, style: "display:none", id: "option_#{@position}_delete_link" %>
-    </div>
-    <div style="clear:both"></div>
-  </div>
-<% else %>
-  <div id="option_<%= @position %>" class="<%= 'fieldset_with_errors' if @variable.errors.keys.include?(:options) %> well">
-    <div class="page-header" style="margin-top:0px">
-      <h3>
-        Option <%= link_to 'Remove', '#', class: 'btn btn-mini btn-danger', data: { object: 'remove', target: "option_#{@position}", count: sheet_variables_size} %>
-      </h3>
-      <% if sheet_variables_size > 0 %>
-        <span class="muted">
-          <%= pluralize sheet_variables_size, 'sheet' %> uses this option.
-        </span>
-      <% end %>
-
-    </div>
-
-    <%= hidden_field_tag "variable[option_tokens][#{@position}][option_index]", option_index %>
-
-    <div class="control-group">
-      <%= label_tag "variable_option_tokens_#{@position}_name", 'Name', class: 'control-label' %>
-      <div class="controls">
-        <%= text_field_tag "variable[option_tokens][#{@position}][name]", @option[:name], style: 'width:95%', data: { object: 'option-name' } %>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <%= label_tag "variable_option_tokens_#{@position}_value", 'Value', class: 'control-label' %>
-      <div class="controls">
-        <%= text_field_tag "variable[option_tokens][#{@position}][value]", @option[:value], style: 'width:95%' %>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <%= label_tag "variable_option_tokens_#{@position}_description", 'Description', class: 'control-label' %>
-      <div class="controls">
-        <%= text_field_tag "variable[option_tokens][#{@position}][description]", @option[:description], style: 'width:95%' %>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <%= label_tag "variable_option_tokens_#{@position}_missing_code", 'Missing Code', class: 'control-label' %>
-      <div class="controls">
-        <%= check_box_tag "variable[option_tokens][#{@position}][missing_code]", '1', @option[:missing_code] == '1', style: 'width:95%', class: 'checkbox' %>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <%= label_tag "variable_option_tokens_#{@position}_color", 'Color', class: 'control-label' %>
-      <div class="controls">
-        <%= hidden_field_tag "variable[option_tokens][#{@position}][color]", (@option[:color].blank? ? '#ffffff' : @option[:color]), id: "variable_option_tokens_#{@position}_hexcolor" %>
-        <div class="custom_widget">
-          <div class="colorselector" data-object="color-selector" data-target="#variable_option_tokens_<%= @position %>_hexcolor" data-color="<%= @option[:color].blank? ? '#ffffff' : @option[:color] %>">
-            <div id="variable_option_tokens_<%= @position %>_hexcolor_display" style="background-color: <%= @option[:color].blank? ? '#ffffff' : @option[:color] %>"></div>
-          </div>
-        </div>
-        <%#= check_box_tag "variable[option_tokens][#{@position}][color]", '1', @option[:missing_code] == '1', style: 'width:95%', class: 'checkbox' %>
-      </div>
+<div id="option_<%= @position %>" class="<%= 'fieldset_with_errors' if @variable.errors.keys.include?(:options) %>" data-object="hover-show" data-target="#option_<%= @position %>_delete_link" style="cursor:move;line-height:25px;padding-top:5px">
+  <%= hidden_field_tag "variable[option_tokens][#{@position}][option_index]", option_index %>
+  <div class="custom_widget" style="float:left">
+    <div class="colorselector" data-object="color-selector" data-target="#variable_option_tokens_<%= @position %>_hexcolor" data-color="<%= @option[:color].blank? ? '#ffffff' : @option[:color] %>" style="background-image: none">
+      <div id="variable_option_tokens_<%= @position %>_hexcolor_display" style="background-color: <%= @option[:color].blank? ? '#ffffff' : @option[:color] %>;top:0px;left:0px"></div>
     </div>
   </div>
-<% end %>
+  <div style="float:left;margin-left:30px">
+    &curren;
+    <%= text_field_tag "variable[option_tokens][#{@position}][name]", @option[:name], data: { object: 'option-name' }, placeholder: 'Name', rel: 'tooltip', title: 'Name', class: 'input-small' %>
+    <%= text_field_tag "variable[option_tokens][#{@position}][value]", @option[:value], placeholder: 'Value', rel: 'tooltip', title: 'Value', class: 'input-small' %>
+    <%= text_field_tag "variable[option_tokens][#{@position}][description]", @option[:description], placeholder: 'Description', rel: 'tooltip', title: 'Description' %>
+    <%= check_box_tag "variable[option_tokens][#{@position}][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', rel: 'tooltip', title: 'Missing Code?' %> Missing Code?
+    <%= hidden_field_tag "variable[option_tokens][#{@position}][color]", (@option[:color].blank? ? '#ffffff' : @option[:color]), id: "variable_option_tokens_#{@position}_hexcolor" %>
+    <% if sheet_variables_size > 0 %>
+      <span class="muted"><%= pluralize sheet_variables_size, 'sheet' %> uses this option.</span>
+    <% end %>
+    <%= link_to 'Remove', '#', class: 'btn btn-mini btn-danger', data: { object: 'remove', target: "option_#{@position}", count: sheet_variables_size }, style: "display:none", id: "option_#{@position}_delete_link", tabindex: "-1" %>
+  </div>
+  <div style="clear:both"></div>
+</div>
