@@ -11,7 +11,7 @@ $('#option_<%= @position %> [data-object~="color-selector"]').ColorPicker({
     return false;
   },
   onChange: function(hsb, hex, rgb){
-    target = "#domain_option_tokens_<%= @position %>_hexcolor"
+    target = "#variable_option_tokens_<%= @position %>_hexcolor"
     $(target).val('#' + hex);
     $(target+"_display").css('backgroundColor', '#' + hex);
   },
