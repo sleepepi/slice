@@ -10,6 +10,7 @@ class Domain < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
+  validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships
   belongs_to :user

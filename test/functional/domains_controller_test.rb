@@ -20,13 +20,54 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should create domain" do
     assert_difference('Domain.count') do
-      post :create, project_id: @project, domain: { name: @domain.name,
+      post :create, project_id: @project, domain: { name: 'New Domain',
                                                     option_tokens: {
                                                       "1338308398442263" => { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
                                                       "133830842117151" => { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } } }
     end
 
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
+  end
+
+  test "should not create domain where options have non-unique values" do
+    assert_difference('Domain.count', 0) do
+      post :create, project_id: @project, domain: { name: 'New Domain', description: @domain.description,
+                                                    option_tokens: {
+                                                      "1338308398442263" => { name: "Chocolate", value: "1", description: "" },
+                                                      "133830842117151" => { name: "Vanilla", value: "1", description: ""} } }
+    end
+
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["values must be unique"], assigns(:domain).errors[:option]
+    assert_template 'new'
+  end
+
+  test "should not create domain where options have colons as part of the value" do
+    assert_difference('Domain.count', 0) do
+      post :create, project_id: @project, domain: { name: 'New Domain', description: @domain.description,
+                                option_tokens: {
+                                  "1338308398442263" => { name: "Chocolate", value: "1-chocolate", description: "" },
+                                  "133830842117151" => { name: "Vanilla", value: "2:vanilla", description: ""} } }
+    end
+
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["values can't contain colons"], assigns(:domain).errors[:option]
+    assert_template 'new'
+  end
+
+  test "should not create domain where options have blank value" do
+    assert_difference('Domain.count', 0) do
+      post :create, project_id: @project, domain: { name: 'New Domain', description: @domain.description,
+                                                    option_tokens: {
+                                                      "1338308398442263" => { name: "Chocolate", value: "", description: "" } } }
+    end
+
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["values can't be blank"], assigns(:domain).errors[:option]
+    assert_template 'new'
   end
 
   test "should show domain" do
