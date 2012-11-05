@@ -3,7 +3,7 @@
 <% if variable.scale_type == 'radio' %>
   <%= hidden_field_tag "#{field_name}", nil, disabled: disabled %>
 <% else %>
-  <% array = YAML::load(response) rescue array = response || [] %>
+  <% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.pluck(:value) : []) %>
   <%= hidden_field_tag "#{field_name}[]", nil, disabled: disabled %>
 <% end %>
 
@@ -32,7 +32,7 @@
             <% if variable.scale_type == 'radio' %>
               <%= radio_button_tag field_name, "#{value}", value == response, data: { object: "condition" }, disabled: disabled %>
             <% else %>
-              <%= check_box_tag "#{field_name}[]", "#{value}", array.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %>
+              <%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %>
             <% end %>
           </label>
         </td>

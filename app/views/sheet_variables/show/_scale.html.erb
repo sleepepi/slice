@@ -16,7 +16,7 @@
   <% responses = [] %>
   <% responses = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
   <% response_color = '' %>
-  <% response_color = is_grid ? grid.variable.response_color(@sheet) : sheet_variable.variable.response_color(@sheet) if sheet_variable %>
+  <%# response_color = is_grid ? grid.variable.response_color(@sheet) : sheet_variable.variable.response_color(@sheet) if sheet_variable %>
 
   <% responses.each do |hash| %>
     <% unless is_grid %><p><% end %>
