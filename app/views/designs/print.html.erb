@@ -7,7 +7,7 @@
 <body style="padding-top:0px">
 
   <div class="page-header">
-    <h1><%= @design.name %></h1>
+    <h1><%= @design.name %> <%= image_tag "#{request.protocol}#{request.host_with_port}" + @design.project.logo_url, style: "height:30px;vertical-align:bottom" if @design.project.logo.size > 0 %></h1>
   </div>
   <p style="margin-bottom:18px;line-height:26px; color: #999; font-weight:300;font-size:18px;text-align:left"><%= @design.description %></p>
 

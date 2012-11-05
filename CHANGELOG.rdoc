@@ -1,5 +1,8 @@
 == 0.10.1
 
+* Enhancements
+  * Project logo added to printed designs
+
 * Bug Fix
   * Truncated HTML code in news posts no longer changes layout on the project show page
 
