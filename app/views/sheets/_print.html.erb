@@ -52,7 +52,10 @@
                   <% @variable.grid_variables.each do |grid_variable| %>
                     <td>
                       <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
-                      <%= grid.response_label if grid %>
+                      <% if grid %>
+                        <%= grid.response_label %>
+                        <%= grid.variable.units unless grid.variable.units.blank? %>
+                      <% end %>
                     </td>
                   <% end %>
                 </tr>
