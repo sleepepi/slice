@@ -1,5 +1,8 @@
 == 0.10.1
 
+* Bug Fix
+  * Truncated HTML code in news posts no longer changes layout on the project show page
+
 == 0.10.0
 
 * Enhancements
