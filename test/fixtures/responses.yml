@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+# course_work:
+#   variable: checkbox
+#   sheet: all_variables
+#   response: "['acct101','econ101']"
+#   user: valid
+
+one:
+  variable: checkbox
+  sheet_variable: course_work
+  # grid_id: # NULL
+  user: valid
+  value: acct101
+
+two:
+  variable: checkbox
+  sheet_variable: course_work
+  # grid_id: # NULL
+  user: valid
+  value: econ101

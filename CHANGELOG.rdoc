@@ -5,6 +5,9 @@
   * Grid responses now display the associated variable's units
 
 * Bug Fix
+  * Updating values for existing checkbox variables now correctly updates values in associated sheets
+  * Switching a checkbox variable with existing data to a radio variable no longer causes the data to be lost
+    * NOTE: Data collected as a radio variable is maintened separately from data collected while the variable was a checkbox
   * Truncated HTML code in news posts no longer changes layout on the project show page
   * Fixed a bug that caused Firefox to be inable to create designs that contained file variables
   * Project report and subject reports now display correctly on projects with no sites

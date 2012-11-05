@@ -4,11 +4,12 @@ class SheetVariable < ActiveRecord::Base
   audited associated_with: :sheet
   has_associated_audits
 
+  # Model Validation
   belongs_to :sheet, touch: true
   belongs_to :variable
   belongs_to :user
-
   has_many :grids
+  has_many :responses
 
   validates_presence_of :sheet_id, :variable_id, :user_id
 
@@ -18,7 +19,17 @@ class SheetVariable < ActiveRecord::Base
     self.variable.variable_type == 'grid' && self.grids.size > 0 ? self.grids.pluck(:position).max : -1
   end
 
-  def update_grid_responses!(response)
+  def update_responses!(values, current_user)
+    new_responses = []
+    values.select{|v| not v.blank?}.each do |value|
+      r = Response.new(variable_id: self.variable.id, value: value, user_id: current_user.id)
+      new_responses << r
+    end
+    self.responses.destroy_all
+    self.responses = new_responses
+  end
+
+  def update_grid_responses!(response, current_user)
     # {"13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
     #  "1346351022118849"=>{"123"=>"1", "494"=>[""], "493"=>""},
     #  "1346351034600475"=>{"494"=>["", "0"], "493"=>""}}
@@ -39,11 +50,16 @@ class SheetVariable < ActiveRecord::Base
             res = { remove_response_file: '1' }
           end
         end
-        if grid.variable.variable_type == 'scale'
-          grid.update_attributes format_response(grid.variable.scale_type, res)
+
+        v_type = (grid.variable.variable_type == 'scale' ? grid.variable.scale_type : grid.variable.variable_type)
+
+        case v_type when 'checkbox'
+          res = [] if res.blank?
+          grid.update_responses!(res, current_user) # Response should be an array
         else
-          grid.update_attributes format_response(grid.variable.variable_type, res)
+          grid.update_attributes format_response(v_type, res)
         end
+
       end
     end
 
@@ -54,9 +70,6 @@ class SheetVariable < ActiveRecord::Base
   def format_response(variable_type, response)
     case variable_type when 'file'
       response = {} if response.blank?
-    when 'checkbox'
-      response = [] if response.blank?
-      response = { response: response }
     when 'date'
       response = { response: parse_date(response, response) }
     when 'time'
@@ -88,7 +101,7 @@ class SheetVariable < ActiveRecord::Base
       result[:description] = hash[:description]
     elsif ['checkbox'].include?(object.variable.variable_type) or (object.variable.variable_type == 'scale' and object.variable.scale_type == 'checkbox')
       results = []
-      object.variable.shared_options.select{|option| object.response.include?(option[:value])}.each do |option|
+      object.variable.shared_options.select{|option| object.responses.pluck(:value).include?(option[:value])}.each do |option|
         result = { name: option[:name], value: option[:value], description: option[:description] }
         results << result
       end

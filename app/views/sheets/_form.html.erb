@@ -48,6 +48,7 @@
     <%= f.label :study_date, nil, class: 'control-label', id: 'study_date_name_full' %>
     <div class="controls">
       <%= f.text_field :study_date, class: 'datepicker', value: @sheet.study_date ? @sheet.study_date.strftime('%m/%d/%Y') : '' %>
+      <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "#sheet_study_date" }, class: 'btn', tabindex: '-1' %>
     </div>
   </div>
 

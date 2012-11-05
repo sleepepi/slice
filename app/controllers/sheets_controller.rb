@@ -435,13 +435,22 @@ class SheetsController < ApplicationController
   def update_variables!
     (params[:variables] || {}).each_pair do |variable_id, response|
       sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: current_user.id } )
-      if sv.variable.variable_type == 'grid'
-        sv.update_grid_responses!(response)
-      elsif sv.variable.variable_type == 'scale'
-        sv.update_attributes sv.format_response(sv.variable.scale_type, response)
+      variable_type = (sv.variable.variable_type == 'scale' ? sv.variable.scale_type : sv.variable.variable_type)
+      case variable_type when 'grid'
+        sv.update_grid_responses!(response, current_user)
+      when 'checkbox'
+        response = [] if response.blank?
+        sv.update_responses!(response, current_user) # Response should be an array
       else
-        sv.update_attributes sv.format_response(sv.variable.variable_type, response)
+        sv.update_attributes sv.format_response(variable_type, response)
       end
+      # if sv.variable.variable_type == 'grid'
+      #   sv.update_grid_responses!(response)
+      # elsif sv.variable.variable_type == 'scale'
+      #   sv.update_attributes sv.format_response(sv.variable.scale_type, response)
+      # else
+      #   sv.update_attributes sv.format_response(sv.variable.variable_type, response)
+      # end
     end
   end
 

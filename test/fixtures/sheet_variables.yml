@@ -65,7 +65,7 @@ gender_male:
 course_work:
   variable: checkbox
   sheet: all_variables
-  response: "['acct101','econ101']"
+  # response: "['acct101','econ101']" # Through Association with Responses.yml
   user: valid
 
 grid:

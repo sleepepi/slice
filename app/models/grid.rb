@@ -3,19 +3,31 @@ class Grid < ActiveRecord::Base
 
   audited associated_with: :sheet_variable
 
+  # Model Validation
+  validates_presence_of :sheet_variable_id, :variable_id, :position, :user_id
+
+  # Model Relationships
   belongs_to :sheet_variable, touch: true
   belongs_to :variable
   belongs_to :user
-
-  validates_presence_of :sheet_variable_id, :variable_id, :position, :user_id
+  has_many :responses
 
   mount_uploader :response_file, GenericUploader
 
 
+  def update_responses!(values, current_user)
+    new_responses = []
+    values.select{|v| not v.blank?}.each do |value|
+      r = Response.new(variable_id: self.variable.id, value: value, user_id: current_user.id)
+      new_responses << r
+    end
+    self.responses.destroy_all
+    self.responses = new_responses
+  end
+
   def response_raw
     case self.variable.variable_type when 'checkbox'
-      array = YAML::load(self.response) rescue array = []
-      self.variable.shared_options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
+      self.variable.shared_options.select{|option| self.responses.pluck(:value).include?(option[:value])}.collect{|option| option[:value]}.join(',')
     when 'file'
       self.response_file.to_s.split('/').last
     else
@@ -25,8 +37,7 @@ class Grid < ActiveRecord::Base
 
   def response_label
     if self.variable.variable_type == 'checkbox'
-      array = YAML::load(self.response) rescue array = []
-      self.variable.shared_options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}.join(',')
+      self.variable.shared_options.select{|option| self.responses.pluck(:value).include?(option[:value])}.collect{|option| option[:name]}.join(',')
     elsif ['dropdown', 'radio'].include?(self.variable.variable_type)
       hash = (self.variable.shared_options.select{|option| option[:value] == self.response}.first || {})
       [hash[:value], hash[:name]].compact.join(': ')

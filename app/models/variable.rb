@@ -49,6 +49,7 @@ class Variable < ActiveRecord::Base
   belongs_to :domain
   has_many :sheet_variables
   has_many :grids
+  has_many :responses
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   def shared_options
@@ -187,6 +188,7 @@ class Variable < ActiveRecord::Base
         unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
           self.sheet_variables.where(response: hash.symbolize_keys[:value]).update_all(response: nil)
           self.grids.where(response: hash.symbolize_keys[:value]).update_all(response: nil)
+          self.responses.where(value: hash.symbolize_keys[:value]).destroy_all
         end
       end
 
@@ -198,6 +200,7 @@ class Variable < ActiveRecord::Base
           intermediate_value = old_value + ":" + new_value
           self.sheet_variables.where(response: old_value).update_all(response: intermediate_value)
           self.grids.where(response: old_value).update_all(response: intermediate_value)
+          self.responses.where(value: old_value).update_all(value: intermediate_value)
         end
       end
 
@@ -209,6 +212,7 @@ class Variable < ActiveRecord::Base
           intermediate_value = old_value + ":" + new_value
           self.sheet_variables.where(response: intermediate_value).update_all(response: new_value)
           self.grids.where(response: intermediate_value).update_all(response: new_value)
+          self.responses.where(value: intermediate_value).update_all(value: new_value)
         end
       end
     end
@@ -284,15 +288,23 @@ class Variable < ActiveRecord::Base
     result
   end
 
-  def response_name_helper(response, sheet=nil)
+  # def response_name(sheet)
+  #   sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+  #   response = (sheet_variable ? sheet_variable.response : nil)
+  #   response_name_helper(response, sheet)
+  # end
+
+  # def response_name_helper(response, sheet=nil)
+  def response_name(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
+    response = (sheet_variable ? sheet_variable.response : nil)
+    responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
 
     if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
       hash = (self.shared_options.select{|option| option[:value] == response}.first || {})
       [hash[:value], hash[:name]].compact.join(': ')
     elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
-      response = YAML::load(response) rescue response = [] unless response.kind_of?(Array)
-      self.shared_options.select{|option| response.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
+      self.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
     elsif ['grid'].include?(self.variable_type) and sheet_variable
       grid_labeled = []
       (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
@@ -303,7 +315,6 @@ class Variable < ActiveRecord::Base
         end
       end
       grid_labeled.to_json
-
     elsif ['integer', 'numeric'].include?(self.variable_type)
       hash = self.options_only_missing.select{|option| option[:value] == response}.first
       hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
@@ -314,21 +325,16 @@ class Variable < ActiveRecord::Base
     end
   end
 
-  def response_name(sheet)
-    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-    response = (sheet_variable ? sheet_variable.response : nil)
-    response_name_helper(response, sheet)
-  end
-
   def response_label(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
+    responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
+
     if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
       hash = (self.shared_options.select{|option| option[:value] == response}.first || {})
       hash[:name]
     elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
-      array = YAML::load(response) rescue array = []
-      self.shared_options.select{|option| array.include?(option[:value])}.collect{|option| option[:name]}.join(',')
+      self.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:name]}.join(',')
     elsif ['grid'].include?(self.variable_type) and sheet_variable
       grid_labeled = []
       (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
@@ -352,11 +358,12 @@ class Variable < ActiveRecord::Base
   def response_raw(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
+    responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
+
     if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
       response
     elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
-      array = YAML::load(response) rescue array = []
-      self.shared_options.select{|option| array.include?(option[:value])}.collect{|option| option[:value]}.join(',')
+      self.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:value]}.join(',')
     elsif ['file'].include?(self.variable_type)
       self.response_file(sheet).to_s.split('/').last
     elsif ['grid'].include?(self.variable_type) and sheet_variable
