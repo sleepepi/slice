@@ -1,5 +1,8 @@
 == 0.10.2
 
+* Bug Fix
+  * Fixed a bug that caused dropdowns to not display correctly
+
 == 0.10.1
 
 * Enhancements
