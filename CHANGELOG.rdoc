@@ -6,6 +6,7 @@
 
 * Bug Fix
   * Truncated HTML code in news posts no longer changes layout on the project show page
+  * Fixed a bug that caused Firefox to be inable to create designs that contained file variables
 
 == 0.10.0
 
