@@ -7,6 +7,7 @@
 * Bug Fix
   * Truncated HTML code in news posts no longer changes layout on the project show page
   * Fixed a bug that caused Firefox to be inable to create designs that contained file variables
+  * Project report and subject reports now display correctly on projects with no sites
 
 == 0.10.0
 

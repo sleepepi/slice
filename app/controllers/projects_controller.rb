@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_user!
 
   def subject_report
-    @project = Project.current.where(id: current_user.all_viewable_sites.pluck(:project_id)).find_by_id(params[:id])
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
 
     respond_to do |format|
       if @project
@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
   end
 
   def report
-    @project = Project.current.where(id: current_user.all_viewable_sites.pluck(:project_id)).find_by_id(params[:id])
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
 
     setup_report
 
