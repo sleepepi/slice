@@ -84,7 +84,7 @@ class SheetVariable < ActiveRecord::Base
   # Return a hash that represents the name, value, and description of the response
   # Ex: Given Variable Gender With Response Male, returns: { label: 'Male', value: 'm', description: 'Male gender of human species' }
   def response_hash(position = nil, variable_id = nil)
-    result = { name: '', value: '', description: '' }
+    result = { name: '', value: '', description: '', color: '' }
 
     object = if position.blank? or variable_id.blank?
       self # SheetVariable
@@ -99,10 +99,11 @@ class SheetVariable < ActiveRecord::Base
       result[:name] = hash[:name]
       result[:value] = hash[:value]
       result[:description] = hash[:description]
+      result[:color] = hash[:color]
     elsif ['checkbox'].include?(object.variable.variable_type) or (object.variable.variable_type == 'scale' and object.variable.scale_type == 'checkbox')
       results = []
       object.variable.shared_options.select{|option| object.responses.pluck(:value).include?(option[:value])}.each do |option|
-        result = { name: option[:name], value: option[:value], description: option[:description] }
+        result = { name: option[:name], value: option[:value], description: option[:description], color: option[:color] }
         results << result
       end
       result = results
@@ -141,6 +142,8 @@ class SheetVariable < ActiveRecord::Base
     end
     result
   end
+
+
 
   def response_with_add_on
     prepend_string = ''

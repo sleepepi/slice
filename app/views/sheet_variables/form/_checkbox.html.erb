@@ -1,7 +1,11 @@
 <% is_grid = defined?(grid) %>
 
 <div style="display:inline-block;padding-right:10px">
-<% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.pluck(:value) : []) %>
+  <% if is_grid %>
+    <% responses = ((defined?(object) and object) ? object.responses.pluck(:value) : []) %>
+  <% else %>
+    <% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.pluck(:value) : []) %>
+  <% end %>
 
 <%= hidden_field_tag "#{field_name}[]", nil, disabled: disabled %>
 <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
