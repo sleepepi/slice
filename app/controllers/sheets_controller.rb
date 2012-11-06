@@ -189,6 +189,45 @@ class SheetsController < ApplicationController
     end
   end
 
+  def latex
+    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
+    if @sheet
+      root_folder = FileUtils.pwd
+      output_folder = File.join(root_folder, 'tmp', 'files', 'tex')
+      template_folder = File.join(root_folder, 'app', 'views', 'sheets')
+      file_name = 'latex.tex'
+      file_template = File.join(template_folder, file_name + '.erb')
+      file_tex = File.join(root_folder, 'tmp', 'files', 'tex', Time.now.strftime("%Y%m%d-") + file_name)
+      file_in = File.new(file_template, "r")
+      file_out = File.new(file_tex, "w")
+      template = ERB.new(file_in.sysread(File.size(file_in)))
+      file_out.syswrite(template.result(binding))
+      file_in.close()
+      file_out.close()
+      jobname = "sheet_#{@sheet.id}"
+      puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+
+      # Rails.logger.debug "----------------\n"
+      # Rails.logger.debug "#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}"
+
+
+      file_pdf_location = File.join('tmp', 'files', 'tex', "#{jobname}.pdf")
+
+      # Rails.logger.debug file_pdf_location
+      # Rails.logger.debug "\n----------------\n"
+
+      if File.exists?(file_pdf_location)
+        File.open(file_pdf_location, 'r') do |file|
+          send_file file, filename: "sheet_#{@sheet.id}.pdf", type: "application/pdf", disposition: "inline"
+        end
+      else
+        render text: "PDF did not render in time. Please refresh the page."
+      end
+    else
+      render nothing: true
+    end
+  end
+
   def print
     @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
     if @sheet

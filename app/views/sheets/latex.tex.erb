@@ -1,0 +1,126 @@
+<%#= latex.tex.erb %>
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+% \usepackage[cm]{fullpage}
+\usepackage[margin=0.5in]{geometry}
+\geometry{top=1.0in, bottom=1.0in}
+\usepackage{lastpage}
+\usepackage{wrapfig}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
+
+\fancyhf{}
+
+\lhead{\textbf{Subject}\\<%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>}
+\chead{\textbf{Project}\\<%= latex_safe @sheet.project.name %> <%= @sheet.subject.site.name %>}
+\rhead{\textbf{<%= latex_safe @sheet.design.study_date_name_full %>}\\<%= latex_safe @sheet.study_date.strftime("%B %-d, %Y") %>}
+\lfoot{
+  <%= latex_safe @sheet.design.name %> - <%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>
+}
+\cfoot{\today}
+\rfoot{\thepage\ of \pageref{LastPage}}
+
+
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \setlength\headheight{22pt}
+
+\pagestyle{fancyplain}
+
+
+
+\begin{document}
+
+<% if @sheet.project.logo.size > 0 %>
+\begin{wrapfigure}{r}
+    \centering
+    \includegraphics[width=25pt]{<%= @sheet.project.logo.path if @sheet.project.logo.size > 0 %>}
+    \noindent
+    \label{simulationfigure}
+\end{wrapfigure}
+<% end %>
+
+\section*{<%= latex_safe @sheet.design.name %>}
+
+<%= latex_safe @sheet.design.description %> \\
+
+<% @sheet.design.options.each_with_index do |option, index| %>
+  \FloatBarrier
+  <% @option = option %>
+
+  <% if @option[:variable_id].blank? %>
+    \subsection*{<%= latex_safe @option[:section_name] %>}
+    \hline
+~
+  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+    <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
+
+<% @variable.header unless @variable.header.blank? %>
+  \subsubsection*{<%= latex_safe @variable.display_name %>}
+
+\begin{table*}[!htbp]\centering
+
+\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}}<%= 'r'*@variable.grid_variables.size %>}
+<% @variable.grid_variables.each do |grid_variable| %>
+  <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
+  <%= latex_safe v.display_name if v %> &
+<% end %>
+\midrule
+<% (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position| %>
+  <% @variable.grid_variables.each do |grid_variable| %>
+    <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
+    <% if grid %>
+      <%= latex_safe grid.response_label %>
+      <%= latex_safe grid.variable.units unless grid.variable.units.blank? %>
+      &
+    <% end %>
+  <% end %>
+<% end %>
+\end{tabular*}
+\end{table*}
+
+    <% else %>
+
+<% if @variable.header.blank? %>
+  \subsubsection*{<%= latex_safe @variable.display_name %>}
+<% else %>
+  \subsubsection*{<%= latex_safe @variable.header %>\\<%= latex_safe @variable.display_name %>}
+<% end %>
+
+<% if @variable.variable_type == 'text' %>
+  <%= latex_safe @variable.response_name(@sheet).to_s %>
+<% elsif @variable.variable_type == 'checkbox' %>
+\begin{itemize}
+  <% @variable.response_name(@sheet).each do |response| %>
+    \item <%= latex_safe response %>
+  <% end %>
+\end{itemize}
+<% elsif @variable.variable_type == 'file' and @variable.response_file(@sheet).size > 0 %>
+  <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.downcase) %>
+
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=6.5in]{<%= @variable.response_file(@sheet).path if @sheet.project.logo.size > 0 %>}
+    \caption{<%= latex_safe @variable.description %> Lorem}
+    \label{simulationfigure}
+\end{figure}
+
+  <% else %>
+    <%= latex_safe @variable.response_file_url(@sheet).split('/').last %>
+  <% end %>
+<% elsif not @variable.units.blank? %>
+  <%= latex_safe @variable.response_name(@sheet) %> <%= @variable.units unless @variable.response_name(@sheet).blank? %>
+<% else %>
+  <%= latex_safe @variable.response_name(@sheet) %>
+<% end %>
+
+    <% end %>
+  <% end %>
+<% end %>
+
+\end{document}

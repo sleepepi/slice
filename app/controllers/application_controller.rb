@@ -31,4 +31,12 @@ class ApplicationController < ActionController::Base
     order
   end
 
+  def latex_safe(mystring)
+    symbols = [['\\', '\\textbackslash'], ['#', '\\#'], ['$', '\\$'], ['&', '\\&'], ['~', '\\~{}'], ['_', '\\_'], ['^', '\\^{}'], ['{', '\\{'], ['}', '\\}'], ['<', '\\textless{}'], ['>', '\\textgreater{}']]
+    symbols.each do |from, to|
+      mystring.gsub!(from, to)
+    end
+    mystring
+  end
+
 end

@@ -1,5 +1,8 @@
 == 0.10.3
 
+* Enhancements
+  * Sheets are now rendered using PDFLaTex for cleaner PDFs
+
 == 0.10.2
 
 * Bug Fix
