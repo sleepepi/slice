@@ -9,7 +9,7 @@
     <% end %>
     <%= link_to "View Sheets", project_sheets_path(@project), class: 'btn btn-mini' %>
     <%= link_to "PDF", print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
-    <%= link_to "LaTex", latex_project_sheet_path(@project, @sheet), target: '_blank', class: 'btn btn-mini' %>
+    <%= link_to "LaTeX", latex_project_sheet_path(@project, @sheet), target: '_blank', class: 'btn btn-mini' %>
     <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
     <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
       <% if @sheet.sheet_emails.size > 0 %><%= link_to 'Email History', '#', class: 'btn btn-mini btn-info', id: 'email_history_popup' %><% end %>

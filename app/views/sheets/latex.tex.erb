@@ -102,6 +102,7 @@
     \textcolor[gray]{0.7}{Unknown}
   <% else %>
     \begin{itemize}
+      \setlength{\itemindent}{2.5em}
       <% @variable.response_name(@sheet).each do |response| %>
         \item <%= latex_safe response %>
       <% end %>
