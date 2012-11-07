@@ -12,17 +12,20 @@
 \usepackage{booktabs}
 \usepackage{sectsty}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\usepackage{indentfirst}
 
+\usepackage{needspace}
+\usepackage{color}
 
 \fancyhf{}
 
 \lhead{\textbf{Subject}\\<%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>}
-\chead{\textbf{Project}\\<%= latex_safe @sheet.project.name %> <%= @sheet.subject.site.name %>}
+\chead{\textbf{Project}\\<%= latex_safe @sheet.project.name %> \textperiodcentered~<%= @sheet.subject.site.name %>}
 \rhead{\textbf{<%= latex_safe @sheet.design.study_date_name_full %>}\\<%= latex_safe @sheet.study_date.strftime("%B %-d, %Y") %>}
 \lfoot{
-  <%= latex_safe @sheet.design.name %> - <%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>
+  <%= latex_safe @sheet.design.name %> \textperiodcentered~<%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>
 }
-\cfoot{\today}
+\cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
 \rfoot{\thepage\ of \pageref{LastPage}}
 
 
@@ -61,6 +64,7 @@
     <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 <% @variable.header unless @variable.header.blank? %>
+  \Needspace{8\baselineskip}
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 
 \begin{table*}[!htbp]\centering
@@ -76,7 +80,7 @@
     <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
     <% if grid %>
       <%= latex_safe grid.response_label %>
-      <%= latex_safe grid.variable.units unless grid.variable.units.blank? %>
+      <%= latex_safe grid.variable.units if not grid.variable.units.blank? and not grid.response_label.blank? %>
       &
     <% end %>
   <% end %>
@@ -86,6 +90,7 @@
 
     <% else %>
 
+\Needspace{8\baselineskip}
 <% if @variable.header.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 <% else %>
@@ -113,10 +118,10 @@
   <% else %>
     <%= latex_safe @variable.response_file_url(@sheet).split('/').last %>
   <% end %>
-<% elsif not @variable.units.blank? %>
-  <%= latex_safe @variable.response_name(@sheet) %> <%= @variable.units unless @variable.response_name(@sheet).blank? %>
+<% elsif @variable.response_name(@sheet).blank? %>
+  \textcolor[gray]{0.7}{Unknown}
 <% else %>
-  <%= latex_safe @variable.response_name(@sheet) %>
+  <%= latex_safe @variable.response_name(@sheet) %> <%= @variable.units if not @variable.response_name(@sheet).blank? and not @variable.units.blank? %>
 <% end %>
 
     <% end %>

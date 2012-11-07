@@ -206,6 +206,7 @@ class SheetsController < ApplicationController
       file_out.close()
       jobname = "sheet_#{@sheet.id}"
       puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+      puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
 
       # Rails.logger.debug "----------------\n"
       # Rails.logger.debug "#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}"
