@@ -192,19 +192,20 @@ class SheetsController < ApplicationController
   def latex
     @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
     if @sheet
+      jobname = "sheet_#{@sheet.id}"
       root_folder = FileUtils.pwd
       output_folder = File.join(root_folder, 'tmp', 'files', 'tex')
       template_folder = File.join(root_folder, 'app', 'views', 'sheets')
       file_name = 'latex.tex'
       file_template = File.join(template_folder, file_name + '.erb')
-      file_tex = File.join(root_folder, 'tmp', 'files', 'tex', Time.now.strftime("%Y%m%d-") + file_name)
+      file_tex = File.join(root_folder, 'tmp', 'files', 'tex', jobname + '.tex')
       file_in = File.new(file_template, "r")
       file_out = File.new(file_tex, "w")
       template = ERB.new(file_in.sysread(File.size(file_in)))
       file_out.syswrite(template.result(binding))
       file_in.close()
       file_out.close()
-      jobname = "sheet_#{@sheet.id}"
+
       puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
       puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
 
