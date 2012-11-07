@@ -99,7 +99,7 @@
 
 <% if @variable.variable_type == 'checkbox' %>
   <% if @variable.response_name(@sheet).size == 0 %>
-    \textcolor[gray]{0.7}{Unknown}
+    \textcolor[gray]{0.5}{Unknown}
   <% else %>
     \begin{itemize}
       \setlength{\itemindent}{2.5em}
@@ -122,7 +122,7 @@
     <%= latex_safe @variable.response_file_url(@sheet).split('/').last %>
   <% end %>
 <% elsif @variable.response_name(@sheet).blank? %>
-  \textcolor[gray]{0.7}{Unknown}
+  \textcolor[gray]{0.5}{Unknown}
 <% else %>
   <%= latex_safe @variable.response_name(@sheet) %> <%= @variable.units if not @variable.response_name(@sheet).blank? and not @variable.units.blank? %>
 <% end %>
