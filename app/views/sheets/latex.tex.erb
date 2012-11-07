@@ -64,7 +64,7 @@
     <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 <% @variable.header unless @variable.header.blank? %>
-  \Needspace{8\baselineskip}
+  \Needspace{7\baselineskip}
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 
 \begin{table*}[!htbp]\centering
@@ -90,21 +90,23 @@
 
     <% else %>
 
-\Needspace{8\baselineskip}
+\Needspace{7\baselineskip}
 <% if @variable.header.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 <% else %>
   \subsubsection*{<%= latex_safe @variable.header %>\\<%= latex_safe @variable.display_name %>}
 <% end %>
 
-<% if @variable.variable_type == 'text' %>
-  <%= latex_safe @variable.response_name(@sheet).to_s %>
-<% elsif @variable.variable_type == 'checkbox' %>
-\begin{itemize}
-  <% @variable.response_name(@sheet).each do |response| %>
-    \item <%= latex_safe response %>
+<% if @variable.variable_type == 'checkbox' %>
+  <% if @variable.response_name(@sheet).size == 0 %>
+    \textcolor[gray]{0.7}{Unknown}
+  <% else %>
+    \begin{itemize}
+      <% @variable.response_name(@sheet).each do |response| %>
+        \item <%= latex_safe response %>
+      <% end %>
+    \end{itemize}
   <% end %>
-\end{itemize}
 <% elsif @variable.variable_type == 'file' and @variable.response_file(@sheet).size > 0 %>
   <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@variable.response_file_url(@sheet).to_s.split('.').last.downcase) %>
 
