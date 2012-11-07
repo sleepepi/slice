@@ -16,13 +16,14 @@ class Grid < ActiveRecord::Base
 
 
   def update_responses!(values, current_user)
+    old_response_ids = self.responses.collect{|r| r.id} # Could use pluck, but pluck has issues with scopes and unsaved objects
     new_responses = []
     values.select{|v| not v.blank?}.each do |value|
-      r = Response.new(variable_id: self.variable.id, value: value, user_id: current_user.id)
+      r = Response.find_or_create_by_sheet_id_and_grid_id_and_variable_id_and_value(self.sheet_variable.sheet_id, self.id, self.variable_id, value, { user_id: current_user.id })
       new_responses << r
     end
-    self.responses.destroy_all
     self.responses = new_responses
+    Response.where(id: old_response_ids, grid_id: nil).destroy_all
   end
 
   def response_raw

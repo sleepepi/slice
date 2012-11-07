@@ -2,9 +2,9 @@
 
 <div style="display:inline-block;padding-right:10px">
   <% if is_grid %>
-    <% responses = ((defined?(object) and object) ? object.responses.pluck(:value) : []) %>
+    <% responses = ((defined?(object) and object) ? object.responses.collect{|r| r.value} : []) %>
   <% else %>
-    <% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.pluck(:value) : []) %>
+    <% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.collect{|r| r.value} : []) %>
   <% end %>
 
 <%= hidden_field_tag "#{field_name}[]", nil, disabled: disabled %>

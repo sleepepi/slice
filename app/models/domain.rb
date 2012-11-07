@@ -27,11 +27,11 @@ class Domain < ActiveRecord::Base
   end
 
   def sheet_variables
-    SheetVariable.where(variable_id: self.variables.pluck(:id))
+    SheetVariable.where(variable_id: self.variables.collect{|v| v.id})
   end
 
   def grids
-    Grid.where(variable_id: self.variables.pluck(:id))
+    Grid.where(variable_id: self.variables.collect{|v| v.id})
   end
 
   # We want all validations to run so all errors will show up when submitting a form
