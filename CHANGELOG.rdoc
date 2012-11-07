@@ -2,6 +2,7 @@
 
 * Enhancements
   * Sheets are now rendered using PDFLaTex for cleaner PDFs
+  * Order of project settings for News, Documents, and Contacts options now consistent
 
 == 0.10.2
 
