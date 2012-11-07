@@ -20,7 +20,7 @@
 \fancyhf{}
 
 \lhead{\textbf{Subject}\\<%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>}
-\chead{\textbf{Project}\\<%= latex_safe @sheet.project.name %> \textperiodcentered~<%= @sheet.subject.site.name %>}
+\chead{\textbf{Project}\\<%= latex_safe @sheet.project.name %> \textperiodcentered~<%= latex_safe @sheet.subject.site.name %>}
 \rhead{\textbf{<%= latex_safe @sheet.design.study_date_name_full %>}\\<%= latex_safe @sheet.study_date.strftime("%B %-d, %Y") %>}
 \lfoot{
   <%= latex_safe @sheet.design.name %> \textperiodcentered~<%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>
@@ -124,7 +124,7 @@
 <% elsif @variable.response_name(@sheet).blank? %>
   \textcolor[gray]{0.5}{Unknown}
 <% else %>
-  <%= latex_safe @variable.response_name(@sheet) %> <%= @variable.units if not @variable.response_name(@sheet).blank? and not @variable.units.blank? %>
+  <%= latex_safe @variable.response_name(@sheet) %> <%= latex_safe @variable.units if not @variable.response_name(@sheet).blank? and not @variable.units.blank? %>
 <% end %>
 
     <% end %>
