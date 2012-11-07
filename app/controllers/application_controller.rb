@@ -31,6 +31,7 @@ class ApplicationController < ActionController::Base
     order
   end
 
+  # Make sure to update sheet.rb if this function is changed
   def latex_safe(mystring)
     mystring = mystring.to_s
     symbols = [['\\', '\\textbackslash'], ['#', '\\#'], ['$', '\\$'], ['&', '\\&'], ['~', '\\~{}'], ['_', '\\_'], ['^', '\\^{}'], ['{', '\\{'], ['}', '\\}'], ['<', '\\textless{}'], ['>', '\\textgreater{}']]

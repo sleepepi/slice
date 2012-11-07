@@ -102,6 +102,31 @@ class Sheet < ActiveRecord::Base
     self.design.description
   end
 
+  def latex_file_location(current_user)
+    @sheet = self
+    jobname = "sheet_#{@sheet.id}"
+    root_folder = FileUtils.pwd
+    output_folder = File.join(root_folder, 'tmp', 'files', 'tex')
+    template_folder = File.join(root_folder, 'app', 'views', 'sheets')
+    file_name = 'latex.tex'
+    file_template = File.join(template_folder, file_name + '.erb')
+    file_tex = File.join(root_folder, 'tmp', 'files', 'tex', jobname + '.tex')
+    file_in = File.new(file_template, "r")
+    file_out = File.new(file_tex, "w")
+    template = ERB.new(file_in.sysread(File.size(file_in)))
+    file_out.syswrite(template.result(binding))
+    file_in.close()
+    file_out.close()
+
+    puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+    puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+
+    # Rails.logger.debug "----------------\n"
+    # Rails.logger.debug "#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}"
+
+    file_pdf_location = File.join('tmp', 'files', 'tex', "#{jobname}.pdf")
+  end
+
   # This returns the maximum size of any grid.
   # Ex: A Sheet has two grid variables on it, one with 3 rows, and the other with 2.
   #     This function would return 3. This number is used to combine grids on similar rows in the sheet grids xls export
@@ -219,6 +244,18 @@ class Sheet < ActiveRecord::Base
 
   def self.sheet_responses(variable)
     self.scoped().collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
+  end
+
+  protected
+
+  # Copied from application_controller.rb
+  def latex_safe(mystring)
+    mystring = mystring.to_s
+    symbols = [['\\', '\\textbackslash'], ['#', '\\#'], ['$', '\\$'], ['&', '\\&'], ['~', '\\~{}'], ['_', '\\_'], ['^', '\\^{}'], ['{', '\\{'], ['}', '\\}'], ['<', '\\textless{}'], ['>', '\\textgreater{}']]
+    symbols.each do |from, to|
+      mystring.gsub!(from, to)
+    end
+    mystring
   end
 
 end

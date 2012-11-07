@@ -25,16 +25,21 @@ class SheetsController < ApplicationController
 
       pdf_attachment = nil
 
+      # if params[:pdf_attachment] == '1'
+      #   pdf_attachment = begin
+      #     kit = PDFKit.new(html)
+      #     stylesheet_file = "#{Rails.root}/public/assets/application.css"
+      #     kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
+      #     filename = "#{@sheet.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{@sheet.study_date.strftime("%Y-%m-%d")}_#{@sheet.name.strip.gsub(/[^\w]/, '-')}.pdf"
+      #     kit.to_file("#{Rails.root}/tmp/#{filename}")
+      #   rescue
+      #     nil
+      #   end
+      # end
+
       if params[:pdf_attachment] == '1'
-        pdf_attachment = begin
-          kit = PDFKit.new(html)
-          stylesheet_file = "#{Rails.root}/public/assets/application.css"
-          kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
-          filename = "#{@sheet.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{@sheet.study_date.strftime("%Y-%m-%d")}_#{@sheet.name.strip.gsub(/[^\w]/, '-')}.pdf"
-          kit.to_file("#{Rails.root}/tmp/#{filename}")
-        rescue
-          nil
-        end
+        file_pdf_location = @sheet.latex_file_location(current_user)
+        pdf_attachment = File.new(file_pdf_location) if File.exists?(file_pdf_location)
       end
 
       @sheet_email = @sheet.sheet_emails.create(email_body: params[:body], email_cc: params[:cc], email_pdf_file: pdf_attachment, email_subject: params[:subject], email_to: params[:to], user_id: current_user.id)
@@ -189,34 +194,11 @@ class SheetsController < ApplicationController
     end
   end
 
-  def latex
+  # This is the latex view
+  def print
     @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
     if @sheet
-      jobname = "sheet_#{@sheet.id}"
-      root_folder = FileUtils.pwd
-      output_folder = File.join(root_folder, 'tmp', 'files', 'tex')
-      template_folder = File.join(root_folder, 'app', 'views', 'sheets')
-      file_name = 'latex.tex'
-      file_template = File.join(template_folder, file_name + '.erb')
-      file_tex = File.join(root_folder, 'tmp', 'files', 'tex', jobname + '.tex')
-      file_in = File.new(file_template, "r")
-      file_out = File.new(file_tex, "w")
-      template = ERB.new(file_in.sysread(File.size(file_in)))
-      file_out.syswrite(template.result(binding))
-      file_in.close()
-      file_out.close()
-
-      puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
-      puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
-
-      # Rails.logger.debug "----------------\n"
-      # Rails.logger.debug "#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}"
-
-
-      file_pdf_location = File.join('tmp', 'files', 'tex', "#{jobname}.pdf")
-
-      # Rails.logger.debug file_pdf_location
-      # Rails.logger.debug "\n----------------\n"
+      file_pdf_location = @sheet.latex_file_location(current_user)
 
       if File.exists?(file_pdf_location)
         File.open(file_pdf_location, 'r') do |file|
@@ -230,14 +212,15 @@ class SheetsController < ApplicationController
     end
   end
 
-  def print
-    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
-    if @sheet
-      render layout: false
-    else
-      render nothing: true
-    end
-  end
+  # Old print view
+  # def print
+  #   @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
+  #   if @sheet
+  #     render layout: false
+  #   else
+  #     render nothing: true
+  #   end
+  # end
 
   # GET /sheets/1
   # GET /sheets/1.json

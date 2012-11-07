@@ -21,7 +21,7 @@ Slice::Application.routes.draw do
         post :project_selection
       end
       member do
-        get :latex
+        # get :latex
         post :send_email
         get :print
         post :remove_file
