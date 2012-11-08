@@ -112,7 +112,7 @@
         grid_string = '[data-grid-position="' + grid_position + '"]'
       calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]#{grid_string}').val())");
       calculation_result = eval(calculation)
-      $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result + '&location_id=' + $(this).data('location-id'), null, "script")
+      $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result + '&location_id=' + $(this).data('location-id') + '&sheet_authentication_token=' + $('#sheet_authentication_token').val(), null, "script")
 
     # $(this).val(calculation_result)
     # $($(this).data('target')).html(calculation_result)
@@ -185,7 +185,7 @@ jQuery ->
     )
     .on('click', '[data-object~="grid-row-add"]', () ->
       variable_id = $(this).data('variable-id')
-      $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/add_grid_row', null, null, "script")
+      $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/add_grid_row', 'sheet_authentication_token=' + $('#sheet_authentication_token').val(), null, "script")
       false
     )
     .on('click', '[data-object~="set-current-time"]', () ->
@@ -230,7 +230,7 @@ jQuery ->
     $this.typeahead(
       source: (query, process) ->
         variable_id = $this.data('variable-id')
-        return $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/typeahead', query: query, (data) -> return process(data))
+        return $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/typeahead', { query: query, sheet_authentication_token: $('#sheet_authentication_token').val() }, (data) -> return process(data))
     )
   )
 

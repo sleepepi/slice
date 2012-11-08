@@ -1,5 +1,5 @@
 class SheetsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [ :survey, :submit_survey ]
 
   def project_selection
     @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
@@ -294,6 +294,33 @@ class SheetsController < ApplicationController
     redirect_to sheets_path unless @project and @sheet
   end
 
+  def survey
+    @project = Project.current.find_by_id(params[:project_id])
+    @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
+    if @project and @sheet
+      # survey.html.erb
+    else
+      redirect_to new_user_session_path, alert: 'Survey has already been submitted.'
+    end
+  end
+
+  def submit_survey
+    @project = Project.current.find_by_id(params[:project_id])
+    @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
+    if @project and @sheet
+      update_variables!
+
+      if params[:current_design_page].to_i <= @sheet.design.total_pages
+        render action: 'survey'
+      else
+        redirect_to about_path, notice: 'Survey submitted successfully.'
+      end
+
+    else
+      redirect_to new_user_session_path, alert: 'Survey has already been submitted.'
+    end
+  end
+
   def remove_file
     @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
@@ -458,13 +485,15 @@ class SheetsController < ApplicationController
 
   def update_variables!
     (params[:variables] || {}).each_pair do |variable_id, response|
-      sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: current_user.id } )
+      creator = (current_user ? current_user : @sheet.user)
+
+      sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: creator.id } )
       variable_type = (sv.variable.variable_type == 'scale' ? sv.variable.scale_type : sv.variable.variable_type)
       case variable_type when 'grid'
-        sv.update_grid_responses!(response, current_user)
+        sv.update_grid_responses!(response, creator)
       when 'checkbox'
         response = [] if response.blank?
-        sv.update_responses!(response, current_user) # Response should be an array
+        sv.update_responses!(response, creator) # Response should be an array
       else
         sv.update_attributes sv.format_response(variable_type, response)
       end

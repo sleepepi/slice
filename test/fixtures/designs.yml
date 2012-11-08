@@ -101,3 +101,12 @@ no_sites:
            ]
   user: valid
   project: no_sites
+
+admin_design:
+  name: On admin project
+  # description:
+  options: [
+              { section_name: 'Section A Admin', section_id: '_section_a_admin' }
+           ]
+  user: admin
+  project: three

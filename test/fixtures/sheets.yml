@@ -41,3 +41,11 @@ two_page:
   project: one
   subject: one
   user: valid
+
+external:
+  design: admin_design
+  study_date: 2012-11-08
+  project: three
+  subject: external
+  user: admin
+  authentication_token: abc123

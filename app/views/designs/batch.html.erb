@@ -1,0 +1,43 @@
+<% @title = "Batch" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+  </h1>
+</div>
+
+<%= form_tag create_batch_project_designs_path(@project), method: :post, class: 'form-horizontal' do %>
+
+  <div class="control-group">
+    <%= label :sheet_date, 'Sheet date', class: 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag :sheet_date, params[:date].to_s.strip.blank? ? Date.today.strftime("%m/%d/%Y") : params[:date].to_s.strip, class: 'datepicker' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label :design_id, 'Design', class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag :design_id, options_for_select([['---', nil]] + @designs.order('name').collect{|d| [d.name, d.id]}, (params[:design_id].blank? ? (@designs.size == 1 ? @designs.first.id : nil) : params[:design_id])) %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label :site_id, 'Site', class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag :site_id, options_for_select([['---', nil]] + @sites.order('name').collect{|s| [s.name, s.id]}, (params[:site_id].blank? ? (@sites.size == 1 ? @sites.first.id : nil) : params[:site_id])) %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label :emails, "Emails", class: 'control-label' %>
+    <div class="controls">
+      <%= text_area_tag :emails, @emails.join(', '), rows: 7, style: 'width:90%', placeholder: "first.last@gmail.com; second.last@gmail.com" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= submit_tag "Batch", class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+
+<% end %>

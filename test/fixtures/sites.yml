@@ -37,3 +37,9 @@ valid_range:
   prefix: A
   code_minimum: A100
   code_maximum: A500
+
+admin_site:
+  name: Admin Only Site
+  description: One admin's project
+  project: three
+  user: admin

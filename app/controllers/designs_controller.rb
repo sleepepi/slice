@@ -119,6 +119,37 @@ class DesignsController < ApplicationController
     end
   end
 
+  def batch
+    @project = current_user.all_projects.find_by_id(params[:project_id])
+    if @project
+      @designs = @project.designs
+      @sites = @project.sites
+      @emails = []
+    else
+      render nothing: true
+    end
+  end
+
+  def create_batch
+    @project = current_user.all_projects.find_by_id(params[:project_id])
+    @design = @project.designs.find_by_id(params[:design_id]) if @project
+    @site = @project.sites.find_by_id(params[:site_id]) if @project
+    @emails = params[:emails].to_s.split(/[;\r\n]/).collect{|email| email.strip}.select{|email| not email.blank?}.uniq
+    @date = parse_date(params[:sheet_date])
+
+
+    if @project
+      if @design and @site and not @date.blank? and not @emails.blank?
+        @sheets = @design.batch_sheets!(current_user, @site, @date, @emails)
+        redirect_to project_sheets_path(@project, sheet_after: @date.strftime("%m/%d/%Y"), sheet_before: @date.strftime("%m/%d/%Y"), site_id: @site.id, design_id: @design.id, user_id: current_user.id), notice: "#{@sheets.count} #{@sheets.count == 1 ? 'sheet was' : 'sheets were'} successfully created."
+      else
+        redirect_to batch_project_designs_path(emails: @emails.join('; '), date: @date.blank? ? nil : @date.strftime("%m/%d/%Y"), site_id: @site ? @site.id : nil, design_id: @design ? @design.id : nil ), alert: 'Please select a sheet date, design, site, and valid emails.'
+      end
+    else
+      render nothing: true
+    end
+  end
+
   # GET /designs
   # GET /designs.json
   def index

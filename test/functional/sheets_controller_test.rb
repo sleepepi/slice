@@ -356,6 +356,21 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get sheet survey using authentication_token" do
+    get :survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should not get sheet survey with invalid authentication_token" do
+    get :survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: '123'
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:sheet)
+    assert_equal "Survey has already been submitted.", flash[:alert]
+    assert_redirected_to new_user_session_path
+  end
+
   test "should show sheet audits" do
     get :audits, id: @sheet, project_id: @project
     assert_not_nil assigns(:sheet)

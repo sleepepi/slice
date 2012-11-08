@@ -1,5 +1,5 @@
 class Sheet < ActiveRecord::Base
-  attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at
+  attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at, :user_id, :authentication_token
 
   audited
   has_associated_audits
@@ -54,6 +54,7 @@ class Sheet < ActiveRecord::Base
   # Model Validation
   validates_presence_of :design_id, :project_id, :study_date, :subject_id, :user_id, :last_user_id
   validates_uniqueness_of :study_date, scope: [:project_id, :subject_id, :design_id, :deleted]
+  validates_uniqueness_of :authentication_token, allow_nil: true
 
   # Model Relationships
   belongs_to :user
@@ -77,6 +78,18 @@ class Sheet < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
+  end
+
+  def send_external_email!(email, authentication_token = SecureRandom.hex(32))
+    begin
+      self.update_attributes authentication_token: authentication_token if self.authentication_token.blank?
+      UserMailer.sheet_completion_request(self, email).deliver if Rails.env.production?
+    rescue => e
+      Rails.logger.info "-----------------------"
+      Rails.logger.info "Unable to send_external_email! for Sheet #{self.id} due to colliding authentication_token: #{authentication_token}."
+      Rails.logger.info "#{e}"
+      Rails.logger.info "-----------------------"
+    end
   end
 
   def all_audits
@@ -118,8 +131,8 @@ class Sheet < ActiveRecord::Base
     file_in.close()
     file_out.close()
 
-    puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
-    puts `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+    `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+    `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
 
     # Rails.logger.debug "----------------\n"
     # Rails.logger.debug "#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}"

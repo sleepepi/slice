@@ -32,6 +32,22 @@ class Design < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def batch_sheets!(current_user, site, date, emails)
+    new_sheets = []
+    emails.each do |email|
+      short_email = email
+      match = email.match(/<(.*?)>/)
+      short_email = match[1].strip if match and not match[1].strip.blank?
+      subject = site.subjects.find_by_email(short_email) unless short_email.blank?
+      subject = site.subjects.find_or_create_by_project_id_and_subject_code(site.project_id, email, { user_id: current_user.id, validated: true, email: short_email }) unless subject
+      Rails.logger.debug "#{site.project_id}, #{date}, #{subject.id}, #{self.id}, #{current_user.id}"
+      sheet = site.project.sheets.find_or_create_by_study_date_and_subject_id_and_design_id(date, subject.id, self.id, { user_id: current_user.id, last_user_id: current_user.id }) if subject
+      sheet.send_external_email!(short_email) if sheet and not sheet.new_record?
+      new_sheets << sheet if sheet
+    end
+    new_sheets
+  end
+
   def study_date_name_full
     self.study_date_name.to_s.strip.blank? ? 'Study Date' : self.study_date_name.to_s.strip
   end

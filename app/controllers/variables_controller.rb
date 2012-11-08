@@ -1,9 +1,16 @@
 class VariablesController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [ :add_grid_row, :format_number, :typeahead ]
 
   def typeahead
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    if current_user
+      @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+      @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    else
+      @project = Project.current.find_by_id(params[:project_id])
+      @sheet = @project.sheets.find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
+      @variable = @project.variables.find_by_id(params[:id]) if @project and @sheet
+    end
+
     if @project and @variable and ['string'].include?(@variable.variable_type)
       render json: @variable.autocomplete_array
     else
@@ -12,8 +19,14 @@ class VariablesController < ApplicationController
   end
 
   def format_number
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    if current_user
+      @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+      @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    else
+      @project = Project.current.find_by_id(params[:project_id])
+      @sheet = @project.sheets.find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
+      @variable = @project.variables.find_by_id(params[:id]) if @project and @sheet
+    end
 
     if @project and @variable
       unless @variable.format.blank?
@@ -46,8 +59,14 @@ class VariablesController < ApplicationController
   end
 
   def add_grid_row
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    if current_user
+      @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+      @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    else
+      @project = Project.current.find_by_id(params[:project_id])
+      @sheet = @project.sheets.find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
+      @variable = @project.variables.find_by_id(params[:id]) if @project and @sheet
+    end
     render nothing: true unless @variable and @project
   end
 

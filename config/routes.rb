@@ -26,6 +26,8 @@ Slice::Application.routes.draw do
         get :print
         post :remove_file
         get :audits
+        get :survey
+        post :submit_survey
       end
     end
 
@@ -45,6 +47,8 @@ Slice::Application.routes.draw do
         post :add_section
         post :variables
         post :selection
+        get :batch
+        post :create_batch
       end
     end
 
