@@ -112,7 +112,9 @@
 \begin{figure}[!htpb]
     \centering
     \includegraphics[width=6.5in]{<%= @variable.response_file(@sheet).path if @sheet.project.logo.size > 0 %>}
-    \caption{<%= latex_safe @variable.description %> Lorem}
+    <% unless @variable.description.blank? %>
+      \caption{<%= latex_safe @variable.description %>}
+    <% end %>
     \label{simulationfigure}
 \end{figure}
 

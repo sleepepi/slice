@@ -37,7 +37,10 @@ class Design < ActiveRecord::Base
     emails.each do |email|
       short_email = email
       match = email.match(/<(.*?)>/)
-      short_email = match[1].strip if match and not match[1].strip.blank?
+      if match and not match[1].strip.blank?
+        short_email = match[1].strip
+        email = email.gsub("<#{match[1]}>", "").strip
+      end
       subject = site.subjects.find_by_email(short_email) unless short_email.blank?
       subject = site.subjects.find_or_create_by_project_id_and_subject_code(site.project_id, email, { user_id: current_user.id, validated: true, email: short_email }) unless subject
       Rails.logger.debug "#{site.project_id}, #{date}, #{subject.id}, #{self.id}, #{current_user.id}"
