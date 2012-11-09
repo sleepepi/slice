@@ -140,8 +140,12 @@ class DesignsController < ApplicationController
 
     if @project
       if @design and @site and not @date.blank? and not @emails.blank?
-        @sheets = @design.batch_sheets!(current_user, @site, @date, @emails)
-        redirect_to project_sheets_path(@project, sheet_after: @date.strftime("%m/%d/%Y"), sheet_before: @date.strftime("%m/%d/%Y"), site_id: @site.id, design_id: @design.id, user_id: current_user.id), notice: "#{@sheets.count} #{@sheets.count == 1 ? 'sheet was' : 'sheets were'} successfully created."
+        # @sheets = @design.batch_sheets!(current_user, @site, @date, @emails)
+        # redirect_to project_sheets_path(@project, sheet_after: @date.strftime("%m/%d/%Y"), sheet_before: @date.strftime("%m/%d/%Y"), site_id: @site.id, design_id: @design.id, user_id: current_user.id), notice: "#{@sheets.count} #{@sheets.count == 1 ? 'sheet was' : 'sheets were'} successfully created."
+        (sheets_created, sheets_ignored) = @design.batch_sheets!(current_user, @site, @date, @emails)
+        flash[:notice] = "#{sheets_created} #{sheets_created == 1 ? 'sheet was' : 'sheets were'} successfully created." if sheets_created > 0
+        flash[:alert] = "#{sheets_ignored} #{sheets_ignored == 1 ? 'sheet was' : 'sheets were'} not created because the #{sheets_ignored == 1 ? 'subject exists' : 'subjects exist'} on a different site." if sheets_ignored > 0
+        redirect_to project_sheets_path(@project, sheet_after: @date.strftime("%m/%d/%Y"), sheet_before: @date.strftime("%m/%d/%Y"), site_id: @site.id, design_id: @design.id, user_id: current_user.id)
       else
         redirect_to batch_project_designs_path(emails: @emails.join('; '), date: @date.blank? ? nil : @date.strftime("%m/%d/%Y"), site_id: @site ? @site.id : nil, design_id: @design ? @design.id : nil ), alert: 'Please select a sheet date, design, site, and valid emails.'
       end

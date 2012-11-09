@@ -34,6 +34,7 @@ class Design < ActiveRecord::Base
 
   def batch_sheets!(current_user, site, date, emails)
     new_sheets = []
+    ignored_sheets = 0
     emails.each do |email|
       short_email = email
       match = email.match(/<(.*?)>/)
@@ -46,9 +47,14 @@ class Design < ActiveRecord::Base
       Rails.logger.debug "#{site.project_id}, #{date}, #{subject.id}, #{self.id}, #{current_user.id}"
       sheet = site.project.sheets.find_or_create_by_study_date_and_subject_id_and_design_id(date, subject.id, self.id, { user_id: current_user.id, last_user_id: current_user.id }) if subject
       sheet.send_external_email!(short_email) if sheet and not sheet.new_record?
-      new_sheets << sheet if sheet
+      if sheet and not sheet.new_record?
+        new_sheets << sheet
+      else
+        ignored_sheets += 1
+      end
     end
-    new_sheets
+    # new_sheets
+    [new_sheets.count, ignored_sheets]
   end
 
   def study_date_name_full
