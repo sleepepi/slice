@@ -94,7 +94,7 @@
 <% if @variable.header.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 <% else %>
-  \subsubsection*{<%= latex_safe @variable.header %>\\<%= latex_safe @variable.display_name %>}
+  \subsubsection*{<%= latex_safe @variable.header %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
 <% end %>
 
 <% if @variable.variable_type == 'checkbox' %>
