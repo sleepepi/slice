@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div class="span4">
+    <div class="span4" style="overflow:hidden">
       <% @variable = @all_viewable_variables.find_by_id(@option[:variable_id]) %>
       <div class="variable_<%= position %>_compact" id="design_<%= position %>_variable_preview_name" data-object="variablecompact"><%= @variable.display_name if @variable %></div>
       <div class="variable_<%= position %>_details" id="design_<%= position %>_variable_preview" style="margin-bottom:-18px;display:none" data-object="variabledetails">
