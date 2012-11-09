@@ -51,7 +51,7 @@
         <% row_counts = @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
         <td>
-          <% link_name = ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name] %>
+          <% link_name = ((@variable.blank? or stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name] %>
           <% if stratum[:name].blank? %>
             <span class="muted">Unknown</span>
           <% else %>
