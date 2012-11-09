@@ -25,7 +25,7 @@
   <div class="control-group">
     <%= f.label :category, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :category, data: { provide: "typeahead", source: @document.project.documents.pluck(:category).uniq.to_json } %>
+      <%= f.text_field :category, autocomplete: "off", data: { provide: "typeahead", source: @document.project.documents.pluck(:category).uniq.to_json } %>
     </div>
   </div>
 
