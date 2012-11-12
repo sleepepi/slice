@@ -22,14 +22,14 @@ A clinical research interface geared at collecting robust and consistent data by
       </td>
       <td>Signing In</td>
     </tr>
-    <tr><td colspan="2"><b>Projects</b></td></tr>
+    <tr class="info"><td colspan="2"><b>Projects</b></td></tr>
     <tr data-link="faq/200-projects/200-project-setup" style="cursor:pointer">
       <td>
         200 - How do I add a collaborator to my project?
       </td>
       <td>Project Setup</td>
     </tr>
-    <tr><td colspan="2"><b>Designs</b></td></tr>
+    <tr class="info"><td colspan="2"><b>Designs</b></td></tr>
     <tr data-link="faq/300-designs/300-about-designs" style="cursor:pointer">
       <td>
         300 - What is a design?
@@ -45,6 +45,12 @@ A clinical research interface geared at collecting robust and consistent data by
     <tr data-link="faq/300-designs/302-add-variable-to-design" style="cursor:pointer">
       <td>
         302 - How do I add a variable/question to an existing design?
+      </td>
+      <td>Designs</td>
+    </tr>
+    <tr data-link="faq/300-designs/303-email-template-design" style="cursor:pointer">
+      <td>
+        303 - Why aren't my variables showing up correctly in my design email templates?
       </td>
       <td>Designs</td>
     </tr>
