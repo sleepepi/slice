@@ -22,12 +22,14 @@ A clinical research interface geared at collecting robust and consistent data by
       </td>
       <td>Signing In</td>
     </tr>
+    <tr><td colspan="2"></td></tr>
     <tr data-link="faq/200-projects/200-project-setup" style="cursor:pointer">
       <td>
         200 - How do I add a collaborator to my project?
       </td>
       <td>Project Setup</td>
     </tr>
+    <tr><td colspan="2"></td></tr>
     <tr data-link="faq/300-designs/300-about-designs" style="cursor:pointer">
       <td>
         300 - What is a design?
