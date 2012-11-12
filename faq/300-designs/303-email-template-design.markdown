@@ -11,17 +11,16 @@ Email templates reference two types of variables. The variables that are stored 
 
 The sheet header variables always use the <b>#</b> hash or number symbol. For example:
 
-```
     #(subject)
-```
+
 
 ### Use <b>$</b> Symbol for Sheet Body Variables
 
 The sheet body variables always use the <b>$</b> dollar symbol. For example:
 
-```
-  $(age)
-```
+
+    $(age)
+
 
 ### Additional Variable References
 
