@@ -12,42 +12,48 @@ The following is a complete list of Sheet Header Variables currently available:
 To enter in the subject's code:
 ```
     #(subject)
-    ...
+```
+```
     S110012
 ```
 
 To enter the subject's acrostic:
 ```
     #(subject).acrostic
-    ...
+```
+```
     JOSM
 ```
 
 To enter the site:
 ```
     #(site)
-    ...
+```
+```
     Boston
 ```
 
 To enter the sheet date:
 ```
     #(date)
-    ...
+```
+```
     2012-11-15
 ```
 
 To enter the project name:
 ```
     #(project)
-    ...
+```
+```
     Clinical Trial Demo
 ```
 
 To enter the user sending the sheet receipt email:
 ```
     #(user)
-    ...
+```
+```
     Remo Mueller
 ```
 
@@ -80,6 +86,7 @@ You can also reference the variable name itself:
 ```
 
 This will produce:
+
 ```
     We collected the Age at Study for our subject.
 ```
@@ -97,19 +104,23 @@ Produces:
 ```
 
 If you don't want to option's value, and only the label, you can type instead:
+
 ```
     This study was scored by $(scorer).label.
 ```
 Produces:
+
 ```
     This study was scored by John Smith.
 ```
 
 Finally, if you only want the value and not the label, you can type:
+
 ```
     Scorer # $(scorer).value evaluated the test for the subject.
 ```
 Produces:
+
 ```
     Scorer # 100 evaluated the test for the subject.
 ```
