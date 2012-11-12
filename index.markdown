@@ -16,31 +16,31 @@ A clinical research interface geared at collecting robust and consistent data by
     </tr>
   </thead>
   <tbody>
-    <tr data-link="100-general/100-signing-in" style="cursor:pointer">
+    <tr data-link="faq/100-general/100-signing-in" style="cursor:pointer">
       <td>
         100 - I don't remember my login or password, what now?
       </td>
       <td>Signing In</td>
     </tr>
-    <tr data-link="200-projects/200-project-setup" style="cursor:pointer">
+    <tr data-link="faq/200-projects/200-project-setup" style="cursor:pointer">
       <td>
         200 - How do I add a collaborator to my project?
       </td>
       <td>Project Setup</td>
     </tr>
-    <tr data-link="300-designs/300-about-designs" style="cursor:pointer">
+    <tr data-link="faq/300-designs/300-about-designs" style="cursor:pointer">
       <td>
         300 - How do I create a new design?
       </td>
       <td>Designs</td>
     </tr>
-    <tr data-link="300-designs/301-create-design" style="cursor:pointer">
+    <tr data-link="faq/300-designs/301-create-design" style="cursor:pointer">
       <td>
         301 - How do I create a new design?
       </td>
       <td>Designs</td>
     </tr>
-    <tr data-link="300-designs/302-add-variable-to-design" style="cursor:pointer">
+    <tr data-link="faq/300-designs/302-add-variable-to-design" style="cursor:pointer">
       <td>
         302 - How do I add a variable/question to an existing design?
       </td>
