@@ -30,7 +30,7 @@ A clinical research interface geared at collecting robust and consistent data by
     </tr>
     <tr data-link="faq/300-designs/300-about-designs" style="cursor:pointer">
       <td>
-        300 - How do I create a new design?
+        300 - What is a design?
       </td>
       <td>Designs</td>
     </tr>
