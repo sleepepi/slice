@@ -1,5 +1,5 @@
 ---
-title: FAQ - #303 Creating Design Email Templates
+title: FAQ - 303 Creating Design Email Templates
 layout: default
 ---
 
@@ -22,3 +22,7 @@ The sheet body variables always use the <b>$</b> dollar symbol. For example:
 ```
   $(age)
 ```
+
+### Additional Variable References
+
+For further documentation on referencing variable, see [304 Variable References in Design Email Templates](faq/300-designs/304-email-template-design-variable-references)

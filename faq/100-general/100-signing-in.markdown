@@ -1,5 +1,5 @@
 ---
-title: Frequently Asked Questions - #100 Signing In
+title: FAQ - 100 Signing In
 layout: default
 ---
 

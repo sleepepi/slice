@@ -1,5 +1,5 @@
 ---
-title: Frequently Asked Questions - #200 Project Setup
+title: FAQ - 200 Project Setup
 layout: default
 ---
 

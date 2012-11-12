@@ -1,5 +1,5 @@
 ---
-title: FAQ - #304 Variable References in Design Email Templates
+title: FAQ - 304 Variable References in Design Email Templates
 layout: default
 ---
 
@@ -127,3 +127,7 @@ Produces:
 ```
     Scorer # 100 evaluated the test for the subject.
 ```
+
+### Difference between Referencing Header and Body Variables
+
+For further documentation on the difference between header and body variables, see [303 Creating Design Email Templates](faq/300-designs/303-email-template-design)
