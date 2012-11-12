@@ -1,0 +1,4 @@
+# .gitignore lists files and file patterns that are to be ignored by GIT
+
+# OS generated files #
+.DS_Store
