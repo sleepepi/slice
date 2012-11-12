@@ -29,3 +29,43 @@ In the branching logic for the **second variable** we can enter the following sy
 
     has_children == 1
 
+### Checkboxes
+
+If instead of a radio, the first variable were a checkbox, we may do the following:
+
+    checkbox: daytime_emotions, options { 1: happy, 2: sad, 3: angry, 4: apathetic, 5: giddy }
+
+    How do you feel during the day, select one or more:
+      1: Happy
+      2: Sad
+      3: Angry
+      4: Apathetic
+      5: Giddy
+
+Second Variable
+
+    radio: get_help, options { 1: yes, 2: no }
+
+In the branching logic for **get_help** we may do the following if the user selects at least one of Sad, Angry, or Apathetic:
+
+    intersection(get_help, ['2', '3', '4']).length > 0
+
+Essentially this expression states that if one of the values is selected then show the **get_help** variable.
+
+If we wanted to only show the **get_help** variable if two or more were selected we could rewrite this to say:
+
+    intersection(get_help, ['2', '3', '4']).length > 1
+
+### List of expressions
+More complex expressions could also be used:
+
+* == for equality
+* != for inequality
+* > for greater than
+* < for less than
+* >= for greater than or equal
+* <= for less than or equal
+* () for logical grouping of multiple conditions
+* || for logical OR
+* && for logical AND
+* intersection(variable, ['1','0']) for multiple choice checkboxes
