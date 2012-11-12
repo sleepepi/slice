@@ -9,7 +9,7 @@ A design is a template for capturing data. Designs are composed primarily of two
 
 **Sections** allows a form to group similar variables together, and is also used to enable easier navigation across larger designs.
 
-** Variables** are usually questions or input fields that can be specified in a flexible format depending on how the researcher would like to capture the data on the form. While variables can **only be added once** to a design, it is possible to create a **grid variable** that is composed of multiple variables. A description of grid variables can be seen in [our blog post](https://sleepepi.partners.org/2012/09/10/reading-center-interface-0-7-0-grid-variables-and-multi-page-designs/).
+**Variables** are usually questions or input fields that can be specified in a flexible format depending on how the researcher would like to capture the data on the form. While variables can **only be added once** to a design, it is possible to create a **grid variable** that is composed of multiple variables. A description of grid variables can be seen in [our blog post](https://sleepepi.partners.org/2012/09/10/reading-center-interface-0-7-0-grid-variables-and-multi-page-designs/).
 
 ### Variable Types
 
