@@ -16,6 +16,7 @@ A clinical research interface geared at collecting robust and consistent data by
     </tr>
   </thead>
   <tbody>
+    <tr class="info"><td colspan="2"><b>General</b></td></tr>
     <tr data-link="faq/100-general/100-signing-in" style="cursor:pointer">
       <td>
         100 - I don't remember my login or password, what now?
