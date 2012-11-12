@@ -7,37 +7,29 @@ layout: default
 
 1. Click the Projects link in the menu bar.
 2. Click on the project you would like to add a collaborator.
-3. Scroll down on the project page to the **Sharing** section and enter your collaborators email under Editors or Viewers.
+3. Scroll down on the project page to the **Sharing** section and enter your collaborators email under Librarians or Members.
 4. Your collaborator will receive an email with a link that will add the collaborator to the project. The collaborator will need to sign up first in order to be successfully added to the project.
+
+### NOTE: You can add a collaborator to a site if you want to allow them to only see subjects from that site instead of adding them as a project librarian or member.
 
 <hr class="soften">
 
-## #202 - What is the difference between a project editor and a project viewer?
+## #202 - What is the difference between a project librarian and a project member?
 
-Project Editors can do everything on a project that the project owner can including:
+Project Librarians can do everything on a project that the project owner can including:
 
 * Adding and removing collaborators from the project
-* Creating stickies, templates, tags, and frames
-* Add comments to existing stickies
-* Be assigned to stickies
+* Creating designs, variables, sheets
 * View everything on the project
 
-Project Viewers
+Project Members
 
-* Add comments to stickies
-* CANNOT be assigned to stickies
+* Create and update data collection sheets
+* CANNOT modify designs or variables
 * View everything on the project
 
 <hr class="soften">
 
 ## #203 - Can I assign specific permissions for collaborators on my project?
 
-Task Tracker aims to keep project management simple by only allowing two roles, one for complete editing, and one for viewing.  **Remember to only add collaborators as editors that you trust to your project.**
-
-<hr class="soften">
-
-## #204 - I have a task that I need to assign to two people, however, Task Tracker only allows me to assign one person to the task. How do I assign two (or more) people to a task?
-
-Task Tracker only allows one user assigned to task to reduce project complexity, and to promote assignee accountability. Any unnassigned task on your project will be implicitely assigned to everyone (and everyone will receive a notification to complete it on its due date).
-
-**Task Tracker will never provide the ability to assign more than one user to a task.** If you wish to <a href="https://help.github.com/articles/fork-a-repo" target="_blank">fork Task Tracker</a> to add the functionality yourself, Task Tracker is open-source and you are free to do so.
+Slice allows scoping by site. If you only want a collaborator to be able to view a subset of subjects, add them to the site they should have access to instead of adding them to the project itself.
