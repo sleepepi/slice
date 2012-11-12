@@ -74,7 +74,7 @@ A sheet body or design variable can be referenced in the following manner:
     The subject is $(age) years old.
 ```
 
-This will produce a template that would show
+Produces:
 
 ```
     The subject is 28 years old.
@@ -86,7 +86,7 @@ You can also reference the variable name itself:
     We collected the $(age).name for our subject.
 ```
 
-This will produce:
+Produces:
 
 ```
     We collected the Age at Study for our subject.
@@ -109,6 +109,7 @@ If you don't want to option's value, and only the label, you can type instead:
 ```
     This study was scored by $(scorer).label.
 ```
+
 Produces:
 
 ```
@@ -120,6 +121,7 @@ Finally, if you only want the value and not the label, you can type:
 ```
     Scorer # $(scorer).value evaluated the test for the subject.
 ```
+
 Produces:
 
 ```
