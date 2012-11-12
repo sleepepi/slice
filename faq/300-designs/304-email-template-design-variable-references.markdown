@@ -76,9 +76,7 @@ A sheet body or design variable can be referenced in the following manner:
 
 Produces:
 
-```
     The subject is 28 years old.
-```
 
 You can also reference the variable name itself:
 
@@ -88,9 +86,7 @@ You can also reference the variable name itself:
 
 Produces:
 
-```
     We collected the Age at Study for our subject.
-```
 
 For variables that contain a list of options, you can also reference the option along with the captured value:
 
@@ -100,9 +96,7 @@ For variables that contain a list of options, you can also reference the option 
 
 Produces:
 
-```
     This study was scored by 100: John Smith.
-```
 
 If you don't want to option's value, and only the label, you can type instead:
 
@@ -112,9 +106,7 @@ If you don't want to option's value, and only the label, you can type instead:
 
 Produces:
 
-```
     This study was scored by John Smith.
-```
 
 Finally, if you only want the value and not the label, you can type:
 
@@ -124,9 +116,7 @@ Finally, if you only want the value and not the label, you can type:
 
 Produces:
 
-```
     Scorer # 100 evaluated the test for the subject.
-```
 
 ### Difference between Referencing Header and Body Variables
 
