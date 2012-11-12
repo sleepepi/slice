@@ -63,6 +63,12 @@ A clinical research interface geared at collecting robust and consistent data by
       </td>
       <td>Designs</td>
     </tr>
+    <tr data-link="faq/300-designs/306-reordering-design" style="cursor:pointer">
+      <td>
+        306 - How do I reorder my variables and sections on a design?
+      </td>
+      <td>Designs</td>
+    </tr>
   </tbody>
 </table>
 
