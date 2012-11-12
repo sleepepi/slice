@@ -16,21 +16,23 @@ A clinical research interface geared at collecting robust and consistent data by
     </tr>
   </thead>
   <tbody>
-    <tr class="info"><td colspan="2"><b>General</b></td></tr>
+    <tr><td colspan="2" style="background-color:#edeffc"><b>General</b></td></tr>
     <tr data-link="faq/100-general/100-signing-in" style="cursor:pointer">
       <td>
         100 - I don't remember my login or password, what now?
       </td>
       <td>Signing In</td>
     </tr>
-    <tr class="info"><td colspan="2"><b>Projects</b></td></tr>
+
+    <tr><td colspan="2" style="background-color:#edeffc"><b>Projects</b></td></tr>
     <tr data-link="faq/200-projects/200-project-setup" style="cursor:pointer">
       <td>
         200 - How do I add a collaborator to my project?
       </td>
       <td>Project Setup</td>
     </tr>
-    <tr class="info"><td colspan="2"><b>Designs</b></td></tr>
+
+    <tr><td colspan="2" style="background-color:#edeffc"><b>Designs</b></td></tr>
     <tr data-link="faq/300-designs/300-about-designs" style="cursor:pointer">
       <td>
         300 - What is a design?
