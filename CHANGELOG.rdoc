@@ -6,6 +6,10 @@
     * Subjects can now also have emails to allow project owners to send out questionnaires or surveys
   * Removed internal site ids from design reports
   * Entering a sheet now provides an autocomplete list of valid subject codes
+  * Design Changes
+    * Email templates and subject lines can now reference the user sending the email (full name and email)
+      * User's Full Name: #(user)
+      * User's Email: #(user).email
 
 * Bug Fix
   * Site name and units are now correctly escaped when rendering PDF sheet

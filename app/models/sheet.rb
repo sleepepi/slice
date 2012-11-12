@@ -156,6 +156,7 @@ class Sheet < ActiveRecord::Base
     result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
     result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
     result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
+    result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
     result
   end
 
@@ -167,6 +168,7 @@ class Sheet < ActiveRecord::Base
     result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
     result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
     result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
+    result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
     result
   end
 
@@ -191,6 +193,16 @@ class Sheet < ActiveRecord::Base
       self.subject.subject_code
     elsif property == '.acrostic'
       self.subject.acrostic.to_s
+    end
+    result
+  end
+
+  def user_replacement(property, current_user)
+    result = ''
+    result = if property.blank?
+      current_user.name
+    elsif property == '.email'
+      current_user.email
     end
     result
   end
