@@ -63,7 +63,7 @@ A clinical research interface geared at collecting robust and consistent data by
       </td>
       <td>Designs</td>
     </tr>
-    <tr data-link="faq/300-designs/305-variable-design-branching-logic.markdown" style="cursor:pointer">
+    <tr data-link="faq/300-designs/305-variable-design-branching-logic" style="cursor:pointer">
       <td>
         305 - How do I hide certain variables on my design depending on the answer to previous questions?
       </td>
