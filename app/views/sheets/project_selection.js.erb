@@ -13,19 +13,19 @@ $("#sheet_subject_id").parent().parent().removeClass('warning success error');
 <% if @subject %>
   <% if @subject.validated? %>
   $("#sheet_subject_id").parent().parent().addClass('success');
-  $("#subject_id_info").html("Subject Found!")
+  $("#subject_id_info").html("Subject Found.")
   <% else %>
   $("#sheet_subject_id").parent().parent().addClass('error');
-  $("#subject_id_info").html("Subject Found, but subject code has not been validated!")
+  $("#subject_id_info").html("Subject Found, but subject code has not been validated.")
   <% end %>
   $('#sheet_subject_acrostic').val('<%= escape_javascript(@subject.acrostic) %>');
 <% else %>
   <% if @subject_code_valid %>
     $("#sheet_subject_id").parent().parent().addClass('success');
-    $("#subject_id_info").html("Subject Code Valid. New Subject will be created!")
+    $("#subject_id_info").html("Subject Code Valid. New Subject will be created.")
   <% else %>
     $("#sheet_subject_id").parent().parent().addClass('warning');
-    $("#subject_id_info").html("Subject Code not Validated. New Subject will be created!")
+    $("#subject_id_info").html("Subject Code not Validated. New Subject will be created.")
   <% end %>
   $('#sheet_subject_acrostic').val('');
 <% end %>
@@ -40,4 +40,16 @@ $('#acrostic-container').hide();
 $('#subject_code_name_full').html("<%= escape_javascript(@project.subject_code_name_full) %>");
 <% else %>
 $('#subject_code_name_full').html("Subject Code");
+<% end %>
+
+$("#sheet_study_date").parent().parent().removeClass('warning success error');
+<% if @study_date.blank? %>
+  $("#sheet_study_date").parent().parent().addClass('warning');
+  $("#study_date_info").html("Sheet date can't be blank.");
+<% elsif @valid_study_date == true %>
+  $("#sheet_study_date").parent().parent().addClass('success');
+  $("#study_date_info").html("Valid sheet date.");
+<% else %>
+  $("#sheet_study_date").parent().parent().addClass('error');
+  $("#study_date_info").html("A sheet already exists on this date for this subject and design.");
 <% end %>

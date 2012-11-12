@@ -3,6 +3,7 @@
 </div>
 
 <%= hidden_field_tag 'isdirty', '1' %>
+<%= hidden_field_tag "hidden_sheet_id", (@sheet ? @sheet.id : nil), name: "sheet_id" %>
 
 <%= form_for [@sheet.project, @sheet], html: { class: 'form-horizontal', multipart: true } do |f| %>
   <% if @sheet.errors.any? %>
@@ -47,8 +48,9 @@
   <div class="control-group">
     <%= f.label :study_date, nil, class: 'control-label', id: 'study_date_name_full' %>
     <div class="controls">
-      <%= f.text_field :study_date, class: 'datepicker', value: @sheet.study_date ? @sheet.study_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :study_date, class: 'datepicker', value: @sheet.study_date ? @sheet.study_date.strftime('%m/%d/%Y') : '', autocomplete: "off" %>
       <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "#sheet_study_date" }, class: 'btn', tabindex: '-1' %>
+      <span id="study_date_info" class="help-inline"></span>
     </div>
   </div>
 

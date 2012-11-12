@@ -4,6 +4,16 @@ class SheetsController < ApplicationController
   def project_selection
     @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
     @subject = @project.subjects.find_by_subject_code(params[:subject_code]) if @project
+    @sheet = current_user.all_sheets.find_by_id(params[:sheet_id]) if @project
+    if @sheet
+      @sheet_id = @sheet.id
+      @design = @sheet.design
+    else
+      @sheet_id = nil
+      @design = @project.designs.find_by_id(params[:sheet][:design_id]) if @project and params[:sheet]
+    end
+
+    @study_date = parse_date(params[:sheet] ? params[:sheet][:study_date] : '')
 
     @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code])) if @project
 
@@ -11,6 +21,16 @@ class SheetsController < ApplicationController
       true
     else
       false
+    end
+
+    @valid_study_date = if @study_date.blank?
+      false
+    elsif @project and @subject and @design and not @sheet_id.blank?
+      (@project.sheets.where("sheets.id != ?", @sheet_id).where(subject_id: @subject.id, design_id: @design.id, study_date: @study_date)).count == 0
+    elsif @project and @subject and @design
+      (@project.sheets.where(subject_id: @subject.id, design_id: @design.id, study_date: @study_date)).count == 0
+    else
+      true
     end
 
     @disable_selection = (params[:select] != '1')

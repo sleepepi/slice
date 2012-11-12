@@ -204,7 +204,8 @@ jQuery ->
 
       $($(this).data('target-time')).val(hours+":"+minutes+":00")
       $($(this).data('target-date')).val(month + "/" + day + "/" + year)
-
+      $($(this).data('target-time')).change()
+      $($(this).data('target-date')).change()
       false
     )
     .on('click', '[data-object~="clear-radio"]', () ->
