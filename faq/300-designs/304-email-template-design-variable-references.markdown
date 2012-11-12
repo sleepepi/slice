@@ -130,4 +130,4 @@ Produces:
 
 ### Difference between Referencing Header and Body Variables
 
-For further documentation on the difference between header and body variables, see [303 Creating Design Email Templates](faq/300-designs/303-email-template-design)
+For further documentation on the difference between header and body variables, see [303 Creating Design Email Templates](/slice/faq/300-designs/303-email-template-design)

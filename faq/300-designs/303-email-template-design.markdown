@@ -25,4 +25,4 @@ The sheet body variables always use the <b>$</b> dollar symbol. For example:
 
 ### Additional Variable References
 
-For further documentation on referencing variable, see [304 Variable References in Design Email Templates](faq/300-designs/304-email-template-design-variable-references)
+For further documentation on referencing variable, see [304 Variable References in Design Email Templates](/slice/faq/300-designs/304-email-template-design-variable-references)
