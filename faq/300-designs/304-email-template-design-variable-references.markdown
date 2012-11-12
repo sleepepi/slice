@@ -60,7 +60,8 @@ To enter the user sending the sheet receipt email:
 To enter the user's email that is sending the sheet receipt email:
 ```
     #(user).email
-    _____________
+```
+```
     remosm@gmail.com
 ```
 
