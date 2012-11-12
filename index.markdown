@@ -9,71 +9,56 @@ A clinical research interface geared at collecting robust and consistent data by
 
 
 <table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Question</th>
-      <th>Category</th>
-    </tr>
-  </thead>
   <tbody>
-    <tr><td colspan="2" style="background-color:#edeffc"><b>General</b></td></tr>
+    <tr><td colspan="1" style="background-color:#edeffc"><b>General</b></td></tr>
     <tr data-link="faq/100-general/100-signing-in" style="cursor:pointer">
       <td>
         100 - I don't remember my login or password, what now?
       </td>
-      <td>Signing In</td>
     </tr>
 
-    <tr><td colspan="2" style="background-color:#edeffc"><b>Projects</b></td></tr>
+    <tr><td colspan="1" style="background-color:#edeffc"><b>Projects</b></td></tr>
     <tr data-link="faq/200-projects/200-project-setup" style="cursor:pointer">
       <td>
         200 - How do I add a collaborator to my project?
       </td>
-      <td>Project Setup</td>
     </tr>
 
-    <tr><td colspan="2" style="background-color:#edeffc"><b>Designs</b></td></tr>
+    <tr><td colspan="1" style="background-color:#edeffc"><b>Designs</b></td></tr>
     <tr data-link="faq/300-designs/300-about-designs" style="cursor:pointer">
       <td>
         300 - What is a design?
       </td>
-      <td>Designs</td>
     </tr>
     <tr data-link="faq/300-designs/301-create-design" style="cursor:pointer">
       <td>
         301 - How do I create a new design?
       </td>
-      <td>Designs</td>
     </tr>
     <tr data-link="faq/300-designs/302-add-variable-to-design" style="cursor:pointer">
       <td>
         302 - How do I add a variable/question to an existing design?
       </td>
-      <td>Designs</td>
     </tr>
     <tr data-link="faq/300-designs/303-email-template-design" style="cursor:pointer">
       <td>
         303 - Why aren't my variables showing up correctly in my design email templates?
       </td>
-      <td>Designs</td>
     </tr>
     <tr data-link="faq/300-designs/304-email-template-design-variable-references" style="cursor:pointer">
       <td>
         304 - How do I show the variable name instead of the actual variable itself in an email template?
       </td>
-      <td>Designs</td>
     </tr>
     <tr data-link="faq/300-designs/305-variable-design-branching-logic" style="cursor:pointer">
       <td>
         305 - How do I hide certain variables on my design depending on the answer to previous questions?
       </td>
-      <td>Designs</td>
     </tr>
     <tr data-link="faq/300-designs/306-reordering-design" style="cursor:pointer">
       <td>
         306 - How do I reorder my variables and sections on a design?
       </td>
-      <td>Designs</td>
     </tr>
   </tbody>
 </table>
