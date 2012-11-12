@@ -22,5 +22,3 @@ The sheet body variables always use the <b>$</b> dollar symbol. For example:
 ```
   $(age)
 ```
-
-<hr class="soften">
