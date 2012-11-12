@@ -4,3 +4,5 @@ $("#variable_edit_modal").modal({ dynamic: true });
 $("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
 toggleOptions($('#variable_variable_type'));
 $('#options[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
+
+$('#variables[data-object~="sortable"], #form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });

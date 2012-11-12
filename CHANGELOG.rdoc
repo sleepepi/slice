@@ -21,6 +21,7 @@
   * Display names are now hidden on PDFs if the associated variable's display name is marked as gone or invisibile
   * Variable Edit/Remove buttons are no longer hidden by the variable preview when editing a design
   * Text input fields with autocomplete no longer display the browser default autocomplete list which sometimes caused two lists to appear on top of each other
+  * Editing inline variables on a design now allow the variables options and grid variables to be dragged and sorted
 
 == 0.10.3
 
