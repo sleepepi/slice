@@ -20,7 +20,7 @@ Further information on more **Design Section options**.
 
 ### Adding existing variables to your design
 
-You can add a variable by editing your design and clicking **Add Variable**. You can then select the variable from a dropdown, and also specify the [branching logic](/slice/faq/300/305-variable-design-branching-logic).
+You can add a variable by editing your design and clicking **Add Variable**. You can then select the variable from a dropdown, and also specify the [branching logic](/slice/faq/300-designs/305-variable-design-branching-logic).
 
 Further information on more **Design Variable options**.
 
