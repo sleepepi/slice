@@ -3,7 +3,7 @@ title: FAQ - #304 Variable References in Design Email Templates
 layout: default
 ---
 
-## #304 - How do I show the variable name instead of the actual variable itself in a email template?
+## #304 - How do I show the variable name instead of the actual variable itself in an email template?
 
 ### Referencing Sheet Header Variables
 

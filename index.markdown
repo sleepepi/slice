@@ -57,6 +57,12 @@ A clinical research interface geared at collecting robust and consistent data by
       </td>
       <td>Designs</td>
     </tr>
+    <tr data-link="faq/300-designs/304-email-template-design-variable-references" style="cursor:pointer">
+      <td>
+        304 - How do I show the variable name instead of the actual variable itself in an email template?
+      </td>
+      <td>Designs</td>
+    </tr>
   </tbody>
 </table>
 
