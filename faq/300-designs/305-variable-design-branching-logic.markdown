@@ -59,16 +59,16 @@ If we wanted to only show the **get_help** variable if two or more were selected
 ### List of expressions
 More complex expressions could also be used:
 
-* == for equality
-* != for inequality
-* > for greater than
-* < for less than
-* >= for greater than or equal
-* <= for less than or equal
-* () for logical grouping of multiple conditions
-* || for logical OR
-* && for logical AND
-* intersection(variable, ['1','0']) for multiple choice checkboxes
+    equality                      ==
+    inequality                    !=
+    greater than                  >
+    less than                     <
+    greater than or equal         >=
+    less than or equal            <=
+    logical OR                    ||
+    logical AND                   &&
+    multiple conditions           expr && (expr || expr)
+    multiple choice checkboxes    intersection(variable, ['1','0']).length > 1
 
 ### Important
 * Branching logic only works if the variable that needs to be conditionally hidden is located after the variable it depends on.
