@@ -6,5 +6,5 @@
   $("#variables").append("<%= escape_javascript(render("edit_variable")) %>");
 <% end %>
 
-$('#design_option_tokens_<%= @position %>_variable_id.chzn-select').chosen();
+$('#design_option_tokens_<%= @position %>_variable_id.chzn-select').chosen({ allow_single_deselect: true });
 $('#variable_<%= @position %>').click();

@@ -151,10 +151,19 @@ class VariablesController < ApplicationController
   # GET /variables/new.json
   def new
     @variable = current_user.variables.new(project_id: params[:project_id])
+    @project = current_user.all_projects.find_by_id(params[:project_id])
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @variable }
+      if @project and @variable
+        format.html # new.html.erb
+        format.js { render 'popup' }
+        format.js { render nothing: true }
+        format.json { render json: @variable }
+      else
+        format.html { redirect_to root_path }
+        format.js { render nothing: true }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -188,14 +197,17 @@ class VariablesController < ApplicationController
       if @project
         if @variable.save
           format.html { redirect_to [@variable.project, @variable], notice: 'Variable was successfully created.' }
+          format.js { render 'update' }
           format.json { render json: @variable, status: :created, location: @variable }
         else
           @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
           format.html { render action: "new" }
+          format.js { render 'update' }
           format.json { render json: @variable.errors, status: :unprocessable_entity }
         end
       else
         format.html { redirect_to root_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end

@@ -1,6 +1,6 @@
 <div class="modal hide" id="variable_edit_modal">
   <div class="modal-header">
-    <h3>Edit Variable</h3>
+    <h3><%= @variable.new_record? ? 'New Variable' : "Edit Variable" %></h3>
   </div>
   <div class="modal-body">
     <%= form_for [@variable.project, @variable], html: { class: 'form-horizontal' }, remote: true do |f| %>
@@ -11,8 +11,9 @@
   </div>
   <div class="modal-footer form-actions">
     <% form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}" %>
+    <% link_name = @variable.new_record? ? 'Create Variable' : "Update Variable" %>
     <%#= submit_tag 'Update Variable', class: 'btn btn-primary', data: { object: 'update-variable', target: "##{form_name}" } %>
-    <%= submit_tag 'Update Variable', class: 'btn btn-primary', data: { object: "form-check-before-submit", target: "##{form_name}" } %>
+    <%= submit_tag link_name, class: 'btn btn-primary', data: { object: "form-check-before-submit", target: "##{form_name}" } %>
     <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#variable_edit_modal', object: 'modal-hide', remove_class: 'error' } %>
   </div>
 </div>

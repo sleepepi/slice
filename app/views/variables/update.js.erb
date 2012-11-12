@@ -4,6 +4,20 @@
   <% end %>
   $('.modal-backdrop').scrollTop(0);
 <% else %>
+
+  <% @option = { variable_id: @variable.id } %>
+  <% @all_viewable_variables = current_user.all_viewable_variables.where(project_id: @project.id) %>
+  <% @select_variables = @all_viewable_variables.order(:name).collect{|v| [v.name, v.id]} %>
+
   $('#variable_edit_modal').modal('hide');
-  $('#design_option_tokens_<%= params[:position] %>_variable_id').change();
+
+  $('#variable_<%= params[:position] %>').after("<%= escape_javascript(render("designs/edit_variable")) %>")
+
+  $('#variable_<%= params[:position] %>').remove()
+
+  $('#design_option_tokens_<%= @position %>_variable_id.chzn-select').chosen();
+  $('#variable_<%= @position %>').click();
+
+
+  // $('#design_option_tokens_<%= params[:position] %>_variable_id').change();
 <% end %>

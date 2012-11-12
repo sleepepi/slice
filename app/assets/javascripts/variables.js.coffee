@@ -171,6 +171,8 @@ jQuery ->
       variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
       if variable_id
         $.get(root_url + 'projects/' + $("#design_project_id").val() + '/variables/' + variable_id + '/edit', 'position=' + position, null, "script")
+      else
+        $.get(root_url + 'projects/' + $("#design_project_id").val() + '/variables/new', 'position=' + position, null, "script")
       false
     )
     .on('change', '[data-object~="variable-load"]', () ->

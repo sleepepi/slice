@@ -50,7 +50,10 @@
 @retrieveVariable = (position) ->
   variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
   if variable_id
+    $("#variable_#{position}_edit_link").html("Edit")
     $.get(root_url + 'projects/' + $("#design_project_id").val() + '/variables/' + variable_id, 'position=' + position, null, "script")
+  else
+    $("#variable_#{position}_edit_link").html("Create")
   false
 
 @intersection = (a, b) ->
@@ -180,7 +183,7 @@ jQuery ->
       true
   )
 
-  $('.chzn-select').chosen()
+  $('.chzn-select').chosen({ allow_single_deselect: true })
   $('.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
 
   $("#variables div, #form_grid_variables div").last().click()
