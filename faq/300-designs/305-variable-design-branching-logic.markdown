@@ -69,3 +69,8 @@ More complex expressions could also be used:
 * || for logical OR
 * && for logical AND
 * intersection(variable, ['1','0']) for multiple choice checkboxes
+
+### Important
+* Branching logic only works if the variable that needs to be conditionally hidden is located after the variable it depends on.
+* Branching logic only works on variables shown on the current page of the design.
+* Branching logic can also be added to sections.
