@@ -35,6 +35,15 @@
     <div class="controls">
       <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { provide: "typeaheadmap", source: @project.subjects.collect{|s| { key: s.subject_code, value: html_escape(s.subject_code.to_s + (@project.acrostic_enabled? ? (s.acrostic.blank? ? "" : ": #{s.acrostic}") : "") + (s.email.blank? ? '' : " <#{s.email}>")) }}.to_json } %>
       <span id="subject_id_info" class="help-inline"></span>
+      <% if @project.sites_with_range.size > 0 %>
+        <div class="help-block" style="padding-top:5px">
+          <ul style="margin-bottom:0px">
+            <% @project.sites_with_range.each do |site| %>
+              <li class="muted"><%= site.name %>: <b><%= site.prefix %><%= site.code_minimum %></b> to <b><%= site.prefix %><%= site.code_maximum %></b></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
   </div>
 

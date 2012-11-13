@@ -17,11 +17,7 @@ class SheetsController < ApplicationController
 
     @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code])) if @project
 
-    @subject_code_valid = if @site and params[:subject_code] <= @site.code_maximum.to_s and params[:subject_code].size <= @site.code_maximum.to_s.size and params[:subject_code] >= @site.code_minimum.to_s and params[:subject_code].size >= @site.code_minimum.to_s.size
-      true
-    else
-      false
-    end
+    @subject_code_valid = (@site and @site.valid_subject_code?(params[:subject_code]) ? true : false)
 
     @valid_study_date = if @study_date.blank?
       false

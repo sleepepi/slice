@@ -28,4 +28,8 @@ class Site < ActiveRecord::Base
     [self.name, self.project.name].compact.join(' - ')
   end
 
+  def valid_subject_code?(subject_code)
+    subject_code <= "#{self.prefix}#{self.code_maximum}" && subject_code.size <= "#{self.prefix}#{self.code_maximum}".size && subject_code >= "#{self.prefix}#{self.code_minimum}" && subject_code.size >= "#{self.prefix}#{self.code_minimum}".size
+  end
+
 end

@@ -15,6 +15,7 @@
   * Sheet receipt email TO and CC fields can now be specified as semi-colon-delimited in addition to comma-delimited
   * Variables can now be created inline while creating or editing a design
   * Sheets are now checked for unique valid design, subject, and study date combination as they are being entered to catch errors more quickly
+  * Valid site ranges are now displayed during sheet entry if the site has a code_minimum, and code_maximum set
   * Ruby version updated to 1.9.3-p327
 
 * Bug Fix

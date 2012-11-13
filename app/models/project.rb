@@ -35,6 +35,10 @@ class Project < ActiveRecord::Base
 
   # Model Methods
 
+  def sites_with_range
+    self.sites.where("sites.code_minimum IS NOT NULL and sites.code_minimum != '' and sites.code_maximum IS NOT NULL and sites.code_maximum != ''").order('name')
+  end
+
   def site_id_with_prefix(prefix)
     prefix_sites = self.sites.select{|s| not s.prefix.blank? and prefix.start_with?(s.prefix) }
     prefix_sites.size == 1 ? prefix_sites.first.id : nil
