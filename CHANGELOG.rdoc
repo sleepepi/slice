@@ -17,6 +17,7 @@
   * Sheets are now checked for unique valid design, subject, and study date combination as they are being entered to catch errors more quickly
   * Valid site ranges are now displayed during sheet entry if the site has a code_minimum, and code_maximum set
   * "Create and Continue" and "Update and Continue" are now options to allow for entering multiple sheets one after another
+  * Live validations added to when entering a sheet with variables that have hard and soft ranges
   * Ruby version updated to 1.9.3-p327
 
 * Bug Fix

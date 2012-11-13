@@ -54,6 +54,13 @@
     return false
   true
 
+@setRange = (el) ->
+  el.removeClass('error-input warning-input')
+  if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(parseInt($.trim(el.val()))) and $.trim(el.val()).length > 0) or parseInt($.trim(el.val())) < parseInt(el.data('hard-minimum')) or parseInt($.trim(el.val())) > parseInt(el.data('hard-maximum')))
+    el.addClass('error-input')
+  else if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(parseInt($.trim(el.val()))) and $.trim(el.val()).length > 0) or parseInt($.trim(el.val())) < parseInt(el.data('soft-minimum')) or parseInt($.trim(el.val())) > parseInt(el.data('soft-maximum')))
+    el.addClass('warning-input')
+
 @checkMinMax = () ->
   $('[data-object~="minmax"]').parent().parent().removeClass('error')
   number_fields = $('[data-object~="minmax"]').filter( () ->
@@ -75,6 +82,13 @@
   if number_fields.size() > 0 and !confirm('Some numeric fields are out of the recommended range. Proceed anyways?')
     return false
   true
+
+@setRangeDate = (el) ->
+  el.removeClass('error-input warning-input')
+  if ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-hard-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-hard-maximum')))
+    el.addClass('error-input')
+  else if ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-soft-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-soft-maximum')))
+    el.addClass('warning-input')
 
 # Select dates that don't parse as dates, and are not blank
 # or dates where the value is less than the hard minimum
@@ -229,6 +243,12 @@ jQuery ->
     .on('click', '[data-object~="show-graph"]', () ->
       drawScatter($(this).data('target'), eval($(this).data('data')), $(this).data('title'), $(this).data('y-axis-title'), $(this).data('x-axis-title'), $(this).data('units'))
       false
+    )
+    .on('change', '[data-object~="minmax"]', () ->
+      setRange($(this))
+    )
+    .on('change', '[data-object~="dateminmax"]', () ->
+      setRangeDate($(this))
     )
 
   $('[data-object~="variable-typeahead"]').each( () ->
