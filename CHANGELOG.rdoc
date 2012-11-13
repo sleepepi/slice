@@ -25,6 +25,7 @@
   * Variable Edit/Remove buttons are no longer hidden by the variable preview when editing a design
   * Text input fields with autocomplete no longer display the browser default autocomplete list which sometimes caused two lists to appear on top of each other
   * Editing inline variables on a design now allow the variables options and grid variables to be dragged and sorted
+  * Double-clicking "Create" no longer attempts to submit a sheet twice as the button is now disabled as the form is being submitted
 
 == 0.10.3
 

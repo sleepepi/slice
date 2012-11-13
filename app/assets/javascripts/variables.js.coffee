@@ -159,6 +159,7 @@ jQuery ->
         $('#current_design_page').val($(this).data('page'))
       if $(this).data('continue')?
         $('#continue').val($(this).data('continue'))
+      $('[data-object~="variable-check-before-submit"]').attr('disabled', 'disabled')
       $($(this).data('target')).submit()
       false
     )
