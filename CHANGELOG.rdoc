@@ -28,7 +28,7 @@
 == 0.10.3
 
 * Enhancements
-  * Sheets are now rendered using PDFLaTex for cleaner PDFs
+  * Sheets are now rendered using LaTeX for cleaner PDFs
   * Order of project settings for News, Documents, and Contacts options now consistent
   * Checkbox responses are now audited more clearly
 
