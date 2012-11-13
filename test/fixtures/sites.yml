@@ -35,8 +35,8 @@ valid_range:
   user: valid
   deleted: false
   prefix: A
-  code_minimum: A100
-  code_maximum: A500
+  code_minimum: 100
+  code_maximum: 500
 
 admin_site:
   name: Admin Only Site

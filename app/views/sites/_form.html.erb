@@ -33,6 +33,7 @@
     <%= f.label :code_minimum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Minimum', class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :code_minimum %>
+      <span class="help-inline"><span class="label label-info">Heads up!</span> Don't include the prefix.</span>
     </div>
   </div>
 
@@ -40,6 +41,7 @@
     <%= f.label :code_maximum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Maximum', class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :code_maximum %>
+      <span class="help-inline"><span class="label label-info">Heads up!</span> Don't include the prefix.</span>
     </div>
   </div>
 

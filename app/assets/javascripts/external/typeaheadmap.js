@@ -295,7 +295,7 @@
     $('body').on('focus.typeaheadmap.data-api', '[data-provide="typeaheadmap"]', function (e) {
       var $this = $(this)
       if ($this.data('typeaheadmap')) return
-      e.preventDefault()
+      // e.preventDefault()
       $this.typeaheadmap($this.data())
     })
   })

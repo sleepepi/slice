@@ -64,7 +64,6 @@ jQuery ->
   # $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
   $("span[rel~=tooltip]").tooltip( trigger: 'hover' )
 
-
   window.$isDirty = false
   msg = 'You haven\'t saved your changes.'
 
@@ -79,7 +78,7 @@ jQuery ->
         return msg
   )
 
-  $(".datepicker").datepicker( "option", "onClose", (dateText, inst) -> $(this).focus() )
+  # $(".datepicker").datepicker( "option", "onClose", (dateText, inst) -> $(this).focus() )
 
   # alert $('[data-spy~="affix"]').parent().offset().top - 42
 
@@ -89,6 +88,5 @@ jQuery ->
     $this = $(this)
     $this.typeaheadmap( source: $this.data('source'), "key": "key", "value": "value" )
   )
-
 
 

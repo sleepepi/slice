@@ -72,6 +72,7 @@
   </div>
 
   <%= hidden_field_tag :current_design_page, params[:current_design_page].to_i %>
+  <%= hidden_field_tag :continue, '0' %>
 
   <% if @sheet.new_record? %>
     <div id="design">
@@ -88,6 +89,7 @@
     <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
     <% if link_name.blank? %>
       <%= f.submit nil,       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1 }, id: 'sheet_submit_btn'  %>
+      <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1, continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
     <% else %>
       <%= f.submit link_name, class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1 }  %>
     <% end %>
