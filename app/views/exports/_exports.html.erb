@@ -1,0 +1,44 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'exports', per_page: 20, object_count: @export_count } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.status', 'Status', 'exports_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.name', 'Name', 'exports_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.export_type', 'Export Type', 'exports_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_files', 'Include Files', 'exports_search') %></th>
+<% if false %>      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.viewed', 'Viewed', 'exports_search') %></th><% end %>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.file', 'File', 'exports_search') %></th>
+      <th style="white-space:nowrap">Size</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.project_id', 'Project', 'exports_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @exports.each do |export| %>
+    <tr class="<%= 'success' if not export.viewed? and export.status == 'ready' %><%= 'warning' if export.status == 'pending' %>">
+      <td><span class="label label-<%= export.status == 'ready' ? 'success' : 'warning' %>"><%= export.status %></span></td>
+      <td><%= link_to export.name, export %></td>
+      <td><%= export.export_type %></td>
+      <td><%= simple_check export.include_files %></td>
+<% if false %>      <td><%= simple_check export.viewed %></td><% end %>
+      <td>
+        <% if export.file.size > 0 %>
+          <%= link_to export.file.to_s.split('/').last, export.file.url, target: '_blank', class: 'btn btn-mini' %>
+        <% end %>
+      </td>
+      <td>
+        <% if export.file.size > 0 %>
+          <%= number_to_human_size(export.file.size) %>
+        <% end %>
+      </td>
+      <td><%= link_to export.project.name, export.project if export.project %></td>
+      <td>
+        <% if false %><%= link_to 'Edit', edit_export_path(export), class: 'btn btn-mini' %><% end %>
+        <%= link_to 'Delete', export, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Export #{export.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @exports %></center>

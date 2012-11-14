@@ -59,6 +59,12 @@ class UserMailer < ActionMailer::Base
          reply_to: "#{sheet.last_user.name} <#{sheet.last_user.email}>")
   end
 
+  def export_ready(export)
+    @export = export
+    mail(to: "#{export.user.name} <#{export.user.email}>",
+         subject: "Your Data Export for #{export.project.name} is now Ready")
+  end
+
   protected
 
   def setup_email

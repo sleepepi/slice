@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   # Model Relationships
   has_many :authentications
   has_many :designs, conditions: { deleted: false }
+  has_many :exports, conditions: { deleted: false }
   has_many :projects, conditions: { deleted: false }
   has_many :reports, conditions: { deleted: false }
   has_many :sheets, conditions: { deleted: false }
@@ -152,6 +153,30 @@ class User < ActiveRecord::Base
   def all_viewable_subjects
     @all_viewable_subjects ||= begin
       Subject.current.with_site(self.all_viewable_sites.pluck(:id))
+    end
+  end
+
+  def all_exports
+    @all_exports ||= begin
+      Export.current.where(user_id: self.id)
+    end
+  end
+
+  def all_viewable_exports
+    @all_viewable_exports ||= begin
+      Export.current.where(user_id: self.id)
+    end
+  end
+
+  def unviewed_active_exports
+    @unviewed_active_exports ||= begin
+      self.all_viewable_exports.where(status: 'ready', viewed: false)
+    end
+  end
+
+  def unviewed_pending_exports
+    @unviewed_pending_exports ||= begin
+      self.all_viewable_exports.where(status: 'pending', viewed: false)
     end
   end
 

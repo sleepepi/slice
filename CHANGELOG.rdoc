@@ -19,6 +19,10 @@
   * "Create and Continue" and "Update and Continue" are now options to allow for entering multiple sheets one after another
   * Live validations added to when entering a sheet with variables that have hard and soft ranges
   * XLS files are now more compatible, and take up less space than the original format used
+  * Exports are now run in the background and users are notified when they can access the file
+    * Users can access their past exports and view the status of current exports
+    * An export groups multiple files together into a single zip file
+    * Users are notified by email, and also see status icons in the menu of pending and newly ready data exports
   * Ruby version updated to 1.9.3-p327
 
 * Bug Fix

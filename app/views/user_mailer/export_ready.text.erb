@@ -1,0 +1,13 @@
+Hello <%= @export.user.name %>,
+
+The data export you requested for <%= @export.project.name %> is now ready for download.
+
+Click the following link to download your data export:
+
+
+    <%= SITE_URL + export_path(@export) %>
+
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> Mailer

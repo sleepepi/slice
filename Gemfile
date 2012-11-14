@@ -16,6 +16,7 @@ gem 'carrierwave',          '~> 0.7.0'
 gem 'pdfkit',               '~> 0.5.2'
 gem 'audited-activerecord', '~> 3.0.0'
 gem 'spreadsheet',          '~> 0.7.4'
+gem 'systemu',              '~> 2.5.2'
 
 # Gems used only for assets and not required
 # in production environments by default.

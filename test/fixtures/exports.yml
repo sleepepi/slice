@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  export_type: sheets
+  include_files: false
+  status: ready
+  # file: MyString
+  user: valid
+  project: one
+  viewed: false
+
+two:
+  name: MyString2
+  export_type: sheets
+  include_files: false
+  status: pending
+  # file: MyString
+  user: valid
+  project: one
+  viewed: false

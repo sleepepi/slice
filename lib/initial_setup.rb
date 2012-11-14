@@ -16,7 +16,8 @@ files = [['config','database.yml'],
   ['config/initializers', '00_site_name.rb'],
   ['config/initializers', 'devise.rb'],
   ['config/initializers', 'latex.rb'],
-  ['config/initializers', 'omniauth.rb']]
+  ['config/initializers', 'omniauth.rb'],
+  ['config/initializers', 'rake_path.rb']]
 
 files.each do |folder_name, file_name|
   file_template = File.join(template_folder, file_name + '.erb')

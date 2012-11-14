@@ -27,6 +27,7 @@
 /config/initializers/devise.rb
 /config/initializers/latex.rb
 /config/initializers/omniauth.rb
+/config/initializers/rake_path.rb
 /config/initializers/secret_token.rb
 
 /public/cache/*

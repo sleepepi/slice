@@ -64,7 +64,8 @@ class SheetsControllerTest < ActionController::TestCase
     get :index, project_id: @project, format: 'xls'
     assert_not_nil assigns(:sheet_count)
     assert_not_nil assigns(:sheets)
-    assert_response :success
+    assert_equal 'You will be emailed when the export is ready for download.', flash[:notice]
+    assert_redirected_to project_sheets_path(@project)
   end
 
   test "should get pdf collation" do

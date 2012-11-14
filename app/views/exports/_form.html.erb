@@ -1,0 +1,71 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @export, html: { class: 'form-horizontal' } do |f| %>
+  <% if @export.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@export.errors.count, "error") %> prohibited this export from being saved:</h2>
+
+      <ul>
+      <% @export.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :export_type, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :export_type, Export::TYPE %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :include_files, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :include_files %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :status, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :status, Export::STATUS %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :viewed, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :viewed %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :file, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :file %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :project_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>

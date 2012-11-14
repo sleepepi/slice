@@ -1,5 +1,12 @@
 Slice::Application.routes.draw do
 
+  resources :exports do
+    member do
+      post :mark_unread
+    end
+  end
+
+
   resources :projects do
     member do
       post :remove_file

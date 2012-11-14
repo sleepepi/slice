@@ -27,6 +27,8 @@ class Project < ActiveRecord::Base
   has_many :sites, conditions: { deleted: false }
   has_many :subjects, conditions: { deleted: false }
 
+  has_many :exports, conditions: { deleted: false }
+
   has_many :contacts, conditions: { deleted: false }
   has_many :documents, conditions: { deleted: false }
   has_many :posts, conditions: { deleted: false }
