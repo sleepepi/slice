@@ -54,6 +54,11 @@
     return false
   true
 
+# Sets color for all ranges
+@checkAllRanges = () ->
+  $.each($('[data-object~="minmax"]'), () -> setRange($(this)))
+  $.each($('[data-object~="dateminmax"]'), () -> setRangeDate($(this)))
+
 @setRange = (el) ->
   el.removeClass('error-input warning-input')
   if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(parseInt($.trim(el.val()))) and $.trim(el.val()).length > 0) or parseInt($.trim(el.val())) < parseInt(el.data('hard-minimum')) or parseInt($.trim(el.val())) > parseInt(el.data('hard-maximum')))
