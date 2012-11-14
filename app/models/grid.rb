@@ -31,6 +31,12 @@ class Grid < ActiveRecord::Base
       self.variable.shared_options.select{|option| self.responses.pluck(:value).include?(option[:value])}.collect{|option| option[:value]}.join(',')
     when 'file'
       self.response_file.to_s.split('/').last
+    when 'numeric'
+      begin Float(self.response) end rescue self.response
+    when 'calculated'
+      begin Float(self.response) end rescue self.response
+    when 'integer'
+      begin Integer(self.response) end rescue self.response
     else
       self.response
     end

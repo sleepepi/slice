@@ -18,6 +18,7 @@
   * Valid site ranges are now displayed during sheet entry if the site has a code_minimum, and code_maximum set
   * "Create and Continue" and "Update and Continue" are now options to allow for entering multiple sheets one after another
   * Live validations added to when entering a sheet with variables that have hard and soft ranges
+  * XLS files are now more compatible, and take up less space than the original format used
   * Ruby version updated to 1.9.3-p327
 
 * Bug Fix

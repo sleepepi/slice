@@ -376,6 +376,10 @@ class Variable < ActiveRecord::Base
         end
       end
       grid_raw.to_json
+    elsif self.variable_type == 'numeric' or self.variable_type == 'calculated'
+      begin Float(response) end rescue response
+    elsif self.variable_type == 'integer'
+      begin Integer(response) end rescue response
     else
       response
     end
