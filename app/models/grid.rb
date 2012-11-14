@@ -37,6 +37,10 @@ class Grid < ActiveRecord::Base
       begin Float(self.response) end rescue self.response
     when 'integer'
       begin Integer(self.response) end rescue self.response
+    when 'dropdown'
+      begin Integer(self.response) end rescue self.response
+    when 'radio'
+      begin Integer(self.response) end rescue self.response
     else
       self.response
     end

@@ -361,7 +361,7 @@ class Variable < ActiveRecord::Base
     responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
 
     if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
-      response
+      begin Integer(response) end rescue response
     elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
       self.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:value]}.join(',')
     elsif ['file'].include?(self.variable_type)
