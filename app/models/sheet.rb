@@ -33,6 +33,8 @@ class Sheet < ActiveRecord::Base
   # Include blank, unknown, or values entered as missing
   scope :with_response_unknown_or_missing, lambda { |*args| { conditions: ["sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)] } }
 
+  scope :with_subject_status, lambda { |*args| { conditions: ["sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first] } }
+
   # scope :last_entry, lambda { |*args| { conditions: ["sheets.id IN (SELECT s1.* FROM `sheets` s1 LEFT JOIN `sheets` s2 ON (s1.subject_id = s2.subject_id AND s1.study_date < s2.study_date) WHERE s2.id IS NULL)"] } }
   # scope :first_entry, lambda { |*args| { conditions: ["sheets.id IN (SELECT s1.* FROM `sheets` s1 LEFT JOIN `sheets` s2 ON (s1.subject_id = s2.subject_id AND s1.study_date > s2.study_date) WHERE s2.id IS NULL)"] } }
 

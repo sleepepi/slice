@@ -17,13 +17,17 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="submit"]', () ->
-      $($(this).data('target')).submit();
+      $($(this).data('target')).submit()
       false
     )
     .on('click', '[data-object~="reset-filters"]', () ->
       $('[data-object~="filter"]').val('')
       $('[data-object~="filter-html"]').html('')
       $('#variable-type-all').button('toggle')
+      $('[data-object~="set-statuses"]').removeClass('active')
+      $('#statuses_pending, #statuses_test').val('')
+      $('#statuses_valid').val('valid')
+      $('[data-object~="set-statuses"][data-value="valid"]').addClass('active')
       $($(this).data('target')).submit()
       false
     )

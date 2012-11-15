@@ -457,6 +457,7 @@ class DesignsController < ApplicationController
     @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
     @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
     @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
+    @statuses = params[:statuses] || ['valid']
 
     if @design
       @variable = @design.pure_variables.find_by_id(params[:variable_id])
@@ -472,6 +473,8 @@ class DesignsController < ApplicationController
 
       sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] != '1'
       sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
+
+      sheet_scope = sheet_scope.with_subject_status(@statuses)
 
       # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
       @ranges = []

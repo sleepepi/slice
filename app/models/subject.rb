@@ -1,7 +1,7 @@
 class Subject < ActiveRecord::Base
   attr_accessible :project_id, :subject_code, :user_id, :site_id, :acrostic, :email, :status
 
-  STATUS = ["valid", "test", "pending"].collect{|i| [i,i]}
+  STATUS = ["valid", "pending", "test"].collect{|i| [i,i]}
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

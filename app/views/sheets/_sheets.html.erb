@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.design_name', 'Sheet', 'sheets_search') %></th>
+      <th style="white-space:nowrap">Status</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.subject_code', 'Subject', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.study_date', 'Date', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.site_name', 'Site', 'sheets_search') %></th>
@@ -16,6 +17,17 @@
   <% @sheets.each do |sheet| %>
     <tr id="sheet_<%= sheet.id %>">
       <td><%= link_to sheet.design.name, [sheet.project, sheet] %></td>
+      <td>
+        <% if sheet.subject %>
+          <% case sheet.subject.status when 'valid' %>
+            <span class="label label-success"><%= sheet.subject.status %></span>
+          <% when 'test' %>
+            <span class="label label-info"><%= sheet.subject.status %></span>
+          <% else %>
+            <span class="label label-warning"><%= sheet.subject.status %></span>
+          <% end %>
+        <% end %>
+      </td>
       <td><%= link_to sheet.subject.name, [sheet.subject.project, sheet.subject] if sheet.subject %></td>
       <td><%= sheet.study_date %></td>
       <td><%= link_to sheet.subject.site.name, [sheet.subject.site.project, sheet.subject.site] if sheet.subject and sheet.subject.site %></td>

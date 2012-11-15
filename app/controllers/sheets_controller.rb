@@ -92,6 +92,9 @@ class SheetsController < ApplicationController
       sheet_scope = sheet_scope.last_entry if @filter == 'last'
       sheet_scope = sheet_scope.first_entry if @filter == 'first'
 
+      @statuses = params[:statuses] || ['valid']
+      sheet_scope = sheet_scope.with_subject_status(@statuses)
+
       @sheet_after = parse_date(params[:sheet_after])
       @sheet_before = parse_date(params[:sheet_before])
 

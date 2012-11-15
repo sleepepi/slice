@@ -69,7 +69,18 @@
         <button data-object="set-filter" data-value="first" class="btn btn-mini <%= 'active' if @filter == 'first' %>" rel="tooltip" title="Select only the FIRST sheet entered for subjects with multiple sheets recorded for <%= @design.name %>." data-placement="bottom">First Sheet Entry</button>
       </div>
     </div>
-    <div class="span4 offset4">
+    <div class="span4">
+      Subjects
+      <div class="btn-group" data-toggle="buttons-checkbox">
+        <% Subject::STATUS.each do |label, value| %>
+          <button data-object="set-statuses" data-value="<%= value %>" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+            <%= label.humanize %>
+            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+    <div class="span4">
       <div class="pull-right">
         <span class="dropdown">
           <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>

@@ -63,6 +63,19 @@
 
   <div class="row">
     <div class="span4 control-group">
+      <%= label :statuses, 'Status', class: 'control-label' %>
+      <div class="controls">
+        <div class="btn-group" data-toggle="buttons-checkbox">
+          <% Subject::STATUS.each do |label, value| %>
+            <button data-object="set-statuses" data-value="<%= value %>" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+              <%= label.humanize %>
+              <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+            </button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="span4 control-group">
       <%= hidden_field_tag :filter, @filter, data: { object: 'filter' } %>
       <%= hidden_field_tag :stratum_id, params[:stratum_id], data: { object: 'filter' } %>
       <%= hidden_field_tag :stratum_value, params[:stratum_value], data: { object: 'filter' } %>
