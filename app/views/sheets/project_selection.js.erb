@@ -9,23 +9,26 @@ $("#site").html("<%= escape_javascript(render("sites/selection")) %>");
 //  $.post(root_url + 'designs/selection', $("#sheet_design_id").serialize(), null, "script");
 <%# end %>
 
-$("#sheet_subject_id").parent().parent().removeClass('warning success error');
+$("#sheet_subject_id").parent().parent().removeClass('warning success error info');
 <% if @subject %>
-  <% if @subject.validated? %>
-  $("#sheet_subject_id").parent().parent().addClass('success');
-  $("#subject_id_info").html("Subject Found.")
+  <% if @subject.status == 'valid' %>
+    $("#sheet_subject_id").parent().parent().addClass('success');
+    $("#subject_id_info").html("Subject is <span class='label label-success'>valid</span>.")
+  <% elsif @subject.status == 'test' %>
+    $("#sheet_subject_id").parent().parent().addClass('info');
+    $("#subject_id_info").html("Subject is <span class='label label-info'>test</span>.")
   <% else %>
-  $("#sheet_subject_id").parent().parent().addClass('error');
-  $("#subject_id_info").html("Subject Found, but subject code has not been validated.")
+    $("#sheet_subject_id").parent().parent().addClass('error');
+    $("#subject_id_info").html("Subject is <span class='label label-warning'>pending</span>.")
   <% end %>
   $('#sheet_subject_acrostic').val('<%= escape_javascript(@subject.acrostic) %>');
 <% else %>
   <% if @subject_code_valid %>
     $("#sheet_subject_id").parent().parent().addClass('success');
-    $("#subject_id_info").html("Subject Code Valid. New Subject will be created.")
+    $("#subject_id_info").html("<%= @project ? @project.subject_code_name_full : 'Subject Code' %> is <span class='label label-success'>valid</span>. New subject will be created.")
   <% else %>
     $("#sheet_subject_id").parent().parent().addClass('warning');
-    $("#subject_id_info").html("Subject Code not Validated. New Subject will be created.")
+    $("#subject_id_info").html("<%= @project ? @project.subject_code_name_full : 'Subject Code' %> is <span class='label label-warning'>pending</span>. New subject will be created.")
   <% end %>
   $('#sheet_subject_acrostic').val('');
 <% end %>
@@ -36,11 +39,7 @@ $('#acrostic-container').show();
 $('#acrostic-container').hide();
 <% end %>
 
-<% if @project %>
-$('#subject_code_name_full').html("<%= escape_javascript(@project.subject_code_name_full) %>");
-<% else %>
-$('#subject_code_name_full').html("Subject Code");
-<% end %>
+$('#subject_code_name_full').html("<%= escape_javascript(@project ? @project.subject_code_name_full : 'Subject Code') %>");
 
 $("#sheet_study_date").parent().parent().removeClass('warning success error');
 <% if @study_date.blank? %>

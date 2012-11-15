@@ -582,7 +582,7 @@ class SheetsController < ApplicationController
     unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
       subject = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s })
       if subject.site and subject.site.valid_subject_code?(params[:subject_code])
-        subject.update_attributes validated: true
+        subject.update_attributes status: 'valid'
       end
     end
 

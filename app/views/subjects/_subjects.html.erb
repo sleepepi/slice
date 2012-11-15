@@ -3,7 +3,7 @@
 <table class="table table-striped table-bordered" style="width:100%"><col width="30px"/>
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.validated', '', 'subjects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.status', '', 'subjects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.subject_code', 'Subject Code', 'subjects_search') %></th>
 
       <% if (@project and @project.acrostic_enabled?) or not @project %>
@@ -18,7 +18,15 @@
 
   <% @subjects.each do |subject| %>
     <tr id="subject_<%= subject.id %>">
-      <td><%= simple_check subject.validated? %></td>
+      <td>
+        <% case subject.status when 'valid' %>
+          <span class="label label-success"><%= subject.status %></span>
+        <% when 'test' %>
+          <span class="label label-info"><%= subject.status %></span>
+        <% else %>
+          <span class="label label-warning"><%= subject.status %></span>
+        <% end %>
+      </td>
       <td><%= link_to subject.subject_code, [subject.project, subject] %></td>
       <% if (@project and @project.acrostic_enabled?) or not @project %>
       <td><%= subject.acrostic %></td>

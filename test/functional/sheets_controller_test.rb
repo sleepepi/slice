@@ -306,7 +306,7 @@ class SheetsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sheet)
     assert_equal Subject.last, assigns(:sheet).subject
-    assert_equal true, assigns(:sheet).subject.validated?
+    assert_equal 'valid', assigns(:sheet).subject.status
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
@@ -320,7 +320,7 @@ class SheetsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sheet)
     assert_equal Subject.last, assigns(:sheet).subject
-    assert_equal false, assigns(:sheet).subject.validated?
+    assert_equal 'pending', assigns(:sheet).subject.status
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end

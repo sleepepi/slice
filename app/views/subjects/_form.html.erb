@@ -44,9 +44,9 @@
   </div>
 
   <div class="control-group">
-    <%= label_tag :validated, nil, class: 'control-label' %>
+    <%= label_tag :status, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.check_box :validated %>
+      <%= f.select :status, Subject::STATUS %>
     </div>
   </div>
 

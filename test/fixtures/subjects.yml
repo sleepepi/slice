@@ -5,25 +5,25 @@ one:
   subject_code: Code01
   user: valid
   site: one
-  validated: false
+  status: pending
 
 two:
   project: one
   subject_code: Code02
   user: valid
   site: one
-  validated: false
+  status: pending
 
 three:
   project: one
   subject_code: S2001
   user: valid
   site: three
-  validated: true
+  status: valid
 
 external:
   project: three
   subject_code: first.last@gmail.com
   user: admin
   site: admin_site
-  validated: true
+  status: valid

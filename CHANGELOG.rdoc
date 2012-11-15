@@ -12,6 +12,8 @@
       * User's Email: #(user).email
   * Project Changes
     * Subjects and Sites are now integrated more closely with their projects
+  * Subject Changes
+    * Subjects can now be marked as valid, test, or pending
   * Sheet PDFs sent using sheet receipt emails are now named in the following manner
     * [subject_code]_[study_date]_[design_name].pdf
   * Sheet receipt email TO and CC fields can now be specified as semi-colon-delimited in addition to comma-delimited

@@ -19,7 +19,7 @@ class SubjectsController < ApplicationController
       end
 
       subject_scope = subject_scope.without_design(params[:without_design_id]) unless params[:without_design_id].blank?
-      subject_scope = subject_scope.validated(params[:validated] == '1') unless params[:validated].blank?
+      subject_scope = subject_scope.where(status: 'valid') if params[:validated] == '1'
 
       @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
       @search_terms.each{|search_term| subject_scope = subject_scope.search(search_term) }
@@ -176,7 +176,7 @@ class SubjectsController < ApplicationController
     end
 
     params[:subject].slice(
-      :project_id, :subject_code, :site_id, :validated, :acrostic, :email
+      :project_id, :subject_code, :site_id, :acrostic, :email, :status
     )
   end
 end

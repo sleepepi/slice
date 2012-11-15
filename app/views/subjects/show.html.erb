@@ -22,8 +22,16 @@
   <dt>Email</dt>
   <dd><%= @subject.email %></dd>
 
-  <dt>Validated</dt>
-  <dd><%= simple_check @subject.validated? %></dd>
+  <dt>Status</dt>
+  <dd>
+    <% case @subject.status when 'valid' %>
+      <span class="label label-success"><%= @subject.status %></span>
+    <% when 'test' %>
+      <span class="label label-info"><%= @subject.status %></span>
+    <% else %>
+      <span class="label label-warning"><%= @subject.status %></span>
+    <% end %>
+  </dd>
 
   <dt>Site</dt>
   <dd><%= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site %></dd>

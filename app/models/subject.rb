@@ -1,5 +1,7 @@
 class Subject < ActiveRecord::Base
-  attr_accessible :project_id, :subject_code, :user_id, :site_id, :validated, :acrostic, :email
+  attr_accessible :project_id, :subject_code, :user_id, :site_id, :acrostic, :email, :status
+
+  STATUS = ["valid", "test", "pending"].collect{|i| [i,i]}
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -8,7 +10,6 @@ class Subject < ActiveRecord::Base
   scope :search, lambda { |*args| { conditions: [ 'LOWER(subject_code) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :without_design, lambda { |*args| { conditions: ["subjects.id NOT IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, args.first] } }
   scope :with_design, lambda { |*args| { conditions: ["subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, args.first] } }
-  scope :validated, lambda { |*args| { conditions: ["subjects.validated = ?", args.first] } }
 
   # Model Validation
   validates_presence_of :project_id, :subject_code, :user_id, :site_id

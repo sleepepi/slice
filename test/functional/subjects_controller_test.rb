@@ -26,7 +26,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should create subject" do
     assert_difference('Subject.count') do
-      post :create, project_id: @project, subject: { subject_code: 'Code03', validated: @subject.validated }, site_id: @subject.site_id
+      post :create, project_id: @project, subject: { subject_code: 'Code03', status: @subject.status }, site_id: @subject.site_id
     end
 
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
@@ -34,7 +34,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should not create subject for invalid project" do
     assert_difference('Subject.count', 0) do
-      post :create, project_id: projects(:four), subject: { subject_code: 'Code03', validated: @subject.validated }, site_id: @subject.site_id
+      post :create, project_id: projects(:four), subject: { subject_code: 'Code03', status: @subject.status }, site_id: @subject.site_id
     end
 
     assert_not_nil assigns(:subject)
@@ -45,7 +45,7 @@ class SubjectsControllerTest < ActionController::TestCase
   test "should not create subject for site user" do
     login(users(:site_one_user))
     assert_difference('Subject.count', 0) do
-      post :create, project_id: @project, subject: { subject_code: 'Code03', validated: true }, site_id: sites(:one).id
+      post :create, project_id: @project, subject: { subject_code: 'Code03', status: 'valid' }, site_id: sites(:one).id
     end
 
     assert_not_nil assigns(:subject)
@@ -85,12 +85,12 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should update subject" do
-    put :update, id: @subject, project_id: @project, subject: { subject_code: @subject.subject_code, validated: @subject.validated }, site_id: @subject.site_id
+    put :update, id: @subject, project_id: @project, subject: { subject_code: @subject.subject_code, status: @subject.status }, site_id: @subject.site_id
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
   end
 
   test "should update subject with blank subject code" do
-    put :update, id: @subject, project_id: @project, subject: { subject_code: '', validated: @subject.validated }, site_id: @subject.site_id
+    put :update, id: @subject, project_id: @project, subject: { subject_code: '', status: @subject.status }, site_id: @subject.site_id
     assert_not_nil assigns(:subject)
     assert assigns(:subject).errors.size > 0
     assert_equal ["can't be blank"], assigns(:subject).errors[:subject_code]
@@ -98,7 +98,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should not update invalid subject" do
-    put :update, id: -1, project_id: @project, subject: { subject_code: @subject.subject_code, validated: @subject.validated }, site_id: @subject.site_id
+    put :update, id: -1, project_id: @project, subject: { subject_code: @subject.subject_code, status: @subject.status }, site_id: @subject.site_id
     assert_nil assigns(:subject)
     assert_redirected_to project_subjects_path
   end

@@ -19,7 +19,7 @@
     <div class="span4 control-group">
       <%= label :validated, 'Validated', class: 'control-label' %>
       <div class="controls">
-        <%= select_tag :validated, options_for_select([['---', nil], ['validated', 1], ['not validated', 0]],params[:validated]), data: { object: 'filter' } %>
+        <%= select_tag :validated, options_for_select([['---', nil], ['Valid', 1], ['All', 0]], params[:validated]), data: { object: 'filter' } %>
       </div>
     </div>
   </div>
