@@ -14,12 +14,12 @@
   <% @site_users.each do |site_user| %>
     <tr>
       <td><%= link_to site_user.project.name, site_user.project if site_user.project %></td>
-      <td><%= link_to site_user.site.name, site_user.site if site_user.site %></td>
+      <td><%= link_to site_user.site.name, [site_user.site.project, site_user.site] if site_user.site %></td>
       <td><%= link_to site_user.user.name, site_user.user if site_user.user %></td>
       <td><%= link_to site_user.creator.name, site_user.creator if site_user.creator %></td>
       <td>
-        <%= link_to 'Edit', edit_site_user_path(site_user), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', site_user, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site User #{site_user.name}?" } %>
+        <%= link_to 'Edit', edit_project_site_user_path(site_user.project, site_user), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', [site_user.project, site_user], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site User #{site_user.name}?" } %>
       </td>
     </tr>
   <% end %>

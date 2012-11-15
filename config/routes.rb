@@ -65,6 +65,20 @@ Slice::Application.routes.draw do
       end
     end
 
+    resources :sites do
+      collection do
+        post :selection
+      end
+    end
+
+    resources :site_users do
+      collection do
+        get :accept
+      end
+    end
+
+    resources :subjects
+
     resources :variables do
       member do
         get :copy
@@ -102,19 +116,6 @@ Slice::Application.routes.draw do
   #   end
   # end
 
-  resources :sites do
-    collection do
-      post :selection
-    end
-  end
-
-  resources :site_users do
-    collection do
-      get :accept
-    end
-  end
-
-  resources :subjects
 
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 

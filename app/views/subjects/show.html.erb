@@ -1,19 +1,16 @@
 <% @title = "Subject: #{@subject.name}" %>
 <div class="page-header">
   <h1>
-    <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
     <% if current_user.all_subjects.pluck(:id).include?(@subject.id) %>
-      <%= link_to "Edit Subject", edit_subject_path(@subject), class: 'btn btn-mini' %>
-      <%= link_to "Delete Subject", @subject, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" } %>
+      <%= link_to "Edit Subject", edit_project_subject_path(@subject.project, @subject), class: 'btn btn-mini' %>
+      <%= link_to "Delete Subject", [@subject.project, @subject], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" } %>
     <% end %>
-    <%= link_to "View Subjects", subjects_path, class: 'btn btn-mini' %>
+    <%= link_to "View Subjects", project_subjects_path, class: 'btn btn-mini' %>
   </h1>
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Project</dt>
-  <dd><%= link_to @subject.project.name, @subject.project if @subject.project %></dd>
-
   <dt>Subject Code</dt>
   <dd><%= @subject.subject_code %></dd>
 
@@ -29,7 +26,7 @@
   <dd><%= simple_check @subject.validated? %></dd>
 
   <dt>Site</dt>
-  <dd><%= link_to @subject.site.name, @subject.site if @subject.site %></dd>
+  <dd><%= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site %></dd>
 
   <dt>Creator</dt>
   <dd><%= link_to @subject.user.name, @subject.user if @subject.user %></dd>

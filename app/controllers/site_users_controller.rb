@@ -51,7 +51,7 @@ class SiteUsersController < ApplicationController
 
     respond_to do |format|
       if @site and @site_user
-        format.html { redirect_to @site_user, notice: 'SiteUser was successfully created.' }
+        format.html { redirect_to [@site_user.site.project, @site_user], notice: 'SiteUser was successfully created.' }
         format.json { render json: @site_user, status: :created, location: @site_user }
         format.js { render 'index' }
       else
@@ -65,12 +65,12 @@ class SiteUsersController < ApplicationController
   def accept
     @site_user = SiteUser.find_by_invite_token(params[:invite_token])
     if @site_user and @site_user.user == current_user
-      redirect_to @site_user.site, notice: "You have already been added to #{@site_user.site.name}."
+      redirect_to [@site_user.site.project, @site_user.site], notice: "You have already been added to #{@site_user.site.name}."
     elsif @site_user and @site_user.user
       redirect_to root_path, alert: "This invite has already been claimed."
     elsif @site_user
       @site_user.update_attributes user_id: current_user.id
-      redirect_to @site_user.site, notice: "You have been successfully been added to the site."
+      redirect_to [@site_user.project, @site_user.site], notice: "You have been successfully been added to the site."
     else
       redirect_to root_path, alert: 'Invalid invitation token.'
     end
@@ -102,7 +102,7 @@ class SiteUsersController < ApplicationController
     respond_to do |format|
       if @site
         @site_user.destroy
-        format.html { redirect_to @site }
+        format.html { redirect_to [@site.project, @site] }
         format.json { head :no_content }
         format.js { render 'index' }
       elsif @site_user.user == current_user

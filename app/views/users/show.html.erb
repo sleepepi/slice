@@ -38,7 +38,7 @@
     <ul>
       <% @user.all_viewable_sites.each do |site| %>
         <% if current_user.all_viewable_sites.pluck(:id).include?(site.id) %>
-          <li><%= link_to site.name_with_project, site %></li>
+          <li><%= link_to site.name_with_project, [site.project, site] %></li>
         <% end %>
       <% end %>
     </ul>

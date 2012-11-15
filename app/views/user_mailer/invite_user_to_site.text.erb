@@ -1,11 +1,11 @@
 Hello,
 
-<%= @site_user.creator.name %> has invited you to Site <%= @site_user.site.name %> located here <%= "#{SITE_URL}/sites/#{@site_user.site.id}" %>.
+<%= @site_user.creator.name %> has invited you to Site <%= @site_user.site.name %> located here <%= "#{SITE_URL}/projects/#{@site_user.site.project.id}/sites/#{@site_user.site.id}" %>.
 
 Click the following link to accept the invitation:
 
 
-    <%= SITE_URL + accept_site_users_path(invite_token: @site_user.invite_token) %>
+    <%= SITE_URL + accept_project_site_users_path(@site_user.site.project, invite_token: @site_user.invite_token) %>
 
 
 Thank you!

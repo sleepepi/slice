@@ -1,13 +1,13 @@
 <% @title = "Site: #{@site.name}" %>
 <div class="page-header">
   <h1>
-    <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
     <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
-      <%= link_to "Edit Site", edit_site_path(@site), class: 'btn btn-mini' %>
-      <%= link_to "Delete Site", @site, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" } %>
+      <%= link_to "Edit Site", edit_project_site_path(@site.project, @site), class: 'btn btn-mini' %>
+      <%= link_to "Delete Site", [@site.project, @site], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" } %>
     <% end %>
-    <%= link_to "View Sites", sites_path, class: 'btn btn-mini' %>
-    <%= link_to "View Subjects", subjects_path(site_id: @site.id), class: 'btn btn-mini' %>
+    <%= link_to "View Sites", project_sites_path, class: 'btn btn-mini' %>
+    <%= link_to "View Subjects", project_subjects_path(@project, site_id: @site.id), class: 'btn btn-mini' %>
   </h1>
 </div>
 
@@ -27,9 +27,6 @@
   <dt>Description</dt>
   <dd><%= simple_format @site.description %></dd>
 
-  <dt>Project</dt>
-  <dd><%= @project = @site.project; render partial: 'projects/logo_small' %> <%= link_to @site.project.name, @site.project if @site.project %></dd>
-
   <dt>Emails</dt>
   <dd><%= @site.emails %></dd>
 
@@ -40,7 +37,7 @@
 
 <div class="page-header">
   <h2>
-    <%= form_tag site_users_path(site_user: { site_id: @site.id } ), method: :post, remote: true, class: 'form-inline' do %>
+    <%= form_tag project_site_users_path(@project, site_user: { site_id: @site.id } ), method: :post, remote: true, class: 'form-inline' do %>
       Site Members
       <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
         <span style="white-space:nowrap">

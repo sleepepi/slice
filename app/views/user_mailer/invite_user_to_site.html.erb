@@ -1,10 +1,10 @@
 Hello,<br />
 <br />
-<%= @site_user.creator.name %> has <span style="border:1px solid #003db8;background-color:#a8c5ff">INVITED</span> you to Site <b><%= link_to @site_user.site.name, "#{SITE_URL}/sites/#{@site_user.site.id}" %></b>.<br />
+<%= @site_user.creator.name %> has <span style="border:1px solid #003db8;background-color:#a8c5ff">INVITED</span> you to Site <b><%= link_to @site_user.site.name, "#{SITE_URL}/projects/#{@site_user.site.project.id}/sites/#{@site_user.site.id}" %></b>.<br />
 <br />
 Click the following link to accept the invitation:<br />
 <br />
-<%= link_to SITE_URL + accept_site_users_path(invite_token: @site_user.invite_token), SITE_URL + accept_site_users_path(invite_token: @site_user.invite_token) %><br />
+<%= link_to SITE_URL, SITE_URL + accept_project_site_users_path(@site_user.site.project, invite_token: @site_user.invite_token) %><br />
 <br />
 Thank you!<br />
 <br />

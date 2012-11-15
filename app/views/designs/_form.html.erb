@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1><%= @title %></h1>
+  <h1><%= link_to @design.project.name, @design.project %> &middot; <%= @title %></h1>
 </div>
 
 <%= form_for [@design.project, @design], html: { class: 'form-horizontal' } do |f| %>

@@ -3,6 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 jQuery ->
   $("#subject_project_id").on('change', () ->
-    $.post(root_url + 'sites/selection', 'project_id=' + $("#subject_project_id").val() + '&subject_code=' + $("#subject_subject_code").val() + '&select=1', null, "script")
+    $.post(root_url + 'projects/' + $("#subject_project_id").val() + '/sites/selection', 'subject_code=' + $("#subject_subject_code").val() + '&select=1', null, "script")
     false
   )
