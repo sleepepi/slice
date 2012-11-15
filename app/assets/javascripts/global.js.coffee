@@ -24,10 +24,10 @@ jQuery ->
       $('[data-object~="filter"]').val('')
       $('[data-object~="filter-html"]').html('')
       $('#variable-type-all').button('toggle')
-      $('[data-object~="set-statuses"]').removeClass('active')
-      $('#statuses_pending, #statuses_test').val('')
+      $('[data-object~="set-statuses"]').addClass('active')
+      $('#statuses_pending').val('pending')
+      $('#statuses_test').val('test')
       $('#statuses_valid').val('valid')
-      $('[data-object~="set-statuses"][data-value="valid"]').addClass('active')
       $($(this).data('target')).submit()
       false
     )
