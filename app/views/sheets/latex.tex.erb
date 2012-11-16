@@ -13,6 +13,7 @@
 \usepackage{sectsty}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \usepackage{indentfirst}
+\usepackage{tabularx}
 
 \usepackage{needspace}
 \usepackage{color}
@@ -67,7 +68,7 @@
 
 \begin{table*}[!htbp]\centering
 
-\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}}<%= 'r'*@variable.grid_variables.size %>}
+\begin{tabularx}{\textwidth}{<%= 'X'*@variable.grid_variables.size %>}
 <% @variable.grid_variables.each do |grid_variable| %>
   <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
   <%= latex_safe v.display_name if v %> &
@@ -83,7 +84,7 @@
     <% end %>
   <% end %>
 <% end %>
-\end{tabular*}
+\end{tabularx}
 \end{table*}
 
     <% else %>
