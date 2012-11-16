@@ -1,0 +1,125 @@
+<%#= print.tex.erb %>
+<% @design = self %>
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[margin=0.5in]{geometry}
+\geometry{top=1.0in, bottom=1.0in}
+\usepackage{lastpage}
+\usepackage{wrapfig}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\usepackage{indentfirst}
+
+\usepackage{hyperref}
+\usepackage{pifont}
+
+\usepackage{needspace}
+\usepackage{color}
+
+\fancyhf{}
+
+\lhead{}
+\chead{\textbf{Project}\\<%= latex_safe @design.project.name %>}
+\rhead{}
+\lfoot{<%= latex_safe @design.name %>}
+\cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
+\rfoot{\thepage\ of \pageref{LastPage}}
+
+
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \setlength\headheight{22pt}
+
+\pagestyle{fancyplain}
+
+
+
+\begin{document}
+
+<% if @design.project.logo.size > 0 %>
+\begin{wrapfigure}{r}
+    \centering
+    \includegraphics[width=25pt]{<%= @design.project.logo.path if @design.project.logo.size > 0 %>}
+    \noindent
+    \label{simulationfigure}
+\end{wrapfigure}
+<% end %>
+
+
+
+\section*{<%= latex_safe @design.name %>}
+
+<%= latex_safe @design.description %> \\
+
+
+
+<% @design.options.each_with_index do |option, index| %>
+  \FloatBarrier
+  <% @option = option %>
+
+  <% if @option[:variable_id].blank? %>
+    \subsection*{<%= latex_safe @option[:section_name] %>}
+    \hline
+~
+  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+    <% if @variable.variable_type == 'grid' %> <%# sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
+
+<% @variable.header unless @variable.header.blank? %>
+  \Needspace{7\baselineskip}
+  \subsubsection*{<%= latex_safe @variable.display_name %>}
+
+\begin{table*}[!htbp]\centering
+
+\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}}<%= 'r'*@variable.grid_variables.size %>}
+<% @variable.grid_variables.each do |grid_variable| %>
+  <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
+  <%= latex_safe v.display_name if v %> &
+<% end %>
+\midrule
+<% (0..([@variable.default_row_number.to_i - 1, 0]).max).each do |position| %>
+  <% @variable.grid_variables.each do |grid_variable| %>
+    <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %> <%= v.units if v %> &
+  <% end %>
+  \midrule
+<% end %>
+\end{tabular*}
+\end{table*}
+
+    <% else %>
+
+\Needspace{7\baselineskip}
+<% if @variable.header.blank? %>
+  \subsubsection*{<%= latex_safe @variable.display_name %>}
+<% else %>
+  \subsubsection*{<%= latex_safe @variable.header %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
+<% end %>
+
+<% if @variable.variable_type == 'date' %>
+ \underline{~~~~/~~~~/~~~~~~~~} \textcolor[gray]{0.5}{MM / DD / YYYY}
+
+<% elsif ['checkbox'].include?(@variable.variable_type) or (@variable.variable_type == 'scale' and @variable.scale_type == 'checkbox') %>
+
+<% @variable.options_without_missing.each do |option| %>\CheckBox[name=<%= latex_safe "opt#{option[:value]}" %>]{<%= latex_safe option[:value] %>: <%= latex_safe option[:name] %>}~~~<% end %>
+
+<% elsif ['radio','dropdown'].include?(@variable.variable_type) or (@variable.variable_type == 'scale' and @variable.scale_type == 'radio') %>
+
+\begin{Form}
+<% @variable.options_without_missing.each do |option| %>\ChoiceMenu[radio,radiosymbol=\ding{108},name=<%= latex_safe "variable#{@variable.id}" %>]{}{<%= latex_safe option[:value] %>: <%= latex_safe option[:name] %>=<%= latex_safe option[:value] %>}<% end %>
+\end{Form}
+
+<% elsif @variable.variable_type == 'file' and @variable.response_file(@sheet).size > 0 %>
+  \textcolor[gray]{0.5}{File Upload}
+<% else %>
+  ~~~~~~~~~~~~~~~~~~~ <%= latex_safe @variable.units unless @variable.units.blank? %>
+<% end %>
+
+    <% end %>
+  <% end %>
+<% end %>
+
+\end{document}
+

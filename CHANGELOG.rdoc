@@ -10,6 +10,7 @@
     * Email templates and subject lines can now reference the user sending the email (full name and email)
       * User's Full Name: #(user)
       * User's Email: #(user).email
+    * Designs are now rendered using LaTeX for cleaner PDFs
   * Project Changes
     * Subjects and Sites are now integrated more closely with their projects
   * Subject Changes

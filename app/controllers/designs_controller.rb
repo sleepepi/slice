@@ -211,15 +211,36 @@ class DesignsController < ApplicationController
     end
   end
 
+  # This is the latex view
   def print
     @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
+
     if @project and @design
-      render layout: false
+      file_pdf_location = @design.latex_file_location(current_user)
+
+      if File.exists?(file_pdf_location)
+        File.open(file_pdf_location, 'r') do |file|
+          send_file file, filename: "design_#{@design.id}.pdf", type: "application/pdf", disposition: "inline"
+        end
+      else
+        render text: "PDF did not render in time. Please refresh the page."
+      end
     else
       render nothing: true
     end
   end
+
+  # Old print view
+  # def print
+  #   @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
+  #   @design = current_user.all_viewable_designs.find_by_id(params[:id])
+  #   if @project and @design
+  #     render layout: false
+  #   else
+  #     render nothing: true
+  #   end
+  # end
 
   # GET /designs/1
   # GET /designs/1.json

@@ -42,6 +42,7 @@ Slice::Application.routes.draw do
 
     resources :designs do
       member do
+        # get :latex
         get :copy
         get :print
         post :reorder
