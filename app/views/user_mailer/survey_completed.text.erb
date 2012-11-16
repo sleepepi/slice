@@ -1,0 +1,13 @@
+Hello <%= @sheet.user.name %>,
+
+<%= @sheet.subject.subject_code %> has completed a survey that you requested for <%= @sheet.name %>. You can view the completed sheet here:
+
+
+  <%= SITE_URL + project_sheet_path(@sheet.project, @sheet) %>
+
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> Mailer
+
+This email was AUTOMATICALLY generated.

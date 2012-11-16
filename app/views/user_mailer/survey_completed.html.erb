@@ -1,0 +1,10 @@
+Hello <%= @sheet.user.name %>,<br />
+<br />
+<b><%= @sheet.subject.subject_code %></b> has completed a survey that you requested for <b><%= @sheet.name %></b>. You can view the completed sheet here:<br />
+<br />
+<%= link_to SITE_URL + project_sheet_path(@sheet.project, @sheet), SITE_URL + project_sheet_path(@sheet.project, @sheet) %><br />
+<br />
+Thank you!<br />
+<%= DEFAULT_APP_NAME %> Mailer<br />
+<br />
+<i>This email was AUTOMATICALLY generated.</i>

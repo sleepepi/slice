@@ -349,6 +349,7 @@ class SheetsController < ApplicationController
       if params[:current_design_page].to_i <= @sheet.design.total_pages
         render action: 'survey'
       else
+        UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
         redirect_to about_path, notice: 'Survey submitted successfully.'
       end
 

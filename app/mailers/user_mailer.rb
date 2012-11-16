@@ -59,6 +59,12 @@ class UserMailer < ActionMailer::Base
          reply_to: "#{sheet.last_user.name} <#{sheet.last_user.email}>")
   end
 
+  def survey_completed(sheet)
+    @sheet = sheet
+    mail(to: "#{sheet.user.name} <#{sheet.user.email}>",
+         subject: "#{sheet.subject.subject_code} Submitted #{sheet.design.name}")
+  end
+
   def export_ready(export)
     @export = export
     mail(to: "#{export.user.name} <#{export.user.email}>",
