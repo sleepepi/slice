@@ -62,9 +62,12 @@
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
     <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
-<% @variable.header unless @variable.header.blank? %>
-  \Needspace{7\baselineskip}
+\Needspace{7\baselineskip}
+<% if @variable.header.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
+<% else %>
+  \subsubsection*{<%= latex_safe @variable.header %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
+<% end %>
 
 \begin{table*}[!htbp]\centering
 
