@@ -72,7 +72,6 @@ class SheetsControllerTest < ActionController::TestCase
     get :index, project_id: @project, format: 'scope'
     assert_not_nil assigns(:sheet_count)
     assert_not_nil assigns(:sheets)
-    assert_template 'scope'
     assert_response :success
   end
 
