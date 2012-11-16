@@ -5,7 +5,7 @@
 <hr class="soften">
 
 <% if @project.logo.size > 0 %>
-  <div onmouseover="$('#project_logo_delete_icon').show();" onmouseout="$('#project_logo_delete_icon').hide();" id="logo_container" style="text-align:center">
+  <div data-object="hover-show" data-target="#project_logo_delete_icon" id="logo_container" style="text-align:center">
     <div style="background-color:white">
       <%= image_tag @project.logo_url, style: "height:128px" %>
     </div>
