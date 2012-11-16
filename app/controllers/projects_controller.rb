@@ -165,12 +165,15 @@ class ProjectsController < ApplicationController
 
     @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
     @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+    @statuses = params[:statuses] || ['valid']
 
     if @project
 
       sheet_scope = current_user.all_viewable_sheets.with_project(@project.id).scoped()
       sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
       sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+
+      sheet_scope = sheet_scope.with_subject_status(@statuses)
 
       min = sheet_scope.pluck(:study_date).min || Date.today
       max = sheet_scope.pluck(:study_date).max || Date.today

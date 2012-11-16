@@ -22,7 +22,7 @@
       <% @ranges.each do |hash| %>
         <% count = @sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).count %>
         <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">
-          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y")) %>
+          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y"), statuses: @statuses) %>
           <% hash[:column_count] = count %>
           <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
             <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
@@ -31,7 +31,7 @@
       <% end %>
       <% count = @sheets.count %>
       <td class="<%= 'muted' if count == 0 %>">
-        <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project) %>
+        <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, statuses: @statuses) %>
       </td>
     </tr>
   </tfoot>
@@ -40,11 +40,11 @@
       <tr>
         <% row_counts = @ranges.collect{|hash| @sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_design(design.id).count } %>
         <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
-        <td><%= link_to design.name, report_project_design_path(design.project, design, by: @by, percent: @percent) %></td>
+        <td><%= link_to design.name, report_project_design_path(design.project, design, by: @by, percent: @percent, statuses: @statuses) %></td>
         <% @ranges.each do |hash| %>
           <% count = @sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_design(design.id).count %>
           <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">
-            <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id, sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y")) %>
+            <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id, sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y"), statuses: @statuses) %>
             <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
               <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
             <% end %>
@@ -55,7 +55,7 @@
         <% end %>
         <% count = @sheets.with_design(design.id).count %>
         <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= design.name if count > 0 %>" data-placement="left">
-          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id) %>
+          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id, statuses: @statuses) %>
           <% if @percent == 'column' and count > 0 and @sheets.count > 0 %>
             <span class="muted" style="font-size:0.7em"><%= (count * 100 / @sheets.count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
           <% end %>
@@ -66,4 +66,4 @@
 </table>
 
 <%= link_to '#permalink', report_project_path(@project, by: @by, percent: @percent, sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
-                                              sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")) ), class: 'pull-right' %>
+                                              sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")), statuses: @statuses ), class: 'pull-right' %>

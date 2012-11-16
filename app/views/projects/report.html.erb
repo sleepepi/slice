@@ -41,6 +41,20 @@
       <button type="submit" class="btn btn-primary pull-right">Refresh</button>
     </div>
   </div>
+
+  <div class="row">
+    <div class="span4" style="padding-top:3px;margin-top:0px">
+      Subjects
+      <div class="btn-group" data-toggle="buttons-checkbox">
+        <% Subject::STATUS.each do |label, value| %>
+          <button data-object="set-statuses" data-value="<%= value %>" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+            <%= label.humanize %>
+            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
 <% end %>
 
 <hr class="soften" style="margin-top:20px;margin-bottom:54px">
