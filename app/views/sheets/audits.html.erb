@@ -104,7 +104,7 @@
                           <% response[index] = { key: key, name: (p ? p.name : nil), url: (p ? project_path(p) : nil) } %>
                         <% when 'subject_id' %>
                           <% s = current_user.all_viewable_subjects.find_by_id(res) %>
-                          <% response[index] = { key: key, name: (s ? s.name : nil), url: (s ? subject_path(s) : nil) } %>
+                          <% response[index] = { key: key, name: (s ? s.name : nil), url: (s ? project_subject_path(s.project, s) : nil) } %>
                         <% when 'user_id' %>
                           <% u = User.current.find_by_id(res) %>
                           <% response[index] = { key: key, name: (u ? u.name : nil), url: (u ? user_path(u) : nil) } %>
