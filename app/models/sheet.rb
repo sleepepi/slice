@@ -82,10 +82,14 @@ class Sheet < ActiveRecord::Base
     update_column :deleted, true
   end
 
-  def send_external_email!(email, authentication_token = SecureRandom.hex(32))
+  def send_external_email!(current_user, email, authentication_token = SecureRandom.hex(32))
     begin
       self.update_attributes authentication_token: authentication_token if self.authentication_token.blank?
-      UserMailer.sheet_completion_request(self, email).deliver if Rails.env.production?
+      # UserMailer.sheet_completion_request(self, email).deliver if Rails.env.production?
+      mail = UserMailer.sheet_completion_request(self, email)
+      mail.deliver if Rails.env.production?
+
+      sheet_email = self.sheet_emails.create(email_body: mail.html_part.body.decoded, email_cc: (mail.cc || []).join(','), email_pdf_file: nil, email_subject: mail.subject, email_to: (mail.to || []).join(','), user_id: current_user.id)
     rescue => e
       Rails.logger.info "-----------------------"
       Rails.logger.info "Unable to send_external_email! for Sheet #{self.id} due to colliding authentication_token: #{authentication_token}."

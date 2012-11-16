@@ -46,7 +46,7 @@ class Design < ActiveRecord::Base
       subject = site.subjects.find_or_create_by_project_id_and_subject_code(site.project_id, email, { user_id: current_user.id, status: 'valid', email: short_email }) unless subject
       Rails.logger.debug "#{site.project_id}, #{date}, #{subject.id}, #{self.id}, #{current_user.id}"
       sheet = site.project.sheets.find_or_create_by_study_date_and_subject_id_and_design_id(date, subject.id, self.id, { user_id: current_user.id, last_user_id: current_user.id }) if subject
-      sheet.send_external_email!(short_email) if sheet and not sheet.new_record?
+      sheet.send_external_email!(current_user, short_email) if sheet and not sheet.new_record?
       if sheet and not sheet.new_record?
         new_sheets << sheet
       else

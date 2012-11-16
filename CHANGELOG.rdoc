@@ -5,6 +5,7 @@
     * External users are not required to sign up and can access the survey by clicking the survey link in the generated email
     * Subjects can now also have emails to allow project owners to send out questionnaires or surveys
     * Survey creators receive an email when the external user submits the survey
+    * Survey emails are part of the sheet's email history
   * Removed internal site ids from design reports
   * Entering a sheet now provides an autocomplete list of valid subject codes
   * Design Changes
