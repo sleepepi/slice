@@ -1,6 +1,7 @@
 <hr class="soften" style="margin-top:20px">
 <ul>
   <li style="line-height:25px;font-weight:bold"><%= link_to @project.name + " - Overview", report_project_path(@project) %></li>
+  <li style="line-height:25px;font-weight:bold"><%= link_to @project.name + " - Subject Report", subject_report_project_path(@project) %></li>
   <% @project.designs.order('name').each do |design| %>
     <li style="line-height:25px"><%= link_to design.name, report_project_design_path(design.project, design) %></li>
   <% end %>

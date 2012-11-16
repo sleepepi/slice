@@ -38,7 +38,7 @@
     <% @subjects.each do |subject| %>
       <tr>
         <td></td>
-        <td><%= link_to subject.subject_code, subject %></td>
+        <td><%= link_to subject.subject_code, [subject.project, subject] %></td>
         <% @designs.each do |design| %>
           <% count = design.sheets.where(subject_id: subject.id).count %>
           <td class="<%= 'muted' if count == 0 %>">
@@ -54,35 +54,6 @@
           <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, search: subject.subject_code) %>
         </td>
       </tr>
-    <% end %>
-
-    <% if false %>
-    <% @project.designs.order('name').each do |design| %>
-      <tr>
-        <% row_counts = @ranges.collect{|hash| @sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_design(design.id).count } %>
-        <td><span data-object="peity" data-method="line" style="display:none"><%= row_counts.join(',') %></span></td>
-        <td><%= link_to design.name, report_project_design_path(design.project, design, by: @by, percent: @percent) %></td>
-        <% @ranges.each do |hash| %>
-          <% count = @sheets.sheet_after(hash[:start_date]).sheet_before(hash[:end_date]).with_design(design.id).count %>
-          <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:tooltip] if count > 0 %>" data-placement="left">
-            <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id, sheet_before: hash[:end_date].strftime("%m/%d/%Y"), sheet_after: hash[:start_date].strftime("%m/%d/%Y")) %>
-            <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
-              <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
-            <% end %>
-            <% if @percent == 'column' and count > 0 and hash[:column_count] > 0 %>
-              <span class="muted" style="font-size:0.7em"><%= (count * 100 / hash[:column_count]).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
-            <% end %>
-          </td>
-        <% end %>
-        <% count = @sheets.with_design(design.id).count %>
-        <td class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= design.name if count > 0 %>" data-placement="left">
-          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id) %>
-          <% if @percent == 'column' and count > 0 and @sheets.count > 0 %>
-            <span class="muted" style="font-size:0.7em"><%= (count * 100 / @sheets.count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
     <% end %>
   </tbody>
 </table>

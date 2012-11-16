@@ -6,6 +6,12 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should get subject report" do
+    get :subject_report, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should get splash" do
     get :splash
     assert_not_nil assigns(:projects)
