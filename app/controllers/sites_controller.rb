@@ -135,7 +135,7 @@ class SitesController < ApplicationController
         format.html { redirect_to project_sites_path(@project) }
         format.json { head :no_content }
       else
-        format.html { redirect_to sites_path }
+        format.html { redirect_to root_path }
         format.json { head :no_content }
       end
     end
