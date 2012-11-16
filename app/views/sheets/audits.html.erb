@@ -29,7 +29,7 @@
       <tr>
         <td colspan="6" style="font-weight:bold;font-size:2em"><%= Date::ABBR_MONTHNAMES[month] %> <%= year %></td>
       </tr>
-      <% audits.each_with_index do |audit, audit_index| %>
+      <% audits.sort{|a,b| b.id <=> a.id}.each_with_index do |audit, audit_index| %>
         <% previous_audit = audits[audit_index - 1] %>
         <% if audit_index > 0 and previous_audit.created_at and audit.created_at and previous_audit.created_at.to_date != audit.created_at.to_date %>
           <tr><td>&vellip;</td><td colspan="5" class="muted"><%= distance_of_time_in_words(previous_audit.created_at, audit.created_at) %></td></tr>
