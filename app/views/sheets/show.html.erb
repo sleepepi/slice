@@ -148,11 +148,11 @@
       <dt>Created</dt>
       <dd><%= simple_time @sheet.created_at %>
 
-      <dt>Last Updated By</dt>
+      <dt>Last Edited By</dt>
       <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
 
-      <dt>Updated</dt>
-      <dd><%= simple_time @sheet.updated_at %>
+      <dt>Last Edited At</dt>
+      <dd><%= simple_time @sheet.last_edited_at %>
 
       <dt>Last Emailed</dt>
       <dd><%= simple_time @sheet.last_emailed_at %>
