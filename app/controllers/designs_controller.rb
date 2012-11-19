@@ -202,6 +202,7 @@ class DesignsController < ApplicationController
         format.html # index.html.erb
         format.js
         format.json { render json: @designs }
+        format.xls { generate_xls(design_scope) }
       end
     else
       respond_to do |format|
@@ -453,6 +454,16 @@ class DesignsController < ApplicationController
     file_name = report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                            disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
+  def generate_xls(design_scope)
+    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'designs')
+
+    design_ids = design_scope.pluck(:id)
+
+    systemu "#{RAKE_PATH} design_export EXPORT_ID=#{export.id} DESIGN_IDS='#{design_ids.join(',')}' &"
+
+    redirect_to project_designs_path(@project), notice: 'You will be emailed when the export is ready for download.'
   end
 
   def post_params

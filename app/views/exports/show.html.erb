@@ -6,7 +6,7 @@
     <% if false %><%= link_to "Edit Export", edit_export_path(@export), class: 'btn btn-mini' %><% end %>
     <%= link_to "Delete Export", @export, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
     <%= link_to "View Exports", exports_path, class: 'btn btn-mini' %>
-    <span class="label label-<%= @export.status == 'ready' ? 'success' : 'warning' %>"><%= @export.status %></span>
+    <span class="label label-<%= @export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'important') %>"><%= @export.status %></span>
   </h1>
 </div>
 
@@ -18,6 +18,8 @@
       <%= link_to @export.file.to_s.split('/').last, @export.file.url, target: '_blank', class: 'btn btn-mini' %>
       <%= number_to_human_size(@export.file.size) %>
       <p class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.file_created_at, true) %>.</p>
+    <% elsif @export.status == 'failed' %>
+      <span class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.updated_at, true) %>.</span>
     <% else %>
       <span class="muted">Requested <%= distance_of_time_in_words(@export.created_at, Time.now, true) %> ago...</span>
     <% end %>
@@ -28,6 +30,11 @@
 
   <dt>Include Files</dt>
   <dd><%= simple_check @export.include_files %></dd>
+
+  <% if @export.status == 'failed' %>
+    <dt>Details</dt>
+    <dd><%= @export.details %></dd>
+  <% end %>
 
 
 <% if false %>

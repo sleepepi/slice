@@ -13,6 +13,7 @@
       * User's Full Name: #(user)
       * User's Email: #(user).email
     * Designs are now rendered using LaTeX for cleaner PDFs
+    * Design (Data Dictionary) exports are now provided as a single XLS file
   * Project Changes
     * Subjects and Sites are now integrated more closely with their projects
   * Subject Changes

@@ -1,9 +1,9 @@
 class Export < ActiveRecord::Base
-  attr_accessible :export_type, :file, :include_files, :name, :project_id, :status, :viewed, :file_created_at #, :user_id
+  attr_accessible :export_type, :file, :include_files, :name, :project_id, :status, :viewed, :file_created_at, :details #, :user_id
 
   mount_uploader :file, GenericUploader
 
-  STATUS = ["ready", "pending"].collect{|i| [i,i]}
+  STATUS = ["ready", "pending", "failed"].collect{|i| [i,i]}
   TYPE = ['sheets', 'designs'].collect{|i| [i,i]}
 
   # Named Scopes
