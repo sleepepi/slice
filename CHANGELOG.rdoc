@@ -22,6 +22,7 @@
   * Sheet Changes
     * Sheet PDF Collation now rendered using LaTeX for cleaner PDFs
     * Sheets now contain a last edited at variable that updates when a user edits the sheet (as opposed to solely viewing the sheet)
+    * Printed sheets now hide variables that have been hidden by branching logic
   * Sheet PDFs sent using sheet receipt emails are now named in the following manner
     * [subject_code]_[study_date]_[design_name].pdf
   * Improved display of grid variable tables in PDF for sheets and designs

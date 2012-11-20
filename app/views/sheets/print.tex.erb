@@ -59,7 +59,7 @@
     \subsection*{<%= latex_safe @option[:section_name] %>}
     \hline
 ~
-  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) and @sheet.show_variable?(@option[:branching_logic]) %>
     <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 \Needspace{7\baselineskip}

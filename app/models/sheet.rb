@@ -127,7 +127,7 @@ class Sheet < ActiveRecord::Base
     root_folder = FileUtils.pwd
     output_folder = File.join(root_folder, 'tmp', 'files', 'tex')
     template_folder = File.join(root_folder, 'app', 'views', 'sheets')
-    file_name = 'latex.tex'
+    file_name = 'print.tex'
     file_template = File.join(template_folder, file_name + '.erb')
     file_tex = File.join(root_folder, 'tmp', 'files', 'tex', jobname + '.tex')
     file_in = File.new(file_template, "r")
@@ -297,9 +297,27 @@ class Sheet < ActiveRecord::Base
     end
   end
 
-
   def self.sheet_responses(variable)
     self.scoped().collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
+  end
+
+  def expanded_branching_logic(branching_logic)
+    branching_logic.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
+  end
+
+  def variable_javascript_value(variable_name)
+    variable = self.variables.find_by_name(variable_name)
+    result = variable.response_raw(self) if variable
+    result.to_json
+  end
+
+  def show_variable?(branching_logic)
+    return true if branching_logic.to_s.strip.blank?
+    begin
+      ExecJS.eval expanded_branching_logic(branching_logic)
+    rescue => e
+      true
+    end
   end
 
   protected
