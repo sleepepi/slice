@@ -39,7 +39,7 @@ class Design < ActiveRecord::Base
       short_email = email
       match = email.match(/<(.*?)>/)
       if match and not match[1].strip.blank?
-        short_email = match[1].strip
+        short_email = match[1].strip.downcase
         email = email.gsub("<#{match[1]}>", "").strip
       end
       subject = site.subjects.find_by_email(short_email) unless short_email.blank?
