@@ -8,6 +8,9 @@ $(".datepicker").datepicker({
   changeYear: true,
   onClose: function (text, inst) { $(this).focus(); }
 });
+$(".datepicker").change(function(){
+  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
+});
 // $("#ui-datepicker-div").hide();
 
 $('[data-object~="variable-typeahead"]').each(function() {

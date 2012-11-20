@@ -10,4 +10,9 @@ $('#variable_<%= @variable.id %>_grid_container .datepicker').datepicker({
   changeYear: true,
   onClose: function (text, inst) { $(this).focus(); }
 });
+
+$("#variable_<%= @variable.id %>_grid_container .datepicker").change(function(){
+  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
+});
+
 // $("#ui-datepicker-div").hide();
