@@ -320,6 +320,23 @@ class Sheet < ActiveRecord::Base
     end
   end
 
+  def grids
+    Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).pluck(:id))
+  end
+
+  # Returns the file path with the relative location
+  # - The name of the file as it will appear in the archive
+  # - The original file, including the path to find it
+  def files
+    all_files = []
+    (self.sheet_variables.with_variable_type(['file']) + self.grids.with_variable_type(['file'])).each do |object|
+      if object.response_file.size > 0
+        all_files << ["sheet_#{self.id}/#{object.class.name.pluralize.underscore}/#{object.id}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
+      end
+    end
+    all_files
+  end
+
   protected
 
   # Copied from application_controller.rb

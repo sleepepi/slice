@@ -4,6 +4,9 @@ class SheetVariable < ActiveRecord::Base
   audited associated_with: :sheet
   has_associated_audits
 
+  # Named Scopes
+  scope :with_variable_type, lambda { |*args| { conditions: ['sheet_variables.variable_id in (SELECT variables.id from variables where variables.variable_type IN (?))', args.first] } }
+
   # Model Validation
   belongs_to :sheet, touch: true
   belongs_to :variable

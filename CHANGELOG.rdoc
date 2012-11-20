@@ -25,6 +25,7 @@
     * Printed sheets now hide variables that have been hidden by branching logic
     * Sheet audits now capture value changes triggered by editing a variable's option value in the design
     * Dates on sheets are now expanded to mm/dd/yyyy format if entered with a two-digit year
+
   * Sheet PDFs sent using sheet receipt emails are now named in the following manner
     * [subject_code]_[study_date]_[design_name].pdf
   * Improved display of grid variable tables in PDF for sheets and designs

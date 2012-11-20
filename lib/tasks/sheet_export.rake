@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'zip/zip'
+
 desc "Generate file for sheet exports"
 task sheet_export: :environment do
   export = Export.find_by_id(ENV["EXPORT_ID"])
@@ -79,13 +82,39 @@ task sheet_export: :environment do
       end
     end
 
-    filename = File.join('tmp', 'files', 'exports', "#{export.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{export.created_at.strftime("%I%M%P")}.xls")
+
+    filename = "#{export.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{export.created_at.strftime("%I%M%P")}"
+
+    export_file = File.join('tmp', 'files', 'exports', "#{filename}.xls")
 
     # buffer = StringIO.new
-    book.write(filename)
+    book.write(export_file)
     # buffer.rewind
 
-    export.update_attributes file: File.open(filename), file_created_at: Time.now, status: 'ready'
+    # Create a zip file
+    if export.include_files?
+      # TODO add all files associated with SHEET IDS
+
+      input_filenames = [[export_file.split('/').last, export_file]]
+
+      sheet_scope.each do |sheet|
+        input_filenames += sheet.files
+      end
+
+      zipfile_name = File.join('tmp', 'files', 'exports', "#{filename}.zip")
+
+      Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
+        input_filenames.each do |location, input_file|
+          # Two arguments:
+          # - The name of the file as it will appear in the archive
+          # - The original file, including the path to find it
+          zipfile.add(location, input_file)
+        end
+      end
+      export_file = zipfile_name
+    end
+
+    export.update_attributes file: File.open(export_file), file_created_at: Time.now, status: 'ready'
 
     export.notify_user!
   rescue => e

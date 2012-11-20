@@ -3,6 +3,9 @@ class Grid < ActiveRecord::Base
 
   audited associated_with: :sheet_variable
 
+  # Named Scopes
+  scope :with_variable_type, lambda { |*args| { conditions: ['grids.variable_id in (SELECT variables.id from variables where variables.variable_type IN (?))', args.first] } }
+
   # Model Validation
   validates_presence_of :sheet_variable_id, :variable_id, :position, :user_id
 

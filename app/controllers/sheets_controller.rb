@@ -223,6 +223,7 @@ class SheetsController < ApplicationController
         format.js
         format.json { render json: @sheets }
         format.xls { generate_xls(sheet_scope) }
+        format.zip { generate_xls(sheet_scope, true) }
       else
         format.html { redirect_to root_path }
         format.json { head :no_content }
@@ -498,9 +499,9 @@ class SheetsController < ApplicationController
                           disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")} #{raw_data ? 'raw' : 'labeled' }.csv\""
   end
 
-  def generate_xls(sheet_scope)
+  def generate_xls(sheet_scope, include_files = false)
 
-    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets')
+    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets', include_files: include_files)
 
     sheet_ids = sheet_scope.pluck(:id)
 
