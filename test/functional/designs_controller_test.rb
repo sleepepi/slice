@@ -305,6 +305,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should print design" do
     get :print, id: @design, project_id: @project
+    assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_response :success
   end

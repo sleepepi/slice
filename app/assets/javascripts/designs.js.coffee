@@ -38,6 +38,7 @@
     else
       truth_table.push(0)
 
+
   # dmsg truth_table
   if 0 in truth_table
     $(element).hide()

@@ -47,6 +47,7 @@
   * Double-clicking "Create" no longer attempts to submit a sheet twice as the button is now disabled as the form is being submitted
   * Removed inline JavaScript on the project page that caused errors when hovering over the project logo without the entirety of the JavaScript being loaded
   * Audits are now ordered correctly on the sheet audit page
+  * New sheets now properly load branching logic for preselected designs
 
 == 0.10.3
 

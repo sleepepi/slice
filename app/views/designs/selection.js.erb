@@ -40,13 +40,12 @@ $('#sheet_submit_btn, #sheet_submit_btn_and_continue').data('page', '<%= params[
 // $("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
 
 <% if @design %>
-
   <% @design.options.each do |option| %>
     <% @option = option %>
     <% if @option[:variable_id].blank? %>
-      $('#<%= @option[:section_id] %>').data('branching-logic', <%= raw @design ? @design.branching_logic_section(@option[:section_id]) : ''.to_json %>);
+      $('#<%= @option[:section_id] %>').data('branching-logic', <%= raw @design.branching_logic_section(@option[:section_id]) %>);
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-      $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design ? @design.branching_logic(@variable) : ''.to_json %>);
+      $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design.branching_logic(@variable) %>);
     <% end %>
   <% end %>
 <% end %>
