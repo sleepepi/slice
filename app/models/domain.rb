@@ -83,8 +83,8 @@ class Domain < ActiveRecord::Base
       # Reset any sheets that specified an option that has been removed
       original_options.each_with_index do |hash, index|
         unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
-          self.sheet_variables.where(response: hash.symbolize_keys[:value]).update_all(response: nil)
-          self.grids.where(response: hash.symbolize_keys[:value]).update_all(response: nil)
+          self.sheet_variables.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
+          self.grids.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
         end
       end
 
@@ -94,8 +94,8 @@ class Domain < ActiveRecord::Base
         new_value = hash[:value].strip
         if old_value != new_value
           intermediate_value = old_value + ":" + new_value
-          self.sheet_variables.where(response: old_value).update_all(response: intermediate_value)
-          self.grids.where(response: old_value).update_all(response: intermediate_value)
+          self.sheet_variables.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
+          self.grids.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
         end
       end
 
@@ -105,8 +105,8 @@ class Domain < ActiveRecord::Base
         new_value = hash[:value].strip
         if old_value != new_value
           intermediate_value = old_value + ":" + new_value
-          self.sheet_variables.where(response: intermediate_value).update_all(response: new_value)
-          self.grids.where(response: intermediate_value).update_all(response: new_value)
+          self.sheet_variables.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
+          self.grids.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
         end
       end
     end
