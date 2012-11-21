@@ -126,7 +126,6 @@ class SheetsControllerTest < ActionController::TestCase
   test "should get pdf collation" do
     get :index, project_id: @project, format: 'scope'
     assert_not_nil assigns(:sheet_count)
-    assert_not_nil assigns(:sheets)
     assert_response :success
   end
 
@@ -156,6 +155,48 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should get paginated index" do
     get :index, project_id: @project, format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get index with row_include known" do
+    get :index, project_id: @project, row_include: 'known', stratum_id: variables(:change_options), format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get index with row_include missing" do
+    get :index, project_id: @project, row_include: 'missing', stratum_id: variables(:change_options), format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get index with row_include unknown" do
+    get :index, project_id: @project, row_include: 'unknown', stratum_id: variables(:change_options), format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get index with column_include known" do
+    get :index, project_id: @project, column_include: 'known', column_stratum_id: variables(:change_options), format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get index with column_include missing" do
+    get :index, project_id: @project, column_include: 'missing', column_stratum_id: variables(:change_options), format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get index with column_include unknown" do
+    get :index, project_id: @project, column_include: 'unknown', column_stratum_id: variables(:change_options), format: 'js'
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test "should get index with site selected" do
+    get :index, project_id: @project, stratum_value: sites(:one), format: 'js'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end

@@ -191,24 +191,15 @@ class SheetsController < ApplicationController
       end
 
       if params[:format] == 'scope'
-        @sheets = sheet_scope
-        # render 'scope', layout: false
+        file_pdf_location = Sheet.latex_file_location(sheet_scope, current_user)
 
-        if @sheets
-          file_pdf_location = Sheet.latex_file_location(@sheets, current_user)
-
-          if File.exists?(file_pdf_location)
-            File.open(file_pdf_location, 'r') do |file|
-              send_file file, filename: "sheets_#{Time.now.strftime("%Y%m%d_%H%M%S")}.pdf", type: "application/pdf", disposition: "inline"
-            end
-          else
-            render text: "PDF did not render in time. Please refresh the page."
+        if File.exists?(file_pdf_location)
+          File.open(file_pdf_location, 'r') do |file|
+            send_file file, filename: "sheets_#{Time.now.strftime("%Y%m%d_%H%M%S")}.pdf", type: "application/pdf", disposition: "inline"
           end
         else
-          render nothing: true
+          render text: "PDF did not render in time. Please refresh the page."
         end
-
-
 
         return
       end
