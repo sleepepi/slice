@@ -48,13 +48,13 @@ Second Variable
 
 In the branching logic for **get_help** we may do the following if the user selects at least one of Sad, Angry, or Apathetic:
 
-    intersection(get_help, ['2', '3', '4']).length > 0
+    intersection(daytime_emotions, ['2', '3', '4']).length > 0
 
 Essentially this expression states that if one of the values is selected then show the **get_help** variable.
 
 If we wanted to only show the **get_help** variable if two or more were selected we could rewrite this to say:
 
-    intersection(get_help, ['2', '3', '4']).length > 1
+    intersection(daytime_emotions, ['2', '3', '4']).length > 1
 
 ### List of expressions
 More complex expressions could also be used:
