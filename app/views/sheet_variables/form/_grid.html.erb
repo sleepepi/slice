@@ -4,7 +4,7 @@
   <% if not params[:variables].blank? and not params[:variables][variable.id.to_s].blank? %>
     <% range = params[:variables][variable.id.to_s].keys %>
   <% else %>
-    <% max_position = sheet_variable ? sheet_variable.grids.pluck(:position).max.to_i : (variable.default_row_number - 1) %>
+    <% max_position = sheet_variable ? (sheet_variable.grids.pluck(:position) + [variable.default_row_number - 1]).max.to_i : (variable.default_row_number - 1) %>
     <% range = (0..max_position) %>
   <% end %>
 
