@@ -24,7 +24,7 @@ all_variable_types:
   options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %>, branching_logic: "var_year == 1 || intersection(var_course_work, ['acct101', 'econ101']).length > 0" },
+            { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %>, branching_logic: "var_year == 1 || overlap(var_course_work, ['acct101', 'econ101'], 1)" },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },

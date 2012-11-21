@@ -306,15 +306,29 @@ class Sheet < ActiveRecord::Base
   end
 
   def variable_javascript_value(variable_name)
-    variable = self.variables.find_by_name(variable_name)
-    result = variable.response_raw(self) if variable
-    result.to_json
+    variable = self.design.pure_variables.find_by_name(variable_name)
+    result = if variable
+      variable.response_raw(self).to_json
+    else
+      variable_name
+    end
   end
 
+  # Since showing and hiding variables is done client side by JavaScript,
+  # the corresponding action should also apply when printing out the variable
+  # in a PDF document. Since PDF documents don't run JavaScript, the solution
+  # presented uses a JavaScript evaluator to evaluate the branching logic.
   def show_variable?(branching_logic)
     return true if branching_logic.to_s.strip.blank?
+
+    # Compiled CoffeeScript from designs.js.coffee
+    index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
+    intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
+    overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
+
     begin
-      ExecJS.eval expanded_branching_logic(branching_logic)
+      context = ExecJS.compile(index_of + intersection_function + overlap_function)
+      context.eval expanded_branching_logic(branching_logic)
     rescue => e
       true
     end

@@ -61,6 +61,8 @@
   [a, b] = [b, a] if a.length > b.length
   value for value in a when value in b
 
+@overlap = (a, b, c = 1) ->
+  intersection(a, b).length >= c
 
 # TODO REMOVE BELOW
 @dmsg = (message) ->

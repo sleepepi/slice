@@ -13,6 +13,8 @@
     * Designs are now rendered using LaTeX for cleaner PDFs
     * Design (Data Dictionary) exports are now provided as a single XLS file
     * Variables can now be created inline while creating or editing a design
+    * Branching logic for checkboxes has been simplified:
+      * See: http://remomueller.github.com/slice/faq/300-designs/305-variable-design-branching-logic
   * Project Changes
     * Subjects and Sites are now integrated more closely with their projects
   * Subject Changes
