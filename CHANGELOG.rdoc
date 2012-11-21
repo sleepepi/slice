@@ -34,7 +34,7 @@
     * Sheet PDFs sent using sheet receipt emails are now named in the following manner
       * [subject_code]_[study_date]_[design_name].pdf
     * Entering a sheet now provides an autocomplete list of valid subject codes
-    * Grids with default_grid_rows set will now show the maximum default_grid_rows when going back to edit a sheet that did not use all of the grid rows
+    * Grids with default_row_number set will now show the maximum default_row_number when going back to edit a sheet that did not use all of the grid rows
   * Report Changes
     * Removed internal site ids from design reports
   * Improved display of grid variable tables in PDF for sheets and designs
