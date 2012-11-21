@@ -53,7 +53,7 @@ class SitesController < ApplicationController
       if @project and @site
         format.html # show.html.erb
         format.json { render json: @site }
-      elsif
+      elsif @project
         format.html { redirect_to project_sites_path(@project) }
         format.json { head :no_content }
       else
