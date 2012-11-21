@@ -110,3 +110,12 @@ admin_design:
            ]
   user: admin
   project: three
+
+single_design:
+  name: On single_design project
+  # description:
+  options: [
+              { section_name: 'Section A', section_id: '_section_a' }
+           ]
+  user: valid
+  project: single_design

@@ -63,8 +63,9 @@ class DesignsController < ApplicationController
   def copy
     @project = current_user.all_projects.find_by_id(params[:project_id])
     design = current_user.all_viewable_designs.find_by_id(params[:id])
+    @design = current_user.designs.new(design.copyable_attributes) if design
     respond_to do |format|
-      if @project and design and @design = current_user.designs.new(design.copyable_attributes)
+      if @project and @design
         format.html { render 'new' }
         format.json { render json: @design }
       elsif @project
@@ -150,7 +151,7 @@ class DesignsController < ApplicationController
         redirect_to batch_project_designs_path(emails: @emails.join('; '), date: @date.blank? ? nil : @date.strftime("%m/%d/%Y"), site_id: @site ? @site.id : nil, design_id: @design ? @design.id : nil ), alert: 'Please select a sheet date, design, site, and valid emails.'
       end
     else
-      render nothing: true
+      redirect_to root_path
     end
   end
 

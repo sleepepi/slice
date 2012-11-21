@@ -2,7 +2,7 @@ class VariablesController < ApplicationController
   before_filter :authenticate_user!, except: [ :add_grid_row, :format_number, :typeahead ]
 
   def typeahead
-    if current_user
+    if params[:sheet_authentication_token].blank? and current_user
       @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
       @variable = current_user.all_viewable_variables.find_by_id(params[:id])
     else
@@ -19,7 +19,7 @@ class VariablesController < ApplicationController
   end
 
   def format_number
-    if current_user
+    if params[:sheet_authentication_token].blank? and current_user
       @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
       @variable = current_user.all_viewable_variables.find_by_id(params[:id])
     else
@@ -42,9 +42,10 @@ class VariablesController < ApplicationController
   def copy
     @project = current_user.all_projects.find_by_id(params[:project_id])
     variable = current_user.all_viewable_variables.find_by_id(params[:id])
+    @variable = current_user.variables.new(variable.copyable_attributes) if variable
 
     respond_to do |format|
-      if @project and variable and @variable = current_user.variables.new(variable.copyable_attributes)
+      if @project and @variable
         @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
         format.html { render 'new' }
         format.json { render json: @variable }
@@ -59,7 +60,7 @@ class VariablesController < ApplicationController
   end
 
   def add_grid_row
-    if current_user
+    if params[:sheet_authentication_token].blank? and current_user
       @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
       @variable = current_user.all_viewable_variables.find_by_id(params[:id])
     else

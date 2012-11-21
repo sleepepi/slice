@@ -9,7 +9,15 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should get subject report" do
     get :subject_report, id: @project
     assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subjects)
+    assert_not_nil assigns(:designs)
     assert_response :success
+  end
+
+  test "should not get subject report for invalid project" do
+    get :subject_report, id: -1
+    assert_nil assigns(:project)
+    assert_redirected_to projects_path
   end
 
   test "should get splash" do

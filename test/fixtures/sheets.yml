@@ -49,3 +49,4 @@ external:
   subject: external
   user: admin
   authentication_token: abc123
+  last_user: admin

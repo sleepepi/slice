@@ -26,6 +26,18 @@ class ProjectUsersControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should create project user and automatically add associated user" do
+    assert_difference('ProjectUser.count') do
+      post :create, project_user: { project_id: projects(:single_design).id, librarian: true }, librarians_text: users(:pending).name + " [#{users(:pending).email}]", format: 'js'
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:user)
+
+    assert_not_nil assigns(:project_user)
+    assert_template 'index'
+  end
+
   test "should create project user invitation" do
     assert_difference('ProjectUser.count') do
       post :create, project_user: { project_id: projects(:one).id, librarian: true }, librarians_text: "invite@example.com", format: 'js'

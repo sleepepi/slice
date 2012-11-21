@@ -8,15 +8,60 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should get project selection" do
+    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { study_date: '11/21/2012' }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:disable_selection)
+    assert_nil assigns(:sheet_id)
+    assert_nil assigns(:design)
+    assert_equal true, assigns(:valid_study_date)
+    assert_template 'project_selection'
+  end
+
+  test "should get project selection with design selected" do
+    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { study_date: '11/21/2012', design_id: @sheet.design_id }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:disable_selection)
+    assert_nil assigns(:sheet_id)
+    assert_not_nil assigns(:design)
+    assert_equal true, assigns(:valid_study_date)
+    assert_template 'project_selection'
+  end
+
+  test "should get project selection for existing sheet" do
+    post :project_selection, sheet_id: @sheet, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { study_date: '11/21/2012' }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:disable_selection)
+    assert_not_nil assigns(:sheet_id)
+    assert_not_nil assigns(:design)
+    assert_equal true, assigns(:valid_study_date)
+    assert_template 'project_selection'
+  end
+
+  test "should get project selection with blank date" do
     post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:disable_selection)
+    assert_equal false, assigns(:valid_study_date)
+    assert_template 'project_selection'
+  end
+
+  test "should get project selection for existing sheet with blank date" do
+    post :project_selection, sheet_id: @sheet, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:disable_selection)
+    assert_not_nil assigns(:sheet_id)
+    assert_not_nil assigns(:design)
+    assert_equal false, assigns(:valid_study_date)
     assert_template 'project_selection'
   end
 
   test "should get project selection for valid subject code for a new subject" do
-    post :project_selection, project_id: projects(:one), subject_code: 'A200', format: 'js'
+    post :project_selection, project_id: projects(:one), subject_code: 'A200', sheet: { study_date: '11/21/2012' }, format: 'js'
     assert_not_nil assigns(:project)
     assert_nil assigns(:subject)
     assert_not_nil assigns(:disable_selection)
@@ -27,21 +72,31 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should send email without pdf attachment" do
     post :send_email, id: @sheet, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
+    assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
   test "should send email with pdf attachment" do
     post :send_email, id: @sheet, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid)), pdf_attachment: '1'
+    assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should not send email for invalid sheet" do
+    post :send_email, id: -1, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:sheet)
+    assert_equal 'You do not have sufficient privileges to send a sheet receipt email.', flash[:alert]
+    assert_redirected_to project_sheets_path
   end
 
   test "should not send email for site user" do
     login(users(:site_one_user))
     post :send_email, id: @sheet, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
-    assert_nil assigns(:sheet)
     assert_nil assigns(:project)
+    assert_nil assigns(:sheet)
     assert_equal 'You do not have sufficient privileges to access this project.', flash[:alert]
     assert_redirected_to root_path
   end
@@ -91,6 +146,12 @@ class SheetsControllerTest < ActionController::TestCase
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:sheets)
+  end
+
+  test "should get index with invalid project" do
+    get :index, project_id: -1
+    assert_nil assigns(:sheets)
+    assert_redirected_to root_path
   end
 
   test "should get paginated index" do
@@ -191,6 +252,18 @@ class SheetsControllerTest < ActionController::TestCase
   test "should get new" do
     get :new, project_id: @project
     assert_response :success
+  end
+
+  test "should get new and select the single design" do
+    get :new, project_id: projects(:single_design)
+    assert_not_nil assigns(:sheet)
+    assert_equal designs(:single_design), assigns(:sheet).design
+    assert_response :success
+  end
+
+  test "should not get new with invalid project" do
+    get :new, project_id: -1
+    assert_redirected_to root_path
   end
 
   test "should create sheet" do
@@ -399,6 +472,29 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_path
   end
 
+  test "should submit sheet survey using authentication_token" do
+    post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, current_design_page: 2
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_equal "Survey submitted successfully.", flash[:notice]
+    assert_redirected_to about_path
+  end
+
+  test "should submit sheet survey using authentication_token and go to next page" do
+    post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, current_design_page: 1
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_template 'survey'
+  end
+
+  test "should not submit sheet survey using invalid authentication_token" do
+    post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: '123'
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:sheet)
+    assert_equal "Survey has already been submitted.", flash[:alert]
+    assert_redirected_to new_user_session_path
+  end
+
   test "should show sheet audits" do
     get :audits, id: @sheet, project_id: @project
     assert_not_nil assigns(:sheet)
@@ -421,11 +517,25 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to project_sheets_path(@project)
   end
 
+  test "should not show sheet with invalid project" do
+    get :show, id: @sheet, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_redirected_to root_path
+  end
+
   test "should not show audits for invalid sheet" do
     get :audits, id: -1, project_id: @project
     assert_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_redirected_to project_sheets_path(@project)
+  end
+
+  test "should not show audits for invalid project" do
+    get :audits, id: @sheet, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_redirected_to root_path
   end
 
   test "should not show sheet for user from different site" do
@@ -526,8 +636,16 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should not update invalid sheet" do
     put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
+    assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(@project)
+  end
+
+  test "should not update sheet with invalid project" do
+    put :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_redirected_to root_path
   end
 
   test "should destroy sheet" do
@@ -535,6 +653,20 @@ class SheetsControllerTest < ActionController::TestCase
       delete :destroy, id: @sheet, project_id: @project
     end
 
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
     assert_redirected_to project_sheets_path(@project)
+  end
+
+  test "should not destroy sheet with invalid project" do
+    assert_difference('Sheet.current.count', 0) do
+      delete :destroy, id: @sheet, project_id: -1
+    end
+
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_redirected_to root_path
   end
 end

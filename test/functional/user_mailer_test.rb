@@ -75,4 +75,38 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_user.creator.name} has invited you to Project #{project_user.project.name}/, email.encoded)
   end
 
+  test "sheet completion request email" do
+    sheet = sheets(:external)
+
+    email = UserMailer.sheet_completion_request(sheet, 'external_user@example.com').deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [sheet.last_user.email], email.to
+    assert_equal "Request to Fill Out #{sheet.design.name}", email.subject
+    assert_match(/#{sheet.last_user.name} has requested that you fill out:/, email.encoded)
+    assert_match(/Your feedback is important. Please click the link below to complete the form:/, email.encoded)
+  end
+
+  test "survey completed email" do
+    sheet = sheets(:external)
+
+    email = UserMailer.survey_completed(sheet).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [sheet.user.email], email.to
+    assert_equal "#{sheet.subject.subject_code} Submitted #{sheet.design.name}", email.subject
+    assert_match(/#{sheet.subject.subject_code} has completed a survey that you requested for #{sheet.name}\. You can view the completed sheet here:/, email.encoded)
+  end
+
+  test "export ready email" do
+    export = exports(:one)
+
+    email = UserMailer.export_ready(export).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [export.user.email], email.to
+    assert_equal "Your Data Export for #{export.project.name} is now Ready", email.subject
+    assert_match(/The data export you requested for #{export.project.name} is now ready for download\./, email.encoded)
+  end
+
 end

@@ -85,6 +85,13 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to project_designs_path(assigns(:project))
   end
 
+  test "should not get report with invalid project" do
+    get :report, id: @design, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_redirected_to root_path
+  end
+
   test "should get copy" do
     get :copy, id: @design, project_id: @project
     assert_not_nil assigns(:design)
@@ -96,6 +103,13 @@ class DesignsControllerTest < ActionController::TestCase
     get :copy, id: -1, project_id: @project
     assert_nil assigns(:design)
     assert_redirected_to project_designs_path(assigns(:project))
+  end
+
+  test "should not get copy for invalid project" do
+    get :copy, id: @design, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_redirected_to root_path
   end
 
   test "should reorder variables" do
@@ -170,6 +184,64 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get batch" do
+    get :batch, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:designs)
+    assert_not_nil assigns(:sites)
+    assert_not_nil assigns(:emails)
+    assert_response :success
+  end
+
+  test "should not get batch with invalid project" do
+    get :batch, project_id: -1
+    assert_nil assigns(:project)
+    assert_nil assigns(:designs)
+    assert_nil assigns(:sites)
+    assert_nil assigns(:emails)
+    assert_response :success
+  end
+
+  test "should create batch" do
+    assert_difference('Sheet.count', 2) do
+      assert_difference('Subject.count', 2) do
+        post :create_batch, project_id: @project, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', sheet_date: "11/21/2012"
+      end
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:site)
+    assert_not_nil assigns(:emails)
+    assert_redirected_to project_sheets_path(assigns(:project), sheet_after: "11/21/2012", sheet_before: "11/21/2012", site_id: assigns(:site).id, design_id: assigns(:design).id, user_id: users(:valid).id)
+  end
+
+  test "should not create batch with missing design" do
+    assert_difference('Sheet.count', 0) do
+      assert_difference('Subject.count', 0) do
+        post :create_batch, project_id: @project, design_id: -1, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', sheet_date: "11/21/2012"
+      end
+    end
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:design)
+    assert_not_nil assigns(:site)
+    assert_not_nil assigns(:emails)
+    assert_redirected_to batch_project_designs_path(emails: assigns(:emails).join('; '), date: "11/21/2012", site_id: assigns(:site), design_id: assigns(:design) )
+  end
+
+
+  test "should not create batch with invalid project" do
+    assert_difference('Sheet.count', 0) do
+      assert_difference('Subject.count', 0) do
+        post :create_batch, project_id: -1, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', sheet_date: "11/21/2012"
+      end
+    end
+    assert_nil assigns(:project)
+    assert_nil assigns(:design)
+    assert_nil assigns(:site)
+    assert_not_nil assigns(:emails)
+    assert_redirected_to root_path
+  end
+
   test "should get csv" do
     get :index, project_id: @project, format: 'csv'
     assert_not_nil assigns(:csv_string)
@@ -185,10 +257,24 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to project_designs_path(assigns(:project))
   end
 
+  test "should get xls" do
+    get :index, project_id: @project, format: 'xls'
+    assert_not_nil assigns(:design_count)
+    assert_not_nil assigns(:designs)
+    assert_equal 'You will be emailed when the export is ready for download.', flash[:notice]
+    assert_redirected_to project_designs_path(@project)
+  end
+
   test "should get index" do
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:designs)
+  end
+
+  test "should not get index with invalid project" do
+    get :index, project_id: -1
+    assert_nil assigns(:designs)
+    assert_redirected_to root_path
   end
 
   test "should get paginated index" do
@@ -299,8 +385,16 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should not show invalid design" do
     get :show, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
     assert_nil assigns(:design)
     assert_redirected_to project_designs_path(assigns(:project))
+  end
+
+  test "should not show design with invalid project" do
+    get :show, id: @design, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_redirected_to root_path
   end
 
   test "should print design" do
@@ -353,11 +447,29 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should get edit" do
     get :edit, id: @design, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
     assert_response :success
+  end
+
+  test "should not get edit for invalid design" do
+    get :edit, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:design)
+    assert_redirected_to project_designs_path
+  end
+
+  test "should not get edit with invalid project" do
+    get :edit, id: @design, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_redirected_to root_path
   end
 
   test "should update design" do
     put :update, id: @design, project_id: @project, design: { description: @design.description, name: @design.name }
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
@@ -371,8 +483,16 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should not update invalid design" do
     put :update, id: -1, project_id: @project, design: { description: @design.description, name: @design.name }
+    assert_not_nil assigns(:project)
     assert_nil assigns(:design)
     assert_redirected_to project_designs_path(assigns(:project))
+  end
+
+  test "should not update design with invalid project" do
+    put :update, id: @design, project_id: -1, design: { description: @design.description, name: @design.name }
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_redirected_to root_path
   end
 
   test "should destroy design" do
@@ -381,5 +501,16 @@ class DesignsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to project_designs_path(assigns(:project))
+  end
+
+  test "should not destroy design with invalid project" do
+    assert_difference('Design.current.count', 0) do
+      delete :destroy, id: @design, project_id: -1
+    end
+
+    assert_not_nil assigns(:design)
+    assert_nil assigns(:project)
+
+    assert_redirected_to root_path
   end
 end

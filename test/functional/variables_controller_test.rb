@@ -14,6 +14,13 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get typeahead using authentication token" do
+    get :typeahead, id: variables(:external_autocomplete), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_equal ['Cat', 'Dog', 'Fish'], assigns(:variable).autocomplete_array
+    assert_response :success
+  end
+
   test "should get blank array for non-string typeahead" do
     get :typeahead, id: variables(:dropdown), project_id: @project, format: 'js'
     assert_not_nil assigns(:variable)
@@ -28,6 +35,13 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should add grid row using authentication token" do
+    post :add_grid_row, id: variables(:external_grid), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_template 'add_grid_row'
+    assert_response :success
+  end
+
   test "should not add grid row for user not on project" do
     login(users(:two))
     post :add_grid_row, id: variables(:grid), project_id: @project, format: 'js'
@@ -37,6 +51,15 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should format number" do
     get :format_number, id: variables(:calculated), project_id: @project, calculated_number: "25.359", format: 'js'
+
+    assert_not_nil assigns(:variable)
+    assert_equal "25.36", assigns(:result)
+
+    assert_template 'format_number'
+  end
+
+  test "should format number using authentication token" do
+    get :format_number, id: variables(:external_calculated), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, calculated_number: "25.359", format: 'js'
 
     assert_not_nil assigns(:variable)
     assert_equal "25.36", assigns(:result)
@@ -70,8 +93,16 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not copy invalid variable" do
     get :copy, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
     assert_nil assigns(:variable)
     assert_redirected_to project_variables_path(assigns(:project))
+  end
+
+  test "should not copy variable with invalid project" do
+    get :copy, id: @variable, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:variable)
+    assert_redirected_to root_path
   end
 
   test "should add option" do
@@ -100,6 +131,12 @@ class VariablesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:variables)
   end
 
+  test "should not get index with invalid project" do
+    get :index, project_id: -1
+    assert_nil assigns(:variables)
+    assert_redirected_to root_path
+  end
+
   test "should get paginated index" do
     get :index, project_id: @project, format: 'js'
     assert_not_nil assigns(:variables)
@@ -110,6 +147,14 @@ class VariablesControllerTest < ActionController::TestCase
     get :new, project_id: @project
     assert_not_nil assigns(:variable)
     assert_response :success
+  end
+
+  test "should not get new variable with invalid project" do
+    get :new, project_id: -1
+
+    assert_not_nil assigns(:variable)
+    assert_nil assigns(:project)
+    assert_redirected_to root_path
   end
 
   test "should create variable" do
@@ -211,18 +256,28 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should show variable" do
     get :show, id: @variable, project_id: @project
+    assert_not_nil assigns(:project)
     assert_not_nil assigns(:variable)
     assert_response :success
   end
 
+  test "should not show variable with invalid project" do
+    get :show, id: @variable, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:variable)
+    assert_redirected_to root_path
+  end
+
   test "should show variable for project with no sites" do
     get :show, id: variables(:no_sites), project_id: @project
+    assert_not_nil assigns(:project)
     assert_not_nil assigns(:variable)
     assert_response :success
   end
 
   test "should not show invalid variable" do
     get :show, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
     assert_nil assigns(:variable)
     assert_redirected_to project_variables_path(assigns(:project))
   end
@@ -230,6 +285,20 @@ class VariablesControllerTest < ActionController::TestCase
   test "should get edit" do
     get :edit, id: @variable, project_id: @project
     assert_response :success
+  end
+
+  test "should not get edit for invalid variable" do
+    get :edit, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:variable)
+    assert_redirected_to project_variables_path
+  end
+
+  test "should not get edit with invalid project" do
+    get :edit, id: @variable, project_id: -1
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:variable)
+    assert_redirected_to root_path
   end
 
   test "should not get edit for site user" do
@@ -256,8 +325,16 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not update invalid variable" do
     put :update, id: -1, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    assert_not_nil assigns(:project)
     assert_nil assigns(:variable)
     assert_redirected_to project_variables_path(assigns(:project))
+  end
+
+  test "should not update variable with invalid project" do
+    put :update, id: @variable, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:variable)
+    assert_redirected_to root_path
   end
 
   test "should update variable and change new option value for associated sheets" do
@@ -404,6 +481,17 @@ class VariablesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to project_variables_path(assigns(:project))
+  end
+
+  test "should not destroy variable with invalid project" do
+    assert_difference('Variable.current.count', 0) do
+      delete :destroy, id: @variable, project_id: -1
+    end
+
+    assert_not_nil assigns(:variable)
+    assert_nil assigns(:project)
+
+    assert_redirected_to root_path
   end
 
 end

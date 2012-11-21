@@ -6,7 +6,6 @@ Slice::Application.routes.draw do
     end
   end
 
-
   resources :projects do
     member do
       post :remove_file
@@ -28,7 +27,6 @@ Slice::Application.routes.draw do
         post :project_selection
       end
       member do
-        # get :latex
         post :send_email
         get :print
         post :remove_file
@@ -42,7 +40,6 @@ Slice::Application.routes.draw do
 
     resources :designs do
       member do
-        # get :latex
         get :copy
         get :print
         post :reorder
@@ -104,18 +101,6 @@ Slice::Application.routes.draw do
   end
 
   resources :reports
-
-  # resources :sheets do
-  #   collection do
-  #     post :project_selection
-  #   end
-  #   member do
-  #     post :send_email
-  #     get :print
-  #     post :remove_file
-  #     get :audits
-  #   end
-  # end
 
 
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }

@@ -153,6 +153,17 @@ calculated:
   format: "%0.02f"
   project: one
 
+external_calculated:
+  name: external_bmi
+  display_name: Body Mass Index
+  description: Automatically calculated variable
+  # header:
+  variable_type: calculated
+  user: admin
+  calculation: "weight / (height * height)"
+  format: "%0.02f"
+  project: three
+
 change_options:
   name: change_options
   display_name: Change Option Values
@@ -185,6 +196,17 @@ grid:
   user: valid
   project: one
 
+external_grid:
+  name: external_grid
+  display_name: Grid of Variables
+  description: Testing for grid of Variables
+  variable_type: grid
+  # options:
+  grid_variables: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:external_autocomplete) %> }]
+  default_row_number: 3
+  user: admin
+  project: three
+
 no_sites:
   name: var_no_sites
   display_name: Variable on Project with No Sites
@@ -202,6 +224,16 @@ autocomplete:
   variable_type: string
   user: valid
   project: one
+  autocomplete_values: "Cat\nDog\nFish"
+
+external_autocomplete:
+  name: external_autocomplete_animals
+  display_name: Animals
+  description: What's your favorite animal
+  # header: MyString
+  variable_type: string
+  user: admin
+  project: three
   autocomplete_values: "Cat\nDog\nFish"
 
 # response_dropdown:

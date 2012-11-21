@@ -24,3 +24,8 @@ no_sites:
   name: This project has no sites and one design
   description: Use this to test that the valid user can view the design
   user: valid
+
+single_design:
+  name: Project With One Design
+  description: When creating sheets the single design should always show by default.
+  user: valid
