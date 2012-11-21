@@ -13,6 +13,12 @@ class ContactsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:contacts)
   end
 
+  test "should not get index with invalid project" do
+    get :index, project_id: -1
+    assert_nil assigns(:contacts)
+    assert_redirected_to root_path
+  end
+
   test "should get new" do
     get :new, project_id: @project
     assert_response :success
@@ -20,25 +26,77 @@ class ContactsControllerTest < ActionController::TestCase
 
   test "should create contact" do
     assert_difference('Contact.count') do
-      post :create, project_id: @project, contact: { email: @contact.email, fax: @contact.fax, name: @contact.name, phone: @contact.phone, position: @contact.position, title: @contact.title }
+      post :create, project_id: @project, contact: { name: @contact.name, email: @contact.email, fax: @contact.fax, phone: @contact.phone, position: @contact.position, title: @contact.title }
     end
 
     assert_redirected_to project_contact_path(assigns(:contact).project, assigns(:contact))
   end
 
+  test "should not create contact with blank name" do
+    assert_difference('Contact.count', 0) do
+      post :create, project_id: @project, contact: { name: '', email: @contact.email, fax: @contact.fax, phone: @contact.phone, position: @contact.position, title: @contact.title }
+    end
+
+    assert_not_nil assigns(:contact)
+    assert assigns(:contact).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:contact).errors[:name]
+    assert_template 'new'
+  end
+
+  test "should not create contact with invalid project" do
+    assert_difference('Contact.count', 0) do
+      post :create, project_id: -1, contact: { name: @contact.name, email: @contact.email, fax: @contact.fax, phone: @contact.phone, position: @contact.position, title: @contact.title }
+    end
+
+    assert_nil assigns(:contact)
+    assert_nil assigns(:project)
+    assert_redirected_to root_path
+  end
+
   test "should show contact" do
     get :show, id: @contact, project_id: @project
+    assert_not_nil assigns(:contact)
     assert_response :success
+  end
+
+  test "should not show contact with invalid project" do
+    get :show, id: @contact, project_id: -1
+    assert_nil assigns(:contact)
+    assert_redirected_to root_path
   end
 
   test "should get edit" do
     get :edit, id: @contact, project_id: @project
+    assert_not_nil assigns(:contact)
     assert_response :success
   end
 
+  test "should not get edit with invalid project" do
+    get :edit, id: @contact, project_id: -1
+    assert_nil assigns(:contact)
+    assert_redirected_to root_path
+  end
+
   test "should update contact" do
-    put :update, id: @contact, project_id: @project, contact: { email: @contact.email, fax: @contact.fax, name: @contact.name, phone: @contact.phone, position: @contact.position, title: @contact.title }
+    put :update, id: @contact, project_id: @project, contact: { name: @contact.name, email: @contact.email, fax: @contact.fax, phone: @contact.phone, position: @contact.position, title: @contact.title }
     assert_redirected_to project_contact_path(assigns(:contact).project, assigns(:contact))
+  end
+
+  test "should not update contact with blank name" do
+    put :update, id: @contact, project_id: @project, contact: { name: '', email: @contact.email, fax: @contact.fax, phone: @contact.phone, position: @contact.position, title: @contact.title }
+
+    assert_not_nil assigns(:contact)
+    assert assigns(:contact).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:contact).errors[:name]
+    assert_template 'edit'
+  end
+
+  test "should not update contact with invalid project" do
+    put :update, id: @contact, project_id: -1, contact: { name: @contact.name, email: @contact.email, fax: @contact.fax, phone: @contact.phone, position: @contact.position, title: @contact.title }
+
+    assert_nil assigns(:contact)
+    assert_nil assigns(:project)
+    assert_redirected_to root_path
   end
 
   test "should destroy contact" do
@@ -46,6 +104,20 @@ class ContactsControllerTest < ActionController::TestCase
       delete :destroy, id: @contact, project_id: @project
     end
 
+    assert_not_nil assigns(:contact)
+    assert_not_nil assigns(:project)
+
     assert_redirected_to project_contacts_path
+  end
+
+  test "should not destroy contact with invalid project" do
+    assert_difference('Contact.current.count', 0) do
+      delete :destroy, id: @contact, project_id: -1
+    end
+
+    assert_nil assigns(:contact)
+    assert_nil assigns(:project)
+
+    assert_redirected_to root_path
   end
 end
