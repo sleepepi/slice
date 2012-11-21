@@ -7,10 +7,22 @@ class DomainsControllerTest < ActionController::TestCase
     @domain = domains(:one)
   end
 
+  test "should add option" do
+    post :add_option, project_id: @project, format: 'js'
+    assert_not_nil assigns(:option)
+    assert_template 'add_option'
+  end
+
   test "should get index" do
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:domains)
+  end
+
+  test "should not get index with invalid project" do
+    get :index, project_id: -1
+    assert_nil assigns(:domains)
+    assert_redirected_to root_path
   end
 
   test "should get new" do
@@ -70,14 +82,49 @@ class DomainsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should not create domain with blank name" do
+    assert_difference('Domain.count', 0) do
+      post :create, project_id: @project, domain: { name: '', option_tokens: { "1338308398442263" => { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, "133830842117151" => { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } } }
+    end
+
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:domain).errors[:name]
+    assert_template 'new'
+  end
+
+  test "should not create document with invalid project" do
+    assert_difference('Domain.count', 0) do
+      post :create, project_id: -1, domain: { name: 'New Domain', option_tokens: { "1338308398442263" => { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, "133830842117151" => { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } } }
+    end
+
+    assert_nil assigns(:domain)
+    assert_nil assigns(:project)
+    assert_redirected_to root_path
+  end
+
   test "should show domain" do
     get :show, id: @domain, project_id: @project
+    assert_not_nil assigns(:domain)
     assert_response :success
+  end
+
+  test "should not show domain with invalid project" do
+    get :show, id: @domain, project_id: -1
+    assert_nil assigns(:domain)
+    assert_redirected_to root_path
   end
 
   test "should get edit" do
     get :edit, id: @domain, project_id: @project
+    assert_not_nil assigns(:domain)
     assert_response :success
+  end
+
+  test "should not get edit with invalid project" do
+    get :edit, id: @domain, project_id: -1
+    assert_nil assigns(:domain)
+    assert_redirected_to root_path
   end
 
   test "should update domain" do
@@ -117,11 +164,42 @@ class DomainsControllerTest < ActionController::TestCase
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
+  test "should not update domain with blank name" do
+    put :update, id: @domain, project_id: @project, domain: { name: '', option_tokens: { "1338308398442263" => { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, "133830842117151" => { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } } }
+
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:domain).errors[:name]
+    assert_template 'edit'
+  end
+
+  test "should not update domain with invalid project" do
+    put :update, id: @domain, project_id: -1, domain: { name: @domain.name, option_tokens: { "1338308398442263" => { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, "133830842117151" => { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } } }
+
+    assert_nil assigns(:domain)
+    assert_nil assigns(:project)
+    assert_redirected_to root_path
+  end
+
   test "should destroy domain" do
     assert_difference('Domain.current.count', -1) do
       delete :destroy, id: @domain, project_id: @project
     end
 
+    assert_not_nil assigns(:domain)
+    assert_not_nil assigns(:project)
+
     assert_redirected_to project_domains_path
+  end
+
+  test "should not destroy domain with invalid project" do
+    assert_difference('Domain.current.count', 0) do
+      delete :destroy, id: @domain, project_id: -1
+    end
+
+    assert_nil assigns(:domain)
+    assert_nil assigns(:project)
+
+    assert_redirected_to root_path
   end
 end
