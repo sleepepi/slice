@@ -48,13 +48,15 @@ Second Variable
 
 In the branching logic for **get_help** we may do the following if the user selects at least one of Sad, Angry, or Apathetic:
 
-    intersection(daytime_emotions, ['2', '3', '4']).length > 0
+    overlap(daytime_emotions, ['2', '3', '4'])
 
 Essentially this expression states that if one of the values is selected then show the **get_help** variable.
 
 If we wanted to only show the **get_help** variable if two or more were selected we could rewrite this to say:
 
-    intersection(daytime_emotions, ['2', '3', '4']).length > 1
+    overlap(daytime_emotions, ['2', '3', '4'], 2)
+
+The third parameter of **overlap** defines the minimum amount of choices that need to be selected. When left blank this parameter defaults to 1.
 
 ### List of expressions
 More complex expressions could also be used:
@@ -68,7 +70,7 @@ More complex expressions could also be used:
     logical OR                    ||
     logical AND                   &&
     multiple conditions           expr && (expr || expr)
-    multiple choice checkboxes    intersection(variable, ['1','0']).length > 1
+    multiple choice checkboxes    overlap(variable, ['1','0'])
 
 ### Important
 * Branching logic only works if the variable that needs to be conditionally hidden is located after the variable it depends on.
