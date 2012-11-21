@@ -32,10 +32,22 @@ class ExportsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not show invalid export" do
+    get :show, id: -1
+    assert_nil assigns(:export)
+    assert_redirected_to exports_path
+  end
+
   test "should mark export as unread" do
     post :mark_unread, id: @export
     assert_not_nil assigns(:export)
     assert_equal false, assigns(:export).viewed
+    assert_redirected_to exports_path
+  end
+
+  test "should mark invalid export as unread" do
+    post :mark_unread, id: -1
+    assert_nil assigns(:export)
     assert_redirected_to exports_path
   end
 
@@ -53,6 +65,18 @@ class ExportsControllerTest < ActionController::TestCase
     assert_difference('Export.current.count', -1) do
       delete :destroy, id: @export
     end
+
+    assert_not_nil assigns(:export)
+
+    assert_redirected_to exports_path
+  end
+
+  test "should not destroy invalid export" do
+    assert_difference('Export.current.count', 0) do
+      delete :destroy, id: -1
+    end
+
+    assert_nil assigns(:export)
 
     assert_redirected_to exports_path
   end

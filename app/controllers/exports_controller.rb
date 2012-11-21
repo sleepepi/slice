@@ -28,7 +28,7 @@ class ExportsController < ApplicationController
         format.html # show.html.erb
         format.json { render json: @export }
       else
-        format.html { redirect_to root_path }
+        format.html { redirect_to exports_path }
         format.json { head :no_content }
       end
     end
@@ -43,7 +43,7 @@ class ExportsController < ApplicationController
         format.html { redirect_to exports_path }
         format.json { render json: @export }
       else
-        format.html { redirect_to root_path }
+        format.html { redirect_to exports_path }
         format.json { head :no_content }
       end
     end
