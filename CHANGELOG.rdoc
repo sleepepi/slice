@@ -1,11 +1,6 @@
 == 0.11.0
 
 * Enhancements
-  * Questionnaires and surveys can be generated and sent to a list of emails for external users to complete
-    * External users are not required to sign up and can access the survey by clicking the survey link in the generated email
-    * Subjects can now also have emails to allow project owners to send out questionnaires or surveys
-    * Survey creators receive an email when the external user submits the survey
-    * Survey emails are part of the sheet's email history
   * Design Changes
     * Email templates and subject lines can now reference the user sending the email (full name and email)
       * User's Full Name: #(user)
@@ -35,14 +30,21 @@
       * [subject_code]_[study_date]_[design_name].pdf
     * Entering a sheet now provides an autocomplete list of valid subject codes
     * Grids with default_row_number set will now show the maximum default_row_number when going back to edit a sheet that did not use all of the grid rows
+  * Surveys and Questionnaires
+    * Questionnaires and surveys can be generated and sent to a list of emails for external users to complete
+    * External users are not required to sign up and can access the survey by clicking the survey link in the generated email
+    * Subjects can now also have emails to allow project owners to send out questionnaires or surveys
+    * Survey creators receive an email when the external user submits the survey
+    * Survey emails are part of the sheet's email history
   * Report Changes
     * Removed internal site ids from design reports
-  * Improved display of grid variable tables in PDF for sheets and designs
-  * XLS files are now more compatible, and take up less space than the original format used
-  * Exports are now run in the background and users are notified when they can access the file
-    * Users can access their past exports and view the status of current exports
-    * An export groups multiple files together into a single zip file
-    * Users are notified by email, and also see status icons in the menu of pending and newly ready data exports
+  * Export Changes
+    * Improved display of grid variable tables in PDF for sheets and designs
+    * XLS files are now more compatible, and take up less space than the original format used
+    * Exports are now run in the background and users are notified when they can access the file
+      * Users can access their past exports and view the status of current exports
+      * An export groups multiple files together into a single zip file
+      * Users are notified by email, and also see status icons in the menu of pending and newly ready data exports
   * Ruby version updated to 1.9.3-p327
 
 * Bug Fix
