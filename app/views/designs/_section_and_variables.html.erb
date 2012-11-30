@@ -1,8 +1,8 @@
 <div class="page-header">
   <h2>
     <%= @design.name %>
-    <small><%= simple_format @design.description unless @design.description.blank? %></small>
   </h2>
+  <%= simple_format_links_target_blank @design.description unless @design.description.blank? %>
 </div>
 
 <% show_navigation = (@design.sections.size > 1) %>
