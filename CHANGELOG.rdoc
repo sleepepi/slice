@@ -8,6 +8,7 @@
   * Color Selectors now display properly when editing variable options inside of a design
   * Branching logic should now work properly on sheet show pages and sheet PDFs
   * Updating a variable while editing a design no longer removes the branching logic for that variable
+  * Date pickers now display properly when editing date variables on inside a design
 
 == 0.11.0
 

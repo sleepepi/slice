@@ -15,6 +15,12 @@
   $("#design_<%= params[:position] %>_variable_preview_name").html("<%= escape_javascript(@variable.display_name) %>");
   $("#design_<%= params[:position] %>_variable_preview").html("<%= escape_javascript(render partial: "designs/variable", locals: { disabled: 'disabled' } ) %>");
 
+  <% @position = params[:position] %>
+  $("#design_options_tokens_<%= params[:position] %>_variable_id_select_container").html("<%= escape_javascript(render partial: "designs/select_option_tokens_variable") %>")
+
+  $('#design_option_tokens_<%= params[:position] %>_variable_id.chzn-select').chosen({ allow_single_deselect: true });
+
+  $('#variable_<%= params[:position] %>_edit_link').html('Edit')
 
   // $('#variable_<%= params[:position] %>').after("<%= escape_javascript(render("designs/edit_variable")) %>")
 

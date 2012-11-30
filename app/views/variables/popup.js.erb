@@ -7,3 +7,14 @@ $('#options[data-object~="sortable"]').sortable({ placeholder: "well alert alert
 
 $('#variables[data-object~="sortable"], #form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
 loadColorSelectors();
+
+$(".datepicker").datepicker({
+  showOtherMonths: true,
+  selectOtherMonths: true,
+  changeMonth: true,
+  changeYear: true,
+  onClose: function (text, inst) { $(this).focus(); }
+});
+$(".datepicker").change(function(){
+  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
+});

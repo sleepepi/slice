@@ -10,8 +10,8 @@
     <div class="span6">
       <div class="control-group" style="margin-bottom:0px">
         <%= label_tag "design_option_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
-        <div class="controls">
-          <%= select_tag "design[option_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + @select_variables, @option[:variable_id]), style: 'width:99%', data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
+        <div class="controls" id="design_options_tokens_<%= position %>_variable_id_select_container">
+          <%= render partial: 'designs/select_option_tokens_variable' %>
         </div>
       </div>
       <div class="variable_<%= position %>_details" style="display:none" data-object="variabledetails">
