@@ -29,6 +29,7 @@
 	position: absolute;
 	bottom: 0;
 	left: 0;
+	z-index: 10000;
 }
 .colorpicker_hue div {
 	background-image: url(../assets/colorpicker/custom_indic.gif);
