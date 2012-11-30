@@ -325,10 +325,15 @@ class SheetsController < ApplicationController
   def survey
     @project = Project.current.find_by_id(params[:project_id])
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
-    if @project and @sheet
-      # survey.html.erb
-    else
-      redirect_to new_user_session_path, alert: 'Survey has already been submitted.'
+    respond_to do |format|
+      if @project and @sheet
+        @design = @sheet.design
+        format.html # survey.html.erb
+        format.js   # survey.js.erb
+      else
+        format.html { redirect_to new_user_session_path, alert: 'Survey has already been submitted.' }
+        format.js { render nothing: true }
+      end
     end
   end
 

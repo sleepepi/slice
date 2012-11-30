@@ -1,5 +1,11 @@
 == 0.11.2
 
+* Enhancement
+  * Variables now only use the variable name as a place holder in the input field if the variable is in a grid
+
+* Bug Fix
+  * Surveys now properly load branching logic
+
 == 0.11.1
 
 * Enhancements

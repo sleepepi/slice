@@ -1,0 +1,62 @@
+$("#design").html("<%= escape_javascript(render("designs/selection")) %>");
+$('.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
+$('.chzn-select').chosen({ allow_single_deselect: true });
+$(".datepicker").datepicker({
+  showOtherMonths: true,
+  selectOtherMonths: true,
+  changeMonth: true,
+  changeYear: true,
+  onClose: function (text, inst) { $(this).focus(); }
+});
+$(".datepicker").change(function(){
+  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
+});
+// $("#ui-datepicker-div").hide();
+
+$('[data-object~="variable-typeahead"]').each(function() {
+  var $this = $(this);
+  $this.typeahead({
+    source: function(query, process) {
+      var variable_id = $this.data('variable-id');
+      return $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/typeahead', {
+        query: query,
+        sheet_authentication_token: ($('#sheet_authentication_token').val() || "")
+      }, function(data) {
+        return process(data);
+      });
+    }
+  });
+});
+
+<% if @design and params[:current_design_page].to_i < @design.total_pages %>
+  $('#sheet_submit_btn').val('Next Page');
+<% else %>
+  $('#sheet_submit_btn').val('Submit');
+<% end %>
+
+$('#sheet_submit_btn, #sheet_submit_btn_and_continue').data('page', '<%= params[:current_design_page].to_i + 1 %>');
+
+
+// $("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
+
+<% if @design %>
+  <% @design.options.each do |option| %>
+    <% @option = option %>
+    <% if @option[:variable_id].blank? %>
+      $('#<%= @option[:section_id] %>').data('branching-logic', <%= raw @design.branching_logic_section(@option[:section_id]) %>);
+    <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+      $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design.branching_logic(@variable) %>);
+    <% end %>
+  <% end %>
+<% end %>
+
+updateAllVariables();
+updateCalculatedVariables();
+
+$('[data-spy="scroll"]').each(function () {
+  var $spy = $(this).scrollspy('refresh')
+});
+
+$('[data-spy~="affix"]').affix({ offset: { top: 423 } });
+
+checkAllRanges();

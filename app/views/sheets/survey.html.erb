@@ -16,7 +16,8 @@
   <%= hidden_field_tag "sheet_authentication_token", @sheet.authentication_token %>
 
   <div id="design">
-    <%= @design = @sheet.design; render partial: 'designs/selection' %>
+    <center><%= image_tag 'contour/ajax-loader.gif' %></center>
+    <%#= @design = @sheet.design; render partial: 'designs/selection' %>
   </div>
 
   <div class="form-actions">
@@ -30,3 +31,5 @@
   </div>
 
 <% end %>
+
+<%= form_tag survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token, current_design_page: params[:current_design_page].to_i), remote: true, method: :get, data: { object: 'form-load' } %>
