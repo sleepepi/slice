@@ -90,9 +90,9 @@
 
 @setRangeDate = (el) ->
   el.removeClass('error-input warning-input')
-  if ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-hard-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-hard-maximum')))
+  if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(Date.parse($.trim(el.val()))) and $.trim(el.val()).length > 0) or Date.parse($.trim(el.val())) < Date.parse(el.data('date-hard-minimum')) or Date.parse($.trim(el.val())) > Date.parse(el.data('date-hard-maximum')))
     el.addClass('error-input')
-  else if ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-soft-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-soft-maximum')))
+  else if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(Date.parse($.trim(el.val()))) and $.trim(el.val()).length > 0) or Date.parse($.trim(el.val())) < Date.parse(el.data('date-soft-minimum')) or Date.parse($.trim(el.val())) > Date.parse(el.data('date-soft-maximum')))
     el.addClass('warning-input')
 
 # Select dates that don't parse as dates, and are not blank
