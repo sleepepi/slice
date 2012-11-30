@@ -7,6 +7,7 @@
   * Date and time variables with Show Current Button selected no longer create a JavaScript error when a user clicks the button Today button while entering a sheet
   * Color Selectors now display properly when editing variable options inside of a design
   * Branching logic should now work properly on sheet show pages and sheet PDFs
+  * Updating a variable while editing a design no longer removes the branching logic for that variable
 
 == 0.11.0
 
