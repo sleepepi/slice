@@ -46,4 +46,8 @@ module ApplicationHelper
     image_tag("gentleface/16/#{checked ? 'checkbox_checked' : 'checkbox_unchecked'}.png", alt: '', style: 'vertical-align:text-bottom')
   end
 
+  def simple_format_links_target_blank(text)
+    simple_format(text).gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  end
+
 end

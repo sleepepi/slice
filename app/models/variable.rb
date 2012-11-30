@@ -52,6 +52,10 @@ class Variable < ActiveRecord::Base
   has_many :responses
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
+  def header_without_tags
+    self.header.to_s.gsub(/<(.*?)>/, '')
+  end
+
   def shared_options
     if ['scale'].include?(self.variable_type)
       self.domain.options
@@ -74,11 +78,6 @@ class Variable < ActiveRecord::Base
       Design.current.select{|d| d.variable_ids.include?(self.id)}.sort_by(&:name)
     end
   end
-
-  # No longer required
-  # def header_anchor
-  #   "_"+self.header.to_s.gsub(/[^\w]/, '_').downcase
-  # end
 
   def name_with_project
     "#{self.name} - #{self.project.name}"

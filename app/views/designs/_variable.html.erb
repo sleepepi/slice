@@ -7,7 +7,7 @@
   <% unless @variable.header.blank? %>
     <div class="page-header" style="margin-top:0px">
       <h4>
-        <%= @variable.header %>
+        <%= simple_format_links_target_blank @variable.header %>
       </h4>
     </div>
   <% end %>

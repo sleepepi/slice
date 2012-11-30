@@ -1,5 +1,8 @@
 == 0.11.1
 
+* Enhancements
+  * Variable headers can now include simple formatting, i.e. HTML tags <a>, <b>, <i>
+
 == 0.11.0
 
 * Enhancements

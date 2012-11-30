@@ -70,10 +70,10 @@
     <% if @variable.variable_type == 'grid' %> <%# sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 \Needspace{7\baselineskip}
-<% if @variable.header.blank? %>
+<% if @variable.header_without_tags.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 <% else %>
-  \subsubsection*{<%= latex_safe @variable.header %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
+  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
 <% end %>
 
 \begin{table*}[!htbp]\centering
@@ -96,10 +96,10 @@
     <% else %>
 
 \Needspace{7\baselineskip}
-<% if @variable.header.blank? %>
+<% if @variable.header_without_tags.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 <% else %>
-  \subsubsection*{<%= latex_safe @variable.header %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
+  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
 <% end %>
 
 <% if @variable.variable_type == 'date' %>
