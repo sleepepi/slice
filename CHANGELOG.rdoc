@@ -2,6 +2,7 @@
 
 * Enhancements
   * Subject Report can now be filtered by subject status
+  * Variables of type radio can now be included in calculated variables
 
 * Bug Fix
   * Fixed some occurences of web page elements appearing underneath others

@@ -119,6 +119,23 @@
     return false
   true
 
+# Ex: parseValue('ess1', 'integer', '')
+#     parseValue('gender', 'string', '')
+#     parseValue('bmi', 'float', '')
+# grid_string is used to specify a specific location in the grid
+
+@parseValue = (variable_name, format_type, grid_string) ->
+  elements = $("[data-name='#{variable_name}']#{grid_string}")
+  checked = ''
+  checked = ':checked' if elements.data('variable-type') == 'radio'
+  element = $("[data-name='#{variable_name}']#{grid_string}#{checked}")
+  if format_type == 'integer'
+    parseInt($(element).val())
+  else if format_type == 'float'
+    parseFloat($(element).val())
+  else
+    $(element).val()
+
 @updateCalculatedVariables = () ->
   $.each($('[data-object~="calculated"]'), () ->
     # alert($(this).data('calculation'))
@@ -127,9 +144,10 @@
     # calculation = calculation.replace(/([\w]+)/g, "parseInt($('[data-name=\"\$1\"]').val())");
     if calculation
       grid_string = ''
-      if grid_position?
+      if grid_position != '' and grid_position != null and grid_position != undefined
         grid_string = '[data-grid-position="' + grid_position + '"]'
-      calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]#{grid_string}').val())");
+      # calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]#{grid_string}').val())")
+      calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseValue('\$1', 'float', '#{grid_string}')")
       calculation_result = eval(calculation)
       $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result + '&location_id=' + $(this).data('location-id') + '&sheet_authentication_token=' + ($('#sheet_authentication_token').val() || ""), null, "script")
 
@@ -182,9 +200,6 @@ jQuery ->
       $($(this).data('target')).submit()
       false
     )
-    .on('change', '[data-object~="condition"]', () ->
-      updateCalculatedVariables()
-    )
     .on('click', '[data-object~="update-variable"]', () ->
       $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize() + "&_method=put", null, "script")
     )
@@ -233,11 +248,15 @@ jQuery ->
     .on('click', '[data-object~="clear-radio"]', () ->
       group_name = $(this).data('group')
       $(":radio[name='" + group_name + "']").prop('checked', false)
+      updateAllVariables()
+      updateCalculatedVariables()
       false
     )
     .on('click', '[data-object~="clear-checkbox"]', () ->
       group_name = $(this).data('group')
       $(":checkbox[name='" + group_name + "']").removeAttr('checked')
+      updateAllVariables()
+      updateCalculatedVariables()
       false
     )
     .on('click', '[data-object~="set-variable-type"]', () ->

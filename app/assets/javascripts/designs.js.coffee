@@ -146,6 +146,7 @@ jQuery ->
   $(document)
     .on('change', '[data-object~="condition"]', () ->
       updateAllVariables()
+      updateCalculatedVariables()
     )
     .on('click', '[data-object~="expand-details"]', () ->
       $('[data-object~="' + $(this).data('inverse-selector') + '"]').show()
