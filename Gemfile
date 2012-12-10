@@ -15,7 +15,7 @@ gem 'carrierwave',          '~> 0.7.1'
 # PDFKit: Generate PDFs from webpages, https://github.com/pdfkit/pdfkit/wiki/Installing-WKHTMLTOPDF
 gem 'pdfkit',               '~> 0.5.2'
 gem 'audited-activerecord', '~> 3.0.0'
-gem 'spreadsheet',          '~> 0.7.4'
+gem 'spreadsheet',          '~> 0.7.5'
 gem 'systemu',              '~> 2.5.2'
 gem 'rubyzip',              '~> 0.9.9'
 
