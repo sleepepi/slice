@@ -1,5 +1,8 @@
 == 0.11.3
 
+* Enhancements
+  * Subject Report can now be filtered by subject status
+
 == 0.11.2
 
 * Enhancement

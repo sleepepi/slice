@@ -1,0 +1,60 @@
+<h3 style="text-align:center;margin:0px">Subject vs. Design</h3>
+
+<table class="table table-hover"><col width="1px" /><%== "<col width='#{100/(@designs.size + 1)}%'/>" * (@designs.size + 1) %><col width="1px"/>
+  <caption style="padding-bottom:8px">
+    <%= @project.name %>
+  </caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Subject</th>
+      <% @designs.each do |design| %>
+        <th><span class="count-rot315__"><%= design.name %></span></th>
+      <% end %>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr style="font-weight:bold">
+      <td></td>
+      <td>Total</td>
+      <% @designs.each do |design| %>
+        <% count = design.sheets.count %>
+        <td class="<%= 'muted' if count == 0 %>">
+          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id) %>
+        </td>
+      <% end %>
+      <td><%= link_to @designs.sum{|d| d.sheets.count}, project_sheets_path(@project) %></td>
+    </tr>
+  </tfoot>
+  <tbody>
+    <% @subjects.each do |subject| %>
+      <tr>
+        <td>
+          <% case subject.status when 'valid' %>
+            <span class="label label-success"><%= subject.status %></span>
+          <% when 'test' %>
+            <span class="label label-info"><%= subject.status %></span>
+          <% else %>
+            <span class="label label-warning"><%= subject.status %></span>
+          <% end %>
+        </td>
+        <td><%= link_to subject.subject_code, [subject.project, subject] %></td>
+        <% @designs.each do |design| %>
+          <% count = design.sheets.where(subject_id: subject.id).count %>
+          <td class="<%= 'muted' if count == 0 %>">
+            <% if count > 0 %>
+              <%= link_to count, project_sheets_path(@project, design_id: design.id, search: subject.subject_code) %>
+            <% else %>
+              <%= link_to '+', new_project_sheet_path(@project, sheet: { design_id: design.id, study_date: Date.today.strftime("%m/%d/%Y") }, subject_code: subject.subject_code, subject_acrostic: subject.acrostic, site_id: subject.site_id), class: 'btn btn-mini' %>
+            <% end %>
+          </td>
+        <% end %>
+        <% count = @designs.sum{ |d| d.sheets.where(subject_id: subject.id).count } %>
+        <td class="<%= 'muted' if count == 0 %>">
+          <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, search: subject.subject_code) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

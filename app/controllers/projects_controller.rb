@@ -6,7 +6,8 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project
-        @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id)).order('subject_code')
+        @statuses = params[:statuses] || ['valid', 'pending', 'test']
+        @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order('subject_code')
         @designs = @project.designs.order('name')
         format.html # subject_report.html.erb
         format.json { render json: @project }
