@@ -9,7 +9,7 @@
 
     <div class="span6">
       <div class="control-group" style="margin-bottom:0px">
-        <%= label_tag "design_option_tokens_#{position}_variable_id", 'Variable', class: 'control-label' %>
+        <%= label_tag "design_option_tokens_#{position}_variable_id", '&equiv; Variable'.html_safe, class: 'control-label handle', style: 'cursor:move' %>
         <div class="controls" id="design_options_tokens_<%= position %>_variable_id_select_container">
           <%= render partial: 'designs/select_option_tokens_variable' %>
         </div>

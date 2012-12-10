@@ -4,7 +4,7 @@
   <%= link_to 'Remove', "#", data: { object: 'remove', target: "variable_#{position}" }, class: 'btn btn-mini btn-danger', style: 'float:right' %>
 
   <div class="control-group" style="margin-bottom:0px">
-    <%= label_tag "design_option_tokens_#{position}_section_name", 'Section', class: 'control-label' %>
+    <%= label_tag "design_option_tokens_#{position}_section_name", '&equiv; Section'.html_safe, class: 'control-label handle', style: 'cursor:move' %>
     <div class="controls">
       <%= text_field_tag "design[option_tokens][#{position}][section_name]", @option[:section_name] %>
     </div>

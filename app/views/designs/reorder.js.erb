@@ -1,21 +1,8 @@
 $('#compact_design_container').html("<%= escape_javascript(render("compact_design")) %>");
 $('#reorder_sections_container').html("<%= escape_javascript(render("reorder_sections")) %>");
 
-$('#compact_design[data-object~="sortable"]').sortable({
-  placeholder: "li-section li-placeholder",
-  stop: function() {
-    toggleReorderDesignSubmitButton();
-    return true;
-  }
-})
 
-$('#reorder_sections_design[data-object~="sortable"]').sortable({
-  placeholder: "li-section li-placeholder",
-  stop: function() {
-    toggleReorderSectionsSubmitButton();
-    return true;
-  }
-});
+initializeDesignReordering();
 
 $('#reorder_design_button').attr('disabled', 'disabled');
 $('#reorder_design_sections_button').attr('disabled', 'disabled');

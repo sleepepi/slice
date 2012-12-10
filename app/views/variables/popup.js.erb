@@ -5,7 +5,9 @@ $("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });
 toggleOptions($('#variable_variable_type'));
 $('#options[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
 
-$('#variables[data-object~="sortable"], #form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
+loadVariableSortable();
+
+$('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
 loadColorSelectors();
 
 $(".datepicker").datepicker({

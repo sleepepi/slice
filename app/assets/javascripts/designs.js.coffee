@@ -85,6 +85,28 @@
     $('#reorder_design_sections_button').removeAttr('disabled')
   false
 
+@initializeDesignReordering = () ->
+  $('#compact_design[data-object~="sortable"]').sortable(
+    placeholder: "li-section li-placeholder"
+    stop: () ->
+      toggleReorderDesignSubmitButton()
+      true
+  )
+  $('#reorder_sections_design[data-object~="sortable"]').sortable(
+    placeholder: "li-section li-placeholder"
+    stop: () ->
+      toggleReorderSectionsSubmitButton()
+      true
+  )
+
+@loadVariableSortable = () ->
+  $('#variables[data-object~="sortable"]').sortable(
+    placeholder: "well alert alert-block"
+    handle: ".handle"
+    cursorAt:
+      top: 30
+  )
+
 jQuery ->
 
   $('#add_more_variables').on('click', () ->
@@ -107,7 +129,9 @@ jQuery ->
     false
   )
 
-  $('#variables[data-object~="sortable"], #form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
+  loadVariableSortable()
+
+  $('#form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
   $('#reorder_design_button').on('click', () ->
     if $(this).attr('disabled') != 'disabled'
@@ -169,21 +193,12 @@ jQuery ->
       )
       false
     )
+    .on('mousedown', '.handle', () ->
+      $($(this).closest('[data-object~="expand-details"]').data('target')).hide()
+      $($(this).closest('[data-object~="expand-details"]').data('target-hide')).show()
+    )
 
-  $('#compact_design[data-object~="sortable"]').sortable(
-    placeholder: "li-section li-placeholder"
-    stop: () ->
-      toggleReorderDesignSubmitButton()
-      true
-  )
-
-  $('#reorder_sections_design[data-object~="sortable"]').sortable(
-    placeholder: "li-section li-placeholder"
-    stop: () ->
-      toggleReorderSectionsSubmitButton()
-      true
-  )
-
+  initializeDesignReordering()
 
   $("#variables div, #form_grid_variables div").last().click()
 
