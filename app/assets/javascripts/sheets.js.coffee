@@ -63,7 +63,11 @@ jQuery ->
       false
     )
     .on('click', "[data-link]", () ->
-      window.location = $(this).data("link")
+      if nonStandardClick(event)
+        window.open($(this).data("link"))
+        return false
+      else
+        window.location = $(this).data("link")
     )
 
   initializeSheet()

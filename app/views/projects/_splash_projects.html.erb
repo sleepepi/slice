@@ -22,7 +22,7 @@
               <% end %>
             </div>
             <div style="height:1px">
-              <% if current_user.all_viewable_projects.pluck(:id).include?(project.id) %><div style="text-align:center;display:none" id="project_<%= project.id %>_create_link"><%= link_to 'Create Sheet', new_project_sheet_path(project), class: 'btn btn-mini' %></div><% end %>
+              <% if current_user.all_viewable_projects.pluck(:id).include?(project.id) %><div style="text-align:center;display:none" id="project_<%= project.id %>_create_link" data-link="<%= new_project_sheet_path(project) %>"><%= link_to 'Create Sheet', new_project_sheet_path(project), class: 'btn btn-mini' %></div><% end %>
             </div>
             <hr class="soften">
           </div>
