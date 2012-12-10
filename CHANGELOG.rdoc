@@ -3,6 +3,9 @@
 * Enhancements
   * Subject Report can now be filtered by subject status
 
+* Bug Fix
+  * Fixed some occurences of web page elements appearing underneath others
+
 == 0.11.2
 
 * Enhancement

@@ -36,7 +36,7 @@
 }
 .bs-docs-sidenav > .active > a {
   position: relative;
-  z-index: 2;
+  z-index: 0; /* Was 2 */
   padding: 9px 15px;
   border: 0;
   text-shadow: 0 1px 0 rgba(0,0,0,.15);
