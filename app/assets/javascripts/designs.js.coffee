@@ -170,9 +170,6 @@ jQuery ->
       false
     )
 
-  updateAllVariables()
-  updateCalculatedVariables()
-
   $('#compact_design[data-object~="sortable"]').sortable(
     placeholder: "li-section li-placeholder"
     stop: () ->
@@ -187,8 +184,6 @@ jQuery ->
       true
   )
 
-  $('.chzn-select').chosen({ allow_single_deselect: true })
-  $('.timepicker').timepicker({ 'timeFormat': 'H:i:s' });
 
   $("#variables div, #form_grid_variables div").last().click()
 

@@ -274,12 +274,3 @@ jQuery ->
     .on('change', '[data-object~="dateminmax"]', () ->
       setRangeDate($(this))
     )
-
-  $('[data-object~="variable-typeahead"]').each( () ->
-    $this = $(this)
-    $this.typeahead(
-      source: (query, process) ->
-        variable_id = $this.data('variable-id')
-        return $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/typeahead', { query: query, sheet_authentication_token: ($('#sheet_authentication_token').val() || "") }, (data) -> return process(data))
-    )
-  )
