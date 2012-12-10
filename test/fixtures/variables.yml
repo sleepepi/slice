@@ -153,6 +153,17 @@ calculated:
   format: "%0.02f"
   project: one
 
+calculated_without_format:
+  name: var_bmi_no_format
+  display_name: Body Mass Index
+  description: Automatically calculated variable
+  # header:
+  variable_type: calculated
+  user: valid
+  calculation: "weight / (height * height)"
+  # format:
+  project: one
+
 external_calculated:
   name: external_bmi
   display_name: Body Mass Index

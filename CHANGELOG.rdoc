@@ -8,6 +8,7 @@
   * Fixed some occurences of web page elements appearing underneath others
   * PDFs of designs and sheets now correctly include the header and display name of scale variables if both are specified
   * Autocomplete strings fields now initialize properly when additional rows are added to the grid
+  * Calculated variables with blank formats now correctly return the original number that was to be formatted
 
 == 0.11.2
 

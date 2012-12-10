@@ -29,8 +29,10 @@ class VariablesController < ApplicationController
     end
 
     if @project and @variable
-      unless @variable.format.blank?
-        @result = @variable.format % params[:calculated_number] rescue params[:calculated_number]
+      @result = if @variable.format.blank?
+        params[:calculated_number]
+      else
+        @variable.format % params[:calculated_number] rescue params[:calculated_number]
       end
 
       render 'format_number'
