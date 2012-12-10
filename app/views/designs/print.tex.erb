@@ -73,7 +73,7 @@
 <% if @variable.header_without_tags.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 <% else %>
-  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
+  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' %>\\\\<%= latex_safe @variable.display_name %><% end %>}
 <% end %>
 
 \begin{table*}[!htbp]\centering
@@ -99,7 +99,7 @@
 <% if @variable.header_without_tags.blank? %>
   \subsubsection*{<%= latex_safe @variable.display_name %>}
 <% else %>
-  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>\\<%= latex_safe @variable.display_name %><% end %>}
+  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' %>\\\\<%= latex_safe @variable.display_name %><% end %>}
 <% end %>
 
 <% if @variable.variable_type == 'date' %>
