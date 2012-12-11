@@ -3,6 +3,7 @@
 * Enhancements
   * Subject Report can now be filtered by subject status
   * Variables of type radio can now be included in calculated variables
+  * Prepend and Append fields now only show up for calculated, date, time, integer, numeric, and string variables
 
 * Bug Fix
   * Fixed some occurences of web page elements appearing underneath others
