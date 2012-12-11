@@ -62,8 +62,8 @@ jQuery ->
       window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
       false
     )
-    .on('click', "[data-link]", () ->
-      if nonStandardClick(event)
+    .on('click', "[data-link]", (e) ->
+      if nonStandardClick(e)
         window.open($(this).data("link"))
         return false
       else
