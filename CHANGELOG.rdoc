@@ -15,6 +15,7 @@
   * Time variables no longer show "Date soft maximum" as an option
   * Time and date variables tooltips and popovers no longer cover the current button if it's enabled
   * Fixed a Firefox issue where launching a modal would cause the background to jump back to the top of the page
+  * Entered data on a sheet that fails a subject or date validation no longer resets the new information on the form
 
 == 0.11.2
 

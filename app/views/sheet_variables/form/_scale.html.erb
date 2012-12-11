@@ -3,7 +3,11 @@
 <% if variable.scale_type == 'radio' %>
   <%= hidden_field_tag "#{field_name}", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.scale_type } %>
 <% else %>
-  <% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.pluck(:value) : []) %>
+  <% if response.kind_of?(Array) %>
+    <% responses = response %>
+  <% else %>
+    <% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.pluck(:value) : []) %>
+  <% end %>
   <%= hidden_field_tag "#{field_name}[]", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.scale_type } %>
 <% end %>
 
