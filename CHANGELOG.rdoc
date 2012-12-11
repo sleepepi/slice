@@ -11,6 +11,7 @@
   * Calculated variables with blank formats now correctly return the original number that was to be formatted
   * Non-standard clicks (ctrl, alt, etc) now open links in a new tab/window
   * Design variable can now only be sorted by clicking the variable name, this resolves a few issues when sorting were unintentionally triggered
+  * Time variables no longer show "Date soft maximum" as an option
 
 == 0.11.2
 
