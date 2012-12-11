@@ -4,7 +4,7 @@
   <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
 <%= text_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: "datepicker input-#{defined?(control_size) ? control_size : 'large'}", data: { object: 'dateminmax', content: variable.description, title: variable.display_name,
    date_hard_minimum: (variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (variable.date_hard_maximum.strftime('%m/%d/%Y') rescue ''),
-   date_soft_minimum: (variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''), missing_codes: variable.missing_codes, placement: 'right' }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name, placeholder: is_grid ? variable.display_name : nil %>
+   date_soft_minimum: (variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''), missing_codes: variable.missing_codes, placement: (variable.show_current_button? ? 'left' : 'right') }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name, placeholder: is_grid ? variable.display_name : nil %>
    <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
    <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn' if variable.show_current_button? %>
 </div>
