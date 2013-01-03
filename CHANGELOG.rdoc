@@ -6,7 +6,7 @@
 * Bug Fix
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive
 
-== 0.11.3
+== 0.11.3 (December 11, 2012)
 
 * Enhancements
   * Subject Report can now be filtered by subject status
@@ -25,7 +25,7 @@
   * Fixed a Firefox issue where launching a modal would cause the background to jump back to the top of the page
   * Entered data on a sheet that fails a subject or date validation no longer resets the new information on the form
 
-== 0.11.2
+== 0.11.2 (November 30, 2012)
 
 * Enhancement
   * Variables now only use the variable name as a place holder in the input field if the variable is in a grid
@@ -33,7 +33,7 @@
 * Bug Fix
   * Surveys now properly load branching logic
 
-== 0.11.1
+== 0.11.1 (November 30, 2012)
 
 * Enhancements
   * Variable headers can now include simple formatting, i.e. HTML tags <a>, <b>, <i>
@@ -45,7 +45,7 @@
   * Updating a variable while editing a design no longer removes the branching logic for that variable
   * Date pickers now display properly when editing date variables on inside a design
 
-== 0.11.0
+== 0.11.0 (November 21, 2012)
 
 * Enhancements
   * Design Changes
@@ -105,7 +105,7 @@
   * Audits are now ordered correctly on the sheet audit page
   * New sheets now properly load branching logic for preselected designs
 
-== 0.10.3
+== 0.10.3 (November 7, 2012)
 
 * Enhancements
   * Sheets are now rendered using LaTeX for cleaner PDFs
@@ -115,12 +115,12 @@
 * Bug Fix
   * Fixed some tooltips not appearing when mousing over
 
-== 0.10.2
+== 0.10.2 (November 5, 2012)
 
 * Bug Fix
   * Fixed a bug that caused dropdowns to not display correctly
 
-== 0.10.1
+== 0.10.1 (November 5, 2012)
 
 * Enhancements
   * Project logo added to printed designs
@@ -134,7 +134,7 @@
   * Fixed a bug that caused Firefox to be inable to create designs that contained file variables
   * Project report and subject reports now display correctly on projects with no sites
 
-== 0.10.0
+== 0.10.0 (November 2, 2012)
 
 * Enhancements
   * Project Changes
@@ -164,7 +164,7 @@
   * Changing the subject code after entering data on the sheet no longer clears the newly entered data
   * Setting variable option colors now sets the correct option's color when adding new options in quick succession
 
-== 0.9.1
+== 0.9.1 (October 23, 2012)
 
 * Enhancements
   * The project has been renamed to Slice
@@ -184,7 +184,7 @@
   * Copying a grid variable no longer causes an error
   * Copying a variable now correctly says "Create Variable" instead of "Update Variable"
 
-== 0.9.0
+== 0.9.0 (October 19, 2012)
 
 * Enhancements
   * Report Changes
@@ -219,7 +219,7 @@
   * Variable options color choices are no longer reset to white when updating a variable
   * Variable option color selection fixed when attempting to change the color of a newly added option
 
-== 0.8.0
+== 0.8.0 (October 5, 2012)
 
 * Enhancements
   * Design Changes
@@ -257,7 +257,7 @@
   * Editing Grid variables from design page popup fixed
   * Reordering sections and variables on a design fixed when attempting to reorder after saving once
 
-== 0.7.0
+== 0.7.0 (September 10, 2012)
 
 * Enhancements
   * Design Changes
@@ -277,7 +277,7 @@
 * Bug Fix
   * Updating a subject's acrostic when editing a sheet now correctly updates the subject's acrostic
 
-== 0.6.0
+== 0.6.0 (August 10, 2012)
 
 * Enhancements
   * Project Changes
@@ -323,7 +323,7 @@
   * Designs no longer lose temporary modifications when changes aren't saved due to validation errors
   * Variables no longer lose temporary modifications when changes aren't saved due to validation errors
 
-== 0.5.0
+== 0.5.0 (July 24, 2012)
 
 * Enhancements
   * Project Changes
@@ -352,12 +352,12 @@
 * Testing
   * Use ActionDispatch for Integration tests instead of ActionController
 
-== 0.4.1
+== 0.4.1 (July 11, 2012)
 
 * Testing
   * Added test to assure that subjects can't be created without being assigned to a site
 
-== 0.4.0
+== 0.4.0 (July 10, 2012)
 
 * Enhancements
   * Variable Changes
@@ -379,12 +379,12 @@
   * Index page ordering and sorting now done consistently across project
   * Deleting items from lists uses partial page update to keep selected filters in place
 
-== 0.3.1
+== 0.3.1 (June 22, 2012)
 
 * Bug Fix
   * Older designs without condition_values set now load properly
 
-== 0.3.0
+== 0.3.0 (June 22, 2012)
 
 * Enhancements
   * Reset Filters added to Designs, Variables, Subjects, and Sites Index pages
@@ -410,7 +410,7 @@
     * Project page now lists designs and links to project specific designs
     * Project page now links to project specific sheets
 
-== 0.2.1
+== 0.2.1 (June 13, 2012)
 
 * Enhancements
   * Sheet Changes
@@ -438,7 +438,7 @@
   * Librarians can move designs/variables to and from projects
   * Subjects and Sites creation are now limited to projects a user can access
 
-== 0.2.0
+== 0.2.0 (June 8, 2012)
 
 * Enhancements
   * Sheet Changes
@@ -464,7 +464,7 @@
   * Variable options now correctly load when editing a variable
   * Subjects now correctly linked to their appropriate sheets
 
-== 0.1.0
+== 0.1.0 (May 29, 2012)
 
 * Enhancements
   * Added Design and Variable Libraries
@@ -474,6 +474,6 @@
     * Projects group together specific a set of subjects
     * Sheets are filled out forms
 
-== 0.0.0
+== 0.0.0 (May 15, 2012)
 
 * Skeleton files to initialize Rails application with testing framework and continuous integration
