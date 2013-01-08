@@ -1,4 +1,4 @@
-== 0.11.5
+== 0.11.5 (January 8, 2013)
 
 * Security Fix
   * Updated Rails to 3.2.11
