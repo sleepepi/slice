@@ -13,18 +13,4 @@ class ApplicationControllerTest < ActionController::TestCase
     assert_equal "", @controller.send(:parse_time, "abc")
   end
 
-  test "should make latex safe" do
-    assert_equal '\\textbackslash', @controller.send(:latex_safe, "\\")
-    assert_equal '\\#', @controller.send(:latex_safe, "#")
-    assert_equal '\\$', @controller.send(:latex_safe, "$")
-    # assert_equal "\\&", @controller.send(:latex_safe, "&") # Not currently sure how to correctly escape '&' for LaTeX
-    # assert_equal '\\~{}', @controller.send(:latex_safe, "~")
-    # assert_equal '\\_', @controller.send(:latex_safe, "_")
-    # assert_equal '\\^{}', @controller.send(:latex_safe, "^")
-    # assert_equal '\\{', @controller.send(:latex_safe, "{")
-    # assert_equal '\\}', @controller.send(:latex_safe, "}")
-    # assert_equal '\\textless{}', @controller.send(:latex_safe, "<")
-    # assert_equal '\\textgreater{}', @controller.send(:latex_safe, ">")
-  end
-
 end
