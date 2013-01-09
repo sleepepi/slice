@@ -1,8 +1,10 @@
 class Post < ActiveRecord::Base
   attr_accessible :archived, :description, :name, :project_id, :user_id
 
+  # Concerns
+  include Searchable, Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
 
   # Model Validation
   validates_presence_of :name, :description, :project_id, :user_id
@@ -12,8 +14,5 @@ class Post < ActiveRecord::Base
   belongs_to :project
 
   # Model Methods
-  def destroy
-    update_column :deleted, true
-  end
 
 end

@@ -3,8 +3,10 @@ class Report < ActiveRecord::Base
 
   serialize :options, Hash
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
 
   # Model Validation
   validates_presence_of :user_id, :name
@@ -13,10 +15,6 @@ class Report < ActiveRecord::Base
   belongs_to :user
 
   # Model Methods
-  def destroy
-    update_column :deleted, true
-  end
-
   def design
     Design.current.find_by_id(self.options[:design_id])
   end
@@ -24,5 +22,4 @@ class Report < ActiveRecord::Base
   def project
     self.design ? self.design.project : nil
   end
-
 end

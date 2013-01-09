@@ -5,8 +5,10 @@ class Domain < ActiveRecord::Base
 
   before_save :check_option_validations
 
+  # Concerns
+  include Searchable, Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
 
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
@@ -18,9 +20,6 @@ class Domain < ActiveRecord::Base
   has_many :variables, conditions: { deleted: false }
 
   # Model Methods
-  def destroy
-    update_column :deleted, true
-  end
 
   def variable_ids
     variable_ids = self.new_record? ? [] : self.variables.pluck(:id)

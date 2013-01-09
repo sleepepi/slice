@@ -6,12 +6,11 @@ class Design < ActiveRecord::Base
   before_save :check_option_validations
 
   # Concerns
-  include Deletable, Latexable
+  include Searchable, Deletable, Latexable
 
   # Named Scopes
   scope :with_user, lambda { |*args| { conditions: ['designs.user_id IN (?)', args.first] } }
   scope :with_project, lambda { |*args| { conditions: ['designs.project_id IN (?)', args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   scope :order_by_project_name, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name' } }
   scope :order_by_project_name_desc, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name DESC' } }

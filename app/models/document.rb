@@ -3,8 +3,10 @@ class Document < ActiveRecord::Base
 
   mount_uploader :file, GenericUploader
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
 
   # Model Validation
   validates_presence_of :name, :category, :file, :project_id, :user_id
@@ -14,8 +16,5 @@ class Document < ActiveRecord::Base
   belongs_to :project
 
   # Model Methods
-  def destroy
-    update_column :deleted, true
-  end
 
 end

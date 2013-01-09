@@ -3,20 +3,17 @@ class SheetEmail < ActiveRecord::Base
 
   mount_uploader :email_pdf_file, GenericUploader
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
 
   # Model Relationships
   belongs_to :user
   belongs_to :sheet
 
   # Model Methods
-  def destroy
-    update_column :deleted, true
-  end
-
   def email_receipt
     UserMailer.sheet_receipt(self).deliver if Rails.env.production?
   end
-
 end

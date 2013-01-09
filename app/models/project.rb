@@ -3,11 +3,12 @@ class Project < ActiveRecord::Base
 
   mount_uploader :logo, ImageUploader
 
+  # Concerns
+  include Searchable, Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
   scope :with_user, lambda { |*args| { conditions: ['projects.user_id IN (?)', args.first] } }
   scope :with_librarian, lambda { |*args| { conditions: ['projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1]] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
   validates_presence_of :name, :user_id
@@ -52,10 +53,5 @@ class Project < ActiveRecord::Base
 
   def custom_reports
     []
-  end
-
-  # Model Methods
-  def destroy
-    update_column :deleted, true
   end
 end

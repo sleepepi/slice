@@ -15,11 +15,13 @@ class User < ActiveRecord::Base
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
   scope :human, conditions: { } # Placeholder
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%') ] } }
   scope :system_admins, conditions: { system_admin: true }
   scope :with_sheet, lambda { |*args| { conditions: ["users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false] }  }
   scope :with_design, lambda { |*args| { conditions: ["users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false] }  }
@@ -186,7 +188,7 @@ class User < ActiveRecord::Base
   end
 
   def destroy
-    update_column :deleted, true
+    super
     update_column :status, 'inactive'
     update_column :updated_at, Time.now
   end

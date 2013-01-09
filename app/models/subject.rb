@@ -3,11 +3,13 @@ class Subject < ActiveRecord::Base
 
   STATUS = ["valid", "pending", "test"].collect{|i| [i,i]}
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(subject_code) LIKE ?', arg.downcase.gsub(/^| |$/, '%') ] } }
   scope :with_project, lambda { |*args| { conditions: ["subjects.project_id IN (?)", args.first] } }
   scope :with_site, lambda { |*args| { conditions: ["subjects.site_id IN (?)", args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(subject_code) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :without_design, lambda { |*args| { conditions: ["subjects.id NOT IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, args.first] } }
   scope :with_design, lambda { |*args| { conditions: ["subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, args.first] } }
 
@@ -26,7 +28,5 @@ class Subject < ActiveRecord::Base
   has_many :sheets, conditions: { deleted: false }
 
   # Model Methods
-  def destroy
-    update_column :deleted, true
-  end
+
 end

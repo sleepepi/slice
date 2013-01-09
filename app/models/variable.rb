@@ -30,13 +30,15 @@ class Variable < ActiveRecord::Base
 
   before_save :check_option_validations
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%') ] } }
   scope :with_user, lambda { |*args| { conditions: ['variables.user_id IN (?)', args.first] } }
   scope :with_project, lambda { |*args| { conditions: ['variables.project_id IN (?)', args.first] } }
   scope :with_variable_type, lambda { |*args| { conditions: ['variables.variable_type IN (?)', args.first] } }
   scope :without_variable_type, lambda { |*args| { conditions: ['variables.variable_type NOT IN (?)', args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
   validates_presence_of :name, :display_name, :variable_type, :project_id
@@ -52,6 +54,8 @@ class Variable < ActiveRecord::Base
   has_many :responses
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
+  # Model Methods
+
   def header_without_tags
     self.header.to_s.gsub(/<(.*?)>/, '')
   end
@@ -66,11 +70,6 @@ class Variable < ActiveRecord::Base
 
   def autocomplete_array
     self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}
-  end
-
-  # Model Methods
-  def destroy
-    update_column :deleted, true
   end
 
   def designs
