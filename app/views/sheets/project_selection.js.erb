@@ -30,7 +30,6 @@ $("#sheet_subject_id").parent().parent().removeClass('warning success error info
     $("#sheet_subject_id").parent().parent().addClass('warning');
     $("#subject_id_info").html("<%= @project ? @project.subject_code_name_full : 'Subject Code' %> is <span class='label label-warning'>pending</span>. New subject will be created.")
   <% end %>
-  $('#sheet_subject_acrostic').val('');
 <% end %>
 
 <% if @project and @project.acrostic_enabled? %>
