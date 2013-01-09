@@ -5,8 +5,10 @@ class Design < ActiveRecord::Base
 
   before_save :check_option_validations
 
+  # Concerns
+  include Deletable, Latexable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
   scope :with_user, lambda { |*args| { conditions: ['designs.user_id IN (?)', args.first] } }
   scope :with_project, lambda { |*args| { conditions: ['designs.project_id IN (?)', args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
@@ -28,9 +30,6 @@ class Design < ActiveRecord::Base
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
-  def destroy
-    update_column :deleted, true
-  end
 
   def batch_sheets!(current_user, site, date, emails)
     new_sheets = []
@@ -253,18 +252,6 @@ class Design < ActiveRecord::Base
     # Rails.logger.debug "#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}"
 
     file_pdf_location = File.join('tmp', 'files', 'tex', "#{jobname}.pdf")
-  end
-
-  protected
-
-  # Copied from application_controller.rb
-  def latex_safe(mystring)
-    mystring = mystring.to_s
-    symbols = [['\\', '\\textbackslash'], ['#', '\\#'], ['$', '\\$'], ['&', '\\&'], ['~', '\\~{}'], ['_', '\\_'], ['^', '\\^{}'], ['{', '\\{'], ['}', '\\}'], ['<', '\\textless{}'], ['>', '\\textgreater{}']]
-    symbols.each do |from, to|
-      mystring.gsub!(from, to)
-    end
-    mystring
   end
 
 end

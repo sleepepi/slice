@@ -1,0 +1,24 @@
+module Latexable
+  extend ActiveSupport::Concern
+
+  def latex_safe(text)
+    replacements.inject(text.to_s) do |corpus, (pattern, replacement)|
+      corpus.gsub(pattern, replacement)
+    end
+  end
+
+  # List of replacements
+  def replacements
+    @replacements ||= [
+      [/([{}])/,    '\\\\\1'],
+      [/\\/,        '\textbackslash{}'],
+      [/\^/,        '\textasciicircum{}'],
+      [/~/,         '\textasciitilde{}'],
+      [/\|/,        '\textbar{}'],
+      [/\</,        '\textless{}'],
+      [/\>/,        '\textgreater{}'],
+      [/([_$&%#])/, '\\\\\1']
+    ]
+  end
+
+end

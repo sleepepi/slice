@@ -4,8 +4,10 @@ class Sheet < ActiveRecord::Base
   audited
   has_associated_audits
 
+  # Concerns
+  include Deletable, Latexable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
   scope :search, lambda { |*args| { conditions: [ 'subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, '%' + args.first.downcase.split(' ').join('%') + '%', false, '%' + args.first.downcase.split(' ').join('%') + '%'  ] } }
   scope :sheet_before, lambda { |*args| { conditions: ["sheets.study_date < ?", (args.first+1.day)]} }
   scope :sheet_after, lambda { |*args| { conditions: ["sheets.study_date >= ?", args.first]} }
@@ -76,10 +78,6 @@ class Sheet < ActiveRecord::Base
 
   def self.first_entry
     self.scoped().joins("LEFT JOIN sheets s2 ON sheets.subject_id = s2.subject_id AND sheets.study_date > s2.study_date").where("s2.id IS NULL")
-  end
-
-  def destroy
-    update_column :deleted, true
   end
 
   def send_external_email!(current_user, email, authentication_token = SecureRandom.hex(32))
@@ -353,23 +351,8 @@ class Sheet < ActiveRecord::Base
 
   protected
 
-  # Copied from application_controller.rb
-  def latex_safe(mystring)
-    mystring = mystring.to_s
-    symbols = [['\\', '\\textbackslash'], ['#', '\\#'], ['$', '\\$'], ['&', '\\&'], ['~', '\\~{}'], ['_', '\\_'], ['^', '\\^{}'], ['{', '\\{'], ['}', '\\}'], ['<', '\\textless{}'], ['>', '\\textgreater{}']]
-    symbols.each do |from, to|
-      mystring.gsub!(from, to)
-    end
-    mystring
-  end
-
   def self.latex_safe(mystring)
-    mystring = mystring.to_s
-    symbols = [['\\', '\\textbackslash'], ['#', '\\#'], ['$', '\\$'], ['&', '\\&'], ['~', '\\~{}'], ['_', '\\_'], ['^', '\\^{}'], ['{', '\\{'], ['}', '\\}'], ['<', '\\textless{}'], ['>', '\\textgreater{}']]
-    symbols.each do |from, to|
-      mystring.gsub!(from, to)
-    end
-    mystring
+    self.new.latex_safe(mystring)
   end
 
 end
