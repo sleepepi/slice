@@ -5,6 +5,7 @@
 
 * Bug Fix
   * Tooltips no longer resize the report tables when hovered over
+  * Toggable filter buttons on reports fixed
 
 == 0.11.5 (January 8, 2013)
 

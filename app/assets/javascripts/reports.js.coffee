@@ -12,25 +12,21 @@ jQuery ->
     .on('click', '[data-object~="set-percent"]', () ->
       $("#percent").val($(this).data('value'))
       $("#report_form").submit()
-      false
     )
     .on('click', '[data-object~="set-by"]', () ->
       $("#by").val($(this).data('value'))
       $("#report_form").submit()
-      false
     )
     .on('click', '[data-object~="set-filter"]', () ->
       $("#filter").val($(this).data('value'))
       $("#report_form").submit()
-      false
     )
     .on('click', '[data-object~="set-statuses"]', () ->
       if $(this).hasClass('active')
-        $("#statuses_#{$(this).data('value')}").val($(this).data('value'))
-      else
         $("#statuses_#{$(this).data('value')}").val('')
+      else
+        $("#statuses_#{$(this).data('value')}").val($(this).data('value'))
       $("#report_form").submit()
-      false
     )
     .on('change', '[data-object~="form-reload"]', () ->
       $($(this).data('target')).submit()
