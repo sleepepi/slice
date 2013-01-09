@@ -3,6 +3,9 @@
 * Enhancements
   * Updated to Contour 1.1.2 and use Contour pagination theme
 
+* Bug Fix
+  * Tooltips no longer resize the report tables when hovered over
+
 == 0.11.5 (January 8, 2013)
 
 * Security Fix
