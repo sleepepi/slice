@@ -26,7 +26,7 @@ jQuery ->
         $("#statuses_#{$(this).data('value')}").val('')
       else
         $("#statuses_#{$(this).data('value')}").val($(this).data('value'))
-      $("#report_form").submit()
+      $($(this).data('target')).submit()
     )
     .on('change', '[data-object~="form-reload"]', () ->
       $($(this).data('target')).submit()

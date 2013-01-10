@@ -73,7 +73,7 @@
       Subjects
       <div class="btn-group" data-toggle="buttons-checkbox">
         <% Subject::STATUS.each do |label, value| %>
-          <button data-object="set-statuses" data-value="<%= value %>" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+          <button data-object="set-statuses" data-value="<%= value %>" data-target="#report_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
             <%= label.humanize %>
             <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
           </button>
