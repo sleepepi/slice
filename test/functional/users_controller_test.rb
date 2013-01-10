@@ -8,6 +8,11 @@ class UsersControllerTest < ActionController::TestCase
     @current_user = login(users(:admin))
   end
 
+  test "should get settings" do
+    get :settings
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_not_nil assigns(:users)

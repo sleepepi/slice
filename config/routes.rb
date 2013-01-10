@@ -108,6 +108,7 @@ Slice::Application.routes.draw do
   resources :users
 
   match "/about" => "application#about", as: :about
+  match "/settings" => "users#settings", as: :settings
 
   root to: 'projects#splash'
 

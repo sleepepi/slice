@@ -16,7 +16,7 @@
 
   <% @users.each do |user| %>
     <tr>
-      <td><%= link_to user.name, user %></td>
+      <td><%= image_tag user.avatar_url(18), style: 'vertical-align:text-bottom' %> <%= link_to user.name, user %></td>
       <td><%= user.email %></td>
       <td><%= recent_activity(user.current_sign_in_at) %></td>
       <% if current_user.system_admin? %>
