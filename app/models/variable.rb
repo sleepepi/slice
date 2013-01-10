@@ -142,7 +142,7 @@ class Variable < ActiveRecord::Base
 
   # For tooltip
   def display_name_range
-    [self.display_name, self.range_tooltip].select{|i| not i.blank?}.join('<br /> ')
+    [self.display_name, self.range_tooltip].select{|i| not i.blank?}.join(' ')
   end
 
   def range_tooltip

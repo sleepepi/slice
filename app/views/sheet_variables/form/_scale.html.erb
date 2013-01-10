@@ -29,10 +29,12 @@
     <tr>
       <td><%= variable.display_name %></td>
       <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <td style="text-align:center" data-content="<%= variable.description %>"
-                                      data-title="<%= variable.display_name %>"
-                                      data-placement="bottom" rel="<%= variable.description.blank? ? 'tooltip' : 'popover' %>">
-          <label class="<%= variable.scale_type %> inline">
+        <td style="text-align:center">
+          <label class="<%= variable.scale_type %> inline"
+                 data-content="<%= variable.description %>"
+                 data-title="<%= variable.display_name %>"
+                 data-placement="bottom" rel="<%= variable.description.blank? ? 'tooltip' : 'popover' %>"
+                 data-html="true">
             <% if variable.scale_type == 'radio' %>
               <%= radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.scale_type }, disabled: disabled %>
             <% else %>

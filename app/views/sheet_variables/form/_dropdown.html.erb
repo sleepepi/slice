@@ -10,4 +10,15 @@
   <% span_size = 4 %>
 <% end %>
 
-<%= select_tag field_name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, response), data: { content: variable.description, title: variable.display_name, object: "condition", name: variable.name, placeholder: "#{variable.display_name if is_grid}" }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, class: "chzn-select span#{span_size}", title: variable.display_name %>
+<%= select_tag field_name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, response),
+      data: {
+              title: variable.display_name,
+              content: variable.description,
+              object: "condition",
+              name: variable.name,
+              placeholder: "#{variable.display_name if is_grid}",
+              html: true
+            },
+      rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
+      disabled: disabled,
+      class: "chzn-select span#{span_size}" %>

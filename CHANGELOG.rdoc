@@ -1,5 +1,8 @@
 == 0.11.7
 
+* Bug Fix
+  * HTML now displays correctly in tooltips and popovers
+
 == 0.11.6 (January 9, 2013)
 
 * Enhancements

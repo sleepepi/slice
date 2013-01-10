@@ -30,6 +30,8 @@
   updateCalculatedVariables()
   $('[data-spy~="affix"]').affix( offset: { top: 423 } )
   checkAllRanges()
+  $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
+  $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
 
 jQuery ->
   $("#sheet_design_id").on('change', () ->

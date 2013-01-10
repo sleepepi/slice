@@ -1,4 +1,13 @@
 <% is_grid = defined?(grid) %>
 
-<%= file_field_tag "#{field_name}[response_file]", data: { content: variable.description, title: variable.display_name, object: "condition" }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name %>
+<%= file_field_tag "#{field_name}[response_file]",
+      data: {
+              content: variable.description,
+              title: variable.display_name,
+              object: "condition",
+              html: true
+            },
+      rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
+      disabled: disabled,
+      title: variable.display_name %>
 <%= hidden_field_tag "#{field_name}[response_file][cache]" %>
