@@ -12,8 +12,6 @@ gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw
 gem 'contour',              '~> 1.1.2'
 gem 'kaminari',             '~> 0.14.1'
 gem 'carrierwave',          '~> 0.7.1'
-# PDFKit: Generate PDFs from webpages, https://github.com/pdfkit/pdfkit/wiki/Installing-WKHTMLTOPDF
-gem 'pdfkit',               '~> 0.5.2'
 gem 'audited-activerecord', '~> 3.0.0'
 gem 'spreadsheet',          '~> 0.7.5'
 gem 'systemu',              '~> 2.5.2'

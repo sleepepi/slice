@@ -62,8 +62,5 @@ module Slice
       #{config.root}/app/controllers/concerns
       #{config.root}/app/models/concerns
     )
-
-    # Used to add .pdf to end of urls to generate a PDF
-    config.middleware.use PDFKit::Middleware, :print_media_type => true
   end
 end

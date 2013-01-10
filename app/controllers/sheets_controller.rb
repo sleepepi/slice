@@ -41,18 +41,6 @@ class SheetsController < ApplicationController
 
       pdf_attachment = nil
 
-      # if params[:pdf_attachment] == '1'
-      #   pdf_attachment = begin
-      #     kit = PDFKit.new(html)
-      #     stylesheet_file = "#{Rails.root}/public/assets/application.css"
-      #     kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
-      #     filename = "#{@sheet.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{@sheet.study_date.strftime("%Y-%m-%d")}_#{@sheet.name.strip.gsub(/[^\w]/, '-')}.pdf"
-      #     kit.to_file("#{Rails.root}/tmp/#{filename}")
-      #   rescue
-      #     nil
-      #   end
-      # end
-
       if params[:pdf_attachment] == '1'
         file_pdf_location = @sheet.latex_file_location(current_user)
         pdf_attachment = File.new(file_pdf_location) if File.exists?(file_pdf_location)
