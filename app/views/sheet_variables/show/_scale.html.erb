@@ -6,7 +6,7 @@
   <% response = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
 
   <span class="rounded-borders" style="background-color: <%= response[:color] %>">
-  <span rel="tooltip" title="<%= response[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= "#{response[:value]}: #{response[:name]}" unless response[:value].blank? %></span>
+  <span rel="tooltip" title="<%= response[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true"><%= "#{response[:value]}: #{response[:name]}" unless response[:value].blank? %></span>
   </span>
 
 <% else %>
@@ -17,7 +17,7 @@
   <% responses.each do |hash| %>
     <% unless is_grid %><p><% end %>
     <span class="rounded-borders" style="background-color: <%= hash[:color] %>">
-    <span rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>"><%= "#{hash[:value]}: #{hash[:name]}" unless hash[:value].blank? %></span>
+    <span rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true"><%= "#{hash[:value]}: #{hash[:name]}" unless hash[:value].blank? %></span>
     </span>
     <% unless is_grid %></p><% end %>
   <% end %>
