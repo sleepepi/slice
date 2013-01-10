@@ -2,6 +2,7 @@
 
 * Bug Fix
   * HTML now displays correctly in tooltips and popovers
+  * Toggleable filter buttons fixed on sheet audits page
 
 == 0.11.6 (January 9, 2013)
 
@@ -18,7 +19,7 @@
 
 * Bug Fix
   * Tooltips no longer resize the report tables when hovered over
-  * Toggable filter buttons on reports fixed
+  * Toggleable filter buttons on reports fixed
   * Subject Acrostic is no longer cleared when changing the sheet date
 
 == 0.11.5 (January 8, 2013)

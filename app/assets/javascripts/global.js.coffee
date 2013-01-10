@@ -67,10 +67,9 @@ jQuery ->
     )
     .on('click', '[data-object~="set-audit-row"]', () ->
       if $(this).hasClass("active")
-        $('[data-audit-row~="'+$(this).data('value')+'"]').show()
-      else
         $('[data-audit-row~="'+$(this).data('value')+'"]').hide()
-      false
+      else
+        $('[data-audit-row~="'+$(this).data('value')+'"]').show()
     )
     .on('focus', "select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]", () ->
       $(this).tooltip( trigger: 'focus' )
