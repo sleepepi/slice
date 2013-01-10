@@ -7,23 +7,19 @@ class DesignsController < ApplicationController
 
     setup_report
 
-    orientation = ['Portrait', 'Landscape'].include?(params[:orientation].to_s.capitalize) ? params[:orientation].to_s.capitalize : 'Portrait'
+    orientation = ['portrait', 'landscape'].include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
 
     if @project and @design
-      html = render_to_string( layout: false, action: 'report_print' )
+      file_pdf_location = @design.latex_report_file_location(current_user, @sheets, @report_title, @report_caption, @variable, @ranges, @percent, @strata, @column_variable, orientation)
 
-      pdf_attachment = begin
-        kit = PDFKit.new(html, orientation: orientation)
-        stylesheet_file = "#{Rails.root}/public/assets/application.css"
-        kit.stylesheets << "#{Rails.root}/public/assets/application.css" if File.exists?(stylesheet_file)
-        kit.to_pdf
-      rescue
-        render nothing: true
-        return
+      if File.exists?(file_pdf_location)
+        File.open(file_pdf_location, 'r') do |file|
+          file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
+          send_file file, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: "application/pdf", disposition: "inline"
+        end
+      else
+        render text: "PDF did not render in time. Please refresh the page."
       end
-
-      file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
-      send_data(pdf_attachment, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: 'application/pdf')
     else
       render nothing: true
     end

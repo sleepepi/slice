@@ -265,4 +265,41 @@ class Design < ActiveRecord::Base
     file_pdf_location = File.join('tmp', 'files', 'tex', "#{jobname}.pdf")
   end
 
+
+
+  def latex_report_file_location(current_user, sheets, report_title, report_caption, variable, ranges, percent, strata, column_variable, orientation)
+    @sheets = sheets
+    @report_title = report_title
+    @report_caption = report_caption
+    @variable = variable
+    @ranges = ranges
+    @percent = percent
+    @strata = strata
+    @column_variable = column_variable
+
+    @design = self
+
+    jobname = "design_#{self.id}_report"
+    root_folder = FileUtils.pwd
+    output_folder = File.join(root_folder, 'tmp', 'files', 'tex')
+    template_folder = File.join(root_folder, 'app', 'views', 'designs')
+    file_template = File.join(template_folder, 'report.tex.erb')
+    file_tex = File.join(root_folder, 'tmp', 'files', 'tex', jobname + '.tex')
+    file_in = File.new(file_template, "r")
+    file_out = File.new(file_tex, "w")
+    template = ERB.new(file_in.sysread(File.size(file_in)))
+    file_out.syswrite(template.result(binding))
+    file_in.close()
+    file_out.close()
+
+    # Run twice to allow LaTeX to compile correctly (page numbers, etc)
+    `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+    `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+
+    # Rails.logger.debug "----------------\n"
+    # Rails.logger.debug "#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}"
+
+    file_pdf_location = File.join('tmp', 'files', 'tex', "#{jobname}.pdf")
+  end
+
 end

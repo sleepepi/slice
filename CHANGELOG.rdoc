@@ -2,6 +2,7 @@
 
 * Enhancements
   * Variable row and column selections are now grouped by section on design reports
+  * Design reports are now rendered using LaTeX
 
 * Bug Fix
   * HTML now displays correctly in tooltips and popovers
