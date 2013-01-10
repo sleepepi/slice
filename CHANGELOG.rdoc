@@ -1,5 +1,8 @@
 == 0.11.7
 
+* Enhancements
+  * Variable row and column selections are now grouped by section on design reports
+
 * Bug Fix
   * HTML now displays correctly in tooltips and popovers
   * Toggleable filter buttons fixed on sheet audits page
