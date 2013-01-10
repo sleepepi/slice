@@ -1,5 +1,8 @@
 == 0.11.8
 
+* Bug Fix
+  * Removed a trailing bracket that was causing certain Design reports to fail creating a PDF
+
 == 0.11.7 (January 10, 2013)
 
 * Enhancements
