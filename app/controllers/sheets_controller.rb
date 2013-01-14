@@ -178,7 +178,7 @@ class SheetsController < ApplicationController
         return
       end
 
-      if params[:format] == 'scope'
+      if params[:format] == 'pdf'
         file_pdf_location = Sheet.latex_file_location(sheet_scope, current_user)
 
         if File.exists?(file_pdf_location)

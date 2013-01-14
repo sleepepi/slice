@@ -124,7 +124,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should get pdf collation" do
-    get :index, project_id: @project, format: 'scope'
+    get :index, project_id: @project, format: 'pdf'
     assert_not_nil assigns(:sheet_count)
     assert_response :success
   end

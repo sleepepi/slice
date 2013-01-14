@@ -61,7 +61,11 @@ jQuery ->
 
   $(document)
     .on('click', '[data-object~="export"]', () ->
-      window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
+      url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
+      if $(this).data('page') == 'blank'
+        window.open(url)
+      else
+        window.location = url
       false
     )
     .on('click', "[data-link]", (e) ->
