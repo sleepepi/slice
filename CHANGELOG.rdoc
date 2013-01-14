@@ -1,5 +1,8 @@
 == 0.12.0
 
+* Testing
+  * Added mail_view gem for easier email templating
+
 == 0.11.8 (January 10, 2013)
 
 * Bug Fix
