@@ -1,5 +1,9 @@
 == 0.12.0
 
+* Breaking Change
+  * Database default updated to use PostgreSQL
+    * Instructions {MIGRATING_TO_POSTGRESQL}[https://github.com/remomueller/slice/blob/master/doc/MIGRATING_TO_POSTGRESQL.md]
+
 * Testing
   * Added mail_view gem for easier email templating
 
