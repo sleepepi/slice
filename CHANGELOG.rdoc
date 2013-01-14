@@ -9,6 +9,7 @@
 
 * Bug Fix
   * Toggleable filter buttons on the variable index now work correctly
+  * Sheet totals now properly update on the Subject Report
 
 * Testing
   * Added mail_view gem for easier email templating
