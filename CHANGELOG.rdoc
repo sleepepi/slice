@@ -1,5 +1,8 @@
 == 0.11.9
 
+* Bug Fix
+  * Sheet PDF Collation link fixed and now correctly creates a combined PDF
+
 == 0.11.8 (January 10, 2013)
 
 * Bug Fix
