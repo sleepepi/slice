@@ -16,7 +16,7 @@
     <% end %>
     <% @project.sheets.order('created_at DESC').limit(5).each do |sheet| %>
       <tr data-link="<%= project_sheet_path(sheet.project, sheet) %>" style="cursor:pointer">
-        <td><%= sheet.subject.name %></td>
+        <td><%= status_helper(sheet.subject) %> <%= sheet.subject.name %></td>
         <td><%= sheet.name %></td>
         <td><%= simple_date sheet.study_date %></td>
       </tr>

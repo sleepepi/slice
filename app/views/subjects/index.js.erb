@@ -1,3 +1,4 @@
 $("#subjects").html("<%= escape_javascript(render("subjects")) %>");
 $("#select_site").html("<%= escape_javascript(render("subjects/select_site")) %>");
 $("#select_design").html("<%= escape_javascript(render("subjects/select_design")) %>");
+$("span[rel~=tooltip]").tooltip({ trigger: 'hover' });

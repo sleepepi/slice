@@ -23,15 +23,7 @@
   <dd><%= @subject.email %></dd>
 
   <dt>Status</dt>
-  <dd>
-    <% case @subject.status when 'valid' %>
-      <span class="label label-success"><%= @subject.status %></span>
-    <% when 'test' %>
-      <span class="label label-info"><%= @subject.status %></span>
-    <% else %>
-      <span class="label label-warning"><%= @subject.status %></span>
-    <% end %>
-  </dd>
+  <dd><%= status_helper(@subject, true) %></dd>
 
   <dt>Site</dt>
   <dd><%= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site %></dd>

@@ -19,13 +19,7 @@
   <% @subjects.each do |subject| %>
     <tr id="subject_<%= subject.id %>">
       <td>
-        <% case subject.status when 'valid' %>
-          <span class="label label-success"><%= subject.status %></span>
-        <% when 'test' %>
-          <span class="label label-info"><%= subject.status %></span>
-        <% else %>
-          <span class="label label-warning"><%= subject.status %></span>
-        <% end %>
+        <%= status_helper(subject) %>
       </td>
       <td><%= link_to subject.subject_code, [subject.project, subject] %></td>
       <% if (@project and @project.acrostic_enabled?) or not @project %>

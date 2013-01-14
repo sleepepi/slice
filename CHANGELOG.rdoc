@@ -4,9 +4,11 @@
   * Database default updated to use PostgreSQL
     * Instructions {MIGRATING_TO_POSTGRESQL}[https://github.com/remomueller/slice/blob/master/doc/MIGRATING_TO_POSTGRESQL.md]
 
+* Enhancements
+  * Subject status is now viewable on sheets
+
 * Bug Fix
   * Toggleable filter buttons on the variable index now work correctly
-
 
 * Testing
   * Added mail_view gem for easier email templating
