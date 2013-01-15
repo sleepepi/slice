@@ -516,7 +516,7 @@ class DesignsController < ApplicationController
           @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value], calculation: 'array_count' }
         end
       elsif @column_variable and @column_variable.has_statistics?
-        column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }]
+        column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }]
         column_strata = column_strata + [{ name: 'N', calculation: 'array_count' }, { name: '', value: nil }] if params[:column_include_missing].to_s == '1'
 
         column_strata.each do |stratum|
@@ -536,7 +536,8 @@ class DesignsController < ApplicationController
                         scope: scope,
                         count: count,
                         value: stratum[:value],
-                        calculation: stratum[:calculation]
+                        calculation: stratum[:calculation],
+                        symbol: stratum[:symbol]
                       }
         end
       else # Default columns over Study Date

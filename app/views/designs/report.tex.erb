@@ -93,7 +93,7 @@
         <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
       <% end %>
 
-      <%= count == 0 ? "\\textcolor[gray]{0.5}{-}" : count %>
+      <%= count == 0 ? "\\textcolor[gray]{0.5}{-}" : "#{'\\pm' if hash[:symbol] == 'pm'}#{count}" %>
       <% unless @column_variable and @column_variable.has_statistics? %>
         <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
           \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / row_counts.sum).to_s + "%") %>}}
@@ -134,7 +134,7 @@
   \textbf{Total} &
   <% @ranges.each do |hash| %>
     <% count = hash[:count] %>
-    <%= count == 0 ? "\\textcolor[gray]{0.5}{-}" : count %>
+    <%= count == 0 ? "\\textcolor[gray]{0.5}{-}" : "#{'\\pm' if hash[:symbol] == 'pm'}#{count}" %>
     <% unless @column_variable and @column_variable.has_statistics? %>
       <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
         \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / row_counts.sum).to_s + "%") %>}
