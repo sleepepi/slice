@@ -56,16 +56,23 @@
   Total \\
   \midrule
 
-
   <%# Body %>
   <% @strata.each do |stratum| %>
-    <% row_counts = @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
-    <% if row_counts.sum > 0 %>
-    <% graph_row_counts = (row_counts.size == 1 ? row_counts * 2 : row_counts) %>
-    \begin{sparkline}{4}
-    \sparkrectangle 0.0 1.0
-    \spark <% graph_row_counts.each_with_index do |row_count, index| %><%= " %0.2f " % (index / ([graph_row_counts.size - 1, 1].max).to_f) %> <%= graph_row_counts.max > 0 ? "%0.2f" % (row_count / graph_row_counts.max.to_f) : '0.00' %><% end %> /
-    \end{sparkline}
+
+    <% if @column_variable and @column_variable.has_statistics? %>
+      <% row_counts = [] %>
+      <%# row_counts = Sheet.array_responses(@sheets.with_stratum(@variable, stratum[:value]).with_any_variable_response_not_missing_code(@column_variable), @column_variable) %>
+    <% else %>
+      <% row_counts = @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
+    <% end %>
+
+    <%# row_counts = @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
+    <% if row_counts.sum > 0 and row_counts.size > 0 %>
+      <% graph_row_counts = (row_counts.size == 1 ? row_counts * 2 : row_counts) %>
+      \begin{sparkline}{4}
+      \sparkrectangle 0.0 1.0
+      \spark <% graph_row_counts.each_with_index do |row_count, index| %><%= " %0.2f " % (index / ([graph_row_counts.size - 1, 1].max).to_f) %> <%= graph_row_counts.max > 0 ? "%0.2f" % (row_count / graph_row_counts.max.to_f) : '0.00' %><% end %> /
+      \end{sparkline}
     <% end %>
     &
 
@@ -79,13 +86,21 @@
     &
 
     <% @ranges.each do |hash| %>
-      <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
-      <%= count == 0 ? "\\textcolor[gray]{0.5}{-}" : count %>
-      <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
-        \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / row_counts.sum).to_s + "%") %>}}
+      <% if @column_variable and @column_variable.has_statistics? %>
+        <% number = Sheet.array_calculation(hash[:scope].with_stratum(@variable, stratum[:value]), @column_variable, hash[:calculation]) %>
+        <% count = (['array_mean', 'array_standard_deviation'].include?(hash[:calculation]) && number != 0 ? "%0.02f" % number : number) %>
+      <% else %>
+        <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
       <% end %>
-      <% if @percent == 'column' and count > 0 and hash[:count] > 0 %>
-        \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / hash[:count]).to_s + "%") %>}}
+
+      <%= count == 0 ? "\\textcolor[gray]{0.5}{-}" : count %>
+      <% unless @column_variable and @column_variable.has_statistics? %>
+        <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
+          \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / row_counts.sum).to_s + "%") %>}}
+        <% end %>
+        <% if @percent == 'column' and count > 0 and hash[:count] > 0 %>
+          \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / hash[:count]).to_s + "%") %>}}
+        <% end %>
       <% end %>
       &
     <% end %>
@@ -100,7 +115,14 @@
   <% end %>
 
   <%# Footer %>
-  <% row_counts = @ranges.collect{|hash| hash[:count] } %>
+  <% if @column_variable and @column_variable.has_statistics? %>
+    <% row_counts = [] %>
+    <%# row_counts = Sheet.array_responses(@sheets.with_any_variable_response_not_missing_code(@column_variable), @column_variable) %>
+  <% else %>
+    <% row_counts = @ranges.collect{|hash| hash[:count] } %>
+  <% end %>
+
+  <%# row_counts = @ranges.collect{|hash| hash[:count] } %>
   <% if row_counts.sum > 0 %>
     <% graph_row_counts = (row_counts.size == 1 ? row_counts * 2 : row_counts) %>
     \begin{sparkline}{4}
@@ -113,8 +135,10 @@
   <% @ranges.each do |hash| %>
     <% count = hash[:count] %>
     <%= count == 0 ? "\\textcolor[gray]{0.5}{-}" : count %>
-    <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
-      \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / row_counts.sum).to_s + "%") %>}
+    <% unless @column_variable and @column_variable.has_statistics? %>
+      <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
+        \small{\textcolor[gray]{0.5}{<%= latex_safe((count * 100 / row_counts.sum).to_s + "%") %>}
+      <% end %>
     <% end %>
     &
   <% end %>
