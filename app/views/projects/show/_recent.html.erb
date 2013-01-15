@@ -14,7 +14,7 @@
         <td class="muted">&vellip;</td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
       </tr>
     <% end %>
-    <% @project.sheets.order('created_at DESC').limit(5).each do |sheet| %>
+    <% @project.sheets.with_subject_status(["valid", "pending", "test"]).order('created_at DESC').limit(5).each do |sheet| %>
       <tr data-link="<%= project_sheet_path(sheet.project, sheet) %>" style="cursor:pointer">
         <td><%= status_helper(sheet.subject) %> <%= sheet.subject.name %></td>
         <td><%= sheet.name %></td>
