@@ -6,6 +6,7 @@
 
 * Enhancements
   * Subject status is now viewable on sheets
+  * Added Subject status to Sheet XLS exports
 
 * Bug Fix
   * Toggleable filter buttons on the variable index now work correctly

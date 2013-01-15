@@ -17,11 +17,11 @@ task sheet_export: :environment do
 
       current_row = 0
 
-      worksheet.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Creator"] + variable_names.collect{|v| v[0]}
+      worksheet.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names.collect{|v| v[0]}
 
       sheet_scope.each do |s|
         current_row += 1
-        worksheet.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.user.name
+        worksheet.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
 
         variable_names.each do |name, type|
           value = if variable = s.variables.find_by_name(name)
@@ -42,7 +42,7 @@ task sheet_export: :environment do
       grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
       # @grids = sheet_scope.collect(&:sheet_variables).flatten.collect(&:grids).flatten.compact.uniq
 
-      worksheetgrid.row(current_row).replace ["", "", "", "", "", "", "", ""]
+      worksheetgrid.row(current_row).replace ["", "", "", "", "", "", "", "", ""]
 
       grid_group_variables.each do |variable|
         variable.grid_variables.each do |grid_variable_hash|
@@ -52,7 +52,7 @@ task sheet_export: :environment do
       end
 
       current_row += 1
-      worksheetgrid.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Creator"]
+      worksheetgrid.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"]
 
       grid_group_variables.each do |variable|
         variable.grid_variables.each do |grid_variable_hash|
@@ -64,7 +64,7 @@ task sheet_export: :environment do
       sheet_scope.each do |s|
         (0..s.max_grids_position).each do |position|
           current_row += 1
-          worksheetgrid.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.user.name
+          worksheetgrid.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
 
           grid_group_variables.each do |variable|
             variable.grid_variables.each do |grid_variable_hash|
