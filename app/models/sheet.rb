@@ -349,6 +349,52 @@ class Sheet < ActiveRecord::Base
     all_files
   end
 
+  def self.array_mean(array)
+    array.inject(:+).to_f / array.size
+  end
+
+  def self.array_sample_variance(array)
+    m = self.array_mean(array)
+    sum = array.inject(0){|accum, i| accum +(i-m)**2 }
+    sum / (array.length - 1).to_f
+  end
+
+  def self.array_standard_deviation(array)
+    return Math.sqrt(self.array_sample_variance(array))
+  end
+
+  def self.array_median(array)
+    array = array.sort!
+    len = array.size
+    return 1 / 0.0 if array.size == 0
+    len % 2 == 1 ? array[len/2] : (array[len/2 - 1] + array[len/2]).to_f / 2
+  end
+
+  def self.array_max(array)
+    array.max
+  end
+
+  def self.array_min(array)
+    array.min
+  end
+
+  def self.array_count(array)
+    array.size
+  end
+
+  def self.array_responses(sheet_scope, variable)
+    responses = SheetVariable.where(sheet_id: sheet_scope.pluck(:id), variable_id: variable.id).pluck(:response)
+    # Convert to integer or float
+    variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
+  end
+
+  # Computes calculation for a scope of sheet responses
+  # Ex: Sheet.array_calculation(Sheet.all, Variable.where(name: 'age'), 'array_mean')
+  #     Would return the average of all ages on all sheets that contained age (as a sheet_variable, not as a grid or grid_response)
+  def self.array_calculation(sheet_scope, variable, calculation)
+    self.send((calculation.blank? ? 'array_count' : calculation), self.array_responses(sheet_scope, variable))
+  end
+
   protected
 
   def self.latex_safe(mystring)

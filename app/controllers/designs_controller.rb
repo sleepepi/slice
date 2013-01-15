@@ -513,7 +513,32 @@ class DesignsController < ApplicationController
         column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
         column_strata.each do |stratum|
           scope = sheet_scope.with_stratum(@column_variable, stratum[:value])
-          @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value] }
+          @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value], calculation: 'array_count' }
+        end
+      elsif @column_variable and ['integer', 'numeric'].include?(@column_variable.variable_type)
+        column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }, { name: 'N', calculation: 'array_count' }]
+        column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
+
+        column_strata.each do |stratum|
+          sheet_scope = if stratum[:calculation].blank?
+            sheet_scope.with_response_unknown_or_missing(@column_variable)
+          else
+            sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
+          end
+
+          # responses = Sheet.array_responses(sheet_scope, @column_variable)
+          # count = Sheet.send(stratum[:calculation], responses)
+
+          count = Sheet.array_calculation(sheet_scope, @column_variable, stratum[:calculation])
+
+          @ranges <<  {
+                        name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]),
+                        tooltip: stratum[:name],
+                        start_date: '', end_date: '',
+                        scope: sheet_scope,
+                        count: count,
+                        value: stratum[:value]
+                      }
         end
       else # Default columns over Study Date
         if @column_variable and @column_variable.variable_type == 'date'

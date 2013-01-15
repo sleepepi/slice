@@ -11,15 +11,15 @@ jQuery ->
   $(document)
     .on('click', '[data-object~="set-percent"]', () ->
       $("#percent").val($(this).data('value'))
-      $("#report_form").submit()
+      # $("#report_form").submit()
     )
     .on('click', '[data-object~="set-by"]', () ->
       $("#by").val($(this).data('value'))
-      $("#report_form").submit()
+      # $("#report_form").submit()
     )
     .on('click', '[data-object~="set-filter"]', () ->
       $("#filter").val($(this).data('value'))
-      $("#report_form").submit()
+      # $("#report_form").submit()
     )
     .on('click', '[data-object~="set-statuses"]', () ->
       if $(this).hasClass('active')
