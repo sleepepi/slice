@@ -2,12 +2,16 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-jQuery ->
-  $.each($('[data-object~="peity"]'), () ->
-    $(this).peity($(this).data('method'))
+@loadPeity = () ->
+  $.each($('[data-object~="sparkline"]'), () ->
     $(this).show()
+    if $(this).data('type') == 'box'
+      $(this).sparkline($(this).data('values'), { type: $(this).data('type') })
+    else
+      $(this).peity($(this).data('type'))
   )
 
+jQuery ->
   $(document)
     .on('click', '[data-object~="set-percent"]', () ->
       $("#percent").val($(this).data('value'))
@@ -51,3 +55,5 @@ jQuery ->
     else
       $('#row-include-blank').show()
   )
+
+  loadPeity()

@@ -350,6 +350,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_mean(array)
+    return 0 if array.size == 0
     array.inject(:+).to_f / array.size
   end
 
@@ -360,22 +361,23 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_standard_deviation(array)
+    return 0 if array.size < 2
     return Math.sqrt(self.array_sample_variance(array))
   end
 
   def self.array_median(array)
+    return 0 if array.size == 0
     array = array.sort!
     len = array.size
-    return 1 / 0.0 if array.size == 0
     len % 2 == 1 ? array[len/2] : (array[len/2 - 1] + array[len/2]).to_f / 2
   end
 
   def self.array_max(array)
-    array.max
+    array.max || 0
   end
 
   def self.array_min(array)
-    array.min
+    array.min || 0
   end
 
   def self.array_count(array)

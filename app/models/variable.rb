@@ -413,4 +413,8 @@ class Variable < ActiveRecord::Base
     self.calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
   end
 
+  def has_statistics?
+    ['integer', 'numeric', 'calculated'].include?(self.variable_type)
+  end
+
 end

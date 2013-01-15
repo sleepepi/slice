@@ -26,7 +26,7 @@
     </div>
     <div class="span4">
       Column
-      <% column_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'date', 'integer', 'numeric']) %>
+      <% column_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'date', 'integer', 'numeric', 'calculated']) %>
       <%= select_tag :column_variable_id, options_for_select([[@design.study_date_name_full, nil]]) + grouped_options_for_select(column_variable_groups, params[:column_variable_id]), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium chzn-select' %>
       <span id="column-include-blank" style="white-space:nowrap; <%= 'display:none' unless @column_variable %>">
         <%= check_box_tag :column_include_missing, '1', params[:column_include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :column_include_missing, 'Include missing' %>
