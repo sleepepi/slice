@@ -63,9 +63,14 @@ gem 'pg',                   '0.14.1'
 ```
 bundle update
 
+# At this point update your database.yml file to point to the PostgreSQL database
+
 bundle exec rake db:create RAILS_ENV=production
 
 gem install taps --no-ri --no-rdoc
+
+sudo yum install sqlite-devel
+gem install sqlite3 --no-ri --no-rdoc
 
 taps server mysql2://localdbuser:localdbpass@localhost/dbname?encoding=latin1 httpuser httppassword
 
