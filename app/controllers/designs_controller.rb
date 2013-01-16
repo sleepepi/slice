@@ -493,7 +493,7 @@ class DesignsController < ApplicationController
       @column_variable = @design.pure_variables.find_by_id(params[:column_variable_id])
 
       sheet_scope = current_user.all_viewable_sheets.with_design(@design.id).scoped()
-      # sheet_scope = @design.sheets.scoped()
+
       sheet_scope = sheet_scope.last_entry if @filter == 'last'
       sheet_scope = sheet_scope.first_entry if @filter == 'first'
 
