@@ -6,6 +6,7 @@ one:
   user: valid
   site: one
   status: pending
+  acrostic: ""
 
 two:
   project: one
@@ -13,6 +14,7 @@ two:
   user: valid
   site: one
   status: pending
+  acrostic: ""
 
 three:
   project: one
@@ -20,6 +22,7 @@ three:
   user: valid
   site: three
   status: valid
+  acrostic: ""
 
 external:
   project: three
@@ -27,3 +30,4 @@ external:
   user: admin
   site: admin_site
   status: valid
+  acrostic: ""

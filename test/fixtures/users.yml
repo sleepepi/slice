@@ -8,6 +8,7 @@ valid:
   deleted: false
   system_admin: false
   email: valid@example.com
+  encrypted_password: ""
 
 two:
   first_name: MyString
@@ -16,6 +17,7 @@ two:
   deleted: false
   system_admin: false
   email: EmailTwo
+  encrypted_password: ""
 
 admin:
   first_name: MyString
@@ -24,6 +26,7 @@ admin:
   deleted: false
   system_admin: true
   email: admin@example.com
+  encrypted_password: ""
 
 pending:
   first_name: MyString
@@ -32,6 +35,7 @@ pending:
   deleted: false
   system_admin: false
   email: pending@example.com
+  encrypted_password: ""
 
 deleted:
   first_name: MyString
@@ -40,6 +44,7 @@ deleted:
   deleted: true
   system_admin: false
   email: deleted@example.com
+  encrypted_password: ""
 
 site_one_user:
   first_name: SiteOne
@@ -48,3 +53,4 @@ site_one_user:
   deleted: false
   system_admin: false
   email: site_one_user@example.com
+  encrypted_password: ""

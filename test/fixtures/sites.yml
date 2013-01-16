@@ -43,9 +43,11 @@ admin_site:
   description: One admin's project
   project: three
   user: admin
+  prefix: ""
 
 single_design_site:
   name: On single_design project
   # description:
   project: single_design
   user: valid
+  prefix: ""
