@@ -73,6 +73,18 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get report with column variable (numeric)" do
+    get :report, id: designs(:all_variable_types), project_id: @project, column_variable_id: variables(:numeric), column_include_missing: '1'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report with column variable (numeric) and last sheet only" do
+    get :report, id: designs(:all_variable_types), project_id: @project, column_variable_id: variables(:numeric), column_include_missing: '1', filter: 'last'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should get report as a CSV" do
     get :report, id: @design, project_id: @project, format: 'csv'
     assert_not_nil assigns(:design)

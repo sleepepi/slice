@@ -385,7 +385,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_responses(sheet_scope, variable)
-    responses = SheetVariable.where(sheet_id: sheet_scope.pluck(:id), variable_id: variable.id).pluck(:response)
+    responses = SheetVariable.where(sheet_id: sheet_scope.pluck("sheets.id"), variable_id: variable.id).pluck(:response)
     # Convert to integer or float
     variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
   end
