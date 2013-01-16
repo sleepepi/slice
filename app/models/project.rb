@@ -33,10 +33,17 @@ class Project < ActiveRecord::Base
   has_many :contacts, conditions: { deleted: false }
   has_many :documents, conditions: { deleted: false }
   has_many :posts, conditions: { deleted: false }
+  has_many :links, conditions: { deleted: false }
 
   has_many :domains, conditions: { deleted: false }
 
   # Model Methods
+
+  def editable_by?(current_user)
+    @editable_by ||= begin
+      current_user.all_projects.where(id: self.id).count == 1
+    end
+  end
 
   def sites_with_range
     self.sites.where("sites.code_minimum IS NOT NULL and sites.code_minimum != '' and sites.code_maximum IS NOT NULL and sites.code_maximum != ''").order('name')

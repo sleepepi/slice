@@ -1,0 +1,28 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'links', per_page: 20, object_count: @link_count } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.name', 'Name', 'links_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.category', 'Category', 'links_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.url', 'URL', 'links_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.archived', 'Archived', 'links_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @links.each do |link| %>
+    <tr>
+      <td><%= link_to link.name, [link.project, link] %></td>
+      <td><%= link.category %></td>
+      <td><%= link.url.truncate(40) %></td>
+      <td><%= simple_check link.archived %></td>
+      <td>
+        <%= link_to 'Edit', edit_project_link_path(link.project, link), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', [link.project, link], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Link #{link.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @links, theme: 'contour' %></center>

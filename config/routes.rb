@@ -23,6 +23,7 @@ Slice::Application.routes.draw do
     resources :contacts
     resources :documents
     resources :posts
+    resources :links
 
     resources :sheets do
       collection do

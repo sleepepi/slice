@@ -15,19 +15,19 @@
   <div class="row">
     <% if @project.show_posts? %>
       <div class="span4">
-        <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'News', project_posts_path(@project) %></h2>
+        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'News', project_posts_path(@project) %></h2>
         <%= render partial: 'projects/show/posts' %>
       </div>
     <% end %>
     <% if @project.show_documents? %>
       <div class="span4">
-        <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Documents', project_documents_path(@project) %></h2>
+        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Documents', project_documents_path(@project) %></h2>
         <%= render partial: 'projects/show/documents' %>
       </div>
     <% end %>
     <% if @project.show_contacts? %>
       <div class="span4">
-        <h2 class="about-title"><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), 'Contacts', project_contacts_path(@project) %></h2>
+        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Contacts', project_contacts_path(@project) %></h2>
         <%= render partial: 'projects/show/contacts' %>
       </div>
     <% end %>
@@ -44,7 +44,7 @@
     <%= render partial: 'projects/show/reports' %>
   </div>
   <div class="span4">
-    <h2 class="about-title">Custom Reports</h2>
-    <%= render partial: 'projects/show/custom_reports' %>
+    <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Links', project_links_path(@project) %></h2>
+    <%= render partial: 'projects/show/links' %>
   </div>
 </div>
