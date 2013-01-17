@@ -1,11 +1,9 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :set_viewable_project, only: [:settings, :show] # only: [:settings, :show]
-  # before_filter :set_editable_project, only: [:edit, :update, :destroy]
+  before_filter :set_viewable_project, only: [:settings, :show, :subject_report, :report] # only: [:settings, :show]
+  before_filter :set_editable_project, only: [:edit, :update, :destroy, :remove_file]
 
   def subject_report
-    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
-
     respond_to do |format|
       if @project
         @statuses = params[:statuses] || ['valid', 'pending', 'test']
@@ -29,8 +27,6 @@ class ProjectsController < ApplicationController
   end
 
   def report
-    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
-
     setup_report
 
     respond_to do |format|
@@ -47,7 +43,6 @@ class ProjectsController < ApplicationController
   end
 
   def remove_file
-    @project = current_user.all_projects.find_by_id(params[:id])
     if @project
       @project.remove_logo!
     else
@@ -80,8 +75,6 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    # @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
-
     respond_to do |format|
       if @project
         format.html # show.html.erb
@@ -93,8 +86,9 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # GET /projects/1/settings
   def settings
-    # @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
+
   end
 
   # GET /projects/new
@@ -110,7 +104,6 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
-    @project = current_user.all_projects.find_by_id(params[:id])
     redirect_to projects_path unless @project
   end
 
@@ -133,8 +126,6 @@ class ProjectsController < ApplicationController
   # PUT /projects/1
   # PUT /projects/1.json
   def update
-    @project = current_user.all_projects.find_by_id(params[:id])
-
     respond_to do |format|
       if @project
         if @project.update_attributes(post_params)
@@ -154,7 +145,6 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    @project = current_user.all_projects.find_by_id(params[:id])
     @project.destroy if @project
 
     respond_to do |format|
@@ -233,6 +223,10 @@ class ProjectsController < ApplicationController
 
   def set_viewable_project
     @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
+  end
+
+  def set_editable_project
+    @project = current_user.all_projects.find_by_id(params[:id])
   end
 
   def post_params
