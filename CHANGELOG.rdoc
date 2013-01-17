@@ -9,6 +9,7 @@
   * Added Subject status to Sheet XLS exports
   * Design Report columns can now also include integer and numeric variables
   * Links can now be added to project and can be used to link to custom project reports
+  * Project settings have been moved to a separate page accessible from the project show page
 
 * Bug Fix
   * Toggleable filter buttons on the variable index now work correctly

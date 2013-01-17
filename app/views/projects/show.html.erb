@@ -1,6 +1,54 @@
 <% @title = "#{@project.name}" %>
 
-<%= render partial: 'projects/show/dashboard' %>
+<div class="row">
+  <div class="span12">
+    <div style="padding:20px 0 4px 0; font-size: 40px;font-weight:300; text-rendering: optimizelegibility;" class="center">
+      <%= @project.name %>
+      <%= link_to '<i class="icon-cog"></i>'.html_safe, settings_project_path(@project), class: 'btn btn-mini', rel: 'tooltip', title: 'Settings', data: { placement: 'right' } if @project.editable_by?(current_user) %>
+    </div>
+    <p class="about-tagline"><%= @project.description %></p>
+  </div>
+</div>
+
+<hr class="soften" style="margin-top:20px">
+
+<% if @project.show_posts? or @project.show_documents? or @project.show_contacts? %>
+  <div class="row">
+    <% if @project.show_posts? %>
+      <div class="span4">
+        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'News', project_posts_path(@project) %></h2>
+        <%= render partial: 'projects/show/posts' %>
+      </div>
+    <% end %>
+    <% if @project.show_documents? %>
+      <div class="span4">
+        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Documents', project_documents_path(@project) %></h2>
+        <%= render partial: 'projects/show/documents' %>
+      </div>
+    <% end %>
+    <% if @project.show_contacts? %>
+      <div class="span4">
+        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Contacts', project_contacts_path(@project) %></h2>
+        <%= render partial: 'projects/show/contacts' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="span4">
+    <h2 class="about-title">Recent Entries</h2>
+    <%= render partial: 'projects/show/recent' %>
+  </div>
+  <div class="span4">
+    <h2 class="about-title">Reports</h2>
+    <%= render partial: 'projects/show/reports' %>
+  </div>
+  <div class="span4">
+    <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Links', project_links_path(@project) %></h2>
+    <%= render partial: 'projects/show/links' %>
+  </div>
+</div>
 
 <hr class="soften">
 
@@ -19,183 +67,4 @@
     </div>
   </div>
   <div style="clear:both"></div>
-  <hr class="soften">
-<% end %>
-
-<% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
-  <div class="page-header">
-    <h1><%= @title %></h1>
-    <div class="btn-toolbar">
-      <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-        <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
-        <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
-      <% end %>
-
-      <div class="btn-group">
-        <%= link_to "Sites", project_sites_path(@project), class: 'btn btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><%= link_to 'Create', new_project_site_path(@project) %></li>
-        </ul>
-      </div>
-
-      <div class="btn-group">
-        <%= link_to "Subjects", project_subjects_path(@project), class: 'btn btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><%= link_to 'Create', new_project_subject_path(@project) %></li>
-        </ul>
-      </div>
-
-      <div class="btn-group">
-        <%= link_to "Sheets", project_sheets_path(@project), class: 'btn btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><%= link_to 'Create', new_project_sheet_path(@project) %></li>
-        </ul>
-      </div>
-
-      <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-        <div class="btn-group">
-          <%= link_to "Designs", project_designs_path(@project), class: 'btn btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Create', new_project_design_path(@project) %></li>
-          </ul>
-        </div>
-
-        <div class="btn-group">
-          <%= link_to "Variables", project_variables_path(@project), class: 'btn btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Create', new_project_variable_path(@project) %></li>
-          </ul>
-        </div>
-
-        <div class="btn-group">
-          <%= link_to "Domains", project_domains_path(@project), class: 'btn btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Create', new_project_domain_path(@project) %></li>
-          </ul>
-        </div>
-
-        <div class="btn-group"><%= link_to "Batch", batch_project_designs_path(@project), class: 'btn btn-mini' %></div>
-      <% end %>
-    </div>
-  </div>
-
-  <dl class="dl-horizontal">
-    <dt>Name</dt>
-    <dd><%= @project.name %></dd>
-
-    <dt>Description</dt>
-    <dd><%= simple_format @project.description %></dd>
-
-    <dt>Creator</dt>
-    <dd><%= link_to @project.user.name, @project.user if @project.user %></dd>
-
-    <dt>Emails</dt>
-    <dd><%= @project.emails %></dd>
-
-    <dt>Subject code name</dt>
-    <dd><%= @project.subject_code_name_full %></dd>
-
-    <dt>Acrostic enabled</dt>
-    <dd><%= simple_check @project.acrostic_enabled? %></dd>
-
-    <dt>Show news</dt>
-    <dd><%= simple_check @project.show_posts? %></dd>
-
-    <dt>Show documents</dt>
-    <dd><%= simple_check @project.show_documents? %></dd>
-
-    <dt>Show contacts</dt>
-    <dd><%= simple_check @project.show_contacts? %></dd>
-
-  </dl>
-
-  <div class="page-header">
-    <h2>Sites</h2>
-  </div>
-
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>Site</th>
-        <th>Prefix</th>
-        <th><%= @project.subject_code_name_full %> Range</th>
-        <th>Subjects</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @project.sites.order('name').each do |site| %>
-      <tr>
-        <td><%= link_to site.name, [site.project, site] %></td>
-        <td><%= site.prefix %></td>
-        <td>
-          <% if site.code_minimum.blank? and site.code_maximum.blank? %>
-            <span class="muted">No Range</span>
-          <% elsif not site.code_minimum.blank? and site.code_maximum.blank? %>
-            Starts at <%= site.code_minimum %>
-          <% elsif site.code_minimum.blank? and not site.code_maximum.blank? %>
-            Ends at <%= site.code_maximum %>
-          <% else %>
-            <%= site.code_minimum %> to <%= site.code_maximum %>
-          <% end %>
-        </td>
-        <td><%= link_to site.subjects.count, project_subjects_path(@project, site_id: site.id) %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <div class="page-header">
-    <h2>Designs</h2>
-  </div>
-
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>Design</th>
-        <th>Sheets</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @project.designs.order('name').each do |design| %>
-      <tr>
-        <td><%= link_to_if current_user.all_projects.pluck(:id).include?(@project.id), design.name, [design.project, design] %></td>
-        <td><%= link_to Sheet.current.where(project_id: @project.id, design_id: design.id).count, project_sheets_path(@project, design_id: design.id) %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <div class="page-header">
-    <h2>Sharing</h2>
-  </div>
-
-  <div class="row">
-    <% ['librarians', 'members'].each do |relation, librarian| %>
-      <div class="span6">
-        <% @relation = relation; @librarian = librarian %>
-        <% @users = User.current.order('last_name, first_name') %>
-        <p>
-          <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
-        </p>
-      </div>
-    <% end %>
-  </div>
 <% end %>

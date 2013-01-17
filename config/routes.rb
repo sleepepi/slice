@@ -14,6 +14,7 @@ Slice::Application.routes.draw do
       get :report
       post :report
       get :subject_report
+      get :settings
     end
 
     collection do

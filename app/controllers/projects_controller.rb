@@ -1,5 +1,7 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :set_viewable_project, only: [:settings, :show] # only: [:settings, :show]
+  # before_filter :set_editable_project, only: [:edit, :update, :destroy]
 
   def subject_report
     @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
@@ -78,7 +80,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
+    # @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
 
     respond_to do |format|
       if @project
@@ -89,6 +91,10 @@ class ProjectsController < ApplicationController
         format.json { head :no_content }
       end
     end
+  end
+
+  def settings
+    # @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
   end
 
   # GET /projects/new
@@ -132,7 +138,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project
         if @project.update_attributes(post_params)
-          format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+          format.html { redirect_to settings_project_path(@project), notice: 'Project was successfully updated.' }
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
@@ -223,6 +229,10 @@ class ProjectsController < ApplicationController
 
       @sheets = sheet_scope
     end
+  end
+
+  def set_viewable_project
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
   end
 
   def post_params
