@@ -437,8 +437,7 @@ class DesignsController < ApplicationController
         row << (stratum[:name].blank? ? 'Unknown' : link_name)
         ranges.each do |hash|
           count = if column_variable and column_variable.has_statistics?
-            number = Sheet.array_calculation(hash[:scope].with_stratum(variable, stratum[:value]), column_variable, hash[:calculation])
-            ['array_mean', 'array_standard_deviation'].include?(hash[:calculation]) && number != 0 ? "%0.02f" % number : number
+            Sheet.array_calculation(hash[:scope].with_stratum(variable, stratum[:value]), column_variable, hash[:calculation])
           else
             hash[:scope].with_stratum(variable, stratum[:value]).count
           end
@@ -532,8 +531,7 @@ class DesignsController < ApplicationController
             sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
           end
 
-          number = Sheet.array_calculation(scope, @column_variable, stratum[:calculation])
-          count = ['array_mean', 'array_standard_deviation'].include?(stratum[:calculation]) && number != 0 ? "%0.02f" % number : number
+          count = Sheet.array_calculation(scope, @column_variable, stratum[:calculation])
 
           @ranges <<  {
                         name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]),

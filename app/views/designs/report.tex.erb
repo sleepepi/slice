@@ -87,8 +87,7 @@
 
     <% @ranges.each do |hash| %>
       <% if @column_variable and @column_variable.has_statistics? %>
-        <% number = Sheet.array_calculation(hash[:scope].with_stratum(@variable, stratum[:value]), @column_variable, hash[:calculation]) %>
-        <% count = (['array_mean', 'array_standard_deviation'].include?(hash[:calculation]) && number != 0 ? "%0.02f" % number : number) %>
+        <% count = Sheet.array_calculation(hash[:scope].with_stratum(@variable, stratum[:value]), @column_variable, hash[:calculation]) %>
       <% else %>
         <% count = hash[:scope].with_stratum(@variable, stratum[:value]).count %>
       <% end %>
