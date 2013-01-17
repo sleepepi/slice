@@ -13,7 +13,9 @@ task sheet_export: :environment do
 
     [false, true].each do |raw_data|
       worksheet = book.create_worksheet name: "Sheets - #{raw_data ? 'RAW' : 'Labeled'}"
-      variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| [v.name, 'String']}.uniq
+
+      # Only return variables currently on designs
+      variable_names = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.collect{|v| [v.name, 'String']}.uniq
 
       current_row = 0
 

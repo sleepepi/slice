@@ -458,8 +458,9 @@ class SheetsController < ApplicationController
 
   def generate_csv(sheet_scope, raw_data)
     @csv_string = CSV.generate do |csv|
-      variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
-      csv << ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Creator"] + variable_names
+      # Only return variables currently on designs
+      variable_names = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
+      csv << ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names
       sheet_scope.each do |sheet|
         row = [sheet.name,
                 sheet.description,
@@ -468,6 +469,7 @@ class SheetsController < ApplicationController
                 sheet.subject.site.name,
                 sheet.subject.name,
                 sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
+                sheet.subject.status,
                 sheet.user.name]
         variable_names.each do |variable_name|
           row << if variable = sheet.variables.find_by_name(variable_name)
