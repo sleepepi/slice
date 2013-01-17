@@ -433,11 +433,17 @@ class DesignsController < ApplicationController
 
       strata.each do |stratum|
         row = []
-        row_counts = ranges.collect{|hash| hash[:scope].with_stratum(variable, stratum[:value]).count }
         link_name = ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name]
         row << (stratum[:name].blank? ? 'Unknown' : link_name)
         ranges.each do |hash|
-          row << hash[:scope].with_stratum(variable, stratum[:value]).count
+          count = if column_variable and column_variable.has_statistics?
+            number = Sheet.array_calculation(hash[:scope].with_stratum(variable, stratum[:value]), column_variable, hash[:calculation])
+            ['array_mean', 'array_standard_deviation'].include?(hash[:calculation]) && number != 0 ? "%0.02f" % number : number
+          else
+            hash[:scope].with_stratum(variable, stratum[:value]).count
+          end
+
+          row << count
         end
         row << sheets.with_stratum(variable, stratum[:value]).count
         csv << row
