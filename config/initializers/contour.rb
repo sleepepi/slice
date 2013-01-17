@@ -32,10 +32,10 @@ Contour.setup do |config|
               { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
-    {
-      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
-      links: [{ name: 'Create Project', path: 'new_project_path' }]
-    },
+    # {
+    #   name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
+    #   links: [{ name: 'Create Project', path: 'new_project_path' }]
+    # },
     {
       name: 'Reports', display: 'signed_in', path: 'reports_path', position: 'left'
     },

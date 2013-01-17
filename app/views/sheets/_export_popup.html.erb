@@ -1,0 +1,45 @@
+<% @title = "Available Exports" %>
+
+<%= @title %>
+
+
+<hr class="soften" style="margin-top:5px;margin-bottom:35px"/>
+
+<div class="row-fluid">
+  <div class="span4 download-container">
+    <div class="download-container-after">Microsoft Excel</div>
+    <%= render partial: 'sheets/export_popup_options' %>
+    <%= link_to 'XLS', '#', data: { object: 'export', format: 'xls', target: '#sheets_search' }, class: 'btn btn-primary btn-block' %>
+  </div>
+
+  <div class="span4 center download-container">
+    <div class="download-container-after">Comma-Separated Values</div>
+    <%= render partial: 'sheets/export_popup_options' %>
+    <%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#sheets_search', page: 'blank' }, class: 'btn btn-primary btn-block' %>
+  </div>
+
+  <div class="span4 center download-container">
+    <div class="download-container-after">Portable Document Format</div>
+    <p class="muted">Renders a single PDF of all the selected sheets.</p>
+
+    <%= link_to 'PDF', '#', data: { object: 'export', format: 'pdf', target: '#sheets_search', page: 'blank' }, class: 'btn btn-primary btn-block' %>
+  </div>
+</div>
+
+<div class="row-fluid">
+
+    <div class="span4 center download-container">
+    <div class="download-container-after">All Data</div>
+          <table style="width:100%;margin: 10px 0;">
+        <tr>
+          <td colspan="3"><button type="button" class="btn btn-mini active btn-block" data-toggle="button">Uploaded Files</button></td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-mini active btn-block" data-toggle="button">Excel</button></td>
+          <td><button type="button" class="btn btn-mini active btn-block" data-toggle="button">CSV</button></td>
+          <td><button type="button" class="btn btn-mini active btn-block" data-toggle="button">PDF</button></td>
+        </tr>
+      </table>
+    <%= link_to 'ZIP', '#', data: { object: 'export', format: 'zip', target: '#sheets_search' }, class: 'btn btn-primary btn-block' %>
+  </div>
+</div>
