@@ -162,47 +162,21 @@ class SheetsController < ApplicationController
 
       @sheet_count = sheet_scope.count
 
-      if params[:format] == 'labeled_csv'
-        if @sheet_count == 0
-          redirect_to project_sheets_path(@project), alert: 'No data was exported since no sheets matched the specified filters.'
-          return
-        end
-        generate_csv(sheet_scope, false)
-        return
-      elsif params[:format] == 'raw_csv'
-        if @sheet_count == 0
-          redirect_to project_sheets_path(@project), alert: 'No data was exported since no sheets matched the specified filters.'
-          return
-        end
-        generate_csv(sheet_scope, true)
-        return
-      end
 
-      if params[:format] == 'pdf'
-        file_pdf_location = Sheet.latex_file_location(sheet_scope, current_user)
-
-        if File.exists?(file_pdf_location)
-          File.open(file_pdf_location, 'r') do |file|
-            send_file file, filename: "sheets_#{Time.now.strftime("%Y%m%d_%H%M%S")}.pdf", type: "application/pdf", disposition: "inline"
-          end
-        else
-          render text: "PDF did not render in time. Please refresh the page."
-        end
-
-        return
-      end
+      generate_export(sheet_scope, (params[:xls].to_s == '1'), (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1')) if params[:export].to_s == '1'
 
       @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
       @sheet_scope = sheet_scope
     end
+
 
     respond_to do |format|
       if @project
         format.html # index.html.erb
         format.js
         format.json { render json: @sheets }
-        format.xls { generate_xls(sheet_scope) }
-        format.zip { generate_xls(sheet_scope, true) }
+        # format.xls { generate_xls(sheet_scope) }
+        # format.zip { generate_xls(sheet_scope, true) }
       else
         format.html { redirect_to root_path }
         format.json { head :no_content }
@@ -485,12 +459,15 @@ class SheetsController < ApplicationController
                           disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")} #{raw_data ? 'raw' : 'labeled' }.csv\""
   end
 
-  def generate_xls(sheet_scope, include_files = false)
-    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets', include_files: include_files)
+  def generate_export(sheet_scope, xls, csv_labeled, csv_raw, pdf, files, data_dictionary)
+    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets', include_files: files)
 
-    systemu "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' &"
+    rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' XLS=#{xls ? '1' : '0'} CSV_LABELED=#{csv_labeled ? '1' : '0'} CSV_RAW=#{csv_raw ? '1' : '0'} PDF=#{pdf ? '1' : '0'} FILES=#{files ? '1' : '0'} DATA_DICTIONARY=#{data_dictionary ? '1' : '0'} &"
 
-    redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
+    systemu rake_task unless Rails.env.test?
+
+    # flash[:notice] = 'You will be emailed when the export is ready for download.'
+    # redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
   end
 
   def post_params

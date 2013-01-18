@@ -9,13 +9,13 @@
 
 <div id="contour-backdrop" style="display:none"></div>
 
-<div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
-  <div class="contour-modal" data-object="contour_modal_container">
-    <%= render partial: 'sheets/export_popup' %>
-  </div>
-</div>
-
 <%= form_tag project_sheets_path(@project), method: :get, remote: true, id: "sheets_search", class: 'form-search', data: { object: 'form-load' } do %>
+  <div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
+    <div class="contour-modal" data-object="contour_modal_container">
+      <%= render partial: 'sheets/export_popup' %>
+    </div>
+  </div>
+
   <%= hidden_field_tag :order %>
 
   <div class="row">

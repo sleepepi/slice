@@ -102,43 +102,35 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should get raw csv" do
-    get :index, project_id: @project, format: 'raw_csv'
-    assert_not_nil assigns(:csv_string)
+    assert_difference('Export.count') do
+      get :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'
+    end
     assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
   test "should get labeled csv" do
-    get :index, project_id: @project, format: 'labeled_csv'
-    assert_not_nil assigns(:csv_string)
+    assert_difference('Export.count') do
+      get :index, project_id: @project, export: '1', csv_labeled: '1', format: 'js'
+    end
     assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
   test "should get xls" do
-    get :index, project_id: @project, format: 'xls'
-    assert_not_nil assigns(:sheet_count)
-    assert_not_nil assigns(:sheets)
-    assert_equal 'You will be emailed when the export is ready for download.', flash[:notice]
-    assert_redirected_to project_sheets_path(@project)
-  end
-
-  test "should get pdf collation" do
-    get :index, project_id: @project, format: 'pdf'
+    assert_difference('Export.count') do
+      get :index, project_id: @project, export: '1', xls: '1', format: 'js'
+    end
     assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
-  test "should not get raw csv when no sheets are selected" do
-    get :index, project_id: @project, search: 'noresult', format: 'raw_csv'
-    assert_equal 0, assigns(:sheet_count)
-    assert_redirected_to project_sheets_path(@project)
-  end
-
-  test "should not get labeled csv when no sheets are selected" do
-    get :index, project_id: @project, search: 'noresult', format: 'labeled_csv'
-    assert_equal 0, assigns(:sheet_count)
-    assert_redirected_to project_sheets_path(@project)
+  test "should get pdf collation" do
+    assert_difference('Export.count') do
+      get :index, project_id: @project, export: '1', pdf: '1', format: 'js'
+    end
+    assert_not_nil assigns(:sheet_count)
+    assert_response :success
   end
 
   test "should get index" do

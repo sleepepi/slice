@@ -75,5 +75,12 @@ jQuery ->
       else
         window.location = $(this).data("link")
     )
+    .on('click', '[data-object~="export-data"]', () ->
+      $('[data-dismiss~=alert]').click()
+      form = $(this).data('target')
+      $.get($(form).attr("action"), $(form).serialize() + '&export=1', null, "script")
+      hideContourModal()
+      false
+    )
 
   initializeSheet()
