@@ -430,35 +430,6 @@ class SheetsController < ApplicationController
 
   private
 
-  def generate_csv(sheet_scope, raw_data)
-    @csv_string = CSV.generate do |csv|
-      # Only return variables currently on designs
-      variable_names = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
-      csv << ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names
-      sheet_scope.each do |sheet|
-        row = [sheet.name,
-                sheet.description,
-                sheet.study_date.blank? ? '' : sheet.study_date.strftime("%m-%d-%Y"),
-                sheet.project.name,
-                sheet.subject.site.name,
-                sheet.subject.name,
-                sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
-                sheet.subject.status,
-                sheet.user.name]
-        variable_names.each do |variable_name|
-          row << if variable = sheet.variables.find_by_name(variable_name)
-            raw_data ? variable.response_raw(sheet) : (variable.variable_type == 'checkbox' ? variable.response_name(sheet).join(',') : variable.response_name(sheet))
-          else
-            ''
-          end
-        end
-        csv << row
-      end
-    end
-    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                          disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")} #{raw_data ? 'raw' : 'labeled' }.csv\""
-  end
-
   def generate_export(sheet_scope, xls, csv_labeled, csv_raw, pdf, files, data_dictionary)
     export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets', include_files: files)
 
