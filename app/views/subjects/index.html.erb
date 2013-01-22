@@ -17,9 +17,16 @@
     </div>
 
     <div class="span4 control-group">
-      <%= label :validated, 'Validated', class: 'control-label' %>
+      <label class="control-label">Subjects</label>
       <div class="controls">
-        <%= select_tag :validated, options_for_select([['---', nil], ['Valid', 1], ['All', 0]], params[:validated]), data: { object: 'filter' } %>
+        <div class="btn-group" data-toggle="buttons-checkbox">
+          <% Subject::STATUS.each do |label, value| %>
+            <button data-object="set-statuses" data-value="<%= value %>" data-target="#subjects_search" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+              <%= label.humanize %>
+              <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+            </button>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

@@ -19,7 +19,9 @@ class SubjectsController < ApplicationController
       end
 
       subject_scope = subject_scope.without_design(params[:without_design_id]) unless params[:without_design_id].blank?
-      subject_scope = subject_scope.where(status: 'valid') if params[:validated] == '1'
+
+      @statuses = params[:statuses] || ['valid', 'pending', 'test']
+      subject_scope = subject_scope.where(status: @statuses)
 
       @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
       @search_terms.each{|search_term| subject_scope = subject_scope.search(search_term) }
