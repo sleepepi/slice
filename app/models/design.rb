@@ -185,7 +185,9 @@ class Design < ActiveRecord::Base
 
   # ActiveRecord...
   def pure_variables
-    Variable.current.where(id: variable_ids)
+    @pure_variables ||= begin
+      Variable.current.where(id: variable_ids)
+    end
   end
 
   # Array...
