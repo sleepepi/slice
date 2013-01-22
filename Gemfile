@@ -14,7 +14,7 @@ gem 'contour',              '~> 1.1.2'
 gem 'kaminari',             '~> 0.14.1'
 gem 'carrierwave',          '~> 0.7.1'
 gem 'audited-activerecord', '~> 3.0.0'
-gem 'spreadsheet',          '~> 0.7.5'
+gem 'spreadsheet',          '~> 0.7.7'
 gem 'systemu',              '~> 2.5.2'
 gem 'rubyzip',              '~> 0.9.9'
 gem 'mail_view',            '~> 1.0.3'
@@ -22,7 +22,7 @@ gem 'mail_view',            '~> 1.0.3'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',         '~> 3.2.5'
+  gem 'sass-rails',         '~> 3.2.6'
   gem 'coffee-rails',       '~> 3.2.2'
   gem 'uglifier',           '>= 1.0.3'
 end
