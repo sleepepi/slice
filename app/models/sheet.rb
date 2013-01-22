@@ -316,21 +316,45 @@ class Sheet < ActiveRecord::Base
   # the corresponding action should also apply when printing out the variable
   # in a PDF document. Since PDF documents don't run JavaScript, the solution
   # presented uses a JavaScript evaluator to evaluate the branching logic.
+
+  def exec_js_context
+    @exec_js_context ||= begin
+      # Compiled CoffeeScript from designs.js.coffee
+      index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
+      intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
+      overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
+      ExecJS.compile(index_of + intersection_function + overlap_function)
+    end
+  end
+
   def show_variable?(branching_logic)
     return true if branching_logic.to_s.strip.blank?
 
-    # Compiled CoffeeScript from designs.js.coffee
-    index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
-    intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
-    overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
-
     begin
-      context = ExecJS.compile(index_of + intersection_function + overlap_function)
-      context.eval expanded_branching_logic(branching_logic)
+      exec_js_context.eval expanded_branching_logic(branching_logic)
     rescue => e
       true
     end
   end
+
+  # def show_variable?(branching_logic)
+  #   return true if branching_logic.to_s.strip.blank?
+
+  #   # Compiled CoffeeScript from designs.js.coffee
+  #   index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
+  #   intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
+  #   overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
+
+  #   begin
+  #     context = ExecJS.compile(index_of + intersection_function + overlap_function)
+  #     context.eval expanded_branching_logic(branching_logic)
+  #   rescue => e
+  #     true
+  #   end
+  # end
+
+
+
 
   def grids
     Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).pluck(:id))
