@@ -17,7 +17,7 @@
     * Uploaded data files in a ZIP format
     * Data dictionary in XLS format
     * Two or more of the above in one combined ZIP file
-  * Data dictionary now additionally include variables included via grid variables
+  * Data dictionaries now additionally include variables included via grid variables
 
 * Bug Fix
   * Toggleable filter buttons on the variable index now work correctly
