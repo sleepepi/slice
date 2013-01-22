@@ -96,9 +96,11 @@ def generate_xls(export, sheet_scope, filename)
 
     worksheet = book.create_worksheet name: "Grids - #{raw_data ? 'RAW' : 'Labeled'}"
 
-    variable_ids = SheetVariable.where(sheet_id: sheet_scope.pluck(:id)).collect(&:variable_id)
+
+
+    variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
+    # variable_ids = SheetVariable.where(sheet_id: sheet_scope.pluck(:id)).collect(&:variable_id)
     grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
-    # @grids = sheet_scope.collect(&:sheet_variables).flatten.collect(&:grids).flatten.compact.uniq
 
     worksheet.row(current_row).replace ["", "", "", "", "", "", "", "", ""]
 
@@ -184,7 +186,8 @@ def generate_csv_grids(export, sheet_scope, filename, raw_data)
   export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
 
   CSV.open(export_file, "wb") do |csv|
-    variable_ids = SheetVariable.where(sheet_id: sheet_scope.pluck(:id)).collect(&:variable_id)
+    variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
+    # variable_ids = SheetVariable.where(sheet_id: sheet_scope.pluck(:id)).collect(&:variable_id)
     grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
 
     row = ["", "", "", "", "", "", "", "", ""]
