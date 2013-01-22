@@ -361,26 +361,30 @@ def generated_data_dictionary(export, sheet_scope, filename)
   worksheet.row(current_row).push 'Variable/Domain Name', 'Description',
     'Option Name', 'Option Value', 'Missing Code?', 'Option Color', 'Option Description'
 
+  objects = []
+
   design_scope.each do |d|
     d.options_with_grid_sub_variables.each do |option|
-      row = []
       if variable = Variable.current.find_by_id(option[:variable_id])
         if variable.variable_type == 'scale' and variable.domain
-          object = variable.domain
+          objects << variable.domain
         else
-          object = variable
-        end
-        object.options.each do |opt|
-          current_row += 1
-          worksheet.row(current_row).push object.name,
-            object.description,
-            opt[:name],
-            opt[:value],
-            opt[:missing_code],
-            opt[:color],
-            opt[:description]
+          objects << variable
         end
       end
+    end
+  end
+
+  objects.uniq.each do |object|
+    object.options.each do |opt|
+      current_row += 1
+      worksheet.row(current_row).push object.name,
+        object.description,
+        opt[:name],
+        opt[:value],
+        opt[:missing_code],
+        opt[:color],
+        opt[:description]
     end
   end
 

@@ -24,6 +24,7 @@
   * Sheet totals now properly update on the Subject Report
   * Deleted subject's sheets are no longer visible on the project dashboard
   * Sheet exports no longer include variables that were removed from a design
+  * Domains are no longer duplicated in data dictionaries when referenced by multiple variables
 
 * Testing
   * Added mail_view gem for easier email templating
