@@ -107,6 +107,19 @@ class Design < ActiveRecord::Base
     options_subset
   end
 
+  def options_with_grid_sub_variables
+    new_options = []
+    self.options.each do |option|
+      new_options << option
+      if v = Variable.current.where(variable_type: 'grid').find_by_id(option[:variable_id])
+        v.grid_variables.each do |grid_variable|
+          new_options << { variable_id: grid_variable[:variable_id], branching_logic: '' }
+        end
+      end
+    end
+    new_options
+  end
+
   def total_pages
     @total_pages ||= begin
       self.options.select{|option| option[:break_before] == '1'}.count + 1

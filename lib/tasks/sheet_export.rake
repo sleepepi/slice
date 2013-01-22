@@ -299,7 +299,7 @@ def generated_data_dictionary(export, sheet_scope, filename)
     'Display Name Visibility', 'Alignment', 'Default Row Number', 'Scale Type', 'Domain Name'
 
   design_scope.each do |d|
-    d.options.each do |option|
+    d.options_with_grid_sub_variables.each do |option|
       current_row += 1
       row = []
       if option[:variable_id].blank?
@@ -362,7 +362,7 @@ def generated_data_dictionary(export, sheet_scope, filename)
     'Option Name', 'Option Value', 'Missing Code?', 'Option Color', 'Option Description'
 
   design_scope.each do |d|
-    d.options.each do |option|
+    d.options_with_grid_sub_variables.each do |option|
       row = []
       if variable = Variable.current.find_by_id(option[:variable_id])
         if variable.variable_type == 'scale' and variable.domain
