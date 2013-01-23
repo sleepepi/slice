@@ -88,7 +88,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/settings
   def settings
-
+    redirect_to projects_path unless @project
   end
 
   # GET /projects/new

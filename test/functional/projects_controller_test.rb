@@ -154,6 +154,25 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to projects_path
   end
 
+  test "should show project settings" do
+    get :settings, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should show project settings to site user" do
+    login(users(:site_one_user))
+    get :settings, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should not show settings invalid project" do
+    get :settings, id: -1
+    assert_nil assigns(:project)
+    assert_redirected_to projects_path
+  end
+
   test "should get edit" do
     get :edit, id: @project
     assert_response :success
