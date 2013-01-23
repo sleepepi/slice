@@ -1,0 +1,10 @@
+<hr class="soften" style="margin-top:20px">
+<% if @project.designs.size == 0 %>
+  <ul><li class="muted">No Links</li></ul>
+<% else %>
+  <ul>
+  <% @project.designs.limit(10).order('updated_at').each do |design| %>
+    <li style="line-height:25px"><%= link_to design.name, [design.project, design] %></li>
+  <% end %>
+  </ul>
+<% end %>
