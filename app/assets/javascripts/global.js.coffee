@@ -73,6 +73,9 @@ jQuery ->
       false
     )
     .on('mouseenter', '[data-object~="hover-show"]', () ->
+      $('[data-object~="hover-show"]').each( (index, element) ->
+        $($(element).data('target')).hide()
+      )
       $($(this).data('target')).show()
       false
     )

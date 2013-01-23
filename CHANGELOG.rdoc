@@ -27,6 +27,7 @@
   * Sheet exports no longer include variables that were removed from a design
   * Domains are no longer duplicated in data dictionaries when referenced by multiple variables
   * Checkbox labels should no longer arbitrarily break on white space
+  * Grid rows "Remove" button no longer stays visible after mouseing out of the row, resulting in multiple rows showing a "Remove" button
 
 * Testing
   * Added mail_view gem for easier email templating
