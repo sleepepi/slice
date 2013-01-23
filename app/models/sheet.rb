@@ -300,7 +300,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def expanded_branching_logic(branching_logic)
-    branching_logic.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
+    branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
   end
 
   def variable_javascript_value(variable_name)
