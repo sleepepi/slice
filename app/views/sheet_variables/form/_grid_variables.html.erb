@@ -1,5 +1,6 @@
-<div id="variable_<%= variable.id %>_grid_row_<%= position %>" data-object="hover-show" data-target="#variable_<%= variable.id %>_grid_row_<%= position %>_delete_link">
+<tr id="variable_<%= variable.id %>_grid_row_<%= position %>" data-object="hover-show" data-target="#variable_<%= variable.id %>_grid_row_<%= position %>_delete_link">
   <% variable.grid_variables.each do |grid_variable| %>
+    <td>
     <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) if sheet_variable %>
     <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: position) unless grid %>
 
@@ -9,7 +10,9 @@
     <% if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) and grid.variable.variable_type != 'grid' %>
       <%= render partial: "sheet_variables/form/#{grid.variable.variable_type}", locals: { response: response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, control_size: grid_variable[:control_size], object: grid } %>
     <% end %>
+    </td>
   <% end %>
-
-  <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger', style: 'display:none', id: "variable_#{variable.id}_grid_row_#{position}_delete_link", tabindex: "-1" if variable.multiple_rows? %>
-</div>
+  <td>
+    <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger', style: 'display:none', id: "variable_#{variable.id}_grid_row_#{position}_delete_link", tabindex: "-1" if variable.multiple_rows? %>
+  </td>
+</tr>
