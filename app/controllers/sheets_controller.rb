@@ -222,12 +222,15 @@ class SheetsController < ApplicationController
       if @project and @sheet
         @sheet.audit_show!(current_user)
         format.html # show.html.erb
+        format.js # show.js.erb
         format.json { render json: @sheet }
       elsif @project
         format.html { redirect_to project_sheets_path(@project), alert: 'You do not have sufficient privileges to view this sheet.' }
+        format.js { render nothing: true }
         format.json { render head :no_content }
       else
         format.html { redirect_to root_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end
