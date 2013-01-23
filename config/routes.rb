@@ -74,6 +74,9 @@ Slice::Application.routes.draw do
     end
 
     resources :site_users do
+      member do
+        post :resend
+      end
       collection do
         get :accept
       end
@@ -99,6 +102,9 @@ Slice::Application.routes.draw do
   resources :sheet_emails
 
   resources :project_users do
+    member do
+      post :resend
+    end
     collection do
       get :accept
     end

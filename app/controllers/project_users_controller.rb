@@ -1,6 +1,19 @@
 class ProjectUsersController < ApplicationController
   before_filter :authenticate_user!
 
+  # POST /project_users/1.js
+  def resend
+    @project_user = ProjectUser.find_by_id(params[:id])
+    @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
+
+    if @project and @project_user
+      @project_user.generate_invite_token!
+      # resend.js.erb
+    else
+      render nothing: true
+    end
+  end
+
   # POST /project_users
   # POST /project_users.json
   def create

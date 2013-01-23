@@ -7,6 +7,22 @@ class SiteUsersControllerTest < ActionController::TestCase
     @site_user = site_users(:one)
   end
 
+  test "should resend site invitation" do
+    post :resend, id: @site_user, project_id: @project, format: 'js'
+
+    assert_not_nil assigns(:site_user)
+    assert_not_nil assigns(:site)
+    assert_template 'resend'
+  end
+
+  test "should not resend site invitation with invalid id" do
+    post :resend, id: -1, project_id: @project, format: 'js'
+
+    assert_nil assigns(:site_user)
+    assert_nil assigns(:site)
+    assert_response :success
+  end
+
   test "should accept site user" do
     login(users(:two))
     get :accept, project_id: @project, invite_token: site_users(:invited).invite_token

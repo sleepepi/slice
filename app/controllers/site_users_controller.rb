@@ -43,6 +43,20 @@ class SiteUsersController < ApplicationController
   #   @site_user = SiteUser.current.find(params[:id])
   # end
 
+  # POST /site_users/1.js
+  def resend
+    @site_user = SiteUser.current.find_by_id(params[:id])
+    @site = current_user.all_sites.find_by_id(@site_user.site_id) if @site_user
+
+    if @site and @site_user
+      @site_user.send_invitation
+      # resend.js.erb
+    else
+      render nothing: true
+    end
+  end
+
+
   # POST /site_users
   # POST /site_users.json
   def create

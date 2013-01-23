@@ -19,6 +19,7 @@
     * Two or more of the above in one combined ZIP file
   * Data dictionaries now additionally include variables included via grid variables
   * Subject index now contains filters for valid, pending, and test statuses
+  * Project and Site invites can now be resent
 
 * Bug Fix
   * Toggleable filter buttons on the variable index now work correctly
