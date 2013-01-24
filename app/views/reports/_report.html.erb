@@ -23,14 +23,7 @@
 
 <table class="table table-hover"><col width="1px" />
   <caption style="padding-bottom:8px">
-    <% if false %>
-    <%= @design.name %>
-    <% if @design.project %>
-      &middot; <%= @design.project.name %>
-    <% end %>
-    <% else %>
-    @report_caption
-    <% end %>
+    <%= @report_subtitle.html_safe %>
   </caption>
   <thead>
     <tr>

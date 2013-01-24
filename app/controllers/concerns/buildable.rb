@@ -185,7 +185,11 @@ module Buildable
         "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
       end
 
-      @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : date_description}"
+      # @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : date_description}"
+
+      @report_title = "#{@row_variables.collect{|i| i.display_name}.join(' & ')} vs. #{@column_variables.collect{|i| i.display_name}.join(' & ')}"
+
+      @report_subtitle = (@design ? @design.name + " &middot; " + @design.project.name : '')
     end
   end
 
