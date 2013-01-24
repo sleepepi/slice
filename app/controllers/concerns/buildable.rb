@@ -1,0 +1,253 @@
+module Buildable
+  extend ActiveSupport::Concern
+
+  # included do
+  #   scope :current, conditions: { deleted: false }
+  # end
+
+  private
+
+  # Returns the "Structure" of the report, leaving the evaluation to the view
+
+  # Ex:
+  #    Row variables
+  #       Site
+  #       Gender
+  #    Column variables
+  #       Body Mass Index - (calculatable...)
+  #       Race
+
+  # Resulting Table
+  #               |                                  Body Mass Index (Race)
+  # Site | Gender | Mean (White) | Stddev (White) | Stddev (Black) | Avg (Black) | Total (White) | Total (Black) |  Total
+  #               |---------------------------------------------------------------------------------------------------------
+  #  A   | Male   |   (see x1)   |                |                |             |               |               |          |
+  #  A   | Female |              |    (see x2)    |                |             |               |               | (see x3) |
+  #  B   | Male   |              |                |                |             |               |               |          |
+  #  B   | Female |              |                |                |             |               |               |          |
+  # ------------------------------------------------------------------------------------------------------------------------
+  #  A   |  ---   |              |                |                |             |               |               |          |
+  #  B   |  ---   |              |                |                |             |               |               |          |
+  #  --- | Male   |              |                |                |             |               |               |          |
+  #  --- | Female |              |                |                |             |               |               |          |
+  # ------------------------------------------------------------------------------------------------------------------------
+  # Total         |              |                |    (see x4)    |             |               |    (see x5)   | (see x6) |
+  # ------------------------------------------------------------------------------------------------------------------------
+
+  # x1 = site: a, gender: m, race: w, calculator: bmi, calculation: mean
+  # x2 = site: a, gender: f, race: w, calculator: bmi, calculation: avg
+  # x3 = site: a, gender: f,                           calculation: count (default)
+  # x4 =                     race: b, calculator: bmi, calculation: mean
+  # x5 =                     race: b,                  calculation: count (default)
+  # x6 =                                               calculation: count (default)
+
+  # Essentially will be adding together filters (row and column) along with specifying an item to count (calculate in the case of a numeric/integer variable), calculator will always be based on the first column variable.
+
+  # Resulting Table
+  #               |                   Race
+  # Site | Gender |    White     |    Black    |    Total
+  #               |--------------------------------------------
+  #    A | Male   |   (see x1)   |             |              |
+  #    A | Female |              |  (see x2)   |              |
+  #    B | Male   |              |             |              |
+  #    B | Female |              |             |              |
+  # Total         |   (see x3)   |             |  (see x4)    |
+  # -----------------------------------------------------------
+
+  #      |=        FILTERS         =|
+  # x1 = site: a, gender: m, race: w, calculator: race, calculation: count
+  # x2 = site: a, gender: f, race: b, calculator: race, calculation: count
+  # x3 =                     race: w, calculator: race, calculation: count
+  # x4 =                              calculator: race, calculation: count
+
+
+  def setup_report_new
+
+    params[:row_variable_ids] = ['1113']
+    params[:column_variable_ids] = ['1114']
+
+    set_sheet_scope
+
+    if @design
+      @row_variables = @design.pure_variables.where(id: params[:row_variable_ids])
+      @column_variables = @design.pure_variables.where(id: params[:column_variable_ids])
+
+      build_table_header
+      build_table_footer
+
+      build_table_body
+
+
+      # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
+      # @ranges = []
+
+      # if @column_variable and ['dropdown', 'radio', 'string'].include?(@column_variable.variable_type)
+      #   column_strata = @column_variable.options_or_autocomplete(params[:column_include_missing].to_s == '1')
+      #   column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
+      #   column_strata.each do |stratum|
+      #     scope = @sheets.with_stratum(@column_variable, stratum[:value])
+      #     @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value], calculation: 'array_count' }
+      #   end
+      # elsif @column_variable and @column_variable.has_statistics?
+      #   column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }]
+      #   column_strata = column_strata + [{ name: 'N', calculation: 'array_count' }, { name: '', value: nil }] if params[:column_include_missing].to_s == '1'
+
+      #   column_strata.each do |stratum|
+      #     scope = if stratum[:calculation].blank?
+      #       @sheets.with_response_unknown_or_missing(@column_variable)
+      #     else
+      #       @sheets.with_any_variable_response_not_missing_code(@column_variable)
+      #     end
+
+      #     count = Sheet.array_calculation(scope, @column_variable, stratum[:calculation])
+
+      #     @ranges <<  {
+      #                   name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]),
+      #                   tooltip: stratum[:name],
+      #                   start_date: '', end_date: '',
+      #                   scope: scope,
+      #                   count: count,
+      #                   value: stratum[:value],
+      #                   calculation: stratum[:calculation],
+      #                   symbol: stratum[:symbol]
+      #                 }
+      #   end
+      # else # Default columns over Study Date
+      #   if @column_variable and @column_variable.variable_type == 'date'
+      #     min = Date.strptime(@sheets.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
+      #     max = Date.strptime(@sheets.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
+      #   else
+      #     min = @sheets.pluck("sheets.study_date").min || Date.today
+      #     max = @sheets.pluck("sheets.study_date").max || Date.today
+      #   end
+
+      #   case @by when "week"
+      #     current_cweek = min.cweek
+      #     (min.year..max.year).each do |year|
+      #       (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
+      #         start_date = Date.commercial(year,cweek) - 1.day
+      #         end_date = Date.commercial(year,cweek) + 5.days
+      #         scope = @sheets.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
+      #         @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
+      #         break if year == max.year and cweek == max.cweek
+      #       end
+      #       current_cweek = 1
+      #     end
+      #   when "month"
+      #     current_month = min.month
+      #     (min.year..max.year).each do |year|
+      #       (current_month..12).each do |month|
+      #         start_date = Date.parse("#{year}-#{month}-01")
+      #         end_date = Date.parse("#{year}-#{month}-01").end_of_month
+      #         scope = @sheets.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
+      #         @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
+      #         break if year == max.year and month == max.month
+      #       end
+      #       current_month = 1
+      #     end
+      #   when "year"
+      #     (min.year..max.year).each do |year|
+      #       start_date = Date.parse("#{year}-01-01")
+      #       end_date = Date.parse("#{year}-12-31")
+      #       scope = @sheets.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
+      #       @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
+      #     end
+      #   end
+      #   if @column_variable and @column_variable.variable_type == 'date' and params[:column_include_missing].to_s == '1'
+      #     scope = @sheets.with_stratum(@column_variable, nil)
+      #     @ranges << { name: '', tooltip: '', start_date: '', end_date: '', scope: scope, count: scope.count, value: nil }
+      #   end
+      # end
+
+      # # Row Stratification by Site (default) or by Variable on Design (currently supported: radio, dropdown, and string)
+      # if @variable
+      #   @strata = @variable.options_or_autocomplete(params[:include_missing].to_s == '1')
+      #   @strata = @strata + [{ name: '', value: nil }] if params[:include_missing].to_s == '1'
+      # else
+      #   # @strata = (@design.project ? @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} : [])
+      #   @strata = (@design.project ? current_user.all_viewable_sites.with_project(@design.project.id).order('name').collect{|s| { name: s.name, value: s.id }} : [])
+      # end
+
+      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : @design.study_date_name_full)
+
+      @report_caption = if @sheet_after.blank? and @sheet_before.blank?
+        "All Sheets"
+      elsif @sheet_after.blank?
+        "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
+      elsif @sheet_before.blank?
+        "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
+      else
+        "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
+      end
+
+      @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : date_description}"
+    end
+  end
+
+  def set_sheet_scope
+    @sheet_before = parse_date(params[:sheet_before])
+    @sheet_after = parse_date(params[:sheet_after])
+
+    @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
+    @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+    @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
+    @statuses = params[:statuses] || ['valid']
+
+    sheet_scope = current_user.all_viewable_sheets.scoped()
+    sheet_scope = sheet_scope.where(design_id: @design.id) if @design
+
+    sheet_scope = sheet_scope.last_entry if @filter == 'last'
+    sheet_scope = sheet_scope.first_entry if @filter == 'first'
+
+    # Should be handled elsewhere...
+    # sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
+    # sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
+
+    # Should be handled in the view, could depend on multiple
+    # sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] != '1'
+    # sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
+
+    sheet_scope = sheet_scope.with_subject_status(@statuses)
+    @sheets = sheet_scope
+  end
+
+  def build_table_header
+    @table_header = []
+    @table_header += @row_variables.pluck(:display_name)
+
+    @column_variables.each do |v|
+      @table_header += v.report_strata(true)
+    end
+
+    @table_header << { name: 'Total', calculation: 'array_count' }
+    @table_header
+  end
+
+  def build_table_footer
+    @table_footer = []
+
+    @table_footer = [{ name: 'Total', colspan: @row_variables.size }]
+
+    @table_header.each do |header|
+      if header.kind_of?(Hash)
+        footer = header.dup
+        footer[:name] = Sheet.array_calculation_with_filters(@sheets, header[:calculator], header[:calculation], header[:filters])
+        footer[:count] = Sheet.array_calculation_with_filters(@sheets, header[:calculator], header[:calculation], header[:filters])
+        @table_footer << footer
+      end
+    end
+
+    @table_footer
+  end
+
+  def build_table_body
+    @table_body = []  # [
+                      #   [{name:... count: ...}, {}, {}]
+                      # ]
+
+    @row_variables.each do |row_variable|
+
+    end
+  end
+
+end

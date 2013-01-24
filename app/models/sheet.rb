@@ -422,6 +422,14 @@ class Sheet < ActiveRecord::Base
     ['array_mean', 'array_standard_deviation'].include?(calculation) && number != 0 ? "%0.02f" % number : number
   end
 
+  def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters)
+    (filters || []).each do |filter|
+      sheet_scope = sheet_scope.with_stratum(filter[:id], filter[:value])
+    end
+
+    calculator ? self.array_calculation(sheet_scope, calculator, calculation) : sheet_scope.count
+  end
+
   protected
 
   def self.latex_safe(mystring)

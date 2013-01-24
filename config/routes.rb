@@ -49,6 +49,8 @@ Slice::Application.routes.draw do
         post :reorder
         get :report
         post :report
+        get :reporter
+        post :reporter
         get :report_print
       end
       collection do

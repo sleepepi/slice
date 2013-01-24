@@ -1,0 +1,103 @@
+<% @title = "#{@design.name} Report" %>
+<h3>
+  <% if @design.project %>
+    <%= link_to "&lsaquo; ".html_safe + @design.project.name, report_project_path(@design.project, by: @by, percent: @percent) %> Report
+    <span class="pull-right"><%= pluralize @design.project.sites.count, ' site' %> for <%= link_to @design.name, [@design.project, @design] %></span>
+  <% else %>
+    <span class="muted">No Project</span> &middot; <%= @title %>
+  <% end %>
+</h3>
+
+<hr class="soften" style="margin-top:20px">
+
+<%= form_tag reporter_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
+  <%= hidden_field_tag :by, @by %>
+  <%= hidden_field_tag :percent, @percent %>
+  <%= hidden_field_tag :filter, @filter %>
+
+  <div class="row">
+    <div class="span4">
+      Row
+      <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string']) %>
+      <%= select_tag :variable_id, options_for_select([['Site', nil]]) + grouped_options_for_select(row_variable_groups, params[:variable_id]), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium chzn-select' %>
+      <span id="row-include-blank" style="white-space:nowrap; <%= 'display:none' unless @variable %>">
+        <%= check_box_tag :include_missing, '1', params[:include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :include_missing %>
+      </span>
+    </div>
+    <div class="span4">
+      Column
+      <% column_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'date', 'integer', 'numeric', 'calculated']) %>
+      <%= select_tag :column_variable_id, options_for_select([[@design.study_date_name_full, nil]]) + grouped_options_for_select(column_variable_groups, params[:column_variable_id]), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium chzn-select' %>
+      <span id="column-include-blank" style="white-space:nowrap; <%= 'display:none' unless @column_variable %>">
+        <%= check_box_tag :column_include_missing, '1', params[:column_include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :column_include_missing, 'Include missing' %>
+      </span>
+      <span id="column-by-time" style="<%= 'display:none' if @column_variable %>">
+      </span>
+    </div>
+
+    <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px;">
+      <div class="btn-group pull-right" data-toggle="buttons-radio">
+        <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if @percent == 'none' %>">No Percents</button>
+        <button data-object="set-percent" data-value="row" class="btn btn-mini <%= 'active' if @percent == 'row' %>">% by Row</button>
+        <button data-object="set-percent" data-value="column" class="btn btn-mini <%= 'active' if @percent == 'column' %>">% by Column</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span4">
+      After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "After", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+    </div>
+
+    <div class="span4">
+      <span style="white-space:nowrap">
+        Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "Before", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+      </span>
+    </div>
+
+    <div class="btn-toolbar span4" style="padding-top:0px;margin-top:0px">
+      <div class="btn-group pull-right" data-toggle="buttons-radio">
+        <button data-object="set-by" data-value="week" class="btn btn-mini <%= 'active' if @by == 'week' %>">Week</button>
+        <button data-object="set-by" data-value="month" class="btn btn-mini <%= 'active' if @by == 'month' %>">Month</button>
+        <button data-object="set-by" data-value="year" class="btn btn-mini <%= 'active' if @by == 'year' %>">Year</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px;">
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button data-object="set-filter" data-value="all" class="btn btn-mini <%= 'active' if @filter == 'all' %>">All Sheets</button>
+        <button data-object="set-filter" data-value="last" class="btn btn-mini <%= 'active' if @filter == 'last' %>" rel="tooltip" title="Select only the LAST sheet entered for subjects with multiple sheets recorded for <%= @design.name %>." data-placement="bottom">Last Sheet Entry</button>
+        <button data-object="set-filter" data-value="first" class="btn btn-mini <%= 'active' if @filter == 'first' %>" rel="tooltip" title="Select only the FIRST sheet entered for subjects with multiple sheets recorded for <%= @design.name %>." data-placement="bottom">First Sheet Entry</button>
+      </div>
+    </div>
+    <div class="span4">
+      Subjects
+      <div class="btn-group" data-toggle="buttons-checkbox">
+        <% Subject::STATUS.each do |label, value| %>
+          <button data-object="set-statuses" data-value="<%= value %>" data-target="#report_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+            <%= label.humanize %>
+            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="pull-right">
+        <span class="dropdown">
+          <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
+          <ul class="dropdown-menu" style="margin-top:9px">
+            <li><%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %></li>
+            <li><%= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' } %></li>
+            <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
+          </ul>
+        </span>
+        <button type="submit" class="btn btn-primary">Refresh</button>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<hr class="soften" style="margin-top:20px;margin-bottom:20px">
+
+<div id="report"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>

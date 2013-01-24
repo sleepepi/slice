@@ -1,0 +1,197 @@
+<% if true %>
+  <%#= @table_header.inspect %><br />
+  <b>Sheet Count:</b> <%= @sheets.count %>
+  <p>Row Vars: <%= @row_variables.collect{|v| [v.name, v.id]} %></p>
+  <p>Col Vars: <%= @column_variables.collect{|v| [v.name, v.id]} %></p>
+<% end %>
+
+<h3 style="text-align:center;margin:0px"><%= @report_title %></h3>
+
+<table class="table table-hover"><col width="1px" />
+  <caption style="padding-bottom:8px">
+    <% if false %>
+    <%= @design.name %>
+    <% if @design.project %>
+      &middot; <%= @design.project.name %>
+    <% end %>
+    <% else %>
+    @report_caption
+    <% end %>
+  </caption>
+  <thead>
+    <tr>
+      <th></th>
+      <% @table_header.each do |header| %>
+        <th>
+          <% if header.kind_of?(Hash) %>
+            <span class="count-rot315 <%= 'muted' if header[:name].blank? %>" rel="tooltip" title="<%= header[:name].blank? ? 'Unknown' : header[:tooltip] %>"><%= header[:name].blank? ? 'Unknown' : header[:name].truncate(10) %></span>
+          <% else %>
+            <%= header %>
+          <% end %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tfoot>
+    <tr style="font-weight:bold">
+
+      <td></td>
+      <% @table_footer.each do |footer| %>
+        <% if footer[:colspan].blank? %>
+          <% count = footer[:count] %>
+          <td>
+            <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= footer[:name].blank? ? 'Unknown' : footer[:tooltip] unless count == 0 %>" data-placement="left">
+              <span class="rounded-borders">
+                <%= footer[:name] %>
+              </span>
+            </span>
+          </td>
+        <% else %>
+          <td colspan="<%= footer[:colspan].blank? ? 1 : footer[:colspan] %>">
+            <%= footer[:name] %>
+          </td>
+        <% end %>
+      <% end %>
+
+    </tr>
+  </tfoot>
+
+  <tbody>
+    <% @table_body.each do |body_row| %>
+      <tr>
+        <td></td>
+        <% body_row.each do |hash| %>
+          <% count = hash[:count] %>
+          <td>
+            <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless count == 0 %>" data-placement="left">
+              <span class="rounded-borders">
+                <%= hash[:name] %>
+              </span>
+            </span>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+
+<% if false %>
+  <tfoot>
+    <tr style="font-weight:bold">
+
+      <% row_counts = if @column_variable and @column_variable.has_statistics? %>
+        <% Sheet.array_responses(@sheets.with_any_variable_response_not_missing_code(@column_variable), @column_variable) %>
+      <% else %>
+        <% @ranges.collect{|hash| hash[:count] } %>
+      <% end %>
+
+      <td><span data-object="sparkline" data-type="<%= (@column_variable && @column_variable.has_statistics? ? 'box' : 'line') %>" data-values="<%= row_counts.to_json %>" style="display:none"><%= row_counts.join(',') %></span></td>
+      <td>Total</td>
+      <% @ranges.each do |hash| %>
+        <% count = hash[:count] %>
+        <td>
+          <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless count == 0 %>" data-placement="left">
+            <span class="rounded-borders"><%= link_to_if count != 0, count == 0 ? '-' : "#{'&plusmn;' if hash[:symbol] == 'pm'}#{count}".html_safe, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y")), row_include: (params[:include_missing] == '1' ? 'all' : 'known'), column_include: (hash[:value].blank? ? 'unknown' : 'missing'), filter: @filter, statuses: @statuses) %></span>
+            <% unless @column_variable and @column_variable.has_statistics? %>
+              <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
+                <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
+              <% end %>
+            <% end %>
+          </span>
+        </td>
+      <% end %>
+      <% count = @sheets.count %>
+      <td class="<%= 'muted' if count == 0 %>">
+        <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), sheet_before: params[:sheet_before], sheet_after: params[:sheet_after], column_stratum_id: (@column_variable ? @column_variable.id : nil), row_include: (params[:include_missing] == '1' ? 'all' : 'known'), column_include: (params[:column_include_missing] == '1' ? 'all' : 'known'), filter: @filter, statuses: @statuses) %>
+      </td>
+    </tr>
+  </tfoot>
+
+  <tbody>
+    <% @strata.each do |stratum| %>
+      <tr>
+        <% row_counts = if @column_variable and @column_variable.has_statistics? %>
+          <% Sheet.array_responses(@sheets.with_stratum(@variable, stratum[:value]).with_any_variable_response_not_missing_code(@column_variable), @column_variable) %>
+        <% else %>
+          <% @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
+        <% end %>
+        <td><span data-object="sparkline" data-type="<%= (@column_variable && @column_variable.has_statistics? ? 'box' : 'line') %>" data-values="<%= row_counts.to_json %>" style="display:none"><%= row_counts.join(',') %></span></td>
+        <td>
+          <% link_name = ((@variable.blank? or stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name] %>
+          <% if stratum[:name].blank? %>
+            <span class="muted">Unknown</span>
+          <% else %>
+            <%= link_to link_name, '#', data: { object: 'suppress-click' } %>
+          <% end %>
+          <% unless stratum[:info].blank? %><span class="muted"><%= stratum[:info] %></span><% end %>
+        </td>
+
+
+        <% @ranges.each do |hash| %>
+          <% count = if @column_variable and @column_variable.has_statistics? %>
+            <% Sheet.array_calculation(hash[:scope].with_stratum(@variable, stratum[:value]), @column_variable, hash[:calculation]) %>
+          <% else %>
+            <% hash[:scope].with_stratum(@variable, stratum[:value]).count %>
+          <% end %>
+          <td>
+            <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless count == 0 %>" data-placement="left">
+              <% if count == 0 %>
+                <span class="rounded-borders">-</span>
+              <% else %>
+                <span class="rounded-borders" style="background-color: <%= stratum[:color] unless stratum[:color].blank? %>"><%= link_to "#{'&plusmn;' if hash[:symbol] == 'pm'}#{count}".html_safe, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), column_stratum_value: hash[:value], sheet_before: (hash[:end_date].blank? ? nil : hash[:end_date].strftime("%m/%d/%Y")), sheet_after: (hash[:start_date].blank? ? nil : hash[:start_date].strftime("%m/%d/%Y")), row_include: (stratum[:value].blank? ? 'unknown' : 'missing'), column_include: (hash[:value].blank? ? 'unknown' : 'missing'), filter: @filter, statuses: @statuses) %></span>
+              <% end %>
+              <% unless @column_variable and @column_variable.has_statistics? %>
+                <% if @percent == 'row' and count > 0 and row_counts.sum > 0 %>
+                  <span class="muted" style="font-size:0.7em"><%= (count * 100 / row_counts.sum).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
+                <% end %>
+                <% if @percent == 'column' and count > 0 and hash[:count] > 0 %>
+                  <span class="muted" style="font-size:0.7em"><%= (count * 100 / hash[:count]).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
+                <% end %>
+              <% end %>
+            </span>
+          </td>
+        <% end %>
+
+
+        <% count = @sheets.with_stratum(@variable, stratum[:value]).count %>
+        <td>
+          <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= stratum[:name].blank? ? 'Unknown' : stratum[:name] if count > 0 %>" data-placement="left">
+            <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: @design.id, stratum_id: (@variable ? @variable.id : nil), stratum_value: stratum[:value], column_stratum_id: (@column_variable ? @column_variable.id : nil), sheet_before: params[:sheet_before], sheet_after: params[:sheet_after], row_include: (stratum[:value].blank? ? 'unknown' : 'all'), column_include: (params[:column_include_missing] == '1' ? 'all' : 'known'), filter: @filter, statuses: @statuses) %>
+            <% if @percent == 'column' and count > 0 and @sheets.count > 0 %>
+              <span class="muted" style="font-size:0.7em"><%= (count * 100 / @sheets.count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
+            <% end %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+
+<% end %>
+
+</table>
+
+<center class="muted"><%= @report_caption %></center>
+
+
+<% if false %>
+<%= link_to '#permalink', report_project_design_path(@design.project, @design, project_id: @project.id, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
+                                              sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")), variable_id: (@variable ? @variable.id : nil),
+                                              column_variable_id: (@column_variable ? @column_variable.id : nil), column_include_missing: (params[:column_include_missing].to_s == '1' ? '1' : '0'), filter: @filter, statuses: @statuses ),
+                                              class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>
+<%= form_tag reports_path, method: :post, remote: true, id: 'save_report_form' do %>
+  <%= hidden_field_tag "report[name]", @report_title + " - " + @design.name %>
+  <%= hidden_field_tag "report[options][design_id]", @design.id %>
+  <%= hidden_field_tag "report[options][by]", @by %>
+  <%= hidden_field_tag "report[options][percent]", @percent %>
+  <%= hidden_field_tag "report[options][include_missing]", (params[:include_missing].to_s == '1' ? '1' : '0') %>
+  <%= hidden_field_tag "report[options][sheet_after]", (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")) %>
+  <%= hidden_field_tag "report[options][sheet_before]", (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")) %>
+  <%= hidden_field_tag "report[options][variable_id]", (@variable ? @variable.id : nil) %>
+  <%= hidden_field_tag "report[options][column_variable_id]", (@column_variable ? @column_variable.id : nil) %>
+  <%= hidden_field_tag "report[options][column_include_missing]", (params[:column_include_missing].to_s == '1' ? '1' : '0') %>
+  <%= hidden_field_tag "report[options][filter]", @filter %>
+  <%= hidden_field_tag "report[options][statuses]", @statuses %>
+<% end %>
+
+<%= link_to 'Save Report', '#', data: { object: 'submit', target: '#save_report_form' }, class: 'btn btn-mini pull-right' %>
+<% end %>

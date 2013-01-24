@@ -417,4 +417,21 @@ class Variable < ActiveRecord::Base
     ['integer', 'numeric', 'calculated'].include?(self.variable_type)
   end
 
+  def report_strata(include_missing)
+    @report_strata = if self.has_statistics?
+      [ { filters: [], name: 'N',      calculation: 'array_count'                            },
+        { filters: [], name: 'Mean',   calculation: 'array_mean'                             },
+        { filters: [], name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
+        { filters: [], name: 'Median', calculation: 'array_median'                           },
+        { filters: [], name: 'Min',    calculation: 'array_min'                              },
+        { filters: [], name: 'Max',    calculation: 'array_max'                              }]
+    elsif ['dropdown', 'radio', 'string'].include?(self.variable_type)
+      options_or_autocomplete(params[:column_include_missing].to_s == '1').collect{ |h| h.merge({ filters: [{ id: self.id, value: nil }]}) }
+    else
+      []
+    end
+    @report_strata += [{ filters: [{ id: self.id, value: nil }], name: '', value: nil }] if include_missing
+    @report_strata.collect{|s| s.merge({ calculator: self, variable_id: self.id, filters: [] })}
+  end
+
 end

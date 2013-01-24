@@ -1,0 +1,6 @@
+$("#report").html("<%= escape_javascript(render("reports/report")) %>");
+
+loadPeity();
+
+$(".tooltip").remove();
+$("[rel~=tooltip]").tooltip({ trigger: 'hover' });

@@ -1,6 +1,9 @@
 class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
+  # Concerns
+  include Buildable
+
   def report_print
     @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
@@ -22,6 +25,26 @@ class DesignsController < ApplicationController
       end
     else
       render nothing: true
+    end
+  end
+
+  def reporter
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
+    @design = current_user.all_viewable_designs.find_by_id(params[:id])
+
+    setup_report_new
+
+    respond_to do |format|
+      if @project and @design
+        format.html # report.html.erb
+        format.js { render 'reporter' }
+      elsif @project
+        format.html { redirect_to project_designs_path(@project) }
+        format.js { render nothing: true }
+      else
+        format.html { redirect_to root_path }
+        format.js { render nothing: true }
+      end
     end
   end
 
