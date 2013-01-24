@@ -422,13 +422,23 @@ class Sheet < ActiveRecord::Base
     ['array_mean', 'array_standard_deviation'].include?(calculation) && number != 0 ? "%0.02f" % number : number
   end
 
-  def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters)
+  def self.filter_sheet_scope(sheet_scope, filters)
     (filters || []).each do |filter|
       sheet_scope = sheet_scope.with_stratum(filter[:variable_id], filter[:value])
     end
+    sheet_scope
+  end
 
+  def self.array_responses_with_filters(sheet_scope, variable, filters)
+    sheet_scope = filter_sheet_scope(sheet_scope, filters)
+    array_responses(sheet_scope, variable)
+  end
+
+  def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters)
+    sheet_scope = filter_sheet_scope(sheet_scope, filters)
     calculator ? self.array_calculation(sheet_scope, calculator, calculation) : sheet_scope.count
   end
+
 
   protected
 

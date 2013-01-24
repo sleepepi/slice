@@ -43,8 +43,8 @@
   <tfoot>
     <tr style="font-weight:bold">
 
-      <td></td>
-      <% @table_footer.each do |footer| %>
+      <td><span data-object="sparkline" data-type="<%= @table_footer[:chart_type] %>" data-values="<%= @table_footer[:values].to_json %>" style="display:none"><%= @table_footer[:values].join(',') %></span></td>
+      <% @table_footer[:cells].each do |footer| %>
         <% if footer[:colspan].blank? %>
           <% count = footer[:count] %>
           <td>
@@ -65,10 +65,10 @@
   </tfoot>
 
   <tbody>
-    <% @table_body.each do |body_row| %>
+    <% @table_body.each do |row| %>
       <tr>
-        <td></td>
-        <% body_row.each do |hash| %>
+        <td><span data-object="sparkline" data-type="<%= row[:chart_type] %>" data-values="<%= row[:values].to_json %>" style="display:none"><%= row[:values].join(',') %></span></td>
+        <% row[:cells].each do |hash| %>
           <% count = hash[:count] %>
           <td>
             <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless count == 0 %>" data-placement="left">

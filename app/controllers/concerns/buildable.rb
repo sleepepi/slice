@@ -255,18 +255,33 @@ module Buildable
   end
 
   def build_table_footer
-    @table_footer = []
-    @table_footer = [{ name: 'Total', colspan: @row_variables.size }] if @row_variables.size > 0
-    @table_footer += build_row
+    table_row = []
+    table_row = [{ name: 'Total', colspan: @row_variables.size }] if @row_variables.size > 0
+    table_row += build_row
+
+    calculator = @column_variables.first
+    (values, chart_type) = if calculator.has_statistics?
+      [Sheet.array_responses_with_filters(@sheets, calculator, []), 'box']
+    else
+      [table_row.collect{|cell| cell[:count]}.compact, 'line']
+    end
+
+    @table_footer = { cells: table_row, values: values, chart_type: chart_type }
   end
 
   def build_table_body
+    calculator = @column_variables.first
     @table_body = []
     @row_filters.each do |filters|
       table_row = []
       table_row += filters.collect{ |f| { name: f[:name] } }
       table_row += build_row(filters)
-      @table_body << table_row
+      (values, chart_type) = if calculator.has_statistics?
+        [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
+      else
+        [table_row.collect{|cell| cell[:count]}.compact, 'line']
+      end
+      @table_body << { cells: table_row, values: values, chart_type: chart_type }
     end
     @table_body
   end
@@ -277,8 +292,8 @@ module Buildable
     @table_header.each do |header|
       if header.kind_of?(Hash)
         cell = header.dup
-        cell[:filters] = (header[:filters] || []) + filters
-        cell[:name] = Sheet.array_calculation_with_filters(@sheets, header[:calculator], header[:calculation], cell[:filters])
+        cell[:filters] = (cell[:filters] || []) + filters
+        cell[:name] = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters])
         cell[:count] = cell[:name]
         # cell[:debug] = '1'
         table_row << cell
