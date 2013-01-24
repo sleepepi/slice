@@ -21,6 +21,7 @@
   * Subject index now contains filters for valid, pending, and test statuses
   * Project and Site invites can now be resent
   * New experimental Report Builder added for more flexible reports
+  * Acceptable Use Policy added
 
 * Bug Fix
   * Toggleable filter buttons on the variable index now work correctly

@@ -120,6 +120,7 @@ Slice::Application.routes.draw do
   resources :users
 
   match "/about" => "application#about", as: :about
+  match "/about/use" => "application#acceptable_use_policy", as: :acceptable_use_policy
   match "/settings" => "users#settings", as: :settings
 
   root to: 'projects#splash'
