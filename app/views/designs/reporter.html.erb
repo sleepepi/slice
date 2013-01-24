@@ -21,7 +21,7 @@
       <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string']) %>
       <%= select_tag :variable_id, options_for_select([['Site', nil]]) + grouped_options_for_select(row_variable_groups, params[:variable_id]), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium chzn-select' %>
       <span id="row-include-blank" style="white-space:nowrap; <%= 'display:none' unless @variable %>">
-        <%= check_box_tag :include_missing, '1', params[:include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :include_missing %>
+        <%= check_box_tag :row_include_missing, '1', params[:row_include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :row_include_missing %>
       </span>
       <%= text_field_tag :row_variable_ids, params[:row_variable_ids].kind_of?(Array) ? params[:row_variable_ids].join(',') : params[:row_variable_ids] %>
 

@@ -254,11 +254,11 @@ class Sheet < ActiveRecord::Base
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
   def self.with_stratum(stratum_id, stratum_value)
-    if stratum_id == nil
+    if stratum_id == 'site' or stratum_id == nil
       self.with_site(stratum_value)
-    elsif stratum_id != nil and not stratum_value.blank?
+    elsif stratum_id != nil and not stratum_value.blank? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       self.with_variable_response(stratum_id, stratum_value)
-    else
+    else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
       self.without_variable_response(stratum_id)
     end
   end

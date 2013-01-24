@@ -1,7 +1,7 @@
 <% if true %>
   <%#= @table_header.inspect %><br />
   <b>Sheet Count:</b> <%= @sheets.count %>
-  <b>Row Vars:</b> <%= @row_variables.collect{|v| [v.name, v.id]} %>
+  <b>Row Vars:</b> <%= @row_variables.collect{|hash| [hash[:variable].name, hash[:variable].id]} %>
   <b>Col Vars:</b> <%= @column_variables.collect{|v| [v.name, v.id]} %>
 
   <%#= @row_filters.collect{|filters| filters.collect{|f| [f[:name], f[:value]]} }.inspect %>
