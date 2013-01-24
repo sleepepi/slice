@@ -426,12 +426,12 @@ class Variable < ActiveRecord::Base
         { filters: [], name: 'Min',    calculation: 'array_min'                              },
         { filters: [], name: 'Max',    calculation: 'array_max'                              }]
     elsif ['dropdown', 'radio', 'string'].include?(self.variable_type)
-      options_or_autocomplete(params[:column_include_missing].to_s == '1').collect{ |h| h.merge({ filters: [{ id: self.id, value: nil }]}) }
+      options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }
     else
       []
     end
-    @report_strata += [{ filters: [{ id: self.id, value: nil }], name: '', value: nil }] if include_missing
-    @report_strata.collect{|s| s.merge({ calculator: self, variable_id: self.id, filters: [] })}
+    @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing
+    @report_strata.collect{|s| s.merge({ calculator: self, variable_id: self.id })}
   end
 
 end

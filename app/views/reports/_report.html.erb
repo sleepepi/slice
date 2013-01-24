@@ -1,8 +1,22 @@
 <% if true %>
   <%#= @table_header.inspect %><br />
   <b>Sheet Count:</b> <%= @sheets.count %>
-  <p>Row Vars: <%= @row_variables.collect{|v| [v.name, v.id]} %></p>
-  <p>Col Vars: <%= @column_variables.collect{|v| [v.name, v.id]} %></p>
+  <b>Row Vars:</b> <%= @row_variables.collect{|v| [v.name, v.id]} %>
+  <b>Col Vars:</b> <%= @column_variables.collect{|v| [v.name, v.id]} %>
+
+  <%#= @row_filters.collect{|filters| filters.collect{|f| [f[:name], f[:value]]} }.inspect %>
+  <% if false %><br /><b>Table Header:</b><%= @table_header.inspect %><% end %>
+
+  <% if false %>
+  <p>
+    Row Filters:
+    <div>
+      <% @row_filters.each do |filters| %>
+        <%= filters.collect{|f| [f[:name], f[:value]]} %><br />
+      <% end %>
+    </div>
+  </p>
+  <% end %>
 <% end %>
 
 <h3 style="text-align:center;margin:0px"><%= @report_title %></h3>
@@ -65,8 +79,19 @@
           <% count = hash[:count] %>
           <td>
             <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless count == 0 %>" data-placement="left">
-              <span class="rounded-borders">
-                <%= hash[:name] %>
+              <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>">
+                <% if hash[:debug].blank? %>
+                  <% if count == 0 %>
+                    -
+                  <% else %>
+                    <%= hash[:name].blank? ? 'Unknown' : hash[:name] %>
+                  <% end %>
+                <% else %>
+                  <%= hash[:calculator].name if hash[:calculator] %>
+                  <%= hash[:calculation] %>
+                  <%= hash[:filters].collect{|f| f[:value]} %>
+                  <%= hash[:name].blank? ? 'Unknown' : hash[:name] unless count == 0 %>
+                <% end %>
               </span>
             </span>
           </td>

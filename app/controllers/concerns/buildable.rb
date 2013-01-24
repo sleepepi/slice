@@ -63,14 +63,19 @@ module Buildable
 
   def setup_report_new
 
-    params[:row_variable_ids] = ['1113']
-    params[:column_variable_ids] = ['1114']
+    params[:column_variable_ids] = params[:column_variable_id].to_s.split(',')[0]
+    params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',')[0..2] unless params[:row_variable_ids].kind_of?(Array)
+
 
     set_sheet_scope
 
     if @design
-      @row_variables = @design.pure_variables.where(id: params[:row_variable_ids])
-      @column_variables = @design.pure_variables.where(id: params[:column_variable_ids])
+      @row_variables = @design.pure_variables.where(id: params[:row_variable_ids]).sort{ |a, b| params[:row_variable_ids].index(a.id.to_s) <=> params[:row_variable_ids].index(b.id.to_s) }
+      @column_variables = @design.pure_variables.where(id: params[:column_variable_ids]).sort{ |a, b| params[:column_variable_ids].index(a.id.to_s) <=> params[:column_variable_ids].index(b.id.to_s) }
+
+      build_row_filters
+
+
 
       build_table_header
       build_table_footer
@@ -211,43 +216,59 @@ module Buildable
     @sheets = sheet_scope
   end
 
-  def build_table_header
-    @table_header = []
-    @table_header += @row_variables.pluck(:display_name)
+  def build_row_filters
+    @row_filters = []
+    @row_variables.each do |v|
+      strata = v.report_strata(true)
+      unless strata.blank?
+        if @row_filters.blank?
+          @row_filters = strata.collect{|i| [i]}
+        else
+          @row_filters = @row_filters.product(strata).collect{ |i| i.flatten }
+        end
+      end
+    end
+  end
 
+  def build_table_header
+    @table_header = @row_variables.collect(&:display_name)
     @column_variables.each do |v|
       @table_header += v.report_strata(true)
     end
-
     @table_header << { name: 'Total', calculation: 'array_count' }
-    @table_header
   end
 
   def build_table_footer
-    @table_footer = []
-
     @table_footer = [{ name: 'Total', colspan: @row_variables.size }]
-
-    @table_header.each do |header|
-      if header.kind_of?(Hash)
-        footer = header.dup
-        footer[:name] = Sheet.array_calculation_with_filters(@sheets, header[:calculator], header[:calculation], header[:filters])
-        footer[:count] = Sheet.array_calculation_with_filters(@sheets, header[:calculator], header[:calculation], header[:filters])
-        @table_footer << footer
-      end
-    end
-
-    @table_footer
+    @table_footer += build_row
   end
 
   def build_table_body
-    @table_body = []  # [
-                      #   [{name:... count: ...}, {}, {}]
-                      # ]
-
-    @row_variables.each do |row_variable|
-
+    @table_body = []
+    @row_filters.each do |filters|
+      table_row = []
+      table_row += filters.collect{ |f| { name: f[:name] } }
+      table_row += build_row(filters)
+      @table_body << table_row
     end
+    @table_body
+  end
+
+  def build_row(filters = [])
+    table_row = []
+
+    @table_header.each do |header|
+      if header.kind_of?(Hash)
+        cell = header.dup
+        cell[:filters] = (header[:filters] || []) + filters
+        cell[:name] = Sheet.array_calculation_with_filters(@sheets, header[:calculator], header[:calculation], cell[:filters])
+        cell[:count] = cell[:name] # Sheet.array_calculation_with_filters(@sheets, header[:calculator], header[:calculation], cell[:filters])
+        # cell[:debug] = '1'
+        table_row << cell
+      end
+    end
+
+    table_row
   end
 
 end

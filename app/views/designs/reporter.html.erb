@@ -23,6 +23,8 @@
       <span id="row-include-blank" style="white-space:nowrap; <%= 'display:none' unless @variable %>">
         <%= check_box_tag :include_missing, '1', params[:include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :include_missing %>
       </span>
+      <%= text_field_tag :row_variable_ids, params[:row_variable_ids].kind_of?(Array) ? params[:row_variable_ids].join(',') : params[:row_variable_ids] %>
+
     </div>
     <div class="span4">
       Column

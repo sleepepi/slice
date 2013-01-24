@@ -409,7 +409,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_responses(sheet_scope, variable)
-    responses = SheetVariable.where(sheet_id: sheet_scope.pluck("sheets.id"), variable_id: variable.id).pluck(:response)
+    responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck("sheets.id"), variable_id: variable.id).pluck(:response) : [])
     # Convert to integer or float
     variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
   end
@@ -424,7 +424,7 @@ class Sheet < ActiveRecord::Base
 
   def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters)
     (filters || []).each do |filter|
-      sheet_scope = sheet_scope.with_stratum(filter[:id], filter[:value])
+      sheet_scope = sheet_scope.with_stratum(filter[:variable_id], filter[:value])
     end
 
     calculator ? self.array_calculation(sheet_scope, calculator, calculation) : sheet_scope.count
