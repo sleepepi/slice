@@ -40,3 +40,7 @@
     </ul>
   </dd>
 </dl>
+
+<% @subjects = Subject.current.where(id: @subject.id) %>
+<% @designs = @project.designs %>
+<%= render partial: 'projects/subject_report' %>
