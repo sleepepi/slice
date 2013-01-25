@@ -162,47 +162,20 @@ class SheetsController < ApplicationController
 
       @sheet_count = sheet_scope.count
 
-      if params[:format] == 'labeled_csv'
-        if @sheet_count == 0
-          redirect_to project_sheets_path(@project), alert: 'No data was exported since no sheets matched the specified filters.'
-          return
-        end
-        generate_csv(sheet_scope, false)
-        return
-      elsif params[:format] == 'raw_csv'
-        if @sheet_count == 0
-          redirect_to project_sheets_path(@project), alert: 'No data was exported since no sheets matched the specified filters.'
-          return
-        end
-        generate_csv(sheet_scope, true)
-        return
-      end
-
-      if params[:format] == 'pdf'
-        file_pdf_location = Sheet.latex_file_location(sheet_scope, current_user)
-
-        if File.exists?(file_pdf_location)
-          File.open(file_pdf_location, 'r') do |file|
-            send_file file, filename: "sheets_#{Time.now.strftime("%Y%m%d_%H%M%S")}.pdf", type: "application/pdf", disposition: "inline"
-          end
-        else
-          render text: "PDF did not render in time. Please refresh the page."
-        end
-
-        return
-      end
+      generate_export(sheet_scope, (params[:xls].to_s == '1'), (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1')) if params[:export].to_s == '1'
 
       @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
       @sheet_scope = sheet_scope
     end
+
 
     respond_to do |format|
       if @project
         format.html # index.html.erb
         format.js
         format.json { render json: @sheets }
-        format.xls { generate_xls(sheet_scope) }
-        format.zip { generate_xls(sheet_scope, true) }
+        # format.xls { generate_xls(sheet_scope) }
+        # format.zip { generate_xls(sheet_scope, true) }
       else
         format.html { redirect_to root_path }
         format.json { head :no_content }
@@ -248,12 +221,15 @@ class SheetsController < ApplicationController
       if @project and @sheet
         @sheet.audit_show!(current_user)
         format.html # show.html.erb
+        format.js # show.js.erb
         format.json { render json: @sheet }
       elsif @project
         format.html { redirect_to project_sheets_path(@project), alert: 'You do not have sufficient privileges to view this sheet.' }
+        format.js { render nothing: true }
         format.json { render head :no_content }
       else
         format.html { redirect_to root_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end
@@ -456,124 +432,15 @@ class SheetsController < ApplicationController
 
   private
 
-  def generate_csv(sheet_scope, raw_data)
-    @csv_string = CSV.generate do |csv|
-      variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
-      csv << ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Creator"] + variable_names
-      sheet_scope.each do |sheet|
-        row = [sheet.name,
-                sheet.description,
-                sheet.study_date.blank? ? '' : sheet.study_date.strftime("%m-%d-%Y"),
-                sheet.project.name,
-                sheet.subject.site.name,
-                sheet.subject.name,
-                sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
-                sheet.user.name]
-        variable_names.each do |variable_name|
-          row << if variable = sheet.variables.find_by_name(variable_name)
-            raw_data ? variable.response_raw(sheet) : (variable.variable_type == 'checkbox' ? variable.response_name(sheet).join(',') : variable.response_name(sheet))
-          else
-            ''
-          end
-        end
-        csv << row
-      end
-    end
-    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                          disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")} #{raw_data ? 'raw' : 'labeled' }.csv\""
-  end
+  def generate_export(sheet_scope, xls, csv_labeled, csv_raw, pdf, files, data_dictionary)
+    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets', include_files: files)
 
-  def generate_xls(sheet_scope, include_files = false)
+    rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' XLS=#{xls ? '1' : '0'} CSV_LABELED=#{csv_labeled ? '1' : '0'} CSV_RAW=#{csv_raw ? '1' : '0'} PDF=#{pdf ? '1' : '0'} FILES=#{files ? '1' : '0'} DATA_DICTIONARY=#{data_dictionary ? '1' : '0'} &"
 
-    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets', include_files: include_files)
+    systemu rake_task unless Rails.env.test?
 
-    sheet_ids = sheet_scope.pluck(:id)
-
-    systemu "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_ids.join(',')}' &"
-
-    redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
-
-    # Spreadsheet.client_encoding = 'UTF-8'
-    # book = Spreadsheet::Workbook.new
-
-    # [false, true].each do |raw_data|
-    #   worksheet = book.create_worksheet name: "Sheets - #{raw_data ? 'RAW' : 'Labeled'}"
-    #   variable_names = sheet_scope.collect(&:variables).flatten.uniq.collect{|v| [v.name, 'String']}.uniq
-
-    #   current_row = 0
-
-    #   worksheet.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Creator"] + variable_names.collect{|v| v[0]}
-
-    #   sheet_scope.each do |s|
-    #     current_row += 1
-    #     worksheet.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.user.name
-
-    #     variable_names.each do |name, type|
-    #       value = if variable = s.variables.find_by_name(name)
-    #         raw_data ? variable.response_raw(s) : (variable.variable_type == 'checkbox' ? variable.response_name(s).join(',') : variable.response_name(s))
-    #       else
-    #         ''
-    #       end
-    #       worksheet.row(current_row).push value
-    #     end
-    #   end
-
-
-    #   current_row = 0
-
-    #   worksheetgrid = book.create_worksheet name: "Grids - #{raw_data ? 'RAW' : 'Labeled'}"
-
-    #   variable_ids = SheetVariable.where(sheet_id: sheet_scope.pluck(:id)).collect(&:variable_id)
-    #   grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
-    #   @grids = sheet_scope.collect(&:sheet_variables).flatten.collect(&:grids).flatten.compact.uniq
-
-    #   worksheetgrid.row(current_row).replace ["", "", "", "", "", "", "", ""]
-
-    #   grid_group_variables.each do |variable|
-    #     variable.grid_variables.each do |grid_variable_hash|
-    #       grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-    #       worksheetgrid.row(current_row).push variable.name if grid_variable
-    #     end
-    #   end
-
-    #   current_row += 1
-    #   worksheetgrid.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Creator"]
-
-    #   grid_group_variables.each do |variable|
-    #     variable.grid_variables.each do |grid_variable_hash|
-    #       grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-    #       worksheetgrid.row(current_row).push grid_variable.name if grid_variable
-    #     end
-    #   end
-
-    #   sheet_scope.each do |s|
-    #     (0..s.max_grids_position).each do |position|
-    #       current_row += 1
-    #       worksheetgrid.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.user.name
-
-    #       grid_group_variables.each do |variable|
-    #         variable.grid_variables.each do |grid_variable_hash|
-    #           sheet_variable = s.sheet_variables.find_by_variable_id(variable.id)
-    #           result_hash = (sheet_variable ? sheet_variable.response_hash(position, grid_variable_hash[:variable_id]) : {})
-    #           cell = if raw_data
-    #             result_hash.kind_of?(Array) ? result_hash.collect{|h| h[:value]}.join(',') : result_hash[:value]
-    #           else
-    #             result_hash.kind_of?(Array) ? result_hash.collect{|h| "#{h[:value]}: #{h[:name]}"}.join(', ') : result_hash[:name]
-    #           end
-    #           worksheetgrid.row(current_row).push cell
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
-
-    # buffer = StringIO.new
-    # book.write(buffer)
-    # buffer.rewind
-
-
-    # send_data buffer.read, type: 'application/vnd.ms-excel; charset=iso-8859-1; header=present',
-    #                        disposition: "attachment; filename=\"Sheets #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.xls\""
+    # flash[:notice] = 'You will be emailed when the export is ready for download.'
+    # redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
   end
 
   def post_params

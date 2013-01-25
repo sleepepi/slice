@@ -1,6 +1,9 @@
 class DesignsController < ApplicationController
   before_filter :authenticate_user!
 
+  # Concerns
+  include Buildable
+
   def report_print
     @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
     @design = current_user.all_viewable_designs.find_by_id(params[:id])
@@ -22,6 +25,26 @@ class DesignsController < ApplicationController
       end
     else
       render nothing: true
+    end
+  end
+
+  def reporter
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
+    @design = current_user.all_viewable_designs.find_by_id(params[:id])
+
+    setup_report_new
+
+    respond_to do |format|
+      if @project and @design
+        format.html # report.html.erb
+        format.js { render 'reporter' }
+      elsif @project
+        format.html { redirect_to project_designs_path(@project) }
+        format.js { render nothing: true }
+      else
+        format.html { redirect_to root_path }
+        format.js { render nothing: true }
+      end
     end
   end
 
@@ -433,11 +456,16 @@ class DesignsController < ApplicationController
 
       strata.each do |stratum|
         row = []
-        row_counts = ranges.collect{|hash| hash[:scope].with_stratum(variable, stratum[:value]).count }
         link_name = ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name]
         row << (stratum[:name].blank? ? 'Unknown' : link_name)
         ranges.each do |hash|
-          row << hash[:scope].with_stratum(variable, stratum[:value]).count
+          count = if column_variable and column_variable.has_statistics?
+            Sheet.array_calculation(hash[:scope].with_stratum(variable, stratum[:value]), column_variable, hash[:calculation])
+          else
+            hash[:scope].with_stratum(variable, stratum[:value]).count
+          end
+
+          row << count
         end
         row << sheets.with_stratum(variable, stratum[:value]).count
         csv << row
@@ -493,7 +521,7 @@ class DesignsController < ApplicationController
       @column_variable = @design.pure_variables.find_by_id(params[:column_variable_id])
 
       sheet_scope = current_user.all_viewable_sheets.with_design(@design.id).scoped()
-      # sheet_scope = @design.sheets.scoped()
+
       sheet_scope = sheet_scope.last_entry if @filter == 'last'
       sheet_scope = sheet_scope.first_entry if @filter == 'first'
 
@@ -513,7 +541,31 @@ class DesignsController < ApplicationController
         column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
         column_strata.each do |stratum|
           scope = sheet_scope.with_stratum(@column_variable, stratum[:value])
-          @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value] }
+          @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value], calculation: 'array_count' }
+        end
+      elsif @column_variable and @column_variable.has_statistics?
+        column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }]
+        column_strata = column_strata + [{ name: 'N', calculation: 'array_count' }, { name: '', value: nil }] if params[:column_include_missing].to_s == '1'
+
+        column_strata.each do |stratum|
+          scope = if stratum[:calculation].blank?
+            sheet_scope.with_response_unknown_or_missing(@column_variable)
+          else
+            sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
+          end
+
+          count = Sheet.array_calculation(scope, @column_variable, stratum[:calculation])
+
+          @ranges <<  {
+                        name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]),
+                        tooltip: stratum[:name],
+                        start_date: '', end_date: '',
+                        scope: scope,
+                        count: count,
+                        value: stratum[:value],
+                        calculation: stratum[:calculation],
+                        symbol: stratum[:symbol]
+                      }
         end
       else # Default columns over Study Date
         if @column_variable and @column_variable.variable_type == 'date'

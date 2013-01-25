@@ -413,4 +413,31 @@ class Variable < ActiveRecord::Base
     self.calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
   end
 
+  def has_statistics?
+    ['integer', 'numeric', 'calculated'].include?(self.variable_type)
+  end
+
+  def report_strata(include_missing)
+    @report_strata = if self.has_statistics?
+      [ { filters: [], name: 'N',      calculation: 'array_count'                            },
+        { filters: [], name: 'Mean',   calculation: 'array_mean'                             },
+        { filters: [], name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
+        { filters: [], name: 'Median', calculation: 'array_median'                           },
+        { filters: [], name: 'Min',    calculation: 'array_min'                              },
+        { filters: [], name: 'Max',    calculation: 'array_max'                              }]
+    elsif ['dropdown', 'radio', 'string'].include?(self.variable_type)
+      options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }
+    elsif self.variable_type == 'site' and self.project
+      self.project.sites.collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
+    else
+      []
+    end
+    @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing and not ['site'].include?(self.variable_type)
+    @report_strata.collect{|s| s.merge({ calculator: self, variable_id: self.id })}
+  end
+
+  def self.site(project_id)
+    self.new( project_id: project_id, name: 'site', display_name: 'Site', variable_type: 'site' )
+  end
+
 end

@@ -1,5 +1,7 @@
 Slice::Application.routes.draw do
 
+  mount MailPreview => 'mail_view' if Rails.env.development?
+
   resources :exports do
     member do
       post :mark_unread
@@ -12,6 +14,7 @@ Slice::Application.routes.draw do
       get :report
       post :report
       get :subject_report
+      get :settings
     end
 
     collection do
@@ -21,6 +24,7 @@ Slice::Application.routes.draw do
     resources :contacts
     resources :documents
     resources :posts
+    resources :links
 
     resources :sheets do
       collection do
@@ -45,6 +49,8 @@ Slice::Application.routes.draw do
         post :reorder
         get :report
         post :report
+        get :reporter
+        post :reporter
         get :report_print
       end
       collection do
@@ -70,6 +76,9 @@ Slice::Application.routes.draw do
     end
 
     resources :site_users do
+      member do
+        post :resend
+      end
       collection do
         get :accept
       end
@@ -95,6 +104,9 @@ Slice::Application.routes.draw do
   resources :sheet_emails
 
   resources :project_users do
+    member do
+      post :resend
+    end
     collection do
       get :accept
     end
@@ -108,6 +120,7 @@ Slice::Application.routes.draw do
   resources :users
 
   match "/about" => "application#about", as: :about
+  match "/about/use" => "application#use", as: :about_use
   match "/settings" => "users#settings", as: :settings
 
   root to: 'projects#splash'

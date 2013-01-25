@@ -15,11 +15,14 @@
 \usepackage{indentfirst}
 \usepackage{tabularx}
 
-\usepackage{hyperref}
+% \usepackage{hyperref}
 \usepackage{pifont}
 
 \usepackage{needspace}
 \usepackage{color}
+
+\usepackage{ulem}
+
 
 \fancyhf{}
 
@@ -103,22 +106,28 @@
 <% end %>
 
 <% if @variable.variable_type == 'date' %>
- \underline{~~~~/~~~~/~~~~~~~~} \textcolor[gray]{0.5}{MM / DD / YYYY}
+ \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~} \\
+ \indent\textcolor[gray]{0.5}{MM / DD / YYYY}
 
 <% elsif ['checkbox'].include?(@variable.variable_type) or (@variable.variable_type == 'scale' and @variable.scale_type == 'checkbox') %>
 
-<% @variable.options_without_missing.each do |option| %>\CheckBox[name=<%= latex_safe "opt#{option[:value]}" %>]{<%= latex_safe option[:value] %>: <%= latex_safe option[:name] %>}~~~<% end %>
+  <% @variable.options_without_missing.each do |option| %>\ding{111} <%= latex_safe option[:name] %><% if @variable.alignment == 'horizontal' %>~~~~<% else %>\\\indent<% end %><% end %>
 
 <% elsif ['radio','dropdown'].include?(@variable.variable_type) or (@variable.variable_type == 'scale' and @variable.scale_type == 'radio') %>
 
-\begin{Form}
-<% @variable.options_without_missing.each do |option| %>\ChoiceMenu[radio,radiosymbol=\ding{108},name=<%= latex_safe "variable#{@variable.id}" %>]{}{<%= latex_safe option[:value] %>: <%= latex_safe option[:name] %>=<%= latex_safe option[:value] %>}<% end %>
-\end{Form}
+  <% @variable.options_without_missing.each do |option| %>\ding{109} <%= latex_safe option[:name] %><% if @variable.alignment == 'horizontal' %>~~~~<% else %>\\\indent<% end %><% end %>
 
 <% elsif @variable.variable_type == 'file' and @variable.response_file(@sheet).size > 0 %>
   \textcolor[gray]{0.5}{File Upload}
+<% elsif @variable.variable_type == 'text' %>
+
+\line(1,0){400}\\
+\indent\line(1,0){400}\\
+\indent\line(1,0){400}\\
+\indent\line(1,0){400}
+
 <% else %>
-  ~~~~~~~~~~~~~~~~~~~ <%= latex_safe @variable.units unless @variable.units.blank? %>
+  \dotuline{~~~~~~~~~~~~~~~~~~~~~~~~} <%= latex_safe @variable.units unless @variable.units.blank? %>
 <% end %>
 
     <% end %>

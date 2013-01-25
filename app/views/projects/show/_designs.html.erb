@@ -1,0 +1,13 @@
+<hr class="soften" style="margin-top:20px">
+<% if @project.designs.size == 0 %>
+  <ul><li class="muted">No Links</li></ul>
+<% else %>
+  <ul>
+  <% @project.designs.limit(10).order('updated_at').each do |design| %>
+    <li style="line-height:25px" data-object="hover-show" data-target="#design_<%= design.id %>_edit_link">
+      <%= link_to design.name, [design.project, design] %>
+      <%= link_to 'edit', edit_project_design_path(design.project, design), class: 'btn btn-mini', id: "design_#{design.id}_edit_link", style: 'display:none' %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

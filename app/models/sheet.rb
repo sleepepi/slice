@@ -254,11 +254,11 @@ class Sheet < ActiveRecord::Base
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
   def self.with_stratum(stratum_id, stratum_value)
-    if stratum_id == nil
+    if stratum_id == 'site' or stratum_id == nil
       self.with_site(stratum_value)
-    elsif stratum_id != nil and not stratum_value.blank?
+    elsif stratum_id != nil and not stratum_value.blank? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       self.with_variable_response(stratum_id, stratum_value)
-    else
+    else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
       self.without_variable_response(stratum_id)
     end
   end
@@ -300,7 +300,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def expanded_branching_logic(branching_logic)
-    branching_logic.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
+    branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
   end
 
   def variable_javascript_value(variable_name)
@@ -316,21 +316,45 @@ class Sheet < ActiveRecord::Base
   # the corresponding action should also apply when printing out the variable
   # in a PDF document. Since PDF documents don't run JavaScript, the solution
   # presented uses a JavaScript evaluator to evaluate the branching logic.
+
+  def exec_js_context
+    @exec_js_context ||= begin
+      # Compiled CoffeeScript from designs.js.coffee
+      index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
+      intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
+      overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
+      ExecJS.compile(index_of + intersection_function + overlap_function)
+    end
+  end
+
   def show_variable?(branching_logic)
     return true if branching_logic.to_s.strip.blank?
 
-    # Compiled CoffeeScript from designs.js.coffee
-    index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
-    intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
-    overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
-
     begin
-      context = ExecJS.compile(index_of + intersection_function + overlap_function)
-      context.eval expanded_branching_logic(branching_logic)
+      exec_js_context.eval expanded_branching_logic(branching_logic)
     rescue => e
       true
     end
   end
+
+  # def show_variable?(branching_logic)
+  #   return true if branching_logic.to_s.strip.blank?
+
+  #   # Compiled CoffeeScript from designs.js.coffee
+  #   index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
+  #   intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
+  #   overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
+
+  #   begin
+  #     context = ExecJS.compile(index_of + intersection_function + overlap_function)
+  #     context.eval expanded_branching_logic(branching_logic)
+  #   rescue => e
+  #     true
+  #   end
+  # end
+
+
+
 
   def grids
     Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).pluck(:id))
@@ -348,6 +372,81 @@ class Sheet < ActiveRecord::Base
     end
     all_files
   end
+
+  def self.array_mean(array)
+    return 0 if array.size == 0
+    array.inject(:+).to_f / array.size
+  end
+
+  def self.array_sample_variance(array)
+    m = self.array_mean(array)
+    sum = array.inject(0){|accum, i| accum +(i-m)**2 }
+    sum / (array.length - 1).to_f
+  end
+
+  def self.array_standard_deviation(array)
+    return 0 if array.size < 2
+    return Math.sqrt(self.array_sample_variance(array))
+  end
+
+  def self.array_median(array)
+    return 0 if array.size == 0
+    array = array.sort!
+    len = array.size
+    len % 2 == 1 ? array[len/2] : (array[len/2 - 1] + array[len/2]).to_f / 2
+  end
+
+  def self.array_max(array)
+    array.max || 0
+  end
+
+  def self.array_min(array)
+    array.min || 0
+  end
+
+  def self.array_count(array)
+    array.size
+  end
+
+  def self.array_responses(sheet_scope, variable)
+    responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck("sheets.id"), variable_id: variable.id).pluck(:response) : [])
+    # Convert to integer or float
+    variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
+  end
+
+  # Computes calculation for a scope of sheet responses
+  # Ex: Sheet.array_calculation(Sheet.all, Variable.where(name: 'age'), 'array_mean')
+  #     Would return the average of all ages on all sheets that contained age (as a sheet_variable, not as a grid or grid_response)
+  def self.array_calculation(sheet_scope, variable, calculation)
+    number = self.send((calculation.blank? ? 'array_count' : calculation), self.array_responses(sheet_scope, variable))
+    ['array_mean', 'array_standard_deviation'].include?(calculation) && number != 0 ? "%0.02f" % number : number
+  end
+
+  def self.filter_sheet_scope(sheet_scope, filters)
+    (filters || []).each do |filter|
+      sheet_scope = sheet_scope.with_stratum(filter[:variable_id], filter[:value])
+    end
+    sheet_scope
+  end
+
+  def self.array_responses_with_filters(sheet_scope, variable, filters)
+    sheet_scope = filter_sheet_scope(sheet_scope, filters)
+    array_responses(sheet_scope, variable)
+  end
+
+  def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters)
+    if calculator and calculator.has_statistics? and calculation.blank?
+      # Filtering against "Unknown BMI for example, include only missing codes and unknown"
+      sheet_scope = sheet_scope.with_response_unknown_or_missing(calculator)
+    elsif calculator and calculator.has_statistics?
+      # Filtering against "BMI for example, only include known responses"
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(calculator)
+    end
+
+    sheet_scope = filter_sheet_scope(sheet_scope, filters)
+    calculator ? self.array_calculation(sheet_scope, calculator, calculation) : sheet_scope.count
+  end
+
 
   protected
 

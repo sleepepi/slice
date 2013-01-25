@@ -4,7 +4,11 @@
       <% if site_user.user %>
         <%= link_to site_user.user.name, site_user.user %>
       <% else %>
-        <span class='muted'><%= site_user.invite_email %> <%= text_field_tag "site_user_#{site_user.id}_invite", "#{SITE_URL}/project/#{site_user.project.id}/site_users/accept?invite_token=#{site_user.invite_token}" if current_user == site_user.creator %></span>
+        <span class='muted'>
+          <%= site_user.invite_email %>
+          <%= text_field_tag "site_user_#{site_user.id}_invite", "#{SITE_URL}/project/#{site_user.project.id}/site_users/accept?invite_token=#{site_user.invite_token}" if current_user == site_user.creator %>
+          <%= link_to 'Resend Invitation', resend_project_site_user_path(site_user.project, site_user), method: :post, remote: true, class: 'btn btn-primary btn-mini', autocomplete: "off", data: { loading_text: "Resent" } %>
+        </span>
       <% end %>
       <span id="site_user_<%= site_user.id %>_delete" style="display:none">
         <span class="muted">invited by <%= link_to site_user.creator.name, site_user.creator %></span>

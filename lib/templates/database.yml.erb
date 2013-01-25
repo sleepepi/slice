@@ -1,16 +1,11 @@
-# MySQL.  Versions 4.1 and 5.0 are recommended.
-#
-# Install the MySQL driver:
-#   gem install mysql2
-#
-# And be sure to use new-style password hashing:
-#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+# PostgreSQL. Versions 8.2 and up are supported.
+
 development:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: slice_development
+  adapter: postgresql
+  encoding: unicode
   pool: 5
+  timeout: 5000
+  database: slice_development
   username: <%= print "Enter Database Username: "; u = gets.chomp(); u %>
   <%= print "Enter Database Password: "; p = gets.chomp(); if p == '' then p = '# password:' else p = "password: #{p}" end; p %>
   <%= print "Enter Database Socket: "; s = gets.chomp(); if s == '' then s = '# socket:' else s = "socket: #{s}" end; s %>
@@ -20,9 +15,10 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
   database: slice_test
   pool: 5
   username: <%= u %>
@@ -31,9 +27,10 @@ test:
   <%= h %>
 
 production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
   database: slice_production
   pool: 5
   username: <%= u %>

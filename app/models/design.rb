@@ -41,8 +41,7 @@ class Design < ActiveRecord::Base
         email = email.gsub("<#{match[1]}>", "").strip
       end
       subject = site.subjects.find_by_email(short_email) unless short_email.blank?
-      subject = site.subjects.find_or_create_by_project_id_and_subject_code(site.project_id, email, { user_id: current_user.id, status: 'valid', email: short_email }) unless subject
-      Rails.logger.debug "#{site.project_id}, #{date}, #{subject.id}, #{self.id}, #{current_user.id}"
+      subject = site.subjects.find_or_create_by_project_id_and_subject_code(site.project_id, email, { user_id: current_user.id, status: 'valid', email: short_email, acrostic: '' }) unless subject
       sheet = site.project.sheets.find_or_create_by_study_date_and_subject_id_and_design_id(date, subject.id, self.id, { user_id: current_user.id, last_user_id: current_user.id }) if subject
       sheet.send_external_email!(current_user, short_email) if sheet and not sheet.new_record?
       if sheet and not sheet.new_record?
@@ -105,6 +104,19 @@ class Design < ActiveRecord::Base
       options_subset << option if current_page == page_number
     end
     options_subset
+  end
+
+  def options_with_grid_sub_variables
+    new_options = []
+    self.options.each do |option|
+      new_options << option
+      if v = Variable.current.where(variable_type: 'grid').find_by_id(option[:variable_id])
+        v.grid_variables.each do |grid_variable|
+          new_options << { variable_id: grid_variable[:variable_id], branching_logic: '' }
+        end
+      end
+    end
+    new_options
   end
 
   def total_pages
@@ -172,7 +184,9 @@ class Design < ActiveRecord::Base
 
   # ActiveRecord...
   def pure_variables
-    Variable.current.where(id: variable_ids)
+    @pure_variables ||= begin
+      Variable.current.where(id: variable_ids)
+    end
   end
 
   # Array...

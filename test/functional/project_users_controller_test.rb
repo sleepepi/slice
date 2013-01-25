@@ -17,6 +17,22 @@ class ProjectUsersControllerTest < ActionController::TestCase
   #   assert_response :success
   # end
 
+  test "should resend project invitation" do
+    post :resend, id: @project_user, format: 'js'
+
+    assert_not_nil assigns(:project_user)
+    assert_not_nil assigns(:project)
+    assert_template 'resend'
+  end
+
+  test "should not resend project invitation with invalid id" do
+    post :resend, id: -1, format: 'js'
+
+    assert_nil assigns(:project_user)
+    assert_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should create project user" do
     assert_difference('ProjectUser.count') do
       post :create, project_user: { project_id: projects(:one).id, librarian: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
@@ -128,7 +144,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  test "should destroy project user with invalid id" do
+  test "should not destroy project user with invalid id" do
     assert_difference('ProjectUser.count', 0) do
       delete :destroy, id: -1, format: 'js'
     end

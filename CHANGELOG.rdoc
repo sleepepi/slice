@@ -1,3 +1,41 @@
+== 0.12.0 (January 25, 2013)
+
+* Breaking Change
+  * Database default updated to use PostgreSQL
+    * Instructions {MIGRATING_TO_POSTGRESQL}[https://github.com/remomueller/slice/blob/master/doc/MIGRATING_TO_POSTGRESQL.md]
+
+* Enhancements
+  * Subject status is now viewable on sheets
+  * Added Subject status to Sheet XLS exports
+  * Design Report columns can now also include integer and numeric variables
+  * Links can now be added to project and can be used to link to custom project reports
+  * Project settings have been moved to a separate page accessible from the project show page
+  * Data exports have been improved
+    * Data in XLS format
+    * Data in CSV Raw or Labeled format
+    * Data in single PDF format
+    * Uploaded data files in a ZIP format
+    * Data dictionary in XLS format
+    * Two or more of the above in one combined ZIP file
+  * Data dictionaries now additionally include variables included via grid variables
+  * Subject index now contains filters for valid, pending, and test statuses
+  * Project and Site invites can now be resent
+  * New experimental Report Builder added for more flexible reports
+  * Acceptable Use Policy added
+
+* Bug Fix
+  * Toggleable filter buttons on the variable index now work correctly
+  * Sheet totals now properly update on the Subject Report
+  * Deleted subject's sheets are no longer visible on the project dashboard
+  * Sheet exports no longer include variables that were removed from a design
+  * Domains are no longer duplicated in data dictionaries when referenced by multiple variables
+  * Checkbox labels should no longer arbitrarily break on white space
+  * Grid rows "Remove" button no longer stays visible after mouseing out of the row, resulting in multiple rows showing a "Remove" button
+  * Fixed a bug rendering design PDFs that contained variables with choices that included commas in the choice description
+
+* Testing
+  * Added mail_view gem for easier email templating
+
 == 0.11.9 (January 14, 2013)
 
 * Bug Fix

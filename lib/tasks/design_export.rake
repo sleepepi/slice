@@ -55,7 +55,7 @@ task design_export: :environment do
       'Display Name Visibility', 'Alignment', 'Default Row Number', 'Scale Type', 'Domain Name'
 
     design_scope.each do |d|
-      d.options.each do |option|
+      d.options_with_grid_sub_variables.each do |option|
         current_row += 1
         row = []
         if option[:variable_id].blank?
@@ -117,29 +117,32 @@ task design_export: :environment do
     worksheet.row(current_row).push 'Variable/Domain Name', 'Description',
       'Option Name', 'Option Value', 'Missing Code?', 'Option Color', 'Option Description'
 
+    objects = []
+
     design_scope.each do |d|
-      d.options.each do |option|
-        row = []
+      d.options_with_grid_sub_variables.each do |option|
         if variable = Variable.current.find_by_id(option[:variable_id])
           if variable.variable_type == 'scale' and variable.domain
-            object = variable.domain
+            objects << variable.domain
           else
-            object = variable
-          end
-          object.options.each do |opt|
-            current_row += 1
-            worksheet.row(current_row).push object.name,
-              object.description,
-              opt[:name],
-              opt[:value],
-              opt[:missing_code],
-              opt[:color],
-              opt[:description]
+            objects << variable
           end
         end
       end
     end
 
+    objects.uniq.each do |object|
+      object.options.each do |opt|
+        current_row += 1
+        worksheet.row(current_row).push object.name,
+          object.description,
+          opt[:name],
+          opt[:value],
+          opt[:missing_code],
+          opt[:color],
+          opt[:description]
+      end
+    end
 
     filename = File.join('tmp', 'files', 'exports', "#{export.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{export.created_at.strftime("%I%M%P")}.xls")
 

@@ -18,8 +18,12 @@
     )
   )
 
-@nonStandardClick = (event) ->
-  event.which > 1 or event.metaKey or event.ctrlKey or event.shiftKey or event.altKey
+@showContourModal = () ->
+  $("#contour-backdrop, .contour-modal-wrapper").show()
+  # $('html, body').animate({ scrollTop: $(".contour-modal-wrapper").offset().top - 40 }, 'fast');
+
+@hideContourModal = () ->
+  $("#contour-backdrop, .contour-modal-wrapper").hide()
 
 jQuery ->
   $(document)
@@ -37,6 +41,17 @@ jQuery ->
     )
     .on('click', '[data-object~="modal-hide"]', () ->
       $($(this).data('target')).modal('hide');
+      false
+    )
+    .on('click', "#contour-backdrop", (e) ->
+      hideContourModal() if e.target.id = "contour-backdrop"
+    )
+    .on('click', '[data-object~="show-contour-modal"]', () ->
+      showContourModal()
+      false
+    )
+    .on('click', '[data-object~="hide-contour-modal"]', () ->
+      hideContourModal()
       false
     )
     .on('click', '[data-object~="submit"]', () ->
@@ -58,6 +73,9 @@ jQuery ->
       false
     )
     .on('mouseenter', '[data-object~="hover-show"]', () ->
+      $('[data-object~="hover-show"]').each( (index, element) ->
+        $($(element).data('target')).hide()
+      )
       $($(this).data('target')).show()
       false
     )
@@ -88,7 +106,7 @@ jQuery ->
     )
 
   # $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
-  $("span[rel~=tooltip]").tooltip( trigger: 'hover' )
+  $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
 
   window.$isDirty = false
   msg = 'You haven\'t saved your changes.'

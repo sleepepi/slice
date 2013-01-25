@@ -9,7 +9,6 @@
     <%= link_to "View Designs", project_designs_path(@project), class: 'btn btn-mini' %>
     <%= link_to "Copy Design", copy_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
     <%= link_to "PDF", print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
-    <%#= link_to "LaTeX", latex_project_design_path(@design.project, @design), target: '_blank', class: 'btn btn-mini' %>
 
     <%= link_to 'Export', project_designs_path(@design.project, design_ids: [@design.id], format: 'xls'), class: 'btn btn-mini' %>
     <%= link_to "Report", report_project_design_path(@design.project, @design), class: 'btn btn-mini' %>

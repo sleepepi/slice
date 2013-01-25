@@ -1,0 +1,43 @@
+<div class="row-fluid">
+  <div class="span4 download-container">
+    <h3>Microsoft Excel</h3>
+    <label class="checkbox"><%= check_box_tag :xls, '1', true %> XLS</label>
+  </div>
+
+  <div class="span4 download-container">
+    <h3>Comma-Separated Values</h3>
+    <label class="checkbox" rel="tooltip" data-html="true"
+          data-title="<table>
+                        <tr><th style='text-align:left;'>Subject&nbsp;</th><th style='text-align:left;'>Gender</th><th style='text-align:left;'>Age</th></tr>
+                        <tr><td style='text-align:left'>T325</td><td style='text-align:left'>1: male</td><td style='text-align:left'>25 years</td></tr>
+                        <tr><td style='text-align:left'>T349</td><td style='text-align:left'>2: female</td><td style='text-align:left'>30 years</td></tr>
+                      </table>"><%= check_box_tag :csv_labeled, '1', false %> CSV Labeled</label>
+    <label class="checkbox" rel="tooltip" data-html="true"
+          data-title="<table>
+                        <tr><th style='text-align:left;'>Subject&nbsp;</th><th style='text-align:left;'>Gender</th><th style='text-align:left;'>Age</th></tr>
+                        <tr><td style='text-align:left'>T325</td><td style='text-align:left'>1</td><td style='text-align:left'>25</td></tr>
+                        <tr><td style='text-align:left'>T349</td><td style='text-align:left'>2</td><td style='text-align:left'>30</td></tr>
+                      </table>"><%= check_box_tag :csv_raw, '1', false %> CSV Raw</label>
+  </div>
+
+  <div class="span4 download-container">
+    <h3>Portable Document Format</h3>
+    <label class="checkbox"><%= check_box_tag :pdf, '1', false %> PDF</label>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span4 download-container">
+    <h3>Uploaded Files</h3>
+    <label class="checkbox"><%= check_box_tag :files, '1', false %> Files</label>
+  </div>
+
+  <div class="span4 download-container">
+    <h3>Data Dictionary</h3>
+    <label class="checkbox"><%= check_box_tag :data_dictionary, '1', false %> Data Dictionary</label>
+  </div>
+
+  <div class="span4">
+    <%= button_tag "Export", data: { object: 'export-data', target: '#sheets_search' }, class: 'btn btn-primary btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
+  </div>
+</div>

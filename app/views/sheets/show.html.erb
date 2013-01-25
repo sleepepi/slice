@@ -30,7 +30,10 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject %></td>
+      <td>
+        <%= status_helper(@sheet.subject) if @sheet.subject %>
+        <%= link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject %>
+      </td>
       <% if @sheet.project.acrostic_enabled? %><td><%= @sheet.subject.acrostic %></td><% end %>
       <td><%= @project = @sheet.project; render partial: 'projects/logo_small' %> <%= link_to @sheet.project.name, @sheet.project if @sheet.project %></td>
       <td><%= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site %></td>
@@ -39,29 +42,10 @@
   </tbody>
 </table>
 
-<% show_navigation = (@sheet.design.sections.size > 1) %>
+<%= form_tag [@sheet.project, @sheet], method: :get, remote: true, data: { object: 'form-load' }, style: 'display:none' do %>
+<% end %>
 
-<% if show_navigation %>
-<div class="row">
-  <div class="span3 bs-docs-sidebar">
-    <%= @design = @sheet.design; render partial: 'designs/navigation' %>
-  </div>
-  <div class="span9">
-<% end %>
-    <form class="form-horizontal">
-      <% @sheet.design.options.each do |option| %>
-        <% @option = option %>
-        <% if @option[:variable_id].blank? %>
-          <%= render partial: 'designs/section' %>
-        <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) and @sheet.show_variable?(@option[:branching_logic]) %>
-          <%= render partial: 'variables/show' %>
-        <% end %>
-      <% end %>
-    </form>
-<% if show_navigation %>
-  </div>
-</div>
-<% end %>
+<div id="sheet_<%= @sheet.id %>"><%#= render partial: 'sheets/show' %></div>
 
 <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
   <div id="send_email_modal" class="modal" style="display:none">

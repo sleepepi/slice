@@ -38,5 +38,10 @@
 <hr class="soften">
 
 <footer class="footer">
-  <p class="muted about-footer"><%= DEFAULT_APP_NAME %> Version <%= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}" %></p>
+  <p class="muted about-footer">
+    <%= DEFAULT_APP_NAME %> Version <%= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}" %>
+  </p>
+  <p class="muted about-footer">
+    By using <%= DEFAULT_APP_NAME %> you are agreeing to the <%= link_to 'Acceptable Use Policy', about_use_path %>.
+  </p>
 </footer>

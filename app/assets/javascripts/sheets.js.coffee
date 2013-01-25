@@ -33,6 +33,23 @@
   $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
   $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
 
+@evaluateBranchingLogic = () ->
+  $('[data-object~="evaluate-branching-logic"]').each( (index, element) ->
+    if $(element).data('branching-logic') == ""
+      branching_logic_result = true
+    else
+      try
+        branching_logic_result = eval($(element).data('branching-logic'))
+      catch error
+        branching_logic_result = true
+
+    if branching_logic_result
+      # $(element).css('background', "#ccc")
+    else
+      $(element).hide()
+      # $(element).css('background', "#0f0")
+  )
+
 jQuery ->
   $("#sheet_design_id").on('change', () ->
     $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize(), null, "script")
@@ -74,6 +91,13 @@ jQuery ->
         return false
       else
         window.location = $(this).data("link")
+    )
+    .on('click', '[data-object~="export-data"]', () ->
+      $('[data-dismiss~=alert]').click()
+      form = $(this).data('target')
+      $.get($(form).attr("action"), $(form).serialize() + '&export=1', null, "script")
+      hideContourModal()
+      false
     )
 
   initializeSheet()

@@ -7,7 +7,15 @@
   </h1>
 </div>
 
+<div id="contour-backdrop" style="display:none"></div>
+
 <%= form_tag project_sheets_path(@project), method: :get, remote: true, id: "sheets_search", class: 'form-search', data: { object: 'form-load' } do %>
+  <div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
+    <div class="contour-modal" data-object="contour_modal_container">
+      <%= render partial: 'sheets/export_popup' %>
+    </div>
+  </div>
+
   <%= hidden_field_tag :order %>
 
   <div class="row">
@@ -124,6 +132,9 @@
   <div class="form-actions">
     <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
 
+<% if true %>
+    <%= link_to 'Export', '#', class: 'btn', data: { object: 'show-contour-modal' } %>
+<% else %>
     <span class="dropdown">
       <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', 'data-toggle' => "dropdown" %>
       <ul id="export-submenu" class="dropdown-menu" style="margin-top:9px">
@@ -136,6 +147,7 @@
         </li>
       </ul>
     </span>
+<% end %>
 
     <%= link_to 'Reset', '#', class: 'btn', data: { target: '#sheets_search', object: 'reset-filters' } %>
   </div>
