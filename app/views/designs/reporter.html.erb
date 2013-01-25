@@ -14,17 +14,22 @@
   <%= hidden_field_tag :by, @by %>
   <%= hidden_field_tag :percent, @percent %>
   <%= hidden_field_tag :filter, @filter %>
+  <%= hidden_field_tag :page, params[:page] %>
+
+  <% params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array) %>
 
   <div class="row">
     <div class="span4">
       Row
-      <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string']) %>
-      <%= select_tag :variable_id, options_for_select([['Site', nil]]) + grouped_options_for_select(row_variable_groups, params[:variable_id]), data: { object: 'filter form-reload', target: '#report_form' }, class: 'input-medium chzn-select' %>
-      <span id="row-include-blank" style="white-space:nowrap; <%= 'display:none' unless @variable %>">
-        <%= check_box_tag :row_include_missing, '1', params[:row_include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :row_include_missing %>
-      </span>
-      <%= text_field_tag :row_variable_ids, params[:row_variable_ids].kind_of?(Array) ? params[:row_variable_ids].join(',') : params[:row_variable_ids] %>
-
+      <div class="controls">
+        <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string']) %>
+        <%= hidden_field_tag :row_variable_ids, params[:row_variable_ids].join(',') %>
+        <%= select_tag :row_variable_temp_ids, options_for_select([['Site', 'site']], params[:row_variable_ids]) + grouped_options_for_select(row_variable_groups, params[:row_variable_ids]), data: { object: 'filter' }, class: 'span4 chzn-select', multiple: true, style: 'display:none' %>
+        <span id="row-include-blank" style="white-space:nowrap; <%= 'display:none' unless @variable %>">
+          <%= check_box_tag :row_include_missing, '1', params[:row_include_missing].to_s != '0', data: { object: 'form-reload', target: '#report_form' } %> <%= label_tag :row_include_missing %>
+        </span>
+        <%#= text_field_tag :row_variable_ids, params[:row_variable_ids].kind_of?(Array) ? params[:row_variable_ids].join(',') : params[:row_variable_ids] %>
+      </div>
     </div>
     <div class="span4">
       Column
@@ -86,14 +91,16 @@
     </div>
     <div class="span4">
       <div class="pull-right">
-        <span class="dropdown">
-          <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
-          <ul class="dropdown-menu" style="margin-top:9px">
-            <li><%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %></li>
-            <li><%= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' } %></li>
-            <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
-          </ul>
-        </span>
+        <% if false %>
+          <span class="dropdown">
+            <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
+            <ul class="dropdown-menu" style="margin-top:9px">
+              <li><%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %></li>
+              <li><%= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' } %></li>
+              <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
+            </ul>
+          </span>
+        <% end %>
         <button type="submit" class="btn btn-primary">Refresh</button>
       </div>
     </div>

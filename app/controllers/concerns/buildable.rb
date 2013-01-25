@@ -64,8 +64,9 @@ module Buildable
   def setup_report_new
 
     params[:column_variable_ids] = params[:column_variable_id].to_s.split(',')[0]
-    params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',')[0..2] unless params[:row_variable_ids].kind_of?(Array)
-
+    params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array)
+    params[:row_variable_ids] = params[:row_variable_ids][0..2] if params[:row_variable_ids].kind_of?(Array)
+    params[:page] = (params[:page].to_i < 1 ? 1 : params[:page].to_i)
 
     set_sheet_scope
 
@@ -244,6 +245,12 @@ module Buildable
         end
       end
     end
+
+    @per_page = 20
+
+    @total_rows = @row_filters.size
+    params[:page] = 1 if (params[:page]-1) * @per_page >= @total_rows
+    @row_filters = @row_filters[(params[:page] - 1) * @per_page..(params[:page] * @per_page) - 1]
   end
 
   def build_table_header
@@ -260,7 +267,7 @@ module Buildable
     table_row += build_row
 
     calculator = @column_variables.first
-    (values, chart_type) = if calculator.has_statistics?
+    (values, chart_type) = if calculator and calculator.has_statistics?
       [Sheet.array_responses_with_filters(@sheets, calculator, []), 'box']
     else
       [table_row.collect{|cell| cell[:count]}.compact, 'line']
@@ -276,7 +283,7 @@ module Buildable
       table_row = []
       table_row += filters.collect{ |f| { name: f[:name] } }
       table_row += build_row(filters)
-      (values, chart_type) = if calculator.has_statistics?
+      (values, chart_type) = if calculator and calculator.has_statistics?
         [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
       else
         [table_row.collect{|cell| cell[:count]}.compact, 'line']

@@ -39,6 +39,22 @@ jQuery ->
       window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
       false
     )
+    .on('change', '#row_variable_temp_ids', (event, value) ->
+      values = if $('#row_variable_ids').val() == '' then [] else $('#row_variable_ids').val().split(',')
+      if value['selected']
+        values.push(value['selected']) if $.inArray(value['selected'], values) == -1
+      if value['deselected']
+        position = $.inArray(value['deselected'], values)
+        values.splice(position,1).pop(value['deselected']) if position >= 0
+      $('#row_variable_ids').val(values.join(','))
+      $('#report_form').submit()
+    )
+    .on('click', '[data-object~="set-value"]', () ->
+      $($(this).data('target')).val($(this).data('value'))
+      $("#report_form").submit()
+      false
+    )
+
 
   $('#column_variable_id').on('change', () ->
     if $(this).val() == '' or $(this).val() == null
