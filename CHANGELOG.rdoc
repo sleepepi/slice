@@ -31,6 +31,7 @@
   * Domains are no longer duplicated in data dictionaries when referenced by multiple variables
   * Checkbox labels should no longer arbitrarily break on white space
   * Grid rows "Remove" button no longer stays visible after mouseing out of the row, resulting in multiple rows showing a "Remove" button
+  * Fixed a bug rendering design PDFs that contained variables with choices that included commas in the choice description
 
 * Testing
   * Added mail_view gem for easier email templating
