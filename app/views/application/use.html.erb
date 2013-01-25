@@ -1,0 +1,42 @@
+<% @title = "Acceptable Use Policy" %>
+
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<p style="font-size:1.5em;line-height:2em">
+  <%= DEFAULT_APP_NAME %> provides a platform for clinical research data collection. To keep the <%= DEFAULT_APP_NAME %> running smoothly for everyone, you agree that you will use the Slice web application only in a manner consistent with the following Acceptable Use Policy.
+</p>
+
+<hr class="soften">
+
+<h4>You agree to:</h4>
+
+<ul>
+  <li>Obtain <span title="Institutional Review Board" rel="tooltip"><abbr title="">IRB</abbr></span> approval for clinical research studies collecting data for the purposes of human subject research.</li>
+  <li>Collect only minimally-necessary <span title="Protected Health Information" rel="tooltip"><abbr title="">PHI</abbr></span> in compliance with <span title="Institutional Review Board" rel="tooltip"><abbr title="">IRB</abbr></span> and <span title="Health Insurance Portability and Accountability Act" rel="tooltip"><abbr title="">HIPAA</abbr></span> regulations.</li>
+  <li>Mark all <span title="Protected Health Information" rel="tooltip"><abbr title="">PHI</abbr></span> variables collected specifically as identifiable.</li>
+  <li><%= mail_to ABOUT_PAGE_CONTACT, 'Notify us', target: '_blank', subject: "#{DEFAULT_APP_NAME} Account Compromised" %> immediately if your account has been comprised and to follow immediate steps to secure your account.</li>
+</ul>
+
+<hr class="soften">
+
+<h4>You agree <span class="label" style="background-color:red">NOT</span> to:</h4>
+
+<ul>
+  <li>Provide access to clinical research studies to those who have not undergone training to protect <span title="Protected Health Information" rel="tooltip"><abbr title="">PHI</abbr></span>.</li>
+  <li>Download <span title="Protected Health Information" rel="tooltip"><abbr title="">PHI</abbr></span> to unencrypted system or transfer data outside of the hospital network.</li>
+  <li>Share you account login and password with anyone else for any reason.</li>
+  <li>Upload objectionable content or malware.</li>
+</ul>
+
+<hr class="soften">
+
+<h4>We reserve the right to:</h4>
+
+<ul>
+  <li>Conduct audits to detect violations of the Acceptable Use Policy.</li>
+  <li>Remove user access and delete all the user's data that is in violation of the Acceptable Use Policy.</li>
+  <li>Remove all data that has not been approved for collection by the <span title="Institutional Review Board" rel="tooltip"><abbr title="">IRB</abbr></span>.</li>
+  <li>Remove all data that exceeds the scope of meaningful use granted by the <span title="Institutional Review Board" rel="tooltip"><abbr title="">IRB</abbr></span>.</li>
+</ul>
