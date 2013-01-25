@@ -435,10 +435,10 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters)
-    if calculator and calculation.blank?
+    if calculator and calculator.has_statistics? and calculation.blank?
       # Filtering against "Unknown BMI for example, include only missing codes and unknown"
       sheet_scope = sheet_scope.with_response_unknown_or_missing(calculator)
-    elsif calculator
+    elsif calculator and calculator.has_statistics?
       # Filtering against "BMI for example, only include known responses"
       sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(calculator)
     end
