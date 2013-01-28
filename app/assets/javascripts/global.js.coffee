@@ -124,10 +124,6 @@ jQuery ->
 
   # $(".datepicker").datepicker( "option", "onClose", (dateText, inst) -> $(this).focus() )
 
-  # alert $('[data-spy~="affix"]').parent().offset().top - 42
-
-  $('[data-spy~="affix"]').affix( offset: { top: 223 } ) # 223
-
   $('[data-object~="typeaheadmap"]').each( () ->
     $this = $(this)
     $this.typeaheadmap( source: $this.data('source'), "key": "key", "value": "value" )
