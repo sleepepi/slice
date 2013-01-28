@@ -6,6 +6,6 @@
 
 <ul class="nav nav-list bs-docs-sidenav" data-spy="affix">
   <% links.each_with_index do |link_hash, index| %>
-    <li class="<%= 'active' if index == 0 %>"><%= link_to "<i class=\"icon-chevron-right\"></i> #{link_hash[:name]}".html_safe, link_hash[:href], tabindex: "-1" %></li>
+    <li><%= link_to "<i class=\"icon-chevron-right\"></i> #{link_hash[:name]}".html_safe, link_hash[:href], tabindex: "-1" %></li>
   <% end %>
 </ul>
