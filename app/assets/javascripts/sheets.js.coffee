@@ -27,11 +27,10 @@
   )
   updateAllVariables()
   updateCalculatedVariables()
-  # $('[data-spy~="affix"]').affix( offset: { x: 423 } )
-  $('[data-spy~="affix"]').affix( offset: { top: $('.bs-docs-sidebar').position().top - 40 } )
   checkAllRanges()
   $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
   $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
+  loadAffix()
 
 @evaluateBranchingLogic = () ->
   $('[data-object~="evaluate-branching-logic"]').each( (index, element) ->
@@ -49,7 +48,11 @@
       $(element).hide()
       # $(element).css('background', "#0f0")
   )
-  $('[data-spy~="affix"]').affix( offset: { top: $('.bs-docs-sidebar').position().top - 40 } )
+  loadAffix()
+
+@loadAffix = () ->
+  if $('.bs-docs-sidebar').length > 0
+    $('[data-spy~="affix"]').affix( offset: { top: $('.bs-docs-sidebar').position().top - 40 } )
 
 jQuery ->
   $("#sheet_design_id").on('change', () ->
