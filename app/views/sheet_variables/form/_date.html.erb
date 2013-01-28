@@ -21,5 +21,5 @@
    <span style="margin-left:24px"></span>
 
    <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
-   <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn' if variable.show_current_button? %>
+   <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
 </div>

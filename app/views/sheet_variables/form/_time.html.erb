@@ -18,5 +18,5 @@
   <i class="icon-time" style="position: relative; margin: 2.5px 0 0 -24px;"></i>
   <span style="margin-left:24px"></span>
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
-  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn' if variable.show_current_button? %>
+  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
 </div>
