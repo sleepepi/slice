@@ -5,19 +5,8 @@
 @initializeSheet = (filter_element = '') ->
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
   $("#{filter_element} .timepicker").timepicker( showMeridian: false, showSeconds: true )
-  $("#{filter_element} .datepicker").datepicker(
-    # showOtherMonths: true
-    # selectOtherMonths: true
-    # changeMonth: true
-    # changeYear: true
-    # onClose: (text, inst) -> $(this).focus()
-  )
-  $("#{filter_element} .datepicker").change( () ->
-    try
-      $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val())))
-    catch error
-      # Nothing
-  )
+  $("#{filter_element} .datepicker").datepicker('remove')
+  $("#{filter_element} .datepicker").datepicker( autoclose: true )
   $("#{filter_element} [data-object~='variable-typeahead']").each( () ->
     $this = $(this)
     $this.typeahead(
