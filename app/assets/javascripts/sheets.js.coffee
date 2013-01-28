@@ -7,6 +7,16 @@
   $("#{filter_element} .timepicker").timepicker( showMeridian: false, showSeconds: true )
   $("#{filter_element} .datepicker").datepicker('remove')
   $("#{filter_element} .datepicker").datepicker( autoclose: true )
+
+  $("#{filter_element} .datepicker").change( () ->
+    try
+      $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val())))
+
+    catch error
+      # Nothing
+  )
+
+
   $("#{filter_element} [data-object~='variable-typeahead']").each( () ->
     $this = $(this)
     $this.typeahead(
