@@ -43,7 +43,7 @@
     $('[data-object~="scale"]').show()
   else
     $('[data-object~="scale"]').hide()
-  if $(element).val() in ['calculated', 'date', 'time', 'integer', 'numeric', 'string']
+  if $(element).val() in ['calculated', 'integer', 'numeric', 'string']
     $('[data-object~="prepend-append"]').show()
   else
     $('[data-object~="prepend-append"]').hide()
