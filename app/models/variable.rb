@@ -392,8 +392,8 @@ class Variable < ActiveRecord::Base
 
   def options_or_autocomplete(include_missing)
     if self.variable_type == 'string'
-      self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }} +
-      self.user_submitted_sheet_variables.collect{|sv| { name: sv.response, value: sv.response, info: 'User Submitted' }}.uniq{|a| a[:value].downcase }
+      NaturalSort::naturalsort(self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }}) +
+      NaturalSort::naturalsort(self.user_submitted_sheet_variables.collect{|sv| { name: sv.response, value: sv.response, info: 'User Submitted' }}.uniq{|a| a[:value].downcase })
     else
       (include_missing ? self.shared_options : self.options_without_missing)
     end
