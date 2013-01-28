@@ -1,6 +1,6 @@
 <% is_grid = defined?(grid) %>
 
-<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> <% unless variable.append.blank? %>input-append<% end %>" style="display:inline-block">
+<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> <% unless variable.append.blank? %>input-append<% end %>" style="display:inline-block;white-space:nowrap">
   <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
   <%= text_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: "datepicker input-#{defined?(control_size) ? control_size : 'large'}",
         data: {
