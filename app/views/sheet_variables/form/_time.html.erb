@@ -10,10 +10,13 @@
                 placement: (variable.show_current_button? ? 'left' : 'right'),
                 html: true
               },
-        rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
+        rel: "#{variable.description.blank? ? '' : 'popover'}",
+        autocomplete: 'off',
         disabled: disabled,
         title: variable.display_name,
         placeholder: is_grid ? variable.display_name : nil %>
+  <i class="icon-time" style="position: relative; margin: 2.5px 0 0 -24px;"></i>
+  <span style="margin-left:24px"></span>
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
   <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn' if variable.show_current_button? %>
 </div>
