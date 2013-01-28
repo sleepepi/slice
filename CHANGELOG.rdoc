@@ -5,6 +5,9 @@
   * Updated the variable time picker to use bootstrap-timepicker
   * Today and current time buttons are now ignored when tabbing
 
+* Bug Fix
+  * Fixed the affix navigation on sheet show pages
+
 == 0.12.0 (January 25, 2013)
 
 * Breaking Change

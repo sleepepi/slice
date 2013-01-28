@@ -48,6 +48,7 @@
       $(element).hide()
       # $(element).css('background', "#0f0")
   )
+  $('[data-spy~="affix"]').affix( offset: { top: $('.bs-docs-sidebar').position().top - 30 } )
 
 jQuery ->
   $("#sheet_design_id").on('change', () ->
