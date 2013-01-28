@@ -4,13 +4,13 @@
 
 @initializeSheet = (filter_element = '') ->
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
-  $("#{filter_element} .timepicker").timepicker({ 'timeFormat': 'H:i:s' })
+  $("#{filter_element} .timepicker").timepicker( showMeridian: false, showSeconds: true )
   $("#{filter_element} .datepicker").datepicker(
-    showOtherMonths: true
-    selectOtherMonths: true
-    changeMonth: true
-    changeYear: true
-    onClose: (text, inst) -> $(this).focus()
+    # showOtherMonths: true
+    # selectOtherMonths: true
+    # changeMonth: true
+    # changeYear: true
+    # onClose: (text, inst) -> $(this).focus()
   )
   $("#{filter_element} .datepicker").change( () ->
     try
