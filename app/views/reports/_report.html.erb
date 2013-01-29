@@ -55,19 +55,18 @@
     <tr style="font-weight:bold">
 
       <td><span data-object="sparkline" data-type="<%= @table_footer[:chart_type] %>" data-values="<%= @table_footer[:values].to_json %>" style="display:none"><%= @table_footer[:values].join(',') %></span></td>
-      <% @table_footer[:cells].each do |footer| %>
-        <% if footer[:colspan].blank? %>
-          <% count = footer[:count] %>
+      <% @table_footer[:cells].each do |hash| %>
+        <% if hash[:colspan].blank? %>
           <td>
-            <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= footer[:name].blank? ? 'Unknown' : footer[:tooltip] unless count == 0 %>" data-placement="left">
+            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders">
-                <%= footer[:name] %>
+                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name] %>
               </span>
             </span>
           </td>
         <% else %>
-          <td colspan="<%= footer[:colspan].blank? ? 1 : footer[:colspan] %>">
-            <%= footer[:name] %>
+          <td colspan="<%= hash[:colspan].blank? ? 1 : hash[:colspan] %>">
+            <%= hash[:name] %>
           </td>
         <% end %>
       <% end %>
@@ -80,21 +79,16 @@
       <tr>
         <td><span data-object="sparkline" data-type="<%= row[:chart_type] %>" data-values="<%= row[:values].to_json %>" style="display:none"><%= row[:values].join(',') %></span></td>
         <% row[:cells].each do |hash| %>
-          <% count = hash[:count] %>
           <td>
-            <span class="<%= 'muted' if count == 0 %>" rel="tooltip" title="<%= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless count == 0 %>" data-placement="left">
+            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>">
                 <% if hash[:debug].blank? %>
-                  <% if count == 0 %>
-                    -
-                  <% else %>
-                    <%= hash[:name].blank? ? 'Unknown' : hash[:name] %>
-                  <% end %>
+                  <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? 'Unknown' : hash[:name] %>
                 <% else %>
                   <%= hash[:calculator].name if hash[:calculator] %>
                   <%= hash[:calculation] %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}"}  %>
-                  <%= hash[:name].blank? ? 'Unknown' : hash[:name] unless count == 0 %>
+                  ['<%= hash[:name].blank? ? 'Unknown' : hash[:name] %>', <%= hash[:count].inspect %>]
                 <% end %>
               </span>
             </span>

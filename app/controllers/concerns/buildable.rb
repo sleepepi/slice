@@ -305,8 +305,7 @@ module Buildable
       if header.kind_of?(Hash)
         cell = header.dup
         cell[:filters] = (cell[:filters] || []) + filters
-        cell[:name] = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters])
-        cell[:count] = cell[:name]
+        (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters])
         # cell[:debug] = '1'
         table_row << cell
       end

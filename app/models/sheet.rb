@@ -374,7 +374,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_mean(array)
-    return 0 if array.size == 0
+    return nil if array.size == 0
     array.inject(:+).to_f / array.size
   end
 
@@ -385,33 +385,35 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_standard_deviation(array)
-    return 0 if array.size < 2
+    return nil if array.size < 2
     return Math.sqrt(self.array_sample_variance(array))
   end
 
   def self.array_median(array)
-    return 0 if array.size == 0
+    return nil if array.size == 0
     array = array.sort!
     len = array.size
     len % 2 == 1 ? array[len/2] : (array[len/2 - 1] + array[len/2]).to_f / 2
   end
 
   def self.array_max(array)
-    array.max || 0
+    array.max #|| 0
   end
 
   def self.array_min(array)
-    array.min || 0
+    array.min #|| 0
   end
 
   def self.array_count(array)
-    array.size
+    size = array.size
+    size = nil if size == 0
+    size
   end
 
   def self.array_responses(sheet_scope, variable)
     responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck("sheets.id"), variable_id: variable.id).pluck(:response) : [])
     # Convert to integer or float
-    variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
+    variable && variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
   end
 
   # Computes calculation for a scope of sheet responses
@@ -419,7 +421,9 @@ class Sheet < ActiveRecord::Base
   #     Would return the average of all ages on all sheets that contained age (as a sheet_variable, not as a grid or grid_response)
   def self.array_calculation(sheet_scope, variable, calculation)
     number = self.send((calculation.blank? ? 'array_count' : calculation), self.array_responses(sheet_scope, variable))
-    ['array_mean', 'array_standard_deviation'].include?(calculation) && number != 0 ? "%0.02f" % number : number
+    number = "%0.02f" % number if ['array_mean', 'array_standard_deviation'].include?(calculation) and number != nil
+    # number = '-' if number == nil
+    number
   end
 
   def self.filter_sheet_scope(sheet_scope, filters)
@@ -444,7 +448,10 @@ class Sheet < ActiveRecord::Base
     end
 
     sheet_scope = filter_sheet_scope(sheet_scope, filters)
-    calculator ? self.array_calculation(sheet_scope, calculator, calculation) : sheet_scope.count
+    number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck(:id)))
+    name = (number == nil ? '-' : number)
+
+    [name, number]
   end
 
 
