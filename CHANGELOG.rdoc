@@ -11,6 +11,7 @@
   * Scale variables with headers now redisplay the option choice table header row
   * Experimental reports now correctly display zeros instead of dashes when the zero represents meaningful data, instead of just an empty set
     * Ex: A variable that scores an integer value from 0 to 10 will now show the zero as a minimum value if captured on sheets
+  * Subject files collected across sheets are now available on the subject page
 
 * Bug Fix
   * Fixed the affix navigation on sheet show pages

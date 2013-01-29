@@ -44,3 +44,14 @@
 <% @subjects = Subject.current.where(id: @subject.id) %>
 <% @designs = @project.designs %>
 <%= render partial: 'projects/subject_report' %>
+
+
+<% sheet_variables = @subject.sheets.collect{|s| s.sheet_variables.with_variable_type('file')}.flatten[0..100] %>
+<% if sheet_variables.size > 0 %>
+<h2>Files</h2>
+<form class="form-horizontal">
+<% sheet_variables.each do |sheet_variable| %>
+  <%= @sheet = sheet_variable.sheet; @variable = sheet_variable.variable; render partial: 'variables/show' %>
+<% end %>
+</form>
+<% end %>
