@@ -5,6 +5,7 @@
   * Updated the variable time picker to use bootstrap-timepicker
   * Today and current time buttons are now ignored when tabbing
   * String variables on reports are now sorted alphabetically
+  * Projects now sorted alphabetically on the projects splash page
 
 * Bug Fix
   * Fixed the affix navigation on sheet show pages

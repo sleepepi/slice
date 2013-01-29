@@ -22,7 +22,7 @@ class ProjectsController < ApplicationController
 
   def splash
     project_scope = current_user.all_viewable_and_site_projects
-    @projects = project_scope.page(params[:page]).per( 8 ) # current_user.pagination_count('projects') )
+    @projects = project_scope.order(:name).page(params[:page]).per( 8 ) # current_user.pagination_count('projects') )
     redirect_to project_scope.first if project_scope.size == 1
   end
 
