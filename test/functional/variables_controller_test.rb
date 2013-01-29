@@ -117,7 +117,6 @@ class VariablesControllerTest < ActionController::TestCase
   test "should add option" do
     post :add_option, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
     assert_not_nil assigns(:variable)
-    assert_not_nil assigns(:option)
     assert_template 'add_option'
   end
 

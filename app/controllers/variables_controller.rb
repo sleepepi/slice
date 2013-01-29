@@ -82,7 +82,6 @@ class VariablesController < ApplicationController
   def add_option
     @project = current_user.all_projects.find_by_id(params[:project_id])
     @variable = Variable.new(params[:variable].except(:option_tokens))
-    @option = { name: '', value: '', description: '' }
   end
 
   def options

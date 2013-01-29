@@ -9,7 +9,6 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should add option" do
     post :add_option, project_id: @project, format: 'js'
-    assert_not_nil assigns(:option)
     assert_template 'add_option'
   end
 

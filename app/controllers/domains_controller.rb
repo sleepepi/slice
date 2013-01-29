@@ -2,7 +2,7 @@ class DomainsController < ApplicationController
   before_filter :authenticate_user!
 
   def add_option
-    @option = { name: '', value: '', description: '' }
+
   end
 
   # GET /domains
