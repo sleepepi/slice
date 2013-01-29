@@ -121,7 +121,7 @@ class ExportsController < ApplicationController
   #   params[:export] ||= {}
 
   #   params[:export].slice(
-  #     :name, :export_type, :include_files, :status, :file, :project_id, :viewed
+  #     :name, :include_files, :status, :file, :project_id, :viewed
   #   )
   # end
 end

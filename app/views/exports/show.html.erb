@@ -25,11 +25,24 @@
     <% end %>
   </dd>
 
-  <dt>Export Type</dt>
-  <dd><%= @export.export_type %></dd>
+  <dt>XLS</dt>
+  <dd><%= simple_check @export.include_xls %></dd>
 
-  <dt>Include Files</dt>
+  <dt>CSV Labeled</dt>
+  <dd><%= simple_check @export.include_csv_labeled %></dd>
+
+  <dt>CSV Raw</dt>
+  <dd><%= simple_check @export.include_csv_raw %></dd>
+
+  <dt>PDF</dt>
+  <dd><%= simple_check @export.include_pdf %></dd>
+
+  <dt>Files</dt>
   <dd><%= simple_check @export.include_files %></dd>
+
+  <dt>Data Dictionary</dt>
+  <dd><%= simple_check @export.include_data_dictionary %></dd>
+
 
   <% if @export.status == 'failed' %>
     <dt>Details</dt>

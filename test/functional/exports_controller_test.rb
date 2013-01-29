@@ -19,7 +19,7 @@ class ExportsControllerTest < ActionController::TestCase
 
   # test "should create export" do
   #   assert_difference('Export.count') do
-  #     post :create, export: { deleted: @export.deleted, export_type: @export.export_type, file: @export.file, include_files: @export.include_files, name: @export.name, project_id: @export.project_id, status: @export.status, user_id: @export.user_id }
+  #     post :create, export: { file: @export.file, include_files: @export.include_files, name: @export.name, project_id: @export.project_id, status: @export.status }
   #   end
 
   #   assert_redirected_to export_path(assigns(:export))
@@ -57,7 +57,7 @@ class ExportsControllerTest < ActionController::TestCase
   # end
 
   # test "should update export" do
-  #   put :update, id: @export, export: { deleted: @export.deleted, export_type: @export.export_type, file: @export.file, include_files: @export.include_files, name: @export.name, project_id: @export.project_id, status: @export.status, user_id: @export.user_id }
+  #   put :update, id: @export, export: { file: @export.file, include_files: @export.include_files, name: @export.name, project_id: @export.project_id, status: @export.status }
   #   assert_redirected_to export_path(assigns(:export))
   # end
 

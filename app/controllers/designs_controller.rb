@@ -482,7 +482,7 @@ class DesignsController < ApplicationController
   end
 
   def generate_xls(design_scope)
-    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'designs')
+    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, include_data_dictionary: true)
 
     design_ids = design_scope.pluck(:id)
 

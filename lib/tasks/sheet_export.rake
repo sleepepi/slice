@@ -8,29 +8,17 @@ task sheet_export: :environment do
 
   begin
     filename = "#{export.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{export.created_at.strftime("%I%M%P")}"
-    # type = "xls", "csv", "pdf", "files"
-
-    types = []
-
-    types << 'xls' if ENV["XLS"].to_s == '1'
-    types << 'csv_labeled' if ENV["CSV_LABELED"].to_s == '1'
-    types << 'csv_raw' if ENV["CSV_RAW"].to_s == '1'
-    types << 'pdf' if ENV["PDF"].to_s == '1'
-    types << 'files' if ENV["FILES"].to_s == '1'
-    types << 'data_dictionary' if ENV["DATA_DICTIONARY"].to_s == '1'
 
     all_files = [] # If numerous files are created then they need to be zipped!
 
-    all_files << generate_xls(export, sheet_scope, filename) if types.include?('xls')
-    all_files << generate_csv_sheets(export, sheet_scope, filename, false) if types.include?('csv_labeled')
-    all_files << generate_csv_grids(export, sheet_scope, filename, false) if types.include?('csv_labeled')
-    all_files << generate_csv_sheets(export, sheet_scope, filename, true) if types.include?('csv_raw')
-    all_files << generate_csv_grids(export, sheet_scope, filename, true) if types.include?('csv_raw')
-    all_files << generate_pdf(export, sheet_scope, filename) if types.include?('pdf')
-    all_files << generated_data_dictionary(export, sheet_scope, filename) if types.include?('data_dictionary')
-    sheet_scope.each{ |sheet| all_files += sheet.files } if types.include?('files')
-
-    puts all_files.inspect
+    all_files << generate_xls(export, sheet_scope, filename)                if export.include_xls?
+    all_files << generate_csv_sheets(export, sheet_scope, filename, false)  if export.include_csv_labeled?
+    all_files << generate_csv_grids(export, sheet_scope, filename, false)   if export.include_csv_labeled?
+    all_files << generate_csv_sheets(export, sheet_scope, filename, true)   if export.include_csv_raw?
+    all_files << generate_csv_grids(export, sheet_scope, filename, true)    if export.include_csv_raw?
+    all_files << generate_pdf(export, sheet_scope, filename)                if export.include_pdf?
+    all_files << generated_data_dictionary(export, sheet_scope, filename)   if export.include_data_dictionary?
+    sheet_scope.each{ |sheet| all_files += sheet.files }                    if export.include_files?
 
     # Zip multiple files
     export_file = if all_files.size > 1
@@ -49,7 +37,7 @@ task sheet_export: :environment do
       all_files.first[1]
     end
 
-    if export_file.blank? and types.include?('files')
+    if export_file.blank? and export.include_files?
       export.update_attributes status: 'failed', details: "No sheets have had files uploaded. Zip file not created."
     elsif export_file.blank?
       export.update_attributes status: 'failed', details: "No files were created. At least one file type needs to be selected for exports."
@@ -64,7 +52,6 @@ task sheet_export: :environment do
     puts e.backtrace
   end
 end
-
 
 
 def generate_xls(export, sheet_scope, filename)

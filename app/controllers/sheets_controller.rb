@@ -433,9 +433,17 @@ class SheetsController < ApplicationController
   private
 
   def generate_export(sheet_scope, xls, csv_labeled, csv_raw, pdf, files, data_dictionary)
-    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, export_type: 'sheets', include_files: files)
+    export = current_user.exports.create(
+                name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}",
+                project_id: @project.id,
+                include_xls: xls,
+                include_csv_labeled: csv_labeled,
+                include_csv_raw: csv_raw,
+                include_pdf: pdf,
+                include_files: files,
+                include_data_dictionary: data_dictionary )
 
-    rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' XLS=#{xls ? '1' : '0'} CSV_LABELED=#{csv_labeled ? '1' : '0'} CSV_RAW=#{csv_raw ? '1' : '0'} PDF=#{pdf ? '1' : '0'} FILES=#{files ? '1' : '0'} DATA_DICTIONARY=#{data_dictionary ? '1' : '0'} &"
+    rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' &"
 
     systemu rake_task unless Rails.env.test?
 

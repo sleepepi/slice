@@ -1,10 +1,10 @@
 class Export < ActiveRecord::Base
-  attr_accessible :export_type, :file, :include_files, :name, :project_id, :status, :viewed, :file_created_at, :details #, :user_id
+  attr_accessible :name, :file, :project_id, :status, :viewed, :file_created_at, :details,
+                  :include_xls, :include_csv_labeled, :include_csv_raw, :include_pdf, :include_files, :include_data_dictionary #, :user_id
 
   mount_uploader :file, GenericUploader
 
   STATUS = ["ready", "pending", "failed"].collect{|i| [i,i]}
-  TYPE = ['sheets', 'designs'].collect{|i| [i,i]}
 
   # Concerns
   include Deletable

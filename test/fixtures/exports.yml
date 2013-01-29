@@ -2,7 +2,6 @@
 
 one:
   name: MyString
-  export_type: sheets
   include_files: false
   status: ready
   # file: MyString
@@ -12,7 +11,6 @@ one:
 
 two:
   name: MyString2
-  export_type: sheets
   include_files: false
   status: pending
   # file: MyString
