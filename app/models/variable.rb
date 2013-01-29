@@ -245,7 +245,7 @@ class Variable < ActiveRecord::Base
   # end
 
   def first_scale_variable?(design)
-    return true unless design
+    return true unless design and self.header.blank?
 
     previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id) > 0
     # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form

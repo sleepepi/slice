@@ -8,6 +8,7 @@
   * Projects now sorted alphabetically on the projects splash page
   * Export configuration is now saved with the export
   * Variables and domains now include 5 options by default, and add 3 additional options when more options are requested
+  * Scale variables with headers now redisplay the option choice table header row
 
 * Bug Fix
   * Fixed the affix navigation on sheet show pages
