@@ -73,11 +73,11 @@ class Sheet < ActiveRecord::Base
 
   # Model Methods
   def self.last_entry
-    self.scoped().joins("LEFT JOIN sheets s2 ON sheets.subject_id = s2.subject_id AND sheets.study_date < s2.study_date").where("s2.id IS NULL")
+    self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date < s2.study_date", false])).where("s2.id IS NULL")
   end
 
   def self.first_entry
-    self.scoped().joins("LEFT JOIN sheets s2 ON sheets.subject_id = s2.subject_id AND sheets.study_date > s2.study_date").where("s2.id IS NULL")
+    self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date > s2.study_date", false])).where("s2.id IS NULL")
   end
 
   def send_external_email!(current_user, email, authentication_token = SecureRandom.hex(32))

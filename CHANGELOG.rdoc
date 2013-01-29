@@ -14,6 +14,7 @@
 
 * Bug Fix
   * Fixed the affix navigation on sheet show pages
+  * Fixed a bug that caused last_entry and first_entry to fail to return a result if the latest (or oldest) sheet was deleted
 
 == 0.12.0 (January 25, 2013)
 
