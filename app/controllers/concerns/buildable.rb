@@ -234,9 +234,13 @@ module Buildable
   end
 
   def build_row_filters
+    max_strata = 0
+    max_strata = 50 if @row_variables.size == 3
+    max_strata = 300 if @row_variables.size == 2
+
     @row_filters = []
     @row_variables.each do |hash|
-      strata = hash[:variable].report_strata(hash[:include_missing])
+      strata = hash[:variable].report_strata(hash[:include_missing], max_strata)
       unless strata.blank?
         if @row_filters.blank?
           @row_filters = strata.collect{|i| [i]}
@@ -279,9 +283,10 @@ module Buildable
   def build_table_body
     calculator = @column_variables.first
     @table_body = []
-    @row_filters.each do |filters|
+    @row_filters.each do |row_info|
       table_row = []
-      table_row += filters.collect{ |f| { name: f[:name] } }
+      table_row += row_info.collect{ |info| { name: info[:name] } }
+      filters = row_info.collect{|info| info[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator and calculator.has_statistics?
         [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']

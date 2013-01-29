@@ -93,7 +93,7 @@
                 <% else %>
                   <%= hash[:calculator].name if hash[:calculator] %>
                   <%= hash[:calculation] %>
-                  <%= hash[:filters].collect{|f| f[:value]} %>
+                  <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}"}  %>
                   <%= hash[:name].blank? ? 'Unknown' : hash[:name] unless count == 0 %>
                 <% end %>
               </span>

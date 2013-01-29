@@ -417,7 +417,7 @@ class Variable < ActiveRecord::Base
     ['integer', 'numeric', 'calculated'].include?(self.variable_type)
   end
 
-  def report_strata(include_missing)
+  def report_strata(include_missing, max_strata = 0)
     @report_strata = if self.has_statistics?
       [ { filters: [], name: 'N',      calculation: 'array_count'                            },
         { filters: [], name: 'Mean',   calculation: 'array_mean'                             },
@@ -434,6 +434,7 @@ class Variable < ActiveRecord::Base
     end
     @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing and not ['site'].include?(self.variable_type)
     @report_strata.collect{|s| s.merge({ calculator: self, variable_id: self.id })}
+    @report_strata[0..(max_strata - 1)]
   end
 
   def self.site(project_id)
