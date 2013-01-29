@@ -448,7 +448,7 @@ class Sheet < ActiveRecord::Base
     end
 
     sheet_scope = filter_sheet_scope(sheet_scope, filters)
-    number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck(:id)))
+    number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck("sheets.id")))
     name = (number == nil ? '-' : number)
 
     [name, number]
