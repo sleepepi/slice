@@ -6,6 +6,44 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should get search" do
+    get :search, search: ''
+
+    assert_not_nil assigns(:subjects)
+    assert_not_nil assigns(:projects)
+    assert_not_nil assigns(:designs)
+    assert_not_nil assigns(:variables)
+    assert_not_nil assigns(:objects)
+
+    assert_response :success
+  end
+
+  test "should get search and redirect" do
+    get :search, search: 'Project With One Design'
+
+    assert_not_nil assigns(:subjects)
+    assert_not_nil assigns(:projects)
+    assert_not_nil assigns(:designs)
+    assert_not_nil assigns(:variables)
+    assert_not_nil assigns(:objects)
+
+    assert_equal 1, assigns(:objects).size
+
+    assert_redirected_to assigns(:objects).first
+  end
+
+  test "should get search typeahead" do
+    get :search, search: 'abc', format: 'json'
+
+    assert_not_nil assigns(:subjects)
+    assert_not_nil assigns(:projects)
+    assert_not_nil assigns(:designs)
+    assert_not_nil assigns(:variables)
+    assert_not_nil assigns(:objects)
+
+    assert_response :success
+  end
+
   test "should get subject report" do
     get :subject_report, id: @project
     assert_not_nil assigns(:project)
