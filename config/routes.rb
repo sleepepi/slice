@@ -19,7 +19,6 @@ Slice::Application.routes.draw do
 
     collection do
       get :splash
-      get :global_search
       get :search
     end
 

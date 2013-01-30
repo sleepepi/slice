@@ -327,3 +327,8 @@ textarea:focus.warning-input  {
 .tooltip {
   line-height: 20px;
 }
+
+.highlight {
+  background-color: #ffffd4;
+  font-weight: bold;
+}
