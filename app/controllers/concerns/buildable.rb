@@ -63,6 +63,8 @@ module Buildable
 
   def setup_report_new
 
+    params[:row_variable_ids] = 'site' if params[:row_variable_ids].blank?
+
     params[:column_variable_ids] = params[:column_variable_id].to_s.split(',')[0]
     params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array)
     params[:row_variable_ids] = params[:row_variable_ids][0..2] if params[:row_variable_ids].kind_of?(Array)
