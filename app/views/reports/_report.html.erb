@@ -53,8 +53,10 @@
 
   <tfoot>
     <tr style="font-weight:bold">
+      <% @overall_min = @table_footer[:values].min %>
+      <% @overall_max = @table_footer[:values].max %>
 
-      <td><span data-object="sparkline" data-type="<%= @table_footer[:chart_type] %>" data-values="<%= @table_footer[:values].to_json %>" style="display:none"><%= @table_footer[:values].join(',') %></span></td>
+      <td><span data-object="sparkline" data-type="<%= @table_footer[:chart_type] %>" data-values="<%= @table_footer[:values].to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"><%= @table_footer[:values].join(',') %></span></td>
       <% @table_footer[:cells].each do |hash| %>
         <% if hash[:colspan].blank? %>
           <td>
@@ -77,7 +79,7 @@
   <tbody>
     <% @table_body.each do |row| %>
       <tr>
-        <td><span data-object="sparkline" data-type="<%= row[:chart_type] %>" data-values="<%= row[:values].to_json %>" style="display:none"><%= row[:values].join(',') %></span></td>
+        <td><span data-object="sparkline" data-type="<%= row[:chart_type] %>" data-values="<%= row[:values].to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"><%= row[:values].join(',') %></span></td>
         <% row[:cells].each do |hash| %>
           <td>
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">

@@ -34,8 +34,10 @@
       <% else %>
         <% @ranges.collect{|hash| hash[:count] } %>
       <% end %>
+      <% @overall_min = row_counts.min %>
+      <% @overall_max = row_counts.max %>
 
-      <td><span data-object="sparkline" data-type="<%= (@column_variable && @column_variable.has_statistics? ? 'box' : 'line') %>" data-values="<%= row_counts.to_json %>" style="display:none"><%= row_counts.join(',') %></span></td>
+      <td><span data-object="sparkline" data-type="<%= (@column_variable && @column_variable.has_statistics? ? 'box' : 'line') %>" data-values="<%= row_counts.to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"><%= row_counts.join(',') %></span></td>
       <td>Total</td>
       <% @ranges.each do |hash| %>
         <% count = hash[:count] %>
@@ -65,7 +67,7 @@
         <% else %>
           <% @ranges.collect{|hash| hash[:scope].with_stratum(@variable, stratum[:value]).count } %>
         <% end %>
-        <td><span data-object="sparkline" data-type="<%= (@column_variable && @column_variable.has_statistics? ? 'box' : 'line') %>" data-values="<%= row_counts.to_json %>" style="display:none"><%= row_counts.join(',') %></span></td>
+        <td><span data-object="sparkline" data-type="<%= (@column_variable && @column_variable.has_statistics? ? 'box' : 'line') %>" data-values="<%= row_counts.to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"><%= row_counts.join(',') %></span></td>
         <td>
           <% link_name = ((@variable.blank? or stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name] %>
           <% if stratum[:name].blank? %>

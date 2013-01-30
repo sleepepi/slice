@@ -6,7 +6,16 @@
   $.each($('[data-object~="sparkline"]'), () ->
     $(this).show()
     if $(this).data('type') == 'box'
-      $(this).sparkline($(this).data('values'), { type: $(this).data('type') })
+      minValue = undefined
+      minValue = parseInt($(this).data('min')) unless isNaN(parseInt($(this).data('min')))
+      maxValue = undefined
+      maxValue = parseInt($(this).data('max')) unless isNaN(parseInt($(this).data('max')))
+
+      $(this).sparkline($(this).data('values'),
+        type: $(this).data('type')
+        chartRangeMin: minValue
+        chartRangeMax: maxValue
+      )
     else
       $(this).peity($(this).data('type'))
   )

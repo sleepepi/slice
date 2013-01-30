@@ -1,14 +1,9 @@
 <% @title = "#{@design.name} Report" %>
-<h3>
-  <% if @design.project %>
-    <%= link_to "&lsaquo; ".html_safe + @design.project.name, report_project_path(@design.project, by: @by, percent: @percent) %> Report
-    <span class="pull-right"><%= pluralize @design.project.sites.count, ' site' %> for <%= link_to @design.name, [@design.project, @design] %></span>
-  <% else %>
-    <span class="muted">No Project</span> &middot; <%= @title %>
-  <% end %>
-</h3>
-
-<hr class="soften" style="margin-top:20px">
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= link_to "Summary Report", report_project_path(@project) %> &middot; <%= link_to @design.name, [@design.project, @design] %> Report
+  </h1>
+</div>
 
 <%= form_tag reporter_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <%= hidden_field_tag :by, @by %>
