@@ -3,6 +3,23 @@ class ProjectsController < ApplicationController
   before_filter :set_viewable_project, only: [:settings, :show, :subject_report, :report] # only: [:settings, :show]
   before_filter :set_editable_project, only: [:edit, :update, :destroy, :remove_file]
 
+  def search
+    @subjects = current_user.all_viewable_subjects.search(params[:search]).order('subject_code').limit(10)
+    @projects = current_user.all_viewable_projects.search(params[:search]).order('name').limit(10)
+    @designs = current_user.all_viewable_designs.search(params[:search]).order('name').limit(10)
+    @variables = current_user.all_viewable_variables.search(params[:search]).order('name').limit(10)
+
+    @objects = @subjects + @projects + @designs + @variables
+
+    respond_to do |format|
+      format.json { render json: ([params[:search]] + @objects.collect(&:name)).uniq }
+      format.html do
+        redirect_to [@objects.first.project, @objects.first] if @objects.size == 1 and @objects.first.respond_to?('project')
+        redirect_to @objects.first if @objects.size == 1 and not @objects.first.respond_to?('project')
+      end
+    end
+  end
+
   def subject_report
     respond_to do |format|
       if @project

@@ -103,7 +103,22 @@ jQuery ->
         $("#sheet_design_id").focus()
       else
         $("#sheet_subject_id").focus()
+      if $("#global-search").val() != ''
+        $("#global-search").focus()
     )
+    .on('click', '#global-search', (evt) ->
+      evt.stopPropagation()
+      false
+    )
+
+  $("#global-search").typeahead(
+    source: (query, process) ->
+      return $.get(root_url + 'projects/search', { search: query }, (data) -> return process(data))
+    updater: (item) ->
+      $("#global-search").val(item)
+      $("#global-search-form").submit()
+      return item
+  )
 
   # $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
   $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
