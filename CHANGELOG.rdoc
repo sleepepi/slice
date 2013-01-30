@@ -1,4 +1,4 @@
-== 0.12.1
+== 0.12.1 (January 30, 2013)
 
 * Enhancements
   * Updated the variable date picker to use bootstrap-datepicker
