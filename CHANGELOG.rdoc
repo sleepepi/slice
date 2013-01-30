@@ -16,6 +16,7 @@
   * Subject report is now paginated and has links to create new sheets for subjects with already existing sheets
   * Boxplots on reports now use the same minimum and maximum values to scale correctly with each other
   * Navigation quick search added that searches across subjects, projects, designs, and variables
+  * Subject count added to project page
 
 * Bug Fix
   * Fixed the affix navigation on sheet show pages
