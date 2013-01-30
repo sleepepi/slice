@@ -1,17 +1,25 @@
-<% @title = "#{@project.name} Report" %>
-<h3>
-  <%= pluralize @project.designs.count, ' design' %> for <%= link_to @project.name, @project %>
-</h3>
-
-<hr class="soften" style="margin-top:20px">
+<% @title = "Summary Report" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+  </h1>
+</div>
 
 <%= form_tag report_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <%= hidden_field_tag :by, @by %>
   <%= hidden_field_tag :percent, @percent %>
 
   <div class="row">
-    <div class="span4">
-      Project <%= link_to @project.name, @project %>
+    <div class="span4" style="padding-top:3px;margin-top:0px">
+      Subjects
+      <div class="btn-group" data-toggle="buttons-checkbox">
+        <% Subject::STATUS.each do |label, value| %>
+          <button data-object="set-statuses" data-value="<%= value %>" data-target="#report_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+            <%= label.humanize %>
+            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+          </button>
+        <% end %>
+      </div>
     </div>
     <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px">
       <div class="btn-group" data-toggle="buttons-radio">
@@ -39,20 +47,6 @@
 
     <div class="span4">
       <button type="submit" class="btn btn-primary pull-right">Refresh</button>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="span4" style="padding-top:3px;margin-top:0px">
-      Subjects
-      <div class="btn-group" data-toggle="buttons-checkbox">
-        <% Subject::STATUS.each do |label, value| %>
-          <button data-object="set-statuses" data-value="<%= value %>" data-target="#report_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
-            <%= label.humanize %>
-            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
-          </button>
-        <% end %>
-      </div>
     </div>
   </div>
 <% end %>

@@ -6,8 +6,11 @@ class ProjectsController < ApplicationController
   def subject_report
     respond_to do |format|
       if @project
+        current_user.pagination_set!('subjects', params[:subjects_per_page].to_i) if params[:subjects_per_page].to_i > 0
         @statuses = params[:statuses] || ['valid', 'pending', 'test']
-        @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order('subject_code')
+        subject_scope = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses)
+        @subject_count = subject_scope.count
+        @subjects = subject_scope.order('subject_code').page(params[:page]).per( current_user.pagination_count('subjects') )
         @designs = @project.designs.order('name')
         format.html # subject_report.html.erb
         format.json { render json: @project }

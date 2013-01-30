@@ -1,9 +1,8 @@
 <h3 style="text-align:center;margin:0px">Subject vs. Design</h3>
 
+<%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20, object_count: @subject_count } %>
+
 <table class="table table-hover"><col width="1px" /><%== "<col width='#{100/(@designs.size + 1)}%'/>" * (@designs.size + 1) %><col width="1px"/>
-  <caption style="padding-bottom:8px">
-    <%= @project.name %>
-  </caption>
   <thead>
     <tr>
       <th></th>
@@ -42,11 +41,14 @@
         <td><%= link_to subject.subject_code, [subject.project, subject] %></td>
         <% @designs.each do |design| %>
           <% count = design.sheets.where(subject_id: subject.id).count %>
-          <td class="<%= 'muted' if count == 0 %>">
-            <% if count > 0 %>
-              <%= link_to count, project_sheets_path(@project, design_id: design.id, search: subject.subject_code) %>
+          <td class="<%= 'muted' if count == 0 %>" data-object="hover-show" data-target="#subject_<%= subject.id %>_design_<%= design.id %>_add_link" style="line-height:24px">
+            <% add_url = new_project_sheet_path(@project, sheet: { design_id: design.id, study_date: Date.today.strftime("%m/%d/%Y") }, subject_code: subject.subject_code, subject_acrostic: subject.acrostic, site_id: subject.site_id) %>
+            <% show_url = project_sheets_path(@project, design_id: design.id, search: subject.subject_code) %>
+            <% if count == 0 %>
+              <%= link_to '+', add_url, class: 'btn btn-mini' %>
             <% else %>
-              <%= link_to '+', new_project_sheet_path(@project, sheet: { design_id: design.id, study_date: Date.today.strftime("%m/%d/%Y") }, subject_code: subject.subject_code, subject_acrostic: subject.acrostic, site_id: subject.site_id), class: 'btn btn-mini' %>
+              <%= link_to count, show_url %>
+              <%= link_to '+', add_url, class: 'btn btn-mini', id: "subject_#{subject.id}_design_#{design.id}_add_link", style: 'display:none' %>
             <% end %>
           </td>
         <% end %>
@@ -58,3 +60,5 @@
     <% end %>
   </tbody>
 </table>
+
+<center><%= paginate @subjects, theme: "contour" %></center>

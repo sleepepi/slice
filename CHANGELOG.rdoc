@@ -13,6 +13,7 @@
     * Ex: A variable that scores an integer value from 0 to 10 will now show the zero as a minimum value if captured on sheets
   * Subject files collected across sheets are now available on the subject page
   * Subject page now links back to the subject report
+  * Subject report is now paginated and has links to create new sheets for subjects with already existing sheets
 
 * Bug Fix
   * Fixed the affix navigation on sheet show pages
