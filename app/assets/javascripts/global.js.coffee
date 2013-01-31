@@ -110,6 +110,10 @@ jQuery ->
       evt.stopPropagation()
       false
     )
+    .keydown( (e) ->
+      # [Ctrl|Command] + Shift + P will enter the search box
+      $("#global-search").focus() if (e.ctrlKey or e.metaKey) and e.shiftKey and e.which == 80 and not $("input, textarea").is(":focus")
+    )
 
   $("#global-search").typeahead(
     source: (query, process) ->
