@@ -7,7 +7,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should get search" do
-    get :search, search: ''
+    get :search, q: ''
 
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
@@ -19,7 +19,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should get search and redirect" do
-    get :search, search: 'Project With One Design'
+    get :search, q: 'Project With One Design'
 
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
@@ -33,7 +33,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should get search typeahead" do
-    get :search, search: 'abc', format: 'json'
+    get :search, q: 'abc', format: 'json'
 
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)

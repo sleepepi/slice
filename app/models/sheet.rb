@@ -8,7 +8,7 @@ class Sheet < ActiveRecord::Base
   include Deletable, Latexable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.downcase.gsub(/^| |$/, '%'), false, arg.downcase.gsub(/^| |$/, '%') ] } }
+  scope :search, lambda { |arg| { conditions: [ 'subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
   scope :sheet_before, lambda { |*args| { conditions: ["sheets.study_date < ?", (args.first+1.day)]} }
   scope :sheet_after, lambda { |*args| { conditions: ["sheets.study_date >= ?", args.first]} }
   scope :with_user, lambda { |*args| { conditions: ["sheets.user_id in (?)", args.first] } }

@@ -113,7 +113,7 @@ jQuery ->
 
   $("#global-search").typeahead(
     source: (query, process) ->
-      return $.get(root_url + 'projects/search', { search: query }, (data) -> return process(data))
+      return $.get(root_url + 'projects/search', { q: query }, (data) -> return process(data))
     updater: (item) ->
       $("#global-search").val(item)
       $("#global-search-form").submit()

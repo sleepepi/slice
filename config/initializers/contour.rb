@@ -57,7 +57,7 @@ Contour.setup do |config|
       name: 'About', display: 'always', path: 'about_path', position: 'left'
     },
     {
-      name: '"<form id=\"global-search-form\" class=\"navbar-search pull-left\" action=\"#{search_projects_path}\" style=\"margin-top:-5px\"><input id=\"global-search\" name=\"search\" type=\"text\" autocomplete=\"off\" class=\"search-query\" value=\"#{params[:search]}\" placeholder=\"Search\"></form>".html_safe',
+      name: '"<form id=\"global-search-form\" class=\"navbar-search pull-left\" action=\"#{search_path}\" style=\"margin-top:-5px\"><input id=\"global-search\" name=\"q\" type=\"text\" autocomplete=\"off\" class=\"search-query\" value=\"#{params[:q]}\" placeholder=\"Search\"></form>".html_safe',
       display: 'signed_in', position: 'left', eval: true, path: ''
     }
   ]

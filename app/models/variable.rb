@@ -34,7 +34,7 @@ class Variable < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%') ] } }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
   scope :with_user, lambda { |*args| { conditions: ['variables.user_id IN (?)', args.first] } }
   scope :with_project, lambda { |*args| { conditions: ['variables.project_id IN (?)', args.first] } }
   scope :with_variable_type, lambda { |*args| { conditions: ['variables.variable_type IN (?)', args.first] } }
