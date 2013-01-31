@@ -6,6 +6,7 @@
 
 * Bug Fix
   * Fixed a bug that occured when nil was passed as a search parameter to the Searchable Concern
+  * Fixed a bug that was resetting time fields when updating a sheet
 
 == 0.12.1 (January 30, 2013)
 
