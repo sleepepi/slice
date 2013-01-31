@@ -1,5 +1,8 @@
 == 0.12.2
 
+* Enhancement
+  * Designs on the subject page are now in the same order as they appear on the subject report
+
 * Bug Fix
   * Fixed a bug that occured when nil was passed as a search parameter to the Searchable Concern
 
