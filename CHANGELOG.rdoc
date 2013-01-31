@@ -1,4 +1,4 @@
-== 0.12.2
+== 0.12.2 (January 31, 2013)
 
 * Enhancement
   * Designs on the subject page are now in the same order as they appear on the subject report
