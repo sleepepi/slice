@@ -26,7 +26,7 @@
       <% else %>
         <span class='muted'>
           <%= project_user.invite_email %>
-          <%= text_field_tag "project_user_#{project_user.id}_invite", accept_project_users_url(invite_token: project_user.invite_token) if current_user == project_user.creator %>
+          <%= text_field_tag "project_user_#{project_user.id}_invite", "#{SITE_URL}/project_users/accept?invite_token=#{project_user.invite_token}" if current_user == project_user.creator %>
           <%= link_to 'Resend Invitation', resend_project_user_path(project_user), method: :post, remote: true, class: 'btn btn-primary btn-mini', autocomplete: "off", data: { loading_text: "Resent" } %>
         </span>
       <% end %>
