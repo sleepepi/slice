@@ -73,11 +73,20 @@ class Sheet < ActiveRecord::Base
 
   # Model Methods
   def self.last_entry
-    self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date < s2.study_date", false])).where("s2.id IS NULL")
+    # self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date < s2.study_date", false])).where("s2.id IS NULL")
+    # PostgreSQL specific syntax DISTINCT ON:
+    #   http://www.postgresql.org/docs/9.0/static/sql-select.html#SQL-DISTINCT
+    # self.scoped().select('DISTINCT ON (subject_id) "sheets".*').order('subject_id, study_date DESC')
+    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, study_date DESC').pluck(:id)
+    self.scoped().where(id: sheet_ids)
   end
 
   def self.first_entry
-    self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date > s2.study_date", false])).where("s2.id IS NULL")
+    # self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date > s2.study_date", false])).where("s2.id IS NULL")
+    # PostgreSQL specific syntax DISTINCT ON:
+    #   http://www.postgresql.org/docs/9.0/static/sql-select.html#SQL-DISTINCT
+    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, study_date ASC').pluck(:id)
+    self.scoped().where(id: sheet_ids)
   end
 
   def send_external_email!(current_user, email, authentication_token = SecureRandom.hex(32))
@@ -411,7 +420,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_responses(sheet_scope, variable)
-    responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck("sheets.id"), variable_id: variable.id).pluck(:response) : [])
+    responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck(:id), variable_id: variable.id).pluck(:response) : [])
     # Convert to integer or float
     variable && variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
   end
@@ -448,7 +457,7 @@ class Sheet < ActiveRecord::Base
     end
 
     sheet_scope = filter_sheet_scope(sheet_scope, filters)
-    number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck("sheets.id")))
+    number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck(:id)))
     name = (number == nil ? '-' : number)
 
     [name, number]

@@ -6,12 +6,13 @@
 * Bug Fix
   * Fixed a bug that kept users from registering using an alternate login
   * Fixed an incorrect site invitation url from being generated when inviting a user on the site show page
+  * Fixed last_entry and first_entry SQL expression that caused some bugs
 
 == 0.12.2 (January 31, 2013)
 
 * Enhancements
   * Designs on the subject page are now in the same order as they appear on the subject report
-  * Ctrl|Command + Shift + P will set focus on the search box
+  * Ctrl|Command + Shift + P will set focus on the search box (changed to just 'p' in 0.12.3)
 
 * Bug Fix
   * Fixed a bug that occured when nil was passed as a search parameter to the Searchable Concern
