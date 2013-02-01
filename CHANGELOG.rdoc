@@ -1,4 +1,4 @@
-== 0.12.3
+== 0.12.3 (February 1, 2013)
 
 * Enhancements
   * Shortcut to search box simplified to 'p'
