@@ -2,6 +2,7 @@
 
 * Enhancements
   * Shortcut to search box simplified to 'p'
+  * Subject Report + buttons no longer show up for Site Users
 
 * Bug Fix
   * Fixed a bug that kept users from registering using an alternate login
