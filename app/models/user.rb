@@ -216,6 +216,7 @@ class User < ActiveRecord::Base
       self.first_name = omniauth['info']['first_name'] if first_name.blank?
       self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
+    self.password = Devise.friendly_token[0,20] if self.password.blank? # Necessary for PostgreSQL
     authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
   end
 
