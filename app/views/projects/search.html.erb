@@ -14,7 +14,7 @@
           <% scope.each do |item| %>
             <% link = item.respond_to?('project') ? [item.project, item] : item %>
             <tr data-link="<%= url_for(link) %>" style="cursor:pointer">
-              <td><%= link_to highlight(item.name, params[:search], highlighter: '<span class="highlight">\1</span>'), link, rel: "tooltip", data: { placement: 'right' }, title: "#{item.project.name if item.respond_to?('project')}" %></td>
+              <td><%= link_to highlight(item.name, params[:q], highlighter: '<span class="highlight">\1</span>'), link, rel: "tooltip", data: { placement: 'right' }, title: "#{item.project.name if item.respond_to?('project')}" %></td>
             </tr>
           <% end %>
           </table>

@@ -106,18 +106,22 @@ jQuery ->
       if $("#global-search").val() != ''
         $("#global-search").focus()
     )
-    .on('click', '#global-search', (evt) ->
-      evt.stopPropagation()
+    .on('click', '#global-search', (e) ->
+      e.stopPropagation()
       false
     )
     .keydown( (e) ->
-      # [Ctrl|Command] + Shift + P will enter the search box
-      $("#global-search").focus() if (e.ctrlKey or e.metaKey) and e.shiftKey and e.which == 80 and not $("input, textarea").is(":focus")
+      # p will enter the search box, Esc will exit
+      if e.which == 80 and not $("input, textarea").is(":focus")
+        $("#global-search").focus()
+        e.preventDefault()
+        return
+      $("#global-search").blur() if $("#global-search").is(':focus') and e.which == 27
     )
 
   $("#global-search").typeahead(
     source: (query, process) ->
-      return $.get(root_url + 'projects/search', { q: query }, (data) -> return process(data))
+      return $.get(root_url + 'search', { q: query }, (data) -> return process(data))
     updater: (item) ->
       $("#global-search").val(item)
       $("#global-search-form").submit()
