@@ -2,6 +2,7 @@
 
 * Bug Fix
   * Fixed a bug that kept users from registering using an alternate login
+  * Fixed an incorrect site invitation url from being generated when inviting a user on the site show page
 
 == 0.12.2 (January 31, 2013)
 
