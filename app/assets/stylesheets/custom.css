@@ -233,10 +233,6 @@ textarea:focus.warning-input  {
   z-index: 1;
 }
 
-.center {
-  text-align: center;
-}
-
 #contour-backdrop {
   overflow-x: hidden;
   overflow-y: auto;
@@ -322,10 +318,6 @@ textarea:focus.warning-input  {
 
 .download-container h3 {
   margin-top: 0px;
-}
-
-.tooltip {
-  line-height: 20px;
 }
 
 .highlight {

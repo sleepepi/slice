@@ -1,5 +1,8 @@
 == 0.13.0
 
+* Enhancements
+  * Updated to Contour 1.1.3.pre
+
 * Bug Fix
   * Hitting 'p' no longer triggers switching to the global search when focused on a link or a drop down menu
 
