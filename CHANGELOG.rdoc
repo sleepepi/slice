@@ -1,5 +1,8 @@
 == 0.13.0
 
+* Bug Fix
+  * Hitting 'p' no longer triggers switching to the global search when focused on a link or a drop down menu
+
 == 0.12.3 (February 1, 2013)
 
 * Enhancements

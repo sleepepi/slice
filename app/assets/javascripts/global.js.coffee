@@ -112,7 +112,7 @@ jQuery ->
     )
     .keydown( (e) ->
       # p will enter the search box, Esc will exit
-      if e.which == 80 and not $("input, textarea").is(":focus")
+      if e.which == 80 and not $("input, textarea, select, a").is(":focus")
         $("#global-search").focus()
         e.preventDefault()
         return
