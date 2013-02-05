@@ -121,7 +121,7 @@
 
 </table>
 
-<center class="muted"><%= @report_caption %></center>
+<div class="center muted"><%= @report_caption %></div>
 
 <%= link_to '#permalink', report_project_design_path(@design.project, @design, project_id: @project.id, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
                                               sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")), variable_id: (@variable ? @variable.id : nil),
