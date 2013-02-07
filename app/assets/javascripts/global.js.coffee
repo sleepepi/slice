@@ -77,11 +77,9 @@ jQuery ->
         $($(element).data('target')).hide()
       )
       $($(this).data('target')).show()
-      # false
     )
     .on('mouseleave', '[data-object~="hover-show"]', () ->
       $($(this).data('target')).hide()
-      # false
     )
     .on('click', '[data-object~="set-audit-row"]', () ->
       if $(this).hasClass("active")
