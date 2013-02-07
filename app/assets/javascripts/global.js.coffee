@@ -72,10 +72,8 @@ jQuery ->
     .on('click', '[data-object~="suppress-click"]', () ->
       false
     )
-    .on('mouseenter', '[data-object~="hover-show"]', (e) ->
-      if ('ontouchstart' in document.documentElement)
-        e.preventDefault()
-        return false
+    .on('mouseenter', '[data-object~="hover-show"]', () ->
+      return false if ('ontouchstart' in document.documentElement)
       $('[data-object~="hover-show"]').each( (index, element) ->
         $($(element).data('target')).hide()
       )
