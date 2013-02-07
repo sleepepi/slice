@@ -73,16 +73,15 @@ jQuery ->
       false
     )
     .on('mouseenter', '[data-object~="hover-show"]', () ->
-      return false if ('ontouchstart' in document.documentElement)
       $('[data-object~="hover-show"]').each( (index, element) ->
         $($(element).data('target')).hide()
       )
       $($(this).data('target')).show()
-      false
+      # false
     )
     .on('mouseleave', '[data-object~="hover-show"]', () ->
       $($(this).data('target')).hide()
-      false
+      # false
     )
     .on('click', '[data-object~="set-audit-row"]', () ->
       if $(this).hasClass("active")
