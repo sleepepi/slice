@@ -89,7 +89,7 @@ jQuery ->
         window.location = url
       false
     )
-    .on('click touchstart', "[data-link]", (e) ->
+    .on('click', "[data-link]", (e) ->
       if nonStandardClick(e)
         window.open($(this).data("link"))
         return false

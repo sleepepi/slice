@@ -73,6 +73,7 @@ jQuery ->
       false
     )
     .on('mouseenter', '[data-object~="hover-show"]', () ->
+      return false unless document.documentElement.ontouchstart == undefined
       $('[data-object~="hover-show"]').each( (index, element) ->
         $($(element).data('target')).hide()
       )
