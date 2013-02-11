@@ -16,7 +16,7 @@
 
 ### Enhancements
 - Shortcut to search box simplified to `p`
-- Subject Report + buttons no longer show up for Site Users
+- Subject Report `+` buttons no longer show up for Site Users
 - Subject Report sheet counts now link directly to the sheet if the subject only has one sheet for the design
 
 ### Bug Fix
