@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "#{DEFAULT_APP_NAME} <#{ActionMailer::Base.smtp_settings[:user_name]}>"
+  default from: "#{DEFAULT_APP_NAME} <#{ActionMailer::Base.smtp_settings[:email]}>"
   add_template_helper(ApplicationHelper)
 
   def notify_system_admin(system_admin, user)

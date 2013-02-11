@@ -3,6 +3,8 @@
 * Enhancements
   * Updated to Contour 1.2.0.pre2
   * Removed references to deprecated <tt>&lt;center&gt;</tt> HTML tag
+  * ActionMailer can now also be configured to send email through NTLM
+    * ActionMailer::Base.smtp_settings now requires an :email field
 
 * Bug Fix
   * Hitting 'p' no longer triggers switching to the global search when focused on a link or a drop down menu
