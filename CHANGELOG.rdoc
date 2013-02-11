@@ -1,7 +1,7 @@
 == 0.13.0
 
 * Enhancements
-  * Updated to Contour 1.1.3.pre2
+  * Updated to Contour 1.2.0.pre2
   * Removed references to deprecated <tt>&lt;center&gt;</tt> HTML tag
 
 * Bug Fix
