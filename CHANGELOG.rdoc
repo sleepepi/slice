@@ -2,6 +2,7 @@
 
 * Enhancements
   * Updated to Contour 1.2.0.pre2
+    * Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
   * Removed references to deprecated <tt>&lt;center&gt;</tt> HTML tag
   * ActionMailer can now also be configured to send email through NTLM
     * ActionMailer::Base.smtp_settings now requires an :email field
