@@ -191,7 +191,7 @@
 ## 0.11.0 (November 21, 2012)
 
 ### Enhancements
-- Design Changes
+- **Design Changes**
   - Email templates and subject lines can now reference the user sending the email (full name and email)
     - User's Full Name: #(user)
     - User's Email: #(user).email
@@ -200,12 +200,12 @@
   - Variables can now be created inline while creating or editing a design
   - Branching logic for checkboxes has been simplified:
     - See: [FAQ 305: Variable Design Branching Logic](http://remomueller.github.com/slice/faq/300-designs/305-variable-design-branching-logic)
-- Project Changes
+- **Project Changes**
   - Subjects and Sites are now integrated more closely with their projects
-- Subject Changes
+- **Subject Changes**
   - Subjects can now be marked as valid, test, or pending
   - Filters for subject status have been added to reports
-- Sheet Changes
+- **Sheet Changes**
   - Sheet PDF Collation now rendered using LaTeX for cleaner PDFs
   - Sheets now contain a last edited at variable that updates when a user edits the sheet (as opposed to solely viewing the sheet)
   - Printed sheets now hide variables that have been hidden by branching logic
@@ -220,15 +220,15 @@
     - [subject_code]_[study_date]_[design_name].pdf
   - Entering a sheet now provides an autocomplete list of valid subject codes
   - Grids with default_row_number set will now show the maximum default_row_number when going back to edit a sheet that did not use all of the grid rows
-- Surveys and Questionnaires
+- **Surveys and Questionnaires**
   - Questionnaires and surveys can be generated and sent to a list of emails for external users to complete
   - External users are not required to sign up and can access the survey by clicking the survey link in the generated email
   - Subjects can now also have emails to allow project owners to send out questionnaires or surveys
   - Survey creators receive an email when the external user submits the survey
   - Survey emails are part of the sheet's email history
-- Report Changes
+- **Report Changes**
   - Removed internal site ids from design reports
-- Export Changes
+- **Export Changes**
   - Improved display of grid variable tables in PDF for sheets and designs
   - XLS files are now more compatible, and take up less space than the original format used
   - Exports are now run in the background and users are notified when they can access the file
@@ -280,7 +280,7 @@
 ## 0.10.0 (November 2, 2012)
 
 ### Enhancements
-- Project Changes
+- **Project Changes**
   - Slice root directs a user to either a splash page with projects, or the project they are currently on
   - New Project dashboard added
   - Projects can now have Contacts, Documents, and News Posts
@@ -288,11 +288,11 @@
   - Subject vs Design project report added to view the overall status of subjects
   - Project owners are no longer automatically added to the CC field for sheet receipts
     - To add a project owner back to be CC'd, add the email to the project's email field
-- Sheet Changes
+- **Sheet Changes**
   - Datepickers now retain focus after a date is selected
   - Design navigation now uses a left menu
   - Tabbing when filling in sheets simplified to tab more quickly between relevant data inputs
-- Variable Changes
+- **Variable Changes**
   - Grid variables can now specify the default number of rows that are displayed
   - Added calculation popups for calculated variables
   - Simplified conditional design variable logic by removing Show If and Values section
@@ -300,7 +300,7 @@
   - Add Scale variable type that allows options to be specified by domains
     - Domains are a set of options that can be associated to multiple variables
   - Calculated variables can now be added to grid variables and do the calculation based on the row they are in
-- General Changes
+- **General Changes**
   - Removed the global librarian role
 
 ### Bug Fix
@@ -311,12 +311,12 @@
 
 ### Enhancements
 - The project has been renamed to Slice
-- Variable Changes
+- **Variable Changes**
   - Added easier variable type selection on variables index
   - Simplified interface for adding variables to a grid variable
   - Simplified adding options to variables
   - Grid variable show pages now include links back to the variables included in the grid
-- Sheet Changes
+- **Sheet Changes**
   - Projects with one design now load that design by default when creating a new sheet
   - Variable popups now only show up if the variable description is set
     - NOTE: The range description has been moved to the tooltip
@@ -330,19 +330,19 @@
 ## 0.9.0 (October 19, 2012)
 
 ### Enhancements
-- Report Changes
+- **Report Changes**
   - Tooltip added to report permalinks that specify to right click and copy link address
   - Design reports can be exported to PDF in portrait or landscape mode
   - Design reports can now be stratified by column by any date variable captured on the design
   - Design reports can specify to remove duplicate subject sheets and only used the first or last entered sheet for a the subject
   - Custom design reports can now be saved
   - Site members can now see Project and Design report that are filtered to their own site
-- Sheet Changes
+- **Sheet Changes**
   - Sheet show page displays if a sheet receipt email has been sent
   - Sheets and grids can now be exported as an XLS file with a sheets tab and a grids tab
   - Sheet Receipt emails are tracked and email history is viewable from the sheet show page
   - Basic auditing for sheets now enabled
-- Variable Changes
+- **Variable Changes**
   - Date and time variables have the option to show a "Get Current Date/Time" button
   - Radio variables can now be cleared using a new clear button at the bottom of the radio button group
   - Variable display names can be set as:
@@ -352,7 +352,7 @@
       - NOTE: 'Gone' best when used with a Variable Header, and with Grid variables
   - Radio and Checkbox Variables can now be aligned vertically (default) or in a row horizontally
   - Radio and Checkbox choices are now displayed as they appear on the form in the variables list
-- General Changes
+- **General Changes**
   - Design Library and Variable Library menu items simplified to Designs and Variables
   - Printed PDFs have the PDF creation date in the center footer of the PDF
 
@@ -365,21 +365,21 @@
 ## 0.8.0 (October 5, 2012)
 
 ### Enhancements
-- Design Changes
+- **Design Changes**
   - Email subject lines can be customized per design
   - Email templates and subject lines can now reference project and design name
     - Project Name: #(project)
     - Design Name: #(design)
   - Simple HTML formatting available for email templates
   - Study Date can be renamed to be design-specific (i.e. Visit Date, etc.)
-- Variable Changes
+- **Variable Changes**
   - Autocomplete values can be added to string variables
     - User submitted variables can be tracked when editing the variable and can also be added to the existing autocomplete list
   - Display name can be hidden for variables to avoid redundancy with header
   - Extra strings can be prepended and appended to variables
   - Options for radio, dropdown, and checkboxes can now have a color assigned to the option that is reflected on reports
   - Grid variables can specify the size of inputs in the grid for better formatting
-- Reporting Added
+- **Reporting Added**
   - Project Reports
     - Show the overall distribution of sheets by design and study date
     - Drill down added to project reports to access design reports
@@ -388,10 +388,10 @@
     - Column stratification by Study Date or any dropdown, radio, or string variable on the design
     - Design reports can be downloaded as CSV
   - Reports include permalinks that allow report configurations to be shared
-- Project Changes
+- **Project Changes**
   - Subject Code can be renamed to be project-specific (i.e. Participant ID, etc.)
   - New users can now be added to projects by email
-- Sheet Changes
+- **Sheet Changes**
   - Detailed sheet information now available as a popup on the show page
 
 ### Bug Fix
@@ -403,15 +403,15 @@
 ## 0.7.0 (September 10, 2012)
 
 ### Enhancements
-- Design Changes
+- **Design Changes**
   - Multi-page designs can be created by setting "break before" to true on sections
-- Sheet Changes
+- **Sheet Changes**
   - Projects and Sites are now sorted alphabetically when creating a sheet
   - Unsaved changes while editing sheets now asks the user if they want leave the page
   - Add last_emailed_at to sheets
   - Sheets on projects with acrostic enabled now display the subject's acrostic on the PDF
   - Subject acrostic added to data exports
-- Variable Changes
+- **Variable Changes**
   - Units now available for numeric, integer, and calculated variables
   - Grid variable added that can display a list of variables in a grid format
     - Variables in a grid can also be repeated if more rows are needed in the grid
@@ -423,16 +423,16 @@
 ## 0.6.0 (August 10, 2012)
 
 ### Enhancements
-- Project Changes
+- **Project Changes**
   - Sheet and subject counts on the project page now link to the corresponding filtered sheet or subject index pages
   - Project logos can be removed by hovering over the logo on the project show page
   - Hovering over a site user now displays who invited the user to the site
-- Sheet Changes
+- **Sheet Changes**
   - Sheet index allows sorting by design name, subject code, site name, project name, and creator name
   - Sheets index columns reordered
     - Sheet, Subject, Study Date, Site, Project, Creator, Actions
   - Attaching a PDF to sheet receipt emails is now optional
-- Design Changes
+- **Design Changes**
   - Sections and variables can be reordered on the design show page
   - Section and variable counts are now displayed on the design show page
   - Added more options for email templates
@@ -449,7 +449,7 @@
   - Advanced branching logic syntax can now be added to variables and sections
   - Data dictionaries in CSV format can now be downloaded by filtering designs
     - Invidual data dictionaries are also available for designs
-- Variable Changes
+- **Variable Changes**
   - Calculated variables can now have a specified format
     - Precision, i.e. %0.02f, 4.127 => 4.13
     - Leading Zeros, i.e. %04d, 45 => 0045
@@ -457,7 +457,7 @@
   - Missing codes are now displayed distinctly for check boxes and radio button groups
   - Numeric fields have been changed back to text fields to be consistent across browsers
   - Copying variables retains the original project from which they were copied
-- Miscellaneous
+- **Miscellaneous**
   - Users can specify how many items are displayed on index pages
   - User show page now displays the sites and projects the user can view
 - Updated to Rails 3.2.8
@@ -469,20 +469,20 @@
 ## 0.5.0 (July 24, 2012)
 
 ### Enhancements
-- Project Changes
+- **Project Changes**
   - Project page now shows more information on associated designs and sites
   - Logos can be added to projects and are displayed throughout the application and on PDFs
   - Projects can now enable acrostic codes for subjects
   - Users can be invited to individual project sites by email
-- Sheet Changes
+- **Sheet Changes**
   - Printable version of designs and sheets have been improved
   - Sheets can now be exported as labeled or unlabeled CSV files
   - Sheets can be exported as a PDF collation
   - Missing codes for numerics are now displayed as a name and value when viewing sheets
-- Design Changes
+- **Design Changes**
   - Designs can no longer be saved with duplicate variables
   - Each design can have its email template customized
-- Variable Changes
+- **Variable Changes**
   - Time variables added
   - File upload variables added
 - Updated to Rails 3.2.7.rc1
@@ -503,16 +503,16 @@
 ## 0.4.0 (July 10, 2012)
 
 ### Enhancements
-- Variable Changes
+- **Variable Changes**
   - Hard Maximums and Hard Minimums added for date variables
   - Soft Ranges can be added to Integer, Numeric, and Date variables
   - Calculated variables are now supported
   - Missing codes can now be added to numerics and integers
   - Dropdown options are now grouped by missing codes
-- Subject and Site Changes
+- **Subject and Site Changes**
   - Sites can now specify valid subject code ranges
   - Subjects created within the valid range are automatically validated
-- Email Changes
+- **Email Changes**
   - Default application name is now added to the `from` field for emails
   - Email subjects no longer include the application name
 - Sheet PDFs can be downloaded from Sheets Index page
@@ -532,45 +532,45 @@
 ### Enhancements
 - Reset Filters added to Designs, Variables, Subjects, and Sites Index pages
 - Designs and Sheets can now be printed to PDF
-- Sheet Changes
+- **Sheet Changes**
   - CSV export now requires at least one sheet to be filtered
   - Sheet emails now also include a PDF attachment
-- Designs Changes
+- **Design Changes**
   - Designs can now have section headers
   - Design section names and variable headers are now included in the sheet email template
   - Sections and Variables can now be added to the top in the design builder
   - Conditional logic improved to allow cascading of conditional logic
-- Variable Changes
+- **Variable Changes**
   - Variable name field now only allows a maximum length of 32 characters
   - Variable show page now displays all designs that include the variable
-- Site Changes
+- **Site Changes**
   - Sites can now have prefixes
   - Entering new subjects will now attempt to guess the site based on the subject code and site prefixes
-- Subject Changes
+- **Subject Changes**
   - Subjects can now be marked as validated to allow detection of erroneously added subject codes
   - Entering a subject code will now inform the user subject code is valid, invalid, or new
-- Project Changes
+- **Project Changes**
   - Project page now lists designs and links to project specific designs
   - Project page now links to project specific sheets
 
 ## 0.2.1 (June 13, 2012)
 
 ### Enhancements
-- Sheet Changes
+- **Sheet Changes**
   - Sheets are now updated to reflect changes to the associated design
-- Variable Changes
+- **Variable Changes**
   - Variables now display Project Name or Global when adding variables to designs
   - Updating existing variable option values now updates sheets accordingly
   - Removing an existing variable option now resets sheets with that option selected
   - Option values can't contain colons, must be unique and can't be blank
   - Variables are filterable by project, variable type, and creator
-- Design Changes
+- **Design Changes**
   - Designs are filterable by project and creator
   - Selecting variables when designing a form now show a preview of the variable
   - Conditional logic added to hide variables on designs based on values in other variables
-- Project Changes
+- **Project Changes**
   - Projects now link to subjects and sites
-- Subject Changes
+- **Subject Changes**
   - Subject's page shows sheets entered for that subject
   - Subjects can be filtered by designs that haven't been filled out
   - Subjects can be filtered by site
@@ -584,19 +584,19 @@
 ## 0.2.0 (June 8, 2012)
 
 ### Enhancements
-- Sheet Changes
+- **Sheet Changes**
   - Sheets are restricted to one per design_id, project_id, subject_id, and study_date
   - Sheet receipts can now be emailed to the associated subject's site
   - Sheets can now be filtered by study date, project, site, design, and creator
   - Sheets track who last updated the sheet
   - Sheet data can be exported en-masse to CSV
-- Project Changes
+- **Project Changes**
   - Projects can have emails to be cc'd on sheet receipts
   - Projects can now have multiple sites, and each subject is assigned to a specific site
   - Projects can now have
     - Librarians who can modify project designs and variables
     - Members who can modify project sheets, subjects, and sites
-- Design and Variable Changes
+- **Design and Variable Changes**
   - Variable creating or updating
      - A confirmation box now displays that warns the user that options with blank names will be removed
      - Hard Minimum and Maximum values can be added for Numeric and Integer variables
