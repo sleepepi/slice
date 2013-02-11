@@ -3,7 +3,7 @@
 ### Enhancements
 - Updated to Contour 1.2.0.pre3
   - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
-- Removed references to deprecated `&lt;center&gt;` HTML tag
+- Removed references to deprecated `<center>` HTML tag
 - ActionMailer can now also be configured to send email through NTLM
   - ActionMailer::Base.smtp_settings now requires an :email field
 - Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
