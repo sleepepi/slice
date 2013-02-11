@@ -55,12 +55,17 @@ Contour.setup do |config|
     },
     {
       name: 'About', display: 'always', path: 'about_path', position: 'left'
-    },
-    {
-      name: '"<form id=\"global-search-form\" class=\"navbar-search pull-left\" action=\"#{search_path}\" style=\"margin-top:-5px\"><input id=\"global-search\" name=\"q\" type=\"text\" autocomplete=\"off\" class=\"search-query\" value=\"#{params[:q]}\" placeholder=\"Search\"></form>".html_safe',
-      display: 'signed_in', position: 'left', eval: true, path: ''
     }
   ]
+
+  # Enter search bar information if you would like one [default none]:
+  config.search_bar = {
+    display: 'signed_in',
+    id: 'global-search',
+    path: 'search_path',
+    placeholder: 'Search',
+    position: 'left'
+  }
 
   # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
   config.news_feed = 'https://sleepepi.partners.org/category/informatics/slice/feed/rss'
