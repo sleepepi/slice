@@ -9,13 +9,13 @@
 - Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
 
 ### Bug Fix
-- Hitting 'p' no longer triggers switching to the global search when focused on a link or a drop down menu
+- Hitting `p` no longer triggers switching to the global search when focused on a link or a drop down menu
 - Fixed a bug that would disable navigation to the project page from the projects splash page on touch devices
 
 ## 0.12.3 (February 1, 2013)
 
 ### Enhancements
-- Shortcut to search box simplified to 'p'
+- Shortcut to search box simplified to `p`
 - Subject Report + buttons no longer show up for Site Users
 - Subject Report sheet counts now link directly to the sheet if the subject only has one sheet for the design
 
@@ -28,7 +28,7 @@
 
 ### Enhancements
 - Designs on the subject page are now in the same order as they appear on the subject report
-- Ctrl|Command + Shift + P will set focus on the search box (changed to just 'p' in 0.12.3)
+- `Ctrl|Command + Shift + P` will set focus on the search box (changed to just `p` in 0.12.3)
 
 ### Bug Fix
 - Fixed a bug that occured when nil was passed as a search parameter to the Searchable Concern
