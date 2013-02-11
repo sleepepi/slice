@@ -170,7 +170,7 @@
 
 ## 0.11.2 (November 30, 2012)
 
-- Enhancement
+### Enhancements
 - Variables now only use the variable name as a place holder in the input field if the variable is in a grid
 
 ### Bug Fix
@@ -193,8 +193,8 @@
 ### Enhancements
 - **Design Changes**
   - Email templates and subject lines can now reference the user sending the email (full name and email)
-    - User's Full Name: #(user)
-    - User's Email: #(user).email
+    - User's Full Name: `#(user)`
+    - User's Email: `#(user).email`
   - Designs are now rendered using LaTeX for cleaner PDFs
   - Design (Data Dictionary) exports are now provided as a single XLS file
   - Variables can now be created inline while creating or editing a design
@@ -210,16 +210,16 @@
   - Sheets now contain a last edited at variable that updates when a user edits the sheet (as opposed to solely viewing the sheet)
   - Printed sheets now hide variables that have been hidden by branching logic
   - Sheet audits now capture value changes triggered by editing a variable's option value in the design
-  - Dates on sheets are now expanded to mm/dd/yyyy format if entered with a two-digit year
+  - Dates on sheets are now expanded to `mm/dd/yyyy` format if entered with a two-digit year
   - Live validations added to when entering a sheet with variables that have hard and soft ranges
   - "Create and Continue" and "Update and Continue" are now options to allow for entering multiple sheets one after another
   - Valid site ranges are now displayed during sheet entry if the site has a code_minimum, and code_maximum set
   - Sheets are now checked for unique valid design, subject, and study date combination as they are being entered to catch errors more quickly
   - Sheet receipt email TO and CC fields can now be specified as semi-colon-delimited in addition to comma-delimited
   - Sheet PDFs sent using sheet receipt emails are now named in the following manner
-    - [subject_code]_[study_date]_[design_name].pdf
+    - `[subject_code]_[study_date]_[design_name].pdf`
   - Entering a sheet now provides an autocomplete list of valid subject codes
-  - Grids with default_row_number set will now show the maximum default_row_number when going back to edit a sheet that did not use all of the grid rows
+  - Grids with `default_row_number` set will now show the maximum `default_row_number` when going back to edit a sheet that did not use all of the grid rows
 - **Surveys and Questionnaires**
   - Questionnaires and surveys can be generated and sent to a list of emails for external users to complete
   - External users are not required to sign up and can access the survey by clicking the survey link in the generated email
@@ -368,8 +368,8 @@
 - **Design Changes**
   - Email subject lines can be customized per design
   - Email templates and subject lines can now reference project and design name
-    - Project Name: #(project)
-    - Design Name: #(design)
+    - Project Name: `#(project)`
+    - Design Name: `#(design)`
   - Simple HTML formatting available for email templates
   - Study Date can be renamed to be design-specific (i.e. Visit Date, etc.)
 - **Variable Changes**
@@ -436,11 +436,11 @@
   - Sections and variables can be reordered on the design show page
   - Section and variable counts are now displayed on the design show page
   - Added more options for email templates
-    - Site Name: #(site)
-    - Study Date: #(date)
-    - Variable: $(variable),             i.e. $(scorer_id)       => 1: John Smith
-    - Variable Label: $(variable).label, i.e. $(scorer_id).label => John Smith
-    - Variable Value: $(variable).value, i.e. $(scorer_id).value => 1
+    - Site Name: `#(site)`
+    - Study Date: `#(date)`
+    - Variable: `$(variable)`,             i.e. `$(scorer_id)       => 1: John Smith`
+    - Variable Label: `$(variable).label`, i.e. `$(scorer_id).label => John Smith`
+    - Variable Value: `$(variable).value`, i.e. `$(scorer_id).value => 1`
   - Design index allows sorting by project name and creator name
   - Design index displays variable count per design
   - Variables and sections can now be added in the middle of a form when editing a design
@@ -451,8 +451,8 @@
     - Invidual data dictionaries are also available for designs
 - **Variable Changes**
   - Calculated variables can now have a specified format
-    - Precision, i.e. %0.02f, 4.127 => 4.13
-    - Leading Zeros, i.e. %04d, 45 => 0045
+    - Precision, i.e. `%0.02f`, `4.127 => 4.13`
+    - Leading Zeros, i.e. `%04d`, `45 => 0045`
   - Numeric and integer max/min hard/soft range information is now displayed in a table under the variable description
   - Missing codes are now displayed distinctly for check boxes and radio button groups
   - Numeric fields have been changed back to text fields to be consistent across browsers
