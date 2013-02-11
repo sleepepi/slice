@@ -2,7 +2,7 @@
 *
 * jquery.sparkline.js
 *
-* v2.1
+* v2.1.1
 * (c) Splunk, Inc
 * Contact: Gareth Watts (gareth@splunk.com)
 * http://omnipotent.net/jquery.sparkline/
@@ -218,7 +218,7 @@
         remove, isNumber, all, sum, addCSS, ensureArray, formatNumber, RangeMap,
         MouseHandler, Tooltip, barHighlightMixin,
         line, bar, tristate, discrete, bullet, pie, box, defaultStyles, initStyles,
-         VShape, VCanvas_base, VCanvas_canvas, VCanvas_vml, pending, shapeCount = 0;
+        VShape, VCanvas_base, VCanvas_canvas, VCanvas_vml, pending, shapeCount = 0;
 
     /**
      * Default configuration settings
@@ -603,9 +603,9 @@
         if (height === undefined) {
             height = $(this).innerHeight();
         }
-        if ($.browser.hasCanvas) {
+        if ($.fn.sparkline.hasCanvas) {
             target = new VCanvas_canvas(width, height, this, interact);
-        } else if ($.browser.msie) {
+        } else if ($.fn.sparkline.hasVML) {
             target = new VCanvas_vml(width, height, this);
         } else {
             return false;
@@ -1647,7 +1647,7 @@
                 }
 
             }
-            if (spotRadius && options.get('spotColor')) {
+            if (spotRadius && options.get('spotColor') && yvalues[yvallast] !== null) {
                 target.drawCircle(canvasLeft + Math.round((xvalues[xvalues.length - 1] - this.minx) * (canvasWidth / rangex)),
                     canvasTop + Math.round(canvasHeight - (canvasHeight * ((yvalues[yvallast] - this.miny) / rangey))),
                     spotRadius, undefined,
@@ -2528,13 +2528,19 @@
     // Setup a very simple "virtual canvas" to make drawing the few shapes we need easier
     // This is accessible as $(foo).simpledraw()
 
-    if ($.browser.msie && document.namespaces && !document.namespaces.v) {
-        document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
-    }
+    // Detect browser renderer support
+    (function() {
+        if (document.namespaces && !document.namespaces.v) {
+            $.fn.sparkline.hasVML = true;
+            document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
+        } else {
+            $.fn.sparkline.hasVML = false;
+        }
 
-    if ($.browser.hasCanvas === undefined) {
-        $.browser.hasCanvas = document.createElement('canvas').getContext !== undefined;
-    }
+        var el = document.createElement('canvas');
+        $.fn.sparkline.hasCanvas = !!(el.getContext && el.getContext('2d'));
+
+    })()
 
     VShape = createClass({
         init: function (target, id, type, args) {
@@ -2934,7 +2940,7 @@
         _drawPieSlice: function (shapeid, x, y, radius, startAngle, endAngle, lineColor, fillColor) {
             var vpath, startx, starty, endx, endy, stroke, fill, vel;
             if (startAngle === endAngle) {
-                return;  // VML seems to have problem when start angle equals end angle.
+                return '';  // VML seems to have problem when start angle equals end angle.
             }
             if ((endAngle - startAngle) === (2 * Math.PI)) {
                 startAngle = 0.0;  // VML seems to have a problem when drawing a full circle that doesn't start 0
@@ -2946,9 +2952,18 @@
             endx = x + Math.round(Math.cos(endAngle) * radius);
             endy = y + Math.round(Math.sin(endAngle) * radius);
 
-            // Prevent very small slices from being mistaken as a whole pie
+            if (startx === endx && starty === endy) {
+                if ((endAngle - startAngle) < Math.PI) {
+                    // Prevent very small slices from being mistaken as a whole pie
+                    return '';
+                }
+                // essentially going to be the entire circle, so ignore startAngle
+                startx = endx = x + radius;
+                starty = endy = y;
+            }
+
             if (startx === endx && starty === endy && (endAngle - startAngle) < Math.PI) {
-                return;
+                return '';
             }
 
             vpath = [x - radius, y - radius, x + radius, y + radius, startx, starty, endx, endy];
