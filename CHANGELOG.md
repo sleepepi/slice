@@ -1,5 +1,8 @@
 ## 0.13.0
 
+### Security Fix
+- Updated Rails to 3.2.12
+
 ### Enhancements
 - Updated to Contour 1.2.0.pre3
   - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
@@ -138,12 +141,12 @@
 
 ## 0.11.5 (January 8, 2013)
 
-- Security Fix
+### Security Fix
 - Updated Rails to 3.2.11
 
 ## 0.11.4 (January 3, 2013)
 
-- Security Fix
+### Security Fix
 - Updated Rails to 3.2.10
 
 ### Bug Fix
