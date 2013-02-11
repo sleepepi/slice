@@ -1,16 +1,16 @@
 ## 0.13.0
 
-- Enhancements
-  - Updated to Contour 1.2.0.pre3
-    - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
-  - Removed references to deprecated <tt>&lt;center&gt;</tt> HTML tag
-  - ActionMailer can now also be configured to send email through NTLM
-    - ActionMailer::Base.smtp_settings now requires an :email field
-  - Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
+### Enhancements
+- Updated to Contour 1.2.0.pre3
+  - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
+- Removed references to deprecated <tt>&lt;center&gt;</tt> HTML tag
+- ActionMailer can now also be configured to send email through NTLM
+  - ActionMailer::Base.smtp_settings now requires an :email field
+- Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
 
-- Bug Fix
-  - Hitting 'p' no longer triggers switching to the global search when focused on a link or a drop down menu
-  - Fixed a bug that would disable navigation to the project page from the projects splash page on touch devices
+### Bug Fix
+- Hitting 'p' no longer triggers switching to the global search when focused on a link or a drop down menu
+- Fixed a bug that would disable navigation to the project page from the projects splash page on touch devices
 
 ## 0.12.3 (February 1, 2013)
 
