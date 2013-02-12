@@ -12,6 +12,7 @@
 - Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
 - Domains are now the sole method for adding options to variables
   - Domains allow variables (dropdown, radio, scale, etc) to share common choices
+- Experimental reporter now formats calculated variables based on the variables' format
 
 ### Bug Fix
 - Hitting `p` no longer triggers switching to the global search when focused on a link or a drop down menu

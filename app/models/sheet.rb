@@ -430,8 +430,14 @@ class Sheet < ActiveRecord::Base
   #     Would return the average of all ages on all sheets that contained age (as a sheet_variable, not as a grid or grid_response)
   def self.array_calculation(sheet_scope, variable, calculation)
     number = self.send((calculation.blank? ? 'array_count' : calculation), self.array_responses(sheet_scope, variable))
-    number = "%0.02f" % number if ['array_mean', 'array_standard_deviation'].include?(calculation) and number != nil
-    # number = '-' if number == nil
+
+    unless (calculation.blank? or calculation == 'array_count') or number == nil
+      if variable.variable_type == 'calculated' and not variable.format.blank?
+        number = variable.format % number rescue number
+      else
+        number = "%0.02f" % number
+      end
+    end
     number
   end
 
