@@ -1,9 +1,5 @@
 <% links = @design.options.select{|opt| not opt[:section_name].blank?}.collect{|opt| { name: opt[:section_name] , href: "##{opt[:section_id]}" }} %>
 
-<% if false %>
-  <%= render partial: 'contour/layouts/subnav', locals: { links: links } unless links.blank? %>
-<% end %>
-
 <ul class="nav nav-list bs-docs-sidenav" data-spy="affix">
   <% links.each_with_index do |link_hash, index| %>
     <li><%= link_to "<i class=\"icon-chevron-right\"></i> #{link_hash[:name]}".html_safe, link_hash[:href], tabindex: "-1" %></li>
