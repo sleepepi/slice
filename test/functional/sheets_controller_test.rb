@@ -430,6 +430,20 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+  test "should create sheet and not alter status of existing subject" do
+    assert_difference('Subject.count', 0) do
+      assert_difference('Sheet.count') do
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: 'A500', site_id: sites(:valid_range).id, current_design_page: 2
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal subjects(:test_one).id, assigns(:sheet).subject.id
+    assert_equal 'test', assigns(:sheet).subject.status
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   test "should not create sheet on same design project subject study_date" do
     assert_difference('Sheet.count', 0) do
       post :create, project_id: @project, sheet: { design_id: @sheet.design_id, study_date: '05/21/2012' },

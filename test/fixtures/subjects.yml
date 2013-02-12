@@ -31,3 +31,11 @@ external:
   site: admin_site
   status: valid
   acrostic: ""
+
+test_one:
+  project: one
+  subject_code: A500
+  user: valid
+  site: valid_range
+  status: test
+  acrostic: ""
