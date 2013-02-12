@@ -345,7 +345,7 @@ def generated_data_dictionary(export, sheet_scope, filename)
   worksheet = book.create_worksheet name: "Variable Options"
   current_row = 0
 
-  worksheet.row(current_row).push 'Variable/Domain Name', 'Description',
+  worksheet.row(current_row).push 'Domain Name', 'Description',
     'Option Name', 'Option Value', 'Missing Code?', 'Option Color', 'Option Description'
 
   objects = []
@@ -353,11 +353,7 @@ def generated_data_dictionary(export, sheet_scope, filename)
   design_scope.each do |d|
     d.options_with_grid_sub_variables.each do |option|
       if variable = Variable.current.find_by_id(option[:variable_id])
-        if variable.variable_type == 'scale' and variable.domain
-          objects << variable.domain
-        else
-          objects << variable
-        end
+        objects << variable.domain if variable.domain
       end
     end
   end
