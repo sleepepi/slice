@@ -79,16 +79,6 @@ class VariablesController < ApplicationController
     @grid_variable = { variable_id: '' }
   end
 
-  def add_option
-    @project = current_user.all_projects.find_by_id(params[:project_id])
-    @variable = Variable.new(params[:variable].except(:option_tokens))
-  end
-
-  def options
-    @project = current_user.all_projects.find_by_id(params[:project_id])
-    @variable = Variable.new(params[:variable])
-  end
-
   # GET /variables
   # GET /variables.json
   def index
@@ -297,7 +287,7 @@ class VariablesController < ApplicationController
 
     params[:variable][:updater_id] = current_user.id
 
-    params[:variable][:option_tokens] ||= {}
+    # params[:variable][:option_tokens] ||= {}
 
     if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
       params[:variable][:project_id] = params[:project_id]
@@ -310,7 +300,7 @@ class VariablesController < ApplicationController
     end
 
     params[:variable].slice(
-      :name, :display_name, :description, :header, :variable_type, :option_tokens, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
+      :name, :display_name, :description, :header, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
       # For Integers and Numerics
       :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
       # For Dates

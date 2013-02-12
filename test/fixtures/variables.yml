@@ -7,9 +7,9 @@ one:
   description: MyText
   header: MyString
   variable_type: dropdown
-  options: [{ name: 'Name', value: 'Value', description: 'Description' }]
   user: valid
   project: one
+  domain: var_one_options
 
 two:
   name: var_2
@@ -17,9 +17,9 @@ two:
   description: MyText
   header: MyString
   variable_type: MyString
-  options: [{ name: 'Name', value: 'Value', description: 'Description' }]
   user: valid
   project: one
+  domain: var_two_options
 
 dropdown:
   name: var_gender
@@ -27,10 +27,9 @@ dropdown:
   description: MyText
   header: MyString
   variable_type: dropdown
-  options: [{ name: 'Male', value: 'm', description: 'Male Gender' },
-            { name: 'Female', value: 'f', description: 'Female Gender' }]
   user: valid
   project: one
+  domain: var_dropdown_options
 
 checkbox:
   name: var_course_work
@@ -38,13 +37,9 @@ checkbox:
   description: All the courses I've taken
   header: MyString
   variable_type: checkbox
-  options: [{ name: 'ACCT 101', value: 'acct101', description: 'Introduction to Accounting' },
-            { name: 'ECON 101', value: 'econ101', description: 'Introduction to Microeconomics' },
-            { name: 'MATH 123', value: 'math123', description: 'Basic Algebra' },
-            { name: 'PHYS 500', value: 'phys500', description: 'Physics - Special Topic' },
-            { name: 'BIOL 327', value: 'biol327', description: 'Cells for Beginners' }]
   user: valid
   project: one
+  domain: var_checkbox_options
 
 radio:
   name: var_year
@@ -52,13 +47,9 @@ radio:
   description: Year in School
   header: MyString
   variable_type: radio
-  options: [{ name: 'Freshman', value: '1', description: 'Year 1' },
-            { name: 'Sophomore', value: '2', description: 'Year 2' },
-            { name: 'Junior', value: '3', description: 'Year 3' },
-            { name: 'Senior', value: '4', description: 'Year 4' },
-            { name: 'Professional Student', value: '5+', description: 'Year 5+' }]
   user: valid
   project: one
+  domain: var_radio_options
 
 string:
   name: var_hobbies
@@ -175,16 +166,15 @@ external_calculated:
   format: "%0.02f"
   project: three
 
+# Todo, this one will be deprecated
 change_options:
   name: change_options
   display_name: Change Option Values
   description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets.
   variable_type: dropdown
-  options: [{ name: 'Option 1', value: '2', description: 'Should have value 1' },
-            { name: 'Option 2', value: '3', description: 'Should have value 2' },
-            { name: 'Option 3', value: '1', description: 'Should have value 3' }]
   user: valid
   project: one
+  domain: var_change_options
 
 change_domain_options:
   name: change_domain_options
@@ -201,7 +191,6 @@ grid:
   display_name: Grid of Variables
   description: Testing for grid of Variables
   variable_type: grid
-  # options:
   grid_variables: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:change_options) %> }]
   default_row_number: 3
   user: valid
@@ -212,7 +201,6 @@ external_grid:
   display_name: Grid of Variables
   description: Testing for grid of Variables
   variable_type: grid
-  # options:
   grid_variables: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:external_autocomplete) %> }]
   default_row_number: 3
   user: admin
@@ -223,7 +211,6 @@ no_sites:
   display_name: Variable on Project with No Sites
   description: This variable should be editable by a user on project without sites
   variable_type: string
-  # options:
   user: valid
   project: no_sites
 

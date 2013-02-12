@@ -1,4 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+--- !map:HashWithIndifferentAccess
 
 one:
   name: Difficulty Rating
@@ -20,9 +21,69 @@ two:
   user: valid
   project: one
 
+icecream_flavors:
+  name: Icecream icecream_flavors
+  options: [{ name: 'Chocolate', value: '1', description: '' },
+            { name: 'Vanilla', value: '2', description: '' }]
+  user: valid
+  project: one
+
 change_options:
   name: Change Option Values
   description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
+  options: [{ name: 'Option 1', value: '2', description: 'Should have value 1' },
+            { name: 'Option 2', value: '3', description: 'Should have value 2' },
+            { name: 'Option 3', value: '1', description: 'Should have value 3' }]
+  user: valid
+  project: one
+
+var_one_options:
+  name: Variable One Options
+  description:
+  options: [{ name: 'Name', value: 'Value', description: 'Description' }]
+  user: valid
+  project: one
+
+var_two_options:
+  name: Variable Two Options
+  description:
+  options: [{ name: 'Name', value: 'Value', description: 'Description' }]
+  user: valid
+  project: one
+
+var_dropdown_options:
+  name: Dropdown Options
+  description:
+  options: [{ name: 'Male', value: 'm', description: 'Male Gender' },
+            { name: 'Female', value: 'f', description: 'Female Gender' }]
+  user: valid
+  project: one
+
+var_checkbox_options:
+  name: Checkbox Options
+  description:
+  options: [{ name: 'ACCT 101', value: 'acct101', description: 'Introduction to Accounting' },
+            { name: 'ECON 101', value: 'econ101', description: 'Introduction to Microeconomics' },
+            { name: 'MATH 123', value: 'math123', description: 'Basic Algebra' },
+            { name: 'PHYS 500', value: 'phys500', description: 'Physics - Special Topic' },
+            { name: 'BIOL 327', value: 'biol327', description: 'Cells for Beginners' }]
+  user: valid
+  project: one
+
+var_radio_options:
+  name: Radio Options
+  description:
+  options: [{ name: 'Freshman', value: '1', description: 'Year 1' },
+            { name: 'Sophomore', value: '2', description: 'Year 2' },
+            { name: 'Junior', value: '3', description: 'Year 3' },
+            { name: 'Senior', value: '4', description: 'Year 4' },
+            { name: 'Professional Student', value: '5+', description: 'Year 5+' }]
+  user: valid
+  project: one
+
+var_change_options:
+  name: Variable Change Options
+  description: This variable...now domain... has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets.
   options: [{ name: 'Option 1', value: '2', description: 'Should have value 1' },
             { name: 'Option 2', value: '3', description: 'Should have value 2' },
             { name: 'Option 3', value: '1', description: 'Should have value 3' }]

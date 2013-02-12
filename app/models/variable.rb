@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :description, :header, :name, :display_name, :options, :variable_type, :option_tokens, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
+  attr_accessible :description, :header, :name, :display_name, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
                   # Integer and Numeric
                   :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
                   # Date
@@ -61,11 +61,11 @@ class Variable < ActiveRecord::Base
   end
 
   def shared_options
-    if ['scale'].include?(self.variable_type)
-      self.domain.options
-    else
-      self.options
-    end
+    # if ['scale'].include?(self.variable_type)
+      self.domain ? self.domain.options : []
+    # else
+      # self.options
+    # end
   end
 
   def autocomplete_array
@@ -87,7 +87,7 @@ class Variable < ActiveRecord::Base
   end
 
   def copyable_attributes
-    self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+    self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'options'].include?(key.to_s)}
   end
 
   # We want all validations to run so all errors will show up when submitting a form
@@ -174,57 +174,58 @@ class Variable < ActiveRecord::Base
     result
   end
 
-  # All of these changes are rolled back if the sheet is not saved successfully
-  # Wrapped in single transaction
-  def option_tokens=(tokens)
-    unless self.new_record?
-      original_options = self.options
-      existing_options = tokens.reject{|key, hash| ['new', nil].include?(hash[:option_index]) }
+  # Deprecated...
+  # # All of these changes are rolled back if the sheet is not saved successfully
+  # # Wrapped in single transaction
+  # def option_tokens=(tokens)
+  #   unless self.new_record?
+  #     original_options = self.options
+  #     existing_options = tokens.reject{|key, hash| ['new', nil].include?(hash[:option_index]) }
 
-      # Reset any sheets that specified an option that has been removed
-      original_options.each_with_index do |hash, index|
-        unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
-          self.sheet_variables.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
-          self.grids.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
-          self.responses.where(value: hash.symbolize_keys[:value]).destroy_all
-        end
-      end
+  #     # Reset any sheets that specified an option that has been removed
+  #     original_options.each_with_index do |hash, index|
+  #       unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
+  #         self.sheet_variables.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
+  #         self.grids.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
+  #         self.responses.where(value: hash.symbolize_keys[:value]).destroy_all
+  #       end
+  #     end
 
-      # Update all existing sheets to intermediate value for values that already existed and have changed
-      existing_options.each_pair do |key, hash|
-        old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
-        new_value = hash[:value].strip
-        if old_value != new_value
-          intermediate_value = old_value + ":" + new_value
-          self.sheet_variables.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
-          self.grids.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
-          self.responses.where(value: old_value).each{|o| o.update_attributes value: intermediate_value }
-        end
-      end
+  #     # Update all existing sheets to intermediate value for values that already existed and have changed
+  #     existing_options.each_pair do |key, hash|
+  #       old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
+  #       new_value = hash[:value].strip
+  #       if old_value != new_value
+  #         intermediate_value = old_value + ":" + new_value
+  #         self.sheet_variables.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
+  #         self.grids.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
+  #         self.responses.where(value: old_value).each{|o| o.update_attributes value: intermediate_value }
+  #       end
+  #     end
 
-      # Update all existing sheets to new value
-      existing_options.each_pair do |key, hash|
-        old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
-        new_value = hash[:value].strip
-        if old_value != new_value
-          intermediate_value = old_value + ":" + new_value
-          self.sheet_variables.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
-          self.grids.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
-          self.responses.where(value: intermediate_value).each{|o| o.update_attributes value: new_value }
-        end
-      end
-    end
+  #     # Update all existing sheets to new value
+  #     existing_options.each_pair do |key, hash|
+  #       old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
+  #       new_value = hash[:value].strip
+  #       if old_value != new_value
+  #         intermediate_value = old_value + ":" + new_value
+  #         self.sheet_variables.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
+  #         self.grids.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
+  #         self.responses.where(value: intermediate_value).each{|o| o.update_attributes value: new_value }
+  #       end
+  #     end
+  #   end
 
-    self.options = []
-    tokens.each_pair do |key, option_hash|
-      self.options << { name: option_hash[:name].strip,
-                        value: option_hash[:value].strip,
-                        description: option_hash[:description].strip,
-                        missing_code: option_hash[:missing_code].to_s.strip,
-                        color: option_hash[:color].to_s.strip.blank? ? '#ffffff' : option_hash[:color]
-                      } unless option_hash[:name].strip.blank?
-    end
-  end
+  #   self.options = []
+  #   tokens.each_pair do |key, option_hash|
+  #     self.options << { name: option_hash[:name].strip,
+  #                       value: option_hash[:value].strip,
+  #                       description: option_hash[:description].strip,
+  #                       missing_code: option_hash[:missing_code].to_s.strip,
+  #                       color: option_hash[:color].to_s.strip.blank? ? '#ffffff' : option_hash[:color]
+  #                     } unless option_hash[:name].strip.blank?
+  #   end
+  # end
 
   def grid_tokens=(tokens)
     self.grid_variables = []

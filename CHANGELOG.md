@@ -10,6 +10,8 @@
 - ActionMailer can now also be configured to send email through NTLM
   - ActionMailer::Base.smtp_settings now requires an :email field
 - Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
+- Domains are now the sole method for adding options to variables
+  - Domains allow variables (dropdown, radio, scale, etc) to share common choices
 
 ### Bug Fix
 - Hitting `p` no longer triggers switching to the global search when focused on a link or a drop down menu

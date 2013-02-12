@@ -95,9 +95,9 @@ Slice::Application.routes.draw do
         get :typeahead
       end
       collection do
-        post :add_option
+        # post :add_option
+        # post :options
         post :add_grid_variable
-        post :options
       end
     end
   end

@@ -114,11 +114,12 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should add option" do
-    post :add_option, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
-    assert_not_nil assigns(:variable)
-    assert_template 'add_option'
-  end
+  # Deprecated
+  # test "should add option" do
+  #   post :add_option, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+  #   assert_not_nil assigns(:variable)
+  #   assert_template 'add_option'
+  # end
 
   test "should add grid variable" do
     post :add_grid_variable, project_id: @project, format: 'js'
@@ -127,11 +128,12 @@ class VariablesControllerTest < ActionController::TestCase
     assert_template 'add_grid_variable'
   end
 
-  test "should get options" do
-    post :options, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
-    assert_not_nil assigns(:variable)
-    assert_template 'options'
-  end
+  # Deprecated
+  # test "should get options" do
+  #   post :options, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
+  #   assert_not_nil assigns(:variable)
+  #   assert_template 'options'
+  # end
 
   test "should get index" do
     get :index, project_id: @project
@@ -167,7 +169,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create variable" do
     assert_difference('Variable.count') do
-      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
+      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type }
     end
 
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
@@ -175,75 +177,23 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create dropdown variable" do
     assert_difference('Variable.count') do
-      post :create, project_id: @project, variable: { name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: "dropdown",
-                                option_tokens: {
-                                  "1338308398442263" => { name: "Chocolate", value: "1", description: "" },
-                                  "133830842117151" => { name: "Vanilla", value: "2", description: ""}
-                                }
-                              }
+      post :create, project_id: @project, variable: { name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: "dropdown", domain_id: domains(:icecream_flavors).id }
     end
 
     assert_not_nil assigns(:variable)
-    assert_equal 2, assigns(:variable).options.size
+    assert_equal 2, assigns(:variable).shared_options.size
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should not create variable without valid project" do
     assert_difference('Variable.count', 0) do
-      post :create, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', options: @variable.options, variable_type: @variable.variable_type }
+      post :create, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type }
     end
 
     assert_not_nil assigns(:variable)
     assert_nil assigns(:project)
 
     assert_redirected_to root_path
-  end
-
-  test "should not create variable where options have non-unique values" do
-    assert_difference('Variable.count', 0) do
-      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
-                                option_tokens: {
-                                  "1338308398442263" => { name: "Chocolate", value: "1", description: "" },
-                                  "133830842117151" => { name: "Vanilla", value: "1", description: ""}
-                                }
-                              }
-    end
-
-    assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ["values must be unique"], assigns(:variable).errors[:option]
-    assert_template 'new'
-  end
-
-  test "should not create variable where options have colons as part of the value" do
-    assert_difference('Variable.count', 0) do
-      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
-                                option_tokens: {
-                                  "1338308398442263" => { name: "Chocolate", value: "1-chocolate", description: "" },
-                                  "133830842117151" => { name: "Vanilla", value: "2:vanilla", description: ""}
-                                }
-                              }
-    end
-
-    assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ["values can't contain colons"], assigns(:variable).errors[:option]
-    assert_template 'new'
-  end
-
-  test "should not create variable where options have blank value" do
-    assert_difference('Variable.count', 0) do
-      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type,
-                                option_tokens: {
-                                  "1338308398442263" => { name: "Chocolate", value: "", description: "" }
-                                }
-                              }
-    end
-
-    assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ["values can't be blank"], assigns(:variable).errors[:option]
-    assert_template 'new'
   end
 
   test "should not create grid variable with non-unique variables" do
@@ -319,12 +269,12 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should update variable" do
-    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should not update variable with blank display name" do
-    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: '', options: @variable.options, variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: '', variable_type: @variable.variable_type }
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
     assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
@@ -332,155 +282,17 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not update invalid variable" do
-    put :update, id: -1, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    put :update, id: -1, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
     assert_not_nil assigns(:project)
     assert_nil assigns(:variable)
     assert_redirected_to project_variables_path(assigns(:project))
   end
 
   test "should not update variable with invalid project" do
-    put :update, id: @variable, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, options: @variable.options, variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
     assert_nil assigns(:project)
     assert_not_nil assigns(:variable)
     assert_redirected_to root_path
-  end
-
-  test "should update variable and change new option value for associated sheets" do
-    assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
-
-    put :update, id: variables(:change_options), project_id: @project, variable: {  description: variables(:change_options).description,
-                                                              header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
-                                                              variable_type: variables(:change_options).variable_type,
-                                                              option_tokens: {
-                                                                "133830842117151" => { name: "Option 1", value: "1", description: "Should have value 1", option_index: "0" },
-                                                                "133830842117152" => { name: "Option 2", value: "2", description: "Should have value 2", option_index: "1" },
-                                                                "133830842117154" => { name: "Option 3", value: "3", description: "Should have value 3", option_index: "2" },
-                                                                "133830842117156" => { name: "Option 4", value: "4", description: "Should have value 4", option_index: "new" }
-                                                              }
-                                                            }
-
-    assert_equal 1, assigns(:variable).sheet_variables.where(response: '1').size
-    assert_equal 2, assigns(:variable).sheet_variables.where(response: '2').size
-    assert_equal 3, assigns(:variable).sheet_variables.where(response: '3').size
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
-  end
-
-  test "should not update variable and not change existing values for associated sheets if validation fails" do
-    assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
-
-    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
-                                                              header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
-                                                              variable_type: variables(:change_options).variable_type,
-                                                              option_tokens: {
-                                                                "133830842117151" => { name: "Option 1", value: "1", description: "Should have value 1", option_index: "0" },
-                                                                "133830842117152" => { name: "Option 2", value: "2", description: "Should have value 2", option_index: "1" },
-                                                                "133830842117154" => { name: "Option 3", value: "3", description: "Should have value 3", option_index: "2" },
-                                                                "133830842117156" => { name: "Option 4", value: ":4", description: "Should have value 4", option_index: "new" }
-                                                              }
-                                                            }
-
-    assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
-
-    assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ["values can't contain colons"], assigns(:variable).errors[:option]
-    assert_template 'edit'
-  end
-
-  # Option 3 (value 1) being removed. Three sheets where the value existed are then reset to null.
-  test "should update variable and remove option and reset option value for associated sheets" do
-    assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
-    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
-                                                              header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
-                                                              variable_type: variables(:change_options).variable_type,
-                                                              option_tokens: {
-                                                                "133830842117151" => { name: "Option 1", value: "2", description: "Should have value 1", option_index: "0" },
-                                                                "133830842117152" => { name: "Option 2", value: "3", description: "Should have value 2", option_index: "1" },
-                                                                "133830842117156" => { name: "Option 4", value: "4", description: "Should have value 4", option_index: "new" }
-                                                              }
-                                                            }
-
-    assert_equal 0, assigns(:variable).sheet_variables.where(response: '1').size
-    assert_equal 1, assigns(:variable).sheet_variables.where(response: '2').size
-    assert_equal 2, assigns(:variable).sheet_variables.where(response: '3').size
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
-  end
-
-  test "should update variable and change new option value for associated grids" do
-    assert_equal 3, variables(:change_options).grids.where(response: '1').size
-    assert_equal 1, variables(:change_options).grids.where(response: '2').size
-    assert_equal 2, variables(:change_options).grids.where(response: '3').size
-
-    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
-                                                              header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
-                                                              variable_type: variables(:change_options).variable_type,
-                                                              option_tokens: {
-                                                                "133830842117151" => { name: "Option 1", value: "1", description: "Should have value 1", option_index: "0" },
-                                                                "133830842117152" => { name: "Option 2", value: "2", description: "Should have value 2", option_index: "1" },
-                                                                "133830842117154" => { name: "Option 3", value: "3", description: "Should have value 3", option_index: "2" },
-                                                                "133830842117156" => { name: "Option 4", value: "4", description: "Should have value 4", option_index: "new" }
-                                                              }
-                                                            }
-
-    assert_equal 1, assigns(:variable).grids.where(response: '1').size
-    assert_equal 2, assigns(:variable).grids.where(response: '2').size
-    assert_equal 3, assigns(:variable).grids.where(response: '3').size
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
-  end
-
-  test "should not update variable and not change existing values for associated grids if validation fails" do
-    assert_equal 3, variables(:change_options).grids.where(response: '1').size
-    assert_equal 1, variables(:change_options).grids.where(response: '2').size
-    assert_equal 2, variables(:change_options).grids.where(response: '3').size
-
-    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
-                                                              header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
-                                                              variable_type: variables(:change_options).variable_type,
-                                                              option_tokens: {
-                                                                "133830842117151" => { name: "Option 1", value: "1", description: "Should have value 1", option_index: "0" },
-                                                                "133830842117152" => { name: "Option 2", value: "2", description: "Should have value 2", option_index: "1" },
-                                                                "133830842117154" => { name: "Option 3", value: "3", description: "Should have value 3", option_index: "2" },
-                                                                "133830842117156" => { name: "Option 4", value: ":4", description: "Should have value 4", option_index: "new" }
-                                                              }
-                                                            }
-
-    assert_equal 3, variables(:change_options).grids.where(response: '1').size
-    assert_equal 1, variables(:change_options).grids.where(response: '2').size
-    assert_equal 2, variables(:change_options).grids.where(response: '3').size
-
-    assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ["values can't contain colons"], assigns(:variable).errors[:option]
-    assert_template 'edit'
-  end
-
-  # Option 3 (value 1) being removed. Three grids where the value existed are then reset to null.
-  test "should update variable and remove option and reset option value for associated grids" do
-    assert_equal 3, variables(:change_options).grids.where(response: '1').size
-    assert_equal 1, variables(:change_options).grids.where(response: '2').size
-    assert_equal 2, variables(:change_options).grids.where(response: '3').size
-    put :update, id: variables(:change_options), project_id: @project, variable: { description: variables(:change_options).description,
-                                                              header: variables(:change_options).header, name: variables(:change_options).name, display_name: variables(:change_options).display_name,
-                                                              variable_type: variables(:change_options).variable_type,
-                                                              option_tokens: {
-                                                                "133830842117151" => { name: "Option 1", value: "2", description: "Should have value 1", option_index: "0" },
-                                                                "133830842117152" => { name: "Option 2", value: "3", description: "Should have value 2", option_index: "1" },
-                                                                "133830842117156" => { name: "Option 4", value: "4", description: "Should have value 4", option_index: "new" }
-                                                              }
-                                                            }
-
-    assert_equal 0, assigns(:variable).grids.where(response: '1').size
-    assert_equal 1, assigns(:variable).grids.where(response: '2').size
-    assert_equal 2, assigns(:variable).grids.where(response: '3').size
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should destroy variable" do

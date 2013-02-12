@@ -152,7 +152,7 @@ class DomainsControllerTest < ActionController::TestCase
                       "133830842117154" => { name: "Option 3", value: "3", description: "Should have value 3", option_index: "2" },
                       "133830842117156" => { name: "Option 4", value: "4", description: "Should have value 4", option_index: "new" }
                     }
-                  }
+                 }
 
     assert_equal 1, assigns(:domain).sheet_variables.where(response: '1').size
     assert_equal 2, assigns(:domain).sheet_variables.where(response: '2').size
@@ -161,6 +161,67 @@ class DomainsControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:domain).grids.where(response: '2').size
     assert_equal 3, assigns(:domain).grids.where(response: '3').size
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
+  end
+
+  # Option 3 (value 1) being removed. Three sheets where the value existed are then reset to null.
+  test "should update domain and remove option and reset option value for associated sheets and grids" do
+    assert_equal 3, domains(:change_options).sheet_variables.where(response: '1').size
+    assert_equal 1, domains(:change_options).sheet_variables.where(response: '2').size
+    assert_equal 2, domains(:change_options).sheet_variables.where(response: '3').size
+    assert_equal 3, domains(:change_options).grids.where(response: '1').size
+    assert_equal 1, domains(:change_options).grids.where(response: '2').size
+    assert_equal 2, domains(:change_options).grids.where(response: '3').size
+    put :update, id: domains(:change_options), project_id: @project,
+                 domain: {
+                    name: domains(:change_options).name,
+                    description: domains(:change_options).description,
+                    option_tokens: {
+                      "133830842117151" => { name: "Option 1", value: "2", description: "Should have value 1", option_index: "0" },
+                      "133830842117152" => { name: "Option 2", value: "3", description: "Should have value 2", option_index: "1" },
+                      "133830842117156" => { name: "Option 4", value: "4", description: "Should have value 4", option_index: "new" }
+                    }
+                 }
+
+    assert_equal 0, assigns(:domain).sheet_variables.where(response: '1').size
+    assert_equal 1, assigns(:domain).sheet_variables.where(response: '2').size
+    assert_equal 2, assigns(:domain).sheet_variables.where(response: '3').size
+    assert_equal 0, assigns(:domain).grids.where(response: '1').size
+    assert_equal 1, assigns(:domain).grids.where(response: '2').size
+    assert_equal 2, assigns(:domain).grids.where(response: '3').size
+    assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
+  end
+
+  test "should not update domain and not change existing values for associated sheets and grids if validation fails" do
+    assert_equal 3, domains(:change_options).sheet_variables.where(response: '1').size
+    assert_equal 1, domains(:change_options).sheet_variables.where(response: '2').size
+    assert_equal 2, domains(:change_options).sheet_variables.where(response: '3').size
+    assert_equal 3, domains(:change_options).grids.where(response: '1').size
+    assert_equal 1, domains(:change_options).grids.where(response: '2').size
+    assert_equal 2, domains(:change_options).grids.where(response: '3').size
+
+    put :update, id: domains(:change_options), project_id: @project,
+                 domain: {
+                    name: domains(:change_options).name,
+                    description: domains(:change_options).description,
+                    option_tokens: {
+                        "133830842117151" => { name: "Option 1", value: "1", description: "Should have value 1", option_index: "0" },
+                        "133830842117152" => { name: "Option 2", value: "2", description: "Should have value 2", option_index: "1" },
+                        "133830842117154" => { name: "Option 3", value: "3", description: "Should have value 3", option_index: "2" },
+                        "133830842117156" => { name: "Option 4", value: ":4", description: "Should have value 4", option_index: "new" }
+                      }
+                    }
+
+    assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
+    assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
+    assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
+    assert_equal 3, domains(:change_options).grids.where(response: '1').size
+    assert_equal 1, domains(:change_options).grids.where(response: '2').size
+    assert_equal 2, domains(:change_options).grids.where(response: '3').size
+
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["values can't contain colons"], assigns(:domain).errors[:option]
+    assert_template 'edit'
   end
 
   test "should not update domain with blank name" do
