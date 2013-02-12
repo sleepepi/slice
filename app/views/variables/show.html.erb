@@ -130,9 +130,9 @@
     </ul>
   </dd>
 
-  <% if ['scale'].include?(@variable.variable_type) %>
+  <% if @variable.domain %>
     <dt>Domain</dt>
-    <dd><%= link_to @variable.domain.name, [@variable.domain.project, @variable.domain] if @variable.domain %></dd>
+    <dd><%= link_to @variable.domain.name, [@variable.domain.project, @variable.domain] %></dd>
   <% end %>
 
 </dl>
