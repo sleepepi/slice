@@ -28,7 +28,7 @@ class Variable < ActiveRecord::Base
   serialize :options, Array
   serialize :grid_variables, Array
 
-  before_save :check_option_validations
+  before_save :check_for_duplicate_variables
 
   # Concerns
   include Deletable
@@ -90,46 +90,6 @@ class Variable < ActiveRecord::Base
     self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'options'].include?(key.to_s)}
   end
 
-  # We want all validations to run so all errors will show up when submitting a form
-  def check_option_validations
-    result_a = check_for_colons
-    result_b = check_value_uniqueness
-    result_c = check_for_blank_values
-    result_d = check_for_duplicate_variables
-
-    result_a and result_b and result_c and result_d
-  end
-
-  def check_for_colons
-    result = true
-    option_values = self.options.collect{|option| option[:value]}
-    if option_values.join('').count(':') > 0
-      self.errors.add(:option, "values can't contain colons" )
-      result = false
-    end
-    result
-  end
-
-  def check_value_uniqueness
-    result = true
-    option_values = self.options.collect{|option| option[:value]}
-    if option_values.uniq.size < option_values.size
-      self.errors.add(:option, "values must be unique" )
-      result = false
-    end
-    result
-  end
-
-  def check_for_blank_values
-    result = true
-    option_values = self.options.collect{|option| option[:value]}
-    if ['dropdown', 'checkbox', 'radio'].include?(self.variable_type) and option_values.select{|opt| opt.to_s.strip.blank?}.size > 0
-      self.errors.add(:option, "values can't be blank" )
-      result = false
-    end
-    result
-  end
-
   def check_for_duplicate_variables
     result = true
     variable_ids = self.grid_variables.collect{|grid_variable| grid_variable[:variable_id]}
@@ -174,59 +134,6 @@ class Variable < ActiveRecord::Base
     result
   end
 
-  # Deprecated...
-  # # All of these changes are rolled back if the sheet is not saved successfully
-  # # Wrapped in single transaction
-  # def option_tokens=(tokens)
-  #   unless self.new_record?
-  #     original_options = self.options
-  #     existing_options = tokens.reject{|key, hash| ['new', nil].include?(hash[:option_index]) }
-
-  #     # Reset any sheets that specified an option that has been removed
-  #     original_options.each_with_index do |hash, index|
-  #       unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
-  #         self.sheet_variables.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
-  #         self.grids.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
-  #         self.responses.where(value: hash.symbolize_keys[:value]).destroy_all
-  #       end
-  #     end
-
-  #     # Update all existing sheets to intermediate value for values that already existed and have changed
-  #     existing_options.each_pair do |key, hash|
-  #       old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
-  #       new_value = hash[:value].strip
-  #       if old_value != new_value
-  #         intermediate_value = old_value + ":" + new_value
-  #         self.sheet_variables.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
-  #         self.grids.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
-  #         self.responses.where(value: old_value).each{|o| o.update_attributes value: intermediate_value }
-  #       end
-  #     end
-
-  #     # Update all existing sheets to new value
-  #     existing_options.each_pair do |key, hash|
-  #       old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
-  #       new_value = hash[:value].strip
-  #       if old_value != new_value
-  #         intermediate_value = old_value + ":" + new_value
-  #         self.sheet_variables.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
-  #         self.grids.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
-  #         self.responses.where(value: intermediate_value).each{|o| o.update_attributes value: new_value }
-  #       end
-  #     end
-  #   end
-
-  #   self.options = []
-  #   tokens.each_pair do |key, option_hash|
-  #     self.options << { name: option_hash[:name].strip,
-  #                       value: option_hash[:value].strip,
-  #                       description: option_hash[:description].strip,
-  #                       missing_code: option_hash[:missing_code].to_s.strip,
-  #                       color: option_hash[:color].to_s.strip.blank? ? '#ffffff' : option_hash[:color]
-  #                     } unless option_hash[:name].strip.blank?
-  #   end
-  # end
-
   def grid_tokens=(tokens)
     self.grid_variables = []
     tokens.each_pair do |key, grid_hash|
@@ -239,11 +146,6 @@ class Variable < ActiveRecord::Base
   def missing_codes
     self.shared_options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
   end
-
-  # Currently unused
-  # def missing_codes_with_description
-  #   self.shared_options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| "#{opt[:value]} #{opt[:name]}"}
-  # end
 
   def first_scale_variable?(design)
     return true unless design and self.header.blank?
@@ -287,13 +189,6 @@ class Variable < ActiveRecord::Base
     result
   end
 
-  # def response_name(sheet)
-  #   sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-  #   response = (sheet_variable ? sheet_variable.response : nil)
-  #   response_name_helper(response, sheet)
-  # end
-
-  # def response_name_helper(response, sheet=nil)
   def response_name(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
@@ -404,11 +299,6 @@ class Variable < ActiveRecord::Base
   def user_submitted_sheet_variables
     self.sheet_variables.select{|sv| not self.autocomplete_array.include?(sv.response.to_s.strip) and not sv.response.to_s.strip.blank?}
   end
-
-  # def response_description(value)
-  #   option = self.shared_options.select{|opt| opt[:value].to_s == value.to_s}.first
-  #   option ? option[:description] : ''
-  # end
 
   def formatted_calculation
     self.calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
