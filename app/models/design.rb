@@ -195,14 +195,15 @@ class Design < ActiveRecord::Base
   end
 
   def reportable_variables(variable_types)
-    self.pure_variables.where(variable_type: variable_types).sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }.collect{|v| [self.containing_section(variable_ids.index(v.id)), v.display_name, v.id]}
+    self.pure_variables.where(variable_type: variable_types).sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }.collect{|v| [self.containing_section(v.id), v.display_name, v.id]}
   end
 
   def grouped_reportable_variables(variable_types)
     reportable_variables(variable_types).group_by{|a| a[0]}.collect{|section, values| [section, values.collect{|a| [a[1], a[2]]}]}
   end
 
-  def containing_section(location)
+  def containing_section(variable_id)
+    location = self.options.collect{|h| h[:variable_id].to_i}.index(variable_id)
     self.options[0..location].select{|option| not option[:section_name].blank?}.collect{|option| option[:section_name]}.last
   end
 

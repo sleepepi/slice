@@ -17,6 +17,7 @@
 ### Bug Fix
 - Hitting `p` no longer triggers switching to the global search when focused on a link or a drop down menu
 - Fixed a bug that would disable navigation to the project page from the projects splash page on touch devices
+- Variables are now grouped correctly in the row and column dropdowns on the design report
 
 ## 0.12.3 (February 1, 2013)
 
