@@ -9,10 +9,10 @@ task migrate_sheet_date: :environment do
 
   puts "Designs: #{total_designs}"
 
+  project_variables = {}
+
   designs.each_with_index do |design, index|
     puts "Design: #{"%2d" % (index+1)} of #{total_designs}: # Sheets: #{"%4d" % (design.sheets.size)}  -   #{design.name}"
-
-    project_variables = {}
 
     variable_name = design.study_date_name_full.gsub(/[^[a-z]\w]/, '_').downcase
     display_name = design.study_date_name_full
