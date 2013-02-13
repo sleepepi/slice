@@ -37,9 +37,6 @@ class Sheet < ActiveRecord::Base
 
   scope :with_subject_status, lambda { |*args| { conditions: ["sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first] } }
 
-  # scope :last_entry, lambda { |*args| { conditions: ["sheets.id IN (SELECT s1.* FROM `sheets` s1 LEFT JOIN `sheets` s2 ON (s1.subject_id = s2.subject_id AND s1.study_date < s2.study_date) WHERE s2.id IS NULL)"] } }
-  # scope :first_entry, lambda { |*args| { conditions: ["sheets.id IN (SELECT s1.* FROM `sheets` s1 LEFT JOIN `sheets` s2 ON (s1.subject_id = s2.subject_id AND s1.study_date > s2.study_date) WHERE s2.id IS NULL)"] } }
-
   scope :order_by_site_name, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name' } }
   scope :order_by_site_name_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name DESC' } }
 
@@ -56,8 +53,8 @@ class Sheet < ActiveRecord::Base
   scope :order_by_user_name_desc, lambda { |*args| { joins: "LEFT JOIN users ON users.id = sheets.user_id", order: 'users.last_name DESC, users.first_name DESC' } }
 
   # Model Validation
-  validates_presence_of :design_id, :project_id, :study_date, :subject_id, :user_id, :last_user_id
-  validates_uniqueness_of :study_date, scope: [:project_id, :subject_id, :design_id, :deleted]
+  validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id # , :study_date
+  # validates_uniqueness_of :study_date, scope: [:project_id, :subject_id, :design_id, :deleted]
   validates_uniqueness_of :authentication_token, allow_nil: true
 
   # Model Relationships
@@ -191,7 +188,7 @@ class Sheet < ActiveRecord::Base
     result = self.design.email_subject_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
     result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
     result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
-    result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
+    # result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
     result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
     result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
     result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
@@ -203,7 +200,7 @@ class Sheet < ActiveRecord::Base
     result = self.design.email_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
     result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
     result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
-    result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
+    # result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
     result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
     result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
     result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
@@ -249,9 +246,9 @@ class Sheet < ActiveRecord::Base
     self.subject.site.name
   end
 
-  def date_replacement(property)
-    self.study_date
-  end
+  # def date_replacement(property)
+  #   self.study_date
+  # end
 
   def project_replacement(property)
     self.project.name

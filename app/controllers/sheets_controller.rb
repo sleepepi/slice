@@ -13,21 +13,9 @@ class SheetsController < ApplicationController
       @design = @project.designs.find_by_id(params[:sheet][:design_id]) if @project and params[:sheet]
     end
 
-    @study_date = parse_date(params[:sheet] ? params[:sheet][:study_date] : '')
-
     @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code])) if @project
 
     @subject_code_valid = (@site and @site.valid_subject_code?(params[:subject_code]) ? true : false)
-
-    @valid_study_date = if @study_date.blank?
-      false
-    elsif @project and @subject and @design and not @sheet_id.blank?
-      (@project.sheets.where("sheets.id != ?", @sheet_id).where(subject_id: @subject.id, design_id: @design.id, study_date: @study_date)).count == 0
-    elsif @project and @subject and @design
-      (@project.sheets.where(subject_id: @subject.id, design_id: @design.id, study_date: @study_date)).count == 0
-    else
-      true
-    end
 
     @disable_selection = (params[:select] != '1')
   end
@@ -154,7 +142,7 @@ class SheetsController < ApplicationController
       when 'sheets.user_name DESC'
         sheet_scope = sheet_scope.order_by_user_name_desc
       else
-        @order = scrub_order(Sheet, params[:order], 'sheets.study_date DESC')
+        @order = scrub_order(Sheet, params[:order], 'sheets.updated_at DESC')
         sheet_scope = sheet_scope.order(@order)
       end
 
@@ -473,12 +461,8 @@ class SheetsController < ApplicationController
     params[:sheet][:last_user_id] = current_user.id
     params[:sheet][:last_edited_at] = Time.now
 
-    [:study_date].each do |date|
-      params[:sheet][date] = parse_date(params[:sheet][date])
-    end
-
     params[:sheet].slice(
-      :design_id, :study_date, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at
+      :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at
     )
   end
 

@@ -39,15 +39,3 @@ $('#acrostic-container').hide();
 <% end %>
 
 $('#subject_code_name_full').html("<%= escape_javascript(@project ? @project.subject_code_name_full : 'Subject Code') %>");
-
-$("#sheet_study_date").parent().parent().removeClass('warning success error');
-<% if @study_date.blank? %>
-  $("#sheet_study_date").parent().parent().addClass('warning');
-  $("#study_date_info").html("Sheet date can't be blank.");
-<% elsif @valid_study_date == true %>
-  $("#sheet_study_date").parent().parent().addClass('success');
-  $("#study_date_info").html("Valid sheet date.");
-<% else %>
-  $("#sheet_study_date").parent().parent().addClass('error');
-  $("#study_date_info").html("A sheet already exists on this date for this subject and design.");
-<% end %>

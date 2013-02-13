@@ -5,7 +5,7 @@
     <tr>
       <th>Subject</th>
       <th>Sheet</th>
-      <th>Date</th>
+      <th>Updated</th>
     </tr>
   </thead>
   <tbody>
@@ -18,7 +18,7 @@
       <tr data-link="<%= project_sheet_path(sheet.project, sheet) %>" style="cursor:pointer">
         <td><%= status_helper(sheet.subject) %>&nbsp;<%= sheet.subject.name %></td>
         <td><%= sheet.name %></td>
-        <td><%= simple_date sheet.study_date %></td>
+        <td><%= simple_date sheet.updated_at %></td>
       </tr>
     <% end %>
     <tr data-link="<%= project_sheets_path(@project) %>" style="cursor:pointer">

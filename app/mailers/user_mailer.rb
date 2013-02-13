@@ -21,7 +21,7 @@ class UserMailer < ActionMailer::Base
 
   def sheet_receipt(sheet_email)
     @body = sheet_email.email_body
-    filename = "#{sheet_email.sheet.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{sheet_email.sheet.study_date.strftime("%Y-%m-%d")}_#{sheet_email.sheet.name.strip.gsub(/[^\w]/, '-')}.pdf"
+    filename = "#{sheet_email.sheet.subject.subject_code.strip.gsub(/[^\w]/, '-')}_#{sheet_email.sheet.name.strip.gsub(/[^\w]/, '-')}.pdf"
     attachments[filename] = { mime_type: 'application/pdf', content: sheet_email.email_pdf_file.read() } unless sheet_email.email_pdf_file.size == 0
     mail(to: sheet_email.email_to.to_s.gsub(';', ','), cc: sheet_email.email_cc.gsub(';', ','), reply_to: sheet_email.user.email, subject: sheet_email.email_subject)
   end

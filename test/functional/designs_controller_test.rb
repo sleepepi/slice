@@ -217,34 +217,34 @@ class DesignsControllerTest < ActionController::TestCase
   test "should create batch" do
     assert_difference('Sheet.count', 2) do
       assert_difference('Subject.count', 2) do
-        post :create_batch, project_id: @project, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', sheet_date: "11/21/2012"
+        post :create_batch, project_id: @project, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>'
       end
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:site)
     assert_not_nil assigns(:emails)
-    assert_redirected_to project_sheets_path(assigns(:project), sheet_after: "11/21/2012", sheet_before: "11/21/2012", site_id: assigns(:site).id, design_id: assigns(:design).id, user_id: users(:valid).id)
+    assert_redirected_to project_sheets_path(assigns(:project), site_id: assigns(:site).id, design_id: assigns(:design).id, user_id: users(:valid).id)
   end
 
   test "should not create batch with missing design" do
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
-        post :create_batch, project_id: @project, design_id: -1, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', sheet_date: "11/21/2012"
+        post :create_batch, project_id: @project, design_id: -1, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>'
       end
     end
     assert_not_nil assigns(:project)
     assert_nil assigns(:design)
     assert_not_nil assigns(:site)
     assert_not_nil assigns(:emails)
-    assert_redirected_to batch_project_designs_path(emails: assigns(:emails).join('; '), date: "11/21/2012", site_id: assigns(:site), design_id: assigns(:design) )
+    assert_redirected_to batch_project_designs_path(emails: assigns(:emails).join('; '), site_id: assigns(:site), design_id: assigns(:design) )
   end
 
 
   test "should not create batch with invalid project" do
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
-        post :create_batch, project_id: -1, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', sheet_date: "11/21/2012"
+        post :create_batch, project_id: -1, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>'
       end
     end
     assert_nil assigns(:project)

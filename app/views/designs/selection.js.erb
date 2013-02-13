@@ -23,11 +23,4 @@ $('#sheet_submit_btn, #sheet_submit_btn_and_continue').data('page', '<%= params[
   <% end %>
 <% end %>
 
-
-<% if @design %>
-$('#study_date_name_full').html("<%= escape_javascript(@design.study_date_name_full) %>");
-<% else %>
-$('#study_date_name_full').html("Study Date");
-<% end %>
-
 initializeSheet();

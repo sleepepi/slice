@@ -60,8 +60,8 @@ jQuery ->
     false
   )
 
-  $("#sheet_subject_id, #sheet_study_date").on('change', () ->
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/sheets/project_selection', $("sheet_design_id").serialize() + $("#hidden_sheet_id").serialize() + '&' + $("#sheet_subject_id").serialize() + '&' + $("#sheet_design_id").serialize() + '&' + $("#sheet_study_date").serialize(), null, "script")
+  $("#sheet_subject_id").on('change', () ->
+    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/sheets/project_selection', $("sheet_design_id").serialize() + $("#hidden_sheet_id").serialize() + '&' + $("#sheet_subject_id").serialize() + '&' + $("#sheet_design_id").serialize(), null, "script")
     false
   )
 

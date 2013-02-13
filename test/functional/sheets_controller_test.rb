@@ -8,60 +8,57 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should get project selection" do
-    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { study_date: '11/21/2012' }, format: 'js'
+    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:disable_selection)
     assert_nil assigns(:sheet_id)
     assert_nil assigns(:design)
-    assert_equal true, assigns(:valid_study_date)
     assert_template 'project_selection'
   end
 
   test "should get project selection with design selected" do
-    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { study_date: '11/21/2012', design_id: @sheet.design_id }, format: 'js'
+    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { design_id: @sheet.design_id }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:disable_selection)
     assert_nil assigns(:sheet_id)
     assert_not_nil assigns(:design)
-    assert_equal true, assigns(:valid_study_date)
     assert_template 'project_selection'
   end
 
   test "should get project selection for existing sheet" do
-    post :project_selection, sheet_id: @sheet, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { study_date: '11/21/2012' }, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:disable_selection)
-    assert_not_nil assigns(:sheet_id)
-    assert_not_nil assigns(:design)
-    assert_equal true, assigns(:valid_study_date)
-    assert_template 'project_selection'
-  end
-
-  test "should get project selection with blank date" do
-    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:disable_selection)
-    assert_equal false, assigns(:valid_study_date)
-    assert_template 'project_selection'
-  end
-
-  test "should get project selection for existing sheet with blank date" do
     post :project_selection, sheet_id: @sheet, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:disable_selection)
     assert_not_nil assigns(:sheet_id)
     assert_not_nil assigns(:design)
-    assert_equal false, assigns(:valid_study_date)
     assert_template 'project_selection'
   end
 
+  # test "should get project selection with blank date" do
+  #   post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
+  #   assert_not_nil assigns(:project)
+  #   assert_not_nil assigns(:subject)
+  #   assert_not_nil assigns(:disable_selection)
+  #   assert_equal false, assigns(:valid_study_date)
+  #   assert_template 'project_selection'
+  # end
+
+  # test "should get project selection for existing sheet with blank date" do
+  #   post :project_selection, sheet_id: @sheet, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
+  #   assert_not_nil assigns(:project)
+  #   assert_not_nil assigns(:subject)
+  #   assert_not_nil assigns(:disable_selection)
+  #   assert_not_nil assigns(:sheet_id)
+  #   assert_not_nil assigns(:design)
+  #   assert_equal false, assigns(:valid_study_date)
+  #   assert_template 'project_selection'
+  # end
+
   test "should get project selection for valid subject code for a new subject" do
-    post :project_selection, project_id: projects(:one), subject_code: 'A200', sheet: { study_date: '11/21/2012' }, format: 'js'
+    post :project_selection, project_id: projects(:one), subject_code: 'A200', format: 'js'
     assert_not_nil assigns(:project)
     assert_nil assigns(:subject)
     assert_not_nil assigns(:disable_selection)
@@ -301,7 +298,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should create sheet" do
     assert_difference('Sheet.count') do
-      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' },
+      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     current_design_page: 2,
@@ -328,7 +325,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should create sheet and continue" do
     assert_difference('Sheet.count') do
-      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' },
+      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     continue: '1',
@@ -355,7 +352,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should create sheet and go to page two" do
-    post :create, project_id: @project, sheet: { design_id: designs(:two_page), study_date: '08/27/2012' },
+    post :create, project_id: @project, sheet: { design_id: designs(:two_page) },
                   subject_code: sheets(:two_page).subject.subject_code,
                   site_id: sheets(:two_page).subject.site_id,
                   current_design_page: 2,
@@ -373,7 +370,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should create sheet with grid" do
-    post :create, project_id: @project, sheet: { design_id: designs(:has_grid), study_date: '10/08/2012' },
+    post :create, project_id: @project, sheet: { design_id: designs(:has_grid) },
                   subject_code: sheets(:two_page).subject.subject_code,
                   site_id: sheets(:two_page).subject.site_id,
                   current_design_page: 2,
@@ -392,7 +389,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create new subject for different project" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: sheets(:two).project_id, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: 'Code01', site_id: sites(:two).id, current_design_page: 2
+        post :create, project_id: sheets(:two).project_id, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'Code01', site_id: sites(:two).id, current_design_page: 2
       end
     end
 
@@ -405,7 +402,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create new validated subject" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: 'A400', site_id: sites(:valid_range).id, current_design_page: 2
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A400', site_id: sites(:valid_range).id, current_design_page: 2
       end
     end
 
@@ -419,7 +416,7 @@ class SheetsControllerTest < ActionController::TestCase
  test "should create new non-validated subject" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: 'A600', site_id: sites(:valid_range).id, current_design_page: 2
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A600', site_id: sites(:valid_range).id, current_design_page: 2
       end
     end
 
@@ -433,7 +430,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create sheet and not alter status of existing subject" do
     assert_difference('Subject.count', 0) do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: 'A500', site_id: sites(:valid_range).id, current_design_page: 2
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A500', site_id: sites(:valid_range).id, current_design_page: 2
       end
     end
 
@@ -444,23 +441,23 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should not create sheet on same design project subject study_date" do
-    assert_difference('Sheet.count', 0) do
-      post :create, project_id: @project, sheet: { design_id: @sheet.design_id, study_date: '05/21/2012' },
-                    subject_code: 'Code01',
-                    site_id: @sheet.subject.site_id,
-                    current_design_page: 2
-    end
+  # test "should not create sheet on same design project subject study_date" do
+  #   assert_difference('Sheet.count', 0) do
+  #     post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
+  #                   subject_code: 'Code01',
+  #                   site_id: @sheet.subject.site_id,
+  #                   current_design_page: 2
+  #   end
 
-    assert_not_nil assigns(:sheet)
-    assert_equal ['has already been taken'], assigns(:sheet).errors[:study_date]
-    assert_template 'new'
-    assert_response :success
-  end
+  #   assert_not_nil assigns(:sheet)
+  #   assert_equal ['has already been taken'], assigns(:sheet).errors[:study_date]
+  #   assert_template 'new'
+  #   assert_response :success
+  # end
 
   test "should not create sheet on invalid project" do
     assert_difference('Sheet.count', 0) do
-      post :create, project_id: projects(:four), sheet: { design_id: @sheet.design_id, study_date: '05/21/2012' },
+      post :create, project_id: projects(:four), sheet: { design_id: @sheet.design_id },
                     subject_code: 'Code01',
                     site_id: @sheet.subject.site_id,
                     current_design_page: 2
@@ -473,7 +470,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should not create sheet for site user" do
     login(users(:site_one_user))
     assert_difference('Sheet.count', 0) do
-      post :create, project_id: @project, sheet: { design_id: @sheet.design_id, study_date: '05/21/2012' },
+      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
                     subject_code: 'Code01',
                     site_id: sites(:one).id,
                     current_design_page: 2
@@ -486,7 +483,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should not create sheet or subject if site_id is missing" do
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
-        post :create, project_id: @project, sheet: { design_id: @sheet.design_id, study_date: '05/21/2012' },
+        post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
                       subject_code: 'Code01', current_design_page: 2
       end
     end
@@ -561,7 +558,7 @@ class SheetsControllerTest < ActionController::TestCase
     get :show, id: sheets(:all_variables), project_id: @project
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
-    assert_equal "Dear #{assigns(:sheet).subject.site.name}: #{assigns(:sheet).subject.name} #{assigns(:sheet).subject.acrostic} #{assigns(:sheet).study_date.strftime("%Y-%m-%d")} #{variables(:dropdown).display_name} #{variables(:dropdown).response_name(assigns(:sheet))} #{variables(:dropdown).response_label(assigns(:sheet))} #{variables(:dropdown).response_raw(assigns(:sheet))} #{variables(:checkbox).response_label(assigns(:sheet))} #{variables(:integer).response_label(assigns(:sheet))} #{variables(:file).response_label(assigns(:sheet))} #{variables(:date).response_label(assigns(:sheet))}", assigns(:sheet).email_body_template(users(:valid))
+    assert_equal "Dear #{assigns(:sheet).subject.site.name}: #{assigns(:sheet).subject.name} #{assigns(:sheet).subject.acrostic} #{variables(:dropdown).display_name} #{variables(:dropdown).response_name(assigns(:sheet))} #{variables(:dropdown).response_label(assigns(:sheet))} #{variables(:dropdown).response_raw(assigns(:sheet))} #{variables(:checkbox).response_label(assigns(:sheet))} #{variables(:integer).response_label(assigns(:sheet))} #{variables(:file).response_label(assigns(:sheet))} #{variables(:date).response_label(assigns(:sheet))}", assigns(:sheet).email_body_template(users(:valid))
     assert_response :success
   end
 
@@ -620,7 +617,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should update sheet" do
-    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' },
+    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     current_design_page: 2,
@@ -642,7 +639,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should update sheet and continue" do
-    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' },
+    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     continue: '1',
@@ -665,7 +662,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should update sheet and go to page two" do
-    put :update, id: sheets(:two_page), project_id: @project, sheet: { design_id: designs(:two_page), study_date: '08/28/2012' },
+    put :update, id: sheets(:two_page), project_id: @project, sheet: { design_id: designs(:two_page) },
                     subject_code: sheets(:two_page).subject.subject_code,
                     site_id: sheets(:two_page).subject.site_id,
                     current_design_page: 2,
@@ -682,22 +679,22 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not update sheet with blank study date" do
-    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
-    assert_not_nil assigns(:sheet)
-    assert_equal ["can't be blank"], assigns(:sheet).errors[:study_date]
-    assert_template 'edit'
-  end
+  # test "should not update sheet with blank study date" do
+  #   put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
+  #   assert_not_nil assigns(:sheet)
+  #   assert_equal ["can't be blank"], assigns(:sheet).errors[:study_date]
+  #   assert_template 'edit'
+  # end
 
   test "should not update invalid sheet" do
-    put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
+    put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(@project)
   end
 
   test "should not update sheet with invalid project" do
-    put :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types), study_date: '05/23/2012' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
+    put :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
     assert_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to root_path

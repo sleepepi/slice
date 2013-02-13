@@ -33,7 +33,7 @@ all_variable_types:
             { variable_id: <%= ActiveRecord::Fixtures.identify(:time) %> },
             { variable_id: <%= ActiveRecord::Fixtures.identify(:calculated) %> }]
   user: valid
-  email_template: "Dear #(site): #(subject) #(subject).acrostic #(date) $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label $(var_age).label $(var_file).label $(var_date).label"
+  email_template: "Dear #(site): #(subject) #(subject).acrostic $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label $(var_age).label $(var_file).label $(var_date).label"
   project: one
 
 sections_and_variables:
