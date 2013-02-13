@@ -142,7 +142,7 @@ class SheetsController < ApplicationController
       when 'sheets.user_name DESC'
         sheet_scope = sheet_scope.order_by_user_name_desc
       else
-        @order = scrub_order(Sheet, params[:order], 'sheets.updated_at DESC')
+        @order = scrub_order(Sheet, params[:order], 'sheets.created_at DESC')
         sheet_scope = sheet_scope.order(@order)
       end
 

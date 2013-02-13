@@ -35,8 +35,8 @@
   <dt>Sheets</dt>
   <dd>
     <ul>
-      <% @subject.sheets.order(:updated_at).each do |sheet| %>
-        <li><%= simple_date sheet.updated_at %> - <%= link_to sheet.name, [sheet.project, sheet] %></li>
+      <% @subject.sheets.order('created_at DESC').each do |sheet| %>
+        <li><%= link_to sheet.name, [sheet.project, sheet] %> - entered <%= simple_time sheet.created_at %></li>
       <% end %>
     </ul>
   </dd>

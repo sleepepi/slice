@@ -569,8 +569,8 @@ class DesignsController < ApplicationController
           min = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
           max = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
         else
-          min = sheet_scope.pluck(:study_date).min || Date.today
-          max = sheet_scope.pluck(:study_date).max || Date.today
+          min = sheet_scope.pluck(:created_at).min || Date.today
+          max = sheet_scope.pluck(:created_at).max || Date.today
         end
 
         case @by when "week"
@@ -620,7 +620,7 @@ class DesignsController < ApplicationController
         @strata = (@design.project ? current_user.all_viewable_sites.with_project(@design.project.id).order('name').collect{|s| { name: s.name, value: s.id }} : [])
       end
 
-      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : @design.study_date_name_full)
+      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Created')
 
       @report_caption = if @sheet_after.blank? and @sheet_before.blank?
         "All Sheets"

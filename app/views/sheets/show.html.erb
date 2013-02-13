@@ -25,7 +25,8 @@
       <% if @sheet.project.acrostic_enabled? %><th>Acrostic</th><% end %>
       <th>Project</th>
       <th>Site</th>
-      <th>Updated At</th>
+      <th>Created</th>
+      <th>Updated</th>
     </tr>
   </thead>
   <tbody>
@@ -37,7 +38,8 @@
       <% if @sheet.project.acrostic_enabled? %><td><%= @sheet.subject.acrostic %></td><% end %>
       <td><%= @project = @sheet.project; render partial: 'projects/logo_small' %> <%= link_to @sheet.project.name, @sheet.project if @sheet.project %></td>
       <td><%= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site %></td>
-      <td><%= simple_time @sheet.updated_at %></td>
+      <td><%= simple_time @sheet.created_at %></td>
+      <td><%= simple_time @sheet.last_edited_at %></td>
     </tr>
   </tbody>
 </table>

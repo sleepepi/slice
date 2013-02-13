@@ -22,7 +22,7 @@
 
 \lhead{\textbf{Subject}\\<%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>}
 \chead{\textbf{Project}\\<%= latex_safe @sheet.project.name %> \textperiodcentered~<%= latex_safe @sheet.subject.site.name %>}
-\rhead{<% if false %>\textbf{<%= latex_safe @sheet.design.study_date_name_full %>}\\<%= latex_safe @sheet.study_date.strftime("%B %-d, %Y") %><% end %>}
+\rhead{\textbf{Entered} <%= latex_safe @sheet.created_at.strftime("%B %-d, %Y") %>\\<% if @sheet.last_edited_at and @sheet.created_at.to_date != @sheet.last_edited_at.to_date %>\textbf{Updated} <%= latex_safe @sheet.last_edited_at.strftime("%B %-d, %Y") %><% end %>}
 \lfoot{<%= latex_safe @sheet.design.name %>}
 \cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
 \rfoot{\thepage\ of \pageref{LastPage}}
