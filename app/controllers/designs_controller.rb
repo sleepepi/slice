@@ -569,8 +569,8 @@ class DesignsController < ApplicationController
           min = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
           max = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
         else
-          min = sheet_scope.pluck(:created_at).min || Date.today
-          max = sheet_scope.pluck(:created_at).max || Date.today
+          min = sheet_scope.collect{|s| s.created_at.to_date}.min || Date.today
+          max = sheet_scope.collect{|s| s.created_at.to_date}.max || Date.today
         end
 
         case @by when "week"
