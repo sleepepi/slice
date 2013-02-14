@@ -89,3 +89,35 @@ var_change_options:
             { name: 'Option 3', value: '1', description: 'Should have value 3' }]
   user: valid
   project: one
+
+two_restaurants:
+  name: Domain with Two Restaurants
+  description: Has two restaurants and will be used to test switching a variable to larger domains and smaller domains
+  options: [{ name: 'Avocado Place', value: '1' },
+            { name: 'Banana Anarchy', value: '2' }]
+  user: valid
+  project: one
+
+
+three_restaurants:
+  name: Domain with Three Restaurants
+  description: Has three restaurants and will be used to test switching a variable to smaller domains
+  options: [{ name: 'Avocado Place', value: '1' },
+            { name: 'Banana Anarchy', value: '2' },
+            { name: 'Chewing Gum Palace', value: '3'}]
+  user: valid
+  project: one
+
+one_restaurant_encompassing:
+  name: Domain with One Restaurant that includes the collected data
+  description: Switching to this is allowed from a domain with sheets that collected data for only the first restaurant
+  options: [{ name: 'Avocado Place', value: '1' }]
+  user: valid
+  project: one
+
+one_restaurant_not_encompassing:
+  name: Domain with One Restaurant that does not include the collected data
+  description: Switching to this is not allowed from a domain with sheets that collected data for the first restaurant
+  options: [{ name: 'Banana Anarchy', value: '2' }]
+  user: valid
+  project: one

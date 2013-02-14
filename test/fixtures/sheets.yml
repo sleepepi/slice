@@ -50,3 +50,9 @@ external:
   user: admin
   authentication_token: abc123
   last_user: admin
+
+domain_data_captured:
+  design: one_sheet_entered
+  project: one
+  subject: one
+  user: valid

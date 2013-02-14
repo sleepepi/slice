@@ -113,3 +113,8 @@ domain_value_to_update_c3:
   response: 1
   user: valid
 
+domain_data_captured:
+  variable: data_captured
+  sheet: domain_data_captured
+  response: 1
+  user: valid

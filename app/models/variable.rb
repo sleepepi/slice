@@ -28,7 +28,7 @@ class Variable < ActiveRecord::Base
   serialize :options, Array
   serialize :grid_variables, Array
 
-  before_save :check_for_duplicate_variables
+  before_save :check_for_duplicate_variables, :check_for_valid_domain
 
   # Concerns
   include Deletable
@@ -88,6 +88,23 @@ class Variable < ActiveRecord::Base
 
   def copyable_attributes
     self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'options'].include?(key.to_s)}
+  end
+
+  # Includes responses, grids, and sheet_variables
+  def captured_values
+    @captured_values ||= begin
+      (sheet_variables.pluck(:response) + grids.pluck(:response) + responses.pluck(:value)).uniq.select{|r| not r.blank?}
+    end
+  end
+
+  def check_for_valid_domain
+    result = true
+    d = self.domain ? self.domain : Domain.new
+    if self.has_domain? and (captured_values | d.values).size > d.values.size
+      self.errors.add(:domain_id, "must include all previously captured values")
+      result = false
+    end
+    result
   end
 
   def check_for_duplicate_variables
@@ -306,6 +323,10 @@ class Variable < ActiveRecord::Base
 
   def has_statistics?
     ['integer', 'numeric', 'calculated'].include?(self.variable_type)
+  end
+
+  def has_domain?
+    ['dropdown', 'checkbox', 'radio', 'integer', 'numeric', 'scale'].include?(self.variable_type)
   end
 
   def report_strata(include_missing, max_strata = 0)

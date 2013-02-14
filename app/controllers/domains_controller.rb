@@ -1,6 +1,11 @@
 class DomainsController < ApplicationController
   before_filter :authenticate_user!
 
+  def values
+    @project = current_user.all_projects.find_by_id(params[:project_id])
+    @domain = @project.domains.find_by_id(params[:domain_id])
+  end
+
   def add_option
 
   end

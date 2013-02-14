@@ -21,6 +21,13 @@ class Domain < ActiveRecord::Base
 
   # Model Methods
 
+  # Returns an array of the domains values
+  def values
+    @values ||= begin
+      self.options.collect{|o| o[:value]}
+    end
+  end
+
   def variable_ids
     variable_ids = self.new_record? ? [] : self.variables.pluck(:id)
   end

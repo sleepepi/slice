@@ -1,0 +1,7 @@
+<% if @domain %>
+  <% @domain.values.sort.each do |value| %>
+    <li><%= value %></li>
+  <% end %>
+<% else %>
+  <li class="muted">No Values</li>
+<% end %>

@@ -119,3 +119,22 @@ single_design:
            ]
   user: valid
   project: single_design
+
+one_sheet_entered:
+  name: One Sheet of Existing Data
+  # description:
+  options: [ { variable_id: <%= ActiveRecord::Fixtures.identify(:data_captured) %> } ]
+  user: valid
+  project: one
+
+
+
+
+
+
+
+
+
+
+
+

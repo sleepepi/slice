@@ -67,6 +67,7 @@ Slice::Application.routes.draw do
     resources :domains do
       collection do
         post :add_option
+        post :values
       end
     end
 

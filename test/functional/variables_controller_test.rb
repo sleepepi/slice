@@ -295,6 +295,36 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should not update variable and remove domain if data has been captured" do
+    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: '' }
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["must include all previously captured values"], assigns(:variable).errors[:domain_id]
+    assert_template 'edit'
+  end
+
+  test "should update variable if switching to a more encompasing domain" do
+    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:three_restaurants) }
+    assert_not_nil assigns(:variable)
+    assert_equal domains(:three_restaurants), assigns(:variable).domain
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
+  test "should update variable if switching to a smaller domain that still encompases the existing data" do
+    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_encompassing) }
+    assert_not_nil assigns(:variable)
+    assert_equal domains(:one_restaurant_encompassing), assigns(:variable).domain
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
+  test "should not update variable if switching to a domain that doesn't include the captured data" do
+    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_not_encompassing) }
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["must include all previously captured values"], assigns(:variable).errors[:domain_id]
+    assert_template 'edit'
+  end
+
   test "should destroy variable" do
     assert_difference('Variable.current.count', -1) do
       delete :destroy, id: @variable, project_id: @project

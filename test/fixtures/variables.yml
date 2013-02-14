@@ -233,3 +233,12 @@ external_autocomplete:
   user: admin
   project: three
   autocomplete_values: "Cat\nDog\nFish"
+
+data_captured:
+  name: data_captured
+  display_name: Favorite Restaurant
+  description: Choose your favorite restaurant
+  variable_type: dropdown
+  user: valid
+  project: one
+  domain: two_restaurants

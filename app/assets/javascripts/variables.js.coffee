@@ -172,6 +172,10 @@ jQuery ->
 
   $(document)
     .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
+    .on('change', '#variable_domain_id', () ->
+      $.post(root_url + 'projects/' + $("#variable_project_id").val() + '/domains/values', "domain_id=#{$(this).val()}", null, "script")
+      false
+    )
 
   if $('#variable_variable_type')
     toggleOptions($('#variable_variable_type'));
