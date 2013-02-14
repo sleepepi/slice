@@ -7,6 +7,13 @@ class DomainsControllerTest < ActionController::TestCase
     @domain = domains(:one)
   end
 
+  test "should show values" do
+    post :values, project_id: @project, domain_id: @domain, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:domain)
+    assert_template 'values'
+  end
+
   test "should add option" do
     post :add_option, project_id: @project, format: 'js'
     assert_template 'add_option'
