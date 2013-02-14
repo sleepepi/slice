@@ -20,8 +20,8 @@ task sheet_export: :environment do
     all_files << generated_data_dictionary(export, sheet_scope, filename)   if export.include_data_dictionary?
     sheet_scope.each{ |sheet| all_files += sheet.files }                    if export.include_files?
 
-    # Zip multiple files
-    export_file = if all_files.size > 1
+    # Zip multiple files, or zip one file if it's part of the sheet uploaded files
+    export_file = if all_files.size > 1 or (export.include_files? and all_files.size == 1)
       # Create a zip file
       zipfile_name = File.join('tmp', 'files', 'exports', "#{filename}.zip")
       Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
