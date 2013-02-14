@@ -78,6 +78,13 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def inherited_designs
+    @inherited_designs ||= begin
+      variable_ids = Variable.current.where(project_id: self.project_id, variable_type: 'grid').select{|v| v.grid_variable_ids.include?(self.id)}.collect{|v| v.id} + [self.id]
+      Design.current.where(project_id: self.project_id).select{|d| (d.variable_ids & variable_ids).size > 0}.sort_by(&:name)
+    end
+  end
+
   def name_with_project
     "#{self.name} - #{self.project.name}"
   end
@@ -158,6 +165,10 @@ class Variable < ActiveRecord::Base
                                control_size: Variable::CONTROL_SIZE.flatten.uniq.include?(grid_hash[:control_size].to_s.strip) ? grid_hash[:control_size].to_s.strip : 'large'
                              } if grid_hash[:variable_id].strip.to_i > 0
     end
+  end
+
+  def grid_variable_ids
+    self.grid_variables.collect{|gv| gv[:variable_id]}
   end
 
   def missing_codes

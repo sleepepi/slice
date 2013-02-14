@@ -17,6 +17,7 @@
 - Experimental reporter now formats calculated variables based on the variables' format
 - Uploaded file exports are now always zipped even if only one file has been uploaded
 - Variable domains can now only be changed if the newly selected domain options contain values for each previously captured response
+- Variable index and show page now display the number, and the designs they are on including designs on which they are included through a grid variable
 
 ### Bug Fix
 - Hitting `p` no longer triggers switching to the global search when focused on a link or a drop down menu

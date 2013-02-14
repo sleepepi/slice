@@ -3,6 +3,7 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
+      <th># Designs</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.name', 'Name', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.display_name', 'Display Name', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.variable_type', 'Variable Type', 'variables_search') %></th>
@@ -14,6 +15,7 @@
 
   <% @variables.each do |variable| %>
     <tr id="variable_<%= variable.id %>">
+      <td><%= variable.inherited_designs.count %></td>
       <td><%= link_to variable.name, [variable.project, variable] %></td>
       <td><%= link_to variable.display_name, [variable.project, variable] %></td>
       <td><span class="label label-<%= variable.variable_type == 'scale' ? variable.scale_type : variable.variable_type %>"><%= variable.variable_type == 'scale' ? "scale " + variable.scale_type : variable.variable_type %></span></td>

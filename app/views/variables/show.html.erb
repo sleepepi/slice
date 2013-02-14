@@ -124,7 +124,7 @@
   <dt>Designs</dt>
   <dd>
     <ul>
-      <% @variable.designs.each do |design| %>
+      <% @variable.inherited_designs.each do |design| %>
         <li><%= link_to design.name, [design.project, design] %></li>
       <% end %>
     </ul>
