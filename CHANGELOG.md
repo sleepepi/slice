@@ -4,20 +4,25 @@
 - Updated Rails to 3.2.12
 
 ### Enhancements
-- Removed `Study Date` as a required field from sheets
-  - All existing sheets have had existing study dates created as a new variable that is attached at the top of the design
-- Updated to Contour 1.2.0.pre8
-  - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
-- Removed references to deprecated `<center>` HTML tag
-- ActionMailer can now also be configured to send email through NTLM
-  - ActionMailer::Base.smtp_settings now requires an :email field
-- Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
-- Domains are now the sole method for adding options to variables
-  - Domains allow variables (dropdown, radio, scale, etc) to share common choices
-- Experimental reporter now formats calculated variables based on the variables' format
-- Uploaded file exports are now always zipped even if only one file has been uploaded
-- Variable domains can now only be changed if the newly selected domain options contain values for each previously captured response
-- Variable index and show page now display the number, and the designs they are on including designs on which they are included through a grid variable
+- **Sheet Changes**
+  - Removed `Study Date` as a required field from sheets
+    - All existing sheets have had existing study dates created as a new variable that is attached at the top of the design
+- **Variable Changes**
+  - Domains are now the sole method for adding options to variables
+    - Domains allow variables (dropdown, radio, scale, etc) to share common choices
+  - Variable domains can now only be changed if the newly selected domain options contain values for each previously captured response
+  - Variable index and show page now display the number, and the designs they are on including designs on which they are included through a grid variable
+- **Export Changes**
+  - Uploaded file exports are now always zipped even if only one file has been uploaded
+- ** Report Changes**
+  - Experimental reporter now formats calculated variables based on the variables' format
+- **General Changes**
+  - Updated to Contour 1.2.0.pre8
+    - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
+  - Removed references to deprecated `<center>` HTML tag
+  - ActionMailer can now also be configured to send email through NTLM
+    - ActionMailer::Base.smtp_settings now requires an :email field
+  - Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
 
 ### Bug Fix
 - Hitting `p` no longer triggers switching to the global search when focused on a link or a drop down menu
