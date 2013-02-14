@@ -6,7 +6,7 @@
 ### Enhancements
 - Removed `Study Date` as a required field from sheets
   - All existing sheets have had existing study dates created as a new variable that is attached at the top of the design
-- Updated to Contour 1.2.0.pre3
+- Updated to Contour 1.2.0.pre8
   - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
 - Removed references to deprecated `<center>` HTML tag
 - ActionMailer can now also be configured to send email through NTLM
