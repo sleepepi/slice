@@ -5,7 +5,7 @@
 
 ### Enhancements
 - **Sheet Changes**
-  - Removed `Study Date` as a required field from sheets
+  - Removed `study_date` as a required field from sheets
     - All existing sheets have had existing study dates created as a new variable that is attached at the top of the design
 - **Variable Changes**
   - Domains are now the sole method for adding options to variables
@@ -14,14 +14,14 @@
   - Variable index and show page now display the number, and the designs they are on including designs on which they are included through a grid variable
 - **Export Changes**
   - Uploaded file exports are now always zipped even if only one file has been uploaded
-- ** Report Changes**
+- **Report Changes**
   - Experimental reporter now formats calculated variables based on the variables' format
 - **General Changes**
   - Updated to Contour 1.2.0.pre8
-    - Use bootstrap-datepicker and bootstrap-timepicker provided by Contour
+    - Use `bootstrap-datepicker` and `bootstrap-timepicker` provided by Contour
   - Removed references to deprecated `<center>` HTML tag
   - ActionMailer can now also be configured to send email through NTLM
-    - ActionMailer::Base.smtp_settings now requires an :email field
+    - `ActionMailer::Base.smtp_settings` now requires an `:email` field
   - Updated to jQuery Sparkline v2.1.1 for jQuery 1.9.1 support
 
 ### Bug Fix
