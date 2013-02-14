@@ -25,7 +25,7 @@ task migrate_sheet_date: :environment do
       variable_name + "_slice"
     end
 
-    variable = design.project.variables.find_or_create_by_name( name, { display_name: display_name, description: "Created automatically by Slice", variable_type: 'date' })
+    variable = design.project.variables.find_or_create_by_name( name, { display_name: display_name, header: display_name, description: "Created automatically by Slice", variable_type: 'date', display_name_visibility: 'invisible' })
     variable.update_column :user_id, design.project.user_id unless variable.user
 
     project_variables[design.project.id.to_s] ||= []
