@@ -1,4 +1,4 @@
-## 0.13.1
+## 0.13.1 (February 15, 2013)
 
 ### Bug Fix
 - Project summary report now generates reports based on sheet creation date
