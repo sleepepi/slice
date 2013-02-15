@@ -1,5 +1,8 @@
 ## 0.13.1
 
+### Bug Fix
+- Project summary report now generates reports based on sheet creation date
+
 ## 0.13.0 (February 14, 2013)
 
 ### Security Fix

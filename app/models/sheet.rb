@@ -9,8 +9,8 @@ class Sheet < ActiveRecord::Base
 
   # Named Scopes
   scope :search, lambda { |arg| { conditions: [ 'subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :sheet_before, lambda { |*args| { conditions: ["sheets.study_date < ?", (args.first+1.day)]} }
-  scope :sheet_after, lambda { |*args| { conditions: ["sheets.study_date >= ?", args.first]} }
+  scope :sheet_before, lambda { |*args| { conditions: ["sheets.created_at < ?", (args.first+1.day).at_midnight]} }
+  scope :sheet_after, lambda { |*args| { conditions: ["sheets.created_at >= ?", args.first.at_midnight]} }
   scope :with_user, lambda { |*args| { conditions: ["sheets.user_id in (?)", args.first] } }
   scope :with_project, lambda { |*args| { conditions: ["sheets.project_id IN (?)", args.first] } }
   scope :with_design, lambda { |*args| { conditions: ["sheets.design_id IN (?)", args.first] } }
@@ -74,7 +74,7 @@ class Sheet < ActiveRecord::Base
     # PostgreSQL specific syntax DISTINCT ON:
     #   http://www.postgresql.org/docs/9.0/static/sql-select.html#SQL-DISTINCT
     # self.scoped().select('DISTINCT ON (subject_id) "sheets".*').order('subject_id, study_date DESC')
-    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, study_date DESC').pluck(:id)
+    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, created_at DESC').pluck(:id)
     self.scoped().where(id: sheet_ids)
   end
 
@@ -82,7 +82,7 @@ class Sheet < ActiveRecord::Base
     # self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date > s2.study_date", false])).where("s2.id IS NULL")
     # PostgreSQL specific syntax DISTINCT ON:
     #   http://www.postgresql.org/docs/9.0/static/sql-select.html#SQL-DISTINCT
-    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, study_date ASC').pluck(:id)
+    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, created_at ASC').pluck(:id)
     self.scoped().where(id: sheet_ids)
   end
 

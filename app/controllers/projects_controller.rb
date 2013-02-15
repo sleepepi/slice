@@ -192,8 +192,8 @@ class ProjectsController < ApplicationController
 
       sheet_scope = sheet_scope.with_subject_status(@statuses)
 
-      min = sheet_scope.pluck(:study_date).min || Date.today
-      max = sheet_scope.pluck(:study_date).max || Date.today
+      min = sheet_scope.collect{|s| s.created_at.to_date}.min || Date.today
+      max = sheet_scope.collect{|s| s.created_at.to_date}.max || Date.today
 
       # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
       @ranges = []
@@ -234,7 +234,7 @@ class ProjectsController < ApplicationController
         "Date between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
       end
 
-      @report_title = 'Design vs. Sheet Date'
+      @report_title = 'Design vs. Sheet Creation Date'
       @report_caption = "#{@project.name}"
 
       @sheets = sheet_scope
