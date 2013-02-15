@@ -25,8 +25,6 @@ class SheetsController < ApplicationController
     @sheet = current_user.all_sheets.find_by_id(params[:id])
 
     if @project and @sheet
-      html = render_to_string action: 'print', id: params[:id], layout: false
-
       pdf_attachment = nil
 
       if params[:pdf_attachment] == '1'
