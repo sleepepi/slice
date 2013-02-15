@@ -178,7 +178,7 @@ module Buildable
       #   @strata = (@design.project ? current_user.all_viewable_sites.with_project(@design.project.id).order('name').collect{|s| { name: s.name, value: s.id }} : [])
       # end
 
-      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : @design.study_date_name_full)
+      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Sheet Creation Date')
 
       @report_caption = if @sheet_after.blank? and @sheet_before.blank?
         "All Sheets"

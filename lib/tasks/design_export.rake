@@ -9,13 +9,13 @@ task design_export: :environment do
 
     worksheet = book.create_worksheet name: "Design Info"
     # Contains general information
-    # Name, Description, Email Subject Template, Email Body Template, Study Date Name
+    # Name, Description, Email Subject Template, Email Body Template
     current_row = 0
-    worksheet.row(current_row).replace ["Name", "Description", "Email Subject Template", "Email Body Template", "Study Date Name"]
+    worksheet.row(current_row).replace ["Name", "Description", "Email Subject Template", "Email Body Template"]
 
     design_scope.each do |d|
       current_row += 1
-      worksheet.row(current_row).push d.name, d.description, d.email_subject_template, d.email_template, d.study_date_name
+      worksheet.row(current_row).push d.name, d.description, d.email_subject_template, d.email_template
     end
 
     # Design Layout

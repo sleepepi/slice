@@ -54,10 +54,6 @@ class Design < ActiveRecord::Base
     [new_sheets.count, ignored_sheets]
   end
 
-  def study_date_name_full
-    self.study_date_name.to_s.strip.blank? ? 'Study Date' : self.study_date_name.to_s.strip
-  end
-
   def name_with_project
     "#{self.name} - #{self.project.name}"
   end

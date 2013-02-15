@@ -1,5 +1,5 @@
 class Sheet < ActiveRecord::Base
-  attr_accessible :design_id, :project_id, :study_date, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at, :user_id, :authentication_token, :last_edited_at
+  attr_accessible :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at, :user_id, :authentication_token, :last_edited_at
 
   audited
   has_associated_audits
@@ -53,8 +53,7 @@ class Sheet < ActiveRecord::Base
   scope :order_by_user_name_desc, lambda { |*args| { joins: "LEFT JOIN users ON users.id = sheets.user_id", order: 'users.last_name DESC, users.first_name DESC' } }
 
   # Model Validation
-  validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id # , :study_date
-  # validates_uniqueness_of :study_date, scope: [:project_id, :subject_id, :design_id, :deleted]
+  validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id
   validates_uniqueness_of :authentication_token, allow_nil: true
 
   # Model Relationships
@@ -70,18 +69,11 @@ class Sheet < ActiveRecord::Base
 
   # Model Methods
   def self.last_entry
-    # self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date < s2.study_date", false])).where("s2.id IS NULL")
-    # PostgreSQL specific syntax DISTINCT ON:
-    #   http://www.postgresql.org/docs/9.0/static/sql-select.html#SQL-DISTINCT
-    # self.scoped().select('DISTINCT ON (subject_id) "sheets".*').order('subject_id, study_date DESC')
     sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, created_at DESC').pluck(:id)
     self.scoped().where(id: sheet_ids)
   end
 
   def self.first_entry
-    # self.scoped().joins(sanitize_sql_array(["LEFT JOIN sheets s2 ON s2.deleted = ? AND sheets.subject_id = s2.subject_id AND sheets.study_date > s2.study_date", false])).where("s2.id IS NULL")
-    # PostgreSQL specific syntax DISTINCT ON:
-    #   http://www.postgresql.org/docs/9.0/static/sql-select.html#SQL-DISTINCT
     sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, created_at ASC').pluck(:id)
     self.scoped().where(id: sheet_ids)
   end
@@ -188,7 +180,6 @@ class Sheet < ActiveRecord::Base
     result = self.design.email_subject_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
     result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
     result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
-    # result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
     result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
     result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
     result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
@@ -200,7 +191,6 @@ class Sheet < ActiveRecord::Base
     result = self.design.email_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
     result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
     result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
-    # result = result.gsub(/\#\(date\)/){|m| date_replacement($1)}
     result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
     result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
     result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
@@ -245,10 +235,6 @@ class Sheet < ActiveRecord::Base
   def site_replacement(property)
     self.subject.site.name
   end
-
-  # def date_replacement(property)
-  #   self.study_date
-  # end
 
   def project_replacement(property)
     self.project.name

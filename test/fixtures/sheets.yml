@@ -2,49 +2,42 @@
 
 one:
   design: one
-  study_date: 2012-05-21
   project: one
   subject: one
   user: valid
 
 two:
   design: one
-  study_date: 2012-05-22
   project: two
   subject: one
   user: valid
 
 three:
   design: one
-  study_date: 2012-07-23
   project: one
   subject: three
   user: valid
 
 file_attached:
   design: section_and_file
-  study_date: 2012-07-23
   project: one
   subject: three
   user: valid
 
 all_variables:
   design: all_variable_types
-  study_date: 2012-08-10
   project: one
   subject: one
   user: valid
 
 two_page:
   design: two_page
-  study_date: 2012-08-29
   project: one
   subject: one
   user: valid
 
 external:
   design: admin_design
-  study_date: 2012-11-08
   project: three
   subject: external
   user: admin

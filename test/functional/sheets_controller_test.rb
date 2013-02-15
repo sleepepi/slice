@@ -37,26 +37,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_template 'project_selection'
   end
 
-  # test "should get project selection with blank date" do
-  #   post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
-  #   assert_not_nil assigns(:project)
-  #   assert_not_nil assigns(:subject)
-  #   assert_not_nil assigns(:disable_selection)
-  #   assert_equal false, assigns(:valid_study_date)
-  #   assert_template 'project_selection'
-  # end
-
-  # test "should get project selection for existing sheet with blank date" do
-  #   post :project_selection, sheet_id: @sheet, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
-  #   assert_not_nil assigns(:project)
-  #   assert_not_nil assigns(:subject)
-  #   assert_not_nil assigns(:disable_selection)
-  #   assert_not_nil assigns(:sheet_id)
-  #   assert_not_nil assigns(:design)
-  #   assert_equal false, assigns(:valid_study_date)
-  #   assert_template 'project_selection'
-  # end
-
   test "should get project selection for valid subject code for a new subject" do
     post :project_selection, project_id: projects(:one), subject_code: 'A200', format: 'js'
     assert_not_nil assigns(:project)
@@ -441,20 +421,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  # test "should not create sheet on same design project subject study_date" do
-  #   assert_difference('Sheet.count', 0) do
-  #     post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-  #                   subject_code: 'Code01',
-  #                   site_id: @sheet.subject.site_id,
-  #                   current_design_page: 2
-  #   end
-
-  #   assert_not_nil assigns(:sheet)
-  #   assert_equal ['has already been taken'], assigns(:sheet).errors[:study_date]
-  #   assert_template 'new'
-  #   assert_response :success
-  # end
-
   test "should not create sheet on invalid project" do
     assert_difference('Sheet.count', 0) do
       post :create, project_id: projects(:four), sheet: { design_id: @sheet.design_id },
@@ -678,13 +644,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_template 'edit'
     assert_response :success
   end
-
-  # test "should not update sheet with blank study date" do
-  #   put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), study_date: '' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
-  #   assert_not_nil assigns(:sheet)
-  #   assert_equal ["can't be blank"], assigns(:sheet).errors[:study_date]
-  #   assert_template 'edit'
-  # end
 
   test "should not update invalid sheet" do
     put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }

@@ -65,10 +65,10 @@ def generate_xls(export, sheet_scope, filename)
     # Only return variables currently on designs
     variable_names = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.collect{|v| [v.name, 'String']}.uniq
     current_row = 0
-    worksheet.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names.collect{|v| v[0]}
+    worksheet.row(current_row).replace ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names.collect{|v| v[0]}
     sheet_scope.each do |s|
       current_row += 1
-      worksheet.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
+      worksheet.row(current_row).push s.name, s.description, s.created_at.strftime("%m-%d-%Y"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
       variable_names.each do |name, type|
         value = if variable = s.variables.find_by_name(name)
           raw_data ? variable.response_raw(s) : (variable.variable_type == 'checkbox' ? variable.response_name(s).join(',') : variable.response_name(s))
@@ -99,7 +99,7 @@ def generate_xls(export, sheet_scope, filename)
     end
 
     current_row += 1
-    worksheet.row(current_row).replace ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"]
+    worksheet.row(current_row).replace ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"]
 
     grid_group_variables.each do |variable|
       variable.grid_variables.each do |grid_variable_hash|
@@ -111,7 +111,7 @@ def generate_xls(export, sheet_scope, filename)
     sheet_scope.each do |s|
       (0..s.max_grids_position).each do |position|
         current_row += 1
-        worksheet.row(current_row).push s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
+        worksheet.row(current_row).push s.name, s.description, s.created_at.strftime("%m-%d-%Y"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -144,11 +144,11 @@ def generate_csv_sheets(export, sheet_scope, filename, raw_data)
   CSV.open(export_file, "wb") do |csv|
     # Only return variables currently on designs
     variable_names = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
-    csv << ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names
+    csv << ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names
     sheet_scope.each do |sheet|
       row = [sheet.name,
               sheet.description,
-              sheet.study_date.blank? ? '' : sheet.study_date.strftime("%m-%d-%Y"),
+              sheet.created_at.strftime("%m-%d-%Y"),
               sheet.project.name,
               sheet.subject.site.name,
               sheet.subject.name,
@@ -188,7 +188,7 @@ def generate_csv_grids(export, sheet_scope, filename, raw_data)
 
     csv << row
 
-    row = ["Name", "Description", "Sheet Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"]
+    row = ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"]
 
     grid_group_variables.each do |variable|
       variable.grid_variables.each do |grid_variable_hash|
@@ -201,7 +201,7 @@ def generate_csv_grids(export, sheet_scope, filename, raw_data)
 
     sheet_scope.each do |s|
       (0..s.max_grids_position).each do |position|
-        row = [s.name, s.description, (s.study_date.blank? ? '' : s.study_date.strftime("%m-%d-%Y")), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name]
+        row = [s.name, s.description, s.created_at.strftime("%m-%d-%Y"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name]
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -240,13 +240,13 @@ def generated_data_dictionary(export, sheet_scope, filename)
 
   worksheet = book.create_worksheet name: "Design Info"
   # Contains general information
-  # Name, Description, Email Subject Template, Email Body Template, Study Date Name
+  # Name, Description, Email Subject Template, Email Body Template
   current_row = 0
-  worksheet.row(current_row).replace ["Name", "Description", "Email Subject Template", "Email Body Template", "Study Date Name"]
+  worksheet.row(current_row).replace ["Name", "Description", "Email Subject Template", "Email Body Template"]
 
   design_scope.each do |d|
     current_row += 1
-    worksheet.row(current_row).push d.name, d.description, d.email_subject_template, d.email_template, d.study_date_name
+    worksheet.row(current_row).push d.name, d.description, d.email_subject_template, d.email_template
   end
 
   # Design Layout
