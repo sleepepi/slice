@@ -80,8 +80,9 @@ class ContactsController < ApplicationController
   # DELETE /contacts/1
   # DELETE /contacts/1.json
   def destroy
+    @contact.destroy
+
     respond_to do |format|
-      @contact.destroy
       format.html { redirect_to project_contacts_path }
       format.json { head :no_content }
     end

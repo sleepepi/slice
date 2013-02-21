@@ -235,8 +235,9 @@ class DesignsController < ApplicationController
   # DELETE /designs/1
   # DELETE /designs/1.json
   def destroy
+    @design.destroy
+
     respond_to do |format|
-      @design.destroy
       format.html { redirect_to project_designs_path }
       format.js { render 'destroy' }
       format.json { head :no_content }

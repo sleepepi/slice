@@ -80,8 +80,9 @@ class DocumentsController < ApplicationController
   # DELETE /documents/1
   # DELETE /documents/1.json
   def destroy
+    @document.destroy
+
     respond_to do |format|
-      @document.destroy
       format.html { redirect_to project_documents_path }
       format.json { head :no_content }
     end

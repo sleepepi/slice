@@ -87,8 +87,9 @@ class DomainsController < ApplicationController
   # DELETE /domains/1
   # DELETE /domains/1.json
   def destroy
+    @domain.destroy
+
     respond_to do |format|
-      @domain.destroy
       format.html { redirect_to project_domains_path }
       format.json { head :no_content }
     end
