@@ -8,6 +8,9 @@
 ### Bug Fix
 - Domain search now filters results when a search term is entered
 
+### Refactoring
+- Major rewrite/simplification of existing controllers
+
 ## 0.13.1 (February 15, 2013)
 
 ### Bug Fix
