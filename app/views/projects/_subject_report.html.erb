@@ -1,6 +1,6 @@
 <h3 style="text-align:center;margin:0px">Subject vs. Design</h3>
 
-<%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20, object_count: @subject_count } if @subject_count %>
+<%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20, object_count: @subjects.total_count } %>
 
 <table class="table table-hover"><col width="1px" /><%== "<col width='#{100/(@designs.size + 1)}%'/>" * (@designs.size + 1) %><col width="1px"/>
   <thead>

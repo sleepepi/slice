@@ -31,4 +31,23 @@ class ApplicationController < ActionController::Base
     order
   end
 
+
+  private
+
+  def set_viewable_project
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
+  end
+
+  def set_editable_project
+    @project = current_user.all_projects.find_by_id(params[:id])
+  end
+
+  def empty_response_or_root_path(path = root_path)
+    respond_to do |format|
+      format.html { redirect_to path }
+      format.js { render nothing: true }
+      format.json { head :no_content }
+    end
+  end
+
 end
