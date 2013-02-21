@@ -15,8 +15,8 @@ class SheetEmailsControllerTest < ActionController::TestCase
 
   test "should not show invalid sheet email" do
     get :show, id: -1, project_id: projects(:one)
-    assert_nil assigns(:sheet_email)
     assert_not_nil assigns(:project)
+    assert_nil assigns(:sheet_email)
     assert_redirected_to project_sheets_path(assigns(:project))
   end
 
