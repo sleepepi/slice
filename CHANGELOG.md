@@ -5,6 +5,9 @@
   - Updated to Contour 1.3.0.pre
   - Updated to Spreadsheet 0.8.1
 
+### Bug Fix
+- Domain search now filters results when a search term is entered
+
 ## 0.13.1 (February 15, 2013)
 
 ### Bug Fix
