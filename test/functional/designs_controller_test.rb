@@ -15,8 +15,9 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should not print invalid report" do
     get :report_print, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
     assert_nil assigns(:design)
-    assert_response :success
+    assert_redirected_to project_designs_path(assigns(:project))
   end
 
   test "should get report" do
@@ -100,7 +101,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not get report with invalid project" do
     get :report, id: @design, project_id: -1
     assert_nil assigns(:project)
-    assert_not_nil assigns(:design)
+    assert_nil assigns(:design)
     assert_redirected_to root_path
   end
 
@@ -120,7 +121,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not get copy for invalid project" do
     get :copy, id: @design, project_id: -1
     assert_nil assigns(:project)
-    assert_not_nil assigns(:design)
+    assert_nil assigns(:design)
     assert_redirected_to root_path
   end
 
@@ -211,7 +212,7 @@ class DesignsControllerTest < ActionController::TestCase
     assert_nil assigns(:designs)
     assert_nil assigns(:sites)
     assert_nil assigns(:emails)
-    assert_response :success
+    assert_redirected_to root_path
   end
 
   test "should create batch" do
@@ -250,20 +251,19 @@ class DesignsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
     assert_nil assigns(:design)
     assert_nil assigns(:site)
-    assert_not_nil assigns(:emails)
+    assert_nil assigns(:emails)
     assert_redirected_to root_path
   end
 
   test "should get csv" do
     get :index, project_id: @project, format: 'csv'
     assert_not_nil assigns(:csv_string)
-    assert_not_nil assigns(:design_count)
     assert_response :success
   end
 
   test "should not get csv if no designs are selected" do
     get :index, project_id: @project, format: 'csv', design_ids: [-1]
-    assert_equal 0, assigns(:design_count)
+    assert_nil assigns(:designs)
     assert_nil assigns(:csv_string)
     assert_equal flash[:alert], 'No data was exported since no designs matched the specified filters.'
     assert_redirected_to project_designs_path(assigns(:project))
@@ -271,10 +271,9 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should get xls" do
     get :index, project_id: @project, format: 'xls'
-    assert_not_nil assigns(:design_count)
     assert_not_nil assigns(:designs)
     assert_equal 'You will be emailed when the export is ready for download.', flash[:notice]
-    assert_redirected_to project_designs_path(@project)
+    assert_redirected_to project_designs_path(assigns(:project))
   end
 
   test "should get index" do
@@ -350,8 +349,9 @@ class DesignsControllerTest < ActionController::TestCase
       post :create, project_id: -1, design: { description: "Design description", name: 'Design Three', option_tokens: {} }
     end
 
-    assert_not_nil assigns(:design)
     assert_nil assigns(:project)
+    assert_nil assigns(:design)
+
     assert_redirected_to root_path
   end
 
@@ -390,7 +390,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should show design for project with no sites" do
-    get :show, id: designs(:no_sites), project_id: @project
+    get :show, id: designs(:no_sites), project_id: projects(:no_sites)
     assert_not_nil assigns(:design)
     assert_response :success
   end
@@ -405,7 +405,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not show design with invalid project" do
     get :show, id: @design, project_id: -1
     assert_nil assigns(:project)
-    assert_not_nil assigns(:design)
+    assert_nil assigns(:design)
     assert_redirected_to root_path
   end
 
@@ -419,7 +419,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not print invalid design" do
     get :print, id: -1, project_id: @project
     assert_nil assigns(:design)
-    assert_response :success
+    assert_redirected_to project_designs_path(assigns(:project))
   end
 
   test "should show design with all variable types" do
@@ -468,13 +468,13 @@ class DesignsControllerTest < ActionController::TestCase
     get :edit, id: -1, project_id: @project
     assert_not_nil assigns(:project)
     assert_nil assigns(:design)
-    assert_redirected_to project_designs_path
+    assert_redirected_to project_designs_path(assigns(:project))
   end
 
   test "should not get edit with invalid project" do
     get :edit, id: @design, project_id: -1
     assert_nil assigns(:project)
-    assert_not_nil assigns(:design)
+    assert_nil assigns(:design)
     assert_redirected_to root_path
   end
 
@@ -503,7 +503,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not update design with invalid project" do
     put :update, id: @design, project_id: -1, design: { description: @design.description, name: @design.name }
     assert_nil assigns(:project)
-    assert_not_nil assigns(:design)
+    assert_nil assigns(:design)
     assert_redirected_to root_path
   end
 
@@ -520,8 +520,8 @@ class DesignsControllerTest < ActionController::TestCase
       delete :destroy, id: @design, project_id: -1
     end
 
-    assert_not_nil assigns(:design)
     assert_nil assigns(:project)
+    assert_nil assigns(:design)
 
     assert_redirected_to root_path
   end
