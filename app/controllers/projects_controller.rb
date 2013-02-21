@@ -214,7 +214,19 @@ class ProjectsController < ApplicationController
     )
   end
 
+  # Overwriting application_controller
+  def set_viewable_project
+    super(:id)
+    # @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
+  end
+
+  # Overwriting application_controller
+  def set_editable_project
+    super(:id)
+    # @project = current_user.all_projects.find_by_id(params[:id])
+  end
+
   def redirect_without_project
-    empty_response_or_root_path(projects_path) unless @project
+    super(projects_path)
   end
 end

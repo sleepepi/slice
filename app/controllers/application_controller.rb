@@ -34,12 +34,16 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_viewable_project
-    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
+  def set_viewable_project(id = :project_id)
+    @project = current_user.all_viewable_and_site_projects.find_by_id(params[id])
   end
 
-  def set_editable_project
-    @project = current_user.all_projects.find_by_id(params[:id])
+  def set_editable_project(id = :project_id)
+    @project = current_user.all_projects.find_by_id(params[id])
+  end
+
+  def redirect_without_project(path = root_path)
+    empty_response_or_root_path(path) unless @project
   end
 
   def empty_response_or_root_path(path = root_path)
