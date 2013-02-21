@@ -1,14 +1,14 @@
 class ExportsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :set_viewable_export, only: [ :show, :mark_unread ]
+  before_filter :set_editable_export, only: [ :destroy ]
+  before_filter :redirect_without_export, only: [ :show, :mark_unread, :destroy ]
 
   # GET /exports
   # GET /exports.json
   def index
-    export_scope = current_user.all_viewable_exports
     @order = scrub_order(Export, params[:order], "exports.created_at DESC")
-    export_scope = export_scope.order(@order)
-    @export_count = export_scope.count
-    @exports = export_scope.page(params[:page]).per( 20 )
+    @exports = current_user.all_viewable_exports.search(params[:search]).order(@order).page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
@@ -20,32 +20,18 @@ class ExportsController < ApplicationController
   # GET /exports/1
   # GET /exports/1.json
   def show
-    @export = current_user.all_viewable_exports.find_by_id(params[:id])
-
     respond_to do |format|
-      if @export
-        @export.update_attribute :viewed, true if @export.status == 'ready'
-        format.html # show.html.erb
-        format.json { render json: @export }
-      else
-        format.html { redirect_to exports_path }
-        format.json { head :no_content }
-      end
+      @export.update_attribute :viewed, true if @export.status == 'ready'
+      format.html # show.html.erb
+      format.json { render json: @export }
     end
   end
 
   def mark_unread
-    @export = current_user.all_viewable_exports.find_by_id(params[:id])
-
     respond_to do |format|
-      if @export
-        @export.update_attribute :viewed, false
-        format.html { redirect_to exports_path }
-        format.json { render json: @export }
-      else
-        format.html { redirect_to exports_path }
-        format.json { head :no_content }
-      end
+      @export.update_attribute :viewed, false
+      format.html { redirect_to exports_path }
+      format.json { render json: @export }
     end
   end
 
@@ -106,8 +92,7 @@ class ExportsController < ApplicationController
   # DELETE /exports/1
   # DELETE /exports/1.json
   def destroy
-    @export = current_user.all_exports.find_by_id(params[:id])
-    @export.destroy if @export
+    @export.destroy
 
     respond_to do |format|
       format.html { redirect_to exports_path }
@@ -124,4 +109,17 @@ class ExportsController < ApplicationController
   #     :name, :include_files, :status, :file, :project_id, :viewed
   #   )
   # end
+
+  def set_viewable_export
+    @export = current_user.all_viewable_exports.find_by_id(params[:id])
+  end
+
+  def set_editable_export
+    @export = current_user.all_exports.find_by_id(params[:id])
+  end
+
+  def redirect_without_export
+    empty_response_or_root_path(exports_path) unless @export
+  end
+
 end

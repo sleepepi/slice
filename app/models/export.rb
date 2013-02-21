@@ -10,6 +10,7 @@ class Export < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
+  scope :search, lambda { |arg| where("LOWER(exports.name) LIKE ?", arg.to_s.downcase.gsub(/^| |$/, '%')) }
 
   # Model Validation
   validates_presence_of :name, :user_id, :project_id
