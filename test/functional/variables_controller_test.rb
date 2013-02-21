@@ -109,8 +109,10 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not copy variable with invalid project" do
     get :copy, id: @variable, project_id: -1
+
     assert_nil assigns(:project)
-    assert_not_nil assigns(:variable)
+    assert_nil assigns(:variable)
+
     assert_redirected_to root_path
   end
 
@@ -162,8 +164,9 @@ class VariablesControllerTest < ActionController::TestCase
   test "should not get new variable with invalid project" do
     get :new, project_id: -1
 
-    assert_not_nil assigns(:variable)
     assert_nil assigns(:project)
+    assert_nil assigns(:variable)
+
     assert_redirected_to root_path
   end
 
@@ -185,13 +188,13 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
-  test "should not create variable without valid project" do
+  test "should not create variable with invalid project" do
     assert_difference('Variable.count', 0) do
       post :create, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type }
     end
 
-    assert_not_nil assigns(:variable)
     assert_nil assigns(:project)
+    assert_nil assigns(:variable)
 
     assert_redirected_to root_path
   end
@@ -221,13 +224,15 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not show variable with invalid project" do
     get :show, id: @variable, project_id: -1
+
     assert_nil assigns(:project)
-    assert_not_nil assigns(:variable)
+    assert_nil assigns(:variable)
+
     assert_redirected_to root_path
   end
 
   test "should show variable for project with no sites" do
-    get :show, id: variables(:no_sites), project_id: @project
+    get :show, id: variables(:no_sites), project_id: projects(:no_sites)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:variable)
     assert_response :success
@@ -254,8 +259,10 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not get edit with invalid project" do
     get :edit, id: @variable, project_id: -1
+
     assert_nil assigns(:project)
-    assert_not_nil assigns(:variable)
+    assert_nil assigns(:variable)
+
     assert_redirected_to root_path
   end
 
@@ -290,8 +297,10 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not update variable with invalid project" do
     put :update, id: @variable, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
+
     assert_nil assigns(:project)
-    assert_not_nil assigns(:variable)
+    assert_nil assigns(:variable)
+
     assert_redirected_to root_path
   end
 
@@ -338,8 +347,8 @@ class VariablesControllerTest < ActionController::TestCase
       delete :destroy, id: @variable, project_id: -1
     end
 
-    assert_not_nil assigns(:variable)
     assert_nil assigns(:project)
+    assert_nil assigns(:variable)
 
     assert_redirected_to root_path
   end
