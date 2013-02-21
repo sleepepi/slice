@@ -1,9 +1,7 @@
 class VariablesController < ApplicationController
   before_filter :authenticate_user!, except: [ :add_grid_row, :format_number, :typeahead ]
-  before_filter :set_viewable_project, only: [  ]
   before_filter :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable ]
   before_filter :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable ]
-  before_filter :set_viewable_variable, only: [  ]
   before_filter :set_editable_variable, only: [ :show, :edit, :update, :destroy ]
   before_filter :set_authenticatable_variable, only: [ :add_grid_row, :typeahead, :format_number ]
   before_filter :redirect_without_variable, only: [ :show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number ]
@@ -182,10 +180,6 @@ class VariablesController < ApplicationController
       # Scale
       :scale_type, :domain_id
     )
-  end
-
-  def set_viewable_variable
-    @variable = current_user.all_viewable_variables.find_by_id(params[:id])
   end
 
   def set_editable_variable
