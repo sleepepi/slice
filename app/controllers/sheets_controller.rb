@@ -1,19 +1,24 @@
 class SheetsController < ApplicationController
   before_filter :authenticate_user!, except: [ :survey, :submit_survey ]
+  before_filter :set_viewable_project, only: [ :index, :show, :print ]
+  before_filter :set_editable_project, only: [ :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_filter :redirect_without_project, only: [ :index, :show, :print, :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_filter :set_viewable_sheet, only: [ :show, :print ]
+  before_filter :set_editable_sheet, only: [ :edit, :send_email, :audits, :remove_file, :update, :destroy ]
+  before_filter :redirect_without_sheet, only: [ :show, :print, :edit, :send_email, :audits, :remove_file, :update, :destroy ]
 
   def project_selection
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @subject = @project.subjects.find_by_subject_code(params[:subject_code]) if @project
-    @sheet = current_user.all_sheets.find_by_id(params[:sheet_id]) if @project
+    @subject = @project.subjects.find_by_subject_code(params[:subject_code])
+    @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
     if @sheet
       @sheet_id = @sheet.id
       @design = @sheet.design
     else
       @sheet_id = nil
-      @design = @project.designs.find_by_id(params[:sheet][:design_id]) if @project and params[:sheet]
+      @design = @project.designs.find_by_id(params[:sheet][:design_id]) if params[:sheet]
     end
 
-    @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code])) if @project
+    @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code]))
 
     @subject_code_valid = (@site and @site.valid_subject_code?(params[:subject_code]) ? true : false)
 
@@ -21,222 +26,148 @@ class SheetsController < ApplicationController
   end
 
   def send_email
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @sheet = current_user.all_sheets.find_by_id(params[:id])
+    pdf_attachment = nil
 
-    if @project and @sheet
-      pdf_attachment = nil
+    if params[:pdf_attachment] == '1'
+      file_pdf_location = @sheet.latex_file_location(current_user)
+      pdf_attachment = File.new(file_pdf_location) if File.exists?(file_pdf_location)
+    end
 
-      if params[:pdf_attachment] == '1'
-        file_pdf_location = @sheet.latex_file_location(current_user)
-        pdf_attachment = File.new(file_pdf_location) if File.exists?(file_pdf_location)
-      end
+    @sheet_email = @sheet.sheet_emails.create(email_body: params[:body], email_cc: params[:cc], email_pdf_file: pdf_attachment, email_subject: params[:subject], email_to: params[:to], user_id: current_user.id)
 
-      @sheet_email = @sheet.sheet_emails.create(email_body: params[:body], email_cc: params[:cc], email_pdf_file: pdf_attachment, email_subject: params[:subject], email_to: params[:to], user_id: current_user.id)
+    @sheet_email.email_receipt
 
-      @sheet_email.email_receipt
-
-      respond_to do |format|
-        format.html { redirect_to [@project, @sheet], notice: 'Sheet receipt email was successfully sent.' }
-        format.json { render json: @sheet }
-      end
-    elsif @project
-      respond_to do |format|
-        format.html { redirect_to project_sheets_path(@project), alert: 'You do not have sufficient privileges to send a sheet receipt email.' }
-        format.json { render head :no_content }
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to root_path, alert: 'You do not have sufficient privileges to access this project.' }
-        format.json { render head :no_content }
-      end
+    respond_to do |format|
+      format.html { redirect_to [@project, @sheet], notice: 'Sheet receipt email was successfully sent.' }
+      format.json { render json: @sheet }
     end
   end
 
   # GET /sheets
   # GET /sheets.json
   def index
-    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
+    current_user.pagination_set!('sheets', params[:sheets_per_page].to_i) if params[:sheets_per_page].to_i > 0
+    sheet_scope = current_user.all_viewable_sheets.search(params[:search])
 
-    if @project
-      current_user.pagination_set!('sheets', params[:sheets_per_page].to_i) if params[:sheets_per_page].to_i > 0
-      sheet_scope = current_user.all_viewable_sheets
+    @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
+    sheet_scope = sheet_scope.last_entry if @filter == 'last'
+    sheet_scope = sheet_scope.first_entry if @filter == 'first'
 
-      @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
-      sheet_scope = sheet_scope.last_entry if @filter == 'last'
-      sheet_scope = sheet_scope.first_entry if @filter == 'first'
+    @statuses = params[:statuses] || ['valid', 'pending', 'test']
+    sheet_scope = sheet_scope.with_subject_status(@statuses)
 
-      @statuses = params[:statuses] || ['valid', 'pending', 'test']
-      sheet_scope = sheet_scope.with_subject_status(@statuses)
+    @sheet_after = parse_date(params[:sheet_after])
+    @sheet_before = parse_date(params[:sheet_before])
 
-      @sheet_after = parse_date(params[:sheet_after])
-      @sheet_before = parse_date(params[:sheet_before])
+    @variable = current_user.all_viewable_variables.find_by_id(params[:stratum_id])
+    @column_variable = current_user.all_viewable_variables.find_by_id(params[:column_stratum_id])
 
-      @variable = current_user.all_viewable_variables.find_by_id(params[:stratum_id])
-      @column_variable = current_user.all_viewable_variables.find_by_id(params[:column_stratum_id])
-
-      sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
-      sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
+    sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
+    sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
 
 
-      if params[:row_include] == 'all'
-        # No filter required
-      elsif @variable and params[:row_include] == 'known'
-        # Filter only known (non-missing) values for @variable
-        sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable)
-      elsif @variable and params[:row_include] == 'missing' # Missing or Known
-        sheet_scope = sheet_scope.with_any_variable_response(@variable)
-      elsif @variable and params[:row_include] == 'unknown'
-        # Filter to only @variable where it's unknown
-        sheet_scope = sheet_scope.without_variable_response(@variable)
-      end
-
-      if params[:column_include] == 'all'
-        # No filter required
-      elsif @column_variable and params[:column_include] == 'known'
-        # Filter only known (non-missing) values for @column_variable
-        sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
-      elsif @column_variable and params[:column_include] == 'missing'
-        sheet_scope = sheet_scope.with_any_variable_response(@column_variable)
-      elsif @column_variable and params[:column_include] == 'unknown'
-        # Filter to only @column_variable where it's unknown
-        sheet_scope = sheet_scope.without_variable_response(@column_variable)
-      end
-
-      if params[:stratum_id].blank? and not params[:stratum_value].blank?
-        params[:site_id] = params[:stratum_value]
-        params[:stratum_value] = nil
-      end
-
-      sheet_scope = sheet_scope.with_stratum(params[:stratum_id], params[:stratum_value]) unless params[:stratum_value].blank?
-      sheet_scope = sheet_scope.with_stratum(params[:column_stratum_id], params[:column_stratum_value]) unless (@column_variable and @column_variable.variable_type == 'date') or params[:column_stratum_id].blank? or params[:column_stratum_value].blank?
-
-      ['design', 'project', 'site', 'user'].each do |filter|
-        sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
-      end
-
-      @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-      @search_terms.each{|search_term| sheet_scope = sheet_scope.search(search_term) }
-
-      @order = params[:order]
-      case params[:order] when 'sheets.site_name'
-        sheet_scope = sheet_scope.order_by_site_name
-      when 'sheets.site_name DESC'
-        sheet_scope = sheet_scope.order_by_site_name_desc
-      when 'sheets.design_name'
-        sheet_scope = sheet_scope.order_by_design_name
-      when 'sheets.design_name DESC'
-        sheet_scope = sheet_scope.order_by_design_name_desc
-      when 'sheets.subject_code'
-        sheet_scope = sheet_scope.order_by_subject_code
-      when 'sheets.subject_code DESC'
-        sheet_scope = sheet_scope.order_by_subject_code_desc
-      when 'sheets.project_name'
-        sheet_scope = sheet_scope.order_by_project_name
-      when 'sheets.project_name DESC'
-        sheet_scope = sheet_scope.order_by_project_name_desc
-      when 'sheets.user_name'
-        sheet_scope = sheet_scope.order_by_user_name
-      when 'sheets.user_name DESC'
-        sheet_scope = sheet_scope.order_by_user_name_desc
-      else
-        @order = scrub_order(Sheet, params[:order], 'sheets.created_at DESC')
-        sheet_scope = sheet_scope.order(@order)
-      end
-
-      @raw_data = (params[:format] == 'raw_csv')
-
-      @sheet_count = sheet_scope.count
-
-      generate_export(sheet_scope, (params[:xls].to_s == '1'), (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1')) if params[:export].to_s == '1'
-
-      @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
-      @sheet_scope = sheet_scope
+    if params[:row_include] == 'all'
+      # No filter required
+    elsif @variable and params[:row_include] == 'known'
+      # Filter only known (non-missing) values for @variable
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable)
+    elsif @variable and params[:row_include] == 'missing' # Missing or Known
+      sheet_scope = sheet_scope.with_any_variable_response(@variable)
+    elsif @variable and params[:row_include] == 'unknown'
+      # Filter to only @variable where it's unknown
+      sheet_scope = sheet_scope.without_variable_response(@variable)
     end
 
+    if params[:column_include] == 'all'
+      # No filter required
+    elsif @column_variable and params[:column_include] == 'known'
+      # Filter only known (non-missing) values for @column_variable
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
+    elsif @column_variable and params[:column_include] == 'missing'
+      sheet_scope = sheet_scope.with_any_variable_response(@column_variable)
+    elsif @column_variable and params[:column_include] == 'unknown'
+      # Filter to only @column_variable where it's unknown
+      sheet_scope = sheet_scope.without_variable_response(@column_variable)
+    end
+
+    if params[:stratum_id].blank? and not params[:stratum_value].blank?
+      params[:site_id] = params[:stratum_value]
+      params[:stratum_value] = nil
+    end
+
+    sheet_scope = sheet_scope.with_stratum(params[:stratum_id], params[:stratum_value]) unless params[:stratum_value].blank?
+    sheet_scope = sheet_scope.with_stratum(params[:column_stratum_id], params[:column_stratum_value]) unless (@column_variable and @column_variable.variable_type == 'date') or params[:column_stratum_id].blank? or params[:column_stratum_value].blank?
+
+    ['design', 'project', 'site', 'user'].each do |filter|
+      sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
+    end
+
+    @order = params[:order]
+    case params[:order] when 'sheets.site_name'
+      sheet_scope = sheet_scope.order_by_site_name
+    when 'sheets.site_name DESC'
+      sheet_scope = sheet_scope.order_by_site_name_desc
+    when 'sheets.design_name'
+      sheet_scope = sheet_scope.order_by_design_name
+    when 'sheets.design_name DESC'
+      sheet_scope = sheet_scope.order_by_design_name_desc
+    when 'sheets.subject_code'
+      sheet_scope = sheet_scope.order_by_subject_code
+    when 'sheets.subject_code DESC'
+      sheet_scope = sheet_scope.order_by_subject_code_desc
+    when 'sheets.project_name'
+      sheet_scope = sheet_scope.order_by_project_name
+    when 'sheets.project_name DESC'
+      sheet_scope = sheet_scope.order_by_project_name_desc
+    when 'sheets.user_name'
+      sheet_scope = sheet_scope.order_by_user_name
+    when 'sheets.user_name DESC'
+      sheet_scope = sheet_scope.order_by_user_name_desc
+    else
+      @order = scrub_order(Sheet, params[:order], 'sheets.created_at DESC')
+      sheet_scope = sheet_scope.order(@order)
+    end
+
+    @raw_data = (params[:format] == 'raw_csv')
+
+    generate_export(sheet_scope, (params[:xls].to_s == '1'), (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1')) if params[:export].to_s == '1'
+
+    @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
+    @sheet_scope = sheet_scope
 
     respond_to do |format|
-      if @project
-        format.html # index.html.erb
-        format.js
-        format.json { render json: @sheets }
-        # format.xls { generate_xls(sheet_scope) }
-        # format.zip { generate_xls(sheet_scope, true) }
-      else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
-      end
+      format.html # index.html.erb
+      format.js
+      format.json { render json: @sheets }
     end
   end
 
   # This is the latex view
   def print
-    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
-    if @sheet
-      file_pdf_location = @sheet.latex_file_location(current_user)
+    file_pdf_location = @sheet.latex_file_location(current_user)
 
-      if File.exists?(file_pdf_location)
-        File.open(file_pdf_location, 'r') do |file|
-          send_file file, filename: "sheet_#{@sheet.id}.pdf", type: "application/pdf", disposition: "inline"
-        end
-      else
-        render text: "PDF did not render in time. Please refresh the page."
+    if File.exists?(file_pdf_location)
+      File.open(file_pdf_location, 'r') do |file|
+        send_file file, filename: "sheet_#{@sheet.id}.pdf", type: "application/pdf", disposition: "inline"
       end
     else
-      render nothing: true
+      render text: "PDF did not render in time. Please refresh the page."
     end
   end
-
-  # Old print view
-  # def print
-  #   @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
-  #   if @sheet
-  #     render layout: false
-  #   else
-  #     render nothing: true
-  #   end
-  # end
 
   # GET /sheets/1
   # GET /sheets/1.json
   def show
-    @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
-    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
-
     respond_to do |format|
-      if @project and @sheet
-        @sheet.audit_show!(current_user)
-        format.html # show.html.erb
-        format.js # show.js.erb
-        format.json { render json: @sheet }
-      elsif @project
-        format.html { redirect_to project_sheets_path(@project), alert: 'You do not have sufficient privileges to view this sheet.' }
-        format.js { render nothing: true }
-        format.json { render head :no_content }
-      else
-        format.html { redirect_to root_path }
-        format.js { render nothing: true }
-        format.json { head :no_content }
-      end
+      @sheet.audit_show!(current_user)
+      format.html # show.html.erb
+      format.js # show.js.erb
+      format.json { render json: @sheet }
     end
   end
 
   def audits
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
 
-    respond_to do |format|
-      if @project and @sheet
-        format.html # audits.html.erb
-        format.json { render json: @sheet }
-      elsif @project
-        format.html { redirect_to project_sheets_path(@project), alert: 'You do not have sufficient privileges to view sheet audits.' }
-        format.json { render head :no_content }
-      else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
-      end
-    end
   end
 
   # GET /sheets/new
@@ -244,9 +175,7 @@ class SheetsController < ApplicationController
   def new
     params[:current_design_page] = 1
 
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-
-    if @project and @project.designs.size == 1
+    if @project.designs.size == 1
       params[:sheet] ||= {}
       params[:sheet][:design_id] ||= @project.designs.first.id
     end
@@ -254,22 +183,14 @@ class SheetsController < ApplicationController
     @sheet = current_user.sheets.new(post_params)
 
     respond_to do |format|
-      if @project and @sheet
-        format.html # new.html.erb
-        format.json { render json: @sheet }
-      else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
-      end
+      format.html # new.html.erb
+      format.json { render json: @sheet }
     end
   end
 
   # GET /sheets/1/edit
   def edit
     params[:current_design_page] = 1
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @sheet = current_user.all_sheets.find_by_id(params[:id])
-    redirect_to sheets_path unless @project and @sheet
   end
 
   def survey
@@ -306,19 +227,17 @@ class SheetsController < ApplicationController
   end
 
   def remove_file
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-
-    @sheet = current_user.all_sheets.find_by_id(params[:id])
-    @sheet_variable = @sheet.sheet_variables.find_by_id(params[:sheet_variable_id]) if @sheet
+    @sheet_variable = @sheet.sheet_variables.find_by_id(params[:sheet_variable_id])
 
     @object = if params[:position].blank? or params[:variable_id].blank?
-      @sheet_variable if @sheet and @sheet_variable # SheetVariable
+      @sheet_variable
     else
       @sheet_variable.grids.find_by_variable_id_and_position(params[:variable_id], params[:position].to_i) if @sheet_variable  # Grid
     end
 
     @variable = @sheet_variable.variable if @object
-    if @project and @object and @variable
+
+    if @object and @variable
       @object.remove_response_file!
     else
       render nothing: true
@@ -328,33 +247,27 @@ class SheetsController < ApplicationController
   # POST /sheets
   # POST /sheets.json
   def create
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
     @sheet = current_user.sheets.new(post_params)
 
     respond_to do |format|
-      if @project
-        if @sheet.save
-          update_variables!
+      if @sheet.save
+        update_variables!
 
-          if params[:current_design_page].to_i <= @sheet.design.total_pages
-            format.html { render action: 'edit' }
-            format.json { head :no_content }
-          else
-            if params[:continue].to_s == '1'
-              format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully created.' }
-            else
-              format.html { redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully created.' }
-            end
-            format.json { render json: @sheet, status: :created, location: @sheet }
-          end
+        if params[:current_design_page].to_i <= @sheet.design.total_pages
+          format.html { render action: 'edit' }
+          format.json { head :no_content }
         else
-          params[:current_design_page] = 1
-          format.html { render action: "new" }
-          format.json { render json: @sheet.errors, status: :unprocessable_entity }
+          if params[:continue].to_s == '1'
+            format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully created.' }
+          else
+            format.html { redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully created.' }
+          end
+          format.json { render json: @sheet, status: :created, location: @sheet }
         end
       else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
+        params[:current_design_page] = 1
+        format.html { render action: "new" }
+        format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -362,36 +275,25 @@ class SheetsController < ApplicationController
   # PUT /sheets/1
   # PUT /sheets/1.json
   def update
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @sheet = current_user.all_sheets.find_by_id(params[:id])
-
     respond_to do |format|
-      if @project and @sheet
-        if @sheet.update_attributes(post_params)
-          update_variables!
+      if @sheet.update_attributes(post_params)
+        update_variables!
 
-          if params[:current_design_page].to_i <= @sheet.design.total_pages
-            format.html { render action: 'edit' }
-            format.json { head :no_content }
-          else
-            if params[:continue].to_s == '1'
-              format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully updated.' }
-            else
-              format.html { redirect_to [@project, @sheet], notice: 'Sheet was successfully updated.' }
-            end
-            format.json { head :no_content }
-          end
+        if params[:current_design_page].to_i <= @sheet.design.total_pages
+          format.html { render action: 'edit' }
+          format.json { head :no_content }
         else
-          params[:current_design_page] = 1
-          format.html { render action: "edit" }
-          format.json { render json: @sheet.errors, status: :unprocessable_entity }
+          if params[:continue].to_s == '1'
+            format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully updated.' }
+          else
+            format.html { redirect_to [@project, @sheet], notice: 'Sheet was successfully updated.' }
+          end
+          format.json { head :no_content }
         end
-      elsif @project
-        format.html { redirect_to project_sheets_path(@project), alert: 'You do not have sufficient privileges to update this sheet.' }
-        format.json { head :no_content }
       else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
+        params[:current_design_page] = 1
+        format.html { render action: "edit" }
+        format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -399,20 +301,12 @@ class SheetsController < ApplicationController
   # DELETE /sheets/1
   # DELETE /sheets/1.json
   def destroy
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    @sheet = current_user.all_sheets.find_by_id(params[:id])
-    @sheet.destroy if @project and @sheet
+    @sheet.destroy
 
     respond_to do |format|
-      if @project
-        format.html { redirect_to project_sheets_path(@project) }
-        format.js { render 'destroy' }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to root_path }
-        format.js { render nothing: true }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to project_sheets_path(@project) }
+      format.js { render 'destroy' }
+      format.json { head :no_content }
     end
   end
 
@@ -462,6 +356,18 @@ class SheetsController < ApplicationController
     params[:sheet].slice(
       :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at
     )
+  end
+
+  def set_viewable_sheet
+    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
+  end
+
+  def set_editable_sheet
+    @sheet = @project.sheets.find_by_id(params[:id])
+  end
+
+  def redirect_without_sheet
+    empty_response_or_root_path(project_sheets_path) unless @sheet
   end
 
   def update_variables!

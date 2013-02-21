@@ -65,8 +65,7 @@ class SheetsControllerTest < ActionController::TestCase
     post :send_email, id: -1, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_equal 'You do not have sufficient privileges to send a sheet receipt email.', flash[:alert]
-    assert_redirected_to project_sheets_path
+    assert_redirected_to project_sheets_path(assigns(:project))
   end
 
   test "should not send email for site user" do
@@ -74,7 +73,6 @@ class SheetsControllerTest < ActionController::TestCase
     post :send_email, id: @sheet, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_equal 'You do not have sufficient privileges to access this project.', flash[:alert]
     assert_redirected_to root_path
   end
 
@@ -82,7 +80,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Export.count') do
       get :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'
     end
-    assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
@@ -90,7 +87,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Export.count') do
       get :index, project_id: @project, export: '1', csv_labeled: '1', format: 'js'
     end
-    assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
@@ -98,7 +94,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Export.count') do
       get :index, project_id: @project, export: '1', xls: '1', format: 'js'
     end
-    assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
@@ -106,7 +101,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Export.count') do
       get :index, project_id: @project, export: '1', pdf: '1', format: 'js'
     end
-    assert_not_nil assigns(:sheet_count)
     assert_response :success
   end
 
@@ -429,7 +423,8 @@ class SheetsControllerTest < ActionController::TestCase
                     current_design_page: 2
     end
 
-    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:project)
+    assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
@@ -442,7 +437,8 @@ class SheetsControllerTest < ActionController::TestCase
                     current_design_page: 2
     end
 
-    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:project)
+    assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
@@ -538,43 +534,44 @@ class SheetsControllerTest < ActionController::TestCase
   test "should not show sheet with invalid project" do
     get :show, id: @sheet, project_id: -1
     assert_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
   test "should not show audits for invalid sheet" do
     get :audits, id: -1, project_id: @project
-    assert_nil assigns(:sheet)
     assert_not_nil assigns(:project)
+    assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(@project)
   end
 
   test "should not show audits for invalid project" do
     get :audits, id: @sheet, project_id: -1
     assert_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
   test "should not show sheet for user from different site" do
     login(users(:site_one_user))
     get :show, id: sheets(:three), project_id: @project
-    assert_nil assigns(:sheet)
     assert_not_nil assigns(:project)
-    assert_equal 'You do not have sufficient privileges to view this sheet.', flash[:alert]
-    assert_redirected_to project_sheets_path(@project)
+    assert_nil assigns(:sheet)
+    assert_redirected_to project_sheets_path(assigns(:project))
   end
 
   test "should print sheet" do
     get :print, id: @sheet, project_id: @project
+    assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
   test "should not print invalid sheet" do
     get :print, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_response :success
+    assert_redirected_to project_sheets_path(assigns(:project))
   end
 
   test "should get edit" do
@@ -655,7 +652,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should not update sheet with invalid project" do
     put :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
     assert_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
@@ -676,7 +673,7 @@ class SheetsControllerTest < ActionController::TestCase
     end
 
     assert_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:sheet)
 
     assert_redirected_to root_path
   end
