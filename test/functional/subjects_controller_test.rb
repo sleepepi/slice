@@ -33,8 +33,9 @@ class SubjectsControllerTest < ActionController::TestCase
   test "should not get new subject with invalid project" do
     get :new, project_id: -1
 
-    assert_not_nil assigns(:subject)
     assert_nil assigns(:project)
+    assert_nil assigns(:subject)
+
     assert_redirected_to root_path
   end
 
@@ -62,8 +63,9 @@ class SubjectsControllerTest < ActionController::TestCase
       post :create, project_id: projects(:four), subject: { subject_code: 'Code03', acrostic: '', status: @subject.status }, site_id: @subject.site_id
     end
 
-    assert_not_nil assigns(:subject)
     assert_nil assigns(:project)
+    assert_nil assigns(:subject)
+
     assert_redirected_to root_path
   end
 
@@ -73,8 +75,9 @@ class SubjectsControllerTest < ActionController::TestCase
       post :create, project_id: @project, subject: { subject_code: 'Code03', acrostic: '', status: 'valid' }, site_id: sites(:one).id
     end
 
-    assert_not_nil assigns(:subject)
     assert_nil assigns(:project)
+    assert_nil assigns(:subject)
+
     assert_redirected_to root_path
   end
 
@@ -102,8 +105,10 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should not show subject with invalid project" do
     get :show, id: @subject, project_id: -1
-    assert_not_nil assigns(:subject)
+
     assert_nil assigns(:project)
+    assert_nil assigns(:subject)
+
     assert_redirected_to root_path
   end
 
@@ -132,7 +137,7 @@ class SubjectsControllerTest < ActionController::TestCase
     get :edit, id: @subject, project_id: -1
 
     assert_nil assigns(:project)
-    assert_not_nil assigns(:subject)
+    assert_nil assigns(:subject)
 
     assert_redirected_to root_path
   end
@@ -158,8 +163,10 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test "should not update subject with invalid project" do
     put :update, id: @subject, project_id: -1, subject: { subject_code: @subject.subject_code, acrostic: '', status: @subject.status }, site_id: @subject.site_id
+
+    assert_nil assigns(:subject)
     assert_nil assigns(:project)
-    assert_not_nil assigns(:subject)
+
     assert_redirected_to root_path
   end
 
@@ -179,8 +186,8 @@ class SubjectsControllerTest < ActionController::TestCase
       delete :destroy, id: @subject, project_id: -1
     end
 
-    assert_not_nil assigns(:subject)
     assert_nil assigns(:project)
+    assert_nil assigns(:subject)
 
     assert_redirected_to root_path
   end

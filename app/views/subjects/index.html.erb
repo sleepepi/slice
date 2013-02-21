@@ -32,13 +32,6 @@
   </div>
 
   <div class="row">
-    <div class="span4 control-group">
-      <%= label :project_id, 'Project', class: 'control-label' %>
-      <div class="controls">
-        <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>
-      </div>
-    </div>
-
     <div class="span4 control-group" id="select_site">
       <%= hidden_field_tag :site_id, params[:site_id] %>
       <%#= render partial: 'subjects/select_site' %>
