@@ -35,8 +35,9 @@ class SitesControllerTest < ActionController::TestCase
   test "should not get new site with invalid project" do
     get :new, project_id: -1
 
-    assert_not_nil assigns(:site)
     assert_nil assigns(:project)
+    assert_nil assigns(:site)
+
     assert_redirected_to root_path
   end
 
@@ -64,8 +65,9 @@ class SitesControllerTest < ActionController::TestCase
       post :create, project_id: -1, site: { name: 'Site New', description: 'New Site on Project One', emails: 'email@example.com', prefix: 'Prefix' }
     end
 
-    assert_not_nil assigns(:site)
     assert_nil assigns(:project)
+    assert_nil assigns(:site)
+
     assert_redirected_to root_path
   end
 
@@ -75,8 +77,9 @@ class SitesControllerTest < ActionController::TestCase
       post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One', emails: 'email@example.com', prefix: 'Prefix' }
     end
 
-    assert_not_nil assigns(:site)
     assert_nil assigns(:project)
+    assert_nil assigns(:site)
+
     assert_redirected_to root_path
   end
 
@@ -101,8 +104,10 @@ class SitesControllerTest < ActionController::TestCase
 
   test "should not show site with invalid project" do
     get :show, id: @site, project_id: -1
-    assert_not_nil assigns(:site)
+
     assert_nil assigns(:project)
+    assert_nil assigns(:site)
+
     assert_redirected_to root_path
   end
 
@@ -124,7 +129,7 @@ class SitesControllerTest < ActionController::TestCase
     get :edit, id: @site, project_id: -1
 
     assert_nil assigns(:project)
-    assert_not_nil assigns(:site)
+    assert_nil assigns(:site)
 
     assert_redirected_to root_path
   end
@@ -149,8 +154,10 @@ class SitesControllerTest < ActionController::TestCase
 
   test "should not update with invalid project" do
     put :update, id: @site, project_id: -1, site: { description: 'First Site on Project One', emails: 'email@example.com, email2@example.com', name: 'Site One', prefix: 'Prefix' }
-    assert_not_nil assigns(:site)
+
     assert_nil assigns(:project)
+    assert_nil assigns(:site)
+
     assert_redirected_to root_path
   end
 
@@ -170,8 +177,8 @@ class SitesControllerTest < ActionController::TestCase
       delete :destroy, id: @site, project_id: -1
     end
 
-    assert_not_nil assigns(:site)
     assert_nil assigns(:project)
+    assert_nil assigns(:site)
 
     assert_redirected_to root_path
   end
