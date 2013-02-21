@@ -20,6 +20,12 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to project_designs_path(assigns(:project))
   end
 
+  test "should get reporter" do
+    get :reporter, id: @design, project_id: @project
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should get report" do
     get :report, id: @design, project_id: @project
     assert_not_nil assigns(:design)
