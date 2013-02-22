@@ -364,7 +364,7 @@ class Design < ActiveRecord::Base
     if self.csv_file.path
       CSV.foreach(self.csv_file.path, headers: true) do |line|
         row = line.to_hash.with_indifferent_access
-        subject = Subject.find_or_create_by_subject_code(row['subject_code'], { acrostic: row['acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id } )
+        subject = self.project.subjects.find_or_create_by_subject_code(row['subject_code'], { acrostic: row['acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id } )
         if subject
           # validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id
           sheet = self.sheets.create(project_id: self.project_id, subject_id: subject.id, user_id: self.user_id, last_user_id: self.user_id)
