@@ -7,8 +7,6 @@
 
 <% @file_uploaded = (@variables.size > 0 and not @design.csv_file_cache.blank? and @design.errors[:csv_file].blank?) %>
 
-<%= params[:variables] if @file_uploaded %>
-
 <%= form_for @design, url: create_import_project_designs_path(@project), method: :post, html: { class: 'form-horizontal', multipart: true } do |f| %>
   <% if @design.errors.any? %>
     <div id="error_explanation">
@@ -46,19 +44,22 @@
       </div>
     </div>
 
+    <hr class="soften" style="margin-top:20px;margin-bottom:20px" />
+
     <% @variables.each do |hash| %>
       <div class="control-group">
         <label class="control-label"><%= hash[:name] %></label>
         <div class="controls">
-          <% if variable = @project.variables.find_by_name(hash[:name]) %>
-            <div style="padding-top:5px;">
+          <div style="padding-top:5px;">
+            <% if variable = @project.variables.find_by_name(hash[:name]) %>
               <%= link_to variable.display_name, [variable.project, variable], target: '_blank' %> of type <b><%= variable.variable_type %></b> won't be recreated.
               <%= hidden_field_tag "variables[#{hash[:name]}][display_name]", hash[:display_name] %>
-            </div>
-          <% else %>
-            <%= text_field_tag "variables[#{hash[:name]}][display_name]", hash[:display_name] %>
-            <%= select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE, hash[:variable_type]) %>
-          <% end %>
+            <% else %>
+              <%= text_field_tag "variables[#{hash[:name]}][display_name]", hash[:display_name] %>
+              <%= select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE, hash[:variable_type]) %>
+            <% end %>
+            <label class="checkbox inline" style="white-space:nowrap"><%= check_box_tag "variables[#{hash[:name]}][ignore]" %> ignore variable</label>
+          </div>
         </div>
       </div>
     <% end %>

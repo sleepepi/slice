@@ -32,10 +32,10 @@ class DesignsController < ApplicationController
 
         @design.create_sheets!
 
-        redirect_to project_sheets_path(design_id: @design.id), notice: "Successfully imported #{@design.sheets.count == 1 ? 'sheet' : 'sheets'}."
+        redirect_to project_sheets_path(design_id: @design.id), notice: "Successfully imported #{@design.sheets.count} #{@design.sheets.count == 1 ? 'sheet' : 'sheets'}."
       else
         @variables = @design.load_variables
-        @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize if @design.name.blank? and @design.csv_file.path and @design.csv_file.path.split('/').last
+        @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize.capitalize if @design.name.blank? and @design.csv_file.path and @design.csv_file.path.split('/').last
         render "import"
       end
     end

@@ -347,6 +347,7 @@ class Design < ActiveRecord::Base
   def create_variables!(variable_hashes)
     new_variable_ids = []
     variable_hashes.each do |name, hash|
+      next if hash[:ignore] == '1'
       v = self.project.variables.find_by_name(name.to_s)
       unless v
         v = self.project.variables.create(name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: self.id)
@@ -369,11 +370,11 @@ class Design < ActiveRecord::Base
           # validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id
           sheet = self.sheets.create(project_id: self.project_id, subject_id: subject.id, user_id: self.user_id, last_user_id: self.user_id)
           self.load_variables.each do |hash|
-            v = self.project.variables.find_by_name(hash[:name])
-            value = row[hash[:column_name]].to_s
-            if v
-              sv = sheet.sheet_variables.find_or_create_by_variable_id( v.id, { user_id: self.user_id } )
-              sv.update_attributes sv.format_response(v.variable_type, value)
+            variable = self.project.variables.find_by_name(hash[:name])
+            if variable
+              value = row[hash[:column_name]].to_s
+              sv = sheet.sheet_variables.find_or_create_by_variable_id( variable.id, { user_id: self.user_id } )
+              sv.update_attributes sv.format_response(variable.variable_type, value)
             end
           end
         end
