@@ -47,18 +47,28 @@
     <hr class="soften" style="margin-top:20px;margin-bottom:20px" />
 
     <% @variables.each do |hash| %>
+      <% if params[:variables] and params[:variables][hash[:name]] %>
+        <% display_name = params[:variables][hash[:name]][:display_name] %>
+        <% variable_type = params[:variables][hash[:name]][:variable_type] %>
+        <% ignore = params[:variables][hash[:name]][:ignore] %>
+      <% else %>
+        <% display_name = hash[:display_name] %>
+        <% variable_type = hash[:variable_type] %>
+        <% ignore = nil %>
+      <% end %>
+
       <div class="control-group">
         <label class="control-label"><%= hash[:name] %></label>
         <div class="controls">
           <div style="padding-top:5px;">
             <% if variable = @project.variables.find_by_name(hash[:name]) %>
               <%= link_to variable.display_name, [variable.project, variable], target: '_blank' %> of type <b><%= variable.variable_type %></b> won't be recreated.
-              <%= hidden_field_tag "variables[#{hash[:name]}][display_name]", hash[:display_name] %>
+              <%= hidden_field_tag "variables[#{hash[:name]}][display_name]", display_name %>
             <% else %>
-              <%= text_field_tag "variables[#{hash[:name]}][display_name]", hash[:display_name] %>
-              <%= select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE, hash[:variable_type]) %>
+              <%= text_field_tag "variables[#{hash[:name]}][display_name]", display_name %>
+              <%= select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE, variable_type) %>
             <% end %>
-            <label class="checkbox inline" style="white-space:nowrap"><%= check_box_tag "variables[#{hash[:name]}][ignore]" %> ignore variable</label>
+            <label class="checkbox inline" style="white-space:nowrap"><%= check_box_tag "variables[#{hash[:name]}][ignore]", '1', ignore %> ignore variable</label>
           </div>
         </div>
       </div>
