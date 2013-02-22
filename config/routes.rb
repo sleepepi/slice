@@ -61,6 +61,8 @@ Slice::Application.routes.draw do
         post :selection
         get :batch
         post :create_batch
+        get :import
+        post :create_import
       end
     end
 

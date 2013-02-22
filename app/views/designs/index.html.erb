@@ -3,6 +3,7 @@
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= @title %>
     <%= link_to "Create Design", new_project_design_path, class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Design from Import", import_project_designs_path, class: 'btn btn-mini btn-primary' %>
   </h1>
 </div>
 

@@ -1,5 +1,7 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id
+  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_uploaded_at, :csv_file_cache, :remove_csv_file
+
+  mount_uploader :csv_file, SpreadsheetUploader
 
   serialize :options, Array
 
@@ -313,4 +315,69 @@ class Design < ActiveRecord::Base
     file_pdf_location = File.join('tmp', 'files', 'tex', "#{jobname}.pdf")
   end
 
+  def load_variables
+    @load_variables ||= begin
+      raw_variables = self.header_row
+      raw_variables.select!{|i| not ['subject_code', 'acrostic'].include?(i)}
+      variables = []
+      raw_variables.each do |variable_token|
+        (variable_name, variable_type) = variable_token.split(':')
+        variable_type = 'string' unless Variable::TYPE.flatten.include?(variable_type)
+        variables << { name: variable_name.gsub(/[^a-zA-Z_0-9]/, ''), display_name: variable_name.humanize, variable_type: variable_type, column_name: variable_token }
+      end
+      variables
+    end
+  end
+
+  def header_row
+    @header_row ||= begin
+      result = []
+      if self.csv_file.path
+        current_line = 0
+        CSV.foreach(self.csv_file.path) do |line|
+          break unless current_line == 0
+          result = line
+          current_line += 1
+        end
+      end
+      result
+    end
+  end
+
+  def create_variables!(variable_hashes)
+    new_variable_ids = []
+    variable_hashes.each do |name, hash|
+      v = self.project.variables.find_by_name(name.to_s)
+      unless v
+        v = self.project.variables.create(name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: self.id)
+        v.update_column :user_id, self.user_id
+      end
+      new_variable_ids << v.id if v
+    end
+
+    self.options = new_variable_ids.uniq.collect{ |vid| { variable_id: vid.to_s, branching_logic: "" } }
+    self.save
+  end
+
+  def create_sheets!
+    site = self.project.sites.first
+    if self.csv_file.path
+      CSV.foreach(self.csv_file.path, headers: true) do |line|
+        row = line.to_hash.with_indifferent_access
+        subject = Subject.find_or_create_by_subject_code(row['subject_code'], { acrostic: row['acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id } )
+        if subject
+          # validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id
+          sheet = self.sheets.create(project_id: self.project_id, subject_id: subject.id, user_id: self.user_id, last_user_id: self.user_id)
+          self.load_variables.each do |hash|
+            v = self.project.variables.find_by_name(hash[:name])
+            value = row[hash[:column_name]].to_s
+            if v
+              sv = sheet.sheet_variables.find_or_create_by_variable_id( v.id, { user_id: self.user_id } )
+              sv.update_attributes sv.format_response(v.variable_type, value)
+            end
+          end
+        end
+      end
+    end
+  end
 end

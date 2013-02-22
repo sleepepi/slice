@@ -1,14 +1,45 @@
 class DesignsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :set_viewable_project, only: [ :print, :report_print, :report, :reporter ]
-  before_filter :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch ]
-  before_filter :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter ]
+  before_filter :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import ]
+  before_filter :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import ]
   before_filter :set_viewable_design, only: [ :print, :report_print, :report, :reporter ]
   before_filter :set_editable_design, only: [ :show, :edit, :update, :destroy, :reorder ]
   before_filter :redirect_without_design, only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :reporter ]
 
   # Concerns
   include Buildable
+
+  def import
+    @design = current_user.designs.new(project_id: params[:project_id])
+    @variables = []
+  end
+
+  def create_import
+    @design = current_user.designs.new(post_params)
+    if params[:variables].blank?
+      @variables = @design.load_variables
+      if @design.csv_file.blank?
+        @design.errors.add(:csv_file, "must be selected")
+      # elsif not @design.header_row.include?('subject_code')
+      #   @design.errors.add(:csv_file, "must contain subject_code as a header column")
+      end
+      @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize if @design.name.blank? and @design.csv_file.path and @design.csv_file.path.split('/').last
+      render "import"
+    else
+      if @design.save
+        @design.create_variables!(params[:variables])
+
+        @design.create_sheets!
+
+        redirect_to project_sheets_path(design_id: @design.id), notice: "Successfully imported #{@design.sheets.count == 1 ? 'sheet' : 'sheets'}."
+      else
+        @variables = @design.load_variables
+        @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize if @design.name.blank? and @design.csv_file.path and @design.csv_file.path.split('/').last
+        render "import"
+      end
+    end
+  end
 
   def report_print
     setup_report
@@ -367,7 +398,7 @@ class DesignsController < ApplicationController
     end
 
     params[:design].slice(
-      :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id
+      :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
     )
   end
 
