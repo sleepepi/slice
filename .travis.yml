@@ -5,4 +5,5 @@ rvm:
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "psql -c 'create database slice_test;' -U postgres"
+  - "gem install bundler --pre"
   - "bundle exec rake db:migrate"
