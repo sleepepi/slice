@@ -8,7 +8,7 @@ gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw
 gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              '~> 1.3.0.pre'
+gem 'contour',              '~> 1.3.0'
 gem 'kaminari',             '~> 0.14.1'
 gem 'carrierwave',          '~> 0.7.1'
 gem 'audited-activerecord', '~> 3.0.0'

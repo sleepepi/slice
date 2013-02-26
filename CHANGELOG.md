@@ -4,7 +4,7 @@
 - **Design Changes**
   - Designs along with data can now be imported from a CSV
 - **Gem Changes**
-  - Updated to Contour 1.3.0.pre
+  - Updated to Contour 1.3.0
   - Updated to Spreadsheet 0.8.1
 
 ### Bug Fix
