@@ -1,14 +1,11 @@
 class Site < ActiveRecord::Base
-  # attr_accessible :description, :emails, :name, :project_id, :prefix, :code_minimum, :code_maximum
 
   # Concerns
   include Searchable, Deletable
 
   # Named Scopes
   scope :with_project, lambda { |arg| where( project_id: arg ) }
-  # scope :with_project, lambda { |*args| { conditions: ["sites.project_id IN (?)", args.first] } }
   scope :with_project_or_as_site_user, lambda { |*args| where("sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]) }
-  # scope :with_project_or_as_site_user, lambda { |*args| { conditions: ["sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]] } }
 
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
@@ -30,4 +27,5 @@ class Site < ActiveRecord::Base
   def valid_subject_code?(subject_code)
     subject_code <= "#{self.prefix}#{self.code_maximum}" && subject_code.size <= "#{self.prefix}#{self.code_maximum}".size && subject_code >= "#{self.prefix}#{self.code_minimum}" && subject_code.size >= "#{self.prefix}#{self.code_minimum}".size
   end
+
 end

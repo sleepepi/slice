@@ -21,48 +21,31 @@ class SitesController < ApplicationController
     site_scope = current_user.all_viewable_sites.search(params[:search])
     site_scope = site_scope.where(project_id: params[:project_id]) unless params[:project_id].blank?
     @sites = site_scope.order(@order).page(params[:page]).per( current_user.pagination_count('sites') )
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @sites }
-    end
   end
 
   # GET /sites/1
   # GET /sites/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @site }
-    end
   end
 
   # GET /sites/new
-  # GET /sites/new.json
   def new
-    @site = current_user.sites.new(post_params)
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @site }
-    end
+    @site = current_user.sites.new(site_params)
   end
 
   # GET /sites/1/edit
   def edit
-
   end
 
   # POST /sites
   # POST /sites.json
   def create
-    @site = current_user.sites.new(post_params)
+    @site = current_user.sites.new(site_params)
 
     respond_to do |format|
       if @site.save
         format.html { redirect_to [@project, @site], notice: 'Site was successfully created.' }
-        format.json { render json: @site, status: :created, location: @site }
+        format.json { render action: 'show', status: :created, location: @site }
       else
         format.html { render action: 'new' }
         format.json { render json: @site.errors, status: :unprocessable_entity }
@@ -74,7 +57,7 @@ class SitesController < ApplicationController
   # PUT /sites/1.json
   def update
     respond_to do |format|
-      if @site.update_attributes(post_params)
+      if @site.update(site_params)
         format.html { redirect_to [@project, @site], notice: 'Site was successfully updated.' }
         format.json { head :no_content }
       else
@@ -91,37 +74,37 @@ class SitesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to project_sites_path(@project) }
-      format.js { render 'destroy' }
+      format.js
       format.json { head :no_content }
     end
   end
 
   private
 
-  def post_params
-    params[:site] ||= {}
-
-    if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
-      params[:site][:project_id] = params[:project_id]
-    else
-      params[:site][:project_id] = nil
+    def set_viewable_site
+      @site = current_user.all_viewable_sites.find_by_id(params[:id])
     end
 
-    params[:site].slice(
-      :name, :description, :project_id, :emails, :prefix, :code_minimum, :code_maximum
-    )
-  end
+    def set_editable_site
+      @site = @project.sites.find_by_id(params[:id])
+    end
 
-  def set_viewable_site
-    @site = current_user.all_viewable_sites.find_by_id(params[:id])
-  end
+    def redirect_without_site
+      empty_response_or_root_path(project_sites_path) unless @site
+    end
 
-  def set_editable_site
-    @site = @project.sites.find_by_id(params[:id])
-  end
+    def site_params
+      params[:site] ||= {}
 
-  def redirect_without_site
-    empty_response_or_root_path(project_sites_path) unless @site
-  end
+      if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
+        params[:site][:project_id] = params[:project_id]
+      else
+        params[:site][:project_id] = nil
+      end
+
+      params.require(:site).permit(
+        :name, :description, :project_id, :emails, :prefix, :code_minimum, :code_maximum
+      )
+    end
 
 end
