@@ -6,7 +6,7 @@
   <div class="control-group" style="margin-bottom:0px">
     <%= label_tag "design_option_tokens_#{position}_section_name", '&equiv; Section'.html_safe, class: 'control-label handle', style: 'cursor:move' %>
     <div class="controls">
-      <%= text_field_tag "design[option_tokens][#{position}][section_name]", @option[:section_name] %>
+      <%= text_field_tag "design[option_tokens][][section_name]", @option[:section_name] %>
     </div>
   </div>
 
@@ -14,14 +14,14 @@
     <div class="control-group" style="margin-top:18px">
       <%= label_tag "design_option_tokens_#{position}_section_description", 'Description', class: 'control-label' %>
       <div class="controls">
-        <%= text_area_tag "design[option_tokens][#{position}][section_description]", @option[:section_description], rows: 3, style: 'width:90%' %>
+        <%= text_area_tag "design[option_tokens][][section_description]", @option[:section_description], rows: 3, style: 'width:90%' %>
       </div>
     </div>
 
     <div class="control-group">
       <%= label_tag "design_option_tokens_#{position}_branching_logic", 'Branching Logic', class: 'control-label' %>
       <div class="controls">
-        <%= text_area_tag "design[option_tokens][#{position}][branching_logic]", @option[:branching_logic], rows: 3, style: 'width:90%',
+        <%= text_area_tag "design[option_tokens][][branching_logic]", @option[:branching_logic], rows: 3, style: 'width:90%',
         rel: "popover", data: { content: "
           <table class='table table-bordered'>
           <tbody>
@@ -37,7 +37,7 @@
 
     <div class="control-group">
       <div class="controls checkbox">
-        <%= check_box_tag "design[option_tokens][#{position}][break_before]", '1', @option[:break_before] == '1' %> <%= label_tag "design_option_tokens_#{position}_break_before", 'Break Before' %>
+        <%= check_box_tag "design[option_tokens][][break_before]", '1', @option[:break_before] == '1' %> <%= label_tag "design_option_tokens_#{position}_break_before", 'Break Before' %>
       </div>
     </div>
 
