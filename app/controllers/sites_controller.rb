@@ -64,7 +64,7 @@ class SitesController < ApplicationController
         format.html { redirect_to [@project, @site], notice: 'Site was successfully created.' }
         format.json { render json: @site, status: :created, location: @site }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @site.errors, status: :unprocessable_entity }
       end
     end
@@ -78,7 +78,7 @@ class SitesController < ApplicationController
         format.html { redirect_to [@project, @site], notice: 'Site was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @site.errors, status: :unprocessable_entity }
       end
     end

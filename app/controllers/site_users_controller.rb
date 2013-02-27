@@ -101,7 +101,7 @@ class SiteUsersController < ApplicationController
   #       format.html { redirect_to @site_user, notice: 'SiteUser was successfully updated.' }
   #       format.json { head :no_content }
   #     else
-  #       format.html { render action: "edit" }
+  #       format.html { render action: 'edit' }
   #       format.json { render json: @site_user.errors, status: :unprocessable_entity }
   #     end
   #   end

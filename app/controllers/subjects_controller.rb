@@ -63,7 +63,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to [@project, @subject], notice: 'Subject was successfully created.' }
         format.json { render json: @subject, status: :created, location: @subject }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end
@@ -77,7 +77,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to [@project, @subject], notice: 'Subject was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end

@@ -56,7 +56,7 @@ class LinksController < ApplicationController
         format.html { redirect_to [@link.project, @link], notice: 'Link was successfully created.' }
         format.json { render json: @link, status: :created, location: @link }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @link.errors, status: :unprocessable_entity }
       end
     end
@@ -70,7 +70,7 @@ class LinksController < ApplicationController
         format.html { redirect_to [@link.project, @link], notice: 'Link was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @link.errors, status: :unprocessable_entity }
       end
     end

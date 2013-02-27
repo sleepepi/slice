@@ -64,7 +64,7 @@ class DomainsController < ApplicationController
         format.html { redirect_to [@domain.project, @domain], notice: 'Domain was successfully created.' }
         format.json { render json: @domain, status: :created, location: @domain }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @domain.errors, status: :unprocessable_entity }
       end
     end
@@ -78,7 +78,7 @@ class DomainsController < ApplicationController
         format.html { redirect_to [@domain.project, @domain], notice: 'Domain was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @domain.errors, status: :unprocessable_entity }
       end
     end

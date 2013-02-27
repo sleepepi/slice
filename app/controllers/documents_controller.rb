@@ -57,7 +57,7 @@ class DocumentsController < ApplicationController
         format.html { redirect_to [@document.project, @document], notice: 'Document was successfully created.' }
         format.json { render json: @document, status: :created, location: @document }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
@@ -71,7 +71,7 @@ class DocumentsController < ApplicationController
         format.html { redirect_to [@document.project, @document], notice: 'Document was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end

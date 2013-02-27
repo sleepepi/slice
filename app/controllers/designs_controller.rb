@@ -243,7 +243,7 @@ class DesignsController < ApplicationController
         format.html { redirect_to [@design.project, @design], notice: 'Design was successfully created.' }
         format.json { render json: @design, status: :created, location: @design }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @design.errors, status: :unprocessable_entity }
       end
     end
@@ -257,7 +257,7 @@ class DesignsController < ApplicationController
         format.html { redirect_to [@design.project, @design], notice: 'Design was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @design.errors, status: :unprocessable_entity }
       end
     end
