@@ -25,9 +25,9 @@ class ProjectUsersController < ApplicationController
     respond_to do |format|
       if @project and (not @user.blank? or not invite_email.blank?)
         if @user
-          @project_user = @project.project_users.find_or_create_by_user_id(@user.id, { creator_id: current_user.id, librarian: (params[:project_user][:librarian] == 'true') })
+          @project_user = @project.project_users.where(user_id: @user.id).first_or_create( creator_id: current_user.id, librarian: (params[:project_user][:librarian] == 'true') )
         elsif not invite_email.blank?
-          @project_user = @project.project_users.find_or_create_by_invite_email(invite_email, { creator_id: current_user.id, librarian: (params[:project_user][:librarian] == 'true') })
+          @project_user = @project.project_users.where(invite_email: invite_email).first_or_create( creator_id: current_user.id, librarian: (params[:project_user][:librarian] == 'true') )
           @project_user.generate_invite_token!
         end
         format.js { render 'index' }
