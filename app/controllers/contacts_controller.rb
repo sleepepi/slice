@@ -69,6 +69,14 @@ class ContactsController < ApplicationController
 
   private
 
+    def set_editable_contact
+      @contact = @project.contacts.find_by_id(params[:id])
+    end
+
+    def redirect_without_contact
+      empty_response_or_root_path(project_contacts_path) unless @contact
+    end
+
     def contact_params
       params[:contact] ||= {}
 
@@ -78,14 +86,6 @@ class ContactsController < ApplicationController
       params.require(:contact).permit(
         :title, :name, :phone, :fax, :email, :position, :user_id, :archived
       )
-    end
-
-    def set_editable_contact
-      @contact = @project.contacts.find_by_id(params[:id])
-    end
-
-    def redirect_without_contact
-      empty_response_or_root_path(project_contacts_path) unless @contact
     end
 
 end
