@@ -1,6 +1,6 @@
 require 'test_helper'
 
-SimpleCov.command_name "test:units"
+SimpleCov.command_name "test:models"
 
 class UserTest < ActiveSupport::TestCase
   test "should get reverse name" do

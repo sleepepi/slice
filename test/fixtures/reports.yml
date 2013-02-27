@@ -5,12 +5,12 @@
 one:
   user: valid
   name: MyString
-  options: { design_id: <%= ActiveRecord::Fixtures.identify(:one) %> }
+  options: { design_id: <%= ActiveRecord::FixtureSet.identify(:one) %> }
 
 two:
   user: valid
   name: MyString
-  options: { design_id: <%= ActiveRecord::Fixtures.identify(:one) %> }
+  options: { design_id: <%= ActiveRecord::FixtureSet.identify(:one) %> }
 
 no_design:
   user: valid

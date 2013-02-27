@@ -5,9 +5,9 @@
 one:
   name: Design One
   description: MyText
-  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:one) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:two) %>, branching_logic: "var_1 == 'Value'" },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:date) %> }]
+  options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:one) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, branching_logic: "var_1 == 'Value'" },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> }]
   user: valid
   project: one
 
@@ -21,17 +21,17 @@ two:
 all_variable_types:
   name: All Variable Types
   description: A Design with all types of variables used
-  options: [{ variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %>, branching_logic: "var_year == 1 || overlap(var_course_work, ['acct101', 'econ101'], 1)" },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:date) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:time) %> },
-            { variable_id: <%= ActiveRecord::Fixtures.identify(:calculated) %> }]
+  options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:string) %>, branching_logic: "var_year == 1 || overlap(var_course_work, ['acct101', 'econ101'], 1)" },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:text) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:time) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:calculated) %> }]
   user: valid
   email_template: "Dear #(site): #(subject) #(subject).acrostic $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label $(var_age).label $(var_file).label $(var_date).label"
   project: one
@@ -40,17 +40,17 @@ sections_and_variables:
   name: Section and Variables
   description: Used to test section and variable reordering
   options: [
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:date) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> },
               { section_name: 'Section A', section_id: '_section_a' },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %> },
               { section_name: 'Section B', section_id: '_section_b' },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:string) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:text) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> }
            ]
   user: valid
   project: one
@@ -60,7 +60,7 @@ section_and_file:
   description: Test file upload and removal.
   options: [
               { section_name: 'Section A', section_id: '_section_a' },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> }
            ]
   user: valid
   project: one
@@ -70,15 +70,15 @@ two_page:
   description:  Sections and Variables across two pages
   options: [
               { section_name: 'Section A', section_id: '_section_a', break_before: '1' },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:dropdown) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:checkbox) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:radio) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %> },
               { section_name: 'Section B', section_id: '_section_b' },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:string) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:text) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:integer) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:numeric) %> },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:file) %> }
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:string) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:text) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric) %> },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> }
            ]
   user: valid
   project: one
@@ -88,7 +88,7 @@ has_grid:
   description: Test for grid variable saving
   options: [
               { section_name: 'Grid to Follow', section_id: '_grid_to_follow' },
-              { variable_id: <%= ActiveRecord::Fixtures.identify(:grid) %> }
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:grid) %> }
            ]
   user: valid
   project: one
@@ -123,7 +123,7 @@ single_design:
 one_sheet_entered:
   name: One Sheet of Existing Data
   # description:
-  options: [ { variable_id: <%= ActiveRecord::Fixtures.identify(:data_captured) %> } ]
+  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:data_captured) %> } ]
   user: valid
   project: one
 

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-SimpleCov.command_name "test:functionals"
+SimpleCov.command_name "test:controllers"
 
 class UsersControllerTest < ActionController::TestCase
   setup do

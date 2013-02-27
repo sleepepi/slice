@@ -1,5 +1,7 @@
 require 'test_helper'
 
+SimpleCov.command_name "test:helpers"
+
 class ApplicationHelperTest < ActionView::TestCase
   test "should show date" do
     date = Date.today + 5.days

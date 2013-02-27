@@ -159,7 +159,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should reorder variables" do
     post :reorder, id: @design, project_id: @project, rows: "option_1,option_0,option_2", format: 'js'
     assert_not_nil assigns(:design)
-    assert_equal [ActiveRecord::Fixtures.identify(:two), ActiveRecord::Fixtures.identify(:one), ActiveRecord::Fixtures.identify(:date)], assigns(:design).options.collect{|option| option[:variable_id]}
+    assert_equal [ActiveRecord::FixtureSet.identify(:two), ActiveRecord::FixtureSet.identify(:one), ActiveRecord::FixtureSet.identify(:date)], assigns(:design).options.collect{|option| option[:variable_id]}
     assert_template 'reorder'
   end
 
@@ -167,17 +167,17 @@ class DesignsControllerTest < ActionController::TestCase
     post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_1,section_0", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [
-                    ActiveRecord::Fixtures.identify(:date),
+                    ActiveRecord::FixtureSet.identify(:date),
                     'Section B',
-                    ActiveRecord::Fixtures.identify(:string),
-                    ActiveRecord::Fixtures.identify(:text),
-                    ActiveRecord::Fixtures.identify(:integer),
-                    ActiveRecord::Fixtures.identify(:numeric),
-                    ActiveRecord::Fixtures.identify(:file),
+                    ActiveRecord::FixtureSet.identify(:string),
+                    ActiveRecord::FixtureSet.identify(:text),
+                    ActiveRecord::FixtureSet.identify(:integer),
+                    ActiveRecord::FixtureSet.identify(:numeric),
+                    ActiveRecord::FixtureSet.identify(:file),
                     'Section A',
-                    ActiveRecord::Fixtures.identify(:dropdown),
-                    ActiveRecord::Fixtures.identify(:checkbox),
-                    ActiveRecord::Fixtures.identify(:radio)
+                    ActiveRecord::FixtureSet.identify(:dropdown),
+                    ActiveRecord::FixtureSet.identify(:checkbox),
+                    ActiveRecord::FixtureSet.identify(:radio)
                  ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
     assert_template 'reorder'
   end
@@ -187,17 +187,17 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design)
 
     assert_equal [
-                    ActiveRecord::Fixtures.identify(:date),
+                    ActiveRecord::FixtureSet.identify(:date),
                     'Section A',
-                    ActiveRecord::Fixtures.identify(:dropdown),
-                    ActiveRecord::Fixtures.identify(:checkbox),
-                    ActiveRecord::Fixtures.identify(:radio),
+                    ActiveRecord::FixtureSet.identify(:dropdown),
+                    ActiveRecord::FixtureSet.identify(:checkbox),
+                    ActiveRecord::FixtureSet.identify(:radio),
                     'Section B',
-                    ActiveRecord::Fixtures.identify(:string),
-                    ActiveRecord::Fixtures.identify(:text),
-                    ActiveRecord::Fixtures.identify(:integer),
-                    ActiveRecord::Fixtures.identify(:numeric),
-                    ActiveRecord::Fixtures.identify(:file)
+                    ActiveRecord::FixtureSet.identify(:string),
+                    ActiveRecord::FixtureSet.identify(:text),
+                    ActiveRecord::FixtureSet.identify(:integer),
+                    ActiveRecord::FixtureSet.identify(:numeric),
+                    ActiveRecord::FixtureSet.identify(:file)
                  ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
     assert_template 'reorder'
   end
@@ -206,17 +206,17 @@ class DesignsControllerTest < ActionController::TestCase
     post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_1", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [
-                ActiveRecord::Fixtures.identify(:date),
+                ActiveRecord::FixtureSet.identify(:date),
                 'Section A',
-                ActiveRecord::Fixtures.identify(:dropdown),
-                ActiveRecord::Fixtures.identify(:checkbox),
-                ActiveRecord::Fixtures.identify(:radio),
+                ActiveRecord::FixtureSet.identify(:dropdown),
+                ActiveRecord::FixtureSet.identify(:checkbox),
+                ActiveRecord::FixtureSet.identify(:radio),
                 'Section B',
-                ActiveRecord::Fixtures.identify(:string),
-                ActiveRecord::Fixtures.identify(:text),
-                ActiveRecord::Fixtures.identify(:integer),
-                ActiveRecord::Fixtures.identify(:numeric),
-                ActiveRecord::Fixtures.identify(:file)
+                ActiveRecord::FixtureSet.identify(:string),
+                ActiveRecord::FixtureSet.identify(:text),
+                ActiveRecord::FixtureSet.identify(:integer),
+                ActiveRecord::FixtureSet.identify(:numeric),
+                ActiveRecord::FixtureSet.identify(:file)
              ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
     assert_template 'reorder'
   end
@@ -357,15 +357,15 @@ class DesignsControllerTest < ActionController::TestCase
   test "should create design" do
     assert_difference('Design.count') do
       post :create, project_id: @project, design: { description: "Design description", name: 'Design Three',
-                              option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::Fixtures.identify(:dropdown) },
-                                               "13383078795389" =>  { "variable_id" => ActiveRecord::Fixtures.identify(:checkbox) },
-                                               "13383078797210" =>  { "variable_id" => ActiveRecord::Fixtures.identify(:radio) },
-                                               "13383078798810" =>  { "variable_id" => ActiveRecord::Fixtures.identify(:string) },
-                                               "133830787911168" => { "variable_id" => ActiveRecord::Fixtures.identify(:text) },
-                                               "133830787913231" => { "variable_id" => ActiveRecord::Fixtures.identify(:integer) },
-                                               "133830787914761" => { "variable_id" => ActiveRecord::Fixtures.identify(:numeric) },
-                                               "133830787916252" => { "variable_id" => ActiveRecord::Fixtures.identify(:date) },
-                                               "133830787917772" => { "variable_id" => ActiveRecord::Fixtures.identify(:file) }
+                              option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) },
+                                               "13383078795389" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:checkbox) },
+                                               "13383078797210" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:radio) },
+                                               "13383078798810" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:string) },
+                                               "133830787911168" => { "variable_id" => ActiveRecord::FixtureSet.identify(:text) },
+                                               "133830787913231" => { "variable_id" => ActiveRecord::FixtureSet.identify(:integer) },
+                                               "133830787914761" => { "variable_id" => ActiveRecord::FixtureSet.identify(:numeric) },
+                                               "133830787916252" => { "variable_id" => ActiveRecord::FixtureSet.identify(:date) },
+                                               "133830787917772" => { "variable_id" => ActiveRecord::FixtureSet.identify(:file) }
                                              }
                             }
     end
@@ -389,8 +389,8 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not create design with a duplicated variable" do
     assert_difference('Design.count', 0) do
       post :create, project_id: @project, design: { description: "Design description", name: 'Design Three',
-                              option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::Fixtures.identify(:dropdown) },
-                                               "13383078795389" =>  { "variable_id" => ActiveRecord::Fixtures.identify(:dropdown) }
+                              option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) },
+                                               "13383078795389" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) }
                                              }
                             }
     end
