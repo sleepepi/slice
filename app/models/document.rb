@@ -1,5 +1,4 @@
 class Document < ActiveRecord::Base
-  # attr_accessible :archived, :category, :file, :file_cache, :name, :project_id, :user_id
 
   mount_uploader :file, GenericUploader
 

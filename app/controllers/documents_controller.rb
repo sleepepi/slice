@@ -11,51 +11,31 @@ class DocumentsController < ApplicationController
   def index
     @order = scrub_order(Document, params[:order], "documents.name")
     @documents = @project.documents.search(params[:search]).order(@order).page(params[:page]).per( 20 )
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @documents }
-    end
   end
 
   # GET /documents/1
   # GET /documents/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @document }
-    end
   end
 
   # GET /documents/new
-  # GET /documents/new.json
   def new
     @document = @project.documents.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @document }
-    end
   end
 
   # GET /documents/1/edit
   def edit
-    respond_to do |format|
-      format.html # edit.html.erb
-      format.json { render json: @document }
-    end
   end
 
   # POST /documents
   # POST /documents.json
   def create
-    @document = @project.documents.new(post_params)
+    @document = @project.documents.new(document_params)
 
     respond_to do |format|
       if @document.save
         format.html { redirect_to [@document.project, @document], notice: 'Document was successfully created.' }
-        format.json { render json: @document, status: :created, location: @document }
+        format.json { render action: 'show', status: :created, location: @document }
       else
         format.html { render action: 'new' }
         format.json { render json: @document.errors, status: :unprocessable_entity }
@@ -67,7 +47,7 @@ class DocumentsController < ApplicationController
   # PUT /documents/1.json
   def update
     respond_to do |format|
-      if @document.update_attributes(post_params)
+      if @document.update(document_params)
         format.html { redirect_to [@document.project, @document], notice: 'Document was successfully updated.' }
         format.json { head :no_content }
       else
@@ -90,22 +70,22 @@ class DocumentsController < ApplicationController
 
   private
 
-  def post_params
-    params[:document] ||= {}
+    def set_editable_document
+      @document = @project.documents.find_by_id(params[:id])
+    end
 
-    params[:document][:user_id] = current_user.id
+    def redirect_without_document
+      empty_response_or_root_path(project_documents_path) unless @document
+    end
 
-    params[:document].slice(
-      :name, :category, :file, :file_cache, :archived, :user_id
-    )
-  end
+    def document_params
+      params[:document] ||= {}
 
-  def set_editable_document
-    @document = @project.documents.find_by_id(params[:id])
-  end
+      params[:document][:user_id] = current_user.id
 
-  def redirect_without_document
-    empty_response_or_root_path(project_documents_path) unless @document
-  end
+      params.require(:document).permit(
+        :name, :category, :file, :file_cache, :archived, :user_id
+      )
+    end
 
 end
