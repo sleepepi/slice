@@ -1,5 +1,4 @@
 class Report < ActiveRecord::Base
-  # attr_accessible :name, :options
 
   serialize :options, Hash
 
@@ -22,4 +21,5 @@ class Report < ActiveRecord::Base
   def project
     self.design ? self.design.project : nil
   end
+
 end
