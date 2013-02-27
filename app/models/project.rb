@@ -1,5 +1,4 @@
 class Project < ActiveRecord::Base
-  # attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache, :subject_code_name, :show_contacts, :show_documents, :show_posts
 
   mount_uploader :logo, ImageUploader
 
@@ -9,7 +8,7 @@ class Project < ActiveRecord::Base
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
   # scope :with_user, lambda { |*args| { conditions: ['projects.user_id IN (?)', args.first] } }
-  scope :with_librarian, lambda { |*args| where('projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1] ) }
+  scope :with_librarian, lambda { |*args| where('projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1] ).references(:project_users) }
   # scope :with_librarian, lambda { |*args| { conditions: ['projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1]] } }
 
   # Model Validation
