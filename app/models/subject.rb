@@ -1,5 +1,4 @@
 class Subject < ActiveRecord::Base
-  # attr_accessible :project_id, :subject_code, :user_id, :site_id, :acrostic, :email, :status
 
   STATUS = ["valid", "pending", "test"].collect{|i| [i,i]}
 

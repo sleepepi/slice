@@ -58,7 +58,7 @@
             <% end %>
           </td>
         <% end %>
-        <% count = @designs.sum{ |d| d.sheets.where(subject_id: subject.id).count } %>
+        <% count = @designs.collect{ |d| d.sheets.where(subject_id: subject.id).count }.sum %>
         <td class="<%= 'muted' if count == 0 %>">
           <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, search: subject.subject_code) %>
         </td>
