@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/slice.png)](https://gemnasium.com/remomueller/slice)
 [![Code Climate](https://codeclimate.com/github/remomueller/slice.png)](https://codeclimate.com/github/remomueller/slice)
 
-A clinical research interface geared at collecting robust and consistent data by providing a strong framework for designing data dictionaries and collection forms. Slice also provides exports of the data and the data dictionaries created as well as providing a simple reporting interface. Using Rails 3.2+ and Ruby 1.9.3+.
+A clinical research interface geared at collecting robust and consistent data by providing a strong framework for designing data dictionaries and collection forms. Slice also provides exports of the data and the data dictionaries created as well as providing a simple reporting interface. Using Rails 4.0+ and Ruby 1.9.3+.
 
 ## Installation
 
