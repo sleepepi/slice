@@ -17,11 +17,11 @@
     <% if @export.file.size > 0 %>
       <%= link_to @export.file.to_s.split('/').last, @export.file.url, target: '_blank', class: 'btn btn-mini' %>
       <%= number_to_human_size(@export.file.size) %>
-      <p class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.file_created_at, true) %>.</p>
+      <p class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.file_created_at, { include_seconds: true }) %>.</p>
     <% elsif @export.status == 'failed' %>
-      <span class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.updated_at, true) %>.</span>
+      <span class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.updated_at, { include_seconds: true }) %>.</span>
     <% else %>
-      <span class="muted">Requested <%= distance_of_time_in_words(@export.created_at, Time.now, true) %> ago...</span>
+      <span class="muted">Requested <%= distance_of_time_in_words(@export.created_at, Time.now, { include_seconds: true }) %> ago...</span>
     <% end %>
   </dd>
 
