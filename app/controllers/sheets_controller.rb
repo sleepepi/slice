@@ -158,8 +158,9 @@ class SheetsController < ApplicationController
   # GET /sheets/1
   # GET /sheets/1.json
   def show
+    @sheet.audit_show!(current_user)
+
     respond_to do |format|
-      @sheet.audit_show!(current_user)
       format.html # show.html.erb
       format.js # show.js.erb
       format.json { render json: @sheet }
@@ -171,7 +172,6 @@ class SheetsController < ApplicationController
   end
 
   # GET /sheets/new
-  # GET /sheets/new.json
   def new
     params[:current_design_page] = 1
 
@@ -180,12 +180,7 @@ class SheetsController < ApplicationController
       params[:sheet][:design_id] ||= @project.designs.first.id
     end
 
-    @sheet = current_user.sheets.new(post_params)
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @sheet }
-    end
+    @sheet = current_user.sheets.new(sheet_params)
   end
 
   # GET /sheets/1/edit
@@ -247,7 +242,7 @@ class SheetsController < ApplicationController
   # POST /sheets
   # POST /sheets.json
   def create
-    @sheet = current_user.sheets.new(post_params)
+    @sheet = current_user.sheets.new(sheet_params)
 
     respond_to do |format|
       if @sheet.save
@@ -266,7 +261,7 @@ class SheetsController < ApplicationController
         end
       else
         params[:current_design_page] = 1
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end
     end
@@ -276,23 +271,22 @@ class SheetsController < ApplicationController
   # PUT /sheets/1.json
   def update
     respond_to do |format|
-      if @sheet.update_attributes(post_params)
+      if @sheet.update(sheet_params)
         update_variables!
 
         if params[:current_design_page].to_i <= @sheet.design.total_pages
           format.html { render action: 'edit' }
-          format.json { head :no_content }
         else
           if params[:continue].to_s == '1'
             format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully updated.' }
           else
             format.html { redirect_to [@project, @sheet], notice: 'Sheet was successfully updated.' }
           end
-          format.json { head :no_content }
         end
+        format.json { head :no_content }
       else
         params[:current_design_page] = 1
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end
     end
@@ -331,33 +325,6 @@ class SheetsController < ApplicationController
     # redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
   end
 
-  def post_params
-    params[:sheet] ||= {}
-
-    if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
-      params[:sheet][:project_id] = params[:project_id]
-    else
-      params[:sheet][:project_id] = nil
-    end
-
-    unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
-      subject = Subject.find_or_create_by_project_id_and_subject_code(params[:sheet][:project_id], params[:subject_code], { user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s })
-      if subject.site and subject.site.valid_subject_code?(params[:subject_code]) and subject.status != 'test'
-        subject.update_attributes status: 'valid'
-      end
-    end
-
-    subject.update_attributes acrostic: params[:subject_acrostic].to_s if subject
-
-    params[:sheet][:subject_id] = (subject ? subject.id : nil)
-    params[:sheet][:last_user_id] = current_user.id
-    params[:sheet][:last_edited_at] = Time.now
-
-    params[:sheet].slice(
-      :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at
-    )
-  end
-
   def set_viewable_sheet
     @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
   end
@@ -370,11 +337,38 @@ class SheetsController < ApplicationController
     empty_response_or_root_path(project_sheets_path) unless @sheet
   end
 
+  def sheet_params
+    params[:sheet] ||= {}
+
+    if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
+      params[:sheet][:project_id] = params[:project_id]
+    else
+      params[:sheet][:project_id] = nil
+    end
+
+    unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
+      subject = Subject.where( project_id: params[:sheet][:project_id], subject_code: params[:subject_code] ).first_or_create( user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s )
+      if subject.site and subject.site.valid_subject_code?(params[:subject_code]) and subject.status != 'test'
+        subject.update( status: 'valid' )
+      end
+    end
+
+    subject.update( acrostic: params[:subject_acrostic].to_s ) if subject
+
+    params[:sheet][:subject_id] = (subject ? subject.id : nil)
+    params[:sheet][:last_user_id] = current_user.id
+    params[:sheet][:last_edited_at] = Time.now
+
+    params.require(:sheet).permit(
+      :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at
+    )
+  end
+
   def update_variables!
     (params[:variables] || {}).each_pair do |variable_id, response|
       creator = (current_user ? current_user : @sheet.user)
 
-      sv = @sheet.sheet_variables.find_or_create_by_variable_id(variable_id, { user_id: creator.id } )
+      sv = @sheet.sheet_variables.where( variable_id: variable_id ).first_or_create( user_id: creator.id )
       variable_type = (sv.variable.variable_type == 'scale' ? sv.variable.scale_type : sv.variable.variable_type)
       case variable_type when 'grid'
         sv.update_grid_responses!(response, creator)

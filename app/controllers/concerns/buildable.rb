@@ -2,7 +2,7 @@ module Buildable
   extend ActiveSupport::Concern
 
   # included do
-  #   scope :current, conditions: { deleted: false }
+  #   scope :current, -> { where deleted: false }
   # end
 
   private

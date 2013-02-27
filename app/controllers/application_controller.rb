@@ -1,11 +1,9 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
 
   layout "contour/layouts/application"
-
-  def about
-
-  end
 
   protected
 
@@ -30,7 +28,6 @@ class ApplicationController < ActionController::Base
     order = column_name.blank? ? default_order : [column_name, direction].compact.join(' ')
     order
   end
-
 
   private
 

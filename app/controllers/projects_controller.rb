@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = current_user.projects.new(post_params)
+    @project = current_user.projects.new(project_params)
 
     respond_to do |format|
       if @project.save
@@ -117,7 +117,7 @@ class ProjectsController < ApplicationController
   # PUT /projects/1.json
   def update
     respond_to do |format|
-      if @project.update_attributes(post_params)
+      if @project.update(project_params)
         format.html { redirect_to settings_project_path(@project), notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -203,10 +203,8 @@ class ProjectsController < ApplicationController
     @sheets = sheet_scope
   end
 
-  def post_params
-    params[:project] ||= {}
-
-    params[:project].slice(
+  def project_params
+    params.require(:project).permit(
       :name, :description, :emails, :acrostic_enabled, :subject_code_name,
       :show_contacts, :show_documents, :show_posts,
       # Uploaded Logo
