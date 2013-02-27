@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache, :subject_code_name, :show_contacts, :show_documents, :show_posts
+  # attr_accessible :description, :name, :emails, :acrostic_enabled, :logo, :logo_uploaded_at, :logo_cache, :subject_code_name, :show_contacts, :show_documents, :show_posts
 
   mount_uploader :logo, ImageUploader
 
@@ -7,8 +7,10 @@ class Project < ActiveRecord::Base
   include Searchable, Deletable
 
   # Named Scopes
-  scope :with_user, lambda { |*args| { conditions: ['projects.user_id IN (?)', args.first] } }
-  scope :with_librarian, lambda { |*args| { conditions: ['projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1]] } }
+  scope :with_user, lambda { |arg| where(user_id: arg) }
+  # scope :with_user, lambda { |*args| { conditions: ['projects.user_id IN (?)', args.first] } }
+  scope :with_librarian, lambda { |*args| where('projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1] ) }
+  # scope :with_librarian, lambda { |*args| { conditions: ['projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1]] } }
 
   # Model Validation
   validates_presence_of :name, :user_id
@@ -18,24 +20,24 @@ class Project < ActiveRecord::Base
   belongs_to :user
 
   has_many :project_users
-  has_many :users, through: :project_users, conditions: { deleted: false }, order: 'last_name, first_name'
-  has_many :librarians, through: :project_users, source: :user, conditions: ['project_users.librarian = ? and users.deleted = ?', true, false]
-  has_many :members, through: :project_users, source: :user, conditions: ['project_users.librarian = ? and users.deleted = ?', false, false]
+  has_many :users, -> { where( deleted: false ) }, through: :project_users, order: 'last_name, first_name'
+  has_many :librarians, -> { where('project_users.librarian = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
+  has_many :members, -> { where('project_users.librarian = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
 
-  has_many :designs, conditions: { deleted: false }
-  has_many :variables, conditions: { deleted: false }
-  has_many :sheets, conditions: { deleted: false }
-  has_many :sites, conditions: { deleted: false }
-  has_many :subjects, conditions: { deleted: false }
+  has_many :designs, -> { where deleted: false }
+  has_many :variables, -> { where deleted: false }
+  has_many :sheets, -> { where deleted: false }
+  has_many :sites, -> { where deleted: false }
+  has_many :subjects, -> { where deleted: false }
 
-  has_many :exports, conditions: { deleted: false }
+  has_many :exports, -> { where deleted: false }
 
-  has_many :contacts, conditions: { deleted: false }
-  has_many :documents, conditions: { deleted: false }
-  has_many :posts, conditions: { deleted: false }
-  has_many :links, conditions: { deleted: false }
+  has_many :contacts, -> { where deleted: false }
+  has_many :documents, -> { where deleted: false }
+  has_many :posts, -> { where deleted: false }
+  has_many :links, -> { where deleted: false }
 
-  has_many :domains, conditions: { deleted: false }
+  has_many :domains, -> { where deleted: false }
 
   # Model Methods
 

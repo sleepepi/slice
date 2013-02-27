@@ -1,12 +1,14 @@
 class Site < ActiveRecord::Base
-  attr_accessible :description, :emails, :name, :project_id, :prefix, :code_minimum, :code_maximum
+  # attr_accessible :description, :emails, :name, :project_id, :prefix, :code_minimum, :code_maximum
 
   # Concerns
   include Searchable, Deletable
 
   # Named Scopes
-  scope :with_project, lambda { |*args| { conditions: ["sites.project_id IN (?)", args.first] } }
-  scope :with_project_or_as_site_user, lambda { |*args| { conditions: ["sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]] } }
+  scope :with_project, lambda { |arg| where( project_id: arg ) }
+  # scope :with_project, lambda { |*args| { conditions: ["sites.project_id IN (?)", args.first] } }
+  scope :with_project_or_as_site_user, lambda { |*args| where("sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]) }
+  # scope :with_project_or_as_site_user, lambda { |*args| { conditions: ["sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]] } }
 
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
@@ -16,9 +18,9 @@ class Site < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  has_many :subjects, conditions: { deleted: false }
+  has_many :subjects, -> { where deleted: false }
   has_many :site_users
-  has_many :users, through: :site_users, conditions: { deleted: false }, order: 'last_name, first_name'
+  has_many :users, -> { where deleted: false }, through: :site_users, order: 'last_name, first_name'
 
   # Model Methods
   def name_with_project

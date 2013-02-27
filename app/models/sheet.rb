@@ -1,5 +1,10 @@
+require 'audited'
+require 'audited/adapters/active_record'
+# require 'audited/auditor'
+# require 'audited/adapters/active_record/audit'
+
 class Sheet < ActiveRecord::Base
-  attr_accessible :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at, :user_id, :authentication_token, :last_edited_at
+  # attr_accessible :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at, :user_id, :authentication_token, :last_edited_at
 
   audited
   has_associated_audits
@@ -8,34 +13,34 @@ class Sheet < ActiveRecord::Base
   include Deletable, Latexable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :sheet_before, lambda { |*args| { conditions: ["sheets.created_at < ?", (args.first+1.day).at_midnight]} }
-  scope :sheet_after, lambda { |*args| { conditions: ["sheets.created_at >= ?", args.first.at_midnight]} }
-  scope :with_user, lambda { |*args| { conditions: ["sheets.user_id in (?)", args.first] } }
-  scope :with_project, lambda { |*args| { conditions: ["sheets.project_id IN (?)", args.first] } }
-  scope :with_design, lambda { |*args| { conditions: ["sheets.design_id IN (?)", args.first] } }
-  scope :with_site, lambda { |*args| { conditions: ["sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first] } }
+  scope :search, lambda { |arg| where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :sheet_before, lambda { |*args| where("sheets.created_at < ?", (args.first+1.day).at_midnight) }
+  scope :sheet_after, lambda { |*args| where("sheets.created_at >= ?", args.first.at_midnight) }
+  scope :with_user, lambda { |*args| where("sheets.user_id in (?)", args.first) }
+  scope :with_project, lambda { |*args| where("sheets.project_id IN (?)", args.first) }
+  scope :with_design, lambda { |*args| where("sheets.design_id IN (?)", args.first) }
+  scope :with_site, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first) }
 
-  scope :with_variable_response, lambda { |*args| { conditions: ["sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)", args.first, args[1]] } }
+  scope :with_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)", args.first, args[1]) }
 
   # These don't include blank codes
-  scope :with_variable_response_after, lambda { |*args| { conditions: ["sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response >= ? and sheet_variables.response != '')", args.first, args[1]] } }
-  scope :with_variable_response_before, lambda { |*args| { conditions: ["sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response <= ? and sheet_variables.response != '')", args.first, args[1]] } }
+  scope :with_variable_response_after, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response >= ? and sheet_variables.response != '')", args.first, args[1]) }
+  scope :with_variable_response_before, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response <= ? and sheet_variables.response != '')", args.first, args[1]) }
 
   # These include blank or missing responses
-  scope :with_variable_response_after_with_blank, lambda { |*args| { conditions: ["sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response < ? and sheet_variables.response != '')", args.first, args[1]] } }
-  scope :with_variable_response_before_with_blank, lambda { |*args| { conditions: ["sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response > ? and sheet_variables.response != '')", args.first, args[1]] } }
+  scope :with_variable_response_after_with_blank, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response < ? and sheet_variables.response != '')", args.first, args[1]) }
+  scope :with_variable_response_before_with_blank, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response > ? and sheet_variables.response != '')", args.first, args[1]) }
 
   # Only includes blank or unknown values
-  scope :without_variable_response, lambda { |*args| { conditions: ["sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first] } }
+  scope :without_variable_response, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
   # Includes entered values, or entered missing values
-  scope :with_any_variable_response, lambda { |*args| { conditions: ["sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first] } }
+  scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
   # Includes only entered values (that are not marked as missing)
-  scope :with_any_variable_response_not_missing_code, lambda { |*args| { conditions: ["sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)] } }
+  scope :with_any_variable_response_not_missing_code, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
   # Include blank, unknown, or values entered as missing
-  scope :with_response_unknown_or_missing, lambda { |*args| { conditions: ["sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)] } }
+  scope :with_response_unknown_or_missing, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
 
-  scope :with_subject_status, lambda { |*args| { conditions: ["sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first] } }
+  scope :with_subject_status, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first) }
 
   scope :order_by_site_name, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name' } }
   scope :order_by_site_name_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name DESC' } }
@@ -64,8 +69,8 @@ class Sheet < ActiveRecord::Base
   belongs_to :project
   belongs_to :subject
   has_many :sheet_variables
-  has_many :variables, through: :sheet_variables, conditions: { deleted: false }
-  has_many :sheet_emails, conditions: { deleted: false }
+  has_many :variables, -> { where deleted: false }, through: :sheet_variables
+  has_many :sheet_emails, -> { where deleted: false }
 
   # Model Methods
   def self.last_entry
@@ -95,10 +100,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def all_audits
-    # (self.audits + self.associated_audits).sort_by(&:created_at).reverse
-    # Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(associated_type = 'SheetVariable' and associated_id IN (?))", self.sheet_variables.pluck(:id)])
     Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(auditable_type = 'Sheet' and auditable_id = ?) or (associated_type = 'Sheet' and associated_id = ?) or (associated_type = 'SheetVariable' and associated_id IN (?))", self.id, self.id, self.sheet_variables.collect{|sv| sv.id}])
-    # Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(auditable_type = 'Sheet' and auditable_id = ?) or (associated_type = 'Sheet' and associated_id = ?)", self.id, self.id])
   end
 
   def audit_show!(current_user)

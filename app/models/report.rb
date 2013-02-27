@@ -1,5 +1,5 @@
 class Report < ActiveRecord::Base
-  attr_accessible :name, :options
+  # attr_accessible :name, :options
 
   serialize :options, Hash
 

@@ -1,8 +1,8 @@
 class SiteUser < ActiveRecord::Base
-  attr_accessible :creator_id, :site_id, :user_id, :project_id, :invite_email, :invite_token
+  # attr_accessible :creator_id, :site_id, :user_id, :project_id, :invite_email, :invite_token
 
   # Named Scopes
-  scope :current, conditions: { }
+  scope :current, -> { all }
 
   # Model Validation
   validates_presence_of :creator_id, :site_id, :project_id #, :user_id

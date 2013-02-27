@@ -1,5 +1,5 @@
 class Subject < ActiveRecord::Base
-  attr_accessible :project_id, :subject_code, :user_id, :site_id, :acrostic, :email, :status
+  # attr_accessible :project_id, :subject_code, :user_id, :site_id, :acrostic, :email, :status
 
   STATUS = ["valid", "pending", "test"].collect{|i| [i,i]}
 
@@ -25,7 +25,7 @@ class Subject < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :site
-  has_many :sheets, conditions: { deleted: false }
+  has_many :sheets, -> { where deleted: false }
 
   # Model Methods
 

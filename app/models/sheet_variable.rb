@@ -1,5 +1,10 @@
+require 'audited'
+require 'audited/adapters/active_record'
+# require 'audited/auditor'
+# require 'audited/adapters/active_record/audit'
+
 class SheetVariable < ActiveRecord::Base
-  attr_accessible :response, :sheet_id, :user_id, :variable_id, :response_file, :response_file_uploaded_at, :response_file_cache, :remove_response_file
+  # attr_accessible :response, :sheet_id, :user_id, :variable_id, :response_file, :response_file_uploaded_at, :response_file_cache, :remove_response_file
 
   audited associated_with: :sheet
   has_associated_audits
@@ -26,7 +31,7 @@ class SheetVariable < ActiveRecord::Base
     old_response_ids = self.responses.collect{|r| r.id} # Could use pluck, but pluck has issues with scopes and unsaved objects
     new_responses = []
     values.select{|v| not v.blank?}.each do |value|
-      r = Response.find_or_create_by_sheet_id_and_sheet_variable_id_and_variable_id_and_value(self.sheet_id, self.id, self.variable_id, value, { user_id: current_user.id })
+      r = Response.where(sheet_id: self.sheet_id, sheet_variable_id: self.id, variable_id: self.variable_id, value: value).first_or_create( user_id: current_user.id )
       new_responses << r
     end
     self.responses = new_responses
@@ -40,7 +45,7 @@ class SheetVariable < ActiveRecord::Base
     response.select!{|key, vhash| vhash.values.select{|v| (not v.kind_of?(Array) and not v.blank?) or (v.kind_of?(Array) and not v.join.blank?)}.size > 0}
     response.each_with_index do |(key, variable_response_hash), position|
       variable_response_hash.each_pair do |variable_id, res|
-        grid = self.grids.find_or_create_by_variable_id_and_position(variable_id, position, { user_id: self.user_id })
+        grid = self.grids.where( variable_id: variable_id, position: position ).first_or_create( user_id: self.user_id )
         if grid.variable.variable_type == 'file'
           grid_old = self.grids.find_by_variable_id_and_position(variable_id, key)
           if not res[:response_file].kind_of?(Hash) or (res[:response_file].kind_of?(Hash) and not res[:response_file][:cache].blank?)

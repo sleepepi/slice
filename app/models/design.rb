@@ -1,5 +1,5 @@
 class Design < ActiveRecord::Base
-  attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_uploaded_at, :csv_file_cache, :remove_csv_file
+  # attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_uploaded_at, :csv_file_cache, :remove_csv_file
 
   mount_uploader :csv_file, SpreadsheetUploader
 
@@ -11,8 +11,8 @@ class Design < ActiveRecord::Base
   include Searchable, Deletable, Latexable
 
   # Named Scopes
-  scope :with_user, lambda { |*args| { conditions: ['designs.user_id IN (?)', args.first] } }
-  scope :with_project, lambda { |*args| { conditions: ['designs.project_id IN (?)', args.first] } }
+  scope :with_user, lambda { |arg| where(user_id: arg) }
+  scope :with_project, lambda { |arg| where(user_id: arg) }
 
   scope :order_by_project_name, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name' } }
   scope :order_by_project_name_desc, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name DESC' } }
@@ -27,7 +27,7 @@ class Design < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  has_many :sheets, conditions: { deleted: false }
+  has_many :sheets, -> { where deleted: false }
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods

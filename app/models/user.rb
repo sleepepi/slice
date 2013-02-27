@@ -4,9 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :first_name, :last_name, :pagination
+  # # Setup accessible (or protected) attributes for your model
+  # attr_accessible :email, :password, :password_confirmation, :remember_me
+  # attr_accessible :first_name, :last_name, :pagination
 
   serialize :pagination, Hash
 
@@ -19,10 +19,10 @@ class User < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :human, conditions: { } # Placeholder
+  scope :human, -> { all } # Placeholder
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
   scope :search, lambda { |arg| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :system_admins, conditions: { system_admin: true }
+  scope :system_admins, -> { where system_admin: true }
   scope :with_sheet, lambda { |*args| { conditions: ["users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false] }  }
   scope :with_design, lambda { |*args| { conditions: ["users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false] }  }
   scope :with_variable_on_project, lambda { |*args| { conditions: ["users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)", args.first, false] }  }
@@ -33,14 +33,14 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :authentications
-  has_many :designs, conditions: { deleted: false }
-  has_many :exports, conditions: { deleted: false }
-  has_many :projects, conditions: { deleted: false }
-  has_many :reports, conditions: { deleted: false }
-  has_many :sheets, conditions: { deleted: false }
-  has_many :sites, conditions: { deleted: false }
-  has_many :subjects, conditions: { deleted: false }
-  has_many :variables, conditions: { deleted: false }
+  has_many :designs, -> { where deleted: false }
+  has_many :exports, -> { where deleted: false }
+  has_many :projects, -> { where deleted: false }
+  has_many :reports, -> { where deleted: false }
+  has_many :sheets, -> { where deleted: false }
+  has_many :sites, -> { where deleted: false }
+  has_many :subjects, -> { where deleted: false }
+  has_many :variables, -> { where deleted: false }
 
   # User Methods
 

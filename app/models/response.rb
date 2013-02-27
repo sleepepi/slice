@@ -1,5 +1,10 @@
+require 'audited'
+require 'audited/adapters/active_record'
+# require 'audited/auditor'
+# require 'audited/adapters/active_record/audit'
+
 class Response < ActiveRecord::Base
-  attr_accessible :sheet_id, :grid_id, :sheet_variable_id, :user_id, :value, :variable_id
+  # attr_accessible :sheet_id, :grid_id, :sheet_variable_id, :user_id, :value, :variable_id
 
   audited associated_with: :sheet
   has_associated_audits

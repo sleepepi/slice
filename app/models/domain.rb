@@ -1,5 +1,5 @@
 class Domain < ActiveRecord::Base
-  attr_accessible :name, :description, :options, :option_tokens, :project_id, :user_id
+  # attr_accessible :name, :description, :options, :option_tokens, :project_id, :user_id
 
   serialize :options, Array
 
@@ -17,7 +17,7 @@ class Domain < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  has_many :variables, conditions: { deleted: false }
+  has_many :variables, -> { where deleted: false }
 
   # Model Methods
 
