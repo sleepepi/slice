@@ -1,6 +1,8 @@
 class Design < ActiveRecord::Base
   # attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_uploaded_at, :csv_file_cache, :remove_csv_file
 
+  # attr_accessor :option_tokens
+
   mount_uploader :csv_file, SpreadsheetUploader
 
   serialize :options, Array
@@ -12,13 +14,13 @@ class Design < ActiveRecord::Base
 
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
-  scope :with_project, lambda { |arg| where(user_id: arg) }
+  scope :with_project, lambda { |arg| where(project_id: arg) }
 
-  scope :order_by_project_name, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name' } }
-  scope :order_by_project_name_desc, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = designs.project_id", order: 'projects.name DESC' } }
+  scope :order_by_project_name, lambda { joins("LEFT JOIN projects ON projects.id = designs.project_id").order('projects.name') }
+  scope :order_by_project_name_desc, lambda { joins("LEFT JOIN projects ON projects.id = designs.project_id").order('projects.name DESC') }
 
-  scope :order_by_user_name, lambda { |*args| { joins: "LEFT JOIN users ON users.id = designs.user_id", order: 'users.last_name, users.first_name' } }
-  scope :order_by_user_name_desc, lambda { |*args| { joins: "LEFT JOIN users ON users.id = designs.user_id", order: 'users.last_name DESC, users.first_name DESC' } }
+  scope :order_by_user_name, lambda { joins("LEFT JOIN users ON users.id = designs.user_id").order('users.last_name, users.first_name') }
+  scope :order_by_user_name_desc, lambda { joins("LEFT JOIN users ON users.id = designs.user_id").order('users.last_name DESC, users.first_name DESC') }
 
   # Model Validation
   validates_presence_of :name, :user_id, :project_id
@@ -43,8 +45,8 @@ class Design < ActiveRecord::Base
         email = email.gsub("<#{match[1]}>", "").strip
       end
       subject = site.subjects.find_by_email(short_email) unless short_email.blank?
-      subject = site.subjects.find_or_create_by_project_id_and_subject_code(site.project_id, email, { user_id: current_user.id, status: 'valid', email: short_email, acrostic: '' }) unless subject
-      sheet = site.project.sheets.find_or_create_by_subject_id_and_design_id(subject.id, self.id, { user_id: current_user.id, last_user_id: current_user.id }) if subject
+      subject = site.subjects.where( project_id: site.project_id, subject_code: email ).first_or_create( user_id: current_user.id, status: 'valid', email: short_email, acrostic: '' ) unless subject
+      sheet = site.project.sheets.where( subject_id: subject.id, design_id: self.id ).first_or_create( user_id: current_user.id, last_user_id: current_user.id ) if subject
       sheet.send_external_email!(current_user, short_email) if sheet and not sheet.new_record?
       if sheet and not sheet.new_record?
         new_sheets << sheet
@@ -125,7 +127,7 @@ class Design < ActiveRecord::Base
 
   def option_tokens=(tokens)
     self.options = []
-    tokens.each_pair do |key, option_hash|
+    tokens.each do |option_hash|
       if option_hash[:section_name].blank?
         self.options << {
                           variable_id: option_hash[:variable_id],
@@ -365,15 +367,15 @@ class Design < ActiveRecord::Base
     if self.csv_file.path and site
       CSV.foreach(self.csv_file.path, headers: true) do |line|
         row = line.to_hash.with_indifferent_access
-        subject = self.project.subjects.find_or_create_by_subject_code(row['subject_code'], { acrostic: row['acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id } )
+        subject = self.project.subjects.where(subject_code: row['subject_code']).first_or_create( acrostic: row['acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id )
         if subject
           sheet = self.sheets.create(project_id: self.project_id, subject_id: subject.id, user_id: self.user_id, last_user_id: self.user_id)
           self.load_variables.each do |hash|
             variable = self.project.variables.find_by_name(hash[:name])
             if variable and Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)
               value = row[hash[:column_name]].to_s
-              sv = sheet.sheet_variables.find_or_create_by_variable_id( variable.id, { user_id: self.user_id } )
-              sv.update_attributes sv.format_response(variable.variable_type, value)
+              sv = sheet.sheet_variables.where( variable_id: variable.id ).first_or_create( user_id: self.user_id )
+              sv.update( sv.format_response(variable.variable_type, value) )
             end
           end
         end

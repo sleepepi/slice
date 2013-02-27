@@ -74,13 +74,13 @@ class Sheet < ActiveRecord::Base
 
   # Model Methods
   def self.last_entry
-    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, created_at DESC').pluck(:id)
-    self.scoped().where(id: sheet_ids)
+    sheet_ids = self.select('DISTINCT ON (subject_id) *').order('subject_id, created_at DESC').pluck(:id)
+    self.where(id: sheet_ids)
   end
 
   def self.first_entry
-    sheet_ids = self.scoped().select('DISTINCT ON (subject_id) *').order('subject_id, created_at ASC').pluck(:id)
-    self.scoped().where(id: sheet_ids)
+    sheet_ids = self.select('DISTINCT ON (subject_id) *').order('subject_id, created_at ASC').pluck(:id)
+    self.where(id: sheet_ids)
   end
 
   def send_external_email!(current_user, email, authentication_token = SecureRandom.hex(32))
@@ -290,7 +290,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.sheet_responses(variable)
-    self.scoped().collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
+    self.all.collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
   end
 
   def expanded_branching_logic(branching_logic)

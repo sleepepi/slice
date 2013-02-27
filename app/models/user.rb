@@ -20,13 +20,13 @@ class User < ActiveRecord::Base
 
   # Named Scopes
   scope :human, -> { all } # Placeholder
-  scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :system_admins, -> { where system_admin: true }
-  scope :with_sheet, lambda { |*args| { conditions: ["users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false] }  }
-  scope :with_design, lambda { |*args| { conditions: ["users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false] }  }
-  scope :with_variable_on_project, lambda { |*args| { conditions: ["users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)", args.first, false] }  }
-  scope :with_project, lambda { |*args| { conditions: ["users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.librarian IN (?))", args.first, false, args.first, args[1]] } }
+  scope :status, lambda { |arg|  where( status: arg ) }
+  scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :system_admins, -> { where( system_admin: true ) }
+  scope :with_sheet, -> { where("users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false ) }
+  scope :with_design, lambda { where("users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false) }
+  scope :with_variable_on_project, lambda { |arg| where("users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)", arg, false ) }
+  scope :with_project, lambda { |*args| where("users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.librarian IN (?))", args.first, false, args.first, args[1] ) }
 
   # Model Validation
   validates_presence_of :first_name, :last_name

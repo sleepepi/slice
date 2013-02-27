@@ -205,7 +205,7 @@ module Buildable
     @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
     @statuses = params[:statuses] || ['valid']
 
-    sheet_scope = current_user.all_viewable_sheets.scoped()
+    sheet_scope = current_user.all_viewable_sheets
     sheet_scope = sheet_scope.where(design_id: @design.id) if @design
 
     sheet_scope = sheet_scope.last_entry if @filter == 'last'

@@ -85,14 +85,11 @@ class DesignsController < ApplicationController
   def copy
     design = current_user.all_viewable_designs.find_by_id(params[:id])
     @design = current_user.designs.new(design.copyable_attributes) if design
-    respond_to do |format|
-      if @design
-        format.html { render 'new' }
-        format.json { render json: @design }
-      else
-        format.html { redirect_to project_designs_path }
-        format.json { head :no_content }
-      end
+
+    if @design
+      render 'new'
+    else
+      redirect_to project_designs_path
     end
   end
 
@@ -105,19 +102,19 @@ class DesignsController < ApplicationController
   end
 
   def add_section
-    @design = Design.new(post_params.except(:option_tokens))
+    @design = Design.new(design_params.except(:option_tokens))
     @option = { }
   end
 
   def add_variable
-    @design = Design.new(post_params)
+    @design = Design.new(design_params)
     @option = { variable_id: '' }
     @all_viewable_variables = current_user.all_viewable_variables.where(project_id: @project.id)
     @select_variables = @all_viewable_variables.order(:name).collect{|v| [v.name, v.id]}
   end
 
   def variables
-    @design = Design.new(post_params)
+    @design = Design.new(design_params)
   end
 
   def reorder
@@ -188,9 +185,9 @@ class DesignsController < ApplicationController
     @designs = design_scope.page(params[:page]).per( current_user.pagination_count('designs') )
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.js
-      format.json { render json: @designs }
+      format.json
       format.xls { generate_xls(design_scope) }
     end
   end
@@ -211,37 +208,26 @@ class DesignsController < ApplicationController
   # GET /designs/1
   # GET /designs/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @design }
-    end
   end
 
   # GET /designs/new
-  # GET /designs/new.json
   def new
     @design = current_user.designs.new(updater_id: current_user.id, project_id: params[:project_id])
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @design }
-    end
   end
 
   # GET /designs/1/edit
   def edit
-
   end
 
   # POST /designs
   # POST /designs.json
   def create
-    @design = current_user.designs.new(post_params)
+    @design = current_user.designs.new(design_params)
 
     respond_to do |format|
       if @design.save
         format.html { redirect_to [@design.project, @design], notice: 'Design was successfully created.' }
-        format.json { render json: @design, status: :created, location: @design }
+        format.json { render action: 'show', status: :created, location: @design }
       else
         format.html { render action: 'new' }
         format.json { render json: @design.errors, status: :unprocessable_entity }
@@ -253,7 +239,7 @@ class DesignsController < ApplicationController
   # PUT /designs/1.json
   def update
     respond_to do |format|
-      if @design.update_attributes(post_params)
+      if @design.update(design_params)
         format.html { redirect_to [@design.project, @design], notice: 'Design was successfully updated.' }
         format.json { head :no_content }
       else
@@ -270,7 +256,7 @@ class DesignsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to project_designs_path }
-      format.js { render 'destroy' }
+      format.js
       format.json { head :no_content }
     end
   end
@@ -301,7 +287,7 @@ class DesignsController < ApplicationController
       end
 
       params.require(:design).permit(
-        :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
+        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description, :break_before ] }, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
       )
     end
 

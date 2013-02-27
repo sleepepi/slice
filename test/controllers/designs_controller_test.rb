@@ -357,16 +357,16 @@ class DesignsControllerTest < ActionController::TestCase
   test "should create design" do
     assert_difference('Design.count') do
       post :create, project_id: @project, design: { description: "Design description", name: 'Design Three',
-                              option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) },
-                                               "13383078795389" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:checkbox) },
-                                               "13383078797210" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:radio) },
-                                               "13383078798810" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:string) },
-                                               "133830787911168" => { "variable_id" => ActiveRecord::FixtureSet.identify(:text) },
-                                               "133830787913231" => { "variable_id" => ActiveRecord::FixtureSet.identify(:integer) },
-                                               "133830787914761" => { "variable_id" => ActiveRecord::FixtureSet.identify(:numeric) },
-                                               "133830787916252" => { "variable_id" => ActiveRecord::FixtureSet.identify(:date) },
-                                               "133830787917772" => { "variable_id" => ActiveRecord::FixtureSet.identify(:file) }
-                                             }
+                              option_tokens: [ { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:checkbox) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:radio) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:string) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:text) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:integer) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:numeric) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:date) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:file) }
+                                             ]
                             }
     end
 
@@ -389,9 +389,9 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not create design with a duplicated variable" do
     assert_difference('Design.count', 0) do
       post :create, project_id: @project, design: { description: "Design description", name: 'Design Three',
-                              option_tokens: { "1338307879654" =>   { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) },
-                                               "13383078795389" =>  { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) }
-                                             }
+                              option_tokens: [ { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) },
+                                               { "variable_id" => ActiveRecord::FixtureSet.identify(:dropdown) }
+                                             ]
                             }
     end
 
@@ -403,9 +403,9 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not create design with a duplicated section name" do
     assert_difference('Design.count', 0) do
       post :create, project_id: @project, design: { description: "Design description", name: 'Design with Sections',
-                              option_tokens: { "1338307879654" =>   { "section_name" => "Section A" },
-                                               "13383078795389" =>  { "section_name" => "Section A" }
-                                             }
+                              option_tokens: [ { "section_name" => "Section A" },
+                                               { "section_name" => "Section A" }
+                                             ]
                             }
     end
 

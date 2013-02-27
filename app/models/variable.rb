@@ -35,11 +35,11 @@ class Variable < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :with_user, lambda { |*args| { conditions: ['variables.user_id IN (?)', args.first] } }
-  scope :with_project, lambda { |*args| { conditions: ['variables.project_id IN (?)', args.first] } }
-  scope :with_variable_type, lambda { |*args| { conditions: ['variables.variable_type IN (?)', args.first] } }
-  scope :without_variable_type, lambda { |*args| { conditions: ['variables.variable_type NOT IN (?)', args.first] } }
+  scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :with_user, lambda { |arg| where(user_id: arg) }
+  scope :with_project, lambda { |arg| where(project_id: arg) }
+  scope :with_variable_type, lambda { |arg| where(variable_type: arg) }
+  scope :without_variable_type, lambda { |arg| where('variables.variable_type NOT IN (?)', arg) }
 
   # Model Validation
   validates_presence_of :name, :display_name, :variable_type, :project_id
