@@ -61,7 +61,7 @@ class SiteUsersController < ApplicationController
   # POST /site_users.json
   def create
     @site = current_user.all_sites.find_by_id(params[:site_user][:site_id])
-    @site_user = @site.site_users.find_or_create_by_project_id_and_invite_email(@site.project_id, params[:invite_email], { creator_id: current_user.id }) if @site
+    @site_user = @site.site_users.where(project_id: @site.project_id, invite_email: params[:invite_email]).first_or_create( creator_id: current_user.id ) if @site
 
     respond_to do |format|
       if @site and @site_user
