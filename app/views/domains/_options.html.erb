@@ -6,7 +6,7 @@
   <% end %>
 <% else %>
   <% if params[:domain] and params[:domain][:option_tokens] %>
-    <% params[:domain][:option_tokens].each_pair do |position, option|  %>
+    <% params[:domain][:option_tokens].each_with_index do |option, position|  %>
       <%= @option = option; render partial: 'edit_option', locals: { option_index: option[:option_index], position: position } %>
     <% end %>
   <% else %>

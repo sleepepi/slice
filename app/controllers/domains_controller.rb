@@ -18,51 +18,31 @@ class DomainsController < ApplicationController
   def index
     @order = scrub_order(Domain, params[:order], "domains.name")
     @domains = @project.domains.search(params[:search]).order(@order).page(params[:page]).per( 20 )
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @domains }
-    end
   end
 
   # GET /domains/1
   # GET /domains/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @domain }
-    end
   end
 
   # GET /domains/new
-  # GET /domains/new.json
   def new
     @domain = @project.domains.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @domain }
-    end
   end
 
   # GET /domains/1/edit
   def edit
-    respond_to do |format|
-      format.html # edit.html.erb
-      format.json { render json: @domain }
-    end
   end
 
   # POST /domains
   # POST /domains.json
   def create
-    @domain = @project.domains.new(post_params)
+    @domain = @project.domains.new(domain_params)
 
     respond_to do |format|
       if @domain.save
         format.html { redirect_to [@domain.project, @domain], notice: 'Domain was successfully created.' }
-        format.json { render json: @domain, status: :created, location: @domain }
+        format.json { render action: 'show', status: :created, location: @domain }
       else
         format.html { render action: 'new' }
         format.json { render json: @domain.errors, status: :unprocessable_entity }
@@ -74,7 +54,7 @@ class DomainsController < ApplicationController
   # PUT /domains/1.json
   def update
     respond_to do |format|
-      if @domain.update_attributes(post_params)
+      if @domain.update(domain_params)
         format.html { redirect_to [@domain.project, @domain], notice: 'Domain was successfully updated.' }
         format.json { head :no_content }
       else
@@ -97,22 +77,22 @@ class DomainsController < ApplicationController
 
   private
 
-  def post_params
-    params[:domain] ||= {}
+    def set_editable_domain
+      @domain = @project.domains.find_by_id(params[:id])
+    end
 
-    params[:domain][:user_id] = current_user.id
+    def redirect_without_domain
+      empty_response_or_root_path(project_domains_path) unless @domain
+    end
 
-    params[:domain].slice(
-      :name, :description, :option_tokens, :user_id
-    )
-  end
+    def domain_params
+      params[:domain] ||= {}
 
-  def set_editable_domain
-    @domain = @project.domains.find_by_id(params[:id])
-  end
+      params[:domain][:user_id] = current_user.id
 
-  def redirect_without_domain
-    empty_response_or_root_path(project_domains_path) unless @domain
-  end
+      params.require(:domain).permit(
+        :name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] }
+      )
+    end
 
 end

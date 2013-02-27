@@ -1,6 +1,4 @@
 class Domain < ActiveRecord::Base
-  # attr_accessible :name, :description, :options, :option_tokens, :project_id, :user_id
-
   serialize :options, Array
 
   before_save :check_option_validations
@@ -84,18 +82,18 @@ class Domain < ActiveRecord::Base
   def option_tokens=(tokens)
     unless self.new_record?
       original_options = self.options
-      existing_options = tokens.reject{|key, hash| ['new', nil].include?(hash[:option_index]) }
+      existing_options = tokens.reject{|hash| ['new', nil].include?(hash[:option_index]) }
 
       # Reset any sheets that specified an option that has been removed
       original_options.each_with_index do |hash, index|
-        unless existing_options.collect{|key, hash| hash[:option_index].to_i}.include?(index)
+        unless existing_options.collect{|hash| hash[:option_index].to_i}.include?(index)
           self.sheet_variables.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
           self.grids.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
         end
       end
 
       # Update all existing sheets to intermediate value for values that already existed and have changed
-      existing_options.each_pair do |key, hash|
+      existing_options.each do |hash|
         old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
         new_value = hash[:value].strip
         if old_value != new_value
@@ -106,7 +104,7 @@ class Domain < ActiveRecord::Base
       end
 
       # Update all existing sheets to new value
-      existing_options.each_pair do |key, hash|
+      existing_options.each do |hash|
         old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
         new_value = hash[:value].strip
         if old_value != new_value
@@ -118,7 +116,7 @@ class Domain < ActiveRecord::Base
     end
 
     self.options = []
-    tokens.each_pair do |key, option_hash|
+    tokens.each do |option_hash|
       self.options << { name: option_hash[:name].strip,
                         value: option_hash[:value].strip,
                         description: option_hash[:description].strip,
