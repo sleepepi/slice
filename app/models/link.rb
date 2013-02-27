@@ -1,5 +1,4 @@
 class Link < ActiveRecord::Base
-  # attr_accessible :archived, :category, :deleted, :name, :project_id, :url, :user_id
 
   # Concerns
   include Deletable
