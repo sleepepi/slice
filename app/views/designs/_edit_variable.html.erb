@@ -7,6 +7,9 @@
     <% @variable = @all_viewable_variables.find_by_id(@option[:variable_id]) %>
     <%= link_to (@variable ? 'Edit' : 'Create'), '#', class: 'btn btn-mini', style: 'float:right;margin-right:5px', data: { object: 'popup-variable', position: position }, id: "variable_#{position}_edit_link" %>
 
+    <%= hidden_field_tag "design[option_tokens][][section_name]", '' %>
+    <%= hidden_field_tag "design[option_tokens][][section_description]", '' %>
+
     <div class="span6">
       <div class="control-group" style="margin-bottom:0px">
         <%= label_tag "design_option_tokens_#{position}_variable_id", '&equiv; Variable'.html_safe, class: 'control-label handle', style: 'cursor:move' %>
@@ -31,6 +34,7 @@
                   ", title: "Branching Logic Examples", placement: 'bottom', html: true } %>
           </div>
         </div>
+        <%= hidden_field_tag "design[option_tokens][][break_before]", '' %>
         <div class="control-group" style="margin-bottom:0px;">
           <div class="controls">
             <%= link_to 'Add Variable After', '#', class: 'btn btn-mini', data: { object: 'variable-insert-after', position: position } %>
