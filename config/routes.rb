@@ -123,10 +123,10 @@ Slice::Application.routes.draw do
 
   resources :users
 
-  match "/about" => "application#about", as: :about
-  match "/about/use" => "application#use", as: :about_use
-  match "/settings" => "users#settings", as: :settings
-  match "/search" => "projects#search", as: :search
+  get "/about" => "application#about", as: :about
+  get "/about/use" => "application#use", as: :about_use
+  get "/settings" => "users#settings", as: :settings
+  get "/search" => "projects#search", as: :search
 
   root to: 'projects#splash'
 

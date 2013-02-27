@@ -11,4 +11,5 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require contour
+// require turbolinks
 //= require_tree .
