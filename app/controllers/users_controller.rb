@@ -17,14 +17,13 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json do
+      format.json do # TODO: Put into jbuilder instead!
         render json: params[:q].to_s.split(',').collect{ |u| (u.strip.downcase == 'me') ? { name: current_user.name, id: current_user.name } : { name: u.strip.titleize, id: u.strip.titleize } } + @users.collect{ |u| { name: u.name, id: u.name } }
       end
     end
   end
 
   def show
-
   end
 
   # def new
@@ -32,7 +31,6 @@ class UsersController < ApplicationController
   # end
 
   def edit
-
   end
 
   # # This is in registrations_controller.rb
@@ -40,7 +38,7 @@ class UsersController < ApplicationController
   # end
 
   def update
-    if @user.update_attributes(post_params)
+    if @user.update(user_params)
       original_status = @user.status
       @user.update_column :system_admin, params[:user][:system_admin]
       @user.update_column :status, params[:user][:status]
@@ -58,20 +56,20 @@ class UsersController < ApplicationController
 
   private
 
-  def post_params
-    params[:user] ||= {}
+    def set_user
+      @user = User.current.find_by_id(params[:id])
+    end
 
-    params[:user].slice(
-      :first_name, :last_name, :email
-    )
-  end
+    def redirect_without_user
+      empty_response_or_root_path(users_path) unless @user
+    end
 
-  def set_user
-    @user = User.current.find_by_id(params[:id])
-  end
+    def user_params
+      params[:user] ||= {}
 
-  def redirect_without_user
-    empty_response_or_root_path(users_path) unless @user
-  end
+      params.require(:user).permit(
+        :first_name, :last_name, :email
+      )
+    end
 
 end
