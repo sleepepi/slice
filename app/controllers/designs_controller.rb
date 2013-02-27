@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :set_viewable_project, only: [ :print, :report_print, :report, :reporter ]
-  before_filter :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import ]
-  before_filter :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import ]
-  before_filter :set_viewable_design, only: [ :print, :report_print, :report, :reporter ]
-  before_filter :set_editable_design, only: [ :show, :edit, :update, :destroy, :reorder ]
-  before_filter :redirect_without_design, only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :reporter ]
+  before_action :authenticate_user!
+  before_action :set_viewable_project, only: [ :print, :report_print, :report, :reporter ]
+  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import ]
+  before_action :set_viewable_design, only: [ :print, :report_print, :report, :reporter ]
+  before_action :set_editable_design, only: [ :show, :edit, :update, :destroy, :reorder ]
+  before_action :redirect_without_design, only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :reporter ]
 
   # Concerns
   include Buildable
@@ -16,7 +16,7 @@ class DesignsController < ApplicationController
   end
 
   def create_import
-    @design = current_user.designs.new(post_params)
+    @design = current_user.designs.new(design_params)
     if params[:variables].blank?
       @variables = @design.load_variables
       if @design.csv_file.blank?
@@ -277,270 +277,270 @@ class DesignsController < ApplicationController
 
   private
 
-  def generate_csv(design_scope)
-    @csv_string = CSV.generate do |csv|
-      csv << ['Variable Project', 'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Header', 'Variable Description', 'Variable Type', 'Variable Options', 'Variable Branching Logic', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units', 'Append', 'Variable Creator']
-
-      design_scope.each do |design|
-        design.options.each do |option|
-          if option[:variable_id].blank?
-            row = [
-                    design.project ? design.project.name : '',
-                    design.name,
-                    option[:section_id],
-                    option[:section_name],
-                    nil, # Variable Header
-                    option[:section_description], # Variable Description
-                    'section',
-                    nil, # Variable Options
-                    option[:branching_logic],
-                    nil, # Hard Min
-                    nil, # Soft Min
-                    nil, # Soft Max
-                    nil, # Hard Max
-                    nil, # Calculation
-                    nil, # Variable Prepend
-                    nil, # Variable Units
-                    nil, # Variable Append
-                    nil  # Creator
-                  ]
-            csv << row
-          elsif variable = current_user.all_viewable_variables.find_by_id(option[:variable_id])
-            row = [
-                    variable.project ? variable.project.name : '',
-                    design.name,
-                    variable.name,
-                    variable.display_name,
-                    variable.header, # Variable Header
-                    variable.description, # Variable Description
-                    variable.variable_type,
-                    variable.options.blank? ? '' : variable.options, # Variable Options
-                    option[:branching_logic],
-                    variable.hard_minimum, # Hard Min
-                    variable.soft_minimum, # Soft Min
-                    variable.soft_maximum, # Soft Max
-                    variable.hard_maximum, # Hard Max
-                    variable.calculation, # Calculation
-                    variable.prepend, # Variable Prepend
-                    variable.units, # Variable Units
-                    variable.append, # Variable Append
-                    variable.user.name # Creator
-                  ]
-            csv << row
-          end
-        end
-      end
-    end
-    file_name = (design_scope.size == 1 ? "#{design_scope.first.name.gsub(/[^ a-zA-Z0-9_-]/, '_')} DD" : 'Designs')
-    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                           disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
-  end
-
-  def generate_table_csv(design, sheets, ranges, strata, variable, column_variable, report_title, report_caption)
-    @csv_string = CSV.generate do |csv|
-      csv << [report_title]
-      csv << [design.name]
-      csv << [design.project.name]
-      csv << [report_caption]
-      csv << []
-
-      header = [(variable ? variable.display_name : 'Site')]
-      header += ranges.collect{|hash| hash[:name].blank? ? 'Unknown' : hash[:name]}
-      header += ['Total']
-      csv << header
-
-      strata.each do |stratum|
-        row = []
-        link_name = ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name]
-        row << (stratum[:name].blank? ? 'Unknown' : link_name)
-        ranges.each do |hash|
-          count = if column_variable and column_variable.has_statistics?
-            Sheet.array_calculation(hash[:scope].with_stratum(variable, stratum[:value]), column_variable, hash[:calculation])
-          else
-            hash[:scope].with_stratum(variable, stratum[:value]).count
-          end
-
-          row << count
-        end
-        row << sheets.with_stratum(variable, stratum[:value]).count
-        csv << row
-      end
-
-      footer = ['Total']
-      footer += ranges.collect{|hash| hash[:count]}
-      footer += [sheets.count]
-      csv << footer
-    end
-    file_name = report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
-    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                           disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
-  end
-
-  def generate_xls(design_scope)
-    export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, include_data_dictionary: true)
-
-    design_ids = design_scope.pluck(:id)
-
-    systemu "#{RAKE_PATH} design_export EXPORT_ID=#{export.id} DESIGN_IDS='#{design_ids.join(',')}' &"
-
-    redirect_to project_designs_path(@project), notice: 'You will be emailed when the export is ready for download.'
-  end
-
-  def post_params
-    params[:design] ||= {}
-
-    params[:design][:updater_id] = current_user.id
-
-    if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
-      params[:design][:project_id] = params[:project_id]
-    else
-      params[:design][:project_id] = nil
+    def set_viewable_design
+      @design = current_user.all_viewable_designs.find_by_id(params[:id])
     end
 
-    params[:design].slice(
-      :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
-    )
-  end
+    def set_editable_design
+      @design = @project.designs.find_by_id(params[:id])
+    end
 
-  def set_viewable_design
-    @design = current_user.all_viewable_designs.find_by_id(params[:id])
-  end
+    def redirect_without_design
+      empty_response_or_root_path(project_designs_path(@project)) unless @design
+    end
 
-  def set_editable_design
-    @design = @project.designs.find_by_id(params[:id])
-  end
+    def design_params
+      params[:design] ||= {}
 
-  def redirect_without_design
-    empty_response_or_root_path(project_designs_path) unless @design
-  end
+      params[:design][:updater_id] = current_user.id
 
-  def setup_report
-    @sheet_before = parse_date(params[:sheet_before])
-    @sheet_after = parse_date(params[:sheet_after])
-
-    @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
-    @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
-    @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
-    @statuses = params[:statuses] || ['valid']
-
-    @variable = @design.pure_variables.find_by_id(params[:variable_id])
-    @column_variable = @design.pure_variables.find_by_id(params[:column_variable_id])
-
-    sheet_scope = current_user.all_viewable_sheets.with_design(@design.id).with_subject_status(@statuses)
-
-    sheet_scope = sheet_scope.last_entry if @filter == 'last'
-    sheet_scope = sheet_scope.first_entry if @filter == 'first'
-
-    sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
-    sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
-
-    sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] != '1'
-    sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
-
-    # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
-    @ranges = []
-
-    if @column_variable and ['dropdown', 'radio', 'string'].include?(@column_variable.variable_type)
-      column_strata = @column_variable.options_or_autocomplete(params[:column_include_missing].to_s == '1')
-      column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
-      column_strata.each do |stratum|
-        scope = sheet_scope.with_stratum(@column_variable, stratum[:value])
-        @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value], calculation: 'array_count' }
-      end
-    elsif @column_variable and @column_variable.has_statistics?
-      column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }]
-      column_strata = column_strata + [{ name: 'N', calculation: 'array_count' }, { name: '', value: nil }] if params[:column_include_missing].to_s == '1'
-
-      column_strata.each do |stratum|
-        scope = if stratum[:calculation].blank?
-          sheet_scope.with_response_unknown_or_missing(@column_variable)
-        else
-          sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
-        end
-
-        count = Sheet.array_calculation(scope, @column_variable, stratum[:calculation])
-
-        @ranges <<  {
-                      name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]),
-                      tooltip: stratum[:name],
-                      start_date: '', end_date: '',
-                      scope: scope,
-                      count: count,
-                      value: stratum[:value],
-                      calculation: stratum[:calculation],
-                      symbol: stratum[:symbol]
-                    }
-      end
-    else # Default columns over Study Date
-      if @column_variable and @column_variable.variable_type == 'date'
-        min = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
-        max = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
+      if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
+        params[:design][:project_id] = params[:project_id]
       else
-        min = sheet_scope.collect{|s| s.created_at.to_date}.min || Date.today
-        max = sheet_scope.collect{|s| s.created_at.to_date}.max || Date.today
+        params[:design][:project_id] = nil
       end
 
-      case @by when "week"
-        current_cweek = min.cweek
-        (min.year..max.year).each do |year|
-          (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
-            start_date = Date.commercial(year,cweek) - 1.day
-            end_date = Date.commercial(year,cweek) + 5.days
-            scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-            @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
-            break if year == max.year and cweek == max.cweek
+      params.require(:design).permit(
+        :name, :description, :project_id, :option_tokens, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
+      )
+    end
+
+    def generate_csv(design_scope)
+      @csv_string = CSV.generate do |csv|
+        csv << ['Variable Project', 'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Header', 'Variable Description', 'Variable Type', 'Variable Options', 'Variable Branching Logic', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units', 'Append', 'Variable Creator']
+
+        design_scope.each do |design|
+          design.options.each do |option|
+            if option[:variable_id].blank?
+              row = [
+                      design.project ? design.project.name : '',
+                      design.name,
+                      option[:section_id],
+                      option[:section_name],
+                      nil, # Variable Header
+                      option[:section_description], # Variable Description
+                      'section',
+                      nil, # Variable Options
+                      option[:branching_logic],
+                      nil, # Hard Min
+                      nil, # Soft Min
+                      nil, # Soft Max
+                      nil, # Hard Max
+                      nil, # Calculation
+                      nil, # Variable Prepend
+                      nil, # Variable Units
+                      nil, # Variable Append
+                      nil  # Creator
+                    ]
+              csv << row
+            elsif variable = current_user.all_viewable_variables.find_by_id(option[:variable_id])
+              row = [
+                      variable.project ? variable.project.name : '',
+                      design.name,
+                      variable.name,
+                      variable.display_name,
+                      variable.header, # Variable Header
+                      variable.description, # Variable Description
+                      variable.variable_type,
+                      variable.options.blank? ? '' : variable.options, # Variable Options
+                      option[:branching_logic],
+                      variable.hard_minimum, # Hard Min
+                      variable.soft_minimum, # Soft Min
+                      variable.soft_maximum, # Soft Max
+                      variable.hard_maximum, # Hard Max
+                      variable.calculation, # Calculation
+                      variable.prepend, # Variable Prepend
+                      variable.units, # Variable Units
+                      variable.append, # Variable Append
+                      variable.user.name # Creator
+                    ]
+              csv << row
+            end
           end
-          current_cweek = 1
         end
-      when "month"
-        current_month = min.month
-        (min.year..max.year).each do |year|
-          (current_month..12).each do |month|
-            start_date = Date.parse("#{year}-#{month}-01")
-            end_date = Date.parse("#{year}-#{month}-01").end_of_month
-            scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-            @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
-            break if year == max.year and month == max.month
+      end
+      file_name = (design_scope.size == 1 ? "#{design_scope.first.name.gsub(/[^ a-zA-Z0-9_-]/, '_')} DD" : 'Designs')
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                             disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+    end
+
+    def generate_table_csv(design, sheets, ranges, strata, variable, column_variable, report_title, report_caption)
+      @csv_string = CSV.generate do |csv|
+        csv << [report_title]
+        csv << [design.name]
+        csv << [design.project.name]
+        csv << [report_caption]
+        csv << []
+
+        header = [(variable ? variable.display_name : 'Site')]
+        header += ranges.collect{|hash| hash[:name].blank? ? 'Unknown' : hash[:name]}
+        header += ['Total']
+        csv << header
+
+        strata.each do |stratum|
+          row = []
+          link_name = ((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' :  "#{stratum[:value]}: ") + stratum[:name]
+          row << (stratum[:name].blank? ? 'Unknown' : link_name)
+          ranges.each do |hash|
+            count = if column_variable and column_variable.has_statistics?
+              Sheet.array_calculation(hash[:scope].with_stratum(variable, stratum[:value]), column_variable, hash[:calculation])
+            else
+              hash[:scope].with_stratum(variable, stratum[:value]).count
+            end
+
+            row << count
           end
-          current_month = 1
+          row << sheets.with_stratum(variable, stratum[:value]).count
+          csv << row
         end
-      when "year"
-        (min.year..max.year).each do |year|
-          start_date = Date.parse("#{year}-01-01")
-          end_date = Date.parse("#{year}-12-31")
-          scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-          @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
+
+        footer = ['Total']
+        footer += ranges.collect{|hash| hash[:count]}
+        footer += [sheets.count]
+        csv << footer
+      end
+      file_name = report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                             disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+    end
+
+    def generate_xls(design_scope)
+      export = current_user.exports.create(name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}", project_id: @project.id, include_data_dictionary: true)
+
+      design_ids = design_scope.pluck(:id)
+
+      systemu "#{RAKE_PATH} design_export EXPORT_ID=#{export.id} DESIGN_IDS='#{design_ids.join(',')}' &"
+
+      redirect_to project_designs_path(@project), notice: 'You will be emailed when the export is ready for download.'
+    end
+
+    def setup_report
+      @sheet_before = parse_date(params[:sheet_before])
+      @sheet_after = parse_date(params[:sheet_after])
+
+      @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
+      @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
+      @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
+      @statuses = params[:statuses] || ['valid']
+
+      @variable = @design.pure_variables.find_by_id(params[:variable_id])
+      @column_variable = @design.pure_variables.find_by_id(params[:column_variable_id])
+
+      sheet_scope = current_user.all_viewable_sheets.with_design(@design.id).with_subject_status(@statuses)
+
+      sheet_scope = sheet_scope.last_entry if @filter == 'last'
+      sheet_scope = sheet_scope.first_entry if @filter == 'first'
+
+      sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?
+      sheet_scope = sheet_scope.sheet_before_variable_with_blank(@column_variable, @sheet_before) unless @sheet_before.blank?
+
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] != '1'
+      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
+
+      # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
+      @ranges = []
+
+      if @column_variable and ['dropdown', 'radio', 'string'].include?(@column_variable.variable_type)
+        column_strata = @column_variable.options_or_autocomplete(params[:column_include_missing].to_s == '1')
+        column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
+        column_strata.each do |stratum|
+          scope = sheet_scope.with_stratum(@column_variable, stratum[:value])
+          @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value], calculation: 'array_count' }
+        end
+      elsif @column_variable and @column_variable.has_statistics?
+        column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }]
+        column_strata = column_strata + [{ name: 'N', calculation: 'array_count' }, { name: '', value: nil }] if params[:column_include_missing].to_s == '1'
+
+        column_strata.each do |stratum|
+          scope = if stratum[:calculation].blank?
+            sheet_scope.with_response_unknown_or_missing(@column_variable)
+          else
+            sheet_scope.with_any_variable_response_not_missing_code(@column_variable)
+          end
+
+          count = Sheet.array_calculation(scope, @column_variable, stratum[:calculation])
+
+          @ranges <<  {
+                        name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]),
+                        tooltip: stratum[:name],
+                        start_date: '', end_date: '',
+                        scope: scope,
+                        count: count,
+                        value: stratum[:value],
+                        calculation: stratum[:calculation],
+                        symbol: stratum[:symbol]
+                      }
+        end
+      else # Default columns over Study Date
+        if @column_variable and @column_variable.variable_type == 'date'
+          min = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
+          max = Date.strptime(sheet_scope.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
+        else
+          min = sheet_scope.collect{|s| s.created_at.to_date}.min || Date.today
+          max = sheet_scope.collect{|s| s.created_at.to_date}.max || Date.today
+        end
+
+        case @by when "week"
+          current_cweek = min.cweek
+          (min.year..max.year).each do |year|
+            (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
+              start_date = Date.commercial(year,cweek) - 1.day
+              end_date = Date.commercial(year,cweek) + 5.days
+              scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
+              @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
+              break if year == max.year and cweek == max.cweek
+            end
+            current_cweek = 1
+          end
+        when "month"
+          current_month = min.month
+          (min.year..max.year).each do |year|
+            (current_month..12).each do |month|
+              start_date = Date.parse("#{year}-#{month}-01")
+              end_date = Date.parse("#{year}-#{month}-01").end_of_month
+              scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
+              @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
+              break if year == max.year and month == max.month
+            end
+            current_month = 1
+          end
+        when "year"
+          (min.year..max.year).each do |year|
+            start_date = Date.parse("#{year}-01-01")
+            end_date = Date.parse("#{year}-12-31")
+            scope = sheet_scope.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
+            @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
+          end
+        end
+        if @column_variable and @column_variable.variable_type == 'date' and params[:column_include_missing].to_s == '1'
+          scope = sheet_scope.with_stratum(@column_variable, nil)
+          @ranges << { name: '', tooltip: '', start_date: '', end_date: '', scope: scope, count: scope.count, value: nil }
         end
       end
-      if @column_variable and @column_variable.variable_type == 'date' and params[:column_include_missing].to_s == '1'
-        scope = sheet_scope.with_stratum(@column_variable, nil)
-        @ranges << { name: '', tooltip: '', start_date: '', end_date: '', scope: scope, count: scope.count, value: nil }
+
+      # Row Stratification by Site (default) or by Variable on Design (currently supported: radio, dropdown, and string)
+      if @variable
+        @strata = @variable.options_or_autocomplete(params[:include_missing].to_s == '1')
+        @strata = @strata + [{ name: '', value: nil }] if params[:include_missing].to_s == '1'
+      else
+        # @strata = (@design.project ? @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} : [])
+        @strata = (@design.project ? current_user.all_viewable_sites.with_project(@design.project.id).order('name').collect{|s| { name: s.name, value: s.id }} : [])
       end
+
+      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Created')
+
+      @report_caption = if @sheet_after.blank? and @sheet_before.blank?
+        "All Sheets"
+      elsif @sheet_after.blank?
+        "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
+      elsif @sheet_before.blank?
+        "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
+      else
+        "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
+      end
+
+      @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : date_description}"
+
+      @sheets = sheet_scope
     end
-
-    # Row Stratification by Site (default) or by Variable on Design (currently supported: radio, dropdown, and string)
-    if @variable
-      @strata = @variable.options_or_autocomplete(params[:include_missing].to_s == '1')
-      @strata = @strata + [{ name: '', value: nil }] if params[:include_missing].to_s == '1'
-    else
-      # @strata = (@design.project ? @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} : [])
-      @strata = (@design.project ? current_user.all_viewable_sites.with_project(@design.project.id).order('name').collect{|s| { name: s.name, value: s.id }} : [])
-    end
-
-    date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Created')
-
-    @report_caption = if @sheet_after.blank? and @sheet_before.blank?
-      "All Sheets"
-    elsif @sheet_after.blank?
-      "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
-    elsif @sheet_before.blank?
-      "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
-    else
-      "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
-    end
-
-    @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : date_description}"
-
-    @sheets = sheet_scope
-  end
 end

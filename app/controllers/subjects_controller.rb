@@ -1,11 +1,11 @@
 class SubjectsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :set_viewable_project, only: [ :index, :show ]
-  before_filter :set_editable_project, only: [ :new, :edit, :create, :update, :destroy ]
-  before_filter :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_filter :set_viewable_subject, only: [ :show ]
-  before_filter :set_editable_subject, only: [ :edit, :update, :destroy ]
-  before_filter :redirect_without_subject, only: [ :show, :edit, :update, :destroy ]
+  before_action :authenticate_user!
+  before_action :set_viewable_project, only: [ :index, :show ]
+  before_action :set_editable_project, only: [ :new, :edit, :create, :update, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
+  before_action :set_viewable_subject, only: [ :show ]
+  before_action :set_editable_subject, only: [ :edit, :update, :destroy ]
+  before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy ]
 
 
   # GET /subjects

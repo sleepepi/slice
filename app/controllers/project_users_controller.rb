@@ -1,5 +1,5 @@
 class ProjectUsersController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   # POST /project_users/1.js
   def resend

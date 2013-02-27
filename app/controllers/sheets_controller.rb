@@ -1,11 +1,11 @@
 class SheetsController < ApplicationController
-  before_filter :authenticate_user!, except: [ :survey, :submit_survey ]
-  before_filter :set_viewable_project, only: [ :index, :show, :print ]
-  before_filter :set_editable_project, only: [ :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
-  before_filter :redirect_without_project, only: [ :index, :show, :print, :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
-  before_filter :set_viewable_sheet, only: [ :show, :print ]
-  before_filter :set_editable_sheet, only: [ :edit, :send_email, :audits, :remove_file, :update, :destroy ]
-  before_filter :redirect_without_sheet, only: [ :show, :print, :edit, :send_email, :audits, :remove_file, :update, :destroy ]
+  before_action :authenticate_user!, except: [ :survey, :submit_survey ]
+  before_action :set_viewable_project, only: [ :index, :show, :print ]
+  before_action :set_editable_project, only: [ :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :set_viewable_sheet, only: [ :show, :print ]
+  before_action :set_editable_sheet, only: [ :edit, :send_email, :audits, :remove_file, :update, :destroy ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :send_email, :audits, :remove_file, :update, :destroy ]
 
   def project_selection
     @subject = @project.subjects.find_by_subject_code(params[:subject_code])

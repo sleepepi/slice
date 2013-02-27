@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
-  before_filter :set_user, only: [ :show, :edit, :update, :destroy ]
-  before_filter :redirect_without_user, only: [ :show, :edit, :update, :destroy ]
+  before_action :authenticate_user!
+  before_action :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_without_user, only: [ :show, :edit, :update, :destroy ]
 
   def index
     unless current_user.system_admin? or params[:format] == 'json'

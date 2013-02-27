@@ -1,9 +1,9 @@
 class SheetEmailsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :set_viewable_project
-  before_filter :redirect_without_project
-  before_filter :set_viewable_sheet_email
-  before_filter :redirect_without_sheet_email
+  before_action :authenticate_user!
+  before_action :set_viewable_project
+  before_action :redirect_without_project
+  before_action :set_viewable_sheet_email
+  before_action :redirect_without_sheet_email
 
   def show
     respond_to do |format|

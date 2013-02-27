@@ -1,9 +1,9 @@
 class DomainsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :values ]
-  before_filter :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :values ]
-  before_filter :set_editable_domain, only: [ :show, :edit, :update, :destroy ]
-  before_filter :redirect_without_domain, only: [ :show, :edit, :update, :destroy ]
+  before_action :authenticate_user!
+  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :values ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :values ]
+  before_action :set_editable_domain, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_without_domain, only: [ :show, :edit, :update, :destroy ]
 
   def values
     @domain = @project.domains.find_by_id(params[:domain_id])

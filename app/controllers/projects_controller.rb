@@ -1,8 +1,8 @@
 class ProjectsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :set_viewable_project, only: [ :settings, :show, :subject_report, :report ]
-  before_filter :set_editable_project, only: [ :edit, :update, :destroy, :remove_file ]
-  before_filter :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :edit, :update, :destroy, :remove_file ]
+  before_action :authenticate_user!
+  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report ]
+  before_action :set_editable_project, only: [ :edit, :update, :destroy, :remove_file ]
+  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :edit, :update, :destroy, :remove_file ]
 
   def search
     @subjects = current_user.all_viewable_subjects.search(params[:q]).order('subject_code').limit(10)

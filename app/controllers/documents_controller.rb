@@ -1,9 +1,9 @@
 class DocumentsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_filter :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_filter :set_editable_document, only: [ :show, :edit, :update, :destroy ]
-  before_filter :redirect_without_document, only: [ :show, :edit, :update, :destroy ]
+  before_action :authenticate_user!
+  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
+  before_action :set_editable_document, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_without_document, only: [ :show, :edit, :update, :destroy ]
 
 
   # GET /documents
