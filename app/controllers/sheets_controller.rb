@@ -134,12 +134,6 @@ class SheetsController < ApplicationController
 
     @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
     @sheet_scope = sheet_scope
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @sheets }
-    end
   end
 
   # This is the latex view
@@ -159,12 +153,6 @@ class SheetsController < ApplicationController
   # GET /sheets/1.json
   def show
     @sheet.audit_show!(current_user)
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.js # show.js.erb
-      format.json { render json: @sheet }
-    end
   end
 
   def audits
@@ -250,15 +238,14 @@ class SheetsController < ApplicationController
 
         if params[:current_design_page].to_i <= @sheet.design.total_pages
           format.html { render action: 'edit' }
-          format.json { head :no_content }
         else
           if params[:continue].to_s == '1'
             format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully created.' }
           else
             format.html { redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully created.' }
           end
-          format.json { render json: @sheet, status: :created, location: @sheet }
         end
+        format.json { render action: 'show', status: :created, location: @sheet }
       else
         params[:current_design_page] = 1
         format.html { render action: 'new' }
@@ -299,93 +286,93 @@ class SheetsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to project_sheets_path(@project) }
-      format.js { render 'destroy' }
+      format.js
       format.json { head :no_content }
     end
   end
 
   private
 
-  def generate_export(sheet_scope, xls, csv_labeled, csv_raw, pdf, files, data_dictionary)
-    export = current_user.exports.create(
-                name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}",
-                project_id: @project.id,
-                include_xls: xls,
-                include_csv_labeled: csv_labeled,
-                include_csv_raw: csv_raw,
-                include_pdf: pdf,
-                include_files: files,
-                include_data_dictionary: data_dictionary )
-
-    rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' &"
-
-    systemu rake_task unless Rails.env.test?
-
-    # flash[:notice] = 'You will be emailed when the export is ready for download.'
-    # redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
-  end
-
-  def set_viewable_sheet
-    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
-  end
-
-  def set_editable_sheet
-    @sheet = @project.sheets.find_by_id(params[:id])
-  end
-
-  def redirect_without_sheet
-    empty_response_or_root_path(project_sheets_path) unless @sheet
-  end
-
-  def sheet_params
-    params[:sheet] ||= {}
-
-    if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
-      params[:sheet][:project_id] = params[:project_id]
-    else
-      params[:sheet][:project_id] = nil
+    def set_viewable_sheet
+      @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
     end
 
-    unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
-      subject = Subject.where( project_id: params[:sheet][:project_id], subject_code: params[:subject_code] ).first_or_create( user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s )
-      if subject.site and subject.site.valid_subject_code?(params[:subject_code]) and subject.status != 'test'
-        subject.update( status: 'valid' )
-      end
+    def set_editable_sheet
+      @sheet = @project.sheets.find_by_id(params[:id])
     end
 
-    subject.update( acrostic: params[:subject_acrostic].to_s ) if subject
+    def redirect_without_sheet
+      empty_response_or_root_path(project_sheets_path) unless @sheet
+    end
 
-    params[:sheet][:subject_id] = (subject ? subject.id : nil)
-    params[:sheet][:last_user_id] = current_user.id
-    params[:sheet][:last_edited_at] = Time.now
+    def sheet_params
+      params[:sheet] ||= {}
 
-    params.require(:sheet).permit(
-      :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at
-    )
-  end
-
-  def update_variables!
-    (params[:variables] || {}).each_pair do |variable_id, response|
-      creator = (current_user ? current_user : @sheet.user)
-
-      sv = @sheet.sheet_variables.where( variable_id: variable_id ).first_or_create( user_id: creator.id )
-      variable_type = (sv.variable.variable_type == 'scale' ? sv.variable.scale_type : sv.variable.variable_type)
-      case variable_type when 'grid'
-        sv.update_grid_responses!(response, creator)
-      when 'checkbox'
-        response = [] if response.blank?
-        sv.update_responses!(response, creator) # Response should be an array
+      if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
+        params[:sheet][:project_id] = params[:project_id]
       else
-        sv.update_attributes sv.format_response(variable_type, response)
+        params[:sheet][:project_id] = nil
       end
-      # if sv.variable.variable_type == 'grid'
-      #   sv.update_grid_responses!(response)
-      # elsif sv.variable.variable_type == 'scale'
-      #   sv.update_attributes sv.format_response(sv.variable.scale_type, response)
-      # else
-      #   sv.update_attributes sv.format_response(sv.variable.variable_type, response)
-      # end
+
+      unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
+        subject = Subject.where( project_id: params[:sheet][:project_id], subject_code: params[:subject_code] ).first_or_create( user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s )
+        if subject.site and subject.site.valid_subject_code?(params[:subject_code]) and subject.status != 'test'
+          subject.update( status: 'valid' )
+        end
+      end
+
+      subject.update( acrostic: params[:subject_acrostic].to_s ) if subject
+
+      params[:sheet][:subject_id] = (subject ? subject.id : nil)
+      params[:sheet][:last_user_id] = current_user.id
+      params[:sheet][:last_edited_at] = Time.now
+
+      params.require(:sheet).permit(
+        :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at
+      )
     end
-  end
+
+    def generate_export(sheet_scope, xls, csv_labeled, csv_raw, pdf, files, data_dictionary)
+      export = current_user.exports.create(
+                  name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}",
+                  project_id: @project.id,
+                  include_xls: xls,
+                  include_csv_labeled: csv_labeled,
+                  include_csv_raw: csv_raw,
+                  include_pdf: pdf,
+                  include_files: files,
+                  include_data_dictionary: data_dictionary )
+
+      rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' &"
+
+      systemu rake_task unless Rails.env.test?
+
+      # flash[:notice] = 'You will be emailed when the export is ready for download.'
+      # redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
+    end
+
+    def update_variables!
+      (params[:variables] || {}).each_pair do |variable_id, response|
+        creator = (current_user ? current_user : @sheet.user)
+
+        sv = @sheet.sheet_variables.where( variable_id: variable_id ).first_or_create( user_id: creator.id )
+        variable_type = (sv.variable.variable_type == 'scale' ? sv.variable.scale_type : sv.variable.variable_type)
+        case variable_type when 'grid'
+          sv.update_grid_responses!(response, creator)
+        when 'checkbox'
+          response = [] if response.blank?
+          sv.update_responses!(response, creator) # Response should be an array
+        else
+          sv.update_attributes sv.format_response(variable_type, response)
+        end
+        # if sv.variable.variable_type == 'grid'
+        #   sv.update_grid_responses!(response)
+        # elsif sv.variable.variable_type == 'scale'
+        #   sv.update_attributes sv.format_response(sv.variable.scale_type, response)
+        # else
+        #   sv.update_attributes sv.format_response(sv.variable.variable_type, response)
+        # end
+      end
+    end
 
 end

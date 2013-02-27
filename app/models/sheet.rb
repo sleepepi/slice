@@ -4,7 +4,6 @@ require 'audited/adapters/active_record'
 # require 'audited/adapters/active_record/audit'
 
 class Sheet < ActiveRecord::Base
-  # attr_accessible :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_viewed_by_id, :last_viewed_at, :user_id, :authentication_token, :last_edited_at
 
   audited
   has_associated_audits
@@ -13,13 +12,13 @@ class Sheet < ActiveRecord::Base
   include Deletable, Latexable
 
   # Named Scopes
-  scope :search, lambda { |arg| where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :search, lambda { |arg| where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ).references(:designs) }
   scope :sheet_before, lambda { |*args| where("sheets.created_at < ?", (args.first+1.day).at_midnight) }
   scope :sheet_after, lambda { |*args| where("sheets.created_at >= ?", args.first.at_midnight) }
   scope :with_user, lambda { |*args| where("sheets.user_id in (?)", args.first) }
   scope :with_project, lambda { |*args| where("sheets.project_id IN (?)", args.first) }
   scope :with_design, lambda { |*args| where("sheets.design_id IN (?)", args.first) }
-  scope :with_site, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first) }
+  scope :with_site, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first).references(:subjects) }
 
   scope :with_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)", args.first, args[1]) }
 
@@ -40,22 +39,22 @@ class Sheet < ActiveRecord::Base
   # Include blank, unknown, or values entered as missing
   scope :with_response_unknown_or_missing, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
 
-  scope :with_subject_status, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first) }
+  scope :with_subject_status, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first).references(:subjects) }
 
-  scope :order_by_site_name, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name' } }
-  scope :order_by_site_name_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id", order: 'sites.name DESC' } }
+  scope :order_by_site_name, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id").order('sites.name') }
+  scope :order_by_site_name_desc, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id").order('sites.name DESC') }
 
-  scope :order_by_design_name, lambda { |*args| { joins: "LEFT JOIN designs ON designs.id = sheets.design_id", order: 'designs.name' } }
-  scope :order_by_design_name_desc, lambda { |*args| { joins: "LEFT JOIN designs ON designs.id = sheets.design_id", order: 'designs.name DESC' } }
+  scope :order_by_design_name, -> { joins("LEFT JOIN designs ON designs.id = sheets.design_id").order('designs.name') }
+  scope :order_by_design_name_desc, -> { joins("LEFT JOIN designs ON designs.id = sheets.design_id").order('designs.name DESC') }
 
-  scope :order_by_subject_code, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id", order: 'subjects.subject_code' } }
-  scope :order_by_subject_code_desc, lambda { |*args| { joins: "LEFT JOIN subjects ON subjects.id = sheets.subject_id", order: 'subjects.subject_code DESC' } }
+  scope :order_by_subject_code, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id").order('subjects.subject_code') }
+  scope :order_by_subject_code_desc, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id").order('subjects.subject_code DESC') }
 
-  scope :order_by_project_name, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = sheets.project_id", order: 'projects.name' } }
-  scope :order_by_project_name_desc, lambda { |*args| { joins: "LEFT JOIN projects ON projects.id = sheets.project_id", order: 'projects.name DESC' } }
+  scope :order_by_project_name, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name') }
+  scope :order_by_project_name_desc, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name DESC') }
 
-  scope :order_by_user_name, lambda { |*args| { joins: "LEFT JOIN users ON users.id = sheets.user_id", order: 'users.last_name, users.first_name' } }
-  scope :order_by_user_name_desc, lambda { |*args| { joins: "LEFT JOIN users ON users.id = sheets.user_id", order: 'users.last_name DESC, users.first_name DESC' } }
+  scope :order_by_user_name, -> { joins("LEFT JOIN users ON users.id = sheets.user_id").order('users.last_name, users.first_name') }
+  scope :order_by_user_name_desc, -> { joins("LEFT JOIN users ON users.id = sheets.user_id").order('users.last_name DESC, users.first_name DESC') }
 
   # Model Validation
   validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id
