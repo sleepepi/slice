@@ -320,7 +320,7 @@ class Design < ActiveRecord::Base
   def load_variables
     @load_variables ||= begin
       raw_variables = self.header_row
-      raw_variables.select!{|i| not ['subject_code', 'acrostic'].include?(i)}
+      raw_variables.select!{|i| not ['Subject', 'Acrostic'].include?(i)}
       variables = []
       raw_variables.each do |variable_token|
         (variable_name, variable_type) = variable_token.split(':')
@@ -360,6 +360,8 @@ class Design < ActiveRecord::Base
 
     self.options = new_variable_ids.uniq.collect{ |vid| { variable_id: vid.to_s, branching_logic: "" } }
     self.save
+
+    self.set_total_rows
   end
 
   def set_total_rows
@@ -376,7 +378,7 @@ class Design < ActiveRecord::Base
       counter = 0
       CSV.foreach(self.csv_file.path, headers: true) do |line|
         row = line.to_hash.with_indifferent_access
-        subject = self.project.subjects.where(subject_code: row['subject_code']).first_or_create( acrostic: row['acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id )
+        subject = self.project.subjects.where(subject_code: row['Subject']).first_or_create( acrostic: row['Acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id )
         if subject
           sheet = self.sheets.create(project_id: self.project_id, subject_id: subject.id, user_id: self.user_id, last_user_id: self.user_id)
           self.load_variables.each do |hash|

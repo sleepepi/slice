@@ -21,12 +21,13 @@ class DesignsController < ApplicationController
       @variables = @design.load_variables
       if @design.csv_file.blank?
         @design.errors.add(:csv_file, "must be selected")
-      # elsif not @design.header_row.include?('subject_code')
-      #   @design.errors.add(:csv_file, "must contain subject_code as a header column")
+      # elsif not @design.header_row.include?('Subject')
+      #   @design.errors.add(:csv_file, "must contain Subject as a header column")
       end
       @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize if @design.name.blank? and @design.csv_file.path and @design.csv_file.path.split('/').last
       render "import"
     else
+      @design.import_started_at = Time.now
       if @design.save
         @design.create_variables!(params[:variables])
 
