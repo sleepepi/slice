@@ -389,7 +389,7 @@ class Design < ActiveRecord::Base
           end
         end
         counter += 1
-        self.update( rows_imported: counter ) if counter % 100 == 0 or counter == self.total_rows
+        self.update( rows_imported: counter ) if counter % 25 == 0 or counter == self.total_rows
       end
 
       self.update( import_ended_at: Time.now )
