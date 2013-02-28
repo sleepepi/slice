@@ -2,7 +2,7 @@
 <% @position = position %>
 <div id="form_grid_variable_<%= position %>" style="cursor:move;line-height:20px;padding-top:5px">
   &curren;
-  <%= select_tag "variable[grid_tokens][#{position}][variable_id]", options_for_select([[nil, nil]] + @select_variables, @grid_variable[:variable_id]), data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select' %>
-  <%= select_tag "variable[grid_tokens][#{position}][control_size]", options_for_select(Variable::CONTROL_SIZE, @grid_variable[:control_size] || 'large'), class: 'input-small' %>
+  <%= select_tag "variable[grid_tokens][][variable_id]", options_for_select([[nil, nil]] + @select_variables, @grid_variable[:variable_id]), data: { object: 'variable-load', position: position, placeholder: 'Choose a Variable' }, class: 'chzn-select', id: "variable_grid_tokens_#{position}_variable_id" %>
+  <%= select_tag "variable[grid_tokens][][control_size]", options_for_select(Variable::CONTROL_SIZE, @grid_variable[:control_size] || 'large'), class: 'input-small' %>
   <%= link_to 'Remove', "#", data: { object: 'remove', target: "form_grid_variable_#{position}" }, class: 'btn btn-mini btn-danger' %>
 </div>

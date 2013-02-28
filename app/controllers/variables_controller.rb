@@ -23,15 +23,11 @@ class VariablesController < ApplicationController
     variable = current_user.all_viewable_variables.find_by_id(params[:id])
     @variable = current_user.variables.new(variable.copyable_attributes) if variable
 
-    respond_to do |format|
-      if @variable
-        @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
-        format.html { render 'new' }
-        format.json { render json: @variable }
-      else
-        format.html { redirect_to project_variables_path(@project) }
-        format.json { head :no_content }
-      end
+    if @variable
+      @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
+      render 'new'
+    else
+      redirect_to project_variables_path(@project)
     end
   end
 
@@ -57,22 +53,11 @@ class VariablesController < ApplicationController
     variable_scope = variable_scope.with_variable_type(params[:variable_type]) unless params[:variable_type].blank?
 
     @variables = variable_scope.page(params[:page]).per( current_user.pagination_count('variables') )
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @variables }
-    end
   end
 
   # GET /variables/1
   # GET /variables/1.json
   def show
-     respond_to do |format|
-      format.html # show.html.erb
-      format.js
-      format.json { render json: @variable }
-    end
   end
 
   # GET /variables/new
@@ -95,13 +80,13 @@ class VariablesController < ApplicationController
   # POST /variables
   # POST /variables.json
   def create
-    @variable = current_user.variables.new(post_params)
+    @variable = current_user.variables.new(variable_params)
 
     respond_to do |format|
       if @variable.save
         format.html { redirect_to [@variable.project, @variable], notice: 'Variable was successfully created.' }
         format.js { render 'update' }
-        format.json { render json: @variable, status: :created, location: @variable }
+        format.json { render action: 'show', status: :created, location: @variable }
       else
         @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
         format.html { render action: 'new' }
@@ -115,14 +100,14 @@ class VariablesController < ApplicationController
   # PUT /variables/1.json
   def update
     respond_to do |format|
-      if @variable.update_attributes(post_params)
+      if @variable.update(variable_params)
         format.html { redirect_to [@variable.project, @variable], notice: 'Variable was successfully updated.' }
-        format.js { render 'update' }
+        format.js
         format.json { head :no_content }
       else
         @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
         format.html { render action: 'edit' }
-        format.js { render 'update' }
+        format.js
         format.json { render json: @variable.errors, status: :unprocessable_entity }
       end
     end
@@ -135,71 +120,72 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to project_variables_path }
-      format.js { render 'destroy' }
+      format.js
       format.json { head :no_content }
     end
   end
 
   private
 
-  def post_params
-    params[:variable] ||= {}
-
-    params[:variable][:updater_id] = current_user.id
-
-    # params[:variable][:option_tokens] ||= {}
-
-    if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
-      params[:variable][:project_id] = params[:project_id]
-    else
-      params[:variable][:project_id] = nil
+    def set_editable_variable
+      @variable = @project.variables.find_by_id(params[:id])
     end
 
-    [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
-      params[:variable][date] = parse_date(params[:variable][date])
+    def set_authenticatable_variable
+      if params[:sheet_authentication_token].blank? and current_user
+        @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+        empty_response_or_root_path unless @project
+        @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+      else
+        @project = Project.current.find_by_id(params[:project_id])
+        @sheet = @project.sheets.find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
+        @variable = @project.variables.find_by_id(params[:id]) if @project and @sheet
+      end
     end
 
-    params[:variable].slice(
-      :name, :display_name, :description, :header, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
-      # For Integers and Numerics
-      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-      # For Dates
-      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-      # For Date, Time
-      :show_current_button,
-      # For Calculated Variables
-      :calculation, :format,
-      # For Integer, Numeric, and Calculated
-      :units,
-      # For Grid Variables
-      :grid_tokens, :multiple_rows, :default_row_number,
-      # For Autocomplete Strings
-      :autocomplete_values,
-      # Radio and Checkbox
-      :alignment,
-      # Scale
-      :scale_type, :domain_id
-    )
-  end
-
-  def set_editable_variable
-    @variable = @project.variables.find_by_id(params[:id])
-  end
-
-  def set_authenticatable_variable
-    if params[:sheet_authentication_token].blank? and current_user
-      @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-      empty_response_or_root_path unless @project
-      @variable = current_user.all_viewable_variables.find_by_id(params[:id])
-    else
-      @project = Project.current.find_by_id(params[:project_id])
-      @sheet = @project.sheets.find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
-      @variable = @project.variables.find_by_id(params[:id]) if @project and @sheet
+    def redirect_without_variable
+      empty_response_or_root_path(project_variables_path) unless @variable
     end
-  end
 
-  def redirect_without_variable
-    empty_response_or_root_path(project_variables_path) unless @variable
-  end
+    def variable_params
+      params[:variable] ||= {}
+
+      params[:variable][:updater_id] = current_user.id
+
+      # params[:variable][:option_tokens] ||= {}
+
+      if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
+        params[:variable][:project_id] = params[:project_id]
+      else
+        params[:variable][:project_id] = nil
+      end
+
+      [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
+        params[:variable][date] = parse_date(params[:variable][date])
+      end
+
+      params.require(:variable).permit(
+        :name, :display_name, :description, :header, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
+        # For Integers and Numerics
+        :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+        # For Dates
+        :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+        # For Date, Time
+        :show_current_button,
+        # For Calculated Variables
+        :calculation, :format,
+        # For Integer, Numeric, and Calculated
+        :units,
+        # For Grid Variables
+        { :grid_tokens => [ :variable_id, :control_size ] },
+        :multiple_rows, :default_row_number,
+        # For Autocomplete Strings
+        :autocomplete_values,
+        # Radio and Checkbox
+        :alignment,
+        # Scale
+        :scale_type, :domain_id
+      )
+    end
 
 end

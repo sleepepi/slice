@@ -202,10 +202,10 @@ class VariablesControllerTest < ActionController::TestCase
   test "should not create grid variable with non-unique variables" do
     assert_difference('Variable.count', 0) do
       post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_grid_tmp', display_name: 'Variable Grid', variable_type: 'grid',
-                                grid_tokens: {
-                                  "1338308398442263" => { variable_id: ActiveRecord::FixtureSet.identify(:integer) },
-                                  "1338308421171512" => { variable_id: ActiveRecord::FixtureSet.identify(:integer) }
-                                }
+                                grid_tokens: [
+                                  { variable_id: ActiveRecord::FixtureSet.identify(:integer) },
+                                  { variable_id: ActiveRecord::FixtureSet.identify(:integer) }
+                                ]
                               }
     end
 
