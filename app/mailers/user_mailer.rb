@@ -71,6 +71,12 @@ class UserMailer < ActionMailer::Base
          subject: "Your Data Export for #{export.project.name} is now Ready")
   end
 
+  def import_complete(design)
+    @design = design
+    mail(to: "#{design.user.name} <#{design.user.email}>",
+         subject: "Your Design Data Import for #{design.project.name} is Complete")
+  end
+
   protected
 
   def setup_email

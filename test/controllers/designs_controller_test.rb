@@ -15,21 +15,19 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should import data for new design" do
-    assert_difference('Sheet.count', 18) do
-      assert_difference('Design.count', 1) do
-        assert_difference('Variable.count', 5) do
-          post :create_import, project_id: @project,
-                               design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), name: 'Design Import' },
-                               variables: { "store_id" => { display_name: 'Store ID', variable_type: 'integer' },
-                                            "gpa" => { display_name: 'GPA', variable_type: 'numeric' },
-                                            "buy_date" => { display_name: 'Buy Date', variable_type: 'date' },
-                                            "name" => { display_name: 'First Name', variable_type: 'string' },
-                                            "gender" => { display_name: 'Gender', variable_type: 'string' } }
-        end
+    assert_difference('Design.count', 1) do
+      assert_difference('Variable.count', 5) do
+        post :create_import, project_id: @project,
+                             design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), name: 'Design Import' },
+                             variables: { "store_id" => { display_name: 'Store ID', variable_type: 'integer' },
+                                          "gpa" => { display_name: 'GPA', variable_type: 'numeric' },
+                                          "buy_date" => { display_name: 'Buy Date', variable_type: 'date' },
+                                          "name" => { display_name: 'First Name', variable_type: 'string' },
+                                          "gender" => { display_name: 'Gender', variable_type: 'string' } }
       end
     end
-    assert_equal "Successfully imported 18 sheets.", flash[:notice]
-    assert_redirected_to project_sheets_path(design_id: assigns(:design).id)
+    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.', flash[:notice]
+    assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
   test "should print report" do

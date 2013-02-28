@@ -22,6 +22,28 @@
   <dt>Creator</dt>
   <dd><%= link_to @design.user.name, @design.user if @design.user %></dd>
 
+  <% if @design.total_rows > 0 %>
+    <dt>Import Progress</dt>
+    <dd>
+      <% percent = @design.rows_imported * 100 / @design.total_rows %>
+      <% status = "danger" %>
+      <% status = "warning" if percent >= 33 %>
+      <% status = "success" if percent == 100 %>
+      <div class="progress progress-striped active">
+        <div class="bar bar-<%= status %>" style="width: <%= percent %>%;"><%= @design.rows_imported %> of <%= @design.total_rows %> (<%= percent %>%)</div>
+      </div>
+      <% if @design.import_started_at %>
+        <span class="muted">
+        <% if @design.import_ended_at %>
+          Import took <%= distance_of_time_in_words(@design.import_started_at, @design.import_ended_at, { include_seconds: true }) %>.
+        <% else %>
+          Import started <%= distance_of_time_in_words(@design.import_started_at, Time.now, { include_seconds: true }) %> ago...
+        <% end %>
+        </span>
+      <% end %>
+    </dd>
+  <% end %>
+
   <dt>Email Subject Template</dt>
   <dd><%= @design.email_subject_template %></dd>
 

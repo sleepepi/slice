@@ -1,0 +1,11 @@
+Hello <%= @design.user.name %>,<br />
+<br />
+The design data import for <b><%= @design.project.name %></b> is now complete.<br />
+<br />
+Click the following link to see newly imported data:<br />
+<br />
+<%= link_to SITE_URL + project_sheets_path(@design.project, design_id: @design.id), SITE_URL + project_sheets_path(@design.project, design_id: @design.id) %><br />
+<br />
+Thank you!<br />
+<br />
+<%= DEFAULT_APP_NAME %> Mailer

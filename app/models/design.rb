@@ -362,9 +362,18 @@ class Design < ActiveRecord::Base
     self.save
   end
 
+  def set_total_rows
+    counter = 0
+    CSV.foreach(self.csv_file.path, headers: true){ counter += 1 } if self.csv_file.path
+    self.update( total_rows: counter )
+  end
+
   def create_sheets!
     site = self.project.sites.first
     if self.csv_file.path and site
+      self.update( import_started_at: Time.now )
+      self.set_total_rows
+      counter = 0
       CSV.foreach(self.csv_file.path, headers: true) do |line|
         row = line.to_hash.with_indifferent_access
         subject = self.project.subjects.where(subject_code: row['subject_code']).first_or_create( acrostic: row['acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id )
@@ -379,7 +388,17 @@ class Design < ActiveRecord::Base
             end
           end
         end
+        counter += 1
+        self.update( rows_imported: counter ) if counter % 100 == 0 or counter == self.total_rows
       end
+
+      self.update( import_ended_at: Time.now )
+      self.notify_user!
     end
   end
+
+  def notify_user!
+    UserMailer.import_complete(self).deliver if Rails.env.production?
+  end
+
 end

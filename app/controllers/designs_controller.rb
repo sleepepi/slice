@@ -30,9 +30,9 @@ class DesignsController < ApplicationController
       if @design.save
         @design.create_variables!(params[:variables])
 
-        @design.create_sheets!
+        generate_import
 
-        redirect_to project_sheets_path(design_id: @design.id), notice: "Successfully imported #{@design.sheets.count} #{@design.sheets.count == 1 ? 'sheet' : 'sheets'}."
+        redirect_to [@design.project, @design], notice: 'Design import initialized successfully. You will receive an email when the design import completes.'
       else
         @variables = @design.load_variables
         @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize.capitalize if @design.name.blank? and @design.csv_file.path and @design.csv_file.path.split('/').last
@@ -528,5 +528,10 @@ class DesignsController < ApplicationController
       @report_title = "#{@variable ? @variable.display_name : 'Site'} vs. #{@column_variable ? @column_variable.display_name : date_description}"
 
       @sheets = sheet_scope
+    end
+
+    def generate_import
+      rake_task = "#{RAKE_PATH} design_import DESIGN_ID=#{@design.id} &"
+      systemu rake_task unless Rails.env.test?
     end
 end
