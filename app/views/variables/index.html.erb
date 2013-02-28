@@ -2,11 +2,11 @@
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= @title %>
-    <%= link_to "Create Variable", new_project_variable_path, class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Variable", new_project_variable_path(@project), class: 'btn btn-mini btn-primary' %>
   </h1>
 </div>
 
-<%= form_tag project_variables_path, method: :get, remote: true, id: "variables_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag project_variables_path(@project), method: :get, remote: true, id: "variables_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="span4 control-group">

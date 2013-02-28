@@ -4,7 +4,7 @@
     <%= link_to @project.name, @project %> &middot; <%= @title %>
     <%= link_to "Edit Contact", edit_project_contact_path(@contact.project, @contact), class: 'btn btn-mini' %>
     <%= link_to "Delete Contact", [@contact.project, @contact], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Contact #{@contact.name}?" } %>
-    <%= link_to "View Contacts", project_contacts_path, class: 'btn btn-mini' %>
+    <%= link_to "View Contacts", project_contacts_path(@project), class: 'btn btn-mini' %>
   </h1>
 </div>
 

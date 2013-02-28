@@ -79,9 +79,9 @@
   <div class="form-actions">
     <%= f.submit @variables.size > 0 ? "Import Data" : "Proceed to Import Specification", class: 'btn btn-primary' %>
     <% if @file_uploaded %>
-      <%= link_to 'Previous Step', import_project_designs_path, class: 'btn' %>
+      <%= link_to 'Previous Step', import_project_designs_path(@project), class: 'btn' %>
     <% else %>
-      <%= link_to 'Cancel', project_designs_path, class: 'btn' %>
+      <%= link_to 'Cancel', project_designs_path(@project), class: 'btn' %>
     <% end %>
   </div>
 <% end %>

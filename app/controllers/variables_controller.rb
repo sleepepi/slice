@@ -119,7 +119,7 @@ class VariablesController < ApplicationController
     @variable.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_variables_path }
+      format.html { redirect_to project_variables_path(@project) }
       format.js
       format.json { head :no_content }
     end

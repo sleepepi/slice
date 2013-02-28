@@ -4,7 +4,7 @@
     <%= link_to @project.name, @project %> &middot; <%= @title %>
     <%= link_to "Edit Post", edit_project_post_path(@post.project, @post), class: 'btn btn-mini' %>
     <%= link_to "Delete Post", [@post.project, @post], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Post #{@post.name}?" } %>
-    <%= link_to "View Posts", project_posts_path, class: 'btn btn-mini' %>
+    <%= link_to "View Posts", project_posts_path(@project), class: 'btn btn-mini' %>
   </h1>
 </div>
 

@@ -2,11 +2,11 @@
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= @title %>
-    <%= link_to "Create Subject", new_project_subject_path, class: 'btn btn-mini btn-primary' if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
+    <%= link_to "Create Subject", new_project_subject_path(@project), class: 'btn btn-mini btn-primary' if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
   </h1>
 </div>
 
-<%= form_tag project_subjects_path, method: :get, remote: true, id: "subjects_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag project_subjects_path(@project), method: :get, remote: true, id: "subjects_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="span4 control-group">
