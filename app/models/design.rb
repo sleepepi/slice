@@ -336,7 +336,7 @@ class Design < ActiveRecord::Base
       result = []
       if self.csv_file.path
         current_line = 0
-        CSV.foreach(self.csv_file.path) do |line|
+        CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read} ) do |line|
           break unless current_line == 0
           result = line
           current_line += 1
@@ -366,7 +366,7 @@ class Design < ActiveRecord::Base
 
   def set_total_rows
     counter = 0
-    CSV.foreach(self.csv_file.path, headers: true){ counter += 1 } if self.csv_file.path
+    CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ){ counter += 1 } if self.csv_file.path
     self.update( total_rows: counter )
   end
 
@@ -376,7 +376,7 @@ class Design < ActiveRecord::Base
       self.update( import_started_at: Time.now )
       self.set_total_rows
       counter = 0
-      CSV.foreach(self.csv_file.path, headers: true) do |line|
+      CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ) do |line|
         row = line.to_hash.with_indifferent_access
         subject = self.project.subjects.where(subject_code: row['Subject']).first_or_create( acrostic: row['Acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id )
         if subject
