@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :print, :report_print, :report, :reporter ]
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import ]
+  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import, :progress ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress ]
   before_action :set_viewable_design, only: [ :print, :report_print, :report, :reporter ]
-  before_action :set_editable_design, only: [ :show, :edit, :update, :destroy, :reorder ]
-  before_action :redirect_without_design, only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :reporter ]
+  before_action :set_editable_design, only: [ :show, :edit, :update, :destroy, :reorder, :progress ]
+  before_action :redirect_without_design, only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :reporter, :progress ]
 
   # Concerns
   include Buildable
@@ -13,6 +13,10 @@ class DesignsController < ApplicationController
   def import
     @design = current_user.designs.new(project_id: params[:project_id])
     @variables = []
+  end
+
+  # POST /designs/1.js
+  def progress
   end
 
   def create_import
@@ -27,7 +31,6 @@ class DesignsController < ApplicationController
       @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize if @design.name.blank? and @design.csv_file.path and @design.csv_file.path.split('/').last
       render "import"
     else
-      @design.import_started_at = Time.now
       if @design.save
         @design.create_variables!(params[:variables])
 

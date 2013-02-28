@@ -202,6 +202,12 @@ jQuery ->
 
   $("#variables div, #form_grid_variables div").last().click()
 
+  if $('[data-object~="ajax-timer"]').length > 0
+    interval = setInterval( () ->
+      $('[data-object~="ajax-timer"]').each( () ->
+        $.post($(this).data('path'), "interval=#{interval}", null, "script")
+      )
+    , 5000)
 
   # $('[data-object~="variable-load"]').change( () ->
   #   retrieveVariable($(this).data('position'))

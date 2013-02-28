@@ -24,23 +24,8 @@
 
   <% if @design.total_rows > 0 %>
     <dt>Import Progress</dt>
-    <dd>
-      <% percent = @design.rows_imported * 100 / @design.total_rows %>
-      <% status = "danger" %>
-      <% status = "warning" if percent >= 33 %>
-      <% status = "success" if percent == 100 %>
-      <div class="progress progress-striped active">
-        <div class="bar bar-<%= status %>" style="width: <%= percent %>%;"><%= @design.rows_imported %> of <%= @design.total_rows %> (<%= percent %>%)</div>
-      </div>
-      <% if @design.import_started_at %>
-        <span class="muted">
-        <% if @design.import_ended_at %>
-          Import took <%= distance_of_time_in_words(@design.import_started_at, @design.import_ended_at, { include_seconds: true }) %>.
-        <% else %>
-          Import started <%= distance_of_time_in_words(@design.import_started_at, Time.now, { include_seconds: true }) %> ago...
-        <% end %>
-        </span>
-      <% end %>
+    <dd id="progress" data-object="ajax-timer" data-path="<%= progress_project_design_path(@design.project, @design) %>">
+      <%= render partial: 'designs/progress' %>
     </dd>
   <% end %>
 

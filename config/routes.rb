@@ -53,6 +53,7 @@ Slice::Application.routes.draw do
         get :reporter
         post :reporter
         get :report_print
+        post :progress
       end
       collection do
         post :add_variable

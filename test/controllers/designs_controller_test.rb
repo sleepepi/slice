@@ -7,6 +7,13 @@ class DesignsControllerTest < ActionController::TestCase
     @design = designs(:one)
   end
 
+  test "should show progress" do
+    post :progress, id: @design, project_id: @project, format: 'js'
+    assert_not_nil assigns(:design)
+    assert_template 'progress'
+    assert_response :success
+  end
+
   test "should get import" do
     get :import, project_id: @project
     assert_not_nil assigns(:design)
