@@ -3,6 +3,8 @@
 ### Enhancements
 - **Design Changes**
   - Designs along with data can now be imported from a CSV
+    - CSV must contain ONE column header that is called `Subject`
+    - CSV may also contain the subject's `Acrostic`
     - Design imports run as background tasks that notify the user by email when the design import is finished
     - Design import progress can be seen on the design page
 - **Gem Changes**
