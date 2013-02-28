@@ -89,7 +89,7 @@ class SubjectsController < ApplicationController
     end
 
     def redirect_without_subject
-      empty_response_or_root_path(project_subjects_path) unless @subject
+      empty_response_or_root_path(project_subjects_path(@project)) unless @subject
     end
 
     def subject_params

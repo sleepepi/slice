@@ -90,7 +90,7 @@ class SitesController < ApplicationController
     end
 
     def redirect_without_site
-      empty_response_or_root_path(project_sites_path) unless @site
+      empty_response_or_root_path(project_sites_path(@project)) unless @site
     end
 
     def site_params

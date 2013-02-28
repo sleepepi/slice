@@ -63,7 +63,7 @@ class PostsController < ApplicationController
     @post.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_posts_path }
+      format.html { redirect_to project_posts_path(@project) }
       format.json { head :no_content }
     end
   end
@@ -75,7 +75,7 @@ class PostsController < ApplicationController
     end
 
     def redirect_without_post
-      empty_response_or_root_path(project_posts_path) unless @post
+      empty_response_or_root_path(project_posts_path(@project)) unless @post
     end
 
     def post_params

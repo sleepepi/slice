@@ -70,7 +70,7 @@ class DomainsController < ApplicationController
     @domain.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_domains_path }
+      format.html { redirect_to project_domains_path(@project) }
       format.json { head :no_content }
     end
   end
@@ -82,7 +82,7 @@ class DomainsController < ApplicationController
     end
 
     def redirect_without_domain
-      empty_response_or_root_path(project_domains_path) unless @domain
+      empty_response_or_root_path(project_domains_path(@project)) unless @domain
     end
 
     def domain_params

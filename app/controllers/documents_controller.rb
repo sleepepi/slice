@@ -63,7 +63,7 @@ class DocumentsController < ApplicationController
     @document.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_documents_path }
+      format.html { redirect_to project_documents_path(@project) }
       format.json { head :no_content }
     end
   end
@@ -75,7 +75,7 @@ class DocumentsController < ApplicationController
     end
 
     def redirect_without_document
-      empty_response_or_root_path(project_documents_path) unless @document
+      empty_response_or_root_path(project_documents_path(@project)) unless @document
     end
 
     def document_params

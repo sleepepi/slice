@@ -302,7 +302,7 @@ class SheetsController < ApplicationController
     end
 
     def redirect_without_sheet
-      empty_response_or_root_path(project_sheets_path) unless @sheet
+      empty_response_or_root_path(project_sheets_path(@project)) unless @sheet
     end
 
     def sheet_params

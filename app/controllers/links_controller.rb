@@ -62,7 +62,7 @@ class LinksController < ApplicationController
     @link.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_links_path }
+      format.html { redirect_to project_links_path(@project) }
       format.json { head :no_content }
     end
   end
@@ -74,7 +74,7 @@ class LinksController < ApplicationController
     end
 
     def redirect_without_link
-      empty_response_or_root_path(project_links_path) unless @link
+      empty_response_or_root_path(project_links_path(@project)) unless @link
     end
 
     def link_params

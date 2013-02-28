@@ -144,7 +144,7 @@ class VariablesController < ApplicationController
     end
 
     def redirect_without_variable
-      empty_response_or_root_path(project_variables_path) unless @variable
+      empty_response_or_root_path(project_variables_path(@project)) unless @variable
     end
 
     def variable_params

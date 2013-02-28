@@ -62,7 +62,7 @@ class ContactsController < ApplicationController
     @contact.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_contacts_path }
+      format.html { redirect_to project_contacts_path(@project) }
       format.json { head :no_content }
     end
   end
@@ -74,7 +74,7 @@ class ContactsController < ApplicationController
     end
 
     def redirect_without_contact
-      empty_response_or_root_path(project_contacts_path) unless @contact
+      empty_response_or_root_path(project_contacts_path(@project)) unless @contact
     end
 
     def contact_params
