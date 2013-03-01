@@ -5,6 +5,10 @@ class Project < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
 
+  attr_accessor :site_name
+
+  after_save :create_default_site
+
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
   # scope :with_user, lambda { |*args| { conditions: ['projects.user_id IN (?)', args.first] } }
@@ -62,4 +66,18 @@ class Project < ActiveRecord::Base
   def custom_reports
     []
   end
+
+  private
+
+    # Creates a default site if the project has no site associated with it
+    def create_default_site
+      if self.sites.count == 0
+        self.sites.create(
+          name: self.site_name.blank? ? "Default Site" : self.site_name,
+          user_id: self.user_id,
+          prefix: ''
+        )
+      end
+    end
+
 end

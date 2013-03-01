@@ -152,19 +152,40 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should create project" do
-    assert_difference('Project.count') do
-      post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png') }
+    assert_difference('Site.count') do
+      assert_difference('Project.count') do
+        post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png') }
+      end
     end
 
     assert_not_nil assigns(:project)
     assert_equal "#{Rails.root}/public/uploads/project/logo/#{assigns(:project).id}/rails.png", assigns(:project).logo.path
+    assert_equal 1, assigns(:project).sites.count
+    assert_equal "Default Site", assigns(:project).sites.first.name
+
+    assert_redirected_to project_path(assigns(:project))
+  end
+
+  test "should create project and automatically with a named site" do
+    assert_difference('Site.count') do
+      assert_difference('Project.count') do
+        post :create, project: { description: @project.description, name: 'Project New Name with Site', logo: fixture_file_upload('../../test/support/projects/rails.png'), site_name: 'New Site with Project' }
+      end
+    end
+
+    assert_not_nil assigns(:project)
+    assert_equal "#{Rails.root}/public/uploads/project/logo/#{assigns(:project).id}/rails.png", assigns(:project).logo.path
+    assert_equal 1, assigns(:project).sites.count
+    assert_equal "New Site with Project", assigns(:project).sites.first.name
 
     assert_redirected_to project_path(assigns(:project))
   end
 
   test "should not create project with blank name" do
-    assert_difference('Project.count', 0) do
-      post :create, project: { description: @project.description, name: '' }
+    assert_difference('Site.count', 0) do
+      assert_difference('Project.count', 0) do
+        post :create, project: { description: @project.description, name: '' }
+      end
     end
 
     assert_not_nil assigns(:project)
@@ -218,11 +239,13 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should update project" do
     put :update, id: @project, project: { description: @project.description, name: @project.name }
+
     assert_redirected_to settings_project_path(assigns(:project))
   end
 
   test "should not update project with blank name" do
     put :update, id: @project, project: { description: @project.description, name: '' }
+
     assert_not_nil assigns(:project)
     assert assigns(:project).errors.size > 0
     assert_equal ["can't be blank"], assigns(:project).errors[:name]

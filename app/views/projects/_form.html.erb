@@ -43,6 +43,15 @@
     </div>
   </div>
 
+  <% if @project.sites.size == 0 %>
+    <div class="control-group">
+      <%= f.label :site_name, nil, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :site_name, placeholder: 'Default Site' %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="control-group">
     <%= f.label :acrostic_enabled, nil, class: 'control-label' %>
     <div class="controls">
