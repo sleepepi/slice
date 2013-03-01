@@ -9,6 +9,8 @@
     - Design import progress can be seen on the design page
 - **Project Changes**
   - Saving a project now automatically creates a new site if the project does not have any sites yet
+- **Sheet Changes**
+  - Long tables on PDFs now split across pages
 - **Variable Changes**
   - Variable Append and Prepend now display on sheet and design PDFs
 - **Gem Changes**

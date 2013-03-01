@@ -36,9 +36,7 @@
   \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' %>\\\\<%= latex_safe @variable.display_name %><% end %>}
 <% end %>
 
-\begin{table*}[!htbp]\centering
-
-\begin{tabularx}{\textwidth}{<%= 'X'*@variable.grid_variables.size %>}
+\begin{longtable}{@{\extracolsep{\fill}}<%= "p{#{14.0/[@variable.grid_variables.size, 1].max}cm}"*@variable.grid_variables.size %>@{\extracolsep{\fill}}}
 <% @variable.grid_variables.each do |grid_variable| %>
   <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
   <%= latex_safe v.display_name if v %> &
@@ -54,8 +52,7 @@
     <% end %>
   <% end %>
 <% end %>
-\end{tabularx}
-\end{table*}
+\end{longtable}
 
     <% else %>
 
