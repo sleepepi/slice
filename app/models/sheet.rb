@@ -122,57 +122,21 @@ class Sheet < ActiveRecord::Base
     File.read(File.join('app', 'views', 'sheets', 'latex', "_#{partial}.tex.erb"))
   end
 
-  def self.latex_sheet_partial(layout = true)
-    result = ""
-    result << latex_partial('header') if layout
-    result << latex_partial('body')
-    result << latex_partial('footer') if layout
-    result
-  end
-
-  def latex_file_location(current_user)
-    jobname = "sheet_#{self.id}"
+  def self.latex_file_location(sheets, current_user)
+    jobname = (sheets.size == 1 ? "sheet_#{sheets.first.id}" : "sheets_#{Time.now.strftime("%Y%m%d_%H%M%S")}")
     output_folder = File.join('tmp', 'files', 'tex')
     file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
 
     File.open(file_tex, 'w') do |file|
-      @sheet = self # Needed by Binding
-      template = ERB.new(Sheet.latex_sheet_partial)
-      file.syswrite(template.result(binding))
-    end
-
-    Sheet.generate_pdf(jobname, output_folder, file_tex)
-  end
-
-  def self.latex_file_location(sheets, current_user)
-    jobname = "sheets_#{Time.now.strftime("%Y%m%d_%H%M%S")}"
-    root_folder = FileUtils.pwd
-    output_folder = File.join(root_folder, 'tmp', 'files', 'tex')
-    template_folder = File.join(root_folder, 'app', 'views', 'sheets')
-    file_name = 'scope.tex'
-    file_template = File.join(template_folder, file_name + '.erb')
-    file_tex = File.join(root_folder, 'tmp', 'files', 'tex', jobname + '.tex')
-
-    File.open(file_tex, 'w') do |file|
-      header = ERB.new(latex_partial('header'))
-      file.syswrite(header.result(binding))
+      file.syswrite(ERB.new(latex_partial('header')).result(binding))
       sheets.each do |sheet|
         @sheet = sheet # Needed by Binding
-        template = ERB.new(latex_partial('body'))
-        file.syswrite(template.result(binding))
+        file.syswrite(ERB.new(latex_partial('body')).result(binding))
       end
-      footer = ERB.new(latex_partial('footer'))
-      file.syswrite(footer.result(binding))
+      file.syswrite(ERB.new(latex_partial('footer')).result(binding))
     end
 
     generate_pdf(jobname, output_folder, file_tex)
-  end
-
-  def self.generate_pdf(jobname, output_folder, file_tex)
-    `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
-    `#{LATEX_LOCATION} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
-
-    File.join('tmp', 'files', 'tex', "#{jobname}.pdf") # Return file name
   end
 
   # This returns the maximum size of any grid.

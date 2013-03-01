@@ -1,4 +1,3 @@
-<%#= print.tex.erb %>
 <% @design = self %>
 
 \documentclass{article}
@@ -127,7 +126,7 @@
 \indent\line(1,0){400}
 
 <% else %>
-  \dotuline{~~~~~~~~~~~~~~~~~~~~~~~~} <%= latex_safe @variable.units unless @variable.units.blank? %>
+  <%= latex_safe @variable.prepend unless @variable.prepend.blank? %> \dotuline{~~~~~~~~~~~~~~~~~~~~~~~~} <%= latex_safe @variable.units unless @variable.units.blank? %> <%= latex_safe @variable.append unless @variable.append.blank? %>
 <% end %>
 
     <% end %>

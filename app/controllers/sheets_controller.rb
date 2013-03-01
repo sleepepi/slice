@@ -29,7 +29,7 @@ class SheetsController < ApplicationController
     pdf_attachment = nil
 
     if params[:pdf_attachment] == '1'
-      file_pdf_location = @sheet.latex_file_location(current_user)
+      file_pdf_location = Sheet.latex_file_location([@sheet], current_user)
       pdf_attachment = File.new(file_pdf_location) if File.exists?(file_pdf_location)
     end
 
@@ -138,7 +138,7 @@ class SheetsController < ApplicationController
 
   # This is the latex view
   def print
-    file_pdf_location = @sheet.latex_file_location(current_user)
+    file_pdf_location = Sheet.latex_file_location([@sheet], current_user)
 
     if File.exists?(file_pdf_location)
       File.open(file_pdf_location, 'r') do |file|
