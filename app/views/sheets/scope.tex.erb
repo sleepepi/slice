@@ -140,7 +140,7 @@
 <% elsif @variable.response_name(@sheet).blank? %>
   \textcolor[gray]{0.5}{Unknown}
 <% else %>
-  <%= latex_safe @variable.response_name(@sheet) %> <%= latex_safe @variable.units if not @variable.response_name(@sheet).blank? and not @variable.units.blank? %>
+  <%= latex_safe @variable.prepend if not @variable.response_name(@sheet).blank? and not @variable.prepend.blank? %> <%= latex_safe @variable.response_name(@sheet) %> <%= latex_safe @variable.units if not @variable.response_name(@sheet).blank? and not @variable.units.blank? %> <%= latex_safe @variable.append if not @variable.response_name(@sheet).blank? and not @variable.append.blank? %>
 <% end %>
 
     <% end %>

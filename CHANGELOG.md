@@ -7,6 +7,8 @@
     - CSV may also contain the subject's `Acrostic`
     - Design imports run as background tasks that notify the user by email when the design import is finished
     - Design import progress can be seen on the design page
+- **Sheet Changes**
+  - Variable Append and Prepend now display on sheet PDFs
 - **Project Changes**
   - Saving a project now automatically creates a new site if the project does not have any sites yet
 - **Gem Changes**
