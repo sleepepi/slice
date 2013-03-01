@@ -1,42 +1,9 @@
-<%#= latex.tex.erb %>
-
-\documentclass{article}
-\usepackage{graphicx}
-\usepackage{fancyhdr}
-% \usepackage[cm]{fullpage}
-\usepackage[margin=0.5in]{geometry}
-\geometry{top=1.0in, bottom=1.0in}
-\usepackage{lastpage}
-\usepackage{wrapfig}
-\usepackage[section]{placeins}
-\usepackage{booktabs}
-\usepackage{sectsty}
-\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
-\usepackage{indentfirst}
-\usepackage{tabularx}
-
-\usepackage{needspace}
-\usepackage{color}
-
-\fancyhf{}
-
 \lhead{\textbf{Subject}\\<%= latex_safe @sheet.subject.subject_code %><% if @sheet.project.acrostic_enabled? %> <%= latex_safe @sheet.subject.acrostic %><% end %>}
 \chead{\textbf{Project}\\<%= latex_safe @sheet.project.name %> \textperiodcentered~<%= latex_safe @sheet.subject.site.name %>}
 \rhead{\textbf{Entered} <%= latex_safe @sheet.created_at.strftime("%B %-d, %Y") %>\\<% if @sheet.last_edited_at and @sheet.created_at.to_date != @sheet.last_edited_at.to_date %>\textbf{Updated} <%= latex_safe @sheet.last_edited_at.strftime("%B %-d, %Y") %><% end %>}
 \lfoot{<%= latex_safe @sheet.design.name %>}
-\cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
-\rfoot{\thepage\ of \pageref{LastPage}}
-
-
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}
-  \setlength\headheight{22pt}
-
-\pagestyle{fancyplain}
-
-
-
-\begin{document}
+% \cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
+% \rfoot{\thepage\ of \pageref{LastPage}}
 
 <% if @sheet.project.logo.size > 0 %>
 \begin{wrapfigure}{r}
@@ -134,4 +101,4 @@
   <% end %>
 <% end %>
 
-\end{document}
+\newpage
