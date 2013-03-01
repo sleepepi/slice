@@ -271,8 +271,6 @@ class Design < ActiveRecord::Base
     Design.generate_pdf(jobname, output_folder, file_tex)
   end
 
-
-
   def latex_report_file_location(current_user, sheets, report_title, report_caption, variable, ranges, percent, strata, column_variable, orientation)
     @sheets = sheets
     @report_title = report_title
