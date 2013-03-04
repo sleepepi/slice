@@ -11,6 +11,7 @@
   - Exports can now be filtered by project
 - **Project Changes**
   - Saving a project now automatically creates a new site if the project does not have any sites yet
+  - Designs are now ordered alphabetically instead of most commonly used on the project page
 - **Sheet Changes**
   - Long tables on PDFs now split across pages
 - **Variable Changes**
