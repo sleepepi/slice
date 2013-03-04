@@ -12,6 +12,7 @@
 - **Project Changes**
   - Saving a project now automatically creates a new site if the project does not have any sites yet
   - Designs are now ordered alphabetically instead of most commonly used on the project page
+  - Users with only one project now have a "Create Project" link on their main project page to allow them to create a second project
 - **Sheet Changes**
   - Long tables on PDFs now split across pages
 - **Variable Changes**
