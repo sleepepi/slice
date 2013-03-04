@@ -1,6 +1,6 @@
 <hr class="soften" style="margin-top:20px">
 <% if @project.domains.size == 0 %>
-  <ul><li class="muted">No Links</li></ul>
+  <ul><li class="muted">No Domains</li></ul>
 <% else %>
   <ul>
   <% @project.domains.limit(10).order('updated_at').each do |domain| %>
