@@ -15,6 +15,7 @@
   - Users with only one project now have a "Create Project" link on their main project page to allow them to create a second project
 - **Sheet Changes**
   - Long tables on PDFs now split across pages
+  - When adding a new sheet from the subject report, the subject code, acrostic, and site is prefilled and focus is set on the first question on the form
 - **Variable Changes**
   - Variable Append and Prepend now display on sheet and design PDFs
   - Domains now show up on the variables index for all variable types

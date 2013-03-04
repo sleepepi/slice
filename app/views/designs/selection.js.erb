@@ -24,3 +24,7 @@ $('#sheet_submit_btn, #sheet_submit_btn_and_continue').data('page', '<%= params[
 <% end %>
 
 initializeSheet();
+
+if($("#sheet_subject_id").val() != '')
+  $("#design *:input[type!=hidden]:first").focus();
+
