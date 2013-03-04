@@ -16,7 +16,7 @@
 - **Gem Changes**
   - Updated to Rails 4.0.0.beta1
   - Updated to Contour 2.0.0.beta.1
-  - Updated to Spreadsheet 0.8.1
+  - Updated to Spreadsheet 0.8.2
 
 ### Bug Fix
 - Domain search now filters results when a search term is entered

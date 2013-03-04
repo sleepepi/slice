@@ -17,7 +17,7 @@ gem 'rails-observers',      '0.1.1'
 # gem 'audited-activerecord', '3.0.0.rails4',       github: 'remomueller/audited', branch: 'rails4'
 
 
-gem 'spreadsheet',          '~> 0.8.1'
+gem 'spreadsheet',          '~> 0.8.2'
 gem 'systemu',              '~> 2.5.2'
 gem 'rubyzip',              '~> 0.9.9'
 gem 'mail_view',            '~> 1.0.3'
