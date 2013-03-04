@@ -8,8 +8,26 @@
 
 <%= form_tag exports_path, method: :get, remote: true, id: "exports_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :search, 'Search', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' } %>
+      </div>
+    </div>
+
+    <div class="span4 control-group">
+      <%= label :project_id, 'Project', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  </div>
 <% end %>
 
 <div id="exports"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
