@@ -7,6 +7,8 @@
     - CSV may also contain the subject's `Acrostic`
     - Design imports run as background tasks that notify the user by email when the design import is finished
     - Design import progress can be seen on the design page
+- **Domain Changes**
+  - Domains index now displays the number of variables associated with the domain
 - **Export Changes**
   - Exports can now be filtered by project
 - **Project Changes**

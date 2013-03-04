@@ -3,6 +3,7 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
+      <th># Variables</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.name', 'Name', 'domains_search') %></th>
       <th style="white-space:nowrap">Options</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.user_id', '', 'domains_search') %></th>
@@ -12,6 +13,7 @@
 
   <% @domains.each do |domain| %>
     <tr>
+      <td><%= domain.variables.count %></td>
       <td><%= link_to domain.name, [domain.project, domain] %></td>
       <td>
         <% if domain.options.size > 0 %>
