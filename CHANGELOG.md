@@ -18,6 +18,7 @@
 - **Variable Changes**
   - Variable Append and Prepend now display on sheet and design PDFs
   - Domains now show up on the variables index for all variable types
+  - Only `dropdown`, `checkbox`, `radio`, `integer`, `numeric`, `scale` variables will save the selected domain, other variable types will clear any selected domain
 - **Gem Changes**
   - Updated to Rails 4.0.0.beta1
   - Updated to Contour 2.0.0.beta.1

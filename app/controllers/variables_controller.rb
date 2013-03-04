@@ -160,6 +160,8 @@ class VariablesController < ApplicationController
         params[:variable][:project_id] = nil
       end
 
+      params[:variable][:domain_id] = nil if params[:variable][:variable_type] and not Variable::TYPE_DOMAIN.include?(params[:variable][:variable_type])
+
       [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
         params[:variable][date] = parse_date(params[:variable][date])
       end

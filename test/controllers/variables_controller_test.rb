@@ -180,11 +180,22 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create dropdown variable" do
     assert_difference('Variable.count') do
-      post :create, project_id: @project, variable: { name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: "dropdown", domain_id: domains(:icecream_flavors).id }
+      post :create, project_id: @project, variable: { name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: 'dropdown', domain_id: domains(:icecream_flavors).id }
     end
 
     assert_not_nil assigns(:variable)
     assert_equal 2, assigns(:variable).shared_options.size
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
+  test "should create string variable without a domain" do
+    assert_difference('Variable.count') do
+      post :create, project_id: @project, variable: { name: 'restaurant', display_name: 'Favorite Restaurant', variable_type: 'string', domain_id: domains(:icecream_flavors).id }
+    end
+
+    assert_not_nil assigns(:variable)
+    assert_equal 0, assigns(:variable).shared_options.size
+    assert_nil assigns(:variable).domain
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
