@@ -115,10 +115,6 @@ class SheetsController < ApplicationController
       sheet_scope = sheet_scope.order_by_subject_code
     when 'sheets.subject_code DESC'
       sheet_scope = sheet_scope.order_by_subject_code_desc
-    when 'sheets.project_name'
-      sheet_scope = sheet_scope.order_by_project_name
-    when 'sheets.project_name DESC'
-      sheet_scope = sheet_scope.order_by_project_name_desc
     when 'sheets.user_name'
       sheet_scope = sheet_scope.order_by_user_name
     when 'sheets.user_name DESC'
