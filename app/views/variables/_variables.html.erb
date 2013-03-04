@@ -22,7 +22,7 @@
       <td>
         <% if not variable.shared_options.blank? %>
           <% variable.alignment = 'vertical' %>
-          <%= render partial: "sheet_variables/form/#{variable.variable_type == 'checkbox' or (variable.variable_type == 'scale' and variable.scale_type == 'checkbox') ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" } %>
+          <%= render partial: "sheet_variables/form/#{(variable.variable_type == 'checkbox' or (variable.variable_type == 'scale' and variable.scale_type == 'checkbox')) ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" } %>
         <% end %>
       </td>
       <td><%= link_to variable.user.name, variable.user if variable.user %></td>
