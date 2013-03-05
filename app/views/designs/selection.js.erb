@@ -25,6 +25,6 @@ $('#sheet_submit_btn, #sheet_submit_btn_and_continue').data('page', '<%= params[
 
 initializeSheet();
 
-if($("#sheet_subject_id").val() != '')
+if($("#sheet_subject_id").val() != '' && $("#sheet_subject_id").val() != undefined)
   $("#design *:input[type!=hidden]:first").focus();
 
