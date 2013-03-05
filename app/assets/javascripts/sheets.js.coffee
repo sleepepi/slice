@@ -56,7 +56,7 @@
 
 jQuery ->
   $("#sheet_design_id").on('change', () ->
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize(), null, "script")
+    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize() + '&' + $("#sheet_subject_id").serialize(), null, "script")
     false
   )
 

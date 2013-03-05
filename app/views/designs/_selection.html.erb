@@ -1,4 +1,41 @@
 <%# This file loads a design to be used in a sheet %>
+
 <% if @design %>
+
+  <% if false %>
+    <% if params[:subject_code].blank? %>
+      <% design_id = @sheet.design_id %>
+      <% subject_code = @sheet.subject ? @sheet.subject.subject_code : nil %>
+      <% similar_sheets = @project.sheets.where(subject_id: @sheet.subject_id, design_id: design_id) %>
+    <% else %>
+      <% subject = @project.subjects.where(subject_code: params[:subject_code]).first %>
+      <% design_id = params[:sheet] ? params[:sheet][:design_id] : nil %>
+      <% subject_code = params[:subject_code] %>
+      <% similar_sheets = @project.sheets %>
+      <% similar_sheets = similar_sheets.where(design_id: params[:sheet][:design_id]) if params[:sheet] %>
+      <% similar_sheets = similar_sheets.where(subject_id: subject.id) if subject %>
+    <% end %>
+
+    <% previous_sheets = similar_sheets %>
+    <% previous_sheets = similar_sheets.where("sheets.id < ?", @sheet.id) if @sheet.id %>
+    <% upcoming_sheets = similar_sheets.where("sheets.id > ?", @sheet.id) if @sheet.id %>
+
+    <div class="center">
+      <% previous_sheet = previous_sheets.order('id DESC').first if previous_sheets %>
+      <% if previous_sheet %>
+        <span class="badge badge-info"><%= previous_sheets.size %></span>
+        <%= link_to "<i class='icon-arrow-left'></i> ".html_safe + previous_sheet.name + " " + simple_time(previous_sheet.created_at), edit_project_sheet_path(previous_sheet.project, previous_sheet), class: 'btn', tabindex: "-1" %>
+      <% end %>
+
+      <% upcoming_sheet = upcoming_sheets.order('id ASC').first if upcoming_sheets %>
+      <% if upcoming_sheet %>
+        <%= link_to (upcoming_sheet.name + " " + simple_time(upcoming_sheet.created_at) + " <i class='icon-arrow-right'></i>").html_safe, edit_project_sheet_path(upcoming_sheet.project, upcoming_sheet), class: 'btn', tabindex: "-1" %>
+        <span class="badge badge-info"><%= upcoming_sheets.size %></span>
+      <% elsif not @sheet.new_record? %>
+        <%#= link_to 'Create Sheet <i class="icon-arrow-right"></i>'.html_safe, new_project_sheet_path(@project, sheet: { design_id: design_id }, subject_code: subject_code), class: 'btn', tabindex: "-1" %>
+      <% end %>
+    </div>
+  <% end %>
+
   <%= render partial: 'designs/section_and_variables' %>
 <% end %>

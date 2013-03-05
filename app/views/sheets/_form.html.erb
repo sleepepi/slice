@@ -82,4 +82,4 @@
   </div>
 <% end %>
 
-<%= form_tag selection_project_designs_path(@sheet.project, sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, current_design_page: params[:current_design_page].to_i, variables: params[:variables]), remote: true, method: :post, data: { object: 'form-load' } %>
+<%= form_tag selection_project_designs_path(@sheet.project, sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, subject_code: (@sheet.subject ? @sheet.subject.subject_code : params[:subject_code]), current_design_page: params[:current_design_page].to_i, variables: params[:variables]), remote: true, method: :post, data: { object: 'form-load' } %>
