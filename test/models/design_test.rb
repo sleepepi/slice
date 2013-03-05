@@ -17,9 +17,15 @@ class DesignTest < ActiveSupport::TestCase
                                 "gender" => { display_name: "Gender", variable_type: "string" }
                               } )
     assert_equal 5, design.options.size
-    assert_difference('Sheet.count', 18) do
-      design.create_sheets!
+    assert_difference('Sheet.count', 20) do
+      design.create_sheets!(projects(:one).sites.first, 'pending')
     end
+
+    assert_equal 2, design.sheets.with_subject_status('valid').count
+    assert_equal 18, design.sheets.with_subject_status('pending').count
+
+    assert_equal 2, design.sheets.with_site(sites(:valid_range)).count
+    assert_equal 18, design.sheets.with_site(projects(:one).sites.first).count
   end
 
 end

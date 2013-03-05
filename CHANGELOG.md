@@ -7,6 +7,10 @@
     - CSV may also contain the subject's `Acrostic`
     - Design imports run as background tasks that notify the user by email when the design import is finished
     - Design import progress can be seen on the design page
+    - Subjects are created in the following manner on an import
+      - If the subject exists, use existing subject
+      - Else check if the subject code matches an existing site and create the subject in that site with an appropriate status
+      - Else create the subject using the default site and status specified on the design import
 - **Domain Changes**
   - Domains index now displays the number of variables associated with the domain
 - **Export Changes**

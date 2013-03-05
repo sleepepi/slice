@@ -347,15 +347,14 @@ class Design < ActiveRecord::Base
     self.update( total_rows: counter )
   end
 
-  def create_sheets!
-    site = self.project.sites.first
-    if self.csv_file.path and site
+  def create_sheets!(default_site, default_status)
+    if self.csv_file.path and default_site
       self.update( import_started_at: Time.now )
       self.set_total_rows
       counter = 0
       CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ) do |line|
         row = line.to_hash.with_indifferent_access
-        subject = self.project.subjects.where(subject_code: row['Subject']).first_or_create( acrostic: row['Acrostic'].to_s, project_id: self.project_id, user_id: self.user_id, site_id: site.id )
+        subject = Subject.first_or_create_with_defaults(self.project, row['Subject'], row['Acrostic'].to_s, self.user, default_site, default_status)
         if subject
           sheet = self.sheets.create(project_id: self.project_id, subject_id: subject.id, user_id: self.user_id, last_user_id: self.user_id)
           self.load_variables.each do |hash|

@@ -28,4 +28,19 @@ class Subject < ActiveRecord::Base
 
   # Model Methods
 
+  def self.first_or_create_with_defaults(project, subject_code, acrostic, user, default_site, default_status)
+    # (1) Find existing subject...
+    subject = project.subjects.where(subject_code: subject_code).first
+    return subject if subject
+    # (2) if not found slot into site by subject code and set proper site or use fallback
+    site = project.sites.find_by_id(project.site_id_with_prefix(subject_code))
+    if site
+      default_site = site
+      default_status = 'valid' if site.valid_subject_code?(subject_code)
+    end
+
+    subject = project.subjects.where(subject_code: subject_code).first_or_create( acrostic: acrostic, user_id: user.id, site_id: default_site.id, status: default_status )
+    subject
+  end
+
 end

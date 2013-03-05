@@ -24,7 +24,7 @@
 
   <% if @design.total_rows > 0 %>
     <dt>Import Progress</dt>
-    <dd id="progress" data-object="ajax-timer" data-path="<%= progress_project_design_path(@design.project, @design) %>">
+    <dd id="progress" data-object="<%= 'ajax-timer' if @design.total_rows != @design.rows_imported %>" data-path="<%= progress_project_design_path(@design.project, @design) %>">
       <%= render partial: 'designs/progress' %>
     </dd>
   <% end %>
