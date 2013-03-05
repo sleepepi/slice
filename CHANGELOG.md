@@ -1,5 +1,8 @@
 ## 0.14.1
 
+### Bug Fix
+- Fixed a missing `enctype="multipart/form-data"` that was causing file uploads to fail when creating/updating sheets
+
 ## 0.14.0 (March 5, 2013)
 
 ### Enhancements

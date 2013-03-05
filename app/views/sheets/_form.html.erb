@@ -5,7 +5,7 @@
 <%= hidden_field_tag 'isdirty', '1' %>
 <%= hidden_field_tag "hidden_sheet_id", (@sheet ? @sheet.id : nil), name: "sheet_id" %>
 
-<%= form_for [@sheet.project, @sheet], html: { class: 'form-horizontal', multipart: true } do |f| %>
+<%= form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: "multipart/form-data" }) do |f| %>
   <% if @sheet.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sheet.errors.count, "error") %> prohibited this sheet from being saved:</h2>
