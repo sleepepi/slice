@@ -22,8 +22,7 @@ class Export < ActiveRecord::Base
     UserMailer.export_ready(self).deliver if Rails.env.production?
   end
 
-  def self.filter(filters)
-    scope = self
+  def self.filter(filters, scope)
     filters.each_pair do |key, value|
       scope = scope.where(key => value) if self.column_names.include?(key.to_s) and not value.blank?
     end
