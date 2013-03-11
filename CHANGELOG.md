@@ -1,5 +1,8 @@
 ## 0.14.2
 
+### Bug Fix
+- Updated to Contour 2.0.0.beta.3 to address LDAP authentication page showing up as "text/plain" instead of "text/html"
+
 ## 0.14.1 (March 5, 2013)
 
 ### Bug Fix

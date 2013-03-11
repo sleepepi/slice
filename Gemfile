@@ -8,7 +8,7 @@ gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              '2.0.0.beta.1'
+gem 'contour',              '2.0.0.beta.3'
 gem 'devise',               '~> 2.2.3',           github: 'plataformatec/devise', ref: 'd29b744'   # , branch: 'rails4'
 gem 'kaminari',             '~> 0.14.1'
 gem 'carrierwave',          '~> 0.7.1'
