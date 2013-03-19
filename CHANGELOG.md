@@ -1,5 +1,8 @@
 ## 0.14.3
 
+### Bug Fix
+- Errors are no longer raised in production if emails fail to be sent
+
 ## 0.14.2 (March 11, 2013)
 
 ### Bug Fix
