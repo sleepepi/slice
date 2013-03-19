@@ -1,5 +1,8 @@
 ## 0.14.3
 
+### Enhancements
+- Use of Ruby 2.0.0-p0 is now recommended
+
 ### Bug Fix
 - Errors are no longer raised in production if emails fail to be sent
 
