@@ -64,16 +64,6 @@ jQuery ->
       false
     )
 
-
-  $('#column_variable_id').on('change', () ->
-    if $(this).val() == '' or $(this).val() == null
-      $('#column-include-blank').hide()
-      $('#column-by-time').show()
-    else
-      $('#column-by-time').hide()
-      $('#column-include-blank').show()
-  )
-
   $('#variable_id').on('change', () ->
     if $(this).val() == '' or $(this).val() == null
       $('#row-include-blank').hide()

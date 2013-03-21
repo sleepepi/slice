@@ -8,6 +8,9 @@
   - Maximum length of 31 characters
   - Must start with a letter, followed by letters, numbers, or underscores
 
+### Bug Fix
+- `Include missing` is now always displayed on the design report
+
 ## 0.14.4 (March 20, 2013)
 
 ### Enhancements
