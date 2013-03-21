@@ -4,6 +4,9 @@
 - Project users now simplified to editors and viewers, formerly librarians and members
   - Viewers (formerly members) can no longer create or edit sheets
 - Sheet data can be exported in a SAS-friendly format
+- Domain names now have the same naming conventions as variable names
+  - Maximum length of 31 characters
+  - Must start with a letter, followed by letters, numbers, or underscores
 
 ## 0.14.4 (March 20, 2013)
 

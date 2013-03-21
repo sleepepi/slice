@@ -38,7 +38,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should create domain" do
     assert_difference('Domain.count') do
-      post :create, project_id: @project, domain: { name: 'New Domain',
+      post :create, project_id: @project, domain: { name: 'new_domain',
                                                     option_tokens: [
                                                       { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
                                                       { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
@@ -49,7 +49,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create domain where options have non-unique values" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: @project, domain: { name: 'New Domain', description: @domain.description,
+      post :create, project_id: @project, domain: { name: 'new_domain', description: @domain.description,
                                                     option_tokens: [
                                                       { name: "Chocolate", value: "1", description: "" },
                                                       { name: "Vanilla", value: "1", description: ""} ] }
@@ -63,7 +63,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create domain where options have colons as part of the value" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: @project, domain: { name: 'New Domain', description: @domain.description,
+      post :create, project_id: @project, domain: { name: 'new_domain', description: @domain.description,
                                 option_tokens: [
                                   { name: "Chocolate", value: "1-chocolate", description: "" },
                                   { name: "Vanilla", value: "2:vanilla", description: "" } ] }
@@ -77,7 +77,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create domain where options have blank value" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: @project, domain: { name: 'New Domain', description: @domain.description,
+      post :create, project_id: @project, domain: { name: 'new_domain', description: @domain.description,
                                                     option_tokens: [ { name: "Chocolate", value: "", description: "" } ] }
     end
 
@@ -94,13 +94,13 @@ class DomainsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:domain)
     assert assigns(:domain).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:domain).errors[:name]
+    assert_equal ["can't be blank", "is invalid"], assigns(:domain).errors[:name]
     assert_template 'new'
   end
 
   test "should not create document with invalid project" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: -1, domain: { name: 'New Domain', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+      post :create, project_id: -1, domain: { name: 'new_domain', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
     end
 
     assert_nil assigns(:domain)
@@ -235,7 +235,7 @@ class DomainsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:domain)
     assert assigns(:domain).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:domain).errors[:name]
+    assert_equal ["can't be blank", "is invalid"], assigns(:domain).errors[:name]
     assert_template 'edit'
   end
 
