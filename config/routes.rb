@@ -122,7 +122,11 @@ Slice::Application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 
-  resources :users
+  resources :users do
+    member do
+      post :update_settings
+    end
+  end
 
   get "/about" => "application#about", as: :about
   get "/about/use" => "application#use", as: :about_use

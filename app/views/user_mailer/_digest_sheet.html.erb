@@ -1,0 +1,11 @@
+
+<td>
+  <%= link_to @sheet.name, "#{SITE_URL}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}" %>
+</td>
+<td>
+  &nbsp;<%= image_tag('http:'+@sheet.user.avatar_url(50, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle') %> <%= @sheet.user.name %>
+</td>
+
+<td>
+  <%#= @tags = @sheet.tags; render partial: 'sheet_tags' %>
+</td>

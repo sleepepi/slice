@@ -13,12 +13,12 @@
 
 <%= hidden_field_tag "#{field_name}[]", nil, disabled: disabled %>
 <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-  <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
+  <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %> <%= 'checked' if responses.collect{|i| i.to_s}.include?(value) %>"><%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
 <% end %>
 <% if variable.options_only_missing.size > 0 %>
   <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><span class="label label-info">Missing Codes</span></label>
 <% end %>
 <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-  <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
+  <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %> <%= 'checked' if responses.collect{|i| i.to_s}.include?(value) %>"><%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <%= value %>: <%= name %></label>
 <% end %>
 </div>

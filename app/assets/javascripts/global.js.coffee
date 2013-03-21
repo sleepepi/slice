@@ -123,6 +123,11 @@ jQuery ->
         return
       $("#global-search").blur() if $("#global-search").is(':focus') and e.which == 27
     )
+    .on('click', '[data-object~="settings-save"]', () ->
+      window.$isDirty = false
+      $($(this).data('target')).submit()
+      false
+    )
 
   $("#global-search").typeahead(
     source: (query, process) ->

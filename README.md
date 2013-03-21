@@ -48,6 +48,14 @@ Open a browser and go to: [http://localhost](http://localhost)
 
 All done!
 
+## Setting up Daily Digest Emails
+
+Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
+
+```console
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.0.0-p0/bin/bundle exec rake daily_digest RAILS_ENV=production
+```
+
 ## Contributing to Slice
 
 - Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet

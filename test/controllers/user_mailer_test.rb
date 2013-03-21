@@ -120,4 +120,15 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/The design data import for #{design.project.name} is now complete\./, email.encoded)
   end
 
+  test "daily digest email" do
+    valid = users(:valid)
+
+    email = UserMailer.daily_digest(valid).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [valid.email], email.to
+    assert_equal "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}", email.subject
+    assert_match(/Hello #{valid.first_name},/, email.encoded)
+  end
+
 end

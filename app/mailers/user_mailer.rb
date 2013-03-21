@@ -77,6 +77,13 @@ class UserMailer < ActionMailer::Base
          subject: "Your Design Data Import for #{design.project.name} is Complete")
   end
 
+  def daily_digest(recipient)
+    setup_email
+    @recipient = recipient
+
+    mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
+  end
+
   protected
 
   def setup_email

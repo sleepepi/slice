@@ -1,0 +1,17 @@
+Hello <%= @recipient.first_name %>,
+
+<% if @recipient.digest_sheets_created.size > 0 %>
+ADDED Recently
+
+<% @recipient.digest_sheets_created.group_by{|s| s.project_id}.each do |project_id, sheets| %>
+<%= ((project = Project.find_by_id(project_id)) ? "#{project.name}, #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
+
+  <% sheets.each do |sheet| %>
+    <%= @sheet = sheet; render partial: 'digest_sheet' %>
+  <% end %>
+
+<% end %>
+<% end %>
+
+
+<%= @footer_txt %>

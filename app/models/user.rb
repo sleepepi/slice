@@ -9,11 +9,14 @@ class User < ActiveRecord::Base
   # attr_accessible :first_name, :last_name, :pagination
 
   serialize :pagination, Hash
+  serialize :email_notifications, Hash
 
   # Callbacks
   after_create :notify_system_admins
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
+
+  EMAILABLES = [ [:daily_digest, 'Receive daily digest emails of sheets that have been created the previous day'] ]
 
   # Concerns
   include Deletable
@@ -198,9 +201,24 @@ class User < ActiveRecord::Base
     update_column :updated_at, Time.now
   end
 
-  # def email_on?(value)
-  #   [nil, true].include?(self.email_notifications[value.to_s])
-  # end
+  def all_digest_projects
+    @all_digest_projects ||= begin
+      self.all_viewable_and_site_projects.select{|p| self.email_on?(:send_email) and self.email_on?(:daily_digest) and self.email_on?("project_#{p.id}") and self.email_on?("project_#{p.id}_daily_digest") }
+    end
+  end
+
+  # All sheets created in the last day, or over the weekend if it's Monday
+  # Ex: On Monday, returns sheets created since Friday morning (Time.now - 3.day)
+  # Ex: On Tuesday, returns sheets created since Monday morning (Time.now - 1.day)
+  def digest_sheets_created
+    @digest_sheets_created ||= begin
+      self.all_viewable_sheets.where(project_id: self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+    end
+  end
+
+  def email_on?(value)
+    [nil, true].include?(self.email_notifications[value.to_s])
+  end
 
   def name
     "#{first_name} #{last_name}"

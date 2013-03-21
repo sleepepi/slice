@@ -47,4 +47,8 @@ class MailPreview < MailView
     UserMailer.export_ready(export)
   end
 
+  def daily_digest
+    recipient = User.current.first
+    UserMailer.daily_digest(recipient)
+  end
 end
