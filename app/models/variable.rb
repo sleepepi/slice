@@ -45,6 +45,7 @@ class Variable < ActiveRecord::Base
   # Model Validation
   validates_presence_of :name, :display_name, :variable_type, :project_id
   validates_format_of :name, with: /\A[a-z]\w*\Z/i
+  validates :name, length: { maximum: 32 }
   validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships

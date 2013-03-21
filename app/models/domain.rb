@@ -10,6 +10,8 @@ class Domain < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
+  validates_format_of :name, with: /\A[a-z]\w*\Z/i
+  validates :name, length: { maximum: 31 }
   validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships
