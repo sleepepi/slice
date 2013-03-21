@@ -2,7 +2,7 @@
 --- !map:HashWithIndifferentAccess
 
 one:
-  name: Difficulty Rating
+  name: difficulty_rating
   options: [{ name: Easy,       value: '1' },
             { name: Medium,     value: '2' },
             { name: Hard,       value: '3' }]
@@ -22,14 +22,14 @@ two:
   project: one
 
 icecream_flavors:
-  name: Icecream icecream_flavors
+  name: icecream_flavors
   options: [{ name: 'Chocolate', value: '1', description: '' },
             { name: 'Vanilla', value: '2', description: '' }]
   user: valid
   project: one
 
 change_options:
-  name: Change Option Values
+  name: change_options
   description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
   options: [{ name: 'Option 1', value: '2', description: 'Should have value 1' },
             { name: 'Option 2', value: '3', description: 'Should have value 2' },
@@ -38,21 +38,21 @@ change_options:
   project: one
 
 var_one_options:
-  name: Variable One Options
+  name: one_options
   description:
   options: [{ name: 'Name', value: 'Value', description: 'Description' }]
   user: valid
   project: one
 
 var_two_options:
-  name: Variable Two Options
+  name: two_options
   description:
   options: [{ name: 'Name', value: 'Value', description: 'Description' }]
   user: valid
   project: one
 
 var_dropdown_options:
-  name: Dropdown Options
+  name: dropdown_options
   description:
   options: [{ name: 'Male', value: 'm', description: 'Male Gender' },
             { name: 'Female', value: 'f', description: 'Female Gender' }]
@@ -60,7 +60,7 @@ var_dropdown_options:
   project: one
 
 var_checkbox_options:
-  name: Checkbox Options
+  name: checkbox_options
   description:
   options: [{ name: 'ACCT 101', value: 'acct101', description: 'Introduction to Accounting' },
             { name: 'ECON 101', value: 'econ101', description: 'Introduction to Microeconomics' },
@@ -71,7 +71,7 @@ var_checkbox_options:
   project: one
 
 var_radio_options:
-  name: Radio Options
+  name: radio_options
   description:
   options: [{ name: 'Freshman', value: '1', description: 'Year 1' },
             { name: 'Sophomore', value: '2', description: 'Year 2' },
@@ -82,7 +82,7 @@ var_radio_options:
   project: one
 
 var_change_options:
-  name: Variable Change Options
+  name: change_options
   description: This variable...now domain... has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets.
   options: [{ name: 'Option 1', value: '2', description: 'Should have value 1' },
             { name: 'Option 2', value: '3', description: 'Should have value 2' },
@@ -91,7 +91,7 @@ var_change_options:
   project: one
 
 two_restaurants:
-  name: Domain with Two Restaurants
+  name: two_restaurants
   description: Has two restaurants and will be used to test switching a variable to larger domains and smaller domains
   options: [{ name: 'Avocado Place', value: '1' },
             { name: 'Banana Anarchy', value: '2' }]
@@ -100,7 +100,7 @@ two_restaurants:
 
 
 three_restaurants:
-  name: Domain with Three Restaurants
+  name: three_restaurants
   description: Has three restaurants and will be used to test switching a variable to smaller domains
   options: [{ name: 'Avocado Place', value: '1' },
             { name: 'Banana Anarchy', value: '2' },
@@ -109,14 +109,14 @@ three_restaurants:
   project: one
 
 one_restaurant_encompassing:
-  name: Domain with One Restaurant that includes the collected data
+  name: one_restaurant_encompassing
   description: Switching to this is allowed from a domain with sheets that collected data for only the first restaurant
   options: [{ name: 'Avocado Place', value: '1' }]
   user: valid
   project: one
 
 one_restaurant_not_encompassing:
-  name: Domain with One Restaurant that does not include the collected data
+  name: one_restaurant_not_encompassing
   description: Switching to this is not allowed from a domain with sheets that collected data for the first restaurant
   options: [{ name: 'Banana Anarchy', value: '2' }]
   user: valid
