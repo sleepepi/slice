@@ -69,7 +69,7 @@ def generate_xls(export, sheet_scope, filename)
     worksheet.row(current_row).replace ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names.collect{|v| v[0]}
     sheet_scope.each do |s|
       current_row += 1
-      worksheet.row(current_row).push s.name, s.description, s.created_at.strftime("%m-%d-%Y"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
+      worksheet.row(current_row).push s.name, s.description, s.created_at.strftime("%Y-%m-%d"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
       variable_names.each do |name, type|
         value = if variable = s.variables.find_by_name(name)
           raw_data ? variable.response_raw(s) : (variable.variable_type == 'checkbox' ? variable.response_name(s).join(',') : variable.response_name(s))
@@ -112,7 +112,7 @@ def generate_xls(export, sheet_scope, filename)
     sheet_scope.each do |s|
       (0..s.max_grids_position).each do |position|
         current_row += 1
-        worksheet.row(current_row).push s.name, s.description, s.created_at.strftime("%m-%d-%Y"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
+        worksheet.row(current_row).push s.name, s.description, s.created_at.strftime("%Y-%m-%d"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -149,7 +149,7 @@ def generate_csv_sheets(export, sheet_scope, filename, raw_data)
     sheet_scope.each do |sheet|
       row = [sheet.name,
               sheet.description,
-              sheet.created_at.strftime("%m-%d-%Y"),
+              sheet.created_at.strftime("%Y-%m-%d"),
               sheet.project.name,
               sheet.subject.site.name,
               sheet.subject.name,
@@ -202,7 +202,7 @@ def generate_csv_grids(export, sheet_scope, filename, raw_data)
 
     sheet_scope.each do |s|
       (0..s.max_grids_position).each do |position|
-        row = [s.name, s.description, s.created_at.strftime("%m-%d-%Y"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name]
+        row = [s.name, s.description, s.created_at.strftime("%Y-%m-%d"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name]
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -411,10 +411,10 @@ data slice;
   /* Design and Subject Variables */
   informat name                 $500.     ;   * Design name ;
   informat description          $5000.    ;   * Design description ;
-  informat sheet_creation_date  mmddyy10. ;   * Sheet creation date ;
+  informat sheet_creation_date  yymmdd10. ;   * Sheet creation date ;
   informat project              $500.     ;   * Project name ;
   informat site                 $500.     ;   * Subject site name ;
-  informat subject              $100.     ;   * Subject code
+  informat subject              $100.     ;   * Subject code ;
   informat acrostic             $100.     ;   * Subject acrostic ;
   informat status               $10.      ;   * Subject status ;
   informat creator              $100.     ;   * Sheet creator ;
@@ -425,7 +425,7 @@ data slice;
   /* Design and Subject Variables */
   format name                   $500.     ;
   format description            $500.     ;
-  format sheet_creation_date    mmddyy10. ;
+  format sheet_creation_date    yymmdd10. ;
   format project                $500.     ;
   format site                   $500.     ;
   format subject                $100.     ;
