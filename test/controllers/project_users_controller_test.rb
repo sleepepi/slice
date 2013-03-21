@@ -35,7 +35,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should create project user" do
     assert_difference('ProjectUser.count') do
-      post :create, project_user: { project_id: projects(:one).id, librarian: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
+      post :create, project_user: { project_id: projects(:one).id, editor: true }, editors_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
     end
 
     assert_not_nil assigns(:project_user)
@@ -44,7 +44,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should create project user and automatically add associated user" do
     assert_difference('ProjectUser.count') do
-      post :create, project_user: { project_id: projects(:single_design).id, librarian: true }, librarians_text: users(:pending).name + " [#{users(:pending).email}]", format: 'js'
+      post :create, project_user: { project_id: projects(:single_design).id, editor: true }, editors_text: users(:pending).name + " [#{users(:pending).email}]", format: 'js'
     end
 
     assert_not_nil assigns(:project)
@@ -56,7 +56,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should create project user invitation" do
     assert_difference('ProjectUser.count') do
-      post :create, project_user: { project_id: projects(:one).id, librarian: true }, librarians_text: "invite@example.com", format: 'js'
+      post :create, project_user: { project_id: projects(:one).id, editor: true }, editors_text: "invite@example.com", format: 'js'
     end
 
     assert_not_nil assigns(:project_user)
@@ -67,7 +67,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should not create project user with invalid project id" do
     assert_difference('ProjectUser.count', 0) do
-      post :create, project_user: { project_id: -1, librarian: true }, librarians_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
+      post :create, project_user: { project_id: -1, editor: true }, editors_text: users(:two).name + " [#{users(:two).email}]", format: 'js'
     end
 
     assert_nil assigns(:project_user)
@@ -135,7 +135,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  test "should allow member to remove self from project" do
+  test "should allow viewer to remove self from project" do
     assert_difference('ProjectUser.count', -1) do
       delete :destroy, id: project_users(:five), format: 'js'
     end

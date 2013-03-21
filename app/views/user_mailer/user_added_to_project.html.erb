@@ -2,10 +2,10 @@ Hello <%= @project_user.user.first_name %>,<br />
 <br />
 <%= @project_user.creator.name %> has <span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> you to Project <%= link_to @project_user.project.name, "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
 <br />
-<% if @project_user.librarian? %>
-You may edit the project and add new designs and variables to it!
+<% if @project_user.editor? %>
+You may edit the project and add new designs, variables, and sheets to it!
 <% else %>
-You may view the project and add sheets to it!
+You may view the project and sheets!
 <% end %>
 <br />
 <br />

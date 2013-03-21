@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   scope :with_sheet, -> { where("users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false ) }
   scope :with_design, lambda { where("users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false) }
   scope :with_variable_on_project, lambda { |arg| where("users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)", arg, false ) }
-  scope :with_project, lambda { |*args| where("users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.librarian IN (?))", args.first, false, args.first, args[1] ) }
+  scope :with_project, lambda { |*args| where("users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.editor IN (?))", args.first, false, args.first, args[1] ) }
 
   # Model Validation
   validates_presence_of :first_name, :last_name
@@ -65,13 +65,13 @@ class User < ActiveRecord::Base
 
   def all_projects
     @all_projects ||= begin
-      Project.current.with_librarian(self.id, true)
+      Project.current.with_editor(self.id, true)
     end
   end
 
   def all_viewable_projects
     @all_viewable_projects ||= begin
-      Project.current.with_librarian(self.id, [true, false])
+      Project.current.with_editor(self.id, [true, false])
     end
   end
 
@@ -117,14 +117,14 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Project Librarians and Members can modify sheets
+  # Project Editors can modify sheets
   def all_sheets
     @all_sheets ||= begin
-      Sheet.current.with_project(self.all_viewable_projects.pluck(:id))
+      Sheet.current.with_project(self.all_projects.pluck(:id))
     end
   end
 
-  # Project Librarians and Members and Site Members can modify sheets
+  # Project Editors and Viewers and Site Members can view sheets
   def all_viewable_sheets
     @all_viewable_sheets ||= begin
       Sheet.current.with_site(self.all_viewable_sites.pluck(:id))
@@ -137,26 +137,26 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Project Librarians
+  # Project Editors
   def all_sites
     @all_sites ||= begin
       Site.current.with_project(self.all_projects.pluck(:id))
     end
   end
 
-  # Project Librarians and Members and Site Members
+  # Project Editors and Viewers and Site Members
   def all_viewable_sites
     @all_viewable_sites ||= begin
       Site.current.with_project_or_as_site_user(self.all_viewable_projects.pluck(:id), self)
     end
   end
 
-  # Project Librarians and Members can modify subjects
+  # Project Editors can modify subjects
   def all_subjects
-    Subject.current.with_project(self.all_viewable_projects.pluck(:id))
+    Subject.current.with_project(self.all_projects.pluck(:id))
   end
 
-  # Project Librarians and Members can view subjects
+  # Project Editors and Viewers and Site Members can view subjects
   def all_viewable_subjects
     @all_viewable_subjects ||= begin
       Subject.current.with_site(self.all_viewable_sites.pluck(:id))

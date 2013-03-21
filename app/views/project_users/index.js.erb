@@ -1,5 +1,5 @@
-<% @relation = 'librarians' %>
+<% @relation = 'editors' %>
 $("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index') %>");
 
-<% @relation = 'members' %>
+<% @relation = 'viewers' %>
 $("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index') %>");

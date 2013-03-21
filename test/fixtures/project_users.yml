@@ -3,37 +3,37 @@
 one:
   project: one
   user: valid
-  librarian: false
+  editor: false
   creator: valid
 
 two:
   project: two
   user: valid
-  librarian: false
+  editor: false
   creator: valid
   invite_token: validintwo
 
 three:
   project: one
   user: pending
-  librarian: false
+  editor: false
   creator: valid
 
 four:
   project: one
   user: admin
-  librarian: true
+  editor: true
   creator: valid
 
 five:
   project: three
   user: valid
-  librarian: false
+  editor: false
   creator: valid
 
 invited:
   project: one
   creator: valid
-  librarian: true
+  editor: true
   invite_token: abc123
   invite_email: invited_user@example.com

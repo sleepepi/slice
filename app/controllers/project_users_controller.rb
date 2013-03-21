@@ -18,16 +18,16 @@ class ProjectUsersController < ApplicationController
   # POST /project_users.json
   def create
     @project = current_user.all_projects.find_by_id(params[:project_user][:project_id])
-    invite_email = (params[:librarians_text] || params[:members_text]).to_s.strip
+    invite_email = (params[:editors_text] || params[:viewers_text]).to_s.strip
     user_email = invite_email.split('[').last.to_s.split(']').first
     @user = current_user.associated_users.find_by_email(user_email)
 
     respond_to do |format|
       if @project and (not @user.blank? or not invite_email.blank?)
         if @user
-          @project_user = @project.project_users.where(user_id: @user.id).first_or_create( creator_id: current_user.id, librarian: (params[:project_user][:librarian] == 'true') )
+          @project_user = @project.project_users.where(user_id: @user.id).first_or_create( creator_id: current_user.id, editor: (params[:project_user][:editor] == 'true') )
         elsif not invite_email.blank?
-          @project_user = @project.project_users.where(invite_email: invite_email).first_or_create( creator_id: current_user.id, librarian: (params[:project_user][:librarian] == 'true') )
+          @project_user = @project.project_users.where(invite_email: invite_email).first_or_create( creator_id: current_user.id, editor: (params[:project_user][:editor] == 'true') )
           @project_user.generate_invite_token!
         end
         format.js { render 'index' }

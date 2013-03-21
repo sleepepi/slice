@@ -167,9 +167,9 @@
   </div>
 
   <div class="row">
-    <% ['librarians', 'members'].each do |relation, librarian| %>
+    <% ['editors', 'viewers'].each do |relation, editor| %>
       <div class="span6">
-        <% @relation = relation; @librarian = librarian %>
+        <% @relation = relation; @editor = editor %>
         <% @users = User.current.order('last_name, first_name') %>
         <p>
           <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>

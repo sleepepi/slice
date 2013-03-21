@@ -11,9 +11,7 @@ class Project < ActiveRecord::Base
 
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
-  # scope :with_user, lambda { |*args| { conditions: ['projects.user_id IN (?)', args.first] } }
-  scope :with_librarian, lambda { |*args| where('projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1] ).references(:project_users) }
-  # scope :with_librarian, lambda { |*args| { conditions: ['projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.librarian IN (?))', args.first, args.first, args[1]] } }
+  scope :with_editor, lambda { |*args| where('projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
 
   # Model Validation
   validates_presence_of :name, :user_id
@@ -24,8 +22,8 @@ class Project < ActiveRecord::Base
 
   has_many :project_users
   has_many :users, -> { where( deleted: false ) }, through: :project_users, order: 'last_name, first_name'
-  has_many :librarians, -> { where('project_users.librarian = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
-  has_many :members, -> { where('project_users.librarian = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
+  has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
+  has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
 
   has_many :designs, -> { where deleted: false }
   has_many :variables, -> { where deleted: false }
