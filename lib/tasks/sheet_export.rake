@@ -474,7 +474,7 @@ data slice;
   label creator='Sheet Creator';
 
   /* Sheet Variables */
-#{variables.collect{|v| "  label #{v.name}='#{v.display_name.gsub("'", "\\'")}';" }.join("\n")}
+#{variables.collect{|v| "  label #{v.name}='#{v.display_name.gsub("'", "\\\\'")}';" }.join("\n")}
 run;
 
   eos
@@ -482,11 +482,10 @@ end
 
 def sas_step3(domains)
   <<-eos
-/* Step 3: Create formats for slice domains */
+/* Step 3: Create formats for slice domain options */
 
 proc format;
-  /* For each domain..., include value and colon in format label, add f to the end of the name */
-#{domains.collect{ |d| "  value #{d.name}f\n#{d.options.collect{|o| "    #{o[:value]}='#{o[:name].gsub("'", "\\'")}'"}.join("\n")}\n  ;" }.join("\n")}
+#{domains.collect{ |d| "  value #{d.name}f\n#{d.options.collect{|o| "    #{o[:value]}='#{o[:value]}: #{o[:name].gsub("'", "\\\\'")}'"}.join("\n")}\n  ;" }.join("\n")}
 run;
 
   eos
