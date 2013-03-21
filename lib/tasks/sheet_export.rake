@@ -406,13 +406,13 @@ def sas_step1(filename, variables)
   <<-eos
 /* Step 1: Import data into slice work library */
 
-%let import_folder = ".";
-%let import_file = "#{filename}_raw"
+%let import_folder = C: ;
+%let import_file = #{filename}_raw ;
 
 /* Replace carriage returns inside delimiters */
 data _null_;
-  infile "&import_folder\\&import_file.csv" recfm=n;
-  file "&import_folder\\&import_file_sas.csv" recfm=n;
+  infile "&import_folder.\\&import_file..csv" recfm=n;
+  file "&import_folder.\\&import_file._sas.csv" recfm=n;
   input a $char1.;
   retain open 0;
   if a='"' then open=not open;
@@ -421,7 +421,7 @@ data _null_;
 run;
 
 data slice;
-  infile "&import_folder\\&import_file_sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=2 ;
+  infile "&import_folder.\\&import_file._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=2 ;
 
   /* Design and Subject Variables */
   informat name                 $500.     ;   * Design name ;
