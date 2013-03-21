@@ -371,7 +371,7 @@ class Variable < ActiveRecord::Base
     if ['string', 'file'].include?(self.variable_type)
       '$500'
     elsif ['date'].include?(self.variable_type)
-      'mmddyy10'
+      'yymmdd10'
     elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.variable_type)
       'best32'
     else # elsif ['text'].include?(self.variable_type)
