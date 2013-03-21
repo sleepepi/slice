@@ -43,6 +43,8 @@
   <dt>Data Dictionary</dt>
   <dd><%= simple_check @export.include_data_dictionary %></dd>
 
+  <dt>SAS</dt>
+  <dd><%= simple_check @export.include_sas %></dd>
 
   <% if @export.status == 'failed' %>
     <dt>Details</dt>

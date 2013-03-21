@@ -14,10 +14,11 @@ task sheet_export: :environment do
     all_files << generate_xls(export, sheet_scope, filename)                if export.include_xls?
     all_files << generate_csv_sheets(export, sheet_scope, filename, false)  if export.include_csv_labeled?
     all_files << generate_csv_grids(export, sheet_scope, filename, false)   if export.include_csv_labeled?
-    all_files << generate_csv_sheets(export, sheet_scope, filename, true)   if export.include_csv_raw?
+    all_files << generate_csv_sheets(export, sheet_scope, filename, true)   if export.include_csv_raw? or export.include_sas?
     all_files << generate_csv_grids(export, sheet_scope, filename, true)    if export.include_csv_raw?
     all_files << generate_pdf(export, sheet_scope, filename)                if export.include_pdf?
-    all_files << generated_data_dictionary(export, sheet_scope, filename)   if export.include_data_dictionary?
+    all_files << generate_data_dictionary(export, sheet_scope, filename)    if export.include_data_dictionary?
+    all_files << generate_sas(export, sheet_scope, filename)                if export.include_sas?
     sheet_scope.each{ |sheet| all_files += sheet.files }                    if export.include_files?
 
     # Zip multiple files, or zip one file if it's part of the sheet uploaded files
@@ -231,7 +232,7 @@ def generate_pdf(export, sheet_scope, filename)
 end
 
 
-def generated_data_dictionary(export, sheet_scope, filename)
+def generate_data_dictionary(export, sheet_scope, filename)
 
   design_scope = Design.where(id: sheet_scope.pluck(:design_id))
 
@@ -374,5 +375,18 @@ def generated_data_dictionary(export, sheet_scope, filename)
   export_file = File.join('tmp', 'files', 'exports', "#{export.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{export.created_at.strftime("%I%M%P")}_data_dictionaries.xls")
 
   book.write(export_file)
+  [export_file.split('/').last, export_file]
+end
+
+def generate_sas(export, sheet_scope, filename)
+  export_file = File.join('tmp', 'files', 'exports', "#{filename}_sas.sas")
+  design_scope = Design.where(id: sheet_scope.pluck(:design_id))
+
+  File.open(export_file, 'w') do |f|
+    f.write "data _null_;\n"
+    f.write "put 'Hello, world!: Import: #{filename}_raw.csv';\n"
+    f.write "run;\n"
+  end
+
   [export_file.split('/').last, export_file]
 end
