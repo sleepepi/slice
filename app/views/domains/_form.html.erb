@@ -20,7 +20,9 @@
   <div class="control-group">
     <%= f.label :name, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name %>
+      <%= f.text_field :name, maxlength: 31, style: 'width:225px' %>
+      <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 31 characters.</div>
+      <i>domain1_population</i>
     </div>
   </div>
 
