@@ -319,3 +319,8 @@ textarea:focus.warning-input  {
   background-color: #ffffd4;
   font-weight: bold;
 }
+
+.checkbox.checked, .checkbox.checked:hover {
+  background-color: #7aa6ff;
+  color: #fff;
+}

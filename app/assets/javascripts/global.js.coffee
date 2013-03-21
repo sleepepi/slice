@@ -109,6 +109,12 @@ jQuery ->
       e.stopPropagation()
       false
     )
+    .on('change', '.checkbox input:checkbox', () ->
+      if $(this).is(':checked')
+        $(this).parent().addClass('checked')
+      else
+        $(this).parent().removeClass('checked')
+    )
     .keydown( (e) ->
       # p will enter the search box, Esc will exit
       if e.which == 80 and not $("input, textarea, select, a").is(":focus")
