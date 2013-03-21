@@ -381,12 +381,137 @@ end
 def generate_sas(export, sheet_scope, filename)
   export_file = File.join('tmp', 'files', 'exports', "#{filename}_sas.sas")
   design_scope = Design.where(id: sheet_scope.pluck(:design_id))
+  variables = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq
+  domains = Domain.where(id: variables.collect{|v| v.domain_id}).order('name')
+
 
   File.open(export_file, 'w') do |f|
-    f.write "data _null_;\n"
-    f.write "put 'Hello, world!: Import: #{filename}_raw.csv';\n"
-    f.write "run;\n"
+    step1 = sas_step1(filename, variables)
+    step2 = sas_step2(variables)
+    step3 = sas_step3(domains)
+    step4 = sas_step4(variables)
+    step5 = sas_step5
+
+    f.write step1
+    f.write step2
+    f.write step3
+    f.write step4
+    f.write step5
   end
 
   [export_file.split('/').last, export_file]
+end
+
+def sas_step1(filename, variables)
+  <<-eos
+/* Step 1: Import data into slice work library */
+data slice;
+  infile '#{filename}_raw.csv' delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=2 ;
+
+  /* Design and Subject Variables */
+  informat name                 $500.     ;   * Design name ;
+  informat description          $5000.    ;   * Design description ;
+  informat sheet_creation_date  mmddyy10. ;   * Sheet creation date ;
+  informat project              $500.     ;   * Project name ;
+  informat site                 $500.     ;   * Subject site name ;
+  informat subject              $100.     ;   * Subject code
+  informat acrostic             $100.     ;   * Subject acrostic ;
+  informat status               $10.      ;   * Subject status ;
+  informat creator              $100.     ;   * Sheet creator ;
+
+  /* Sheet Variables */
+#{variables.collect{|v| "  informat #{v.name} #{v.sas_informat}. ;" }.join("\n")}
+
+  /* Design and Subject Variables */
+  format name                   $500.     ;
+  format description            $500.     ;
+  format sheet_creation_date    mmddyy10. ;
+  format project                $500.     ;
+  format site                   $500.     ;
+  format subject                $100.     ;
+  format acrostic               $100.     ;
+  format status                 $10.      ;
+  format creator                $100.     ;
+
+  /* Sheet Variables */
+#{variables.collect{|v| "  format #{v.name} #{v.sas_format}. ;" }.join("\n")}
+
+  /* Define Column Names */
+
+  input
+    name
+    description
+    sheet_creation_date
+    project
+    site
+    subject
+    acrostic
+    status
+    creator
+#{variables.collect{|v| "    #{v.name}"}.join("\n")}
+  ;
+run;
+
+  eos
+end
+
+def sas_step2(variables)
+  <<-eos
+/* Step 2: Apply labels to variables using slice display names */
+
+data slice;
+  set slice;
+
+  /* Design and Subject Variables */
+  label name='Design Name';
+  label description='Design Description';
+  label sheet_creation_date='Sheet Creation Date';
+  label project='Project';
+  label site='Site';
+  label subject='Subject ID';
+  label acrostic='Subject Acrostic';
+  label status='Subject Status';
+  label creator='Sheet Creator';
+
+  /* Sheet Variables */
+#{variables.collect{|v| "  label #{v.name}='#{v.display_name.gsub("'", "\\'")}';" }.join("\n")}
+run;
+
+  eos
+end
+
+def sas_step3(domains)
+  <<-eos
+/* Step 3: Create formats for slice domains */
+
+proc format;
+  /* For each domain..., include value and colon in format label, add f to the end of the name */
+#{domains.collect{ |d| "  value #{d.name}f\n#{d.options.collect{|o| "    #{o[:value]}='#{o[:name].gsub("'", "\\'")}'"}.join("\n")}\n  ;" }.join("\n")}
+run;
+
+  eos
+end
+
+def sas_step4(variables)
+  <<-eos
+/* Step 4: Apply format to all of the variables */
+
+data slice;
+  set slice;
+
+#{variables.collect{|v| v.domain ? "  format #{v.name} #{v.domain.name}f. ;" : nil }.compact.join("\n")}
+run;
+
+  eos
+end
+
+def sas_step5
+  <<-eos
+/* Step 5: Output summary of dataset */
+
+proc contents data=slice;
+run;
+quit;
+
+  eos
 end

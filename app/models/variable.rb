@@ -367,4 +367,20 @@ class Variable < ActiveRecord::Base
     self.new( project_id: project_id, name: 'site', display_name: 'Site', variable_type: 'site' )
   end
 
+  def sas_informat
+    if ['string', 'file'].include?(self.variable_type)
+      '$500'
+    elsif ['date'].include?(self.variable_type)
+      'mmddyy10'
+    elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.variable_type)
+      'best32'
+    else # elsif ['text'].include?(self.variable_type)
+      '$5000'
+    end
+  end
+
+  def sas_format
+    self.sas_informat
+  end
+
 end
