@@ -33,6 +33,14 @@
       $(element).parent().removeClass('selected')
   )
 
+@color_checkbox_group = (group_name) ->
+  $(":checkbox[name='" + group_name + "']").each( (index, element) ->
+    if $(element).prop('checked')
+      $(element).parent().addClass('selected')
+    else
+      $(element).parent().removeClass('selected')
+  )
+
 
 jQuery ->
   $(document)

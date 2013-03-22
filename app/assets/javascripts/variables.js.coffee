@@ -264,6 +264,7 @@ jQuery ->
     .on('click', '[data-object~="clear-checkbox"]', () ->
       group_name = $(this).data('group')
       $(":checkbox[name='" + group_name + "']").prop('checked', false)
+      color_checkbox_group(group_name)
       updateAllVariables()
       updateCalculatedVariables()
       false
