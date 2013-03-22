@@ -424,6 +424,66 @@ class Sheet < ActiveRecord::Base
     [name, number]
   end
 
+  # Returns out of the design responses how many are not blank.
+  def non_blank_design_variable_responses
+    @non_blank_design_variable_responses ||= begin
+      non_blank_sheet_variable_ids = self.sheet_variables.collect{|sv| sv.empty_or_not}.compact
+      SheetVariable.where(variable_id: self.design.variable_ids).where(id: non_blank_sheet_variable_ids).count
+    end
+  end
+
+  def total_design_variables
+    self.design.variable_ids.count
+  end
+
+  def out_of
+    check_response_count_change
+    "#{self.response_count} of #{self.total_response_count} #{self.total_response_count == 1 ? 'response' : 'responses' }"
+  end
+
+  def percent
+    check_response_count_change
+    (self.response_count * 100.0 / self.total_response_count).to_i rescue 0
+  end
+
+  def check_response_count_change
+    if self.total_design_variables != self.total_response_count
+      self.update_column :response_count, self.non_blank_design_variable_responses
+      self.update_column :total_response_count, self.total_design_variables
+    end
+  end
+
+  def coverage
+    if percent == 100
+      'complete'
+    elsif percent >= 80
+      'green'
+    elsif percent >= 60
+      'yellow'
+    elsif percent >= 40
+      'orange'
+    elsif percent >= 1
+      'red'
+    else
+      'blank'
+    end
+  end
+
+  def color
+    if percent == 100
+      '#39B419'
+    elsif percent >= 80
+      '#9AD425'
+    elsif percent >= 60
+      '#D7C623'
+    elsif percent >= 40
+      '#CE7421'
+    elsif percent >= 1
+      '#D13E15'
+    else
+      '#6F6F6F'
+    end
+  end
 
   protected
 

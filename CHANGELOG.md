@@ -8,6 +8,8 @@
   - Maximum length of 31 characters
   - Must start with a letter, followed by letters, numbers, or underscores
 - Daily digests are now emailed out to show what sheets have been recently entered
+- Selected checkbox and radio responses are now highlighted
+- Sheet coverage added to give an approximate of how much of the sheet has been filled out
 
 ### Bug Fix
 - `Include missing` is now always displayed on the design report

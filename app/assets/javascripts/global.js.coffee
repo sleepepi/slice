@@ -25,6 +25,15 @@
 @hideContourModal = () ->
   $("#contour-backdrop, .contour-modal-wrapper").hide()
 
+@color_radio_group = (group_name) ->
+  $(":radio[name='" + group_name + "']").each( (index, element) ->
+    if $(element).prop('checked')
+      $(element).parent().addClass('selected')
+    else
+      $(element).parent().removeClass('selected')
+  )
+
+
 jQuery ->
   $(document)
     .on('click', '[data-object~="remove"]', () ->
@@ -111,9 +120,13 @@ jQuery ->
     )
     .on('change', '.checkbox input:checkbox', () ->
       if $(this).is(':checked')
-        $(this).parent().addClass('checked')
+        $(this).parent().addClass('selected')
       else
-        $(this).parent().removeClass('checked')
+        $(this).parent().removeClass('selected')
+    )
+    .on('change', '.radio input:radio', () ->
+      group_name = $(this).attr('name')
+      color_radio_group(group_name)
     )
     .keydown( (e) ->
       # p will enter the search box, Esc will exit

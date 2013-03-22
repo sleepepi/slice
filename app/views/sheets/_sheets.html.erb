@@ -3,6 +3,7 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
+      <th><span class="label label-coverage">coverage</span></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.design_name', 'Sheet', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.subject_code', 'Subject', 'sheets_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sheets.created_at', 'Created', 'sheets_search') %></th>
@@ -15,6 +16,7 @@
 
   <% @sheets.each do |sheet| %>
     <tr id="sheet_<%= sheet.id %>">
+      <td><%= coverage_helper(sheet) %></td>
       <td><%= link_to sheet.design.name, [sheet.project, sheet] %></td>
       <td><%= status_helper(sheet.subject) %> <%= link_to sheet.subject.name, [sheet.subject.project, sheet.subject] if sheet.subject %></td>
       <td><%= simple_time sheet.created_at %></td>

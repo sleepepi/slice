@@ -163,6 +163,15 @@ class SheetVariable < ActiveRecord::Base
     prepend_string + self.response + append_string
   end
 
+  # Returns it's ID if it's not empty, else nil
+  def empty_or_not
+    if self.responses.count > 0 or self.grids.count > 0 or not self.response.blank?
+      self.id
+    else
+      nil
+    end
+  end
+
   private
 
   # Copied from Application Controller

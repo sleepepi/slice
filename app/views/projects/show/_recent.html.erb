@@ -6,12 +6,13 @@
       <th>Subject</th>
       <th>Sheet</th>
       <th>Updated</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
       <tr data-link="<%= new_project_sheet_path(@project) %>" style="cursor:pointer">
-        <td class="muted"></td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
+        <td colspan="2"></td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
       </tr>
     <% end %>
     <% @project.sheets.with_subject_status(["valid", "pending", "test"]).order('created_at DESC').limit(10).each do |sheet| %>
@@ -19,10 +20,11 @@
         <td><%= status_helper(sheet.subject) %>&nbsp;<%= sheet.subject.name %></td>
         <td><%= sheet.name %></td>
         <td><%= simple_date sheet.last_edited_at %></td>
+        <td><%= coverage_helper(sheet) %></td>
       </tr>
     <% end %>
     <tr data-link="<%= project_sheets_path(@project) %>" style="cursor:pointer">
-      <td class="muted"></td><td colspan="2"><%= link_to 'View More', project_sheets_path(@project) %></td>
+      <td colspan="2"></td><td colspan="2"><%= link_to 'View More', project_sheets_path(@project) %></td>
     </tr>
   </tbody>
 </table>

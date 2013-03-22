@@ -212,7 +212,7 @@ class User < ActiveRecord::Base
   # Ex: On Tuesday, returns sheets created since Monday morning (Time.now - 1.day)
   def digest_sheets_created
     @digest_sheets_created ||= begin
-      self.all_viewable_sheets.where(project_id: self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+      self.all_viewable_sheets.with_subject_status('valid').where(project_id: self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
     end
   end
 

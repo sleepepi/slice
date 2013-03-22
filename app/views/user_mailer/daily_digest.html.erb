@@ -15,7 +15,7 @@ Hello <%= @recipient.first_name %>,<br />
       <tr><td colspan="4" style="border-top:1px solid #ddd;"></td></tr>
       <tr><td colspan="4" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></td></tr>
       <% sheets.group_by{|s| s.subject_id}.each do |subject_id, sheets| %>
-      <tr><td style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((subject = Subject.find_by_id(subject_id)) ? link_to(subject.name, "#{SITE_URL}/projects/#{subject.site.project_id}/subjects/#{subject.id}") : 'No Subject') %></td><td colspan="3"></td></tr>
+      <tr><td style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((subject = Subject.find_by_id(subject_id)) ? link_to(subject.name, "#{SITE_URL}/projects/#{subject.site.project_id}/subjects/#{subject.id}") : 'No Subject') %></td><td><em style="color:orange"><%= '**New Subject' if subject and subject.sheets.count == 1 %></em></td><td colspan="2"></td></tr>
         <% sheets.each do |sheet| %>
           <tr><td></td><%= @sheet = sheet; render partial: 'digest_sheet' %></tr>
         <% end %>
