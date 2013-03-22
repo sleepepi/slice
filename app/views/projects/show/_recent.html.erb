@@ -12,7 +12,7 @@
   <tbody>
     <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
       <tr data-link="<%= new_project_sheet_path(@project) %>" style="cursor:pointer">
-        <td colspan="2"></td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
+        <td></td><td colspan="3"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
       </tr>
     <% end %>
     <% @project.sheets.with_subject_status(["valid", "pending", "test"]).order('created_at DESC').limit(10).each do |sheet| %>
@@ -24,7 +24,7 @@
       </tr>
     <% end %>
     <tr data-link="<%= project_sheets_path(@project) %>" style="cursor:pointer">
-      <td colspan="2"></td><td colspan="2"><%= link_to 'View More', project_sheets_path(@project) %></td>
+      <td></td><td colspan="3"><%= link_to 'View More', project_sheets_path(@project) %></td>
     </tr>
   </tbody>
 </table>
