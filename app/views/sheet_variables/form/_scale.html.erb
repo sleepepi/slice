@@ -29,16 +29,17 @@
     <tr>
       <td><%= variable.display_name %></td>
       <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <td style="text-align:center">
-          <label class="<%= variable.scale_type %> inline"
+        <td style="text-align:center" class="sheet-container">
+          <% selected = (variable.scale_type == 'radio' ? (value == response) : (responses.collect{|i| i.to_s}.include?(value))) %>
+          <label class="<%= variable.scale_type %> inline <%= 'selected' if selected %>"
                  data-content="<%= variable.description %>"
                  data-title="<%= variable.display_name %>"
                  data-placement="bottom" rel="<%= variable.description.blank? ? 'tooltip' : 'popover' %>"
                  data-html="true">
             <% if variable.scale_type == 'radio' %>
-              <%= radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.scale_type }, disabled: disabled %>
+              <%= radio_button_tag field_name, "#{value}", selected, data: { object: "condition", name: variable.name, variable_type: variable.scale_type }, disabled: disabled %>
             <% else %>
-              <%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition", name: variable.name, variable_type: variable.scale_type }, disabled: disabled %>
+              <%= check_box_tag "#{field_name}[]", "#{value}", selected, data: { object: "condition", name: variable.name, variable_type: variable.scale_type }, disabled: disabled %>
             <% end %>
           </label>
         </td>

@@ -353,3 +353,8 @@ textarea:focus.warning-input  {
 .label-coverage.blank {
   background-color: #6F6F6F;
 }
+
+
+.sheet-container .inline.radio input[type="radio"], .sheet-container .inline.checkbox input[type="checkbox"]{
+  margin-left: -15px;
+}
