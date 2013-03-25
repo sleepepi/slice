@@ -4,23 +4,33 @@ Hello <%= @recipient.first_name %>,<br />
   <br />
   <br />
 
-  <table>
+  <table style="border:0px;border-collapse:collapse;margin:0px;padding:0px;">
     <thead>
       <tr style="text-align:left">
-        <th colspan="4"><span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> Recently</th>
+        <th colspan="4" style="padding-bottom:10px"><span style="border:1px solid #00ba25;background-color:#a6ffb8;">ADDED</span> Recently</th>
       </tr>
     </thead>
 
-    <% @recipient.digest_sheets_created.group_by{|s| s.project_id}.each do |project_id, sheets| %>
-      <tr><td colspan="4" style="border-top:1px solid #ddd;"></td></tr>
-      <tr><td colspan="4" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></td></tr>
-      <% sheets.group_by{|s| s.subject_id}.each do |subject_id, sheets| %>
-      <tr><td style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((subject = Subject.find_by_id(subject_id)) ? link_to(subject.name, "#{SITE_URL}/projects/#{subject.site.project_id}/subjects/#{subject.id}") : 'No Subject') %></td><td><em style="color:orange"><%= '**New Subject' if subject and subject.sheets.count == 1 %></em></td><td colspan="2"></td></tr>
-        <% sheets.each do |sheet| %>
-          <tr><td></td><%= @sheet = sheet; render partial: 'digest_sheet' %></tr>
+    <% @recipient.digest_sheets_created.group_by{|s| s.project_id}.each do |project_id, project_sheets| %>
+      <tr><td colspan="5" style="border-top:1px solid #ddd;"></td></tr>
+      <tr>
+        <td colspan="5" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold;font-size:1.2em">
+          <% project = Project.find_by_id(project_id) %>
+          <%= project ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project' %>
+        </td>
+      </tr>
+      <% project_sheets.group_by{|s| s.subject_id}.each do |subject_id, subject_sheets| %>
+        <% subject = Subject.find_by_id(subject_id) %>
+        <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>">
+          <td colspan="2" style="padding-left:10px;text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= subject ? link_to(subject.name, "#{SITE_URL}/projects/#{subject.site.project_id}/subjects/#{subject.id}") : 'No Subject' %></td>
+          <td colspan="3" style="text-align:right;padding-right:10px;"><b><%= 'New Subject' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %></b></td>
+        </tr>
+        <% subject_sheets.each do |sheet| %>
+          <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>"><td style="padding-left:10px;"></td><%= @sheet = sheet; render partial: 'digest_sheet' %></tr>
         <% end %>
+        <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>"><td colspan="5" style="padding-left:10px;padding-bottom:10px;padding-right:10px;"></td></tr>
       <% end %>
-      <tr><td colspan="8" style="padding-bottom:10px"></td></tr>
+      <tr><td colspan="5" style="padding-bottom:10px"></td></tr>
     <% end %>
   </table>
   <br />

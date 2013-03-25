@@ -1,11 +1,15 @@
-
-<td>
+<td style='padding-left:10px;'>
   <%= link_to @sheet.name, "#{SITE_URL}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}" %>
 </td>
-<td>
-  &nbsp;<%= image_tag('http:'+@sheet.user.avatar_url(50, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle') %> <%= @sheet.user.name %>
+
+<td style='padding-left:10px;'>
+  <%= image_tag('http:'+@sheet.user.avatar_url(50, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle') %> <%= @sheet.user.name %>
 </td>
 
-<td>
-  <span style='border:1px solid #bbb;background-color: <%= @sheet.color %>;color:#fff'>&nbsp;<%= @sheet.out_of %>&nbsp;</span>
+<td style='padding-left:10px;font-size:0.8em;'>
+  <%= @sheet.out_of %>
+</td>
+
+<td style="padding-left:10px;padding-right:10px;text-align:right">
+  <span style="font-size:0.8em;padding:1px 3px;background-color: <%= @sheet.color %>;color:#fff;"><%= @sheet.percent %>%</span>
 </td>

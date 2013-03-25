@@ -87,7 +87,7 @@ class UserMailer < ActionMailer::Base
   protected
 
   def setup_email
-    @footer_html = "Change email settings here: <a href=\"#{SITE_URL}/settings\">#{SITE_URL}/settings</a>.<br /><br />".html_safe
-    @footer_txt = "Change email settings here: #{SITE_URL}/settings."
+    @footer_html = "<div style=\"color:#777\">Change #{DEFAULT_APP_NAME} email settings here: <a href=\"#{SITE_URL}/settings\">#{SITE_URL}/settings</a></div><br /><br />".html_safe
+    @footer_txt = "Change #{DEFAULT_APP_NAME} email settings here: #{SITE_URL}/settings"
   end
 end

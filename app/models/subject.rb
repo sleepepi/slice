@@ -43,4 +43,8 @@ class Subject < ActiveRecord::Base
     subject
   end
 
+  def new_digest_subject?(sheet_ids)
+    self.sheets.where("sheets.id NOT IN (?)", sheet_ids).count == 0
+  end
+
 end

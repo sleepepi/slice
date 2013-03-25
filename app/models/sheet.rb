@@ -438,7 +438,7 @@ class Sheet < ActiveRecord::Base
 
   def out_of
     check_response_count_change
-    "#{self.response_count} of #{self.total_response_count} #{self.total_response_count == 1 ? 'response' : 'responses' }"
+    "#{self.response_count} of #{self.total_response_count} #{self.total_response_count == 1 ? 'question' : 'questions' }"
   end
 
   def percent
