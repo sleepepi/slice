@@ -8,6 +8,7 @@ class Design < ActiveRecord::Base
   serialize :options, Array
 
   before_save :check_option_validations
+  after_save :reset_sheet_total_response_count
 
   # Concerns
   include Searchable, Deletable, Latexable
@@ -377,6 +378,13 @@ class Design < ActiveRecord::Base
 
   def notify_user!
     UserMailer.import_complete(self).deliver if Rails.env.production?
+  end
+
+  private
+
+  # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage
+  def reset_sheet_total_response_count
+    self.sheets.update_all( total_response_count: 0 )
   end
 
 end
