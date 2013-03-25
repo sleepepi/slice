@@ -110,7 +110,7 @@ class Variable < ActiveRecord::Base
   def check_for_valid_domain
     result = true
     d = self.domain ? self.domain : Domain.new
-    if self.has_domain? and (captured_values | d.values).size > d.values.size
+    if self.has_domain? and (captured_values | d.values).size > d.values.size and not ['integer', 'numeric'].include?(self.variable_type)
       self.errors.add(:domain_id, "must include all previously captured values")
       result = false
     end

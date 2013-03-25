@@ -345,6 +345,14 @@ class VariablesControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
+  test "should update variable if switching to a domain that doesn't include the captured data for numerics and integers" do
+    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_not_encompassing), variable_type: 'integer' }
+    assert_not_nil assigns(:variable)
+    assert_equal 'integer', assigns(:variable).variable_type
+    assert_equal domains(:one_restaurant_not_encompassing), assigns(:variable).domain
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
   test "should destroy variable" do
     assert_difference('Variable.current.count', -1) do
       delete :destroy, id: @variable, project_id: @project
