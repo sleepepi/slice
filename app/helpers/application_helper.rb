@@ -46,8 +46,13 @@ module ApplicationHelper
     image_tag("gentleface/16/#{checked ? 'checkbox_checked' : 'checkbox_unchecked'}.png", alt: '', style: 'vertical-align:text-bottom')
   end
 
-  def simple_format_links_target_blank(text)
-    simple_format(text).gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  def target_link_as_blank(text)
+    text.to_s.gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  end
+
+  def simple_markdown(text)
+    markdown = Redcarpet::Markdown.new( Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true )
+    target_link_as_blank(markdown.render(text.to_s))
   end
 
 end

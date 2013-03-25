@@ -36,4 +36,36 @@ Hello <%= @recipient.first_name %>,<br />
   <br />
 <% end %>
 
+<% if @recipient.digest_comments.size > 0 %>
+  <br />
+  <br />
+    <table>
+    <thead>
+      <tr style="text-align:left">
+        <th colspan="3"><span style="border:1px solid #ff9900;background-color:#ffe0b2">COMMENTS</span></th>
+      </tr>
+    </thead>
+    <% @recipient.digest_comments.group_by{|s| s.project_id}.each do |project_id, comments| %>
+      <tr><td colspan="3" style="border-top:1px solid #ddd;"></td></tr>
+      <tr><td colspan="3" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></td></tr>
+      <% comments.group_by{|s| s.sheet_id}.each do |sheet_id, comments| %>
+        <% sheet = Sheet.find_by_id(sheet_id) %>
+        <tr>
+          <td colspan="2" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold">
+            <%= link_to sheet.subject.name, "#{SITE_URL}/projects/#{sheet.project.id}/subjects/#{sheet.subject.id}" %> -
+            <%= sheet ? link_to(sheet.name, "#{SITE_URL}/projects/#{sheet.project.id}/sheets/#{sheet.id}") : 'No Sheet' %>
+          </td>
+          <td style="text-align:right"><%= render partial: 'digest_sheet_percent', locals: { sheet: sheet } %></td>
+        </tr>
+        <% comments.each do |comment| %>
+          <tr><%= @comment = comment; render partial: 'digest_comment' %></tr>
+        <% end %>
+        <tr><td colspan="3" style="padding-bottom:10px"></td></tr>
+      <% end %>
+      <tr><td colspan="3" style="padding-bottom:10px"></td></tr>
+    <% end %>
+  </table>
+  <br />
+<% end %>
+
 <%= @footer_html %>

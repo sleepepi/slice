@@ -11,5 +11,5 @@
 </td>
 
 <td style="padding-left:10px;padding-right:10px;text-align:right">
-  <span style="font-size:0.8em;padding:1px 3px;background-color: <%= @sheet.color %>;color:#fff;"><%= @sheet.percent %>%</span>
+  <%= render partial: 'digest_sheet_percent', locals: { sheet: @sheet } %>
 </td>

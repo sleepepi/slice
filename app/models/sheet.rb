@@ -70,6 +70,7 @@ class Sheet < ActiveRecord::Base
   has_many :sheet_variables
   has_many :variables, -> { where deleted: false }, through: :sheet_variables
   has_many :sheet_emails, -> { where deleted: false }
+  has_many :comments, -> { where deleted: false }, order: 'created_at desc'
 
   # Model Methods
   def self.last_entry

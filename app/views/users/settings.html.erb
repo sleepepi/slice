@@ -21,8 +21,8 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
       </div>
     </div>
     <% User::EMAILABLES.each do |notification, description| %>
-      <div class="control-group" style="display:none;margin:0px 0px 20px 20px">
-        <label class="control-label"><%= notification.to_s.titleize %></label>
+      <div class="control-group" style="margin:0px 0px 20px 20px">
+        <label class="control-label"><b><%= notification.to_s.titleize %></b></label>
         <div class="controls sheet-container">
           <label class="checkbox <%= 'selected' if current_user.email_on?(notification) %>"><%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification) %> <%= description %></label>
         </div>
@@ -38,15 +38,14 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
             <% if project %>
               <div class="control-group">
                 <label class="control-label"><b><%= project.name %></b></label>
-                <div class="controls sheet-container">
+                <div style="display:none" class="controls sheet-container">
                   <label class="checkbox <%= 'selected' if current_user.email_on?("project_#{project.id}") %>">
                     <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}") %>
                     <%= "Receive email" %>
                   </label>
                 </div>
               </div>
-              <% if true %>
-              <div style="display:none;margin:0px 0px 20px 20px">
+              <div style="margin:0px 0px 20px 20px">
                 <% User::EMAILABLES.each do |notification, description| %>
                   <div class="control-group">
                     <div class="controls sheet-container">
@@ -58,7 +57,6 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
                   </div>
                 <% end %>
               </div>
-              <% end %>
             <% end %>
           </div>
         <% end %>

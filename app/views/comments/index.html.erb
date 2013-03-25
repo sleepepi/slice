@@ -1,0 +1,14 @@
+<% @title = 'Comments' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+  </h1>
+</div>
+
+<%= form_tag comments_path, method: :get, remote: true, id: "comments_search", class: 'form-search', data: { object: 'form-load', no_turbolink: true } do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<div id="comments"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>

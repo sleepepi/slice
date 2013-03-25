@@ -1,0 +1,4 @@
+<% if @sheet %>
+  $("#sheet_<%= @sheet.id %>_comments").html("<%= escape_javascript(render("sheets/comments")) %>");
+<% end %>
+resetSubmitButtons();

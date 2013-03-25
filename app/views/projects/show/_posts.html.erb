@@ -20,7 +20,7 @@
           <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= post.user.name %></span>
         </p>
         <div style="margin-left:10px">
-          <%= simple_format_links_target_blank post.description %>
+          <%= simple_markdown post.description %>
         </div>
       </div>
 

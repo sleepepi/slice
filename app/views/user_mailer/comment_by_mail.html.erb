@@ -1,0 +1,25 @@
+<%= @comment.user.name %> <span style="border:1px solid #c2daff;background-color:#edf4ff">COMMENTED</span> on Sheet <%= link_to @comment.sheet.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}" %>.<br />
+<br />
+
+<% @comment.sheet.comments.order('created_at DESC').limit(5).each do |comment| %>
+<table style="background-color: white;border: 0px;"><col width="50px"/>
+  <tr style="background-color: white;border: 0px;">
+    <td style="background-color: white;border: 0px;vertical-align:top;">
+      <%= image_tag('http:'+comment.user.avatar_url(50, "identicon"), size: '50x50', alt: '', style: 'vertical-align: middle') %>
+    </td>
+    <td style="border: 0px;vertical-align:top;padding-left:10px;">
+      <div style="border-left: 2px solid <%= (@comment and @comment.id == comment.id) ? '#c2daff' : 'white' %>;padding-left:10px">
+        <%= comment.user.name %>
+        <span style="color:#777"><%= comment.created_at.strftime("on %b %d, %Y at %I:%M %p") %></span>
+        <div style="padding-left:20px;margin-top:-5px;margin-bottom:20px"><%= simple_format comment.description %></div>
+      </div>
+    </td>
+  </tr>
+</table>
+<% end %>
+
+
+<br />
+<%= @sheet = @comment.sheet; render partial: 'sheet_note' %><br />
+<br />
+<%= @footer_html %>

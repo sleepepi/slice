@@ -1,0 +1,28 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'comments', per_page: 20, object_count: @comments.total_count } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.user_id', 'User', 'comments_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.sheet_id', 'Sheet', 'comments_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.description', 'Description', 'comments_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.created_at', 'Created at', 'comments_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @comments.each do |comment| %>
+    <tr>
+      <td><%= link_to comment.user.name, comment.user if comment.user %></td>
+      <td><%= link_to comment.sheet.name, [comment.sheet.project, comment.sheet] if comment.sheet %></td>
+      <td><%= comment.description %></td>
+      <td><%= simple_time comment.created_at %></td>
+      <td>
+        <%= link_to 'Edit', edit_comment_path(comment), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', comment, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<div class="center"><%= paginate @comments, theme: 'contour' %></div>

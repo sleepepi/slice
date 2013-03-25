@@ -16,7 +16,10 @@ class User < ActiveRecord::Base
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
-  EMAILABLES = [ [:daily_digest, 'Receive daily digest emails of sheets that have been created the previous day'] ]
+  EMAILABLES =  [
+                  [ :daily_digest, 'Receive daily digest emails of sheets that have been created the previous day' ],
+                  [ :sheet_comment, 'Receive email when a comment is added to a sheet' ]
+                ]
 
   # Concerns
   include Deletable
@@ -36,6 +39,7 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :authentications
+  has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
   has_many :projects, -> { where deleted: false }
@@ -190,6 +194,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def all_comments
+    @all_comments ||= begin
+      self.comments
+    end
+  end
+
+  def all_viewable_comments
+    @all_viewable_comments ||= begin
+      Comment.current.where(sheet_id: self.all_viewable_sheets.pluck(:id))
+    end
+  end
+
+  def all_deletable_comments
+    @all_deletable_comments ||= begin
+      Comment.current.where("sheet_id IN (?) or user_id = ?", self.all_sheets.pluck(:id), self.id)
+    end
+  end
+
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
     super and self.status == 'active' and not self.deleted?
@@ -213,6 +235,12 @@ class User < ActiveRecord::Base
   def digest_sheets_created
     @digest_sheets_created ||= begin
       self.all_viewable_sheets.with_subject_status('valid').where(project_id: self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+    end
+  end
+
+  def digest_comments
+    @digest_comments ||= begin
+      self.all_viewable_comments.with_project(self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day)).order('created_at ASC')
     end
   end
 

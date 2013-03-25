@@ -51,4 +51,10 @@ class MailPreview < MailView
     recipient = User.current.first
     UserMailer.daily_digest(recipient)
   end
+
+  def comment_by_mail
+    comment = Comment.current.first
+    recipient = User.current.first
+    UserMailer.comment_by_mail(comment, recipient)
+  end
 end

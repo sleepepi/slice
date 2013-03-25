@@ -13,5 +13,22 @@ ADDED Recently
 <% end %>
 <% end %>
 
+<% if @recipient.digest_comments.size > 0 %>
+COMMENTS
+
+<% @recipient.digest_comments.group_by{|s| s.project_id}.each do |project_id, comments| %>
+<%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
+<% comments.group_by{|s| s.sheet_id}.each do |sheet_id, comments| %>
+
+  <%= ((sheet = Sheet.find_by_id(sheet_id)) ? "#{sheet.name} #{SITE_URL}/projects/#{sheet.project.id}/sheets/#{sheet.id}" : 'No Sheet') %>
+
+  <% comments.each do |comment| %>
+     <%= @comment = comment; render partial: 'digest_comment' %>
+  <% end %>
+<% end %>
+
+<% end %>
+<% end %>
+
 
 <%= @footer_txt %>

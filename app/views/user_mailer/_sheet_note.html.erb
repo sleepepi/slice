@@ -1,0 +1,9 @@
+<table style="border:0px;border-collapse:collapse;margin:0px;padding:0px;">
+  <tr style="background-color:#ffffd4">
+    <td colspan="5" style="padding-left:10px;text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold">
+      <%= link_to @sheet.subject.name, "#{SITE_URL}/projects/#{@sheet.subject.site.project_id}/subjects/#{@sheet.subject.id}" %>
+    </td>
+  </tr>
+  <tr style="background-color:#ffffd4"><td style="padding-left:10px;"></td><%= render partial: 'digest_sheet' %></tr>
+  <tr style="background-color:#ffffd4"><td colspan="5" style="padding-left:10px;padding-bottom:10px;padding-right:10px;"></td></tr>
+</table>

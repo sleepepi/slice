@@ -84,6 +84,15 @@ class UserMailer < ActionMailer::Base
     mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
   end
 
+  def comment_by_mail(comment, recipient)
+    setup_email
+    @comment = comment
+    @recipient = recipient
+    mail(to: recipient.email,
+         subject: "#{comment.user.name} Commented on Sheet #{comment.sheet.name}",
+         reply_to: comment.user.email)
+  end
+
   protected
 
   def setup_email

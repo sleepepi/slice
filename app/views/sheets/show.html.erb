@@ -181,3 +181,7 @@
     <%= link_to 'Close', '#', class: 'btn', data: { target: '#email_history_modal', object: 'modal-hide' } %>
   </div>
 </div>
+
+<div id="sheet_<%= @sheet.id %>_comments">
+  <%= render partial: 'sheets/comments' %>
+</div>

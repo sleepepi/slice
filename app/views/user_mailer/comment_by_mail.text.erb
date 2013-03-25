@@ -1,0 +1,15 @@
+<%= @comment.user.name %> COMMENTED on Sheet <%= @comment.sheet.name %> located at <%= "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}" %>.
+
+
+<% @comment.sheet.comments.order('created_at DESC').limit(5).each do |comment| %>
+<%= comment.user.name %> (<%= comment.created_at.strftime("on %b %d, %Y at %I:%M %p") %>):
+
+      <%= comment.description %>
+
+
+<% end %>
+
+
+<%= @sheet = @comment.sheet; render partial: 'sheet_note' %>
+
+<%= @footer_txt %>

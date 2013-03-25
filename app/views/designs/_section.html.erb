@@ -3,7 +3,7 @@
   <h2>
     <%= @option[:section_name] %>
   </h2>
-  <%= simple_format_links_target_blank @option[:section_description] unless @option[:section_description].blank? %>
+  <%= simple_markdown @option[:section_description] unless @option[:section_description].blank? %>
 </div>
 
 <%= link_to 'add more', '#', class: 'btn btn-mini', data: { object: 'copy-repeatables', target: "[data-object~=repeatable_#{@repeatable_id}]" } if @is_repeatable %>
