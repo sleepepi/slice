@@ -4,7 +4,7 @@ require 'zip/zip'
 desc "Generate file for sheet exports"
 task sheet_export: :environment do
   export = Export.find_by_id(ENV["EXPORT_ID"])
-  sheet_scope = Sheet.current.where(id: ENV["SHEET_IDS"].to_s.split(','))
+  sheet_scope = Sheet.current.where(id: ENV["SHEET_IDS"].to_s.split(',')).joins(:design).order('designs.name, sheets.created_at')
 
   begin
     filename = "#{export.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{export.created_at.strftime("%I%M%P")}"
