@@ -47,7 +47,9 @@ class DocumentsController < ApplicationController
   # PUT /documents/1.json
   def update
     respond_to do |format|
+      original_category = @document.category
       if @document.update(document_params)
+        @project.documents.where( category: original_category ).update_all( category: @document.category ) if params[:rename_category] == '1'
         format.html { redirect_to [@document.project, @document], notice: 'Document was successfully updated.' }
         format.json { head :no_content }
       else

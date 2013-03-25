@@ -46,7 +46,9 @@ class LinksController < ApplicationController
   # PUT /links/1.json
   def update
     respond_to do |format|
+      original_category = @link.category
       if @link.update(link_params)
+        @project.links.where( category: original_category ).update_all( category: @link.category ) if params[:rename_category] == '1'
         format.html { redirect_to [@link.project, @link], notice: 'Link was successfully updated.' }
         format.json { head :no_content }
       else

@@ -24,8 +24,11 @@
 
   <div class="control-group">
     <%= f.label :category, nil, class: 'control-label' %>
-    <div class="controls">
+    <div class="controls sheet-container">
       <%= f.text_field :category, autocomplete: "off", data: { provide: "typeahead", source: @link.project.links.pluck(:category).uniq.to_json } %>
+      <% unless @link.new_record? %>
+        <label class="checkbox inline <%= 'selected' if params[:rename_category] == '1' %>"><%= check_box_tag :rename_category, '1', params[:rename_category] == '1' %> Rename Category - select if you want rename this category for all links using it.</label>
+      <% end %>
     </div>
   </div>
 

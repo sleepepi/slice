@@ -82,6 +82,24 @@ class DocumentsControllerTest < ActionController::TestCase
     assert_redirected_to project_document_path(assigns(:document).project, assigns(:document))
   end
 
+  test "should update document and rename category for all associated categories" do
+    patch :update, id: @document, project_id: @project, document: { name: @document.name, archived: @document.archived, category: 'Renamed Category', file: fixture_file_upload('../../test/support/projects/rails.png') }, rename_category: '1'
+
+    assert_equal 'Renamed Category', assigns(:document).category
+    assert_equal 'Renamed Category', documents(:two).category
+
+    assert_redirected_to project_document_path(assigns(:document).project, assigns(:document))
+  end
+
+  test "should update document and change category for single document" do
+    patch :update, id: @document, project_id: @project, document: { name: @document.name, archived: @document.archived, category: 'Important Document', file: fixture_file_upload('../../test/support/projects/rails.png') }
+
+    assert_equal 'Important Document', assigns(:document).category
+    assert_equal 'MyString', documents(:two).category
+
+    assert_redirected_to project_document_path(assigns(:document).project, assigns(:document))
+  end
+
   test "should not update document with blank name" do
     put :update, id: @document, project_id: @project, document: { name: '', archived: @document.archived, category: @document.category, file: fixture_file_upload('../../test/support/projects/rails.png') }
 

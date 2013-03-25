@@ -10,6 +10,7 @@
 - Daily digests are now emailed out to show what sheets have been recently entered
 - Selected checkbox and radio responses are now highlighted
 - Sheet coverage added to give an approximate of how much of the sheet has been filled out
+- Documents and Links can now have their categories renamed *en masse*
 
 ### Bug Fix
 - `Include missing` is now always displayed on the design report

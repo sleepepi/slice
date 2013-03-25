@@ -82,6 +82,24 @@ class LinksControllerTest < ActionController::TestCase
     assert_redirected_to project_link_path(assigns(:link).project, assigns(:link))
   end
 
+  test "should update link and rename category for all associated categories" do
+    patch :update, id: @link, project_id: @project, link: { name: @link.name, category: 'Renamed Category', url: @link.url, archived: @link.archived }, rename_category: '1'
+
+    assert_equal 'Renamed Category', assigns(:link).category
+    assert_equal 'Renamed Category', links(:two).category
+
+    assert_redirected_to project_link_path(assigns(:link).project, assigns(:link))
+  end
+
+  test "should update link and change category for single link" do
+    patch :update, id: @link, project_id: @project, link: { name: @link.name, category: 'Weekly Report', url: @link.url, archived: @link.archived }
+
+    assert_equal 'Weekly Report', assigns(:link).category
+    assert_equal 'Custom Reports', links(:two).category
+
+    assert_redirected_to project_link_path(assigns(:link).project, assigns(:link))
+  end
+
   test "should not update link with blank name" do
     put :update, id: @link, project_id: @project, link: { name: '', category: @link.category, url: @link.url, archived: @link.archived }
 
