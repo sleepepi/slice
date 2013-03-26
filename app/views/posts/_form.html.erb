@@ -33,6 +33,12 @@
     <%= f.label :archived, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.check_box :archived %>
+      <% if @post.new_record? %>
+        <span class="help-inline">
+          <span class="label label-info">Heads up!</span>
+          New posts will be <strong>emailed</strong> to project and site members unless the post is created as an archived post.
+        </span>
+      <% end %>
     </div>
   </div>
 
