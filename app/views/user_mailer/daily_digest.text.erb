@@ -3,12 +3,16 @@ Hello <%= @recipient.first_name %>,
 <% if @recipient.digest_sheets_created.size > 0 %>
 ADDED Recently
 
-<% @recipient.digest_sheets_created.group_by{|s| s.project_id}.each do |project_id, sheets| %>
+<% @recipient.digest_sheets_created.group_by{|s| s.project_id}.each do |project_id, project_sheets| %>
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name}, #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
 
-  <% sheets.each do |sheet| %>
+<% if project_sheets.size > 15 %>
+    <%= pluralize(project_sheets.count, 'sheet') %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered, <%= "#{SITE_URL}/projects/#{project.id}/sheets" %>
+<% else %>
+<% project_sheets.each do |sheet| %>
     <%= @sheet = sheet; render partial: 'digest_sheet' %>
-  <% end %>
+<% end %>
+<% end %>
 
 <% end %>
 <% end %>
