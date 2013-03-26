@@ -169,7 +169,7 @@
 
 ### Breaking Change
 - Database default updated to use PostgreSQL
-  - Instructions [MIGRATING_TO_POSTGRESQL](https://github.com/remomueller/slice/blob/master/doc/MIGRATING_TO_POSTGRESQL.md)
+  - Instructions [MIGRATING_TO_POSTGRESQL](https://github.com/remomueller/slice/blob/master/MIGRATING_TO_POSTGRESQL.md)
 
 ### Enhancements
 - Subject status is now viewable on sheets
