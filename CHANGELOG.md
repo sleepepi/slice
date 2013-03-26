@@ -15,6 +15,7 @@
 - Project Editors, Viewers, and Site Members can now comment on sheets
 - Project news posts are now emailed to project editors, viewers, and site members when they are created
   - Archived news posts are not sent out via email
+- Sheet exports now update how quickly the export is progressing
 
 ### Bug Fix
 - `Include missing` is now always displayed on the design report

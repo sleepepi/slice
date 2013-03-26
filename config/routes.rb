@@ -7,6 +7,7 @@ Slice::Application.routes.draw do
   resources :exports do
     member do
       post :mark_unread
+      post :progress
     end
   end
 

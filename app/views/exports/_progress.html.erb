@@ -1,0 +1,28 @@
+<% percent = @export.total_steps > 0 ? @export.steps_completed * 100 / @export.total_steps : 100 %>
+<% percent = 0 if @export.total_steps == 0 and ['pending', 'failed'].include?(@export.status) %>
+<% status = "danger" %>
+<% status = "warning" if percent >= 33 %>
+<% status = "success" if percent == 100 %>
+
+<dl class="dl-horizontal" style="margin-bottom: 0px;">
+  <dt>Export Progress</dt>
+  <dd>
+    <div class="progress progress-striped active" style="margin-bottom: 0px;">
+      <div class="bar bar-<%= status %>" style="width: <%= percent %>%;"><%= @export.steps_completed %> of <%= @export.total_steps %> (<%= percent %>%)</div>
+    </div>
+  </dd>
+
+  <dt>File</dt>
+  <dd>
+    <% if @export.file.size > 0 %>
+      <%= link_to @export.file.to_s.split('/').last, @export.file.url, target: '_blank', class: 'btn btn-mini' %>
+      <%= number_to_human_size(@export.file.size) %>
+      <span class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.file_created_at, { include_seconds: true }) %>.</span>
+    <% elsif @export.status == 'failed' %>
+      <span class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.updated_at, { include_seconds: true }) %>.</span>
+      <%= @export.details %>
+    <% else %>
+      <span class="muted">Export started <%= distance_of_time_in_words(@export.created_at, Time.now, { include_seconds: true }) %> ago...</span>
+    <% end %>
+  </dd>
+</dl>

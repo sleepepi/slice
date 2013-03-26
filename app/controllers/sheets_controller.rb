@@ -338,14 +338,15 @@ class SheetsController < ApplicationController
                   include_pdf: pdf,
                   include_files: files,
                   include_data_dictionary: data_dictionary,
-                  include_sas: sas )
+                  include_sas: sas,
+                  sheet_ids_count: sheet_scope.count )
 
       rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' &"
 
       systemu rake_task unless Rails.env.test?
 
       # flash[:notice] = 'You will be emailed when the export is ready for download.'
-      # redirect_to project_sheets_path(@project), notice: 'You will be emailed when the export is ready for download.'
+      render text: "window.location.href = '#{export_path(export)}';"
     end
 
     def update_variables!

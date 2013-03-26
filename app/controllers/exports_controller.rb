@@ -1,8 +1,12 @@
 class ExportsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_export, only: [ :show, :mark_unread ]
+  before_action :set_viewable_export, only: [ :show, :mark_unread, :progress ]
   before_action :set_editable_export, only: [ :destroy ]
-  before_action :redirect_without_export, only: [ :show, :mark_unread, :destroy ]
+  before_action :redirect_without_export, only: [ :show, :mark_unread, :progress, :destroy ]
+
+  # POST /exports/1.js
+  def progress
+  end
 
   # GET /exports
   # GET /exports.json

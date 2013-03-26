@@ -132,22 +132,7 @@
   <div class="form-actions">
     <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
 
-<% if true %>
     <%= link_to 'Export', '#', class: 'btn', data: { object: 'show-contour-modal' } %>
-<% else %>
-    <span class="dropdown">
-      <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', 'data-toggle' => "dropdown" %>
-      <ul id="export-submenu" class="dropdown-menu" style="margin-top:9px">
-        <li>
-          <%= link_to 'XLS', '#', data: { object: 'export', format: 'xls', target: '#sheets_search' } %>
-
-          <%= link_to 'ZIP', '#', data: { object: 'export', format: 'zip', target: '#sheets_search' } %>
-
-          <%= link_to 'PDF', '#', data: { object: 'export', format: 'pdf', target: '#sheets_search', page: 'blank' } %>
-        </li>
-      </ul>
-    </span>
-<% end %>
 
     <%= link_to 'Reset', '#', class: 'btn', data: { target: '#sheets_search', object: 'reset-filters' } %>
   </div>

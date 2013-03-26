@@ -1,5 +1,7 @@
 class Export < ActiveRecord::Base
 
+  after_create :calculate_total_steps
+
   mount_uploader :file, GenericUploader
 
   STATUS = ["ready", "pending", "failed"].collect{|i| [i,i]}
@@ -29,5 +31,21 @@ class Export < ActiveRecord::Base
     end
     scope
   end
+
+  private
+
+    def calculate_total_steps
+      steps = 0
+      steps += sheet_ids_count if self.include_xls?
+      steps += sheet_ids_count if self.include_csv_labeled?
+      steps += sheet_ids_count if self.include_csv_labeled?
+      steps += sheet_ids_count if self.include_csv_raw? or self.include_sas?
+      steps += sheet_ids_count if self.include_csv_raw? or self.include_sas?
+      steps += sheet_ids_count if self.include_pdf?
+      steps += sheet_ids_count if self.include_data_dictionary?
+      steps += sheet_ids_count if self.include_sas?
+      steps += sheet_ids_count if self.include_files?
+      self.update_column :total_steps, steps
+    end
 
 end

@@ -19,7 +19,10 @@ task sheet_export: :environment do
     all_files << generate_pdf(export, sheet_scope, filename)                if export.include_pdf?
     all_files << generate_data_dictionary(export, sheet_scope, filename)    if export.include_data_dictionary?
     all_files << generate_sas(export, sheet_scope, filename)                if export.include_sas?
-    sheet_scope.each{ |sheet| all_files += sheet.files }                    if export.include_files?
+    if export.include_files?
+      sheet_scope.each{ |sheet| all_files += sheet.files }
+      update_steps(export, export.sheet_ids_count)
+    end
 
     # Zip multiple files, or zip one file if it's part of the sheet uploaded files
     export_file = if all_files.size > 1 or (export.include_files? and all_files.size == 1)
@@ -136,6 +139,8 @@ def generate_xls(export, sheet_scope, filename)
   # buffer = StringIO.new
   book.write(export_file)
   # buffer.rewind
+
+  update_steps(export, export.sheet_ids_count)
   [export_file.split('/').last, export_file]
 end
 
@@ -167,6 +172,7 @@ def generate_csv_sheets(export, sheet_scope, filename, raw_data)
     end
   end
 
+  update_steps(export, export.sheet_ids_count)
   [export_file.split('/').last, export_file]
 end
 
@@ -221,12 +227,14 @@ def generate_csv_grids(export, sheet_scope, filename, raw_data)
     end
   end
 
+  update_steps(export, export.sheet_ids_count)
   [export_file.split('/').last, export_file]
 end
 
 def generate_pdf(export, sheet_scope, filename)
   pdf_file = Sheet.latex_file_location(sheet_scope, export.user)
 
+  update_steps(export, export.sheet_ids_count)
   [pdf_file.split('/').last, pdf_file]
 end
 
@@ -374,6 +382,8 @@ def generate_data_dictionary(export, sheet_scope, filename)
   export_file = File.join('tmp', 'files', 'exports', "#{export.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{export.created_at.strftime("%I%M%P")}_data_dictionaries.xls")
 
   book.write(export_file)
+
+  update_steps(export, export.sheet_ids_count)
   [export_file.split('/').last, export_file]
 end
 
@@ -411,6 +421,7 @@ def generate_sas(export, sheet_scope, filename)
     f.write sas_step5(true)
   end
 
+  update_steps(export, export.sheet_ids_count)
   [export_file.split('/').last, export_file]
 end
 
@@ -553,4 +564,8 @@ run;
 quit;
 
   eos
+end
+
+def update_steps(export, amount)
+  export.update_column :steps_completed, export.steps_completed + amount
 end
