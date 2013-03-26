@@ -21,6 +21,18 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should require file before proceeding to column specification for design imports" do
+    post :create_import, project_id: @project,
+                         design: { csv_file: '' }
+
+    assert_equal 0, assigns(:variables).size
+    assert assigns(:design).errors.size > 0
+    assert_equal ["must be selected"], assigns(:design).errors[:csv_file]
+
+    assert_template 'import'
+    assert_response :success
+  end
+
   test "should import data for new design" do
     assert_difference('Design.count', 1) do
       assert_difference('Variable.count', 5) do
@@ -37,9 +49,26 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
+  test "should not import data for new design with blank name" do
+    assert_difference('Design.count', 0) do
+      assert_difference('Variable.count', 0) do
+        post :create_import, project_id: @project,
+                             design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), name: '' },
+                             variables: { "store_id" => { display_name: 'Store ID', variable_type: 'integer' },
+                                          "gpa" => { display_name: 'GPA', variable_type: 'numeric' },
+                                          "buy_date" => { display_name: 'Buy Date', variable_type: 'date' },
+                                          "name" => { display_name: 'First Name', variable_type: 'string' },
+                                          "gender" => { display_name: 'Gender', variable_type: 'string' } }
+      end
+    end
+    assert_equal 5, assigns(:variables).size
+    assert_template 'import'
+    assert_response :success
+  end
+
   test "should load file and present importable columns for new design with blank header columns (columns with blank headers are ignored)" do
     post :create_import, project_id: @project,
-                         design: { csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv'), name: 'Design Import' }
+                         design: { csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv') }
 
     assert_equal 4, assigns(:variables).size
 
