@@ -24,7 +24,7 @@
             <span class="badge badge-info"><%= sheet.comments.size %></span>
           <% end %>
         </td>
-        <td><%= simple_date sheet.last_edited_at %></td>
+        <td><%= sheet.last_edited_at.blank? ? simple_date(sheet.created_at) : simple_date(sheet.last_edited_at) %></td>
         <td><%= coverage_helper(sheet) %></td>
       </tr>
     <% end %>
