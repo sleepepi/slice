@@ -61,9 +61,11 @@ class Project < ActiveRecord::Base
     self.subject_code_name.to_s.strip.blank? ? 'Subject Code' : self.subject_code_name.to_s.strip
   end
 
-  def custom_reports
-    []
+  def users_to_email
+    result = (self.users + [self.user] + self.sites.collect{|s| s.users}.flatten).uniq
+    result = result.select{ |u| u.email_on?(:send_email) and u.email_on?("project_#{self.id}") }
   end
+
 
   private
 

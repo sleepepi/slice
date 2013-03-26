@@ -1,5 +1,7 @@
 class Post < ActiveRecord::Base
 
+  after_create :send_email
+
   # Concerns
   include Searchable, Deletable
 
@@ -13,5 +15,16 @@ class Post < ActiveRecord::Base
   belongs_to :project
 
   # Model Methods
+
+  private
+
+    def send_email
+      unless self.archived?
+        all_users = self.project.users_to_email - [self.user]
+        all_users.each do |user_to_email|
+          UserMailer.project_news(self, user_to_email).deliver if Rails.env.production?
+        end
+      end
+    end
 
 end

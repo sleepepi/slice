@@ -143,5 +143,16 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{comment.user.name} COMMENTED on Sheet #{comment.sheet.name} located at #{SITE_URL}\/projects\/#{comment.sheet.project.id}\/sheets\/#{comment.sheet.id}\./, email.encoded)
   end
 
+  test "project news post email" do
+    post = posts(:one)
+    valid = users(:valid)
+
+    email = UserMailer.project_news(post, valid).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [valid.email], email.to
+    assert_equal "#{post.name} [#{post.user.name} Added a News Post on #{post.project.name}]", email.subject
+    assert_match(/This post was added by #{post.user.name} to #{post.project.name} on #{DEFAULT_APP_NAME}/, email.encoded)
+  end
 
 end

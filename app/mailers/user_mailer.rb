@@ -93,6 +93,14 @@ class UserMailer < ActionMailer::Base
          reply_to: comment.user.email)
   end
 
+  def project_news(post, recipient)
+    @post = post
+    @recipient = recipient
+    mail(to: recipient.email,
+         subject: "#{post.name} [#{post.user.name} Added a News Post on #{post.project.name}]",
+         reply_to: post.user.email)
+  end
+
   protected
 
   def setup_email

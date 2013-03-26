@@ -1,0 +1,14 @@
+<%= @post.name %>
+<%= "="*@post.name.size %>
+
+<%= @post.created_at.strftime("%A, %B %d, %Y") %> - <%= @post.user.name %>
+
+
+
+  <%= strip_tags(simple_markdown @post.description).gsub(/\n/, "\n  ") %>
+
+
+
+This post was added by <%= @post.user.name %> to <%= @post.project.name %> on <%= DEFAULT_APP_NAME %>
+
+<%= "#{SITE_URL}/projects/#{@post.project.id}" %>

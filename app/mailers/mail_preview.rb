@@ -57,4 +57,10 @@ class MailPreview < MailView
     recipient = User.current.first
     UserMailer.comment_by_mail(comment, recipient)
   end
+
+  def project_news
+    post = Post.current.first
+    recipient = User.current.first
+    UserMailer.project_news(post, recipient)
+  end
 end

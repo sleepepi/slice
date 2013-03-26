@@ -1,0 +1,19 @@
+<div>
+  <strong style="border-bottom: 1px solid black"><%= @post.name %></strong>
+</div>
+
+<br />
+
+<p>
+  <strong><%= @post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= @post.user.name %></span>
+</p>
+<div style="margin-left:10px">
+  <%= simple_markdown @post.description %>
+</div>
+
+<br />
+<br />
+
+<span style="color: #777;">
+  This post was <span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> by <%= @post.user.name %> to <%= link_to @post.project.name, "#{SITE_URL}/projects/#{@post.project.id}" %> on <%= link_to DEFAULT_APP_NAME, SITE_URL %>.
+</span>
