@@ -8,6 +8,7 @@
   - Maximum length of 31 characters
   - Must start with a letter, followed by letters, numbers, or underscores
 - Daily digests are now emailed out to show what sheets have been recently entered
+  - When more than 15 sheets are entered for a specific project, the daily digest displays the number of recently created sheets along with a link to view specifics
 - Selected checkbox and radio responses are now highlighted
 - Sheet coverage added to give an approximate of how much of the sheet has been filled out
 - Documents and Links can now have their categories renamed *en masse*

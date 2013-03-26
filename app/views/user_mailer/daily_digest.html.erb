@@ -19,16 +19,20 @@ Hello <%= @recipient.first_name %>,<br />
           <%= project ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project' %>
         </td>
       </tr>
-      <% project_sheets.group_by{|s| s.subject_id}.each do |subject_id, subject_sheets| %>
-        <% subject = Subject.find_by_id(subject_id) %>
-        <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>">
-          <td colspan="2" style="padding-left:10px;text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= subject ? link_to(subject.name, "#{SITE_URL}/projects/#{subject.site.project_id}/subjects/#{subject.id}") : 'No Subject' %></td>
-          <td colspan="3" style="text-align:right;padding-right:10px;"><b><%= 'New Subject' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %></b></td>
-        </tr>
-        <% subject_sheets.each do |sheet| %>
-          <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>"><td style="padding-left:10px;"></td><%= @sheet = sheet; render partial: 'digest_sheet' %></tr>
+      <% if project_sheets.size > 15 %>
+        <tr><td colspan="5" style="padding-left:20px;"><%= link_to pluralize(project_sheets.count, 'sheet'), "#{SITE_URL}/projects/#{project.id}/sheets" %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered</td></tr>
+      <% else  %>
+        <% project_sheets.group_by{|s| s.subject_id}.each do |subject_id, subject_sheets| %>
+          <% subject = Subject.find_by_id(subject_id) %>
+          <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>">
+            <td colspan="2" style="padding-left:10px;text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= subject ? link_to(subject.name, "#{SITE_URL}/projects/#{subject.site.project_id}/subjects/#{subject.id}") : 'No Subject' %></td>
+            <td colspan="3" style="text-align:right;padding-right:10px;"><b><%= 'New Subject' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %></b></td>
+          </tr>
+          <% subject_sheets.each do |sheet| %>
+            <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>"><td style="padding-left:10px;"></td><%= @sheet = sheet; render partial: 'digest_sheet' %></tr>
+          <% end %>
+          <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>"><td colspan="5" style="padding-left:10px;padding-bottom:10px;padding-right:10px;"></td></tr>
         <% end %>
-        <tr style="<%= 'background-color:#ffffd4' if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>"><td colspan="5" style="padding-left:10px;padding-bottom:10px;padding-right:10px;"></td></tr>
       <% end %>
       <tr><td colspan="5" style="padding-bottom:10px"></td></tr>
     <% end %>
