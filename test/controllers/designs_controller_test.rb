@@ -37,6 +37,31 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
+  test "should load file and present importable columns for new design with blank header columns (columns with blank headers are ignored)" do
+    post :create_import, project_id: @project,
+                         design: { csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv'), name: 'Design Import' }
+
+    assert_equal 4, assigns(:variables).size
+
+    assert_template 'import'
+    assert_response :success
+  end
+
+  test "should import data for new design with blank header columns" do
+    assert_difference('Design.count', 1) do
+      assert_difference('Variable.count', 4) do
+        post :create_import, project_id: @project,
+                             design: { csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv'), name: 'Design Import' },
+                             variables: { "gpa" => { display_name: 'GPA', variable_type: 'numeric' },
+                                          "buy_date" => { display_name: 'Buy Date', variable_type: 'date' },
+                                          "name" => { display_name: 'First Name', variable_type: 'string' },
+                                          "gender" => { display_name: 'Gender', variable_type: 'string' } }
+      end
+    end
+    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.', flash[:notice]
+    assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
+  end
+
   test "should print report" do
     get :report_print, id: @design, project_id: @project
     assert_not_nil assigns(:design)

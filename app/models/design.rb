@@ -301,9 +301,9 @@ class Design < ActiveRecord::Base
       raw_variables.select!{|i| not ['Subject', 'Acrostic'].include?(i)}
       variables = []
       raw_variables.each do |variable_token|
-        (variable_name, variable_type) = variable_token.split(':')
+        (variable_name, variable_type) = variable_token.to_s.split(':')
         variable_type = 'string' unless Variable::TYPE_IMPORTABLE.flatten.include?(variable_type)
-        variables << { name: variable_name.gsub(/[^a-zA-Z_0-9]/, ''), display_name: variable_name.humanize, variable_type: variable_type, column_name: variable_token }
+        variables << { name: variable_name.gsub(/[^a-zA-Z_0-9]/, ''), display_name: variable_name.humanize, variable_type: variable_type, column_name: variable_token } unless variable_name.blank?
       end
       variables
     end
