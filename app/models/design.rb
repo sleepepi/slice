@@ -327,12 +327,9 @@ class Design < ActiveRecord::Base
   def create_variables!(variable_hashes)
     new_variable_ids = []
     variable_hashes.each do |name, hash|
-      next if hash[:ignore] == '1' or not Variable::TYPE_IMPORTABLE.flatten.include?(hash[:variable_type])
       v = self.project.variables.find_by_name(name.to_s)
-      unless v
-        v = self.project.variables.create(name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: self.id)
-        v.update_column :user_id, self.user_id
-      end
+      next if hash[:ignore] == '1' or (not v and not Variable::TYPE_IMPORTABLE.flatten.include?(hash[:variable_type]))
+      v = self.project.variables.create( name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: self.id, user_id: self.user_id ) unless v
       new_variable_ids << v.id if v
     end
 

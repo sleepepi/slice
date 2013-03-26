@@ -61,6 +61,8 @@
     <hr class="soften" style="margin-top:20px;margin-bottom:20px" />
 
     <% @variables.each do |hash| %>
+      <% variable = @project.variables.find_by_name(hash[:name]) %>
+
       <% if params[:variables] and params[:variables][hash[:name]] %>
         <% display_name = params[:variables][hash[:name]][:display_name] %>
         <% variable_type = params[:variables][hash[:name]][:variable_type] %>
@@ -68,21 +70,21 @@
       <% else %>
         <% display_name = hash[:display_name] %>
         <% variable_type = hash[:variable_type] %>
-        <% ignore = nil %>
+        <% ignore = (variable and not Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)) %>
       <% end %>
 
       <div class="control-group">
         <label class="control-label"><%= hash[:name] %></label>
-        <div class="controls">
+        <div class="controls sheet-container">
           <div style="padding-top:5px;">
-            <% if variable = @project.variables.find_by_name(hash[:name]) %>
+            <% if variable %>
               <%= link_to variable.display_name, [variable.project, variable], target: '_blank' %> of type <b><%= variable.variable_type %></b> won't be recreated.
               <%= hidden_field_tag "variables[#{hash[:name]}][display_name]", display_name %>
             <% else %>
               <%= text_field_tag "variables[#{hash[:name]}][display_name]", display_name %>
               <%= select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE_IMPORTABLE, variable_type) %>
             <% end %>
-            <label class="checkbox inline" style="white-space:nowrap"><%= check_box_tag "variables[#{hash[:name]}][ignore]", '1', ignore %> ignore variable</label>
+            <label class="checkbox inline <%= 'selected' if ignore %>" style="white-space:nowrap"><%= check_box_tag "variables[#{hash[:name]}][ignore]", '1', ignore %> do not add to design</label>
           </div>
         </div>
       </div>

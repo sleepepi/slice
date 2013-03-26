@@ -17,6 +17,7 @@
 - `Include missing` is now always displayed on the design report
 - Saving numeric and integers with domains no longer forces the domain to cover all the captured values
 - Design imports now correctly ignore columns of data with blank headers
+- Design imports now correctly import already existing variables along with newly created variables
 
 ## 0.14.4 (March 20, 2013)
 
