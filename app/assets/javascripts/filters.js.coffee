@@ -56,9 +56,9 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="filters-link"]', () ->
-      # alert root_url + "projects/1/designs/17/blank?" + $('#filters_form').serialize()
-      alert 'debug hardcoded!'
-      window.location = root_url + "projects/1/designs/17/blank?" + $('#filters_form').serialize()
+      project_id = $(this).data('project-id')
+      design_id = $(this).data('design-id')
+      window.location = root_url + "projects/#{project_id}/designs/#{design_id}/blank?" + $('#filters_form').serialize()
       false
     )
 

@@ -11,7 +11,7 @@
 
 <%= link_to 'Add Filter', '#', class: 'btn', data: { object: 'open-new-filter-modal', target: '#new_filter_form' } %>
 
-<%= link_to 'Link with filters', '#', class: 'btn', data: { object: 'filters-link' } %>
+<%= link_to 'Link with filters', '#', class: 'btn', data: { object: 'filters-link', project_id: @project.id, design_id: @design.id } %>
 
 <br /> <br />
 

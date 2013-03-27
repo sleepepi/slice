@@ -1,9 +1,7 @@
 <div class="row-fluid">
   <div class="span6 download-container">
-    <h3>Select Variable</h3>
-    <%= @variable.display_name %>
-
-    <label class="checkbox"><%= check_box_tag :missing, '1', params[:missing] == '1' %> Include Missing</label>
+    <h3><%= @variable.display_name %></h3>
+    <label class="checkbox <%= 'selected' if params[:missing] == '1' %>"><%= check_box_tag :missing, '1', params[:missing] == '1' %> Include Missing</label>
 
   </div>
 
