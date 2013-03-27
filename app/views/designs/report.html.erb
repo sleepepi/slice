@@ -82,7 +82,6 @@
     </div>
     <div class="span4">
       <div class="pull-right">
-        <% if false %>
           <span class="dropdown">
             <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
             <ul class="dropdown-menu" style="margin-top:9px">
@@ -91,7 +90,6 @@
               <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
             </ul>
           </span>
-        <% end %>
         <button type="submit" class="btn btn-primary">Refresh</button>
       </div>
     </div>

@@ -316,4 +316,49 @@ module Buildable
     table_row
   end
 
+  def generate_table_csv_new
+    @csv_string = CSV.generate do |csv|
+      csv << [@report_title]
+      csv << [@report_subtitle.gsub("&middot;", " - ")]
+      csv << [@report_caption]
+      csv << []
+
+      row = []
+      @table_header.each do |header|
+        if header.kind_of?(Hash)
+          row << (header[:name].blank? ? 'Unknown' : header[:name].to_s)
+        else
+          row << header
+        end
+      end
+      csv << row
+
+      @table_body.each do |body|
+        row = []
+        body[:cells].each do |hash|
+          row << (hash[:name].blank? ? 'Unknown' : hash[:name].to_s)
+        end
+        csv << row
+      end
+
+      row = []
+      @table_footer[:cells].each do |hash|
+        if hash[:colspan].blank?
+           row << (hash[:name].blank? ? 'Unknown' : hash[:name].to_s)
+        else
+          row << hash[:name]
+          ([""]*(hash[:colspan] - 1)).each do |item|
+            row << item
+          end
+        end
+      end
+      csv << row
+
+
+    end
+    file_name = @report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                           disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
 end

@@ -64,15 +64,12 @@ class DesignsController < ApplicationController
 
   def report
     setup_report_new
+    generate_table_csv_new if params[:format] == 'csv'
   end
 
   def reporter
     setup_report
-
-    if params[:format] == 'csv'
-      generate_table_csv(@design, @sheets, @ranges, @strata, @variable, @column_variable, @report_title, @report_caption)
-      return
-    end
+    generate_table_csv(@design, @sheets, @ranges, @strata, @variable, @column_variable, @report_title, @report_caption) if params[:format] == 'csv'
   end
 
   def copy
