@@ -62,27 +62,16 @@ class DesignsController < ApplicationController
     end
   end
 
-  def reporter
+  def report
     setup_report_new
-
-    respond_to do |format|
-      format.html # report.html.erb
-      format.js { render 'reporter' }
-    end
   end
 
-  def report
+  def reporter
     setup_report
 
     if params[:format] == 'csv'
       generate_table_csv(@design, @sheets, @ranges, @strata, @variable, @column_variable, @report_title, @report_caption)
       return
-    end
-
-    respond_to do |format|
-      format.html # report.html.erb
-      format.json { render json: @design }
-      format.js { render 'report' }
     end
   end
 
