@@ -1,0 +1,14 @@
+<% v = @project.variables.find_by_id(filter[:id]) %>
+<% if v %>
+  <div id="variable_<%= v.id %>" class="filter-bubble">
+    <%= hidden_field_tag "f[][id]", v.id %>
+    <%= hidden_field_tag "f[][missing]", filter[:missing], data: { name: 'missing' } %>
+    <%= hidden_field_tag "f[][axis]", filter[:axis], data: { name: 'axis' } %>
+    <span class="label" title="<%= v.display_name %>" rel="tooltip">
+      <%= v.name %>
+    </span>
+    <% if filter[:missing] == '1' %><span class="label label-info" title="Includes Missing" rel="tooltip">m</span><% end %>
+    <%= link_to 'edit', '#', data: { object: 'edit-filter', variable_id: v.id, project_id: v.project_id }, class: 'btn btn-mini' %>
+    <%= link_to 'remove', "#", data: { object: 'remove', target: "variable_#{v.id}" }, class: 'btn btn-mini btn-danger' %>
+  </div>
+<% end %>

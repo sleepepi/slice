@@ -1,11 +1,15 @@
 class VariablesController < ApplicationController
   before_action :authenticate_user!, except: [ :add_grid_row, :format_number, :typeahead ]
+  before_action :set_viewable_project, only: [ :cool_lookup ]
   before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :cool_lookup ]
   before_action :set_editable_variable, only: [ :show, :edit, :update, :destroy ]
   before_action :set_authenticatable_variable, only: [ :add_grid_row, :typeahead, :format_number ]
   before_action :redirect_without_variable, only: [ :show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number ]
 
+  def cool_lookup
+    @variable = @project.variables.find_by_id(params[:variable_id])
+  end
 
   def typeahead
     render json: ( ['string'].include?(@variable.variable_type) ? @variable.autocomplete_array : [] )

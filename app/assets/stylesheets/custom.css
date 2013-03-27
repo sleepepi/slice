@@ -358,3 +358,34 @@ textarea:focus.warning-input  {
 .sheet-container .inline.radio input[type="radio"], .sheet-container .inline.checkbox input[type="checkbox"]{
   margin-left: -15px;
 }
+
+div.filter-bubble, div.filter-bubble-faded {
+  padding: 5px;
+  margin: 2px;
+  cursor: move;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+div.filter-bubble-faded {
+  background-color: #eee;
+  border: 1px dotted #ddd;
+  height: 1.2em;
+}
+
+.droppable-hover {
+  background-color: #ffffd4;
+}
+
+div.filter-sort-container {
+  min-height: 50px;
+  padding: 2px;
+  /*background-color: #fff;*/
+  /*border: 1px solid #ddd;*/
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}

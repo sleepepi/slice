@@ -18,6 +18,10 @@ Slice::Application.routes.draw do
       post :report
       get :subject_report
       get :settings
+      post :filters
+      post :new_filter
+      post :edit_filter
+      post :update_filter
     end
 
     collection do
@@ -55,6 +59,8 @@ Slice::Application.routes.draw do
         post :report
         get :reporter
         post :reporter
+        get :blank
+        post :blank
         get :report_print
         post :progress
       end
@@ -105,6 +111,7 @@ Slice::Application.routes.draw do
         # post :add_option
         # post :options
         post :add_grid_variable
+        post :cool_lookup
       end
     end
   end

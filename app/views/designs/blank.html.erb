@@ -1,0 +1,29 @@
+<div id="contour-backdrop" style="display:none"></div>
+
+<div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
+  <div class="contour-modal" data-object="contour_modal_container" id="filter-modal">
+  <%# Begin %>
+
+  <%# End %>
+  </div>
+</div>
+
+
+<%= link_to 'Add Filter', '#', class: 'btn', data: { object: 'open-new-filter-modal', target: '#new_filter_form' } %>
+
+<%= link_to 'Link with filters', '#', class: 'btn', data: { object: 'filters-link' } %>
+
+<br /> <br />
+
+<%= form_tag new_filter_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: 'new_filter_form', style: 'display:none' do %>
+<% end %>
+
+<%= form_tag filters_project_path(@design.project), method: :post, remote: true, id: 'filters_form' do %>
+
+<div id="filters">
+  <%= render partial: 'filters/filters' %>
+</div>
+
+<% end %>
+
+
