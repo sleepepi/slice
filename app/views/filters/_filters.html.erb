@@ -3,9 +3,11 @@
 <% column_filters = filters.select{|f| f[:axis] == 'col' } %>
 <% row_filters = filters.select{|f| f[:axis] != 'col' } %>
 
+<div style="clear:both"></div>
+
 <div class="row-fluid">
   <div class="span6">
-    <strong>Row (Max 3)</strong>
+    <div class="center">Row (Max 3)</div>
     <div class="filter-sort-container" data-axis="row">
       <% row_filters.each do |filter| %>
         <%= render partial: 'filters/variable_filter_bubble', locals: { filter: filter } %>
@@ -14,7 +16,7 @@
   </div>
 
   <div class="span6">
-    <strong>Column (Max 1)</strong>
+    <div class="center">Column (Max 1)</div>
     <div class="filter-sort-container" data-axis="col">
       <% column_filters.each do |filter| %>
         <%= render partial: 'filters/variable_filter_bubble', locals: { filter: filter } %>

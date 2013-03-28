@@ -2,6 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@submitReportWithFilters = () ->
+  filters = $("#filters_form").serialize()
+  $.post($("#report_form").attr('action'), filters + '&' + $("#report_form").serialize(), null, 'script')
+
 @loadPeity = () ->
   $.each($('[data-object~="sparkline"]'), () ->
     $(this).show()

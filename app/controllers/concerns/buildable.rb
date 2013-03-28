@@ -62,8 +62,19 @@ module Buildable
 
 
   def setup_report_new
+    filters = (params[:f] || []).uniq {|f| f[:id] }
+
+    filters.collect!{|h| h.merge(variable: @project.variables.find_by_id(h[:id]))}.select!{|h| not h[:variable].blank?}
+
+    @column_filters = filters.select{|f| f[:axis] == 'col' }[0..0]
+    @row_filters = filters.select{|f| f[:axis] != 'col' }[0..2]
+
+
+
+
 
     params[:row_variable_ids] = 'site' if params[:row_variable_ids].blank?
+
 
     params[:column_variable_ids] = params[:column_variable_id].to_s.split(',')[0]
     params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array)
@@ -76,7 +87,7 @@ module Buildable
 
       set_row_variables
 
-      @column_variables = @design.pure_variables.where(id: params[:column_variable_ids]).sort{ |a, b| params[:column_variable_ids].index(a.id.to_s) <=> params[:column_variable_ids].index(b.id.to_s) }
+      # @column_variables = @design.pure_variables.where(id: params[:column_variable_ids]).sort{ |a, b| params[:column_variable_ids].index(a.id.to_s) <=> params[:column_variable_ids].index(b.id.to_s) }
 
       build_row_filters
 
@@ -190,7 +201,7 @@ module Buildable
         "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
       end
 
-      @report_title = [@row_variables.collect{|i| i[:variable].display_name}.join(' & '), @column_variables.collect{|i| i.display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
+      @report_title = [@row_variables.collect{|i| i[:variable].display_name}.join(' & '), @column_filters.collect{|h| h[:variable].display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
 
       @report_subtitle = (@design ? @design.name + " &middot; " + @design.project.name : '')
     end
@@ -224,15 +235,30 @@ module Buildable
   end
 
   def set_row_variables
+
     @row_variables = []
-    params[:row_variable_ids].each do |variable_id|
-      if variable_id == 'site'
-        @row_variables << { variable: Variable.site(@design.project_id), include_missing: false }
-      else
-        variable = @design.pure_variables.find_by_id(variable_id)
-        @row_variables << { variable: variable, include_missing: params[:row_include_missing].to_s == '1' } if variable
-      end
+    @row_filters.each do |filter|
+      @row_variables << { variable: filter[:variable], include_missing: (filter[:missing] == '1') }
+
+      # if variable_id == 'site'
+      #   @row_variables << { variable: Variable.site(@design.project_id), include_missing: false }
+      # else
+      #   variable = @design.pure_variables.find_by_id(variable_id)
+      #   @row_variables << { variable: variable, include_missing: params[:row_include_missing].to_s == '1' } if variable
+      # end
     end
+
+
+
+    # @row_variables = []
+    # params[:row_variable_ids].each do |variable_id|
+    #   if variable_id == 'site'
+    #     @row_variables << { variable: Variable.site(@design.project_id), include_missing: false }
+    #   else
+    #     variable = @design.pure_variables.find_by_id(variable_id)
+    #     @row_variables << { variable: variable, include_missing: params[:row_include_missing].to_s == '1' } if variable
+    #   end
+    # end
   end
 
   def build_row_filters
@@ -261,9 +287,13 @@ module Buildable
 
   def build_table_header
     @table_header = @row_variables.collect{ |h| h[:variable].display_name }
-    @column_variables.each do |v|
-      @table_header += v.report_strata(true)
+
+    @column_filters.each do |filter|
+      @table_header += filter[:variable].report_strata(filter[:missing] == '1')
     end
+    # @column_variables.each do |v|
+    #   @table_header += v.report_strata(true) # include missing is here for params[:column_variable_ids]
+    # end
     @table_header << { name: 'Total', calculation: 'array_count' }
   end
 
@@ -272,7 +302,7 @@ module Buildable
     table_row = [{ name: 'Total', colspan: @row_variables.size }] if @row_variables.size > 0
     table_row += build_row
 
-    calculator = @column_variables.first
+    calculator = @column_filters.first[:variable] if @column_filters.first
     (values, chart_type) = if calculator and calculator.has_statistics?
       [Sheet.array_responses_with_filters(@sheets, calculator, []), 'box']
     else
@@ -283,7 +313,7 @@ module Buildable
   end
 
   def build_table_body
-    calculator = @column_variables.first
+    calculator = @column_filters.first[:variable] if @column_filters.first
     @table_body = []
     @row_filters.each do |row_info|
       table_row = []

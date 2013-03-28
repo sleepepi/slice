@@ -5,11 +5,92 @@
   </h1>
 </div>
 
+<div id="contour-backdrop" style="display:none"></div>
+
+<div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
+  <div class="contour-modal" data-object="contour_modal_container" id="filter-modal">
+  </div>
+</div>
+
+<%= form_tag new_filter_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: 'new_filter_form', style: 'display:none' do %>
+<% end %>
+
+<div class="row-fluid">
+  <div class="span6 download-container">
+    <div class="download-container-after">Filters</div>
+    <%= link_to 'Add Filter', '#', class: 'btn btn-mini pull-right', data: { object: 'open-new-filter-modal', target: '#new_filter_form' } %>
+    <%= form_tag filters_project_path(@design.project), method: :post, remote: true, id: 'filters_form' do %>
+      <div id="filters">
+        <%= render partial: 'filters/filters' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="span6 download-container">
+    <div class="download-container-after">Format</div>
+
+    <%= form_tag report_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
+      <%= hidden_field_tag :by, @by %>
+      <%= hidden_field_tag :percent, @percent %>
+      <%= hidden_field_tag :filter, @filter %>
+      <%= hidden_field_tag :page, params[:page] %>
+
+      <div class="btn-toolbar" style="padding-top:3px;margin-top:0px;">
+        <div class="btn-group pull-right" data-toggle="buttons-radio">
+          <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if @percent == 'none' %>">No Percents</button>
+          <button data-object="set-percent" data-value="row" class="btn btn-mini <%= 'active' if @percent == 'row' %>">% by Row</button>
+          <button data-object="set-percent" data-value="column" class="btn btn-mini <%= 'active' if @percent == 'column' %>">% by Column</button>
+        </div>
+      </div>
+
+      <div>
+        After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "After", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+      </div>
+
+      <div>
+        <span style="white-space:nowrap">
+          Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "Before", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+        </span>
+      </div>
+
+      <div class="btn-toolbar" style="padding-top:0px;margin-top:0px">
+        <div class="btn-group pull-right" data-toggle="buttons-radio">
+          <button data-object="set-by" data-value="week" class="btn btn-mini <%= 'active' if @by == 'week' %>">Week</button>
+          <button data-object="set-by" data-value="month" class="btn btn-mini <%= 'active' if @by == 'month' %>">Month</button>
+          <button data-object="set-by" data-value="year" class="btn btn-mini <%= 'active' if @by == 'year' %>">Year</button>
+        </div>
+      </div>
+
+      Subjects
+      <div class="btn-group" data-toggle="buttons-checkbox">
+        <% Subject::STATUS.each do |label, value| %>
+          <button data-object="set-statuses" data-value="<%= value %>" data-target="#report_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+            <%= label.humanize %>
+            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+          </button>
+        <% end %>
+      </div>
+
+      <div class="btn-toolbar" style="padding-top:3px;margin-top:0px;">
+        <div class="btn-group" data-toggle="buttons-radio">
+          <button data-object="set-filter" data-value="all" class="btn btn-mini <%= 'active' if @filter == 'all' %>">All Sheets</button>
+          <button data-object="set-filter" data-value="last" class="btn btn-mini <%= 'active' if @filter == 'last' %>">Last Sheet Entry</button>
+          <button data-object="set-filter" data-value="first" class="btn btn-mini <%= 'active' if @filter == 'first' %>">First Sheet Entry</button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if false %>
+
 <%= form_tag report_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <%= hidden_field_tag :by, @by %>
   <%= hidden_field_tag :percent, @percent %>
   <%= hidden_field_tag :filter, @filter %>
   <%= hidden_field_tag :page, params[:page] %>
+
+
 
   <% params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array) %>
 
@@ -41,6 +122,8 @@
       </div>
     </div>
   </div>
+
+
 
   <div class="row-fluid">
     <div class="span4">
@@ -94,6 +177,7 @@
       </div>
     </div>
   </div>
+<% end %>
 <% end %>
 
 <hr class="soften" style="margin-top:20px;margin-bottom:20px">

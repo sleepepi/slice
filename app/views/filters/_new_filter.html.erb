@@ -5,6 +5,7 @@
       <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric']) %>
       <%= select_tag :variable_id, grouped_options_for_select(row_variable_groups, params[:row_variable_id]), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' } %>
       <label class="checkbox"><%= check_box_tag :missing, '1', false %> Include Missing</label>
+      <%= hidden_field_tag :axis, 'row' %>
     <% end %>
 
   </div>
