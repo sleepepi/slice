@@ -4,10 +4,10 @@
     <%= hidden_field_tag "f[][id]", v.id %>
     <%= hidden_field_tag "f[][missing]", filter[:missing], data: { name: 'missing' } %>
     <%= hidden_field_tag "f[][axis]", filter[:axis], data: { name: 'axis' } %>
-    <span class="label" title="<%= v.display_name %>" rel="tooltip">
+    <span class="label" title="<%= v.display_name %>">
       <%= v.name %>
     </span>
-    <% if filter[:missing] == '1' %><span class="label" style="background-color:#7aa6ff;" title="Includes Missing" rel="tooltip">m</span><% end %>
+    <% if filter[:missing] == '1' %><span class="label" style="background-color:#7aa6ff;" title="Includes Missing">m</span><% end %>
     <%= link_to 'edit', '#', data: { object: 'edit-filter', variable_id: v.id, project_id: v.project_id }, class: 'btn btn-mini' %>
     <%= link_to 'remove', "#", data: { object: 'remove', target: "variable_#{v.id}" }, class: 'btn btn-mini btn-danger' %>
   </div>
