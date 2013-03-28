@@ -1,24 +1,31 @@
+<% filters = (params[:f] || []).uniq {|f| f[:id] } %>
+<% filter_ids = filters.collect{|f| f[:id]} %>
+<% filter_ids = [0] if filter_ids.blank? %>
+<% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric'], filter_ids) %>
+
 <div class="row-fluid">
   <div class="span6 download-container">
     <h3>Select Variable</h3>
     <%= form_tag cool_lookup_project_variables_path(@design.project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'cool_lookup_form' do %>
-      <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric']) %>
-      <%= select_tag :variable_id, grouped_options_for_select(row_variable_groups, params[:row_variable_id]), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' } %>
-      <label class="checkbox"><%= check_box_tag :missing, '1', false %> Include Missing</label>
-      <%= hidden_field_tag :axis, 'row' %>
+      <% if row_variable_groups.blank? %>
+        No Variables available as Filters
+      <% else %>
+        <%= select_tag :variable_id, grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' } %>
+        <label class="checkbox"><%= check_box_tag :missing, '1', false %> Include Missing</label>
+        <%= hidden_field_tag :axis, 'row' %>
+      <% end %>
     <% end %>
-
   </div>
 
   <div class="span6 download-container">
-    <h3>Cool Variable Options!</h3>
+    <h3>Description</h3>
     <div id="cool-options"></div>
   </div>
 </div>
 
 <div class="row-fluid">
   <div class="span6">
-    <%= button_tag 'Add to Filters', data: { object: 'add-filter' }, class: 'btn btn-primary btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
+    <%= button_tag 'Add to Filters', data: { object: 'add-filter' }, disabled: row_variable_groups.blank?, class: 'btn btn-primary btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
   </div>
 
   <div class="span6">
