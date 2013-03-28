@@ -218,9 +218,12 @@ class Sheet < ActiveRecord::Base
   end
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
-  def self.with_stratum(stratum_id, stratum_value)
+  def self.with_stratum(stratum_id, stratum_value, stratum_start_date = nil, stratum_end_date = nil)
     if stratum_id == 'site' or stratum_id == nil
       self.with_site(stratum_value)
+    elsif stratum_id == 'sheet_date'
+      stratum_variable = Variable.sheet_date(0) # 0 project?...
+      self.sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
     elsif stratum_id != nil and not stratum_value.blank? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       self.with_variable_response(stratum_id, stratum_value)
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
@@ -399,7 +402,7 @@ class Sheet < ActiveRecord::Base
 
   def self.filter_sheet_scope(sheet_scope, filters)
     (filters || []).each do |filter|
-      sheet_scope = sheet_scope.with_stratum(filter[:variable_id], filter[:value])
+      sheet_scope = sheet_scope.with_stratum(filter[:variable_id], filter[:value], filter[:start_date], filter[:end_date])
     end
     sheet_scope
   end

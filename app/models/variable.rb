@@ -356,9 +356,9 @@ class Variable < ActiveRecord::Base
     elsif self.variable_type == 'site' and self.project
       self.project.sites.collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
     elsif self.variable_type == 'sheet_date' and self.project
-      [
-        { filters: [], name: 'Jan 2013', calculation: 'array_count' }
-      ]
+      ["2013-01-01", "2013-02-01", "2013-03-01"].collect do |start_date|
+        { filters: [{ variable_id: 'sheet_date', start_date: Date.parse(start_date), end_date: Date.parse(start_date).end_of_month }], name: Date.parse(start_date).strftime("%b %Y"), calculation: 'array_count', start_date: Date.parse(start_date), end_date: Date.parse(start_date).end_of_month }
+      end
     elsif self.variable_type == 'date'
       [
         { filters: [], name: 'Jan 2013', calculation: 'array_count' }
@@ -366,7 +366,7 @@ class Variable < ActiveRecord::Base
     else
       []
     end
-    @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing and not ['site'].include?(self.variable_type)
+    @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
     @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id })}
     @report_strata[0..(max_strata - 1)]
   end
