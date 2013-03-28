@@ -379,7 +379,13 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_responses(sheet_scope, variable)
-    responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck(:id), variable_id: variable.id).pluck(:response) : [])
+    responses = []
+    if variable and ['site', 'sheet_date'].include?(variable.variable_type)
+      responses = sheet_scope.collect{|s| s.subject.site_id } if variable.variable_type == 'site'
+      responses = sheet_scope.pluck(:created_at) if variable.variable_type == 'sheet_date'
+    else
+      responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck(:id), variable_id: variable.id).pluck(:response) : [])
+    end
     # Convert to integer or float
     variable && variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)
   end
@@ -423,6 +429,7 @@ class Sheet < ActiveRecord::Base
 
     sheet_scope = filter_sheet_scope(sheet_scope, filters)
     number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck(:id)))
+
     name = (number == nil ? '-' : number)
 
     [name, number]

@@ -288,13 +288,9 @@ module Buildable
 
   def build_table_header
     @table_header = @row_variables.collect{ |h| h[:variable].display_name }
-
     @column_filters.each do |filter|
       @table_header += filter[:variable].report_strata(filter[:missing] == '1')
     end
-    # @column_variables.each do |v|
-    #   @table_header += v.report_strata(true) # include missing is here for params[:column_variable_ids]
-    # end
     @table_header << { name: 'Total', calculation: 'array_count' }
   end
 
