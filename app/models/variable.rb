@@ -355,6 +355,8 @@ class Variable < ActiveRecord::Base
       options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }
     elsif self.variable_type == 'site' and self.project
       self.project.sites.collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
+    elsif self.variable_type == 'sheet_date' and self.project
+      []
     else
       []
     end
@@ -365,6 +367,10 @@ class Variable < ActiveRecord::Base
 
   def self.site(project_id)
     self.new( project_id: project_id, name: 'site', display_name: 'Site', variable_type: 'site' )
+  end
+
+  def self.sheet_date(project_id)
+    self.new( project_id: project_id, name: 'sheet_date', display_name: 'Sheet Date', variable_type: 'sheet_date' )
   end
 
   def sas_informat

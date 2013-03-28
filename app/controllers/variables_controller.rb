@@ -8,7 +8,7 @@ class VariablesController < ApplicationController
   before_action :redirect_without_variable, only: [ :show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number ]
 
   def cool_lookup
-    @variable = @project.variables.find_by_id(params[:variable_id])
+    @variable = @project.variable_by_id(params[:variable_id])
   end
 
   def typeahead

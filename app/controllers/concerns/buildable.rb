@@ -62,9 +62,10 @@ module Buildable
 
 
   def setup_report_new
-    filters = (params[:f] || []).uniq {|f| f[:id] }
+    filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }]).uniq {|f| f[:id] }
+    # filters = (params[:f] || []).uniq {|f| f[:id] }
 
-    filters.collect!{|h| h.merge(variable: @project.variables.find_by_id(h[:id]))}.select!{|h| not h[:variable].blank?}
+    filters.collect!{|h| h.merge(variable: @project.variable_by_id(h[:id]))}.select!{|h| not h[:variable].blank?}
 
     @column_filters = filters.select{|f| f[:axis] == 'col' }[0..0]
     @row_filters = filters.select{|f| f[:axis] != 'col' }[0..2]
@@ -73,12 +74,12 @@ module Buildable
 
 
 
-    params[:row_variable_ids] = 'site' if params[:row_variable_ids].blank?
+    # params[:row_variable_ids] = 'site' if params[:row_variable_ids].blank?
 
 
     params[:column_variable_ids] = params[:column_variable_id].to_s.split(',')[0]
-    params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array)
-    params[:row_variable_ids] = params[:row_variable_ids][0..2] if params[:row_variable_ids].kind_of?(Array)
+    # params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array)
+    # params[:row_variable_ids] = params[:row_variable_ids][0..2] if params[:row_variable_ids].kind_of?(Array)
     params[:page] = (params[:page].to_i < 1 ? 1 : params[:page].to_i)
 
     set_sheet_scope
@@ -89,7 +90,7 @@ module Buildable
 
       # @column_variables = @design.pure_variables.where(id: params[:column_variable_ids]).sort{ |a, b| params[:column_variable_ids].index(a.id.to_s) <=> params[:column_variable_ids].index(b.id.to_s) }
 
-      build_row_filters
+      build_row_strata
 
 
 
@@ -261,28 +262,28 @@ module Buildable
     # end
   end
 
-  def build_row_filters
+  def build_row_strata
     max_strata = 0
     max_strata = 50 if @row_variables.size == 3
     max_strata = 300 if @row_variables.size == 2
 
-    @row_filters = []
+    @row_strata = []
     @row_variables.each do |hash|
       strata = hash[:variable].report_strata(hash[:include_missing], max_strata)
       unless strata.blank?
-        if @row_filters.blank?
-          @row_filters = strata.collect{|i| [i]}
+        if @row_strata.blank?
+          @row_strata = strata.collect{|i| [i]}
         else
-          @row_filters = @row_filters.product(strata).collect{ |i| i.flatten }
+          @row_strata = @row_strata.product(strata).collect{ |i| i.flatten }
         end
       end
     end
 
     @per_page = 20
 
-    @total_rows = @row_filters.size
+    @total_rows = @row_strata.size
     params[:page] = 1 if (params[:page]-1) * @per_page >= @total_rows
-    @row_filters = @row_filters[(params[:page] - 1) * @per_page..(params[:page] * @per_page) - 1]
+    @row_strata = @row_strata[(params[:page] - 1) * @per_page..(params[:page] * @per_page) - 1]
   end
 
   def build_table_header
@@ -315,10 +316,10 @@ module Buildable
   def build_table_body
     calculator = @column_filters.first[:variable] if @column_filters.first
     @table_body = []
-    @row_filters.each do |row_info|
+    @row_strata.each do |row_stratum|
       table_row = []
-      table_row += row_info.collect{ |info| { name: info[:name] } }
-      filters = row_info.collect{|info| info[:filters] }.flatten
+      table_row += row_stratum.collect{ |info| { name: info[:name] } }
+      filters = row_stratum.collect{|info| info[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator and calculator.has_statistics?
         [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']

@@ -1,7 +1,11 @@
 <% filters = (params[:f] || []).uniq {|f| f[:id] } %>
-<% filter_ids = filters.collect{|f| f[:id]} %>
+<%# filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }]).uniq {|f| f[:id] } %>
+<% filter_ids = filters.reject{|f| ['site', 'sheet_date'].include?(f[:id]) }.collect{|f| f[:id]} %>
 <% filter_ids = [0] if filter_ids.blank? %>
 <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric'], filter_ids) %>
+<% extra_variables = [] %>
+<% extra_variables << ['Site', 'site'] if filters.select{|f| f[:id] == 'site'}.size == 0 %>
+<% extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0 %>
 
 <div class="row-fluid">
   <div class="span6 download-container">
@@ -10,7 +14,7 @@
       <% if row_variable_groups.blank? %>
         No Variables available as Filters
       <% else %>
-        <%= select_tag :variable_id, grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' } %>
+        <%= select_tag :variable_id, options_for_select(extra_variables) + grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' } %>
         <label class="checkbox"><%= check_box_tag :missing, '1', false %> Include Missing</label>
         <%= hidden_field_tag :axis, 'row' %>
       <% end %>

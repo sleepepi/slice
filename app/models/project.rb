@@ -66,6 +66,16 @@ class Project < ActiveRecord::Base
     result = result.select{ |u| u.email_on?(:send_email) and u.email_on?("project_#{self.id}") }
   end
 
+  # Returns "fake" constructed variables like 'site' and 'sheet_date'
+  def variable_by_id(variable_id)
+    if variable_id == 'site'
+      Variable.site(self.id)
+    elsif variable_id == 'sheet_date'
+      Variable.sheet_date(self.id)
+    else
+      self.variables.find_by_id(variable_id)
+    end
+  end
 
   private
 

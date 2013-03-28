@@ -5,7 +5,7 @@
     connectWith: '.filter-sort-container, #trash'
     activeClass: 'droppable-hover'
     # start: $('[rel~=tooltip]').tooltip('hide')
-    stop: ( event, ui ) ->
+    update: ( event, ui ) ->
       axis = $(ui.item).parent('.filter-sort-container').data('axis')
       $(ui.item).children('input[data-name~="axis"]').val(axis)
       submitReportWithFilters()
