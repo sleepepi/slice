@@ -1,5 +1,5 @@
 <%# filters = (params[:f] || []).uniq {|f| f[:id] } %>
-<% filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0' }]).uniq {|f| f[:id] } %>
+<% filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0', by: 'month' }]).uniq {|f| f[:id] } %>
 
 <% column_filters = filters.select{|f| f[:axis] == 'col' } %>
 <% row_filters = filters.select{|f| f[:axis] != 'col' } %>

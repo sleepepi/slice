@@ -1,8 +1,7 @@
 <% filters = (params[:f] || []).uniq {|f| f[:id] } %>
-<%# filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }]).uniq {|f| f[:id] } %>
 <% filter_ids = filters.reject{|f| ['site', 'sheet_date'].include?(f[:id]) }.collect{|f| f[:id]} %>
 <% filter_ids = [0] if filter_ids.blank? %>
-<% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric'], filter_ids) %>
+<% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric', 'date'], filter_ids) %>
 <% extra_variables = [] %>
 <% extra_variables << ['Site', 'site'] if filters.select{|f| f[:id] == 'site'}.size == 0 %>
 <% extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0 %>
@@ -10,7 +9,7 @@
 <div class="row-fluid">
   <div class="span6 download-container">
     <h3>Select Variable</h3>
-    <%= form_tag cool_lookup_project_variables_path(@design.project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'cool_lookup_form' do %>
+    <%= form_tag cool_lookup_project_variables_path(@design.project), method: :post, remote: true, class: "form-inline", id: 'cool_lookup_form' do %>
       <% if row_variable_groups.blank? %>
         No Variables available as Filters
       <% else %>
@@ -23,7 +22,9 @@
 
   <div class="span6 download-container">
     <h3>Description</h3>
-    <div id="cool-options"></div>
+    <div id="cool-options">
+      <%#= render partial: 'filters/cool_options' %>
+    </div>
   </div>
 </div>
 

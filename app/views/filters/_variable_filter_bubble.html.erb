@@ -4,8 +4,10 @@
     <%= hidden_field_tag "f[][id]", filter[:id] %>
     <%= hidden_field_tag "f[][missing]", filter[:missing], data: { name: 'missing' } %>
     <%= hidden_field_tag "f[][axis]", filter[:axis], data: { name: 'axis' } %>
+    <%= hidden_field_tag "f[][by]", filter[:by], data: { name: 'by' } %>
     <i class="icon-move"></i>
-    <% if filter[:missing] == '1' %><span class="label" style="background-color:#7aa6ff;" title="Includes Missing">m</span><% end %>
+    <% if filter[:missing] == '1' %><span class="label" style="background-color:#ffc8ba;" title="Includes Missing">m</span><% end %>
+    <% if ['sheet_date', 'date'].include?(v.variable_type) %><span class="label" style="background-color:#7aa6ff;" title="by"><%= filter[:by] %></span><% end %>
     <span title="<%= v.display_name %>" style="overflow:hidden;cursor:pointer;font-size:0.8em">
       <%= v.display_name %>
     </span>

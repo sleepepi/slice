@@ -356,7 +356,13 @@ class Variable < ActiveRecord::Base
     elsif self.variable_type == 'site' and self.project
       self.project.sites.collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
     elsif self.variable_type == 'sheet_date' and self.project
-      []
+      [
+        { filters: [], name: 'Jan 2013', calculation: 'array_count' }
+      ]
+    elsif self.variable_type == 'date'
+      [
+        { filters: [], name: 'Jan 2013', calculation: 'array_count' }
+      ]
     else
       []
     end

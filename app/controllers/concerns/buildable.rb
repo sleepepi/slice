@@ -62,7 +62,7 @@ module Buildable
 
 
   def setup_report_new
-    filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0' }]).uniq {|f| f[:id] }
+    filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0', by: 'month' }]).uniq {|f| f[:id] }
     # filters = (params[:f] || []).uniq {|f| f[:id] }
 
     filters.collect!{|h| h.merge(variable: @project.variable_by_id(h[:id]))}.select!{|h| not h[:variable].blank?}
