@@ -26,24 +26,30 @@
 
 jQuery ->
   $(document)
-    .on('click', '[data-object~="set-percent"]', () ->
+    .on('click', '[data-object~="set-percent"]', (e) ->
       $("#percent").val($(this).data('value'))
-      # $("#report_form").submit()
+      submitReportWithFilters()
+      e.preventDefault()
     )
-    .on('click', '[data-object~="set-by"]', () ->
+    .on('click', '[data-object~="set-by"]', (e) ->
       $("#by").val($(this).data('value'))
-      # $("#report_form").submit()
+      submitReportWithFilters()
+      e.preventDefault()
     )
-    .on('click', '[data-object~="set-filter"]', () ->
+    .on('click', '[data-object~="set-filter"]', (e) ->
       $("#filter").val($(this).data('value'))
-      # $("#report_form").submit()
+      submitReportWithFilters()
+      e.preventDefault()
     )
     .on('click', '[data-object~="set-statuses"]', () ->
       if $(this).hasClass('active')
         $("#statuses_#{$(this).data('value')}").val('')
       else
         $("#statuses_#{$(this).data('value')}").val($(this).data('value'))
-      $($(this).data('target')).submit()
+      if $($(this).data('target')).length > 0
+        $($(this).data('target')).submit()
+      else
+        submitReportWithFilters()
     )
     .on('change', '[data-object~="form-reload"]', () ->
       $($(this).data('target')).submit()

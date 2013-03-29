@@ -219,12 +219,19 @@ class Sheet < ActiveRecord::Base
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
   def self.with_stratum(stratum_id, stratum_value, stratum_start_date = nil, stratum_end_date = nil)
-    if stratum_id == 'site' or stratum_id == nil
-      self.with_site(stratum_value)
+    stratum_variable = if stratum_id == 'site' or stratum_id == nil
+      Variable.site(0) # 0 project?...
     elsif stratum_id == 'sheet_date'
-      stratum_variable = Variable.sheet_date(0) # 0 project?...
+      Variable.sheet_date(0) # 0 project?...
+    else
+      Variable.find_by_id(stratum_id)
+    end
+
+    if stratum_variable and stratum_variable.variable_type == 'site'
+      self.with_site(stratum_value)
+    elsif stratum_variable and ['sheet_date', 'date'].include?(stratum_variable.variable_type)
       self.sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
-    elsif stratum_id != nil and not stratum_value.blank? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
+    elsif not stratum_value.blank? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       self.with_variable_response(stratum_id, stratum_value)
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
       self.without_variable_response(stratum_id)

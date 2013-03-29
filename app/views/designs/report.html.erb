@@ -30,7 +30,6 @@
     <div class="download-container-after">Format</div>
 
     <%= form_tag report_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load' }, class: "form-vertical", id: 'report_form', style: 'margin-top:15px' do %>
-      <%#= hidden_field_tag :by, @by %>
       <%= hidden_field_tag :percent, @percent %>
       <%= hidden_field_tag :filter, @filter %>
       <%= hidden_field_tag :page, params[:page] %>
@@ -40,7 +39,7 @@
         <div class="controls">
           <div class="btn-group" data-toggle="buttons-checkbox">
             <% Subject::STATUS.each do |label, value| %>
-              <button data-object="set-statuses" data-value="<%= value %>" data-target="#report_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+              <button data-object="set-statuses" data-value="<%= value %>" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
                 <%= label.humanize %>
                 <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
               </button>
@@ -75,6 +74,7 @@
         </div>
       </div>
 
+<% if false %>
       <div class="control-group">
         <label class="control-label">After</label>
         <div class="controls">
@@ -88,21 +88,8 @@
           <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "Before", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
         </div>
       </div>
-
-<% if false %>
-      <div class="control-group">
-        <label class="control-label">Date</label>
-        <div class="controls">
-          <div class="btn-toolbar">
-            <div class="btn-group" data-toggle="buttons-radio">
-              <button data-object="set-by" data-value="week" class="btn btn-mini <%= 'active' if @by == 'week' %>">Week</button>
-              <button data-object="set-by" data-value="month" class="btn btn-mini <%= 'active' if @by == 'month' %>">Month</button>
-              <button data-object="set-by" data-value="year" class="btn btn-mini <%= 'active' if @by == 'year' %>">Year</button>
-            </div>
-          </div>
-        </div>
-      </div>
 <% end %>
+
     <% end %>
   </div>
 </div>
