@@ -1,7 +1,7 @@
 <% filters = (params[:f] || []).uniq {|f| f[:id] } %>
 <% filter_ids = filters.reject{|f| ['site', 'sheet_date'].include?(f[:id]) }.collect{|f| f[:id]} %>
 <% filter_ids = [0] if filter_ids.blank? %>
-<% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric', 'date', 'integer'], filter_ids) %>
+<% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'radio', 'string', 'numeric', 'date', 'integer', 'calculated'], filter_ids) %>
 <% # All ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid', 'scale'] %>
 <% # Unused ['checkbox', 'text', 'time', 'file', 'calculated', 'grid', 'scale'] %>
 <% extra_variables = [] %>
