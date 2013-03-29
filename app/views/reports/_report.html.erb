@@ -98,6 +98,7 @@
                   <%= hash[:calculator].name if hash[:calculator] %>
                   <%= hash[:calculation] %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
+                  <%= hash.keys %>
                   ['<%= hash[:name].blank? ? 'Unknown' : hash[:name] %>', <%= hash[:count].inspect %>]
                 <% end %>
               </span>

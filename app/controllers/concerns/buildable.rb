@@ -265,10 +265,15 @@ module Buildable
     @table_header << { name: 'Total', calculation: 'array_count', column_type: 'total' }
   end
 
+  # TODO: Table footers need to exclue filters for missing variables if @row_filters contain :missing != '1'
   def build_table_footer
     table_row = []
     table_row = [{ name: 'Total', colspan: @row_filters.size }] if @row_filters.size > 0
-    table_row += build_row
+
+    # Add filters to total rows to remove additional missing counts if missing is set as false for a particular row variable
+    filters = @row_filters.select{|f| f[:missing] != '1'}.select{|f| f[:id].to_i > 0}.collect{|f| { variable_id: f[:id], value: :any }}
+
+    table_row += build_row(filters)
 
     calculator = @column_filters.first[:variable] if @column_filters.first
     (values, chart_type) = if calculator and calculator.has_statistics?
@@ -305,6 +310,8 @@ module Buildable
       if header.kind_of?(Hash)
         cell = header.dup
         cell[:filters] = (cell[:filters] || []) + filters
+        # This adds in row specific missing filters to accurately calculate the total row count
+        cell[:filters] = cell[:filters] + @column_filters.select{|f| f[:missing] != '1'}.select{|f| f[:id].to_i > 0}.collect{|f| { variable_id: f[:id], value: :any }} if header[:column_type] == 'total'
         (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters])
         # cell[:debug] = '1'
         table_row << cell
