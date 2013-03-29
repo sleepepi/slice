@@ -262,7 +262,7 @@ module Buildable
     @column_filters.each do |filter|
       @table_header += filter[:variable].report_strata(filter[:missing] == '1', 0, filter, @sheets)
     end
-    @table_header << { name: 'Total', calculation: 'array_count' }
+    @table_header << { name: 'Total', calculation: 'array_count', column_type: 'total' }
   end
 
   def build_table_footer
@@ -274,7 +274,7 @@ module Buildable
     (values, chart_type) = if calculator and calculator.has_statistics?
       [Sheet.array_responses_with_filters(@sheets, calculator, []), 'box']
     else
-      [table_row.collect{|cell| cell[:count]}.compact, 'line']
+      [table_row.select{|cell| cell[:column_type] != 'total'}.collect{|cell| cell[:count]}.compact, 'line']
     end
 
     @table_footer = { cells: table_row, values: values, chart_type: chart_type }
@@ -291,7 +291,7 @@ module Buildable
       (values, chart_type) = if calculator and calculator.has_statistics?
         [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
       else
-        [table_row.collect{|cell| cell[:count]}.compact, 'line']
+        [table_row.select{|cell| cell[:column_type] != 'total'}.collect{|cell| cell[:count]}.compact, 'line']
       end
       @table_body << { cells: table_row, values: values, chart_type: chart_type }
     end
