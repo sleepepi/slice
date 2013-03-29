@@ -17,7 +17,7 @@
     # }
   ).disableSelection()
 
-  $('.filter-sort-container').droppable( activeClass: 'droppable-hover' )
+  $('.filter-sort-container').droppable( activeClass: 'droppable-hover', tolerance: 'pointer' )
 
 
 jQuery ->
