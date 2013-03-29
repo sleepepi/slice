@@ -344,7 +344,7 @@ class Variable < ActiveRecord::Base
   end
 
   def report_strata(include_missing, max_strata = 0, hash, sheet_scope)
-    @report_strata = if self.has_statistics?
+    @report_strata = if self.has_statistics? and hash[:axis] == 'col'
       [ { filters: [], name: 'N',      calculation: 'array_count'                            },
         { filters: [], name: 'Mean',   calculation: 'array_mean'                             },
         { filters: [], name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
@@ -362,7 +362,7 @@ class Variable < ActiveRecord::Base
         { filters: [{ variable_id: (self.id ? self.id : self.name), start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }], name: date_bucket[:name], calculation: 'array_count', start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }
       end
     else
-      []
+      [ { filters: [], name: 'Collected', calculation: 'array_count' } ]
     end
     @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
     @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id ? self.id : self.name })}
