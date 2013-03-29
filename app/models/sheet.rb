@@ -404,7 +404,12 @@ class Sheet < ActiveRecord::Base
   # Ex: Sheet.array_calculation(Sheet.all, Variable.where(name: 'age'), 'array_mean')
   #     Would return the average of all ages on all sheets that contained age (as a sheet_variable, not as a grid or grid_response)
   def self.array_calculation(sheet_scope, variable, calculation)
-    number = self.send((calculation.blank? ? 'array_count' : calculation), self.array_responses(sheet_scope, variable))
+    number = if calculation.blank? or calculation == 'array_count'
+      # New, to account for sheets that are scoped based on a missing/non-entered value, should be counted as the count of sheets, not the count of responses.
+      sheet_scope.count
+    else
+      self.send((calculation.blank? ? 'array_count' : calculation), self.array_responses(sheet_scope, variable))
+    end
 
     unless (calculation.blank? or calculation == 'array_count') or number == nil
       if variable.variable_type == 'calculated' and not variable.format.blank?
