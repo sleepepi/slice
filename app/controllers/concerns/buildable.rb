@@ -86,8 +86,6 @@ module Buildable
 
     if @design
 
-      set_row_variables
-
       # @column_variables = @design.pure_variables.where(id: params[:column_variable_ids]).sort{ |a, b| params[:column_variable_ids].index(a.id.to_s) <=> params[:column_variable_ids].index(b.id.to_s) }
 
       build_row_strata
@@ -233,15 +231,6 @@ module Buildable
 
     sheet_scope = sheet_scope.with_subject_status(@statuses)
     @sheets = sheet_scope
-  end
-
-  def set_row_variables
-    # @row_variables = []
-    # @row_filters.each do |filter|
-    #   @row_variables << { variable: filter[:variable], missing: filter[:missing] }
-    # end
-
-    @row_variables = @row_filters
   end
 
   def build_row_strata

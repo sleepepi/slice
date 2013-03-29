@@ -371,7 +371,7 @@ class Variable < ActiveRecord::Base
 
   def edge_date(sheet_scope, method)
     result = if self.variable_type == 'sheet_date'
-      sheet_scope.pluck(:created_at).send(method).to_date || Date.today
+      sheet_scope.pluck(:created_at).send(method).to_date rescue Date.today
     else
       Date.strptime(sheet_scope.sheet_responses(self).select{|response| not response.blank?}.send(method), "%Y-%m-%d") rescue Date.today
     end
