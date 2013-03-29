@@ -380,9 +380,10 @@ class Sheet < ActiveRecord::Base
 
   def self.array_responses(sheet_scope, variable)
     responses = []
-    if variable and ['site', 'sheet_date'].include?(variable.variable_type)
+    if variable and ['site', 'sheet_date', 'subject_status'].include?(variable.variable_type)
       responses = sheet_scope.includes(:subject).collect{|s| s.subject.site_id } if variable.variable_type == 'site'
       responses = sheet_scope.pluck(:created_at) if variable.variable_type == 'sheet_date'
+      responses = sheet_scope.includes(:subject).collect{|s| s.subject.status } if variable.variable_type == 'subject_status'
     else
       responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck(:id), variable_id: variable.id).pluck(:response) : [])
     end

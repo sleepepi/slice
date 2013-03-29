@@ -202,7 +202,7 @@ module Buildable
         "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
       end
 
-      @report_title = [@row_variables.collect{|i| i[:variable].display_name}.join(' & '), @column_filters.collect{|h| h[:variable].display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
+      @report_title = [@row_filters.collect{|i| i[:variable].display_name}.join(' & '), @column_filters.collect{|h| h[:variable].display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
 
       @report_subtitle = (@design ? @design.name + " &middot; " + @design.project.name : '')
     end
@@ -236,40 +236,22 @@ module Buildable
   end
 
   def set_row_variables
-
-    @row_variables = []
-    @row_filters.each do |filter|
-      @row_variables << { variable: filter[:variable], include_missing: (filter[:missing] == '1') }
-
-      # if variable_id == 'site'
-      #   @row_variables << { variable: Variable.site(@design.project_id), include_missing: false }
-      # else
-      #   variable = @design.pure_variables.find_by_id(variable_id)
-      #   @row_variables << { variable: variable, include_missing: params[:row_include_missing].to_s == '1' } if variable
-      # end
-    end
-
-
-
     # @row_variables = []
-    # params[:row_variable_ids].each do |variable_id|
-    #   if variable_id == 'site'
-    #     @row_variables << { variable: Variable.site(@design.project_id), include_missing: false }
-    #   else
-    #     variable = @design.pure_variables.find_by_id(variable_id)
-    #     @row_variables << { variable: variable, include_missing: params[:row_include_missing].to_s == '1' } if variable
-    #   end
+    # @row_filters.each do |filter|
+    #   @row_variables << { variable: filter[:variable], missing: filter[:missing] }
     # end
+
+    @row_variables = @row_filters
   end
 
   def build_row_strata
     max_strata = 0
-    max_strata = 50 if @row_variables.size == 3
-    max_strata = 300 if @row_variables.size == 2
+    max_strata = 50 if @row_filters.size == 3
+    max_strata = 300 if @row_filters.size == 2
 
     @row_strata = []
-    @row_variables.each do |hash|
-      strata = hash[:variable].report_strata(hash[:include_missing], max_strata)
+    @row_filters.each do |hash|
+      strata = hash[:variable].report_strata(hash[:missing] == '1', max_strata, hash, @sheets)
       unless strata.blank?
         if @row_strata.blank?
           @row_strata = strata.collect{|i| [i]}
@@ -287,16 +269,16 @@ module Buildable
   end
 
   def build_table_header
-    @table_header = @row_variables.collect{ |h| h[:variable].display_name }
+    @table_header = @row_filters.collect{ |h| h[:variable].display_name }
     @column_filters.each do |filter|
-      @table_header += filter[:variable].report_strata(filter[:missing] == '1')
+      @table_header += filter[:variable].report_strata(filter[:missing] == '1', 0, filter, @sheets)
     end
     @table_header << { name: 'Total', calculation: 'array_count' }
   end
 
   def build_table_footer
     table_row = []
-    table_row = [{ name: 'Total', colspan: @row_variables.size }] if @row_variables.size > 0
+    table_row = [{ name: 'Total', colspan: @row_filters.size }] if @row_filters.size > 0
     table_row += build_row
 
     calculator = @column_filters.first[:variable] if @column_filters.first

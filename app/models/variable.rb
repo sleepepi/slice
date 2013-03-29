@@ -343,7 +343,7 @@ class Variable < ActiveRecord::Base
     ['dropdown', 'checkbox', 'radio', 'integer', 'numeric', 'scale'].include?(self.variable_type)
   end
 
-  def report_strata(include_missing, max_strata = 0)
+  def report_strata(include_missing, max_strata = 0, hash, sheet_scope)
     @report_strata = if self.has_statistics?
       [ { filters: [], name: 'N',      calculation: 'array_count'                            },
         { filters: [], name: 'Mean',   calculation: 'array_mean'                             },
@@ -355,20 +355,70 @@ class Variable < ActiveRecord::Base
       options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }
     elsif self.variable_type == 'site' and self.project
       self.project.sites.collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
-    elsif self.variable_type == 'sheet_date' and self.project
-      ["2013-01-01", "2013-02-01", "2013-03-01"].collect do |start_date|
-        { filters: [{ variable_id: 'sheet_date', start_date: Date.parse(start_date), end_date: Date.parse(start_date).end_of_month }], name: Date.parse(start_date).strftime("%b %Y"), calculation: 'array_count', start_date: Date.parse(start_date), end_date: Date.parse(start_date).end_of_month }
+    elsif ['sheet_date', 'date'].include?(self.variable_type) and self.project
+      date_buckets = self.generate_date_buckets(sheet_scope, hash[:by] || 'month')
+      date_buckets.reverse! unless hash[:axis] == 'col'
+      date_buckets.collect do |date_bucket|
+        { filters: [{ variable_id: (self.id ? self.id : self.name), start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }], name: date_bucket[:name], calculation: 'array_count', start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }
       end
-    elsif self.variable_type == 'date'
-      [
-        { filters: [], name: 'Jan 2013', calculation: 'array_count' }
-      ]
     else
       []
     end
     @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
     @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id ? self.id : self.name })}
     @report_strata[0..(max_strata - 1)]
+  end
+
+  def edge_date(sheet_scope, method)
+    result = if self.variable_type == 'sheet_date'
+      sheet_scope.pluck(:created_at).send(method).to_date || Date.today
+    else
+      Date.strptime(sheet_scope.sheet_responses(self).select{|response| not response.blank?}.send(method), "%Y-%m-%d") rescue Date.today
+    end
+  end
+
+  def min_date(sheet_scope)
+    edge_date(sheet_scope, :min)
+  end
+
+  def max_date(sheet_scope)
+    edge_date(sheet_scope, :max)
+  end
+
+  def generate_date_buckets(sheet_scope, by)
+    min = self.min_date(sheet_scope)
+    max = self.max_date(sheet_scope)
+    date_buckets = []
+    case by when "week"
+      current_cweek = min.cweek
+      (min.year..max.year).each do |year|
+        (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
+          start_date = Date.commercial(year,cweek) - 1.day
+          end_date = Date.commercial(year,cweek) + 5.days
+          date_buckets << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date }
+          break if year == max.year and cweek == max.cweek
+        end
+        current_cweek = 1
+      end
+    when "month"
+      current_month = min.month
+      (min.year..max.year).each do |year|
+        (current_month..12).each do |month|
+          start_date = Date.parse("#{year}-#{month}-01")
+          end_date = Date.parse("#{year}-#{month}-01").end_of_month
+          date_buckets << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date }
+          break if year == max.year and month == max.month
+        end
+        current_month = 1
+      end
+    when "year"
+      (min.year..max.year).each do |year|
+        start_date = Date.parse("#{year}-01-01")
+        end_date = Date.parse("#{year}-12-31")
+        date_buckets << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date }
+      end
+    end
+    date_buckets
   end
 
   def self.site(project_id)
