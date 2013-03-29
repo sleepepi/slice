@@ -361,8 +361,9 @@ class Variable < ActiveRecord::Base
       date_buckets.collect do |date_bucket|
         { filters: [{ variable_id: (self.id ? self.id : self.name), start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }], name: date_bucket[:name], calculation: 'array_count', start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }
       end
-    else
-      [ { filters: [], name: 'Collected', calculation: 'array_count' } ]
+    else # Create a Filter that shows if the variable is present.
+      display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Collected"
+      [ { filters: [{ variable_id: self.id, value: :any }], name: display_name, tooltip: display_name } ]
     end
     @report_strata << { filters: [{ variable_id: self.id, value: nil }], name: '', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
     @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id ? self.id : self.name })}

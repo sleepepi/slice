@@ -231,6 +231,8 @@ class Sheet < ActiveRecord::Base
       self.with_site(stratum_value)
     elsif stratum_variable and ['sheet_date', 'date'].include?(stratum_variable.variable_type)
       self.sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
+    elsif stratum_variable and stratum_value == :any
+      self.with_any_variable_response_not_missing_code(stratum_variable)
     elsif not stratum_value.blank? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       self.with_variable_response(stratum_id, stratum_value)
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
