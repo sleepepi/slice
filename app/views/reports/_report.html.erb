@@ -67,9 +67,9 @@
                 <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name] %>
                 <% unless hash[:debug].blank? %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
-                  <%= hash.keys %>
-                  <%= hash[:variable_id] %>
-                  <%= hash[:calculator].id if hash[:calculator] %>
+                  <%#= hash.keys %>
+                  <%#= hash[:calculator].name if hash[:calculator] %>
+                  <%= hash[:calculation] %>
                 <% end %>
               </span>
             </span>
@@ -92,14 +92,12 @@
           <td>
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>">
-                <% if hash[:debug].blank? %>
-                  <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? 'Unknown' : hash[:name] %>
-                <% else %>
-                  <%= hash[:calculator].name if hash[:calculator] %>
-                  <%= hash[:calculation] %>
+                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? 'Unknown' : hash[:name] %>
+                <% unless hash[:debug].blank? %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
-                  <%= hash.keys %>
-                  ['<%= hash[:name].blank? ? 'Unknown' : hash[:name] %>', <%= hash[:count].inspect %>]
+                  <%#= hash.keys %>
+                  <%#= hash[:calculator].name if hash[:calculator] %>
+                  <%= hash[:calculation] %>
                 <% end %>
               </span>
             </span>

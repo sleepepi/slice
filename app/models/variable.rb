@@ -353,9 +353,9 @@ class Variable < ActiveRecord::Base
         { filters: [], name: 'Max',    calculation: 'array_max'                              }]
     elsif ['dropdown', 'radio', 'string'].include?(self.variable_type)
       options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }
-    elsif self.variable_type == 'site' and self.project
+    elsif self.variable_type == 'site'
       self.project.sites.collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
-    elsif ['sheet_date', 'date'].include?(self.variable_type) and self.project
+    elsif ['sheet_date', 'date'].include?(self.variable_type)
       date_buckets = self.generate_date_buckets(sheet_scope, hash[:by] || 'month')
       date_buckets.reverse! unless hash[:axis] == 'col'
       date_buckets.collect do |date_bucket|

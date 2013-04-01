@@ -277,7 +277,7 @@ module Buildable
 
     calculator = @column_filters.first[:variable] if @column_filters.first
     (values, chart_type) = if calculator and calculator.has_statistics?
-      [Sheet.array_responses_with_filters(@sheets, calculator, []), 'box']
+      [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
     else
       [table_row.select{|cell| cell[:column_type] != 'total'}.collect{|cell| cell[:count]}.compact, 'line']
     end
