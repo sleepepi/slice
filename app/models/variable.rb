@@ -363,9 +363,9 @@ class Variable < ActiveRecord::Base
       end
     else # Create a Filter that shows if the variable is present.
       display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Collected"
-      [ { filters: [{ variable_id: self.id, value: :any }], name: display_name, tooltip: display_name } ]
+      [ { filters: [{ variable_id: self.id, value: ':any' }], name: display_name, tooltip: display_name } ]
     end
-    @report_strata << { filters: [{ variable_id: self.id, value: :missing }], name: '', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
+    @report_strata << { filters: [{ variable_id: self.id, value: ':missing' }], name: '', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
     @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id ? self.id : self.name })}
     @report_strata[0..(max_strata - 1)]
   end

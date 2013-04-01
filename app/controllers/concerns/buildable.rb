@@ -271,7 +271,7 @@ module Buildable
     table_row = [{ name: 'Total', colspan: @row_filters.size }] if @row_filters.size > 0
 
     # Add filters to total rows to remove additional missing counts if missing is set as false for a particular row variable
-    filters = @row_filters.select{|f| f[:missing] != '1'}.select{|f| f[:id].to_i > 0}.collect{|f| { variable_id: f[:id], value: :any }}
+    filters = @row_filters.select{|f| f[:missing] != '1'}.select{|f| f[:id].to_i > 0}.collect{|f| { variable_id: f[:id], value: ':any' }}
 
     table_row += build_row(filters)
 
@@ -311,7 +311,7 @@ module Buildable
         cell = header.dup
         cell[:filters] = (cell[:filters] || []) + filters
         # This adds in row specific missing filters to accurately calculate the total row count
-        cell[:filters] = cell[:filters] + @column_filters.select{|f| f[:missing] != '1'}.select{|f| f[:id].to_i > 0}.collect{|f| { variable_id: f[:id], value: :any }} if header[:column_type] == 'total'
+        cell[:filters] = cell[:filters] + @column_filters.select{|f| f[:missing] != '1'}.select{|f| f[:id].to_i > 0}.collect{|f| { variable_id: f[:id], value: ':any' }} if header[:column_type] == 'total'
         (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters])
         # cell[:debug] = '1'
         table_row << cell

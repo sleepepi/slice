@@ -227,13 +227,13 @@ class Sheet < ActiveRecord::Base
       Variable.find_by_id(stratum_id)
     end
 
-    if stratum_variable and stratum_value == :any and not ['site', 'sheet_date', 'subject_status'].include?(stratum_variable.variable_type)
+    if stratum_variable and stratum_value == ':any' and not ['site', 'sheet_date', 'subject_status'].include?(stratum_variable.variable_type)
       self.with_any_variable_response_not_missing_code(stratum_variable)
     elsif stratum_variable and stratum_variable.variable_type == 'site'
       self.with_site(stratum_value)
-    elsif stratum_variable and ['sheet_date', 'date'].include?(stratum_variable.variable_type) and stratum_value != :missing
+    elsif stratum_variable and ['sheet_date', 'date'].include?(stratum_variable.variable_type) and stratum_value != ':missing'
       self.sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
-    elsif not stratum_value.blank? and stratum_value != :missing # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
+    elsif not stratum_value.blank? and stratum_value != ':missing' # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       self.with_variable_response(stratum_id, stratum_value)
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
       self.without_variable_response(stratum_id)
@@ -406,7 +406,7 @@ class Sheet < ActiveRecord::Base
   def self.array_calculation(sheet_scope, variable, calculation)
     number = if calculation.blank? or calculation == 'array_count'
       # New, to account for sheets that are scoped based on a missing/non-entered value, should be counted as the count of sheets, not the count of responses.
-      sheet_scope.count
+      self.array_count(sheet_scope.pluck(:id))
     else
       self.send((calculation.blank? ? 'array_count' : calculation), self.array_responses(sheet_scope, variable))
     end
@@ -423,6 +423,12 @@ class Sheet < ActiveRecord::Base
 
   def self.filter_sheet_scope(sheet_scope, filters)
     (filters || []).each do |filter|
+      unless filter[:start_date].kind_of?(Date)
+        filter[:start_date] = Date.parse(filter[:start_date]) rescue filter[:start_date] = nil
+      end
+      unless filter[:end_date].kind_of?(Date)
+        filter[:end_date] = Date.parse(filter[:end_date]) rescue filter[:start_date] = nil
+      end
       sheet_scope = sheet_scope.with_stratum(filter[:variable_id], filter[:value], filter[:start_date], filter[:end_date])
     end
     sheet_scope

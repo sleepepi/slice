@@ -59,6 +59,8 @@ class SheetsController < ApplicationController
     @sheet_after = parse_date(params[:sheet_after])
     @sheet_before = parse_date(params[:sheet_before])
 
+    sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
+
     @variable = current_user.all_viewable_variables.find_by_id(params[:stratum_id])
     @column_variable = current_user.all_viewable_variables.find_by_id(params[:column_stratum_id])
 

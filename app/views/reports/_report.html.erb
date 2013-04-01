@@ -64,7 +64,8 @@
           <td>
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders">
-                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name] %>
+                <% link_name = project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) %>
+                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %>
                 <% unless hash[:debug].blank? %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
                   <%#= hash.keys %>
@@ -92,7 +93,8 @@
           <td>
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>">
-                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? 'Unknown' : hash[:name] %>
+                <% link_name = project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) %>
+                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? 'Unknown' : link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %>
                 <% unless hash[:debug].blank? %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
                   <%#= hash.keys %>
