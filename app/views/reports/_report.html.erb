@@ -73,6 +73,11 @@
                   <%= hash[:calculation] %>
                 <% end %>
               </span>
+              <% unless hash[:calculator] and hash[:calculator].has_statistics? %>
+                <% if @percent == 'row' and hash[:count] and hash[:count] > 0 and @table_footer[:values].sum > 0 and hash[:column_type] != 'total' %>
+                  <span class="muted" style="font-size:0.7em"><%= (hash[:count] * 100 / @table_footer[:values].sum).to_s + "%" %></span>
+                <% end %>
+              <% end %>
             </span>
           </td>
         <% else %>
@@ -89,8 +94,10 @@
     <% @table_body.each do |row| %>
       <tr>
         <td><span data-object="sparkline" data-type="<%= row[:chart_type] %>" data-values="<%= row[:values].to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"><%= row[:values].join(',') %></span></td>
-        <% row[:cells].each do |hash| %>
+        <% row[:cells].each_with_index do |hash, index| %>
           <td>
+            <% reverse_index = index - row[:cells].size + 1 %>
+            <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>">
                 <% link_name = project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) %>
@@ -102,6 +109,18 @@
                   <%= hash[:calculation] %>
                 <% end %>
               </span>
+
+
+              <% unless hash[:calculator] and hash[:calculator].has_statistics? %>
+                <% if @percent == 'row' and hash[:count] and hash[:count] > 0 and row[:values].sum > 0 and hash[:column_type] != 'total' %>
+                  <span class="muted" style="font-size:0.7em"><%= (hash[:count] * 100 / row[:values].sum).to_s + "%" %></span>
+                <% end %>
+                <% if @percent == 'column' and hash[:count] and hash[:count] > 0 and column_count > 0 %>
+                  <span class="muted" style="font-size:0.7em"><%= (hash[:count] * 100 / column_count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
+                <% end %>
+              <% end %>
+
+
             </span>
           </td>
         <% end %>
