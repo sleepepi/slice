@@ -74,12 +74,14 @@ class Sheet < ActiveRecord::Base
 
   # Model Methods
   def self.last_entry
-    sheet_ids = self.select('DISTINCT ON (subject_id) *').order('subject_id, created_at DESC').pluck(:id)
+    sheet_ids = self.order('subject_id, created_at DESC').pluck("DISTINCT ON (subject_id) sheets.id")
+
+
     self.where(id: sheet_ids)
   end
 
   def self.first_entry
-    sheet_ids = self.select('DISTINCT ON (subject_id) *').order('subject_id, created_at ASC').pluck(:id)
+    sheet_ids = self.order('subject_id, created_at ASC').pluck("DISTINCT ON (subject_id) sheets.id")
     self.where(id: sheet_ids)
   end
 
