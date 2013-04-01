@@ -78,3 +78,7 @@ jQuery ->
     )
 
   activateFilterSortable()
+
+  if $('[data-object~="form-load-with-filters"]').length > 0
+    submitReportWithFilters()
+
