@@ -335,27 +335,27 @@ textarea:focus.warning-input  {
 }
 
 .label-coverage.complete {
-  background-color: #39B419;
+  background-color: #8feb75; /* #39B419; */
 }
 
 .label-coverage.green {
-  background-color: #9AD425;
+  background-color: #c9f56a; /* #9AD425; */
 }
 
 .label-coverage.yellow {
-  background-color: #D7C623;
+  background-color: #f5e662; /* #D7C623; */
 }
 
 .label-coverage.orange {
-  background-color: #CE7421;
+  background-color: #f5b073; /* #CE7421; */
 }
 
 .label-coverage.red {
-  background-color: #D13E15;
+  background-color: #ff8563; /* #D13E15; */
 }
 
 .label-coverage.blank {
-  background-color: #6F6F6F;
+  background-color: #999999; /* #6F6F6F; */
 }
 
 

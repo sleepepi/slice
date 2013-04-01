@@ -503,17 +503,17 @@ class Sheet < ActiveRecord::Base
 
   def color
     if percent == 100
-      '#39B419'
+      '#8feb75' # '#39B419'
     elsif percent >= 80
-      '#9AD425'
+      '#c9f56a' # '#9AD425'
     elsif percent >= 60
-      '#D7C623'
+      '#f5e662' # '#D7C623'
     elsif percent >= 40
-      '#CE7421'
+      '#f5b073' # '#CE7421'
     elsif percent >= 1
-      '#D13E15'
+      '#ff8563' # '#D13E15'
     else
-      '#6F6F6F'
+      '#999999' # '#6F6F6F'
     end
   end
 
