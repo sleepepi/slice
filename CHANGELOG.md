@@ -1,21 +1,26 @@
 ## 0.15.0
 
 ### Enhancements
-- Project users now simplified to editors and viewers, formerly librarians and members
-  - Viewers (formerly members) can no longer create or edit sheets
-- Sheet data can be exported in a SAS-friendly format
-- Domain names now have the same naming conventions as variable names
-  - Maximum length of 31 characters
-  - Must start with a letter, followed by letters, numbers, or underscores
-- Daily digests are now emailed out to show what sheets have been recently entered
-  - When more than 15 sheets are entered for a specific project, the daily digest displays the number of recently created sheets along with a link to view specifics
-- Selected checkbox and radio responses are now highlighted
-- Sheet coverage added to give an approximate of how much of the sheet has been filled out
-- Documents and Links can now have their categories renamed *en masse*
-- Project Editors, Viewers, and Site Members can now comment on sheets
-- Project news posts are now emailed to project editors, viewers, and site members when they are created
-  - Archived news posts are not sent out via email
-- Sheet exports now update how quickly the export is progressing
+- **Project Changes**
+  - Project users now simplified to editors and viewers, formerly librarians and members
+    - Viewers (formerly members) can no longer create or edit sheets
+  - Documents and Links can now have their categories renamed *en masse*
+- **Export Changes**
+  - Sheet data can be exported in a SAS-friendly format
+  - Sheet exports now display the percentage of the export progress that is complete
+- **Variable Changes**
+  - Domain names now have the same naming conventions as variable names
+    - Maximum length of 31 characters
+    - Must start with a letter, followed by letters, numbers, or underscores
+- **Email Changes**
+  - Daily digests are now emailed out to show what sheets have been recently entered
+    - When more than 15 sheets are entered for a specific project, the daily digest displays the number of recently created sheets along with a link to view specifics
+  - Project news posts are now emailed to project editors, viewers, and site members when they are created
+    - Archived news posts are not sent out via email
+- **Sheet Changes**
+  - Project Editors, Viewers, and Site Members can now comment on sheets
+  - Sheet coverage added to give an approximate of how much of the sheet has been filled out
+  - Selected checkbox and radio responses are now highlighted
 - **Report Changes**
   - `text` and `time` variables can now be reported on to discover whether the variable has been collected or has been left blank
 
