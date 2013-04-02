@@ -20,8 +20,10 @@ task sheet_export: :environment do
     all_files << generate_data_dictionary(export, sheet_scope, filename)    if export.include_data_dictionary?
     all_files << generate_sas(export, sheet_scope, filename)                if export.include_sas?
     if export.include_files?
-      sheet_scope.each{ |sheet| all_files += sheet.files }
-      update_steps(export, export.sheet_ids_count)
+      sheet_scope.each do |sheet|
+        all_files += sheet.files
+        update_steps(export, 1)
+      end
     end
 
     # Zip multiple files, or zip one file if it's part of the sheet uploaded files
@@ -46,7 +48,7 @@ task sheet_export: :environment do
     elsif export_file.blank?
       export.update_attributes status: 'failed', details: "No files were created. At least one file type needs to be selected for exports."
     else
-      export.update_attributes file: File.open(export_file), file_created_at: Time.now, status: 'ready'
+      export.update_attributes file: File.open(export_file), file_created_at: Time.now, status: 'ready', steps_completed: export.total_steps
       export.notify_user!
     end
   rescue => e
@@ -169,10 +171,10 @@ def generate_csv_sheets(export, sheet_scope, filename, raw_data)
         end
       end
       csv << row
+      update_steps(export, 1)
     end
   end
 
-  update_steps(export, export.sheet_ids_count)
   [export_file.split('/').last, export_file]
 end
 
@@ -224,10 +226,10 @@ def generate_csv_grids(export, sheet_scope, filename, raw_data)
 
         csv << row
       end
+      update_steps(export, 1)
     end
   end
 
-  update_steps(export, export.sheet_ids_count)
   [export_file.split('/').last, export_file]
 end
 
