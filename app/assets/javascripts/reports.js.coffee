@@ -58,6 +58,18 @@ jQuery ->
       window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
       false
     )
+    .on('click', '[data-object~="export-report-pdf-with-filters"]', () ->
+      window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize())
+      false
+    )
+    .on('click', '[data-object~="export-csv-with-filters"]', () ->
+      url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize()
+      if $(this).data('page') == 'blank'
+        window.open(url)
+      else
+        window.location = url
+      false
+    )
     .on('change', '#row_variable_temp_ids', (event, value) ->
       values = if $('#row_variable_ids').val() == '' then [] else $('#row_variable_ids').val().split(',')
       if value['selected']
@@ -71,6 +83,10 @@ jQuery ->
     .on('click', '[data-object~="set-value"]', () ->
       $($(this).data('target')).val($(this).data('value'))
       $("#report_form").submit()
+      false
+    )
+    .on('click', '[data-object~="refresh-report"]', () ->
+      submitReportWithFilters()
       false
     )
 

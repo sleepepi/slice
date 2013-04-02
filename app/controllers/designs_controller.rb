@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :print, :report_print, :report, :reporter, :blank ]
+  before_action :set_viewable_project, only: [ :print, :report_print, :reporter_print, :report, :reporter, :blank ]
   before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import, :progress ]
   before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank ]
-  before_action :set_viewable_design, only: [ :print, :report_print, :report, :reporter, :blank ]
+  before_action :set_viewable_design, only: [ :print, :report_print, :reporter_print, :report, :reporter, :blank ]
   before_action :set_editable_design, only: [ :show, :edit, :update, :destroy, :reorder, :progress ]
-  before_action :redirect_without_design, only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :reporter, :progress, :blank ]
+  before_action :redirect_without_design, only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :reporter_print, :report, :reporter, :progress, :blank ]
 
   # Concerns
   include Buildable
@@ -48,7 +48,7 @@ class DesignsController < ApplicationController
     end
   end
 
-  def report_print
+  def reporter_print
     setup_report
 
     orientation = ['portrait', 'landscape'].include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
@@ -64,6 +64,24 @@ class DesignsController < ApplicationController
       render text: "PDF did not render in time. Please refresh the page."
     end
   end
+
+  def report_print
+    setup_report_new
+
+    orientation = ['portrait', 'landscape'].include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
+
+    file_pdf_location = @design.latex_report_new_file_location(current_user, orientation, @report_title, @report_subtitle, @report_caption, @percent, @table_header, @table_body, @table_footer)
+
+    if File.exists?(file_pdf_location)
+      File.open(file_pdf_location, 'r') do |file|
+        file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
+        send_file file, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: "application/pdf", disposition: "inline"
+      end
+    else
+      render text: "PDF did not render in time. Please refresh the page."
+    end
+  end
+
 
   def report
     setup_report_new

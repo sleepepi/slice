@@ -295,6 +295,27 @@ class Design < ActiveRecord::Base
     Design.generate_pdf(jobname, output_folder, file_tex)
   end
 
+  def latex_report_new_file_location(current_user, orientation, report_title, report_subtitle, report_caption, percent, table_header, table_body, table_footer)
+    @design = self
+    @report_title = report_title
+    @report_subtitle
+    @report_caption = report_caption
+    @percent = percent
+    @table_header = table_header
+    @table_body = table_body
+    @table_footer = table_footer
+
+    jobname = "design_#{self.id}_report"
+    output_folder = File.join('tmp', 'files', 'tex')
+    file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
+
+    File.open(file_tex, 'w') do |file|
+      file.syswrite(ERB.new(latex_partial('report_new')).result(binding))
+    end
+
+    Design.generate_pdf(jobname, output_folder, file_tex)
+  end
+
   def load_variables
     @load_variables ||= begin
       raw_variables = self.header_row

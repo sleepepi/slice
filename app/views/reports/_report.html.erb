@@ -115,7 +115,7 @@
                 <% if @percent == 'row' and hash[:count] > 0 and row[:values].sum > 0 and hash[:column_type] != 'total' %>
                   <span class="muted" style="font-size:0.7em"><%= (hash[:count] * 100 / row[:values].sum).to_s + "%" %></span>
                 <% end %>
-                <% if @percent == 'column' and hash[:count] > 0 and column_count > 0 %>
+                <% if @percent == 'column' and hash[:count] > 0 and column_count and column_count > 0 %>
                   <span class="muted" style="font-size:0.7em"><%= (hash[:count] * 100 / column_count).to_s + "%" %><%#= "%0.01f%" % (count * 100.0 / row_counts.sum) %></span>
                 <% end %>
               <% end %>

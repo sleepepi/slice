@@ -1,0 +1,121 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[margin=0.5in<%= ',landscape' if orientation == 'landscape' %>]{geometry}
+\geometry{top=1.0in, bottom=1.0in}
+\usepackage{lastpage}
+\usepackage{wrapfig}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\usepackage{indentfirst}
+\usepackage{longtable}
+
+
+\usepackage{hyperref}
+\usepackage{pifont}
+
+\usepackage{needspace}
+\usepackage{color}
+\usepackage{sparklines}
+
+\fancyhf{}
+
+\lhead{<%= latex_safe @design.project.name %>}
+\chead{\textbf{<%= latex_safe @report_title %>}}
+\rhead{<%= latex_safe @design.name %>}
+\lfoot{}
+\cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
+\rfoot{\thepage\ of \pageref{LastPage}}
+
+
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \setlength\headheight{22pt}
+
+\pagestyle{fancyplain}
+
+\definecolor{sparkrectanglecolor}{gray}{0.95}
+
+<% @overall_min = @table_footer[:values].min %>
+<% @overall_max = @table_footer[:values].max %>
+
+\begin{document}
+
+\begin{longtable}{l@{\extracolsep{\fill}}<%= 'l'*@table_header.count %>}
+  <%# Header %>
+  <% @table_header.each do |header| %>
+    &
+    <% if header.kind_of?(Hash) %>
+      <%= header[:name].blank? ? "\\textcolor[gray]{0.5}{Unknown}" : latex_safe(header[:name].truncate(10)) %>
+    <% else %>
+      <%= latex_safe(header.truncate(10)) %>
+    <% end %>
+  <% end %>
+  \\
+  \midrule
+
+  <%# Body %>
+  <% @table_body.each do |row| %>
+    <% if row[:chart_type] == 'line' and row[:values].sum > 0 and row[:values].size > 0 %>
+      <% graph_row_counts = (row[:values].size == 1 ? row[:values] * 2 : row[:values]) %>
+      \begin{sparkline}{4}
+      \sparkrectangle 0.0 1.0
+      \spark <% graph_row_counts.each_with_index do |row_count, index| %><%= " %0.2f " % (index / ([graph_row_counts.size - 1, 1].max).to_f) %> <%= graph_row_counts.max > 0 ? "%0.2f" % (row_count / graph_row_counts.max.to_f) : '0.00' %><% end %> /
+      \end{sparkline}
+    <% end %>
+
+    <% row[:cells].each_with_index do |hash, index| %>
+      &
+      <% reverse_index = index - row[:cells].size + 1 %>
+      <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
+      <%= '\\pm' if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? "\\textcolor[gray]{0.5}{Unknown}" : latex_safe(hash[:name]) %>
+        <% if row[:chart_type] == 'line' and hash[:count] %>
+          <% if @percent == 'row' and hash[:count] > 0 and row[:values].sum > 0 and hash[:column_type] != 'total' %>
+            \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / row[:values].sum).to_s + "%") %>}}
+          <% end %>
+          <% if @percent == 'column' and hash[:count] > 0 and column_count and column_count > 0 %>
+            \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / column_count).to_s + "%") %>}}
+          <% end %>
+        <% end %>
+    <% end %>
+    \\
+    \midrule
+  <% end %>
+  <%# End Body %>
+
+  <%# Footer %>
+  <% if @table_footer[:chart_type] == 'line' and @table_footer[:values].sum > 0 %>
+    <% graph_row_counts = (@table_footer[:values].size == 1 ? @table_footer[:values] * 2 : @table_footer[:values]) %>
+    \begin{sparkline}{4}
+    \sparkrectangle 0.0 1.0
+    \spark <% graph_row_counts.each_with_index do |row_count, index| %><%= " %0.2f " % (index / ([graph_row_counts.size - 1, 1].max).to_f) %> <%= graph_row_counts.max > 0 ? "%0.2f" % (row_count / graph_row_counts.max.to_f) : '0.00' %><% end %> /
+    \end{sparkline}
+  <% end %>
+  &
+
+    <% @table_footer[:cells].each do |hash| %>
+      <% if hash[:colspan].blank? %>
+        <%= '\\pm' if hash[:symbol] == 'pm' and hash[:count] != nil %><%= latex_safe(hash[:name]) %>
+        <% if @table_footer[:chart_type] == 'line' and hash[:count] %>
+          <% if @percent == 'row' and hash[:count] > 0 and @table_footer[:values].sum > 0 and hash[:column_type] != 'total' %>
+            \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / @table_footer[:values].sum).to_s + "%") %>}
+          <% end %>
+        <% end %>
+        &
+      <% else %>
+        <%= latex_safe(hash[:name]) %>
+        <%= '& '*(hash[:colspan].blank? ? 1 : hash[:colspan]) %>
+      <% end %>
+    <% end %>
+
+\end{longtable}
+
+\centerline{<%= latex_safe @report_caption %>}
+
+
+
+
+
+\end{document}

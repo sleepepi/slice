@@ -452,6 +452,7 @@ class Sheet < ActiveRecord::Base
     number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck(:id)))
 
     name = (number == nil ? '-' : number)
+    number = 0 unless number
 
     [name, number]
   end
