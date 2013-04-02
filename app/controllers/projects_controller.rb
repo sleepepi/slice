@@ -1,8 +1,11 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :filters, :new_filter, :edit_filter, :update_filter ]
+  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :update_filter ]
   before_action :set_editable_project, only: [ :edit, :update, :destroy, :remove_file ]
-  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :update_filter ]
+  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :update_filter ]
+
+  # Concerns
+  include Buildable
 
   def new_filter
     @design = @project.designs.find_by_id(params[:design_id])
@@ -54,8 +57,33 @@ class ProjectsController < ApplicationController
   end
 
   def report
-    setup_report
+    params[:f] = [{ id: 'design', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0', by: params[:by] || 'month' }]
+    setup_report_new
+    generate_table_csv_new if params[:format] == 'csv'
   end
+
+  def report_print
+    params[:f] = [{ id: 'design', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0', by: params[:by] || 'month' }]
+    setup_report_new
+    orientation = ['portrait', 'landscape'].include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
+
+    @design = @project.designs.new( name: 'Summary Report' )
+
+    file_pdf_location = @design.latex_report_new_file_location(current_user, orientation, @report_title, @report_subtitle, @report_caption, @percent, @table_header, @table_body, @table_footer)
+
+    if File.exists?(file_pdf_location)
+      File.open(file_pdf_location, 'r') do |file|
+        file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
+        send_file file, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: "application/pdf", disposition: "inline"
+      end
+    else
+      render text: "PDF did not render in time. Please refresh the page."
+    end
+  end
+
+  # def report
+  #   setup_report
+  # end
 
   def remove_file
     @project.remove_logo!

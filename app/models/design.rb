@@ -297,6 +297,7 @@ class Design < ActiveRecord::Base
 
   def latex_report_new_file_location(current_user, orientation, report_title, report_subtitle, report_caption, percent, table_header, table_body, table_footer)
     @design = self
+    @project = @design.project
     @report_title = report_title
     @report_subtitle
     @report_caption = report_caption
@@ -305,7 +306,7 @@ class Design < ActiveRecord::Base
     @table_body = table_body
     @table_footer = table_footer
 
-    jobname = "design_#{self.id}_report"
+    jobname = "project_#{@project.id}_design_#{self.id}_report"
     output_folder = File.join('tmp', 'files', 'tex')
     file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
 

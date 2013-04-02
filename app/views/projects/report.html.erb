@@ -36,17 +36,32 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="span4">
+      <% if false %>
       After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Date After', data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+      <% end %>
     </div>
 
     <div class="span4">
+      <% if false %>
       Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Date Before', data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
+      <% end %>
     </div>
 
     <div class="span4">
-      <button type="submit" class="btn btn-primary pull-right">Refresh</button>
+      <div class="pull-right">
+        <span class="dropdown">
+          <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>
+          <ul class="dropdown-menu" style="margin-top:9px">
+            <li><%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %></li>
+            <li><%= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' } %></li>
+            <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
+          </ul>
+        </span>
+        <button type="submit" class="btn btn-primary">Refresh</button>
+      </div>
     </div>
   </div>
 <% end %>

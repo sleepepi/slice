@@ -68,7 +68,9 @@ class Project < ActiveRecord::Base
 
   # Returns "fake" constructed variables like 'site' and 'sheet_date'
   def variable_by_id(variable_id)
-    if variable_id == 'site'
+    if variable_id == 'design'
+      Variable.design(self.id)
+    elsif variable_id == 'site'
       Variable.site(self.id)
     elsif variable_id == 'sheet_date'
       Variable.sheet_date(self.id)

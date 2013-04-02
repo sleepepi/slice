@@ -22,9 +22,9 @@
 
 \fancyhf{}
 
-\lhead{<%= latex_safe @design.project.name %>}
+\lhead{<%= latex_safe @project.name %>}
 \chead{\textbf{<%= latex_safe @report_title %>}}
-\rhead{<%= latex_safe @design.name %>}
+\rhead{<%= latex_safe @design.name if @design %>}
 \lfoot{}
 \cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
 \rfoot{\thepage\ of \pageref{LastPage}}

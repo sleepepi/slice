@@ -219,7 +219,9 @@ class Sheet < ActiveRecord::Base
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
   def self.with_stratum(stratum_id, stratum_value, stratum_start_date = nil, stratum_end_date = nil)
-    stratum_variable = if stratum_id == 'site' or stratum_id == nil
+    stratum_variable = if stratum_id == 'design'
+      Variable.design(0) # 0 project?...
+    elsif stratum_id == 'site' or stratum_id == nil
       Variable.site(0) # 0 project?...
     elsif stratum_id == 'sheet_date'
       Variable.sheet_date(0) # 0 project?...
@@ -227,8 +229,10 @@ class Sheet < ActiveRecord::Base
       Variable.find_by_id(stratum_id)
     end
 
-    if stratum_variable and stratum_value == ':any' and not ['site', 'sheet_date', 'subject_status'].include?(stratum_variable.variable_type)
+    if stratum_variable and stratum_value == ':any' and not ['site', 'sheet_date', 'subject_status', 'design'].include?(stratum_variable.variable_type)
       self.with_any_variable_response_not_missing_code(stratum_variable)
+    elsif stratum_variable and stratum_variable.variable_type == 'design'
+      self.with_design(stratum_value)
     elsif stratum_variable and stratum_variable.variable_type == 'site'
       self.with_site(stratum_value)
     elsif stratum_variable and ['sheet_date', 'date'].include?(stratum_variable.variable_type) and stratum_value != ':missing'

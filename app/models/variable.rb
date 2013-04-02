@@ -352,9 +352,11 @@ class Variable < ActiveRecord::Base
         { filters: [], name: 'Min',    calculation: 'array_min'                              },
         { filters: [], name: 'Max',    calculation: 'array_max'                              }]
     elsif ['dropdown', 'radio', 'string'].include?(self.variable_type)
-      options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }
+      options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }\
+    elsif self.variable_type == 'design'
+      self.project.designs.order(:name).collect{|design| { filters: [{ variable_id: 'design', value: design.id.to_s }], name: design.name, link: "projects/#{self.project_id}/designs/#{design.id}/report", value: design.id.to_s, calculation: 'array_count' } }
     elsif self.variable_type == 'site'
-      self.project.sites.collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
+      self.project.sites.order(:name).collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
     elsif ['sheet_date', 'date'].include?(self.variable_type)
       date_buckets = self.generate_date_buckets(sheet_scope, hash[:by] || 'month')
       date_buckets.reverse! unless hash[:axis] == 'col'
@@ -428,6 +430,10 @@ class Variable < ActiveRecord::Base
 
   def self.sheet_date(project_id)
     self.new( project_id: project_id, name: 'sheet_date', display_name: 'Sheet Date', variable_type: 'sheet_date' )
+  end
+
+  def self.design(project_id)
+    self.new( project_id: project_id, name: 'design', display_name: 'Design', variable_type: 'design' )
   end
 
   def sas_informat

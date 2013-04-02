@@ -16,6 +16,7 @@ Slice::Application.routes.draw do
       post :remove_file
       get :report
       post :report
+      get :report_print
       get :subject_report
       get :settings
       post :filters

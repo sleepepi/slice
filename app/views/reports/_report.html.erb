@@ -64,7 +64,7 @@
           <td>
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders">
-                <% link_name = project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) %>
+                <% link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], filter: @filter, statuses: @statuses) %>
                 <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %>
                 <% unless hash[:debug].blank? %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
@@ -100,8 +100,17 @@
             <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
               <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>">
-                <% link_name = project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) %>
-                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? 'Unknown' : link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %>
+                <% link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], filter: @filter, statuses: @statuses) %>
+                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %>
+                <% if hash[:name].blank? %>
+                  Unknown
+                <% else %>
+                  <% if not hash[:link].blank? %>
+                    <%= link_to hash[:name], root_path + hash[:link] %>
+                  <% else %>
+                    <%= link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %>
+                  <% end %>
+                <% end %>
                 <% unless hash[:debug].blank? %>
                   <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
                   <%#= hash.keys %>
@@ -131,9 +140,9 @@
 
 <div class="center muted"><%= @report_caption %></div>
 
-<%= link_to '#permalink', report_project_design_path(@design.project, @design, project_id: @project.id, percent: @percent, f: params[:f], filter: @filter, statuses: @statuses ),
+<% link_name = @design ? report_project_design_path(@design.project, @design, project_id: @project.id, percent: @percent, f: params[:f], filter: @filter, statuses: @statuses) : report_project_path(@project, f: params[:f], filter: @filter, statuses: @statuses) %>
+<%= link_to '#permalink', link_name,
                                               class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>
-
 
 <% if false %>
 <%= link_to '#permalink', report_project_design_path(@design.project, @design, project_id: @project.id, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),

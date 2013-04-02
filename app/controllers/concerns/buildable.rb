@@ -84,126 +84,27 @@ module Buildable
 
     set_sheet_scope
 
-    if @design
+    build_row_strata
 
-      # @column_variables = @design.pure_variables.where(id: params[:column_variable_ids]).sort{ |a, b| params[:column_variable_ids].index(a.id.to_s) <=> params[:column_variable_ids].index(b.id.to_s) }
+    build_table_header
+    build_table_footer
+    build_table_body
 
-      build_row_strata
+    date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Sheet Creation Date')
 
-
-
-      build_table_header
-      build_table_footer
-
-      build_table_body
-
-
-      # @ranges = [{ name: "2012", start_date: "2012-01-01", end_date: "2012-12-31" }, { name: "2013", start_date: "2013-01-01", end_date: "2013-12-31" }]
-      # @ranges = []
-
-      # if @column_variable and ['dropdown', 'radio', 'string'].include?(@column_variable.variable_type)
-      #   column_strata = @column_variable.options_or_autocomplete(params[:column_include_missing].to_s == '1')
-      #   column_strata = column_strata + [{ name: '', value: nil }] if params[:column_include_missing].to_s == '1'
-      #   column_strata.each do |stratum|
-      #     scope = @sheets.with_stratum(@column_variable, stratum[:value])
-      #     @ranges << { name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]), tooltip: stratum[:name], start_date: '', end_date: '', scope: scope, count: scope.count, value: stratum[:value], calculation: 'array_count' }
-      #   end
-      # elsif @column_variable and @column_variable.has_statistics?
-      #   column_strata = [{ name: 'Mean', calculation: 'array_mean' }, { name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' }, { name: 'Median', calculation: 'array_median' }, { name: 'Min', calculation: 'array_min' }, { name: 'Max', calculation: 'array_max' }]
-      #   column_strata = column_strata + [{ name: 'N', calculation: 'array_count' }, { name: '', value: nil }] if params[:column_include_missing].to_s == '1'
-
-      #   column_strata.each do |stratum|
-      #     scope = if stratum[:calculation].blank?
-      #       @sheets.with_response_unknown_or_missing(@column_variable)
-      #     else
-      #       @sheets.with_any_variable_response_not_missing_code(@column_variable)
-      #     end
-
-      #     count = Sheet.array_calculation(scope, @column_variable, stratum[:calculation])
-
-      #     @ranges <<  {
-      #                   name: (((stratum[:value].blank? or stratum[:value] == stratum[:name]) ? '' : stratum[:value] + ": ") + stratum[:name]),
-      #                   tooltip: stratum[:name],
-      #                   start_date: '', end_date: '',
-      #                   scope: scope,
-      #                   count: count,
-      #                   value: stratum[:value],
-      #                   calculation: stratum[:calculation],
-      #                   symbol: stratum[:symbol]
-      #                 }
-      #   end
-      # else # Default columns over Study Date
-      #   if @column_variable and @column_variable.variable_type == 'date'
-      #     min = Date.strptime(@sheets.sheet_responses(@column_variable).select{|response| not response.blank?}.min, "%Y-%m-%d") rescue min = Date.today
-      #     max = Date.strptime(@sheets.sheet_responses(@column_variable).select{|response| not response.blank?}.max, "%Y-%m-%d") rescue max = Date.today
-      #   else
-      #     min = @sheets.pluck("sheets.study_date").min || Date.today
-      #     max = @sheets.pluck("sheets.study_date").max || Date.today
-      #   end
-
-      #   case @by when "week"
-      #     current_cweek = min.cweek
-      #     (min.year..max.year).each do |year|
-      #       (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
-      #         start_date = Date.commercial(year,cweek) - 1.day
-      #         end_date = Date.commercial(year,cweek) + 5.days
-      #         scope = @sheets.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-      #         @ranges << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
-      #         break if year == max.year and cweek == max.cweek
-      #       end
-      #       current_cweek = 1
-      #     end
-      #   when "month"
-      #     current_month = min.month
-      #     (min.year..max.year).each do |year|
-      #       (current_month..12).each do |month|
-      #         start_date = Date.parse("#{year}-#{month}-01")
-      #         end_date = Date.parse("#{year}-#{month}-01").end_of_month
-      #         scope = @sheets.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-      #         @ranges << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
-      #         break if year == max.year and month == max.month
-      #       end
-      #       current_month = 1
-      #     end
-      #   when "year"
-      #     (min.year..max.year).each do |year|
-      #       start_date = Date.parse("#{year}-01-01")
-      #       end_date = Date.parse("#{year}-12-31")
-      #       scope = @sheets.sheet_after_variable(@column_variable, start_date).sheet_before_variable(@column_variable, end_date)
-      #       @ranges << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date, scope: scope, count: scope.count, value: "No Missing" }
-      #     end
-      #   end
-      #   if @column_variable and @column_variable.variable_type == 'date' and params[:column_include_missing].to_s == '1'
-      #     scope = @sheets.with_stratum(@column_variable, nil)
-      #     @ranges << { name: '', tooltip: '', start_date: '', end_date: '', scope: scope, count: scope.count, value: nil }
-      #   end
-      # end
-
-      # # Row Stratification by Site (default) or by Variable on Design (currently supported: radio, dropdown, and string)
-      # if @variable
-      #   @strata = @variable.options_or_autocomplete(params[:include_missing].to_s == '1')
-      #   @strata = @strata + [{ name: '', value: nil }] if params[:include_missing].to_s == '1'
-      # else
-      #   # @strata = (@design.project ? @design.project.sites.order('name').collect{|s| { name: s.name, value: s.id }} : [])
-      #   @strata = (@design.project ? current_user.all_viewable_sites.with_project(@design.project.id).order('name').collect{|s| { name: s.name, value: s.id }} : [])
-      # end
-
-      date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Sheet Creation Date')
-
-      @report_caption = if @sheet_after.blank? and @sheet_before.blank?
-        "All Sheets"
-      elsif @sheet_after.blank?
-        "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
-      elsif @sheet_before.blank?
-        "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
-      else
-        "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
-      end
-
-      @report_title = [@row_filters.collect{|i| i[:variable].display_name}.join(' & '), @column_filters.collect{|h| h[:variable].display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
-
-      @report_subtitle = (@design ? @design.name + " &middot; " + @design.project.name : '')
+    @report_caption = if @sheet_after.blank? and @sheet_before.blank?
+      "All Sheets"
+    elsif @sheet_after.blank?
+      "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
+    elsif @sheet_before.blank?
+      "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
+    else
+      "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
     end
+
+    @report_title = [@row_filters.collect{|i| i[:variable].display_name}.join(' & '), @column_filters.collect{|h| h[:variable].display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
+
+    @report_subtitle = (@design ? @design.name + " &middot; " + @design.project.name : @project.name)
   end
 
   def set_sheet_scope
@@ -216,7 +117,7 @@ module Buildable
     @statuses = params[:statuses] || ['valid']
 
     sheet_scope = current_user.all_viewable_sheets
-    sheet_scope = sheet_scope.where(design_id: @design.id) if @design
+    sheet_scope = sheet_scope.where(design_id: @design ? @design.id : @project.designs.pluck(:id))
 
     sheet_scope = sheet_scope.last_entry if @filter == 'last'
     sheet_scope = sheet_scope.first_entry if @filter == 'first'
@@ -290,7 +191,7 @@ module Buildable
     @table_body = []
     @row_strata.each do |row_stratum|
       table_row = []
-      table_row += row_stratum.collect{ |info| { name: info[:name] } }
+      table_row += row_stratum.collect{ |info| { name: info[:name], link: info[:link] } }
       filters = row_stratum.collect{|info| info[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator and calculator.has_statistics?
