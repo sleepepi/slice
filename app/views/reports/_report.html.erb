@@ -44,7 +44,7 @@
       <% @table_header.each do |header| %>
         <th>
           <% if header.kind_of?(Hash) %>
-            <span class="count-rot315 <%= 'muted' if header[:name].blank? %>" rel="tooltip" title="<%= header[:name].blank? ? 'Unknown' : header[:tooltip] %>"><%= header[:name].blank? ? 'Unknown' : header[:name].truncate(10) %></span>
+            <span class="count-rot315 <%= 'muted' if header[:name].blank? %>" rel="tooltip" title="<%= header[:tooltip] %>"><%= header[:name].blank? ? 'Unknown' : header[:name].truncate(10) %></span>
           <% else %>
             <%= header %>
           <% end %>
@@ -62,7 +62,7 @@
       <% @table_footer[:cells].each do |hash| %>
         <% if hash[:colspan].blank? %>
           <td>
-            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
+            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%= hash[:tooltip] %>" data-placement="right">
               <span class="rounded-borders">
                 <% link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], filter: @filter, statuses: @statuses) %>
                 <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %>
@@ -98,7 +98,7 @@
           <td>
             <% reverse_index = index - row[:cells].size + 1 %>
             <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
-            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%#= hash[:name].blank? ? 'Unknown' : hash[:tooltip] unless hash[:count] == nil %>" data-placement="left">
+            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%= hash[:tooltip] %>" data-placement="right">
               <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>">
                 <% link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], filter: @filter, statuses: @statuses) %>
                 <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %>

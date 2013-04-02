@@ -345,29 +345,29 @@ class Variable < ActiveRecord::Base
 
   def report_strata(include_missing, max_strata = 0, hash, sheet_scope)
     @report_strata = if self.has_statistics? and hash[:axis] == 'col'
-      [ { filters: [], name: 'N',      calculation: 'array_count'                            },
-        { filters: [], name: 'Mean',   calculation: 'array_mean'                             },
-        { filters: [], name: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
-        { filters: [], name: 'Median', calculation: 'array_median'                           },
-        { filters: [], name: 'Min',    calculation: 'array_min'                              },
-        { filters: [], name: 'Max',    calculation: 'array_max'                              }]
+      [ { filters: [], name: 'N',      tooltip: 'N',      calculation: 'array_count'                            },
+        { filters: [], name: 'Mean',   tooltip: 'Mean',   calculation: 'array_mean'                             },
+        { filters: [], name: 'StdDev', tooltip: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
+        { filters: [], name: 'Median', tooltip: 'Median', calculation: 'array_median'                           },
+        { filters: [], name: 'Min',    tooltip: 'Min',    calculation: 'array_min'                              },
+        { filters: [], name: 'Max',    tooltip: 'Max',    calculation: 'array_max'                              }]
     elsif ['dropdown', 'radio', 'string'].include?(self.variable_type)
-      options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }]}) }\
+      options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }], tooltip: h[:name] }) }
     elsif self.variable_type == 'design'
-      self.project.designs.order(:name).collect{|design| { filters: [{ variable_id: 'design', value: design.id.to_s }], name: design.name, link: "projects/#{self.project_id}/designs/#{design.id}/report", value: design.id.to_s, calculation: 'array_count' } }
+      self.project.designs.order(:name).collect{|design| { filters: [{ variable_id: 'design', value: design.id.to_s }], name: design.name, tooltip: design.name, link: "projects/#{self.project_id}/designs/#{design.id}/report", value: design.id.to_s, calculation: 'array_count' } }
     elsif self.variable_type == 'site'
-      self.project.sites.order(:name).collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, value: site.id.to_s, calculation: 'array_count' } }
+      self.project.sites.order(:name).collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, tooltip: site.name, value: site.id.to_s, calculation: 'array_count' } }
     elsif ['sheet_date', 'date'].include?(self.variable_type)
       date_buckets = self.generate_date_buckets(sheet_scope, hash[:by] || 'month')
       date_buckets.reverse! unless hash[:axis] == 'col'
       date_buckets.collect do |date_bucket|
-        { filters: [{ variable_id: (self.id ? self.id : self.name), start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }], name: date_bucket[:name], calculation: 'array_count', start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }
+        { filters: [{ variable_id: (self.id ? self.id : self.name), start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }], name: date_bucket[:name], tooltip: date_bucket[:tooltip], calculation: 'array_count', start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }
       end
     else # Create a Filter that shows if the variable is present.
       display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Collected"
       [ { filters: [{ variable_id: self.id, value: ':any' }], name: display_name, tooltip: display_name } ]
     end
-    @report_strata << { filters: [{ variable_id: self.id, value: ':missing' }], name: '', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
+    @report_strata << { filters: [{ variable_id: self.id, value: ':missing' }], name: '', tooltip: 'Unknown', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
     @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id ? self.id : self.name })}
     @report_strata[0..(max_strata - 1)]
   end

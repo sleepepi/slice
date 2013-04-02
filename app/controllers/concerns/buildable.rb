@@ -163,7 +163,7 @@ module Buildable
     @column_filters.each do |filter|
       @table_header += filter[:variable].report_strata(filter[:missing] == '1', 0, filter, @sheets)
     end
-    @table_header << { name: 'Total', calculation: 'array_count', column_type: 'total' }
+    @table_header << { name: 'Total', tooltip: 'Total', calculation: 'array_count', column_type: 'total' }
   end
 
   # TODO: Table footers need to exclue filters for missing variables if @row_filters contain :missing != '1'
