@@ -2,6 +2,7 @@
 
 ### Bug Fix
 - Fixed an issue that would cause a daily digest not to be sent out if only comments were created the day before and no sheets were entered
+- Report PDFs no longer display a plus/minus followed by a dash for blank report standard deviations, and instead just display a dash
 
 ## 0.15.0 (April 3, 2013)
 

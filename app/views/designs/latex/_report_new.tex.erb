@@ -70,7 +70,7 @@
       &
       <% reverse_index = index - row[:cells].size + 1 %>
       <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
-      <%= '\\pm' if hash[:symbol] == 'pm' and hash[:count] != nil %><%= hash[:name].blank? ? "\\textcolor[gray]{0.5}{Unknown}" : latex_safe(hash[:name]) %>
+      <%= '\\pm' if hash[:symbol] == 'pm' and hash[:name] != '-' %><%= hash[:name].blank? ? "\\textcolor[gray]{0.5}{Unknown}" : latex_safe(hash[:name]) %>
         <% if row[:chart_type] == 'line' and hash[:count] %>
           <% if @percent == 'row' and hash[:count] > 0 and row[:values].sum > 0 and hash[:column_type] != 'total' %>
             \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / row[:values].sum).to_s + "%") %>}}
@@ -97,7 +97,7 @@
 
     <% @table_footer[:cells].each do |hash| %>
       <% if hash[:colspan].blank? %>
-        <%= '\\pm' if hash[:symbol] == 'pm' and hash[:count] != nil %><%= latex_safe(hash[:name]) %>
+        <%= '\\pm' if hash[:symbol] == 'pm' and hash[:name] != '-' %><%= latex_safe(hash[:name]) %>
         <% if @table_footer[:chart_type] == 'line' and hash[:count] %>
           <% if @percent == 'row' and hash[:count] > 0 and @table_footer[:values].sum > 0 and hash[:column_type] != 'total' %>
             \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / @table_footer[:values].sum).to_s + "%") %>}
