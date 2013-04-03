@@ -1,4 +1,4 @@
-## 0.15.1
+## 0.15.1 (April 3, 2013)
 
 ### Bug Fix
 - Fixed an issue that would cause a daily digest not to be sent out if only comments were created the day before and no sheets were entered
