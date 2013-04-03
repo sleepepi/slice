@@ -65,7 +65,8 @@
             <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%= hash[:tooltip] %>" data-placement="right">
               <span class="rounded-borders" style="background-color: <%= hash[:color].blank? ? 'transparent' : "#{hash[:color]}" %>;">
                 <% link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], filter: @filter, statuses: @statuses) %>
-                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %><%= link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %></span>
+                <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:count] != nil %>
+                <%= link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %></span>
               <% unless hash[:debug].blank? %>
                 <%= hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}  %>
                 <%#= hash.keys %>
