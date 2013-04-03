@@ -332,10 +332,20 @@ textarea:focus.warning-input  {
 .label-coverage {
   font-weight: 200;
   background-color: rgb(90, 90, 90);
+
+  /*color: #333;*/
 }
 
 .label-coverage.complete {
-  background-color: #8feb75; /* #39B419; */
+  background-color: #8feb75; /* #39B419; */ /* #8feb75 */
+
+/*  background-image: -moz-linear-gradient(top, #8feb75, #39B419);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#8feb75), to(#39B419));
+  background-image: -webkit-linear-gradient(top, #8feb75, #39B419);
+  background-image: -o-linear-gradient(top, #8feb75, #39B419);
+  background-image: linear-gradient(to bottom, #8feb75, #39B419);
+  background-repeat: repeat-x;
+  border-color: #39B419 #39B419 #8feb75;*/
 }
 
 .label-coverage.green {
