@@ -128,7 +128,7 @@ class SheetsController < ApplicationController
 
     @raw_data = (params[:format] == 'raw_csv')
 
-    generate_export(sheet_scope, (params[:xls].to_s == '1'), (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1'), (params[:sas].to_s == '1')) if params[:export].to_s == '1'
+    generate_export(sheet_scope, (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1'), (params[:sas].to_s == '1')) if params[:export].to_s == '1'
 
     @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
     @sheet_scope = sheet_scope
@@ -330,11 +330,10 @@ class SheetsController < ApplicationController
       )
     end
 
-    def generate_export(sheet_scope, xls, csv_labeled, csv_raw, pdf, files, data_dictionary, sas)
+    def generate_export(sheet_scope, csv_labeled, csv_raw, pdf, files, data_dictionary, sas)
       export = current_user.exports.create(
                   name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}",
                   project_id: @project.id,
-                  include_xls: xls,
                   include_csv_labeled: csv_labeled,
                   include_csv_raw: csv_raw,
                   include_pdf: pdf,

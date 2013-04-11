@@ -1,5 +1,8 @@
 ## 0.15.2
 
+### Refactoring
+- Removed Microsoft Excel (XLS) export option
+
 ### Bug Fix
 - Fixed a bug in Bootstrap styling that caused validation errors to force input fields downwards
 - Fixed a bug that caused the `next` and `prev` buttons on reports to not use the correct report filters
