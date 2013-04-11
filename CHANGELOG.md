@@ -1,4 +1,4 @@
-## 0.15.2
+## 0.15.2 (April 11, 2013)
 
 ### Refactoring
 - Removed Microsoft Excel (XLS) export option
