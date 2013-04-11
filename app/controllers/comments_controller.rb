@@ -101,7 +101,7 @@ class CommentsController < ApplicationController
     def comment_params
       params[:comment] ||= {}
 
-      params[:comment][:user_id] = current_user.id
+      params[:comment][:user_id] = current_user.id unless @comment
 
       params.require(:comment).permit(
         :description, :user_id

@@ -81,7 +81,7 @@ class PostsController < ApplicationController
     def post_params
       params[:post] ||= {}
 
-      params[:post][:user_id] = current_user.id
+      params[:post][:user_id] = current_user.id unless @post
 
       params.require(:post).permit(
         :name, :description, :archived, :user_id

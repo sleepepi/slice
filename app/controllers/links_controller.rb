@@ -82,7 +82,7 @@ class LinksController < ApplicationController
     def link_params
       params[:link] ||= {}
 
-      params[:link][:user_id] = current_user.id
+      params[:link][:user_id] = current_user.id unless @link
 
       params.require(:link).permit(
         :name, :category, :url, :archived, :user_id

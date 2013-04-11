@@ -80,7 +80,7 @@ class ContactsController < ApplicationController
     def contact_params
       params[:contact] ||= {}
 
-      params[:contact][:user_id] = current_user.id
+      params[:contact][:user_id] = current_user.id unless @contact
       params[:contact][:position] = 0 if params[:contact][:position].blank?
 
       params.require(:contact).permit(

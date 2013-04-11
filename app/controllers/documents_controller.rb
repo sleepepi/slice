@@ -83,7 +83,7 @@ class DocumentsController < ApplicationController
     def document_params
       params[:document] ||= {}
 
-      params[:document][:user_id] = current_user.id
+      params[:document][:user_id] = current_user.id unless @document
 
       params.require(:document).permit(
         :name, :category, :file, :file_cache, :archived, :user_id
