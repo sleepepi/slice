@@ -82,7 +82,7 @@ jQuery ->
     )
     .on('click', '[data-object~="set-value"]', () ->
       $($(this).data('target')).val($(this).data('value'))
-      $("#report_form").submit()
+      submitReportWithFilters()
       false
     )
     .on('click', '[data-object~="refresh-report"]', () ->

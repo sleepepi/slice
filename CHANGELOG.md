@@ -1,5 +1,8 @@
 ## 0.15.2
 
+### Bug Fix
+- Fixed a bug that caused the `next` and `prev` buttons on reports to not use the correct report filters
+
 ## 0.15.1 (April 3, 2013)
 
 ### Bug Fix
