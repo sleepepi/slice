@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails',                '4.0.0.beta1'
 
 # Database Adapter
-gem 'pg',                   '0.14.1'
+gem 'pg',                   '0.15.1'
 gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
@@ -39,7 +39,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.3.0'
+gem 'jbuilder',             '~> 1.3.0'
 
 # Testing
 group :test do
