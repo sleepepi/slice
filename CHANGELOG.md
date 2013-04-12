@@ -1,5 +1,9 @@
 ## 0.16.0
 
+### Enhancements
+- **Gem Changes**
+  - Updated to jbuilder 1.3.0
+
 ## 0.15.2 (April 11, 2013)
 
 ### Refactoring
