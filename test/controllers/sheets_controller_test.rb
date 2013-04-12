@@ -489,7 +489,7 @@ class SheetsControllerTest < ActionController::TestCase
     get :show, id: sheets(:all_variables), project_id: @project
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
-    assert_equal "Dear #{assigns(:sheet).subject.site.name}: #{assigns(:sheet).subject.name} #{assigns(:sheet).subject.acrostic} #{variables(:dropdown).display_name} #{variables(:dropdown).response_name(assigns(:sheet))} #{variables(:dropdown).response_label(assigns(:sheet))} #{variables(:dropdown).response_raw(assigns(:sheet))} #{variables(:checkbox).response_label(assigns(:sheet))} #{variables(:integer).response_label(assigns(:sheet))} #{variables(:file).response_label(assigns(:sheet))} #{variables(:date).response_label(assigns(:sheet))}", assigns(:sheet).email_body_template(users(:valid))
+    assert_equal "Dear #{assigns(:sheet).subject.site.name}: #{assigns(:sheet).subject.name} #{assigns(:sheet).subject.acrostic} #{variables(:dropdown).display_name} #{variables(:dropdown).response_name(assigns(:sheet))} #{assigns(:sheet).get_response(variables(:dropdown), :label)} #{assigns(:sheet).get_response(variables(:dropdown), :raw)} #{assigns(:sheet).get_response(variables(:checkbox), :label)} #{assigns(:sheet).get_response(variables(:integer), :label)} #{assigns(:sheet).get_response(variables(:file), :label)} #{assigns(:sheet).get_response(variables(:date), :label)}", assigns(:sheet).email_body_template(users(:valid))
     assert_response :success
   end
 

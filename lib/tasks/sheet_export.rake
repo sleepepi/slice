@@ -77,7 +77,7 @@ def generate_xls(export, sheet_scope, filename)
       worksheet.row(current_row).push s.name, s.description, s.created_at.strftime("%Y-%m-%d"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name
       variable_names.each do |name, type|
         value = if variable = s.variables.find_by_name(name)
-          raw_data ? variable.response_raw(s) : (variable.variable_type == 'checkbox' ? variable.response_name(s).join(',') : variable.response_name(s))
+          raw_data ? s.get_response(variable, :raw) : (variable.variable_type == 'checkbox' ? variable.response_name(s).join(',') : variable.response_name(s))
         else
           ''
         end
@@ -165,7 +165,7 @@ def generate_csv_sheets(export, sheet_scope, filename, raw_data)
               sheet.user.name]
       variable_names.each do |variable_name|
         row << if variable = sheet.variables.find_by_name(variable_name)
-          raw_data ? variable.response_raw(sheet) : (variable.variable_type == 'checkbox' ? variable.response_name(sheet).join(',') : variable.response_name(sheet))
+          raw_data ? sheet.get_response(variable, :raw) : (variable.variable_type == 'checkbox' ? variable.response_name(sheet).join(',') : variable.response_name(sheet))
         else
           ''
         end

@@ -172,6 +172,82 @@ class SheetVariable < ActiveRecord::Base
     end
   end
 
+  def get_response(raw_format = :raw)
+    case self.variable.response_format_type
+    when 'grid'
+      self.grid_responses(raw_format)
+    when 'checkbox'
+      self.checkbox_responses(raw_format)
+    when 'dropdown', 'radio'
+      self.dropdown_or_radio_response(raw_format)
+    when 'integer'
+      self.integer_response(raw_format)
+    when 'numeric'
+      self.numeric_response(raw_format)
+    when 'calculated'
+      self.calculated_response(raw_format)
+    when 'file'
+      self.file_response
+    else
+      self.response
+    end
+  end
+
+  def grid_responses(raw_format = :raw)
+    grid_responses = []
+    (0..self.grids.pluck(:position).max.to_i).each do |position|
+      self.variable.grid_variables.each do |grid_variable|
+        grid = self.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
+        grid_responses[position] ||= {}
+        grid_responses[position][grid.variable.name] = (raw_format == :raw ? grid.response_raw : grid.response_label) if grid
+      end
+    end
+    grid_responses.to_json
+  end
+
+  def checkbox_responses(raw_format = :raw)
+    self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[(raw_format == :raw ? :value : :name)]}.join(',')
+  end
+
+  def file_response
+    self.variable.response_file(self.sheet).to_s.split('/').last
+  end
+
+  def dropdown_or_radio_response(raw_format = :raw)
+    if raw_format == :raw
+      begin Integer(self.response) end rescue self.response
+    else
+      hash = (self.variable.shared_options_select_values([self.response]).first || {})
+      hash[:name]
+    end
+  end
+
+  def integer_response(raw_format = :raw)
+    if raw_format == :raw
+      begin Integer(self.response) end rescue self.response
+    else
+      hash = self.variable.options_only_missing_select_values([self.response]).first
+      hash.blank? ? self.response : hash[:name]
+    end
+  end
+
+  def numeric_response(raw_format = :raw)
+    if raw_format == :raw
+      begin Float(self.response) end rescue self.response
+    else
+      hash = self.variable.options_only_missing_select_values([self.response]).first
+      hash.blank? ? self.response : hash[:name]
+    end
+  end
+
+  def calculated_response(raw_format = :raw)
+    if raw_format == :raw
+      begin Float(self.response) end rescue self.response
+    else
+      self.response
+    end
+  end
+
   private
 
   # Copied from Application Controller

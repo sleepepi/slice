@@ -35,19 +35,14 @@ class Grid < ActiveRecord::Base
   end
 
   def response_raw
-    case self.variable.variable_type when 'checkbox'
-      self.variable.shared_options.select{|option| self.responses.pluck(:value).include?(option[:value])}.collect{|option| option[:value]}.join(',')
+    case self.variable.response_format_type
+    when 'checkbox'
+      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[:value]}.join(',')
     when 'file'
       self.response_file.to_s.split('/').last
-    when 'numeric'
+    when 'numeric', 'calculated'
       begin Float(self.response) end rescue self.response
-    when 'calculated'
-      begin Float(self.response) end rescue self.response
-    when 'integer'
-      begin Integer(self.response) end rescue self.response
-    when 'dropdown'
-      begin Integer(self.response) end rescue self.response
-    when 'radio'
+    when 'integer', 'dropdown', 'radio'
       begin Integer(self.response) end rescue self.response
     else
       self.response
@@ -55,15 +50,16 @@ class Grid < ActiveRecord::Base
   end
 
   def response_label
-    if self.variable.variable_type == 'checkbox'
-      self.variable.shared_options.select{|option| self.responses.pluck(:value).include?(option[:value])}.collect{|option| option[:name]}.join(',')
-    elsif ['dropdown', 'radio'].include?(self.variable.variable_type)
-      hash = (self.variable.shared_options.select{|option| option[:value] == self.response}.first || {})
+    case self.variable.response_format_type
+    when 'checkbox'
+      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[:name]}.join(',')
+    when 'dropdown', 'radio'
+      hash = (self.variable.shared_options_select_values([self.response]).first || {})
       [hash[:value], hash[:name]].compact.join(': ')
-    elsif ['integer', 'numeric'].include?(self.variable.variable_type)
-      hash = self.variable.options_only_missing.select{|option| option[:value] == self.response}.first
+    when 'integer', 'numeric'
+      hash = self.variable.options_only_missing_select_values([self.response]).first
       hash.blank? ? self.response : hash[:name]
-    elsif self.variable.variable_type == 'file'
+    when 'file'
       self.response_file.to_s.split('/').last
     else
       self.response

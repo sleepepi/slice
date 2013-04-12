@@ -27,7 +27,6 @@ class Variable < ActiveRecord::Base
   ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical']]
   SCALE_TYPE = ['checkbox', 'radio'].collect{|i| [i,i]}
 
-  serialize :options, Array
   serialize :grid_variables, Array
 
   before_save :check_for_duplicate_variables, :check_for_valid_domain
@@ -64,11 +63,11 @@ class Variable < ActiveRecord::Base
   end
 
   def shared_options
-    # if ['scale'].include?(self.variable_type)
-      self.domain ? self.domain.options : []
-    # else
-      # self.options
-    # end
+    self.domain ? self.domain.options : []
+  end
+
+  def shared_options_select_values(values)
+    self.shared_options.select{|option| values.include?(option[:value])}
   end
 
   def autocomplete_array
@@ -202,6 +201,10 @@ class Variable < ActiveRecord::Base
     self.shared_options.select{|opt| opt[:missing_code] == '1'}
   end
 
+  def options_only_missing_select_values(values)
+    self.options_only_missing.select{|option| values.include?(option[:value])}
+  end
+
   def grouped_by_missing
     [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}] ]
   end
@@ -245,66 +248,6 @@ class Variable < ActiveRecord::Base
       hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
     elsif ['file'].include?(self.variable_type)
       self.response_file(sheet).size > 0 ? self.response_file(sheet).to_s.split('/').last : ''
-    else
-      response
-    end
-  end
-
-  def response_label(sheet)
-    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-    response = (sheet_variable ? sheet_variable.response : nil)
-    responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
-
-    if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
-      hash = (self.shared_options.select{|option| option[:value] == response}.first || {})
-      hash[:name]
-    elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
-      self.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:name]}.join(',')
-    elsif ['grid'].include?(self.variable_type) and sheet_variable
-      grid_labeled = []
-      (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
-        self.grid_variables.each do |grid_variable|
-          grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
-          grid_labeled[position] ||= {}
-          grid_labeled[position][grid.variable.name] = grid.response_label if grid
-        end
-      end
-      grid_labeled.to_json
-    elsif ['integer', 'numeric'].include?(self.variable_type)
-      hash = self.options_only_missing.select{|option| option[:value] == response}.first
-      hash.blank? ? response : hash[:name]
-    elsif ['file'].include?(self.variable_type)
-      self.response_file(sheet).to_s.split('/').last
-    else
-      response
-    end
-  end
-
-  def response_raw(sheet)
-    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-    response = (sheet_variable ? sheet_variable.response : nil)
-    responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
-
-    if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
-      begin Integer(response) end rescue response
-    elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
-      self.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:value]}.join(',')
-    elsif ['file'].include?(self.variable_type)
-      self.response_file(sheet).to_s.split('/').last
-    elsif ['grid'].include?(self.variable_type) and sheet_variable
-      grid_raw = []
-      (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
-        self.grid_variables.each do |grid_variable|
-          grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
-          grid_raw[position] ||= {}
-          grid_raw[position][grid.variable.name] = grid.response_raw if grid
-        end
-      end
-      grid_raw.to_json
-    elsif self.variable_type == 'numeric' or self.variable_type == 'calculated'
-      begin Float(response) end rescue response
-    elsif self.variable_type == 'integer'
-      begin Integer(response) end rescue response
     else
       response
     end
@@ -450,6 +393,10 @@ class Variable < ActiveRecord::Base
 
   def sas_format
     self.sas_informat
+  end
+
+  def response_format_type
+    self.variable_type == 'scale' ? self.scale_type : self.variable_type
   end
 
 end

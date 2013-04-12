@@ -177,9 +177,9 @@ class Sheet < ActiveRecord::Base
     elsif variable and display_name == '.name'
       variable.display_name
     elsif variable and display_name == '.label'
-      variable.response_label(self)
+      self.get_response(variable, :label) # label
     elsif variable and display_name == '.value'
-      variable.response_raw(self)
+      self.get_response(variable, :raw) # raw
     else
       ''
     end
@@ -287,7 +287,7 @@ class Sheet < ActiveRecord::Base
   def variable_javascript_value(variable_name)
     variable = self.design.pure_variables.find_by_name(variable_name)
     result = if variable
-      variable.response_raw(self).to_json
+      self.get_response(variable, :raw).to_json
     else
       variable_name
     end
@@ -521,6 +521,13 @@ class Sheet < ActiveRecord::Base
       '#999999' # '#6F6F6F'
     end
   end
+
+  def get_response(variable, raw_format = :raw)
+    sheet_variable = self.sheet_variables.find_by_variable_id(variable.id)
+    return '' unless sheet_variable
+    sheet_variable.get_response(raw_format)
+  end
+
 
   protected
 
