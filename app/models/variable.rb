@@ -239,7 +239,7 @@ class Variable < ActiveRecord::Base
         self.grid_variables.each do |grid_variable|
           grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
           grid_labeled[position] ||= {}
-          grid_labeled[position][grid.variable.name] = grid.response_label if grid
+          grid_labeled[position][grid.variable.name] = grid.get_response(:label) if grid # Should be grid.get_response(:name)
         end
       end
       grid_labeled.to_json

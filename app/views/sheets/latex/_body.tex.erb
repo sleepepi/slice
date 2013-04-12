@@ -46,8 +46,8 @@
   <% @variable.grid_variables.each do |grid_variable| %>
     <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
     <% if grid %>
-      <%= latex_safe grid.response_label %>
-      <%= latex_safe grid.variable.units if not grid.variable.units.blank? and not grid.response_label.blank? %>
+      <%= latex_safe grid.get_response(:label) %>
+      <%= latex_safe grid.variable.units if not grid.variable.units.blank? and not grid.get_response(:label).blank? %>
       &
     <% end %>
   <% end %>
