@@ -8,6 +8,7 @@
 ### Refactoring
 - Removed design exports from designs index
 - Removed code for original design and project reports
+- Removed multi-page designs
 
 ## 0.15.2 (April 11, 2013)
 

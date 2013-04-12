@@ -262,7 +262,7 @@ def generate_data_dictionary(export, sheet_scope, filename)
   # Design Layout
   worksheet = book.create_worksheet name: "Design Layout"
   current_row = 0
-  worksheet.row(current_row).push 'Design Name', 'Name', 'Display Name', 'Branching Logic', 'Description', 'Break Before'
+  worksheet.row(current_row).push 'Design Name', 'Name', 'Display Name', 'Branching Logic', 'Description'
 
   design_scope.each do |d|
     d.options.each do |option|
@@ -273,15 +273,13 @@ def generate_data_dictionary(export, sheet_scope, filename)
           option[:section_id],
           option[:section_name],
           option[:branching_logic],
-          option[:section_description], # Variable Description
-          option[:break_before]
+          option[:section_description] # Variable Description
       elsif variable = Variable.current.find_by_id(option[:variable_id])
         worksheet.row(current_row).push d.name,
           variable.name,
           variable.display_name,
           option[:branching_logic],
-          variable.description, # Variable Description
-          option[:break_before]
+          variable.description # Variable Description
       end
     end
   end

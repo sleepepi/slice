@@ -1,12 +1,6 @@
 $("#design").html("<%= escape_javascript(render("designs/selection")) %>");
 
-<% if @design and params[:current_design_page].to_i < @design.total_pages %>
-  $('#sheet_submit_btn').val('Next Page');
-<% else %>
-  $('#sheet_submit_btn').val('Submit');
-<% end %>
-
-$('#sheet_submit_btn, #sheet_submit_btn_and_continue').data('page', '<%= params[:current_design_page].to_i + 1 %>');
+$('#sheet_submit_btn').val('Submit');
 
 <% if @design %>
   <% @design.options.each do |option| %>

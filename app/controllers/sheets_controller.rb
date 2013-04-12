@@ -157,8 +157,6 @@ class SheetsController < ApplicationController
 
   # GET /sheets/new
   def new
-    params[:current_design_page] = 1
-
     if @project.designs.size == 1
       params[:sheet] ||= {}
       params[:sheet][:design_id] ||= @project.designs.first.id
@@ -169,7 +167,6 @@ class SheetsController < ApplicationController
 
   # GET /sheets/1/edit
   def edit
-    params[:current_design_page] = 1
   end
 
   def survey
@@ -192,14 +189,8 @@ class SheetsController < ApplicationController
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
     if @project and @sheet
       update_variables!
-
-      if params[:current_design_page].to_i <= @sheet.design.total_pages
-        render action: 'survey'
-      else
-        UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
-        redirect_to about_path, notice: 'Survey submitted successfully.'
-      end
-
+      UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
+      redirect_to about_path, notice: 'Survey submitted successfully.'
     else
       redirect_to new_user_session_path, alert: 'Survey has already been submitted.'
     end
@@ -231,19 +222,11 @@ class SheetsController < ApplicationController
     respond_to do |format|
       if @sheet.save
         update_variables!
+        url = (params[:continue].to_s == '1' ? new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }) : [@sheet.project, @sheet])
 
-        if params[:current_design_page].to_i <= @sheet.design.total_pages
-          format.html { render action: 'edit' }
-        else
-          if params[:continue].to_s == '1'
-            format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully created.' }
-          else
-            format.html { redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully created.' }
-          end
-        end
+        format.html { redirect_to url, notice: 'Sheet was successfully created.' }
         format.json { render action: 'show', status: :created, location: @sheet }
       else
-        params[:current_design_page] = 1
         format.html { render action: 'new' }
         format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end
@@ -256,19 +239,11 @@ class SheetsController < ApplicationController
     respond_to do |format|
       if @sheet.update(sheet_params)
         update_variables!
+        url = (params[:continue].to_s == '1' ? new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }) : [@sheet.project, @sheet])
 
-        if params[:current_design_page].to_i <= @sheet.design.total_pages
-          format.html { render action: 'edit' }
-        else
-          if params[:continue].to_s == '1'
-            format.html { redirect_to new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }), notice: 'Sheet was successfully updated.' }
-          else
-            format.html { redirect_to [@project, @sheet], notice: 'Sheet was successfully updated.' }
-          end
-        end
+        format.html { redirect_to url, notice: 'Sheet was successfully updated.' }
         format.json { head :no_content }
       else
-        params[:current_design_page] = 1
         format.html { render action: 'edit' }
         format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end

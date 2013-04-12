@@ -30,12 +30,6 @@ all_variables:
   subject: one
   user: valid
 
-two_page:
-  design: two_page
-  project: one
-  subject: one
-  user: valid
-
 external:
   design: admin_design
   project: three
@@ -46,6 +40,12 @@ external:
 
 domain_data_captured:
   design: one_sheet_entered
+  project: one
+  subject: one
+  user: valid
+
+has_grid:
+  design: has_grid
   project: one
   subject: one
   user: valid

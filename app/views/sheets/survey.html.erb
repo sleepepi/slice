@@ -5,14 +5,11 @@
 </div>
 <% end %>
 
-<% params[:current_design_page] = 1 if params[:current_design_page].blank? %>
-
 <%= hidden_field_tag 'isdirty', '1' %>
 
 <%= form_tag submit_survey_project_sheet_path(@sheet.project, @sheet), method: :post, class: 'form-horizontal', multipart: true, id: "edit_sheet_#{@sheet.id}" do |f| %>
 
   <%= hidden_field_tag "sheet[project_id]", @sheet.project_id %>
-  <%= hidden_field_tag :current_design_page, params[:current_design_page].to_i %>
   <%= hidden_field_tag "sheet_authentication_token", @sheet.authentication_token %>
 
   <div id="design">
@@ -21,15 +18,10 @@
   </div>
 
   <div class="form-actions">
-    <% link_name = "Next Page" if @sheet.design and params[:current_design_page].to_i < @sheet.design.total_pages %>
     <% form_name = "edit_sheet_#{@sheet.id}" %>
-    <% if link_name.blank? %>
-      <%= submit_tag 'Submit',       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1 }, id: 'sheet_submit_btn'  %>
-    <% else %>
-      <%= submit_tag link_name, class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1 }  %>
-    <% end %>
+    <%= submit_tag 'Submit',       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
   </div>
 
 <% end %>
 
-<%= form_tag survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token, current_design_page: params[:current_design_page].to_i), remote: true, method: :get, data: { object: 'form-load' } %>
+<%= form_tag survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token), remote: true, method: :get, data: { object: 'form-load' } %>

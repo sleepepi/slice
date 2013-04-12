@@ -65,24 +65,6 @@ section_and_file:
   user: valid
   project: one
 
-two_page:
-  name: Two Pages
-  description:  Sections and Variables across two pages
-  options: [
-              { section_name: 'Section A', section_id: '_section_a', break_before: '1' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %> },
-              { section_name: 'Section B', section_id: '_section_b' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:string) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:text) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> }
-           ]
-  user: valid
-  project: one
-
 has_grid:
   name: Includes a Grid Variable
   description: Test for grid variable saving

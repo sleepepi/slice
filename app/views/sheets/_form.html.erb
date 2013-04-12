@@ -62,7 +62,6 @@
     </div>
   </div>
 
-  <%= hidden_field_tag :current_design_page, params[:current_design_page].to_i %>
   <%= hidden_field_tag :continue, '0' %>
 
   <div id="design">
@@ -70,16 +69,11 @@
   </div>
 
   <div class="form-actions">
-    <% link_name = "Next Page" if @sheet.design and params[:current_design_page].to_i < @sheet.design.total_pages %>
     <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
-    <% if link_name.blank? %>
-      <%= f.submit nil,       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1 }, id: 'sheet_submit_btn'  %>
-      <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1, continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
-    <% else %>
-      <%= f.submit link_name, class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", page: params[:current_design_page].to_i + 1 }  %>
-    <% end %>
+    <%= f.submit nil,       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
+    <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit", continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
     <%= cancel %>
   </div>
 <% end %>
 
-<%= form_tag selection_project_designs_path(@sheet.project, sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, subject_code: (@sheet.subject ? @sheet.subject.subject_code : params[:subject_code]), current_design_page: params[:current_design_page].to_i, variables: params[:variables]), remote: true, method: :post, data: { object: 'form-load' } %>
+<%= form_tag selection_project_designs_path(@sheet.project, sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, subject_code: (@sheet.subject ? @sheet.subject.subject_code : params[:subject_code]), variables: params[:variables]), remote: true, method: :post, data: { object: 'form-load' } %>

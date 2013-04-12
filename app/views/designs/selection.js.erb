@@ -1,16 +1,12 @@
 $("#design").html("<%= escape_javascript(render("designs/selection")) %>");
 
-<% if @design and params[:current_design_page].to_i < @design.total_pages %>
-  $('#sheet_submit_btn').val('Next Page');
-<% elsif @sheet.new_record? %>
+<% if @sheet.new_record? %>
   $('#sheet_submit_btn').val('Create Sheet');
   $('#sheet_submit_btn_and_continue').val('Create Sheet and Continue');
 <% else %>
   $('#sheet_submit_btn').val('Update Sheet');
   $('#sheet_submit_btn_and_continue').val('Update Sheet and Continue');
 <% end %>
-
-$('#sheet_submit_btn, #sheet_submit_btn_and_continue').data('page', '<%= params[:current_design_page].to_i + 1 %>');
 
 <% if @design %>
   <% @design.options.each do |option| %>

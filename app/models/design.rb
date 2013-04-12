@@ -94,16 +94,6 @@ class Design < ActiveRecord::Base
     result
   end
 
-  def options_page(page_number = 1)
-    current_page = 1
-    options_subset = []
-    self.options.each do |option|
-      current_page += 1 if option[:break_before] == '1'
-      options_subset << option if current_page == page_number
-    end
-    options_subset
-  end
-
   def options_with_grid_sub_variables
     new_options = []
     self.options.each do |option|
@@ -115,12 +105,6 @@ class Design < ActiveRecord::Base
       end
     end
     new_options
-  end
-
-  def total_pages
-    @total_pages ||= begin
-      self.options.select{|option| option[:break_before] == '1'}.count + 1
-    end
   end
 
   def option_tokens=(tokens)
@@ -136,8 +120,7 @@ class Design < ActiveRecord::Base
                           section_name: option_hash[:section_name].strip,
                           section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
                           section_description: option_hash[:section_description].to_s.strip,
-                          branching_logic: option_hash[:branching_logic].to_s.strip,
-                          break_before: option_hash[:break_before]
+                          branching_logic: option_hash[:branching_logic].to_s.strip
                         }
       end
     end

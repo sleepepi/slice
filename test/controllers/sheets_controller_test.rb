@@ -275,7 +275,6 @@ class SheetsControllerTest < ActionController::TestCase
       post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
-                    current_design_page: 2,
                     variables: {
                       "#{variables(:dropdown).id}" => 'm',
                       "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
@@ -303,7 +302,6 @@ class SheetsControllerTest < ActionController::TestCase
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     continue: '1',
-                    current_design_page: 2,
                     variables: {
                       "#{variables(:dropdown).id}" => 'm',
                       "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
@@ -325,29 +323,10 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to new_project_sheet_path(assigns(:sheet).project, sheet: { design_id: assigns(:sheet).design_id })
   end
 
-  test "should create sheet and go to page two" do
-    post :create, project_id: @project, sheet: { design_id: designs(:two_page) },
-                  subject_code: sheets(:two_page).subject.subject_code,
-                  site_id: sheets(:two_page).subject.site_id,
-                  current_design_page: 2,
-                  variables: {
-                    "#{variables(:dropdown).id}" => 'f',
-                    "#{variables(:checkbox).id}" => nil,
-                    "#{variables(:radio).id}" => '1',
-                  }
-
-    assert_not_nil assigns(:sheet)
-    assert_equal [], assigns(:sheet).errors.full_messages
-    assert_equal 3, assigns(:sheet).variables.size
-    assert_template 'edit'
-    assert_response :success
-  end
-
   test "should create sheet with grid" do
     post :create, project_id: @project, sheet: { design_id: designs(:has_grid) },
-                  subject_code: sheets(:two_page).subject.subject_code,
-                  site_id: sheets(:two_page).subject.site_id,
-                  current_design_page: 2,
+                  subject_code: sheets(:has_grid).subject.subject_code,
+                  site_id: sheets(:has_grid).subject.site_id,
                   variables: {
                     "#{variables(:grid).id}" => { "13463487147483201" => { "#{variables(:change_options).id}" => "1" },
                                                   "1346351022118849"  => { "#{variables(:change_options).id}" => "2" },
@@ -356,14 +335,13 @@ class SheetsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sheet)
     assert_equal 1, assigns(:sheet).variables.size
-
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
   test "should create new subject for different project" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: sheets(:two).project_id, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'Code01', site_id: sites(:two).id, current_design_page: 2
+        post :create, project_id: sheets(:two).project_id, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'Code01', site_id: sites(:two).id
       end
     end
 
@@ -376,7 +354,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create new validated subject" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A400', site_id: sites(:valid_range).id, current_design_page: 2
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A400', site_id: sites(:valid_range).id
       end
     end
 
@@ -390,7 +368,7 @@ class SheetsControllerTest < ActionController::TestCase
  test "should create new non-validated subject" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A600', site_id: sites(:valid_range).id, current_design_page: 2
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A600', site_id: sites(:valid_range).id
       end
     end
 
@@ -404,7 +382,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create sheet and not alter status of existing subject" do
     assert_difference('Subject.count', 0) do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A500', site_id: sites(:valid_range).id, current_design_page: 2
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A500', site_id: sites(:valid_range).id
       end
     end
 
@@ -419,8 +397,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.count', 0) do
       post :create, project_id: projects(:four), sheet: { design_id: @sheet.design_id },
                     subject_code: 'Code01',
-                    site_id: @sheet.subject.site_id,
-                    current_design_page: 2
+                    site_id: @sheet.subject.site_id
     end
 
     assert_nil assigns(:project)
@@ -433,8 +410,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.count', 0) do
       post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
                     subject_code: 'Code01',
-                    site_id: sites(:one).id,
-                    current_design_page: 2
+                    site_id: sites(:one).id
     end
 
     assert_nil assigns(:project)
@@ -446,7 +422,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
         post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-                      subject_code: 'Code01', current_design_page: 2
+                      subject_code: 'Code01'
       end
     end
 
@@ -487,18 +463,11 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should submit sheet survey using authentication_token" do
-    post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, current_design_page: 2
+    post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal "Survey submitted successfully.", flash[:notice]
     assert_redirected_to about_path
-  end
-
-  test "should submit sheet survey using authentication_token and go to next page" do
-    post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, current_design_page: 1
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_template 'survey'
   end
 
   test "should not submit sheet survey using invalid authentication_token" do
@@ -583,7 +552,6 @@ class SheetsControllerTest < ActionController::TestCase
     put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
-                    current_design_page: 2,
                     variables: {
                       "#{variables(:dropdown).id}" => 'f',
                       "#{variables(:checkbox).id}" => nil,
@@ -606,7 +574,6 @@ class SheetsControllerTest < ActionController::TestCase
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     continue: '1',
-                    current_design_page: 2,
                     variables: {
                       "#{variables(:dropdown).id}" => 'f',
                       "#{variables(:checkbox).id}" => nil,
@@ -624,33 +591,15 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to new_project_sheet_path(assigns(:sheet).project, sheet: { design_id: assigns(:sheet).design_id })
   end
 
-  test "should update sheet and go to page two" do
-    put :update, id: sheets(:two_page), project_id: @project, sheet: { design_id: designs(:two_page) },
-                    subject_code: sheets(:two_page).subject.subject_code,
-                    site_id: sheets(:two_page).subject.site_id,
-                    current_design_page: 2,
-                    variables: {
-                      "#{variables(:dropdown).id}" => 'f',
-                      "#{variables(:checkbox).id}" => nil,
-                      "#{variables(:radio).id}" => '1',
-                    }
-
-    assert_not_nil assigns(:sheet)
-    assert_equal [], assigns(:sheet).errors.full_messages
-    assert_equal 3, assigns(:sheet).variables.size
-    assert_template 'edit'
-    assert_response :success
-  end
-
   test "should not update invalid sheet" do
-    put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
+    put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(@project)
   end
 
   test "should not update sheet with invalid project" do
-    put :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, current_design_page: 2, variables: { }
+    put :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path

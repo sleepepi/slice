@@ -82,7 +82,6 @@ class DesignsController < ApplicationController
 
   def selection
     @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    params[:current_design_page] = (params[:current_design_page].blank? ? 1 : params[:current_design_page].to_i)
     @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
     @sheet = Sheet.new unless @sheet
     @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id]) unless params[:sheet].blank?
@@ -252,7 +251,7 @@ class DesignsController < ApplicationController
       end
 
       params.require(:design).permit(
-        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description, :break_before ] }, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
+        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
       )
     end
 
