@@ -7,7 +7,7 @@
 
 ### Refactoring
 - Removed design exports from designs index
-- Removed code for original design reports
+- Removed code for original design and project reports
 
 ## 0.15.2 (April 11, 2013)
 

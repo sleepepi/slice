@@ -139,9 +139,7 @@ class SheetsController < ApplicationController
     file_pdf_location = Sheet.latex_file_location([@sheet], current_user)
 
     if File.exists?(file_pdf_location)
-      File.open(file_pdf_location, 'r') do |file|
-        send_file file, filename: "sheet_#{@sheet.id}.pdf", type: "application/pdf", disposition: "inline"
-      end
+      send_file file_pdf_location, filename: "sheet_#{@sheet.id}.pdf", type: "application/pdf", disposition: "inline"
     else
       render text: "PDF did not render in time. Please refresh the page."
     end

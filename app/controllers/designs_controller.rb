@@ -56,10 +56,8 @@ class DesignsController < ApplicationController
     file_pdf_location = @design.latex_report_new_file_location(current_user, orientation, @report_title, @report_subtitle, @report_caption, @percent, @table_header, @table_body, @table_footer)
 
     if File.exists?(file_pdf_location)
-      File.open(file_pdf_location, 'r') do |file|
-        file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
-        send_file file, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: "application/pdf", disposition: "inline"
-      end
+      file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
+      send_file file_pdf_location, filename: "#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: "application/pdf", disposition: "inline"
     else
       render text: "PDF did not render in time. Please refresh the page."
     end
@@ -166,9 +164,7 @@ class DesignsController < ApplicationController
     file_pdf_location = @design.latex_file_location(current_user)
 
     if File.exists?(file_pdf_location)
-      File.open(file_pdf_location, 'r') do |file|
-        send_file file, filename: "design_#{@design.id}.pdf", type: "application/pdf", disposition: "inline"
-      end
+      send_file file_pdf_location, filename: "design_#{@design.id}.pdf", type: "application/pdf", disposition: "inline"
     else
       render text: "PDF did not render in time. Please refresh the page."
     end
