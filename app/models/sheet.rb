@@ -50,8 +50,8 @@ class Sheet < ActiveRecord::Base
   scope :order_by_subject_code, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id").order('subjects.subject_code') }
   scope :order_by_subject_code_desc, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id").order('subjects.subject_code DESC') }
 
-  scope :order_by_project_name, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name') }
-  scope :order_by_project_name_desc, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name DESC') }
+  # scope :order_by_project_name, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name') }
+  # scope :order_by_project_name_desc, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name DESC') }
 
   scope :order_by_user_name, -> { joins("LEFT JOIN users ON users.id = sheets.user_id").order('users.last_name, users.first_name') }
   scope :order_by_user_name_desc, -> { joins("LEFT JOIN users ON users.id = sheets.user_id").order('users.last_name DESC, users.first_name DESC') }

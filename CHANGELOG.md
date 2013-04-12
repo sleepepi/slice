@@ -5,6 +5,10 @@
   - Updated to pg 0.15.1
   - Updated to jbuilder 1.3.0
 
+### Refactoring
+- Removed design exports from designs index
+- Removed code for original design reports
+
 ## 0.15.2 (April 11, 2013)
 
 ### Refactoring

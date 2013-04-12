@@ -17,9 +17,6 @@ class Design < ActiveRecord::Base
   scope :with_user, lambda { |arg| where(user_id: arg) }
   scope :with_project, lambda { |arg| where(project_id: arg) }
 
-  scope :order_by_project_name, lambda { joins("LEFT JOIN projects ON projects.id = designs.project_id").order('projects.name') }
-  scope :order_by_project_name_desc, lambda { joins("LEFT JOIN projects ON projects.id = designs.project_id").order('projects.name DESC') }
-
   scope :order_by_user_name, lambda { joins("LEFT JOIN users ON users.id = designs.user_id").order('users.last_name, users.first_name') }
   scope :order_by_user_name_desc, lambda { joins("LEFT JOIN users ON users.id = designs.user_id").order('users.last_name DESC, users.first_name DESC') }
 
@@ -267,29 +264,6 @@ class Design < ActiveRecord::Base
 
     File.open(file_tex, 'w') do |file|
       file.syswrite(ERB.new(latex_partial('print')).result(binding))
-    end
-
-    Design.generate_pdf(jobname, output_folder, file_tex)
-  end
-
-  def latex_report_file_location(current_user, sheets, report_title, report_caption, variable, ranges, percent, strata, column_variable, orientation)
-    @sheets = sheets
-    @report_title = report_title
-    @report_caption = report_caption
-    @variable = variable
-    @ranges = ranges
-    @percent = percent
-    @strata = strata
-    @column_variable = column_variable
-
-    @design = self
-
-    jobname = "design_#{self.id}_report"
-    output_folder = File.join('tmp', 'files', 'tex')
-    file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
-
-    File.open(file_tex, 'w') do |file|
-      file.syswrite(ERB.new(latex_partial('report')).result(binding))
     end
 
     Design.generate_pdf(jobname, output_folder, file_tex)

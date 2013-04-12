@@ -104,12 +104,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to project_designs_path(assigns(:project))
   end
 
-  test "should get reporter" do
-    get :reporter, id: @design, project_id: @project
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
   test "should get report" do
     get :report, id: @design, project_id: @project
     assert_not_nil assigns(:design)
@@ -345,27 +339,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should get csv" do
-    get :index, project_id: @project, format: 'csv'
-    assert_not_nil assigns(:csv_string)
-    assert_response :success
-  end
-
-  test "should not get csv if no designs are selected" do
-    get :index, project_id: @project, format: 'csv', design_ids: [-1]
-    assert_nil assigns(:designs)
-    assert_nil assigns(:csv_string)
-    assert_equal flash[:alert], 'No data was exported since no designs matched the specified filters.'
-    assert_redirected_to project_designs_path(assigns(:project))
-  end
-
-  test "should get xls" do
-    get :index, project_id: @project, format: 'xls'
-    assert_not_nil assigns(:designs)
-    assert_equal 'You will be emailed when the export is ready for download.', flash[:notice]
-    assert_redirected_to project_designs_path(assigns(:project))
-  end
-
   test "should get index" do
     get :index, project_id: @project
     assert_response :success
@@ -380,18 +353,6 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should get paginated index" do
     get :index, project_id: @project, format: 'js'
-    assert_not_nil assigns(:designs)
-    assert_template 'index'
-  end
-
-  test "should get paginated index by project_name" do
-    get :index, project_id: @project, format: 'js', order: 'designs.project_name'
-    assert_not_nil assigns(:designs)
-    assert_template 'index'
-  end
-
-  test "should get paginated index by project_name desc" do
-    get :index, project_id: @project, format: 'js', order: 'designs.project_name DESC'
     assert_not_nil assigns(:designs)
     assert_template 'index'
   end
