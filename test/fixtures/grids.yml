@@ -106,14 +106,14 @@ domain_value_to_update_c3:
   user: valid
   position: 5
 
-has_grid_row_one_var_one:
+has_grid_row_one_var_a:
   sheet_variable: has_grid
   variable: change_options
   response: 1
   user: valid
   position: 0
 
-has_grid_row_one_var_two:
+has_grid_row_one_var_b:
   sheet_variable: has_grid
   variable: file
   # response:
@@ -121,9 +121,37 @@ has_grid_row_one_var_two:
   position: 0
   response_file: MyText
 
-has_grid_row_one_var_three:
+has_grid_row_one_var_c:
   sheet_variable: has_grid
   variable: checkbox
   # response:
+  user: valid
+  position: 0
+
+has_grid_row_one_var_d:
+  sheet_variable: has_grid
+  variable: height
+  response: 1.5
+  user: valid
+  position: 0
+
+has_grid_row_one_var_e:
+  sheet_variable: has_grid
+  variable: weight
+  response: 70.0
+  user: valid
+  position: 0
+
+has_grid_row_one_var_f:
+  sheet_variable: has_grid
+  variable: calculated
+  response: 31.11
+  user: valid
+  position: 0
+
+has_grid_row_one_var_g:
+  sheet_variable: has_grid
+  variable: integer
+  response: 25
   user: valid
   position: 0

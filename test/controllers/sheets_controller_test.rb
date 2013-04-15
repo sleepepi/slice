@@ -604,9 +604,27 @@ class SheetsControllerTest < ActionController::TestCase
                   subject_code: sheets(:has_grid).subject.subject_code,
                   site_id: sheets(:has_grid).subject.site_id,
                   variables: {
-                    "#{variables(:grid).id}" => { "0" => { "#{variables(:change_options).id}" => "1", "#{variables(:file).id}" => { response_file: { cache: '' } }, "#{variables(:checkbox).id}" => ['acct101', 'econ101'] },
-                                                  "1" => { "#{variables(:change_options).id}" => "2", "#{variables(:file).id}" => { response_file: { cache: '' } }, "#{variables(:checkbox).id}" => ['econ101'] },
-                                                  "2" => { "#{variables(:change_options).id}" => "3", "#{variables(:file).id}" => { response_file: { cache: '' } }, "#{variables(:checkbox).id}" => [] } }
+                    "#{variables(:grid).id}" => { "0" => {  "#{variables(:change_options).id}" => "1",
+                                                            "#{variables(:file).id}" => { response_file: { cache: '' } },
+                                                            "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
+                                                            "#{variables(:height).id}" => '1.5',
+                                                            "#{variables(:weight).id}" => '70.0',
+                                                            "#{variables(:calculated).id}" => '31.11',
+                                                            "#{variables(:integer).id}" => '25' },
+                                                  "1" => {  "#{variables(:change_options).id}" => "2",
+                                                            "#{variables(:file).id}" => { response_file: { cache: '' } },
+                                                            "#{variables(:checkbox).id}" => ['econ101'],
+                                                            "#{variables(:height).id}" => '1.5',
+                                                            "#{variables(:weight).id}" => '0.0',
+                                                            "#{variables(:calculated).id}" => '',
+                                                            "#{variables(:integer).id}" => '25' },
+                                                  "2" => {  "#{variables(:change_options).id}" => "3",
+                                                            "#{variables(:file).id}" => { response_file: { cache: '' } },
+                                                            "#{variables(:checkbox).id}" => [],
+                                                            "#{variables(:height).id}" => '1.5',
+                                                            "#{variables(:weight).id}" => '70.0',
+                                                            "#{variables(:calculated).id}" => '31.11',
+                                                            "#{variables(:integer).id}" => '25' } }
                   }
 
     assert_not_nil assigns(:sheet)
@@ -619,8 +637,20 @@ class SheetsControllerTest < ActionController::TestCase
                   subject_code: sheets(:has_grid).subject.subject_code,
                   site_id: sheets(:has_grid).subject.site_id,
                   variables: {
-                    "#{variables(:grid).id}" => { "1" => { "#{variables(:change_options).id}" => "2", "#{variables(:file).id}" => { response_file: { cache: '' } } },
-                                                  "2" => { "#{variables(:change_options).id}" => "3", "#{variables(:file).id}" => { response_file: fixture_file_upload('../../test/support/projects/rails.png') } } }
+                    "#{variables(:grid).id}" => { "1" => {  "#{variables(:change_options).id}" => "2",
+                                                            "#{variables(:file).id}" => { response_file: { cache: '' } },
+                                                            "#{variables(:checkbox).id}" => ['econ101'],
+                                                            "#{variables(:height).id}" => '1.5',
+                                                            "#{variables(:weight).id}" => '0.0',
+                                                            "#{variables(:calculated).id}" => '',
+                                                            "#{variables(:integer).id}" => '25' },
+                                                  "2" => {  "#{variables(:change_options).id}" => "3",
+                                                            "#{variables(:file).id}" => { response_file: fixture_file_upload('../../test/support/projects/rails.png') },
+                                                            "#{variables(:checkbox).id}" => [],
+                                                            "#{variables(:height).id}" => '1.5',
+                                                            "#{variables(:weight).id}" => '70.0',
+                                                            "#{variables(:calculated).id}" => '31.11',
+                                                            "#{variables(:integer).id}" => '25' } }
                   }
 
     assert_not_nil assigns(:sheet)

@@ -194,7 +194,11 @@ grid:
   grid_variables: [
                     { variable_id: <%= ActiveRecord::FixtureSet.identify(:change_options) %> },
                     { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> },
-                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> }
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:height) %> },
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:weight) %> },
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:calculated) %> },
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> }
                   ]
   default_row_number: 3
   user: valid
