@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'zip/zip'
-
 desc "Generate file for sheet exports"
 task sheet_export: :environment do
   export = Export.find_by_id(ENV["EXPORT_ID"])
