@@ -591,6 +591,35 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to new_project_sheet_path(assigns(:sheet).project, sheet: { design_id: assigns(:sheet).design_id })
   end
 
+  test "should update sheet with grid" do
+    put :update, id: sheets(:has_grid), project_id: sheets(:has_grid).project_id, sheet: { design_id: designs(:has_grid) },
+                  subject_code: sheets(:has_grid).subject.subject_code,
+                  site_id: sheets(:has_grid).subject.site_id,
+                  variables: {
+                    "#{variables(:grid).id}" => { "0" => { "#{variables(:change_options).id}" => "1", "#{variables(:file).id}" => { response_file: { cache: '' } }, "#{variables(:checkbox).id}" => ['acct101', 'econ101'] },
+                                                  "1" => { "#{variables(:change_options).id}" => "2", "#{variables(:file).id}" => { response_file: { cache: '' } }, "#{variables(:checkbox).id}" => ['econ101'] },
+                                                  "2" => { "#{variables(:change_options).id}" => "3", "#{variables(:file).id}" => { response_file: { cache: '' } }, "#{variables(:checkbox).id}" => [] } }
+                  }
+
+    assert_not_nil assigns(:sheet)
+    assert_equal 1, assigns(:sheet).variables.size
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should update sheet with grid and remove top grid row" do
+    put :update, id: sheets(:has_grid), project_id: sheets(:has_grid).project_id, sheet: { design_id: designs(:has_grid) },
+                  subject_code: sheets(:has_grid).subject.subject_code,
+                  site_id: sheets(:has_grid).subject.site_id,
+                  variables: {
+                    "#{variables(:grid).id}" => { "1" => { "#{variables(:change_options).id}" => "2", "#{variables(:file).id}" => { response_file: { cache: '' } } },
+                                                  "2" => { "#{variables(:change_options).id}" => "3", "#{variables(:file).id}" => { response_file: fixture_file_upload('../../test/support/projects/rails.png') } } }
+                  }
+
+    assert_not_nil assigns(:sheet)
+    assert_equal 1, assigns(:sheet).variables.size
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   test "should not update invalid sheet" do
     put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
     assert_not_nil assigns(:project)

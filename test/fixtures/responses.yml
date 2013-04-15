@@ -19,3 +19,10 @@ two:
   # grid_id: # NULL
   user: valid
   value: econ101
+
+has_grid_row_one_var_three:
+  variable: checkbox
+  # sheet_variable:
+  grid: has_grid_row_one_var_three
+  user: valid
+  value: econ101

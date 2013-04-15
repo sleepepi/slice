@@ -118,3 +118,9 @@ domain_data_captured:
   sheet: domain_data_captured
   response: 1
   user: valid
+
+has_grid:
+  variable: grid
+  sheet: has_grid
+  # response
+  user: valid

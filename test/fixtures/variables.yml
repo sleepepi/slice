@@ -191,7 +191,11 @@ grid:
   display_name: Grid of Variables
   description: Testing for grid of Variables
   variable_type: grid
-  grid_variables: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:change_options) %> }]
+  grid_variables: [
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:change_options) %> },
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> },
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> }
+                  ]
   default_row_number: 3
   user: valid
   project: one

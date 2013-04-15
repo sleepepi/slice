@@ -105,3 +105,25 @@ domain_value_to_update_c3:
   response: 1
   user: valid
   position: 5
+
+has_grid_row_one_var_one:
+  sheet_variable: has_grid
+  variable: change_options
+  response: 1
+  user: valid
+  position: 0
+
+has_grid_row_one_var_two:
+  sheet_variable: has_grid
+  variable: file
+  # response:
+  user: valid
+  position: 0
+  response_file: MyText
+
+has_grid_row_one_var_three:
+  sheet_variable: has_grid
+  variable: checkbox
+  # response:
+  user: valid
+  position: 0
