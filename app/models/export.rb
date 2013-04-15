@@ -61,7 +61,7 @@ class Export < ActiveRecord::Base
             # Two arguments:
             # - The name of the file as it will appear in the archive
             # - The original file, including the path to find it
-            zipfile.add(location, input_file)
+            zipfile.add(location, input_file) if File.exists?(input_file) and File.size(input_file) > 0
           end
         end
         zipfile_name
