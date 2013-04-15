@@ -610,21 +610,24 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:height).id}" => '1.5',
                                                             "#{variables(:weight).id}" => '70.0',
                                                             "#{variables(:calculated).id}" => '31.11',
-                                                            "#{variables(:integer).id}" => '25' },
+                                                            "#{variables(:integer).id}" => '25',
+                                                            "#{variables(:time).id}" => '11:30:59' },
                                                   "1" => {  "#{variables(:change_options).id}" => "2",
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => ['econ101'],
                                                             "#{variables(:height).id}" => '1.5',
                                                             "#{variables(:weight).id}" => '0.0',
                                                             "#{variables(:calculated).id}" => '',
-                                                            "#{variables(:integer).id}" => '25' },
+                                                            "#{variables(:integer).id}" => '25',
+                                                            "#{variables(:time).id}" => '13:20:01' },
                                                   "2" => {  "#{variables(:change_options).id}" => "3",
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => [],
                                                             "#{variables(:height).id}" => '1.5',
                                                             "#{variables(:weight).id}" => '70.0',
                                                             "#{variables(:calculated).id}" => '31.11',
-                                                            "#{variables(:integer).id}" => '25' } }
+                                                            "#{variables(:integer).id}" => '25',
+                                                            "#{variables(:time).id}" => '14:56:33' } }
                   }
 
     assert_not_nil assigns(:sheet)
@@ -643,14 +646,16 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:height).id}" => '1.5',
                                                             "#{variables(:weight).id}" => '0.0',
                                                             "#{variables(:calculated).id}" => '',
-                                                            "#{variables(:integer).id}" => '25' },
+                                                            "#{variables(:integer).id}" => '25',
+                                                            "#{variables(:time).id}" => '13:20:01' },
                                                   "2" => {  "#{variables(:change_options).id}" => "3",
                                                             "#{variables(:file).id}" => { response_file: fixture_file_upload('../../test/support/projects/rails.png') },
                                                             "#{variables(:checkbox).id}" => [],
                                                             "#{variables(:height).id}" => '1.5',
                                                             "#{variables(:weight).id}" => '70.0',
                                                             "#{variables(:calculated).id}" => '31.11',
-                                                            "#{variables(:integer).id}" => '25' } }
+                                                            "#{variables(:integer).id}" => '25',
+                                                            "#{variables(:time).id}" => '14:56:33' } }
                   }
 
     assert_not_nil assigns(:sheet)

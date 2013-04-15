@@ -198,7 +198,8 @@ grid:
                     { variable_id: <%= ActiveRecord::FixtureSet.identify(:height) %> },
                     { variable_id: <%= ActiveRecord::FixtureSet.identify(:weight) %> },
                     { variable_id: <%= ActiveRecord::FixtureSet.identify(:calculated) %> },
-                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> }
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
+                    { variable_id: <%= ActiveRecord::FixtureSet.identify(:time) %> }
                   ]
   default_row_number: 3
   user: valid

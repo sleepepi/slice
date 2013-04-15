@@ -155,3 +155,10 @@ has_grid_row_one_var_g:
   response: 25
   user: valid
   position: 0
+
+has_grid_row_one_var_h:
+  sheet_variable: has_grid
+  variable: time
+  response: 11:59:59
+  user: valid
+  position: 0
