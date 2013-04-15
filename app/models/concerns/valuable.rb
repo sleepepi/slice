@@ -53,7 +53,7 @@ module Valuable
   end
 
   def file_response
-    self.variable.response_file(self.sheet).to_s.split('/').last
+    self.response_file.to_s.split('/').last
   end
 
   def dropdown_or_radio_response(raw_format = :raw)

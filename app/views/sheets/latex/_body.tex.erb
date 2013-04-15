@@ -7,10 +7,10 @@
 
 <% if @sheet.project.logo.size > 0 %>
 \begin{wrapfigure}{r}
-    \centering
-    \includegraphics[width=25pt]{<%= @sheet.project.logo.path if @sheet.project.logo.size > 0 %>}
-    \noindent
-    \label{simulationfigure}
+  \centering
+  \includegraphics[width=25pt]{<%= @sheet.project.logo.path %>}
+  \noindent
+  \label{simulationfigure}
 \end{wrapfigure}
 <% end %>
 
@@ -79,7 +79,7 @@
 
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=6.5in]{<%= @variable.response_file(@sheet).path if @sheet.project.logo.size > 0 %>}
+    \includegraphics[width=6.5in]{<%= @variable.response_file(@sheet).path %>}
     <% unless @variable.description.blank? %>
       \caption{<%= latex_safe @variable.description %>}
     <% end %>

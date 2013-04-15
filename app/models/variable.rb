@@ -209,6 +209,7 @@ class Variable < ActiveRecord::Base
     [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}] ]
   end
 
+  # TODO REMOVE AND REFACTOR.
   def response_file(sheet)
     result = ''
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
@@ -222,6 +223,7 @@ class Variable < ActiveRecord::Base
     result = sheet_variable.response_file_url if sheet_variable
     result
   end
+  # END TODO AND REFACTOR
 
   def response_name(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)

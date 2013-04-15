@@ -447,6 +447,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show sheet with grid responses" do
+    get :show, id: sheets(:has_grid), project_id: @project, format: 'js'
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:project)
+    assert_template 'show'
+    assert_response :success
+  end
+
   test "should get sheet survey using authentication_token" do
     get :survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token
     assert_not_nil assigns(:sheet)
