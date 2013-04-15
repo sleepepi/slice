@@ -60,8 +60,7 @@ module Valuable
     if raw_format == :raw
       begin Integer(self.response) end rescue self.response
     else
-      hash = (self.variable.shared_options_select_values([self.response]).first || {})
-      hash[:name]
+      hash_name
     end
   end
 
@@ -69,8 +68,7 @@ module Valuable
     if raw_format == :raw
       begin Integer(self.response) end rescue self.response
     else
-      hash = self.variable.options_only_missing_select_values([self.response]).first
-      hash.blank? ? self.response : hash[:name]
+      hash_name_or_response
     end
   end
 
@@ -78,8 +76,7 @@ module Valuable
     if raw_format == :raw
       begin Float(self.response) end rescue self.response
     else
-      hash = self.variable.options_only_missing_select_values([self.response]).first
-      hash.blank? ? self.response : hash[:name]
+      hash_name_or_response
     end
   end
 
@@ -89,6 +86,15 @@ module Valuable
     else
       self.response
     end
+  end
+
+  def hash_name_or_response
+    hash_name.blank? ? self.response : hash_name
+  end
+
+  def hash_name
+    hash = (self.variable.shared_options_select_values([self.response]).first || {})
+    hash[:name]
   end
 
 end
