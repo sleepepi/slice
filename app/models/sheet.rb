@@ -528,6 +528,20 @@ class Sheet < ActiveRecord::Base
     sheet_variable.get_response(raw_format)
   end
 
+  # TODO REMOVE AND REFACTOR.
+  def response_file(variable)
+    sheet_variable = self.sheet_variables.find_by_variable_id(variable.id)
+    return '' unless sheet_variable
+    sheet_variable.response_file
+  end
+
+  def response_file_url(variable)
+    sheet_variable = self.sheet_variables.find_by_variable_id(variable.id)
+    return '' unless sheet_variable
+    sheet_variable.response_file_url
+  end
+  # END TODO AND REFACTOR
+
 
   protected
 

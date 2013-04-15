@@ -209,22 +209,6 @@ class Variable < ActiveRecord::Base
     [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}] ]
   end
 
-  # TODO REMOVE AND REFACTOR.
-  def response_file(sheet)
-    result = ''
-    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-    result = sheet_variable.response_file if sheet_variable
-    result
-  end
-
-  def response_file_url(sheet)
-    result = ''
-    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-    result = sheet_variable.response_file_url if sheet_variable
-    result
-  end
-  # END TODO AND REFACTOR
-
   def response_name(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
@@ -248,8 +232,8 @@ class Variable < ActiveRecord::Base
     elsif ['integer', 'numeric'].include?(self.variable_type)
       hash = self.options_only_missing.select{|option| option[:value] == response}.first
       hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
-    elsif ['file'].include?(self.variable_type)
-      self.response_file(sheet).size > 0 ? self.response_file(sheet).to_s.split('/').last : ''
+    elsif ['file'].include?(self.variable_type) and sheet
+      sheet.response_file(self).size > 0 ? sheet.response_file(self).to_s.split('/').last : ''
     else
       response
     end
