@@ -36,6 +36,15 @@ module Valuable
     end
   end
 
+  def response_with_add_on
+    prepend_string = ''
+    append_string = ''
+
+    prepend_string = self.variable.prepend + " " if not self.response.blank? and not self.variable.prepend.blank?
+    append_string =  " " + self.variable.append if not self.response.blank? and not self.variable.append.blank?
+    prepend_string + self.response + append_string
+  end
+
   def grid_responses(raw_format = :raw)
     grid_responses = []
     (0..self.grids.pluck(:position).max.to_i).each do |position|
