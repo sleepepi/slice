@@ -125,7 +125,7 @@ module Valuable
   end
 
   def hash_value_and_name_or_response
-    hash_name_and_name.blank? ? self.response : hash_name_and_name
+    hash_value_and_name.blank? ? self.response : hash_value_and_name
   end
 
   def hash_name
