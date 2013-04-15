@@ -173,7 +173,7 @@ class Sheet < ActiveRecord::Base
   def variable_replacement(variable_name, display_name)
     variable = self.variables.find_by_name(variable_name)
     if variable and display_name.blank?
-      self.response_name(variable)
+      self.get_response(variable, :name)
     elsif variable and display_name == '.name'
       variable.display_name
     elsif variable and display_name == '.label'
@@ -541,38 +541,6 @@ class Sheet < ActiveRecord::Base
     sheet_variable.response_file_url
   end
   # END TODO AND REFACTOR
-
-  def response_name(variable)
-    sheet_variable = self.sheet_variables.find_by_variable_id(variable.id)
-
-    response = (sheet_variable ? sheet_variable.response : nil)
-    responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
-
-    if ['dropdown', 'radio'].include?(variable.variable_type) or (variable.variable_type == 'scale' and variable.scale_type == 'radio')
-      hash = (variable.shared_options.select{|option| option[:value] == response}.first || {})
-      [hash[:value], hash[:name]].compact.join(': ')
-    elsif ['checkbox'].include?(variable.variable_type) or (variable.variable_type == 'scale' and variable.scale_type == 'checkbox')
-      variable.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
-    elsif ['grid'].include?(variable.variable_type) and sheet_variable
-      grid_labeled = []
-      (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
-        variable.grid_variables.each do |grid_variable|
-          grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
-          grid_labeled[position] ||= {}
-          grid_labeled[position][grid.variable.name] = grid.get_response(:label) if grid # Should be grid.get_response(:name)
-        end
-      end
-      grid_labeled.to_json
-    elsif ['integer', 'numeric'].include?(variable.variable_type)
-      hash = variable.options_only_missing.select{|option| option[:value] == response}.first
-      hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
-    elsif ['file'].include?(variable.variable_type)
-      self.response_file(variable).size > 0 ? self.response_file(variable).to_s.split('/').last : ''
-    else
-      response
-    end
-  end
-
 
   protected
 

@@ -48,17 +48,24 @@ module Valuable
     grid_responses.to_json
   end
 
+  # Currently returns different objects for different response types, TODO change to be the same
   def checkbox_responses(raw_format = :raw)
-    self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[(raw_format == :raw ? :value : :name)]}.join(',')
+    if raw_format == :name
+      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[:value] + ": " + option[:name]}
+    else
+      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[(raw_format == :raw ? :value : :name)]}.join(',')
+    end
   end
 
   def file_response
-    self.response_file.to_s.split('/').last
+    self.response_file.size > 0 ? self.response_file.to_s.split('/').last : ''
   end
 
   def dropdown_or_radio_response(raw_format = :raw)
     if raw_format == :raw
       begin Integer(self.response) end rescue self.response
+    elsif raw_format == :name
+      hash_value_and_name
     else
       hash_name
     end
@@ -67,6 +74,8 @@ module Valuable
   def integer_response(raw_format = :raw)
     if raw_format == :raw
       begin Integer(self.response) end rescue self.response
+    elsif raw_format == :name
+      hash_value_and_name_or_response
     else
       hash_name_or_response
     end
@@ -75,6 +84,8 @@ module Valuable
   def numeric_response(raw_format = :raw)
     if raw_format == :raw
       begin Float(self.response) end rescue self.response
+    elsif raw_format == :name
+      hash_value_and_name_or_response
     else
       hash_name_or_response
     end
@@ -92,9 +103,18 @@ module Valuable
     hash_name.blank? ? self.response : hash_name
   end
 
+  def hash_value_and_name_or_response
+    hash_name_and_name.blank? ? self.response : hash_name_and_name
+  end
+
   def hash_name
     hash = (self.variable.shared_options_select_values([self.response]).first || {})
     hash[:name]
+  end
+
+  def hash_value_and_name
+    hash = (self.variable.shared_options_select_values([self.response]).first || {})
+    [hash[:value], hash[:name]].compact.join(': ')
   end
 
 end
