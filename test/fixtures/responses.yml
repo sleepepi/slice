@@ -20,9 +20,9 @@ two:
   user: valid
   value: econ101
 
-has_grid_row_one_var_three:
+has_grid_row_one_var_c:
   variable: checkbox
   # sheet_variable:
-  grid: has_grid_row_one_var_three
+  grid: has_grid_row_one_var_c
   user: valid
   value: econ101
