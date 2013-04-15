@@ -333,7 +333,7 @@ class SheetsController < ApplicationController
           sv.update_grid_responses!(response, creator)
         when 'checkbox'
           response = [] if response.blank?
-          sv.update_responses!(response, creator) # Response should be an array
+          sv.update_responses!(response, creator, sv.sheet) # Response should be an array
         else
           sv.update_attributes sv.format_response(variable_type, response)
         end

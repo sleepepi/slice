@@ -1,7 +1,5 @@
 require 'audited'
 require 'audited/adapters/active_record'
-# require 'audited/auditor'
-# require 'audited/adapters/active_record/audit'
 
 class SheetVariable < ActiveRecord::Base
   # attr_accessible :response, :sheet_id, :user_id, :variable_id, :response_file, :response_file_uploaded_at, :response_file_cache, :remove_response_file
@@ -21,20 +19,8 @@ class SheetVariable < ActiveRecord::Base
   has_many :grids
 
 
-
   def max_grids_position
     self.variable.variable_type == 'grid' && self.grids.size > 0 ? self.grids.pluck(:position).max : -1
-  end
-
-  def update_responses!(values, current_user)
-    old_response_ids = self.responses.collect{|r| r.id} # Could use pluck, but pluck has issues with scopes and unsaved objects
-    new_responses = []
-    values.select{|v| not v.blank?}.each do |value|
-      r = Response.where(sheet_id: self.sheet_id, sheet_variable_id: self.id, variable_id: self.variable_id, value: value).first_or_create( user_id: current_user.id )
-      new_responses << r
-    end
-    self.responses = new_responses
-    Response.where(id: old_response_ids, sheet_variable_id: nil).destroy_all
   end
 
   def update_grid_responses!(response, current_user)
@@ -63,7 +49,7 @@ class SheetVariable < ActiveRecord::Base
 
         case v_type when 'checkbox'
           res = [] if res.blank?
-          grid.update_responses!(res, current_user) # Response should be an array
+          grid.update_responses!(res, current_user, self.sheet) # Response should be an array
         else
           grid.update_attributes format_response(v_type, res)
         end
