@@ -64,12 +64,12 @@
 <% end %>
 
 <% if @variable.variable_type == 'checkbox' %>
-  <% if @variable.response_name(@sheet).size == 0 %>
+  <% if @sheet.response_name(@variable).size == 0 %>
     \textcolor[gray]{0.5}{Unknown}
   <% else %>
     \begin{itemize}
       \setlength{\itemindent}{2.5em}
-      <% @variable.response_name(@sheet).each do |response| %>
+      <% @sheet.response_name(@variable).each do |response| %>
         \item <%= latex_safe response %>
       <% end %>
     \end{itemize}
@@ -88,10 +88,10 @@
   <% else %>
     <%= latex_safe @sheet.response_file_url(@variable).split('/').last %>
   <% end %>
-<% elsif @variable.response_name(@sheet).blank? %>
+<% elsif @sheet.response_name(@variable).blank? %>
   \textcolor[gray]{0.5}{Unknown}
 <% else %>
-  <%= latex_safe @variable.prepend if not @variable.response_name(@sheet).blank? and not @variable.prepend.blank? %> <%= latex_safe @variable.response_name(@sheet) %> <%= latex_safe @variable.units if not @variable.response_name(@sheet).blank? and not @variable.units.blank? %> <%= latex_safe @variable.append if not @variable.response_name(@sheet).blank? and not @variable.append.blank? %>
+  <%= latex_safe @variable.prepend if not @sheet.response_name(@variable).blank? and not @variable.prepend.blank? %> <%= latex_safe @sheet.response_name(@variable) %> <%= latex_safe @variable.units if not @sheet.response_name(@variable).blank? and not @variable.units.blank? %> <%= latex_safe @variable.append if not @sheet.response_name(@variable).blank? and not @variable.append.blank? %>
 <% end %>
 
     <% end %>

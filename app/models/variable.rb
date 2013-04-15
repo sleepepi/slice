@@ -209,36 +209,6 @@ class Variable < ActiveRecord::Base
     [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}] ]
   end
 
-  def response_name(sheet)
-    sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-    response = (sheet_variable ? sheet_variable.response : nil)
-    responses = (sheet_variable ? sheet_variable.responses.pluck(:value) : []) # For checkboxes
-
-    if ['dropdown', 'radio'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'radio')
-      hash = (self.shared_options.select{|option| option[:value] == response}.first || {})
-      [hash[:value], hash[:name]].compact.join(': ')
-    elsif ['checkbox'].include?(self.variable_type) or (self.variable_type == 'scale' and self.scale_type == 'checkbox')
-      self.shared_options.select{|option| responses.include?(option[:value])}.collect{|option| option[:value] + ": " + option[:name]}
-    elsif ['grid'].include?(self.variable_type) and sheet_variable
-      grid_labeled = []
-      (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
-        self.grid_variables.each do |grid_variable|
-          grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
-          grid_labeled[position] ||= {}
-          grid_labeled[position][grid.variable.name] = grid.get_response(:label) if grid # Should be grid.get_response(:name)
-        end
-      end
-      grid_labeled.to_json
-    elsif ['integer', 'numeric'].include?(self.variable_type)
-      hash = self.options_only_missing.select{|option| option[:value] == response}.first
-      hash.blank? ? response : [hash[:value], hash[:name]].compact.join(': ')
-    elsif ['file'].include?(self.variable_type) and sheet
-      sheet.response_file(self).size > 0 ? sheet.response_file(self).to_s.split('/').last : ''
-    else
-      response
-    end
-  end
-
   def response_color(sheet)
     sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
     response = (sheet_variable ? sheet_variable.response : nil)
