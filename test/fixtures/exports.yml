@@ -11,9 +11,15 @@ one:
 
 two:
   name: MyString2
-  include_files: false
   status: pending
   # file: MyString
   user: valid
   project: one
   viewed: false
+  include_xls: false
+  include_csv_labeled: true
+  include_csv_raw: true
+  include_pdf: true
+  include_data_dictionary: true
+  include_sas: true
+  include_files: true
