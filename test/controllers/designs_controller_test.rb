@@ -141,31 +141,55 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get report with row variable (dropdown)" do
-    get :report, id: @design, project_id: @project, variable_id: variables(:one), include_missing: '1'
+    get :report, id: @design, project_id: @project, f: [{ id: variables(:one).id, axis: 'row', missing: '1' }]
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report with row variable (dropdown) and exclude missing" do
+    get :report, id: @design, project_id: @project, f: [{ id: variables(:one).id, axis: 'row', missing: '0' }]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should get report with column variable (dropdown)" do
-    get :report, id: @design, project_id: @project, column_variable_id: variables(:one), column_include_missing: '1'
+    get :report, id: @design, project_id: @project, f: [{ id: variables(:one).id, axis: 'col', missing: '1' }]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should get report with column variable (date)" do
-    get :report, id: @design, project_id: @project, column_variable_id: variables(:date), column_include_missing: '1'
+    get :report, id: @design, project_id: @project, f: [{ id: variables(:date).id, axis: 'col', missing: '1' }]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should get report with column variable (numeric)" do
-    get :report, id: designs(:all_variable_types), project_id: @project, column_variable_id: variables(:numeric), column_include_missing: '1'
+    get :report, id: designs(:all_variable_types), project_id: @project, f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }]
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report with column variable (numeric) and first sheet only" do
+    get :report, id: designs(:all_variable_types), project_id: @project, f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }], filter: 'first'
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should get report with column variable (numeric) and last sheet only" do
-    get :report, id: designs(:all_variable_types), project_id: @project, column_variable_id: variables(:numeric), column_include_missing: '1', filter: 'last'
+    get :report, id: designs(:all_variable_types), project_id: @project, f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }], filter: 'last'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report gender (row) by weight (column)" do
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:gender).id, axis: 'row', missing: '0' }, { id: variables(:weight).id, axis: 'col', missing: '0' }], statuses: [ 'valid', 'pending', 'test' ]
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report weight (row) by site (column)" do
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:weight).id, axis: 'row', missing: '0' }, { id: 'site', axis: 'col', missing: '0' }], statuses: [ 'valid', 'pending', 'test' ]
     assert_not_nil assigns(:design)
     assert_response :success
   end

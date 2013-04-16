@@ -254,21 +254,21 @@ class Sheet < ActiveRecord::Base
     end
   end
 
-  def self.sheet_after_variable_with_blank(variable, date)
-    if variable and variable.variable_type == 'date'
-      self.with_variable_response_after_with_blank(variable, date)
-    else
-      self.sheet_after(date)
-    end
-  end
+  # def self.sheet_after_variable_with_blank(variable, date)
+  #   if variable and variable.variable_type == 'date'
+  #     self.with_variable_response_after_with_blank(variable, date)
+  #   else
+  #     self.sheet_after(date)
+  #   end
+  # end
 
-  def self.sheet_before_variable_with_blank(variable, date)
-    if variable and variable.variable_type == 'date'
-      self.with_variable_response_before_with_blank(variable, date)
-    else
-      self.sheet_before(date)
-    end
-  end
+  # def self.sheet_before_variable_with_blank(variable, date)
+  #   if variable and variable.variable_type == 'date'
+  #     self.with_variable_response_before_with_blank(variable, date)
+  #   else
+  #     self.sheet_before(date)
+  #   end
+  # end
 
   def self.sheet_responses(variable)
     self.all.collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
@@ -306,7 +306,8 @@ class Sheet < ActiveRecord::Base
     return true if branching_logic.to_s.strip.blank?
 
     begin
-      exec_js_context.eval expanded_branching_logic(branching_logic)
+      result = exec_js_context.eval(expanded_branching_logic(branching_logic))
+      result == false ? false : true
     rescue => e
       true
     end

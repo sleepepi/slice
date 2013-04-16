@@ -110,8 +110,9 @@ one_sheet_entered:
   user: valid
   project: one
 
-
-
-
-
-
+weight_and_gender:
+  name: Weight and Gender Collected for Reports
+  # description:
+  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:weight) %> }, { variable_id: <%= ActiveRecord::FixtureSet.identify(:gender) %> } ]
+  user: valid
+  project: one

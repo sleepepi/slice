@@ -133,6 +133,16 @@ weight:
   user: valid
   project: one
 
+gender:
+  name: gender_for_report
+  display_name: Gender
+  # description:
+  # header:
+  variable_type: radio
+  user: valid
+  project: one
+  domain: var_dropdown_options
+
 calculated:
   name: var_bmi
   display_name: Body Mass Index

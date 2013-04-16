@@ -1,26 +1,3 @@
-<%#= params.inspect %>
-
-<% if false %>
-  <%#= @table_header.inspect %><br />
-  <b>Sheet Count:</b> <%= @sheets.count %>
-  <b>Row Vars:</b> <%= @row_variables.collect{|hash| [hash[:variable].name, hash[:variable].id]} %>
-  <b>Col Vars:</b> <%= @column_variables.collect{|v| [v.name, v.id]} %>
-
-  <%#= @row_filters.collect{|filters| filters.collect{|f| [f[:name], f[:value]]} }.inspect %>
-  <% if false %><br /><b>Table Header:</b><%= @table_header.inspect %><% end %>
-
-  <% if false %>
-  <p>
-    Row Filters:
-    <div>
-      <% @row_filters.each do |filters| %>
-        <%= filters.collect{|f| [f[:name], f[:value]]} %><br />
-      <% end %>
-    </div>
-  </p>
-  <% end %>
-<% end %>
-
 <% if @total_rows > @per_page %>
 <div class="alert">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -136,21 +113,13 @@
                                               class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>
 
 <% if false %>
-<%= link_to '#permalink', report_project_design_path(@design.project, @design, project_id: @project.id, by: @by, percent: @percent, include_missing: (params[:include_missing].to_s == '1' ? '1' : '0'), sheet_after: (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")),
-                                              sheet_before: (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")), variable_id: (@variable ? @variable.id : nil),
-                                              column_variable_id: (@column_variable ? @column_variable.id : nil), column_include_missing: (params[:column_include_missing].to_s == '1' ? '1' : '0'), filter: @filter, statuses: @statuses ),
-                                              class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>
 <%= form_tag reports_path, method: :post, remote: true, id: 'save_report_form' do %>
   <%= hidden_field_tag "report[name]", @report_title + " - " + @design.name %>
   <%= hidden_field_tag "report[options][design_id]", @design.id %>
   <%= hidden_field_tag "report[options][by]", @by %>
   <%= hidden_field_tag "report[options][percent]", @percent %>
-  <%= hidden_field_tag "report[options][include_missing]", (params[:include_missing].to_s == '1' ? '1' : '0') %>
-  <%= hidden_field_tag "report[options][sheet_after]", (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")) %>
-  <%= hidden_field_tag "report[options][sheet_before]", (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")) %>
-  <%= hidden_field_tag "report[options][variable_id]", (@variable ? @variable.id : nil) %>
-  <%= hidden_field_tag "report[options][column_variable_id]", (@column_variable ? @column_variable.id : nil) %>
-  <%= hidden_field_tag "report[options][column_include_missing]", (params[:column_include_missing].to_s == '1' ? '1' : '0') %>
+  <%#= hidden_field_tag "report[options][sheet_after]", (@sheet_after.blank? ? nil : @sheet_after.strftime("%m/%d/%Y")) %>
+  <%#= hidden_field_tag "report[options][sheet_before]", (@sheet_before.blank? ? nil : @sheet_before.strftime("%m/%d/%Y")) %>
   <%= hidden_field_tag "report[options][filter]", @filter %>
   <%= hidden_field_tag "report[options][statuses]", @statuses %>
 <% end %>

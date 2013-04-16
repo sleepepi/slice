@@ -124,3 +124,27 @@ has_grid:
   sheet: has_grid
   # response
   user: valid
+
+weight_subject_one:
+  variable: weight
+  sheet: weight_and_gender_subject_one
+  response: 70.0
+  user: valid
+
+gender_subject_one:
+  variable: gender
+  sheet: weight_and_gender_subject_one
+  response: m
+  user: valid
+
+weight_subject_two:
+  variable: weight
+  sheet: weight_and_gender_subject_two
+  response: 60.0
+  user: valid
+
+gender_subject_two:
+  variable: gender
+  sheet: weight_and_gender_subject_two
+  response: f
+  user: valid

@@ -12,4 +12,13 @@ class SheetTest < ActiveSupport::TestCase
     assert_equal NilClass, sheets(:two).send_external_email!(users(:valid), "test@example.com", "Additional Text", authentication_token).class
   end
 
+  test "should hide variable only if branching logic evaluates to false" do
+    assert_equal false, sheets(:one).show_variable?("1 == 0")
+  end
+
+  test "should show variable if branching logic is invalid" do
+    assert_equal true, sheets(:one).show_variable?("abc")
+    assert_equal true, sheets(:one).show_variable?("1/0")
+  end
+
 end

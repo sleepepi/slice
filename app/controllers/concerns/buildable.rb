@@ -90,17 +90,18 @@ module Buildable
     build_table_footer
     build_table_body
 
-    date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Sheet Creation Date')
+    @report_caption = "All Sheets"
+    # date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Sheet Creation Date')
 
-    @report_caption = if @sheet_after.blank? and @sheet_before.blank?
-      "All Sheets"
-    elsif @sheet_after.blank?
-      "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
-    elsif @sheet_before.blank?
-      "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
-    else
-      "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
-    end
+    # @report_caption = if @sheet_after.blank? and @sheet_before.blank?
+    #   "All Sheets"
+    # elsif @sheet_after.blank?
+    #   "#{date_description} before #{@sheet_before.strftime("%b %d, %Y")}"
+    # elsif @sheet_before.blank?
+    #   "#{date_description} after #{@sheet_after.strftime("%b %d, %Y")}"
+    # else
+    #   "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
+    # end
 
     @report_title = [@row_filters.collect{|i| i[:variable].display_name}.join(' & '), @column_filters.collect{|h| h[:variable].display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
 

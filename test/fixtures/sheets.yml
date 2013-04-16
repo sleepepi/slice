@@ -56,3 +56,17 @@ has_grid:
   subject: one
   user: valid
   last_user: valid
+
+weight_and_gender_subject_one:
+  design: weight_and_gender
+  project: one
+  subject: one
+  user: valid
+  last_user: valid
+
+weight_and_gender_subject_two:
+  design: weight_and_gender
+  project: one
+  subject: two
+  user: valid
+  last_user: valid
