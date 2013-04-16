@@ -32,7 +32,7 @@ class Design < ActiveRecord::Base
 
   # Model Methods
 
-  def batch_sheets!(current_user, site, emails)
+  def batch_sheets!(current_user, site, emails, additional_text)
     new_sheets = []
     ignored_sheets = 0
     emails.each do |email|
@@ -45,7 +45,7 @@ class Design < ActiveRecord::Base
       subject = site.subjects.find_by_email(short_email) unless short_email.blank?
       subject = site.subjects.where( project_id: site.project_id, subject_code: email ).first_or_create( user_id: current_user.id, status: 'valid', email: short_email, acrostic: '' ) unless subject
       sheet = site.project.sheets.where( subject_id: subject.id, design_id: self.id ).first_or_create( user_id: current_user.id, last_user_id: current_user.id ) if subject
-      sheet.send_external_email!(current_user, short_email) if sheet and not sheet.new_record?
+      sheet.send_external_email!(current_user, short_email, additional_text) if sheet and not sheet.new_record?
       if sheet and not sheet.new_record?
         new_sheets << sheet
       else

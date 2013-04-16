@@ -51,8 +51,9 @@ class UserMailer < ActionMailer::Base
   end
 
   # Asks a user to fill in a sheet and provides a token to view and complete the sheet
-  def sheet_completion_request(sheet, email)
+  def sheet_completion_request(sheet, email, additional_text)
     @sheet = sheet
+    @additional_text = additional_text
     mail(to: "#{sheet.last_user.name} <#{sheet.last_user.email}>",
          bcc: email,
          subject: "Request to Fill Out #{sheet.design.name}",

@@ -1,12 +1,10 @@
 Dear Survey Participant,<br />
 <br />
 <%= @sheet.last_user.name %> has requested that you fill out <b><%= @sheet.name %></b>.<br />
-<br />
-Your feedback is important. Please click the link below to complete the form:<br />
-<br />
+<% unless @additional_text.strip.blank? %>
+<%= simple_markdown @additional_text %>
+<% end %>
 <%= link_to SITE_URL + survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token), SITE_URL + survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token) %><br />
-<br />
-If you have any questions on completing the form, you can reply to this email, or contact <%= @sheet.last_user.name %> at <%= @sheet.last_user.email %>.<br />
 <br />
 Thank you!<br />
 <%= DEFAULT_APP_NAME %> Mailer<br />
