@@ -1,4 +1,4 @@
-## 0.15.4
+## 0.15.4 (April 16, 2013)
 
 ### Bug Fix
 - Fixed a bug that setting the additional_text for survery request emails
