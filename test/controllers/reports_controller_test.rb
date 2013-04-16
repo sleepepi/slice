@@ -14,7 +14,7 @@ class ReportsControllerTest < ActionController::TestCase
 
   test "should create report" do
     assert_difference('Report.count') do
-      post :create, report: { name: 'New Report', options: { design_id: designs(:one).id, by: 'month', percent: 'none', filter: 'all', sheet_after: '', sheet_before: '', variable_id: '', include_missing: '1', column_variable_id: '', column_include_missing: '1' } }, format: 'js'
+      post :create, report: { name: 'New Report', options: { design_id: designs(:one).id, by: 'month', percent: 'none', filter: 'all', sheet_after: '', sheet_before: '' } }, format: 'js'
     end
 
     assert_template 'create'
@@ -23,7 +23,7 @@ class ReportsControllerTest < ActionController::TestCase
 
   test "should not create report with blank name" do
     assert_difference('Report.count', 0) do
-      post :create, report: { name: '', options: { design_id: designs(:one).id, by: 'month', percent: 'none', filter: 'all', sheet_after: '', sheet_before: '', variable_id: '', include_missing: '1', column_variable_id: '', column_include_missing: '1' } }, format: 'js'
+      post :create, report: { name: '', options: { design_id: designs(:one).id, by: 'month', percent: 'none', filter: 'all', sheet_after: '', sheet_before: '' } }, format: 'js'
     end
 
     assert_template 'create'
