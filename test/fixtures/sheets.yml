@@ -5,30 +5,35 @@ one:
   project: one
   subject: one
   user: valid
+  last_user: valid
 
 two:
   design: one
   project: two
   subject: one
   user: valid
+  last_user: valid
 
 three:
   design: one
   project: one
   subject: three
   user: valid
+  last_user: valid
 
 file_attached:
   design: section_and_file
   project: one
   subject: three
   user: valid
+  last_user: valid
 
 all_variables:
   design: all_variable_types
   project: one
   subject: one
   user: valid
+  last_user: valid
 
 external:
   design: admin_design
@@ -43,9 +48,11 @@ domain_data_captured:
   project: one
   subject: one
   user: valid
+  last_user: valid
 
 has_grid:
   design: has_grid
   project: one
   subject: one
   user: valid
+  last_user: valid
