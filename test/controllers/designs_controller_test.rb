@@ -302,7 +302,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should create batch" do
     assert_difference('Sheet.count', 2) do
       assert_difference('Subject.count', 2) do
-        post :create_batch, project_id: @project, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>'
+        post :create_batch, project_id: @project, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', additional_text: ""
       end
     end
     assert_not_nil assigns(:project)
@@ -315,7 +315,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not create batch with missing design" do
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
-        post :create_batch, project_id: @project, design_id: -1, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>'
+        post :create_batch, project_id: @project, design_id: -1, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', additional_text: ""
       end
     end
     assert_not_nil assigns(:project)
@@ -329,7 +329,7 @@ class DesignsControllerTest < ActionController::TestCase
   test "should not create batch with invalid project" do
     assert_difference('Sheet.count', 0) do
       assert_difference('Subject.count', 0) do
-        post :create_batch, project_id: -1, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>'
+        post :create_batch, project_id: -1, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', additional_text: ""
       end
     end
     assert_nil assigns(:project)
