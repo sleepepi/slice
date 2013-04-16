@@ -1,4 +1,4 @@
-## 0.15.3
+## 0.15.3 (April 16, 2013)
 
 ### Enhancement
 - Survey email bodies can now be partially modified when sending out a batch of sheets by email
