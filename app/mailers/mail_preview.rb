@@ -34,7 +34,7 @@ class MailPreview < MailView
   def sheet_completion_request
     sheet = Sheet.current.first
     email = "bcc@example.com"
-    UserMailer.sheet_completion_request(sheet, email)
+    UserMailer.sheet_completion_request(sheet, email, "Additional Text")
   end
 
   def survey_completed

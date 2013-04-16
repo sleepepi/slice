@@ -148,7 +148,7 @@ class DesignsController < ApplicationController
     @emails = params[:emails].to_s.split(/[;\r\n]/).collect{|email| email.strip}.select{|email| not email.blank?}.uniq
 
     if @design and @site and not @emails.blank?
-      (sheets_created, sheets_ignored) = @design.batch_sheets!(current_user, @site, @emails)
+      (sheets_created, sheets_ignored) = @design.batch_sheets!(current_user, @site, @emails, params[:additional_text])
       flash[:notice] = "#{sheets_created} #{sheets_created == 1 ? 'sheet was' : 'sheets were'} successfully created." if sheets_created > 0
       flash[:alert] = "#{sheets_ignored} #{sheets_ignored == 1 ? 'sheet was' : 'sheets were'} not created because the #{sheets_ignored == 1 ? 'subject exists' : 'subjects exist'} on a different site." if sheets_ignored > 0
       redirect_to project_sheets_path(@project, site_id: @site.id, design_id: @design.id, user_id: current_user.id)

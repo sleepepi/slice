@@ -35,6 +35,13 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= label :additional_text, "Additional Email Body", class: 'control-label' %>
+    <div class="controls">
+      <%= text_area_tag :additional_text, "Your feedback is important. Please click the link below to complete the form.\n\nIf you have any questions on completing the form, you can reply to this email, or contact #{current_user.name} at #{current_user.email}.", rows: 7, style: 'width:90%' %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= submit_tag "Batch", class: 'btn btn-primary' %>
     <%= cancel %>

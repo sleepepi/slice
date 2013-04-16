@@ -1,5 +1,8 @@
 ## 0.15.3
 
+### Enhancement
+- Survey email bodies can now be partially modified when sending out a batch of sheets by email
+
 ## 0.15.2 (April 11, 2013)
 
 ### Refactoring
