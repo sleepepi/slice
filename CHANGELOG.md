@@ -10,6 +10,11 @@
 - Removed code for original design and project reports
 - Removed multi-page designs
 
+## 0.15.4 (April 16, 2013)
+
+### Bug Fix
+- Fixed a bug that setting the additional_text for survery request emails
+
 ## 0.15.3 (April 16, 2013)
 
 ### Enhancements
