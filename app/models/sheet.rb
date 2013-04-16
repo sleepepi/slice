@@ -83,11 +83,11 @@ class Sheet < ActiveRecord::Base
     self.where(id: sheet_ids)
   end
 
-  def send_external_email!(current_user, email, authentication_token = SecureRandom.hex(32))
+  def send_external_email!(current_user, email, additional_text, authentication_token = SecureRandom.hex(32))
     begin
       self.update_attributes authentication_token: authentication_token if self.authentication_token.blank?
       # UserMailer.sheet_completion_request(self, email).deliver if Rails.env.production?
-      mail = UserMailer.sheet_completion_request(self, email)
+      mail = UserMailer.sheet_completion_request(self, email, additional_text)
       mail.deliver if Rails.env.production?
 
       sheet_email = self.sheet_emails.create(email_body: mail.html_part.body.decoded, email_cc: (mail.cc || []).join(','), email_pdf_file: nil, email_subject: mail.subject, email_to: (mail.to || []).join(','), user_id: current_user.id)
