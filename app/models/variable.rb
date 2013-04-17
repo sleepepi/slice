@@ -88,10 +88,6 @@ class Variable < ActiveRecord::Base
     end
   end
 
-  def name_with_project
-    "#{self.name} - #{self.project.name}"
-  end
-
   def editable_by?(current_user)
     current_user.all_variables.pluck(:id).include?(self.id)
   end

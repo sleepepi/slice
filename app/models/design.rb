@@ -56,10 +56,6 @@ class Design < ActiveRecord::Base
     [new_sheets.count, ignored_sheets]
   end
 
-  def name_with_project
-    "#{self.name} - #{self.project.name}"
-  end
-
   def editable_by?(current_user)
     current_user.all_designs.pluck(:id).include?(self.id)
   end

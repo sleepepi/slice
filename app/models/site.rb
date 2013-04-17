@@ -20,10 +20,6 @@ class Site < ActiveRecord::Base
   has_many :users, -> { where deleted: false }, through: :site_users, order: 'last_name, first_name'
 
   # Model Methods
-  def name_with_project
-    [self.name, self.project.name].compact.join(' - ')
-  end
-
   def valid_subject_code?(subject_code)
     subject_code <= "#{self.prefix}#{self.code_maximum}" && subject_code.size <= "#{self.prefix}#{self.code_maximum}".size && subject_code >= "#{self.prefix}#{self.code_minimum}" && subject_code.size >= "#{self.prefix}#{self.code_minimum}".size
   end
