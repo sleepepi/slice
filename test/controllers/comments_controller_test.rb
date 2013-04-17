@@ -12,17 +12,35 @@ class CommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:comments)
   end
 
+  # test "should get new" do
+  #   get :new, sheet_id: @comment.sheet_id
+  #   assert_response :success
+  # end
+
   test "should create comment" do
     assert_difference('Comment.count') do
       post :create, sheet_id: @comment.sheet_id, comment: { description: @comment.description }, format: 'js'
     end
 
     assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:comment)
     assert_equal users(:valid).id, assigns(:comment).user_id
 
     assert_template 'create'
     assert_response :success
+  end
+
+  test "should not create comment with blank description" do
+    assert_difference('Comment.count', 0) do
+      post :create, sheet_id: @comment.sheet_id, comment: { description: '' }, format: 'js'
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:comment)
+
+    assert assigns(:comment).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:comment).errors[:description]
+    assert_template 'create'
   end
 
   test "should show comment" do
@@ -36,8 +54,18 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test "should update comment" do
-    patch :update, id: @comment, sheet_id: @comment.sheet_id, comment: { description: @comment.description }
+    patch :update, id: @comment, comment: { description: @comment.description }
     assert_redirected_to comment_path(assigns(:comment))
+  end
+
+  test "should not update comment with blank description" do
+    patch :update, id: @comment, comment: { description: '' }
+
+    assert_not_nil assigns(:comment)
+
+    assert assigns(:comment).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:comment).errors[:description]
+    assert_template 'edit'
   end
 
   test "should destroy comment" do

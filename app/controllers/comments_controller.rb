@@ -19,27 +19,27 @@ class CommentsController < ApplicationController
   def show
   end
 
-  # GET /comments/new
-  def new
-    @comment = @sheet.comments.new(comment_params)
-  end
+  # # GET /comments/new
+  # def new
+  #   @comment = @sheet.comments.new(comment_params)
+  # end
 
   # GET /comments/1/edit
   def edit
   end
 
-  # POST /comments
+  # POST /comments.js
   # POST /comments.json
   def create
     @comment = @sheet.comments.new(comment_params)
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        # format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
         format.js
         format.json { render action: 'show', status: :created, location: @comment }
       else
-        format.html { render action: 'new' }
+        # format.html { render action: 'new' }
         format.js
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
