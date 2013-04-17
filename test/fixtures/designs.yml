@@ -116,3 +116,10 @@ weight_and_gender:
   options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:weight) %> }, { variable_id: <%= ActiveRecord::FixtureSet.identify(:gender) %> } ]
   user: valid
   project: one
+
+two_scale_variables:
+  name: two_scale_variables
+  # description:
+  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:change_domain_options) %> }, { variable_id: <%= ActiveRecord::FixtureSet.identify(:scale) %> } ]
+  user: valid
+  project: one

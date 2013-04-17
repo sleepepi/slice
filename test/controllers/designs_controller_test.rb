@@ -532,6 +532,14 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get selection for design with two scale variables" do
+    post :selection, project_id: @project, sheet: { design_id: designs(:two_scale_variables).id }, format: 'js'
+    assert_not_nil assigns(:sheet)
+    assert_equal assigns(:design), designs(:two_scale_variables)
+    assert_template 'selection'
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, id: @design, project_id: @project
     assert_not_nil assigns(:project)

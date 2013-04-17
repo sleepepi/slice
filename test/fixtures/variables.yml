@@ -196,6 +196,16 @@ change_domain_options:
   user: valid
   project: one
 
+scale:
+  name: scale
+  display_name: A Scale Variable
+  domain: change_options
+  # description:
+  variable_type: scale
+  scale_type: radio
+  user: valid
+  project: one
+
 grid:
   name: grid
   display_name: Grid of Variables

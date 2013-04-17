@@ -233,6 +233,13 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show scale variable" do
+    get :show, id: variables(:change_domain_options), project_id: variables(:change_domain_options).project_id
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:variable)
+    assert_response :success
+  end
+
   test "should not show variable with invalid project" do
     get :show, id: @variable, project_id: -1
 

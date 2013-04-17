@@ -74,11 +74,12 @@ class Variable < ActiveRecord::Base
     self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}
   end
 
-  def designs
-    @designs ||= begin
-      Design.current.select{|d| d.variable_ids.include?(self.id)}.sort_by(&:name)
-    end
-  end
+  # Designs isn't used, using inherited designs instead.
+  # def designs
+  #   @designs ||= begin
+  #     Design.current.select{|d| d.variable_ids.include?(self.id)}.sort_by(&:name)
+  #   end
+  # end
 
   def inherited_designs
     @inherited_designs ||= begin
