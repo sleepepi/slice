@@ -6,6 +6,24 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should get filters" do
+    post :filters, id: @project, f: [{ id: variables(:dropdown).id, axis: 'row', missing: '0' }, { id: 'site', axis: 'col', missing: '0' }], format: 'js'
+    assert_template 'filters'
+    assert_response :success
+  end
+
+  test "should get new filter" do
+    post :new_filter, id: @project, design_id: designs(:all_variable_types), f: [{ id: variables(:dropdown).id, axis: 'row', missing: '0' }, { id: 'site', axis: 'col', missing: '0' }], format: 'js'
+    assert_template 'new_filter'
+    assert_response :success
+  end
+
+  test "should edit filter" do
+    post :edit_filter, id: @project, variable_id: variables(:dropdown).id, axis: 'row', missing: '0', format: 'js'
+    assert_template 'edit_filter'
+    assert_response :success
+  end
+
   test "should get search" do
     get :search, q: ''
 
@@ -117,6 +135,18 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should not get report for invalid project" do
     get :report, id: -1
+    assert_nil assigns(:project)
+    assert_redirected_to projects_path
+  end
+
+  test "should print report" do
+    get :report_print, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should not print invalid report" do
+    get :report_print, id: -1
     assert_nil assigns(:project)
     assert_redirected_to projects_path
   end

@@ -22,7 +22,7 @@ Slice::Application.routes.draw do
       post :filters
       post :new_filter
       post :edit_filter
-      post :update_filter
+      # post :update_filter
     end
 
     collection do

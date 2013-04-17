@@ -1,8 +1,8 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :update_filter ]
+  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter ] # :update_filter
   before_action :set_editable_project, only: [ :edit, :update, :destroy, :remove_file ]
-  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :update_filter ]
+  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter ] # :update_filter
 
   # Concerns
   include Buildable
@@ -15,8 +15,8 @@ class ProjectsController < ApplicationController
     @variable = @project.variable_by_id(params[:variable_id])
   end
 
-  def update_filter
-  end
+  # def update_filter
+  # end
 
   def filters
   end
