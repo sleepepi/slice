@@ -78,7 +78,7 @@ class VariablesController < ApplicationController
 
   # GET /variables/1/edit
   def edit
-    @select_variables = current_user.all_viewable_variables.without_variable_type('grid').order(:project_id, :name).collect{|v| [v.name_with_project, v.id]}
+    @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:project_id, :name).collect{|v| [v.name, v.id]}
   end
 
   # POST /variables
