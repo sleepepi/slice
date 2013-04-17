@@ -243,12 +243,7 @@ class DesignsController < ApplicationController
       params[:design] ||= {}
 
       params[:design][:updater_id] = current_user.id
-
-      if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
-        params[:design][:project_id] = params[:project_id]
-      else
-        params[:design][:project_id] = nil
-      end
+      params[:design][:project_id] = @project.id
 
       params.require(:design).permit(
         :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache

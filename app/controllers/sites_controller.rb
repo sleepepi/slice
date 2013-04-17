@@ -96,11 +96,7 @@ class SitesController < ApplicationController
     def site_params
       params[:site] ||= {}
 
-      if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
-        params[:site][:project_id] = params[:project_id]
-      else
-        params[:site][:project_id] = nil
-      end
+      params[:site][:project_id] = @project.id
 
       params.require(:site).permit(
         :name, :description, :project_id, :emails, :prefix, :code_minimum, :code_maximum

@@ -194,8 +194,20 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get report site and gender (row) by weight (column)" do
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }], statuses: [ 'valid', 'pending', 'test' ]
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should get report as a CSV" do
     get :report, id: @design, project_id: @project, format: 'csv'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
+  test "should get report site and gender (row) by weight (column) as CSV" do
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }], statuses: [ 'valid', 'pending', 'test' ], format: 'csv'
     assert_not_nil assigns(:design)
     assert_response :success
   end

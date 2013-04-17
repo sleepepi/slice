@@ -96,12 +96,7 @@ class SubjectsController < ApplicationController
       params[:subject] ||= {}
 
       params[:subject][:site_id] = params[:site_id]
-
-      if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
-        params[:subject][:project_id] = params[:project_id]
-      else
-        params[:subject][:project_id] = nil
-      end
+      params[:subject][:project_id] = @project.id
 
       params.require(:subject).permit(
         :project_id, :subject_code, :site_id, :acrostic, :email, :status

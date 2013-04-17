@@ -158,11 +158,7 @@ class VariablesController < ApplicationController
 
       # params[:variable][:option_tokens] ||= {}
 
-      if current_user.all_projects.pluck(:id).include?(params[:project_id].to_i)
-        params[:variable][:project_id] = params[:project_id]
-      else
-        params[:variable][:project_id] = nil
-      end
+      params[:variable][:project_id] = @project.id
 
       params[:variable][:domain_id] = nil if params[:variable][:variable_type] and not Variable::TYPE_DOMAIN.include?(params[:variable][:variable_type])
 

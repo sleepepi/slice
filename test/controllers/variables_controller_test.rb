@@ -7,6 +7,12 @@ class VariablesControllerTest < ActionController::TestCase
     @variable = variables(:one)
   end
 
+  test "should get cool lookup" do
+    post :cool_lookup, variable_id: 'sheet_date', project_id: @project, format: 'js'
+    assert_template 'cool_lookup'
+    assert_response :success
+  end
+
   test "should get typeahead" do
     get :typeahead, id: variables(:autocomplete), project_id: @project, format: 'js'
     assert_not_nil assigns(:variable)
