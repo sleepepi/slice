@@ -74,6 +74,29 @@ grid:
   # response:
   user: valid
 
+date:
+  variable: date
+  sheet: all_variables
+  response: 2013-04-17
+  user: valid
+
+time:
+  variable: time
+  sheet: all_variables
+  response: 22:30:00
+  user: valid
+
+string:
+  variable: string
+  sheet: all_variables
+  response: Weight Lifting and Salsa
+  user: valid
+
+integer:
+  variable: integer
+  sheet: all_variables
+  response: -9
+  user: valid
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
 # Updating the "change_options" domain should also change the associated sheet variable and grid values to '1'

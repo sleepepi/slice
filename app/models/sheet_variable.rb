@@ -76,6 +76,7 @@ class SheetVariable < ActiveRecord::Base
 
   # Return a hash that represents the name, value, and description of the response
   # Ex: Given Variable Gender With Response Male, returns: { label: 'Male', value: 'm', description: 'Male gender of human species' }
+  # This is used mainly by the sheet_variables/show/_*.html.erb partials to show/format variable responses
   def response_hash(position = nil, variable_id = nil)
     result = { name: '', value: '', description: '', color: '' }
 

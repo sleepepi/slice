@@ -81,6 +81,7 @@ integer:
   hard_maximum: 120
   user: valid
   project: one
+  domain: integer_unknown
 
 numeric:
   name: var_weight

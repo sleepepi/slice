@@ -121,3 +121,8 @@ one_restaurant_not_encompassing:
   options: [{ name: 'Banana Anarchy', value: '2' }]
   user: valid
   project: one
+
+integer_unknown:
+  name: age_unknown
+  description: Missing values for unknown ages
+  options: [{ name: 'Unknown', value: '-9', missing_code: '1' }, { name: 'Refusal to provide age', value: '-10', missing_code: '1' }]

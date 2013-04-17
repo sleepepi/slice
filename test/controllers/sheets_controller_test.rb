@@ -405,6 +405,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show sheet with ajax with all variables" do
+    get :show, id: sheets(:all_variables), project_id: sheets(:all_variables).project_id, format: 'js'
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:project)
+    assert_template 'show'
+    assert_response :success
+  end
+
   test "should show sheet with grid responses" do
     get :show, id: sheets(:has_grid), project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
