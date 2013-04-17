@@ -21,4 +21,22 @@ class SheetTest < ActiveSupport::TestCase
     assert_equal true, sheets(:one).show_variable?("1/0")
   end
 
+  test "should get sheet coverage" do
+    assert_equal "complete",  sheets(:coverage_complete).coverage
+    assert_equal "green",     sheets(:coverage_90).coverage
+    assert_equal "yellow",    sheets(:coverage_70).coverage
+    assert_equal "orange",    sheets(:coverage_50).coverage
+    assert_equal "red",       sheets(:coverage_30).coverage
+    assert_equal "blank",     sheets(:coverage_0).coverage
+  end
+
+  test "should get sheet color" do
+    assert_equal 0, /^#([0-9abcdef]){6}$/ =~ sheets(:coverage_complete).color
+    assert_equal 0, /^#([0-9abcdef]){6}$/ =~ sheets(:coverage_90).color
+    assert_equal 0, /^#([0-9abcdef]){6}$/ =~ sheets(:coverage_70).color
+    assert_equal 0, /^#([0-9abcdef]){6}$/ =~ sheets(:coverage_50).color
+    assert_equal 0, /^#([0-9abcdef]){6}$/ =~ sheets(:coverage_30).color
+    assert_equal 0, /^#([0-9abcdef]){6}$/ =~ sheets(:coverage_0).color
+  end
+
 end

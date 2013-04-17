@@ -70,3 +70,57 @@ weight_and_gender_subject_two:
   subject: two
   user: valid
   last_user: valid
+
+coverage_complete:
+  design: all_variable_types
+  project: one
+  subject: one
+  user: valid
+  last_user: valid
+  total_response_count: 11
+  response_count: 11
+
+coverage_90:
+  design: all_variable_types
+  project: one
+  subject: one
+  user: valid
+  last_user: valid
+  total_response_count: 11
+  response_count: 10
+
+coverage_70:
+  design: all_variable_types
+  project: one
+  subject: one
+  user: valid
+  last_user: valid
+  total_response_count: 11
+  response_count: 8
+
+coverage_50:
+  design: all_variable_types
+  project: one
+  subject: one
+  user: valid
+  last_user: valid
+  total_response_count: 11
+  response_count: 6
+
+coverage_30:
+  design: all_variable_types
+  project: one
+  subject: one
+  user: valid
+  last_user: valid
+  total_response_count: 11
+  response_count: 4
+
+coverage_0:
+  design: all_variable_types
+  project: one
+  subject: one
+  user: valid
+  last_user: valid
+  total_response_count: 11
+  response_count: 0
