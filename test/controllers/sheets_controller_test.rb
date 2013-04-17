@@ -629,6 +629,17 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+  test "should not update sheet with blank subject code" do
+    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: '', site_id: @sheet.subject.site_id, variables: { }
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert assigns(:sheet).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
+    assert_template 'edit'
+  end
+
   test "should not update invalid sheet" do
     put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
     assert_not_nil assigns(:project)

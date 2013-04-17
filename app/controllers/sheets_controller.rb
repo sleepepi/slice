@@ -239,17 +239,11 @@ class SheetsController < ApplicationController
     def sheet_params
       params[:sheet] ||= {}
 
-      if current_user.all_viewable_projects.pluck(:id).include?(params[:project_id].to_i)
-        params[:sheet][:project_id] = params[:project_id]
-      else
-        params[:sheet][:project_id] = nil
-      end
+      params[:sheet][:project_id] = @project.id
 
-      unless params[:sheet][:project_id].blank? or params[:subject_code].blank? or params[:site_id].blank?
-        subject = Subject.where( project_id: params[:sheet][:project_id], subject_code: params[:subject_code] ).first_or_create( user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s )
-        if subject.site and subject.site.valid_subject_code?(params[:subject_code]) and subject.status != 'test'
-          subject.update( status: 'valid' )
-        end
+      unless params[:subject_code].blank? or params[:site_id].blank?
+        subject = @project.subjects.where( subject_code: params[:subject_code] ).first_or_create( user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s )
+        subject.update( status: 'valid' ) if subject.site and subject.site.valid_subject_code?(params[:subject_code]) and subject.status != 'test'
       end
 
       subject.update( acrostic: params[:subject_acrostic].to_s ) if subject
