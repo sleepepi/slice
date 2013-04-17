@@ -198,26 +198,13 @@ class Variable < ActiveRecord::Base
     self.shared_options.select{|opt| opt[:missing_code] == '1'}
   end
 
-  def options_only_missing_select_values(values)
-    self.options_only_missing.select{|option| values.include?(option[:value])}
-  end
-
   def grouped_by_missing
     [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}] ]
   end
 
-  # This is currently returned by sheet_variable::response_hash
-  # def response_color(sheet)
-  #   sheet_variable = (sheet ? sheet.sheet_variables.find_by_variable_id(self.id) : nil)
-  #   response = (sheet_variable ? sheet_variable.response : nil)
-  #   color = self.shared_options.select{|option| response == option[:value]}.collect{|option| option[:color]}.first
-  #   color.blank? ? '#ffffff' : color
-  # end
-
   def options_or_autocomplete(include_missing)
     if self.variable_type == 'string'
-      NaturalSort::naturalsort(self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }}) +
-      NaturalSort::naturalsort(self.user_submitted_sheet_variables.collect{|sv| { name: sv.response, value: sv.response, info: 'User Submitted' }}.uniq{|a| a[:value].downcase })
+      NaturalSort::naturalsort(self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }}) + NaturalSort::naturalsort(self.user_submitted_sheet_variables.collect{|sv| { name: sv.response, value: sv.response, info: 'User Submitted' }}.uniq{|a| a[:value].downcase })
     else
       (include_missing ? self.shared_options : self.options_without_missing)
     end

@@ -158,6 +158,12 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get report string (row) by sheet date (col)" do
+    get :report, id: @design, project_id: @project, f: [{ id: variables(:string).id, axis: 'row', missing: '1' }, { id: 'sheet_date', axis: 'col', missing: '0' }]
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should get report with column variable (date)" do
     get :report, id: @design, project_id: @project, f: [{ id: variables(:date).id, axis: 'col', missing: '1' }]
     assert_not_nil assigns(:design)

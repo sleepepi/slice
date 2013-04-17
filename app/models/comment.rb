@@ -29,9 +29,9 @@ class Comment < ActiveRecord::Base
     result = result.select{|u| u.email_on?(:send_email) and u.email_on?(:sheet_comment) and u.email_on?("project_#{self.sheet.project.id}") and u.email_on?("project_#{self.sheet.project.id}_sheet_comment") }
   end
 
-  def editable_by?(current_user)
-    self.sheet.project.editable_by?(current_user)
-  end
+  # def editable_by?(current_user)
+  #   self.sheet.project.editable_by?(current_user)
+  # end
 
   def deletable_by?(current_user)
     self.user == current_user or self.editable_by?(current_user)
