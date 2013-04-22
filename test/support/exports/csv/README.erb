@@ -1,0 +1,50 @@
+Created
+=======
+
+    <%= Time.now.strftime("%a, %b %d, %Y at %I:%M %p") %>
+
+
+Project
+=======
+
+    <%= self.project.name %>
+
+
+Included Files
+==============
+
+`-- CSV
+    |-- README.txt
+    |-- dataset_raw.csv
+    |-- dataset_grids_raw.csv
+    |-- dataset_labeled.csv
+    `-- dataset_grids_labeled.csv
+
+
+Variables and Grids
+===================
+
+    Slice collects data for all subjects on the sheet level.
+    A single variable can only be collected once per sheet,
+    per subject, unless the variable is included in a grid.
+    Since variables in grids can be collected more than once
+    for an individual sheet (such as medications), these data
+    are stored in a separate CSV file with the name `_grids`
+    included in the file name.
+
+
+RAW and Labeled
+===============
+
+    CSV files can be formatted to include the data value captured
+    `_raw`, or to include the description of the data collected
+    `_labeled`.
+
+    RAW CSVs are typically used for further programatic analysis,
+    and can be more easily be consumed by other programs that may
+    use the CSV file as an input file.
+
+    Labeled CSVs are intended for easier viewing and filtering in
+    a spreadsheet program by humans, as the label is included in
+    the result. Labeled CSVs are easier to view and interpret for
+    humans.

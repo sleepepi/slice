@@ -343,7 +343,7 @@ class Sheet < ActiveRecord::Base
     all_files = []
     (self.sheet_variables.with_variable_type(['file']) + self.grids.with_variable_type(['file'])).each do |object|
       if object.response_file.size > 0
-        all_files << ["sheet_#{self.id}#{"/#{object.sheet_variable.variable.name}" if object.kind_of?(Grid)}/#{object.variable.name}#{"/#{object.position}" if object.respond_to?('position')}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
+        all_files << ["FILES/sheet_#{self.id}#{"/#{object.sheet_variable.variable.name}" if object.kind_of?(Grid)}/#{object.variable.name}#{"/#{object.position}" if object.respond_to?('position')}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
       end
     end
     all_files

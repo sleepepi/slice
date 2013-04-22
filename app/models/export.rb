@@ -38,22 +38,27 @@ class Export < ActiveRecord::Base
 
       all_files = [] # If numerous files are created then they need to be zipped!
 
-      all_files << generate_csv_sheets(sheet_scope, filename, false)  if self.include_csv_labeled?
-      all_files << generate_csv_grids(sheet_scope, filename, false)   if self.include_csv_labeled?
-      all_files << generate_csv_sheets(sheet_scope, filename, true)   if self.include_csv_raw? or self.include_sas?
-      all_files << generate_csv_grids(sheet_scope, filename, true)    if self.include_csv_raw? or self.include_sas?
-      all_files << generate_pdf(sheet_scope, filename)                if self.include_pdf?
-      all_files << generate_data_dictionary(sheet_scope, filename)    if self.include_data_dictionary?
-      all_files << generate_sas(sheet_scope, filename)                if self.include_sas?
+      all_files << generate_csv_sheets(sheet_scope, filename, false, 'csv') if self.include_csv_labeled?
+      all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if self.include_csv_labeled?
+      all_files << generate_csv_sheets(sheet_scope, filename, true, 'csv')  if self.include_csv_raw?
+      all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if self.include_csv_raw?
+      all_files << generate_readme('csv')                                   if self.include_csv_labeled? or self.include_csv_raw?
+      all_files += generate_pdf(sheet_scope, filename)                      if self.include_pdf?
+      all_files += generate_data_dictionary(sheet_scope, filename)          if self.include_data_dictionary?
+      all_files += generate_sas(sheet_scope, filename)                      if self.include_sas?
+      all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if self.include_sas?
+      all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if self.include_sas?
       if self.include_files?
         sheet_scope.each do |sheet|
           all_files += sheet.files
           update_steps(1)
         end
+        all_files << generate_readme('files')
       end
 
       # Zip multiple files, or zip one file if it's part of the sheet uploaded files
-      export_file = if all_files.size > 1 or (self.include_files? and all_files.size == 1)
+      # Always Zip folder
+      export_file = if all_files.size > 0
         # Create a zip file
         zipfile_name = File.join('tmp', 'files', 'exports', "#{filename}.zip")
         Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
@@ -65,8 +70,6 @@ class Export < ActiveRecord::Base
           end
         end
         zipfile_name
-      elsif all_files.size == 1
-        all_files.first[1]
       end
 
       if export_file.blank? and self.include_files?
@@ -92,8 +95,10 @@ class Export < ActiveRecord::Base
       steps = 0
       steps += sheet_ids_count if self.include_csv_labeled?
       steps += sheet_ids_count if self.include_csv_labeled?
-      steps += sheet_ids_count if self.include_csv_raw? or self.include_sas?
-      steps += sheet_ids_count if self.include_csv_raw? or self.include_sas?
+      steps += sheet_ids_count if self.include_csv_raw?
+      steps += sheet_ids_count if self.include_csv_raw?
+      steps += sheet_ids_count if self.include_sas?
+      steps += sheet_ids_count if self.include_sas?
       steps += sheet_ids_count if self.include_pdf?
       steps += sheet_ids_count if self.include_data_dictionary?
       steps += sheet_ids_count if self.include_sas?
@@ -105,7 +110,7 @@ class Export < ActiveRecord::Base
       self.update_column :steps_completed, self.steps_completed + amount
     end
 
-    def generate_csv_sheets(sheet_scope, filename, raw_data)
+    def generate_csv_sheets(sheet_scope, filename, raw_data, folder)
       export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
 
       CSV.open(export_file, "wb") do |csv|
@@ -134,10 +139,10 @@ class Export < ActiveRecord::Base
         end
       end
 
-      [export_file.split('/').last, export_file]
+      ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
     end
 
-    def generate_csv_grids(sheet_scope, filename, raw_data)
+    def generate_csv_grids(sheet_scope, filename, raw_data, folder)
       export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
 
       CSV.open(export_file, "wb") do |csv|
@@ -189,14 +194,13 @@ class Export < ActiveRecord::Base
         end
       end
 
-      [export_file.split('/').last, export_file]
+      ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
     end
 
     def generate_pdf(sheet_scope, filename)
       pdf_file = Sheet.latex_file_location(sheet_scope, self.user)
-
       update_steps(self.sheet_ids_count)
-      [pdf_file.split('/').last, pdf_file]
+      [["PDF/#{pdf_file.split('/').last}", pdf_file], generate_readme('pdf')]
     end
 
     def generate_data_dictionary(sheet_scope, filename)
@@ -342,7 +346,7 @@ class Export < ActiveRecord::Base
       book.write(export_file)
 
       update_steps(self.sheet_ids_count)
-      [export_file.split('/').last, export_file]
+      [["DD/#{export_file.split('/').last}", export_file], generate_readme('dd')]
     end
 
     def generate_sas(sheet_scope, filename)
@@ -380,7 +384,8 @@ class Export < ActiveRecord::Base
       end
 
       update_steps(self.sheet_ids_count)
-      [export_file.split('/').last, export_file]
+
+      [["SAS/#{export_file.split('/').last}", export_file], generate_readme('sas')]
     end
 
     def sas_header(filename)
@@ -522,6 +527,17 @@ run;
 quit;
 
       eos
+    end
+
+    def generate_readme(readme_type)
+      erb_file = File.join('test', 'support', 'exports', readme_type, "README.erb")
+      readme = File.join('tmp', 'files', 'exports', "README_#{readme_type}_#{Time.now.strftime("%Y%m%d_%H%M%S")}.txt")
+
+      File.open(readme, 'w') do |file|
+        file.syswrite(ERB.new(File.read(erb_file)).result(binding))
+      end
+
+      ["#{readme_type.upcase}/README.txt", readme]
     end
 
 end

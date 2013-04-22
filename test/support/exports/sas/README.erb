@@ -1,0 +1,53 @@
+Created
+=======
+
+    <%= Time.now.strftime("%a, %b %d, %Y at %I:%M %p") %>
+
+
+Project
+=======
+
+    <%= self.project.name %>
+
+
+Included Files
+==============
+
+`-- SAS
+    |-- README.txt
+    |-- dataset_raw.csv
+    |-- dataset_grids_raw.csv
+    `-- dataset_sas.sas
+
+
+SAS IMPORT FILES
+================
+
+    This folder includes files required to import data into
+    a SAS data set. The main file, `dataset_sas.sas`,
+    contains variable and design definitions that are used
+    to label the captured data within SAS.
+
+    YOU WILL NEED TO MODIFY
+        LINE 8
+    TO POINT TO THE APPROPRIATE FOLDER THAT CONTAINS
+    THE `_raw.csv` FILES
+
+    Example, change LINE 8 from:
+
+        %let import_folder      = C: ;
+
+    to:
+
+        %let import_folder      = C:\Users\**username**\Downloads\SAS ;
+
+
+    Make sure you unzip the downloaded `.zip` before attempting to
+    import into SAS.
+
+
+RAW DATASET FILES
+=================
+
+    The `_raw.csv` dataset files contain the actual data
+    values captured across various subjects and sheets.
