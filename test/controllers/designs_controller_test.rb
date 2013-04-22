@@ -91,6 +91,40 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
+  test "should get reimport" do
+    get :reimport, id: @design, project_id: @project
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:variables)
+    assert_response :success
+  end
+
+  test "should require file before proceeding to column specification for updating design imports" do
+    patch :update_import, id: @design, project_id: @project, design: { csv_file: '' }
+
+    assert_equal 0, assigns(:variables).size
+    assert assigns(:design).errors.size > 0
+    assert_equal ["must be selected"], assigns(:design).errors[:csv_file]
+
+    assert_template 'reimport'
+    assert_response :success
+  end
+
+  test "should reimport data for existing design" do
+    assert_difference('Design.count', 0) do
+      assert_difference('Variable.count', 0) do
+        post :update_import, id: @design, project_id: @project,
+                             design: { csv_file: fixture_file_upload('../../test/support/design_import.csv') },
+                             variables: { "store_id" => { display_name: 'Store ID', variable_type: 'integer' },
+                                          "gpa" => { display_name: 'GPA', variable_type: 'numeric' },
+                                          "buy_date" => { display_name: 'Buy Date', variable_type: 'date' },
+                                          "name" => { display_name: 'First Name', variable_type: 'string' },
+                                          "gender" => { display_name: 'Gender', variable_type: 'string' } }
+      end
+    end
+    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.', flash[:notice]
+    assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
+  end
+
   test "should print report" do
     get :report_print, id: @design, project_id: @project
     assert_not_nil assigns(:design)

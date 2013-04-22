@@ -4,6 +4,8 @@
 - **Export Changes**
   - Exports now include separate folders with a `README` for each export option
   - Data Dictionary exports are now split into three `.csv` files
+- **Design Changes**
+  - Sheets for specific designs can now be reimported
 - **Gem Changes**
   - Updated to pg 0.15.1
   - Updated to jbuilder 1.3.0

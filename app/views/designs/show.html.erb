@@ -12,6 +12,7 @@
     <%= link_to "PDF", print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
 
     <%= link_to "Report", report_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
+    <%= link_to "Reimport", reimport_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
   </h1>
 </div>
 

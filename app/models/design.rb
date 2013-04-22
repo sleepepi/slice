@@ -329,7 +329,7 @@ class Design < ActiveRecord::Base
         row = line.to_hash.with_indifferent_access
         subject = Subject.first_or_create_with_defaults(self.project, row['Subject'], row['Acrostic'].to_s, self.user, default_site, default_status)
         if subject
-          sheet = self.sheets.create(project_id: self.project_id, subject_id: subject.id, user_id: self.user_id, last_user_id: self.user_id)
+          sheet = self.sheets.where( subject_id: subject.id ).first_or_create( project_id: self.project_id, user_id: self.user_id, last_user_id: self.user_id )
           self.load_variables.each do |hash|
             variable = self.project.variables.find_by_name(hash[:name])
             if variable and Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)
@@ -342,10 +342,10 @@ class Design < ActiveRecord::Base
         counter += 1
         self.update( rows_imported: counter ) if counter % 25 == 0 or counter == self.total_rows
       end
-
-      self.update( import_ended_at: Time.now )
-      self.notify_user!
     end
+
+    self.update( import_ended_at: Time.now )
+    self.notify_user!
   end
 
   def notify_user!

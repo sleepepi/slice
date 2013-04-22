@@ -22,7 +22,6 @@ Slice::Application.routes.draw do
       post :filters
       post :new_filter
       post :edit_filter
-      # post :update_filter
     end
 
     collection do
@@ -65,6 +64,8 @@ Slice::Application.routes.draw do
         post :blank
         get :report_print
         post :progress
+        get :reimport
+        patch :update_import
       end
       collection do
         post :add_variable

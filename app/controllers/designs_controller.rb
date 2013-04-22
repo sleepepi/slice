@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import, :progress ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import, :progress, :reimport, :update_import ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :blank ]
-  before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress ]
-  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank ]
+  before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
+  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank, :reimport, :update_import ]
 
   # Concerns
   include Buildable
@@ -47,6 +47,42 @@ class DesignsController < ApplicationController
       end
     end
   end
+
+  # GET /designs/1/reimport
+  def reimport
+    @design.remove_csv_file!
+    @variables = []
+  end
+
+  # PATCH /designs/1/update_import
+  def update_import
+    if params[:design].blank? or (params[:design][:csv_file].blank? and params[:design][:csv_file_cache].blank?)
+      @variables = []
+      render "reimport"
+      return
+    end
+
+    @design.csv_file = params[:design][:csv_file] if not params[:design].blank? and not params[:design][:csv_file].blank?
+    @design.csv_file_cache = params[:design][:csv_file_cache] if not params[:design].blank? and not params[:design][:csv_file_cache].blank?
+
+    if params[:variables].blank?
+      @variables = @design.load_variables
+      if @design.csv_file.blank?
+        @design.errors.add(:csv_file, "must be selected")
+      # elsif not @design.header_row.include?('Subject')
+      #   @design.errors.add(:csv_file, "must contain Subject as a header column")
+      end
+      render "reimport"
+    else
+      @design.save
+      @design.update( rows_imported: 0 )
+      @design.set_total_rows
+      generate_import
+      redirect_to [@design.project, @design], notice: 'Design import initialized successfully. You will receive an email when the design import completes.'
+    end
+
+  end
+
 
   def report_print
     setup_report_new

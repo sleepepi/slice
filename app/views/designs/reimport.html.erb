@@ -1,0 +1,98 @@
+<% @title = 'Design Reimport' %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@project, @design] %> &middot; Reimport
+  </h1>
+</div>
+
+<% @file_uploaded = (@variables.size > 0 and not @design.csv_file_cache.blank? and @design.errors[:csv_file].blank?) %>
+
+<%= form_for @design, url: update_import_project_design_path(@project, @design), method: :patch, html: { class: 'form-horizontal', multipart: true } do |f| %>
+  <% if @design.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@design.errors.count, "error") %> prohibited this design from being saved:</h2>
+
+      <ul>
+      <% @design.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :csv_file, 'Data Import (CSV)', class: 'control-label' %>
+    <div class="controls">
+      <% if @file_uploaded %>
+        <div style="padding-top:5px;">
+          <b><%= @design.csv_file_cache.split('/').last %></b>
+          <%= f.hidden_field :csv_file_cache %>
+        </div>
+      <% else %>
+        <div style="padding-top:5px;">
+          <%= f.file_field :csv_file, style: 'line-height: 0px;' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @file_uploaded %>
+    <div class="control-group">
+      <%= label :subject_status, "Subject Status", class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :subject_status, options_for_select(Subject::STATUS, 'pending') %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= label_tag 'site_id', 'Site', class: 'control-label' %>
+      <div class="controls" id="site">
+        <%= select_tag :site_id, options_for_select(@project.sites.order('name').collect{|s| [s.name, s.id]}) %>
+      </div>
+    </div>
+
+    <div style="display:none">
+      <hr class="soften" style="margin-top:20px;margin-bottom:20px" />
+
+      <% @variables.each do |hash| %>
+        <% variable = @project.variables.find_by_name(hash[:name]) %>
+
+        <% if params[:variables] and params[:variables][hash[:name]] %>
+          <% display_name = params[:variables][hash[:name]][:display_name] %>
+          <% variable_type = params[:variables][hash[:name]][:variable_type] %>
+          <% ignore = params[:variables][hash[:name]][:ignore] %>
+        <% else %>
+          <% display_name = hash[:display_name] %>
+          <% variable_type = hash[:variable_type] %>
+          <% ignore = (variable and not Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)) %>
+        <% end %>
+
+        <div class="control-group">
+          <label class="control-label"><%= hash[:name] %></label>
+          <div class="controls sheet-container">
+            <div style="padding-top:5px;">
+              <% if variable %>
+                <%= link_to variable.display_name, [variable.project, variable], target: '_blank' %> of type <b><%= variable.variable_type %></b> won't be recreated.
+                <%= hidden_field_tag "variables[#{hash[:name]}][display_name]", display_name %>
+              <% else %>
+                <%= text_field_tag "variables[#{hash[:name]}][display_name]", display_name %>
+                <%= select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE_IMPORTABLE, variable_type) %>
+              <% end %>
+              <label class="checkbox inline <%= 'selected' if ignore %>" style="white-space:nowrap"><%= check_box_tag "variables[#{hash[:name]}][ignore]", '1', ignore %> do not add to design</label>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  <% end %>
+
+  <div class="form-actions">
+    <%= f.submit @variables.size > 0 ? "Reimport Data" : "Proceed to Import Specification", class: 'btn btn-primary' %>
+    <% if @file_uploaded %>
+      <%= link_to 'Previous Step', reimport_project_design_path(@project, @design), class: 'btn' %>
+    <% else %>
+      <%= link_to 'Cancel', [@project, @design], class: 'btn' %>
+    <% end %>
+  </div>
+<% end %>
