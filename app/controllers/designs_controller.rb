@@ -58,6 +58,7 @@ class DesignsController < ApplicationController
   def update_import
     if params[:design].blank? or (params[:design][:csv_file].blank? and params[:design][:csv_file_cache].blank?)
       @variables = []
+      @design.errors.add(:csv_file, "must be selected")
       render "reimport"
       return
     end
@@ -67,11 +68,6 @@ class DesignsController < ApplicationController
 
     if params[:variables].blank?
       @variables = @design.load_variables
-      if @design.csv_file.blank?
-        @design.errors.add(:csv_file, "must be selected")
-      # elsif not @design.header_row.include?('Subject')
-      #   @design.errors.add(:csv_file, "must contain Subject as a header column")
-      end
       render "reimport"
     else
       @design.save
