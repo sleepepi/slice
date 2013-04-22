@@ -19,3 +19,37 @@ Included Files
     |-- variables.csv
     `-- domains.csv
 
+Designs
+=======
+
+The `designs.csv` file includes section and variable layout information along with any design-specific branching logic.
+
+The `variables.csv` contains the definition of the variable itself, including ranges, variable type, and option domains.
+
+The `domains.csv` contains option domains that include name and values of possible options.
+
+
+Design Descriptions
+===================
+
+<% Design.where(id: sheet_scope.pluck(:design_id)).order('name').each do |d| %>
+
+<%= d.name %> - Description
+<%= '-'*d.name.size %>--------------
+
+    <%= d.description %>
+
+
+<%= d.name %> - Email Subject Template
+<%= '-'*d.name.size %>-------------------------
+
+    <%= d.email_subject_template %>
+
+
+<%= d.name %> - Email Body Template
+<%= '-'*d.name.size %>----------------------
+
+    <%= d.email_template %>
+
+
+<% end %>
