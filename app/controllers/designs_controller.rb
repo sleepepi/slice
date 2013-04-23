@@ -73,6 +73,7 @@ class DesignsController < ApplicationController
     @design.csv_file_cache = params[:design][:csv_file_cache] if not params[:design].blank? and not params[:design][:csv_file_cache].blank?
 
     if params[:variables].blank?
+      @design.remove_csv_file!
       @variables = @design.load_variables
       render "reimport"
     else
