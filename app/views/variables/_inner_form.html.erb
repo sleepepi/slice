@@ -174,19 +174,19 @@
           <div class="span3">
             <div class="download-container" style="overflow-x:hidden;overflow-y:scroll;height:80px">
               <div class="download-container-after">Captured Values</div>
-              <ul style="padding-top:10px">
-                <% @variable.captured_values.sort.each do |value| %>
-                  <li><%= value %></li>
-                <% end %>
-              </ul>
+              <div style="padding-top:10px">
+                <table>
+                  <% @variable.captured_values.sort.each do |value| %>
+                    <tr><td style="text-align:right"><%= value %></td></tr>
+                  <% end %>
+                </table>
+              </div>
             </div>
           </div>
           <div class="span3">
             <div class="download-container" style="overflow-x:hidden;overflow-y:scroll;height:80px">
               <div class="download-container-after">Domain Values</div>
-              <ul style="padding-top:10px" id="domain_values">
-                <%= @domain = @variable.domain; render partial: 'domains/values' %>
-              </ul>
+              <div id="domain_values" style="padding-top:10px"><%= @domain = @variable.domain; render partial: 'domains/values' %></div>
             </div>
           </div>
         </div>
