@@ -17,7 +17,7 @@
     <% end %>
     <% @project.sheets.with_subject_status(["valid", "pending", "test"]).order('created_at DESC').limit(10).each do |sheet| %>
       <tr data-link="<%= project_sheet_path(sheet.project, sheet) %>" style="cursor:pointer">
-        <td><%= status_helper(sheet.subject) %>&nbsp;<%= sheet.subject.name %></td>
+        <td style="max-width: 100px; white-space: nowrap; overflow-x: hidden;"><%= status_helper(sheet.subject) %>&nbsp;<%= sheet.subject.name %></td>
         <td>
           <%= sheet.name %>
           <% if sheet.comments.size > 0 %>
