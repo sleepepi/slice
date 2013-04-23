@@ -1,5 +1,5 @@
 class SheetsController < ApplicationController
-  before_action :authenticate_user!, except: [ :survey, :submit_survey ]
+  before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print ]
   before_action :set_editable_project, only: [ :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
   before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
@@ -156,6 +156,20 @@ class SheetsController < ApplicationController
     end
   end
 
+  def submit_public_survey
+    @project = Project.current.find_by_id(params[:project_id])
+    @design = @project.designs.find_by_id(params[:id]) if @project # :id is the design ID!
+    if @project and @design and @design.publicly_available?
+      @subject = @project.create_valid_subject
+      @sheet = @project.sheets.create( design_id: @design.id, subject_id: @subject.id, user_id: @project.user_id, last_user_id: @project.user_id )
+      update_variables!
+      UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
+      redirect_to about_path, notice: 'Survey submitted successfully.'
+    else
+      redirect_to about_path, alert: 'This survey no longer exists.'
+    end
+  end
+
   def remove_file
     @sheet_variable = @sheet.sheet_variables.find_by_id(params[:sheet_variable_id])
 
@@ -291,13 +305,6 @@ class SheetsController < ApplicationController
         else
           sv.update_attributes sv.format_response(variable_type, response)
         end
-        # if sv.variable.variable_type == 'grid'
-        #   sv.update_grid_responses!(response)
-        # elsif sv.variable.variable_type == 'scale'
-        #   sv.update_attributes sv.format_response(sv.variable.scale_type, response)
-        # else
-        #   sv.update_attributes sv.format_response(sv.variable.variable_type, response)
-        # end
       end
       @sheet.update_column :response_count, @sheet.non_blank_design_variable_responses
       @sheet.update_column :total_response_count, @sheet.total_design_variables

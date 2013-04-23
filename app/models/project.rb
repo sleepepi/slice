@@ -79,6 +79,11 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def create_valid_subject
+    self.create_default_site if self.sites.count == 0
+    self.subjects.create( subject_code: Digest::SHA1.hexdigest(Time.now.usec.to_s), user_id: self.user_id, site_id: self.sites.first.id, status: 'valid', acrostic: '' )
+  end
+
   private
 
     # Creates a default site if the project has no site associated with it

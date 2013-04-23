@@ -7,6 +7,22 @@ class DesignsControllerTest < ActionController::TestCase
     @design = designs(:one)
   end
 
+  test "should get public survey" do
+    post :survey, id: designs(:admin_public_design), project_id: projects(:three)
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_equal true, assigns(:design).publicly_available
+    assert_response :success
+  end
+
+  test "should not get private survey" do
+    post :survey, id: designs(:admin_design), project_id: projects(:three)
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_equal false, assigns(:design).publicly_available
+    assert_redirected_to about_path
+  end
+
   test "should show progress" do
     post :progress, id: @design, project_id: @project, format: 'js'
     assert_not_nil assigns(:design)

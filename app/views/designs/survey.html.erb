@@ -1,0 +1,19 @@
+<% @title = @design.name %>
+
+<%= hidden_field_tag 'isdirty', '1' %>
+
+<%= form_tag project_submit_public_survey_path(@design.project, @design), method: :post, class: 'form-horizontal', multipart: true, id: "survey_#{@design.id}_form" do |f| %>
+
+  <div id="design">
+    <div class="center"><%= image_tag 'contour/ajax-loader.gif' %></div>
+    <%#= @design = @sheet.design; render partial: 'designs/selection' %>
+  </div>
+
+  <div class="form-actions">
+    <% form_name = "survey_#{@design.id}_form" %>
+    <%= submit_tag 'Submit',       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
+  </div>
+
+<% end %>
+
+<%= form_tag project_survey_path(@design.project, @design), remote: true, method: :get, data: { object: 'form-load' } %>

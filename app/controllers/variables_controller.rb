@@ -136,6 +136,11 @@ class VariablesController < ApplicationController
     end
 
     def set_authenticatable_variable
+      if params[:sheet_authentication_token].blank? and @variable = Variable.current.find_by_id(params[:id]) and @variable.inherited_designs.select{|d| d.publicly_available}.count > 0
+        @project = @variable.project
+        return
+      end
+
       if params[:sheet_authentication_token].blank? and current_user
         @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
         empty_response_or_root_path unless @project

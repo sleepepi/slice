@@ -50,6 +50,9 @@ Slice::Application.routes.draw do
 
     get "sheet_emails/show"
 
+    get "surveys/:id" => "designs#survey", as: :survey
+    post "surveys/:id" => "sheets#submit_public_survey", as: :submit_public_survey
+
     resources :designs do
       member do
         get :copy

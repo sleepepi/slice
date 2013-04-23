@@ -94,6 +94,17 @@ admin_design:
   user: admin
   project: three
 
+admin_public_design:
+  name: On Public Admin Project
+  # description:
+  options: [
+              { section_name: 'Section A Admin', section_id: '_section_a_admin' },
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:public_autocomplete) %> }
+           ]
+  user: admin
+  project: three
+  publicly_available: true
+
 single_design:
   name: On single_design project
   # description:

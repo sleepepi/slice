@@ -60,6 +60,13 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= f.label :publicly_available, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :publicly_available %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>

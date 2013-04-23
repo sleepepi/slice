@@ -27,6 +27,13 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get typeahead for public design" do
+    get :typeahead, id: variables(:public_autocomplete), project_id: variables(:public_autocomplete).project_id, format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_equal ['Cat', 'Dog', 'Fish'], assigns(:variable).autocomplete_array
+    assert_response :success
+  end
+
   test "should get blank array for non-string typeahead" do
     get :typeahead, id: variables(:dropdown), project_id: @project, format: 'js'
     assert_not_nil assigns(:variable)

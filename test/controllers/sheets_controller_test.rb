@@ -421,6 +421,40 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should submit public survey" do
+    assert_difference('Subject.count') do
+      assert_difference('Sheet.count') do
+        post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project
+      end
+    end
+
+    assert_not_nil assigns(:design)
+    assert_equal true, assigns(:design).publicly_available
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal "Survey submitted successfully.", flash[:notice]
+    assert_redirected_to about_path
+  end
+
+  test "should not submit private survey" do
+    assert_difference('Subject.count', 0) do
+      assert_difference('Sheet.count', 0) do
+        post :submit_public_survey, id: designs(:admin_design), project_id: designs(:admin_design).project
+      end
+    end
+
+    assert_not_nil assigns(:design)
+    assert_equal false, assigns(:design).publicly_available
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:subject)
+    assert_nil assigns(:sheet)
+
+    assert_equal "This survey no longer exists.", flash[:alert]
+    assert_redirected_to about_path
+  end
+
   test "should get sheet survey using authentication_token" do
     get :survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token
     assert_not_nil assigns(:sheet)

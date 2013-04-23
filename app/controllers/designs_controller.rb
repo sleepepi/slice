@@ -1,5 +1,5 @@
 class DesignsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank ]
   before_action :set_editable_project,      only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import, :progress, :reimport, :update_import ]
   before_action :redirect_without_project,  only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import ]
@@ -9,6 +9,12 @@ class DesignsController < ApplicationController
 
   # Concerns
   include Buildable
+
+  def survey
+    @project = Project.current.find_by_id(params[:project_id])
+    @design = @project.designs.find_by_id(params[:id]) if @project
+    empty_response_or_root_path(about_path) unless @design and @design.publicly_available?
+  end
 
   def blank
   end
@@ -278,7 +284,7 @@ class DesignsController < ApplicationController
       params[:design][:project_id] = @project.id
 
       params.require(:design).permit(
-        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache
+        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache, :publicly_available
       )
     end
 
