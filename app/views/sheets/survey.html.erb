@@ -19,7 +19,7 @@
 
   <div class="form-actions">
     <% form_name = "edit_sheet_#{@sheet.id}" %>
-    <%= submit_tag 'Submit',       class: 'btn btn-primary', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
+    <%= submit_tag 'Submit Survey', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
   </div>
 
 <% end %>
