@@ -1,6 +1,8 @@
 <% missing_responses = responses.select{|r| r.blank?} %>
 <% valid_responses = responses.select{|r| not r.blank?}.map(&:to_f) %>
 
+<% valid_sheets = sheet_scope.with_stratum(@variable.id, ':any') %>
+
 <table class="table">
   <thead>
     <tr>
@@ -19,11 +21,11 @@
     <tr>
       <td><span data-object="sparkline" data-type="box" data-values="<%= valid_responses.to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"></span></td>
       <td><%= Sheet.array_count(valid_responses) %></td>
-      <td><%= Sheet.array_mean(valid_responses) %></td>
-      <td><%= Sheet.array_standard_deviation(valid_responses) %></td>
-      <td><%= Sheet.array_median(valid_responses) %></td>
-      <td><%= Sheet.array_min(valid_responses) %></td>
-      <td><%= Sheet.array_max(valid_responses) %></td>
+      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_mean') %></td>
+      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_standard_deviation') %></td>
+      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_median') %></td>
+      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_min') %></td>
+      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_max') %></td>
       <td><%= Sheet.array_count(missing_responses) %></td>
       <td><%= Sheet.array_count(responses) %></td>
     </tr>
