@@ -1,0 +1,25 @@
+<% missing_responses = responses.select{|r| r.blank?} %>
+<% valid_responses = responses.select{|r| not r.blank?}.map(&:to_i) %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>N</th>
+      <% @variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+        <th><%= value %>: <%= name %></th>
+      <% end %>
+      <th>Missing</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= Sheet.array_count(valid_responses) %></td>
+      <% @variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+        <td><%= responses.select{|r| r == value}.count %></td>
+      <% end %>
+      <td><%= Sheet.array_count(missing_responses) %></td>
+      <td><%= Sheet.array_count(responses) %></td>
+    </tr>
+  </tbody>
+</table>

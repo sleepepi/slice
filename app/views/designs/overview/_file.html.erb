@@ -1,0 +1,23 @@
+<% missing_responses = responses.select{|r| r.blank?} %>
+<% valid_responses = responses.select{|r| not r.blank?} %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>N</th>
+      <th>Missing</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= Sheet.array_count(valid_responses) %></td>
+      <td><%= Sheet.array_count(missing_responses) %></td>
+      <td><%= Sheet.array_count(responses) %></td>
+    </tr>
+  </tbody>
+</table>
+
+<% valid_responses.each do |response| %>
+  <div><%= response %></div>
+<% end %>

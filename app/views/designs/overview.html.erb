@@ -15,23 +15,30 @@
   <div class="span9">
 <% end %>
 
-<% @design.options.each do |option| %>
-  <% @option = option %>
-  <% if @option[:variable_id].blank? %>
-    <%= render partial: 'designs/section' %>
-  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-    <% unless @variable.header.blank? %>
-      <div class="page-header">
-        <h4><%= simple_markdown @variable.header %></h4>
+<form class="form-horizontal">
+  <% @design.options.each do |option| %>
+    <% @option = option %>
+    <% if @option[:variable_id].blank? %>
+      <%= render partial: 'designs/section' %>
+    <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+      <% unless @variable.header.blank? %>
+        <div class="page-header">
+          <h4><%= simple_markdown @variable.header %></h4>
+        </div>
+      <% end %>
+
+      <div class="control-group">
+        <% if @variable.display_name_visibility == 'visible' %><label class="control-label"><%= @variable.display_name %></label><% end %>
+        <div class="<%= "controls controls-row" unless @variable.display_name_visibility == 'gone' %>" style="padding-top:5px;">
+          <% sheet_ids = @project.sheets.where( design_id: @design.id ).pluck(:id) %>
+          <% responses = @variable.sheet_variables.where(sheet_id: sheet_ids).pluck(:response) %>
+          <%= render partial: "designs/overview/#{@variable.variable_type}", locals: { responses: responses } %>
+        </div>
       </div>
+
     <% end %>
-    <% if @variable.display_name_visibility == 'visible' %><%= @variable.display_name %><% end %>
-    <% sheet_ids = @project.sheets.where( design_id: @design.id ).pluck(:id) %>
-    <% responses = @variable.sheet_variables.where(sheet_id: sheet_ids).pluck(:response) %>
-    <%#= render partial: 'designs/variable' %>
-    <%= render partial: "designs/overview/#{@variable.variable_type}", locals: { responses: responses } %>
   <% end %>
-<% end %>
+</form>
 
 <% if show_navigation %>
   </div>
