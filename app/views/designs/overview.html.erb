@@ -30,7 +30,7 @@
       <div class="control-group">
         <% if @variable.display_name_visibility == 'visible' %><label class="control-label"><%= @variable.display_name %></label><% end %>
         <div class="<%= "controls controls-row" unless @variable.display_name_visibility == 'gone' %>" style="padding-top:5px;">
-          <% sheet_scope = @project.sheets.where( design_id: @design.id ) %>
+          <% sheet_scope = current_user.all_viewable_sheets.where( project_id: @project.id, design_id: @design.id ) %>
           <% responses = @variable.sheet_variables.where(sheet_id: sheet_scope.pluck(:id)).pluck(:response) %>
           <%= render partial: "designs/overview/#{@variable.variable_type}", locals: { sheet_scope: sheet_scope, responses: responses } %>
         </div>
