@@ -11,9 +11,9 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= Sheet.array_count(valid_responses) %></td>
-      <td><%= Sheet.array_count(missing_responses) %></td>
-      <td><%= Sheet.array_count(responses) %></td>
+      <td><%= link_to_if( !Sheet.array_count(valid_responses).blank?, Sheet.array_count(valid_responses) || '-', project_sheets_path(@project, design_id: @design.id, f: [{ variable_id: @variable.id, value: ':any' }]) ) %></td>
+      <td><%= link_to_if( !Sheet.array_count(missing_responses).blank?, Sheet.array_count(missing_responses) || '-', project_sheets_path(@project, design_id: @design.id, f: [{ variable_id: @variable.id, value: ':missing' }]) ) %></td>
+      <td><%= link_to_if( !Sheet.array_count(responses).blank?, Sheet.array_count(responses) || '-', project_sheets_path(@project, design_id: @design.id) ) %></td>
     </tr>
   </tbody>
 </table>
