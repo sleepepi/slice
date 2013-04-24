@@ -16,7 +16,7 @@ two:
   display_name: Variable Two
   description: MyText
   header: MyString
-  variable_type: MyString
+  variable_type: string
   user: valid
   project: one
   domain: var_two_options
