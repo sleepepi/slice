@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h2>
+    <%= @design.name %>
+  </h2>
+  <%= simple_markdown @design.description unless @design.description.blank? %>
+</div>
+
+<% show_navigation = (@design.sections.size > 1) %>
+
+<% if show_navigation %>
+<div class="row">
+  <div class="span3 bs-docs-sidebar">
+    <%= render partial: 'designs/navigation' %>
+  </div>
+  <div class="span9">
+<% end %>
+
+<% @design.options.each do |option| %>
+  <% @option = option %>
+  <% if @option[:variable_id].blank? %>
+    <%= render partial: 'designs/section' %>
+  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+    <% unless @variable.header.blank? %>
+      <div class="page-header">
+        <h4><%= simple_markdown @variable.header %></h4>
+      </div>
+    <% end %>
+    <% if @variable.display_name_visibility == 'visible' %><%= @variable.display_name %><% end %>
+    <%#= render partial: 'designs/variable' %>
+    <% sheet_scope = @project.sheets.where( design_id: @design.id ) %>
+    <% responses = Sheet.array_responses(sheet_scope, @variable).uniq %>
+    <ul>
+      <% responses.each do |response| %>
+        <li><%= response %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+<% if show_navigation %>
+  </div>
+</div>
+<% end %>

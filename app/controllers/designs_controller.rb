@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
-  before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank ]
+  before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank, :overview ]
   before_action :set_editable_project,      only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import, :progress, :reimport, :update_import ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import ]
-  before_action :set_viewable_design,       only: [ :print, :report_print, :report, :blank ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
+  before_action :set_viewable_design,       only: [ :print, :report_print, :report, :blank, :overview ]
   before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
-  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank, :reimport, :update_import ]
+  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank, :reimport, :update_import, :overview ]
 
   # Concerns
   include Buildable

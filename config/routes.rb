@@ -69,6 +69,7 @@ Slice::Application.routes.draw do
         post :progress
         get :reimport
         patch :update_import
+        get :overview
       end
       collection do
         post :add_variable

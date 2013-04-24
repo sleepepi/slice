@@ -7,6 +7,13 @@ class DesignsControllerTest < ActionController::TestCase
     @design = designs(:one)
   end
 
+  test "should show design overview" do
+    get :overview, id: @design, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should get public survey" do
     post :survey, id: designs(:admin_public_design), project_id: projects(:three)
     assert_not_nil assigns(:project)
