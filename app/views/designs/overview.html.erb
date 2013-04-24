@@ -26,14 +26,10 @@
       </div>
     <% end %>
     <% if @variable.display_name_visibility == 'visible' %><%= @variable.display_name %><% end %>
+    <% sheet_ids = @project.sheets.where( design_id: @design.id ).pluck(:id) %>
+    <% responses = @variable.sheet_variables.where(sheet_id: sheet_ids).pluck(:response) %>
     <%#= render partial: 'designs/variable' %>
-    <% sheet_scope = @project.sheets.where( design_id: @design.id ) %>
-    <% responses = Sheet.array_responses(sheet_scope, @variable).uniq %>
-    <ul>
-      <% responses.each do |response| %>
-        <li><%= response %></li>
-      <% end %>
-    </ul>
+    <%= render partial: "designs/overview/#{@variable.variable_type}", locals: { responses: responses } %>
   <% end %>
 <% end %>
 

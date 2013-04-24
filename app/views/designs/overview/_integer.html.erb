@@ -1,0 +1,31 @@
+<% missing_responses = responses.select{|r| r.blank?} %>
+<% valid_responses = responses.select{|r| not r.blank?}.map(&:to_i) %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>N</th>
+      <th>Mean</th>
+      <th>StdDev</th>
+      <th>Median</th>
+      <th>Min</th>
+      <th>Max</th>
+      <th>Missing</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span data-object="sparkline" data-type="box" data-values="<%= valid_responses.to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"></span></td>
+      <td><%= Sheet.array_count(valid_responses) %></td>
+      <td><%= Sheet.array_mean(valid_responses) %></td>
+      <td><%= Sheet.array_standard_deviation(valid_responses) %></td>
+      <td><%= Sheet.array_median(valid_responses) %></td>
+      <td><%= Sheet.array_min(valid_responses) %></td>
+      <td><%= Sheet.array_max(valid_responses) %></td>
+      <td><%= Sheet.array_count(missing_responses) %></td>
+      <td><%= Sheet.array_count(responses) %></td>
+    </tr>
+  </tbody>
+</table>
