@@ -14,12 +14,12 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= link_to_if( !Sheet.array_count(valid_responses).blank?, Sheet.array_count(valid_responses) || '-', project_sheets_path(@project, design_id: @design.id, f: [{ variable_id: @variable.id, value: ':any' }]) ) %></td>
+      <td><%= filter_link(Sheet.array_count(valid_responses), @project, @design, @variable, ':any') %></td>
       <% @variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <td><%= link_to_if( responses.select{|r| r == value}.count != 0, responses.select{|r| r == value}.count == 0 ? '-' : responses.select{|r| r == value}.count, project_sheets_path(@project, design_id: @design.id, f: [{ variable_id: @variable.id, value: value }]) ) %></td>
+        <td><%= filter_link(responses.select{|r| r == value}.count == 0 ? nil : responses.select{|r| r == value}.count, @project, @design, @variable, value) %></td>
       <% end %>
-      <td><%= link_to_if( !Sheet.array_count(missing_responses).blank?, Sheet.array_count(missing_responses) || '-', project_sheets_path(@project, design_id: @design.id, f: [{ variable_id: @variable.id, value: ':missing' }]) ) %></td>
-      <td><%= link_to_if( !Sheet.array_count(responses).blank?, Sheet.array_count(responses) || '-', project_sheets_path(@project, design_id: @design.id) ) %></td>
+      <td><%= filter_link(Sheet.array_count(missing_responses), @project, @design, @variable, ':missing') %></td>
+      <td><%= filter_link(Sheet.array_count(responses), @project, @design, nil, nil) %></td>
     </tr>
   </tbody>
 </table>

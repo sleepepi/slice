@@ -1,46 +1,26 @@
 <div class="page-header">
+  <%= form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-search', data: { object: 'form-load' } do %>
+  <div class="control-group pull-right">
+    <%= label :statuses, 'Status', class: 'control-label' %>
+    <div class="controls">
+      <div class="btn-group" data-toggle="buttons-checkbox">
+        <% Subject::STATUS.each do |label, value| %>
+          <button data-object="set-statuses" data-value="<%= value %>" data-target="#design_overview_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+            <%= label.humanize %>
+            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
   <h2>
     <%= @design.name %>
   </h2>
   <%= simple_markdown @design.description unless @design.description.blank? %>
 </div>
 
-<% show_navigation = (@design.sections.size > 1) %>
-
-<% if show_navigation %>
-<div class="row">
-  <div class="span3 bs-docs-sidebar">
-    <%= render partial: 'designs/navigation' %>
-  </div>
-  <div class="span9">
-<% end %>
-
-<form class="form-horizontal">
-  <% @design.options.each do |option| %>
-    <% @option = option %>
-    <% if @option[:variable_id].blank? %>
-      <%= render partial: 'designs/section' %>
-    <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-      <% unless @variable.header.blank? %>
-        <div class="page-header">
-          <h4><%= simple_markdown @variable.header %></h4>
-        </div>
-      <% end %>
-
-      <div class="control-group">
-        <% if @variable.display_name_visibility == 'visible' %><label class="control-label"><%= @variable.display_name %></label><% end %>
-        <div class="<%= "controls controls-row" unless @variable.display_name_visibility == 'gone' %>" style="padding-top:5px;">
-          <% sheet_scope = current_user.all_viewable_sheets.where( project_id: @project.id, design_id: @design.id ) %>
-          <% responses = @variable.sheet_variables.where(sheet_id: sheet_scope.pluck(:id)).pluck(:response) %>
-          <%= render partial: "designs/overview/#{@variable.variable_type}", locals: { sheet_scope: sheet_scope, responses: responses } %>
-        </div>
-      </div>
-
-    <% end %>
-  <% end %>
-</form>
-
-<% if show_navigation %>
-  </div>
+<div id="design_overview">
+  <%#= render partial: 'designs/overview/overview' %>
 </div>
-<% end %>

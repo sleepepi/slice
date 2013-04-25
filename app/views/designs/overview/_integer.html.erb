@@ -20,14 +20,14 @@
   <tbody>
     <tr>
       <td><span data-object="sparkline" data-type="box" data-values="<%= valid_responses.to_json %>" data-min="<%= @overall_min %>" data-max="<%= @overall_max %>" style="display:none"></span></td>
-      <td><%= link_to_if( !Sheet.array_count(valid_responses).blank?, Sheet.array_count(valid_responses) || '-', project_sheets_path(@project, design_id: @design.id, f: [{ variable_id: @variable.id, value: ':any' }]) ) %></td>
+      <td><%= filter_link(Sheet.array_count(valid_responses), @project, @design, @variable, ':any') %></td>
       <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_mean') %></td>
       <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_standard_deviation') %></td>
       <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_median') %></td>
       <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_min') %></td>
       <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_max') %></td>
-      <td><%= link_to_if( !Sheet.array_count(missing_responses).blank?, Sheet.array_count(missing_responses) || '-', project_sheets_path(@project, design_id: @design.id, f: [{ variable_id: @variable.id, value: ':missing' }]) ) %></td>
-      <td><%= link_to_if( !Sheet.array_count(responses).blank?, Sheet.array_count(responses) || '-', project_sheets_path(@project, design_id: @design.id) ) %></td>
+      <td><%= filter_link(Sheet.array_count(missing_responses), @project, @design, @variable, ':missing') %></td>
+      <td><%= filter_link(Sheet.array_count(responses), @project, @design, nil, nil) %></td>
     </tr>
   </tbody>
 </table>

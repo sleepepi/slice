@@ -10,6 +10,13 @@ class DesignsController < ApplicationController
   # Concerns
   include Buildable
 
+  # Get /designs/1/overview
+  # Get /designs/1/overview.js
+  def overview
+    @statuses = params[:statuses] || ['valid', 'pending', 'test']
+    @sheets = current_user.all_viewable_sheets.where( project_id: @project.id, design_id: @design.id ).with_subject_status(@statuses)
+  end
+
   def survey
     @project = Project.current.find_by_id(params[:project_id])
     @design = @project.designs.find_by_id(params[:id]) if @project
