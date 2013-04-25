@@ -6,15 +6,15 @@
   <thead>
     <tr>
       <th>N</th>
-      <th>Missing</th>
+      <th class="muted">Unknown</th>
       <th>Total</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><%= filter_link(Sheet.array_count(valid_responses), @project, @design, @variable, ':any') %></td>
-      <td><%= filter_link(Sheet.array_count(missing_responses), @project, @design, @variable, ':missing') %></td>
-      <td><%= filter_link(Sheet.array_count(responses), @project, @design, nil, nil) %></td>
+      <td><%= filter_link(Sheet.array_count(valid_responses), @project, @design, @variable, ':any', @statuses) %></td>
+      <td><%= filter_link(Sheet.array_count(missing_responses), @project, @design, @variable, ':missing', @statuses) %></td>
+      <td><%= filter_link(Sheet.array_count(responses), @project, @design, nil, nil, @statuses) %></td>
     </tr>
   </tbody>
 </table>

@@ -270,8 +270,10 @@ class Sheet < ActiveRecord::Base
   #   end
   # end
 
+  # Buffers with blank responses for sheets that don't have a sheet_variable for the specific variable
   def self.sheet_responses(variable)
-    self.all.collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
+    responses = self.all.collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
+    responses + ['']*([self.all.count - responses.size, 0].max)
   end
 
   def expanded_branching_logic(branching_logic)
