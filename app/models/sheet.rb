@@ -68,6 +68,7 @@ class Sheet < ActiveRecord::Base
   belongs_to :project
   belongs_to :subject
   has_many :sheet_variables
+  has_many :responses
   has_many :variables, -> { where deleted: false }, through: :sheet_variables
   has_many :sheet_emails, -> { where deleted: false }
   has_many :comments, -> { where deleted: false }, order: 'created_at desc'
@@ -274,6 +275,10 @@ class Sheet < ActiveRecord::Base
   def self.sheet_responses(variable)
     responses = self.all.collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
     responses + ['']*([self.all.count - responses.size, 0].max)
+  end
+
+  def self.sheet_responses_for_checkboxes(variable)
+    self.all.collect{|sheet| sheet.responses.where(variable_id: variable.id).pluck(:value)}.flatten
   end
 
   def expanded_branching_logic(branching_logic)
