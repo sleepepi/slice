@@ -1,8 +1,13 @@
 <% responses = @sheets.sheet_responses_for_checkboxes(@variable)  %>
+<% counts = [] %>
+<% @variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+  <% counts << responses.select{|r| r == value}.count %>
+<% end %>
 
 <table class="table">
   <thead>
     <tr>
+      <th></th>
       <% @variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
         <th><%= value %>: <%= name %></th>
       <% end %>
@@ -10,8 +15,9 @@
   </thead>
   <tbody>
     <tr>
-      <% @variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <td><%= responses.select{|r| r == value}.count == 0 ? '-' : responses.select{|r| r == value}.count %></td>
+      <td><span data-object="sparkline" data-type="pie" data-values="<%= counts.to_json %>" style="display:none"></span></td>
+      <% counts.each_with_index do |count, count_index| %>
+        <td><% if count == 0 %>-<% else %><span style="background-color: <%= @colors[count_index % @colors.size] %>">&nbsp;</span> <%= count %><% end %></td>
       <% end %>
     </tr>
   </tbody>

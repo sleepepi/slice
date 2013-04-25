@@ -20,6 +20,10 @@
         chartRangeMin: minValue
         chartRangeMax: maxValue
       )
+    else if $(this).data('type') == 'pie'
+      $(this).sparkline($(this).data('values'),
+        type: $(this).data('type')
+      )
     else
       $(this).peity($(this).data('type'))
   )
