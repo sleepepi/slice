@@ -69,18 +69,17 @@ class DesignsController < ApplicationController
 
   # PATCH /designs/1/update_import
   def update_import
-    if params[:design].blank? or (params[:design][:csv_file].blank? and params[:design][:csv_file_cache].blank?)
+    @design.csv_file = params[:design][:csv_file] if not params[:design].blank? and not params[:design][:csv_file].blank?
+    @design.csv_file_cache = params[:design][:csv_file_cache] if not params[:design].blank? and not params[:design][:csv_file_cache].blank?
+
+    if params[:design].blank? or (params[:design][:csv_file].blank? and params[:design][:csv_file_cache].blank?) or not @design.valid?
       @variables = []
       @design.errors.add(:csv_file, "must be selected")
       render "reimport"
       return
     end
 
-    @design.csv_file = params[:design][:csv_file] if not params[:design].blank? and not params[:design][:csv_file].blank?
-    @design.csv_file_cache = params[:design][:csv_file_cache] if not params[:design].blank? and not params[:design][:csv_file_cache].blank?
-
     if params[:variables].blank?
-      @design.save
       @variables = @design.load_variables
       render "reimport"
     else
