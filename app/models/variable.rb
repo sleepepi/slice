@@ -236,7 +236,8 @@ class Variable < ActiveRecord::Base
         { filters: [], name: 'Min',    tooltip: 'Min',    calculation: 'array_min'                              },
         { filters: [], name: 'Max',    tooltip: 'Max',    calculation: 'array_max'                              }]
     elsif ['dropdown', 'radio', 'string'].include?(self.variable_type)
-      options_or_autocomplete(include_missing).collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }], tooltip: h[:name] }) }
+      unique_responses = sheet_scope.sheet_responses(self).uniq
+      options_or_autocomplete(include_missing).select{|h| unique_responses.include?(h[:value])}.collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }], tooltip: h[:name] }) }
     elsif self.variable_type == 'design'
       self.project.designs.order(:name).collect{|design| { filters: [{ variable_id: 'design', value: design.id.to_s }], name: design.name, tooltip: design.name, link: "projects/#{self.project_id}/designs/#{design.id}/report", value: design.id.to_s, calculation: 'array_count' } }
     elsif self.variable_type == 'site'
