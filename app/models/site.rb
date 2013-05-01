@@ -17,7 +17,7 @@ class Site < ActiveRecord::Base
   belongs_to :project
   has_many :subjects, -> { where deleted: false }
   has_many :site_users
-  has_many :users, -> { where deleted: false }, through: :site_users, order: 'last_name, first_name'
+  has_many :users, -> { where( deleted: false ).order( 'last_name, first_name' ) }, through: :site_users
 
   # Model Methods
   def valid_subject_code?(subject_code)

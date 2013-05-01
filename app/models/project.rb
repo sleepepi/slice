@@ -21,7 +21,7 @@ class Project < ActiveRecord::Base
   belongs_to :user
 
   has_many :project_users
-  has_many :users, -> { where( deleted: false ) }, through: :project_users, order: 'last_name, first_name'
+  has_many :users, -> { where( deleted: false ).order( 'last_name, first_name' ) }, through: :project_users
   has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
 

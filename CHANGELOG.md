@@ -22,6 +22,7 @@
 - Removed design exports from designs index
 - Removed code for original design and project reports
 - Removed multi-page designs
+- Fixed instances of lambda scopes mixed with deprecated order options
 
 ## 0.15.4 (April 16, 2013)
 
