@@ -1,4 +1,4 @@
-## 0.16.0
+## 0.16.0 (May 6, 2013)
 
 ### Enhancements
 - **Export Changes**
