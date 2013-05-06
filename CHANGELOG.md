@@ -18,6 +18,10 @@
   - Updated to coffee-rails 4.0.0
   - Updated to sass-rails 4.0.0.rc1
 
+### Bug Fix
+- SAS exports that contain domains with letters no longer cause errors when loading into SAS
+- SAS exports that contain checkboxes no longer attempt to format the imported checkbox values when loading into SAS
+
 ### Refactoring
 - Removed design exports from designs index
 - Removed code for original design and project reports

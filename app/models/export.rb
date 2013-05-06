@@ -460,7 +460,7 @@ run;
 /* Step 3: Create formats for slice domain options */
 
 proc format;
-#{domains.collect{ |d| "  value #{d.name}f\n#{d.options.collect{|o| "    #{o[:value]}='#{o[:value]}: #{o[:name].gsub("'", "\\\\'")}'"}.join("\n")}\n  ;" }.join("\n")}
+#{domains.collect{ |d| d.sas_value_domain }.join("\n")}
 run;
 
       eos
@@ -473,7 +473,7 @@ run;
 data slice#{'_grids' if use_grids};
   set slice#{'_grids' if use_grids};
 
-#{variables.collect{|v| v.domain ? "  format #{v.name} #{v.domain.name}f. ;" : nil }.compact.join("\n")}
+#{variables.collect{|v| (v.response_format_type != 'checkbox' and v.domain) ? "  format #{v.name} #{v.domain.sas_domain_name}. ;" : nil }.compact.join("\n")}
 run;
 
       eos

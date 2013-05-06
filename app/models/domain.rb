@@ -128,5 +128,17 @@ class Domain < ActiveRecord::Base
     end
   end
 
+  # Returns true if all options are integers
+  def all_numeric?
+    self.options.select{|o| !(o[:value] =~ /^[-+]?[0-9]+$/)}.size == 0
+  end
+
+  def sas_value_domain
+    "  value #{self.sas_domain_name}\n#{self.options.collect{|o| "    #{"'" unless self.all_numeric? }#{o[:value]}#{"'" unless self.all_numeric? }='#{o[:value]}: #{o[:name].gsub("'", "\\\\'")}'"}.join("\n")}\n  ;"
+  end
+
+  def sas_domain_name
+    "#{ '$' unless self.all_numeric? }#{self.name}f"
+  end
 
 end
