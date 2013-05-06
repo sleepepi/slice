@@ -23,6 +23,7 @@
 - Removed code for original design and project reports
 - Removed multi-page designs
 - Fixed instances of lambda scopes mixed with deprecated order options
+- Domain max length reduced to 30 to account for SAS export limits
 
 ## 0.15.4 (April 16, 2013)
 
