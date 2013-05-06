@@ -14,7 +14,7 @@
   - Modifying a domain for a variable now shows the domains labels in addition to the values
 - **Gem Changes**
   - Updated to pg 0.15.1
-  - Updated to jbuilder 1.3.0
+  - Updated to jbuilder 1.4.0
   - Updated to coffee-rails 4.0.0
   - Updated to sass-rails 4.0.0.rc1
 
