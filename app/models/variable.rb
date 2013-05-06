@@ -322,13 +322,15 @@ class Variable < ActiveRecord::Base
   end
 
   def sas_informat
-    if ['string', 'file'].include?(self.variable_type)
+    if ['string', 'file'].include?(self.response_format_type)
       '$500'
-    elsif ['date'].include?(self.variable_type)
+    elsif ['date'].include?(self.response_format_type)
       'yymmdd10'
-    elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.variable_type)
+    elsif ['dropdown', 'radio'].include?(self.response_format_type) and self.domain and not self.domain.all_numeric?
+      '$500'
+    elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.response_format_type)
       'best32'
-    else # elsif ['text'].include?(self.variable_type)
+    else # elsif ['text'].include?(self.response_format_type)
       '$5000'
     end
   end
