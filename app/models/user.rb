@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
                 ]
 
   # Concerns
-  include Deletable
+  include Contourable, Deletable
 
   # Named Scopes
   scope :human, -> { all } # Placeholder
@@ -258,16 +258,10 @@ class User < ActiveRecord::Base
 
   def apply_omniauth(omniauth)
     unless omniauth['info'].blank?
-      self.email = omniauth['info']['email'] if email.blank?
       self.first_name = omniauth['info']['first_name'] if first_name.blank?
       self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
-    self.password = Devise.friendly_token[0,20] if self.password.blank? # Necessary for PostgreSQL
-    authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
-  end
-
-  def password_required?
-    (authentications.empty? || !password.blank?) && super
+    super
   end
 
   private
