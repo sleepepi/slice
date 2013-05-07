@@ -5,6 +5,9 @@
   - Updated to rails 4.0.0.rc1
   - Updated to contour 2.0.0.beta.7
 
+### Bug Fix
+- Fixed Recent Entries with long subject codes not being properly hidden in Firefox
+
 ## 0.16.0 (May 6, 2013)
 
 ### Enhancements
