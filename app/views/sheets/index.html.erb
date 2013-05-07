@@ -3,7 +3,6 @@
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= @title %>
     <%= link_to "Create Sheet", new_project_sheet_path(@project), class: 'btn btn-mini btn-primary' if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
-    <%= link_to "Batch", batch_project_designs_path(@project), class: 'btn btn-mini' if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
   </h1>
 </div>
 

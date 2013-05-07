@@ -11,11 +11,6 @@ class MailPreview < MailView
     UserMailer.status_activated(user)
   end
 
-  def sheet_receipt
-    sheet_email = SheetEmail.where(email_pdf_file: nil).first
-    UserMailer.sheet_receipt(sheet_email)
-  end
-
   def invite_user_to_site
     site_user = SiteUser.first
     UserMailer.invite_user_to_site(site_user)

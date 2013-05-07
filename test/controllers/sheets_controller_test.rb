@@ -47,35 +47,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_template 'project_selection'
   end
 
-  test "should send email without pdf attachment" do
-    post :send_email, id: @sheet, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test "should send email with pdf attachment" do
-    post :send_email, id: @sheet, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid)), pdf_attachment: '1'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test "should not send email for invalid sheet" do
-    post :send_email, id: -1, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to project_sheets_path(assigns(:project))
-  end
-
-  test "should not send email for site user" do
-    login(users(:site_one_user))
-    post :send_email, id: @sheet, project_id: @project, to: 'recipient@example.com', from: 'sender@example.com', cc: 'cc@example.com', subject: @sheet.email_subject_template(users(:valid)), body: @sheet.email_body_template(users(:valid))
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to root_path
-  end
-
   test "should get raw csv" do
     assert_difference('Export.count') do
       get :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'
@@ -490,14 +461,6 @@ class SheetsControllerTest < ActionController::TestCase
     get :audits, id: @sheet, project_id: @project
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
-    assert_response :success
-  end
-
-  test "should show sheet with completed email template" do
-    get :show, id: sheets(:all_variables), project_id: @project
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
-    assert_equal "Dear #{assigns(:sheet).subject.site.name}: #{assigns(:sheet).subject.name} #{assigns(:sheet).subject.acrostic} #{variables(:dropdown).display_name} #{assigns(:sheet).get_response(variables(:dropdown), :name)} #{assigns(:sheet).get_response(variables(:dropdown), :label)} #{assigns(:sheet).get_response(variables(:dropdown), :raw)} #{assigns(:sheet).get_response(variables(:checkbox), :label)} #{assigns(:sheet).get_response(variables(:integer), :label)} #{assigns(:sheet).get_response(variables(:file), :label)} #{assigns(:sheet).get_response(variables(:date), :label)}", assigns(:sheet).email_body_template(users(:valid))
     assert_response :success
   end
 

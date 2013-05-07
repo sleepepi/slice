@@ -138,12 +138,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def all_viewable_sheet_emails
-    @all_viewable_sheet_emails ||= begin
-      SheetEmail.current.where(sheet_id: self.all_viewable_sheets.pluck(:id))
-    end
-  end
-
   # Project Editors
   def all_sites
     @all_sites ||= begin

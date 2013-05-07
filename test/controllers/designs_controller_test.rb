@@ -14,6 +14,13 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show design overview with ajax" do
+    get :overview, id: @design, project_id: @project, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_template 'overview'
+  end
+
   test "should get public survey" do
     post :survey, id: designs(:admin_public_design), project_id: projects(:three)
     assert_not_nil assigns(:project)
@@ -378,64 +385,6 @@ class DesignsControllerTest < ActionController::TestCase
     post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
     assert_nil assigns(:design)
     assert_response :success
-  end
-
-  test "should get batch" do
-    get :batch, project_id: @project
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:designs)
-    assert_not_nil assigns(:sites)
-    assert_not_nil assigns(:emails)
-    assert_response :success
-  end
-
-  test "should not get batch with invalid project" do
-    get :batch, project_id: -1
-    assert_nil assigns(:project)
-    assert_nil assigns(:designs)
-    assert_nil assigns(:sites)
-    assert_nil assigns(:emails)
-    assert_redirected_to root_path
-  end
-
-  test "should create batch" do
-    assert_difference('Sheet.count', 2) do
-      assert_difference('Subject.count', 2) do
-        post :create_batch, project_id: @project, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', additional_text: ""
-      end
-    end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:site)
-    assert_not_nil assigns(:emails)
-    assert_redirected_to project_sheets_path(assigns(:project), site_id: assigns(:site).id, design_id: assigns(:design).id, user_id: users(:valid).id)
-  end
-
-  test "should not create batch with missing design" do
-    assert_difference('Sheet.count', 0) do
-      assert_difference('Subject.count', 0) do
-        post :create_batch, project_id: @project, design_id: -1, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', additional_text: ""
-      end
-    end
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:design)
-    assert_not_nil assigns(:site)
-    assert_not_nil assigns(:emails)
-    assert_redirected_to batch_project_designs_path(emails: assigns(:emails).join('; '), site_id: assigns(:site), design_id: assigns(:design) )
-  end
-
-
-  test "should not create batch with invalid project" do
-    assert_difference('Sheet.count', 0) do
-      assert_difference('Subject.count', 0) do
-        post :create_batch, project_id: -1, design_id: @design, site_id: sites(:one), emails: 'S100 <one@example.com>; S200 <two@example.com>', additional_text: ""
-      end
-    end
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
-    assert_nil assigns(:site)
-    assert_nil assigns(:emails)
-    assert_redirected_to root_path
   end
 
   test "should get index" do

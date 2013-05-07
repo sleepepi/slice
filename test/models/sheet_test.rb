@@ -6,12 +6,6 @@ class SheetTest < ActiveSupport::TestCase
     assert_equal "", sheets(:all_variables).response_file_url(variables(:file))
   end
 
-  test "should not allow the same authentication_token to be assigned to two sheets" do
-    authentication_token = SecureRandom.hex(32)
-    assert_equal SheetEmail, sheets(:one).send_external_email!(users(:valid), "test@example.com", "Additional Text", authentication_token).class
-    assert_equal NilClass, sheets(:two).send_external_email!(users(:valid), "test@example.com", "Additional Text", authentication_token).class
-  end
-
   test "should hide variable only if branching logic evaluates to false" do
     assert_equal false, sheets(:one).show_variable?("1 == 0")
   end

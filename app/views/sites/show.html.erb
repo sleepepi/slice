@@ -27,9 +27,6 @@
   <dt>Description</dt>
   <dd><%= simple_format @site.description %></dd>
 
-  <dt>Emails</dt>
-  <dd><%= @site.emails %></dd>
-
   <dt>Creator</dt>
   <dd><%= link_to @site.user.name, @site.user if @site.user %></dd>
 </dl>

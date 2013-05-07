@@ -1,5 +1,5 @@
 class Design < ActiveRecord::Base
-  # attr_accessible :description, :name, :options, :option_tokens, :project_id, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_uploaded_at, :csv_file_cache, :remove_csv_file
+  # attr_accessible :description, :name, :options, :option_tokens, :project_id, :updater_id, :csv_file, :csv_file_uploaded_at, :csv_file_cache, :remove_csv_file
 
   # attr_accessor :option_tokens
 
@@ -31,30 +31,6 @@ class Design < ActiveRecord::Base
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
-
-  def batch_sheets!(current_user, site, emails, additional_text)
-    new_sheets = []
-    ignored_sheets = 0
-    emails.each do |email|
-      short_email = email
-      match = email.match(/<(.*?)>/)
-      if match and not match[1].strip.blank?
-        short_email = match[1].strip.downcase
-        email = email.gsub("<#{match[1]}>", "").strip
-      end
-      subject = site.subjects.find_by_email(short_email) unless short_email.blank?
-      subject = site.subjects.where( project_id: site.project_id, subject_code: email ).first_or_create( user_id: current_user.id, status: 'valid', email: short_email, acrostic: '' ) unless subject
-      sheet = site.project.sheets.where( subject_id: subject.id, design_id: self.id ).first_or_create( user_id: current_user.id, last_user_id: current_user.id ) if subject
-      sheet.send_external_email!(current_user, short_email, additional_text) if sheet and not sheet.new_record?
-      if sheet and not sheet.new_record?
-        new_sheets << sheet
-      else
-        ignored_sheets += 1
-      end
-    end
-    # new_sheets
-    [new_sheets.count, ignored_sheets]
-  end
 
   def editable_by?(current_user)
     current_user.all_designs.pluck(:id).include?(self.id)

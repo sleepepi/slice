@@ -1,11 +1,11 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print ]
-  before_action :set_editable_project, only: [ :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :project_selection, :send_email, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :set_editable_project, only: [ :edit, :project_selection, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :project_selection, :audits, :new, :remove_file, :create, :update, :destroy ]
   before_action :set_viewable_sheet, only: [ :show, :print ]
-  before_action :set_editable_sheet, only: [ :edit, :send_email, :audits, :remove_file, :update, :destroy ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :send_email, :audits, :remove_file, :update, :destroy ]
+  before_action :set_editable_sheet, only: [ :edit, :audits, :remove_file, :update, :destroy ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :remove_file, :update, :destroy ]
 
   def project_selection
     @subject = @project.subjects.find_by_subject_code(params[:subject_code])
@@ -23,24 +23,6 @@ class SheetsController < ApplicationController
     @subject_code_valid = (@site and @site.valid_subject_code?(params[:subject_code]) ? true : false)
 
     @disable_selection = (params[:select] != '1')
-  end
-
-  def send_email
-    pdf_attachment = nil
-
-    if params[:pdf_attachment] == '1'
-      file_pdf_location = Sheet.latex_file_location([@sheet], current_user)
-      pdf_attachment = File.new(file_pdf_location) if File.exists?(file_pdf_location)
-    end
-
-    @sheet_email = @sheet.sheet_emails.create(email_body: params[:body], email_cc: params[:cc], email_pdf_file: pdf_attachment, email_subject: params[:subject], email_to: params[:to], user_id: current_user.id)
-
-    @sheet_email.email_receipt
-
-    respond_to do |format|
-      format.html { redirect_to [@project, @sheet], notice: 'Sheet receipt email was successfully sent.' }
-      format.json { render json: @sheet }
-    end
   end
 
   # GET /sheets

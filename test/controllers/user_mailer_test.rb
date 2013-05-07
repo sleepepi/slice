@@ -29,19 +29,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/Your account \[#{valid.email}\] has been activated\./, email.encoded)
   end
 
-  test "sheet receipt email" do
-    sheet_email = sheet_emails(:one)
-
-    # Send the email, then test that it got queued
-    email = UserMailer.sheet_receipt(sheet_email).deliver
-    assert !ActionMailer::Base.deliveries.empty?
-
-    # Test the body of the sent email contains what we expect it to
-    assert_equal ['to@example.com'], email.to
-    assert_equal "Sheet Receipt Subject", email.subject
-    assert_match(/Email Body/, email.encoded)
-  end
-
   test "user invited to site email" do
     site_user = site_users(:invited)
 

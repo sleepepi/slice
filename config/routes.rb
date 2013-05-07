@@ -39,7 +39,6 @@ Slice::Application.routes.draw do
         post :project_selection
       end
       member do
-        post :send_email
         get :print
         post :remove_file
         get :audits
@@ -47,8 +46,6 @@ Slice::Application.routes.draw do
         post :submit_survey
       end
     end
-
-    get "sheet_emails/show"
 
     get "surveys/:id" => "designs#survey", as: :survey
     post "surveys/:id" => "sheets#submit_public_survey", as: :submit_public_survey
@@ -76,8 +73,6 @@ Slice::Application.routes.draw do
         post :add_section
         post :variables
         post :selection
-        get :batch
-        post :create_batch
         get :import
         post :create_import
       end
@@ -122,8 +117,6 @@ Slice::Application.routes.draw do
       end
     end
   end
-
-  resources :sheet_emails
 
   resources :project_users do
     member do

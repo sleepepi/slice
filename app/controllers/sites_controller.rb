@@ -99,7 +99,7 @@ class SitesController < ApplicationController
       params[:site][:project_id] = @project.id
 
       params.require(:site).permit(
-        :name, :description, :project_id, :emails, :prefix, :code_minimum, :code_maximum
+        :name, :description, :project_id, :prefix, :code_minimum, :code_maximum
       )
     end
 

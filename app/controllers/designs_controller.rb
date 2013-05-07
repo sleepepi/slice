@@ -1,8 +1,8 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank, :overview ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :import, :create_import, :progress, :reimport, :update_import ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :batch, :create_batch, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :import, :create_import, :progress, :reimport, :update_import ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :blank, :overview ]
   before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
   before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank, :reimport, :update_import, :overview ]
@@ -156,27 +156,6 @@ class DesignsController < ApplicationController
     end
   end
 
-  def batch
-    @designs = @project.designs
-    @sites = @project.sites
-    @emails = []
-  end
-
-  def create_batch
-    @design = @project.designs.find_by_id(params[:design_id])
-    @site = @project.sites.find_by_id(params[:site_id])
-    @emails = params[:emails].to_s.split(/[;\r\n]/).collect{|email| email.strip}.select{|email| not email.blank?}.uniq
-
-    if @design and @site and not @emails.blank?
-      (sheets_created, sheets_ignored) = @design.batch_sheets!(current_user, @site, @emails, params[:additional_text])
-      flash[:notice] = "#{sheets_created} #{sheets_created == 1 ? 'sheet was' : 'sheets were'} successfully created." if sheets_created > 0
-      flash[:alert] = "#{sheets_ignored} #{sheets_ignored == 1 ? 'sheet was' : 'sheets were'} not created because the #{sheets_ignored == 1 ? 'subject exists' : 'subjects exist'} on a different site." if sheets_ignored > 0
-      redirect_to project_sheets_path(@project, site_id: @site.id, design_id: @design.id, user_id: current_user.id)
-    else
-      redirect_to batch_project_designs_path(emails: @emails.join('; '), site_id: @site ? @site.id : nil, design_id: @design ? @design.id : nil ), alert: 'Please select a design, site, and valid emails.'
-    end
-  end
-
   # GET /designs
   # GET /designs.json
   def index
@@ -291,7 +270,7 @@ class DesignsController < ApplicationController
       params[:design][:project_id] = @project.id
 
       params.require(:design).permit(
-        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :email_template, :email_subject_template, :updater_id, :csv_file, :csv_file_cache, :publicly_available
+        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available
       )
     end
 

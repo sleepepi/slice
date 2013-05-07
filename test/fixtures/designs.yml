@@ -8,7 +8,6 @@ one:
   options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:one) %> },
             { variable_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, branching_logic: "var_1 == 'Value'" },
             { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> }]
-  email_subject_template: "#(user) #(user).email sending #(design) receipt on Project #(project)"
   user: valid
   project: one
 
@@ -34,7 +33,6 @@ all_variable_types:
             { variable_id: <%= ActiveRecord::FixtureSet.identify(:time) %> },
             { variable_id: <%= ActiveRecord::FixtureSet.identify(:calculated) %> }]
   user: valid
-  email_template: "Dear #(site): #(subject) #(subject).acrostic $(var_gender).name $(var_gender) $(var_gender).label $(var_gender).value $(var_course_work).label $(var_age).label $(var_file).label $(var_date).label"
   project: one
 
 sections_and_variables:

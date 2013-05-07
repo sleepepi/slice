@@ -84,26 +84,12 @@ class Sheet < ActiveRecord::Base
     self.where(id: sheet_ids)
   end
 
-  def send_external_email!(current_user, email, additional_text, authentication_token = SecureRandom.hex(32))
-    has_authentication_token = self.authentication_token.blank? ? self.update_attributes( authentication_token: authentication_token ) : true
-
-    if has_authentication_token
-      mail = UserMailer.sheet_completion_request(self, email, additional_text)
-      mail.deliver if Rails.env.production?
-      sheet_email = self.sheet_emails.create(email_body: mail.html_part.body.decoded, email_cc: (mail.cc || []).join(','), email_pdf_file: nil, email_subject: mail.subject, email_to: (mail.to || []).join(','), user_id: current_user.id)
-    end
-  end
-
   def all_audits
     Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(auditable_type = 'Sheet' and auditable_id = ?) or (associated_type = 'Sheet' and associated_id = ?) or (associated_type = 'SheetVariable' and associated_id IN (?))", self.id, self.id, self.sheet_variables.collect{|sv| sv.id}])
   end
 
   def audit_show!(current_user)
     self.update_attributes(last_viewed_by_id: current_user.id, last_viewed_at: Time.now)
-  end
-
-  def last_emailed_at
-    self.sheet_emails.order('created_at desc').pluck(:created_at).first
   end
 
   def name
@@ -140,76 +126,6 @@ class Sheet < ActiveRecord::Base
   #     This function would return 3. This number is used to combine grids on similar rows in the sheet grids xls export
   def max_grids_position
     self.sheet_variables.size > 0 ? self.sheet_variables.collect(&:max_grids_position).max : -1
-  end
-
-  def email_subject_template(current_user)
-    return "#{self.project.name} #{self.name} Receipt: #{self.subject.subject_code}" if self.design.email_subject_template.to_s.strip.blank?
-    result = ''
-    result = self.design.email_subject_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
-    result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
-    result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
-    result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
-    result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
-    result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
-    result
-  end
-
-  def email_body_template(current_user)
-    result = ''
-    result = self.design.email_template.to_s.gsub(/\$\((.*?)\)(\.name|\.label|\.value)?/){|m| variable_replacement($1,$2)}
-    result = result.gsub(/\#\(subject\)(\.acrostic)?/){|m| subject_replacement($1)}
-    result = result.gsub(/\#\(site\)/){|m| site_replacement($1)}
-    result = result.gsub(/\#\(project\)/){|m| project_replacement($1)}
-    result = result.gsub(/\#\(design\)/){|m| design_replacement($1)}
-    result = result.gsub(/\#\(user\)(\.email)?/){|m| user_replacement($1, current_user)}
-    result
-  end
-
-  def variable_replacement(variable_name, display_name)
-    variable = self.variables.find_by_name(variable_name)
-    if variable and display_name.blank?
-      self.get_response(variable, :name)
-    elsif variable and display_name == '.name'
-      variable.display_name
-    elsif variable and display_name == '.label'
-      self.get_response(variable, :label) # label
-    elsif variable and display_name == '.value'
-      self.get_response(variable, :raw) # raw
-    else
-      ''
-    end
-  end
-
-  def subject_replacement(property)
-    result = ''
-    result = if property.blank?
-      self.subject.subject_code
-    elsif property == '.acrostic'
-      self.subject.acrostic.to_s
-    end
-    result
-  end
-
-  def user_replacement(property, current_user)
-    result = ''
-    result = if property.blank?
-      current_user.name
-    elsif property == '.email'
-      current_user.email
-    end
-    result
-  end
-
-  def site_replacement(property)
-    self.subject.site.name
-  end
-
-  def project_replacement(property)
-    self.project.name
-  end
-
-  def design_replacement(property)
-    self.design.name
   end
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)

@@ -5,14 +5,11 @@
     <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
       <%= link_to "Edit Sheet", edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-mini' %>
       <%= link_to "Delete Sheet", [@sheet.project, @sheet], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
-      <%= link_to "Send Email", '#', class: 'btn btn-primary btn-mini', id: 'email_popup' %>
     <% end %>
     <%= link_to "View Sheets", project_sheets_path(@project), class: 'btn btn-mini' %>
     <%= link_to "PDF", print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
-    <%#= link_to "LaTeX", latex_project_sheet_path(@project, @sheet), target: '_blank', class: 'btn btn-mini' %>
     <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
     <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
-      <% if @sheet.sheet_emails.size > 0 %><%= link_to 'Email History', '#', class: 'btn btn-mini btn-info', id: 'email_history_popup', rel: 'tooltip', title: simple_time(@sheet.sheet_emails.order('created_at').last.created_at) %><% end %>
       <% if @sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id) %><%= link_to 'Audits', audits_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-mini btn-info' %><% end %>
     <% end %>
   </h1>
@@ -51,56 +48,9 @@
 
 <div id="sheet_<%= @sheet.id %>"><%#= render partial: 'sheets/show' %></div>
 
-<% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
-  <div id="send_email_modal" class="modal" style="display:none">
-    <div class="modal-header">
-      Send Email:
-      <a class="close" data-dismiss="modal">×</a>
-    </div>
-    <div class="modal-body">
-      <%= form_tag send_email_project_sheet_path(@sheet.project, @sheet), method: :post, id: "send_email_form" do %>
-        <div class="control-group">
-          <%= label_tag :to, nil, class: 'control-label' %>
-          <div class="controls">
-            <%= text_field_tag :to, @sheet.subject.site.emails.to_s.split(',').collect{|email| email.to_s.strip.downcase}.uniq.join('; '), style: 'width:95%' %>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <%= label_tag :cc, nil, class: 'control-label' %>
-          <div class="controls">
-            <%= text_field_tag :cc, ( @sheet.project.emails.to_s.split(',').collect{|email| email.to_s.strip.downcase} + [current_user.email.downcase] ).uniq.join('; '), style: 'width:95%' %>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <%= label_tag :subject, nil, class: 'control-label' %>
-          <div class="controls">
-            <%= text_field_tag :subject, @sheet.email_subject_template(current_user), style: 'width:95%' %>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <div class="controls checkbox">
-            <%= check_box_tag :pdf_attachment, '1', false %> <%= label_tag :pdf_attachment, 'PDF Attachment', class: 'control-label' %>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <%= label_tag :body, nil, class: 'control-label' %>
-          <div class="controls">
-            <%= text_area_tag :body, @sheet.email_body_template(current_user), rows: 20, style: 'width:95%' %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="modal-footer">
-      <%= link_to 'Close', '#', class: 'btn', data: { target: '#send_email_modal', object: 'modal-hide' } %>
-      <%= link_to 'Send Email', '#', class: 'btn btn-primary', data: { target: '#send_email_form', object: 'submit' } %>
-    </div>
-  </div>
-<% end %>
+<div id="sheet_<%= @sheet.id %>_comments">
+  <%= render partial: 'sheets/comments' %>
+</div>
 
 <div id="info_modal" class="modal" style="display:none">
   <div class="modal-header">
@@ -138,50 +88,10 @@
 
       <dt>Last Edited At</dt>
       <dd><%= simple_time @sheet.last_edited_at %>
-
-      <dt>Last Emailed</dt>
-      <dd><%= simple_time @sheet.last_emailed_at %>
     </dl>
   </div>
 
   <div class="modal-footer">
     <%= link_to 'Close', '#', class: 'btn', data: { target: '#info_modal', object: 'modal-hide' } %>
   </div>
-</div>
-
-<div id="email_history_modal" class="modal" style="display:none">
-  <div class="modal-header">
-    <strong>Email History</strong>
-    <a class="close" data-dismiss="modal">×</a>
-  </div>
-  <div class="modal-body">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>On</th>
-          <th>From</th>
-          <th>To</th>
-          <th>PDF</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @sheet.sheet_emails.order('created_at DESC').each do |sheet_email| %>
-          <tr data-link="<%= sheet_email_path(sheet_email, project_id: @project.id) %>" style="cursor:pointer">
-            <td style="white-space:nowrap"><%= simple_time sheet_email.created_at %></td>
-            <td><%= sheet_email.user.name %></td>
-            <td><%= sheet_email.email_to %></td>
-            <td><%= simple_check sheet_email.email_pdf_file.size > 0 %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="modal-footer">
-    <%= link_to 'Close', '#', class: 'btn', data: { target: '#email_history_modal', object: 'modal-hide' } %>
-  </div>
-</div>
-
-<div id="sheet_<%= @sheet.id %>_comments">
-  <%= render partial: 'sheets/comments' %>
 </div>
