@@ -8,9 +8,7 @@ gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              '2.0.0.beta.7'
-gem 'devise',               '~> 2.2.3',           github: 'plataformatec/devise', ref: 'c618969'     # , branch: 'rails4' # newer
-# gem 'devise',               '~> 2.2.3',           github: 'plataformatec/devise', ref: 'd29b744'   # , branch: 'rails4' # older
+gem 'contour',              '2.0.0.beta.8'
 gem 'kaminari',             '~> 0.14.1'
 gem 'carrierwave',          '~> 0.7.1'
 # gem 'audited-activerecord', '~> 3.0.0'
