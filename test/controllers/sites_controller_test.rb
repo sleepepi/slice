@@ -21,6 +21,12 @@ class SitesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sites)
   end
 
+  test "should get paginated index" do
+    get :index, project_id: @project, format: 'js'
+    assert_not_nil assigns(:sites)
+    assert_template 'index'
+  end
+
   test "should not get index with invalid project" do
     get :index, project_id: -1
     assert_nil assigns(:sites)
