@@ -43,7 +43,7 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    image_tag("gentleface/16/#{checked ? 'checkbox_checked' : 'checkbox_unchecked'}.png", alt: '', style: 'vertical-align:text-bottom')
+    checked ? '<i class="icon-ok"></i>'.html_safe : ''
   end
 
   def target_link_as_blank(text)
