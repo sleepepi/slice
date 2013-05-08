@@ -13,6 +13,11 @@
 ### Bug Fix
 - Fixed Recent Entries with long subject codes not being properly hidden in Firefox
 
+## 0.16.1 (May 8, 2013)
+
+### Bug Fix
+- Fixed a bug that occurred when a user viewed a sheet with another user's comment
+
 ## 0.16.0 (May 6, 2013)
 
 ### Enhancements

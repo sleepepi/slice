@@ -368,6 +368,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show sheet to site viewer" do
+    login(users(:site_one_user))
+    get :show, id: @sheet, project_id: @project
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should show sheet with ajax" do
     get :show, id: @sheet, project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
