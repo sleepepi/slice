@@ -6,6 +6,7 @@
   - Updated to contour 2.0.0.beta.8
 - Project Links must start with either `http`, `https`, `ftp`, or `mailto`
 - Plus/Minus symbols added to StdDevs on Design Overviews
+- The Design Overview now links back directly to the design and to the design's project
 
 ### Refactoring
 - Removed SheetEmails in favor of Sheet Comments

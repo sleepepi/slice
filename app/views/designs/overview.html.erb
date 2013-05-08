@@ -1,3 +1,4 @@
+<% @title = "#{@design.name} Overview" %>
 <div class="page-header">
   <%= form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-search', data: { object: 'form-load' } do %>
   <div class="control-group pull-right">
@@ -16,7 +17,7 @@
   <% end %>
 
   <h2>
-    <%= @design.name %>
+    <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@design.project, @design] %> Overview
   </h2>
   <%= simple_markdown @design.description unless @design.description.blank? %>
 </div>
