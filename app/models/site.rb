@@ -5,7 +5,7 @@ class Site < ActiveRecord::Base
 
   # Named Scopes
   scope :with_project, lambda { |arg| where( project_id: arg ) }
-  scope :with_project_or_as_site_user, lambda { |*args| where("sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]) }
+  scope :with_project_or_as_site_user, lambda { |*args| where("sites.project_id IN (?) or sites.id in (select site_users.site_id from site_users where site_users.user_id = ?)", args.first, args[1]).references(:site_users) }
 
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
