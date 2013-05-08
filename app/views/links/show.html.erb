@@ -16,7 +16,7 @@
   <dd><%= @link.category %></dd>
 
   <dt>URL</dt>
-  <dd style="word-wrap: break-word;"><%= link_to @link.url, @link.url, target: '_blank' %></dd>
+  <dd style="word-wrap: break-word;"><%= link_to_if safe_url?(@link.url), @link.url, @link.url, target: '_blank' %></dd>
 
   <dt>Archived</dt>
   <dd><%= simple_check @link.archived %></dd>

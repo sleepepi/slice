@@ -55,4 +55,8 @@ module ApplicationHelper
     target_link_as_blank(markdown.render(text.to_s))
   end
 
+  def safe_url?(url)
+    ['http', 'https', 'ftp', 'mailto'].include?(URI.parse(url).scheme) rescue false
+  end
+
 end

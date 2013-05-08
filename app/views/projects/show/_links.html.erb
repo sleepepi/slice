@@ -6,7 +6,9 @@
     <strong><%= category %></strong>
     <ul>
       <% links.sort_by{|d| d.name}.each do |link| %>
-        <li style="line-height:25px"><%= link_to link.name, link.url, target: '_blank' %></li>
+        <li style="line-height:25px">
+          <%= link_to_if safe_url?(link.url), link.name, link.url, target: '_blank' %>
+        </li>
       <% end %>
     </ul>
   <% end %>

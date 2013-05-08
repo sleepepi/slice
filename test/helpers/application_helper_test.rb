@@ -58,4 +58,20 @@ class ApplicationHelperTest < ActionView::TestCase
     assert recent_activity(Time.now - 2.year).kind_of?(String)
   end
 
+  test "should mark javascript url as unsafe" do
+    assert_equal false, safe_url?("javascript:;")
+  end
+
+  test "should mark blank url as unsafe" do
+    assert_equal false, safe_url?("")
+    assert_equal false, safe_url?(nil)
+  end
+
+  test "should mark known schemes for urls as safe" do
+    assert_equal true, safe_url?("http://www.example.com")
+    assert_equal true, safe_url?("https://www.example.com")
+    assert_equal true, safe_url?("ftp://ftp.example.com")
+    assert_equal true, safe_url?("mailto:valid@example.com")
+  end
+
 end
