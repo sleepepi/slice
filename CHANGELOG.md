@@ -1,4 +1,4 @@
-## 0.16.1
+## 0.16.1 (May 8, 2013)
 
 ### Bug Fix
 - Fixed a bug that occurred when a user viewed a sheet with another user's comment
