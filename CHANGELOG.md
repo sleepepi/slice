@@ -5,6 +5,7 @@
   - Updated to rails 4.0.0.rc1
   - Updated to contour 2.0.0.beta.8
 - Project Links must start with either `http`, `https`, `ftp`, or `mailto`
+- Plus/Minus symbols added to StdDevs on Design Overviews
 
 ### Refactoring
 - Removed SheetEmails in favor of Sheet Comments
