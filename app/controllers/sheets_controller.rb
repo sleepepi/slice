@@ -132,7 +132,7 @@ class SheetsController < ApplicationController
     if @project and @sheet
       update_variables!
       UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
-      redirect_to about_path, notice: 'Survey submitted successfully.'
+      redirect_to about_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
     else
       redirect_to new_user_session_path, alert: 'Survey has already been submitted.'
     end
@@ -142,11 +142,12 @@ class SheetsController < ApplicationController
     @project = Project.current.find_by_id(params[:project_id])
     @design = @project.designs.find_by_id(params[:id]) if @project # :id is the design ID!
     if @project and @design and @design.publicly_available?
-      @subject = @project.create_valid_subject
-      @sheet = @project.sheets.create( design_id: @design.id, subject_id: @subject.id, user_id: @project.user_id, last_user_id: @project.user_id )
+      @subject = @project.create_valid_subject(params[:email])
+      @sheet = @project.sheets.create( design_id: @design.id, subject_id: @subject.id, user_id: @project.user_id, last_user_id: @project.user_id, authentication_token: Digest::SHA1.hexdigest(Time.now.usec.to_s) )
       update_variables!
       UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
-      redirect_to about_path, notice: 'Survey submitted successfully.'
+      UserMailer.survey_user_link(@sheet).deliver if Rails.env.production? and not @subject.email.blank?
+      redirect_to about_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
     else
       redirect_to about_path, alert: 'This survey no longer exists.'
     end

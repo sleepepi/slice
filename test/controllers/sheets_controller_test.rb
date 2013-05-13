@@ -403,7 +403,7 @@ class SheetsControllerTest < ActionController::TestCase
   test "should submit public survey" do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project
+        post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project, email: 'test@example.com'
       end
     end
 
@@ -411,10 +411,11 @@ class SheetsControllerTest < ActionController::TestCase
     assert_equal true, assigns(:design).publicly_available
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
+    assert_equal 'test@example.com', assigns(:subject).email
     assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet).authentication_token
 
-    assert_equal "Survey submitted successfully.", flash[:notice]
-    assert_redirected_to about_path
+    assert_redirected_to about_path(project_id: assigns(:project).id, sheet_id: assigns(:sheet).id, sheet_authentication_token: assigns(:sheet).authentication_token)
   end
 
   test "should not submit private survey" do
@@ -453,8 +454,7 @@ class SheetsControllerTest < ActionController::TestCase
     post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-    assert_equal "Survey submitted successfully.", flash[:notice]
-    assert_redirected_to about_path
+    assert_redirected_to about_path(project_id: sheets(:external).project_id, sheet_id: sheets(:external).id, sheet_authentication_token: sheets(:external).authentication_token)
   end
 
   test "should not submit sheet survey using invalid authentication_token" do

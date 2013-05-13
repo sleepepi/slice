@@ -7,6 +7,9 @@
 - Project Links must start with either `http`, `https`, `ftp`, or `mailto`
 - Plus/Minus symbols added to StdDevs on Design Overviews
 - The Design Overview now links back directly to the design and to the design's project
+- **Survey Changes**
+  - Users can optionally enter their email
+  - Completed surveys provide a link in case the user wishes to alter the survey responses
 
 ### Refactoring
 - Removed SheetEmails in favor of Sheet Comments

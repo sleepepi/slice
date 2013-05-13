@@ -1,0 +1,10 @@
+Thank you for submitting <%= @sheet.name %>. If you wish to make any changes and resubmit the survey, you can do so here:
+
+
+    <%= SITE_URL + survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token) %>
+
+
+Thank you!
+<%= DEFAULT_APP_NAME %> Mailer
+
+This email was automatically generated.

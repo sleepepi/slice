@@ -2,7 +2,27 @@
 
 <%= hidden_field_tag 'isdirty', '1' %>
 
+<div class="page-header">
+  <h2>
+    Survey
+  </h2>
+</div>
+
+<p class="lead">Please enter your email if you wish to receive a link to your survey responses.</p>
+
 <%= form_tag project_submit_public_survey_path(@design.project, @design), method: :post, class: 'form-horizontal', multipart: true, id: "survey_#{@design.id}_form" do |f| %>
+
+  <div class="control-group">
+    <%= label :email, 'Email', class: 'control-label' %>
+    <div class="controls">
+      <div class="input-append" style="display:inline-block">
+        <%= email_field_tag :email %>
+        <span class="add-on">Optional</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="soften"/>
 
   <div id="design">
     <div class="center"><%= image_tag 'contour/ajax-loader.gif' %></div>

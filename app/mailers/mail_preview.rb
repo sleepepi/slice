@@ -37,6 +37,11 @@ class MailPreview < MailView
     UserMailer.survey_completed(sheet)
   end
 
+  def survey_user_link
+    sheet = Sheet.current.first
+    UserMailer.survey_user_link(sheet)
+  end
+
   def export_ready
     export = Export.current.first
     UserMailer.export_ready(export)

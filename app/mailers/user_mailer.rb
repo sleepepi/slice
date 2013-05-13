@@ -59,6 +59,12 @@ class UserMailer < ActionMailer::Base
          subject: "#{sheet.subject.subject_code} Submitted #{sheet.design.name}")
   end
 
+  def survey_user_link(sheet)
+    @sheet = sheet
+    mail(to: sheet.subject.email,
+         subject: "Thank you for Submitting #{sheet.design.name}")
+  end
+
   def export_ready(export)
     @export = export
     mail(to: "#{export.user.name} <#{export.user.email}>",

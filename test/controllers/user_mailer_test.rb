@@ -85,6 +85,17 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sheet.subject.subject_code} has completed a survey that you requested for #{sheet.name}\. You can view the completed sheet here:/, email.encoded)
   end
 
+  test "survey user link" do
+    sheet = sheets(:external_with_email)
+
+    email = UserMailer.survey_user_link(sheet).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [sheet.subject.email], email.to
+    assert_equal "Thank you for Submitting #{sheet.design.name}", email.subject
+    assert_match(/Thank you for submitting #{sheet.name}\. If you wish to make any changes and resubmit the survey, you can do so here:/, email.encoded)
+  end
+
   test "export ready email" do
     export = exports(:one)
 

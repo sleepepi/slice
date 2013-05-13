@@ -79,9 +79,11 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def create_valid_subject
+  def create_valid_subject(email)
     self.create_default_site if self.sites.count == 0
-    self.subjects.create( subject_code: Digest::SHA1.hexdigest(Time.now.usec.to_s), user_id: self.user_id, site_id: self.sites.first.id, status: 'valid', acrostic: '' )
+    hexdigest = Digest::SHA1.hexdigest(Time.now.usec.to_s)
+    subject_code = email.blank? ? hexdigest[0..12] : "#{email.to_s} - #{hexdigest[0..8]}"
+    self.subjects.create( subject_code: subject_code, user_id: self.user_id, site_id: self.sites.first.id, status: 'valid', acrostic: '', email: email.to_s )
   end
 
   private

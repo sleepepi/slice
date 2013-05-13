@@ -43,6 +43,14 @@ external:
   authentication_token: abc123
   last_user: admin
 
+external_with_email:
+  design: admin_design
+  project: three
+  subject: external_with_email
+  user: admin
+  authentication_token: abc123_with_email
+  last_user: admin
+
 domain_data_captured:
   design: one_sheet_entered
   project: one
