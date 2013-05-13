@@ -189,12 +189,12 @@ class Sheet < ActiveRecord::Base
 
   # Buffers with blank responses for sheets that don't have a sheet_variable for the specific variable
   def self.sheet_responses(variable)
-    responses = self.all.collect{|sheet| sheet.sheet_variables.where(variable_id: variable.id).pluck(:response)}.flatten
+    responses = SheetVariable.where(sheet_id: self.all.pluck(:id), variable_id: variable.id).pluck(:response)
     responses + ['']*([self.all.count - responses.size, 0].max)
   end
 
   def self.sheet_responses_for_checkboxes(variable)
-    self.all.collect{|sheet| sheet.responses.where(variable_id: variable.id).pluck(:value)}.flatten
+    Response.where(sheet_id: self.all.pluck(:id), variable_id: variable.id).pluck(:value)
   end
 
   def expanded_branching_logic(branching_logic)

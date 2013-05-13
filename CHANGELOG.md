@@ -15,6 +15,7 @@
 - Removed SheetEmails in favor of Sheet Comments
 - Removed Batch Sheets in favor of Design Surveys
 - Removed Site Emails in favor of Site Members who are notified via sheet comments
+- Improved response time for very large design overviews
 
 ### Bug Fix
 - Fixed Recent Entries with long subject codes not being properly hidden in Firefox

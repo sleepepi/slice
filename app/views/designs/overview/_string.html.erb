@@ -18,6 +18,10 @@
   </tbody>
 </table>
 
-<% valid_responses.each do |response| %>
-  <blockquote><%= response %></blockquote>
+<% if valid_responses.size <= 50 %>
+  <% valid_responses.each do |response| %>
+    <blockquote><%= response %></blockquote>
+  <% end %>
+<% else %>
+  <div class="muted">Individual responses suppressed since the total amount of responses exceeds 50.</div>
 <% end %>

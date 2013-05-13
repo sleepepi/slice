@@ -19,9 +19,13 @@
   </tbody>
 </table>
 
-<% responses_and_subjects.each do |response, subject| %>
-  <blockquote>
-    <%= simple_markdown response %>
-    <small><%= subject.subject_code %></small>
-  </blockquote>
+<% if responses_and_subjects.size <= 50 %>
+  <% responses_and_subjects.each do |response, subject| %>
+    <blockquote>
+      <%= simple_markdown response %>
+      <small><%= subject.subject_code %></small>
+    </blockquote>
+  <% end %>
+<% else %>
+  <div class="muted">Individual responses suppressed since the total amount of responses exceeds 50.</div>
 <% end %>
