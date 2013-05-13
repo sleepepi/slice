@@ -1,4 +1,4 @@
-## 0.17.0
+## 0.17.0 (May 13, 2013)
 
 ### Enhancements
 - **Survey Changes**
