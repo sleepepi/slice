@@ -1,21 +1,23 @@
 ## 0.17.0
 
 ### Enhancements
-- **Gem Changes**
-  - Updated to rails 4.0.0.rc1
-  - Updated to contour 2.0.0.beta.8
-- Project Links must start with either `http`, `https`, `ftp`, or `mailto`
-- Plus/Minus symbols added to StdDevs on Design Overviews
-- The Design Overview now links back directly to the design and to the design's project
 - **Survey Changes**
   - Users can optionally enter their email
   - Completed surveys provide a link in case the user wishes to alter the survey responses
+- **Project Link Changes**
+  - Project Links must start with either `http`, `https`, `ftp`, or `mailto`
+- **Design Changes**
+  - Plus/Minus symbols added to StdDevs on Design Overviews
+  - The Design Overview now links back directly to the design and to the design's project
+  - Improved response time for very large design overviews
+- **Gem Changes**
+  - Updated to rails 4.0.0.rc1
+  - Updated to contour 2.0.0.beta.8
 
 ### Refactoring
 - Removed SheetEmails in favor of Sheet Comments
 - Removed Batch Sheets in favor of Design Surveys
 - Removed Site Emails in favor of Site Members who are notified via sheet comments
-- Improved response time for very large design overviews
 
 ### Bug Fix
 - Fixed Recent Entries with long subject codes not being properly hidden in Firefox
