@@ -11,7 +11,7 @@ Slice::Application.routes.draw do
     end
   end
 
-  resources :projects do
+  resources :projects, constraints: { format: /json|pdf|csv/ } do
     member do
       post :remove_file
       get :report
