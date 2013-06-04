@@ -1,0 +1,36 @@
+<blockquote>
+<span class="muted">Display Name</span> [
+  <% ["visible", "invisible", "gone"].each_with_index do |visibility, vindex| %>
+    <% if visibility == @variable.display_name_visibility %>
+      <strong><%= visibility %></strong>
+    <% else %>
+      <%= link_to visibility, '#', data: { object: 'partial-update-variable', path: project_variable_path(@variable.project, @variable, variable: { display_name_visibility: visibility }), refresh: interactive_popup_project_designs_path(@project, update: 'variable') } %>
+    <% end %>
+    <%= '|' if vindex < 2 %>
+  <% end %>
+]
+</blockquote>
+
+<div class="control-group">
+  <div class="page-header editable-design-element" style="margin-top:0px">
+    <h4>
+      <% if @variable.header.blank? %>
+        <div class="muted">Click to Edit Variable Header</div>
+      <% else %>
+        <%= simple_markdown @variable.header %>
+      <% end %>
+    </h4>
+  </div>
+
+  <% if @variable.display_name_visibility == 'visible' and @variable.variable_type != 'scale' %>
+    <div class="editable-design-element">
+      <label class="control-label"><%= @variable.display_name %></label>
+    </div>
+  <% end %>
+
+  <div class="<%= "controls" if @variable.display_name_visibility != 'gone' and @variable.variable_type != 'scale' %> <%= @variable.variable_type if ['radio', 'checkbox'].include?(@variable.variable_type) %>">
+    <div style="line-height:30px">
+      <div class="muted">Variable Input Fields</div>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,12 @@ class DesignsController < ApplicationController
 
   def interactive_popup
     if @design = @project.designs.find_by_id(params[:design_id])
+      if not params[:section].blank? and not params[:section][:section_name].blank?
+        section_params = params.require(:section).permit(:section_name, :section_description, :branching_logic)
+        params[:design] ||= {}
+        params[:design][:option_tokens] = @design.options
+        params[:design][:option_tokens][params[:position].to_i] = section_params
+      end
       @design.update(design_params)
     else
       @design = current_user.designs.create(design_params)
