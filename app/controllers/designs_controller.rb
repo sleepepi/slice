@@ -1,8 +1,8 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank, :overview ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :import, :create_import, :progress, :reimport, :update_import ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :import, :create_import, :progress, :reimport, :update_import ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :blank, :overview ]
   before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
   before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank, :reimport, :update_import, :overview ]
@@ -11,10 +11,17 @@ class DesignsController < ApplicationController
   include Buildable
 
   def interactive
-    @design = current_user.designs.new(design_params)
+    unless @design = @project.designs.find_by_id(params[:design_id])
+      @design = current_user.designs.new(design_params)
+    end
   end
 
   def interactive_popup
+    if @design = @project.designs.find_by_id(params[:design_id])
+      @design.update(design_params)
+    else
+      @design = current_user.designs.create(design_params)
+    end
   end
 
   # Get /designs/1/overview

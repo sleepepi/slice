@@ -198,7 +198,19 @@ jQuery ->
       $($(this).closest('[data-object~="expand-details"]').data('target-hide')).show()
     )
     .on('click', '[data-object~="click-and-show"]', () ->
-      $.post($(this).data('path'), "", null, "script")
+      $.post($(this).data('path'), $('#design_id').serialize(), null, "script")
+      false
+    )
+    .on('click', '[data-object~="partial-update-submit"]', () ->
+      $.post($(this).data('path'), $('#design_id').serialize() + '&' + $($(this).data('target')).serialize(), null, "script")
+      false
+    )
+    .on('click', '[data-object~="design-stop-edit"]', () ->
+      design_id = parseInt($('#design_id').val())
+      if design_id > 0
+        window.location = $(this).data('path') + "/#{design_id}"
+      else
+        window.location = $(this).data('path')
       false
     )
 

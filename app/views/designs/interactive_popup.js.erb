@@ -1,4 +1,13 @@
-<% case params[:edit] when 'design_name' %>
-  $("#comments").html("<%= escape_javascript(render("interactive/form/design_name")) %>");
+$("#design_id").val("<%= @design.id %>");
+
+<% if ['design_name', 'design_description'].include?(params[:edit]) %>
+  $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/form/#{params[:edit]}")) %>");
   showContourModal();
+  $("#interactive-design-container").find('input, textarea').focus();
+<% elsif ['design_name', 'design_description'].include?(params[:update]) %>
+  $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
+  hideContourModal();
+<% else %>
+  hideContourModal();
 <% end %>
+

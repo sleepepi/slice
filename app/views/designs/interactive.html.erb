@@ -1,13 +1,18 @@
 <div id="contour-backdrop" style="display:none"></div>
 
 <div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
-  <div class="contour-modal" data-object="contour_modal_container">
+  <div class="contour-modal" data-object="contour_modal_container" id="interactive-design-container">
   </div>
 </div>
 
-<div class="page-header">
-<%= render partial: 'designs/interactive/design_name' %>
+<div class="muted"><strong>Click the elements</strong> you wish to edit and update on the design or <%= link_to 'Stop Editing', '#', class: 'btn btn-mini', data: { object: 'design-stop-edit', path: project_designs_path } %></div>
 
-<%= render partial: 'designs/interactive/design_description' %>
+<%= hidden_field_tag :design_id, @design.id %>
+
+
+<div class="page-header">
+<div id="design_name-container"><%= render partial: 'designs/interactive/show/design_name' %></div>
+
+<div id="design_description-container"><%= render partial: 'designs/interactive/show/design_description' %></div>
 </div>
 

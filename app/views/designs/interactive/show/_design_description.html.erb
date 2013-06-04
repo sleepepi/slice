@@ -1,0 +1,7 @@
+<span data-path="<%= interactive_popup_project_designs_path(@project, edit: 'design_description', design: { description: @design.description }) %>" data-object="click-and-show" data-target="#design_name_edit" style="cursor:pointer">
+  <% if @design.description.blank? %>
+    <div class="muted">Click to Edit Design Description</div>
+  <% else %>
+    <%= simple_markdown @design.description unless @design.description.blank? %>
+  <% end %>
+</span>
