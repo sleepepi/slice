@@ -1,6 +1,6 @@
 <% design_name = @design.valid? ? @design.name : @design.name_was %>
 <h2>
-  <span data-path="<%= interactive_popup_project_designs_path(@project, edit: 'design_name') %>" data-object="click-and-show" data-target="#design_name_edit" style="cursor:pointer">
+  <span data-path="<%= interactive_popup_project_designs_path(@project, edit: 'design_name') %>" data-object="click-and-show" data-target="#design_name_edit" class="editable-design-element">
     <% if design_name.blank? %><div class="muted">Click to Edit Design Name</div><% else %><%= design_name %><% end %>
   </span>
 </h2>
