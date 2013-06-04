@@ -197,6 +197,10 @@ jQuery ->
       $($(this).closest('[data-object~="expand-details"]').data('target')).hide()
       $($(this).closest('[data-object~="expand-details"]').data('target-hide')).show()
     )
+    .on('click', '[data-object~="click-and-show"]', () ->
+      $.post($(this).data('path'), "", null, "script")
+      false
+    )
 
   initializeDesignReordering()
 

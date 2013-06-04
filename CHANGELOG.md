@@ -2,6 +2,7 @@
 
 ### Enhancements
 - Use of Ruby 2.0.0-p195 is now recommended
+- Prototyping a new method for creating designs without needing to explicitely define variables and domains first
 
 ## 0.17.0 (May 13, 2013)
 

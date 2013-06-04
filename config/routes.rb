@@ -75,6 +75,8 @@ Slice::Application.routes.draw do
         post :selection
         get :import
         post :create_import
+        get :interactive
+        post :interactive_popup
       end
     end
 

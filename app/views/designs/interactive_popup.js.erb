@@ -1,0 +1,4 @@
+<% case params[:edit] when 'design_name' %>
+  $("#comments").html("<%= escape_javascript(render("interactive/form/design_name")) %>");
+  showContourModal();
+<% end %>

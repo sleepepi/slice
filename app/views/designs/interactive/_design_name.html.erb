@@ -1,0 +1,11 @@
+<h2>
+  <div id="design_name_show" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'design_name') %>" data-object="click-and-show" data-target="#design_name_edit" data>
+    <% if @design.name.blank? %><div class="muted">Click to Edit Design Name</div><% else %><%= @design.name %><% end %>
+  </div>
+</h2>
+
+<% if false %>
+  <div id="design_name_edit" data-object="edit-and-submit" data-target="#design_name_show" style="display:none">
+    <%= text_field_tag 'design[name]', @design.name, placeholder: 'Design Name' %>
+  </div>
+<% end %>
