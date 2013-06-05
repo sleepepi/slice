@@ -29,14 +29,15 @@
   <dl class="dl-horizontal" style="margin:0px">
     <dt>Display Name</dt>
     <dd>
-      <% Variable::DISPLAY_NAME_VISIBILITY.each_with_index do |(label, visibility), vindex| %>
-        <% if visibility == @variable.display_name_visibility %>
-          <strong><%= visibility %></strong>
-        <% else %>
-          <%= link_to visibility, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { display_name_visibility: visibility }, position: @position) } %>
+      <div class="btn-group" data-toggle="buttons-radio">
+        <% Variable::DISPLAY_NAME_VISIBILITY.each_with_index do |(label, visibility), vindex| %>
+          <% if visibility == @variable.display_name_visibility %>
+            <button type="button" class="btn btn-mini active"><%= visibility %></button>
+          <% else %>
+            <%= link_to visibility, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { display_name_visibility: visibility }, position: @position) }, class: 'btn btn-mini' %>
+          <% end %>
         <% end %>
-        <%= '|' if vindex < Variable::DISPLAY_NAME_VISIBILITY.size - 1 %>
-      <% end %>
+      </div>
     </dd>
 
     <% variable_types = if ['string', 'text'].include?(@variable.variable_type) %>
@@ -51,42 +52,45 @@
     <% if variable_types.size > 1 %>
       <dt>Type</dt>
       <dd>
-        <% variable_types.each_with_index do |variable_type, vindex| %>
-          <% if variable_type == @variable.variable_type %>
-            <strong><%= variable_type %></strong>
-          <% else %>
-            <%= link_to variable_type, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { variable_type: variable_type }, position: @position) } %>
+        <div class="btn-group" data-toggle="buttons-radio">
+          <% variable_types.each_with_index do |variable_type, vindex| %>
+            <% if variable_type == @variable.variable_type %>
+              <button type="button" class="btn btn-mini active"><%= variable_type %></button>
+            <% else %>
+              <%= link_to variable_type, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { variable_type: variable_type }, position: @position) }, class: 'btn btn-mini' %>
+            <% end %>
           <% end %>
-          <%= '|' if vindex < variable_types.size - 1 %>
-        <% end %>
+        </div>
       </dd>
     <% end %>
 
     <% if ['radio', 'checkbox'].include?(@variable.variable_type) %>
       <dt>Options Alignment</dt>
       <dd>
-        <% Variable::ALIGNMENT.each_with_index do |(label, alignment), vindex| %>
-          <% if alignment == @variable.alignment %>
-            <strong><%= alignment %></strong>
-          <% else %>
-            <%= link_to alignment, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { alignment: alignment }, position: @position) } %>
+        <div class="btn-group" data-toggle="buttons-radio">
+          <% Variable::ALIGNMENT.each_with_index do |(label, alignment), vindex| %>
+            <% if alignment == @variable.alignment %>
+              <button type="button" class="btn btn-mini active"><%= alignment %></button>
+            <% else %>
+              <%= link_to alignment, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { alignment: alignment }, position: @position) }, class: 'btn btn-mini' %>
+            <% end %>
           <% end %>
-          <%= '|' if vindex < Variable::ALIGNMENT.size - 1 %>
-        <% end %>
+        </div>
       </dd>
     <% end %>
 
     <% if ['time', 'date'].include?(@variable.variable_type) %>
       <dt>Current <%= @variable.variable_type.titleize %> Button</dt>
       <dd>
-        <% [['show', true],['hide', false]].each_with_index do |(label, show_current_button), vindex| %>
-          <% if show_current_button == @variable.show_current_button %>
-            <strong><%= label %></strong>
-          <% else %>
-            <%= link_to label, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { show_current_button: show_current_button }, position: @position) } %>
+        <div class="btn-group" data-toggle="buttons-radio">
+          <% [['show', true],['hide', false]].each_with_index do |(label, show_current_button), vindex| %>
+            <% if show_current_button == @variable.show_current_button %>
+              <button type="button" class="btn btn-mini active"><%= label %></button>
+            <% else %>
+              <%= link_to label, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { show_current_button: show_current_button }, position: @position) }, class: 'btn btn-mini' %>
+            <% end %>
           <% end %>
-          <%= '|' if vindex < 1 %>
-        <% end %>
+        </div>
       </dd>
     <% end %>
   </dl>

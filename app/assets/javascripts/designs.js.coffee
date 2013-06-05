@@ -202,6 +202,7 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="partial-update-submit"]', () ->
+      $(this).addClass('active') if $(this).parent().hasClass('btn-group')
       $.post($(this).data('path'), $('#design_id').serialize() + '&' + $($(this).data('target')).serialize(), null, "script")
       false
     )
