@@ -14,6 +14,6 @@ $("#design_id").val("<%= @design.id %>");
   hideContourModal();
 <% end %>
 
-<% if params[:position] and ['section', 'variable'].include?(params[:update]) %>
+<% if params[:position] and ['section', 'variable'].include?(params[:update]) and params[:nojump] != '1' %>
   slideToPosition("<%= params[:position] %>");
 <% end %>

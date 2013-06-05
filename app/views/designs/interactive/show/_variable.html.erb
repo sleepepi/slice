@@ -33,7 +33,7 @@
         <% if visibility == @variable.display_name_visibility %>
           <strong><%= visibility %></strong>
         <% else %>
-          <%= link_to visibility, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { display_name_visibility: visibility }, position: @position) } %>
+          <%= link_to visibility, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { display_name_visibility: visibility }, position: @position, nojump: '1') } %>
         <% end %>
         <%= '|' if vindex < Variable::DISPLAY_NAME_VISIBILITY.size - 1 %>
       <% end %>
@@ -55,7 +55,7 @@
           <% if variable_type == @variable.variable_type %>
             <strong><%= variable_type %></strong>
           <% else %>
-            <%= link_to variable_type, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { variable_type: variable_type }, position: @position) } %>
+            <%= link_to variable_type, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { variable_type: variable_type }, position: @position, nojump: '1') } %>
           <% end %>
           <%= '|' if vindex < variable_types.size - 1 %>
         <% end %>
@@ -69,7 +69,7 @@
           <% if alignment == @variable.alignment %>
             <strong><%= alignment %></strong>
           <% else %>
-            <%= link_to alignment, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { alignment: alignment }, position: @position) } %>
+            <%= link_to alignment, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { alignment: alignment }, position: @position, nojump: '1') } %>
           <% end %>
           <%= '|' if vindex < Variable::ALIGNMENT.size - 1 %>
         <% end %>
@@ -83,7 +83,7 @@
           <% if show_current_button == @variable.show_current_button %>
             <strong><%= label %></strong>
           <% else %>
-            <%= link_to label, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { show_current_button: show_current_button }, position: @position) } %>
+            <%= link_to label, '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, update: 'variable', variable: { show_current_button: show_current_button }, position: @position, nojump: '1') } %>
           <% end %>
           <%= '|' if vindex < 1 %>
         <% end %>

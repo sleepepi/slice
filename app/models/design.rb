@@ -37,8 +37,9 @@ class Design < ActiveRecord::Base
     unless section_params[:section_name].blank?
       new_option_tokens = self.options
       section_params.each do |key, value|
-        new_option_tokens[position][key] = value
+        new_option_tokens[position][key.to_sym] = value
       end
+      self.options = new_option_tokens
       self.save
     end
   end
@@ -48,7 +49,7 @@ class Design < ActiveRecord::Base
     unless option_params.blank?
       new_option_tokens = self.options
       option_params.each do |key, value|
-        new_option_tokens[position][key] = value
+        new_option_tokens[position][key.to_sym] = value
       end
       self.save
     end

@@ -419,7 +419,7 @@ div.filter-sort-container {
 }
 
 .design-options-shadow {
-  padding: 20px 0px 0px 0px;
+  padding: 20px 10px 0px 10px;
   background-color: #ededed;
   *background-color: #e5e5e5;
   background-image: -moz-linear-gradient(top, #ffffff, #e5e5e5);
