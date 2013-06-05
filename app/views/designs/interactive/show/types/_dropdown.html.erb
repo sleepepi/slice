@@ -1,0 +1,13 @@
+<% is_grid = defined?(grid) %>
+
+<% if defined?(control_size) %>
+  <% span_size = 1 if control_size == 'mini' %>
+  <% span_size = 2 if control_size == 'small' %>
+  <% span_size = 3 if control_size == 'medium' %>
+  <% span_size = 4 if control_size == 'large' %>
+  <% span_size = 5 if ['xxlarge', 'xlarge'].include?(control_size) %>
+<% else %>
+  <% span_size = 4 %>
+<% end %>
+
+<%= select_tag @variable.name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, nil), disabled: false, class: "chzn-select span#{span_size}" %>

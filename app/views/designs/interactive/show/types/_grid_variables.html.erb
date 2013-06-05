@@ -1,0 +1,18 @@
+<tr id="variable_<%= variable.id %>_grid_row_<%= position %>" data-object="hover-show" data-target="#variable_<%= variable.id %>_grid_row_<%= position %>_delete_link">
+  <% variable.grid_variables.each do |grid_variable| %>
+    <td>
+    <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) if sheet_variable %>
+    <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: position) unless grid %>
+
+    <%# The following line sets the response for the grid variable to that from the params hash, and if that doesn't exist, it checks if there was something stored in the database (grid variable) %>
+    <% response = ((not params[:variables].blank? and not params[:variables][variable.id.to_s].blank? and not params[:variables][variable.id.to_s][position.to_s].blank?) ? params[:variables][variable.id.to_s][position.to_s][grid_variable[:variable_id].to_s] : (grid ? grid.response : nil)) %>
+
+    <% if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) and grid.variable.variable_type != 'grid' %>
+      <%= render partial: "designs/interactive/show/types/#{grid.variable.variable_type}", locals: { response: response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, control_size: grid_variable[:control_size], object: grid } %>
+    <% end %>
+    </td>
+  <% end %>
+  <td>
+    <%= link_to 'remove', '#', data: { object: 'remove', target: "variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-mini btn-danger', style: 'display:none', id: "variable_#{variable.id}_grid_row_#{position}_delete_link", tabindex: "-1" if variable.multiple_rows? %>
+  </td>
+</tr>

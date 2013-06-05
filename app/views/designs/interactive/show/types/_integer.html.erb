@@ -1,0 +1,7 @@
+<% is_grid = defined?(grid) %>
+
+<% if is_grid %>
+  <%= render partial: 'designs/interactive/show/types/numeric', locals: { variable: variable, grid: grid, control_size: control_size, position: defined?(position) ? position : nil } %>
+<% else %>
+  <%= render partial: 'designs/interactive/show/types/numeric', locals: { variable: variable } %>
+<% end %>

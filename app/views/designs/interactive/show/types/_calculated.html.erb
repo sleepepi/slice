@@ -1,0 +1,31 @@
+<% is_grid = defined?(grid) %>
+
+<% location_id = variable.name.gsub('[','_').gsub(']', '') %>
+
+<div class="input-prepend input-append" style="display:inline-block">
+  <span class="add-on <%= 'muted' if variable.prepend.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_prepend', position: @position) %>" data-object="click-and-show">
+    <% if variable.prepend.blank? %>Edit Prepend<% else %><%= variable.prepend %><% end %>
+  </span>
+  <span class="editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_calculated', position: @position) %>" data-object="click-and-show">
+    <%= text_field_tag variable.name, '', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %>
+  </span>
+  <span class="add-on <%= 'muted' if variable.units.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_units', position: @position) %>" data-object="click-and-show">
+    <% if variable.units.blank? %>Edit Units<% else %><%= variable.units %><% end %>
+  </span>
+  <span class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_append', position: @position) %>" data-object="click-and-show">
+    <% if variable.append.blank? %>Edit Append<% else %><%= variable.append %><% end %>
+  </span>
+  <%= link_to '?', '#', data: { object: 'modal-show', target: "#variable_#{location_id}_calculation_popup" }, class: 'btn', tabindex: "-1" %>
+</div>
+
+<div class="modal hide" id="variable_<%= location_id %>_calculation_popup">
+  <div class="modal-header">
+    <h3><%= variable.display_name %></h3>
+  </div>
+  <div class="modal-body">
+    <%= variable.formatted_calculation %>
+  </div>
+  <div class="modal-footer form-actions">
+    <%= link_to 'Close', '#', class: 'btn', data: { dismiss: 'modal' } %>
+  </div>
+</div>

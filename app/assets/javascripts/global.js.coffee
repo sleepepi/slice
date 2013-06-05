@@ -18,9 +18,12 @@
     )
   )
 
+@slideToPosition = (position) ->
+  $('html, body').animate({ scrollTop: $("[name='position_#{position}']").offset().top - 60 }, 'fast');
+
 @showContourModal = () ->
   $("#contour-backdrop, .contour-modal-wrapper").show()
-  # $('html, body').animate({ scrollTop: $(".contour-modal-wrapper").offset().top - 40 }, 'fast');
+  $('html, body').animate({ scrollTop: $(".contour-modal-wrapper").offset().top - 80 }, 'fast');
 
 @hideContourModal = () ->
   $("#contour-backdrop, .contour-modal-wrapper").hide()
@@ -69,6 +72,7 @@ jQuery ->
     )
     .on('click', '[data-object~="hide-contour-modal"]', () ->
       hideContourModal()
+      slideToPosition($(this).data('position')) if $(this).data('position')
       false
     )
     .on('click', '[data-object~="submit"]', () ->

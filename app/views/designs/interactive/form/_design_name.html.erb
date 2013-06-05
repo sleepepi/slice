@@ -2,7 +2,9 @@
   <h1>Edit Design Name</h1>
 </div>
 
-<%= text_field_tag "design[name]", @design.name, placeholder: 'Design Name', class: "input-xxlarge" %>
+<div class="row-fluid">
+  <%= text_field_tag "design[name]", @design.name, placeholder: 'Design Name', class: "span12" %>
+</div>
 
 <hr class="soften" style="margin-top:20px;" />
 

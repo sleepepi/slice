@@ -2,7 +2,9 @@
   <h1>Edit Design Description</h1>
 </div>
 
-<%= text_area_tag "design[description]", @design.description, placeholder: 'Design Description', rows: 7, style: 'width:100%' %>
+<div class="row-fluid">
+  <%= text_area_tag "design[description]", @design.description, placeholder: 'Design Description', rows: 7, class: 'span12' %>
+</div>
 
 <hr class="soften" style="margin-top:20px;" />
 

@@ -1,0 +1,18 @@
+<% is_grid = defined?(grid) %>
+
+<div class="input-prepend input-append" style="display:inline-block;white-space:nowrap">
+  <span class="add-on <%= 'muted' if variable.prepend.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_prepend', position: @position) %>" data-object="click-and-show">
+    <% if variable.prepend.blank? %>Edit Prepend<% else %><%= variable.prepend %><% end %>
+  </span>
+  <%= text_field_tag variable.name, '', class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}",
+        autocomplete: 'off',
+        disabled: true,
+        title: variable.display_name,
+        placeholder: 'hh:mm:ss' %>
+  <i class="icon-time" style="position: relative; margin: -10px 0 0 -24px;"></i>
+  <span style="margin-left:10px"></span>
+  <span class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_append', position: @position) %>" data-object="click-and-show">
+    <% if variable.append.blank? %>Edit Append<% else %><%= variable.append %><% end %>
+  </span>
+  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
+</div>

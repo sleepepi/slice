@@ -1,0 +1,18 @@
+<% is_grid = defined?(grid) %>
+
+<div class="input-prepend input-append" style="display:inline-block" data-content="<%= variable.description_range %>"
+  data-title="<%= variable.display_name %>">
+  <span class="add-on <%= 'muted' if variable.prepend.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_prepend', position: @position) %>" data-object="click-and-show">
+    <% if variable.prepend.blank? %>Edit Prepend<% else %><%= variable.prepend %><% end %>
+  </span>
+  <span class="editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_ranges', position: @position) %>" data-object="click-and-show">
+    <%= text_field_tag variable.name, '', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true,
+        placeholder: is_grid ? variable.display_name : nil %>
+  </span>
+  <span class="add-on <%= 'muted' if variable.units.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_units', position: @position) %>" data-object="click-and-show">
+    <% if variable.units.blank? %>Edit Units<% else %><%= variable.units %><% end %>
+  </span>
+  <span class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_append', position: @position) %>" data-object="click-and-show">
+    <% if variable.append.blank? %>Edit Append<% else %><%= variable.append %><% end %>
+  </span>
+</div>

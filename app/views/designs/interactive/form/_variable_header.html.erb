@@ -1,0 +1,17 @@
+<% @option = @design.options[params[:position].to_i] %>
+<% @variable = @design.variable_at(params[:position].to_i) %>
+
+<div class="page-header">
+  <h1>Edit Variable Header <span style="font-size:0.4em"><%= @variable.name %></span></h1>
+</div>
+
+<div class="row-fluid">
+  <%= text_field_tag "variable[header]", @variable.header, placeholder: 'Variable Header', class: "span12" %>
+</div>
+
+<hr class="soften" style="margin-top:20px;" />
+
+<div class="button-group pull-right">
+  <%= button_tag 'Update', data: { object: 'partial-update-submit', target: '#variable_header', path: interactive_popup_project_designs_path(@project, update: 'variable', position: params[:position]) }, class: 'btn btn-primary' %>
+  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+</div>

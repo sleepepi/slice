@@ -32,6 +32,37 @@ class Design < ActiveRecord::Base
 
   # Model Methods
 
+  def update_section(params, position)
+    section_params = params.permit(:section_name, :section_description, :branching_logic)
+    unless section_params[:section_name].blank?
+      new_option_tokens = self.options
+      section_params.each do |key, value|
+        new_option_tokens[position][key] = value
+      end
+      self.save
+    end
+  end
+
+  def update_variable(params, position)
+    option_params = params.permit(:branching_logic)
+    unless option_params.blank?
+      new_option_tokens = self.options
+      option_params.each do |key, value|
+        new_option_tokens[position][key] = value
+      end
+      self.save
+    end
+
+    variable_params = params.permit(:header, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button)
+    if v = self.variable_at(position)
+      v.update(variable_params)
+    end
+  end
+
+  def variable_at(position)
+    variable = self.project.variables.find_by_id(self.options[position][:variable_id]) if self.options[position]
+  end
+
   def editable_by?(current_user)
     current_user.all_designs.pluck(:id).include?(self.id)
   end

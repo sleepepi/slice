@@ -213,13 +213,6 @@ jQuery ->
         window.location = $(this).data('path')
       false
     )
-    .on('click', '[data-object~="partial-update-variable"]', () ->
-      refresh_link = $(this).data('refresh')
-      $.post($(this).data('path'), "_method=patch", null, "script").done( (data) ->
-        $.post(refresh_link, $('#design_id').serialize(), null, "script")
-      )
-      false
-    )
 
   initializeDesignReordering()
 
