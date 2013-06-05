@@ -4,7 +4,6 @@
   <% design_options.each_with_index do |option, index| %>
     <% @position = index %>
     <% @option = option %>
-    <a name="position_<%= @position %>"></a>
     <% if @option[:variable_id].blank? %>
       <%= render partial: 'designs/interactive/show/section' %>
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>

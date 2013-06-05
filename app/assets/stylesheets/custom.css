@@ -267,6 +267,13 @@ textarea:focus.warning-input  {
   background-clip: padding-box;
 }
 
+.modal-fixed {
+  position:fixed;
+  top:50px;
+  left: 5%;
+  right: 5%;
+}
+
 .download-container {
   position: relative;
   margin: 0 0 20px 0;
