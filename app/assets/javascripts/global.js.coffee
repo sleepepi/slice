@@ -149,6 +149,10 @@ jQuery ->
       $($(this).data('target')).submit()
       false
     )
+    .on('click', '[data-object~="kill-event"]', (e) ->
+      e.stopPropagation()
+      false
+    )
 
   $("#global-search").typeahead(
     source: (query, process) ->

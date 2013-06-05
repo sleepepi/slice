@@ -1,0 +1,81 @@
+<div class="page-header">
+  <h1>Insert...</h1>
+</div>
+
+<% ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file'].in_groups_of(3).each do |row_items| %>
+  <div class="row-fluid">
+    <% row_items.each do |variable_type| %>
+      <% if variable_type and variable_type != 'section' %>
+        <div class="span4 download-container editable-design-element" data-object="click-and-show" data-path="<%= interactive_popup_project_designs_path(@project, new: 'new_variable', position: params[:position], variable_type: variable_type) %>">
+          <div class="download-container-after"><%= variable_type.titleize %></div>
+          <div style="margin-top:12px" class="center">
+            <% case variable_type when 'radio' %>
+              <div class="sheet-container">
+                <label class="radio inline selected" data-object="kill-event"><%= radio_button_tag 'animal', 'dog', true, disabled: true %> 1: Dog</label>
+                <label class="radio inline" data-object="kill-event"><%= radio_button_tag 'animal', 'cat', false, disabled: true %> 2: Cat</label>
+                <label class="radio inline" data-object="kill-event"><%= radio_button_tag 'animal', 'fish', false, disabled: true %> 3: Fish</label>
+              </div>
+            <% when 'dropdown' %>
+              <span data-object="kill-event" style="text-align: left;">
+                <%= select_tag 'animal', "<option value=''></option>".html_safe + options_for_select([['1: Dog', 1], ['2: Cat', 2], ['3: Fish', 3]], 3), disabled: false, class: "chzn-select" %>
+              </span>
+            <% when 'checkbox' %>
+              <div class="sheet-container">
+                <label class="checkbox inline selected" data-object="kill-event"><%= check_box_tag 'animal[]', 'dog', true, disabled: true %> 1: Dog</label>
+                <label class="checkbox inline selected" data-object="kill-event"><%= check_box_tag 'animal[]', 'cat', true, disabled: true %> 2: Cat</label>
+                <label class="checkbox inline" data-object="kill-event"><%= check_box_tag 'animal[]', 'fish', false, disabled: true %> 3: Fish</label>
+              </div>
+            <% when 'string' %>
+              <span data-object="kill-event"><%= text_field_tag 'animal', 'Professor X', disabled: true %></span>
+            <% when 'integer' %>
+              <span data-object="kill-event"><%= text_field_tag 'animal', '42', disabled: true %></span>
+            <% when 'numeric' %>
+              <span data-object="kill-event">
+                <div class="input-append input-prepend" style="display:inline-block">
+                  <span class="add-on">weight</span>
+                  <%= text_field_tag 'animal', '72.4', disabled: true %>
+                  <span class="add-on">kg</span>
+                </div>
+              </span>
+            <% when 'calculated' %>
+              <span data-object="kill-event">
+                <div class="input-append" style="display:inline-block">
+                  <%= text_field_tag 'animal', 'weight / (height * height)', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %>
+                  <span class="add-on">kg / m&sup2;</span>
+                </div>
+              </span>
+            <% when 'text' %>
+              <span data-object="kill-event"><%= text_area_tag 'animal', 'My Long Essay', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %></span>
+            <% when 'date' %>
+              <span data-object="kill-event">
+                <%= text_field_tag 'animal', "", class: "datepicker input-large", placeholder: 'mm/dd/yyyy' %>
+                <i class="icon-calendar" style="position: relative; margin: -2px 0 0 -24px;"></i>
+              </span>
+            <% when 'time' %>
+              <span data-object="kill-event">
+                <%= text_field_tag 'animal', "", class: "timepicker input-large", placeholder: 'hh:mm:ss' %>
+                <i class="icon-time" style="position: relative; margin: -2px 0 0 -24px;"></i>
+              </span>
+            <% when 'file' %>
+              <span data-object="kill-event"><%= button_tag 'Choose File', disabled: true %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <% if variable_type and variable_type == 'section' %>
+        <div class="span4 download-container editable-design-element" data-object="click-and-show" data-path="<%= interactive_popup_project_designs_path(@project, new: 'new_section', position: params[:position]) %>">
+          <div class="download-container-after"><%= variable_type.titleize %></div>
+          <div style="margin-top:12px" class="center">
+            Section Name and Description
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<hr class="soften" style="margin-top:20px;" />
+
+<div class="button-group pull-right">
+  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+</div>

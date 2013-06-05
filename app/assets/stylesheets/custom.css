@@ -440,3 +440,12 @@ div.filter-sort-container {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe5e5e5', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
+
+.hover-dark {
+  color: #ededed;
+  padding: 10px;
+}
+
+.hover-dark:hover {
+  color: #777;
+}
