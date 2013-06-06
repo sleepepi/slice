@@ -11,8 +11,7 @@
         title: variable.display_name,
         placeholder: 'mm/dd/yyyy', style: 'margin-top:0px' %>
   </span>
-  <i class="icon-calendar" style="position: relative; margin: -10px 0 0 -24px;"></i>
-  <span style="margin-left:10px"></span>
+  <span class="add-on"><i class="icon-calendar"></i></span>
   <span class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_append', position: @position) %>" data-object="click-and-show">
     <% if variable.append.blank? %>Edit Append<% else %><%= variable.append %><% end %>
   </span>

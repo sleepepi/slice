@@ -9,8 +9,7 @@
         disabled: true,
         title: variable.display_name,
         placeholder: 'hh:mm:ss' %>
-  <i class="icon-time" style="position: relative; margin: -10px 0 0 -24px;"></i>
-  <span style="margin-left:10px"></span>
+  <span class="add-on"><i class="icon-time"></i></span>
   <span class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_append', position: @position) %>" data-object="click-and-show">
     <% if variable.append.blank? %>Edit Append<% else %><%= variable.append %><% end %>
   </span>

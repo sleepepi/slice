@@ -1,6 +1,6 @@
 <% is_grid = defined?(grid) %>
 
-<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> <% unless variable.append.blank? %>input-append<% end %>" style="display:inline-block;white-space:nowrap">
+<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> input-append" style="display:inline-block;white-space:nowrap">
   <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
   <%= text_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: "datepicker input-#{defined?(control_size) ? control_size : 'large'}",
         data: {
@@ -17,9 +17,7 @@
         disabled: disabled,
         title: variable.display_name,
         placeholder: 'mm/dd/yyyy' %>
-   <i class="icon-calendar" style="position: relative; margin: 2.5px 0 0 -24px;"></i>
-   <span style="margin-left:24px"></span>
-
-   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
-   <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
+  <span class="add-on"><i class="icon-calendar"></i></span>
+  <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+  <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
 </div>

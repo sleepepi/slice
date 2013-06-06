@@ -47,15 +47,15 @@
             <% when 'text' %>
               <span data-object="kill-event"><%= text_area_tag 'animal', 'My Long Essay', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %></span>
             <% when 'date' %>
-              <span data-object="kill-event">
+              <div class="input-append kill-event" style="display:inline-block;white-space:nowrap">
                 <%= text_field_tag 'animal', "", class: "datepicker input-large", placeholder: 'mm/dd/yyyy' %>
-                <i class="icon-calendar" style="position: relative; margin: -2px 0 0 -24px;"></i>
-              </span>
+                <span class="add-on"><i class="icon-calendar"></i></span>
+              </div>
             <% when 'time' %>
-              <span data-object="kill-event">
+              <div class="input-append kill-event" style="display:inline-block;white-space:nowrap">
                 <%= text_field_tag 'animal', "", class: "timepicker input-large", placeholder: 'hh:mm:ss' %>
-                <i class="icon-time" style="position: relative; margin: -2px 0 0 -24px;"></i>
-              </span>
+                <span class="add-on"><i class="icon-time"></i></span>
+              </div>
             <% when 'file' %>
               <span data-object="kill-event"><%= button_tag 'Choose File', disabled: true %></span>
             <% end %>
