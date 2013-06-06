@@ -32,6 +32,17 @@ class Design < ActiveRecord::Base
 
   # Model Methods
 
+  def create_section(params, position)
+    section_params = params.permit(:name, :description)
+    section = { section_name: section_params[:name].to_s.strip, section_id: "_" + section_params[:name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:description].to_s.strip }
+    unless section_params[:name].to_s.strip.blank?
+      new_option_tokens = self.options
+      new_option_tokens.insert(position, section)
+      self.options = new_option_tokens
+      self.save
+    end
+  end
+
   def update_section(params, position)
     section_params = params.permit(:section_name, :section_description, :branching_logic)
     unless section_params[:section_name].blank?
@@ -44,6 +55,21 @@ class Design < ActiveRecord::Base
     end
   end
 
+  def create_variable(params, position)
+    if params[:id].blank?
+      variable_params = params.permit(:name, :display_name, :variable_type)
+      variable = self.project.variables.create( variable_params )
+    else
+      variable = self.project.variables.find_by_id(params[:id])
+    end
+    if variable and not variable.new_record?
+      new_option_tokens = self.options
+      new_option_tokens.insert(position, { variable_id: variable.id, branching_logic: '' })
+      self.options = new_option_tokens
+      self.save
+    end
+  end
+
   def update_variable(params, position)
     option_params = params.permit(:branching_logic)
     unless option_params.blank?
@@ -51,6 +77,7 @@ class Design < ActiveRecord::Base
       option_params.each do |key, value|
         new_option_tokens[position][key.to_sym] = value
       end
+      self.options = new_option_tokens
       self.save
     end
 

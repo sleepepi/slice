@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>
+    Insert Section
+    <%= link_to 'back to variable types', '#', data: { object: 'click-and-show', path: interactive_popup_project_designs_path(@project, new: 'section_or_variable', position: params[:position]) }, class: 'btn btn-mini' %>
+  </h1>
+</div>
+
+<form id="variable_form" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label">Section Name</label>
+    <div class="controls">
+      <%= text_field_tag "section[name]", '', style: 'width:95%', autocomplete: 'off' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Section Description</label>
+    <div class="controls">
+      <%= text_area_tag "section[description]", '', style: 'width:95%', autocomplete: 'off', rows: 3 %>
+    </div>
+  </div>
+</form>
+
+
+<hr class="soften" style="margin-top:20px;" />
+
+<div class="button-group pull-right">
+  <%= button_tag 'Insert', data: { object: 'partial-update-submit', target: '#variable_form', path: interactive_popup_project_designs_path(@project, create: 'section', position: params[:position]) }, class: 'btn btn-primary' %>
+  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+</div>
+

@@ -9,16 +9,18 @@
   <span class="span6">
     <form id="variable_form" class="form-horizontal">
       <div class="control-group">
-        <label class="control-label">Name</label>
+        <label class="control-label">Display Name</label>
         <div class="controls">
-          <%= text_field_tag "variable[name]", '', placeholder: 'Name', autocomplete: 'off' %>
+          <%= text_field_tag "variable[display_name]", '', style: 'width:95%', autocomplete: 'off', data: { object: 'create-variable-name', target: '#variable_name, #variable_name_display' } %>
+          <%= hidden_field_tag "variable[variable_type]", params[:variable_type] %>
         </div>
       </div>
 
       <div class="control-group">
-        <label class="control-label">Display Name</label>
+        <label class="control-label">Name</label>
         <div class="controls">
-          <%= text_field_tag "variable[display_name]", '', placeholder: 'Display Name', style: 'width:95%', autocomplete: 'off' %>
+          <%= hidden_field_tag "variable[name]" %>
+          <%= text_field_tag "variable_name_display", '', maxlength: 32, style: 'width:95%', autocomplete: 'off', disabled: true %>
         </div>
       </div>
 
@@ -28,11 +30,12 @@
     </form>
   </span>
 
-  <% if @project.variables.where(variable_type: params[:variable_type]).count > 0 %>
+  <% variables = @project.variables.where(variable_type: params[:variable_type]).where("variables.id NOT IN (?)", @design.variable_ids) %>
+  <% if variables.count > 0 %>
     <span class="span6">
       Or Select Existing Variable
-      <%= select_tag 'variable_id', options_for_select( [['', nil]] + @project.variables.where(variable_type: params[:variable_type]).collect{|v| [v.display_name, v.id]} ), class: "chzn-select" %>
-      <%= button_tag 'Insert Existing Variable', data: { object: 'partial-update-submit', target: '#variable_id', path: interactive_popup_project_designs_path(@project, add: 'variable', position: params[:position]) }, class: 'btn btn-primary' %>
+      <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.collect{|v| [v.display_name, v.id]} ), class: "chzn-select" %>
+      <%= button_tag 'Insert Existing Variable', data: { object: 'partial-update-submit', target: '#variable_id', path: interactive_popup_project_designs_path(@project, create: 'variable', position: params[:position]) }, class: 'btn btn-primary' %>
     </span>
   <% end %>
 </div>

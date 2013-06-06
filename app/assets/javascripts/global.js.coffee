@@ -41,6 +41,8 @@
       $(element).parent().removeClass('selected')
   )
 
+@browserSupportsPushState =
+  window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
 
 jQuery ->
   $(document)

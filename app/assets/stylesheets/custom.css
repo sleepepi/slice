@@ -415,13 +415,13 @@ div.filter-sort-container {
   cursor:pointer;
 }
 
-.editable-design-element:hover {
+.editable-design-element:hover, .permanent-hover {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
 
-.editable-design-element:hover, .editable-design-element input:hover {
+.editable-design-element:hover, .editable-design-element input:hover, .permanent-hover {
   background-color: #fffeeb;
 }
 
@@ -446,6 +446,6 @@ div.filter-sort-container {
   padding: 10px;
 }
 
-.hover-dark:hover {
+.hover-dark:hover, .permanent-hover {
   color: #777;
 }

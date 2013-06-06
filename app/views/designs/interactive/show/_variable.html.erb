@@ -1,9 +1,9 @@
 <div class="control-group">
   <div class="page-header editable-design-element" style="margin-top:0px">
-    <h4>
+    <h4 style="padding:0px" class="<%= 'hover-dark' if @variable.header.blank? %>">
       <span data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_header', position: @position) %>" data-object="click-and-show" class="editable-design-element">
         <% if @variable.header.blank? %>
-          <div class="muted">Click to Edit Variable Header</div>
+          Click to Edit Variable Header
         <% else %>
           <%= simple_markdown @variable.header %>
         <% end %>

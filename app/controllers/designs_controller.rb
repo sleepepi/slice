@@ -18,11 +18,18 @@ class DesignsController < ApplicationController
 
   def interactive_popup
     if @design = @project.designs.find_by_id(params[:design_id])
-      @design.update_section(params[:section], params[:position].to_i) unless params[:section].blank?
-      @design.update_variable(params[:variable], params[:position].to_i) unless params[:variable].blank?
+      unless params[:section].blank?
+        @design.create_section(params[:section], params[:position].to_i) if params[:create] == 'section'
+        @design.update_section(params[:section], params[:position].to_i) if params[:update] == 'section'
+      end
+      unless params[:variable].blank?
+        @design.create_variable(params[:variable], params[:position].to_i) if params[:create] == 'variable'
+        @design.update_variable(params[:variable], params[:position].to_i) if params[:update] == 'variable'
+      end
       @design.update(design_params)
     else
       @design = current_user.designs.create(design_params)
+      @modify_url = true
     end
   end
 
