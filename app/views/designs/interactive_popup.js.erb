@@ -7,7 +7,7 @@ if(browserSupportsPushState){
 }
 <% end %>
 
-<% if ['design_name', 'design_description', 'section', 'variable_header', 'variable_display_name', 'variable_prepend', 'variable_append', 'variable_units', 'variable_calculated', 'variable_ranges', 'variable_autocomplete', 'variable_date'].include?(params[:edit]) %>
+<% if ['design_name', 'design_description', 'section', 'variable_header', 'variable_display_name', 'variable_prepend', 'variable_append', 'variable_units', 'variable_calculated', 'variable_ranges', 'variable_autocomplete', 'variable_date', 'variable_domain'].include?(params[:edit]) %>
   $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/form/#{params[:edit]}")) %>");
   showContourModal();
   $("#interactive-design-container").find('input, textarea').first().focus();
@@ -18,7 +18,7 @@ if(browserSupportsPushState){
   $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
   $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
   hideContourModal();
-<% elsif ['section', 'variable'].include?(params[:update]) or ['section', 'variable'].include?(params[:create]) %>
+<% elsif ['section', 'variable', 'domain'].include?(params[:update]) or ['section', 'variable', 'domain'].include?(params[:create]) %>
   $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
   hideContourModal();
 <% else %>
@@ -26,3 +26,7 @@ if(browserSupportsPushState){
 <% end %>
 
 $(".chzn-select").chosen({ allow_single_deselect: true });
+<% if ['variable_domain'].include?(params[:edit]) %>
+  $('#options[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
+  loadColorSelectors();
+<% end %>

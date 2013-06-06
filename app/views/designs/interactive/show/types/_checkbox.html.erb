@@ -1,13 +1,20 @@
 <% is_grid = defined?(grid) %>
 
-<div class="sheet-container">
-<% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-  <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
-<% end %>
-<% if variable.options_only_missing.size > 0 %>
-  <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><span class="label label-info">Missing Codes</span></label>
-<% end %>
-<% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-  <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
-<% end %>
+<div class="editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_domain', position: @position) %>" data-object="click-and-show">
+  <% if variable.shared_options.size == 0 %>
+    <span class="dark-hover muted">Click to Add Choices</span>
+  <% else %>
+    <div class="sheet-container">
+    <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+      <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
+    <% end %>
+    <% if variable.options_only_missing.size > 0 %>
+      <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><span class="label label-info">Missing Codes</span></label>
+    <% end %>
+    <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+      <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
+    <% end %>
+    </div>
+    <span class="dark-hover muted">Click to Edit Choices</span>
+  <% end %>
 </div>

@@ -10,4 +10,11 @@
   <% span_size = 4 %>
 <% end %>
 
-<%= select_tag @variable.name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, nil), disabled: false, class: "chzn-select span#{span_size}" %>
+<div class="editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_domain', position: @position) %>" data-object="click-and-show">
+  <% if variable.shared_options.size == 0 %>
+    <span class="dark-hover muted">Click to Add Choices</span>
+  <% else %>
+    <%= select_tag @variable.name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, nil), disabled: true, class: "chzn-select span#{span_size}" %>
+    <span class="dark-hover muted">Click to Edit Choices</span>
+  <% end %>
+</div>

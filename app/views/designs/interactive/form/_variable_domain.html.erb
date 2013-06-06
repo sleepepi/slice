@@ -1,0 +1,46 @@
+<% @option = @design.options[params[:position].to_i] %>
+<% @variable = @design.variable_at(params[:position].to_i) %>
+<% @domain = @variable.domain || @project.domains.new %>
+
+<div class="page-header">
+  <h1>Edit Variable Domain <span style="font-size:0.4em"><%= @variable.name %></span></h1>
+</div>
+
+<form id="domain_form" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label">Name</label>
+    <div class="controls">
+      <%= text_field_tag "domain[name]", @domain.name, maxlength: 30, style: 'width:225px', autocomplete: 'off' %>
+      <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 30 characters.</div>
+      <i>domain1_population</i>
+    </div>
+  </div>
+
+  <div id="options" data-object="sortable">
+    <%= render partial: 'domains/options' %>
+  </div>
+  <div class="btn-toolbar">
+    <%= link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-mini' %>
+  </div>
+</form>
+
+<hr class="soften" style="margin-top:20px;" />
+
+<div class="button-group pull-right">
+  <% if @domain.new_record? %>
+    <%= button_tag 'Create', data: { object: 'partial-update-submit', target: '#domain_form', path: interactive_popup_project_designs_path(@project, create: 'domain', position: params[:position]) }, class: 'btn btn-primary' %>
+  <% else %>
+    <% other_variables = @domain.variables.count - 1 %>
+    <%= button_tag "Update Existing Domain" + (other_variables > 0 ? " (linked to #{pluralize(other_variables, 'other variable')})" : ""), data: { object: 'partial-update-submit', target: '#domain_form', path: interactive_popup_project_designs_path(@project, update: 'domain', position: params[:position]) }, class: 'btn btn-primary' %>
+    or
+    <%= button_tag 'Create New Domain', data: { object: 'partial-update-submit', target: '#domain_form', path: interactive_popup_project_designs_path(@project, create: 'domain', position: params[:position]) }, class: 'btn btn-primary' %>
+  <% end %>
+  <% domains = @project.domains %>
+  <% if domains.count > 0 %>
+    or
+    <span class="white-space:nowrap"><%= select_tag 'domain[id]', options_for_select( [['', nil]] + domains.collect{|d| [d.name, d.id]} ), class: "chzn-select" %>
+    <%= button_tag 'Use Selected Domain', data: { object: 'partial-update-submit', target: '#domain_id', path: interactive_popup_project_designs_path(@project, create: 'domain', position: params[:position]) }, class: 'btn btn-primary' %></span>
+  <% end %>
+  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+</div>
+

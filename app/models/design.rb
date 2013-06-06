@@ -55,6 +55,27 @@ class Design < ActiveRecord::Base
     end
   end
 
+  def create_domain(params, position, current_user)
+    if params[:id].blank?
+      domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
+      domain_params[:user_id] = current_user.id
+      domain = self.project.domains.create( domain_params )
+    else
+      domain = self.project.domains.find_by_id(params[:id])
+    end
+    if domain and not domain.new_record? and variable = self.variable_at(position)
+      variable.update(domain_id: domain.id)
+    end
+  end
+
+  def update_domain(params, position)
+    variable = self.variable_at(position)
+    if variable and variable.domain
+      domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
+      variable.domain.update( domain_params )
+    end
+  end
+
   def create_variable(params, position)
     if params[:id].blank?
       variable_params = params.permit(:name, :display_name, :variable_type)
