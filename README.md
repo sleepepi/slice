@@ -53,7 +53,7 @@ All done!
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
 
 ```console
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.0.0-p0/bin/bundle exec rake daily_digest RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.0.0-p195/bin/bundle exec rake daily_digest RAILS_ENV=production
 ```
 
 ## Contributing to Slice
