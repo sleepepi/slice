@@ -192,8 +192,8 @@ change_domain_options:
   display_name: Change Domain Option Values
   domain: change_options
   description: This variable's domain has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
-  variable_type: scale
-  scale_type: radio
+  variable_type: radio
+  alignment: scale
   user: valid
   project: one
 
@@ -202,8 +202,8 @@ scale:
   display_name: A Scale Variable
   domain: change_options
   # description:
-  variable_type: scale
-  scale_type: radio
+  variable_type: radio
+  alignment: scale
   user: valid
   project: one
 

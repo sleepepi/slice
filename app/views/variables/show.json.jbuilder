@@ -14,6 +14,4 @@ json.extract! @variable, :description, :header, :name, :display_name, :variable_
                   # Autocomplete
                   :autocomplete_values,
                   # Radio and Checkbox
-                  :alignment,
-                  # Scale
-                  :scale_type, :domain_id
+                  :alignment, :domain_id

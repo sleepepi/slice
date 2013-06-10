@@ -3,7 +3,42 @@
 <div class="editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'variable_domain', position: @position) %>" data-object="click-and-show">
   <% if variable.shared_options.size == 0 %>
     <span class="dark-hover muted">Click to Add Choices</span>
+  <% elsif variable.alignment == 'scale' %>
+    <table class="table"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %><col width="1px"/>
+      <% if variable.first_scale_variable?(@design) %>
+        <thead>
+          <tr>
+            <th></th>
+            <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+              <th style="text-align:center">
+                <%= name %>
+              </th>
+            <% end %>
+            <th></th>
+          </tr>
+        </thead>
+      <% end %>
+      <tbody>
+        <tr>
+          <td><%= variable.display_name %></td>
+          <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+            <td style="text-align:center" class="sheet-container">
+              <label class="radio inline">
+                <%= radio_button_tag variable.name, "#{value}", false, disabled: true %>
+              </label>
+            </td>
+          <% end %>
+          <td style="text-align:right">
+            <span data-object="kill-event"><%= button_tag 'clear', disabled: true, class: 'btn btn-mini' %></span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="<%= variable.shared_options.size + 2 %>" style="text-align:center"><span class="dark-hover muted">Click to Edit Choices</span></td>
+        </tr>
+      </tbody>
+    </table>
   <% else %>
+
     <div class="sheet-container">
       <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
         <label class="radio <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= radio_button_tag variable.name, "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
@@ -15,6 +50,7 @@
         <label class="radio <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= radio_button_tag variable.name, "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
       <% end %>
     </div>
+
     <span class="dark-hover muted">Click to Edit Choices</span>
   <% end %>
 </div>

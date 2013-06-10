@@ -18,11 +18,11 @@
       <td><%= variable.inherited_designs.count %></td>
       <td><%= link_to variable.name, [variable.project, variable] %></td>
       <td><%= link_to variable.display_name, [variable.project, variable] %></td>
-      <td><span class="label label-<%= variable.variable_type == 'scale' ? variable.scale_type : variable.variable_type %>"><%= variable.variable_type == 'scale' ? "scale " + variable.scale_type : variable.variable_type %></span></td>
+      <td><span class="label label-<%= variable.variable_type %>"><%= variable.variable_type %></span></td>
       <td>
         <% if not variable.shared_options.blank? %>
           <% variable.alignment = 'vertical' %>
-          <%= render partial: "sheet_variables/form/#{(variable.variable_type == 'checkbox' or (variable.variable_type == 'scale' and variable.scale_type == 'checkbox')) ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" } %>
+          <%= render partial: "sheet_variables/form/#{variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" } %>
         <% end %>
       </td>
       <td><%= link_to variable.user.name, variable.user if variable.user %></td>

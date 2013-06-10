@@ -279,14 +279,13 @@ class SheetsController < ApplicationController
         creator = (current_user ? current_user : @sheet.user)
 
         sv = @sheet.sheet_variables.where( variable_id: variable_id ).first_or_create( user_id: creator.id )
-        variable_type = (sv.variable.variable_type == 'scale' ? sv.variable.scale_type : sv.variable.variable_type)
-        case variable_type when 'grid'
+        case sv.variable.variable_type when 'grid'
           sv.update_grid_responses!(response, creator)
         when 'checkbox'
           response = [] if response.blank?
           sv.update_responses!(response, creator, sv.sheet) # Response should be an array
         else
-          sv.update_attributes sv.format_response(variable_type, response)
+          sv.update_attributes sv.format_response(sv.variable.variable_type, response)
         end
       end
       @sheet.update_column :response_count, @sheet.non_blank_design_variable_responses

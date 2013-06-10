@@ -15,9 +15,7 @@ json.array!(@variables) do |variable|
                   # Autocomplete
                   :autocomplete_values,
                   # Radio and Checkbox
-                  :alignment,
-                  # Scale
-                  :scale_type, :domain_id
+                  :alignment, :domain_id
   json.path project_variable_path(variable.project, variable, format: :json)
   # json.url project_variable_url(variable.project, variable, format: :json)
 end

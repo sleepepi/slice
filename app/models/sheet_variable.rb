@@ -45,13 +45,11 @@ class SheetVariable < ActiveRecord::Base
           end
         end
 
-        v_type = (grid.variable.variable_type == 'scale' ? grid.variable.scale_type : grid.variable.variable_type)
-
-        case v_type when 'checkbox'
+        case grid.variable.variable_type when 'checkbox'
           res = [] if res.blank?
           grid.update_responses!(res, current_user, self.sheet) # Response should be an array
         else
-          grid.update_attributes format_response(v_type, res)
+          grid.update_attributes format_response(grid.variable.variable_type, res)
         end
 
       end
@@ -88,13 +86,13 @@ class SheetVariable < ActiveRecord::Base
 
     return result unless object
 
-    if ['dropdown', 'radio'].include?(object.variable.variable_type) or (object.variable.variable_type == 'scale' and object.variable.scale_type == 'radio')
+    if ['dropdown', 'radio'].include?(object.variable.variable_type)
       hash = (object.variable.shared_options.select{|option| option[:value] == object.response}.first || {})
       result[:name] = hash[:name]
       result[:value] = hash[:value]
       result[:description] = hash[:description]
       result[:color] = hash[:color]
-    elsif ['checkbox'].include?(object.variable.variable_type) or (object.variable.variable_type == 'scale' and object.variable.scale_type == 'checkbox')
+    elsif ['checkbox'].include?(object.variable.variable_type)
       results = []
       object.variable.shared_options.select{|option| object.responses.pluck(:value).include?(option[:value])}.each do |option|
         result = { name: option[:name], value: option[:value], description: option[:description], color: option[:color] }

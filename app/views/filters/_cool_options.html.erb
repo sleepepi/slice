@@ -18,7 +18,7 @@
 
 <% unless @variable.shared_options.blank? %>
   <% @variable.alignment = 'vertical' %>
-  <%= render partial: "sheet_variables/form/#{(@variable.variable_type == 'checkbox' or (@variable.variable_type == 'scale' and @variable.scale_type == 'checkbox')) ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: @variable, field_name: "variables[#{@variable.id}]" } %>
+  <%= render partial: "sheet_variables/form/#{@variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: @variable, field_name: "variables[#{@variable.id}]" } %>
 <% end %>
 
 <% if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type) %>

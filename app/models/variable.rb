@@ -15,17 +15,14 @@ class Variable < ActiveRecord::Base
   #                 # Autocomplete
   #                 :autocomplete_values,
   #                 # Radio and Checkbox
-  #                 :alignment,
-  #                 # Scale
-  #                 :scale_type, :domain_id
+  #                 :alignment, :domain_id
 
-  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid', 'scale'].sort.collect{|i| [i,i]}
+  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].sort.collect{|i| [i,i]}
   TYPE_IMPORTABLE = ['string', 'text', 'integer', 'numeric', 'date', 'time'].sort.collect{|i| [i,i]}
-  TYPE_DOMAIN = ['dropdown', 'checkbox', 'radio', 'integer', 'numeric', 'scale']
+  TYPE_DOMAIN = ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
   CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
   DISPLAY_NAME_VISIBILITY = [['Visible', 'visible'], ['Invisible', 'invisible'], ['Gone', 'gone']]
-  ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical']]
-  SCALE_TYPE = ['checkbox', 'radio'].collect{|i| [i,i]}
+  ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical'], ['Scale', 'scale']]
 
   serialize :grid_variables, Array
 
@@ -72,6 +69,10 @@ class Variable < ActiveRecord::Base
 
   def autocomplete_array
     self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}
+  end
+
+  def uses_scale?
+    ['radio', 'checkbox'].include?(self.variable_type) and self.alignment == 'scale'
   end
 
   # Designs isn't used, using inherited designs instead.
@@ -179,7 +180,7 @@ class Variable < ActiveRecord::Base
 
     previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id) > 0
     # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form
-    if previous_variable and previous_variable.variable_type == 'scale' and previous_variable.shared_options == self.shared_options
+    if previous_variable and previous_variable.uses_scale? and previous_variable.shared_options == self.shared_options
       return false
     else
       return true
@@ -224,7 +225,7 @@ class Variable < ActiveRecord::Base
   end
 
   def has_domain?
-    ['dropdown', 'checkbox', 'radio', 'integer', 'numeric', 'scale'].include?(self.variable_type)
+    ['dropdown', 'checkbox', 'radio', 'integer', 'numeric'].include?(self.variable_type)
   end
 
   def report_strata(include_missing, max_strata = 0, hash, sheet_scope)
@@ -322,25 +323,21 @@ class Variable < ActiveRecord::Base
   end
 
   def sas_informat
-    if ['string', 'file'].include?(self.response_format_type)
+    if ['string', 'file'].include?(self.variable_type)
       '$500'
-    elsif ['date'].include?(self.response_format_type)
+    elsif ['date'].include?(self.variable_type)
       'yymmdd10'
-    elsif ['dropdown', 'radio'].include?(self.response_format_type) and self.domain and not self.domain.all_numeric?
+    elsif ['dropdown', 'radio'].include?(self.variable_type) and self.domain and not self.domain.all_numeric?
       '$500'
-    elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.response_format_type)
+    elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.variable_type)
       'best32'
-    else # elsif ['text'].include?(self.response_format_type)
+    else # elsif ['text'].include?(self.variable_type)
       '$5000'
     end
   end
 
   def sas_format
     self.sas_informat
-  end
-
-  def response_format_type
-    self.variable_type == 'scale' ? self.scale_type : self.variable_type
   end
 
 end

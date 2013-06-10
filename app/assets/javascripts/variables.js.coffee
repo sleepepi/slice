@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 @toggleOptions = (element) ->
-  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric', 'scale']
+  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
     $('[data-object~="options"]').show()
   else
     $('[data-object~="options"]').hide()
@@ -39,10 +39,6 @@
     $('[data-object~="checkbox-or-radio"]').show()
   else
     $('[data-object~="checkbox-or-radio"]').hide()
-  if $(element).val() in ['scale']
-    $('[data-object~="scale"]').show()
-  else
-    $('[data-object~="scale"]').hide()
   if $(element).val() in ['calculated', 'integer', 'numeric', 'string']
     $('[data-object~="prepend-append"]').show()
   else

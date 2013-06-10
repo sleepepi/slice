@@ -40,7 +40,7 @@ class VariablesController < ApplicationController
   end
 
   def add_grid_variable
-    @select_variables = current_user.all_viewable_variables.without_variable_type(['grid', 'scale']).where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
+    @select_variables = current_user.all_viewable_variables.without_variable_type(['grid']).where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
     @grid_variable = { variable_id: '' }
   end
 
@@ -189,9 +189,7 @@ class VariablesController < ApplicationController
         # For Autocomplete Strings
         :autocomplete_values,
         # Radio and Checkbox
-        :alignment,
-        # Scale
-        :scale_type, :domain_id
+        :alignment, :domain_id
       )
     end
 

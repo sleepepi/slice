@@ -228,7 +228,7 @@ class Export < ActiveRecord::Base
         csv << [  'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Header', 'Variable Description',
                   'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
                   'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
-                  'Display Name Visibility', 'Alignment', 'Default Row Number', 'Scale Type', 'Domain Name' ]
+                  'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name' ]
         design_scope.each do |d|
           d.options_with_grid_sub_variables.each do |option|
             if option[:variable_id].blank?
@@ -253,7 +253,6 @@ class Export < ActiveRecord::Base
                 nil, # Display Name Visiblity
                 nil, # Alignment
                 nil, # Default Row Number
-                nil, # Scale Type
                 nil ] # Domain Name
             elsif variable = Variable.current.find_by_id(option[:variable_id])
               csv << [ d.name,
@@ -277,7 +276,6 @@ class Export < ActiveRecord::Base
                 variable.display_name_visibility, # Display Name Visiblity
                 variable.alignment, # Alignment
                 variable.default_row_number, # Default Row Number
-                (variable.variable_type == 'scale' ? variable.scale_type : ''), # Scale Type
                 (variable.domain ? variable.domain.name : '') ] # Domain Name
             end
           end
@@ -473,7 +471,7 @@ run;
 data slice#{'_grids' if use_grids};
   set slice#{'_grids' if use_grids};
 
-#{variables.collect{|v| (v.response_format_type != 'checkbox' and v.domain) ? "  format #{v.name} #{v.domain.sas_domain_name}. ;" : nil }.compact.join("\n")}
+#{variables.collect{|v| (v.variable_type != 'checkbox' and v.domain) ? "  format #{v.name} #{v.domain.sas_domain_name}. ;" : nil }.compact.join("\n")}
 run;
 
       eos

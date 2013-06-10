@@ -28,7 +28,7 @@ module Valuable
   end
 
   def get_response(raw_format = :raw)
-    case self.variable.response_format_type
+    case self.variable.variable_type
     when 'grid'
       self.respond_to?('grids') ? self.grid_responses(raw_format) : self.response
     when 'checkbox'

@@ -3,6 +3,8 @@
 ### Enhancements
 - Use of Ruby 2.0.0-p195 is now recommended
 - Prototyping a new method for creating designs without needing to explicitely define variables and domains first
+- **Variable Changes**
+  - Scale is now considered an `alignment` option for `checkbox` and `radio` variables instead of being its own variable type
 
 ## 0.17.0 (May 13, 2013)
 
