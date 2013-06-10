@@ -5,6 +5,7 @@
 - Prototyping a new method for creating designs without needing to explicitely define variables and domains first
 - **Variable Changes**
   - Scale is now considered an `alignment` option for `checkbox` and `radio` variables instead of being its own variable type
+  - Grid variables with multiple rows can now be reordered by dragging the grid rows
 
 ## 0.17.0 (May 13, 2013)
 

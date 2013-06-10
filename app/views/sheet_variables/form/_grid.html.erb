@@ -17,7 +17,7 @@
       <th>Actions</th>
     </tr>
   </thead>
-  <tbody id="variable_<%= variable.id %>_grid_container">
+  <tbody id="variable_<%= variable.id %>_grid_container" class="grid_sortable">
     <% range.each do |position| %>
       <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, sheet_variable: sheet_variable, position: position, variable: variable } %>
     <% end %>

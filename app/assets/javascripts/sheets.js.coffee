@@ -31,6 +31,7 @@
   $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
   $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
   loadAffix()
+  $( ".grid_sortable" ).sortable({ axis: "y" })
 
 @evaluateBranchingLogic = () ->
   $('[data-object~="evaluate-branching-logic"]').each( (index, element) ->
