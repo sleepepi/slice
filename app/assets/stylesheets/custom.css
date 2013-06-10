@@ -453,6 +453,11 @@ div.filter-sort-container {
 .interactive-variable-section-container .design-options-shadow {
   opacity: 0.2;
   filter: alpha(opacity=20);
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  transition:.5s;
 }
 
 .interactive-variable-section-container:hover .design-options-shadow {
