@@ -93,5 +93,10 @@
         </div>
       </dd>
     <% end %>
+
+    <dt>Actions</dt>
+    <dd>
+      <%= link_to 'remove', '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@variable.project, delete: 'variable', position: @position) }, class: 'btn btn-mini btn-danger' %>
+    </dd>
   </dl>
 </div>

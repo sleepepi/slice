@@ -30,6 +30,9 @@ class DesignsController < ApplicationController
         @design.create_domain(params[:domain], params[:position].to_i, current_user) if params[:create] == 'domain'
         @design.update_domain(params[:domain], params[:position].to_i) if params[:update] == 'domain'
       end
+      if ['variable', 'section'].include?(params[:delete])
+        @design.remove_option(params[:position].to_i)
+      end
       @design.update(design_params)
     else
       @design = current_user.designs.create(design_params)

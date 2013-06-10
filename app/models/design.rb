@@ -108,6 +108,13 @@ class Design < ActiveRecord::Base
     end
   end
 
+  def remove_option(position)
+    new_option_tokens = self.options
+    new_option_tokens.delete_at(position)
+    self.options = new_option_tokens
+    self.save
+  end
+
   def variable_at(position)
     variable = self.project.variables.find_by_id(self.options[position][:variable_id]) if self.options[position]
   end
