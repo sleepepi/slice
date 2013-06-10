@@ -23,7 +23,8 @@ if(browserSupportsPushState){
   hideContourModal();
 <% elsif ['section', 'variable'].include?(params[:update]) %>
   <% @position = params[:position].to_i %>
-  <% if @variable = @design.variable_at(params[:position].to_i) %>
+  <% @option = @design.options[@position] %>
+  <% if @variable = @design.variable_at(@position) %>
     $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/variable")) %>");
   <% else %>
     $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/section")) %>");
