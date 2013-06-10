@@ -26,7 +26,7 @@
                 <label class="checkbox inline" data-object="kill-event"><%= check_box_tag 'animal[]', 'fish', false, disabled: true %> 3: Fish</label>
               </div>
             <% when 'string' %>
-              <span data-object="kill-event"><%= text_field_tag 'animal', 'Professor X', disabled: true %></span>
+              <span data-object="kill-event"><%= text_field_tag 'animal', 'Abc Street', disabled: true %></span>
             <% when 'integer' %>
               <span data-object="kill-event"><%= text_field_tag 'animal', '42', disabled: true %></span>
             <% when 'numeric' %>
@@ -66,7 +66,8 @@
         <div class="span4 download-container editable-design-element" data-object="click-and-show" data-path="<%= interactive_popup_project_designs_path(@project, new: 'new_section', position: params[:position]) %>">
           <div class="download-container-after"><%= variable_type.titleize %></div>
           <div style="margin-top:12px" class="center">
-            Section Name and Description
+            <b>Section A: Demographics</b><br />
+            Please enter the following information...
           </div>
         </div>
       <% end %>
