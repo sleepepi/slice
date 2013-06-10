@@ -449,3 +449,13 @@ div.filter-sort-container {
 .hover-dark:hover, .permanent-hover {
   color: #777;
 }
+
+.interactive-variable-section-container .design-options-shadow {
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+}
+
+.interactive-variable-section-container:hover .design-options-shadow {
+  opacity: 1.0;
+  filter: alpha(opacity=100);
+}

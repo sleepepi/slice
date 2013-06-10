@@ -6,11 +6,13 @@
     <% design_options.each_with_index do |option, index| %>
       <% @position = index %>
       <% @option = option %>
-      <% if @option[:variable_id].blank? %>
-        <%= render partial: 'designs/interactive/show/section' %>
-      <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-        <%= render partial: 'designs/interactive/show/variable' %>
-      <% end %>
+      <div id="interactive_<%= @position %>_container" class="interactive-variable-section-container">
+        <% if @option[:variable_id].blank? %>
+          <%= render partial: 'designs/interactive/show/section' %>
+        <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+          <%= render partial: 'designs/interactive/show/variable' %>
+        <% end %>
+      </div>
       <%= render partial: 'designs/interactive/new_section_or_variable', locals: { position: @position + 1 } %>
     <% end %>
   </form>

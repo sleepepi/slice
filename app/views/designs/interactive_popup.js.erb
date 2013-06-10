@@ -18,8 +18,16 @@ if(browserSupportsPushState){
   $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
   $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
   hideContourModal();
-<% elsif ['section', 'variable', 'domain'].include?(params[:update]) or ['section', 'variable', 'domain'].include?(params[:create]) or ['section', 'variable'].include?(params[:delete]) %>
+<% elsif ['domain'].include?(params[:update]) or ['section', 'variable', 'domain'].include?(params[:create]) or ['section', 'variable'].include?(params[:delete]) %>
   $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
+  hideContourModal();
+<% elsif ['section', 'variable'].include?(params[:update]) %>
+  <% @position = params[:position].to_i %>
+  <% if @variable = @design.variable_at(params[:position].to_i) %>
+    $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/variable")) %>");
+  <% else %>
+    $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/section")) %>");
+  <% end %>
   hideContourModal();
 <% else %>
   hideContourModal();
