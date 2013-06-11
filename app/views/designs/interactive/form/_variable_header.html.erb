@@ -12,6 +12,6 @@
 <hr class="soften" style="margin-top:20px;" />
 
 <div class="button-group pull-right">
-  <%= button_tag 'Update', data: { object: 'partial-update-submit', target: '#variable_header', path: interactive_popup_project_designs_path(@project, update: 'variable', position: params[:position]) }, class: 'btn btn-primary' %>
+  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_header', update: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
   <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
 </div>

@@ -102,7 +102,7 @@ class Design < ActiveRecord::Base
       self.save
     end
 
-    variable_params = params.permit(:header, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button)
+    variable_params = params.permit(:header, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button, :autocomplete_values)
     if v = self.variable_at(position)
       v.update(variable_params)
     end

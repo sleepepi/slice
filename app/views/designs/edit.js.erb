@@ -1,0 +1,19 @@
+<% if ['design_name', 'design_description', 'section', 'variable_header', 'variable_display_name', 'variable_prepend', 'variable_append', 'variable_units', 'variable_calculated', 'variable_ranges', 'variable_autocomplete', 'variable_date', 'variable_domain'].include?(params[:edit]) %>
+  $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/form/#{params[:edit]}")) %>");
+  showContourModal();
+  $("#interactive-design-container").find('input, textarea').first().focus();
+<% elsif ['section_or_variable', 'new_variable', 'new_section'].include?(params[:new]) %>
+  $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/#{params[:new]}_popup")) %>");
+  showContourModal();
+<% end %>
+
+$(".chzn-select").chosen({ allow_single_deselect: true });
+$(".datepicker").datepicker('remove');
+$(".datepicker").datepicker({ autoclose: true });
+$(".datepicker").change(function(){
+  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
+});
+<% if ['variable_domain'].include?(params[:edit]) %>
+  $('#options[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
+  loadColorSelectors();
+<% end %>

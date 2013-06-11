@@ -1,4 +1,3 @@
-<% @title = "Edit Design" %>
 <div id="contour-backdrop" style="display:none"></div>
 
 <div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
@@ -6,10 +5,11 @@
   </div>
 </div>
 
-<div class="muted"><span class="editable-design-element permanent-hover">Click the elements</span> you wish to edit and update on the design or <%= link_to 'Stop Editing', '#', class: 'btn btn-mini', data: { object: 'design-stop-edit', path: project_designs_path } %></div>
+<div class="muted"><span class="editable-design-element permanent-hover">Click the elements</span> you wish to edit and update on the design or <%= link_to 'Stop Editing', '#', class: 'btn btn-mini', data: { object: 'design-stop-edit', path: project_designs_path(@project) } %></div>
 
 <hr class="soften" style="margin-top:20px;" />
 
+<%= hidden_field_tag :project_id, @project.id %>
 <%= hidden_field_tag :design_id, @design.id %>
 
 

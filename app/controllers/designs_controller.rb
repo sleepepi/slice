@@ -10,35 +10,6 @@ class DesignsController < ApplicationController
   # Concerns
   include Buildable
 
-  def interactive
-    unless @design = @project.designs.find_by_id(params[:design_id])
-      @design = current_user.designs.new(design_params)
-    end
-  end
-
-  def interactive_popup
-    if @design = @project.designs.find_by_id(params[:design_id])
-      unless params[:section].blank?
-        @design.create_section(params[:section], params[:position].to_i) if params[:create] == 'section'
-        @design.update_section(params[:section], params[:position].to_i) if params[:update] == 'section'
-      end
-      unless params[:variable].blank?
-        @design.create_variable(params[:variable], params[:position].to_i) if params[:create] == 'variable'
-        @design.update_variable(params[:variable], params[:position].to_i) if params[:update] == 'variable'
-      end
-      unless params[:domain].blank?
-        @design.create_domain(params[:domain], params[:position].to_i, current_user) if params[:create] == 'domain'
-        @design.update_domain(params[:domain], params[:position].to_i) if params[:update] == 'domain'
-      end
-      if ['variable', 'section'].include?(params[:delete])
-        @design.remove_option(params[:position].to_i)
-      end
-      @design.update(design_params)
-    else
-      @design = current_user.designs.create(design_params)
-      @modify_url = true
-    end
-  end
 
   # Get /designs/1/overview
   # Get /designs/1/overview.js
@@ -230,42 +201,80 @@ class DesignsController < ApplicationController
 
   # GET /designs/new
   def new
-    @design = current_user.designs.new(updater_id: current_user.id, project_id: params[:project_id])
+    @design = current_user.designs.new(design_params)
+    respond_to do |format|
+      format.js { render 'edit' }
+      format.html
+    end
   end
 
   # GET /designs/1/edit
   def edit
   end
 
-  # POST /designs
-  # POST /designs.json
+  # POST /designs.js
   def create
-    @design = current_user.designs.new(design_params)
-
-    respond_to do |format|
-      if @design.save
-        format.html { redirect_to [@design.project, @design], notice: 'Design was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @design }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @design.errors, status: :unprocessable_entity }
-      end
-    end
+    @design = current_user.designs.create(design_params)
   end
 
-  # PUT /designs/1
-  # PUT /designs/1.json
+  # PUT /designs/1.js
   def update
-    respond_to do |format|
-      if @design.update(design_params)
-        format.html { redirect_to [@design.project, @design], notice: 'Design was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @design.errors, status: :unprocessable_entity }
-      end
+    unless params[:section].blank?
+      @design.create_section(params[:section], params[:position].to_i) if params[:create] == 'section'
+      @design.update_section(params[:section], params[:position].to_i) if params[:update] == 'section'
     end
+    unless params[:variable].blank?
+      @design.create_variable(params[:variable], params[:position].to_i) if params[:create] == 'variable'
+      @design.update_variable(params[:variable], params[:position].to_i) if params[:update] == 'variable'
+    end
+    unless params[:domain].blank?
+      @design.create_domain(params[:domain], params[:position].to_i, current_user) if params[:create] == 'domain'
+      @design.update_domain(params[:domain], params[:position].to_i) if params[:update] == 'domain'
+    end
+    if ['variable', 'section'].include?(params[:delete])
+      @design.remove_option(params[:position].to_i)
+    end
+    @design.update(design_params)
   end
+
+  # # GET /designs/new
+  # def new
+  #   @design = current_user.designs.new(updater_id: current_user.id, project_id: params[:project_id])
+  # end
+
+  # # GET /designs/1/edit
+  # def edit
+  # end
+
+  # # POST /designs
+  # # POST /designs.json
+  # def create
+  #   @design = current_user.designs.new(design_params)
+
+  #   respond_to do |format|
+  #     if @design.save
+  #       format.html { redirect_to [@design.project, @design], notice: 'Design was successfully created.' }
+  #       format.json { render action: 'show', status: :created, location: @design }
+  #     else
+  #       format.html { render action: 'new' }
+  #       format.json { render json: @design.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+
+  # # PUT /designs/1
+  # # PUT /designs/1.json
+  # def update
+  #   respond_to do |format|
+  #     if @design.update(design_params)
+  #       format.html { redirect_to [@design.project, @design], notice: 'Design was successfully updated.' }
+  #       format.json { head :no_content }
+  #     else
+  #       format.html { render action: 'edit' }
+  #       format.json { render json: @design.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /designs/1
   # DELETE /designs/1.json

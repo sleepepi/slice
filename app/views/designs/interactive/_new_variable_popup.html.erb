@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>
     Insert <%= params[:variable_type].to_s.titleize %> Variable
-    <%= link_to 'back to variable types', '#', data: { object: 'click-and-show', path: interactive_popup_project_designs_path(@project, new: 'section_or_variable', position: params[:position]) }, class: 'btn btn-mini' %>
+    <%= link_to 'back to variable types', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: params[:position] }, class: 'btn btn-mini' %>
   </h1>
 </div>
 
@@ -25,7 +25,7 @@
       </div>
 
       <div class="form-actions">
-        <%= button_tag 'Insert', data: { object: 'partial-update-submit', target: '#variable_form', path: interactive_popup_project_designs_path(@project, create: 'variable', position: params[:position]) }, class: 'btn btn-primary' %>
+        <%= button_tag 'Insert', data: { object: 'push-partial-change', target: '#variable_form', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
       </div>
     </form>
   </span>
@@ -35,7 +35,7 @@
     <span class="span6">
       Or Select Existing Variable
       <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.collect{|v| [v.display_name, v.id]} ), class: "chzn-select" %>
-      <%= button_tag 'Insert Existing Variable', data: { object: 'partial-update-submit', target: '#variable_id', path: interactive_popup_project_designs_path(@project, create: 'variable', position: params[:position]) }, class: 'btn btn-primary' %>
+      <%= button_tag 'Insert Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
     </span>
   <% end %>
 </div>

@@ -1,8 +1,8 @@
 <section style="padding-top:30px">
-  <div class="page-header editable-design-element" data-path="<%= interactive_popup_project_designs_path(@project, edit: 'section', position: @position) %>" data-object="click-and-show">
+  <div data-object="pull-partial-edit" data-edit="section" data-position="<%= @position %>" class="page-header editable-design-element">
     <h2>
       <% if @option[:section_name].blank? %><div class="muted">Click to Edit Section Name</div><% else %><%= @option[:section_name] %><% end %>
-      <%= link_to 'remove', '#', data: { object: 'partial-update-submit', path: interactive_popup_project_designs_path(@project, delete: 'section', position: @position) }, class: 'btn btn-mini btn-danger' %>
+      <%= link_to 'remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position }, class: 'btn btn-mini btn-danger' %>
     </h2>
     <% if @option[:section_description].blank? %>
       <div class="muted">Click to Edit Section Description</div>

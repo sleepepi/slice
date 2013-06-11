@@ -10,7 +10,7 @@
   </thead>
   <tbody>
     <tr data-link="<%= new_project_design_path(@project) %>" style="cursor:pointer">
-      <td class="muted"></td><td colspan="2"><%= link_to 'Create Design', interactive_project_designs_path(@project) %></td>
+      <td class="muted"></td><td colspan="2"><%= link_to 'Create Design', new_project_design_path(@project) %></td>
     </tr>
     <% @project.designs.order('name').limit(10).each do |design| %>
       <tr data-link="<%= project_design_path(design.project, design) %>" style="cursor:pointer" data-object="hover-show" data-target="#design_<%= design.id %>_edit_link">

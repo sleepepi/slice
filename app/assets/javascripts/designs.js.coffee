@@ -219,6 +219,42 @@ jQuery ->
       new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,32)
       $($(this).data('target')).val(new_value)
     )
+    .on('click', '[data-object~="pull-partial-edit"]', () ->
+      design_id = parseInt($('#design_id').val())
+      changes = $(this).data('changes') || {}
+      changes.new = $(this).data('new')
+      changes.edit = $(this).data('edit')
+      changes.position = $(this).data('position')
+      changes.variable_type = $(this).data('variable-type')
+      if design_id > 0
+        $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val() + '/edit', changes, null, "script")
+      else
+        $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/new', changes, null, "script")
+      false
+    )
+    .on('click', '[data-object~="push-partial-change"]', () ->
+      design_id = parseInt($('#design_id').val())
+      changes = null
+      if $($(this).data('target')).length > 0
+        params = $($(this).data('target')).serialize()
+        params = params + "&position=" + $(this).data('position') unless $(this).data('position') == undefined
+        params = params + "&create=" + $(this).data('create') unless $(this).data('create') == undefined
+        params = params + "&update=" + $(this).data('update') unless $(this).data('update') == undefined
+        params = params + "&delete=" + $(this).data('delete') unless $(this).data('delete') == undefined
+      else
+        changes = $(this).data('changes') || {}
+        changes.position = $(this).data('position')
+        changes.create = $(this).data('create')
+        changes.update = $(this).data('update')
+        changes.delete = $(this).data('delete')
+      if design_id > 0
+        changes['_method'] = 'put' if changes != null
+        params = params + "&_method=put"
+        $.post(root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val(), changes || params, null, "script")
+      else
+        $.post(root_url + 'projects/' + $("#project_id").val() + '/designs', changes || params, null, "script")
+      false
+    )
 
 
 

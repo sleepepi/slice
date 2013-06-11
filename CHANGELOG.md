@@ -2,7 +2,11 @@
 
 ### Enhancements
 - Use of Ruby 2.0.0-p195 is now recommended
-- Prototyping a new method for creating designs without needing to explicitely define variables and domains first
+- **Design Changes**
+  - Creating and editing designs has been simplified
+    - Variables and domains can now be created while building the design
+    - Changing display options for variables and domains is now reflected on the new design builder
+    - Designs are saved automatically as changes are made
 - **Variable Changes**
   - Scale is now considered an `alignment` option for `checkbox` and `radio` variables instead of being its own variable type
   - Grid variables with multiple rows can now be reordered by dragging the grid rows

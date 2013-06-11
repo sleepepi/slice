@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>
     Insert Section
-    <%= link_to 'back to variable types', '#', data: { object: 'click-and-show', path: interactive_popup_project_designs_path(@project, new: 'section_or_variable', position: params[:position]) }, class: 'btn btn-mini' %>
+    <%= link_to 'back to variable types', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: params[:position] }, class: 'btn btn-mini' %>
   </h1>
 </div>
 
@@ -25,7 +25,7 @@
 <hr class="soften" style="margin-top:20px;" />
 
 <div class="button-group pull-right">
-  <%= button_tag 'Insert', data: { object: 'partial-update-submit', target: '#variable_form', path: interactive_popup_project_designs_path(@project, create: 'section', position: params[:position]) }, class: 'btn btn-primary' %>
+  <%= button_tag 'Insert', data: { object: 'push-partial-change', target: '#variable_form', create: 'section', position: params[:position] }, class: 'btn btn-primary' %>
   <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
 </div>
 
