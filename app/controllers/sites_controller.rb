@@ -18,9 +18,7 @@ class SitesController < ApplicationController
   def index
     current_user.pagination_set!('sites', params[:sites_per_page].to_i) if params[:sites_per_page].to_i > 0
     @order = scrub_order(Site, params[:order], 'sites.name')
-    site_scope = current_user.all_viewable_sites.search(params[:search])
-    site_scope = site_scope.where(project_id: params[:project_id]) unless params[:project_id].blank?
-    @sites = site_scope.order(@order).page(params[:page]).per( current_user.pagination_count('sites') )
+    @sites = current_user.all_viewable_sites.search(params[:search]).where(project_id: @project.id).order(@order).page(params[:page]).per( current_user.pagination_count('sites') )
   end
 
   # GET /sites/1
