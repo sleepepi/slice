@@ -1,4 +1,4 @@
-<%= @comment.user.name %> <span style="border:1px solid #c2daff;background-color:#edf4ff">COMMENTED</span> on Sheet <%= link_to @comment.sheet.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}" %>.<br />
+<%= @comment.user.name %> <span style="border:1px solid #c2daff;background-color:#edf4ff">COMMENTED</span> on <%= link_to @comment.sheet.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}" %> on <%=  link_to @comment.sheet.project.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}" %>.<br />
 <br />
 
 <% @comment.sheet.comments.order('created_at DESC').limit(5).each do |comment| %>

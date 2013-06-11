@@ -137,8 +137,8 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "#{comment.user.name} Commented on Sheet #{comment.sheet.name}", email.subject
-    assert_match(/#{comment.user.name} COMMENTED on Sheet #{comment.sheet.name} located at #{SITE_URL}\/projects\/#{comment.sheet.project.id}\/sheets\/#{comment.sheet.id}\./, email.encoded)
+    assert_equal "#{comment.user.name} Commented on #{comment.sheet.name} on #{comment.sheet.project.name}", email.subject
+    assert_match(/#{comment.user.name} COMMENTED on #{comment.sheet.name} on #{comment.sheet.project.name} located at #{SITE_URL}\/projects\/#{comment.sheet.project.id}\/sheets\/#{comment.sheet.id}\./, email.encoded)
   end
 
   test "project news post email" do

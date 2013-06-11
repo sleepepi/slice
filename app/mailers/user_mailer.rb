@@ -89,7 +89,7 @@ class UserMailer < ActionMailer::Base
     @comment = comment
     @recipient = recipient
     mail(to: recipient.email,
-         subject: "#{comment.user.name} Commented on Sheet #{comment.sheet.name}",
+         subject: "#{comment.user.name} Commented on #{comment.sheet.name} on #{comment.sheet.project.name}",
          reply_to: comment.user.email)
   end
 

@@ -6,6 +6,8 @@
 - **Variable Changes**
   - Scale is now considered an `alignment` option for `checkbox` and `radio` variables instead of being its own variable type
   - Grid variables with multiple rows can now be reordered by dragging the grid rows
+- **Email Changes**
+  - Project name is now included in the email when a user makes a comment on a sheet
 
 ## 0.17.0 (May 13, 2013)
 
