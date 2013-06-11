@@ -4,9 +4,10 @@ class Domain < ActiveRecord::Base
   before_save :check_option_validations
 
   # Concerns
-  include Searchable, Deletable
+  include Deletable
 
   # Named Scopes
+  scope :search, lambda { |arg| where("LOWER(domains.name) LIKE ? or LOWER(domains.description) LIKE ? or LOWER(domains.options) LIKE ?", arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
 
   # Model Validation
   validates_presence_of :name, :project_id, :user_id
