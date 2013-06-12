@@ -2,7 +2,7 @@
   <h1>Insert...</h1>
 </div>
 
-<% ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file'].in_groups_of(3).each do |row_items| %>
+<% ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file', 'grid'].in_groups_of(3).each do |row_items| %>
   <div class="row-fluid">
     <% row_items.each do |variable_type| %>
       <% if variable_type and variable_type != 'section' %>
@@ -58,6 +58,37 @@
               </div>
             <% when 'file' %>
               <span data-object="kill-event"><%= button_tag 'Choose File', disabled: true %></span>
+            <% when 'grid' %>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Lap</th>
+                      <th>Speed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div style="display:inline-block">
+                          <input class="input-mini" placeholder="Mouth breath number" type="text" value="1">
+                        </div>
+                      </td>
+                      <td>
+                         <%= select_tag 'exercise', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 2), disabled: false, class: "chzn-select" %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="display:inline-block">
+                          <input class="input-mini" placeholder="Mouth breath number" type="text" value="2">
+                        </div>
+                      </td>
+                      <td>
+                         <%= select_tag 'exercise2', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 3), disabled: false, class: "chzn-select" %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
             <% end %>
           </div>
         </div>

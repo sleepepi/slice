@@ -30,7 +30,11 @@
     </form>
   </span>
 
-  <% variables = @project.variables.where(variable_type: params[:variable_type]).where("variables.id NOT IN (?)", @design.variable_ids) %>
+  <% if @design.variable_ids.blank? %>
+    <% variables = @project.variables.where(variable_type: params[:variable_type]) %>
+  <% else %>
+    <% variables = @project.variables.where(variable_type: params[:variable_type]).where("variables.id NOT IN (?)", @design.variable_ids) %>
+  <% end %>
   <% if variables.count > 0 %>
     <span class="span6">
       Or Select Existing Variable
