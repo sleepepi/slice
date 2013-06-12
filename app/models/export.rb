@@ -62,7 +62,7 @@ class Export < ActiveRecord::Base
         # Create a zip file
         zipfile_name = File.join('tmp', 'files', 'exports', "#{filename}.zip")
         Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
-          all_files.each do |location, input_file|
+          all_files.uniq.each do |location, input_file|
             # Two arguments:
             # - The name of the file as it will appear in the archive
             # - The original file, including the path to find it
