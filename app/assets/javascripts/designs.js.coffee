@@ -2,14 +2,11 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-
 # This function updates all variables starting with lowest one and progressing up in visibility.
 # After hiding or showing all the variables, it updates the scroll-spy to correct any offsets that may
 # have been introduced
 @updateAllVariables = () ->
   variableContainers = $('[data-object~="variable-container"]')
-  # dmsg("Updating #{variableContainers.length} Variables")
-  # $(variableContainers.get().reverse()).each( (index, variableContainer) ->
   variableContainers.each( (index, variableContainer) ->
     updateVariableContainer(variableContainer)
   )
@@ -17,7 +14,6 @@
     $spy = $(this).scrollspy('refresh')
   )
   false
-
 
 # This function updates an individual variables container to show or be hidden based on what variable keys it depends on.
 # Show if none of the values evaluate to false [1,1,1,1] or [], but not [1,0,1,1] or [0]
@@ -28,7 +24,6 @@
 
   if branching_logic != ''
     try
-      # alert branching_logic
       branching_logic_result = eval(branching_logic)
     catch error
       alert('Error in branching logic syntax.' + error)
@@ -38,14 +33,10 @@
     else
       truth_table.push(0)
 
-
-  # dmsg truth_table
   if 0 in truth_table
     $(element).hide()
-    dmsg("Hiding #{$(element).attr('id')}")
   else
     $(element).show()
-    dmsg("Showing #{$(element).attr('id')}")
   true
 
 @retrieveVariable = (position) ->
@@ -63,11 +54,6 @@
 
 @overlap = (a, b, c = 1) ->
   intersection(a, b).length >= c
-
-# TODO REMOVE BELOW
-@dmsg = (message) ->
-  # $('#error_log').prepend('<li>' + message + '</li>')
-  false
 
 @toggleReorderDesignSubmitButton = () ->
   rows = $.map($('#compact_design').sortable('toArray'), (val, i) -> parseInt(val.replace('option_', '')))
@@ -109,102 +95,14 @@
 
 jQuery ->
 
-  $('#add_more_variables').on('click', () ->
-    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_variable', $("form").serialize() + "&_method=post", null, "script")
-    false
-  )
-
-  $('#add_more_sections').on('click', () ->
-    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_section', $("form").serialize() + "&_method=post", null, "script")
-    false
-  )
-
-  $('#add_more_variables_top').on('click', () ->
-    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_variable', $("form").serialize() + "&location=top&_method=post", null, "script")
-    false
-  )
-
-  $('#add_more_sections_top').on('click', () ->
-    $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_section', $("form").serialize() + "&location=top&_method=post", null, "script")
-    false
-  )
-
   loadVariableSortable()
 
   $('#form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
-
-  $('#reorder_design_button').on('click', () ->
-    if $(this).attr('disabled') != 'disabled'
-      $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
-      rows = $('#compact_design').sortable('toArray').toString()
-      $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script')
-      $('#saving_modal').modal(backdrop: 'static', keyboard: false)
-    false
-  )
-
-  $('#reorder_design_sections_button').on('click', () ->
-    if $(this).attr('disabled') != 'disabled'
-      $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
-      sections = $('#reorder_sections_design').sortable('toArray').toString()
-      $.post($('#reorder_sections_design_form').attr('action'), '&sections='+sections, null, 'script')
-      $('#saving_modal').modal(backdrop: 'static', keyboard: false)
-    false
-  )
-
-  $('#sections_link').on('click', () ->
-    $(this).closest('li').addClass('disabled')
-    $('#variables_link').closest('li').removeClass('disabled')
-    $('#reorder_design_button, #compact_design_container').hide()
-    $('#reorder_design_sections_button, #reorder_sections_container').show()
-    false
-  )
-
-  $('#variables_link').on('click', () ->
-    $(this).closest('li').addClass('disabled')
-    $('#sections_link').closest('li').removeClass('disabled')
-    $('#reorder_design_button, #compact_design_container').show()
-    $('#reorder_design_sections_button, #reorder_sections_container').hide()
-    false
-  )
 
   $(document)
     .on('change', '[data-object~="condition"]', () ->
       updateAllVariables()
       updateCalculatedVariables()
-    )
-    .on('click', '[data-object~="expand-details"]', () ->
-      $('[data-object~="' + $(this).data('inverse-selector') + '"]').show()
-      $('[data-object~="' + $(this).data('selector') + '"]').hide()
-      $($(this).data('target')).show()
-      $($(this).data('target-hide')).hide()
-    )
-    .on('click', '[data-object~="variable-insert-after"]', () ->
-      $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_variable', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
-      false
-    )
-    .on('click', '[data-object~="section-insert-after"]', () ->
-      $.post(root_url + 'projects/' + $("#design_project_id").val() + '/designs/add_section', $("form").serialize() + "&location=" + $(this).data('position') + "&_method=post", null, "script")
-      false
-    )
-    .on('click', '[data-object~="copy-repeatables"]', () ->
-      parent = $(this)
-      val = $($($(this).data('target')).get().reverse()).each( () ->
-        parent.after($(this).html())
-      )
-      false
-    )
-    .on('mousedown', '.handle', () ->
-      $($(this).closest('[data-object~="expand-details"]').data('target')).hide()
-      $($(this).closest('[data-object~="expand-details"]').data('target-hide')).show()
-    )
-    .on('click', '[data-object~="click-and-show"]', () ->
-      $.post($(this).data('path'), $('#design_id').serialize(), null, "script")
-      false
-    )
-    .on('click', '[data-object~="partial-update-submit"]', () ->
-      $(this).addClass('active') if $(this).parent().hasClass('btn-group')
-      $.post($(this).data('path'), $('#design_id').serialize() + '&' + $($(this).data('target')).serialize(), null, "script")
-      false
     )
     .on('click', '[data-object~="design-stop-edit"]', () ->
       design_id = parseInt($('#design_id').val())
@@ -255,12 +153,40 @@ jQuery ->
         $.post(root_url + 'projects/' + $("#project_id").val() + '/designs', changes || params, null, "script")
       false
     )
-
-
+    .on('click', '#reorder_design_button', () ->
+      if $(this).attr('disabled') != 'disabled'
+        $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
+        rows = $('#compact_design').sortable('toArray').toString()
+        $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script')
+        $('#saving_modal').modal(backdrop: 'static', keyboard: false)
+      false
+    )
+    .on('click', '#reorder_design_sections_button', () ->
+      if $(this).attr('disabled') != 'disabled'
+        $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
+        sections = $('#reorder_sections_design').sortable('toArray').toString()
+        $.post($('#reorder_sections_design_form').attr('action'), '&sections='+sections, null, 'script')
+        $('#saving_modal').modal(backdrop: 'static', keyboard: false)
+      false
+    )
+    .on('click', '#sections_link', () ->
+      $(this).closest('li').addClass('disabled')
+      $('#variables_link').closest('li').removeClass('disabled')
+      $('#reorder_design_button, #compact_design_container').hide()
+      $('#reorder_design_sections_button, #reorder_sections_container').show()
+      false
+    )
+    .on('click', '#variables_link', () ->
+      $(this).closest('li').addClass('disabled')
+      $('#sections_link').closest('li').removeClass('disabled')
+      $('#reorder_design_button, #compact_design_container').show()
+      $('#reorder_design_sections_button, #reorder_sections_container').hide()
+      false
+    )
 
   initializeDesignReordering()
 
-  $("#variables div, #form_grid_variables div").last().click()
+  $("#form_grid_variables div").last().click()
 
   if $('[data-object~="ajax-timer"]').length > 0
     interval = setInterval( () ->
@@ -268,9 +194,4 @@ jQuery ->
         $.post($(this).data('path'), "interval=#{interval}", null, "script")
       )
     , 5000)
-
-  # $('[data-object~="variable-load"]').change( () ->
-  #   retrieveVariable($(this).data('position'))
-  #   false
-  # )
 

@@ -156,15 +156,11 @@
   )
 
 jQuery ->
-  $(document)
-    .on('click', '#add_more_options', () ->
-      $.post(root_url + 'projects/' + $("#variable_project_id").val() + '/variables/add_option', $("form").serialize() + "&_method=post", null, "script")
-      false
-    )
-    .on('click', '#add_more_domain_options', () ->
-      $.post(root_url + 'projects/' + $("#domain_project_id").val() + '/domains/add_option', $("form").serialize() + "&_method=post", null, "script")
-      false
-    )
+  if $('#variable_variable_type')
+    toggleOptions($('#variable_variable_type'));
+
+  $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
+
 
   $(document)
     .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
@@ -172,20 +168,12 @@ jQuery ->
       $.post(root_url + 'projects/' + $("#variable_project_id").val() + '/domains/values', "domain_id=#{$(this).val()}", null, "script")
       false
     )
-
-  if $('#variable_variable_type')
-    toggleOptions($('#variable_variable_type'));
-
-  $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
-
-  $(document).on('click', '[data-object~="form-check-before-submit"]', () ->
-    if checkForBlankOptions() == false
-      return false
-    $($(this).data('target')).submit()
-    false
-  )
-
-  $(document)
+    .on('click', '[data-object~="form-check-before-submit"]', () ->
+      if checkForBlankOptions() == false
+        return false
+      $($(this).data('target')).submit()
+      false
+    )
     .on('click', '[data-object~="variable-check-before-submit"]', () ->
       if checkMinMax() == false
         return false

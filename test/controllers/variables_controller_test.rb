@@ -129,26 +129,12 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  # Deprecated
-  # test "should add option" do
-  #   post :add_option, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
-  #   assert_not_nil assigns(:variable)
-  #   assert_template 'add_option'
-  # end
-
   test "should add grid variable" do
     post :add_grid_variable, project_id: @project, format: 'js'
     assert_not_nil assigns(:select_variables)
     assert_not_nil assigns(:grid_variable)
     assert_template 'add_grid_variable'
   end
-
-  # Deprecated
-  # test "should get options" do
-  #   post :options, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_temp', display_name: 'Variable Temp', options: @variable.options, variable_type: @variable.variable_type }, format: 'js'
-  #   assert_not_nil assigns(:variable)
-  #   assert_template 'options'
-  # end
 
   test "should get index" do
     get :index, project_id: @project

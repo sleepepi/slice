@@ -1,8 +1,8 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank, :overview ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :import, :create_import, :progress, :reimport, :update_import ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :add_section, :add_variable, :variables, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :blank, :overview ]
   before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
   before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank, :reimport, :update_import, :overview ]
@@ -131,22 +131,6 @@ class DesignsController < ApplicationController
     @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
     @sheet = Sheet.new unless @sheet
     @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id]) unless params[:sheet].blank?
-  end
-
-  def add_section
-    @design = Design.new(design_params.except(:option_tokens))
-    @option = { }
-  end
-
-  def add_variable
-    @design = Design.new(design_params)
-    @option = { variable_id: '' }
-    @all_viewable_variables = current_user.all_viewable_variables.where(project_id: @project.id)
-    @select_variables = @all_viewable_variables.order(:name).collect{|v| [v.name, v.id]}
-  end
-
-  def variables
-    @design = Design.new(design_params)
   end
 
   def reorder

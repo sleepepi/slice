@@ -1,10 +1,8 @@
 <section id="<%= @option[:section_id] %>" style="padding-top:30px">
-<div class="page-header" <% if false %>style="padding-top:76px"<% end %> data-object="variable-container">
-  <h2>
-    <%= @option[:section_name] %>
-  </h2>
-  <%= simple_markdown @option[:section_description] unless @option[:section_description].blank? %>
-</div>
-
-<%= link_to 'add more', '#', class: 'btn btn-mini', data: { object: 'copy-repeatables', target: "[data-object~=repeatable_#{@repeatable_id}]" } if @is_repeatable %>
+  <div class="page-header" data-object="variable-container">
+    <h2>
+      <%= @option[:section_name] %>
+    </h2>
+    <%= simple_markdown @option[:section_description] unless @option[:section_description].blank? %>
+  </div>
 </section>

@@ -69,14 +69,9 @@ Slice::Application.routes.draw do
         get :overview
       end
       collection do
-        post :add_variable
-        post :add_section
-        post :variables
         post :selection
         get :import
         post :create_import
-        # get :interactive
-        # post :interactive_popup
       end
     end
 
@@ -112,8 +107,6 @@ Slice::Application.routes.draw do
         get :typeahead
       end
       collection do
-        # post :add_option
-        # post :options
         post :add_grid_variable
         post :cool_lookup
       end

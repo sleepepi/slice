@@ -521,28 +521,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get variables" do
-    post :variables, project_id: @project, design: { description: "New description", name: 'Design Four' }, format: 'js'
-    assert_template 'variables'
-    assert_response :success
-  end
-
-  test "should add section" do
-    post :add_section, project_id: @project, design: { description: "New description", name: 'Design Four' }, format: 'js'
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:option)
-    assert_template 'add_section'
-    assert_response :success
-  end
-
-  test "should add variable" do
-    post :add_variable, project_id: @project, design: { description: "New description", name: 'Design Four' }, format: 'js'
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:option)
-    assert_template 'add_variable'
-    assert_response :success
-  end
-
   test "should get selection" do
     post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
     assert_not_nil assigns(:sheet)

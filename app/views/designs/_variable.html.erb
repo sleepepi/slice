@@ -1,9 +1,6 @@
 <%# This file shows a variable for use in a sheet %>
 <% disabled = '' if defined?(disabled) == nil %>
 <div class="control-group" data-object="variable-container" id="varvar_<%= @variable.id %>">
-
-  <%# data-condition-parent="<%= @design.condition_parent(@variable) if @design % >" data-condition-value="<%= @design.condition_value(@variable) if @design % >"  %>
-
   <% unless @variable.header.blank? %>
     <div class="page-header" style="margin-top:0px">
       <h4>
