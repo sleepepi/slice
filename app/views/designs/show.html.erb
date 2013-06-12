@@ -1,12 +1,11 @@
-<% @title = "Design: #{@design.name}" %>
+<% @title = @design.name %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= link_to 'Designs', project_designs_path(@project) %> &middot; <%= @title %>
     <% if @design.editable_by?(current_user) %>
       <%= link_to "Edit Design", edit_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
       <%= link_to "Delete Design", [@design.project, @design], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" } %>
     <% end %>
-    <%= link_to "View Designs", project_designs_path(@project), class: 'btn btn-mini' %>
     <%= link_to "View Sheets", project_sheets_path(@project, design_id: @design.id), class: 'btn btn-mini' %>
     <%= link_to "Copy Design", copy_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
     <%= link_to "PDF", print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
