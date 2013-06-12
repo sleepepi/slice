@@ -108,9 +108,8 @@
 
 <div class="center muted"><%= @report_caption %></div>
 
-<% link_name = @design ? report_project_design_path(@design.project, @design, project_id: @project.id, percent: @percent, f: params[:f], filter: @filter, statuses: @statuses) : report_project_path(@project, f: params[:f], filter: @filter, statuses: @statuses) %>
-<%= link_to '#permalink', link_name,
-                                              class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>
+<% link_name = @design ? report_project_design_path(@design.project, @design, percent: @percent, f: params[:f], filter: @filter, statuses: @statuses) : report_project_path(@project, f: params[:f], filter: @filter, statuses: @statuses) %>
+<%= link_to '#permalink', link_name, class: 'pull-right print-hide', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print' %>
 
 <% if false %>
 <%= form_tag reports_path, method: :post, remote: true, id: 'save_report_form' do %>
