@@ -66,21 +66,6 @@ jQuery ->
     false
   )
 
-  $("#email_popup").on('click', () ->
-    $('#send_email_modal').modal({ dynamic: true })
-    false
-  )
-
-  $("#info_popup").on('click', () ->
-    $('#info_modal').modal({ dynamic: true })
-    false
-  )
-
-  $("#email_history_popup").on('click', () ->
-    $('#email_history_modal').modal({ dynamic: true })
-    false
-  )
-
   $(document)
     .on('click', '[data-object~="export"]', () ->
       url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()

@@ -1,17 +1,12 @@
-<% @title = "Sheet: #{@sheet.name}" %>
+<% @title = @sheet.name %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= link_to 'Sheets', project_sheets_path(@project) %> &middot; <%= @title %>
     <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
       <%= link_to "Edit Sheet", edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-mini' %>
       <%= link_to "Delete Sheet", [@sheet.project, @sheet], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
     <% end %>
-    <%= link_to "View Sheets", project_sheets_path(@project), class: 'btn btn-mini' %>
     <%= link_to "PDF", print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
-    <%= link_to 'Detailed Info', '#', class: 'btn btn-mini', id: 'info_popup' %>
-    <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
-      <% if @sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id) %><%= link_to 'Audits', audits_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-mini btn-info' %><% end %>
-    <% end %>
   </h1>
 </div>
 
@@ -52,46 +47,43 @@
   <%= render partial: 'sheets/comments' %>
 </div>
 
-<div id="info_modal" class="modal" style="display:none">
-  <div class="modal-header">
-    <strong><%= @sheet.design.name %></strong> Information
-    <a class="close" data-dismiss="modal">×</a>
-  </div>
-  <div class="modal-body">
-    <dl class="dl-horizontal">
+<hr class="soften" style="margin-top:20px;margin-bottom:40px" />
 
-      <dt>Design</dt>
-      <dd><%= link_to @sheet.design.name, [@sheet.design.project, @sheet.design] %></dd>
+<div class="download-container">
+  <div class="download-container-after">Additional Information</div>
 
-      <dt>Project</dt>
-      <dd><%= @project = @sheet.project; render partial: 'projects/logo_small' %> <%= link_to @sheet.project.name, @sheet.project if @sheet.project %></dd>
+  <dl class="dl-horizontal" style="margin-bottom:0px">
+    <dt>Design</dt>
+    <dd>
+      <%= link_to @sheet.design.name, [@sheet.design.project, @sheet.design] %>
+      &middot;
+      <%= link_to "Report", report_project_design_path(@sheet.design.project, @sheet.design), class: 'btn btn-mini' %>
+    </dd>
 
-      <dt>Subject</dt>
-      <dd><%= link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject %></dd>
+    <dt>Project and Site</dt>
+    <dd>
+      <%= link_to @sheet.project.name, @sheet.project %>
+      &middot;
+      <%= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site %>
+    </dd>
 
-      <% if @sheet.subject and not @sheet.subject.acrostic.blank? %>
-        <dt>Acrostic</dt>
-        <dd><%= @sheet.subject.acrostic if @sheet.subject %></dd>
-      <% end %>
+    <dt>Creator</dt>
+    <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
 
-      <dt>Site</dt>
-      <dd><%= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site %></dd>
+    <dt>Created</dt>
+    <dd><%= simple_time @sheet.created_at %>
 
-      <dt>Creator</dt>
-      <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
+    <dt>Last Edited By</dt>
+    <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
 
-      <dt>Created</dt>
-      <dd><%= simple_time @sheet.created_at %>
+    <dt>Last Edited At</dt>
+    <dd><%= simple_time @sheet.last_edited_at %>
 
-      <dt>Last Edited By</dt>
-      <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
-
-      <dt>Last Edited At</dt>
-      <dd><%= simple_time @sheet.last_edited_at %>
-    </dl>
-  </div>
-
-  <div class="modal-footer">
-    <%= link_to 'Close', '#', class: 'btn', data: { target: '#info_modal', object: 'modal-hide' } %>
-  </div>
+    <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
+      <dt>Full Audits</dt>
+      <dd>
+        <% if @sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id) %><%= link_to 'Audits', audits_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-mini' %><% end %>
+      </dd>
+    <% end %>
+  </dl>
 </div>

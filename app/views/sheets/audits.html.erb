@@ -1,8 +1,8 @@
-<% @title = "Sheet: #{@sheet.name}" %>
+<% @title = "#{@sheet.name} Audits" %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= @title %>
-    <%= link_to "Back to Sheet", [@project, @sheet], class: 'btn btn-mini' %>
+    <%= link_to @project.name, @project %>
+    &middot; <%= link_to 'Sheets', project_sheets_path(@project) %> &middot; <%= link_to @sheet.name, [@project, @sheet] %> Audits
   </h1>
 </div>
 
