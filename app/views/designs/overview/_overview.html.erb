@@ -16,14 +16,20 @@
     <% if @option[:variable_id].blank? %>
       <%= render partial: 'designs/section' %>
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-      <% unless @variable.header.blank? %>
-        <div class="page-header">
-          <h4><%= simple_markdown @variable.header %></h4>
-        </div>
-      <% end %>
 
       <div class="control-group">
-        <% if @variable.display_name_visibility == 'visible' %><label class="control-label"><%= @variable.display_name %></label><% end %>
+        <% if @variable.uses_scale? %>
+          <%# Nothing %>
+        <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
+          <div class="page-header" style="margin-top:0px">
+            <h4 style="padding:0px">
+              <%= @variable.display_name %>
+            </h4>
+          </div>
+        <% else %>
+          <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' %>
+        <% end %>
+
         <div class="<%= "controls controls-row" unless @variable.display_name_visibility == 'gone' %>">
           <% responses = @sheets.sheet_responses(@variable)  %>
           <%= render partial: "designs/overview/#{@variable.variable_type}", locals: { sheet_scope: @sheets, responses: responses } %>

@@ -7,9 +7,11 @@
     - Variables and domains can now be created while building the design
     - Changing display options for variables and domains is now reflected on the new design builder
     - Designs are saved automatically as changes are made
+  - Sections can now be marked as subsections, this change is aimed at removing the header field from variables
 - **Variable Changes**
   - Scale is now considered an `alignment` option for `checkbox` and `radio` variables instead of being its own variable type
   - Grid variables with multiple rows can now be reordered by dragging the grid rows
+  - Variable headers have been removed in favor of design subsections
 - **Domain Changes**
   - Searches on the domains index now search through domain options as well
 - **Email Changes**

@@ -5,7 +5,6 @@ one:
   name: var_1
   display_name: Variable One
   description: MyText
-  header: MyString
   variable_type: dropdown
   user: valid
   project: one
@@ -15,7 +14,6 @@ two:
   name: var_2
   display_name: Variable Two
   description: MyText
-  header: MyString
   variable_type: string
   user: valid
   project: one
@@ -25,7 +23,6 @@ dropdown:
   name: var_gender
   display_name: Gender
   description: MyText
-  header: MyString
   variable_type: dropdown
   user: valid
   project: one
@@ -35,7 +32,6 @@ checkbox:
   name: var_course_work
   display_name: Course Work
   description: All the courses I've taken
-  header: MyString
   variable_type: checkbox
   user: valid
   project: one
@@ -45,7 +41,6 @@ radio:
   name: var_year
   display_name: Year
   description: Year in School
-  header: MyString
   variable_type: radio
   user: valid
   project: one
@@ -55,7 +50,6 @@ string:
   name: var_hobbies
   display_name: Hobbies
   description: List your Hobbies
-  header: MyString
   variable_type: string
   user: valid
   project: one
@@ -64,7 +58,6 @@ text:
   name: var_life_goals
   display_name: Life Goals
   description: What is the meaning of your life?
-  header: MyString
   variable_type: text
   user: valid
   project: one
@@ -73,7 +66,6 @@ integer:
   name: var_age
   display_name: Age
   description: Approximate Age in Years
-  header: Demographics
   variable_type: integer
   hard_minimum: 0
   soft_minimum: 18
@@ -95,7 +87,6 @@ date:
   name: var_date
   display_name: Today's Date
   description: Enter Today's Date!
-  header: Other
   variable_type: date
   user: valid
   project: one
@@ -104,7 +95,6 @@ time:
   name: var_time
   display_name: 24 Hour Clock
   description: Enter your favorite time of day.
-  # header: Other
   variable_type: time
   user: valid
   project: one
@@ -113,7 +103,6 @@ file:
   name: var_file
   display_name: Upload a Picture
   description: Please do not use a picture from a social site.
-  header: MyString
   variable_type: file
   user: valid
   project: one
@@ -138,7 +127,6 @@ gender:
   name: gender_for_report
   display_name: Gender
   # description:
-  # header:
   variable_type: radio
   user: valid
   project: one
@@ -148,7 +136,6 @@ calculated:
   name: var_bmi
   display_name: Body Mass Index
   description: Automatically calculated variable
-  # header:
   variable_type: calculated
   user: valid
   calculation: "weight / (height * height)"
@@ -159,7 +146,6 @@ calculated_without_format:
   name: var_bmi_no_format
   display_name: Body Mass Index
   description: Automatically calculated variable
-  # header:
   variable_type: calculated
   user: valid
   calculation: "weight / (height * height)"
@@ -170,7 +156,6 @@ external_calculated:
   name: external_bmi
   display_name: Body Mass Index
   description: Automatically calculated variable
-  # header:
   variable_type: calculated
   user: admin
   calculation: "weight / (height * height)"
@@ -248,7 +233,6 @@ autocomplete:
   name: var_autocomplete_animals
   display_name: Animals
   description: What's your favorite animal
-  # header: MyString
   variable_type: string
   user: valid
   project: one
@@ -258,7 +242,6 @@ external_autocomplete:
   name: external_autocomplete_animals
   display_name: Animals
   description: What's your favorite animal
-  # header: MyString
   variable_type: string
   user: admin
   project: three
@@ -268,7 +251,6 @@ public_autocomplete:
   name: public_autocomplete_animals
   display_name: Animals
   description: What's your favorite animal
-  # header: MyString
   variable_type: string
   user: admin
   project: three

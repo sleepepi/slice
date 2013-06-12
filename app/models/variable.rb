@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  # attr_accessible :description, :header, :name, :display_name, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
+  # attr_accessible :description, :name, :display_name, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
   #                 # Integer and Numeric
   #                 :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
   #                 # Date
@@ -21,7 +21,7 @@ class Variable < ActiveRecord::Base
   TYPE_IMPORTABLE = ['string', 'text', 'integer', 'numeric', 'date', 'time'].sort.collect{|i| [i,i]}
   TYPE_DOMAIN = ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
   CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
-  DISPLAY_NAME_VISIBILITY = [['Visible', 'visible'], ['Invisible', 'invisible'], ['Gone', 'gone']]
+  DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]
   ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical'], ['Scale', 'scale']]
 
   serialize :grid_variables, Array
@@ -54,11 +54,6 @@ class Variable < ActiveRecord::Base
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
-
-  def header_without_tags
-    self.header.to_s.gsub(/<(.*?)>/, '')
-  end
-
   def shared_options
     self.domain ? self.domain.options : []
   end
@@ -176,7 +171,7 @@ class Variable < ActiveRecord::Base
   end
 
   def first_scale_variable?(design)
-    return true unless design and self.header.blank?
+    return true unless design
 
     previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id) > 0
     # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form

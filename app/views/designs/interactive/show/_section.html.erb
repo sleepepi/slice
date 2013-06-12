@@ -1,9 +1,10 @@
+<% section_type = @option[:section_type].to_i %>
 <section style="padding-top:30px">
   <div data-object="pull-partial-edit" data-edit="section" data-position="<%= @position %>" class="page-header editable-design-element">
-    <h2>
+    <% if section_type > 0 %><h4><% else %><h2><% end %>
       <% if @option[:section_name].blank? %><div class="muted">Click to Edit Section Name</div><% else %><%= @option[:section_name] %><% end %>
       <%= link_to 'remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position }, class: 'btn btn-mini btn-danger' %>
-    </h2>
+    <% if section_type > 0 %></h4><% else %></h2><% end %>
     <% if @option[:section_description].blank? %>
       <div class="muted">Click to Edit Section Description</div>
     <% else %>

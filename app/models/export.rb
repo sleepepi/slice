@@ -225,7 +225,7 @@ class Export < ActiveRecord::Base
       variables_csv = File.join('tmp', 'files', 'exports', "#{self.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{self.created_at.strftime("%I%M%P")}_variables.csv")
 
       CSV.open(variables_csv, "wb") do |csv|
-        csv << [  'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Header', 'Variable Description',
+        csv << [  'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description',
                   'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
                   'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
                   'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name' ]
@@ -235,9 +235,8 @@ class Export < ActiveRecord::Base
               csv << [ d.name,
                 option[:section_id],
                 option[:section_name],
-                nil, # Variable Header
                 option[:section_description], # Variable Description
-                'section',
+                (option[:section_type].to_i > 0 ? 'subsection' : 'section'),
                 nil, # Hard Min
                 nil, # Soft Min
                 nil, # Soft Max
@@ -258,7 +257,6 @@ class Export < ActiveRecord::Base
               csv << [ d.name,
                 variable.name,
                 variable.display_name,
-                variable.header, # Variable Header
                 variable.description, # Variable Description
                 variable.variable_type,
                 (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min

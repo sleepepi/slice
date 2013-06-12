@@ -33,8 +33,8 @@ class Design < ActiveRecord::Base
   # Model Methods
 
   def create_section(params, position)
-    section_params = params.permit(:name, :description)
-    section = { section_name: section_params[:name].to_s.strip, section_id: "_" + section_params[:name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:description].to_s.strip }
+    section_params = params.permit(:name, :description, :section_type)
+    section = { section_name: section_params[:name].to_s.strip, section_id: "_" + section_params[:name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:description].to_s.strip, section_type: section_params[:section_type].to_i }
     unless section_params[:name].to_s.strip.blank?
       new_option_tokens = self.options
       new_option_tokens.insert(position, section)
@@ -44,7 +44,7 @@ class Design < ActiveRecord::Base
   end
 
   def update_section(params, position)
-    section_params = params.permit(:section_name, :section_description, :branching_logic)
+    section_params = params.permit(:section_name, :section_description, :branching_logic, :section_type)
     unless section_params[:section_name].blank?
       new_option_tokens = self.options
       section_params.each do |key, value|
@@ -102,7 +102,7 @@ class Design < ActiveRecord::Base
       self.save
     end
 
-    variable_params = params.permit(:header, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button, :autocomplete_values, :multiple_rows, :default_row_number, { :grid_tokens => [ :variable_id, :control_size ] })
+    variable_params = params.permit(:display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button, :autocomplete_values, :multiple_rows, :default_row_number, { :grid_tokens => [ :variable_id, :control_size ] })
     if v = self.project.variables.find_by_id(variable_id)
       v.update(variable_params)
     end
@@ -179,6 +179,7 @@ class Design < ActiveRecord::Base
                           section_name: option_hash[:section_name].strip,
                           section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
                           section_description: option_hash[:section_description].to_s.strip,
+                          section_type: option_hash[:section_type].to_i,
                           branching_logic: option_hash[:branching_logic].to_s.strip
                         }
       end
@@ -213,7 +214,7 @@ class Design < ActiveRecord::Base
   end
 
   def sections
-    self.options.select{|option| not option[:section_name].blank?}
+    self.options.select{|option| not option[:section_name].blank? and option[:section_type].to_i == 0}
   end
 
   def section_names
@@ -257,7 +258,7 @@ class Design < ActiveRecord::Base
     range_start = 0
     section_count = 0
     self.options.each_with_index do |option, index|
-      if option[:section_name].blank?
+      if option[:section_name].blank? or option[:section_type].to_i > 0
         original_sections[current_section] = [range_start, index]
       else
         current_section = section_count

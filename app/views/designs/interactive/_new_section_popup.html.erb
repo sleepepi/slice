@@ -19,6 +19,15 @@
       <%= text_area_tag "section[description]", '', style: 'width:95%', autocomplete: 'off', rows: 3 %>
     </div>
   </div>
+
+  <div class="control-group">
+    <label class="control-label">Is Subsection?</label>
+    <div class="controls">
+      <%= hidden_field_tag "section[section_type]", "0" %>
+      <%= check_box_tag "section[section_type]", "1", false %>
+    </div>
+  </div>
+
 </form>
 
 

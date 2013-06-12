@@ -65,18 +65,18 @@
   <% @option = option %>
 
   <% if @option[:variable_id].blank? %>
-    \subsection*{<%= latex_safe @option[:section_name] %>}
+    <% if @option[:section_type].to_i > 0 %>
+      \subsubsection*{<%= latex_safe @option[:section_name] %>}
+    <% else %>
+      \subsection*{<%= latex_safe @option[:section_name] %>}
+    <% end %>
     \hline
 ~
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
     <% if @variable.variable_type == 'grid' %> <%# sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 \Needspace{7\baselineskip}
-<% if @variable.header_without_tags.blank? %>
-  \subsubsection*{<%= latex_safe @variable.display_name %>}
-<% else %>
-  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' %>\\\\<%= latex_safe @variable.display_name %><% end %>}
-<% end %>
+\subsubsection*{<%= latex_safe @variable.display_name %>}
 
 \begin{table*}[!htbp]\centering
 
@@ -98,11 +98,7 @@
     <% else %>
 
 \Needspace{7\baselineskip}
-<% if @variable.header_without_tags.blank? %>
-  \subsubsection*{<%= latex_safe @variable.display_name %>}
-<% else %>
-  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' %>\\\\<%= latex_safe @variable.display_name %><% end %>}
-<% end %>
+\subsubsection*{<%= latex_safe @variable.display_name %>}
 
 <% if @variable.variable_type == 'date' %>
  \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~} \\

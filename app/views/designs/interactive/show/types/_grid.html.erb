@@ -27,10 +27,10 @@
     </tbody>
   </table>
 
+  <%= button_tag 'more', disabled: true, title: variable.display_name if variable.multiple_rows? %>
+
   <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
     <span class="dark-hover muted">Click to Edit Grid Variable</span>
   </div>
-
-  <%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', variable_id: variable.id }, tabindex: "-1" if variable.multiple_rows? %>
 
 <% end %>

@@ -171,7 +171,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create variable" do
     assert_difference('Variable.count') do
-      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type }
+      post :create, project_id: @project, variable: { description: @variable.description, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type }
     end
 
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
@@ -200,7 +200,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not create variable with invalid project" do
     assert_difference('Variable.count', 0) do
-      post :create, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type }
+      post :create, project_id: -1, variable: { description: @variable.description, name: 'var_3', display_name: 'Variable Three', variable_type: @variable.variable_type }
     end
 
     assert_nil assigns(:project)
@@ -211,7 +211,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should not create grid variable with non-unique variables" do
     assert_difference('Variable.count', 0) do
-      post :create, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: 'var_grid_tmp', display_name: 'Variable Grid', variable_type: 'grid',
+      post :create, project_id: @project, variable: { description: @variable.description, name: 'var_grid_tmp', display_name: 'Variable Grid', variable_type: 'grid',
                                 grid_tokens: [
                                   { variable_id: ActiveRecord::FixtureSet.identify(:integer) },
                                   { variable_id: ActiveRecord::FixtureSet.identify(:integer) }
@@ -293,12 +293,12 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should update variable" do
-    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test "should not update variable with blank display name" do
-    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: '', variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: '', variable_type: @variable.variable_type }
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
     assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
@@ -306,14 +306,14 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not update invalid variable" do
-    put :update, id: -1, project_id: @project, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
+    put :update, id: -1, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
     assert_not_nil assigns(:project)
     assert_nil assigns(:variable)
     assert_redirected_to project_variables_path(assigns(:project))
   end
 
   test "should not update variable with invalid project" do
-    put :update, id: @variable, project_id: -1, variable: { description: @variable.description, header: @variable.header, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: -1, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
 
     assert_nil assigns(:project)
     assert_nil assigns(:variable)

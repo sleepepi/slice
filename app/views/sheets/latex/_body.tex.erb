@@ -23,18 +23,18 @@
   <% @option = option %>
 
   <% if @option[:variable_id].blank? %>
-    \subsection*{<%= latex_safe @option[:section_name] %>}
+    <% if @option[:section_type].to_i > 0 %>
+      \subsubsection*{<%= latex_safe @option[:section_name] %>}
+    <% else %>
+      \subsection*{<%= latex_safe @option[:section_name] %>}
+    <% end %>
     \hline
 ~
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) and @sheet.show_variable?(@option[:branching_logic]) %>
     <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 \Needspace{7\baselineskip}
-<% if @variable.header_without_tags.blank? %>
-  \subsubsection*{<%= latex_safe @variable.display_name %>}
-<% else %>
-  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' %>\\\\<%= latex_safe @variable.display_name %><% end %>}
-<% end %>
+\subsubsection*{<%= latex_safe @variable.display_name %>}
 
 \begin{longtable}{@{\extracolsep{\fill}}<%= "p{#{14.0/[@variable.grid_variables.size, 1].max}cm}"*@variable.grid_variables.size %>@{\extracolsep{\fill}}}
 <% @variable.grid_variables.each do |grid_variable| %>
@@ -57,11 +57,7 @@
     <% else %>
 
 \Needspace{7\baselineskip}
-<% if @variable.header_without_tags.blank? %>
-  \subsubsection*{<%= latex_safe @variable.display_name %>}
-<% else %>
-  \subsubsection*{<%= latex_safe @variable.header_without_tags %><% if @variable.display_name_visibility == 'visible' %>\\\\<%= latex_safe @variable.display_name %><% end %>}
-<% end %>
+\subsubsection*{<%= latex_safe @variable.display_name %>}
 
 <% if @variable.variable_type == 'checkbox' %>
   <% if @sheet.get_response(@variable, :name).size == 0 %>

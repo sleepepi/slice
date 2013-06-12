@@ -1,15 +1,17 @@
 <%# This file shows a variable for use in a sheet %>
 <% disabled = '' if defined?(disabled) == nil %>
 <div class="control-group" data-object="variable-container" id="varvar_<%= @variable.id %>">
-  <% unless @variable.header.blank? %>
+  <% if @variable.uses_scale? %>
+    <%# Nothing %>
+  <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
     <div class="page-header" style="margin-top:0px">
-      <h4>
-        <%= simple_markdown @variable.header %>
+      <h4 style="padding:0px">
+        <%= @variable.display_name %>
       </h4>
     </div>
+  <% else %>
+    <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' %>
   <% end %>
-
-  <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' if @variable.display_name_visibility == 'visible' and not @variable.uses_scale? %>
 
   <div class="<%= "controls" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %>">
     <div style="line-height:30px">
