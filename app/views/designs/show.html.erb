@@ -4,39 +4,35 @@
     <%= link_to @project.name, @project %> &middot; <%= link_to 'Designs', project_designs_path(@project) %> &middot; <%= @title %>
     <% if @design.editable_by?(current_user) %>
       <%= link_to "Edit Design", edit_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
+      <%= link_to "Reimport", reimport_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
+      <%= link_to "Copy Design", copy_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
       <%= link_to "Delete Design", [@design.project, @design], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" } %>
     <% end %>
-    <%= link_to "View Sheets", project_sheets_path(@project, design_id: @design.id), class: 'btn btn-mini' %>
-    <%= link_to "Copy Design", copy_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
     <%= link_to "PDF", print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
+    <%= link_to "View Sheets", project_sheets_path(@project, design_id: @design.id), class: 'btn btn-mini' %>
 
     <%= link_to "Report", report_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
-    <%= link_to "Reimport", reimport_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
     <%= link_to "Overview", overview_project_design_path(@design.project, @design), class: 'btn btn-mini' %>
   </h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Project</dt>
-  <dd><%= @project = @design.project; render partial: 'projects/logo_small' %> <%= link_to @design.project.name, @design.project %></dd>
+<% if @design.publicly_available? or @design.total_rows > 0 %>
+  <dl class="dl-horizontal">
+    <% if @design.publicly_available? %>
+      <dt>Publicly Available</dt>
+      <dd>
+        <%= link_to "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge' if @design.publicly_available? %>
+      </dd>
+    <% end %>
 
-  <dt>Creator</dt>
-  <dd><%= link_to @design.user.name, @design.user if @design.user %></dd>
-
-  <% if @design.publicly_available? %>
-    <dt>Publicly Available</dt>
-    <dd>
-      <%= link_to "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge' if @design.publicly_available? %>
-    </dd>
-  <% end %>
-
-  <% if @design.total_rows > 0 %>
-    <dt>Import Progress</dt>
-    <dd id="progress" data-object="<%= 'ajax-timer' if @design.total_rows != @design.rows_imported %>" data-path="<%= progress_project_design_path(@design.project, @design) %>">
-      <%= render partial: 'designs/progress' %>
-    </dd>
-  <% end %>
-</dl>
+    <% if @design.total_rows > 0 %>
+      <dt>Import Progress</dt>
+      <dd id="progress" data-object="<%= 'ajax-timer' if @design.total_rows != @design.rows_imported %>" data-path="<%= progress_project_design_path(@design.project, @design) %>">
+        <%= render partial: 'designs/progress' %>
+      </dd>
+    <% end %>
+  </dl>
+<% end %>
 
 <span class="pagination">
   <ul>
