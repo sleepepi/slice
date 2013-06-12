@@ -123,6 +123,7 @@ jQuery ->
       changes.new = $(this).data('new')
       changes.edit = $(this).data('edit')
       changes.position = $(this).data('position')
+      changes.variable_id = $(this).data('variable-id')
       changes.variable_type = $(this).data('variable-type')
       if design_id > 0
         $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val() + '/edit', changes, null, "script")
@@ -136,12 +137,14 @@ jQuery ->
       if $($(this).data('target')).length > 0
         params = $($(this).data('target')).serialize()
         params = params + "&position=" + $(this).data('position') unless $(this).data('position') == undefined
+        params = params + "&variable_id=" + $(this).data('variable-id') unless $(this).data('variable-id') == undefined
         params = params + "&create=" + $(this).data('create') unless $(this).data('create') == undefined
         params = params + "&update=" + $(this).data('update') unless $(this).data('update') == undefined
         params = params + "&delete=" + $(this).data('delete') unless $(this).data('delete') == undefined
       else
         changes = $(this).data('changes') || {}
         changes.position = $(this).data('position')
+        changes.variable_id = $(this).data('variable-id')
         changes.create = $(this).data('create')
         changes.update = $(this).data('update')
         changes.delete = $(this).data('delete')

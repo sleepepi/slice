@@ -209,11 +209,11 @@ class DesignsController < ApplicationController
     end
     unless params[:variable].blank?
       @design.create_variable(params[:variable], params[:position].to_i) if params[:create] == 'variable'
-      @design.update_variable(params[:variable], params[:position].to_i) if params[:update] == 'variable'
+      @design.update_variable(params[:variable], params[:position].to_i, params[:variable_id]) if params[:update] == 'variable'
     end
     unless params[:domain].blank?
-      @design.create_domain(params[:domain], params[:position].to_i, current_user) if params[:create] == 'domain'
-      @design.update_domain(params[:domain], params[:position].to_i) if params[:update] == 'domain'
+      @design.create_domain(params[:domain], params[:variable_id], current_user) if params[:create] == 'domain'
+      @design.update_domain(params[:domain], params[:variable_id]) if params[:update] == 'domain'
     end
     if ['variable', 'section'].include?(params[:delete])
       @design.remove_option(params[:position].to_i)

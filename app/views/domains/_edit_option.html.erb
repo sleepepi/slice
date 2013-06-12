@@ -21,8 +21,8 @@
     &curren;
     <%= text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, placeholder: 'Name', rel: 'tooltip', title: 'Name', class: 'input-small' %>
     <%= text_field_tag "domain[option_tokens][][value]", @option[:value], placeholder: 'Value', rel: 'tooltip', title: 'Value', class: 'input-small' %>
-    <%= text_field_tag "domain[option_tokens][][description]", @option[:description], placeholder: 'Description', rel: 'tooltip', title: 'Description' %>
-    <%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', rel: 'tooltip', title: 'Missing Code?' %> Missing Code?
+    <%= text_field_tag "domain[option_tokens][][description]", @option[:description], placeholder: 'Description', rel: 'tooltip', title: 'Description', tabindex: "-1" %>
+    <%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', rel: 'tooltip', title: 'Missing Code?', tabindex: "-1" %> Missing Code?
     <%= hidden_field_tag "domain[option_tokens][][color]", (@option[:color].blank? ? '#ffffff' : @option[:color]), id: "domain_option_tokens_#{@position}_hexcolor" %>
     <% if total_count > 0 %>
       <span class="muted"><%= pluralize total_count, 'response' %> uses this option.</span>

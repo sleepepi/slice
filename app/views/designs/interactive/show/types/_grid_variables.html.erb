@@ -1,4 +1,4 @@
-<tr id="variable_<%= variable.id %>_grid_row_<%= position %>" data-object="hover-show" data-target="#variable_<%= variable.id %>_grid_row_<%= position %>_delete_link">
+<tr>
   <% variable.grid_variables.each do |grid_variable| %>
     <td>
     <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: position) unless grid %>

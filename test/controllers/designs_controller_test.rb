@@ -630,7 +630,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should create a domain and add it to the first variable on the design" do
     assert_difference('Domain.current.count') do
-      put :update, id: @design, project_id: @project, domain: { name: 'new_domain_for_variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 0, create: 'domain', format: 'js'
+      put :update, id: @design, project_id: @project, domain: { name: 'new_domain_for_variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 0, variable_id: variables(:one).id, create: 'domain', format: 'js'
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)

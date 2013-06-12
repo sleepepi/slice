@@ -1,7 +1,7 @@
 <div class="control-group">
   <div class="page-header editable-design-element" style="margin-top:0px">
     <h4 style="padding:0px" class="<%= 'hover-dark' if @variable.header.blank? %>">
-      <span data-object="pull-partial-edit" data-edit="variable_header" data-position="<%= @position %>" class="editable-design-element">
+      <span data-object="pull-partial-edit" data-edit="variable_header" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="editable-design-element">
         <% if @variable.header.blank? %>
           Click to Edit Variable Header
         <% else %>
@@ -12,7 +12,7 @@
   </div>
 
   <% if @variable.display_name_visibility == 'visible' and not @variable.uses_scale? %>
-    <div data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" class="editable-design-element">
+    <div data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="editable-design-element">
       <label class="control-label"><%= @variable.display_name %></label>
     </div>
   <% end %>
@@ -34,7 +34,7 @@
           <% if visibility == @variable.display_name_visibility %>
             <button type="button" class="btn btn-mini active"><%= visibility %></button>
           <% else %>
-            <%= link_to visibility, '#', data: { object: 'push-partial-change', update: 'variable', changes: { variable: { display_name_visibility: visibility } }, position: @position }, class: 'btn btn-mini' %>
+            <%= link_to visibility, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { display_name_visibility: visibility } }, position: @position }, class: 'btn btn-mini' %>
           <% end %>
         <% end %>
       </div>
@@ -57,7 +57,7 @@
             <% if variable_type == @variable.variable_type %>
               <button type="button" class="btn btn-mini active"><%= variable_type %></button>
             <% else %>
-              <%= link_to variable_type, '#', data: { object: 'push-partial-change', update: 'variable', changes: { variable: { variable_type: variable_type } }, position: @position }, class: 'btn btn-mini' %>
+              <%= link_to variable_type, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { variable_type: variable_type } }, position: @position }, class: 'btn btn-mini' %>
             <% end %>
           <% end %>
         </div>
@@ -72,7 +72,7 @@
             <% if alignment == @variable.alignment %>
               <button type="button" class="btn btn-mini active"><%= alignment %></button>
             <% else %>
-              <%= link_to alignment, '#', data: { object: 'push-partial-change', update: 'variable', changes: { variable: { alignment: alignment } }, position: @position }, class: 'btn btn-mini' %>
+              <%= link_to alignment, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { alignment: alignment } }, position: @position }, class: 'btn btn-mini' %>
             <% end %>
           <% end %>
         </div>
@@ -87,7 +87,7 @@
             <% if show_current_button == @variable.show_current_button %>
               <button type="button" class="btn btn-mini active"><%= label %></button>
             <% else %>
-              <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', changes: { variable: { show_current_button: show_current_button } }, position: @position }, class: 'btn btn-mini' %>
+              <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { show_current_button: show_current_button } }, position: @position }, class: 'btn btn-mini' %>
             <% end %>
           <% end %>
         </div>
@@ -102,7 +102,7 @@
             <% if multiple_rows == @variable.multiple_rows %>
               <button type="button" class="btn btn-mini active"><%= label %></button>
             <% else %>
-              <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', changes: { variable: { multiple_rows: multiple_rows } }, position: @position }, class: 'btn btn-mini' %>
+              <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { multiple_rows: multiple_rows } }, position: @position }, class: 'btn btn-mini' %>
             <% end %>
           <% end %>
         </div>
@@ -110,7 +110,7 @@
 
       <dt>Default Row Number</dt>
       <dd>
-        <div data-object="pull-partial-edit" data-edit="variable_grid_rows" data-position="<%= @position %>" class="add-on <%= 'muted' if @variable.append.blank? %> editable-design-element">
+        <div data-object="pull-partial-edit" data-edit="variable_grid_rows" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="add-on <%= 'muted' if @variable.append.blank? %> editable-design-element">
           <%= @variable.default_row_number %>
         </div>
       </dd>

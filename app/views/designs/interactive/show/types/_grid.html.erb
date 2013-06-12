@@ -3,7 +3,7 @@
 <% range = (0..max_position) %>
 
 <% if variable.grid_variables.size == 0 %>
-  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" class="editable-design-element">
+  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
     <span class="dark-hover muted">Click to Add Grid Variables</span>
   </div>
 <% else %>
@@ -12,7 +12,11 @@
       <tr>
         <% variable.grid_variables.each do |grid_variable_id| %>
           <% v = Variable.find_by_id(grid_variable_id[:variable_id]) %>
-          <th><%= v.display_name if v %></th>
+          <th>
+            <div data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= v.id %>" class="editable-design-element">
+              <%= v.display_name if v %>
+            </div>
+          </th>
         <% end %>
       </tr>
     </thead>
@@ -23,7 +27,7 @@
     </tbody>
   </table>
 
-  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" class="editable-design-element">
+  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
     <span class="dark-hover muted">Click to Edit Grid Variable</span>
   </div>
 

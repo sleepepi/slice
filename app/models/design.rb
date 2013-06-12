@@ -55,7 +55,7 @@ class Design < ActiveRecord::Base
     end
   end
 
-  def create_domain(params, position, current_user)
+  def create_domain(params, variable_id, current_user)
     if params[:id].blank?
       domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
       domain_params[:user_id] = current_user.id
@@ -63,13 +63,13 @@ class Design < ActiveRecord::Base
     else
       domain = self.project.domains.find_by_id(params[:id])
     end
-    if domain and not domain.new_record? and variable = self.variable_at(position)
+    if domain and not domain.new_record? and variable = self.project.variables.find_by_id(variable_id)
       variable.update(domain_id: domain.id)
     end
   end
 
-  def update_domain(params, position)
-    variable = self.variable_at(position)
+  def update_domain(params, variable_id)
+    variable = self.project.variables.find_by_id(variable_id)
     if variable and variable.domain
       domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
       variable.domain.update( domain_params )
@@ -91,7 +91,7 @@ class Design < ActiveRecord::Base
     end
   end
 
-  def update_variable(params, position)
+  def update_variable(params, position, variable_id)
     option_params = params.permit(:branching_logic)
     unless option_params.blank?
       new_option_tokens = self.options
@@ -103,7 +103,7 @@ class Design < ActiveRecord::Base
     end
 
     variable_params = params.permit(:header, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button, :autocomplete_values, :multiple_rows, :default_row_number, { :grid_tokens => [ :variable_id, :control_size ] })
-    if v = self.variable_at(position)
+    if v = self.project.variables.find_by_id(variable_id)
       v.update(variable_params)
     end
   end

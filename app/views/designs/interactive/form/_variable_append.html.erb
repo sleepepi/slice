@@ -1,5 +1,4 @@
-<% @option = @design.options[params[:position].to_i] %>
-<% @variable = @design.variable_at(params[:position].to_i) %>
+<% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
 
 <div class="page-header">
   <h1>Edit Variable Append <span style="font-size:0.4em"><%= @variable.name %></span></h1>
@@ -12,6 +11,6 @@
 <hr class="soften" style="margin-top:20px;" />
 
 <div class="button-group pull-right">
-  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_append', update: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
+  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_append', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
   <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
 </div>

@@ -2,17 +2,17 @@
 
 <div class="input-prepend input-append" style="display:inline-block" data-content="<%= variable.description_range %>"
   data-title="<%= variable.display_name %>">
-  <span data-object="pull-partial-edit" data-edit="variable_prepend" data-position="<%= @position %>" class="add-on <%= 'muted' if variable.prepend.blank? %> editable-design-element">
+  <span data-object="pull-partial-edit" data-edit="variable_prepend" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="add-on <%= 'muted' if variable.prepend.blank? %> editable-design-element">
     <% if variable.prepend.blank? %>Edit Prepend<% else %><%= variable.prepend %><% end %>
   </span>
-  <span data-object="pull-partial-edit" data-edit="variable_ranges" data-position="<%= @position %>" class="editable-design-element">
+  <span data-object="pull-partial-edit" data-edit="variable_ranges" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
     <%= text_field_tag variable.name, '', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true,
         placeholder: is_grid ? variable.display_name : nil %>
   </span>
-  <span data-object="pull-partial-edit" data-edit="variable_units" data-position="<%= @position %>" class="add-on <%= 'muted' if variable.units.blank? %> editable-design-element">
+  <span data-object="pull-partial-edit" data-edit="variable_units" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="add-on <%= 'muted' if variable.units.blank? %> editable-design-element">
     <% if variable.units.blank? %>Edit Units<% else %><%= variable.units %><% end %>
   </span>
-  <span data-object="pull-partial-edit" data-edit="variable_append" data-position="<%= @position %>" class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element">
+  <span data-object="pull-partial-edit" data-edit="variable_append" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element">
     <% if variable.append.blank? %>Edit Append<% else %><%= variable.append %><% end %>
   </span>
 </div>
