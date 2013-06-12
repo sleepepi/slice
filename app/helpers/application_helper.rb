@@ -52,7 +52,15 @@ module ApplicationHelper
 
   def simple_markdown(text)
     markdown = Redcarpet::Markdown.new( Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true )
-    target_link_as_blank(markdown.render(text.to_s))
+    target_link_as_blank(markdown.render(replace_numbers_with_ascii(text.to_s)))
+  end
+
+  def replace_numbers_with_ascii(text)
+    text.gsub(/(\d)/){|m| ascii_number($1)}
+  end
+
+  def ascii_number(number)
+    "&##{(number.to_i + 48).to_s};"
   end
 
   def safe_url?(url)

@@ -18,6 +18,9 @@
   - Updated to rails 4.0.0.rc2
   - Updated to redcarpet 2.3.0
 
+### Bug Fix
+- Starting a variable header or section with a number followed by a period no longer creates a ordered list that starts at one
+
 ## 0.17.0 (May 13, 2013)
 
 ### Enhancements
