@@ -16,6 +16,7 @@
   - Project name is now included in the email when a user makes a comment on a sheet
 - **Gem Changes**
   - Updated to rails 4.0.0.rc2
+  - Updated to redcarpet 2.3.0
 
 ## 0.17.0 (May 13, 2013)
 
