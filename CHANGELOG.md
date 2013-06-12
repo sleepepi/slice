@@ -14,6 +14,8 @@
   - Searches on the domains index now search through domain options as well
 - **Email Changes**
   - Project name is now included in the email when a user makes a comment on a sheet
+- **Gem Changes**
+  - Updated to rails 4.0.0.rc2
 
 ## 0.17.0 (May 13, 2013)
 
