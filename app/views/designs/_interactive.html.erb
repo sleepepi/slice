@@ -5,7 +5,27 @@
   </div>
 </div>
 
-<div class="muted"><span class="editable-design-element permanent-hover">Click the elements</span> you wish to edit and update on the design or <%= link_to 'Stop Editing', '#', class: 'btn btn-mini', data: { object: 'design-stop-edit', path: project_designs_path(@project) } %></div>
+<div class="muted"><span class="editable-design-element permanent-hover">
+
+
+  Click the elements</span> you wish to edit and update on the design or <%= link_to 'Stop Editing', '#', class: 'btn btn-mini', data: { object: 'design-stop-edit', path: project_designs_path(@project) } %>
+
+Preview?
+
+<div class="btn-group" data-toggle="buttons-radio">
+  <% [['edit', true],['preview', false]].each do |label, previewable| %>
+    <% if previewable %>
+      <button type="button" class="btn btn-mini active"><%= label %></button>
+    <% else %>
+      <button type="button" class="btn btn-mini"><%= label %></button>
+    <% end %>
+  <% end %>
+</div>
+
+
+</div>
+
+
 
 <hr class="soften" style="margin-top:20px;" />
 

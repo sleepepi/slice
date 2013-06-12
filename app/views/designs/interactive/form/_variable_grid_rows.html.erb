@@ -1,0 +1,22 @@
+<% @option = @design.options[params[:position].to_i] %>
+<% @variable = @design.variable_at(params[:position].to_i) %>
+
+<div class="page-header">
+  <h1>Edit Variable <span style="font-size:0.4em"><%= @variable.name %></span></h1>
+</div>
+
+<form id="variable_form" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label">Default Row Number</label>
+    <div class="controls">
+      <%= text_field_tag "variable[default_row_number]", @variable.default_row_number %>
+    </div>
+  </div>
+</form>
+
+<hr class="soften" style="margin-top:20px;" />
+
+<div class="button-group pull-right">
+  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
+  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+</div>

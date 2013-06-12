@@ -94,6 +94,28 @@
       </dd>
     <% end %>
 
+    <% if ['grid'].include?(@variable.variable_type) %>
+      <dt>Allow Multiple Rows</dt>
+      <dd>
+        <div class="btn-group" data-toggle="buttons-radio">
+          <% [['enabled', true],['disabled', false]].each do |label, multiple_rows| %>
+            <% if multiple_rows == @variable.multiple_rows %>
+              <button type="button" class="btn btn-mini active"><%= label %></button>
+            <% else %>
+              <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', changes: { variable: { multiple_rows: multiple_rows } }, position: @position }, class: 'btn btn-mini' %>
+            <% end %>
+          <% end %>
+        </div>
+      </dd>
+
+      <dt>Default Row Number</dt>
+      <dd>
+        <div data-object="pull-partial-edit" data-edit="variable_grid_rows" data-position="<%= @position %>" class="add-on <%= 'muted' if @variable.append.blank? %> editable-design-element">
+          <%= @variable.default_row_number %>
+        </div>
+      </dd>
+    <% end %>
+
     <dt>Actions</dt>
     <dd>
       <%= link_to 'remove', '#', data: { object: 'push-partial-change', delete: 'variable', position: @position }, class: 'btn btn-mini btn-danger' %>

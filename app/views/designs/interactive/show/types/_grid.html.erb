@@ -1,31 +1,32 @@
-<span class="muted">Grid Variables Cannot Currently be edited in this view</span>
-
-<% if false %>
 <%# Range should either be the existing positions (which are long strings) or the positions from the sheet_variables %>
-<% if not params[:variables].blank? and not params[:variables][variable.id.to_s].blank? %>
-  <% range = params[:variables][variable.id.to_s].keys %>
+<% max_position = (variable.default_row_number - 1) %>
+<% range = (0..max_position) %>
+
+<% if variable.grid_variables.size == 0 %>
+  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" class="editable-design-element">
+    <span class="dark-hover muted">Click to Add Grid Variables</span>
+  </div>
 <% else %>
-  <% max_position = sheet_variable ? (sheet_variable.grids.pluck(:position) + [variable.default_row_number - 1]).max.to_i : (variable.default_row_number - 1) %>
-  <% range = (0..max_position) %>
-<% end %>
-
-
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <% variable.grid_variables.each do |grid_variable_id| %>
-        <% v = Variable.find_by_id(grid_variable_id[:variable_id]) %>
-        <th><%= v.display_name if v %></th>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <% variable.grid_variables.each do |grid_variable_id| %>
+          <% v = Variable.find_by_id(grid_variable_id[:variable_id]) %>
+          <th><%= v.display_name if v %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody id="variable_<%= variable.id %>_grid_container">
+      <% range.each do |position| %>
+        <%= render partial: "designs/interactive/show/types/grid_variables", locals: { disabled: true, position: position, variable: variable } %>
       <% end %>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody id="variable_<%= variable.id %>_grid_container">
-    <% range.each do |position| %>
-      <%= render partial: "designs/interactive/show/types/grid_variables", locals: { disabled: disabled, sheet_variable: sheet_variable, position: position, variable: variable } %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 
-<%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', variable_id: variable.id }, tabindex: "-1" if variable.multiple_rows? %>
+  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" class="editable-design-element">
+    <span class="dark-hover muted">Click to Edit Grid Variable</span>
+  </div>
+
+  <%= link_to 'more', '#', class: 'btn btn-mini', data: { object: 'grid-row-add', variable_id: variable.id }, tabindex: "-1" if variable.multiple_rows? %>
+
 <% end %>
