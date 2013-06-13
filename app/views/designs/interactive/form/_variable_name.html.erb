@@ -3,7 +3,7 @@
 <div class="page-header">
   <h1>
     Edit Variable
-    <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="editable-design-element" style="font-size:0.4em">
+    <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="editable-design-element" style="font-size:0.4em">
       <%= @variable.display_name %>
     </span>
   </h1>
