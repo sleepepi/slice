@@ -1,16 +1,46 @@
 <% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
 
 <div class="page-header">
-  <h1>Edit Variable Display Name <span style="font-size:0.4em"><%= @variable.name %></span></h1>
+  <h1>
+    Edit Variable
+    <span data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="editable-design-element" style="font-size:0.4em">
+      <%= @variable.name %>
+    </span>
+  </h1>
 </div>
 
-<div class="row-fluid">
-  <%= text_field_tag "variable[display_name]", @variable.display_name, placeholder: 'Variable Display Name', class: "span12" %>
-</div>
+<form id="variable_form" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label">Display Name</label>
+    <div class="controls">
+      <%= text_field_tag "variable[display_name]", @variable.display_name, placeholder: 'Variable Display Name', style: 'width:95%', autocomplete: 'off' %>
+    </div>
+  </div>
+
+  <% if @variable == @design.variable_at(params[:position].to_i) %>
+    <% @option = @design.options[params[:position].to_i] %>
+    <div class="control-group">
+      <label class="control-label">Branching Logic</label>
+      <div class="controls">
+        <%= text_area_tag "variable[branching_logic]", @option[:branching_logic], rows: 3, style: 'width:95%',
+          rel: "popover", data: { content: "
+            <table class='table table-bordered'>
+            <tbody>
+              <tr><td style='font-weight:bold'>General</td><td>variable == 5</td></tr>
+              <tr><td style='font-weight:bold'>OR</td><td>a > 5 || b < 2</td></tr>
+              <tr><td style='font-weight:bold'>AND</td><td>a > 5 && a < 10</td></tr>
+              <tr><td style='font-weight:bold'>Checkbox</td><td>overlap(variable, ['5'])</td></tr>
+            </tbody>
+            </table>
+            ", title: "Branching Logic Examples", placement: 'bottom', html: true } %>
+      </div>
+    </div>
+  <% end %>
+</form>
 
 <hr class="soften" style="margin-top:20px;" />
 
 <div class="button-group pull-right">
-  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_display_name', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
+  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
   <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
 </div>
