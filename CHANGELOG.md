@@ -7,6 +7,7 @@
     - Variables and domains can now be created while building the design
     - Changing display options for variables and domains is now reflected on the new design builder
     - Designs are saved automatically as changes are made
+    - Design editing can be toggled between `Edit Mode` and `Preview Mode`
   - Sections can now be marked as subsections, this change is aimed at removing the header field from variables
 - **Variable Changes**
   - Scale is now considered an `alignment` option for `checkbox` and `radio` variables instead of being its own variable type

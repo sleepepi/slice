@@ -1,17 +1,13 @@
 <% is_grid = defined?(grid) %>
 
 <div class="input-prepend input-append" style="display:inline-block;white-space:nowrap">
-  <span data-object="pull-partial-edit" data-edit="variable_prepend" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="add-on <%= 'muted' if variable.prepend.blank? %> editable-design-element">
-    <% if variable.prepend.blank? %>Edit Prepend<% else %><%= variable.prepend %><% end %>
-  </span>
+  <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'prepend', variable: variable } %>
   <%= text_field_tag variable.name, '', class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}",
         autocomplete: 'off',
         disabled: true,
         title: variable.display_name,
         placeholder: 'hh:mm:ss' %>
   <span class="add-on"><i class="icon-time"></i></span>
-  <span data-object="pull-partial-edit" data-edit="variable_append" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="add-on <%= 'muted' if variable.append.blank? %> editable-design-element">
-    <% if variable.append.blank? %>Edit Append<% else %><%= variable.append %><% end %>
-  </span>
+  <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'append', variable: variable } %>
   <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
 </div>

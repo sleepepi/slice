@@ -3,7 +3,7 @@
 <% range = (0..max_position) %>
 
 <% if variable.grid_variables.size == 0 %>
-  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
+  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element design-preview-hide">
     <span class="dark-hover muted">Click to Add Grid Variables</span>
   </div>
 <% else %>
@@ -29,7 +29,7 @@
 
   <%= button_tag 'more', disabled: true, title: variable.display_name if variable.multiple_rows? %>
 
-  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
+  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element design-preview-hide">
     <span class="dark-hover muted">Click to Edit Grid Variable</span>
   </div>
 

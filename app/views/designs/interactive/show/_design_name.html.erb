@@ -3,7 +3,7 @@
   <span data-object="pull-partial-edit" data-edit="design_name" class="editable-design-element">
     <% if design_name.blank? %><div class="muted">Click to Edit Design Name</div><% else %><%= design_name %><% end %>
   </span>
-  <div class="btn-group" data-toggle="buttons-radio">
+  <div class="btn-group design-preview-hide" data-toggle="buttons-radio">
     <% [['private', false],['public', true]].each do |label, publicly_available| %>
       <% if publicly_available == @design.publicly_available %>
         <button type="button" class="btn btn-mini active"><%= label %></button>

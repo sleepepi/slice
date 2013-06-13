@@ -186,6 +186,12 @@ jQuery ->
       $('#reorder_design_sections_button, #reorder_sections_container').hide()
       false
     )
+    .on('click', '[data-object~="preview-mode"]', () ->
+      $('.design-preview-hide').hide()
+    )
+    .on('click', '[data-object~="edit-mode"]', () ->
+      $('.design-preview-hide').show()
+    )
 
   initializeDesignReordering()
 
