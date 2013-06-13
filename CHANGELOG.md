@@ -13,6 +13,7 @@
   - Scale is now considered an `alignment` option for `checkbox` and `radio` variables instead of being its own variable type
   - Grid variables with multiple rows can now be reordered by dragging the grid rows
   - Variable headers have been removed in favor of design subsections
+  - Calculated numbers are only stored if they represent a real and finite number, otherwise they stay blank
 - **Domain Changes**
   - Searches on the domains index now search through domain options as well
 - **Email Changes**

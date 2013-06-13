@@ -124,6 +124,9 @@
 #     parseValue('bmi', 'float', '')
 # grid_string is used to specify a specific location in the grid
 
+@isNumber = (n) ->
+  !isNaN(parseFloat(n)) && isFinite(n)
+
 @parseValue = (variable_name, format_type, grid_string) ->
   elements = $("[data-name='#{variable_name}']#{grid_string}")
   checked = ''
@@ -149,6 +152,7 @@
       # calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]#{grid_string}').val())")
       calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseValue('\$1', 'float', '#{grid_string}')")
       calculation_result = eval(calculation)
+      calculation_result = '' unless isNumber(calculation_result)
       $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result + '&location_id=' + $(this).data('location-id') + '&sheet_authentication_token=' + ($('#sheet_authentication_token').val() || ""), null, "script")
 
     # $(this).val(calculation_result)
