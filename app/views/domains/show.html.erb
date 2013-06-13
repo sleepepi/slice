@@ -1,10 +1,9 @@
-<% @title = "Domain: #{@domain.name}" %>
+<% @title = @domain.name %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= link_to "Domains", project_domains_path(@project) %> &middot; <%= @title %>
     <%= link_to "Edit Domain", edit_project_domain_path(@domain.project, @domain), class: 'btn btn-mini' %>
     <%= link_to "Delete Domain", [@domain.project, @domain], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Domain #{@domain.name}?" } %>
-    <%= link_to "View Domains", project_domains_path(@project), class: 'btn btn-mini' %>
   </h1>
 </div>
 
