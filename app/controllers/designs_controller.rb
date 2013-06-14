@@ -220,6 +220,9 @@ class DesignsController < ApplicationController
       @design.remove_option(params[:position].to_i)
     end
     @design.update(design_params)
+    if @design.errors.any?
+      @errors += @design.errors.messages.collect{|key, errors| ["design_#{key.to_s}", "Design #{key.to_s.humanize.downcase} #{errors.first}"]}
+    end
   end
 
   # # GET /designs/new
