@@ -105,6 +105,8 @@ class Design < ActiveRecord::Base
       new_option_tokens.insert(position, { variable_id: variable.id, branching_logic: '' })
       self.options = new_option_tokens
       self.save
+    else
+      errors += variable.errors.messages.collect{|key, errors| ["variable_#{key.to_s}", "Variable #{key.to_s.humanize.downcase} #{errors.first}"]}
     end
     errors
   end
@@ -124,6 +126,9 @@ class Design < ActiveRecord::Base
     variable_params = params.permit(:name, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button, :autocomplete_values, :multiple_rows, :default_row_number, { :grid_tokens => [ :variable_id, :control_size ] })
     if v = self.project.variables.find_by_id(variable_id)
       v.update(variable_params)
+      if v.errors.any?
+        errors += v.errors.messages.collect{|key, errors| ["variable_#{key.to_s}", "Variable #{key.to_s.humanize.downcase} #{errors.first}"]}
+      end
     end
     errors
   end

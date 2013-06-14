@@ -20,7 +20,7 @@
         <label class="control-label">Name</label>
         <div class="controls">
           <%= hidden_field_tag "variable[name]" %>
-          <%= text_field_tag "variable_name_display", '', maxlength: 32, style: 'width:95%', autocomplete: 'off', disabled: true %>
+          <%= text_field_tag "variable_name_display", '', maxlength: 32, style: 'width:95%', autocomplete: 'off', disabled: true, data: { placement: 'right' } %>
         </div>
       </div>
 
