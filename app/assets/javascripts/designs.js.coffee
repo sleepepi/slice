@@ -104,12 +104,15 @@ jQuery ->
       updateAllVariables()
       updateCalculatedVariables()
     )
-    .on('click', '[data-object~="design-stop-edit"]', () ->
+    .on('click', '[data-object~="design-stop-edit"]', (e) ->
       design_id = parseInt($('#design_id').val())
-      if design_id > 0
-        window.location = $(this).data('path') + "/#{design_id}"
+      url = $(this).data('path')
+      url += "/#{design_id}" if design_id > 0
+
+      if nonStandardClick(e)
+        window.open(url)
       else
-        window.location = $(this).data('path')
+        window.location = url
       false
     )
     .on('keyup', '[data-object~="create-variable-name"]', () ->
