@@ -32,7 +32,7 @@
     <% other_variables = @domain.variables.count - 1 %>
     <%= button_tag "Update Existing Domain" + (other_variables > 0 ? " (linked to #{pluralize(other_variables, 'other variable')})" : ""), data: { object: 'push-partial-change', target: '#domain_form', update: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
     or
-    <%= button_tag 'Create New Domain', data: { object: 'push-partial-change', target: '#domain_form', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
+    <%= button_tag 'Copy Choices to New Domain', data: { object: 'push-partial-change', target: '#domain_form', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
   <% end %>
   <% domains = @project.domains %>
   <% if domains.count > 0 %>
