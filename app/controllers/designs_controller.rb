@@ -198,7 +198,11 @@ class DesignsController < ApplicationController
 
   # POST /designs.js
   def create
+    @errors = []
     @design = current_user.designs.create(design_params)
+    if @design.errors.any? and params[:update] == 'design_name'
+      @errors += @design.errors.messages.collect{|key, errors| ["design_#{key.to_s}", "Design #{key.to_s.humanize.downcase} #{errors.first}"]}
+    end
   end
 
   # PUT /designs/1.js

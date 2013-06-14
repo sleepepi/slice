@@ -9,7 +9,16 @@ if(browserSupportsPushState){
 }
 <% end %>
 
-<% if ['design_name', 'design_description'].include?(params[:update]) %>
-  $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
-  hideContourModal();
+<% if @errors.size > 0 %>
+  <% @errors.each do |element_id, message| %>
+    $('input').tooltip('hide');
+    element = $("#<%= element_id %>, #<%= element_id %>_display");
+    element.closest('.control-group').addClass('error');
+    element.tooltip('destroy').tooltip({ "title": "<%= escape_javascript(message.html_safe) %>", "trigger": "manual" }).tooltip('show');
+  <% end %>
+<% else %>
+  <% if ['design_name', 'design_description'].include?(params[:update]) %>
+    $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
+    hideContourModal();
+  <% end %>
 <% end %>
