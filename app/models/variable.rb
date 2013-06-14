@@ -178,6 +178,9 @@ class Variable < ActiveRecord::Base
     return true unless design
 
     previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id) > 0
+
+    position = design.options.index((design.options.select{|o| o[:variable_id].to_i == self.id}.first))
+    previous_variable = design.variable_at(position - 1) if position and position - 1 >= 0
     # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form
     if previous_variable and previous_variable.uses_scale? and previous_variable.shared_options == self.shared_options
       return false
