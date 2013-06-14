@@ -109,6 +109,10 @@ class Variable < ActiveRecord::Base
     result
   end
 
+  def values_cover_collected_values?(values)
+    (self.captured_values | values).size <= values.size
+  end
+
   def check_for_duplicate_variables
     result = true
     variable_ids = self.grid_variables.collect{|grid_variable| grid_variable[:variable_id]}

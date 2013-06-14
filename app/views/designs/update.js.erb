@@ -1,6 +1,6 @@
 <% if @errors.size > 0 %>
   <% @errors.each do |element_id, message| %>
-    $('input').tooltip('destroy');
+    $('input').tooltip('hide');
     element = $("#<%= element_id %>, #<%= element_id %>_display");
     element.closest('.control-group').addClass('error');
     element.tooltip('destroy').tooltip({ "title": "<%= escape_javascript(message.html_safe) %>", "trigger": "manual" }).tooltip('show');

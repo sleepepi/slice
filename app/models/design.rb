@@ -69,18 +69,24 @@ class Design < ActiveRecord::Base
 
   def create_domain(params, variable_id, current_user)
     errors = []
+    variable = self.project.variables.find_by_id(variable_id)
     if params[:id].blank?
       domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
       domain_params[:user_id] = current_user.id
-      domain = self.project.domains.create( domain_params )
+      domain = self.project.domains.new( domain_params )
+      if variable and variable.values_cover_collected_values?(domain.values)
+        domain.save
+      else
+        errors = [["domain_name", "Domain options do not cover collected values!"]]
+      end
     else
       domain = self.project.domains.find_by_id(params[:id])
     end
-    if domain and not domain.new_record? and variable = self.project.variables.find_by_id(variable_id)
+    if domain and not domain.new_record? and variable
       variable.update(domain_id: domain.id)
-      errors = [["domain_name", "Domain options do not cover collected values!"]] if variable.errors.any?
+      errors += [["domain_name", "Domain options do not cover collected values!"]] if variable.errors.any?
     else
-      errors = domain.errors.messages.collect{|key, errors| ["domain_#{key.to_s}", "Domain #{key.to_s.humanize.downcase} #{errors.first}"]}
+      errors += domain.errors.messages.collect{|key, errors| ["domain_#{key.to_s}", "Domain #{key.to_s.humanize.downcase} #{errors.first}"]}
     end
     errors
   end
