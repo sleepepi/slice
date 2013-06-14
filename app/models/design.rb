@@ -33,17 +33,24 @@ class Design < ActiveRecord::Base
   # Model Methods
 
   def create_section(params, position)
-    section_params = params.permit(:name, :description, :section_type)
-    section = { section_name: section_params[:name].to_s.strip, section_id: "_" + section_params[:name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:description].to_s.strip, section_type: section_params[:section_type].to_i }
-    unless section_params[:name].to_s.strip.blank?
+    errors = []
+    section_params = params.permit(:section_name, :section_description, :section_type)
+    section = { section_name: section_params[:section_name].to_s.strip, section_id: "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:section_description].to_s.strip, section_type: section_params[:section_type].to_i }
+    unless section_params[:section_name].to_s.strip.blank?
       new_option_tokens = self.options
       new_option_tokens.insert(position, section)
       self.options = new_option_tokens
-      self.save
+      unless self.save
+        errors += [['section_section_name', 'Section name must be unique!']]
+      end
+    else
+      errors += [['section_section_name', 'Section name can\'t be blank!']]
     end
+    errors
   end
 
   def update_section(params, position)
+    errors = []
     section_params = params.permit(:section_name, :section_description, :branching_logic, :section_type)
     unless section_params[:section_name].blank?
       new_option_tokens = self.options
@@ -51,11 +58,17 @@ class Design < ActiveRecord::Base
         new_option_tokens[position][key.to_sym] = value
       end
       self.options = new_option_tokens
-      self.save
+      unless self.save
+        errors += [['section_section_name', 'Section name must be unique!']]
+      end
+    else
+      errors += [['section_section_name', 'Section name can\'t be blank!']]
     end
+    errors
   end
 
   def create_domain(params, variable_id, current_user)
+    errors = []
     if params[:id].blank?
       domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
       domain_params[:user_id] = current_user.id
@@ -66,17 +79,21 @@ class Design < ActiveRecord::Base
     if domain and not domain.new_record? and variable = self.project.variables.find_by_id(variable_id)
       variable.update(domain_id: domain.id)
     end
+    errors
   end
 
   def update_domain(params, variable_id)
+    errors = []
     variable = self.project.variables.find_by_id(variable_id)
     if variable and variable.domain
       domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
       variable.domain.update( domain_params )
     end
+    errors
   end
 
   def create_variable(params, position)
+    errors = []
     if params[:id].blank?
       variable_params = params.permit(:name, :display_name, :variable_type)
       variable = self.project.variables.create( variable_params )
@@ -89,9 +106,11 @@ class Design < ActiveRecord::Base
       self.options = new_option_tokens
       self.save
     end
+    errors
   end
 
   def update_variable(params, position, variable_id)
+    errors = []
     option_params = params.permit(:branching_logic)
     unless option_params.blank?
       new_option_tokens = self.options
@@ -106,6 +125,7 @@ class Design < ActiveRecord::Base
     if v = self.project.variables.find_by_id(variable_id)
       v.update(variable_params)
     end
+    errors
   end
 
   def remove_option(position)

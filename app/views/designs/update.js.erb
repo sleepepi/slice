@@ -1,20 +1,28 @@
-<% if ['design_name', 'design_description'].include?(params[:update]) %>
-  $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
-  $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
-<% elsif (params[:variable] and params[:variable][:alignment]) or ['domain'].include?(params[:update]) or ['section', 'variable', 'domain'].include?(params[:create]) or ['section', 'variable'].include?(params[:delete]) %>
-  $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
-<% elsif ['section', 'variable'].include?(params[:update]) %>
-  <% @position = params[:position].to_i %>
-  <% @option = @design.options[@position] %>
-  <% if @variable = @design.variable_at(@position) %>
-    $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/variable")) %>");
-  <% else %>
-    $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/section")) %>");
+<% if @errors.size > 0 %>
+  <% @errors.each do |element_id, message| %>
+    element = $("#<%= element_id %>");
+    element.closest('.control-group').addClass('error');
+    element.tooltip('destroy').tooltip({ "title": "<%= escape_javascript(message.html_safe) %>", "trigger": "manual" }).tooltip('show');
   <% end %>
+<% else %>
+  <% if ['design_name', 'design_description'].include?(params[:update]) %>
+    $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
+    $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
+  <% elsif (params[:variable] and params[:variable][:alignment]) or ['domain'].include?(params[:update]) or ['section', 'variable', 'domain'].include?(params[:create]) or ['section', 'variable'].include?(params[:delete]) %>
+    $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
+  <% elsif ['section', 'variable'].include?(params[:update]) %>
+    <% @position = params[:position].to_i %>
+    <% @option = @design.options[@position] %>
+    <% if @variable = @design.variable_at(@position) %>
+      $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/variable")) %>");
+    <% else %>
+      $("#interactive_<%= params[:position] %>_container").html("<%= escape_javascript(render("designs/interactive/show/section")) %>");
+    <% end %>
+  <% end %>
+
+  hideContourModal();
+  $(".chzn-select").chosen({ allow_single_deselect: true });
+
+  $(".active[data-object~='edit-mode']").click();
+  $(".active[data-object~='preview-mode']").click();
 <% end %>
-
-hideContourModal();
-$(".chzn-select").chosen({ allow_single_deselect: true });
-
-$(".active[data-object~='edit-mode']").click();
-$(".active[data-object~='preview-mode']").click();
