@@ -78,6 +78,9 @@ class Design < ActiveRecord::Base
     end
     if domain and not domain.new_record? and variable = self.project.variables.find_by_id(variable_id)
       variable.update(domain_id: domain.id)
+      errors = [["domain_name", "Domain options do not cover collected values!"]] if variable.errors.any?
+    else
+      errors = domain.errors.messages.collect{|key, errors| ["domain_#{key.to_s}", "Domain #{key.to_s.humanize.downcase} #{errors.first}"]}
     end
     errors
   end
@@ -88,6 +91,9 @@ class Design < ActiveRecord::Base
     if variable and variable.domain
       domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
       variable.domain.update( domain_params )
+      if variable.domain.errors.any?
+        errors += variable.domain.errors.messages.collect{|key, errors| ["domain_#{key.to_s}", "Domain #{key.to_s.humanize.downcase} #{errors.first}"]}
+      end
     end
     errors
   end
