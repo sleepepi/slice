@@ -20,7 +20,7 @@
           <th></th>
           <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
             <th style="text-align:center">
-              <%= name %>
+              <%= value %>: <%= name %>
             </th>
           <% end %>
           <th></th>
