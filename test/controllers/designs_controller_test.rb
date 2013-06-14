@@ -296,10 +296,13 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get copy" do
-    get :copy, id: @design, project_id: @project
+    assert_difference('Design.count') do
+      get :copy, id: @design, project_id: @project
+    end
+
     assert_not_nil assigns(:design)
-    assert_template 'new'
-    assert_response :success
+    assert_equal @design.name + " Copy", assigns(:design).name
+    assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 
   test "should not get copy for invalid design" do

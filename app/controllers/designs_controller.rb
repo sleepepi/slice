@@ -120,7 +120,12 @@ class DesignsController < ApplicationController
     @design = current_user.designs.new(design.copyable_attributes) if design
 
     if @design
-      render 'new'
+      @design.name += " Copy"
+      if @design.save
+        redirect_to edit_project_design_path(@design.project, @design), notice: 'Design was successfully copied.'
+      else
+        redirect_to project_designs_path(design.project, search: design.name), alert: "Unable to copy design since another design named <b>#{@design.name}</b> already exists.".html_safe
+      end
     else
       redirect_to project_designs_path
     end
