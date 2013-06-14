@@ -588,7 +588,7 @@ class DesignsControllerTest < ActionController::TestCase
   # end
 
   test "should create a section on a design" do
-    put :update, id: @design, project_id: @project, section: { name: 'Section A', description: 'Section Description' }, position: 0, create: 'section', format: 'js'
+    put :update, id: @design, project_id: @project, section: { section_name: 'Section A', section_description: 'Section Description' }, position: 0, create: 'section', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 4, assigns(:design).options.size
