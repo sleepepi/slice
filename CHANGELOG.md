@@ -1,5 +1,8 @@
 ## 0.18.2
 
+### Enhancement
+- Minor GUI fix to only show scale headers for the if the variable is the first scale of that type on the sheet
+
 ## 0.18.1 (June 17, 2013)
 
 ### Bug Fix
