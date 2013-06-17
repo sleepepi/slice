@@ -1,4 +1,4 @@
-## 0.18.2
+## 0.18.2 (June 17, 2013)
 
 ### Enhancement
 - Minor GUI fix to only show scale headers for the if the variable is the first scale of that type on the sheet
