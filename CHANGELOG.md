@@ -1,5 +1,8 @@
 ## 0.18.1
 
+### Bug Fix
+- Radio and checkbox variables that are displayed as scales now display the variable display name correctly on filled out sheets
+
 ## 0.18.0 (June 14, 2013)
 
 ### Enhancements
