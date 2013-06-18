@@ -11,53 +11,49 @@
           <div style="margin-top:12px" class="center">
             <% case variable_type when 'radio' %>
               <div class="sheet-container">
-                <label class="radio inline selected" data-object="kill-event"><%= radio_button_tag 'animal', 'dog', true, disabled: true %> 1: Dog</label>
-                <label class="radio inline" data-object="kill-event"><%= radio_button_tag 'animal', 'cat', false, disabled: true %> 2: Cat</label>
-                <label class="radio inline" data-object="kill-event"><%= radio_button_tag 'animal', 'fish', false, disabled: true %> 3: Fish</label>
+                <label class="radio inline selected"><%= radio_button_tag 'animal', 'dog', true, disabled: true %> 1: Dog</label>
+                <label class="radio inline"><%= radio_button_tag 'animal', 'cat', false, disabled: true %> 2: Cat</label>
+                <label class="radio inline"><%= radio_button_tag 'animal', 'fish', false, disabled: true %> 3: Fish</label>
               </div>
             <% when 'dropdown' %>
-              <span data-object="kill-event" style="text-align: left;">
+              <span style="text-align: left;">
                 <%= select_tag 'animal', "<option value=''></option>".html_safe + options_for_select([['1: Dog', 1], ['2: Cat', 2], ['3: Fish', 3]], 3), disabled: false, class: "chzn-select" %>
               </span>
             <% when 'checkbox' %>
               <div class="sheet-container">
-                <label class="checkbox inline selected" data-object="kill-event"><%= check_box_tag 'animal[]', 'dog', true, disabled: true %> 1: Dog</label>
-                <label class="checkbox inline selected" data-object="kill-event"><%= check_box_tag 'animal[]', 'cat', true, disabled: true %> 2: Cat</label>
-                <label class="checkbox inline" data-object="kill-event"><%= check_box_tag 'animal[]', 'fish', false, disabled: true %> 3: Fish</label>
+                <label class="checkbox inline selected"><%= check_box_tag 'animal[]', 'dog', true, disabled: true %> 1: Dog</label>
+                <label class="checkbox inline selected"><%= check_box_tag 'animal[]', 'cat', true, disabled: true %> 2: Cat</label>
+                <label class="checkbox inline"><%= check_box_tag 'animal[]', 'fish', false, disabled: true %> 3: Fish</label>
               </div>
             <% when 'string' %>
-              <span data-object="kill-event"><%= text_field_tag 'animal', 'Abc Street', disabled: true %></span>
+              <%= text_field_tag 'animal', 'Abc Street', disabled: true %>
             <% when 'integer' %>
-              <span data-object="kill-event"><%= text_field_tag 'animal', '42', disabled: true %></span>
+              <%= text_field_tag 'animal', '42', disabled: true %>
             <% when 'numeric' %>
-              <span data-object="kill-event">
                 <div class="input-append input-prepend" style="display:inline-block">
                   <span class="add-on">weight</span>
                   <%= text_field_tag 'animal', '72.4', disabled: true %>
                   <span class="add-on">kg</span>
                 </div>
-              </span>
             <% when 'calculated' %>
-              <span data-object="kill-event">
-                <div class="input-append" style="display:inline-block">
-                  <%= text_field_tag 'animal', 'weight / (height * height)', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %>
-                  <span class="add-on">kg / m&sup2;</span>
-                </div>
-              </span>
+              <div class="input-append" style="display:inline-block">
+                <%= text_field_tag 'animal', 'weight / (height * height)', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %>
+                <span class="add-on">kg / m&sup2;</span>
+              </div>
             <% when 'text' %>
-              <span data-object="kill-event"><%= text_area_tag 'animal', 'My Long Essay', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %></span>
+              <%= text_area_tag 'animal', 'My Long Essay', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true, style: 'cursor:pointer' %>
             <% when 'date' %>
-              <div class="input-append kill-event" style="display:inline-block;white-space:nowrap">
+              <div class="input-append" style="display:inline-block;white-space:nowrap">
                 <%= text_field_tag 'animal', "", class: "datepicker input-large", placeholder: 'mm/dd/yyyy' %>
                 <span class="add-on"><i class="icon-calendar"></i></span>
               </div>
             <% when 'time' %>
-              <div class="input-append kill-event" style="display:inline-block;white-space:nowrap">
+              <div class="input-append" style="display:inline-block;white-space:nowrap">
                 <%= text_field_tag 'animal', "", class: "timepicker input-large", placeholder: 'hh:mm:ss' %>
                 <span class="add-on"><i class="icon-time"></i></span>
               </div>
             <% when 'file' %>
-              <span data-object="kill-event"><%= button_tag 'Choose File', disabled: true %></span>
+              <%= button_tag 'Choose File', disabled: true %>
             <% when 'grid' %>
                 <table class="table table-hover">
                   <thead>

@@ -8,6 +8,7 @@
   - Design editor now contains a highlight effect to show what area of the design was added or updated
   - Existing variables are now alphabetized on the "Select Existing Variables" list while editing a design
   - Existing domains are now alphabetized on the "Use Existing Domain" list while editing a variable domain on a design
+  - Inserting a new section or variable now allows any part of the new variable/section box to be selected
 
 ## 0.18.2 (June 17, 2013)
 
