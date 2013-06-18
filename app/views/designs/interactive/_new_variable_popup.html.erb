@@ -13,6 +13,10 @@
         <div class="controls">
           <%= text_field_tag "variable[display_name]", '', style: 'width:95%', autocomplete: 'off', data: { object: 'create-variable-name', target: '#variable_name, #variable_name_display' } %>
           <%= hidden_field_tag "variable[variable_type]", params[:variable_type] %>
+          <div class="help-block">
+            The display name is the question as displayed to the user who is filling out the form.<br />
+            <div style="margin-left:20px">Ex: <i class="muted">What is your age?</i></div>
+          </div>
         </div>
       </div>
 

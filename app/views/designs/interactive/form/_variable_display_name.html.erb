@@ -14,6 +14,20 @@
     <label class="control-label">Display Name</label>
     <div class="controls">
       <%= text_field_tag "variable[display_name]", @variable.display_name, style: 'width:95%', autocomplete: 'off' %>
+      <div class="help-block">
+        The display name is the question as displayed to the user who is filling out the form.<br />
+        <div style="margin-left:20px">Ex: <i class="muted">What is your age?</i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Variable Name</label>
+    <div data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="controls editable-design-element" style="line-height:30px">
+      <%= @variable.name %>
+      <div class="help-block">
+        <span class="muted">Click here to edit the variable name</span>
+      </div>
     </div>
   </div>
 
