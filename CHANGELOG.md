@@ -1,4 +1,4 @@
-## 0.18.3
+## 0.18.3 (June 18, 2013)
 
 ### Enhancement
 - **Design Changes**
