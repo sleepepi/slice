@@ -153,7 +153,7 @@ class Design < ActiveRecord::Base
   end
 
   def variable_at(position)
-    variable = self.project.variables.find_by_id(self.options[position][:variable_id]) if self.options[position]
+    variable = Variable.find_by_id(self.options[position][:variable_id]) if self.options[position]
   end
 
   def editable_by?(current_user)
