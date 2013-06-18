@@ -1,10 +1,12 @@
 ## 0.18.3
 
 ### Enhancement
-- Variables that have been deleted are kept visible on designs until a user explicitely removes the variable from the design
-  - Allows design variable reordering to continue to work since the reordering relies on positioning of deleted variables that exist on the design
-  - Maintains design integrity on accidental deletion of variables
-- Design editor now contains a highlight effect to show what area of the design was added or updated
+- **Design Changes**
+  - Variables that have been deleted are kept visible on designs until a user explicitely removes the variable from the design
+    - Allows design variable reordering to continue to work since the reordering relies on positioning of deleted variables that exist on the design
+    - Maintains design integrity on accidental deletion of variables
+  - Design editor now contains a highlight effect to show what area of the design was added or updated
+  - Existing variables are now alphabetized on the "Select Existing Variables" list while editing a design
 
 ## 0.18.2 (June 17, 2013)
 

@@ -38,7 +38,7 @@
   <% if variables.count > 0 %>
     <span class="span6">
       Or Select Existing Variable
-      <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.collect{|v| [v.display_name, v.id]} ), class: "chzn-select" %>
+      <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: "chzn-select" %>
       <%= button_tag 'Insert Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
     </span>
   <% end %>
