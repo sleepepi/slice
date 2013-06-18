@@ -20,8 +20,8 @@
   <dt>Variables</dt>
   <dd>
     <ul>
-      <% @domain.variables.each do |variable| %>
-        <li><%= link_to variable.name, [variable.project, variable] %></li>
+      <% @domain.variables.order('name').each do |variable| %>
+        <li><%= link_to variable.name, [variable.project, variable] %> - <span class="muted"><%= variable.display_name %></span></li>
       <% end %>
     </ul>
   </dd>

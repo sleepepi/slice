@@ -10,6 +10,8 @@
   - Existing domains are now alphabetized on the "Use Existing Domain" list while editing a variable domain on a design
   - Inserting a new section or variable now allows any part of the new variable/section box to be selected
   - Variable display name explanation and example added when creating and editing variables on a design
+- **Domain Changes**
+  - The list of variables is now alphabetized on the domain show page
 
 ## 0.18.2 (June 17, 2013)
 
