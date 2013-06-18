@@ -7,6 +7,7 @@
     - Maintains design integrity on accidental deletion of variables
   - Design editor now contains a highlight effect to show what area of the design was added or updated
   - Existing variables are now alphabetized on the "Select Existing Variables" list while editing a design
+  - Existing domains are now alphabetized on the "Use Existing Domain" list while editing a variable domain on a design
 
 ## 0.18.2 (June 17, 2013)
 

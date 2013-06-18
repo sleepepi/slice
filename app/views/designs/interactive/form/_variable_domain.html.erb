@@ -37,7 +37,7 @@
   <% domains = @project.domains %>
   <% if domains.count > 0 %>
     or
-    <span class="white-space:nowrap"><%= select_tag 'domain[id]', options_for_select( [['', nil]] + domains.collect{|d| [d.name, d.id]} ), class: "chzn-select" %>
+    <span class="white-space:nowrap"><%= select_tag 'domain[id]', options_for_select( [['', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ), class: "chzn-select" %>
     <%= button_tag 'Use Selected Domain', data: { object: 'push-partial-change', target: '#domain_id', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %></span>
   <% end %>
   <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
