@@ -242,6 +242,7 @@ jQuery ->
     .on('click', '[data-object~="clear-radio"]', () ->
       group_name = $(this).data('group')
       $(":radio[name='" + group_name + "']").prop('checked', false)
+      $(":radio[name='" + group_name + "']").data('previous', 'unchecked')
       color_radio_group(group_name)
       updateAllVariables()
       updateCalculatedVariables()
