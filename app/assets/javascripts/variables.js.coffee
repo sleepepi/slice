@@ -243,7 +243,7 @@ jQuery ->
       group_name = $(this).data('group')
       $(":radio[name='" + group_name + "']").prop('checked', false)
       $(":radio[name='" + group_name + "']").data('previous', 'unchecked')
-      color_radio_group(group_name)
+      color_group(group_name)
       updateAllVariables()
       updateCalculatedVariables()
       false
@@ -251,7 +251,7 @@ jQuery ->
     .on('click', '[data-object~="clear-checkbox"]', () ->
       group_name = $(this).data('group')
       $(":checkbox[name='" + group_name + "']").prop('checked', false)
-      color_checkbox_group(group_name)
+      color_group(group_name)
       updateAllVariables()
       updateCalculatedVariables()
       false
