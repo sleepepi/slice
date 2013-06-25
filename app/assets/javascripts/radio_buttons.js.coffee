@@ -1,29 +1,24 @@
-@toggleRadioButton = (rb) ->
-  # Need this function since there's no way of preventing default radio button click behavior
-  console.log rb
-  if rb.data("previous") == "checked"
-    rb.prop("checked", false)
-    rb.data("previous", "unchecked")
+clearSelections = (member) ->
+  $(member).closest(".control-group").find("input:radio, input:checkbox")
+    .prop('checked', false)
+    .data('previous', 'unchecked')
+    .parent().removeClass("selected")
+  updateAllVariables()
+  updateCalculatedVariables()
+
+selectWithKeystroke = (event) ->
+  # input field has to be radio button or checkbox
+  if event.which == 192
+    clearSelections(event.target)
   else
-    rb.data("previous", "checked")
-  rb.change()
+    selected_value = String.fromCharCode(event.which)
+    selected_input = $(event.target).closest(".control-group").find("*[value='" + selected_value + "']").first()
+    selected_input.prop("checked", true) if selected_input
+    selected_input.change()
 
 jQuery ->
-  $(document).on("keydown", ".radio input:radio", (e) ->
-    selected_value = String.fromCharCode(e.which)
-    selected_radio = $(this).closest(".control-group").find(":radio[value='" + selected_value + "']").first()
+  $(document).on("keydown", ".radio input:radio", selectWithKeystroke)
+  $(document).on("keydown", ".checkbox input:checkbox", selectWithKeystroke)
 
-    if e.which == 192
-      $(this).closest(".control-group").find("*[data-object='clear-radio']").click()
-    else if selected_radio
-      selected_radio.prop("checked", true)
-      toggleRadioButton(selected_radio)
-    false
-  )
-
-  $(document).on("click", ".radio input:radio", () ->
-    $(this).focus()
-    toggleRadioButton($(this))
-  )
 
 

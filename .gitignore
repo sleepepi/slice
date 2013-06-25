@@ -40,7 +40,6 @@
 /Gemfile.lock
 /db/schema.rb
 /doc/app/*
-/.idea
 
 /.sass-cache/
 /coverage/*

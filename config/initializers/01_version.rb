@@ -1,8 +1,8 @@
 module Slice
   module VERSION #:nodoc:
     MAJOR = 0
-    MINOR = 19
-    TINY = 0
+    MINOR = 18
+    TINY = 4
     BUILD = "pre" # nil, "pre", "beta1", "beta2", "rc", "rc2"
 
     STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.')

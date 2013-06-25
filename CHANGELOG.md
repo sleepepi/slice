@@ -1,5 +1,11 @@
 ## 0.19.0
 
+## 0.18.4
+
+### Enhancements
+- ** Sheet Changes **
+  - Radio buttons and check boxes can be selected by keyboard strokes when in-focus, and can be cleared with `` ` ``.
+
 ## 0.18.3 (June 18, 2013)
 
 ### Enhancement
