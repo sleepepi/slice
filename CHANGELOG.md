@@ -1,8 +1,12 @@
 ## 0.18.4
 
+### Enhancements
+- **Gem Changes**
+  - Updated to rails 4.0.0
+
 ## 0.18.3 (June 18, 2013)
 
-### Enhancement
+### Enhancements
 - **Design Changes**
   - Variables that have been deleted are kept visible on designs until a user explicitely removes the variable from the design
     - Allows design variable reordering to continue to work since the reordering relies on positioning of deleted variables that exist on the design
@@ -17,7 +21,7 @@
 
 ## 0.18.2 (June 17, 2013)
 
-### Enhancement
+### Enhancements
 - Minor GUI fix to only show scale headers for the if the variable is the first scale of that type on the sheet
 
 ## 0.18.1 (June 17, 2013)
