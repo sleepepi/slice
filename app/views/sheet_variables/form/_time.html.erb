@@ -1,21 +1,41 @@
 <% is_grid = defined?(grid) %>
 
-<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> input-append" style="display:inline-block;white-space:nowrap">
+<div class="time-input">
   <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
-  <%= text_field_tag field_name, (Time.parse(response).strftime('%H:%M:%S') rescue response), class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}",
-        data: {
-                content: variable.description,
-                title: variable.display_name,
-                object: "condition",
-                placement: (variable.show_current_button? ? 'left' : 'right'),
-                html: true
-              },
-        rel: "#{variable.description.blank? ? '' : 'popover'}",
-        autocomplete: 'off',
-        disabled: disabled,
-        title: variable.display_name,
-        placeholder: 'hh:mm:ss' %>
-  <span class="add-on"><i class="icon-time"></i></span>
+
+  <%= hidden_field_tag field_name %>
+
+  <div class="<%= "input-prepend" unless variable.prepend.blank?  %>">
+    <%= text_field_tag "#{field_name}_hour", nil, {maxlength: 2} %>
+  </div>
+  &#58;
+  <%= text_field_tag "#{field_name}_min", nil, {maxlength: 2}  %>
+
+  <%= unless false # variable.hide_seconds? %>
+    &#58;
+    <div class="input-append"><%= text_field_tag "#{field_name}_sec", nil, {maxlength: 2}  %></div>
+  <%= end %>
+
+  <%=
+      #text_field_tag field_name, (Time.parse(response).strftime('%H:%M:%S') rescue response), class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}",
+      #  data: {
+      #          content: variable.description,
+      #          title: variable.display_name,
+      #          object: "condition",
+      #          placement: (variable.show_current_button? ? 'left' : 'right'),
+      #          html: true
+      #        },
+      #  rel: "#{variable.description.blank? ? '' : 'popover'}",
+      #  autocomplete: 'off',
+      #  disabled: disabled,
+      #  title: variable.display_name,
+      #  placeholder: 'hh:mm:ss'
+  %>
+
+
+
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
-  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
+
+
+  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' #if variable.show_current_button? %>
 </div>
