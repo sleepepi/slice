@@ -8,7 +8,7 @@ clearSelections = (member) ->
 
 selectWithKeystroke = (event) ->
   # input field has to be radio button or checkbox
-  if event.which == 192
+  if event.which == 96
     clearSelections(event.target)
   else
     selected_value = String.fromCharCode(event.which)
@@ -19,8 +19,8 @@ selectWithKeystroke = (event) ->
       .change()
 
 jQuery ->
-  $(document).on("keydown", ".radio input:radio", selectWithKeystroke)
-  $(document).on("keydown", ".checkbox input:checkbox", selectWithKeystroke)
+  $(document).on("keypress", ".radio input:radio", selectWithKeystroke)
+  $(document).on("keypress", ".checkbox input:checkbox", selectWithKeystroke)
   $(document).on("click", ".radio input:radio", () ->
     radio = $(this)
     if radio.data("previous") == "checked"

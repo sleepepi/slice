@@ -1,21 +1,29 @@
 <% is_grid = defined?(grid) %>
 
-<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> input-append" style="display:inline-block;white-space:nowrap">
-  <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
-  <%= text_field_tag field_name, (Time.parse(response).strftime('%H:%M:%S') rescue response), class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}",
-        data: {
-                content: variable.description,
-                title: variable.display_name,
-                object: "condition",
-                placement: (variable.show_current_button? ? 'left' : 'right'),
-                html: true
-              },
-        rel: "#{variable.description.blank? ? '' : 'popover'}",
-        autocomplete: 'off',
-        disabled: disabled,
-        title: variable.display_name,
-        placeholder: 'hh:mm:ss' %>
-  <span class="add-on"><i class="icon-time"></i></span>
-  <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
-  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
+<div class="time-input">
+
+  <%= hidden_field_tag field_name,(Time.parse(response).strftime('%H:%M:%S') rescue response),
+      data: {
+              object: "condition",
+             },
+      disabled: disabled
+  %>
+
+  <div class="<%= "input-prepend" unless variable.prepend.blank?  %> hour-box time-box">
+    <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
+    <%= text_field_tag "hour_#{field_name}", (Time.parse(response).strftime('%H') rescue response), maxlength: 2, disabled: disabled, data: { target_input: field_name } %>
+  </div>
+
+  <div class="time-divider">&#58;</div>
+  <div class="min-box time-box"><%= text_field_tag "min_#{field_name}", (Time.parse(response).strftime('%M') rescue response), maxlength: 2, disabled: disabled, data: { target_input: field_name } %></div>
+  <div class="time-divider">&#58;</div>
+
+  <div class="sec-box time-box <%= "input-append" unless variable.append.blank? %>">
+    <%= text_field_tag "sec_#{field_name}", (Time.parse(response).strftime('%S') rescue response), maxlength: 2, disabled: disabled, data: { target_input: field_name } %>
+    <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+  </div>
+
+  <%=
+      link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_input: field_name }, class: 'btn', tabindex: '-1'
+  %>
 </div>
