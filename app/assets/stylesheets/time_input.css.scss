@@ -1,5 +1,10 @@
 .time-input {
   input[type="text"] {
     width: 20px;
+    float: left;
+  }
+
+  .time-divider {
+    float: left;
   }
 }
