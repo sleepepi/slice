@@ -3,49 +3,24 @@
 <div class="time-input">
   <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
 
-  <%= hidden_field_tag field_name,
+  <%= hidden_field_tag field_name,(Time.parse(response).strftime('%H:%M:%S') rescue response),
       data: {
-              content: variable.description,
-              title: variable.display_name,
               object: "condition",
-              placement: (variable.show_current_button? ? 'left' : 'right'),
-              html: true
              },
-      rel: "#{variable.description.blank? ? '' : 'popover'}",
-      #
+      disabled: disabled
   %>
 
   <div class="<%= "input-prepend" unless variable.prepend.blank?  %> hour-box">
-    <%= text_field_tag "#{field_name}_hour", nil, {maxlength: 2} %>
+    <%= text_field_tag "#{field_name}[hour]", nil, maxlength: 2, disabled: disabled, data: { target_input: field_name } %>
   </div>
   <div class="time-divider">&#58;</div>
-  <div class="min-box"><%= text_field_tag "#{field_name}_min", nil, {maxlength: 2}  %></div>
-  <%= if variable.show_seconds?  %>
-      <div class="time-divider">&#58;</div>
-      <div class="input-append sec-box"><%= text_field_tag "#{field_name}_sec", nil, {maxlength: 2}  %></div>
-  <%= end %>
-  <%=
-      #text_field_tag field_name, (Time.parse(response).strftime('%H:%M:%S') rescue response), class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}",
-      #  data: {
-      #          content: variable.description,
-      #          title: variable.display_name,
-      #          object: "condition",
-      #          placement: (variable.show_current_button? ? 'left' : 'right'),
-      #          html: true
-      #        },
-      #  rel: "#{variable.description.blank? ? '' : 'popover'}",
-      #  autocomplete: 'off',
-      #  disabled: disabled,
-      #  title: variable.display_name,
-      #  placeholder: 'hh:mm:ss'
-  %>
-
-
+  <div class="min-box"><%= text_field_tag "#{field_name}[min]", nil, maxlength: 2, disabled: disabled, data: { target_input: field_name } %></div>
+  <div class="time-divider">&#58;</div>
+  <div class="sec-box"><%= text_field_tag "#{field_name}[sec]", nil, maxlength: 2, disabled: disabled, data: { target_input: field_name } %></div>
 
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
 
-
   <%=
-      link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1'
+      link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_input: field_name }, class: 'btn', tabindex: '-1'
   %>
 </div>
