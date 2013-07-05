@@ -6,6 +6,7 @@
 - ** Sheet Changes **
   - Radio buttons and check boxes can be selected by keyboard strokes when in-focus, and can be cleared with `` ` ``.
   - Clicking on a selected radio button un-selects the radio button.
+  - Time inputs have been revised into 3 separate text boxes, and enhanced with functionality for quick input.
 
 ## 0.18.3 (June 18, 2013)
 
