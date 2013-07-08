@@ -3,6 +3,8 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 4.0.0
+- ** Sheet Changes **
+  - Time inputs have been revised into 3 separate text boxes, and enhanced with functionality for quick input.
 
 ## 0.18.3 (June 18, 2013)
 
