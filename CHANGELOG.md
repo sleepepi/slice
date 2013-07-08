@@ -3,6 +3,9 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 4.0.0
+- ** Sheet Changes **
+  - Radio buttons and check boxes can be selected by keyboard strokes when in-focus, and can be cleared with `` ` ``.
+  - Clicking on a selected radio button un-selects the radio button.
 
 ## 0.18.3 (June 18, 2013)
 
