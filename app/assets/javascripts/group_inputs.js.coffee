@@ -25,7 +25,7 @@ selectWithKeystroke = (event) ->
     selected_value = String.fromCharCode(event.which)
     group_name = $(event.target).attr("name")
     input = $("*[name='"+ group_name + "'][value='" + selected_value + "']")
-    toggleGroupInput(input, group_name, event)
+    toggleGroupInput(input, group_name, event) if input.length > 0
 
 jQuery ->
   $(document).on("keypress", ".radio input:radio", selectWithKeystroke)
@@ -38,11 +38,11 @@ jQuery ->
   $(document).on("click", ".checkbox input:checkbox", () ->
     $(this).focus()
   )
-  $(document).on("focus", ".radio input:radio", () ->
+
+  $(document).on("focus", ".radio input:radio, .checkbox input:checkbox", () ->
     $(this).parent().addClass("focus")
   )
-
-  $(document).on("focusout", ".radio input:radio", () ->
+  $(document).on("focusout", ".radio input:radio, .checkbox input:checkbox", () ->
     $(this).parent().removeClass("focus")
   )
 
