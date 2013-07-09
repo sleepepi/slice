@@ -28,7 +28,7 @@
                    data-title="<%= value %>: <%= name %>"
                    data-placement="bottom" rel="<%= description.blank? ? 'tooltip' : 'popover' %>"
                    data-html="true">
-              <%= radio_button_tag field_name, "#{value}", selected, data: { object: "condition", name: variable.name, variable_type: variable.variable_type, previous: (selected ? "checked" : "unchecked") }, disabled: disabled %>
+              <%= radio_button_tag field_name, "#{value}", selected, data: { object: "condition", name: variable.name, variable_type: variable.variable_type }, disabled: disabled %>
             </label>
           </td>
         <% end %>
