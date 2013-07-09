@@ -116,7 +116,7 @@ jQuery ->
       e.stopPropagation()
       false
     )
-    .on('change', '.checkbox input:checkbox, .radio input:radio', () ->
+    .on('change', '.checkbox input:checkbox', () ->
       color_group($(this).attr('name'))
     )
 
