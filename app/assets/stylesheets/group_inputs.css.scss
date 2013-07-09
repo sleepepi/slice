@@ -1,0 +1,22 @@
+.radio.focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px rgba(82, 168, 236, 0.8);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px rgba(82, 168, 236, 0.8);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px rgba(82, 168, 236, 0.8);
+
+}
+.radio {
+  input[type="radio"] {
+    outline: none;
+    -moz-appearance: none !important;
+    -moz-border-bottom-colors: transparent !important;
+    -moz-border-left-colors: transparent !important;
+    -moz-border-right-colors: transparent !important;
+    -moz-border-top-colors: transparent !important;
+  }
+
+}

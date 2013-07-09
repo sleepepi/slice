@@ -6,6 +6,17 @@ clearSelections = (member) ->
   updateAllVariables()
   updateCalculatedVariables()
 
+
+toggleGroupInput = (input, group_name, event) ->
+  if input.parent("label").hasClass("selected") and (input.attr('type') == "checkbox" or event.type == "click")
+    input.prop("checked", false)
+    input.parent("label").removeClass("selected")
+  else
+    input.prop("checked", true)
+    $("input[name='" + group_name + "']").parent("label").removeClass("selected") unless input.attr('type') == "checkbox"
+    input.parent("label").addClass("selected")
+  input.focus()
+
 selectWithKeystroke = (event) ->
   # input field has to be radio button or checkbox
   if event.which == 96
@@ -13,27 +24,26 @@ selectWithKeystroke = (event) ->
   else
     selected_value = String.fromCharCode(event.which)
     group_name = $(event.target).attr("name")
-    $("*[name='"+ group_name + "'][value='" + selected_value + "']")
-      .prop("checked", true)
-      .data('previous', 'checked')
-      .change()
+    input = $("*[name='"+ group_name + "'][value='" + selected_value + "']")
+    toggleGroupInput(input, group_name, event)
 
 jQuery ->
   $(document).on("keypress", ".radio input:radio", selectWithKeystroke)
   $(document).on("keypress", ".checkbox input:checkbox", selectWithKeystroke)
   $(document).on("click", ".radio input:radio", () ->
     radio = $(this)
-    if radio.data("previous") == "checked"
-      radio.prop("checked", false)
-      radio.data("previous", "unchecked")
-    else if radio.data("previous") == "unchecked"
-      radio.data("previous", "checked")
-
-    radio.change()
-    radio.focus()
+    group_name = radio.attr("name")
+    toggleGroupInput(radio, group_name, event)
   )
   $(document).on("click", ".checkbox input:checkbox", () ->
     $(this).focus()
+  )
+  $(document).on("focus", ".radio input:radio", () ->
+    $(this).parent().addClass("focus")
+  )
+
+  $(document).on("focusout", ".radio input:radio", () ->
+    $(this).parent().removeClass("focus")
   )
 
 
