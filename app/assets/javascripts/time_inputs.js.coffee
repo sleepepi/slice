@@ -1,3 +1,5 @@
+@manage_block = 0
+
 pad = (str, max) ->
   if !str then str = ""
   if str.length < max then pad("0" + str, max) else str
@@ -6,9 +8,9 @@ setCurrentTime = (event) ->
   name = $(event.target).data("target-input")
   currentTime = new Date()
   time =
-    hour: pad(currentTime.getHours(), 2)
-    min: pad(currentTime.getMinutes(), 2)
-    sec: pad(currentTime.getSeconds(), 2)
+    hour: pad(String(currentTime.getHours()), 2)
+    min: pad(String(currentTime.getMinutes()), 2)
+    sec: pad(String(currentTime.getSeconds()), 2)
 
   $("input:hidden[name='"+name+"']").val(time["hour"]+":"+time["minute"]+":"+time["second"])
   $("input:text[name='hour_"+name+"']").val(time["hour"])
@@ -43,22 +45,26 @@ focusOnNext = (target, next_input) ->
   else
     target.closest("form").find("input:submit").first().focus()
 
+
 manageTimeInput = (event, target, next_input, min_val, max_val) ->
-  # Accounts for main keyboard key codes and num pad key codes
-  if (event.keyCode >= 48 and event.keyCode <= 57) or ((event.keyCode-48) >= 48 and (event.keyCode-48) <= 57)
-    val = target.val()
-    int_val = parseInt(val)
+  if manage_block == 0
+    manage_block == 1
+    # Accounts for main keyboard key codes and num pad key codes
 
-    if val.length == 1 and int_val >= Math.ceil(max_val / 10.0) and int_val <= 9
-      focusOnNext(target, next_input)
-    else if val.length == 2
-      if int_val >= min_val and int_val <= max_val
+    if (event.keyCode >= 48 and event.keyCode <= 57) or ((event.keyCode-48) >= 48 and (event.keyCode-48) <= 57)
+      val = target.val()
+      int_val = parseInt(val)
+
+      if val.length == 1 and int_val >= Math.ceil(max_val / 10.0) and int_val <= 9
         focusOnNext(target, next_input)
-      else
-        target.select()
-  else
-    target.select()
-
+      else if val.length == 2
+        if int_val >= min_val and int_val <= max_val
+          focusOnNext(target, next_input)
+        else
+          target.select()
+    else
+      target.select()
+    manage_block == 0
 
 jQuery ->
   $(document)
