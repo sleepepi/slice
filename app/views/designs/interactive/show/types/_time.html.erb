@@ -15,6 +15,6 @@
   <div class="time-divider">&#58;</div>
   <div class="sec-box time-box"><%= text_field_tag "sec_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off' %></div>
 
-  <%= link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_input: variable.name }, class: 'btn btn-mini', tabindex: '-1', disabled: true %>
+  <%= link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_input: variable.name }, class: 'btn btn-mini', tabindex: '-1', disabled: true if variable.show_current_button? %>
   <%= link_to 'Clear', '#', data: { object: 'clear-time-input', target_input: variable.name }, class: 'btn btn-mini', tabindex: '-1', disabled: true %>
 </div>
