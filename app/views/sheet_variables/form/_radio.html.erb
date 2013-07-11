@@ -33,7 +33,7 @@
           </td>
         <% end %>
         <td style="text-align:right">
-          <%= link_to 'clear', '#', class: 'btn btn-mini', data: { object: 'clear-radio', group: field_name }, tabindex: "-1" unless disabled %>
+          <%= link_to 'Clear', '#', class: 'btn btn-mini', data: { object: 'clear-radio', group: field_name }, tabindex: "-1" unless disabled %>
         </td>
       </tr>
     </tbody>
@@ -49,6 +49,6 @@
     <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
       <label class="radio <%= 'inline' if is_grid or variable.alignment == 'horizontal' %> <%= 'selected' if value == response %>"><%= radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.variable_type, previous: (value == response ? "checked" : "unchecked") }, disabled: disabled %> <%= value %>: <%= name %></label>
     <% end %>
-    <%= link_to 'clear', '#', class: 'btn btn-mini', data: { object: 'clear-radio', group: field_name }, tabindex: "-1" unless disabled %>
+    <%= link_to 'Clear', '#', class: 'btn btn-mini', data: { object: 'clear-radio', group: field_name }, tabindex: "-1" unless disabled %>
   </div>
 <% end %>
