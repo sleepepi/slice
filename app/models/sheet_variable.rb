@@ -124,7 +124,7 @@ class SheetVariable < ActiveRecord::Base
       result[:value] = object.response
       result[:description] = object.variable.description
     elsif ['time'].include?(object.variable.variable_type)
-      result[:name] = object.response_with_add_on # Potentially format this in the future
+      result[:name] = object.response # Potentially format this in the future
       result[:value] = object.response
       result[:description] = object.variable.description
     elsif ['string', 'text'].include?(object.variable.variable_type)
