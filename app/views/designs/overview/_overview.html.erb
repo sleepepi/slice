@@ -18,9 +18,7 @@
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
 
       <div class="control-group">
-        <% if @variable.uses_scale? %>
-          <%# Nothing %>
-        <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
+        <% if ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
           <div class="page-header" style="margin-top:0px">
             <h4 style="padding:0px">
               <%= @variable.display_name %>
