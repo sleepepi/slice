@@ -13,6 +13,7 @@
 ### Bug Fix
 - Sheet comments that contain urls with numbers no longer escape the numbers to ASCII representation
 - Design overview now properly displays radio and checkbox display names when they specified as scales
+- Clicking enter on the design creator no longer pretends to save the design
 
 ## 0.18.3 (June 18, 2013)
 
