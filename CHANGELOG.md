@@ -9,6 +9,9 @@
 - **Gem Changes**
   - Updated to rails 4.0.0
 
+### Bug Fix
+- Sheet comments that contain urls with numbers no longer escape the numbers to ASCII representation
+
 ## 0.18.3 (June 18, 2013)
 
 ### Enhancements
