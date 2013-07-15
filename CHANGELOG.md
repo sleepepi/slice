@@ -5,6 +5,7 @@
   - Time inputs have been revised into 3 separate text boxes, and enhanced with functionality for quick input
   - Radio buttons and check boxes can be selected by keyboard strokes when in-focus, and can be cleared with `` ` ``
   - Clicking on a selected radio button un-selects the radio button
+  - Editing and creating sheets now contain the project name at the top for consistency
 - Use of Ruby 2.0.0-p247 is now recommended
 - **Gem Changes**
   - Updated to rails 4.0.0
