@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1><%= @title %></h1>
+  <h1><%= link_to @project.name, @project %> &middot; <%= @title %></h1>
 </div>
 
 <%= hidden_field_tag 'isdirty', '1' %>

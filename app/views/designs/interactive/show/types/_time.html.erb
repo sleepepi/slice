@@ -1,13 +1,20 @@
 <% is_grid = defined?(grid) %>
 
-<div class="input-prepend input-append" style="display:inline-block;white-space:nowrap">
-  <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'prepend', variable: variable } %>
-  <%= text_field_tag variable.name, '', class: "timepicker input-#{defined?(control_size) ? control_size : 'large'}",
-        autocomplete: 'off',
-        disabled: true,
-        title: variable.display_name,
-        placeholder: 'hh:mm:ss' %>
-  <span class="add-on"><i class="icon-time"></i></span>
-  <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'append', variable: variable } %>
-  <%= link_to 'Current Time', '#', data: { object: 'set-current-time', target_time: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
+<div class="time-input">
+
+  <%= hidden_field_tag variable.name,(Time.parse(response).strftime('%H:%M:%S') rescue response),
+                       data: {
+                               object: "condition",
+                       },
+                       disabled: true
+  %>
+
+  <div class="hour-box time-box"><%= text_field_tag "hour_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'hh' %></div>
+  <div class="time-divider">&#58;</div>
+  <div class="min-box time-box"><%= text_field_tag "min_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'mm' %></div>
+  <div class="time-divider">&#58;</div>
+  <div class="sec-box time-box"><%= text_field_tag "sec_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'ss' %></div>
+
+  <%= link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_input: variable.name }, class: 'btn btn-mini', tabindex: '-1', disabled: true if variable.show_current_button? %>
+  <%= link_to 'Clear', '#', data: { object: 'clear-time-input', target_input: variable.name }, class: 'btn btn-mini', tabindex: '-1', disabled: true %>
 </div>

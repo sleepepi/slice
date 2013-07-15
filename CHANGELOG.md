@@ -1,8 +1,25 @@
 ## 0.19.0
 
+## 0.18.4 (July 15, 2013)
+
+### Enhancements
+- ** Sheet Changes **
+  - Time inputs have been revised into 3 separate text boxes, and enhanced with functionality for quick input
+  - Radio buttons and check boxes can be selected by keyboard strokes when in-focus, and can be cleared with `` ` ``
+  - Clicking on a selected radio button un-selects the radio button
+  - Editing and creating sheets now contain the project name at the top for consistency
+- Use of Ruby 2.0.0-p247 is now recommended
+- **Gem Changes**
+  - Updated to rails 4.0.0
+
+### Bug Fix
+- Sheet comments that contain urls with numbers no longer escape the numbers to ASCII representation
+- Design overview now properly displays radio and checkbox display names when they specified as scales
+- Clicking enter on the design creator no longer pretends to save the design
+
 ## 0.18.3 (June 18, 2013)
 
-### Enhancement
+### Enhancements
 - **Design Changes**
   - Variables that have been deleted are kept visible on designs until a user explicitely removes the variable from the design
     - Allows design variable reordering to continue to work since the reordering relies on positioning of deleted variables that exist on the design
@@ -17,7 +34,7 @@
 
 ## 0.18.2 (June 17, 2013)
 
-### Enhancement
+### Enhancements
 - Minor GUI fix to only show scale headers for the if the variable is the first scale of that type on the sheet
 
 ## 0.18.1 (June 17, 2013)

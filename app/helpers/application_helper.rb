@@ -56,7 +56,7 @@ module ApplicationHelper
   end
 
   def replace_numbers_with_ascii(text)
-    text.gsub(/(\d)/){|m| ascii_number($1)}
+    text.gsub(/^[ \t]*(\d)/){|m| ascii_number($1)}
   end
 
   def ascii_number(number)

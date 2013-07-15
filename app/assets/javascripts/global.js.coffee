@@ -25,21 +25,9 @@
 @hideContourModal = () ->
   $("#contour-backdrop, .contour-modal-wrapper").hide()
 
-@color_radio_group = (group_name) ->
-  $(":radio[name='" + group_name + "']").each( (index, element) ->
-    if $(element).prop('checked')
-      $(element).parent().addClass('selected')
-    else
-      $(element).parent().removeClass('selected')
-  )
-
-@color_checkbox_group = (group_name) ->
-  $(":checkbox[name='" + group_name + "']").each( (index, element) ->
-    if $(element).prop('checked')
-      $(element).parent().addClass('selected')
-    else
-      $(element).parent().removeClass('selected')
-  )
+@color_group = (group_name) ->
+  $("input[name='" + group_name + "']:checked").parent().addClass("selected")
+  $("input[name='" + group_name + "']:not(:checked)").parent().removeClass("selected")
 
 @browserSupportsPushState =
   window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
@@ -129,15 +117,9 @@ jQuery ->
       false
     )
     .on('change', '.checkbox input:checkbox', () ->
-      if $(this).is(':checked')
-        $(this).parent().addClass('selected')
-      else
-        $(this).parent().removeClass('selected')
+      color_group($(this).attr('name'))
     )
-    .on('change', '.radio input:radio', () ->
-      group_name = $(this).attr('name')
-      color_radio_group(group_name)
-    )
+
     .keydown( (e) ->
       # p will enter the search box, Esc will exit
       if e.which == 80 and not $("input, textarea, select, a").is(":focus")
