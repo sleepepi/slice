@@ -30,13 +30,16 @@ setFullTimeField = (target) ->
 
   for key, val of time
     if !val or val.length == 0 then time[key] = "00"
-  $("input:hidden[name='"+name+"']").val(time["hour"]+":"+time["min"]+":"+time["sec"])
-
+  if $("input:text[name='hour_"+name+"']").val() == '' and $("input:text[name='min_"+name+"']").val() == '' and $("input:text[name='sec_"+name+"']").val() == ''
+    $("input:hidden[name='"+name+"']").val('')
+  else
+    $("input:hidden[name='"+name+"']").val(time["hour"]+":"+time["min"]+":"+time["sec"])
   false
 
 reformatTimeInput = (target, int_val) ->
+  name = target.data("target-input")
   if int_val then s = String(int_val) else s = ""
-  target.val(pad(s, 2))
+  target.val(pad(s, 2)) unless $("input:hidden[name='"+name+"']").val() == ''
   setFullTimeField(target)
 
 focusOnNext = (target) ->
