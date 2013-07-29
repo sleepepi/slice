@@ -239,23 +239,6 @@ jQuery ->
       $($(this).data('target-date')).change()
       false
     )
-    .on('click', '[data-object~="clear-radio"]', () ->
-      group_name = $(this).data('group')
-      $(":radio[name='" + group_name + "']").prop('checked', false)
-      $(":radio[name='" + group_name + "']").data('previous', 'unchecked')
-      color_group(group_name)
-      updateAllVariables()
-      updateCalculatedVariables()
-      false
-    )
-    .on('click', '[data-object~="clear-checkbox"]', () ->
-      group_name = $(this).data('group')
-      $(":checkbox[name='" + group_name + "']").prop('checked', false)
-      color_group(group_name)
-      updateAllVariables()
-      updateCalculatedVariables()
-      false
-    )
     .on('click', '[data-object~="set-variable-type"]', () ->
       $("#variable_type").val($(this).data('value'))
       $($(this).data('target')).submit()

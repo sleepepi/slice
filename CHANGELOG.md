@@ -6,6 +6,7 @@
   - Updated to pg 0.16.0
   - Updated to redcarpet 3.0.0
   - Updated to carrierwave 0.9.0
+- Removed `Clear` button from radio and checkbox groups as it is no longer needed
 
 ### Bug Fix
 - SAS export now properly escapes single quotes ``'`` in labels using two single quotes ``''``

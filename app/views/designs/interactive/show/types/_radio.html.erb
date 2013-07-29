@@ -4,7 +4,7 @@
   <% if variable.shared_options.size == 0 %>
     <span class="dark-hover muted design-preview-hide">Click to Add Choices</span>
   <% elsif variable.alignment == 'scale' %>
-    <table class="table"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %><col width="1px"/>
+    <table class="table"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %>
       <% if variable.first_scale_variable?(@design) %>
         <thead>
           <tr>
@@ -14,7 +14,6 @@
                 <%= name %>
               </th>
             <% end %>
-            <th></th>
           </tr>
         </thead>
       <% end %>
@@ -32,12 +31,9 @@
               </label>
             </td>
           <% end %>
-          <td style="text-align:right">
-            <span data-object="kill-event"><%= button_tag 'Clear', disabled: true, class: 'btn btn-mini' %></span>
-          </td>
         </tr>
         <tr class="design-preview-hide">
-          <td colspan="<%= variable.shared_options.size + 2 %>" style="text-align:center"><span class="dark-hover muted">Click to Edit Choices</span></td>
+          <td colspan="<%= variable.shared_options.size + 1 %>" style="text-align:center"><span class="dark-hover muted">Click to Edit Choices</span></td>
         </tr>
       </tbody>
     </table>
