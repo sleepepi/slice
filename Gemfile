@@ -12,7 +12,7 @@ gem 'contour',              '~> 2.0.0'
 gem 'kaminari',             '~> 0.14.1'
 gem 'carrierwave',          '~> 0.9.0'
 # gem 'audited-activerecord', '~> 3.0.0'
-gem 'rails-observers',      '0.1.1'
+gem 'rails-observers',      '0.1.2'
 # gem 'audited-activerecord', '3.0.0.rails4',       github: 'remomueller/audited', branch: 'rails4'
 
 gem 'systemu',              '~> 2.5.2'
