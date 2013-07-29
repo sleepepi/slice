@@ -61,16 +61,16 @@
 
 @setRange = (el) ->
   el.removeClass('error-input warning-input')
-  if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(parseInt($.trim(el.val()))) and $.trim(el.val()).length > 0) or parseInt($.trim(el.val())) < parseInt(el.data('hard-minimum')) or parseInt($.trim(el.val())) > parseInt(el.data('hard-maximum')))
+  if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(parseFloat($.trim(el.val()))) and $.trim(el.val()).length > 0) or parseFloat($.trim(el.val())) < parseFloat(el.data('hard-minimum')) or parseFloat($.trim(el.val())) > parseFloat(el.data('hard-maximum')))
     el.addClass('error-input')
-  else if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(parseInt($.trim(el.val()))) and $.trim(el.val()).length > 0) or parseInt($.trim(el.val())) < parseInt(el.data('soft-minimum')) or parseInt($.trim(el.val())) > parseInt(el.data('soft-maximum')))
+  else if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(parseFloat($.trim(el.val()))) and $.trim(el.val()).length > 0) or parseFloat($.trim(el.val())) < parseFloat(el.data('soft-minimum')) or parseFloat($.trim(el.val())) > parseFloat(el.data('soft-maximum')))
     el.addClass('warning-input')
 
 @checkMinMax = () ->
   $('[data-object~="minmax"]').parent().parent().removeClass('error')
   number_fields = $('[data-object~="minmax"]').filter( () ->
     # value is not in missing_codes and ()
-    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(parseInt($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseInt($.trim($(this).val())) < parseInt($(this).data('hard-minimum')) or parseInt($.trim($(this).val())) > parseInt($(this).data('hard-maximum')))
+    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(parseFloat($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseFloat($.trim($(this).val())) < parseFloat($(this).data('hard-minimum')) or parseFloat($.trim($(this).val())) > parseFloat($(this).data('hard-maximum')))
   )
   number_fields.parent().parent().addClass('error')
   if number_fields.size() > 0
@@ -81,7 +81,7 @@
 @checkSoftMinMax = () ->
   $('[data-object~="minmax"]').parent().parent().removeClass('warning')
   number_fields = $('[data-object~="minmax"]').filter( () ->
-    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(parseInt($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseInt($.trim($(this).val())) < parseInt($(this).data('soft-minimum')) or parseInt($.trim($(this).val())) > parseInt($(this).data('soft-maximum')))
+    ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(parseFloat($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseFloat($.trim($(this).val())) < parseFloat($(this).data('soft-minimum')) or parseFloat($.trim($(this).val())) > parseFloat($(this).data('soft-maximum')))
   )
   number_fields.parent().parent().addClass('warning')
   if number_fields.size() > 0 and !confirm('Some numeric fields are out of the recommended range. Proceed anyways?')
