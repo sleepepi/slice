@@ -12,13 +12,13 @@ A clinical research interface geared at collecting robust and consistent data by
 
 Once you have the prerequisites in place, you can proceed to install bundler which will handle most of the remaining dependencies.
 
-```console
+```
 gem install bundler
 ```
 
 This readme assumes the following installation directory: /var/www/slice
 
-```console
+```
 cd /var/www
 
 git clone git://github.com/remomueller/slice.git
@@ -30,7 +30,7 @@ bundle install
 
 Install default configuration files for database connection, email server connection, server url, and application name.
 
-```console
+```
 ruby lib/initial_setup.rb
 
 bundle exec rake db:migrate RAILS_ENV=production
@@ -40,7 +40,7 @@ bundle exec rake assets:precompile
 
 Run Rails Server (or use Apache or nginx)
 
-```console
+```
 rails s -p80
 ```
 
@@ -52,7 +52,7 @@ All done!
 
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
 
-```console
+```
 0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.0.0-p247/bin/bundle exec rake daily_digest RAILS_ENV=production
 ```
 
