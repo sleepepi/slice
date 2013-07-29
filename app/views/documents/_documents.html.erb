@@ -17,7 +17,8 @@
       <td><%= document.category %></td>
       <td>
         <% if document.file.size > 0 %>
-          <%= link_to document.name, document.file.url, target: '_blank', class: 'btn btn-mini' %> <span class="muted"><%= number_to_human_size(document.file.size) %></span>
+          <% full_url = "#{request.script_name}#{document.file.url}" %>
+          <%= link_to document.name, full_url, target: '_blank', class: 'btn btn-mini' %> <span class="muted"><%= number_to_human_size(document.file.size) %></span>
         <% end %>
       </td>
       <td><%= simple_check document.archived %></td>

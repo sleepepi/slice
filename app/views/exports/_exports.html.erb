@@ -32,7 +32,8 @@
       <td><%= simple_check export.include_sas %></td>
       <td>
         <% if export.file.size > 0 %>
-          <%= link_to export.file.to_s.split('/').last.to_s.split('.').last.to_s, export.file.url, target: '_blank', class: 'btn btn-mini' %>
+          <% full_url = "#{request.script_name}#{export.file.url}" %>
+          <%= link_to export.file.to_s.split('/').last.to_s.split('.').last.to_s, full_url, target: '_blank', class: 'btn btn-mini' %>
         <% end %>
       </td>
       <td>

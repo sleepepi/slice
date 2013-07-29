@@ -5,10 +5,11 @@
 
 <span id="variable<%= "_#{grid.id}" if is_grid %><%= "_#{position}" if defined?(position) %>_<%= variable.id %>_file_container" rel="tooltip" title="<%= response[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true">
   <% if response[:value] and response[:value].size > 0 %>
+    <% full_url = "#{request.script_name}#{response[:value].url}" %>
     <% if ['jpg', 'jpeg', 'gif', 'png'].include?(response[:value].to_s.split('.').last.to_s.downcase) %>
-      <%= link_to image_tag(response[:value], style: "height:64px;border:0px solid white"), response[:value].url, target: '_blank' %>
+      <%= link_to image_tag(response[:value], style: "height:64px;border:0px solid white"), full_url, target: '_blank' %>
     <% else %>
-      <%= link_to response[:name], response[:value].url, target: '_blank', class: 'btn btn-mini' %>
+      <%= link_to response[:name], full_url, target: '_blank', class: 'btn btn-mini' %>
     <% end %>
     <%= number_to_human_size(response[:value].size) %>
     <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>

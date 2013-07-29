@@ -10,7 +10,7 @@ gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 # Gems used by project
 gem 'contour',              '~> 2.0.0'
 gem 'kaminari',             '~> 0.14.1'
-gem 'carrierwave',          '~> 0.7.1'
+gem 'carrierwave',          '~> 0.9.0'
 # gem 'audited-activerecord', '~> 3.0.0'
 gem 'rails-observers',      '0.1.1'
 # gem 'audited-activerecord', '3.0.0.rails4',       github: 'remomueller/audited', branch: 'rails4'

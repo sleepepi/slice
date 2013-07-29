@@ -7,7 +7,8 @@
     <ul>
       <% documents.sort_by{|d| d.name}.each do |document| %>
         <% if document.file.size > 0 %>
-          <li style="line-height:25px"><%= link_to document.name, document.file.url, target: '_blank' %> <span class="muted"><%= number_to_human_size(document.file.size) %></span></li>
+          <% full_url = "#{request.script_name}#{document.file.url}" %>
+          <li style="line-height:25px"><%= link_to document.name, full_url, target: '_blank' %> <span class="muted"><%= number_to_human_size(document.file.size) %></span></li>
         <% end %>
       <% end %>
     </ul>
