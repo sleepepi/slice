@@ -46,8 +46,8 @@ module ApplicationHelper
     checked ? '<i class="icon-ok"></i>'.html_safe : ''
   end
 
-  def target_link_as_blank(text)
-    text.to_s.gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  def safe_url?(url)
+    ['http', 'https', 'ftp', 'mailto'].include?(URI.parse(url).scheme) rescue false
   end
 
   def simple_markdown(text)
@@ -55,16 +55,18 @@ module ApplicationHelper
     target_link_as_blank(markdown.render(replace_numbers_with_ascii(text.to_s)))
   end
 
-  def replace_numbers_with_ascii(text)
-    text.gsub(/^[ \t]*(\d)/){|m| ascii_number($1)}
-  end
+  private
 
-  def ascii_number(number)
-    "&##{(number.to_i + 48).to_s};"
-  end
+    def target_link_as_blank(text)
+      text.to_s.gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+    end
 
-  def safe_url?(url)
-    ['http', 'https', 'ftp', 'mailto'].include?(URI.parse(url).scheme) rescue false
-  end
+    def replace_numbers_with_ascii(text)
+      text.gsub(/^[ \t]*(\d)/){|m| ascii_number($1)}
+    end
+
+    def ascii_number(number)
+      "&##{(number.to_i + 48).to_s};"
+    end
 
 end
