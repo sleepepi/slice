@@ -1,0 +1,42 @@
+<% @title = 'Sign in' %>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-signin' }) do |f| %>
+  <h2 class="form-signin-heading">Sign in</h2>
+  <%= f.email_field :email, class: 'input-block-level', placeholder: 'Email' %>
+  <%= f.password_field :password, class: 'input-block-level', placeholder: 'Password' %>
+
+  <%= f.submit "Sign in", class: 'btn btn-success btn-block btn-large' %>
+<% end %>
+
+<div class="center" style="margin-bottom:20px">
+  <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+</div>
+
+<% if devise_mapping.confirmable? %>
+  <div class="center" style="margin-bottom:20px">
+    <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %>
+  </div>
+<% end %>
+
+<% if PROVIDERS.size > 0 %>
+  <div class="form-signin">
+    <h2 class="form-signin-heading">Sign in with</h2>
+    <% PROVIDERS.each do |provider| %>
+      <a href="<%= request.script_name + "/" + OmniAuth.config.path_prefix.split('/').last.to_s + "/" + provider.to_s.downcase %>" class="btn" style="white-space:nowrap">
+        <%= image_tag "contour/#{provider.to_s.downcase}_32.png", align: 'absmiddle', height: "28px" %>
+      </a>
+    <% end %>
+  </div>
+<% end %>
+
+<% if devise_mapping.registerable? %>
+  <div class="center" style="margin-bottom:20px">
+    Don't have an account? <%= link_to "Sign up", new_registration_path(resource_name) %>
+  </div>
+<% end %>
+
+<%= link_to about_path do %>
+  <div style="max-width: 300px; padding: 19px 29px 29px; margin: 40px auto 20px;">
+    <%= image_tag 'slc_designer.png', style: 'width:100%;' %>
+  </div>
+<% end %>
