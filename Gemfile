@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails',                '4.0.0'
 
 # Database Adapter
-gem 'pg',                   '0.15.1'
+gem 'pg',                   '0.16.0'
 gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
