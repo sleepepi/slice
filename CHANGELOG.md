@@ -13,6 +13,7 @@
 ### Bug Fix
 - SAS export now properly escapes single quotes ``'`` in labels using two single quotes ``''``
 - Numeric variables can now be entered without a leading zero without causing a validation error
+- Fixed variable display name not showing up on the design editor when set as scale alignment without a domain
 
 ## 0.18.4 (July 15, 2013)
 

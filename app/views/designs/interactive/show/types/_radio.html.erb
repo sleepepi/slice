@@ -1,9 +1,7 @@
 <% is_grid = defined?(grid) %>
 
 <div data-object="pull-partial-edit" data-edit="variable_domain" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
-  <% if variable.shared_options.size == 0 %>
-    <span class="dark-hover muted design-preview-hide">Click to Add Choices</span>
-  <% elsif variable.alignment == 'scale' %>
+  <% if variable.alignment == 'scale' %>
     <table class="table"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %>
       <% if variable.first_scale_variable?(@design) %>
         <thead>
