@@ -31,7 +31,7 @@
         </span>
       <% end %>
       <span id="project_user_<%= project_user.id %>_delete" style="display:none">
-        <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove #{project_user.user ? project_user.user.name : project_user.invite_email} from the list of #{@relation}?" } if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
+        <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to remove #{project_user.user ? project_user.user.name : project_user.invite_email} from the list of #{@relation}?" } if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
       </span>
     </span>
   </li>

@@ -30,7 +30,7 @@
       <td>
         <% if current_user.all_subjects.pluck(:id).include?(subject.id) %>
           <%= link_to 'Edit', edit_project_subject_path(subject.project, subject), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', [subject.project, subject], method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Subject #{subject.name}?" } %>
+          <%= link_to 'Delete', [subject.project, subject], method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{subject.name}?" } %>
         <% end %>
       </td>
     </tr>

@@ -4,7 +4,7 @@
     <%= @title %>
     <%= link_to "Mark Unread", mark_unread_export_path(@export), method: :post, class: 'btn btn-mini btn-inverse' if @export.status == 'ready' %>
     <% if false %><%= link_to "Edit Export", edit_export_path(@export), class: 'btn btn-mini' %><% end %>
-    <%= link_to "Delete Export", @export, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
+    <%= link_to "Delete Export", @export, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
     <%= link_to "View Exports", exports_path, class: 'btn btn-mini' %>
     <span class="label label-<%= @export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'important') %>"><%= @export.status %></span>
   </h1>

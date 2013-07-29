@@ -3,7 +3,7 @@
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to 'Documents', project_documents_path(@project) %> &middot; <%= @title %>
     <%= link_to "Edit Document", edit_project_document_path(@document.project, @document), class: 'btn btn-mini' %>
-    <%= link_to "Delete Document", [@document.project, @document], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Document #{@document.name}?" } %>
+    <%= link_to "Delete Document", [@document.project, @document], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Document #{@document.name}?" } %>
   </h1>
 </div>
 

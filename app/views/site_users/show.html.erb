@@ -3,7 +3,7 @@
   <h1>
     <%= @title %>
     <%= link_to "Edit Site User", edit_site_user_path(@site_user), class: 'btn btn-mini' %>
-    <%= link_to "Delete Site User", @site_user, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site User #{@site_user.name}?" } %>
+    <%= link_to "Delete Site User", @site_user, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site User #{@site_user.name}?" } %>
     <%= link_to "View Site Users", site_users_path, class: 'btn btn-mini' %>
   </h1>
 </div>

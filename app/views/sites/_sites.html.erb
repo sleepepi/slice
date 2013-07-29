@@ -20,7 +20,7 @@
       <td>
         <% if current_user.all_sites.pluck(:id).include?(site.id) %>
           <%= link_to 'Edit', edit_project_site_path(site.project, site), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', [site.project, site], method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Site #{site.name}?" } %>
+          <%= link_to 'Delete', [site.project, site], method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{site.name}?" } %>
         <% end %>
       </td>
     </tr>

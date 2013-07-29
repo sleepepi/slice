@@ -4,7 +4,7 @@
     <%= @title %>
     <% if current_user.all_comments.pluck(:id).include?(@comment.id) %>
       <%= link_to "Edit Comment", edit_comment_path(@comment), class: 'btn btn-mini' %>
-      <%= link_to "Delete Comment", @comment, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Comment #{@comment.name}?" } %>
+      <%= link_to "Delete Comment", @comment, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Comment #{@comment.name}?" } %>
     <% end %>
     <%= link_to "View Comments", comments_path, class: 'btn btn-mini' %>
   </h1>

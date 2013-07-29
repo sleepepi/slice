@@ -24,7 +24,7 @@
       <td><%= simple_check document.archived %></td>
       <td>
         <%= link_to 'Edit', edit_project_document_path(document.project, document), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', [document.project, document], method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Document #{document.name}?" } %>
+        <%= link_to 'Delete', [document.project, document], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Document #{document.name}?" } %>
       </td>
     </tr>
   <% end %>

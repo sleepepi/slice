@@ -85,7 +85,7 @@
       <div id="project_logo_delete_icon" style="display:none">
         <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
           <%= number_to_human_size(@project.logo.size) %>
-          <%= link_to 'remove logo', remove_file_project_path(@project), method: :post, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove the project logo?" } %>
+          <%= link_to 'remove logo', remove_file_project_path(@project), method: :post, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to remove the project logo?" } %>
         <% end %>
       </div>
     </div>
