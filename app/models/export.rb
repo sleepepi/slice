@@ -445,7 +445,7 @@ data slice#{'_grids' if use_grids};
   label creator='Sheet Creator';
 
   /* Sheet Variables */
-#{variables.collect{|v| "  label #{v.name}='#{v.display_name.gsub("'", "\\\\'")}';" }.join("\n")}
+#{variables.collect{|v| "  label #{v.name}='#{v.display_name.gsub("'", "''")}';" }.join("\n")}
 run;
 
       eos

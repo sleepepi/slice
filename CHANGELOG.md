@@ -7,6 +7,9 @@
   - Updated to redcarpet 3.0.0
   - Updated to carrierwave 0.9.0
 
+### Bug Fix
+- SAS export now properly escapes single quotes ``'`` in labels using two single quotes ``''``
+
 ## 0.18.4 (July 15, 2013)
 
 ### Enhancements
