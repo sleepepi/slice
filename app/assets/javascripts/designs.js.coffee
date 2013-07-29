@@ -93,6 +93,31 @@
       top: 30
   )
 
+@pushPartialChange = (element) ->
+  design_id = parseInt($('#design_id').val())
+  changes = null
+  if $($(element).data('target')).length > 0
+    params = $($(element).data('target')).serialize()
+    params = params + "&position=" + $(element).data('position') unless $(element).data('position') == undefined
+    params = params + "&variable_id=" + $(element).data('variable-id') unless $(element).data('variable-id') == undefined
+    params = params + "&create=" + $(element).data('create') unless $(element).data('create') == undefined
+    params = params + "&update=" + $(element).data('update') unless $(element).data('update') == undefined
+    params = params + "&delete=" + $(element).data('delete') unless $(element).data('delete') == undefined
+  else
+    changes = $(element).data('changes') || {}
+    changes.position = $(element).data('position')
+    changes.variable_id = $(element).data('variable-id')
+    changes.create = $(element).data('create')
+    changes.update = $(element).data('update')
+    changes.delete = $(element).data('delete')
+  if design_id > 0
+    changes['_method'] = 'put' if changes != null
+    params = params + "&_method=put"
+    $.post(root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val(), changes || params, null, "script")
+  else
+    $.post(root_url + 'projects/' + $("#project_id").val() + '/designs', changes || params, null, "script")
+
+
 jQuery ->
 
   loadVariableSortable()
@@ -134,29 +159,13 @@ jQuery ->
         $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/new', changes, null, "script")
       false
     )
+    .on('keypress', '[data-object~="push-partial-change-text-field"]', (e) ->
+      if e.which == 13 # Enter
+        pushPartialChange(this)
+        e.preventDefault()
+    )
     .on('click', '[data-object~="push-partial-change"]', () ->
-      design_id = parseInt($('#design_id').val())
-      changes = null
-      if $($(this).data('target')).length > 0
-        params = $($(this).data('target')).serialize()
-        params = params + "&position=" + $(this).data('position') unless $(this).data('position') == undefined
-        params = params + "&variable_id=" + $(this).data('variable-id') unless $(this).data('variable-id') == undefined
-        params = params + "&create=" + $(this).data('create') unless $(this).data('create') == undefined
-        params = params + "&update=" + $(this).data('update') unless $(this).data('update') == undefined
-        params = params + "&delete=" + $(this).data('delete') unless $(this).data('delete') == undefined
-      else
-        changes = $(this).data('changes') || {}
-        changes.position = $(this).data('position')
-        changes.variable_id = $(this).data('variable-id')
-        changes.create = $(this).data('create')
-        changes.update = $(this).data('update')
-        changes.delete = $(this).data('delete')
-      if design_id > 0
-        changes['_method'] = 'put' if changes != null
-        params = params + "&_method=put"
-        $.post(root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val(), changes || params, null, "script")
-      else
-        $.post(root_url + 'projects/' + $("#project_id").val() + '/designs', changes || params, null, "script")
+      pushPartialChange(this)
       false
     )
     .on('click', '#reorder_design_button', () ->

@@ -13,7 +13,7 @@
   <div class="control-group">
     <label class="control-label">Name</label>
     <div class="controls">
-      <%= text_field_tag "variable[name]", @variable.name, maxlength: 32, style: 'width:225px' %>
+      <%= text_field_tag "variable[name]", @variable.name, maxlength: 32, style: 'width:225px', data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id } %>
       <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 32 characters.</div>
       <i>var1_population</i>
     </div>
