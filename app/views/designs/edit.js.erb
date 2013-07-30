@@ -14,6 +14,8 @@ $(".datepicker").change(function(){
   try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
 });
 <% if ['variable_domain', 'variable_grid_variables'].include?(params[:edit]) %>
-  $('#options[data-object~="sortable"], #form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
-  loadColorSelectors();
+  $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
+<% end %>
+<% if ['variable_domain'].include?(params[:edit]) %>
+  activateDomainOptions();
 <% end %>

@@ -91,14 +91,10 @@ class SheetVariable < ActiveRecord::Base
       result[:name] = hash[:name]
       result[:value] = hash[:value]
       result[:description] = hash[:description]
-      result[:color] = hash[:color]
     elsif ['checkbox'].include?(object.variable.variable_type)
-      results = []
-      object.variable.shared_options.select{|option| object.responses.pluck(:value).include?(option[:value])}.each do |option|
-        result = { name: option[:name], value: option[:value], description: option[:description], color: option[:color] }
-        results << result
+      result = object.variable.shared_options.select{|option| object.responses.pluck(:value).include?(option[:value])}.collect do |option|
+        { name: option[:name], value: option[:value], description: option[:description] }
       end
-      result = results
     elsif ['integer', 'numeric', 'calculated'].include?(object.variable.variable_type)
       hash = object.variable.options_only_missing.select{|option| option[:value] == object.response}.first
       if hash.blank?

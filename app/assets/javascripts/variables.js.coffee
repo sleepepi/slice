@@ -163,8 +163,6 @@ jQuery ->
   if $('#variable_variable_type')
     toggleOptions($('#variable_variable_type'));
 
-  $('#options[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
-
 
   $(document)
     .on('change', '#variable_variable_type', () -> toggleOptions($(this)))

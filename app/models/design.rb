@@ -71,7 +71,7 @@ class Design < ActiveRecord::Base
     errors = []
     variable = self.project.variables.find_by_id(variable_id)
     if params[:id].blank?
-      domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
+      domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] })
       domain_params[:user_id] = current_user.id
       domain = self.project.domains.new( domain_params )
       if variable and variable.values_cover_collected_values?(domain.values)
@@ -95,7 +95,7 @@ class Design < ActiveRecord::Base
     errors = []
     variable = self.project.variables.find_by_id(variable_id)
     if variable and variable.domain
-      domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :color, :option_index ] })
+      domain_params = params.permit(:name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] })
       variable.domain.update( domain_params )
       if variable.domain.errors.any?
         errors += variable.domain.errors.messages.collect{|key, errors| ["domain_#{key.to_s}", "Domain #{key.to_s.humanize.downcase} #{errors.first}"]}

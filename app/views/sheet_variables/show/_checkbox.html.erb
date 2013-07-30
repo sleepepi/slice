@@ -34,7 +34,7 @@
 <% else %>
   <% responses.each do |hash| %>
     <% unless is_grid %><p><% end %>
-    <span class="rounded-borders" style="background-color: <%= hash[:color] %>" rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true"><%= "#{hash[:value]}: #{hash[:name]}" unless hash[:value].blank? %></span>
+    <span class="rounded-borders" rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true"><%= "#{hash[:value]}: #{hash[:name]}" unless hash[:value].blank? %></span>
     <% unless is_grid %></p><% end %>
   <% end %>
 <% end %>

@@ -1,21 +1,18 @@
 <table class="table table-striped table-bordered table-condensed" style="width:100%;">
   <thead>
     <tr>
-      <th>Name</th>
       <th>Value</th>
+      <th>Name</th>
       <th>Description</th>
       <th>Missing Code</th>
-      <th>Color</th>
     </tr>
   </thead>
   <% @variable.shared_options.each do |option| %>
-    <% option = option.symbolize_keys %>
     <tr>
-      <td><%= option[:name] %></td>
       <td><%= option[:value] %></td>
+      <td><%= option[:name] %></td>
       <td><%= option[:description] %></td>
       <td><%= simple_check(option[:missing_code] == '1') %></td>
-      <td style="background-color: <%= option[:color].blank? ? '#ffffff' : option[:color] %>"><%= option[:color] %></td>
     </tr>
   <% end %>
 </table>

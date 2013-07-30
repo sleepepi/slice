@@ -123,8 +123,7 @@ class Domain < ActiveRecord::Base
       self.options << { name: option_hash[:name].strip,
                         value: option_hash[:value].strip,
                         description: option_hash[:description].to_s.strip,
-                        missing_code: option_hash[:missing_code].to_s.strip,
-                        color: option_hash[:color].to_s.strip.blank? ? '#ffffff' : option_hash[:color]
+                        missing_code: option_hash[:missing_code].to_s.strip
                       } unless option_hash[:name].strip.blank?
     end
   end

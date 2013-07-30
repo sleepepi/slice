@@ -15,11 +15,16 @@
     </div>
   </div>
 
-  <div id="options" data-object="sortable">
-    <%= render partial: 'domains/options' %>
-  </div>
-  <div class="btn-toolbar">
-    <%= link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-mini' %>
+  <div class="control-group">
+    <label class="control-label">Options</label>
+    <div class="controls">
+      <div id="options" data-object="sortable">
+        <%= render partial: 'domains/options' %>
+      </div>
+      <div class="btn-toolbar">
+        <%= link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-mini' %>
+      </div>
+    </div>
   </div>
 </form>
 

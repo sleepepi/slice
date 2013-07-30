@@ -11,6 +11,9 @@
 - Updated the login page
 - Removed redundant tooltips for integer, numeric, string, and text variables
 
+### Refactoring
+- Removed color from domain options
+
 ### Bug Fix
 - SAS export now properly escapes single quotes ``'`` in labels using two single quotes ``''``
 - Numeric variables can now be entered without a leading zero without causing a validation error

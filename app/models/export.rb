@@ -283,7 +283,7 @@ class Export < ActiveRecord::Base
       domains_csv = File.join('tmp', 'files', 'exports', "#{self.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{self.created_at.strftime("%I%M%P")}_domains.csv")
 
       CSV.open(domains_csv, "wb") do |csv|
-        csv << [ 'Domain Name', 'Description', 'Option Name', 'Option Value', 'Missing Code?', 'Option Color', 'Option Description' ]
+        csv << [ 'Domain Name', 'Description', 'Option Name', 'Option Value', 'Missing Code', 'Option Description' ]
 
         objects = []
 
@@ -297,7 +297,7 @@ class Export < ActiveRecord::Base
 
         objects.uniq.each do |object|
           object.options.each do |opt|
-            csv << [ object.name, object.description, opt[:name], opt[:value], opt[:missing_code], opt[:color], opt[:description] ]
+            csv << [ object.name, object.description, opt[:name], opt[:value], opt[:missing_code], opt[:description] ]
           end
         end
       end
