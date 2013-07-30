@@ -60,7 +60,7 @@ class Export < ActiveRecord::Base
       # Always Zip folder
       export_file = if all_files.size > 0
         # Create a zip file
-        zipfile_name = File.join('tmp', 'files', 'exports', "#{filename}.zip")
+        zipfile_name = File.join('tmp', 'files', 'exports', "#{filename} #{Digest::SHA1.hexdigest(Time.now.usec.to_s)[0..8]}.zip")
         Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
           all_files.uniq.each do |location, input_file|
             # Two arguments:
