@@ -3,10 +3,10 @@
 <%= text_area_tag field_name, response, rows: 7, style: 'width:95%',
       data: {
               content: variable.description,
-              title: variable.display_name,
               placement: 'bottom',
               html: true
             },
-      rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
+      title: variable.description.blank? ? '' : variable.display_name,
+      rel: "#{variable.description.blank? ? '' : 'popover'}",
       disabled: disabled,
       title: variable.display_name %>
