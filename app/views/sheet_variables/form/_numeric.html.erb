@@ -9,13 +9,14 @@
                 hard_minimum: variable.hard_minimum, hard_maximum: variable.hard_maximum,
                 soft_minimum: variable.soft_minimum, soft_maximum: variable.soft_maximum,
                 name: variable.name, missing_codes: variable.missing_codes,
-                variable_type: variable.variable_type, content: variable.description,
-                title: variable.display_name_range,
+                variable_type: variable.variable_type,
+                content: variable.description,
                 grid_position: defined?(position) ? position : "",
-                html: true
+                html: !variable.description.blank?
               },
+        title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip,
         disabled: disabled,
-        rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
+        rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}",
         placeholder: is_grid ? variable.display_name : nil %>
   <% unless variable.units.blank? %><span class="add-on"><%= variable.units %></span><% end %>
   <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>

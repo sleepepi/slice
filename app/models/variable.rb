@@ -123,21 +123,17 @@ class Variable < ActiveRecord::Base
     result
   end
 
-  # For tooltip
-  def display_name_range
-    [self.display_name, self.range_tooltip].select{|i| not i.blank?}.join(' ')
-  end
-
   def range_tooltip
     result = ""
     minimum = self.hard_minimum || self.soft_minimum
     maximum = self.hard_maximum || self.soft_maximum
+    with_units = (self.units.blank? ? "" : " #{self.units}")
     if not minimum.blank? and not maximum.blank?
-      result = "[#{minimum}, #{maximum}]" + (self.units.blank? ? "" : " #{self.units}")
+      result = "[#{minimum}, #{maximum}]" + with_units
     elsif minimum.blank? and not maximum.blank?
-      result = "<= #{maximum}" + (self.units.blank? ? "" : " #{self.units}")
+      result = "<= #{maximum}" + with_units
     elsif maximum.blank? and not minimum.blank?
-      result = ">= #{minimum}" + (self.units.blank? ? "" : " #{self.units}")
+      result = ">= #{minimum}" + with_units
     end
     result
   end

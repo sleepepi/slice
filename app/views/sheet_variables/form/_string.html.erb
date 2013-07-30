@@ -5,12 +5,12 @@
   <%= text_field_tag field_name, response, class: "input-#{defined?(control_size) ? control_size : 'large'}",
         data: {
                 content: variable.description,
-                title: variable.display_name,
                 object: "condition variable-typeahead",
                 variable_id: variable.id,
                 html: true
               },
-        rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
+        title: variable.description.blank? ? '' : variable.display_name,
+        rel: "#{variable.description.blank? ? '' : 'popover'}",
         autocomplete: 'off',
         disabled: disabled,
         title: variable.display_name,

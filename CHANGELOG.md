@@ -9,6 +9,7 @@
   - Updated to rails-observers 0.1.2
 - Removed `Clear` button from radio and checkbox groups as it is no longer needed
 - Updated the login page
+- Removed redundant tooltips for integer, numeric, and string variables
 
 ### Bug Fix
 - SAS export now properly escapes single quotes ``'`` in labels using two single quotes ``''``
