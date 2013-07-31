@@ -10,6 +10,7 @@
 - Removed `Clear` button from radio and checkbox groups as it is no longer needed
 - Updated the login page
 - Removed redundant tooltips for integer, numeric, string, and text variables
+- Design editor submit buttons are now disabled when inserting and updating a new variable or domain
 
 ### Refactoring
 - Removed color from domain options

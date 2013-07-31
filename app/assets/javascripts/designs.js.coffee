@@ -93,7 +93,14 @@
       top: 30
   )
 
+@disablePushPartialChangeButtons = () ->
+  $("#interactive-design-container [data-object~='push-partial-change']").attr('disabled', 'disabled')
+
+@resetPushPartialChangeButtons = () ->
+  $("#interactive-design-container [data-object~='push-partial-change']").removeAttr('disabled')
+
 @pushPartialChange = (element) ->
+  disablePushPartialChangeButtons()
   design_id = parseInt($('#design_id').val())
   changes = null
   if $($(element).data('target')).length > 0
