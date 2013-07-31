@@ -13,6 +13,7 @@
 - Design editor submit buttons are now disabled when inserting and updating a new variable or domain
 - Surveys can now use slugs to create prettier survey links
   - `/survey/:slug`
+- Variable display names size increased to accomodate long questions on surveys
 
 ### Refactoring
 - Removed color from domain options
