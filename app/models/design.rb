@@ -108,7 +108,9 @@ class Design < ActiveRecord::Base
   def create_variable(params, position)
     errors = []
     if params[:id].blank?
-      variable_params = params.permit(:name, :display_name, :variable_type)
+      params[:display_name_visibility] = 'invisible' if params[:display_name].to_s.size > 24
+      params[:display_name_visibility] = 'gone' if params[:variable_type].to_s == 'text'
+      variable_params = params.permit(:name, :display_name, :variable_type, :display_name_visibility)
       variable = self.project.variables.create( variable_params )
     else
       variable = self.project.variables.find_by_id(params[:id])

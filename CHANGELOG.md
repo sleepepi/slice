@@ -14,6 +14,8 @@
 - Surveys can now use slugs to create prettier survey links
   - `/survey/:slug`
 - Variable display names size increased to accomodate long questions on surveys
+- Creating variables with long display names in the design editor now default to the display name visibility: `Above - Indented`
+- Creating text variables now default to display name visibility: `Above - Full`
 
 ### Refactoring
 - Removed color from domain options
