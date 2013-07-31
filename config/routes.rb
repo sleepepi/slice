@@ -11,6 +11,8 @@ Slice::Application.routes.draw do
     end
   end
 
+  get "survey/:slug", to: "survey#show"
+
   resources :projects, constraints: { format: /json|pdf|csv/ } do
     member do
       post :remove_file

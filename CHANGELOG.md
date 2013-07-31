@@ -11,6 +11,8 @@
 - Updated the login page
 - Removed redundant tooltips for integer, numeric, string, and text variables
 - Design editor submit buttons are now disabled when inserting and updating a new variable or domain
+- Surveys can now use slugs to create prettier survey links
+  - `/survey/:slug`
 
 ### Refactoring
 - Removed color from domain options

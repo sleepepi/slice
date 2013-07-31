@@ -85,6 +85,7 @@ no_sites:
 
 admin_design:
   name: On admin project
+  slug: private-design
   # description:
   options: [
               { section_name: 'Section A Admin', section_id: '_section_a_admin' }
@@ -94,6 +95,7 @@ admin_design:
 
 admin_public_design:
   name: On Public Admin Project
+  slug: public-survey
   # description:
   options: [
               { section_name: 'Section A Admin', section_id: '_section_a_admin' },

@@ -20,8 +20,12 @@ class DesignsController < ApplicationController
 
   def survey
     @project = Project.current.find_by_id(params[:project_id])
-    @design = @project.designs.find_by_id(params[:id]) if @project
-    empty_response_or_root_path(about_path) unless @design and @design.publicly_available?
+    @design = @project.designs.where( publicly_available: true ).find_by_id(params[:id]) if @project
+    if @design
+      render layout: 'minimal_layout'
+    else
+      empty_response_or_root_path(about_path)
+    end
   end
 
   def blank
@@ -302,11 +306,13 @@ class DesignsController < ApplicationController
     def design_params
       params[:design] ||= {}
 
+      params[:design][:slug] = params[:design][:slug].parameterize unless params[:design][:slug].blank?
+
       params[:design][:updater_id] = current_user.id
       params[:design][:project_id] = @project.id
 
       params.require(:design).permit(
-        :name, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available
+        :name, :slug, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available
       )
     end
 

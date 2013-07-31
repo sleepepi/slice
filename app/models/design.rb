@@ -8,7 +8,7 @@ class Design < ActiveRecord::Base
   serialize :options, Array
 
   before_save :check_option_validations
-  after_save :reset_sheet_total_response_count
+  after_save :reset_sheet_total_response_count, :set_slug
 
   # Concerns
   include Searchable, Deletable, Latexable
@@ -23,6 +23,7 @@ class Design < ActiveRecord::Base
   # Model Validation
   validates_presence_of :name, :user_id, :project_id
   validates_uniqueness_of :name, scope: [:deleted, :project_id]
+  validates_uniqueness_of :slug, allow_blank: true, scope: :deleted
 
   # Model Relationships
   belongs_to :user
@@ -455,9 +456,21 @@ class Design < ActiveRecord::Base
 
   private
 
-  # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage
-  def reset_sheet_total_response_count
-    self.sheets.update_all( total_response_count: 0 )
-  end
+    # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage
+    def reset_sheet_total_response_count
+      self.sheets.update_all( total_response_count: 0 )
+    end
+
+    def set_slug
+      if self.slug.blank? and self.publicly_available?
+        self.slug = self.name.parameterize
+        if self.valid?
+          self.save
+        else
+          self.slug = self.name.parameterize + '-' + SecureRandom.hex(8)
+          self.save
+        end
+      end
+    end
 
 end

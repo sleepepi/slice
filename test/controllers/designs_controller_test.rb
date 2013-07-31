@@ -30,10 +30,10 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should not get private survey" do
+    assert_equal false, designs(:admin_design).publicly_available
     post :survey, id: designs(:admin_design), project_id: projects(:three)
     assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal false, assigns(:design).publicly_available
+    assert_nil assigns(:design)
     assert_redirected_to about_path
   end
 

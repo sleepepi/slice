@@ -13,3 +13,13 @@
     <% end %>
   </div>
 </h2>
+
+<span class="design-preview-hide">
+  <% if @design.publicly_available? %>
+    <% if @design.slug.blank? %>
+      <%= "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}" %>
+    <% else %>
+      <%= "#{SITE_URL}/survey/#{@design.slug}" %>
+    <% end %>
+  <% end %>
+</span>

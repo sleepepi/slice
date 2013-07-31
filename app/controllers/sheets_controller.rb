@@ -117,7 +117,7 @@ class SheetsController < ApplicationController
     respond_to do |format|
       if @project and @sheet
         @design = @sheet.design
-        format.html # survey.html.erb
+        format.html { render layout: 'minimal_layout' } # survey.html.erb
         format.js   # survey.js.erb
       else
         format.html { redirect_to new_user_session_path, alert: 'Survey has already been submitted.' }

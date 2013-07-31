@@ -1,9 +1,4 @@
 <% @title = @sheet.name %>
-<% if false %>
-<div class="page-header">
-  <h1><%= @title %></h1>
-</div>
-<% end %>
 
 <%= hidden_field_tag 'isdirty', '1' %>
 
@@ -17,9 +12,9 @@
     <%#= @design = @sheet.design; render partial: 'designs/selection' %>
   </div>
 
-  <div class="form-actions">
+  <div class="form-signin">
     <% form_name = "edit_sheet_#{@sheet.id}" %>
-    <%= submit_tag 'Submit Survey', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
+    <%= submit_tag 'Submit Survey', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large' %>
   </div>
 
 <% end %>
