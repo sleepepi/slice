@@ -1,17 +1,5 @@
 <% @title = "About #{DEFAULT_APP_NAME}" %>
 
-<% if not params[:project_id].blank? and not params[:sheet_id].blank? and not params[:sheet_authentication_token].blank? %>
-  <% survey_url = SITE_URL + "/projects/#{params[:project_id]}/sheets/#{params[:sheet_id]}/survey?sheet_authentication_token=#{params[:sheet_authentication_token]}" %>
-  <div class="hero-unit">
-    <h1>Survey Complete</h1>
-    <p>Thank you for taking your time to complete the survey. If you entered your email, you will receive a link to your survey responses.</p>
-    <p>You can also copy the link below if you wish to go back and make any changes.</p>
-    <p><%= text_field_tag 'survey_url', survey_url, style: 'width: 100%' %></p>
-    <p><%= link_to 'Go Back to Survey', survey_url, class: 'btn btn-primary' %></p>
-  </div>
-
-<% end %>
-
 <div class="row" style="margin-top:54px">
   <div class="span12">
     <h1 class="about-title"><%= @title %></h1>
@@ -22,7 +10,7 @@
 
 <hr class="soften">
 
-<p class="about-description"><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' } %> and <%= link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' } %> for dynamic PDF report generation and quality checking.</p>
+<p class="about-description"><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' } %> and <%= link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' } %> clinical research interface for collecting and analyzing data.</p>
 
 <div class="row">
   <div class="span4">

@@ -415,7 +415,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).authentication_token
 
-    assert_redirected_to about_path(project_id: assigns(:project).id, sheet_id: assigns(:sheet).id, sheet_authentication_token: assigns(:sheet).authentication_token)
+    assert_redirected_to about_survey_path(project_id: assigns(:project).id, sheet_id: assigns(:sheet).id, sheet_authentication_token: assigns(:sheet).authentication_token)
   end
 
   test "should not submit private survey" do
@@ -432,7 +432,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_nil assigns(:sheet)
 
     assert_equal "This survey no longer exists.", flash[:alert]
-    assert_redirected_to about_path
+    assert_redirected_to about_survey_path
   end
 
   test "should get sheet survey using authentication_token" do
@@ -454,7 +454,7 @@ class SheetsControllerTest < ActionController::TestCase
     post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-    assert_redirected_to about_path(project_id: sheets(:external).project_id, sheet_id: sheets(:external).id, sheet_authentication_token: sheets(:external).authentication_token)
+    assert_redirected_to about_survey_path(project_id: sheets(:external).project_id, sheet_id: sheets(:external).id, sheet_authentication_token: sheets(:external).authentication_token)
   end
 
   test "should not submit sheet survey using invalid authentication_token" do

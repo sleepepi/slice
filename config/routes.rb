@@ -11,6 +11,7 @@ Slice::Application.routes.draw do
     end
   end
 
+  get "survey", to: "survey#index", as: :about_survey
   get "survey/:slug", to: "survey#show"
 
   resources :projects, constraints: { format: /json|pdf|csv/ } do
