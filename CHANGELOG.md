@@ -1,24 +1,25 @@
 ## 0.19.0
 
 ### Enhancements
+- Updated the login page
+- **Sheet Changes**
+  - Removed `Clear` button from radio and checkbox groups as it is no longer needed
+  - Removed redundant tooltips for integer, numeric, string, and text variables
+- **Design Changes**
+  - Design editor submit buttons are now disabled when inserting and updating a new variable or domain
+  - Surveys can now use slugs to create prettier survey links
+    - `/survey/:slug`
+  - Variable display names size increased to accomodate long questions on surveys
+  - Creating variables with long display names in the design editor now default to the display name visibility: `Above - Indented`
+  - Creating text variables now default to display name visibility: `Above - Full`
+- **Domain Changes**
+  - Removed color from domain options
 - **Gem Changes**
   - Updated to contour 2.0.0
   - Updated to pg 0.16.0
   - Updated to redcarpet 3.0.0
   - Updated to carrierwave 0.9.0
   - Updated to rails-observers 0.1.2
-- Removed `Clear` button from radio and checkbox groups as it is no longer needed
-- Updated the login page
-- Removed redundant tooltips for integer, numeric, string, and text variables
-- Design editor submit buttons are now disabled when inserting and updating a new variable or domain
-- Surveys can now use slugs to create prettier survey links
-  - `/survey/:slug`
-- Variable display names size increased to accomodate long questions on surveys
-- Creating variables with long display names in the design editor now default to the display name visibility: `Above - Indented`
-- Creating text variables now default to display name visibility: `Above - Full`
-
-### Refactoring
-- Removed color from domain options
 
 ### Bug Fix
 - SAS export now properly escapes single quotes ``'`` in labels using two single quotes ``''``
