@@ -1,4 +1,4 @@
-## 0.19.0
+## 0.19.0 (August 1, 2013)
 
 ### Enhancements
 - Updated the login page
