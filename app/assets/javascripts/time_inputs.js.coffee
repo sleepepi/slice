@@ -46,12 +46,16 @@ focusOnNext = (target) ->
   current_time = Date.now()
   if (current_time - last_focus_change) > 150
     @last_focus_change = current_time
-    if target.closest(".time-box").nextAll(".time-box").length > 0
-      next_input = target.closest(".time-box").nextAll(".time-box").first().find("input").first()
+    control_group_inputs = target.closest(".control-group").find("input:visible")
+    current_control_index = control_group_inputs.index(target)
+
+    if current_control_index >= 0 and control_group_inputs[current_control_index + 1]
+      next_input = control_group_inputs[current_control_index + 1]
     else if target.closest(".control-group").next(".control-group").length > 0
       next_input = target.closest(".control-group").next(".control-group").find("input:visible").first()
 
     if next_input
+      next_input.focus()
       next_input.select()
     else
       target.closest("form").find("input:submit").first().focus()

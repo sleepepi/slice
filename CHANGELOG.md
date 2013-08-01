@@ -27,6 +27,7 @@
 - Hitting `Enter` while editing design or variable names on the design editor now correctly updates the name
   - Additionally, hitting `Escape` will close the modal popup
 - Fixed an issue creating domains without specifying option values
+- Fixed an issue where entering time inputs in a grid would focus on the form submit button instead of the next input in the grid (by EmilyK)
 
 ## 0.18.4 (July 15, 2013)
 
