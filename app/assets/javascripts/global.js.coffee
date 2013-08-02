@@ -12,6 +12,14 @@
 @browserSupportsPushState =
   window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
 
+@initializeTypeahead = () ->
+  $('[data-object~="typeahead"]').each( () ->
+    $this = $(this)
+    $this.typeahead(
+      local: $this.data('local')
+    )
+  )
+
 jQuery ->
   $(document)
     .on('click', '[data-object~="remove"]', () ->
@@ -131,6 +139,12 @@ jQuery ->
   .on('keydown', "#global-search", (e) ->
     $("#global-search-form").submit() if e.which == 13
   )
+
+  $(document).on('typeahead:selected', '[data-object~="typeahead"]', (event, datum) ->
+    $(this).submit()
+  )
+
+  initializeTypeahead();
 
   # $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
   $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )

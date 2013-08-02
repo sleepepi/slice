@@ -1,32 +1,41 @@
-<span>
-  <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-    <%= form_tag project_users_path(project_user: { project_id: @project.id, editor: @relation == 'editors' }), method: :post, remote: true, style: 'display:inline', class: 'form-inline' do %>
-      <b><%= @relation.humanize %><br /></b>
-      <%= text_field_tag "#{@relation}_text", '', style: "width:300px;", autocomplete: "off", data: { provide: 'typeahead', items: 5, source: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json } %>
-      <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>
-    <% end %>
-    <span class="help-block">
-      <% if @relation == 'editors' %>
-        Can create and edit Variables, Designs, Sites, Sheets, and Subjects for project.
-      <% elsif @relation == 'viewers' %>
-        Can view Sheets, Sites, and Subjects for the project.
-      <% end %>
-    </span>
-  <% else %>
-      <b><%= @relation.humanize %></b>
+<% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+  <%= form_tag project_users_path(project_user: { project_id: @project.id, editor: @relation == 'editors' }), method: :post, remote: true, style: 'display:inline', class: 'form-horizontal' do %>
+
+    <div class="form-group">
+      <label class="col-lg-2 control-label"><%= @relation.humanize %></label>
+      <div class="col-lg-10">
+        <%= text_field_tag "#{@relation}_text", '', autocomplete: "off", data: { object: 'typeahead', local: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json }, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-lg-10 col-offset-2">
+        <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>
+      </div>
+    </div>
+
   <% end %>
-</span>
+  <span class="help-block">
+    <% if @relation == 'editors' %>
+      Can create and edit Variables, Designs, Sites, Sheets, and Subjects for project.
+    <% elsif @relation == 'viewers' %>
+      Can view Sheets, Sites, and Subjects for the project.
+    <% end %>
+  </span>
+<% else %>
+  <b><%= @relation.humanize %></b>
+<% end %>
 
 <ul>
 <% @project.project_users.where(editor: @relation == 'editors').each do |project_user| %>
-  <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();" style="line-height:25px">
-    <span rel="tooltip" title="<%= "Invited by #{project_user.creator.name}" if project_user.creator %>" data-placement="left">
+  <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();" style="line-height:30px">
+    <span rel="tooltip" title="<%= "Invited by #{project_user.creator.name}" if project_user.creator %>" data-placement="top">
       <% if project_user.user %>
         <%= link_to project_user.user.name, project_user.user %>
       <% else %>
         <span class='muted'>
           <%= project_user.invite_email %>
-          <%= text_field_tag "project_user_#{project_user.id}_invite", "#{SITE_URL}/project_users/accept?invite_token=#{project_user.invite_token}" if current_user == project_user.creator %>
+          <%= text_field_tag "project_user_#{project_user.id}_invite", "#{SITE_URL}/project_users/accept?invite_token=#{project_user.invite_token}", class: 'form-control' if current_user == project_user.creator %>
           <%= link_to 'Resend Invitation', resend_project_user_path(project_user), method: :post, remote: true, class: 'btn btn-primary btn-mini', autocomplete: "off", data: { loading_text: "Resent" } %>
         </span>
       <% end %>

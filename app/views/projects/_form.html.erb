@@ -18,28 +18,21 @@
   <div class="form-group">
     <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :name %>
+      <%= f.text_field :name, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :emails, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <%= f.text_area :emails, rows: 7, style: 'width:95%' %>
+      <%= f.text_area :description, rows: 7, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :subject_code_name, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :subject_code_name, placeholder: "Subject Code" %>
+      <%= f.text_field :subject_code_name, placeholder: "Subject Code", class: 'form-control' %>
     </div>
   </div>
 
@@ -62,34 +55,48 @@
   <div class="form-group">
     <%= f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.file_field :logo %>
+      <%= f.file_field :logo, class: 'form-control' %>
       <%= f.hidden_field :logo_cache %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :show_posts, "Show news", class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <%= f.check_box :show_posts %>
+    <div class="col-lg-10 col-offset-2">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :show_posts %>
+          Show news
+        </label>
+      </div>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :show_documents, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <%= f.check_box :show_documents %>
+    <div class="col-lg-10 col-offset-2">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :show_documents %>
+          Show Documents
+        </label>
+      </div>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :show_contacts, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <%= f.check_box :show_contacts %>
+    <div class="col-lg-10 col-offset-2">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :show_contacts %>
+          Show Contacts
+        </label>
+      </div>
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
-    <%= cancel %>
+  <div class="form-group">
+    <div class="col-lg-10 col-offset-2">
+      <%= f.submit nil, class: 'btn btn-primary' %>
+      <%= cancel %>
+    </div>
   </div>
 <% end %>

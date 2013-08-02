@@ -12,7 +12,7 @@
 
       <div class="btn-group">
         <%= link_to "Sites", project_sites_path(@project), class: 'btn btn-default btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle btn-mini" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
@@ -22,7 +22,7 @@
 
       <div class="btn-group">
         <%= link_to "Subjects", project_subjects_path(@project), class: 'btn btn-default btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle btn-mini" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
@@ -32,7 +32,7 @@
 
       <div class="btn-group">
         <%= link_to "Sheets", project_sheets_path(@project), class: 'btn btn-default btn-mini' %>
-        <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle btn-mini" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
@@ -43,7 +43,7 @@
       <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
         <div class="btn-group">
           <%= link_to "Designs", project_designs_path(@project), class: 'btn btn-default btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+          <button class="btn btn-default dropdown-toggle btn-mini" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
@@ -53,7 +53,7 @@
 
         <div class="btn-group">
           <%= link_to "Variables", project_variables_path(@project), class: 'btn btn-default btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+          <button class="btn btn-default dropdown-toggle btn-mini" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
@@ -63,7 +63,7 @@
 
         <div class="btn-group">
           <%= link_to "Domains", project_domains_path(@project), class: 'btn btn-default btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+          <button class="btn btn-default dropdown-toggle btn-mini" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
@@ -83,9 +83,6 @@
 
     <dt>Creator</dt>
     <dd><%= link_to @project.user.name, @project.user if @project.user %></dd>
-
-    <dt>Emails</dt>
-    <dd><%= @project.emails %></dd>
 
     <dt>Subject code name</dt>
     <dd><%= @project.subject_code_name_full %></dd>
@@ -168,7 +165,6 @@
     <% ['editors', 'viewers'].each do |relation, editor| %>
       <div class="col-lg-6">
         <% @relation = relation; @editor = editor %>
-        <% @users = User.current.order('last_name, first_name') %>
         <p>
           <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
         </p>

@@ -1,16 +1,12 @@
 <% @title = "#{@project.name}" %>
 
-<% if current_user.all_viewable_and_site_projects.size == 1 %>
-  <div style="position:relative">
-    <div style="position:absolute;right:0px;padding:20px 0px"><%= link_to 'Create Project', new_project_path, class: 'btn btn-mini btn-primary' %></div>
-  </div>
-<% end %>
-
 <div class="row">
   <div class="col-lg-12">
-    <div style="padding:20px 0 4px 0; font-size: 40px;font-weight:300; text-rendering: optimizelegibility;" class="center">
-      <%= @project.name %>
-      <%= link_to '<span class="glyphicon glyphicon-cog"></span>'.html_safe, settings_project_path(@project), class: 'btn btn-default btn-mini', rel: 'tooltip', title: 'Settings', data: { placement: 'right' } if @project.editable_by?(current_user) %>
+    <div style="font-size: 40px;font-weight:300;" class="center">
+      <%= @project.name %> <%= link_to '<span class="glyphicon glyphicon-cog"></span>'.html_safe, settings_project_path(@project), class: 'btn btn-cancel-inverse btn-mini', rel: 'tooltip', title: 'Settings', data: { placement: 'right' } if @project.editable_by?(current_user) %>
+      <% if current_user.all_viewable_and_site_projects.size == 1 %>
+        <div class="pull-right"><%= link_to 'Create Project', new_project_path, class: 'btn btn-mini btn-primary' %></div>
+      <% end %>
     </div>
     <p class="about-tagline"><%= @project.description %></p>
   </div>

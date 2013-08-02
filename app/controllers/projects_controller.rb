@@ -169,7 +169,7 @@ class ProjectsController < ApplicationController
 
     def project_params
       params.require(:project).permit(
-        :name, :description, :emails, :acrostic_enabled, :subject_code_name,
+        :name, :description, :acrostic_enabled, :subject_code_name,
         :show_contacts, :show_documents, :show_posts,
         # Uploaded Logo
         :logo, :logo_uploaded_at, :logo_cache,
