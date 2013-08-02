@@ -43,7 +43,7 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    checked ? '<i class="icon-ok"></i>'.html_safe : ''
+    checked ? '<span class="glyphicon glyphicon-ok"></span>'.html_safe : ''
   end
 
   def safe_url?(url)
