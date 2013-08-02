@@ -18,40 +18,46 @@
   <div class="form-group">
     <%= f.label :first_name, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :first_name %>
+      <%= f.text_field :first_name, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :last_name, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :last_name %>
+      <%= f.text_field :last_name, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :status, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.select :status, User::STATUS %>
+      <%= f.select :status, User::STATUS, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :email, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :email %>
+      <%= f.text_field :email, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :system_admin, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <%= f.check_box :system_admin %>
+    <div class="col-lg-10 col-offset-2">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :system_admin %>
+          System Admin
+        </label>
+      </div>
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
-    <%= cancel %>
+  <div class="form-group">
+    <div class="col-lg-10 col-offset-2">
+      <%= f.submit nil, class: 'btn btn-primary' %>
+      <%= cancel %>
+    </div>
   </div>
 <% end %>
