@@ -1,9 +1,9 @@
 <% @title = "#{@design.name} Overview" %>
 <div class="page-header">
-  <%= form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-search', data: { object: 'form-load' } do %>
-  <div class="control-group pull-right">
-    <%= label :statuses, 'Status', class: 'control-label' %>
-    <div class="controls">
+  <%= form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-inline', data: { object: 'form-load' } do %>
+  <div class="form-group pull-right">
+    <%= label :statuses, 'Status', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <div class="btn-group" data-toggle="buttons-checkbox">
         <% Subject::STATUS.each do |label, value| %>
           <button data-object="set-statuses" data-value="<%= value %>" data-target="#design_overview_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">

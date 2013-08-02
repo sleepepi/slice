@@ -8,9 +8,9 @@
   </h1>
 </div>
 
-<%= form_tag users_path, method: :get, remote: true, id: "users_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag users_path, method: :get, remote: true, id: "users_search", class: 'form-inline', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= text_field_tag 'search', params[:search], class: 'form-control' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 

@@ -6,23 +6,23 @@
 
 <form id="section_form" class="form-horizontal">
 
-  <div class="control-group">
-    <label class="control-label">Name</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Name</label>
+    <div class="col-lg-10">
       <%= text_field_tag "section[section_name]", @option[:section_name], style: 'width:95%' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label">Description</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Description</label>
+    <div class="col-lg-10">
       <%= text_area_tag "section[section_description]", @option[:section_description], rows: 3, style: 'width:95%' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label">Branching Logic</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Branching Logic</label>
+    <div class="col-lg-10">
       <%= text_area_tag "section[branching_logic]", @option[:branching_logic], rows: 3, style: 'width:95%',
         rel: "popover", data: { content: "
           <table class='table table-bordered'>
@@ -37,9 +37,9 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label">Is Subsection?</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Is Subsection?</label>
+    <div class="col-lg-10">
       <%= hidden_field_tag "section[section_type]", "0" %>
       <%= check_box_tag "section[section_type]", "1", @option[:section_type].to_i > 0 %>
     </div>

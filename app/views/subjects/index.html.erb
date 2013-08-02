@@ -7,19 +7,19 @@
   </h1>
 </div>
 
-<%= form_tag project_subjects_path(@project), method: :get, remote: true, id: "subjects_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag project_subjects_path(@project), method: :get, remote: true, id: "subjects_search", class: 'form-inline', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
-    <div class="col-lg-4 control-group">
-      <%= label :search, 'Search', class: 'control-label' %>
-      <div class="controls">
-        <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' } %>
+    <div class="col-lg-4 form-group">
+      <%= label :search, 'Search', class: 'col-lg-2 control-label' %>
+      <div class="col-lg-10">
+        <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
       </div>
     </div>
 
-    <div class="col-lg-4 control-group">
-      <label class="control-label">Subjects</label>
-      <div class="controls">
+    <div class="col-lg-4 form-group">
+      <label class="col-lg-2 control-label">Subjects</label>
+      <div class="col-lg-10">
         <div class="btn-group" data-toggle="buttons-checkbox">
           <% Subject::STATUS.each do |label, value| %>
             <button data-object="set-statuses" data-value="<%= value %>" data-target="#subjects_search" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
@@ -33,12 +33,12 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-4 control-group" id="select_site">
+    <div class="col-lg-4 form-group" id="select_site">
       <%= hidden_field_tag :site_id, params[:site_id] %>
       <%#= render partial: 'subjects/select_site' %>
     </div>
 
-    <div class="col-lg-4 control-group" id="select_design">
+    <div class="col-lg-4 form-group" id="select_design">
       <%= hidden_field_tag :design_id, params[:design_id] %>
       <%#= render partial: 'subjects/select_design' %>
     </div>

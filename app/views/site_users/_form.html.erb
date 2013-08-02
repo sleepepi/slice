@@ -15,30 +15,30 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :project_id, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :project_id, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :site_id, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :site_id, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :site_id, [['---', nil]] + Site.current.collect{|s| [s.name, s.id]} %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :user_id, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :user_id, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :user_id, [['---', nil]] + User.current.collect{|u| [u.name, u.id]} %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :creator_id, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :creator_id, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :creator_id, [['---', nil]] + Creator.current.collect{|c| [c.name, c.id]} %>
     </div>
   </div>

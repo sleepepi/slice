@@ -5,9 +5,9 @@
   </h1>
 </div>
 
-<%= form_tag comments_path, method: :get, remote: true, id: "comments_search", class: 'form-search', data: { object: 'form-load', no_turbolink: true } do %>
+<%= form_tag comments_path, method: :get, remote: true, id: "comments_search", class: 'form-inline', data: { object: 'form-load', no_turbolink: true } do %>
   <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= text_field_tag 'search', params[:search], class: 'form-control' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 

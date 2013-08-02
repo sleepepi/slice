@@ -4,17 +4,17 @@
 
 <form id="design_form" class="form-horizontal">
 
-  <div class="control-group">
-    <label class="control-label">Name</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Name</label>
+    <div class="col-lg-10">
       <%= text_field_tag "design[name]", @design.name, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, style: 'width:95%' %>
     </div>
   </div>
 
   <% if @design.publicly_available? %>
-    <div class="control-group">
-      <label class="control-label">Slug</label>
-      <div class="controls">
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Slug</label>
+      <div class="col-lg-10">
         <%= text_field_tag "design[slug]", @design.slug, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, style: 'width:95%' %>
       </div>
     </div>

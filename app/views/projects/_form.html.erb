@@ -15,75 +15,75 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :description, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_area :description, rows: 7, style: 'width:95%' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :emails, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :emails, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_area :emails, rows: 7, style: 'width:95%' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :subject_code_name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :subject_code_name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :subject_code_name, placeholder: "Subject Code" %>
     </div>
   </div>
 
   <% if @project.sites.size == 0 %>
-    <div class="control-group">
-      <%= f.label :site_name, nil, class: 'control-label' %>
-      <div class="controls">
+    <div class="form-group">
+      <%= f.label :site_name, nil, class: 'col-lg-2 control-label' %>
+      <div class="col-lg-10">
         <%= f.text_field :site_name, placeholder: 'Default Site' %>
       </div>
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :acrostic_enabled, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :acrostic_enabled, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :acrostic_enabled %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.file_field :logo %>
       <%= f.hidden_field :logo_cache %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :show_posts, "Show news", class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :show_posts, "Show news", class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :show_posts %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :show_documents, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :show_documents, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :show_documents %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :show_contacts, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :show_contacts, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :show_contacts %>
     </div>
   </div>

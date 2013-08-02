@@ -15,15 +15,15 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :category, nil, class: 'control-label' %>
+  <div class="form-group">
+    <%= f.label :category, nil, class: 'col-lg-2 control-label' %>
     <div class="controls sheet-container">
       <%= f.text_field :category, autocomplete: "off", data: { provide: "typeahead", source: @link.project.links.pluck(:category).uniq.to_json } %>
       <% unless @link.new_record? %>
@@ -32,16 +32,16 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :url, 'URL', class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :url, 'URL', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :url %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :archived, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :archived, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :archived %>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <%# This file shows a variable for use in a sheet %>
 <% disabled = '' if defined?(disabled) == nil %>
-<div class="control-group" data-object="variable-container" id="varvar_<%= @variable.id %>">
+<div class="form-group" data-object="variable-container" id="varvar_<%= @variable.id %>">
   <% if @variable.uses_scale? %>
     <%# Nothing %>
   <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
@@ -10,7 +10,7 @@
       </h4>
     </div>
   <% else %>
-    <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' %>
+    <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'col-lg-2 control-label' %>
   <% end %>
 
   <div class="<%= "controls" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %>">

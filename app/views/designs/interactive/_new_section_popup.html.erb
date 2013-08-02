@@ -6,23 +6,23 @@
 </div>
 
 <form id="section_form" class="form-horizontal">
-  <div class="control-group">
-    <label class="control-label">Section Name</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Section Name</label>
+    <div class="col-lg-10">
       <%= text_field_tag "section[section_name]", '', style: 'width:95%', autocomplete: 'off' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label">Section Description</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Section Description</label>
+    <div class="col-lg-10">
       <%= text_area_tag "section[section_description]", '', style: 'width:95%', autocomplete: 'off', rows: 3 %>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label">Is Subsection?</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Is Subsection?</label>
+    <div class="col-lg-10">
       <%= hidden_field_tag "section[section_type]", "0" %>
       <%= check_box_tag "section[section_type]", "1", false %>
     </div>

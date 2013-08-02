@@ -15,37 +15,37 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= label_tag 'site_id', 'Site', class: 'control-label' %>
-    <div class="controls" id="site">
+  <div class="form-group">
+    <%= label_tag 'site_id', 'Site', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10" id="site">
       <%= @project = @subject.project; render partial: 'sites/selection' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :subject_code, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :subject_code, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :subject_code %>
     </div>
   </div>
 
-  <div class="control-group" style="<%= 'display:none' unless @subject.project and @subject.project.acrostic_enabled? %>" id="acrostic-container">
-    <%= f.label :acrostic, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group" style="<%= 'display:none' unless @subject.project and @subject.project.acrostic_enabled? %>" id="acrostic-container">
+    <%= f.label :acrostic, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :acrostic %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :email, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :email, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :email %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= label_tag :status, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= label_tag :status, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :status, Subject::STATUS %>
     </div>
   </div>

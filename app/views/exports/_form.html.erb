@@ -15,44 +15,44 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :include_files, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :include_files, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :include_files %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :status, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :status, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :status, Export::STATUS %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :viewed, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :viewed, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :viewed %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :file, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :file, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.file_field :file %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :project_id, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :project_id, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :project_id, [['---', nil]] + Project.current.collect{|p| [p.name, p.id]} %>
     </div>
   </div>

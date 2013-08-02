@@ -15,37 +15,37 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :first_name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :first_name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :first_name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :last_name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :last_name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :last_name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :status, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :status, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.select :status, User::STATUS %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :email, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :email, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :email %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :system_admin, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :system_admin, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :system_admin %>
     </div>
   </div>

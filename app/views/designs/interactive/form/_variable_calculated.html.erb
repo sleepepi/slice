@@ -6,9 +6,9 @@
 
 <form id="variable_form" class="form-horizontal">
 
-  <div class="control-group">
-    <label class="control-label">Calculation</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Calculation</label>
+    <div class="col-lg-10">
       <%= text_field_tag "variable[calculation]", @variable.calculation, placeholder: 'Variable Calculation', style: 'width:95%', autocomplete: 'off',
         rel: "popover", data: { content: "
         <table class='table table-bordered'>
@@ -22,9 +22,9 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label">Format</label>
-    <div class="controls">
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Format</label>
+    <div class="col-lg-10">
       <%= text_field_tag "variable[format]", @variable.format, placeholder: 'Variable Format', style: 'width:95%', autocomplete: 'off',
         rel: "popover", data: { content: "
         <table class='table table-bordered'>

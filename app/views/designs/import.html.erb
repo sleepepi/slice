@@ -20,9 +20,9 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :csv_file, 'Data Import (CSV)', class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :csv_file, 'Data Import (CSV)', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <% if @file_uploaded %>
         <div style="padding-top:5px;">
           <b><%= @design.csv_file_cache.split('/').last %></b>
@@ -37,23 +37,23 @@
   </div>
 
   <% if @file_uploaded %>
-    <div class="control-group">
-      <%= f.label :name, nil, class: 'control-label' %>
-      <div class="controls">
+    <div class="form-group">
+      <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
+      <div class="col-lg-10">
         <%= f.text_field :name %>
       </div>
     </div>
 
-    <div class="control-group">
-      <%= label :subject_status, "Subject Status", class: 'control-label' %>
-      <div class="controls">
+    <div class="form-group">
+      <%= label :subject_status, "Subject Status", class: 'col-lg-2 control-label' %>
+      <div class="col-lg-10">
         <%= select_tag :subject_status, options_for_select(Subject::STATUS, 'pending') %>
       </div>
     </div>
 
-    <div class="control-group">
-      <%= label_tag 'site_id', 'Site', class: 'control-label' %>
-      <div class="controls" id="site">
+    <div class="form-group">
+      <%= label_tag 'site_id', 'Site', class: 'col-lg-2 control-label' %>
+      <div class="col-lg-10" id="site">
         <%= select_tag :site_id, options_for_select(@project.sites.order('name').collect{|s| [s.name, s.id]}) %>
       </div>
     </div>
@@ -73,8 +73,8 @@
         <% ignore = (variable and not Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)) %>
       <% end %>
 
-      <div class="control-group">
-        <label class="control-label"><%= hash[:name] %></label>
+      <div class="form-group">
+        <label class="col-lg-2 control-label"><%= hash[:name] %></label>
         <div class="controls sheet-container">
           <div style="padding-top:5px;">
             <% if variable %>

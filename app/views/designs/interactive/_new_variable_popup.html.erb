@@ -8,9 +8,9 @@
 <div class="row-fluid">
   <span class="col-lg-6">
     <form id="variable_form" class="form-horizontal">
-      <div class="control-group">
-        <label class="control-label">Display Name</label>
-        <div class="controls">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Display Name</label>
+        <div class="col-lg-10">
           <%= text_field_tag "variable[display_name]", '', style: 'width:95%', autocomplete: 'off', data: { object: 'create-variable-name', target: '#variable_name, #variable_name_display' } %>
           <%= hidden_field_tag "variable[variable_type]", params[:variable_type] %>
           <div class="help-block">
@@ -20,9 +20,9 @@
         </div>
       </div>
 
-      <div class="control-group">
-        <label class="control-label">Name</label>
-        <div class="controls">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Name</label>
+        <div class="col-lg-10">
           <%= hidden_field_tag "variable[name]" %>
           <%= text_field_tag "variable_name_display", '', maxlength: 32, style: 'width:95%', autocomplete: 'off', disabled: true, data: { placement: 'right' } %>
         </div>

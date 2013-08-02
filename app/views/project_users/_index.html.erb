@@ -1,6 +1,6 @@
 <span>
   <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-    <%= form_tag project_users_path(project_user: { project_id: @project.id, editor: @relation == 'editors' }), method: :post, remote: true, style: 'display:inline', class: 'form-search' do %>
+    <%= form_tag project_users_path(project_user: { project_id: @project.id, editor: @relation == 'editors' }), method: :post, remote: true, style: 'display:inline', class: 'form-inline' do %>
       <b><%= @relation.humanize %><br /></b>
       <%= text_field_tag "#{@relation}_text", '', style: "width:300px;", autocomplete: "off", data: { provide: 'typeahead', items: 5, source: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json } %>
       <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>

@@ -34,9 +34,9 @@
       <%= hidden_field_tag :filter, @filter %>
       <%= hidden_field_tag :page, params[:page] %>
 
-      <div class="control-group">
-        <label class="control-label">Subjects</label>
-        <div class="controls">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Subjects</label>
+        <div class="col-lg-10">
           <div class="btn-group" data-toggle="buttons-checkbox">
             <% Subject::STATUS.each do |label, value| %>
               <button data-object="set-statuses" data-value="<%= value %>" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
@@ -48,9 +48,9 @@
         </div>
       </div>
 
-      <div class="control-group">
-        <label class="control-label">Sheets</label>
-        <div class="controls">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Sheets</label>
+        <div class="col-lg-10">
           <div class="btn-toolbar">
             <div class="btn-group" data-toggle="buttons-radio">
               <button data-object="set-filter" data-value="all" class="btn btn-mini <%= 'active' if @filter == 'all' %>">All Sheets</button>
@@ -61,9 +61,9 @@
         </div>
       </div>
 
-      <div class="control-group">
-        <label class="control-label">Report</label>
-        <div class="controls">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Report</label>
+        <div class="col-lg-10">
           <div class="btn-toolbar">
             <div class="btn-group" data-toggle="buttons-radio">
               <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if @percent == 'none' %>">No Percents</button>
@@ -87,16 +87,16 @@
       </div>
 
 <% if false %>
-      <div class="control-group">
-        <label class="control-label">After</label>
-        <div class="controls">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">After</label>
+        <div class="col-lg-10">
           <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "After", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
         </div>
       </div>
 
-      <div class="control-group">
-        <label class="control-label">Before</label>
-        <div class="controls">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Before</label>
+        <div class="col-lg-10">
           <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: "Before", data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
         </div>
       </div>

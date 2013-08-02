@@ -13,7 +13,7 @@ if(browserSupportsPushState){
   <% @errors.each do |element_id, message| %>
     $('input').tooltip('hide');
     element = $("#<%= element_id %>, #<%= element_id %>_display");
-    element.closest('.control-group').addClass('error');
+    element.closest('.form-group').addClass('error');
     element.tooltip('destroy').tooltip({ "title": "<%= escape_javascript(message.html_safe) %>", "trigger": "manual" }).tooltip('show');
   <% end %>
 <% else %>

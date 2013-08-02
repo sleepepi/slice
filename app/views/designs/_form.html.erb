@@ -17,30 +17,25 @@
 
   <%= f.hidden_field :project_id %>
 
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :description, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_area :description, rows: 7, style: 'width:95%' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :publicly_available, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :publicly_available, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.check_box :publicly_available %>
     </div>
-  </div>
-
-  <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
-    <%= cancel %>
   </div>
 
   <div class="form-actions">

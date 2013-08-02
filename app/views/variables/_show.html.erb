@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
   <% if @variable.uses_scale? %>
     <%# Nothing %>
   <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
@@ -8,7 +8,7 @@
       </h4>
     </div>
   <% else %>
-    <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' %>
+    <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'col-lg-2 control-label' %>
   <% end %>
 
   <div class="<%= "controls controls-row" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %>" style="padding-top:5px;">

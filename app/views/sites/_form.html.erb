@@ -15,39 +15,39 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :prefix, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Prefix', class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :prefix, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Prefix', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :prefix %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :code_minimum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Minimum', class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :code_minimum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Minimum', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :code_minimum %>
       <span class="help-inline"><span class="label label-info">Heads up!</span> Don't include the prefix.</span>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :code_maximum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Maximum', class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :code_maximum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Maximum', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_field :code_maximum %>
       <span class="help-inline"><span class="label label-info">Heads up!</span> Don't include the prefix.</span>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :description, nil, class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= f.text_area :description, rows: 7, style: 'width:95%' %>
     </div>
   </div>

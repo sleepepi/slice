@@ -21,18 +21,18 @@
   <%= f.hidden_field :project_id %>
 
   <% if @sheet.new_record? %>
-    <div class="control-group">
-      <%= f.label :design_id, nil, class: 'control-label' %>
-      <div class="controls">
+    <div class="form-group">
+      <%= f.label :design_id, nil, class: 'col-lg-2 control-label' %>
+      <div class="col-lg-10">
         <% designs = current_user.all_viewable_designs.with_project(@project.id) %>
         <%= select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)) %>
       </div>
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'control-label', id: 'subject_code_name_full' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-lg-2 control-label', id: 'subject_code_name_full' %>
+    <div class="col-lg-10">
       <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { provide: "typeaheadmap", source: @project.subjects.collect{|s| { key: s.subject_code, value: html_escape(s.subject_code.to_s + (@project.acrostic_enabled? ? (s.acrostic.blank? ? "" : ": #{s.acrostic}") : "") + (s.email.blank? ? '' : " <#{s.email}>")) }}.to_json } %>
       <span id="subject_id_info" class="help-inline"></span>
       <% if @project.sites_with_range.size > 0 %>
@@ -47,16 +47,16 @@
     </div>
   </div>
 
-  <div class="control-group" style="<%= 'display:none' unless @sheet.project and @sheet.project.acrostic_enabled? %>" id="acrostic-container">
-    <%= label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'control-label' %>
-    <div class="controls">
+  <div class="form-group" style="<%= 'display:none' unless @sheet.project and @sheet.project.acrostic_enabled? %>" id="acrostic-container">
+    <%= label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10">
       <%= text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic' %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= label_tag 'site_id', 'Site', class: 'control-label' %>
-    <div class="controls" id="site">
+  <div class="form-group">
+    <%= label_tag 'site_id', 'Site', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-10" id="site">
       <% @disable_selection = true unless @sheet.new_record? %>
       <%= @project = @sheet.project; @subject = @sheet.subject; render partial: 'sites/selection' %>
     </div>

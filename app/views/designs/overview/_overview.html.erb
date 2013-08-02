@@ -17,7 +17,7 @@
       <%= render partial: 'designs/section' %>
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
 
-      <div class="control-group">
+      <div class="form-group">
         <% if ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
           <div class="page-header" style="margin-top:0px">
             <h4 style="padding:0px">
@@ -25,7 +25,7 @@
             </h4>
           </div>
         <% else %>
-          <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'control-label' %>
+          <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'col-lg-2 control-label' %>
         <% end %>
 
         <div class="<%= "controls controls-row" unless @variable.display_name_visibility == 'gone' %>">

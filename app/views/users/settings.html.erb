@@ -15,14 +15,14 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
 <%= hidden_field_tag 'isdirty', '1' %>
 
 <%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings' do %>
-    <div class="control-group">
+    <div class="form-group">
       <div class="controls sheet-container">
         <label class="checkbox <%= 'selected' if current_user.email_on?(:send_email) %>"><%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email) %> <%= 'Receive email' %></label>
       </div>
     </div>
     <% User::EMAILABLES.each do |notification, description| %>
-      <div class="control-group" style="margin:0px 0px 20px 20px">
-        <label class="control-label"><b><%= notification.to_s.titleize %></b></label>
+      <div class="form-group" style="margin:0px 0px 20px 20px">
+        <label class="col-lg-2 control-label"><b><%= notification.to_s.titleize %></b></label>
         <div class="controls sheet-container">
           <label class="checkbox <%= 'selected' if current_user.email_on?(notification) %>"><%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification) %> <%= description %></label>
         </div>
@@ -36,8 +36,8 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
         <% row_projects.each do |project| %>
           <div class="col-lg-4">
             <% if project %>
-              <div class="control-group">
-                <label class="control-label"><b><%= project.name %></b></label>
+              <div class="form-group">
+                <label class="col-lg-2 control-label"><b><%= project.name %></b></label>
                 <div style="display:none" class="controls sheet-container">
                   <label class="checkbox <%= 'selected' if current_user.email_on?("project_#{project.id}") %>">
                     <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}") %>
@@ -47,7 +47,7 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
               </div>
               <div style="margin:0px 0px 20px 20px">
                 <% User::EMAILABLES.each do |notification, description| %>
-                  <div class="control-group">
+                  <div class="form-group">
                     <div class="controls sheet-container">
                       <label class="checkbox <%= 'selected' if current_user.email_on?("project_#{project.id}_#{notification.to_s}") %>">
                         <%= check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}") %>
