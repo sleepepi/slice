@@ -3,10 +3,10 @@
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to 'Sites', project_sites_path(@project) %> &middot; <%= @title %>
     <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
-      <%= link_to "Edit Site", edit_project_site_path(@site.project, @site), class: 'btn btn-mini' %>
+      <%= link_to "Edit Site", edit_project_site_path(@site.project, @site), class: 'btn btn-default btn-mini' %>
       <%= link_to "Delete Site", [@site.project, @site], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" } %>
     <% end %>
-    <%= link_to "View Subjects", project_subjects_path(@project, site_id: @site.id), class: 'btn btn-mini' %>
+    <%= link_to "View Subjects", project_subjects_path(@project, site_id: @site.id), class: 'btn btn-default btn-mini' %>
   </h1>
 </div>
 

@@ -8,7 +8,7 @@
       <% if publicly_available == @design.publicly_available %>
         <button type="button" class="btn btn-mini active"><%= label %></button>
       <% else %>
-        <%= link_to label, '#', data: { object: 'push-partial-change', update: 'design_name', changes: { design: { publicly_available: publicly_available } } }, class: 'btn btn-mini' %>
+        <%= link_to label, '#', data: { object: 'push-partial-change', update: 'design_name', changes: { design: { publicly_available: publicly_available } } }, class: 'btn btn-default btn-mini' %>
       <% end %>
     <% end %>
   </div>

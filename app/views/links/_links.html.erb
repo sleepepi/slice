@@ -18,7 +18,7 @@
       <td><%= link.url.truncate(40) %></td>
       <td><%= simple_check link.archived %></td>
       <td>
-        <%= link_to 'Edit', edit_project_link_path(link.project, link), class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_project_link_path(link.project, link), class: 'btn btn-default btn-mini' %>
         <%= link_to 'Delete', [link.project, link], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Link #{link.name}?" } %>
       </td>
     </tr>

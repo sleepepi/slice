@@ -29,9 +29,9 @@
       <td><%= link_to sheet.subject.site.name, [sheet.subject.site.project, sheet.subject.site] if sheet.subject and sheet.subject.site %></td>
       <td><%= link_to sheet.user.name, sheet.user if sheet.user %></td>
       <td>
-        <%= link_to 'PDF', print_project_sheet_path(sheet.project, sheet, format: 'pdf'), target: '_blank', class: 'btn btn-mini' %>
+        <%= link_to 'PDF', print_project_sheet_path(sheet.project, sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-mini' %>
         <% if current_user.all_sheets.pluck(:id).include?(sheet.id) %>
-          <%= link_to 'Edit', edit_project_sheet_path(sheet.project, sheet), class: 'btn btn-mini' %>
+          <%= link_to 'Edit', edit_project_sheet_path(sheet.project, sheet), class: 'btn btn-default btn-mini' %>
           <%= link_to 'Delete', [sheet.project, sheet], method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{sheet.name}?" } %>
         <% end %>
       </td>

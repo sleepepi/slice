@@ -55,7 +55,7 @@
               <% if variable_type == @variable.variable_type %>
                 <button type="button" class="btn btn-mini active"><%= variable_type %></button>
               <% else %>
-                <%= link_to variable_type, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { variable_type: variable_type } }, position: @position }, class: 'btn btn-mini' %>
+                <%= link_to variable_type, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { variable_type: variable_type } }, position: @position }, class: 'btn btn-default btn-mini' %>
               <% end %>
             <% end %>
           </div>
@@ -70,7 +70,7 @@
               <% if alignment == @variable.alignment %>
                 <button type="button" class="btn btn-mini active"><%= alignment %></button>
               <% else %>
-                <%= link_to alignment, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { alignment: alignment } }, position: @position }, class: 'btn btn-mini' %>
+                <%= link_to alignment, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { alignment: alignment } }, position: @position }, class: 'btn btn-default btn-mini' %>
               <% end %>
             <% end %>
           </div>
@@ -85,7 +85,7 @@
               <% if visibility == @variable.display_name_visibility %>
                 <button type="button" class="btn btn-mini active"><%= label %></button>
               <% else %>
-                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { display_name_visibility: visibility } }, position: @position }, class: 'btn btn-mini' %>
+                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { display_name_visibility: visibility } }, position: @position }, class: 'btn btn-default btn-mini' %>
               <% end %>
             <% end %>
           </div>
@@ -100,7 +100,7 @@
               <% if show_current_button == @variable.show_current_button %>
                 <button type="button" class="btn btn-mini active"><%= label %></button>
               <% else %>
-                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { show_current_button: show_current_button } }, position: @position }, class: 'btn btn-mini' %>
+                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { show_current_button: show_current_button } }, position: @position }, class: 'btn btn-default btn-mini' %>
               <% end %>
             <% end %>
           </div>
@@ -115,7 +115,7 @@
               <% if multiple_rows == @variable.multiple_rows %>
                 <button type="button" class="btn btn-mini active"><%= label %></button>
               <% else %>
-                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { multiple_rows: multiple_rows } }, position: @position }, class: 'btn btn-mini' %>
+                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { multiple_rows: multiple_rows } }, position: @position }, class: 'btn btn-default btn-mini' %>
               <% end %>
             <% end %>
           </div>

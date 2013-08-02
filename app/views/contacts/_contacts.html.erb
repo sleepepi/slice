@@ -24,7 +24,7 @@
       <td><%= contact.position %></td>
       <td><%= simple_check contact.archived %></td>
       <td>
-        <%= link_to 'Edit', edit_project_contact_path(contact.project, contact), class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_project_contact_path(contact.project, contact), class: 'btn btn-default btn-mini' %>
         <%= link_to 'Delete', [contact.project, contact], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Contact #{contact.name}?" } %>
       </td>
     </tr>

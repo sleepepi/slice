@@ -20,7 +20,7 @@
       <td><%= link_to project.user.name, project.user if project.user %></td>
       <td>
         <% if current_user.all_projects.pluck(:id).include?(project.id) %>
-          <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>
+          <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-default btn-mini' %>
           <%= link_to 'Delete', project, method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{project.name}?" } %>
         <% end %>
       </td>

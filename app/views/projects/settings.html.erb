@@ -6,12 +6,12 @@
       Settings &raquo; <%= link_to @project.name, @project %></h1>
     <div class="btn-toolbar">
       <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-        <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
+        <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-mini' %></div>
         <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
       <% end %>
 
       <div class="btn-group">
-        <%= link_to "Sites", project_sites_path(@project), class: 'btn btn-mini' %>
+        <%= link_to "Sites", project_sites_path(@project), class: 'btn btn-default btn-mini' %>
         <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
@@ -21,7 +21,7 @@
       </div>
 
       <div class="btn-group">
-        <%= link_to "Subjects", project_subjects_path(@project), class: 'btn btn-mini' %>
+        <%= link_to "Subjects", project_subjects_path(@project), class: 'btn btn-default btn-mini' %>
         <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
@@ -31,7 +31,7 @@
       </div>
 
       <div class="btn-group">
-        <%= link_to "Sheets", project_sheets_path(@project), class: 'btn btn-mini' %>
+        <%= link_to "Sheets", project_sheets_path(@project), class: 'btn btn-default btn-mini' %>
         <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
@@ -42,7 +42,7 @@
 
       <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
         <div class="btn-group">
-          <%= link_to "Designs", project_designs_path(@project), class: 'btn btn-mini' %>
+          <%= link_to "Designs", project_designs_path(@project), class: 'btn btn-default btn-mini' %>
           <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
@@ -52,7 +52,7 @@
         </div>
 
         <div class="btn-group">
-          <%= link_to "Variables", project_variables_path(@project), class: 'btn btn-mini' %>
+          <%= link_to "Variables", project_variables_path(@project), class: 'btn btn-default btn-mini' %>
           <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="btn-group">
-          <%= link_to "Domains", project_domains_path(@project), class: 'btn btn-mini' %>
+          <%= link_to "Domains", project_domains_path(@project), class: 'btn btn-default btn-mini' %>
           <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
             <span class="caret"></span>
           </button>

@@ -22,7 +22,7 @@
       </td>
       <td><%= link_to domain.user.name, domain.user if domain.user %></td>
       <td>
-        <%= link_to 'Edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-default btn-mini' %>
         <%= link_to 'Delete', [domain.project, domain], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Domain #{domain.name}?" } %>
       </td>
     </tr>
