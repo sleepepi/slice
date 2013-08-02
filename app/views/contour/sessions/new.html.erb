@@ -2,8 +2,8 @@
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-signin' }) do |f| %>
   <h2 class="form-signin-heading">Sign in</h2>
-  <%= f.email_field :email, class: 'input-block-level', placeholder: 'Email' %>
-  <%= f.password_field :password, class: 'input-block-level', placeholder: 'Password' %>
+  <%= f.email_field :email, class: 'form-control', placeholder: 'Email' %>
+  <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
 
   <%= f.submit "Sign in", class: 'btn btn-success btn-block btn-large' %>
 <% end %>
@@ -22,8 +22,8 @@
   <div class="form-signin">
     <h2 class="form-signin-heading">Sign in with</h2>
     <% PROVIDERS.each do |provider| %>
-      <a href="<%= request.script_name + "/" + OmniAuth.config.path_prefix.split('/').last.to_s + "/" + provider.to_s.downcase %>" class="btn" style="white-space:nowrap">
-        <%= image_tag "contour/#{provider.to_s.downcase}_32.png", align: 'absmiddle', height: "28px" %>
+      <a href="<%= request.script_name + "/" + OmniAuth.config.path_prefix.split('/').last.to_s + "/" + provider.to_s.downcase %>" class="btn btn-large" style="white-space:nowrap">
+        <%= image_tag "contour/#{provider.to_s.downcase}_32.png", align: 'absmiddle' %>
       </a>
     <% end %>
   </div>
