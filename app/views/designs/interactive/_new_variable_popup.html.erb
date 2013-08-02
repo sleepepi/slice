@@ -6,7 +6,7 @@
 </div>
 
 <div class="row-fluid">
-  <span class="span6">
+  <span class="col-lg-6">
     <form id="variable_form" class="form-horizontal">
       <div class="control-group">
         <label class="control-label">Display Name</label>
@@ -40,7 +40,7 @@
     <% variables = @project.variables.where(variable_type: params[:variable_type]).where("variables.id NOT IN (?)", @design.variable_ids) %>
   <% end %>
   <% if variables.count > 0 %>
-    <span class="span6">
+    <span class="col-lg-6">
       Or Select Existing Variable
       <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: "chzn-select" %>
       <%= button_tag 'Insert Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>

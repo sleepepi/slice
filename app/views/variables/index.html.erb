@@ -9,14 +9,14 @@
 <%= form_tag project_variables_path(@project), method: :get, remote: true, id: "variables_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-lg-4 control-group">
       <%= label :search, 'Search', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' } %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-lg-4 control-group">
       <%= label :user_id, 'Creator', class: 'control-label' %>
       <div class="controls">
         <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_variable_on_project(@project.id).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' } %>
@@ -25,7 +25,7 @@
   </div>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-lg-4 control-group">
       <%= label :variable_type, 'Variable Type', class: 'control-label' %>
       <div class="controls">
         <%= hidden_field_tag :variable_type, params[:variable_type], data: { object: 'filter' } %>

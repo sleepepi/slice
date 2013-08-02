@@ -1,5 +1,5 @@
 <div class="row-fluid">
-  <div class="span6 download-container">
+  <div class="col-lg-6 download-container">
     <h3><%= @variable.display_name %></h3>
     <% if ['site', 'sheet_date'].include?(params[:variable_id]) %>
       <%= hidden_field_tag :missing, '0' %>
@@ -9,21 +9,21 @@
 
   </div>
 
-  <div class="span6 download-container">
+  <div class="col-lg-6 download-container">
     <div id="cool-options"><%= render partial: 'filters/cool_options' %></div>
   </div>
 </div>
 
 <div class="row-fluid">
-  <div class="span4">
+  <div class="col-lg-4">
     <%= button_tag 'Update Filter', data: { object: 'update-filter', variable_id: params[:variable_id] }, class: 'btn btn-primary btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
   </div>
 
-  <div class="span4">
+  <div class="col-lg-4">
     <%= button_tag 'Remove', data: { object: 'remove-filter', target: "#variable_#{params[:variable_id]}" }, class: 'btn btn-danger-inverse btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
   </div>
 
-  <div class="span4">
+  <div class="col-lg-4">
     <%= button_tag 'Cancel', data: { object: 'hide-contour-modal' }, class: 'btn btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
   </div>
 </div>

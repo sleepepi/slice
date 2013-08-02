@@ -166,7 +166,7 @@
 
   <div class="row">
     <% ['editors', 'viewers'].each do |relation, editor| %>
-      <div class="span6">
+      <div class="col-lg-6">
         <% @relation = relation; @editor = editor %>
         <% @users = User.current.order('last_name, first_name') %>
         <p>

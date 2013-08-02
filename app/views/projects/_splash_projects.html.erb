@@ -1,6 +1,6 @@
 <% if @projects.size == 0 %>
   <div class="row" style="margin-top:54px">
-    <div class="span12">
+    <div class="col-lg-12">
       <h1 class="about-title"></h1>
       <p class="about-tagline"></p>
       <p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p>
@@ -12,7 +12,7 @@
     <div class="row">
       <% project_row.each do |project| %>
         <% if project %>
-          <div class="span4" data-link="<%= project_path(project) %>" style="cursor:pointer" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
+          <div class="col-lg-4" data-link="<%= project_path(project) %>" style="cursor:pointer" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
             <h2 class="about-title"><%= link_to project.name, project %></h2>
             <div style="text-align:center;background-color:white;height:128px;padding-bottom:5px">
               <% if project.logo.size > 0 %>
@@ -27,7 +27,7 @@
             <hr class="soften">
           </div>
         <% elsif project.blank? and not create_project_link_added %>
-          <div class="span4" data-link="<%= new_project_path %>" style="cursor:pointer">
+          <div class="col-lg-4" data-link="<%= new_project_path %>" style="cursor:pointer">
             <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
             <div style="text-align:center;background-color:white;height:128px">
               <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
@@ -42,7 +42,7 @@
 
   <% unless create_project_link_added %>
     <div class="row">
-      <div class="span4" data-link="<%= new_project_path %>" style="cursor:pointer">
+      <div class="col-lg-4" data-link="<%= new_project_path %>" style="cursor:pointer">
         <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
         <div style="text-align:center;background-color:white;height:128px">
           <%= image_tag 'project-default-logo.png', style: 'height:128px' %>

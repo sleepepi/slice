@@ -159,7 +159,7 @@
   .masthead .btn {
     font-size: 24px;
   }
-  .marketing .span4 {
+  .marketing .col-lg-4 {
     margin-bottom: 40px;
   }
   .bs-docs-social {

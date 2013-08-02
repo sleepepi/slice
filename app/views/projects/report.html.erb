@@ -10,7 +10,7 @@
   <%= hidden_field_tag :percent, @percent %>
 
   <div class="row">
-    <div class="span4" style="padding-top:3px;margin-top:0px">
+    <div class="col-lg-4" style="padding-top:3px;margin-top:0px">
       Subjects
       <div class="btn-group" data-toggle="buttons-checkbox">
         <% Subject::STATUS.each do |label, value| %>
@@ -21,14 +21,14 @@
         <% end %>
       </div>
     </div>
-    <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px">
+    <div class="btn-toolbar col-lg-4" style="padding-top:3px;margin-top:0px">
       <div class="btn-group" data-toggle="buttons-radio">
         <button data-object="set-by" data-value="week" class="btn btn-mini <%= 'active' if @by == 'week' %>">Week</button>
         <button data-object="set-by" data-value="month" class="btn btn-mini <%= 'active' if @by == 'month' %>">Month</button>
         <button data-object="set-by" data-value="year" class="btn btn-mini <%= 'active' if @by == 'year' %>">Year</button>
       </div>
     </div>
-    <div class="btn-toolbar span4" style="padding-top:3px;margin-top:0px">
+    <div class="btn-toolbar col-lg-4" style="padding-top:3px;margin-top:0px">
       <div class="btn-group pull-right" data-toggle="buttons-radio">
         <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if @percent == 'none' %>">No Percents</button>
         <button data-object="set-percent" data-value="row" class="btn btn-mini <%= 'active' if @percent == 'row' %>">% by Row</button>
@@ -38,19 +38,19 @@
   </div>
 
   <div class="row">
-    <div class="span4">
+    <div class="col-lg-4">
       <% if false %>
       After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Date After', data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
       <% end %>
     </div>
 
-    <div class="span4">
+    <div class="col-lg-4">
       <% if false %>
       Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Date Before', data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
       <% end %>
     </div>
 
-    <div class="span4">
+    <div class="col-lg-4">
       <div class="pull-right">
         <span class="dropdown">
           <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', data: { toggle: 'dropdown' } %>

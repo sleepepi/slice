@@ -10,14 +10,14 @@
   <%= hidden_field_tag :order %>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-lg-4 control-group">
       <%= label :search, 'Search', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag 'search', params[:search], class: 'search-query', data: { object: 'filter' } %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-lg-4 control-group">
       <%= label :project_id, 'Project', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' } %>

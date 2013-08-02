@@ -16,7 +16,7 @@
 <% end %>
 
 <div class="row-fluid">
-  <div class="span8 download-container">
+  <div class="col-lg-8 download-container">
     <div class="download-container-after">Filters</div>
     <%= link_to 'Add Filter', '#', class: 'btn btn-mini pull-right', data: { object: 'open-new-filter-modal' } %>
     <%= form_tag filters_project_path(@design.project), method: :post, remote: true, id: 'filters_form' do %>
@@ -26,7 +26,7 @@
     <% end %>
   </div>
 
-  <div class="span4 download-container">
+  <div class="col-lg-4 download-container">
     <div class="download-container-after">Format</div>
 
     <%= form_tag report_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load-with-filters' }, class: "form-vertical", id: 'report_form', style: 'margin-top:15px' do %>

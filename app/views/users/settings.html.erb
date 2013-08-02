@@ -34,7 +34,7 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
     <% current_user.all_viewable_projects.order('name').in_groups_of(3).each do |row_projects| %>
       <div class="row">
         <% row_projects.each do |project| %>
-          <div class="span4">
+          <div class="col-lg-4">
             <% if project %>
               <div class="control-group">
                 <label class="control-label"><b><%= project.name %></b></label>

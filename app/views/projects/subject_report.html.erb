@@ -7,7 +7,7 @@
 
 <%= form_tag subject_report_project_path(@project), method: :get, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <div class="row">
-    <div class="span4">
+    <div class="col-lg-4">
       Subjects
       <div class="btn-group" data-toggle="buttons-checkbox">
         <% Subject::STATUS.each do |label, value| %>

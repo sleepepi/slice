@@ -6,7 +6,7 @@
   <div class="row-fluid">
     <% row_items.each do |variable_type| %>
       <% if variable_type and variable_type != 'section' %>
-        <div data-object="pull-partial-edit" data-new="new_variable" data-position="<%= params[:position] %>" data-variable-type="<%= variable_type %>" class="span4 download-container editable-design-element">
+        <div data-object="pull-partial-edit" data-new="new_variable" data-position="<%= params[:position] %>" data-variable-type="<%= variable_type %>" class="col-lg-4 download-container editable-design-element">
           <div class="download-container-after"><%= variable_type.titleize %></div>
           <div style="margin-top:12px" class="center">
             <% case variable_type when 'radio' %>
@@ -97,7 +97,7 @@
         </div>
       <% end %>
       <% if variable_type and variable_type == 'section' %>
-        <div data-object="pull-partial-edit" data-new="new_section" data-position="<%= params[:position] %>" class="span4 download-container editable-design-element">
+        <div data-object="pull-partial-edit" data-new="new_section" data-position="<%= params[:position] %>" class="col-lg-4 download-container editable-design-element">
           <div class="download-container-after"><%= variable_type.titleize %></div>
           <div style="margin-top:12px" class="center">
             <b>Section A: Demographics</b><br />

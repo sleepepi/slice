@@ -1,6 +1,6 @@
 <div class="row-fluid">
 
-  <div class="span4 download-container">
+  <div class="col-lg-4 download-container">
     <h3>Comma-Separated Values</h3>
     <label class="checkbox" rel="tooltip" data-html="true"
           data-title="<table>
@@ -16,12 +16,12 @@
                       </table>"><%= check_box_tag :csv_raw, '1', false %> CSV Raw</label>
   </div>
 
-  <div class="span4 download-container">
+  <div class="col-lg-4 download-container">
     <h3>SAS</h3>
     <label class="checkbox"><%= check_box_tag :sas, '1', false %> SAS</label>
   </div>
 
-  <div class="span4 download-container">
+  <div class="col-lg-4 download-container">
     <h3>Portable Document Format</h3>
     <label class="checkbox"><%= check_box_tag :pdf, '1', false %> PDF</label>
   </div>
@@ -30,17 +30,17 @@
 
 <div class="row-fluid">
 
-  <div class="span4 download-container">
+  <div class="col-lg-4 download-container">
     <h3>Uploaded Files</h3>
     <label class="checkbox"><%= check_box_tag :files, '1', false %> Files</label>
   </div>
 
-  <div class="span4 download-container">
+  <div class="col-lg-4 download-container">
     <h3>Data Dictionary</h3>
     <label class="checkbox"><%= check_box_tag :data_dictionary, '1', false %> Data Dictionary</label>
   </div>
 
-  <div class="span4">
+  <div class="col-lg-4">
     <%= button_tag "Export", data: { object: 'export-data', target: '#sheets_search' }, class: 'btn btn-primary btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
   </div>
 

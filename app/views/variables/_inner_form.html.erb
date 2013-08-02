@@ -164,7 +164,7 @@
       <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-mini' %>
       <% if @variable.captured_values.size > 0 %>
         <div class="row">
-          <div class="span3">
+          <div class="col-lg-3">
             <div class="download-container" style="overflow-x:hidden;overflow-y:scroll;height:80px">
               <div class="download-container-after">Captured Values</div>
               <div style="padding-top:10px">
@@ -176,7 +176,7 @@
               </div>
             </div>
           </div>
-          <div class="span3">
+          <div class="col-lg-3">
             <div class="download-container" style="overflow-x:hidden;overflow-y:scroll;height:80px">
               <div class="download-container-after">Domain Values</div>
               <div id="domain_values" style="padding-top:10px"><%= @domain = @variable.domain; render partial: 'domains/values' %></div>
