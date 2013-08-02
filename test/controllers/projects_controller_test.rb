@@ -243,25 +243,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to projects_path
   end
 
-  test "should show project settings" do
-    get :settings, id: @project
-    assert_not_nil assigns(:project)
-    assert_response :success
-  end
-
-  test "should show project settings to site user" do
-    login(users(:site_one_user))
-    get :settings, id: @project
-    assert_not_nil assigns(:project)
-    assert_response :success
-  end
-
-  test "should not show settings invalid project" do
-    get :settings, id: -1
-    assert_nil assigns(:project)
-    assert_redirected_to projects_path
-  end
-
   test "should get edit" do
     get :edit, id: @project
     assert_response :success
@@ -270,7 +251,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should update project" do
     put :update, id: @project, project: { description: @project.description, name: @project.name }
 
-    assert_redirected_to settings_project_path(assigns(:project))
+    assert_redirected_to project_path(assigns(:project))
   end
 
   test "should not update project with blank name" do

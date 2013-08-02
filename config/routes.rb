@@ -21,7 +21,6 @@ Slice::Application.routes.draw do
       post :report
       get :report_print
       get :subject_report
-      get :settings
       post :filters
       post :new_filter
       post :edit_filter

@@ -5,6 +5,7 @@
   - Updated to contour 2.1.0.beta2
 - **Project Changes**
   - Project emails field was removed since it is no longer used
+  - Project settings page removed and consolidated with project show page
 
 ## 0.19.0 (August 1, 2013)
 
