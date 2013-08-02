@@ -46,9 +46,13 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :acrostic_enabled, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <%= f.check_box :acrostic_enabled %>
+    <div class="col-lg-10 col-offset-2">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :acrostic_enabled %>
+          Acrostic enabled
+        </label>
+      </div>
     </div>
   </div>
 
