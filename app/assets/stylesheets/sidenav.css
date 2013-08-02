@@ -121,7 +121,7 @@
 @media (min-width: 768px) and (max-width: 980px) {
   /* Remove any padding from the body */
   body {
-    padding-top: 0;
+    /*padding-top: 0;*/
   }
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
@@ -142,7 +142,7 @@
 @media (max-width: 767px) {
   /* Remove any padding from the body */
   body {
-    padding-top: 0;
+    /*padding-top: 0;*/
   }
 
   /* Widen masthead and social buttons to fill body padding */
@@ -199,7 +199,7 @@
 @media (max-width: 480px) {
   /* Remove padding above jumbotron */
   body {
-    padding-top: 0;
+    /*padding-top: 0;*/
   }
 
   /* Change up some type stuff */
