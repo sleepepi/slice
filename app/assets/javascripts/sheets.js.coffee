@@ -65,7 +65,7 @@
         navOuterHeight = $('.navbar-fixed-top').height()
         return (this.top = offsetTop - navOuterHeight - sideBarMargin)
       bottom: () ->
-        return (this.bottom = parseInt($(document.body).css('padding-bottom')))
+        return ( this.bottom = $(document.body).outerHeight(true) - $('#main-bar').offset().top - $('#main-bar').outerHeight(true) )
   )
   $('[data-spy="scroll"]').each( () ->
     $spy = $(this).scrollspy('refresh')
