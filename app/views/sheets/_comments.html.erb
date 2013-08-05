@@ -4,7 +4,7 @@
 
 <div>
   <%= form_tag comments_path(sheet_id: @sheet.id), method: :post, remote: true, id: "sheet_#{@sheet.id}_comment_form" do %>
-    <%= text_area_tag "sheet[#{@sheet.id}][comment]", '', name: 'comment[description]', rows: 2, style: "width:95%;margin:5px" %>
+    <%= text_area_tag "sheet[#{@sheet.id}][comment]", '', name: 'comment[description]', rows: 2, class: 'form-control' %>
     <%= submit_tag 'Add Comment', class: 'btn btn-primary', style: 'margin:5px 0 0 5px', data: { object: 'comment-submit', target: "#sheet_#{@sheet.id}_comment_form" } %>
   <% end %>
 
