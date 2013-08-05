@@ -1,8 +1,8 @@
 <% is_grid = defined?(grid) %>
 
-<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> input-append" style="display:inline-block;white-space:nowrap">
-  <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
-  <%= text_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: "datepicker input-#{defined?(control_size) ? control_size : 'large'}",
+<div class="input-group">
+  <% unless variable.prepend.blank? %><span class="input-group-addon"><%= variable.prepend %></span><% end %>
+  <%= text_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker form-control',
         data: {
                 object: 'dateminmax',
                 content: variable.description,
@@ -10,14 +10,19 @@
                 date_hard_minimum: (variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (variable.date_hard_maximum.strftime('%m/%d/%Y') rescue ''),
                 date_soft_minimum: (variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''),
                 missing_codes: variable.missing_codes, placement: (variable.show_current_button? ? 'left' : 'right'),
-                html: true
+                html: true,
+                container: 'body'
               },
         rel: "#{variable.description.blank? ? '' : 'popover'}",
         autocomplete: 'off',
         disabled: disabled,
         title: variable.display_name,
         placeholder: 'mm/dd/yyyy' %>
-  <span class="add-on"><i class="icon-calendar"></i></span>
-  <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
-  <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
+  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+  <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>
+  <% if variable.show_current_button? %>
+    <span class="input-group-btn">
+      <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
+    </span>
+  <% end %>
 </div>

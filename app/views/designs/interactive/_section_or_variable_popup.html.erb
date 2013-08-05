@@ -11,9 +11,9 @@
           <div style="margin-top:12px" class="center">
             <% case variable_type when 'radio' %>
               <div class="sheet-container">
-                <label class="radio inline selected"><%= radio_button_tag 'animal', 'dog', true, disabled: true %> 1: Dog</label>
-                <label class="radio inline"><%= radio_button_tag 'animal', 'cat', false, disabled: true %> 2: Cat</label>
-                <label class="radio inline"><%= radio_button_tag 'animal', 'fish', false, disabled: true %> 3: Fish</label>
+                <label class="radio radio-inline selected"><%= radio_button_tag 'animal', 'dog', true, disabled: true %> 1: Dog</label>
+                <label class="radio radio-inline"><%= radio_button_tag 'animal', 'cat', false, disabled: true %> 2: Cat</label>
+                <label class="radio radio-inline"><%= radio_button_tag 'animal', 'fish', false, disabled: true %> 3: Fish</label>
               </div>
             <% when 'dropdown' %>
               <span style="text-align: left;">
@@ -21,42 +21,42 @@
               </span>
             <% when 'checkbox' %>
               <div class="sheet-container">
-                <label class="checkbox inline selected"><%= check_box_tag 'animal[]', 'dog', true, disabled: true %> 1: Dog</label>
-                <label class="checkbox inline selected"><%= check_box_tag 'animal[]', 'cat', true, disabled: true %> 2: Cat</label>
-                <label class="checkbox inline"><%= check_box_tag 'animal[]', 'fish', false, disabled: true %> 3: Fish</label>
+                <label class="checkbox checkbox-inline selected"><%= check_box_tag 'animal[]', 'dog', true, disabled: true %> 1: Dog</label>
+                <label class="checkbox checkbox-inline selected"><%= check_box_tag 'animal[]', 'cat', true, disabled: true %> 2: Cat</label>
+                <label class="checkbox checkbox-inline"><%= check_box_tag 'animal[]', 'fish', false, disabled: true %> 3: Fish</label>
               </div>
             <% when 'string' %>
-              <%= text_field_tag 'animal', 'Abc Street', disabled: true %>
+              <%= text_field_tag 'animal', 'Abc Street', disabled: true, class: 'form-control' %>
             <% when 'integer' %>
-              <%= text_field_tag 'animal', '42', disabled: true %>
+              <%= text_field_tag 'animal', '42', disabled: true, class: 'form-control' %>
             <% when 'numeric' %>
-                <div class="input-append input-prepend" style="display:inline-block">
-                  <span class="add-on">weight</span>
-                  <%= text_field_tag 'animal', '72.4', disabled: true %>
-                  <span class="add-on">kg</span>
+                <div class="input-group">
+                  <span class="input-group-addon">weight</span>
+                  <%= text_field_tag 'animal', '72.4', disabled: true, class: 'form-control' %>
+                  <span class="input-group-addon">kg</span>
                 </div>
             <% when 'calculated' %>
-              <div class="input-append" style="display:inline-block">
-                <%= text_field_tag 'animal', 'weight / (height * height)', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true %>
-                <span class="add-on">kg / m&sup2;</span>
+              <div class="input-group">
+                <%= text_field_tag 'animal', 'weight / (height * height)', class: 'form-control', disabled: true %>
+                <span class="input-group-addon">kg / m&sup2;</span>
               </div>
             <% when 'text' %>
-              <%= text_area_tag 'animal', 'My Long Essay', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true, style: 'cursor:pointer' %>
+              <%= text_area_tag 'animal', 'My Long Essay', class: 'form-control', disabled: true, style: 'cursor:pointer' %>
             <% when 'date' %>
-              <div class="input-append" style="display:inline-block;white-space:nowrap">
-                <%= text_field_tag 'animal', "", class: "datepicker input-large", placeholder: 'mm/dd/yyyy' %>
-                <span class="add-on"><i class="icon-calendar"></i></span>
+              <div class="input-group">
+                <%= text_field_tag 'animal', "", class: 'datepicker form-control', placeholder: 'mm/dd/yyyy' %>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
               </div>
             <% when 'time' %>
               <div class="time-input" style="display:inline-block">
                 <div class="hour-box time-box">
-                  <%= text_field_tag "hour_time", '', placeholder: 'hh' %>
+                  <%= text_field_tag "hour_time", '', placeholder: 'hh', class: 'form-control' %>
                 </div>
                 <div class="time-divider">&#58;</div>
-                <div class="min-box time-box"><%= text_field_tag "min_time", '', placeholder: 'mm' %></div>
+                <div class="min-box time-box"><%= text_field_tag "min_time", '', placeholder: 'mm', class: 'form-control' %></div>
                 <div class="time-divider">&#58;</div>
                 <div class="sec-box time-box">
-                  <%= text_field_tag "sec_time", '', placeholder: 'ss' %>
+                  <%= text_field_tag "sec_time", '', placeholder: 'ss', class: 'form-control' %>
                 </div>
               </div>
             <% when 'file' %>

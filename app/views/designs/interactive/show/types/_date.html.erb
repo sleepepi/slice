@@ -1,13 +1,17 @@
 <% is_grid = defined?(grid) %>
 
-<div class="input-append" style="display:inline-block;white-space:nowrap">
+<div class="input-group">
   <span data-object="pull-partial-edit" data-edit="variable_date" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
-    <%= text_field_tag variable.name, '', class: "datepicker input-#{defined?(control_size) ? control_size : 'large'}",
+    <%= text_field_tag variable.name, '', class: 'datepicker form-control',
           autocomplete: 'off',
           disabled: true,
           title: variable.display_name,
-          placeholder: 'mm/dd/yyyy', style: 'margin-top:0px' %>
+          placeholder: 'mm/dd/yyyy' %>
   </span>
-  <span class="add-on"><i class="icon-calendar"></i></span>
-  <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn', tabindex: '-1' if variable.show_current_button? %>
+  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+  <% if variable.show_current_button? %>
+    <span class="input-group-btn">
+      <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
+    </span>
+  <% end %>
 </div>

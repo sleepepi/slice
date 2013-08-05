@@ -1,9 +1,9 @@
 <% is_grid = defined?(grid) %>
 
-<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> <% unless variable.units.blank? and variable.append.blank? %>input-append<% end %>" style="display:inline-block" data-content="<%= variable.description_range %>"
+<div class="<% unless variable.prepend.blank? and variable.units.blank? and variable.append.blank? %>input-group<% end %>" data-content="<%= variable.description_range %>"
   data-title="<%= variable.display_name %>">
-  <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
-  <%= text_field_tag field_name, response, class: "input-#{defined?(control_size) ? control_size : 'large'}",
+  <% unless variable.prepend.blank? %><span class="input-group-addon"><%= variable.prepend %></span><% end %>
+  <%= text_field_tag field_name, response, class: 'form-control',
         data: {
                 object: 'minmax condition',
                 hard_minimum: variable.hard_minimum, hard_maximum: variable.hard_maximum,
@@ -18,6 +18,6 @@
         disabled: disabled,
         rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}",
         placeholder: is_grid ? variable.display_name : nil %>
-  <% unless variable.units.blank? %><span class="add-on"><%= variable.units %></span><% end %>
-  <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+  <% unless variable.units.blank? %><span class="input-group-addon"><%= variable.units %></span><% end %>
+  <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>
 </div>

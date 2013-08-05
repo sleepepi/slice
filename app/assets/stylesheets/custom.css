@@ -301,6 +301,7 @@ textarea:focus.warning-input  {
 }
 
 .download-container .checkbox, .sheet-container .checkbox, .sheet-container .radio {
+  margin-top: 0px;
   padding: 6px 10px 6px 25px;
   font-size: 13px;
   line-height: 18px;
@@ -376,9 +377,9 @@ textarea:focus.warning-input  {
 }
 
 
-.sheet-container .inline.radio input[type="radio"], .sheet-container .inline.checkbox input[type="checkbox"]{
+/*.sheet-container .inline.radio input[type="radio"], .sheet-container .inline.checkbox input[type="checkbox"]{
   margin-left: -15px;
-}
+}*/
 
 div.filter-bubble, div.filter-bubble-faded {
   padding: 5px;

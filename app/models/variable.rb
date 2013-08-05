@@ -63,7 +63,7 @@ class Variable < ActiveRecord::Base
   end
 
   def autocomplete_array
-    self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}
+    self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}.select{|i| not i.blank?}
   end
 
   def uses_scale?

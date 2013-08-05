@@ -9,5 +9,6 @@
             },
       rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
       disabled: disabled,
-      title: variable.display_name %>
+      title: variable.display_name,
+      class: 'form-control' %>
 <%= hidden_field_tag "#{field_name}[response_file][cache]" %>

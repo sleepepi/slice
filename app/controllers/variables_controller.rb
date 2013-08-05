@@ -12,7 +12,7 @@ class VariablesController < ApplicationController
   end
 
   def typeahead
-    render json: ( ['string'].include?(@variable.variable_type) ? @variable.autocomplete_array : [] )
+    render json: ( ['string'].include?(@variable.variable_type) ? @variable.autocomplete_array.select{|i| (i.to_s.downcase.include?(params[:query].to_s.downcase))} : [] )
   end
 
   def format_number

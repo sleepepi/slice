@@ -1,8 +1,8 @@
 <% is_grid = defined?(grid) %>
 
-<div class="<% unless variable.prepend.blank? %>input-prepend<% end %> <% unless variable.append.blank? %>input-append<% end %>" style="display:inline-block">
-  <% unless variable.prepend.blank? %><span class="add-on"><%= variable.prepend %></span><% end %>
-  <%= text_field_tag field_name, response, class: "input-#{defined?(control_size) ? control_size : 'large'}",
+<div class="<% unless variable.prepend.blank? and variable.append.blank? %>input-group<% end %>">
+  <% unless variable.prepend.blank? %><span class="input-group-addon"><%= variable.prepend %></span><% end %>
+  <%= text_field_tag field_name, response, class: 'form-control',
         data: {
                 content: variable.description,
                 object: "condition variable-typeahead",
@@ -15,5 +15,5 @@
         disabled: disabled,
         title: variable.display_name,
         placeholder: is_grid ? variable.display_name : nil %>
-  <% unless variable.append.blank? %><span class="add-on"><%= variable.append %></span><% end %>
+  <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>
 </div>

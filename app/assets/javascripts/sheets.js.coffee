@@ -20,9 +20,7 @@
   $("#{filter_element} [data-object~='variable-typeahead']").each( () ->
     $this = $(this)
     $this.typeahead(
-      source: (query, process) ->
-        variable_id = $this.data('variable-id')
-        return $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/typeahead', { query: query, sheet_authentication_token: ($('#sheet_authentication_token').val() || "") }, (data) -> return process(data))
+      remote: root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $this.data('variable-id') + '/typeahead' + '?query=%QUERY' + "&sheet_authentication_token=#{($('#sheet_authentication_token').val() || '')}"
     )
   )
   updateAllVariables()

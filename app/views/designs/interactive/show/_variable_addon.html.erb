@@ -1,3 +1,3 @@
-<span data-object="pull-partial-edit" data-edit="variable_<%= method %>" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="add-on <%= 'muted design-preview-hide' if variable.send(method).blank? %> editable-design-element">
+<span data-object="pull-partial-edit" data-edit="variable_<%= method %>" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="input-group-addon <%= 'muted design-preview-hide' if variable.send(method).blank? %> editable-design-element">
   <% if variable.send(method).blank? %><%= method.titleize %><% else %><%= variable.send(method) %><% end %>
 </span>

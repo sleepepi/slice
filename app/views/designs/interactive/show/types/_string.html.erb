@@ -1,9 +1,9 @@
 <% is_grid = defined?(grid) %>
 
-<div class="input-prepend input-append" style="display:inline-block">
+<div class="input-group">
   <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'prepend', variable: variable } %>
   <span data-object="pull-partial-edit" data-edit="variable_autocomplete" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
-    <%= text_field_tag variable.name, '', class: "input-#{defined?(control_size) ? control_size : 'large'}", disabled: true,
+    <%= text_field_tag variable.name, '', class: 'form-control', disabled: true,
         placeholder: is_grid ? variable.display_name : nil %>
   </span>
   <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'append', variable: variable } %>

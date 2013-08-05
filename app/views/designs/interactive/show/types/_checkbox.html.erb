@@ -24,8 +24,8 @@
           </td>
           <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
             <td style="text-align:center" class="sheet-container">
-              <label class="checkbox inline">
-                <%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %>
+              <label class="checkbox checkbox-inline">
+                <%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true, style: 'margin-left:-14px' %>
               </label>
             </td>
           <% end %>
@@ -38,13 +38,13 @@
   <% else %>
     <div class="sheet-container">
       <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
+        <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
       <% end %>
       <% if variable.options_only_missing.size > 0 %>
-        <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><span class="label label-info">Missing Codes</span></label>
+        <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><span class="label label-info">Missing Codes</span></label>
       <% end %>
       <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <label class="checkbox <%= 'inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
+        <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
       <% end %>
     </div>
     <span class="dark-hover muted design-preview-hide">Click to Edit Choices</span>
