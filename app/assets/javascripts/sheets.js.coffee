@@ -50,8 +50,31 @@
   loadAffix()
 
 @loadAffix = () ->
-  if $('.bs-docs-sidebar').length > 0
-    $('[data-spy~="affix"]').affix( offset: { top: $('.bs-docs-sidebar').position().top - 40 } )
+  $window = $(window)
+  $body   = $(document.body)
+
+  $body.scrollspy(
+    target: '.bs-sidebar',
+    offset: $('.navbar').outerHeight(true) + 10
+  )
+
+  $sideBar = $('.bs-sidebar')
+
+  $sideBar.affix(
+    offset:
+      top: () ->
+        offsetTop      = $('#main-bar').offset().top
+        sideBarMargin  = parseInt($sideBar.children(0).css('margin-top'), 10)
+        navOuterHeight = $('.navbar-fixed-top').height()
+
+        return (this.top = offsetTop - navOuterHeight - sideBarMargin)
+      bottom: () ->
+        return (this.bottom = parseInt($(document.body).css('padding-bottom')))
+  )
+
+
+  # if $('.bs-sidebar').length > 0
+  #   $('[data-spy~="affix"]').affix( offset: { top: $('.bs-sidebar').position().top - 40 } )
 
 jQuery ->
   $("#sheet_design_id").on('change', () ->

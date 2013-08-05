@@ -10,10 +10,10 @@
 
 <% if show_navigation %>
 <div class="row">
-  <div class="col-lg-3 bs-docs-sidebar">
+  <div class="col-lg-3">
     <%= render partial: 'designs/navigation' %>
   </div>
-  <div class="col-lg-9">
+  <div class="col-lg-9" id="main-bar">
 <% end %>
 
 <% @design.options.each do |option| %>
