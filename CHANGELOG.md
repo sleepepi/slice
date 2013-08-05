@@ -6,6 +6,7 @@
 - **Project Changes**
   - Project emails field was removed since it is no longer used
   - Project settings page removed and consolidated with project show page
+  - Project splash now displays a number of recent valid entries made for a project
 
 ## 0.19.0 (August 1, 2013)
 

@@ -42,6 +42,10 @@ class Project < ActiveRecord::Base
 
   # Model Methods
 
+  def recent_sheets
+    self.sheets.with_subject_status('valid').where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+  end
+
   def editable_by?(current_user)
     @editable_by ||= begin
       current_user.all_projects.where(id: self.id).count == 1
