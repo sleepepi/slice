@@ -3,144 +3,159 @@
 <div class="form-group">
   <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :name, maxlength: 32, style: 'width:225px' %>
-    <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 32 characters.</div>
-    <i>var1_population</i>
+    <%= f.text_field :name, maxlength: 32, class: 'form-control' %>
+    <div class="bs-callout bs-callout-info">
+      <h4>Naming convention</h4>
+
+      <ul>
+        <li>Must be a letter <code>a-zA-Z</code> followed by letters <code>a-zA-Z</code>, numbers<code>0-9</code>, or underscores<code>_</code>.</li>
+        <li>Max length <b>32 characters</b>.</li>
+      </ul>
+      Ex: <code>var1_population</code>
+    </div>
   </div>
 </div>
 
 <div class="form-group">
   <%= f.label :display_name, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :display_name, style: 'width:95%' %>
+    <%= f.text_field :display_name, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group">
   <%= f.label :display_name_visibility, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.select :display_name_visibility, Variable::DISPLAY_NAME_VISIBILITY %>
+    <%= f.select :display_name_visibility, Variable::DISPLAY_NAME_VISIBILITY, {}, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group">
   <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    <%= f.text_area :description, rows: 7, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group">
   <%= f.label :variable_type, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.select :variable_type, [['---', nil]] + Variable::TYPE %>
+    <%= f.select :variable_type, [['---', nil]] + Variable::TYPE, {}, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="prepend-append">
   <%= f.label :prepend, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :prepend %>
+    <%= f.text_field :prepend, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="prepend-append">
   <%= f.label :append, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :append %>
+    <%= f.text_field :append, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
   <%= f.label :hard_minimum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.number_field :hard_minimum %>
+    <%= f.number_field :hard_minimum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
   <%= f.label :hard_maximum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.number_field :hard_maximum %>
+    <%= f.number_field :hard_maximum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
   <%= f.label :soft_minimum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.number_field :soft_minimum %>
+    <%= f.number_field :soft_minimum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
   <%= f.label :soft_maximum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.number_field :soft_maximum %>
+    <%= f.number_field :soft_maximum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="calculated-or-number">
   <%= f.label :units, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :units %>
+    <%= f.text_field :units, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date-or-time">
-  <%= f.label :show_current_button, "Show Current Date/Time", class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
-    <%= f.check_box :show_current_button %>
+  <div class="col-lg-10 col-offset-2">
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :show_current_button %>
+        Show Current Date/Time
+      </label>
+    </div>
   </div>
 </div>
 
 <div class="form-group" data-object="date">
   <%= f.label :date_hard_minimum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :date_hard_minimum, class: 'datepicker', value: @variable.date_hard_minimum ? @variable.date_hard_minimum.strftime('%m/%d/%Y') : '' %>
+    <%= f.text_field :date_hard_minimum, class: 'datepicker form-control', value: @variable.date_hard_minimum ? @variable.date_hard_minimum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date">
   <%= f.label :date_hard_maximum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :date_hard_maximum, class: 'datepicker', value: @variable.date_hard_maximum ? @variable.date_hard_maximum.strftime('%m/%d/%Y') : '' %>
+    <%= f.text_field :date_hard_maximum, class: 'datepicker form-control', value: @variable.date_hard_maximum ? @variable.date_hard_maximum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date">
   <%= f.label :date_soft_minimum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :date_soft_minimum, class: 'datepicker', value: @variable.date_soft_minimum ? @variable.date_soft_minimum.strftime('%m/%d/%Y') : '' %>
+    <%= f.text_field :date_soft_minimum, class: 'datepicker form-control', value: @variable.date_soft_minimum ? @variable.date_soft_minimum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date">
   <%= f.label :date_soft_maximum, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :date_soft_maximum, class: 'datepicker', value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime('%m/%d/%Y') : '' %>
+    <%= f.text_field :date_soft_maximum, class: 'datepicker form-control', value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="calculated">
   <%= f.label :calculation, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :calculation, style: 'width:95%',
-        rel: "popover", data: { content: "
-        <table class='table table-bordered'>
-        <tbody>
-          <tr><td style='font-weight:bold'>General</td><td>var1 + var2</td></tr>
-          <tr><td style='font-weight:bold'>Missing Values</td><td>var1 == -9 ? -9 : var1 + var2</td></tr>
-          <tr><td style='font-weight:bold'>Parentheses</td><td>(var1 + var2) / var3</td></tr>
-        </tbody>
-        </table>
-        ", title: "Calculation Examples", placement: 'bottom', html: true } %>
+    <%= f.text_field :calculation, class: 'form-control' %>
+    <div class="bs-callout bs-callout-info">
+      <h4>Calculation Examples</h4>
+
+      <dl class="dl-horizontal">
+        <dt>General</dt>
+        <dd><code>var1 + var2</code></dd>
+
+        <dt>Missing Values</dt>
+        <dd><code>var1 == -9 ? -9 : var1 + var2</code></dd>
+
+        <dt>Parentheses</dt>
+        <dd><code>(var1 + var2) / var3</code></dd>
+    </div>
   </div>
 </div>
 
 <div class="form-group" data-object="calculated">
   <%= f.label :format, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :format, style: 'width:95%',
+    <%= f.text_field :format, class: 'form-control',
         rel: "popover", data: { content: "
         <table class='table table-bordered'>
         <tbody>
@@ -149,6 +164,22 @@
         </tbody>
         </table>
         ", title: "Calculation Examples", placement: 'bottom', html: true } %>
+    <div class="bs-callout bs-callout-info">
+      <h4>Format Examples</h4>
+
+      <dl class="dl-horizontal">
+        <dt>Precision</dt>
+        <dd>
+          <code>%0.02f</code>
+          <p>4.127 => 4.13</p>
+        </dd>
+
+        <dt>Leading Zeros</dt>
+        <dd>
+          <code>%04d</code>
+          <p>45 => 0045</p>
+        </dd>
+    </div>
   </div>
 </div>
 
@@ -160,8 +191,8 @@
         <strong>Heads up!</strong> In order to have choices, variables need to be associated to a domain of options. Variables can share domains. <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-mini' %>
       </div>
     <% else %>
-      <%= f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] } %>
-      <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-mini' %>
+      <%= f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] }, {}, class: 'form-control' %>
+      <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-mini', target: '_blank' %>
       <% if @variable.captured_values.size > 0 %>
         <div class="row">
           <div class="col-lg-3">
@@ -191,21 +222,29 @@
 <div class="form-group" data-object="checkbox-or-radio">
   <%= f.label :alignment, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.select :alignment, Variable::ALIGNMENT %>
+    <%= f.select :alignment, Variable::ALIGNMENT, {}, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="grid">
-  <%= f.label :multiple_rows, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
-    <%= f.check_box :multiple_rows %>
+  <div class="col-lg-10 col-offset-2">
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :multiple_rows %>
+        Multiple Rows
+      </label>
+    </div>
   </div>
 </div>
 
 <div class="form-group" data-object="grid">
-  <%= f.label :default_row_number, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
-    <%= f.text_field :default_row_number %>
+  <div class="col-lg-10 col-offset-2">
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :default_row_number %>
+        Default Row Number
+      </label>
+    </div>
   </div>
 </div>
 
@@ -226,7 +265,7 @@
 <div class="form-group" data-object="autocomplete">
   <%= f.label :autocomplete_values, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_area :autocomplete_values, rows: 7, style: 'width:95%', rel: "tooltip", title: "Line-separated Strings" %>
+    <%= f.text_area :autocomplete_values, rows: 7, style: 'width:95%', rel: "tooltip", title: "Line-separated Strings", class: 'form-control' %>
   </div>
 </div>
 

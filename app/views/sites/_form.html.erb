@@ -18,42 +18,50 @@
   <div class="form-group">
     <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :name %>
+      <%= f.text_field :name, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :prefix, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Prefix', class: 'col-lg-2 control-label' %>
+    <%= f.label :prefix, 'Site Prefix', class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :prefix %>
+      <%= f.text_field :prefix, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :code_minimum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Minimum', class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :code_minimum %>
-      <span class="help-inline"><span class="label label-info">Heads up!</span> Don't include the prefix.</span>
+      <%= f.text_field :code_minimum, class: 'form-control' %>
+      <div class="bs-callout bs-callout-info">
+        <h4>Heads up!</h4>
+        Do not include the site prefix.
+      </div>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :code_maximum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Maximum', class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :code_maximum %>
-      <span class="help-inline"><span class="label label-info">Heads up!</span> Don't include the prefix.</span>
+      <%= f.text_field :code_maximum, class: 'form-control' %>
+      <div class="bs-callout bs-callout-info">
+        <h4>Heads up!</h4>
+        Do not include the site prefix.
+      </div>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+      <%= f.text_area :description, rows: 7, class: 'form-control' %>
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
-    <%= cancel %>
+  <div class="form-group">
+    <div class="col-lg-10 col-offset-2">
+      <%= f.submit nil, class: 'btn btn-primary' %>
+      <%= cancel %>
+    </div>
   </div>
 <% end %>

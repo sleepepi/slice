@@ -2,5 +2,5 @@
 <% designs = current_user.all_viewable_designs %>
 <% designs = designs.with_project(params[:project_id]) unless params[:project_id].blank? %>
 <div class="col-lg-10">
-  <%= select_tag :without_design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, params[:without_design_id] ), data: { object: 'filter' } %>
+  <%= select_tag :without_design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, params[:without_design_id] ), data: { object: 'filter' }, class: 'form-control' %>
 </div>

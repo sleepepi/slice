@@ -3,12 +3,11 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
-      <th># Designs</th>
+      <th style="white-space:nowrap"># Designs</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.name', 'Name', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.display_name', 'Display Name', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.variable_type', 'Variable Type', 'variables_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.options', 'Options', 'variables_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'variables.user_id', 'Creator', 'variables_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -25,8 +24,7 @@
           <%= render partial: "sheet_variables/form/#{variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" } %>
         <% end %>
       </td>
-      <td><%= link_to variable.user.name, variable.user if variable.user %></td>
-      <td>
+      <td style="white-space:nowrap">
         <%= link_to 'Copy', copy_project_variable_path(variable.project, variable), class: 'btn btn-default btn-mini' %>
         <% if variable.editable_by?(current_user) %>
           <%= link_to 'Edit', edit_project_variable_path(variable.project, variable), class: 'btn btn-default btn-mini' %>

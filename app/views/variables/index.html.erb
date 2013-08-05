@@ -6,44 +6,32 @@
   </h1>
 </div>
 
-<%= form_tag project_variables_path(@project), method: :get, remote: true, id: "variables_search", class: 'form-inline', data: { object: 'form-load' } do %>
+<%= form_tag project_variables_path(@project), method: :get, remote: true, id: "variables_search", class: 'form-horizontal', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
-  <div class="row">
-    <div class="col-lg-4 form-group">
+    <div class="form-group">
       <%= label :search, 'Search', class: 'col-lg-2 control-label' %>
       <div class="col-lg-10">
         <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
       </div>
     </div>
 
-    <div class="col-lg-4 form-group">
-      <%= label :user_id, 'Creator', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
-        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_variable_on_project(@project.id).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' } %>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-lg-4 form-group">
+    <div class="form-group">
       <%= label :variable_type, 'Variable Type', class: 'col-lg-2 control-label' %>
       <div class="col-lg-10">
         <%= hidden_field_tag :variable_type, params[:variable_type], data: { object: 'filter' } %>
-        <%#= select_tag :variable_type, options_for_select([['---', nil]] + Variable::TYPE, params[:variable_type]), data: { object: 'filter' } %>
-        <div class="btn-toolbar">
-          <div class="btn-group" data-toggle="buttons-radio">
-            <% ([['ALL', nil]] + Variable::TYPE).each do |label, value| %>
-              <button data-object="set-variable-type" data-value="<%= value %>" <%= "id='variable-type-all'".html_safe if value.blank? %> data-target="#variables_search" class="btn btn-mini <%= 'active' if params[:variable_type].to_s == value.to_s %>"><%= label %></button>
-            <% end %>
-          </div>
+        <div class="btn-group" data-toggle="buttons-radio">
+          <% ([['ALL', nil]] + Variable::TYPE).each do |label, value| %>
+            <button data-object="set-variable-type" data-value="<%= value %>" <%= "id='variable-type-all'".html_safe if value.blank? %> data-target="#variables_search" class="btn btn-mini <%= 'active' if params[:variable_type].to_s == value.to_s %>"><%= label %></button>
+          <% end %>
         </div>
       </div>
-    </div>
   </div>
 
-  <div class="form-actions">
-    <%= submit_tag 'Search', class: 'btn btn-primary' %>
-    <%= link_to 'Reset', '#', class: 'btn', data: { target: '#variables_search', object: 'reset-filters' } %>
+  <div class="form-group">
+    <div class="col-lg-10 col-offset-2">
+      <%= submit_tag 'Search', class: 'btn btn-primary' %>
+      <%= link_to 'Reset', '#', class: 'btn btn-cancel', data: { target: '#variables_search', object: 'reset-filters' } %>
+    </div>
   </div>
 <% end %>
 

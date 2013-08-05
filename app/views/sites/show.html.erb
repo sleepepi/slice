@@ -14,7 +14,7 @@
   <dt>Name</dt>
   <dd><%= @site.name %></dd>
 
-  <dt><%= @site.project.subject_code_name_full %> Prefix</dt>
+  <dt>Site Prefix</dt>
   <dd><%= @site.prefix %></dd>
 
   <dt><%= @site.project.subject_code_name_full %>  Minimum</dt>
@@ -37,7 +37,7 @@
       Site Members
       <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
         <span style="white-space:nowrap">
-          <%= text_field_tag :invite_email, nil, placeholder: 'Email' %>
+          <%= text_field_tag :invite_email, nil, placeholder: 'Email', class: 'form-control' %>
           <%= submit_tag 'Send Invitation', class: 'btn btn-primary' %>
         </span>
       <% end %>
