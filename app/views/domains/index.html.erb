@@ -9,19 +9,10 @@
 <%= form_tag project_domains_path(@project), method: :get, remote: true, id: "domains_search", class: 'form-inline', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
 
-  <div class="row">
-    <div class="col-lg-4 form-group">
-      <%= label :search, 'Search', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
-        <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
-      </div>
-    </div>
-  </div>
+  <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <%= link_to 'Reset', '#', class: 'btn btn-cancel', data: { target: '#domains_search', object: 'reset-filters' } %>
 
-  <div class="form-actions">
-    <%= submit_tag 'Search', class: 'btn btn-primary' %>
-    <%= link_to 'Reset', '#', class: 'btn btn-cancel', data: { target: '#domains_search', object: 'reset-filters' } %>
-  </div>
 <% end %>
 
 <div id="domains"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>

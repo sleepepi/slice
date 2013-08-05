@@ -20,16 +20,23 @@
   <div class="form-group">
     <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :name, maxlength: 30, style: 'width:225px' %>
-      <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 30 characters.</div>
-      <i>domain1_population</i>
+      <%= f.text_field :name, maxlength: 30, class: 'form-control' %>
+      <div class="bs-callout bs-callout-info">
+        <h4>Naming convention</h4>
+
+        <ul>
+          <li>Must be a letter <code>a-zA-Z</code> followed by letters <code>a-zA-Z</code>, numbers<code>0-9</code>, or underscores<code>_</code>.</li>
+          <li>Max length <b>30 characters</b>.</li>
+        </ul>
+        Ex: <code>domain1_population</code>
+      </div>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+      <%= f.text_area :description, rows: 7, class: 'form-control' %>
     </div>
   </div>
 
@@ -45,8 +52,10 @@
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
-    <%= cancel %>
+  <div class="form-group">
+    <div class="col-lg-10 col-offset-2">
+      <%= f.submit nil, class: 'btn btn-primary' %>
+      <%= cancel %>
+    </div>
   </div>
 <% end %>

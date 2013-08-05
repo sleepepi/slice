@@ -18,32 +18,36 @@
   <div class="form-group">
     <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_field :name %>
+      <%= f.text_field :name, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+      <%= f.text_area :description, rows: 7, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :archived, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <%= f.check_box :archived %>
-      <% if @post.new_record? %>
-        <span class="help-inline">
-          <span class="label label-info">Heads up!</span>
-          New posts will be <strong>emailed</strong> to project and site members unless the post is created as an archived post.
-        </span>
-      <% end %>
+    <div class="col-lg-10 col-offset-2">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :archived %>
+          Archived
+        </label>
+      </div>
+      <div class="bs-callout bs-callout-info">
+        <h4>Heads up!</h4>
+        New posts will be <b>emailed</b> to project and site members unless the post is created as an <b>archived post</b>.
+      </div>
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
-    <%= cancel %>
+  <div class="form-group">
+    <div class="col-lg-10 col-offset-2">
+      <%= f.submit nil, class: 'btn btn-primary' %>
+      <%= cancel %>
+    </div>
   </div>
 <% end %>
