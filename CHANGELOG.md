@@ -2,7 +2,7 @@
 
 ### Enhancements
 - **Gem Changes**
-  - Updated to contour 2.1.0.beta3
+  - Updated to contour 2.1.0.beta4
 - **Project Changes**
   - Project emails field was removed since it is no longer used
   - Project settings page removed and consolidated with project show page
