@@ -1,14 +1,18 @@
-<% @title = "Export: #{@export.name}" %>
+<% @title = @export.name %>
 <div class="page-header">
   <h1>
-    <%= @title %>
-    <%= link_to "Mark Unread", mark_unread_export_path(@export), method: :post, class: 'btn btn-mini btn-inverse' if @export.status == 'ready' %>
+    <%= link_to "Exports", exports_path %> &middot; <%= @title %>
+    <%= link_to "Mark Unread", mark_unread_export_path(@export), method: :post, class: 'btn btn-mini btn-default' if @export.status == 'ready' %>
     <% if false %><%= link_to "Edit Export", edit_export_path(@export), class: 'btn btn-default btn-mini' %><% end %>
     <%= link_to "Delete Export", @export, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
-    <%= link_to "View Exports", exports_path, class: 'btn btn-default btn-mini' %>
-    <span class="label label-<%= @export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'important') %>"><%= @export.status %></span>
+    <span class="pull-right label label-<%= @export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'danger') %>"><%= @export.status %></span>
   </h1>
 </div>
+
+<dl class="dl-horizontal" style="margin-bottom: 0px;">
+  <dt>Project</dt>
+  <dd><%= link_to @export.project.name, @export.project if @export.project %></dd>
+</dl>
 
 <div id="progress" id="progress" data-object="<%= 'ajax-timer' if @export.total_steps != @export.steps_completed %>" data-path="<%= progress_export_path(@export) %>">
   <%= render partial: 'exports/progress' %>
@@ -36,13 +40,5 @@
 
   <dt>SAS</dt>
   <dd><%= simple_check @export.include_sas %></dd>
-
-<% if false %>
-  <dt>User</dt>
-  <dd><%= link_to @export.user.name, @export.user if @export.user %></dd>
-<% end %>
-
-  <dt>Project</dt>
-  <dd><%= link_to @export.project.name, @export.project if @export.project %></dd>
 
 </dl>

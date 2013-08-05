@@ -4,11 +4,11 @@
 <% status = "warning" if percent >= 33 %>
 <% status = "success" if percent == 100 %>
 
-<dl class="dl-horizontal" style="margin-bottom: 0px;">
+<dl class="dl-horizontal" style="margin-top: 0px; margin-bottom: 0px;">
   <dt>Export Progress</dt>
   <dd>
-    <div class="progress progress-striped active" style="margin-bottom: 0px;">
-      <div class="bar bar-<%= status %>" style="width: <%= percent %>%;"><%= @export.steps_completed %> of <%= @export.total_steps %> (<%= percent %>%)</div>
+    <div class="progress progress-striped" style="margin-bottom: 0px;">
+      <div class="progress-bar progress-bar-<%= status %>" style="width: <%= percent %>%;"><%= @export.steps_completed %> of <%= @export.total_steps %> (<%= percent %>%)</div>
     </div>
   </dd>
 

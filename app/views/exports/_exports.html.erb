@@ -21,7 +21,7 @@
 
   <% @exports.each do |export| %>
     <tr class="<%= 'success' if not export.viewed? and export.status == 'ready' %><%= 'warning' if export.status == 'pending' %>">
-      <td><span class="label label-<%= export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'important') %>"><%= export.status %></span></td>
+      <td><span class="label label-<%= export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger') %>"><%= export.status %></span></td>
       <td><%= link_to export.name, export %></td>
       <td><%= simple_check export.include_xls %></td>
       <td><%= simple_check export.include_csv_labeled %></td>
@@ -43,8 +43,7 @@
       </td>
       <td><%= link_to export.project.name, export.project if export.project %></td>
       <td>
-        <% if false %><%= link_to 'Edit', edit_export_path(export), class: 'btn btn-default btn-mini' %><% end %>
-        <%= link_to 'Delete', export, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{export.name}?" } %>
+        <%= link_to 'Delete', export, method: :delete, class: 'btn btn-mini btn-danger-inverse btn-block', data: { confirm: "Are you sure you want to delete Export #{export.name}?" } %>
       </td>
     </tr>
   <% end %>
