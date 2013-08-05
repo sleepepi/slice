@@ -1,9 +1,21 @@
-<% links = @design.sections.collect{|opt| { name: opt[:section_name] , href: "##{opt[:section_id]}" }} %>
+<% links = @design.sections.collect{|opt| { name: opt[:section_name], href: "##{opt[:section_id]}" }} %>
 
 <div class="bs-sidebar affix">
   <ul class="nav bs-sidenav">
     <% links.each_with_index do |link_hash, index| %>
-      <li><%= link_to link_hash[:name].html_safe, link_hash[:href], tabindex: "-1", data: { object: 'sidebar-link' } %></li>
+      <li>
+        <%= link_to link_hash[:name].html_safe, link_hash[:href], tabindex: "-1", data: { object: 'sidebar-link' } %>
+        <% subsections = @design.subsections(link_hash[:name]) %>
+        <% if subsections.size > 0 %>
+          <ul class="nav">
+            <% subsections.each do |subsection| %>
+              <li>
+                <%= link_to subsection[:section_name].to_s.html_safe, "##{subsection[:section_id]}", tabindex: "-1", data: { object: 'sidebar-link' } %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 </div>

@@ -253,6 +253,18 @@ class Design < ActiveRecord::Base
     end
   end
 
+  def subsections(section_name)
+    section_index = (self.options.index{|opt| opt[:section_name] == section_name} + 1) rescue nil
+    section_subsections = []
+    if section_index >= 0
+      self.options[section_index..-1].select{|o| not o[:section_name].blank?}.each do |option|
+        break if option[:section_type].to_i == 0
+        section_subsections << option
+      end
+    end
+    section_subsections
+  end
+
   def sections
     self.options.select{|option| not option[:section_name].blank? and option[:section_type].to_i == 0}
   end
