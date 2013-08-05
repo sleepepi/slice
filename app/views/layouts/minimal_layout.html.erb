@@ -15,15 +15,11 @@
     <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   </head>
   <body>
-    <% if true %>
-      <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container">
-            <div class="brand"><%= @title %></div>
-          </div>
-        </div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-brand"><%= @title %></div>
       </div>
-    <% end %>
+    </div>
 
     <div class="container" style="position:relative">
       <div class="flash-block" data-object="flash-container">

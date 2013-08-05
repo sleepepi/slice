@@ -1,9 +1,11 @@
-<div class="page-header">
-  <h2>
-    <%= @design.name %>
-  </h2>
-  <%= simple_markdown @design.description unless @design.description.blank? %>
-</div>
+<% unless params[:header] == '0' %>
+  <div class="page-header">
+    <h2>
+      <%= @design.name %>
+    </h2>
+    <%= simple_markdown @design.description unless @design.description.blank? %>
+  </div>
+<% end %>
 
 <% show_navigation = (@design.sections.size > 1) %>
 
