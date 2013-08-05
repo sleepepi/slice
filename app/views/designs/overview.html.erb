@@ -2,25 +2,30 @@
 <div class="page-header">
   <%= form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-inline', data: { object: 'form-load' } do %>
   <div class="form-group pull-right">
-    <%= label :statuses, 'Status', class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
-      <div class="btn-group" data-toggle="buttons-checkbox">
-        <% Subject::STATUS.each do |label, value| %>
-          <button data-object="set-statuses" data-value="<%= value %>" data-target="#design_overview_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
-            <%= label.humanize %>
-            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
-          </button>
-        <% end %>
-      </div>
+    Status
+    <div class="btn-group" data-toggle="buttons-checkbox">
+      <% Subject::STATUS.each do |label, value| %>
+        <button data-object="set-statuses" data-value="<%= value %>" data-target="#design_overview_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
+          <%= label.humanize %>
+          <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
+        </button>
+      <% end %>
     </div>
   </div>
   <% end %>
 
   <h2>
-    <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@design.project, @design] %> Overview
+    <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@design.project, @design] %>
   </h2>
-  <%= simple_markdown @design.description unless @design.description.blank? %>
+
 </div>
+
+<div class="bs-callout bs-callout-info">
+  <h4><%= @design.name %> Overview Report</h4>
+
+   <%= simple_markdown @design.description unless @design.description.blank? %>
+</div>
+
 
 <div id="design_overview">
   <div class="center"><%= image_tag "contour/ajax-loader.gif" %></div>
