@@ -35,7 +35,7 @@
   font-weight: bold;
   color: #57b0eb;
   background-color: transparent;
-  border-right: 4px solid #57b0eb;
+  border-right: 1px solid #57b0eb;
 }
 
 /* Nav: second level (shown on .active) */

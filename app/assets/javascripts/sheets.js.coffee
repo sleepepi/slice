@@ -110,5 +110,8 @@ jQuery ->
       $(this).attr('disabled', 'disabled')
       false
     )
+    .on('click', '[data-object~="sidebar-link"]', () ->
+      $(this).blur()
+    )
 
   initializeSheet()

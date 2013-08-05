@@ -3,7 +3,7 @@
 <div class="bs-sidebar affix">
   <ul class="nav bs-sidenav">
     <% links.each_with_index do |link_hash, index| %>
-      <li><%= link_to link_hash[:name].html_safe, link_hash[:href], tabindex: "-1" %></li>
+      <li><%= link_to link_hash[:name].html_safe, link_hash[:href], tabindex: "-1", data: { object: 'sidebar-link' } %></li>
     <% end %>
   </ul>
 </div>
