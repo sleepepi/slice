@@ -33,9 +33,9 @@ Contour.setup do |config|
     #   name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
     #   links: [{ name: 'Create Project', path: 'new_project_path' }]
     # },
-    {
-      name: 'Reports', display: 'signed_in', path: 'reports_path', position: 'left'
-    },
+    # {
+    #   name: 'Reports', display: 'signed_in', path: 'reports_path', position: 'left'
+    # },
     {
       name: '"Exports#{" <span class=\'badge badge-success\'>#{current_user.unviewed_active_exports.size}</span>" if current_user.unviewed_active_exports.size > 0}#{" <span class=\'badge badge-warning\'>#{current_user.unviewed_pending_exports.size}</span>" if current_user.unviewed_pending_exports.size > 0}".html_safe', eval: true, display: 'signed_in', path: 'exports_path', position: 'left'
     },

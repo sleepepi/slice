@@ -24,7 +24,7 @@
 
   <div class="form-group">
     <%= f.label :category, nil, class: 'col-lg-2 control-label' %>
-    <div class="controls sheet-container">
+    <div class="form-group sheet-container">
       <%= f.text_field :category, autocomplete: "off", data: { provide: "typeahead", source: @document.project.documents.pluck(:category).uniq.to_json } %>
       <% unless @document.new_record? %>
         <label class="checkbox inline <%= 'selected' if params[:rename_category] == '1' %>"><%= check_box_tag :rename_category, '1', params[:rename_category] == '1' %> Rename Category - select if you want rename this category for all documents using it.</label>
@@ -34,7 +34,7 @@
 
   <div class="form-group">
     <%= f.label :file, nil, class: 'col-lg-2 control-label' %>
-    <div class="controls sheet-container">
+    <div class="form-group sheet-container">
       <%= f.file_field :file %>
       <%= f.hidden_field :file_cache %>
       <% if @document.file? and @document.file.file %><label class="radio inline selected" style="padding-left: 10px;" id="existing-file"><%= @document.file.file.filename %> - <%= number_to_human_size(@document.file.size) %></label><% end %>
