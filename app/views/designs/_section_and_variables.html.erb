@@ -1,8 +1,7 @@
 <% unless params[:header] == '0' %>
-  <div class="page-header">
-    <h2>
-      <%= @design.name %>
-    </h2>
+  <div class="bs-callout bs-callout-info">
+    <h4><%= @design.name %></h4>
+
     <%= simple_markdown @design.description unless @design.description.blank? %>
   </div>
 <% end %>
