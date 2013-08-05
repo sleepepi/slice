@@ -9,8 +9,8 @@
 
 <%= form_for @design, url: create_import_project_designs_path(@project), method: :post, html: { class: 'form-horizontal', multipart: true } do |f| %>
   <% if @design.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@design.errors.count, "error") %> prohibited this design from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@design.errors.count, "error") %> prohibited this design from being saved</h4>
 
       <ul>
       <% @design.errors.full_messages.each do |msg| %>

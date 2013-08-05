@@ -4,8 +4,8 @@
 
 <%= form_for @site_user, html: { class: 'form-horizontal' } do |f| %>
   <% if @site_user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@site_user.errors.count, "error") %> prohibited this site_user from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@site_user.errors.count, "error") %> prohibited this site_user from being saved</h4>
 
       <ul>
       <% @site_user.errors.full_messages.each do |msg| %>

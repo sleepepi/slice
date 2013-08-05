@@ -7,8 +7,8 @@
 
 <%= form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: "multipart/form-data" }) do |f| %>
   <% if @sheet.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@sheet.errors.count, "error") %> prohibited this sheet from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@sheet.errors.count, "error") %> prohibited this sheet from being saved</h4>
 
       <ul>
       <% @sheet.errors.full_messages.each do |msg| %>
@@ -25,7 +25,7 @@
       <%= f.label :design_id, nil, class: 'col-lg-2 control-label' %>
       <div class="col-lg-10">
         <% designs = current_user.all_viewable_designs.with_project(@project.id) %>
-        <%= select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)) %>
+        <%= select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)), {}, class: 'form-control' %>
       </div>
     </div>
   <% end %>
@@ -33,7 +33,7 @@
   <div class="form-group">
     <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-lg-2 control-label', id: 'subject_code_name_full' %>
     <div class="col-lg-10">
-      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { provide: "typeaheadmap", source: @project.subjects.collect{|s| { key: s.subject_code, value: html_escape(s.subject_code.to_s + (@project.acrostic_enabled? ? (s.acrostic.blank? ? "" : ": #{s.acrostic}") : "") + (s.email.blank? ? '' : " <#{s.email}>")) }}.to_json } %>
+      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { provide: "typeaheadmap", source: @project.subjects.collect{|s| { key: s.subject_code, value: html_escape(s.subject_code.to_s + (@project.acrostic_enabled? ? (s.acrostic.blank? ? "" : ": #{s.acrostic}") : "") + (s.email.blank? ? '' : " <#{s.email}>")) }}.to_json }, class: 'form-control' %>
       <span id="subject_id_info" class="help-inline"></span>
       <% if @project.sites_with_range.size > 0 %>
         <div class="help-block" style="padding-top:5px">

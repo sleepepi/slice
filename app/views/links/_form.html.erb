@@ -4,8 +4,8 @@
 
 <%= form_for [@link.project, @link], html: { class: 'form-horizontal' } do |f| %>
   <% if @link.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@link.errors.count, "error") %> prohibited this link from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@link.errors.count, "error") %> prohibited this link from being saved</h4>
 
       <ul>
       <% @link.errors.full_messages.each do |msg| %>

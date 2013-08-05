@@ -4,8 +4,8 @@
 
 <%= form_for [@document.project, @document], html: { class: 'form-horizontal' } do |f| %>
   <% if @document.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@document.errors.count, "error") %> prohibited this document from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@document.errors.count, "error") %> prohibited this document from being saved</h4>
 
       <ul>
       <% @document.errors.full_messages.each do |msg| %>
