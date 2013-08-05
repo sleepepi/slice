@@ -50,11 +50,8 @@
   loadAffix()
 
 @loadAffix = () ->
-  $window = $(window)
-  $body   = $(document.body)
-
-  $body.scrollspy(
-    target: '.bs-sidebar',
+  $(document.body).scrollspy(
+    target: '.bs-sidebar'
     offset: $('.navbar').outerHeight(true) + 10
   )
 
@@ -66,10 +63,12 @@
         offsetTop      = $('#main-bar').offset().top
         sideBarMargin  = parseInt($sideBar.children(0).css('margin-top'), 10)
         navOuterHeight = $('.navbar-fixed-top').height()
-
         return (this.top = offsetTop - navOuterHeight - sideBarMargin)
       bottom: () ->
         return (this.bottom = parseInt($(document.body).css('padding-bottom')))
+  )
+  $('[data-spy="scroll"]').each( () ->
+    $spy = $(this).scrollspy('refresh')
   )
 
 
