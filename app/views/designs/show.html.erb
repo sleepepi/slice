@@ -38,19 +38,15 @@
   </dl>
 <% end %>
 
-<span class="pagination">
-  <ul>
-    <li><a href="#" id="sections_link">Sections</a></li>
-    <li class="active"><a href="#"><%= @design.section_names.count %></a></li>
-  </ul>
-</span>
+<ul class="pagination">
+  <li><a href="#" id="sections_link">Sections</a></li>
+  <li class="active"><a href="#"><%= @design.section_names.count %></a></li>
+</ul>
 
-<span class="pagination">
-  <ul>
-    <li class="disabled"><a href="#" id="variables_link">Variables</a></li>
-    <li class="active"><a href="#"><%= @design.variable_ids.count %></a></li>
-  </ul>
-</span>
+<ul class="pagination">
+  <li class="disabled"><a href="#" id="variables_link">Variables</a></li>
+  <li class="active"><a href="#"><%= @design.variable_ids.count %></a></li>
+</ul>
 
 <%= link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary', disabled: 'disabled', style: 'margin-top:4px;margin-bottom:4px;vertical-align:top' %>
 <%= link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary', disabled: 'disabled', style: 'margin-top:4px;margin-bottom:4px;vertical-align:top;display:none' %>
