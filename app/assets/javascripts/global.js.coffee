@@ -146,7 +146,6 @@ jQuery ->
 
   initializeTypeahead();
 
-  # $("[rel~=popover]").popover( offset: 10, trigger: 'focus' )
   $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
 
   window.$isDirty = false
@@ -161,11 +160,4 @@ jQuery ->
     window.onbeforeunload = (el) ->
       if window.$isDirty
         return msg
-  )
-
-  # $(".datepicker").datepicker( "option", "onClose", (dateText, inst) -> $(this).focus() )
-
-  $('[data-object~="typeaheadmap"]').each( () ->
-    $this = $(this)
-    $this.typeaheadmap( source: $this.data('source'), "key": "key", "value": "value" )
   )

@@ -32,9 +32,6 @@ Slice::Application.routes.draw do
     resources :links
 
     resources :sheets do
-      collection do
-        post :project_selection
-      end
       member do
         get :print
         post :remove_file

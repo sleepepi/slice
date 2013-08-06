@@ -81,11 +81,6 @@ jQuery ->
     false
   )
 
-  $("#sheet_subject_id").on('change', () ->
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/sheets/project_selection', $("sheet_design_id").serialize() + $("#hidden_sheet_id").serialize() + '&' + $("#sheet_subject_id").serialize() + '&' + $("#sheet_design_id").serialize(), null, "script")
-    false
-  )
-
   $(document)
     .on('click', '[data-object~="export"]', () ->
       url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
@@ -112,5 +107,11 @@ jQuery ->
     .on('click', '[data-object~="sidebar-link"]', () ->
       $(this).blur()
     )
+
+  $("#sheet_subject_id").typeahead(
+    local: $("#sheet_subject_id").data('local')
+    template: '<p><strong>{{value}}</strong> <span class="pull-right label label-{{status_class}}">{{status}}</span></p>'
+    engine: Hogan
+  )
 
   initializeSheet()

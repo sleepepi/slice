@@ -7,46 +7,6 @@ class SheetsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
-  test "should get project selection" do
-    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:disable_selection)
-    assert_nil assigns(:sheet_id)
-    assert_nil assigns(:design)
-    assert_template 'project_selection'
-  end
-
-  test "should get project selection with design selected" do
-    post :project_selection, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, sheet: { design_id: @sheet.design_id }, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:disable_selection)
-    assert_nil assigns(:sheet_id)
-    assert_not_nil assigns(:design)
-    assert_template 'project_selection'
-  end
-
-  test "should get project selection for existing sheet" do
-    post :project_selection, sheet_id: @sheet, project_id: @sheet.project_id, subject_code: @sheet.subject.subject_code, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:disable_selection)
-    assert_not_nil assigns(:sheet_id)
-    assert_not_nil assigns(:design)
-    assert_template 'project_selection'
-  end
-
-  test "should get project selection for valid subject code for a new subject" do
-    post :project_selection, project_id: projects(:one), subject_code: 'A200', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:subject)
-    assert_not_nil assigns(:disable_selection)
-    assert_not_nil assigns(:site)
-    assert_equal true, assigns(:subject_code_valid)
-    assert_template 'project_selection'
-  end
-
   test "should get raw csv" do
     assert_difference('Export.count') do
       get :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'

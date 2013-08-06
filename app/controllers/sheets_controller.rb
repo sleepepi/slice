@@ -1,29 +1,11 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print ]
-  before_action :set_editable_project, only: [ :edit, :project_selection, :audits, :new, :remove_file, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :project_selection, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :set_editable_project, only: [ :edit, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :new, :remove_file, :create, :update, :destroy ]
   before_action :set_viewable_sheet, only: [ :show, :print ]
   before_action :set_editable_sheet, only: [ :edit, :audits, :remove_file, :update, :destroy ]
   before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :remove_file, :update, :destroy ]
-
-  def project_selection
-    @subject = @project.subjects.find_by_subject_code(params[:subject_code])
-    @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
-    if @sheet
-      @sheet_id = @sheet.id
-      @design = @sheet.design
-    else
-      @sheet_id = nil
-      @design = @project.designs.find_by_id(params[:sheet][:design_id]) if params[:sheet]
-    end
-
-    @site = @project.sites.find_by_id(@project.site_id_with_prefix(params[:subject_code]))
-
-    @subject_code_valid = (@site and @site.valid_subject_code?(params[:subject_code]) ? true : false)
-
-    @disable_selection = (params[:select] != '1')
-  end
 
   # GET /sheets
   # GET /sheets.json
