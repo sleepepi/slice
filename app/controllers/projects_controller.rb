@@ -1,11 +1,16 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter ] # :update_filter
+  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite ] # :update_filter
   before_action :set_editable_project, only: [ :edit, :update, :destroy, :remove_file ]
-  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter ] # :update_filter
+  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite ] # :update_filter
 
   # Concerns
   include Buildable
+
+  def favorite
+    project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
+    project_favorite.update favorite: (params[:favorite] == '1')
+  end
 
   def new_filter
     @design = @project.designs.find_by_id(params[:design_id])
@@ -50,7 +55,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1/splash
   # GET /projects/1/splash.js
   def splash
-    @projects = current_user.all_viewable_and_site_projects.order(:name).page(params[:page]).per( 8 ) # current_user.pagination_count('projects') )
+    @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").page(params[:page]).per( 8 )
     redirect_to @projects.first if @projects.total_count == 1
   end
 

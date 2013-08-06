@@ -47,14 +47,14 @@
             <% add_url = new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: subject.subject_code, subject_acrostic: subject.acrostic, site_id: subject.site_id) %>
             <% show_url = project_sheets_path(@project, design_id: design.id, search: subject.subject_code) %>
             <% if count == 0 %>
-              <%= link_to '+', add_url, class: 'btn btn-default btn-mini' if @project.editable_by?(current_user) %>
+              <%= link_to '+', add_url, class: 'btn btn-cancel-inverse btn-mini' if @project.editable_by?(current_user) %>
             <% else %>
               <% if count == 1 and sheet = @project.sheets.where(design_id: design.id, subject_id: subject.id).first %>
                 <%= link_to count, [sheet.project, sheet] %>
               <% else %>
                 <%= link_to count, show_url %>
               <% end %>
-              <%= link_to '+', add_url, class: 'btn btn-default btn-mini', id: "subject_#{subject.id}_design_#{design.id}_add_link", style: 'display:none' if @project.editable_by?(current_user) %>
+              <%= link_to '+', add_url, class: 'btn btn-cancel-inverse btn-mini', id: "subject_#{subject.id}_design_#{design.id}_add_link", style: 'display:none' if @project.editable_by?(current_user) %>
             <% end %>
           </td>
         <% end %>

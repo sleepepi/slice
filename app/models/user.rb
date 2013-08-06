@@ -60,6 +60,12 @@ class User < ActiveRecord::Base
     User.current.human.with_project(self.all_projects.pluck(:id), [true, false])
   end
 
+  def all_favorite_projects
+    @all_favorite_projects ||= begin
+      self.all_viewable_projects.by_favorite(self.id).where("project_favorites.favorite = ?", true).order('name')
+    end
+  end
+
   def pagination_count(model)
     self.pagination[model.to_s].to_i > 0 ? self.pagination[model.to_s].to_i : 25
   end

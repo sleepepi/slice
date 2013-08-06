@@ -13,7 +13,12 @@
       <% project_row.each do |project| %>
         <% if project %>
           <div class="col-lg-4" data-link="<%= project_path(project) %>" style="cursor:pointer" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
-            <h2 class="about-title"><%= link_to project.name, project %> <%= link_to project.recent_sheets.count, project_sheets_path(project), class: 'label label-success' if project.recent_sheets.count > 0 %></h2>
+            <h2 class="about-title">
+              <% if project.favorited_by?(current_user) %>
+                <span class="glyphicon glyphicon-star" style="font-size:14px"></span>
+              <% end %>
+              <%= link_to project.name, project %> <%= link_to project.recent_sheets.count, project_sheets_path(project), class: 'label label-success' if project.recent_sheets.count > 0 %>
+            </h2>
             <div style="text-align:center;background-color:white;height:128px;padding-bottom:5px">
               <% if project.logo.size > 0 %>
                 <%= image_tag project.logo_url, style: "height:128px" %>

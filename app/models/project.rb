@@ -12,6 +12,7 @@ class Project < ActiveRecord::Base
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
   scope :with_editor, lambda { |*args| where('projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
+  scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") }
 
   # Model Validation
   validates_presence_of :name, :user_id
@@ -24,6 +25,8 @@ class Project < ActiveRecord::Base
   has_many :users, -> { where( deleted: false ).order( 'last_name, first_name' ) }, through: :project_users
   has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
+
+  has_many :project_favorites
 
   has_many :designs, -> { where deleted: false }
   has_many :variables, -> { where deleted: false }
@@ -94,6 +97,11 @@ class Project < ActiveRecord::Base
       subject_code = "#{email.to_s} - #{hexdigest[0..8]}"
     end
     self.subjects.create( subject_code: subject_code, user_id: self.user_id, site_id: self.sites.first.id, status: 'valid', acrostic: '', email: email.to_s )
+  end
+
+  def favorited_by?(current_user)
+    project_favorite = self.project_favorites.find_by_user_id(current_user.id)
+    not project_favorite.blank? and project_favorite.favorite?
   end
 
   private

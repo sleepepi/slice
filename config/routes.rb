@@ -24,6 +24,7 @@ Slice::Application.routes.draw do
       post :filters
       post :new_filter
       post :edit_filter
+      post :favorite
     end
 
     collection do

@@ -4,13 +4,16 @@
   <div class="col-lg-12">
     <div style="font-size: 40px;font-weight:300;" class="center">
       <%= @project.name %>
-      <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-        <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-mini' %></div>
-        <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
-      <% end %>
 
       <% if current_user.all_viewable_and_site_projects.size == 1 %>
         <div class="pull-right"><%= link_to 'Create Project', new_project_path, class: 'btn btn-mini btn-primary' %></div>
+      <% end %>
+    </div>
+    <div class="center">
+      <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
+      <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+        <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-mini' %></div>
+        <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
       <% end %>
     </div>
     <p class="about-tagline"><%= @project.description %></p>
