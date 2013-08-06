@@ -1,9 +1,9 @@
 <table>
 <% if @domain and @domain.options.size > 0 %>
   <% @domain.options.sort{|a,b| a[:value].to_s <=> b[:value].to_s }.each do |option| %>
-    <tr><td style="text-align:right"><%= option[:value] %>: </td><td class="muted" style="white-space:nowrap;overflow-x:hidden"><%= option[:name] %></td></tr>
+    <tr><td style="text-align:right"><%= option[:value] %>: </td><td class="text-muted" style="white-space:nowrap;overflow-x:hidden"><%= option[:name] %></td></tr>
   <% end %>
 <% else %>
-  <tr class="muted"><td>No Values</td><td></td></tr>
+  <tr class="text-muted"><td>No Values</td><td></td></tr>
 <% end %>
 </table>

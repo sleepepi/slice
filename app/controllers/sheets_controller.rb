@@ -256,7 +256,7 @@ class SheetsController < ApplicationController
 
     def generate_export(sheet_scope, csv_labeled, csv_raw, pdf, files, data_dictionary, sas)
       export = current_user.exports.create(
-                  name: "#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}",
+                  name: "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{current_user.last_name}_#{Date.today.strftime("%Y%m%d")}",
                   project_id: @project.id,
                   include_csv_labeled: csv_labeled,
                   include_csv_raw: csv_raw,

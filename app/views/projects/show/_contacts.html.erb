@@ -1,6 +1,6 @@
 <hr class="soften" style="margin-top:20px">
 <% if @project.contacts.where(archived: false).size == 0 %>
-  <ul><li class="muted">No Contact Information</li></ul>
+  <ul><li class="text-muted">No Contact Information</li></ul>
 <% else %>
   <% @project.contacts.where(archived: false).order('position').each do |contact| %>
 

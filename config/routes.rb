@@ -18,6 +18,7 @@ Slice::Application.routes.draw do
       post :new_filter
       post :edit_filter
       post :favorite
+      get :activity
     end
 
     collection do

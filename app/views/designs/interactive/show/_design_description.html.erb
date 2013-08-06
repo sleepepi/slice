@@ -1,6 +1,6 @@
 <div data-object="pull-partial-edit" data-edit="design_description" data-changes="<%= { design: { description: @design.description } }.to_json %>" class="editable-design-element <%= 'design-preview-hide' if @design.description.blank? %>">
   <% if @design.description.blank? %>
-    <div class="muted">Click to Edit Design Description</div>
+    <div class="text-muted">Click to Edit Design Description</div>
   <% else %>
     <%= simple_markdown @design.description unless @design.description.blank? %>
   <% end %>

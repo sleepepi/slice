@@ -18,7 +18,7 @@
   <dd>
     <% if @document.file.size > 0 %>
       <% full_url = "#{request.script_name}#{@document.file.url}" %>
-      <%= link_to @document.name, full_url, target: '_blank', class: 'btn btn-default btn-mini' %> <span class="muted"><%= number_to_human_size(@document.file.size) %></span>
+      <%= link_to @document.name, full_url, target: '_blank', class: 'btn btn-default btn-mini' %> <span class="text-muted"><%= number_to_human_size(@document.file.size) %></span>
     <% end %>
   </dd>
 

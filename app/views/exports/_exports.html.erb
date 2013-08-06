@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.status', '', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.name', 'Name', 'exports_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.created_at', 'Exported', 'exports_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_xls', 'XLS', 'exports_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_csv_labeled', 'CSV Labeled', 'exports_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_csv_raw', 'CSV Raw', 'exports_search') %></th>
@@ -21,7 +21,7 @@
   <% @exports.each do |export| %>
     <tr class="<%= 'success' if not export.viewed? and export.status == 'ready' %><%= 'warning' if export.status == 'pending' %>">
       <td><span class="label label-<%= export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger') %>"><%= export.status %></span></td>
-      <td><%= link_to export.name, [export.project, export] %></td>
+      <td><%= link_to simple_time(export.created_at), [export.project, export] %></td>
       <td><%= simple_check export.include_xls %></td>
       <td><%= simple_check export.include_csv_labeled %></td>
       <td><%= simple_check export.include_csv_raw %></td>

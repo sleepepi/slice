@@ -46,7 +46,10 @@ Contour.setup do |config|
               { divider: true },
               { header: 'Data' },
               { name: 'Create Export', path: 'project_sheets_path(current_user.all_favorite_projects.first, e: "1")' },
-              { name: '"View Exports#{" <span class=\'badge\'>#{current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects.first.id).size}</span>" if current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects.first.id).size > 0}".html_safe', eval: true, path: 'project_exports_path(current_user.all_favorite_projects.first)' }]
+              { name: '"View Exports#{" <span class=\'badge\'>#{current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects.first.id).size}</span>" if current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects.first.id).size > 0}".html_safe', eval: true, path: 'project_exports_path(current_user.all_favorite_projects.first)' },
+              { divider: true },
+              { header: 'Recent' },
+              { name: 'Activity', path: 'activity_project_path(current_user.all_favorite_projects.first)' }]
     },
     {
       name: 'current_user.all_favorite_projects[1].name', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects[1])', position: 'left',
@@ -65,7 +68,10 @@ Contour.setup do |config|
               { divider: true },
               { header: 'Data' },
               { name: 'Create Export', path: 'project_sheets_path(current_user.all_favorite_projects[1], e: "1")' },
-              { name: '"View Exports#{" <span class=\'badge\'>#{current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[1].id).size}</span>" if current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[1].id).size > 0}".html_safe', eval: true, path: 'project_exports_path(current_user.all_favorite_projects[1])' }]
+              { name: '"View Exports#{" <span class=\'badge\'>#{current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[1].id).size}</span>" if current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[1].id).size > 0}".html_safe', eval: true, path: 'project_exports_path(current_user.all_favorite_projects[1])' },
+              { divider: true },
+              { header: 'Recent' },
+              { name: 'Activity', path: 'activity_project_path(current_user.all_favorite_projects[1])' }]
     },
     {
       name: 'current_user.all_favorite_projects[2].name', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects[2])', position: 'left',
@@ -84,7 +90,10 @@ Contour.setup do |config|
               { divider: true },
               { header: 'Data' },
               { name: 'Create Export', path: 'project_sheets_path(current_user.all_favorite_projects[2], e: "1")' },
-              { name: '"View Exports#{" <span class=\'badge\'>#{current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[2].id).size}</span>" if current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[2].id).size > 0}".html_safe', eval: true, path: 'project_exports_path(current_user.all_favorite_projects[2])' }]
+              { name: '"View Exports#{" <span class=\'badge\'>#{current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[2].id).size}</span>" if current_user.unviewed_active_exports.where(project_id: current_user.all_favorite_projects[2].id).size > 0}".html_safe', eval: true, path: 'project_exports_path(current_user.all_favorite_projects[2])' },
+              { divider: true },
+              { header: 'Recent' },
+              { name: 'Activity', path: 'activity_project_path(current_user.all_favorite_projects[2])' }]
     },
     # {
     #   name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',

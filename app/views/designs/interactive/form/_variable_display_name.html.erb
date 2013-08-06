@@ -16,7 +16,7 @@
       <%= text_field_tag "variable[display_name]", @variable.display_name, style: 'width:95%', autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id } %>
       <div class="help-block">
         The display name is the question as displayed to the user who is filling out the form.<br />
-        <div style="margin-left:20px">Ex: <i class="muted">What is your age?</i></div>
+        <div style="margin-left:20px">Ex: <i class="text-muted">What is your age?</i></div>
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@
     <div data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="controls editable-design-element" style="line-height:30px">
       <%= @variable.name %>
       <div class="help-block">
-        <span class="muted">Click here to edit the variable name</span>
+        <span class="text-muted">Click here to edit the variable name</span>
       </div>
     </div>
   </div>

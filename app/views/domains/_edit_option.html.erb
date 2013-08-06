@@ -18,7 +18,7 @@
   <%= text_field_tag "domain[option_tokens][][description]", @option[:description], rel: 'tooltip', title: 'Description', tabindex: "-1" %>
   <label class="checkbox inline <%= 'selected' if @option[:missing_code] == '1' %>"><%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1" %> Missing Code</label>
   <% if total_count > 0 %>
-    <span class="muted"><%= pluralize total_count, 'response' %> uses this option.</span>
+    <span class="text-muted"><%= pluralize total_count, 'response' %> uses this option.</span>
   <% end %>
   <%= link_to 'Remove', '#', class: 'btn btn-mini btn-danger-inverse', data: { object: 'remove', target: "option_#{@position}", count: total_count }, style: "display:none", id: "option_#{@position}_delete_link", tabindex: "-1" %>
 </div>

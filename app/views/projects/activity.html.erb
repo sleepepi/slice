@@ -1,0 +1,53 @@
+<% @title = "#{@project.name} Activity" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; Activity
+  </h1>
+</div>
+
+
+<% recent_sheets = @project.sheets.where("created_at > ?", Time.now - 7.day).to_a %>
+<% recent_comments = current_user.all_viewable_comments.with_project(@project.id).where("created_at > ?", (Time.now.monday? ? Time.now - 4.day : Time.now - 2.day)).to_a %>
+
+<% all_objects = (recent_sheets + recent_comments).sort{ |o1, o2| o2.created_at <=> o1.created_at } %>
+
+
+<table><col width="50px" />
+  <% all_objects.each do |object| %>
+    <tr>
+      <td class="center">
+        <% if object.class == Sheet %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+        <% elsif object.class == Comment %>
+          <span class="glyphicon glyphicon-comment"></span>
+        <% end %>
+      </td>
+      <td style="padding-top:10px;padding-bottom:10px;">
+        <% if object.class == Sheet %>
+          <div>
+            <%= object.user.name %>
+            <b>created sheet</b>
+            <%= link_to object.name, [object.project, object] %> for <%= link_to object.subject.name, [object.subject.project, object.subject] %>
+            <span class="text-muted"><%= distance_of_time_in_words_to_now(object.created_at).gsub('about ', '') %> ago</span>
+          </div>
+        <% elsif object.class == Comment %>
+          <div>
+            <span class="text-muted"><%= distance_of_time_in_words_to_now(object.created_at).gsub('about ', '') %> ago</span>
+          </div>
+
+          <div>
+            <%= object.user.name %>
+            <b>commented on</b>
+            <%= link_to object.sheet.name, [object.sheet.project, object.sheet] %> for <%= link_to object.sheet.subject.name, [object.sheet.subject.project, object.sheet.subject] %>
+          </div>
+          <div>
+            <%= image_tag('http:'+object.user.avatar_url(18, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle') %> <%= strip_tags(simple_markdown object.description).truncate(100, separator: ' ').html_safe %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr class="soften" style="margin-top:20px;margin-bottom:20px" /></td>
+    </tr>
+  <% end %>
+</table>

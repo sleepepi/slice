@@ -9,6 +9,7 @@
   - Project splash now displays a number of recent valid entries made for a project
   - Projects can be favorited which reorders them on the project splash page, and puts the first three as links into the menu bar
   - Exports are now nested under projects
+  - Project activity added that shows recently created comments and sheets
 
 ## 0.19.0 (August 1, 2013)
 

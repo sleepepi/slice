@@ -21,7 +21,7 @@
   <dd>
     <ul>
       <% @domain.variables.order('name').each do |variable| %>
-        <li><%= link_to variable.name, [variable.project, variable] %> - <span class="muted"><%= variable.display_name %></span></li>
+        <li><%= link_to variable.name, [variable.project, variable] %> - <span class="text-muted"><%= variable.display_name %></span></li>
       <% end %>
     </ul>
   </dd>

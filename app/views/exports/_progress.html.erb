@@ -18,12 +18,12 @@
       <% full_url = "#{request.script_name}#{@export.file.url}" %>
       <%= link_to @export.file.to_s.split('/').last, full_url, target: '_blank', class: 'btn btn-default btn-mini' %>
       <%= number_to_human_size(@export.file.size) %>
-      <span class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.file_created_at, { include_seconds: true }) %>.</span>
+      <span class="text-muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.file_created_at, { include_seconds: true }) %>.</span>
     <% elsif @export.status == 'failed' %>
-      <span class="muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.updated_at, { include_seconds: true }) %>.</span>
+      <span class="text-muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.updated_at, { include_seconds: true }) %>.</span>
       <%= @export.details %>
     <% else %>
-      <span class="muted">Export started <%= distance_of_time_in_words(@export.created_at, Time.now, { include_seconds: true }) %> ago...</span>
+      <span class="text-muted">Export started <%= distance_of_time_in_words(@export.created_at, Time.now, { include_seconds: true }) %> ago...</span>
     <% end %>
   </dd>
 </dl>

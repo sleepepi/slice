@@ -15,7 +15,7 @@
       <% @variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
         <th><%= value %>: <%= name %></th>
       <% end %>
-      <th class="muted">Unknown</th>
+      <th class="text-muted">Unknown</th>
       <th>Total</th>
     </tr>
   </thead>

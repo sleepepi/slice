@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <tr data-link="<%= new_project_subject_path(@project) %>" style="cursor:pointer">
-      <td class="muted"></td><td><%= link_to 'Create Subject', new_project_subject_path(@project) %></td>
+      <td class="text-muted"></td><td><%= link_to 'Create Subject', new_project_subject_path(@project) %></td>
     </tr>
     <% @project.subjects.order('subject_code').limit(10).each do |subject| %>
       <tr data-link="<%= project_subject_path(subject.project, subject) %>" style="cursor:pointer" data-object="hover-show" data-target="#subject_<%= subject.id %>_edit_link">
@@ -18,7 +18,7 @@
       </tr>
     <% end %>
     <tr data-link="<%= project_subjects_path(@project) %>" style="cursor:pointer">
-      <td class="muted"></td><td><%= link_to "View More", project_subjects_path(@project) %><% if @project.subjects.count > 0 %> <span class="badge badge-info"><%= @project.subjects.count %></span><% end %></td>
+      <td class="text-muted"></td><td><%= link_to "View More", project_subjects_path(@project) %><% if @project.subjects.count > 0 %> <span class="badge badge-info"><%= @project.subjects.count %></span><% end %></td>
     </tr>
   </tbody>
 </table>

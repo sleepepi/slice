@@ -39,7 +39,7 @@
         <div class="help-block" style="padding-top:5px">
           <ul style="margin-bottom:0px">
             <% @project.sites_with_range.each do |site| %>
-              <li class="muted"><%= site.name %>: <b><%= site.prefix %><%= site.code_minimum %></b> to <b><%= site.prefix %><%= site.code_maximum %></b></li>
+              <li class="text-muted"><%= site.name %>: <b><%= site.prefix %><%= site.code_minimum %></b> to <b><%= site.prefix %><%= site.code_maximum %></b></li>
             <% end %>
           </ul>
         </div>

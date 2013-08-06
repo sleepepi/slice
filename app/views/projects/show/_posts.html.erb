@@ -1,10 +1,10 @@
 <hr class="soften" style="margin-top:20px">
 <% if @project.posts.where(archived: false).size == 0 %>
-  <ul><li class="muted">No News</li></ul>
+  <ul><li class="text-muted">No News</li></ul>
 <% else %>
   <% @project.posts.where(archived: false).order('created_at DESC').limit(3).each do |post| %>
     <p>
-      <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= post.user.name %></span><br>
+      <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="text-muted">&middot; <%= post.user.name %></span><br>
       <div style="margin-left:10px; cursor:pointer" data-object="modal-show" data-target="#post_<%= post.id %>_modal">
         <%= link_to post.name, '#', data: { object: 'modal-show', target: "#post_#{post.id}_modal" } %>
         <%= strip_tags(simple_markdown post.description).gsub(/\r/," ").gsub(/\n/," ").truncate(30, separator: ' ', omission: '...').html_safe %>
@@ -17,7 +17,7 @@
       </div>
       <div class="modal-body">
         <p>
-          <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="muted">&middot; <%= post.user.name %></span>
+          <strong><%= post.created_at.strftime("%A, %B %d, %Y") %></strong> <span class="text-muted">&middot; <%= post.user.name %></span>
         </p>
         <div style="margin-left:10px">
           <%= simple_markdown post.description %>

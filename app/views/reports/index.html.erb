@@ -20,7 +20,7 @@
     <h2 class="about-title">Design Reports</h2>
 
     <% current_user.all_viewable_designs.group_by{|d| d.project}.sort{|a,b| (a[0] ? a[0].name : "") <=> (b[0] ? b[0].name : "")}.each do |project, designs| %>
-      <span class="muted"><%= project ? project.name : "No Project" %></span>
+      <span class="text-muted"><%= project ? project.name : "No Project" %></span>
       <ul>
         <% designs.sort_by{|d| d.name}.each do |design| %>
           <li style="line-height:25px"><%= link_to design.name, report_project_design_path(design.project, design) %></li>
@@ -32,7 +32,7 @@
     <h2 class="about-title">Custom Reports</h2>
     <% if current_user.reports.size > 0 %>
       <% current_user.reports.group_by{|r| r.project}.sort{|a,b| (a[0] ? a[0].name : "") <=> (b[0] ? b[0].name : "")}.each do |project, reports| %>
-        <span class="muted"><%= project ? project.name : "No Project" %></span>
+        <span class="text-muted"><%= project ? project.name : "No Project" %></span>
         <ul>
           <% reports.sort_by{|r| r.name}.each do |report| %>
             <li id="report_<%= report.id %>" data-object="hover-show" data-target="#report_<%= report.id %>_delete_link" style="line-height:25px">
@@ -43,7 +43,7 @@
         </ul>
       <% end %>
     <% else %>
-      <ul><li class="muted">You have not yet saved any custom templates.</li></ul>
+      <ul><li class="text-muted">You have not yet saved any custom templates.</li></ul>
     <% end %>
   </div>
 </div>

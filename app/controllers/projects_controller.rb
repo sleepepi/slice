@@ -1,11 +1,15 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite ] # :update_filter
+  before_action :set_viewable_project, only: [ :settings, :show, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
   before_action :set_editable_project, only: [ :edit, :update, :destroy, :remove_file ]
-  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite ] # :update_filter
+  before_action :redirect_without_project, only: [ :settings, :show, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
 
   # Concerns
   include Buildable
+
+  def activity
+
+  end
 
   def favorite
     project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create

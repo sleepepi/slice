@@ -32,7 +32,7 @@
       <% audits.sort{|a,b| b.id <=> a.id}.each_with_index do |audit, audit_index| %>
         <% previous_audit = audits[audit_index - 1] %>
         <% if audit_index > 0 and previous_audit.created_at and audit.created_at and previous_audit.created_at.to_date != audit.created_at.to_date %>
-          <tr><td>&vellip;</td><td colspan="5" class="muted"><%= distance_of_time_in_words(previous_audit.created_at, audit.created_at) %></td></tr>
+          <tr><td>&vellip;</td><td colspan="5" class="text-muted"><%= distance_of_time_in_words(previous_audit.created_at, audit.created_at) %></td></tr>
         <% end %>
         <% if audit.audited_changes.kind_of?(Hash) %>
           <% audit_action = if audit.audited_changes.keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or audit.audited_changes.keys.sort == ['last_viewed_at'] %>
@@ -119,8 +119,8 @@
                       <% end %>
 
                       <% unless response.blank? %>
-                        <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0][:name].blank? %><%= "cursor:pointer" unless response[0][:url].blank? %>" <%= "data-link='#{response[0][:url]}'".html_safe unless response[0][:url].blank? %>><% if response[0][:name].blank? %><span class="muted">null</span><% else %><%= highlight(response[0][:name].to_s, response[1][:name].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
-                        <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1][:name].blank? %><%= "cursor:pointer" unless response[1][:url].blank? %>" <%= "data-link='#{response[1][:url]}'".html_safe unless response[1][:url].blank? %>><% if response[1][:name].blank? %><span class="muted">null</span><% else %><%= highlight(response[1][:name].to_s, response[0][:name].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                        <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0][:name].blank? %><%= "cursor:pointer" unless response[0][:url].blank? %>" <%= "data-link='#{response[0][:url]}'".html_safe unless response[0][:url].blank? %>><% if response[0][:name].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[0][:name].to_s, response[1][:name].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
+                        <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1][:name].blank? %><%= "cursor:pointer" unless response[1][:url].blank? %>" <%= "data-link='#{response[1][:url]}'".html_safe unless response[1][:url].blank? %>><% if response[1][:name].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[1][:name].to_s, response[0][:name].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
                       <% end %>
                     </div>
                   <% end %>
@@ -134,8 +134,8 @@
                 <% ['response', 'response_file', 'value'].each do |response_type| %>
                   <% if response = audit.audited_changes[response_type] and ['create', 'update', 'destroy'].include?(audit.action) %>
                     <% response = [response[1], response[0]] if audit.action == 'create' %>
-                    <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0].blank? %>"><% if response[0].blank? %><span class="muted">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
-                    <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1].blank? %>"><% if response[1].blank? %><span class="muted">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                    <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0].blank? %>"><% if response[0].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
+                    <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1].blank? %>"><% if response[1].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
                   <% end %>
                 <% end %>
               </td>

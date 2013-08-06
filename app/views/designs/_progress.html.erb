@@ -6,7 +6,7 @@
   <div class="progress progress-striped">
     <div class="progress-bar progress-bar-<%= status %>" style="width: <%= percent %>%;"><%= @design.rows_imported %> of <%= @design.total_rows %> (<%= percent %>%)</div>
   </div>
-  <span class="muted">
+  <span class="text-muted">
     <% if @design.import_started_at %>
       <% if @design.import_ended_at %>
         Import took <%= distance_of_time_in_words(@design.import_started_at, @design.import_ended_at, { include_seconds: true }) %>.

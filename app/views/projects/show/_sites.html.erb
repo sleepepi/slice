@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <tr data-link="<%= new_project_site_path(@project) %>" style="cursor:pointer">
-      <td class="muted"></td><td colspan="3"><%= link_to 'Create Site', new_project_site_path(@project) %></td>
+      <td class="text-muted"></td><td colspan="3"><%= link_to 'Create Site', new_project_site_path(@project) %></td>
     </tr>
     <% @project.sites.order('name').limit(10).each do |site| %>
       <tr data-link="<%= project_site_path(site.project, site) %>" style="cursor:pointer" data-object="hover-show" data-target="#site_<%= site.id %>_edit_link">
@@ -20,7 +20,7 @@
         <td><%= site.prefix %></td>
         <td>
           <% if site.code_minimum.blank? and site.code_maximum.blank? %>
-            <span class="muted">No Range</span>
+            <span class="text-muted">No Range</span>
           <% elsif not site.code_minimum.blank? and site.code_maximum.blank? %>
             Starts at <%= site.code_minimum %>
           <% elsif site.code_minimum.blank? and not site.code_maximum.blank? %>
@@ -32,7 +32,7 @@
       </tr>
     <% end %>
     <tr data-link="<%= project_sites_path(@project) %>" style="cursor:pointer">
-      <td class="muted"></td><td colspan="3"><%= link_to "View More", project_sites_path(@project) %><% if @project.sites.count > 0 %> <span class="badge badge-info"><%= @project.sites.count %></span><% end %></td>
+      <td class="text-muted"></td><td colspan="3"><%= link_to "View More", project_sites_path(@project) %><% if @project.sites.count > 0 %> <span class="badge badge-info"><%= @project.sites.count %></span><% end %></td>
     </tr>
   </tbody>
 </table>
