@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
+    <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
       <tr data-link="<%= new_project_sheet_path(@project) %>" style="cursor:pointer">
         <td></td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
       </tr>

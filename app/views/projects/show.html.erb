@@ -4,7 +4,7 @@
   <h1>
     <%= @project.name %>
 
-    <% if current_user.all_viewable_and_site_projects.size == 1 or true %>
+    <% if current_user.all_viewable_and_site_projects.size == 1 %>
       <div class="pull-right"><%= link_to 'Create Project', new_project_path, class: 'btn btn-mini btn-primary' %></div>
     <% end %>
   </h1>
