@@ -43,7 +43,7 @@
               <%= link_to object.sheet.name, [object.sheet.project, object.sheet] %> for <%= link_to object.sheet.subject.name, [object.sheet.subject.project, object.sheet.subject] %>
             </div>
             <div>
-              <%= image_tag('http:'+object.user.avatar_url(18, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle') %> <%= strip_tags(simple_markdown object.description).truncate(100, separator: ' ').html_safe %>
+              <%= image_tag object.user.avatar_url(18, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle' %> <%= strip_tags(simple_markdown object.description).truncate(100, separator: ' ').html_safe %>
             </div>
           </div>
         <% end %>
