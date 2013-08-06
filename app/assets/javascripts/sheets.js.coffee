@@ -110,8 +110,13 @@ jQuery ->
 
   $("#sheet_subject_id").typeahead(
     local: $("#sheet_subject_id").data('local')
-    template: '<p><strong>{{value}}</strong> <span class="pull-right label label-{{status_class}}">{{status}}</span></p>'
+    template: '<p><span class="label label-{{status_class}}">{{status}}</span> <strong>{{subject_code}}</strong> {{acrostic}}</p>'
     engine: Hogan
+  )
+
+  $(document).on('typeahead:selected', "#sheet_subject_id", (event, datum) ->
+    $(this).val(datum['value'])
+    $('#sheet_subject_acrostic').val(datum['acrostic'])
   )
 
   initializeSheet()

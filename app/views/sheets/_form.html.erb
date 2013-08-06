@@ -34,7 +34,7 @@
     <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-lg-2 control-label', id: 'subject_code_name_full' %>
     <div class="col-lg-10">
       <% statuses = { 'valid' => 'success', 'test' => 'info', 'pending' => 'warning' } %>
-      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.collect{|s| { subject_code: s.subject_code, status_class: (statuses[s.status] || 'warning'), status: s.status, value: html_escape(s.subject_code.to_s + (@project.acrostic_enabled? ? (s.acrostic.blank? ? "" : ": #{s.acrostic}") : "") + (s.email.blank? ? '' : " <#{s.email}>")) }}.to_json }, class: 'form-control' %>
+      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.collect{|s| { subject_code: s.subject_code, status_class: (statuses[s.status] || 'warning'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
       <% if @project.sites_with_range.size > 0 %>
         <div class="bs-callout">
           <% @project.sites_with_range.each do |site| %>
@@ -51,7 +51,7 @@
   <div class="form-group" style="<%= 'display:none' unless @sheet.project and @sheet.project.acrostic_enabled? %>" id="acrostic-container">
     <%= label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'col-lg-2 control-label' %>
     <div class="col-lg-10">
-      <%= text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic' %>
+      <%= text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic', class: 'form-control' %>
     </div>
   </div>
 
