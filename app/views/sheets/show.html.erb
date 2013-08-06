@@ -2,12 +2,14 @@
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to 'Sheets', project_sheets_path(@project) %> &middot; <%= @title %>
-    <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
-      <%= link_to "Edit Sheet", edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-mini' %>
-      <%= link_to "Delete Sheet", [@sheet.project, @sheet], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
-    <% end %>
-    <%= link_to "PDF", print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-mini' %>
   </h1>
+
+  <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
+    <%= link_to "Edit Sheet", edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-mini' %>
+    <%= link_to "Delete Sheet", [@sheet.project, @sheet], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
+  <% end %>
+  <%= link_to "PDF", print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-mini' %>
+
 </div>
 
 <table class="table table-striped table-bordered" style="width:100%">

@@ -491,3 +491,5 @@ div.filter-sort-container {
   margin-bottom: 15px;
   padding: 7px 9px;
 }
+
+body { padding-top: 50px; padding-bottom: 70px; }
