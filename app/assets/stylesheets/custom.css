@@ -493,3 +493,9 @@ div.filter-sort-container {
 }
 
 body { padding-top: 50px; padding-bottom: 70px; }
+
+@media screen and (min-width: 900px) {
+  .modal-dialog.modal-wide-width {
+    width: 900px;
+  }
+}
