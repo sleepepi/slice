@@ -271,7 +271,7 @@ class SheetsController < ApplicationController
       systemu rake_task unless Rails.env.test?
 
       # flash[:notice] = 'You will be emailed when the export is ready for download.'
-      render text: "window.location.href = '#{export_path(export)}';"
+      render text: "window.location.href = '#{project_export_path(export.project, export)}';"
     end
 
     def update_variables!

@@ -14,7 +14,6 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_sas', 'SAS', 'exports_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.file', 'File', 'exports_search') %></th>
       <th style="white-space:nowrap">Size</th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.project_id', 'Project', 'exports_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -22,7 +21,7 @@
   <% @exports.each do |export| %>
     <tr class="<%= 'success' if not export.viewed? and export.status == 'ready' %><%= 'warning' if export.status == 'pending' %>">
       <td><span class="label label-<%= export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger') %>"><%= export.status %></span></td>
-      <td><%= link_to export.name, export %></td>
+      <td><%= link_to export.name, [export.project, export] %></td>
       <td><%= simple_check export.include_xls %></td>
       <td><%= simple_check export.include_csv_labeled %></td>
       <td><%= simple_check export.include_csv_raw %></td>
@@ -41,9 +40,8 @@
           <%= number_to_human_size(export.file.size) %>
         <% end %>
       </td>
-      <td><%= link_to export.project.name, export.project if export.project %></td>
       <td>
-        <%= link_to 'Delete', export, method: :delete, class: 'btn btn-mini btn-danger-inverse btn-block', data: { confirm: "Are you sure you want to delete Export #{export.name}?" } %>
+        <%= link_to 'Delete', [export.project, export], method: :delete, class: 'btn btn-mini btn-danger-inverse btn-block', data: { confirm: "Are you sure you want to delete Export #{export.name}?" } %>
       </td>
     </tr>
   <% end %>

@@ -5,7 +5,7 @@ The data export you requested for <%= @export.project.name %> is now ready for d
 Click the following link to download your data export:
 
 
-    <%= SITE_URL + export_path(@export) %>
+    <%= SITE_URL + project_export_path(@export.project, @export) %>
 
 
 Thank you!

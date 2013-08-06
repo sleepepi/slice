@@ -4,13 +4,6 @@ Slice::Application.routes.draw do
 
   resources :comments
 
-  resources :exports do
-    member do
-      post :mark_unread
-      post :progress
-    end
-  end
-
   get "survey", to: "survey#index", as: :about_survey
   get "survey/:slug", to: "survey#show"
 
@@ -82,6 +75,13 @@ Slice::Application.routes.draw do
       collection do
         post :add_option
         post :values
+      end
+    end
+
+    resources :exports do
+      member do
+        post :mark_unread
+        post :progress
       end
     end
 

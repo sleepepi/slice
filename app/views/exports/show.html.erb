@@ -1,24 +1,20 @@
 <% @title = @export.name %>
 <div class="page-header">
   <h1>
-    <%= link_to "Exports", exports_path %> &middot; <%= @title %>
-    <%= link_to "Mark Unread", mark_unread_export_path(@export), method: :post, class: 'btn btn-mini btn-default' if @export.status == 'ready' %>
-    <% if false %><%= link_to "Edit Export", edit_export_path(@export), class: 'btn btn-default btn-mini' %><% end %>
-    <%= link_to "Delete Export", @export, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
-    <span class="pull-right label label-<%= @export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'danger') %>"><%= @export.status %></span>
+    <%= link_to @project.name, @project %> &middot; <%= link_to "Exports", project_exports_path(@project) %> &middot; <%= @title %>
+    <%= link_to "Mark Unread", mark_unread_project_export_path(@project, @export), method: :post, class: 'btn btn-mini btn-default' if @export.status == 'ready' %>
+    <%= link_to "Delete Export", [@export.project, @export], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
   </h1>
 </div>
 
-<dl class="dl-horizontal" style="margin-bottom: 0px;">
-  <dt>Project</dt>
-  <dd><%= link_to @export.project.name, @export.project if @export.project %></dd>
-</dl>
-
-<div id="progress" id="progress" data-object="<%= 'ajax-timer' if @export.total_steps != @export.steps_completed %>" data-path="<%= progress_export_path(@export) %>">
+<div id="progress" id="progress" data-object="<%= 'ajax-timer' if @export.total_steps != @export.steps_completed %>" data-path="<%= progress_project_export_path(@project, @export) %>">
   <%= render partial: 'exports/progress' %>
 </div>
 
 <dl class="dl-horizontal" style="margin-top: 0px;">
+
+  <dt>Status</dt>
+  <dd><span class="label label-<%= @export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'danger') %>"><%= @export.status %></span></dd>
 
   <dt>XLS</dt>
   <dd><%= simple_check @export.include_xls %></dd>

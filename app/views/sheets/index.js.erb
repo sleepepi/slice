@@ -2,3 +2,6 @@ $("#sheets").html("<%= escape_javascript(render("sheets")) %>");
 <% if params[:export].to_s == '1' %>
   flashMessage('You will be emailed when the export is ready for download.');
 <% end %>
+<% if params[:e].to_s == '1' %>
+  showContourModal();
+<% end %>

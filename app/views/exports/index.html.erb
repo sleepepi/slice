@@ -1,32 +1,15 @@
 <% @title = 'Exports' %>
 <div class="page-header">
   <h1>
-    <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to "Create Export", project_sheets_path(@project, e: '1'), class: 'btn btn-mini btn-primary' %>
   </h1>
 </div>
 
-<%= form_tag exports_path, method: :get, remote: true, id: "exports_search", class: 'form-inline', data: { object: 'form-load' } do %>
+<%= form_tag project_exports_path(@project), method: :get, remote: true, id: "exports_search", class: 'form-inline', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
-
-  <div class="row">
-    <div class="col-lg-4 form-group">
-      <%= label :search, 'Search', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
-        <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
-      </div>
-    </div>
-
-    <div class="col-lg-4 form-group">
-      <%= label :project_id, 'Project', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
-        <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' }, class: 'form-control' %>
-      </div>
-    </div>
-
-    <div class="col-lg-4 form-group">
-      <%= submit_tag 'Search', class: 'btn btn-primary' %>
-    </div>
-  </div>
+  <%= text_field_tag 'search', params[:search], class: 'form-control' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
 <div id="exports"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>

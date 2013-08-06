@@ -8,6 +8,7 @@
   - Project settings page removed and consolidated with project show page
   - Project splash now displays a number of recent valid entries made for a project
   - Projects can be favorited which reorders them on the project splash page, and puts the first three as links into the menu bar
+  - Exports are now nested under projects
 
 ## 0.19.0 (August 1, 2013)
 
