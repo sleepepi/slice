@@ -26,7 +26,7 @@
         <% if object.class == Sheet %>
           <% recently_created = ((object.last_edited_at - object.created_at) / 1.minute).to_i == 0 %>
           <div style="border-left:2px solid <%= recently_created ? '#93edc0' : '#9ccef0' %>;padding-left:5px">
-            <%= object.user.name %>
+            <%= recently_created ? object.user.name : object.last_user.name %>
             <b><% if recently_created %>created<% else %>updated<% end %> sheet</b>
             <%= link_to object.name, [object.project, object] %> for <%= link_to object.subject.name, [object.subject.project, object.subject] %>
             <span class="text-muted"><%= distance_of_time_in_words_to_now(recently_created ? object.created_at : object.last_edited_at ).gsub('about ', '') %> ago</span>
