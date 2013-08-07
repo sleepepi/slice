@@ -54,6 +54,7 @@ class Design < ActiveRecord::Base
     errors = []
     section_params = params.permit(:section_name, :section_description, :branching_logic, :section_type)
     unless section_params[:section_name].blank?
+      section_params[:section_id] = "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase
       new_option_tokens = self.options
       section_params.each do |key, value|
         new_option_tokens[position][key.to_sym] = value
@@ -269,9 +270,13 @@ class Design < ActiveRecord::Base
     self.options.select{|option| not option[:section_name].blank? and option[:section_type].to_i == 0}
   end
 
+  def all_sections
+    self.options.select{|option| not option[:section_name].blank?}
+  end
+
   def section_names
     @section_names ||= begin
-      self.sections.collect{|option| option[:section_name]}
+      self.all_sections.collect{|option| option[:section_name]}
     end
   end
 
