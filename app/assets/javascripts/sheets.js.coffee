@@ -116,6 +116,7 @@ jQuery ->
   $(document).on('typeahead:selected', "#sheet_subject_id", (event, datum) ->
     $(this).val(datum['value'])
     $('#sheet_subject_acrostic').val(datum['acrostic'])
+    $('#site_id').val(datum['site_id'])
   )
 
   initializeSheet()
