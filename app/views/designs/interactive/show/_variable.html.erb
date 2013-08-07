@@ -25,7 +25,7 @@
       </div>
     <% end %>
 
-    <div class="<%= "col-lg-10" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %>">
+    <div class="<%= "col-lg-10" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %> <%= 'col-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
       <div style="line-height:30px">
         <% if Variable::TYPE.flatten.uniq.include?(@variable.variable_type) %>
           <%= render partial: "designs/interactive/show/types/#{@variable.variable_type}", locals: { variable: @variable } %>
