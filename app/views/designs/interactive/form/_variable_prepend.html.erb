@@ -1,16 +1,26 @@
 <% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
 
-<div class="page-header">
-  <h1>Edit Variable Prepend <span style="font-size:0.4em"><%= @variable.name %></span></h1>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Edit Variable Prepend &middot; <%= @variable.name %>
+  </h4>
 </div>
+<div class="modal-body">
 
-<div class="row-fluid">
-  <%= text_field_tag "variable[prepend]", @variable.prepend, placeholder: 'Variable Prepend', class: "col-lg-12" %>
+  <form id="variable_form" class="form-horizontal">
+
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Variable Prepend</label>
+      <div class="col-lg-10">
+        <%= text_field_tag "variable[prepend]", @variable.prepend, data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: "form-control" %>
+      </div>
+    </div>
+
+  </form>
+
 </div>
-
-<hr class="soften" style="margin-top:20px;" />
-
-<div class="button-group pull-right">
-  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_prepend', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+<div class="modal-footer">
+<%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>

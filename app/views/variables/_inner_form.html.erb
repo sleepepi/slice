@@ -155,15 +155,7 @@
 <div class="form-group" data-object="calculated">
   <%= f.label :format, nil, class: 'col-lg-2 control-label' %>
   <div class="col-lg-10">
-    <%= f.text_field :format, class: 'form-control',
-        rel: "popover", data: { content: "
-        <table class='table table-bordered'>
-        <tbody>
-          <tr><td style='font-weight:bold'>Precision</td><td>%0.02f</td><td>4.127 => 4.13</td></tr>
-          <tr><td style='font-weight:bold'>Leading Zeros</td><td>%04d</td><td>45 => 0045</td></tr>
-        </tbody>
-        </table>
-        ", title: "Calculation Examples", placement: 'bottom', html: true } %>
+    <%= f.text_field :format, class: 'form-control' %>
     <div class="bs-callout bs-callout-info">
       <h4>Format Examples</h4>
 

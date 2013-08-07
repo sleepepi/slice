@@ -1,36 +1,48 @@
 <% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
 <% @domain = @variable.domain || @project.domains.new %>
 
-<div class="page-header">
-  <h1>Edit Variable Domain <span style="font-size:0.4em"><%= @variable.name %></span></h1>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Edit Variable Domain &middot; <%= @variable.name %>
+  </h4>
 </div>
+<div class="modal-body">
 
-<form id="domain_form" class="form-horizontal">
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Name</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "domain[name]", @domain.name, maxlength: 30, style: 'width:225px', autocomplete: 'off' %>
-      <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 30 characters.</div>
-      <i>domain1_population</i>
-    </div>
-  </div>
+  <form id="domain_form" class="form-horizontal">
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Options</label>
-    <div id="domain_option" class="col-lg-10" data-placement="left">
-      <div id="options" data-object="sortable">
-        <%= render partial: 'domains/options' %>
-      </div>
-      <div class="btn-toolbar">
-        <%= link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-mini' %>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Domain Name</label>
+      <div class="col-lg-10">
+        <%= text_field_tag "domain[name]", @domain.name, maxlength: 30, class: 'form-control', autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '' } %>
+        <div class="bs-callout bs-callout-info">
+          <h4>Naming convention</h4>
+
+          <ul>
+            <li>Must be a letter <code>a-zA-Z</code> followed by letters <code>a-zA-Z</code>, numbers<code>0-9</code>, or underscores<code>_</code>.</li>
+            <li>Max length <b>30 characters</b>.</li>
+          </ul>
+          Ex: <code>domain1_population</code>
+        </div>
       </div>
     </div>
-  </div>
-</form>
 
-<hr class="soften" style="margin-top:20px;" />
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Options</label>
+      <div id="domain_option" class="col-lg-10" data-placement="left">
+        <div id="options" data-object="sortable">
+          <%= render partial: 'domains/options' %>
+        </div>
+        <div class="btn-toolbar">
+          <%= link_to 'Add Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-mini' %>
+        </div>
+      </div>
+    </div>
 
-<div class="button-group pull-right">
+  </form>
+
+</div>
+<div class="modal-footer">
   <% if @domain.new_record? %>
     <%= button_tag 'Create', data: { object: 'push-partial-change', target: '#domain_form', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
   <% else %>
@@ -42,9 +54,8 @@
   <% domains = @project.domains %>
   <% if domains.count > 0 %>
     or
-    <span class="white-space:nowrap"><%= select_tag 'domain[id]', options_for_select( [['', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ), class: "chzn-select" %>
+    <span class="white-space:nowrap"><%= select_tag 'domain[id]', options_for_select( [['', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ) %>
     <%= button_tag 'Use Selected Domain', data: { object: 'push-partial-change', target: '#domain_id', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %></span>
   <% end %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>
-

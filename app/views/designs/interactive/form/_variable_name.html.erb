@@ -1,28 +1,39 @@
 <% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
 
-<div class="page-header">
-  <h1>
-    Edit Variable
-    <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="editable-design-element" style="font-size:0.4em">
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Edit Variable &middot;
+    <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="editable-design-element">
       <%= @variable.display_name %>
     </span>
-  </h1>
+  </h4>
 </div>
+<div class="modal-body">
 
-<form id="variable_form" class="form-horizontal">
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Name</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "variable[name]", @variable.name, maxlength: 32, style: 'width:225px', data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id } %>
-      <div class="help-block">Letter followed by letters, numbers, or underscores. Max length 32 characters.</div>
-      <i>var1_population</i>
+  <form id="variable_form" class="form-horizontal">
+
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-10">
+        <%= text_field_tag "variable[name]", @variable.name, maxlength: 32, data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: "form-control" %>
+        <div class="bs-callout bs-callout-info">
+          <h4>Naming convention</h4>
+
+          <ul>
+            <li>Must be a letter <code>a-zA-Z</code> followed by letters <code>a-zA-Z</code>, numbers<code>0-9</code>, or underscores<code>_</code>.</li>
+            <li>Max length <b>32 characters</b>.</li>
+          </ul>
+          Ex: <code>var1_population</code>
+        </div>
+      </div>
     </div>
-  </div>
-</form>
 
-<hr class="soften" style="margin-top:20px;" />
+  </form>
 
-<div class="button-group pull-right">
-  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+</div>
+<div class="modal-footer">
+<%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>

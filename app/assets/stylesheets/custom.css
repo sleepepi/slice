@@ -499,3 +499,7 @@ body { padding-top: 50px; padding-bottom: 70px; }
     width: 900px;
   }
 }
+
+.datepicker {
+  z-index: 10000 !important;;
+}

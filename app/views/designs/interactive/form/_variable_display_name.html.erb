@@ -1,60 +1,68 @@
 <% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
 
-<div class="page-header">
-  <h1>
-    Edit Variable
-    <span data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="editable-design-element" style="font-size:0.4em">
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Edit Variable &middot;
+    <span data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="editable-design-element">
       <%= @variable.name %>
     </span>
-  </h1>
+  </h4>
 </div>
+<div class="modal-body">
 
-<form id="variable_form" class="form-horizontal">
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Display Name</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "variable[display_name]", @variable.display_name, style: 'width:95%', autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id } %>
-      <div class="help-block">
-        The display name is the question as displayed to the user who is filling out the form.<br />
-        <div style="margin-left:20px">Ex: <i class="text-muted">What is your age?</i></div>
-      </div>
-    </div>
-  </div>
+  <form id="variable_form" class="form-horizontal">
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Variable Name</label>
-    <div data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="controls editable-design-element" style="line-height:30px">
-      <%= @variable.name %>
-      <div class="help-block">
-        <span class="text-muted">Click here to edit the variable name</span>
-      </div>
-    </div>
-  </div>
-
-  <% if @variable == @design.variable_at(params[:position].to_i) %>
-    <% @option = @design.options[params[:position].to_i] %>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Branching Logic</label>
+      <label class="col-lg-2 control-label">Display Name</label>
       <div class="col-lg-10">
-        <%= text_area_tag "variable[branching_logic]", @option[:branching_logic], rows: 3, style: 'width:95%',
-          rel: "popover", data: { content: "
-            <table class='table table-bordered'>
-            <tbody>
-              <tr><td style='font-weight:bold'>General</td><td>variable == 5</td></tr>
-              <tr><td style='font-weight:bold'>OR</td><td>a > 5 || b < 2</td></tr>
-              <tr><td style='font-weight:bold'>AND</td><td>a > 5 && a < 10</td></tr>
-              <tr><td style='font-weight:bold'>Checkbox</td><td>overlap(variable, ['5'])</td></tr>
-            </tbody>
-            </table>
-            ", title: "Branching Logic Examples", placement: 'bottom', html: true } %>
+        <%= text_field_tag "variable[display_name]", @variable.display_name, data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, autocomplete: 'off', class: "form-control" %>
+        <div class="bs-callout bs-callout-info">
+          <h4>Heads up!</h4>
+
+          <p>The display name is the question as displayed to the user who is filling out the form.</p>
+
+          <p>Ex: <span class="text-muted">What is your age?</span></p>
+        </div>
       </div>
     </div>
-  <% end %>
-</form>
 
-<hr class="soften" style="margin-top:20px;" />
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Variable Name</label>
+      <div data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="col-lg-10 editable-design-element" style="line-height:30px">
+        <%= @variable.name %>
+        <div class="help-block">
+          <span class="text-muted">Click here to edit the variable name</span>
+        </div>
+      </div>
+    </div>
 
-<div class="button-group pull-right">
-  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+    <% if @variable == @design.variable_at(params[:position].to_i) %>
+      <% @option = @design.options[params[:position].to_i] %>
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Branching Logic</label>
+        <div class="col-lg-10">
+          <%= text_area_tag "variable[branching_logic]", @option[:branching_logic], rows: 3, class: 'form-control' %>
+          <div class="bs-callout bs-callout-info">
+            <h4>Branching Logic Examples</h4>
+
+            <table class="table table-bordered">
+              <tbody>
+                <tr><td style="font-weight:bold">General</td><td><code>variable == 5</code></td></tr>
+                <tr><td style="font-weight:bold">OR</td><td><code>a &gt; 5 || b &lt; 2</code></td></tr>
+                <tr><td style="font-weight:bold">AND</td><td><code>a &gt; 5 &amp;&amp; a &lt; 10</code></td></tr>
+                <tr><td style="font-weight:bold">Checkbox</td><td><code>overlap(variable, ['5'])</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+  </form>
+
+</div>
+<div class="modal-footer">
+<%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>

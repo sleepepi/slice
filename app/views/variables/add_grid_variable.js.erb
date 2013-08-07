@@ -5,5 +5,3 @@
 <% else %>
   $("#form_grid_variables").append("<%= escape_javascript(render("edit_grid_variable")) %>");
 <% end %>
-
-$('#variable_grid_tokens_<%= @position %>_variable_id.chzn-select').chosen();

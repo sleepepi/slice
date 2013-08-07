@@ -1,46 +1,64 @@
 <% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
 
-<div class="page-header">
-  <h1>Edit Variable <span style="font-size:0.4em"><%= @variable.name %></span></h1>
+<% @variable = @design.project.variables.find_by_id(params[:variable_id]) %>
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Edit Variable &middot; <%= @variable.name %>
+  </h4>
 </div>
+<div class="modal-body">
 
-<form id="variable_form" class="form-horizontal">
+  <form id="variable_form" class="form-horizontal">
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Calculation</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "variable[calculation]", @variable.calculation, placeholder: 'Variable Calculation', style: 'width:95%', autocomplete: 'off',
-        rel: "popover", data: { content: "
-        <table class='table table-bordered'>
-        <tbody>
-          <tr><td style='font-weight:bold'>General</td><td>var1 + var2</td></tr>
-          <tr><td style='font-weight:bold'>Missing Values</td><td>var1 == -9 ? -9 : var1 + var2</td></tr>
-          <tr><td style='font-weight:bold'>Parentheses</td><td>(var1 + var2) / var3</td></tr>
-        </tbody>
-        </table>
-        ", title: "Calculation Examples", placement: 'bottom', html: true } %>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Calculation</label>
+      <div class="col-lg-10">
+        <%= text_field_tag "variable[calculation]", @variable.calculation, data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, autocomplete: 'off', class: "form-control" %>
+        <div class="bs-callout bs-callout-info">
+          <h4>Calculation Examples</h4>
+
+          <dl class="dl-horizontal">
+            <dt>General</dt>
+            <dd><code>var1 + var2</code></dd>
+
+            <dt>Missing Values</dt>
+            <dd><code>var1 == -9 ? -9 : var1 + var2</code></dd>
+
+            <dt>Parentheses</dt>
+            <dd><code>(var1 + var2) / var3</code></dd>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Format</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "variable[format]", @variable.format, placeholder: 'Variable Format', style: 'width:95%', autocomplete: 'off',
-        rel: "popover", data: { content: "
-        <table class='table table-bordered'>
-        <tbody>
-          <tr><td style='font-weight:bold'>Precision</td><td>%0.02f</td><td>4.127 => 4.13</td></tr>
-          <tr><td style='font-weight:bold'>Leading Zeros</td><td>%04d</td><td>45 => 0045</td></tr>
-        </tbody>
-        </table>
-        ", title: "Calculation Examples", placement: 'bottom', html: true } %>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Format</label>
+      <div class="col-lg-10">
+        <%= text_field_tag "variable[format]", @variable.format, data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, autocomplete: 'off', class: "form-control" %>
+        <div class="bs-callout bs-callout-info">
+          <h4>Format Examples</h4>
+
+          <dl class="dl-horizontal">
+            <dt>Precision</dt>
+            <dd>
+              <code>%0.02f</code>
+              <p>4.127 => 4.13</p>
+            </dd>
+
+            <dt>Leading Zeros</dt>
+            <dd>
+              <code>%04d</code>
+              <p>45 => 0045</p>
+            </dd>
+        </div>
+      </div>
     </div>
-  </div>
-</form>
 
-<hr class="soften" style="margin-top:20px;" />
+  </form>
 
-<div class="button-group pull-right">
-  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+</div>
+<div class="modal-footer">
+<%= button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>
