@@ -19,7 +19,7 @@ if(browserSupportsPushState){
 <% else %>
   <% if ['design_name', 'design_description'].include?(params[:update]) %>
     $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>").effect('highlight', { "color": "#cfff99" }, 3000);;
-    hideContourModal();
+    hideInteractiveDesignModal();
   <% end %>
 <% end %>
 

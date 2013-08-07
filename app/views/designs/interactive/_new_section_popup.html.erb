@@ -10,7 +10,7 @@
     <div class="form-group">
       <label class="col-lg-2 control-label">Section Name</label>
       <div class="col-lg-10">
-        <%= text_field_tag "section[section_name]", '', autocomplete: 'off', class: 'form-control' %>
+        <%= text_field_tag "section[section_name]", '', data: { object: 'push-partial-change-text-field', target: '#section_form', create: 'section', position: params[:position] }, autocomplete: 'off', class: 'form-control' %>
       </div>
     </div>
 

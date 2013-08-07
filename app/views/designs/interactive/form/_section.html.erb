@@ -13,7 +13,7 @@
     <div class="form-group">
       <label class="col-lg-2 control-label">Name</label>
       <div class="col-lg-10">
-        <%= text_field_tag "section[section_name]", @option[:section_name], class: 'form-control' %>
+        <%= text_field_tag "section[section_name]", @option[:section_name], data: { object: 'push-partial-change-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control' %>
       </div>
     </div>
 
