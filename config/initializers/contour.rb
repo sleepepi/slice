@@ -24,7 +24,13 @@ Contour.setup do |config|
     },
     {
       name: 'image_tag(current_user.avatar_url(18, "blank"))+" "+current_user.name', eval: true, display: 'signed_in', path: 'settings_path', position: 'right',
-      links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true },
+      links: [{ name: "About Slice v#{Slice::VERSION::STRING}", path: 'about_path' },
+              { divider: true },
+              { header: 'Administrative', condition: 'current_user.system_admin?' },
+              { name: 'Users', path: 'users_path', condition: 'current_user.system_admin?' },
+              { divider: true, condition: 'current_user.system_admin?' },
+              { header: 'current_user.email', eval: true },
+              { html: 'Settings', path: 'settings_path' },
               { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
               { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
@@ -112,10 +118,7 @@ Contour.setup do |config|
     # {
     #   name: 'Variables', display: 'signed_in', path: 'variables_path', position: 'left', condition: 'current_user.all_viewable_projects.size > 0',
     #   links: [{ name: 'Create Variable', path: 'new_variable_path' }]
-    # },
-    {
-      name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'current_user.system_admin?'
-    }
+    # }
   ]
 
   # Enter search bar information if you would like one [default none]:
