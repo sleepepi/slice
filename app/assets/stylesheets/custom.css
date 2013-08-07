@@ -503,3 +503,7 @@ body { padding-top: 50px; padding-bottom: 70px; }
 .datepicker {
   z-index: 10000 !important;;
 }
+
+.form-control {
+  min-width: 100px;
+}
