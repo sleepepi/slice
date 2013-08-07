@@ -21,7 +21,7 @@
   <% if @option[:variable_id].blank? %>
     <%= render partial: 'designs/section' %>
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-    <%= render partial: 'designs/variable' %>
+    <%= render partial: 'sheet_variables/form' %>
   <% end %>
 <% end %>
 

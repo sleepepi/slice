@@ -14,7 +14,7 @@
           <%= render partial: 'designs/section' %>
         <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %> <%# and @sheet.show_variable?(@option[:branching_logic]) # handled by client-side JavaScript %>
           <div data-object="evaluate-branching-logic" data-branching-logic="<%= @sheet.expanded_branching_logic(@option[:branching_logic]) %>">
-            <%= render partial: 'variables/show' %>
+            <%= render partial: 'sheet_variables/show' %>
           </div>
         <% end %>
       <% end %>
