@@ -71,10 +71,6 @@
     $spy = $(this).scrollspy('refresh')
   )
 
-
-  # if $('.bs-sidebar').length > 0
-  #   $('[data-spy~="affix"]').affix( offset: { top: $('.bs-sidebar').position().top - 40 } )
-
 jQuery ->
   $("#sheet_design_id").on('change', () ->
     $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize() + '&' + $("#sheet_subject_id").serialize(), null, "script")
@@ -108,10 +104,13 @@ jQuery ->
       $(this).blur()
     )
 
-  $("#sheet_subject_id").typeahead(
-    local: $("#sheet_subject_id").data('local')
-    template: '<p><span class="label label-{{status_class}}">{{status}}</span> <strong>{{subject_code}}</strong> {{acrostic}}</p>'
-    engine: Hogan
+  $('#sheet_subject_id').each( () ->
+    $this = $(this)
+    $this.typeahead(
+      local: $("#sheet_subject_id").data('local')
+      template: '<p><span class="label label-{{status_class}}">{{status}}</span> <strong>{{subject_code}}</strong> {{acrostic}}</p>'
+      engine: Hogan
+    )
   )
 
   $(document).on('typeahead:selected', "#sheet_subject_id", (event, datum) ->
