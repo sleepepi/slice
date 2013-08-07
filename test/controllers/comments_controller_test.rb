@@ -55,7 +55,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should update comment" do
     patch :update, id: @comment, comment: { description: @comment.description }
-    assert_redirected_to comment_path(assigns(:comment))
+    assert_redirected_to project_sheet_path(assigns(:comment).sheet.project, assigns(:comment).sheet)
   end
 
   test "should not update comment with blank description" do
