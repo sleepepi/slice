@@ -2,6 +2,13 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@showInteractiveDesignModal = () ->
+  $('#interactive_design_modal').modal('show')
+
+@hideInteractiveDesignModal = () ->
+  $('#interactive_design_modal').modal('hide')
+
+
 # This function updates all variables starting with lowest one and progressing up in visibility.
 # After hiding or showing all the variables, it updates the scroll-spy to correct any offsets that may
 # have been introduced

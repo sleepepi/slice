@@ -2,10 +2,10 @@
   <h1><%= link_to @project.name, @project %> &middot; <%= link_to 'Designs', project_designs_path(@project) %></h1>
 </div>
 
-<div id="contour-backdrop" style="display:none"></div>
-
-<div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="display:none">
-  <div class="contour-modal modal-fixed" data-object="contour_modal_container" id="interactive-design-container">
+<div class="modal fade" id="interactive_design_modal">
+  <div class="modal-dialog modal-wide-width">
+    <div class="modal-content" id="interactive-design-container">
+    </div>
   </div>
 </div>
 

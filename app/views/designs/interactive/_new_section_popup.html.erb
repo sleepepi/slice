@@ -1,40 +1,41 @@
-<div class="page-header">
-  <h1>
-    Insert Section
-    <%= link_to 'back to variable types', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: params[:position] }, class: 'btn btn-default btn-mini' %>
-  </h1>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+  <%= link_to 'Select New Section or Variable', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: params[:position] } %> &middot;
+    New Section
+  </h4>
 </div>
-
-<form id="section_form" class="form-horizontal">
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Section Name</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "section[section_name]", '', style: 'width:95%', autocomplete: 'off' %>
+<div class="modal-body">
+  <form id="section_form" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Section Name</label>
+      <div class="col-lg-10">
+        <%= text_field_tag "section[section_name]", '', autocomplete: 'off', class: 'form-control' %>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Section Description</label>
-    <div class="col-lg-10">
-      <%= text_area_tag "section[section_description]", '', style: 'width:95%', autocomplete: 'off', rows: 3 %>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Section Description</label>
+      <div class="col-lg-10">
+        <%= text_area_tag "section[section_description]", '', autocomplete: 'off', rows: 3, class: 'form-control' %>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Is Subsection?</label>
-    <div class="col-lg-10">
-      <%= hidden_field_tag "section[section_type]", "0" %>
-      <%= check_box_tag "section[section_type]", "1", false %>
+    <div class="form-group">
+      <div class="col-lg-10 col-offset-2">
+        <div class="checkbox">
+          <label>
+            <%= hidden_field_tag "section[section_type]", "0" %>
+            <%= check_box_tag "section[section_type]", "1", false %>
+            Subsection
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
 
-</form>
-
-
-<hr class="soften" style="margin-top:20px;" />
-
-<div class="button-group pull-right">
-  <%= button_tag 'Insert', data: { object: 'push-partial-change', target: '#section_form', create: 'section', position: params[:position] }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+  </form>
 </div>
-
+<div class="modal-footer">
+  <%= button_tag 'Add Section', data: { object: 'push-partial-change', target: '#section_form', create: 'section', position: params[:position] }, class: 'btn btn-primary' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
+</div>

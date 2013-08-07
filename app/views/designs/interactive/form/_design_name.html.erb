@@ -1,29 +1,28 @@
-<div class="page-header">
-  <h1>Edit Design Name</h1>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">Edit Design Name</h4>
 </div>
+<div class="modal-body">
+  <form id="design_form" class="form-horizontal">
 
-<form id="design_form" class="form-horizontal">
-
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Name</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "design[name]", @design.name, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, style: 'width:95%' %>
-    </div>
-  </div>
-
-  <% if @design.publicly_available? %>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Slug</label>
+      <label class="col-lg-2 control-label">Name</label>
       <div class="col-lg-10">
-        <%= text_field_tag "design[slug]", @design.slug, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, style: 'width:95%' %>
+        <%= text_field_tag "design[name]", @design.name, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, class: 'form-control' %>
       </div>
     </div>
-  <% end %>
-</form>
 
-<hr class="soften" style="margin-top:20px;" />
-
-<div class="button-group pull-right">
+    <% if @design.publicly_available? %>
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Slug</label>
+        <div class="col-lg-10">
+          <%= text_field_tag "design[slug]", @design.slug, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, class: 'form-control' %>
+        </div>
+      </div>
+    <% end %>
+  </form>
+</div>
+<div class="modal-footer">
   <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#design_form', update: 'design_name' }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal' }, class: 'btn' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>

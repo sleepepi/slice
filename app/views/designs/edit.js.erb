@@ -1,10 +1,12 @@
 <% if ['design_name', 'design_description', 'section', 'variable_name', 'variable_display_name', 'variable_prepend', 'variable_append', 'variable_units', 'variable_calculated', 'variable_ranges', 'variable_autocomplete', 'variable_date', 'variable_domain', 'variable_grid_rows', 'variable_grid_variables'].include?(params[:edit]) %>
   $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/form/#{params[:edit]}")) %>");
-  showContourModal();
+
+  showInteractiveDesignModal();
+
   $("#interactive-design-container").find('input, textarea').first().focus();
 <% elsif ['section_or_variable', 'new_variable', 'new_section'].include?(params[:new]) %>
   $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/#{params[:new]}_popup")) %>");
-  showContourModal();
+  showInteractiveDesignModal();
 <% end %>
 
 $(".chzn-select").chosen({ allow_single_deselect: true });

@@ -1,55 +1,63 @@
 <% @option = @design.options[params[:position].to_i] %>
 
-<div class="page-header">
-  <h1>Edit Section</h1>
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Edit Section
+  </h4>
 </div>
+<div class="modal-body">
+  <form id="section_form" class="form-horizontal">
 
-<form id="section_form" class="form-horizontal">
-
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Name</label>
-    <div class="col-lg-10">
-      <%= text_field_tag "section[section_name]", @option[:section_name], style: 'width:95%' %>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-10">
+        <%= text_field_tag "section[section_name]", @option[:section_name], class: 'form-control' %>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Description</label>
-    <div class="col-lg-10">
-      <%= text_area_tag "section[section_description]", @option[:section_description], rows: 3, style: 'width:95%' %>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Description</label>
+      <div class="col-lg-10">
+        <%= text_area_tag "section[section_description]", @option[:section_description], rows: 3, class: 'form-control' %>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Branching Logic</label>
-    <div class="col-lg-10">
-      <%= text_area_tag "section[branching_logic]", @option[:branching_logic], rows: 3, style: 'width:95%',
-        rel: "popover", data: { content: "
-          <table class='table table-bordered'>
-          <tbody>
-            <tr><td style='font-weight:bold'>General</td><td>variable == 5</td></tr>
-            <tr><td style='font-weight:bold'>OR</td><td>a > 5 || b < 2</td></tr>
-            <tr><td style='font-weight:bold'>AND</td><td>a > 5 && a < 10</td></tr>
-            <tr><td style='font-weight:bold'>Checkbox</td><td>overlap(variable, ['5'])</td></tr>
-          </tbody>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Branching Logic</label>
+      <div class="col-lg-10">
+        <%= text_area_tag "section[branching_logic]", @option[:branching_logic], rows: 3, class: 'form-control' %>
+        <div class="bs-callout bs-callout-info">
+          <h4>Branching Logic Examples</h4>
+
+          <table class="table table-bordered">
+            <tbody>
+              <tr><td style="font-weight:bold">General</td><td><code>variable == 5</code></td></tr>
+              <tr><td style="font-weight:bold">OR</td><td><code>a &gt; 5 || b &lt; 2</code></td></tr>
+              <tr><td style="font-weight:bold">AND</td><td><code>a &gt; 5 &amp;&amp; a &lt; 10</code></td></tr>
+              <tr><td style="font-weight:bold">Checkbox</td><td><code>overlap(variable, ['5'])</code></td></tr>
+            </tbody>
           </table>
-          ", title: "Branching Logic Examples", placement: 'bottom', html: true } %>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="col-lg-2 control-label">Is Subsection?</label>
-    <div class="col-lg-10">
-      <%= hidden_field_tag "section[section_type]", "0" %>
-      <%= check_box_tag "section[section_type]", "1", @option[:section_type].to_i > 0 %>
+    <div class="form-group">
+      <div class="col-lg-10 col-offset-2">
+        <div class="checkbox">
+          <label>
+            <%= hidden_field_tag "section[section_type]", "0" %>
+            <%= check_box_tag "section[section_type]", "1", @option[:section_type].to_i > 0 %>
+            Subsection
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
 
-</form>
-
-<hr class="soften" style="margin-top:20px;" />
-
-<div class="button-group pull-right">
+  </form>
+</div>
+<div class="modal-footer">
   <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#section_form', update: 'section', position: params[:position] }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal', position: params[:position] }, class: 'btn' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>

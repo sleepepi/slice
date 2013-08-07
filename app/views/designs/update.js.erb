@@ -23,7 +23,7 @@
 
   $("#interactive_<%= params[:position] %>_container").effect('highlight', { "color": "#cfff99" }, 3000);
 
-  hideContourModal();
+  hideInteractiveDesignModal();
   $(".chzn-select").chosen({ allow_single_deselect: true });
 
   $(".active[data-object~='edit-mode']").click();

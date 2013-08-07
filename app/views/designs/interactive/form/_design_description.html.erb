@@ -1,14 +1,20 @@
-<div class="page-header">
-  <h1>Edit Design Description</h1>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Edit Design Description
+  </h4>
 </div>
-
-<div class="row-fluid">
-  <%= text_area_tag "design[description]", @design.description, placeholder: 'Design Description', rows: 7, class: 'col-lg-12' %>
+<div class="modal-body">
+  <form id="design_form" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Description</label>
+      <div class="col-lg-10">
+        <%= text_area_tag "design[description]", @design.description, rows: 7, class: 'form-control' %>
+      </div>
+    </div>
+  </form>
 </div>
-
-<hr class="soften" style="margin-top:20px;" />
-
-<div class="button-group pull-right">
+<div class="modal-footer">
   <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#design_description', update: 'design_description' }, class: 'btn btn-primary' %>
-  <%= button_tag 'Cancel', data: { object: 'hide-contour-modal' }, class: 'btn' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>
