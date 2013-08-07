@@ -8,7 +8,7 @@
 <% end %>
 
 <% @sheet.comments.order('created_at DESC').each do |comment| %>
-  <div style="padding: 5px;" class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < comment.updated_at %>" data-comment-id="<%= comment.id %>">
+  <div style="padding: 5px;" data-comment-id="<%= comment.id %>">
     <hr class="soften" style="margin-top:5px;margin-bottom:5px" />
     <table><col width="50px"/>
       <tr>
