@@ -41,9 +41,12 @@
   </dd>
 </dl>
 
+<div class="page-header">
+  <h1>Sheets Entered</h1>
+</div>
 <% @subjects = Subject.current.where(id: @subject.id).page(0).per(-1) %>
 <% @designs = @project.designs.order('name') %>
-<%= render partial: 'projects/subject_report' %>
+<%= render partial: 'projects/subject_report', locals: { no_header: '1' } %>
 
 
 <% sheet_variables = @subject.sheets.collect{|s| s.sheet_variables.with_variable_type('file')}.flatten[0..100] %>

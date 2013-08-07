@@ -1,12 +1,18 @@
-<h3 style="text-align:center;margin:0px">Subject vs. Design</h3>
+<% include_header = true %>
+<% include_header = false if defined?(no_header) and no_header == '1' %>
 
-<%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20, object_count: @subjects.total_count } %>
+<% if include_header %>
+  <h3 style="text-align:center;margin:0px">Subject vs. Design</h3>
+  <%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20, object_count: @subjects.total_count } %>
+<% end %>
 
 <table class="table table-hover"><col width="1px" /><%== "<col width='#{100/(@designs.size + 1)}%'/>" * (@designs.size + 1) %><col width="1px"/>
   <thead>
     <tr>
-      <th></th>
-      <th>Subject</th>
+      <% if include_header %>
+        <th></th>
+        <th>Subject</th>
+      <% end %>
       <% @designs.each do |design| %>
         <th><span class="count-rot315__"><%= design.name %></span></th>
       <% end %>
@@ -16,8 +22,10 @@
   <% if @subject_count %>
   <tfoot>
     <tr style="font-weight:bold">
-      <td></td>
-      <td>Total</td>
+      <% if include_header %>
+        <td></td>
+        <td>Total</td>
+      <% end %>
       <% @designs.each do |design| %>
         <% count = design.sheets.where(subject_id: @subjects.pluck(:id)).count %>
         <td class="<%= 'muted' if count == 0 %>">
@@ -31,19 +39,21 @@
   <tbody>
     <% @subjects.each do |subject| %>
       <tr>
-        <td>
-          <% case subject.status when 'valid' %>
-            <span class="label label-success"><%= subject.status %></span>
-          <% when 'test' %>
-            <span class="label label-info"><%= subject.status %></span>
-          <% else %>
-            <span class="label label-warning"><%= subject.status %></span>
-          <% end %>
-        </td>
-        <td><%= link_to subject.subject_code, [subject.project, subject] %></td>
+        <% if include_header %>
+          <td style="line-height:30px">
+            <% case subject.status when 'valid' %>
+              <span class="label label-success"><%= subject.status %></span>
+            <% when 'test' %>
+              <span class="label label-info"><%= subject.status %></span>
+            <% else %>
+              <span class="label label-warning"><%= subject.status %></span>
+            <% end %>
+          </td>
+          <td style="line-height:30px"><%= link_to subject.subject_code, [subject.project, subject] %></td>
+        <% end %>
         <% @designs.each do |design| %>
           <% count = design.sheets.where(subject_id: subject.id).count %>
-          <td class="<%= 'muted' if count == 0 %>" data-object="hover-show" data-target="#subject_<%= subject.id %>_design_<%= design.id %>_add_link" style="line-height:24px">
+          <td class="<%= 'muted' if count == 0 %>" data-object="hover-show" data-target="#subject_<%= subject.id %>_design_<%= design.id %>_add_link" style="line-height:30px">
             <% add_url = new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: subject.subject_code, subject_acrostic: subject.acrostic, site_id: subject.site_id) %>
             <% show_url = project_sheets_path(@project, design_id: design.id, search: subject.subject_code) %>
             <% if count == 0 %>
@@ -59,7 +69,7 @@
           </td>
         <% end %>
         <% count = @designs.collect{ |d| d.sheets.where(subject_id: subject.id).count }.sum %>
-        <td class="<%= 'muted' if count == 0 %>">
+        <td class="<%= 'muted' if count == 0 %>" style="line-height:30px">
           <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, search: subject.subject_code) %>
         </td>
       </tr>
