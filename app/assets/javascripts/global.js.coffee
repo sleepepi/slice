@@ -58,9 +58,9 @@ jQuery ->
       $('[data-object~="filter-html"]').html('')
       $('#variable-type-all').button('toggle')
       $('[data-object~="set-statuses"]').addClass('active')
-      $('#statuses_pending').val('pending')
-      $('#statuses_test').val('test')
-      $('#statuses_valid').val('valid')
+      $('#statuses_pending').prop('checked', true)
+      $('#statuses_test').prop('checked', true)
+      $('#statuses_valid').prop('checked', true)
       $($(this).data('target')).submit()
       false
     )

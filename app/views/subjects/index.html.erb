@@ -20,14 +20,7 @@
     <div class="col-lg-4 form-group">
       <label class="col-lg-2 control-label">Subjects</label>
       <div class="col-lg-10">
-        <div class="btn-group" data-toggle="buttons-checkbox">
-          <% Subject::STATUS.each do |label, value| %>
-            <button data-object="set-statuses" data-value="<%= value %>" data-target="#subjects_search" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
-              <%= label.humanize %>
-              <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
-            </button>
-          <% end %>
-        </div>
+        <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#subjects_search' } %>
       </div>
     </div>
   </div>
