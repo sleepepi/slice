@@ -3,14 +3,15 @@
   <span data-object="pull-partial-edit" data-edit="design_name" class="editable-design-element">
     <% if design_name.blank? %><span class="text-muted">Click to Edit Design Name</span><% else %><%= design_name %><% end %>
   </span>
-  <div class="btn-group design-preview-hide" data-toggle="buttons-radio">
-    <% [['private', false],['public', true]].each do |label, publicly_available| %>
-      <% if publicly_available == @design.publicly_available %>
-        <button type="button" class="btn btn-mini active"><%= label %></button>
-      <% else %>
-        <%= link_to label, '#', data: { object: 'push-partial-change', update: 'design_name', changes: { design: { publicly_available: publicly_available } } }, class: 'btn btn-default btn-mini' %>
+  <div class="design-preview-hide">
+    <div class="btn-group" data-toggle="buttons">
+      <% [['private', false],['public', true]].each do |label, value| %>
+        <label class="btn btn-mini btn-default <%= 'active' if @design.publicly_available == value %>" data-object="push-partial-change" data-update="design_name" data-changes='{"design":{"publicly_available":<%= value %>}}'>
+          <%= radio_button_tag "publicly_available", value, @design.publicly_available == value %>
+          <%= label %>
+        </label>
       <% end %>
-    <% end %>
+    </div>
   </div>
 </h2>
 
