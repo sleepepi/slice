@@ -9,7 +9,7 @@
     <div class="row">
       <% row_items.each do |variable_type| %>
         <% if variable_type and variable_type != 'section' %>
-          <div class="col-lg-4">
+          <div class="<%= variable_type == 'grid' ? 'col-lg-8' : 'col-lg-4' %>">
             <div data-object="pull-partial-edit" data-new="new_variable" data-position="<%= params[:position] %>" data-variable-type="<%= variable_type %>" class="download-container editable-design-element">
               <div class="download-container-after"><%= variable_type.titleize %></div>
               <div style="margin-top:12px" class="center">
@@ -76,22 +76,18 @@
                       <tbody>
                         <tr>
                           <td>
-                            <div style="display:inline-block">
-                              <input class="input-mini" placeholder="Mouth breath number" type="text" value="1">
-                            </div>
+                            <input placeholder="Mouth breath number" type="text" value="1" class="form-control">
                           </td>
                           <td>
-                             <%= select_tag 'exercise', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 2), disabled: false, class: "chzn-select" %>
+                             <%= select_tag 'exercise', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 2), disabled: false, class: "form-control chzn-select" %>
                           </td>
                         </tr>
                         <tr>
                           <td>
-                            <div style="display:inline-block">
-                              <input class="input-mini" placeholder="Mouth breath number" type="text" value="2">
-                            </div>
+                            <input placeholder="Mouth breath number" type="text" value="2" class="form-control">
                           </td>
                           <td>
-                             <%= select_tag 'exercise2', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 3), disabled: false, class: "chzn-select" %>
+                             <%= select_tag 'exercise2', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 3), disabled: false, class: "form-control chzn-select" %>
                           </td>
                         </tr>
                       </tbody>
