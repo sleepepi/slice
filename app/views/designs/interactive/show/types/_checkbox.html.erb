@@ -31,7 +31,7 @@
           <% end %>
         </tr>
         <tr class="design-preview-hide">
-          <td colspan="<%= variable.shared_options.size + 1 %>" style="text-align:center"><span class="dark-hover muted">Click to Edit Choices</span></td>
+          <td colspan="<%= variable.shared_options.size + 1 %>" style="text-align:center"><span class="hover-dark muted">Click to Edit Choices</span></td>
         </tr>
       </tbody>
     </table>
@@ -47,6 +47,6 @@
         <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
       <% end %>
     </div>
-    <span class="dark-hover muted design-preview-hide">Click to Edit Choices</span>
+    <span class="hover-dark muted design-preview-hide">Click to Edit Choices</span>
   <% end %>
 </div>
