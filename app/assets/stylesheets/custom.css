@@ -461,6 +461,10 @@ div.filter-sort-container {
   padding: 7px 9px;
 }
 
+.navbar-brand {
+  white-space: nowrap;
+}
+
 body { padding-top: 50px; padding-bottom: 70px; }
 
 @media screen and (min-width: 900px) {

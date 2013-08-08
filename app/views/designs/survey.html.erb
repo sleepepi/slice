@@ -12,17 +12,14 @@
 
 <%= form_tag project_submit_public_survey_path(@design.project, @design), method: :post, class: 'form-horizontal', multipart: true, id: "survey_#{@design.id}_form" do |f| %>
 
+  <div id="design" style="min-height:200px">
+    <div class="center" style="margin-top:100px">Loading Survey <%= image_tag 'contour/ajax-loader.gif' %></div>
+  </div>
+
   <div class="form-signin">
     <p class="lead">Please enter your email</p>
     <%= email_field_tag :email, '', class: 'form-control', placeholder: 'Email' %>
-  </div>
 
-  <div id="design">
-    <div class="center">Loading Survey <%= image_tag 'contour/ajax-loader.gif' %></div>
-    <%#= @design = @sheet.design; render partial: 'designs/selection' %>
-  </div>
-
-  <div class="form-signin">
     <% form_name = "survey_#{@design.id}_form" %>
     <%= submit_tag 'Submit Survey', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large' %>
   </div>
