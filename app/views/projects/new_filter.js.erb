@@ -1,4 +1,4 @@
 $("#filter-modal").html("<%= escape_javascript(render("filters/new_filter")) %>");
 $("#variable_id.chzn-select").chosen({ allow_single_deselect: true })
-showContourModal();
+$('#new_filter_modal').modal('show');
 $("#variable_id").change();

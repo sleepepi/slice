@@ -39,7 +39,7 @@ jQuery ->
       else
         by_var = ''
       $.post($('#filters_form').attr('action'), $('#filters_form').serialize()+"&f[][id]="+variable_id+"&f[][missing]=" + missing + "&f[][by]=" + by_var, null, 'script')
-      hideContourModal()
+      $('#new_filter_modal').modal('hide')
       false
     )
     .on('click', '[data-object~="edit-filter"]', () ->
@@ -60,13 +60,13 @@ jQuery ->
       $("#variable_"+variable_id).children('input[data-name~="missing"]').val(missing)
       $("#variable_"+variable_id).children('input[data-name~="by"]').val($("[name='by']:checked").val())
       $.post($('#filters_form').attr('action'), $('#filters_form').serialize(), null, 'script')
-      hideContourModal()
+      $('#new_filter_modal').modal('hide')
       false
     )
     .on('click', '[data-object~="remove-filter"]', () ->
       $($(this).data('target')).remove()
       submitReportWithFilters()
-      hideContourModal()
+      $('#new_filter_modal').modal('hide')
       false
     )
     .on('click', '[data-object~="filters-link"]', () ->

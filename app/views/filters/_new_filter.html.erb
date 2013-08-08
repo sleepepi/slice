@@ -8,34 +8,40 @@
 <% extra_variables << ['Site', 'site'] if filters.select{|f| f[:id] == 'site'}.size == 0 %>
 <% extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0 %>
 
-<div class="row-fluid">
-  <div class="col-lg-6 download-container">
-    <h3>Select Variable</h3>
-    <%= form_tag cool_lookup_project_variables_path(@design.project), method: :post, remote: true, class: "form-inline", id: 'cool_lookup_form' do %>
-      <% if row_variable_groups.blank? %>
-        No Variables available as Filters
-      <% else %>
-        <%= select_tag :variable_id, options_for_select(extra_variables) + grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' } %>
-        <label class="checkbox"><%= check_box_tag :missing, '1', false %> Include Missing</label>
-        <%= hidden_field_tag :axis, 'row' %>
-      <% end %>
-    <% end %>
-  </div>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+    Add Filter
+  </h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="download-container">
+        <h3>Select Variable</h3>
+        <%= form_tag cool_lookup_project_variables_path(@design.project), method: :post, remote: true, class: "form-inline", id: 'cool_lookup_form' do %>
+          <% if row_variable_groups.blank? %>
+            No Variables available as Filters
+          <% else %>
+            <%= select_tag :variable_id, options_for_select(extra_variables) + grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' } %>
+            <label class="checkbox"><%= check_box_tag :missing, '1', false %> Include Missing</label>
+            <%= hidden_field_tag :axis, 'row' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
 
-  <div class="col-lg-6 download-container">
-    <h3>Description</h3>
-    <div id="cool-options">
-      <%#= render partial: 'filters/cool_options' %>
+    <div class="col-lg-6">
+      <div class="download-container">
+        <h3>Description</h3>
+        <div id="cool-options">
+          <%#= render partial: 'filters/cool_options' %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-<div class="row-fluid">
-  <div class="col-lg-6">
-    <%= button_tag 'Add to Filters', data: { object: 'add-filter' }, disabled: row_variable_groups.blank?, class: 'btn btn-primary btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
-  </div>
-
-  <div class="col-lg-6">
-    <%= button_tag 'Cancel', data: { object: 'hide-contour-modal' }, class: 'btn btn-block btn-large', style: 'text-align:middle;height: 122px;font-size: 24.5px;font-weight:300' %>
-  </div>
+<div class="modal-footer">
+  <%= button_tag 'Add to Filters', data: { object: 'add-filter' }, disabled: row_variable_groups.blank?, class: 'btn btn-primary' %>
+  <button type="button" class="btn btn-cancel-inverse" data-dismiss="modal">Cancel</button>
 </div>
