@@ -51,13 +51,12 @@
       <% if variable_types.size > 1 %>
         <dt>Type</dt>
         <dd>
-          <div class="btn-group" data-toggle="buttons-radio">
-            <% variable_types.each_with_index do |variable_type, vindex| %>
-              <% if variable_type == @variable.variable_type %>
-                <button type="button" class="btn btn-mini active"><%= variable_type %></button>
-              <% else %>
-                <%= link_to variable_type, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { variable_type: variable_type } }, position: @position }, class: 'btn btn-default btn-mini' %>
-              <% end %>
+          <div class="btn-group" data-toggle="buttons">
+            <% variable_types.collect{|v| [v,v]}.each do |label, value| %>
+              <label class="btn btn-mini btn-default <%= 'active' if @variable.variable_type == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"variable_type":"<%= value %>"}}' data-position="<%= @position %>">
+                <%= radio_button_tag "variable_type", value, @variable.variable_type == value %>
+                <%= label %>
+              </label>
             <% end %>
           </div>
         </dd>
@@ -66,13 +65,12 @@
       <% if ['radio', 'checkbox'].include?(@variable.variable_type) %>
         <dt>Options Alignment</dt>
         <dd>
-          <div class="btn-group" data-toggle="buttons-radio">
-            <% Variable::ALIGNMENT.each_with_index do |(label, alignment), vindex| %>
-              <% if alignment == @variable.alignment %>
-                <button type="button" class="btn btn-mini active"><%= alignment %></button>
-              <% else %>
-                <%= link_to alignment, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { alignment: alignment } }, position: @position }, class: 'btn btn-default btn-mini' %>
-              <% end %>
+          <div class="btn-group" data-toggle="buttons">
+            <% Variable::ALIGNMENT.each do |label, value| %>
+              <label class="btn btn-mini btn-default <%= 'active' if @variable.alignment == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"alignment":"<%= value %>"}}' data-position="<%= @position %>">
+                <%= radio_button_tag "alignment", value, @variable.alignment == value %>
+                <%= label %>
+              </label>
             <% end %>
           </div>
         </dd>
@@ -81,13 +79,12 @@
       <% unless ['radio', 'checkbox'].include?(@variable.variable_type) and @variable.alignment == 'scale' %>
         <dt>Display Name</dt>
         <dd>
-          <div class="btn-group" data-toggle="buttons-radio">
-            <% Variable::DISPLAY_NAME_VISIBILITY.each_with_index do |(label, visibility), vindex| %>
-              <% if visibility == @variable.display_name_visibility %>
-                <button type="button" class="btn btn-mini active"><%= label %></button>
-              <% else %>
-                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { display_name_visibility: visibility } }, position: @position }, class: 'btn btn-default btn-mini' %>
-              <% end %>
+          <div class="btn-group" data-toggle="buttons">
+            <% Variable::DISPLAY_NAME_VISIBILITY.each do |label, value| %>
+              <label class="btn btn-mini btn-default <%= 'active' if @variable.display_name_visibility == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"display_name_visibility":"<%= value %>"}}' data-position="<%= @position %>">
+                <%= radio_button_tag "display_name_visibility", value, @variable.display_name_visibility == value %>
+                <%= label %>
+              </label>
             <% end %>
           </div>
         </dd>
@@ -96,13 +93,12 @@
       <% if ['time', 'date'].include?(@variable.variable_type) %>
         <dt>Current <%= @variable.variable_type.titleize %> Button</dt>
         <dd>
-          <div class="btn-group" data-toggle="buttons-radio">
-            <% [['show', true],['hide', false]].each_with_index do |(label, show_current_button), vindex| %>
-              <% if show_current_button == @variable.show_current_button %>
-                <button type="button" class="btn btn-mini active"><%= label %></button>
-              <% else %>
-                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { show_current_button: show_current_button } }, position: @position }, class: 'btn btn-default btn-mini' %>
-              <% end %>
+          <div class="btn-group" data-toggle="buttons">
+            <% [['show', true],['hide', false]].each do |label, value| %>
+              <label class="btn btn-mini btn-default <%= 'active' if @variable.show_current_button == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"show_current_button":"<%= value %>"}}' data-position="<%= @position %>">
+                <%= radio_button_tag "show_current_button", value, @variable.show_current_button == value %>
+                <%= label %>
+              </label>
             <% end %>
           </div>
         </dd>
@@ -111,13 +107,12 @@
       <% if ['grid'].include?(@variable.variable_type) %>
         <dt>Allow Multiple Rows</dt>
         <dd>
-          <div class="btn-group" data-toggle="buttons-radio">
-            <% [['enabled', true],['disabled', false]].each do |label, multiple_rows| %>
-              <% if multiple_rows == @variable.multiple_rows %>
-                <button type="button" class="btn btn-mini active"><%= label %></button>
-              <% else %>
-                <%= link_to label, '#', data: { object: 'push-partial-change', update: 'variable', variable_id: @variable.id, changes: { variable: { multiple_rows: multiple_rows } }, position: @position }, class: 'btn btn-default btn-mini' %>
-              <% end %>
+          <div class="btn-group" data-toggle="buttons">
+            <% [['enabled', true],['disabled', false]].each do |label, value| %>
+              <label class="btn btn-mini btn-default <%= 'active' if @variable.multiple_rows == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"multiple_rows":"<%= value %>"}}' data-position="<%= @position %>">
+                <%= radio_button_tag "multiple_rows", value, @variable.multiple_rows == value %>
+                <%= label %>
+              </label>
             <% end %>
           </div>
         </dd>
