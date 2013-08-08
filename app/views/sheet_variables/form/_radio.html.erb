@@ -40,7 +40,7 @@
       <label class="radio <%= 'radio-inline' if is_grid or variable.alignment == 'horizontal' %> <%= 'selected' if value == response %>"><%= radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.variable_type, previous: (value == response ? "checked" : "unchecked") }, disabled: disabled %> <%= value %>: <%= name %></label>
     <% end %>
     <% if variable.options_only_missing.size > 0 %>
-      <label class="radio <%= 'radio-inline' if is_grid or variable.alignment == 'horizontal' %>"><span class="label label-info">Missing Codes</span></label>
+      <span class="label label-danger">Missing Codes</span>
     <% end %>
     <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
       <label class="radio <%= 'radio-inline' if is_grid or variable.alignment == 'horizontal' %> <%= 'selected' if value == response %>"><%= radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.variable_type, previous: (value == response ? "checked" : "unchecked") }, disabled: disabled %> <%= value %>: <%= name %></label>
