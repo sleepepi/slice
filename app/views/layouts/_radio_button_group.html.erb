@@ -1,0 +1,8 @@
+<div class="btn-group" data-toggle="buttons" style="white-space:nowrap">
+  <% options.each do |label, value| %>
+    <label class="btn btn-mini btn-default <%= 'active' if selected == value %>" data-object="set-<%= name %>">
+      <%= radio_button_tag "#{name}", value, selected == value %>
+      <%= label %>
+    </label>
+  <% end %>
+ </div>

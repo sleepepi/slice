@@ -31,7 +31,7 @@
 jQuery ->
   $(document)
     .on('click', '[data-object~="set-percent"]', (e) ->
-      $("#percent").val($(this).data('value'))
+      $(this).find('input').prop('checked', true)
       submitReportWithFilters()
       e.preventDefault()
     )
@@ -41,15 +41,15 @@ jQuery ->
       e.preventDefault()
     )
     .on('click', '[data-object~="set-filter"]', (e) ->
-      $("#filter").val($(this).data('value'))
+      $(this).find('input').prop('checked', true)
       submitReportWithFilters()
       e.preventDefault()
     )
     .on('click', '[data-object~="set-statuses"]', () ->
-      if $(this).hasClass('active')
-        $("#statuses_#{$(this).data('value')}").val('')
+      if $(this).find('input').is(':checked')
+        $(this).find('input').prop('checked', false)
       else
-        $("#statuses_#{$(this).data('value')}").val($(this).data('value'))
+        $(this).find('input').prop('checked', true)
       if $($(this).data('target')).length > 0
         $($(this).data('target')).submit()
       else
