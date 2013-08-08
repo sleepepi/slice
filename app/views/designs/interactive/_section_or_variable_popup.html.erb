@@ -21,7 +21,7 @@
                   </div>
                 <% when 'dropdown' %>
                   <span style="text-align: left;">
-                    <%= select_tag 'animal', "<option value=''></option>".html_safe + options_for_select([['1: Dog', 1], ['2: Cat', 2], ['3: Fish', 3]], 3), disabled: false, class: "chzn-select" %>
+                    <%= select_tag 'animal', "<option value=''></option>".html_safe + options_for_select([['1: Dog', 1], ['2: Cat', 2], ['3: Fish', 3]], 3), disabled: false, class: "form-control chzn-select" %>
                   </span>
                 <% when 'checkbox' %>
                   <div class="sheet-container">
