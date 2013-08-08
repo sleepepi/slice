@@ -10,15 +10,29 @@
   <% total_count = sheet_variables_count + grid_count %>
 <% end %>
 
-<div id="option_<%= @position %>" class="sheet-container <%= 'fieldset_with_errors' if @domain and @domain.errors.keys.include?(:options) %>" data-object="hover-show" data-target="#option_<%= @position %>_delete_link" style="cursor:move;line-height:25px;padding-top:5px">
-  <i class="icon-move"></i>
-  <%= hidden_field_tag "domain[option_tokens][][option_index]", option_index %>
-  <%= text_field_tag "domain[option_tokens][][value]", @option[:value], rel: 'tooltip', title: 'Value', class: 'input-small' %>
-  <%= text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, rel: 'tooltip', title: 'Name', class: 'input-small' %>
-  <%= text_field_tag "domain[option_tokens][][description]", @option[:description], rel: 'tooltip', title: 'Description', tabindex: "-1" %>
-  <label class="checkbox inline <%= 'selected' if @option[:missing_code] == '1' %>"><%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1" %> Missing Code</label>
-  <% if total_count > 0 %>
-    <span class="text-muted"><%= pluralize total_count, 'response' %> uses this option.</span>
-  <% end %>
-  <%= link_to 'Remove', '#', class: 'btn btn-mini btn-danger-inverse', data: { object: 'remove', target: "option_#{@position}", count: total_count }, style: "display:none", id: "option_#{@position}_delete_link", tabindex: "-1" %>
+<div id="option_<%= @position %>" class="sheet-container <%= 'fieldset_with_errors' if @domain and @domain.errors.keys.include?(:options) %>" style="cursor:move;line-height:30px;padding-top:5px">
+  <div class="row">
+    <div class="col-1">
+      <span class="glyphicon glyphicon-move"></span>
+      <%= hidden_field_tag "domain[option_tokens][][option_index]", option_index %>
+    </div>
+    <div class="col-2">
+      <%= text_field_tag "domain[option_tokens][][value]", @option[:value], rel: 'tooltip', title: 'Value', class: 'form-control' %>
+    </div>
+    <div class="col-2">
+      <%= text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, rel: 'tooltip', title: 'Name', class: 'form-control' %>
+    </div>
+    <div class="col-2">
+      <%= text_field_tag "domain[option_tokens][][description]", @option[:description], rel: 'tooltip', title: 'Description', tabindex: "-1", class: 'form-control' %>
+    </div>
+    <div class="col-2">
+      <label class="checkbox checkbox-inline <%= 'selected' if @option[:missing_code] == '1' %>"><%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1" %> Missing Code</label>
+      <% if total_count > 0 %>
+        <span class="text-muted"><%= pluralize total_count, 'response' %> uses this option.</span>
+      <% end %>
+    </div>
+    <div class="col-3">
+      <%= link_to 'Remove', '#', class: 'btn btn-mini btn-danger-inverse', data: { object: 'remove', target: "option_#{@position}", count: total_count }, id: "option_#{@position}_delete_link", tabindex: "-1" %>
+    </div>
+  </div>
 </div>
