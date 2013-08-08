@@ -6,64 +6,26 @@
 </div>
 
 <%= form_tag report_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
-  <%= hidden_field_tag :by, @by %>
-  <%= hidden_field_tag :percent, @percent %>
 
-  <div class="row">
-    <div class="col-lg-4" style="padding-top:3px;margin-top:0px">
-      Subjects
-      <div class="btn-group" data-toggle="buttons-checkbox">
-        <% Subject::STATUS.each do |label, value| %>
-          <button data-object="set-statuses" data-value="<%= value %>" data-target="#report_form" type="button" class="btn btn-mini <%= 'active' if @statuses.include?(value) %>">
-            <%= label.humanize %>
-            <%= hidden_field_tag "statuses[]", @statuses.include?(value) ? value : '', id: "statuses_#{value}" %>
-          </button>
-        <% end %>
-      </div>
-    </div>
-    <div class="btn-toolbar col-lg-4" style="padding-top:3px;margin-top:0px">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <button data-object="set-by" data-value="week" class="btn btn-mini <%= 'active' if @by == 'week' %>">Week</button>
-        <button data-object="set-by" data-value="month" class="btn btn-mini <%= 'active' if @by == 'month' %>">Month</button>
-        <button data-object="set-by" data-value="year" class="btn btn-mini <%= 'active' if @by == 'year' %>">Year</button>
-      </div>
-    </div>
-    <div class="btn-toolbar col-lg-4" style="padding-top:3px;margin-top:0px">
-      <div class="btn-group pull-right" data-toggle="buttons-radio">
-        <button data-object="set-percent" data-value="none" class="btn btn-mini <%= 'active' if @percent == 'none' %>">No Percents</button>
-        <button data-object="set-percent" data-value="row" class="btn btn-mini <%= 'active' if @percent == 'row' %>">% by Row</button>
-        <button data-object="set-percent" data-value="column" class="btn btn-mini <%= 'active' if @percent == 'column' %>">% by Column</button>
-      </div>
-    </div>
+  <label>Subjects</label>
+  <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses } %>
+
+  &middot; <label>By</label>
+  <%= render partial: 'layouts/radio_button_group', locals: { name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: @by } %>
+
+  &middot; <label>Percent</label>
+  <%= render partial: 'layouts/radio_button_group', locals: { name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent } %>
+
+  &middot; <div class="btn-group">
+    <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn btn-default btn-mini', data: { toggle: 'dropdown' } %>
+    <ul class="dropdown-menu">
+      <li><%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %></li>
+      <li><%= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' } %></li>
+      <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
+    </ul>
   </div>
+  <button type="submit" class="btn btn-primary btn-mini">Refresh</button>
 
-  <div class="row">
-    <div class="col-lg-4">
-      <% if false %>
-      After <%= text_field_tag 'sheet_after', params[:sheet_after] || (Date.today - 6.months).beginning_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Date After', data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
-      <% end %>
-    </div>
-
-    <div class="col-lg-4">
-      <% if false %>
-      Before <%= text_field_tag 'sheet_before', params[:sheet_before] || (Date.today).end_of_month.strftime("%m/%d/%Y"), class: 'datepicker', rel: 'tooltip', title: 'Date Before', data: { object: 'form-reload', target: '#report_form', placement: 'right' } %>
-      <% end %>
-    </div>
-
-    <div class="col-lg-4">
-      <div class="pull-right">
-        <div class="btn-group">
-          <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn btn-default', data: { toggle: 'dropdown' } %>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' } %></li>
-            <li><%= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' } %></li>
-            <li><%= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' } %></li>
-          </ul>
-        </div>
-        <button type="submit" class="btn btn-primary">Refresh</button>
-      </div>
-    </div>
-  </div>
 <% end %>
 
 <hr class="soften" style="margin-top:20px;margin-bottom:54px">

@@ -30,17 +30,7 @@
 
 jQuery ->
   $(document)
-    .on('click', '[data-object~="set-percent"]', (e) ->
-      $(this).find('input').prop('checked', true)
-      submitReportWithFilters()
-      e.preventDefault()
-    )
-    .on('click', '[data-object~="set-by"]', (e) ->
-      $("#by").val($(this).data('value'))
-      submitReportWithFilters()
-      e.preventDefault()
-    )
-    .on('click', '[data-object~="set-filter"]', (e) ->
+    .on('click', '[data-object~="set-percent"], [data-object~="set-by"], [data-object~="set-filter"]', (e) ->
       $(this).find('input').prop('checked', true)
       submitReportWithFilters()
       e.preventDefault()
