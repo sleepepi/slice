@@ -6,11 +6,8 @@
   </h1>
 </div>
 
-<div class="btn-group pull-right" data-toggle="buttons-checkbox">
-  <button data-object="set-audit-row" data-value="create" class="btn btn-mini active">create</button>
-  <button data-object="set-audit-row" data-value="update" class="btn btn-mini active">update</button>
-  <button data-object="set-audit-row" data-value="view" class="btn btn-mini active">view</button>
-  <button data-object="set-audit-row" data-value="destroy" class="btn btn-mini active">destroy</button>
+<div class="pull-right">
+  <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'audit-row', options: ['create', 'update', 'view', 'destroy'].collect{|i| [i,i]}, selected: ['create', 'update', 'view', 'destroy'] } %>
 </div>
 
 
@@ -26,7 +23,8 @@
   </thead>
   <tbody>
     <% @sheet.all_audits.group_by{|a| [a.created_at.month, a.created_at.year]}.each do |(month, year), audits| %>
-      <tr>
+      <% all_audits_actions = audits.collect{|a| (a.audited_changes.keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or a.audited_changes.keys.sort == ['last_viewed_at']) ? 'view' : a.action }.uniq %>
+      <tr data-object="audit-row" data-all-audit-actions="<%= all_audits_actions.to_json %>">
         <td colspan="6" style="font-weight:bold;font-size:2em"><%= Date::ABBR_MONTHNAMES[month] %> <%= year %></td>
       </tr>
       <% audits.sort{|a,b| b.id <=> a.id}.each_with_index do |audit, audit_index| %>

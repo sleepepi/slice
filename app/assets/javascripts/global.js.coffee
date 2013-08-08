@@ -20,6 +20,19 @@
     )
   )
 
+@setAllAuditActionsVisibility = () ->
+  $('[data-object~="audit-row"]').each( (index, element) ->
+    display = false
+
+    $.each($(element).data('all-audit-actions'), (aindex, action) ->
+      display = true if $("#audit-row_#{action}").is(':checked')
+    )
+    if display
+      $(element).show()
+    else
+      $(element).hide()
+  )
+
 jQuery ->
   $(document)
     .on('click', '[data-object~="remove"]', () ->
@@ -78,10 +91,17 @@ jQuery ->
       $($(this).data('target')).hide()
     )
     .on('click', '[data-object~="set-audit-row"]', () ->
-      if $(this).hasClass("active")
-        $('[data-audit-row~="'+$(this).data('value')+'"]').hide()
+      if $(this).find('input').is(':checked')
+        $(this).find('input').prop('checked', false)
       else
-        $('[data-audit-row~="'+$(this).data('value')+'"]').show()
+        $(this).find('input').prop('checked', true)
+
+      value = $(this).find('input').attr('value')
+      if $(this).hasClass("active")
+        $("[data-audit-row~='#{value}']").hide()
+      else
+        $("[data-audit-row~='#{value}']").show()
+      setAllAuditActionsVisibility()
     )
     .on('focus', "select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]", () ->
       $(this).tooltip( trigger: 'focus' )
