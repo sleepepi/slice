@@ -333,8 +333,9 @@ textarea:focus.warning-input  {
   color: #fff;
 }
 
-.btn:active, .btn.active {
-  background-color: rgb(202, 219, 255);
+.btn.btn-default:active, .btn.active.btn-default {
+  background-color: #ededed;
+  color: #333333;
 }
 
 .label-coverage {
