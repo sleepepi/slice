@@ -6,7 +6,7 @@
     <% Variable::TYPE.each do |label, variable_type| %>
       <% count = @project.variables.where(variable_type: variable_type).count %>
       <% if count > 0 %>
-        <li style="line-height:25px"><%= link_to label.humanize, project_variables_path(@project, variable_type: variable_type) %> (<%= count %>)</li>
+        <li style="line-height:30px"><%= link_to label.humanize, project_variables_path(@project, variable_type: variable_type) %> (<%= count %>)</li>
       <% end %>
     <% end %>
   </ul>

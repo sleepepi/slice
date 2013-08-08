@@ -12,7 +12,7 @@
     <h2 class="about-title">Project Reports</h2>
     <ul>
       <% current_user.all_viewable_sites.collect(&:project).flatten.uniq.sort_by{|p| p.name}.each do |project| %>
-        <li style="line-height:25px"><%= link_to project.name, report_project_path(project) %></li>
+        <li style="line-height:30px"><%= link_to project.name, report_project_path(project) %></li>
       <% end %>
     </ul>
   </div>
@@ -23,7 +23,7 @@
       <span class="text-muted"><%= project ? project.name : "No Project" %></span>
       <ul>
         <% designs.sort_by{|d| d.name}.each do |design| %>
-          <li style="line-height:25px"><%= link_to design.name, report_project_design_path(design.project, design) %></li>
+          <li style="line-height:30px"><%= link_to design.name, report_project_design_path(design.project, design) %></li>
         <% end %>
       </ul>
     <% end %>
