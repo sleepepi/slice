@@ -54,7 +54,7 @@ class VariablesController < ApplicationController
 
     variable_scope = variable_scope.where(project_id: params[:project_id]) unless params[:project_id].blank?
     variable_scope = variable_scope.where(user_id: params[:user_id]) unless params[:user_id].blank?
-    variable_scope = variable_scope.with_variable_type(params[:variable_type]) unless params[:variable_type].blank?
+    variable_scope = variable_scope.with_variable_type(params[:variable_type]) unless params[:variable_type].blank? or params[:variable_type] == 'on'
 
     @variables = variable_scope.page(params[:page]).per( current_user.pagination_count('variables') )
   end

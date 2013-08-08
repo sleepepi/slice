@@ -18,12 +18,7 @@
     <div class="form-group">
       <%= label :variable_type, 'Variable Type', class: 'col-lg-2 control-label' %>
       <div class="col-lg-10">
-        <%= hidden_field_tag :variable_type, params[:variable_type], data: { object: 'filter' } %>
-        <div class="btn-group" data-toggle="buttons-radio">
-          <% ([['ALL', nil]] + Variable::TYPE).each do |label, value| %>
-            <button data-object="set-variable-type" data-value="<%= value %>" <%= "id='variable-type-all'".html_safe if value.blank? %> data-target="#variables_search" class="btn btn-mini <%= 'active' if params[:variable_type].to_s == value.to_s %>"><%= label %></button>
-          <% end %>
-        </div>
+        <%= render partial: 'layouts/radio_button_group', locals: { name: 'variable_type', options: ([['ALL', nil]] + Variable::TYPE), selected: params[:variable_type] } %>
       </div>
   </div>
 

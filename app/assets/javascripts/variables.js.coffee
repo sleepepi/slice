@@ -237,9 +237,9 @@ jQuery ->
       $($(this).data('target-date')).change()
       false
     )
-    .on('click', '[data-object~="set-variable-type"]', () ->
-      $("#variable_type").val($(this).data('value'))
-      $($(this).data('target')).submit()
+    .on('click', '[data-object~="set-variable_type"]', () ->
+      $(this).find('input').prop('checked', true)
+      $('#variables_search').submit()
     )
     .on('click', '[data-object~="show-graph"]', () ->
       drawScatter($(this).data('target'), eval($(this).data('data')), $(this).data('title'), $(this).data('y-axis-title'), $(this).data('x-axis-title'), $(this).data('units'))
