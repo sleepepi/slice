@@ -57,23 +57,25 @@
 <% end %>
 
 <% if @project.editable_by?(current_user) %>
-<div class="row">
-  <div class="col-lg-4">
-    <h2 class="about-title"><%= link_to 'Designs', project_designs_path(@project) %></h2>
-    <%= render partial: 'projects/show/designs' %>
+  <div class="row">
+    <div class="col-lg-4">
+      <h2 class="about-title"><%= link_to 'Designs', project_designs_path(@project) %></h2>
+      <%= render partial: 'projects/show/designs' %>
+    </div>
+    <div class="col-lg-4">
+      <h2 class="about-title"><%= link_to 'Variables', project_variables_path(@project) %></h2>
+      <%= render partial: 'projects/show/variables' %>
+    </div>
+    <div class="col-lg-4">
+      <h2 class="about-title"><%= link_to 'Domains', project_domains_path(@project) %></h2>
+      <%= render partial: 'projects/show/domains' %>
+    </div>
   </div>
-  <div class="col-lg-4">
-    <h2 class="about-title"><%= link_to 'Variables', project_variables_path(@project) %></h2>
-    <%= render partial: 'projects/show/variables' %>
-  </div>
-  <div class="col-lg-4">
-    <h2 class="about-title"><%= link_to 'Domains', project_domains_path(@project) %></h2>
-    <%= render partial: 'projects/show/domains' %>
-  </div>
-</div>
+<% end %>
 
 <div class="row">
-  <div class="col-lg-8">
+  <% if @project.editable_by?(current_user) %>
+  <div class="col-lg-4">
     <h2 class="about-title"><%= link_to 'Sites', project_sites_path(@project) %></h2>
     <%= render partial: 'projects/show/sites' %>
   </div>
@@ -81,8 +83,13 @@
     <h2 class="about-title"><%= link_to 'Subjects', project_subjects_path(@project) %></h2>
     <%= render partial: 'projects/show/subjects' %>
   </div>
+  <% end %>
+  <div class="col-lg-4">
+    <h2 class="about-title"><%= link_to 'Data Exports', project_exports_path(@project) %></h2>
+    <%= render partial: 'projects/show/exports' %>
+  </div>
 </div>
-<% end %>
+
 
 
 <hr class="soften">
