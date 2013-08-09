@@ -54,8 +54,6 @@ Slice::Application.routes.draw do
         get :reporter
         post :reporter
         get :reporter_print
-        get :blank
-        post :blank
         get :report_print
         post :progress
         get :reimport

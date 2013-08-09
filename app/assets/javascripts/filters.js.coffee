@@ -69,12 +69,6 @@ jQuery ->
       $('#new_filter_modal').modal('hide')
       false
     )
-    .on('click', '[data-object~="filters-link"]', () ->
-      project_id = $(this).data('project-id')
-      design_id = $(this).data('design-id')
-      window.location = root_url + "projects/#{project_id}/designs/#{design_id}/blank?" + $('#filters_form').serialize()
-      false
-    )
 
   activateFilterSortable()
 

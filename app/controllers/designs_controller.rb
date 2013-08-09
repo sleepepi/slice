@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
-  before_action :set_viewable_project,      only: [ :print, :report_print, :report, :blank, :overview ]
+  before_action :set_viewable_project,      only: [ :print, :report_print, :report, :overview ]
   before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :blank, :reimport, :update_import, :overview ]
-  before_action :set_viewable_design,       only: [ :print, :report_print, :report, :blank, :overview ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :reimport, :update_import, :overview ]
+  before_action :set_viewable_design,       only: [ :print, :report_print, :report, :overview ]
   before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
-  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :blank, :reimport, :update_import, :overview ]
+  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :reimport, :update_import, :overview ]
 
   # Concerns
   include Buildable
@@ -26,9 +26,6 @@ class DesignsController < ApplicationController
     else
       empty_response_or_root_path(about_path)
     end
-  end
-
-  def blank
   end
 
   def import
