@@ -1,23 +1,20 @@
 <% is_grid = defined?(grid) %>
 
-<div class="time-input">
+<div class="time-input form-inline">
 
-  <%= hidden_field_tag field_name,(Time.parse(response).strftime('%H:%M:%S') rescue response),
-      data: {
-              object: "condition",
-             },
-      disabled: disabled
-  %>
+  <%= hidden_field_tag field_name,(Time.parse(response).strftime('%H:%M:%S') rescue response), data: { object: "condition" }, disabled: disabled %>
 
-  <div class="hour-box time-box">
+  <span class="hour-box">
     <%= text_field_tag "hour_#{field_name}", (Time.parse(response).strftime('%H') rescue response), maxlength: 2, disabled: disabled, data: { target_input: field_name }, autocomplete: 'off', placeholder: 'hh', class: 'form-control' %>
-  </div>
-  <div class="time-divider">&#58;</div>
-  <div class="min-box time-box"><%= text_field_tag "min_#{field_name}", (Time.parse(response).strftime('%M') rescue response), maxlength: 2, disabled: disabled, data: { target_input: field_name }, autocomplete: 'off', placeholder: 'mm', class: 'form-control' %></div>
-  <div class="time-divider">&#58;</div>
-  <div class="sec-box time-box">
+  </span>
+  &#58;
+  <span class="min-box">
+    <%= text_field_tag "min_#{field_name}", (Time.parse(response).strftime('%M') rescue response), maxlength: 2, disabled: disabled, data: { target_input: field_name }, autocomplete: 'off', placeholder: 'mm', class: 'form-control' %>
+  </span>
+  &#58;
+  <span class="sec-box">
     <%= text_field_tag "sec_#{field_name}", (Time.parse(response).strftime('%S') rescue response), maxlength: 2, disabled: disabled, data: { target_input: field_name }, autocomplete: 'off', placeholder: 'ss', class: 'form-control' %>
-  </div>
+  </span>
 
   <%= link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_input: field_name }, class: 'btn btn-default btn-mini', tabindex: '-1' if variable.show_current_button? %>
   <%= link_to 'Clear', '#', data: { object: 'clear-time-input', target_input: field_name }, class: 'btn btn-default btn-mini', tabindex: '-1' %>

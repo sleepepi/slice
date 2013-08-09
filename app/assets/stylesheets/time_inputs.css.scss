@@ -1,19 +1,8 @@
 .time-input {
-  white-space:nowrap;
+  white-space: nowrap;
 
-  .time-box {
-    float: left;
-  }
   input[type="text"] {
     min-width: 50px;
     width: 50px;
-  }
-
-  .time-divider {
-    float: left;
-  }
-
-  .btn {
-    margin-left: 10px;
   }
 }

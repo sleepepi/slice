@@ -52,16 +52,18 @@
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
                 <% when 'time' %>
-                  <div class="time-input" style="display:inline-block">
-                    <div class="hour-box time-box">
+                  <div class="time-input form-inline">
+                    <span class="hour-box">
                       <%= text_field_tag "hour_time", '', placeholder: 'hh', class: 'form-control' %>
-                    </div>
-                    <div class="time-divider">&#58;</div>
-                    <div class="min-box time-box"><%= text_field_tag "min_time", '', placeholder: 'mm', class: 'form-control' %></div>
-                    <div class="time-divider">&#58;</div>
-                    <div class="sec-box time-box">
+                    </span>
+                    &#58;
+                    <span class="min-box">
+                      <%= text_field_tag "min_time", '', placeholder: 'mm', class: 'form-control' %>
+                    </span>
+                    &#58;
+                    <span class="sec-box">
                       <%= text_field_tag "sec_time", '', placeholder: 'ss', class: 'form-control' %>
-                    </div>
+                    </span>
                   </div>
                 <% when 'file' %>
                   <%= button_tag 'Choose File', disabled: true %>
