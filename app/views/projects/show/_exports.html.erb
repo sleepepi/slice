@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr data-link="<%= new_project_export_path(@project) %>" style="cursor:pointer">
+    <tr data-link="<%= project_sheets_path(@project, e: '1') %>" style="cursor:pointer">
       <td class="text-muted"></td><td colspan="3"><%= link_to 'Create Export', project_sheets_path(@project, e: '1') %></td>
     </tr>
     <% current_user.exports.where(project_id: @project.id).order("exports.created_at DESC").limit(10).each do |export| %>
