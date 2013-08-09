@@ -267,13 +267,6 @@ textarea:focus.warning-input  {
   background-clip: padding-box;
 }
 
-.modal-fixed {
-  position:fixed;
-  top:50px;
-  left: 5%;
-  right: 5%;
-}
-
 .download-container {
   position: relative;
   margin: 0 0 20px 0;
@@ -331,11 +324,6 @@ textarea:focus.warning-input  {
 .checkbox.selected, .checkbox.selected:hover, .radio.selected, .radio.selected:hover {
   background-color: #7aa6ff;
   color: #fff;
-}
-
-.btn.btn-default:active, .btn.active.btn-default {
-  background-color: #ededed;
-  color: #333333;
 }
 
 .label-coverage {
@@ -460,24 +448,4 @@ div.filter-sort-container {
   height: auto;
   margin-bottom: 15px;
   padding: 7px 9px;
-}
-
-.navbar-brand {
-  white-space: nowrap;
-}
-
-body { padding-top: 50px; padding-bottom: 70px; }
-
-@media screen and (min-width: 900px) {
-  .modal-dialog.modal-wide-width {
-    width: 900px;
-  }
-}
-
-.datepicker {
-  z-index: 10000 !important;;
-}
-
-.form-control {
-  min-width: 100px;
 }
