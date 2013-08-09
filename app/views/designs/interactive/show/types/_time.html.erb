@@ -1,14 +1,6 @@
 <% is_grid = defined?(grid) %>
 
 <div class="time-input">
-
-  <%= hidden_field_tag variable.name,(Time.parse(response).strftime('%H:%M:%S') rescue response),
-                       data: {
-                               object: "condition",
-                       },
-                       disabled: true
-  %>
-
   <div class="hour-box time-box"><%= text_field_tag "hour_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'hh', class: 'form-control' %></div>
   <div class="time-divider">&#58;</div>
   <div class="min-box time-box"><%= text_field_tag "min_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'mm', class: 'form-control' %></div>
