@@ -137,6 +137,8 @@ jQuery ->
       $("#global-search").blur() if $("#global-search").is(':focus') and e.which == 27
       if $("#contour-backdrop").is(':visible')
         hideContourModal()               if e.which == 27
+      if $("#interactive_design_modal").is(':visible')
+        hideInteractiveDesignModal()     if e.which == 27
     )
     .on('click', '[data-object~="settings-save"]', () ->
       window.$isDirty = false
