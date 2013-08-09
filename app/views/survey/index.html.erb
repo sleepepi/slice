@@ -2,11 +2,11 @@
 
 <% if not params[:project_id].blank? and not params[:sheet_id].blank? and not params[:sheet_authentication_token].blank? %>
   <% survey_url = SITE_URL + "/projects/#{params[:project_id]}/sheets/#{params[:sheet_id]}/survey?sheet_authentication_token=#{params[:sheet_authentication_token]}" %>
-  <div class="hero-unit">
+  <div class="jumbotron">
     <h1>Survey Complete</h1>
     <p>Thank you for taking your time to complete the survey. If you entered your email, you will receive a link to your survey responses.</p>
     <p>You can also copy the link below if you wish to go back and make any changes.</p>
-    <p><%= text_field_tag 'survey_url', survey_url, style: 'width: 100%' %></p>
+    <p><%= text_field_tag 'survey_url', survey_url, class: 'form-control' %></p>
     <p><%= link_to 'Go Back to Survey', survey_url, class: 'btn btn-primary' %></p>
   </div>
 <% end %>
