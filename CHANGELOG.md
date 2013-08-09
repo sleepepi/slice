@@ -1,8 +1,6 @@
 ## 0.20.0
 
 ### Enhancements
-- **Gem Changes**
-  - Updated to contour 2.1.0.beta10
 - **Project Changes**
   - Project emails field was removed since it is no longer used
   - Project settings page removed and consolidated with project show page
@@ -10,7 +8,11 @@
   - Projects can be favorited which reorders them on the project splash page, and puts the first three as links into the menu bar
   - Exports are now nested under projects
   - Project activity added that shows recently created comments and sheets
-- Users can now view recent comments and sheet creations and updates across all their projects
+- **General Changes**
+  - Users can now view recent comments and sheet creations and updates across all their projects
+  - The interface now uses [Bootstrap 3 RC1](http://getbootstrap.com/)
+- **Gem Changes**
+  - Updated to contour 2.1.0.beta10
 
 ## 0.19.0 (August 1, 2013)
 
