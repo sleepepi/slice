@@ -7,17 +7,17 @@
   </div>
   <% end %>
 
-  <h2>
-    <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@design.project, @design] %>
-  </h2>
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@design.project, @design] %> Overview
+  </h1>
 
 </div>
 
+<% unless @design.description.blank? %>
 <div class="bs-callout bs-callout-info">
-  <h4><%= @design.name %> Overview Report</h4>
-
-   <%= simple_markdown @design.description unless @design.description.blank? %>
+   <%= simple_markdown @design.description %>
 </div>
+<% end %>
 
 
 <div id="design_overview">
