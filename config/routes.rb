@@ -136,6 +136,7 @@ Slice::Application.routes.draw do
   get "/about/use" => "application#use", as: :about_use
   get "/settings" => "users#settings", as: :settings
   get "/search" => "projects#search", as: :search
+  get "/activity" => "users#activity", as: :activity
 
   root to: 'projects#splash'
 

@@ -1,0 +1,24 @@
+<tr>
+  <td class="center">
+    <span class="glyphicon glyphicon-comment"></span>
+  </td>
+  <td style="padding-top:10px;padding-bottom:10px;">
+    <div style="border-left: 2px solid #ededed;padding-left:5px">
+      <div>
+        <span class="text-muted"><%= distance_of_time_in_words_to_now(comment.created_at).gsub('about ', '') %> ago</span>
+      </div>
+
+      <div>
+        <%= comment.user.name %>
+        <b>commented on</b>
+        <%= link_to comment.sheet.name, [comment.sheet.project, comment.sheet] %> for <%= link_to comment.sheet.subject.name, [comment.sheet.subject.project, comment.sheet.subject] %>
+      </div>
+      <div>
+        <%= image_tag comment.user.avatar_url(18, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle' %> <%= strip_tags(simple_markdown comment.description).truncate(100, separator: ' ').html_safe %>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td colspan="2"><hr class="soften" style="margin-top:20px;margin-bottom:20px" /></td>
+</tr>
