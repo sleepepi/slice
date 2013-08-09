@@ -1,5 +1,8 @@
 ## 0.20.1
 
+### Bug Fix
+- Fixed a bug that would cause project and recent activity to not display
+
 ## 0.20.0 (August 9, 2013)
 
 ### Enhancements
