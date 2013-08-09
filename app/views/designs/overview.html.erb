@@ -1,22 +1,21 @@
 <% @title = "#{@design.name} Overview" %>
 <div class="page-header">
   <%= form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-inline', data: { object: 'form-load' } do %>
-  <div class="form-group pull-right">
-    Status
-    <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#design_overview_form' } %>
-  </div>
+    <div class="form-group pull-right">
+      Status
+      <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#design_overview_form' } %>
+    </div>
   <% end %>
 
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@design.project, @design] %> Overview
   </h1>
-
 </div>
 
 <% unless @design.description.blank? %>
-<div class="bs-callout bs-callout-info">
-   <%= simple_markdown @design.description %>
-</div>
+  <div class="bs-callout bs-callout-info">
+    <%= simple_markdown @design.description %>
+  </div>
 <% end %>
 
 
