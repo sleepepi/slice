@@ -1,5 +1,8 @@
 ## 0.20.2
 
+### Enhancements
+- Updated styling to BS3 for the email settings page
+
 ## 0.20.1 (August 9, 2013)
 
 ### Bug Fix
