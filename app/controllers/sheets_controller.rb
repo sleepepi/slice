@@ -23,6 +23,9 @@ class SheetsController < ApplicationController
     @sheet_after = parse_date(params[:sheet_after])
     @sheet_before = parse_date(params[:sheet_before])
 
+    sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
+    sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
 
     ['design', 'project', 'site', 'user'].each do |filter|

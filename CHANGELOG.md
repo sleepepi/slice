@@ -3,6 +3,9 @@
 ### Enhancements
 - Updated styling to BS3 for the email settings page
 
+### Bug Fix
+- Sheet date filters on the sheets index now filter sheets now work properly
+
 ## 0.20.1 (August 9, 2013)
 
 ### Bug Fix
