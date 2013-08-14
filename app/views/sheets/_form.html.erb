@@ -5,6 +5,32 @@
 <%= hidden_field_tag 'isdirty', '1' %>
 <%= hidden_field_tag "hidden_sheet_id", (@sheet ? @sheet.id : nil), name: "sheet_id" %>
 
+<div class="modal fade" id="site_ranges">
+  <div class="modal-dialog modal-wide-width">
+    <div class="modal-content" id="interactive-design-container">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Site Ranges</h4>
+      </div>
+      <div class="modal-body">
+        <% if @project.sites_with_range.size > 0 %>
+          <div class="bs-callout">
+            <% @project.sites_with_range.each do |site| %>
+            <p>
+              <b><%= site.name %></b>
+              <div style="margin-left:5px"><%= site.prefix %><%= site.code_minimum %> to <%= site.prefix %><%= site.code_maximum %></div>
+            </p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+  </div>
+</div>
+
 <%= form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: "multipart/form-data" }) do |f| %>
   <% if @sheet.errors.any? %>
     <div id="error_explanation" class="bs-callout bs-callout-danger">
@@ -33,18 +59,11 @@
   <div class="form-group">
     <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-lg-2 control-label', id: 'subject_code_name_full' %>
     <div class="col-lg-10">
-      <% statuses = { 'valid' => 'success', 'test' => 'info', 'pending' => 'warning' } %>
-      <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.collect{|s| { subject_code: s.subject_code, status_class: (statuses[s.status] || 'warning'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
-      <% if @project.sites_with_range.size > 0 %>
-        <div class="bs-callout">
-          <% @project.sites_with_range.each do |site| %>
-          <p>
-            <b><%= site.name %></b>
-            <div style="margin-left:5px"><%= site.prefix %><%= site.code_minimum %> to <%= site.prefix %><%= site.code_maximum %></div>
-          </p>
-          <% end %>
-        </div>
-      <% end %>
+      <div class="<%= 'input-group' if @project.sites_with_range.size > 0 %>">
+        <% statuses = { 'valid' => 'success', 'test' => 'info', 'pending' => 'warning' } %>
+        <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.collect{|s| { subject_code: s.subject_code, status_class: (statuses[s.status] || 'warning'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
+        <% if @project.sites_with_range.size > 0 %><span class="input-group-btn"><%= link_to 'Site Ranges', '#', class: 'btn btn-default', data: { toggle: 'modal', target: '#site_ranges' } %></span><% end %>
+      </div>
     </div>
   </div>
 
