@@ -22,9 +22,9 @@
       <dt>Publicly Available</dt>
       <dd>
         <% if @design.slug.blank? %>
-          <%= link_to "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge' if @design.publicly_available? %>
+          <%= link_to "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available? %>
         <% else %>
-          <%= link_to "#{SITE_URL}/survey/#{@design.slug}", "#{SITE_URL}/survey/#{@design.slug}", class: 'input-xxlarge' if @design.publicly_available? %>
+          <%= link_to "#{SITE_URL}/survey/#{@design.slug}", "#{SITE_URL}/survey/#{@design.slug}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available? %>
         <% end %>
       </dd>
     <% end %>
