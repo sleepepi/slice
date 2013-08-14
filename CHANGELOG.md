@@ -3,6 +3,7 @@
 ### Enhancements
 - Improved speed of CSV exports
 - Updated styling to BS3 for the email settings page
+- Increased margin on survey and projects splash page
 
 ### Bug Fix
 - Sheet date filters on the sheets index now filter sheets now work properly
