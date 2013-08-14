@@ -5,6 +5,7 @@
 - Updated styling to BS3 for the email settings page
 - Increased margin on survey and projects splash page
 - Site ranges now only display as a popup box on sheet entry
+- Export READMEs now display the number of sheets exported
 
 ### Bug Fix
 - Sheet date filters on the sheets index now filter sheets now work properly
