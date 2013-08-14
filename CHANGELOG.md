@@ -1,6 +1,7 @@
 ## 0.20.2
 
 ### Enhancements
+- Improved speed of CSV exports
 - Updated styling to BS3 for the email settings page
 
 ### Bug Fix

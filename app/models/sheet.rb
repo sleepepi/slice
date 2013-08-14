@@ -442,7 +442,9 @@ class Sheet < ActiveRecord::Base
 
   def get_response(variable, raw_format = :raw)
     sheet_variable = self.sheet_variables.find_by_variable_id(variable.id)
-    return '' unless sheet_variable
+    unless sheet_variable
+      return (variable.variable_type == 'checkbox' ? [''] : '')
+    end
     sheet_variable.get_response(raw_format)
   end
 

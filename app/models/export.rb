@@ -113,12 +113,26 @@ class Export < ActiveRecord::Base
     def generate_csv_sheets(sheet_scope, filename, raw_data, folder)
       export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
 
+      rows = []
+
+      sheet_scope.includes( sheet_variables: [ :variable ] ).each do |sheet|
+        hash = { sheet: sheet }
+        sheet.sheet_variables.each do |sv|
+          unless sv.variable.variable_type == 'grid'
+            hash[sv.variable_id.to_s] = (raw_data ? sv.get_response(:raw) : sv.get_response(:name))
+            hash[sv.variable_id.to_s] = hash[sv.variable_id.to_s].join(',') if hash[sv.variable_id.to_s].kind_of?(Array)
+          end
+        end
+        rows << hash
+        update_steps(1)
+      end
+
       CSV.open(export_file, "wb") do |csv|
-        # Only return variables currently on designs
-        variable_names = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.collect{|v| v.name}.uniq
-        csv << ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variable_names
-        sheet_scope.each do |sheet|
-          row = [sheet.name,
+        variables = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
+        csv << ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variables.collect{|v| v.name}
+        rows.each do |hash|
+          sheet = hash[:sheet]
+          row = [ sheet.name,
                   sheet.description,
                   sheet.created_at.strftime("%Y-%m-%d"),
                   sheet.project.name,
@@ -126,24 +140,39 @@ class Export < ActiveRecord::Base
                   sheet.subject.name,
                   sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
                   sheet.subject.status,
-                  sheet.user.name]
-          variable_names.each do |variable_name|
-            row << if variable = sheet.variables.find_by_name(variable_name)
-              raw_data ? sheet.get_response(variable, :raw) : (variable.variable_type == 'checkbox' ? sheet.get_response(variable, :name).join(',') : sheet.get_response(variable, :name))
-            else
-              ''
-            end
+                  sheet.user.name ]
+          variables.each do |variable|
+            row << hash[variable.id.to_s]
           end
           csv << row
-          update_steps(1)
         end
       end
-
       ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
     end
 
     def generate_csv_grids(sheet_scope, filename, raw_data, folder)
       export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
+
+      rows = []
+
+      sheet_scope.includes( sheet_variables: [ :variable, { grids: :variable } ] ).each do |sheet|
+        hash = { sheet: sheet, rows: [] }
+        sheet.sheet_variables.each do |sv|
+          if sv.variable.variable_type == 'grid'
+            sv.grids.each do |grid|
+              hash[:rows][grid.position] ||= {}
+              hash[:rows][grid.position][sv.variable_id.to_s] ||= {}
+
+              result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
+              result = result.join(',') if result.kind_of?(Array)
+
+              hash[:rows][grid.position][sv.variable_id.to_s][grid.variable_id.to_s] = result
+            end
+          end
+        end
+        rows << hash
+        update_steps(1)
+      end
 
       CSV.open(export_file, "wb") do |csv|
         variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
@@ -171,26 +200,27 @@ class Export < ActiveRecord::Base
 
         csv << row
 
-        sheet_scope.each do |s|
-          (0..s.max_grids_position).each do |position|
-            row = [s.name, s.description, s.created_at.strftime("%Y-%m-%d"), s.project.name, s.subject.site.name, s.subject.name, (s.project.acrostic_enabled? ? s.subject.acrostic : nil), s.subject.status, s.user.name]
+        rows.each do |hash|
+          sheet = hash[:sheet]
+
+          hash[:rows].each do |sheet_row|
+            row = [ sheet.name,
+                    sheet.description,
+                    sheet.created_at.strftime("%Y-%m-%d"),
+                    sheet.project.name,
+                    sheet.subject.site.name,
+                    sheet.subject.name,
+                    sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
+                    sheet.subject.status,
+                    sheet.user.name ]
 
             grid_group_variables.each do |variable|
               variable.grid_variables.each do |grid_variable_hash|
-                sheet_variable = s.sheet_variables.find_by_variable_id(variable.id)
-                result_hash = (sheet_variable ? sheet_variable.response_hash(position, grid_variable_hash[:variable_id]) : {})
-                cell = if raw_data
-                  result_hash.kind_of?(Array) ? result_hash.collect{|h| h[:value]}.join(',') : result_hash[:value]
-                else
-                  result_hash.kind_of?(Array) ? result_hash.collect{|h| "#{h[:value]}: #{h[:name]}"}.join(', ') : result_hash[:name]
-                end
-                row << cell
+                row << (sheet_row[variable.id.to_s].blank? ? '' : sheet_row[variable.id.to_s][grid_variable_hash[:variable_id].to_s])
               end
             end
-
             csv << row
           end
-          update_steps(1)
         end
       end
 
