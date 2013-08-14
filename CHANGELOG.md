@@ -1,4 +1,4 @@
-## 0.20.2
+## 0.20.2 (August 14, 2013)
 
 ### Enhancements
 - Improved speed of CSV exports
