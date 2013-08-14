@@ -18,7 +18,7 @@
 <div class="row-fluid">
   <div class="col-lg-8 download-container">
     <div class="download-container-after">Filters</div>
-    <%= link_to 'Add Filter', '#', class: 'btn btn-default btn-mini pull-right', data: { object: 'open-new-filter-modal' } %>
+    <%= link_to 'Add Filter', '#', class: 'btn btn-default btn-xs pull-right', data: { object: 'open-new-filter-modal' } %>
     <%= form_tag filters_project_path(@design.project), method: :post, remote: true, id: 'filters_form' do %>
       <div id="filters">
         <%= render partial: 'filters/filters' %>

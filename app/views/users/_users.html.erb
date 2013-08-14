@@ -23,9 +23,9 @@
         <td><%= user.status %></td>
         <td style="text-align:center"><%= simple_check user.system_admin? %></td>
         <td>
-          <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-default btn-mini' %>
+          <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-default btn-xs' %>
           <% unless current_user == user %>
-            <%= link_to 'Delete', user, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{user.name}?" } %>
+            <%= link_to 'Delete', user, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{user.name}?" } %>
           <% end %>
         </td>
       <% end %>

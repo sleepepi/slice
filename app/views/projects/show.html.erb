@@ -5,13 +5,13 @@
     <%= @project.name %>
 
     <% if current_user.all_viewable_and_site_projects.size == 1 %>
-      <div class="pull-right"><%= link_to 'Create Project', new_project_path, class: 'btn btn-mini btn-primary' %></div>
+      <div class="pull-right"><%= link_to 'Create Project', new_project_path, class: 'btn btn-xs btn-primary' %></div>
     <% end %>
   </h1>
 
   <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-    <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-mini' %></div>
-    <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
+    <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-xs' %></div>
+    <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
   <% end %>
   <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
 </div>
@@ -103,7 +103,7 @@
       <div id="project_logo_delete_icon" style="display:none">
         <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
           <%= number_to_human_size(@project.logo.size) %>
-          <%= link_to 'remove logo', remove_file_project_path(@project), method: :post, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to remove the project logo?" } %>
+          <%= link_to 'remove logo', remove_file_project_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to remove the project logo?" } %>
         <% end %>
       </div>
     </div>

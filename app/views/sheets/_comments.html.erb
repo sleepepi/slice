@@ -21,10 +21,10 @@
             <small>
               <%= link_to comment.user.name, comment.user %> &middot; <%= simple_time comment.created_at %>
               <% if comment.editable_by?(current_user) %>
-                <%= link_to 'Edit', edit_comment_path(comment), class: 'btn btn-mini btn-cancel-inverse' %>
+                <%= link_to 'Edit', edit_comment_path(comment), class: 'btn btn-xs btn-cancel-inverse' %>
               <% end %>
               <% if comment.deletable_by?(current_user) %>
-                <%= link_to 'Delete', comment, method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" } %>
+                <%= link_to 'Delete', comment, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" } %>
               <% end %>
             </small>
           </blockquote>

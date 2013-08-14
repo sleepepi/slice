@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= @title %>
-    <%= link_to "Create Sheet", new_project_sheet_path(@project), class: 'btn btn-mini btn-primary' if current_user.all_projects.pluck(:id).include?(@project.id) %>
+    <%= link_to "Create Sheet", new_project_sheet_path(@project), class: 'btn btn-xs btn-primary' if current_user.all_projects.pluck(:id).include?(@project.id) %>
   </h1>
 </div>
 
@@ -101,8 +101,8 @@
             <% else %>
               <span class="label"><%= filter[:value] %></span>
             <% end %>
-            <%#= link_to 'edit', '#', data: { object: 'edit-filter', variable_id: filter[:id], project_id: v.project_id }, class: 'btn btn-default btn-mini' %>
-            <%#= link_to 'remove', "#", data: { object: 'remove-filter', target: "#variable_#{filter[:id]}" }, class: 'btn btn-mini btn-danger-inverse' %>
+            <%#= link_to 'edit', '#', data: { object: 'edit-filter', variable_id: filter[:id], project_id: v.project_id }, class: 'btn btn-default btn-xs' %>
+            <%#= link_to 'remove', "#", data: { object: 'remove-filter', target: "#variable_#{filter[:id]}" }, class: 'btn btn-xs btn-danger-inverse' %>
           </div>
         <% end %>
       <% end %>

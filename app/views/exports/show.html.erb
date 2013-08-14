@@ -3,8 +3,8 @@
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to "Exports", project_exports_path(@project) %> &middot; <%= @title %>
   </h1>
-  <%= link_to "Mark Unread", mark_unread_project_export_path(@project, @export), method: :post, class: 'btn btn-mini btn-default' if @export.status == 'ready' %>
-  <%= link_to "Delete Export", [@export.project, @export], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
+  <%= link_to "Mark Unread", mark_unread_project_export_path(@project, @export), method: :post, class: 'btn btn-xs btn-default' if @export.status == 'ready' %>
+  <%= link_to "Delete Export", [@export.project, @export], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } %>
 </div>
 
 <div id="progress" id="progress" data-object="<%= 'ajax-timer' if @export.total_steps != @export.steps_completed %>" data-path="<%= progress_project_export_path(@project, @export) %>">

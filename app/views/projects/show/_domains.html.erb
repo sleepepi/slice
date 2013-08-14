@@ -6,7 +6,7 @@
   <% @project.domains.limit(10).order('updated_at').each do |domain| %>
     <li style="line-height:30px" data-object="hover-show" data-target="#domain_<%= domain.id %>_edit_link">
       <%= link_to domain.name, [domain.project, domain] %>
-      <%= link_to 'edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-default btn-mini', id: "domain_#{domain.id}_edit_link", style: 'display:none' %>
+      <%= link_to 'edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-default btn-xs', id: "domain_#{domain.id}_edit_link", style: 'display:none' %>
     </li>
   <% end %>
   </ul>

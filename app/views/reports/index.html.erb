@@ -37,7 +37,7 @@
           <% reports.sort_by{|r| r.name}.each do |report| %>
             <li id="report_<%= report.id %>" data-object="hover-show" data-target="#report_<%= report.id %>_delete_link" style="line-height:25px">
               <%= link_to report.name, report %>
-              <%= link_to 'Delete', report, method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Report #{report.name}?" }, style: "display:none", id: "report_#{report.id}_delete_link" %>
+              <%= link_to 'Delete', report, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Report #{report.name}?" }, style: "display:none", id: "report_#{report.id}_delete_link" %>
             </li>
           <% end %>
         </ul>

@@ -180,11 +180,11 @@
   <div class="col-lg-10">
     <% if @variable.project.domains.size == 0 %>
       <div class="alert alert-info">
-        <strong>Heads up!</strong> In order to have choices, variables need to be associated to a domain of options. Variables can share domains. <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-mini' %>
+        <strong>Heads up!</strong> In order to have choices, variables need to be associated to a domain of options. Variables can share domains. <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs' %>
       </div>
     <% else %>
       <%= f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] }, {}, class: 'form-control' %>
-      <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-mini', target: '_blank' %>
+      <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs', target: '_blank' %>
       <% if @variable.captured_values.size > 0 %>
         <div class="row">
           <div class="col-lg-3">
@@ -249,7 +249,7 @@
       <% end %>
     </div>
     <div class="btn-toolbar">
-      <%= link_to 'Add Variable', '#', id: 'add_grid_variable', class: 'btn btn-default btn-mini', data: { position: 'bottom' } %>
+      <%= link_to 'Add Variable', '#', id: 'add_grid_variable', class: 'btn btn-default btn-xs', data: { position: 'bottom' } %>
     </div>
   </div>
 </div>

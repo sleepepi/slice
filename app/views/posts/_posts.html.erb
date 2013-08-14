@@ -16,8 +16,8 @@
       <td><%= post.description %></td>
       <td><%= simple_check post.archived %></td>
       <td>
-        <%= link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-default btn-mini' %>
-        <%= link_to 'Delete', [post.project, post], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Post #{post.name}?" } %>
+        <%= link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-default btn-xs' %>
+        <%= link_to 'Delete', [post.project, post], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Post #{post.name}?" } %>
       </td>
     </tr>
   <% end %>

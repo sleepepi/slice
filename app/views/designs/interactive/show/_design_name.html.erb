@@ -6,7 +6,7 @@
   <div class="design-preview-hide">
     <div class="btn-group" data-toggle="buttons">
       <% [['private', false],['public', true]].each do |label, value| %>
-        <label class="btn btn-mini btn-default <%= 'active' if @design.publicly_available == value %>" data-object="push-partial-change" data-update="design_name" data-changes='{"design":{"publicly_available":<%= value %>}}'>
+        <label class="btn btn-xs btn-default <%= 'active' if @design.publicly_available == value %>" data-object="push-partial-change" data-update="design_name" data-changes='{"design":{"publicly_available":<%= value %>}}'>
           <%= radio_button_tag "publicly_available", value, @design.publicly_available == value %>
           <%= label %>
         </label>

@@ -3,7 +3,7 @@
   <h1>
     <%= @title %>
     <% if current_user.system_admin? and false %>
-      <%= link_to "Create User", new_user_path, class: 'btn btn-mini btn-primary' %>
+      <%= link_to "Create User", new_user_path, class: 'btn btn-xs btn-primary' %>
     <% end %>
   </h1>
 </div>

@@ -3,8 +3,8 @@
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to 'Links', project_links_path(@project) %> &middot; <%= @title %>
   </h1>
-  <%= link_to "Edit Link", edit_project_link_path(@link.project, @link), class: 'btn btn-default btn-mini' %>
-  <%= link_to "Delete Link", [@link.project, @link], method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Link #{@link.name}?" } %>
+  <%= link_to "Edit Link", edit_project_link_path(@link.project, @link), class: 'btn btn-default btn-xs' %>
+  <%= link_to "Delete Link", [@link.project, @link], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Link #{@link.name}?" } %>
 </div>
 
 <dl class="dl-horizontal">

@@ -32,7 +32,7 @@
       <td>
         <% if export.file.size > 0 %>
           <% full_url = "#{request.script_name}#{export.file.url}" %>
-          <%= link_to export.file.to_s.split('/').last.to_s.split('.').last.to_s, full_url, target: '_blank', class: 'btn btn-default btn-mini' %>
+          <%= link_to export.file.to_s.split('/').last.to_s.split('.').last.to_s, full_url, target: '_blank', class: 'btn btn-default btn-xs' %>
         <% end %>
       </td>
       <td>
@@ -41,7 +41,7 @@
         <% end %>
       </td>
       <td>
-        <%= link_to 'Delete', [export.project, export], method: :delete, class: 'btn btn-mini btn-danger-inverse btn-block', data: { confirm: "Are you sure you want to delete Export #{export.name}?" } %>
+        <%= link_to 'Delete', [export.project, export], method: :delete, class: 'btn btn-xs btn-danger-inverse btn-block', data: { confirm: "Are you sure you want to delete Export #{export.name}?" } %>
       </td>
     </tr>
   <% end %>
