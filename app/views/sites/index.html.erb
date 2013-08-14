@@ -11,7 +11,7 @@
 
   <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' }  %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
-  <%= link_to 'Reset', '#', class: 'btn btn-cancel', data: { target: '#sites_search', object: 'reset-filters' } %>
+  <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#sites_search', object: 'reset-filters' } %>
 
 <% end %>
 

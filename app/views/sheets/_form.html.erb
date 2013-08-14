@@ -93,7 +93,7 @@
       <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
       <%= f.submit nil,       class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
       <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit", continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
-      <%= link_to 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'btn btn-large btn-cancel-inverse' %>
+      <%= link_to 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'btn btn-large btn-default' %>
     </div>
   </div>
 <% end %>

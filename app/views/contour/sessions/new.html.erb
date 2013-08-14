@@ -22,7 +22,7 @@
   <div class="form-signin">
     <h2 class="form-signin-heading">Sign in with</h2>
     <% PROVIDERS.each do |provider| %>
-      <a href="<%= request.script_name + "/" + OmniAuth.config.path_prefix.split('/').last.to_s + "/" + provider.to_s.downcase %>" class="btn btn-large btn-cancel-inverse" style="white-space:nowrap">
+      <a href="<%= request.script_name + "/" + OmniAuth.config.path_prefix.split('/').last.to_s + "/" + provider.to_s.downcase %>" class="btn btn-large btn-default" style="white-space:nowrap">
         <%= image_tag "contour/#{provider.to_s.downcase}_32.png", align: 'absmiddle' %>
       </a>
     <% end %>
