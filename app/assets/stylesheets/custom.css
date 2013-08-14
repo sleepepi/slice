@@ -449,12 +449,3 @@ div.filter-sort-container {
   margin-bottom: 15px;
   padding: 7px 9px;
 }
-
-.twitter-typeahead .tt-query {
-  border-top-left-radius: 4px !important;
-  border-bottom-left-radius: 4px !important;
-}
-
-.datepicker-dropdown {
-  padding: 4px;
-}
