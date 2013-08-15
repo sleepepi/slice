@@ -28,7 +28,7 @@
           <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'col-lg-2 control-label' %>
         <% end %>
 
-        <div class="<%= "col-lg-10" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %> <%= 'col-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
+        <div class="<%= "col-lg-10" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %> <%= 'col-lg-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
           <% responses = @sheets.sheet_responses(@variable)  %>
           <%= render partial: "designs/overview/#{@variable.variable_type}", locals: { sheet_scope: @sheets, responses: responses } %>
         </div>

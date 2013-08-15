@@ -89,7 +89,7 @@
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-offset-2">
+    <div class="col-lg-10 col-lg-offset-2">
       <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
       <%= f.submit nil,       class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
       <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit", continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
