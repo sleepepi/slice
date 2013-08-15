@@ -52,7 +52,7 @@
           <div class="form-group">
             <label class="col-lg-2 control-label">Existing Variable</label>
             <div class="col-lg-10">
-              <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: 'form-control' %>
+              <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: 'form-control chzn-select' %>
             </div>
           </div>
 
