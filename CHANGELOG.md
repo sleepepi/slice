@@ -1,4 +1,4 @@
-## 0.20.3
+## 0.20.3 (August 15, 2013)
 
 ### Enhancements
 - **General Changes**
