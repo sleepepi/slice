@@ -1,6 +1,8 @@
 ## 0.20.3
 
 ### Enhancements
+- **General Changes**
+  - The interface now uses [Bootstrap 3 RC2](http://getbootstrap.com/)
 - **Gem Changes**
   - Updated to contour 2.1.0.beta13
 
