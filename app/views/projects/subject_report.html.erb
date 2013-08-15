@@ -7,7 +7,7 @@
 
 <%= form_tag subject_report_project_path(@project), method: :get, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do %>
   <div class="row">
-    <div class="col-lg-4">
+    <div class="col-md-4">
       Subjects
       <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#report_form' } %>
     </div>

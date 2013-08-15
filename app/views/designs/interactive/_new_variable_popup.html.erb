@@ -8,11 +8,11 @@
 <div class="modal-body">
 
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-md-6">
       <form id="variable_form" class="form-horizontal">
         <div class="form-group">
-          <label class="col-lg-2 control-label">Display Name</label>
-          <div class="col-lg-10">
+          <label class="col-md-2 control-label">Display Name</label>
+          <div class="col-md-10">
             <%= text_field_tag "variable[display_name]", '', autocomplete: 'off', data: { object: 'create-variable-name', target: '#variable_name, #variable_name_display' }, class: 'form-control' %>
             <%= hidden_field_tag "variable[variable_type]", params[:variable_type] %>
             <div class="bs-callout bs-callout-info">
@@ -26,15 +26,15 @@
         </div>
 
         <div class="form-group">
-          <label class="col-lg-2 control-label">Name</label>
-          <div class="col-lg-10">
+          <label class="col-md-2 control-label">Name</label>
+          <div class="col-md-10">
             <%= hidden_field_tag "variable[name]" %>
             <%= text_field_tag "variable_name_display", '', maxlength: 32, autocomplete: 'off', disabled: true, data: { placement: 'right' }, class: 'form-control' %>
           </div>
         </div>
 
         <div class="form-group">
-          <div class="col-lg-10 col-lg-offset-2">
+          <div class="col-md-10 col-md-offset-2">
             <%= button_tag 'Add', data: { object: 'push-partial-change', target: '#variable_form', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
           </div>
         </div>
@@ -47,17 +47,17 @@
       <% variables = @project.variables.where(variable_type: params[:variable_type]).where("variables.id NOT IN (?)", @design.variable_ids) %>
     <% end %>
     <% if variables.count > 0 %>
-      <div class="col-lg-6">
+      <div class="col-md-6">
         <form class="form-horizontal">
           <div class="form-group">
-            <label class="col-lg-2 control-label">Existing Variable</label>
-            <div class="col-lg-10">
+            <label class="col-md-2 control-label">Existing Variable</label>
+            <div class="col-md-10">
               <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: 'form-control chzn-select' %>
             </div>
           </div>
 
           <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
+            <div class="col-md-10 col-md-offset-2">
               <%= button_tag 'Add Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
             </div>
           </div>

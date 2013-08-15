@@ -6,16 +6,16 @@
   <form id="design_form" class="form-horizontal">
 
     <div class="form-group">
-      <label class="col-lg-2 control-label">Name</label>
-      <div class="col-lg-10">
+      <label class="col-md-2 control-label">Name</label>
+      <div class="col-md-10">
         <%= text_field_tag "design[name]", @design.name, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, class: 'form-control' %>
       </div>
     </div>
 
     <% if @design.publicly_available? %>
       <div class="form-group">
-        <label class="col-lg-2 control-label">Slug</label>
-        <div class="col-lg-10">
+        <label class="col-md-2 control-label">Slug</label>
+        <div class="col-md-10">
           <%= text_field_tag "design[slug]", @design.slug, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, class: 'form-control' %>
         </div>
       </div>

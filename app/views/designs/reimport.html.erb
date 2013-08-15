@@ -21,8 +21,8 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :csv_file, 'Data Import (CSV)', class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :csv_file, 'Data Import (CSV)', class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <% if @file_uploaded %>
         <div style="padding-top:5px;">
           <b><%= @design.csv_file_cache.split('/').last %></b>
@@ -38,15 +38,15 @@
 
   <% if @file_uploaded %>
     <div class="form-group">
-      <%= label :subject_status, "Subject Status", class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
+      <%= label :subject_status, "Subject Status", class: 'col-md-2 control-label' %>
+      <div class="col-md-10">
         <%= select_tag :subject_status, options_for_select(Subject::STATUS, 'pending') %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= label_tag 'site_id', 'Site', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10" id="site">
+      <%= label_tag 'site_id', 'Site', class: 'col-md-2 control-label' %>
+      <div class="col-md-10" id="site">
         <%= select_tag :site_id, options_for_select(@project.sites.order('name').collect{|s| [s.name, s.id]}) %>
       </div>
     </div>
@@ -68,7 +68,7 @@
         <% end %>
 
         <div class="form-group">
-          <label class="col-lg-2 control-label"><%= hash[:name] %></label>
+          <label class="col-md-2 control-label"><%= hash[:name] %></label>
           <div class="form-group sheet-container">
             <div style="padding-top:5px;">
               <% if variable %>

@@ -9,21 +9,21 @@
 <%= form_tag project_variables_path(@project), method: :get, remote: true, id: "variables_search", class: 'form-horizontal', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
     <div class="form-group">
-      <%= label :search, 'Search', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
+      <%= label :search, 'Search', class: 'col-md-2 control-label' %>
+      <div class="col-md-10">
         <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= label :variable_type, 'Variable Type', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
+      <%= label :variable_type, 'Variable Type', class: 'col-md-2 control-label' %>
+      <div class="col-md-10">
         <%= render partial: 'layouts/radio_button_group', locals: { name: 'variable_type', options: ([['ALL', nil]] + Variable::TYPE), selected: params[:variable_type] } %>
       </div>
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <%= submit_tag 'Search', class: 'btn btn-primary' %>
       <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#variables_search', object: 'reset-filters' } %>
     </div>

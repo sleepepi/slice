@@ -16,42 +16,42 @@
   <% end %>
 
   <div class="form-group">
-    <%= label_tag 'site_id', 'Site', class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10" id="site">
+    <%= label_tag 'site_id', 'Site', class: 'col-md-2 control-label' %>
+    <div class="col-md-10" id="site">
       <%= @project = @subject.project; render partial: 'sites/selection' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :subject_code, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :subject_code, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_field :subject_code, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group" style="<%= 'display:none' unless @subject.project and @subject.project.acrostic_enabled? %>" id="acrostic-container">
-    <%= f.label :acrostic, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :acrostic, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_field :acrostic, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :email, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :email, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_field :email, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= label_tag :status, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= label_tag :status, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.select :status, Subject::STATUS, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <%= f.submit nil, class: 'btn btn-primary' %>
       <%= cancel %>
     </div>

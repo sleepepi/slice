@@ -33,8 +33,8 @@
 
 <%= form_tag project_site_users_path(@project, site_user: { site_id: @site.id } ), method: :post, remote: true, class: 'form-horizontal' do %>
   <div class="form-group">
-    <label class="col-lg-2 control-label">Site Members</label>
-    <div class="col-lg-10">
+    <label class="col-md-2 control-label">Site Members</label>
+    <div class="col-md-10">
       <div class="input-group">
         <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
           <%= text_field_tag :invite_email, nil, placeholder: 'Email', class: 'form-control' %>

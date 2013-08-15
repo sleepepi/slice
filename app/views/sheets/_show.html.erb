@@ -2,10 +2,10 @@
 
 <% if show_navigation %>
 <div class="row">
-  <div class="col-lg-3 bs-docs-sidebar">
+  <div class="col-md-3 bs-docs-sidebar">
     <%= @design = @sheet.design; render partial: 'designs/navigation' %>
   </div>
-  <div class="col-lg-9" id="main-bar">
+  <div class="col-md-9" id="main-bar">
 <% end %>
     <form class="form-horizontal">
       <% @sheet.design.options.each do |option| %>

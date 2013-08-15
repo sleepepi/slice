@@ -12,8 +12,8 @@
 
     <% %w(hard_minimum hard_maximum soft_minimum soft_maximum).each do |range| %>
       <div class="form-group">
-        <label class="col-lg-2 control-label"><%= range.titleize %></label>
-        <div class="col-lg-10">
+        <label class="col-md-2 control-label"><%= range.titleize %></label>
+        <div class="col-md-10">
           <%= text_field_tag "variable[#{range}]", @variable.send(range), data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'form-control', autocomplete: 'off' %>
         </div>
       </div>

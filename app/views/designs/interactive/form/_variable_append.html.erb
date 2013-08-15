@@ -11,8 +11,8 @@
   <form id="variable_form" class="form-horizontal">
 
     <div class="form-group">
-      <label class="col-lg-2 control-label">Variable Append</label>
-      <div class="col-lg-10">
+      <label class="col-md-2 control-label">Variable Append</label>
+      <div class="col-md-10">
         <%= text_field_tag "variable[append]", @variable.append, data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: "form-control" %>
       </div>
     </div>

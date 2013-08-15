@@ -1,7 +1,7 @@
 <% @title = "About #{DEFAULT_APP_NAME}" %>
 
 <div class="row" style="margin-top:54px">
-  <div class="col-lg-12">
+  <div class="col-md-12">
     <h1 class="about-title"><%= @title %></h1>
     <p class="about-tagline">Visit our <%= link_to 'online community', ABOUT_PAGE_FORUM, target: '_blank' %> or contact us <%= mail_to ABOUT_PAGE_CONTACT, 'via email', target: '_blank', subject: "#{DEFAULT_APP_NAME} Question" %>.</p>
     <p class="about-signup"><%= link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-large" %></p>
@@ -13,21 +13,21 @@
 <p class="about-description"><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' } %> and <%= link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' } %> clinical research interface for collecting and analyzing data.</p>
 
 <div class="row">
-  <div class="col-lg-4">
+  <div class="col-md-4">
     <h2 class="about-title">Design Forms</h2>
     <ul>
       <li>Create new designs and variables, or copy from existing libraries.</li>
       <li>Updating variables migrates already filled-out form data keeping all of your project data in sync.</li>
     </ul>
   </div>
-  <div class="col-lg-4">
+  <div class="col-md-4">
     <h2 class="about-title">Manage Multi-site Projects</h2>
     <ul>
       <li>Enroll subjects across sites.</li>
       <li>Sites can view their subjects and receipts.</li>
     </ul>
   </div>
-  <div class="col-lg-4">
+  <div class="col-md-4">
     <h2 class="about-title">Email Receipts</h2>
     <ul>
       <li>Email PDF receipts to sites when a subject form is completed.</li>

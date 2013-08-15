@@ -1,7 +1,7 @@
 <% if @variable.deleted? %>
   <div class="form-group error">
-    <label class="col-lg-2 control-label"><%= @variable.display_name %></label>
-    <div class="col-lg-10">
+    <label class="col-md-2 control-label"><%= @variable.display_name %></label>
+    <div class="col-md-10">
       <div style="line-height:30px">
         This variable has been deleted. Click below to remove from design.
       </div>
@@ -21,11 +21,11 @@
       </div>
     <% else %>
       <div data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="editable-design-element">
-        <label class="col-lg-2 control-label"><%= @variable.display_name %></label>
+        <label class="col-md-2 control-label"><%= @variable.display_name %></label>
       </div>
     <% end %>
 
-    <div class="<%= "col-lg-10" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %> <%= 'col-lg-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
+    <div class="<%= "col-md-10" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %> <%= 'col-md-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
       <div style="line-height:30px">
         <% if Variable::TYPE.flatten.uniq.include?(@variable.variable_type) %>
           <%= render partial: "designs/interactive/show/types/#{@variable.variable_type}", locals: { variable: @variable } %>

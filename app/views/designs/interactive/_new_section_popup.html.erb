@@ -8,21 +8,21 @@
 <div class="modal-body">
   <form id="section_form" class="form-horizontal">
     <div class="form-group">
-      <label class="col-lg-2 control-label">Section Name</label>
-      <div class="col-lg-10">
+      <label class="col-md-2 control-label">Section Name</label>
+      <div class="col-md-10">
         <%= text_field_tag "section[section_name]", '', data: { object: 'push-partial-change-text-field', target: '#section_form', create: 'section', position: params[:position] }, autocomplete: 'off', class: 'form-control' %>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-lg-2 control-label">Section Description</label>
-      <div class="col-lg-10">
+      <label class="col-md-2 control-label">Section Description</label>
+      <div class="col-md-10">
         <%= text_area_tag "section[section_description]", '', autocomplete: 'off', rows: 3, class: 'form-control' %>
       </div>
     </div>
 
     <div class="form-group">
-      <div class="col-lg-10 col-lg-offset-2">
+      <div class="col-md-10 col-md-offset-2">
         <div class="checkbox">
           <label>
             <%= hidden_field_tag "section[section_type]", "0" %>

@@ -10,35 +10,35 @@
 <%= form_tag project_subjects_path(@project), method: :get, remote: true, id: "subjects_search", class: 'form-vertical', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
-    <div class="col-lg-4 form-group">
-      <%= label :search, 'Search', class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
+    <div class="col-md-4 form-group">
+      <%= label :search, 'Search', class: 'col-md-2 control-label' %>
+      <div class="col-md-10">
         <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
       </div>
     </div>
 
-    <div class="col-lg-4 form-group">
-      <label class="col-lg-2 control-label">Subjects</label>
-      <div class="col-lg-10">
+    <div class="col-md-4 form-group">
+      <label class="col-md-2 control-label">Subjects</label>
+      <div class="col-md-10">
         <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#subjects_search' } %>
       </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-lg-4 form-group" id="select_site">
+    <div class="col-md-4 form-group" id="select_site">
       <%= hidden_field_tag :site_id, params[:site_id] %>
       <%#= render partial: 'subjects/select_site' %>
     </div>
 
-    <div class="col-lg-4 form-group" id="select_design">
+    <div class="col-md-4 form-group" id="select_design">
       <%= hidden_field_tag :design_id, params[:design_id] %>
       <%#= render partial: 'subjects/select_design' %>
     </div>
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <%= submit_tag 'Search', class: 'btn btn-primary' %>
       <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#subjects_search', object: 'reset-filters' } %>
     </div>

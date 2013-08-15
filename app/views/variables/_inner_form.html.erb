@@ -1,8 +1,8 @@
 <%= f.hidden_field :project_id %>
 
 <div class="form-group">
-  <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :name, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :name, maxlength: 32, class: 'form-control' %>
     <div class="bs-callout bs-callout-info">
       <h4>Naming convention</h4>
@@ -17,84 +17,84 @@
 </div>
 
 <div class="form-group">
-  <%= f.label :display_name, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :display_name, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :display_name, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label :display_name_visibility, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :display_name_visibility, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.select :display_name_visibility, Variable::DISPLAY_NAME_VISIBILITY, {}, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :description, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_area :description, rows: 7, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label :variable_type, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :variable_type, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.select :variable_type, [['---', nil]] + Variable::TYPE, {}, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="prepend-append">
-  <%= f.label :prepend, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :prepend, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :prepend, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="prepend-append">
-  <%= f.label :append, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :append, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :append, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
-  <%= f.label :hard_minimum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :hard_minimum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.number_field :hard_minimum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
-  <%= f.label :hard_maximum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :hard_maximum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.number_field :hard_maximum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
-  <%= f.label :soft_minimum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :soft_minimum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.number_field :soft_minimum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="number">
-  <%= f.label :soft_maximum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :soft_maximum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.number_field :soft_maximum, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="calculated-or-number">
-  <%= f.label :units, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :units, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :units, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date-or-time">
-  <div class="col-lg-10 col-lg-offset-2">
+  <div class="col-md-10 col-md-offset-2">
     <div class="checkbox">
       <label>
         <%= f.check_box :show_current_button %>
@@ -105,36 +105,36 @@
 </div>
 
 <div class="form-group" data-object="date">
-  <%= f.label :date_hard_minimum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :date_hard_minimum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :date_hard_minimum, class: 'datepicker form-control', value: @variable.date_hard_minimum ? @variable.date_hard_minimum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date">
-  <%= f.label :date_hard_maximum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :date_hard_maximum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :date_hard_maximum, class: 'datepicker form-control', value: @variable.date_hard_maximum ? @variable.date_hard_maximum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date">
-  <%= f.label :date_soft_minimum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :date_soft_minimum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :date_soft_minimum, class: 'datepicker form-control', value: @variable.date_soft_minimum ? @variable.date_soft_minimum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="date">
-  <%= f.label :date_soft_maximum, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :date_soft_maximum, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :date_soft_maximum, class: 'datepicker form-control', value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="form-group" data-object="calculated">
-  <%= f.label :calculation, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :calculation, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :calculation, class: 'form-control' %>
     <div class="bs-callout bs-callout-info">
       <h4>Calculation Examples</h4>
@@ -153,8 +153,8 @@
 </div>
 
 <div class="form-group" data-object="calculated">
-  <%= f.label :format, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :format, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_field :format, class: 'form-control' %>
     <div class="bs-callout bs-callout-info">
       <h4>Format Examples</h4>
@@ -176,8 +176,8 @@
 </div>
 
 <div class="form-group" data-object="options">
-  <%= f.label :domain_id, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :domain_id, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <% if @variable.project.domains.size == 0 %>
       <div class="alert alert-info">
         <strong>Heads up!</strong> In order to have choices, variables need to be associated to a domain of options. Variables can share domains. <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs' %>
@@ -187,7 +187,7 @@
       <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs', target: '_blank' %>
       <% if @variable.captured_values.size > 0 %>
         <div class="row">
-          <div class="col-lg-3">
+          <div class="col-md-3">
             <div class="download-container" style="overflow-x:hidden;overflow-y:scroll;height:80px">
               <div class="download-container-after">Captured Values</div>
               <div style="padding-top:10px">
@@ -199,7 +199,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3">
+          <div class="col-md-3">
             <div class="download-container" style="overflow-x:hidden;overflow-y:scroll;height:80px">
               <div class="download-container-after">Domain Values</div>
               <div id="domain_values" style="padding-top:10px"><%= @domain = @variable.domain; render partial: 'domains/values' %></div>
@@ -212,14 +212,14 @@
 </div>
 
 <div class="form-group" data-object="checkbox-or-radio">
-  <%= f.label :alignment, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :alignment, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.select :alignment, Variable::ALIGNMENT, {}, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="grid">
-  <div class="col-lg-10 col-lg-offset-2">
+  <div class="col-md-10 col-md-offset-2">
     <div class="checkbox">
       <label>
         <%= f.check_box :multiple_rows %>
@@ -230,7 +230,7 @@
 </div>
 
 <div class="form-group" data-object="grid">
-  <div class="col-lg-10 col-lg-offset-2">
+  <div class="col-md-10 col-md-offset-2">
     <div class="checkbox">
       <label>
         <%= f.check_box :default_row_number %>
@@ -241,8 +241,8 @@
 </div>
 
 <div class="form-group" data-object="grid">
-  <label class="col-lg-2 control-label">Variables</label>
-  <div class="col-lg-10">
+  <label class="col-md-2 control-label">Variables</label>
+  <div class="col-md-10">
     <div id="form_grid_variables" data-object="sortable">
       <% @variable.grid_variables.each do |grid_variable| %>
         <%= @grid_variable = grid_variable; render partial: 'edit_grid_variable' %>
@@ -255,15 +255,15 @@
 </div>
 
 <div class="form-group" data-object="autocomplete">
-  <%= f.label :autocomplete_values, nil, class: 'col-lg-2 control-label' %>
-  <div class="col-lg-10">
+  <%= f.label :autocomplete_values, nil, class: 'col-md-2 control-label' %>
+  <div class="col-md-10">
     <%= f.text_area :autocomplete_values, rows: 7, style: 'width:95%', rel: "tooltip", title: "Line-separated Strings", class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group" data-object="autocomplete">
-  <label class="col-lg-2 control-label">User submitted</label>
-  <div class="col-lg-10">
+  <label class="col-md-2 control-label">User submitted</label>
+  <div class="col-md-10">
     <div style="line-height:30px">
       <%= @variable.user_submitted_sheet_variables.collect{|sv| link_to sv.response.to_s, [sv.sheet.project, sv.sheet] }.join(', ').html_safe  %>
     </div>

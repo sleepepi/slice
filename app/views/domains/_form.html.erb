@@ -18,8 +18,8 @@
   <%= f.hidden_field :project_id %>
 
   <div class="form-group">
-    <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :name, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_field :name, maxlength: 30, class: 'form-control' %>
       <div class="bs-callout bs-callout-info">
         <h4>Naming convention</h4>
@@ -34,15 +34,15 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :description, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_area :description, rows: 7, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <label class="col-lg-2 control-label">Options</label>
-    <div class="col-lg-10">
+    <label class="col-md-2 control-label">Options</label>
+    <div class="col-md-10">
       <div id="options" data-object="sortable">
         <%= render partial: 'domains/options' %>
       </div>
@@ -50,7 +50,7 @@
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <div class="btn-toolbar">
         <%= link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs' %>
       </div>
@@ -58,7 +58,7 @@
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <%= f.submit nil, class: 'btn btn-primary' %>
       <%= cancel %>
     </div>

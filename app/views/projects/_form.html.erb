@@ -16,37 +16,37 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :name, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :name, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_field :name, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :description, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :description, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_area :description, rows: 7, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :subject_code_name, nil, class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :subject_code_name, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.text_field :subject_code_name, placeholder: "Subject Code", class: 'form-control' %>
     </div>
   </div>
 
   <% if @project.sites.size == 0 %>
     <div class="form-group">
-      <%= f.label :site_name, nil, class: 'col-lg-2 control-label' %>
-      <div class="col-lg-10">
+      <%= f.label :site_name, nil, class: 'col-md-2 control-label' %>
+      <div class="col-md-10">
         <%= f.text_field :site_name, placeholder: 'Default Site', class: 'form-control' %>
       </div>
     </div>
   <% end %>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <div class="checkbox">
         <label>
           <%= f.check_box :acrostic_enabled %>
@@ -57,15 +57,15 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-lg-2 control-label' %>
-    <div class="col-lg-10">
+    <%= f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
       <%= f.file_field :logo, class: 'form-control' %>
       <%= f.hidden_field :logo_cache %>
     </div>
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <div class="checkbox">
         <label>
           <%= f.check_box :show_posts %>
@@ -76,7 +76,7 @@
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <div class="checkbox">
         <label>
           <%= f.check_box :show_documents %>
@@ -87,7 +87,7 @@
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <div class="checkbox">
         <label>
           <%= f.check_box :show_contacts %>
@@ -98,7 +98,7 @@
   </div>
 
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-md-10 col-md-offset-2">
       <%= f.submit nil, class: 'btn btn-primary' %>
       <%= cancel %>
     </div>

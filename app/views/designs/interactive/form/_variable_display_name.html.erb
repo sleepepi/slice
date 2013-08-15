@@ -14,8 +14,8 @@
   <form id="variable_form" class="form-horizontal">
 
     <div class="form-group">
-      <label class="col-lg-2 control-label">Display Name</label>
-      <div class="col-lg-10">
+      <label class="col-md-2 control-label">Display Name</label>
+      <div class="col-md-10">
         <%= text_field_tag "variable[display_name]", @variable.display_name, data: { object: 'push-partial-change-text-field', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, autocomplete: 'off', class: "form-control" %>
         <div class="bs-callout bs-callout-info">
           <h4>Heads up!</h4>
@@ -28,8 +28,8 @@
     </div>
 
     <div class="form-group">
-      <label class="col-lg-2 control-label">Variable Name</label>
-      <div data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="col-lg-10 editable-design-element" style="line-height:30px">
+      <label class="col-md-2 control-label">Variable Name</label>
+      <div data-object="pull-partial-edit" data-edit="variable_name" data-position="<%= params[:position] %>" data-variable-id="<%= @variable.id %>" class="col-md-10 editable-design-element" style="line-height:30px">
         <%= @variable.name %>
         <div class="help-block">
           <span class="text-muted">Click here to edit the variable name</span>
@@ -40,8 +40,8 @@
     <% if @variable == @design.variable_at(params[:position].to_i) %>
       <% @option = @design.options[params[:position].to_i] %>
       <div class="form-group">
-        <label class="col-lg-2 control-label">Branching Logic</label>
-        <div class="col-lg-10">
+        <label class="col-md-2 control-label">Branching Logic</label>
+        <div class="col-md-10">
           <%= text_area_tag "variable[branching_logic]", @option[:branching_logic], rows: 3, class: 'form-control' %>
           <div class="bs-callout bs-callout-info">
             <h4>Branching Logic Examples</h4>
