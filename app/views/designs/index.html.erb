@@ -7,7 +7,7 @@
   </h1>
 </div>
 
-<%= form_tag project_designs_path(@project), method: :get, remote: true, id: "designs_search", class: 'form-inline', data: { object: 'form-load' } do %>
+<%= form_tag project_designs_path(@project), method: :get, remote: true, id: "designs_search", class: 'form-vertical', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="col-lg-4 form-group">

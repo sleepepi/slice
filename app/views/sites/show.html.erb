@@ -31,19 +31,24 @@
 </dl>
 
 
-<div class="page-header">
-  <h2>
-    <%= form_tag project_site_users_path(@project, site_user: { site_id: @site.id } ), method: :post, remote: true, class: 'form-inline' do %>
-      Site Members
-      <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
-        <span style="white-space:nowrap">
+<%= form_tag project_site_users_path(@project, site_user: { site_id: @site.id } ), method: :post, remote: true, class: 'form-horizontal' do %>
+  <div class="form-group">
+    <label class="col-lg-2 control-label">Site Members</label>
+    <div class="col-lg-10">
+      <div class="input-group">
+        <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
           <%= text_field_tag :invite_email, nil, placeholder: 'Email', class: 'form-control' %>
-          <%= submit_tag 'Send Invitation', class: 'btn btn-primary' %>
-        </span>
-      <% end %>
-    <% end %>
-  </h2>
-</div>
+          <span class="input-group-btn">
+            <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>
+          </span>
+        <% end %>
+      </div>
+      <div class="bs-callout bs-callout-info">
+        Can view Sheets and Subjects on <%= @site.name %> and create Comments.
+      </div>
+    </div>
+  </div>
+<% end %>
 
 <div id="site_users">
   <%= render partial: 'site_users/index' %>

@@ -8,7 +8,7 @@
 
 <div id="contour-backdrop" style="<%= 'display:none' unless params[:e].to_s == '1' %>"></div>
 
-<%= form_tag project_sheets_path(@project), method: :get, remote: true, id: "sheets_search", class: 'form-inline', data: { object: 'form-load' } do %>
+<%= form_tag project_sheets_path(@project), method: :get, remote: true, id: "sheets_search", class: 'form-vertical', data: { object: 'form-load' } do %>
   <div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="<%= 'display:none' unless params[:e].to_s == '1' %>">
     <div class="contour-modal" data-object="contour_modal_container">
       <%= render partial: 'sheets/export_popup' %>
