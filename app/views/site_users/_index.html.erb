@@ -1,6 +1,6 @@
 <ul>
   <% @site.site_users.each do |site_user| %>
-    <li onmouseover="$('#site_user_<%= site_user.id %>_delete').show();" onmouseout="$('#site_user_<%= site_user.id %>_delete').hide();" style="line-height:25px">
+    <li onmouseover="$('#site_user_<%= site_user.id %>_delete').show();" onmouseout="$('#site_user_<%= site_user.id %>_delete').hide();" style="line-height:30px">
       <% if site_user.user %>
         <%= link_to site_user.user.name, site_user.user %>
       <% else %>
