@@ -13,7 +13,7 @@
   <% @posts.each do |post| %>
     <tr>
       <td><%= link_to post.name, [post.project, post] %></td>
-      <td><%= post.description %></td>
+      <td><%= simple_markdown post.description %></td>
       <td><%= simple_check post.archived %></td>
       <td>
         <%= link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-default btn-xs' %>
