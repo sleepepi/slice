@@ -1,4 +1,4 @@
-## 0.20.4
+## 0.20.4 (August 19, 2013)
 
 ### Enhancements
 - Added additional descriptions to clarify the meaning of Subject Code name, and Site name when creating and updating a project
