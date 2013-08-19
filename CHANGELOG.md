@@ -1,5 +1,8 @@
 ## 0.20.4
 
+### Bug Fix
+- Fixed a bug that caused SAS exports to not match up variables correctly with the CSV
+
 ## 0.20.3 (August 15, 2013)
 
 ### Enhancements

@@ -128,7 +128,7 @@ class Export < ActiveRecord::Base
       end
 
       CSV.open(export_file, "wb") do |csv|
-        variables = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
+        variables = all_design_variables_without_grids(sheet_scope)
         csv << ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variables.collect{|v| v.name}
         rows.each do |hash|
           sheet = hash[:sheet]
@@ -339,7 +339,7 @@ class Export < ActiveRecord::Base
     def generate_sas(sheet_scope, filename)
       export_file = File.join('tmp', 'files', 'exports', "#{filename}_sas.sas")
       design_scope = Design.where(id: sheet_scope.pluck(:design_id))
-      variables = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq
+      variables = all_design_variables_without_grids(sheet_scope)
       domains = Domain.where(id: variables.collect{|v| v.domain_id}).order('name')
 
       variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
@@ -525,6 +525,10 @@ quit;
       end
 
       ["#{readme_type.upcase}/README.txt", readme]
+    end
+
+    def all_design_variables_without_grids(sheet_scope)
+      Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
     end
 
 end
