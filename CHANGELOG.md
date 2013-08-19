@@ -1,5 +1,8 @@
 ## 0.20.4
 
+### Enhancements
+- Added additional descriptions to clarify the meaning of Subject Code name, and Site name when creating and updating a project
+
 ### Bug Fix
 - Fixed a bug that caused SAS exports to not match up variables correctly with the CSV
 
