@@ -62,7 +62,9 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
     </div>
   <% end %>
 
-  <div class="form-actions">
-    <%= link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "#email_settings" } %>
+  <div class="form-group">
+    <div class="col-md-10 col-md-offset-2">
+      <%= link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "#email_settings" } %>
+    </div>
   </div>
 <% end %>

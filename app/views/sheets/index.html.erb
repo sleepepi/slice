@@ -109,12 +109,14 @@
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <div class="form-group">
+    <div class="col-md-10 col-md-offset-2">
+      <%= submit_tag 'Search', class: 'btn btn-primary' %>
 
-    <%= link_to 'Export', '#', class: 'btn btn-default', data: { object: 'show-contour-modal' } %>
+      <%= link_to 'Export', '#', class: 'btn btn-default', data: { object: 'show-contour-modal' } %>
 
-    <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#sheets_search', object: 'reset-filters' } %>
+      <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#sheets_search', object: 'reset-filters' } %>
+    </div>
   </div>
 <% end %>
 
