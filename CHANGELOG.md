@@ -2,6 +2,7 @@
 
 - **Bug Fix**
   - PDFs for designs which include file variables now generate correctly
+  - Project names no longer need to be unique
 
 ## 0.20.5 (August 20, 2013)
 
