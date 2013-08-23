@@ -112,7 +112,7 @@
 
   <% @variable.options_without_missing.each do |option| %>\ding{109} <%= latex_safe option[:name] %><% if @variable.alignment == 'horizontal' %>~~~~<% else %>\\\indent<% end %><% end %>
 
-<% elsif @variable.variable_type == 'file' and @sheet.response_file(@variable).size > 0 %>
+<% elsif @variable.variable_type == 'file' %>
   \textcolor[gray]{0.5}{File Upload}
 <% elsif @variable.variable_type == 'text' %>
 

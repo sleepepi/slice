@@ -1,5 +1,8 @@
 ## 0.20.6
 
+- **Bug Fix**
+  - PDFs for designs which include file variables now generate correctly
+
 ## 0.20.5 (August 20, 2013)
 
 ### Enhancements
