@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
   end
 
   def associated_users
-    User.current.human.with_project(self.all_projects.pluck(:id), [true, false])
+    User.where( deleted: false ).with_project(self.all_projects.pluck(:id), [true, false])
   end
 
   def all_favorite_projects
