@@ -12,16 +12,20 @@
 
 </div>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Coverage</th>
       <th><%= @sheet.project.subject_code_name_full %></th>
       <% if @sheet.project.acrostic_enabled? %><th>Acrostic</th><% end %>
-      <th>Project</th>
       <th>Site</th>
-      <th>Created</th>
-      <th>Updated</th>
+      <th>
+        <% if @sheet.recently_created? %>
+          Created
+        <% else %>
+          Updated
+        <% end %>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -32,10 +36,14 @@
         <%= link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject %>
       </td>
       <% if @sheet.project.acrostic_enabled? %><td><%= @sheet.subject.acrostic %></td><% end %>
-      <td><%= @project = @sheet.project; render partial: 'projects/logo_small' %> <%= link_to @sheet.project.name, @sheet.project if @sheet.project %></td>
       <td><%= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site %></td>
-      <td><%= simple_time @sheet.created_at %></td>
-      <td><%= simple_time @sheet.last_edited_at %></td>
+      <td>
+        <% if @sheet.recently_created? %>
+          <%= link_to_if (@sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.created_at), audits_project_sheet_path(@sheet.project, @sheet) %><% if @sheet.user %> by <%= link_to @sheet.user.name, @sheet.user %><% end %>
+        <% else %>
+          <%= link_to_if (@sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.last_edited_at), audits_project_sheet_path(@sheet.project, @sheet) %><% if @sheet.last_user %> by <%= link_to @sheet.last_user.name, @sheet.last_user %><% end %>
+        <% end %>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -43,49 +51,10 @@
 <%= form_tag [@sheet.project, @sheet], method: :get, remote: true, data: { object: 'form-load' }, style: 'display:none' do %>
 <% end %>
 
-<div id="sheet_<%= @sheet.id %>"><%#= render partial: 'sheets/show' %></div>
-
-<div id="sheet_<%= @sheet.id %>_comments">
-  <%= render partial: 'sheets/comments' %>
+<div id="sheet_<%= @sheet.id %>">
+  <div class="center"><%= image_tag "contour/ajax-loader.gif" %></div>
 </div>
 
-<hr class="soften" style="margin-top:20px;margin-bottom:40px" />
-
-<div class="download-container">
-  <div class="download-container-after">Additional Information</div>
-
-  <dl class="dl-horizontal" style="margin-bottom:0px">
-    <dt>Design</dt>
-    <dd>
-      <%= link_to @sheet.design.name, [@sheet.design.project, @sheet.design] %>
-      &middot;
-      <%= link_to "Report", report_project_design_path(@sheet.design.project, @sheet.design), class: 'btn btn-default btn-xs' %>
-    </dd>
-
-    <dt>Project and Site</dt>
-    <dd>
-      <%= link_to @sheet.project.name, @sheet.project %>
-      &middot;
-      <%= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site %>
-    </dd>
-
-    <dt>Creator</dt>
-    <dd><%= link_to @sheet.user.name, @sheet.user if @sheet.user %></dd>
-
-    <dt>Created</dt>
-    <dd><%= simple_time @sheet.created_at %>
-
-    <dt>Last Edited By</dt>
-    <dd><%= link_to @sheet.last_user.name, @sheet.last_user if @sheet.last_user %></dd>
-
-    <dt>Last Edited At</dt>
-    <dd><%= simple_time @sheet.last_edited_at %>
-
-    <% if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
-      <dt>Full Audits</dt>
-      <dd>
-        <% if @sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id) %><%= link_to 'Audits', audits_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' %><% end %>
-      </dd>
-    <% end %>
-  </dl>
+<div id="sheet_<%= @sheet.id %>_comments" style="display:none">
+  <%= render partial: 'sheets/comments' %>
 </div>

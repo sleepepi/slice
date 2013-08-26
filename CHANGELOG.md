@@ -1,9 +1,13 @@
 ## 0.20.6
 
-- **Bug Fix**
-  - PDFs for designs which include file variables now generate correctly
-  - Project names no longer need to be unique
-  - Associated users now works correctly on systems that don't set user status
+### Enhancements
+- **Sheet Changes**
+  - Simplified sheet header on sheet show page, and removed additional information at bottom
+
+### Bug Fix
+- PDFs for designs which include file variables now generate correctly
+- Project names no longer need to be unique
+- Associated users now works correctly on systems that don't set user status
 
 ## 0.20.5 (August 20, 2013)
 

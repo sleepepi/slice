@@ -100,6 +100,10 @@ class Sheet < ActiveRecord::Base
     self.design.description
   end
 
+  def recently_created?
+    (self.last_edited_at == nil or ((self.last_edited_at - self.created_at) / 1.minute).to_i == 0)
+  end
+
   def self.latex_partial(partial)
     File.read(File.join('app', 'views', 'sheets', 'latex', "_#{partial}.tex.erb"))
   end
