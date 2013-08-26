@@ -1,4 +1,4 @@
-## 0.20.6
+## 0.20.6 (August 26, 2013)
 
 ### Enhancements
 - **Sheet Changes**
