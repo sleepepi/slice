@@ -26,6 +26,7 @@ selectWithKeystroke = (event) ->
     group_name = $(event.target).attr("name")
     input = $("*[name='"+ group_name + "'][value='" + selected_value + "']")
     toggleGroupInput(input, group_name, event) if input.length > 0
+  $(event.target).change()
 
 jQuery ->
   $(document).on("keypress", ".radio input:radio", selectWithKeystroke)

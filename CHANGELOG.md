@@ -8,6 +8,7 @@
 - PDFs for designs which include file variables now generate correctly
 - Project names no longer need to be unique
 - Associated users now works correctly on systems that don't set user status
+- Selecting radio buttons and checkboxes via the keyboard now properly fires a change event to updated dependent calculated fields
 
 ## 0.20.5 (August 20, 2013)
 
