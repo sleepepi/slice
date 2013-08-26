@@ -3,6 +3,7 @@
 ### Enhancements
 - **Sheet Changes**
   - Simplified sheet header on sheet show page, and removed additional information at bottom
+  - File attaching and removal now work exclusively through the sheet edit page
 
 ### Bug Fix
 - PDFs for designs which include file variables now generate correctly

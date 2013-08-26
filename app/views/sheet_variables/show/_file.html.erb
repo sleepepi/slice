@@ -12,8 +12,5 @@
       <%= link_to response[:name], full_url, target: '_blank', class: 'btn btn-default btn-xs' %>
     <% end %>
     <%= number_to_human_size(response[:value].size) %>
-    <% if current_user.all_sheets.pluck(:id).include?(@sheet.id) %>
-      <%= link_to 'remove', remove_file_project_sheet_path(@sheet.project, @sheet, variable_id: variable.id, sheet_variable_id: sheet_variable.id, position: (defined?(position) ? position : nil)), method: :post, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to remove the #{response[:value].to_s.split('/').last}?" } if sheet_variable %>
-    <% end %>
   <% end %>
 </span>

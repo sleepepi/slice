@@ -33,7 +33,7 @@ class SheetVariable < ActiveRecord::Base
         grid = self.grids.where( variable_id: variable_id, position: position ).first_or_create( user_id: self.user_id )
         if grid.variable.variable_type == 'file'
           grid_old = self.grids.find_by_variable_id_and_position(variable_id, key)
-          if not res[:response_file].kind_of?(Hash) or (res[:response_file].kind_of?(Hash) and not res[:response_file][:cache].blank?)
+          if not res[:response_file].kind_of?(Hash) or res[:remove_response_file] == '1' or (res[:response_file].kind_of?(Hash) and not res[:response_file][:cache].blank?)
             # New file added, do nothing
           elsif grid_old
             # Found preexisting grid
