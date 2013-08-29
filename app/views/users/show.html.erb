@@ -46,7 +46,7 @@
   <dt>User Avatar</dt>
   <dd><%= image_tag @user.avatar_url, class: 'img-rounded' %></dd>
 
-  <% if @user.authentications.size > 0 %>
+  <% if current_user.system_admin? and @user.authentications.size > 0 %>
     <dt>Authentications</dt>
     <dd>
       <div style="margin-top:10px">
