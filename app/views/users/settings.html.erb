@@ -14,7 +14,7 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
 
 <%= hidden_field_tag 'isdirty', '1' %>
 
-<%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings' do %>
+<%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings', class: 'form-horizontal' do %>
   <div class="form-group">
     <label class="col-md-2 control-label">All Projects</label>
     <div class="sheet-container col-md-10">
@@ -22,7 +22,7 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
     </div>
   </div>
   <% User::EMAILABLES.each do |notification, description| %>
-    <div class="form-group" style="margin:0px 0px 20px 20px">
+    <div class="form-group" style="margin-left:20px">
       <label class="col-md-2 control-label"><b><%= notification.to_s.titleize %></b></label>
       <div class="sheet-container col-md-10">
         <label class="checkbox <%= 'selected' if current_user.email_on?(notification) %>"><%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification) %> <%= description %></label>
@@ -67,4 +67,12 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
       <%= link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "#email_settings" } %>
     </div>
   </div>
+<% end %>
+
+<% unless PROVIDERS.blank? %>
+  <div class="page-header">
+    <h2>Authentications</h2>
+  </div>
+
+  <%= render partial: 'contour/authentications/authentications' %>
 <% end %>
