@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to contour 2.1.0.rc
+  - Updated to mail_view 2.0.1
 
 ## 0.20.6 (August 26, 2013)
 
