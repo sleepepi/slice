@@ -1,5 +1,10 @@
 ## 0.21.0
 
+### Enhancements
+- **Gem Changes**
+  - Updated pg to 0.17.0
+  - Updated to contour 2.2.0.beta2
+
 ## 0.20.7 (September 3, 2013)
 
 ### Enhancements

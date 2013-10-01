@@ -4,7 +4,6 @@
 
 @initializeSheet = (filter_element = '') ->
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
-  $("#{filter_element} .timepicker").timepicker( showMeridian: false, showSeconds: true, defaultTime: false )
   $("#{filter_element} .datepicker").datepicker('remove')
   $("#{filter_element} .datepicker").datepicker( autoclose: true )
 
