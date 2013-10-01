@@ -5,6 +5,9 @@
   - Updated pg to 0.17.0
   - Updated to contour 2.2.0.beta2
 
+### Bug Fixes
+- Inline checkboxes now wrap text correctly on smaller screens
+
 ## 0.20.7 (September 3, 2013)
 
 ### Enhancements

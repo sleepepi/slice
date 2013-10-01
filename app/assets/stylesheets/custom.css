@@ -295,6 +295,7 @@ textarea:focus.warning-input  {
 
 .download-container .checkbox, .sheet-container .checkbox, .sheet-container .radio {
   margin-top: 0px;
+  margin-bottom: 4px;
   padding: 6px 10px 6px 25px;
   font-size: 13px;
   line-height: 18px;
@@ -304,7 +305,6 @@ textarea:focus.warning-input  {
   -moz-border-radius: 3px;
   border-radius: 3px;
   cursor: pointer;
-  white-space: nowrap;
 }
 
 .download-container .checkbox:hover, .sheet-container .checkbox:hover, .sheet-container .radio:hover {
