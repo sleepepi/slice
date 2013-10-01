@@ -7,6 +7,7 @@
 
 ### Bug Fixes
 - Inline checkboxes now wrap text correctly on smaller screens
+- Fixed control size dropdown not activating when adding new variables to an existing grid variable
 
 ## 0.20.7 (September 3, 2013)
 

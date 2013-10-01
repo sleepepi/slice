@@ -6,4 +6,4 @@
   $("#form_grid_variables").append("<%= escape_javascript(render("edit_grid_variable")) %>");
 <% end %>
 
-$('.chzn-select').chosen();
+$('.chzn-select').chosen({ allow_single_deselect: true });
