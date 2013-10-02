@@ -24,7 +24,8 @@
     </thead>
     <tbody>
       <tr data-link="<%= project_sheets_path(@project, e: '1') %>" style="cursor:pointer">
-        <td class="text-muted"></td><td colspan="3"><%= link_to 'Create Export', project_sheets_path(@project, e: '1') %></td>
+        <td></td>
+        <td colspan="3"><%= link_to 'Create Export', project_sheets_path(@project, e: '1') %></td>
       </tr>
       <% current_user.exports.where(project_id: @project.id).order("exports.created_at DESC").limit(10).each do |export| %>
         <tr data-link="<%= project_export_path(export.project, export) %>" style="cursor:pointer" class="<%= 'success' if not export.viewed? and export.status == 'ready' %><%= 'warning' if export.status == 'pending' %>">
@@ -46,7 +47,8 @@
         </tr>
       <% end %>
       <tr data-link="<%= project_exports_path(@project) %>" style="cursor:pointer">
-        <td class="text-muted"></td><td colspan="2"><%= link_to "View More", project_exports_path(@project) %><% if current_user.exports.where(project_id: @project.id).count > 0 %> <span class="badge badge-info"><%= current_user.exports.where(project_id: @project.id).count %></span><% end %></td>
+        <td></td>
+        <td colspan="3"><%= link_to "View More", project_exports_path(@project) %><% if current_user.exports.where(project_id: @project.id).count > 0 %> <span class="badge badge-info"><%= current_user.exports.where(project_id: @project.id).count %></span><% end %></td>
       </tr>
     </tbody>
   </table>
