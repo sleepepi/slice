@@ -1,16 +1,22 @@
-<h2 class="about-title">Data Collection</h2>
+<% title = 'Data Collection' %>
 
 <% if @project.sheets.size == 0 and @project.designs.size == 0 and current_user.all_projects.pluck(:id).include?(@project.id) %>
+  <h2 class="about-title"><%= title %></h2>
+
   <div class="bs-callout bs-callout-info">
     In order to start collecting data, you will want to start by <%= link_to 'Creating a Design', new_project_design_path(@project), class: 'btn btn-xs btn-default' %>.
   </div>
 <% elsif @project.sheets.size == 0 and @project.designs.size == 0 %>
+  <h2 class="about-title"><%= title %></h2>
+
   <hr class="soften" style="margin-top:20px">
 
   <div class="center text-muted">
     No data has been collected.
   </div>
 <% else %>
+  <h2 class="about-title"><%= link_to title, project_sheets_path(@project) %></h2>
+
   <hr class="soften" style="margin-top:20px">
 
   <table class="table table-hover table-condensed" style="table-layout:fixed">
