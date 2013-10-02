@@ -1,4 +1,7 @@
+<h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'News', project_posts_path(@project) %></h2>
+
 <hr class="soften" style="margin-top:20px">
+
 <% if @project.posts.where(archived: false).size == 0 %>
   <ul><li class="text-muted">No News</li></ul>
 <% else %>

@@ -1,40 +1,54 @@
-<hr class="soften" style="margin-top:20px">
+<h2 class="about-title">Data Collection</h2>
 
-<table class="table table-hover table-condensed" style="table-layout:fixed">
-  <thead>
-    <tr>
-      <th>Subject</th>
-      <th>Sheet</th>
-      <th>Updated</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
-      <tr data-link="<%= new_project_sheet_path(@project) %>" style="cursor:pointer">
-        <td></td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
+<% if @project.sheets.size == 0 and @project.designs.size == 0 and current_user.all_projects.pluck(:id).include?(@project.id) %>
+  <div class="bs-callout bs-callout-info">
+    In order to start collecting data, you will want to start by <%= link_to 'Creating a Design', new_project_design_path(@project), class: 'btn btn-xs btn-default' %>.
+  </div>
+<% elsif @project.sheets.size == 0 and @project.designs.size == 0 %>
+  <hr class="soften" style="margin-top:20px">
+
+  <div class="center text-muted">
+    No data has been collected.
+  </div>
+<% else %>
+  <hr class="soften" style="margin-top:20px">
+
+  <table class="table table-hover table-condensed" style="table-layout:fixed">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Sheet</th>
+        <th>Updated</th>
       </tr>
-    <% end %>
-    <% @project.sheets.with_subject_status(["valid", "pending", "test"]).order('created_at DESC').limit(10).each do |sheet| %>
-      <tr data-link="<%= project_sheet_path(sheet.project, sheet) %>" style="cursor:pointer">
-        <td>
-          <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden"><%= status_helper(sheet.subject) %>&nbsp;<%= sheet.subject.name %></div>
-        </td>
-        <td>
-          <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden">
-            <%= sheet.name %>
-            <% if sheet.comments.size > 0 %>
-              <span class="badge badge-info"><%= sheet.comments.size %></span>
-            <% end %>
-          </div>
-        </td>
-        <td style="white-space:nowrap">
-          <%= sheet.last_edited_at.blank? ? simple_date(sheet.created_at) : simple_date(sheet.last_edited_at) %>
-          <%= coverage_helper(sheet) %>
-        </td>
+    </thead>
+    <tbody>
+      <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+        <tr data-link="<%= new_project_sheet_path(@project) %>" style="cursor:pointer">
+          <td></td><td colspan="2"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
+        </tr>
+      <% end %>
+      <% @project.sheets.with_subject_status(["valid", "pending", "test"]).order('created_at DESC').limit(10).each do |sheet| %>
+        <tr data-link="<%= project_sheet_path(sheet.project, sheet) %>" style="cursor:pointer">
+          <td>
+            <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden"><%= status_helper(sheet.subject) %>&nbsp;<%= sheet.subject.name %></div>
+          </td>
+          <td>
+            <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden">
+              <%= sheet.name %>
+              <% if sheet.comments.size > 0 %>
+                <span class="badge badge-info"><%= sheet.comments.size %></span>
+              <% end %>
+            </div>
+          </td>
+          <td style="white-space:nowrap">
+            <%= sheet.last_edited_at.blank? ? simple_date(sheet.created_at) : simple_date(sheet.last_edited_at) %>
+            <%= coverage_helper(sheet) %>
+          </td>
+        </tr>
+      <% end %>
+      <tr data-link="<%= project_sheets_path(@project) %>" style="cursor:pointer">
+        <td></td><td colspan="2"><%= link_to 'View More', project_sheets_path(@project) %></td>
       </tr>
-    <% end %>
-    <tr data-link="<%= project_sheets_path(@project) %>" style="cursor:pointer">
-      <td></td><td colspan="2"><%= link_to 'View More', project_sheets_path(@project) %></td>
-    </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+<% end %>

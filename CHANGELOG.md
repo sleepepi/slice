@@ -1,6 +1,11 @@
 ## 0.21.0
 
 ### Enhancements
+- **Project Changes**
+  - The project page has been reorganized to highlight three steps
+    - Data Designs: Create and edit forms/surveys to provide templates for collecting data
+    - Data Collection: Entering new data, and viewing entered data
+    - Data Exports: Download collected data for further review or analysis
 - **Gem Changes**
   - Updated pg to 0.17.0
   - Updated to contour 2.2.0.beta2

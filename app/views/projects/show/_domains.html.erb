@@ -1,4 +1,7 @@
+<h2 class="about-title"><%= link_to 'Domains', project_domains_path(@project) %></h2>
+
 <hr class="soften" style="margin-top:20px">
+
 <% if @project.domains.size == 0 %>
   <ul><li class="text-muted">No Domains</li></ul>
 <% else %>

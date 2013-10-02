@@ -18,38 +18,55 @@
 
 <%= simple_markdown @project.description %>
 
+<% col_width = (@project.editable_by?(current_user) ? 'col-sm-4' : 'col-sm-6') %>
+
 <div class="row">
-  <div class="col-md-4" style="overflow-x:hidden">
-    <h2 class="about-title">Recent Entries</h2>
+  <% if @project.editable_by?(current_user) %>
+    <div class="col-sm-4">
+      <%= render partial: 'projects/show/designs' %>
+    </div>
+  <% end %>
+
+  <div class="<%= col_width %>" style="overflow-x:hidden">
     <%= render partial: 'projects/show/recent' %>
   </div>
-  <div class="col-md-4">
-    <h2 class="about-title">Reports</h2>
-    <%= render partial: 'projects/show/reports' %>
-  </div>
-  <div class="col-md-4">
-    <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Links', project_links_path(@project) %></h2>
-    <%= render partial: 'projects/show/links' %>
+
+  <div class="<%= col_width %>">
+    <%= render partial: 'projects/show/exports' %>
   </div>
 </div>
 
+<div class="row">
+  <div class="<%= col_width %>">
+    <%= render partial: 'projects/show/reports' %>
+  </div>
+
+  <div class="<%= col_width %>">
+    <%= render partial: 'projects/show/links' %>
+  </div>
+
+  <% if @project.editable_by?(current_user) %>
+    <div class="col-sm-4">
+      <%= render partial: 'projects/show/subjects' %>
+    </div>
+  <% end %>
+</div>
+
 <% if @project.show_posts? or @project.show_documents? or @project.show_contacts? %>
+  <% extra_col_width = "col-sm-#{12 / [@project.show_posts?, @project.show_documents?, @project.show_contacts?].select{|t| t}.size}" %>
   <div class="row">
     <% if @project.show_posts? %>
-      <div class="col-md-4">
-        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'News', project_posts_path(@project) %></h2>
+      <div class="<%= extra_col_width %>">
         <%= render partial: 'projects/show/posts' %>
       </div>
     <% end %>
     <% if @project.show_documents? %>
-      <div class="col-md-4">
-        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Documents', project_documents_path(@project) %></h2>
+      <div class="<%= extra_col_width %>">
         <%= render partial: 'projects/show/documents' %>
       </div>
     <% end %>
     <% if @project.show_contacts? %>
-      <div class="col-md-4">
-        <h2 class="about-title"><%= link_to_if @project.editable_by?(current_user), 'Contacts', project_contacts_path(@project) %></h2>
+      <div class="<%= extra_col_width %>">
         <%= render partial: 'projects/show/contacts' %>
       </div>
     <% end %>
@@ -58,38 +75,20 @@
 
 <% if @project.editable_by?(current_user) %>
   <div class="row">
-    <div class="col-md-4">
-      <h2 class="about-title"><%= link_to 'Designs', project_designs_path(@project) %></h2>
-      <%= render partial: 'projects/show/designs' %>
+    <div class="col-sm-4">
+      <%= render partial: 'projects/show/sites' %>
     </div>
-    <div class="col-md-4">
-      <h2 class="about-title"><%= link_to 'Variables', project_variables_path(@project) %></h2>
-      <%= render partial: 'projects/show/variables' %>
-    </div>
-    <div class="col-md-4">
-      <h2 class="about-title"><%= link_to 'Domains', project_domains_path(@project) %></h2>
-      <%= render partial: 'projects/show/domains' %>
-    </div>
+
+    <% if false %>
+      <div class="col-sm-4">
+        <%= render partial: 'projects/show/variables' %>
+      </div>
+      <div class="col-sm-4">
+        <%= render partial: 'projects/show/domains' %>
+      </div>
+    <% end %>
   </div>
 <% end %>
-
-<div class="row">
-  <% if @project.editable_by?(current_user) %>
-  <div class="col-md-4">
-    <h2 class="about-title"><%= link_to 'Sites', project_sites_path(@project) %></h2>
-    <%= render partial: 'projects/show/sites' %>
-  </div>
-  <div class="col-md-4">
-    <h2 class="about-title"><%= link_to 'Subjects', project_subjects_path(@project) %></h2>
-    <%= render partial: 'projects/show/subjects' %>
-  </div>
-  <% end %>
-  <div class="col-md-4">
-    <h2 class="about-title"><%= link_to 'Data Exports', project_exports_path(@project) %></h2>
-    <%= render partial: 'projects/show/exports' %>
-  </div>
-</div>
-
 
 
 <hr class="soften">
