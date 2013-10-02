@@ -4,7 +4,7 @@
     <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: position) unless grid %>
 
     <% if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) and grid.variable.variable_type != 'grid' %>
-      <%= render partial: "designs/interactive/show/types/#{grid.variable.variable_type}", locals: { response: response, disabled: true, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, control_size: grid_variable[:control_size], object: grid } %>
+      <%= render partial: "designs/interactive/show/types/#{grid.variable.variable_type}", locals: { response: response, disabled: true, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, object: grid } %>
     <% end %>
     </td>
   <% end %>

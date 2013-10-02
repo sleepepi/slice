@@ -184,7 +184,7 @@ class VariablesController < ApplicationController
         # For Integer, Numeric, and Calculated
         :units,
         # For Grid Variables
-        { :grid_tokens => [ :variable_id, :control_size ] },
+        { :grid_tokens => [ :variable_id ] },
         :multiple_rows, :default_row_number,
         # For Autocomplete Strings
         :autocomplete_values,

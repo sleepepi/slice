@@ -20,7 +20,6 @@ class Variable < ActiveRecord::Base
   TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].sort.collect{|i| [i,i]}
   TYPE_IMPORTABLE = ['string', 'text', 'integer', 'numeric', 'date', 'time'].sort.collect{|i| [i,i]}
   TYPE_DOMAIN = ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
-  CONTROL_SIZE = ['mini', 'small', 'medium', 'large', 'xlarge', 'xxlarge'].collect{|i| [i,i]}
   DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]
   ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical'], ['Scale', 'scale']]
 
@@ -156,9 +155,7 @@ class Variable < ActiveRecord::Base
   def grid_tokens=(tokens)
     self.grid_variables = []
     tokens.each do |grid_hash|
-      self.grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i,
-                               control_size: Variable::CONTROL_SIZE.flatten.uniq.include?(grid_hash[:control_size].to_s.strip) ? grid_hash[:control_size].to_s.strip : 'large'
-                             } if grid_hash[:variable_id].strip.to_i > 0
+      self.grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i } if grid_hash[:variable_id].strip.to_i > 0
     end
   end
 
