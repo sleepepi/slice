@@ -96,6 +96,8 @@ Slice::Application.routes.draw do
       end
     end
 
+    resources :schedules
+
     resources :subjects
 
     resources :variables do

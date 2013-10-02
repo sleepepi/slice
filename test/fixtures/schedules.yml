@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+--- !map:HashWithIndifferentAccess
+
+one:
+  name: Schedule One
+  description: MyText
+  items: []
+  project: one
+  user: valid
+
+two:
+  name: Schedule Two
+  description: MyText
+  items: []
+  project: one
+  user: valid

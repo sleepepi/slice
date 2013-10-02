@@ -6,6 +6,8 @@
     - Data Designs: Create and edit forms/surveys to provide templates for collecting data
     - Data Collection: Entering new data, and viewing entered data
     - Data Exports: Download collected data for further review or analysis
+- **Schedules**
+  - Schedules added to allow grouping of designs that can be assigned to subjects
 - **Gem Changes**
   - Updated pg to 0.17.0
   - Updated to contour 2.2.0.beta2

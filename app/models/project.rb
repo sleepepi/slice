@@ -29,6 +29,7 @@ class Project < ActiveRecord::Base
 
   has_many :designs, -> { where deleted: false }
   has_many :variables, -> { where deleted: false }
+  has_many :schedules, -> { where deleted: false }
   has_many :sheets, -> { where deleted: false }
   has_many :sites, -> { where deleted: false }
   has_many :subjects, -> { where deleted: false }

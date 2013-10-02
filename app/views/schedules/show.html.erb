@@ -1,0 +1,23 @@
+<% @title = @schedule.name %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= link_to "Schedules", project_schedules_path(@project) %> &middot; <%= @title %>
+  </h1>
+  <%= link_to "Edit Schedule", edit_project_schedule_path(@project, @schedule), class: 'btn btn-xs btn-default' %>
+  <%= link_to "Delete Schedule", [@project, @schedule], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Schedule #{@schedule.name}?" } %>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Name</dt>
+  <dd><%= @schedule.name %></dd>
+
+  <dt>Description</dt>
+  <dd><%= simple_format @schedule.description %></dd>
+
+  <dt>Items</dt>
+  <dd><%= simple_format @schedule.items %></dd>
+
+  <dt>User</dt>
+  <dd><%= link_to @schedule.user.name, @schedule.user if @schedule.user %></dd>
+
+</dl>
