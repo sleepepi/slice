@@ -10,6 +10,7 @@
   - Schedules added to allow grouping of designs that can be assigned to subjects
 - **Design Changes**
   - Editing autocomplete variables now display user submitted variables for reference
+  - Adding sections and variables is now more apparent on design editor
 - **Gem Changes**
   - Updated pg to 0.17.0
   - Updated to contour 2.2.0.beta2
