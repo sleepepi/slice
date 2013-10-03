@@ -8,6 +8,8 @@
     - Data Exports: Download collected data for further review or analysis
 - **Schedules**
   - Schedules added to allow grouping of designs that can be assigned to subjects
+- **Design Changes**
+  - Editing autocomplete variables now display user submitted variables for reference
 - **Gem Changes**
   - Updated pg to 0.17.0
   - Updated to contour 2.2.0.beta2

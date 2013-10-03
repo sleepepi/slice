@@ -19,6 +19,15 @@
       </div>
     </div>
 
+    <div class="form-group" data-object="autocomplete">
+      <label class="col-md-2 control-label">User submitted</label>
+      <div class="col-md-10">
+        <div style="line-height:30px">
+          <%= @variable.user_submitted_sheet_variables.collect{|sv| link_to( sv.response.to_s, [sv.sheet.project, sv.sheet], target: '_blank' ) }.join(', ').html_safe  %>
+        </div>
+      </div>
+    </div>
+
   </form>
 
 </div>
