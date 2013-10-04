@@ -1,0 +1,25 @@
+<% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<div id="item_<%= position %>" class="well" style="cursor:pointer">
+
+  <%= link_to 'Remove', "#", 'data-object' => 'remove', 'data-target' => "#item_#{position}", class: 'btn btn-xs btn-danger-inverse', style: 'float:right' %>
+
+  <div class="form-group">
+    <%= label_tag "schedule_item_tokens_#{position}_event_name", 'Event Name', class: 'col-md-2 control-label' %>
+    <div class="col-md-4">
+      <%= text_field_tag "schedule[items][][event_name]", @item[:event_name], class: 'form-control', id: "schedule_item_tokens_#{position}_event_name" %>
+    </div>
+    <div class="col-md-4">
+      <%= select_tag "schedule[items][][design_id]", options_for_select([['---', nil]] + @project.designs.collect{|d| [d.name, d.id]}, @item[:design_id]), class: 'form-control', id: "schedule_item_tokens_#{position}_design_id" %>
+    </div>
+  </div>
+
+  <div class="form-group" style="margin-bottom:0px">
+    <%= label_tag "schedule_item_tokens_#{position}_interval", 'Due Date Offset', class: 'col-md-2 control-label' %>
+    <div class="col-md-4">
+      <%= number_field_tag "schedule[items][][interval]", @item[:interval], class: 'form-control', id: "schedule_item_tokens_#{position}_interval" %>
+    </div>
+    <div class="col-md-4">
+      <%= select_tag "schedule[items][][units]", options_for_select(['days', 'business days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:units]), class: 'form-control' %>
+    </div>
+  </div>
+</div>

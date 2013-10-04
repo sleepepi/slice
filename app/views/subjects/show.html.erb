@@ -42,6 +42,17 @@
 </dl>
 
 <div class="page-header">
+  <h1>Schedules</h1>
+  <%= link_to 'Add Schedule', '#add_schedule_modal', data: { toggle: 'modal' }, class: 'btn btn-xs btn-default' %>
+</div>
+
+<div id="subject-schedules">
+  <%= render partial: 'subject_schedules/subject_schedules' %>
+</div>
+
+<%= render partial: 'subject_schedules/add_schedule_popup' %>
+
+<div class="page-header">
   <h1>Sheets Entered</h1>
 </div>
 <% @subjects = Subject.current.where(id: @subject.id).page(0).per(-1) %>

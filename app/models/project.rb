@@ -35,6 +35,7 @@ class Project < ActiveRecord::Base
   has_many :subjects, -> { where deleted: false }
 
   has_many :exports, -> { where deleted: false }
+  has_many :events, -> { where deleted: false }
 
   has_many :contacts, -> { where deleted: false }
   has_many :documents, -> { where deleted: false }

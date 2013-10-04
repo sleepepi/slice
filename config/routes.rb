@@ -28,6 +28,8 @@ Slice::Application.routes.draw do
 
     resources :contacts
     resources :documents
+    resources :events
+
     resources :posts
     resources :links
 
@@ -96,9 +98,17 @@ Slice::Application.routes.draw do
       end
     end
 
-    resources :schedules
+    resources :schedules do
+      collection do
+        # post :add_item
+        post :add_event
+        post :add_design
+      end
+    end
 
-    resources :subjects
+    resources :subjects do
+      resources :subject_schedules
+    end
 
     resources :variables do
       member do

@@ -7,7 +7,12 @@
     - Data Collection: Entering new data, and viewing entered data
     - Data Exports: Download collected data for further review or analysis
 - **Schedules**
-  - Schedules added to allow grouping of designs that can be assigned to subjects
+  - Schedules allow subjects to be assigned groups of designs by date
+  - Schedules are comprised of multiple events
+    - Each event is specified with a date offset
+    - Each event can contain one or more designs
+    - An event can only be included once per schedule
+    - A design can only be included once per event
 - **Design Changes**
   - Editing autocomplete variables now display user submitted variables for reference
   - Adding sections and variables is now more apparent on design editor

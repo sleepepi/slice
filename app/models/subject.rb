@@ -25,6 +25,7 @@ class Subject < ActiveRecord::Base
   belongs_to :project
   belongs_to :site
   has_many :sheets, -> { where deleted: false }
+  has_many :subject_schedules
 
   # Model Methods
 

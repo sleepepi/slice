@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: Event One
+  description: MyText
+  project: one
+  user: valid
+
+two:
+  name: Event One
+  description: MyText
+  project: one
+  user: valid

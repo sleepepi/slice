@@ -46,6 +46,8 @@
 
   <%= f.hidden_field :project_id %>
 
+  Event ID: <%= params[:event_id] %>
+
   <% if @sheet.new_record? %>
     <div class="form-group">
       <%= f.label :design_id, nil, class: 'col-md-2 control-label' %>

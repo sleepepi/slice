@@ -49,7 +49,7 @@
   blank_options = $('[data-object~="option-name"]').filter( () ->
     $.trim($(this).val()) == ''
   )
-  blank_options.parent().parent().addClass('error')
+  blank_options.parent().parent().addClass('has-error')
   unless $('#variable_variable_type').val() not in ['dropdown', 'checkbox', 'radio'] or blank_options.size() == 0 or confirm('Options with blank names will be removed. Proceed anyways?')
     return false
   true
@@ -72,7 +72,7 @@
     # value is not in missing_codes and ()
     ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(parseFloat($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or parseFloat($.trim($(this).val())) < parseFloat($(this).data('hard-minimum')) or parseFloat($.trim($(this).val())) > parseFloat($(this).data('hard-maximum')))
   )
-  number_fields.parent().parent().addClass('error')
+  number_fields.parent().parent().addClass('has-error')
   if number_fields.size() > 0
     alert('Some numeric fields are out of range!')
     return false
@@ -103,7 +103,7 @@
   date_fields = $('[data-object~="dateminmax"]').filter( () ->
     ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-hard-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-hard-maximum')))
   )
-  date_fields.parent().parent().addClass('error')
+  date_fields.parent().parent().addClass('has-error')
   if date_fields.size() > 0
     alert('Some dates are out of range!')
     return false

@@ -1,6 +1,6 @@
 <% if @variable.errors.size > 0 %>
   <% @variable.errors.each do |key, value| %>
-    $('#variable_<%= key %>').parent().parent().addClass('error');
+    $('#variable_<%= key %>').parent().parent().addClass('has-error');
   <% end %>
   $('.modal-backdrop').scrollTop(0);
 <% else %>

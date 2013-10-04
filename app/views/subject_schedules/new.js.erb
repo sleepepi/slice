@@ -1,0 +1,3 @@
+<% @subject_schedule.errors.each do |key, value| %>
+  $('#subject_schedule_<%= key %>').parent().parent().addClass('has-error');
+<% end %>

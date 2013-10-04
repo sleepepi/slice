@@ -1,9 +1,23 @@
 class SchedulesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
+  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :add_item, :add_event, :add_design ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :add_item, :add_event, :add_design ]
   before_action :set_schedule, only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_schedule, only: [ :show, :edit, :update, :destroy ]
+
+  # POST /schedules/add_item.js
+  def add_item
+    @item = { name: '', design_id: nil, interval: 0, units: 'days' }
+  end
+
+  # POST /schedules/add_event.js
+  def add_event
+  end
+
+  # POST /schedules/add_design.js
+  def add_design
+    @position = params[:position]
+  end
 
   # GET /schedules
   # GET /schedules.json
@@ -83,7 +97,10 @@ class SchedulesController < ApplicationController
 
       params[:schedule][:user_id] = current_user.id
 
-      params.require(:schedule).permit(:name, :description, :items, :user_id)
+      params.require(:schedule).permit(
+        :name, :description, :items, :user_id,
+        { :items => [ :event_id, :interval, :units, :design_ids => [] ] }
+      )
     end
 
 end

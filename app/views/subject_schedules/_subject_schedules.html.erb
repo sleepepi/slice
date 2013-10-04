@@ -1,0 +1,70 @@
+<% @subject.subject_schedules.each do |subject_schedule| %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%= link_to 'Remove Schedule', [subject_schedule.subject.project, subject_schedule.subject, subject_schedule], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse pull-right', data: { confirm: "Are you sure you want to remove #{subject_schedule.name}?" } %>
+    <h3 class="panel-title"><%= subject_schedule.schedule.name %><%= subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless subject_schedule.initial_due_date.blank? %></h3>
+
+
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <% subject_schedule.schedule.sorted_items.each do |event_hash| %>
+              <% event = @project.events.find_by_id(event_hash[:event_id]) %>
+              <th><%= event.name if event %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% subject_schedule.schedule.sorted_items.each do |event_hash| %>
+              <% event = @project.events.find_by_id(event_hash[:event_id]) %>
+              <% designs = subject_schedule.schedule.designs( event_hash[:design_ids] ) %>
+              <td>
+                <% designs.each do |design| %>
+                  <% panel_hash = subject_schedule.panel_hash %>
+                  <div class="panel panel-<%= panel_hash[:css_class] %>">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><%= panel_hash[:name] %></h3>
+                    </div>
+                    <div class="panel-body">
+                      <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id, event_id: event.id), target: '_blank' if design and event %>
+                      &middot;
+                      <% date = subject_schedule.offset_date(event_hash[:interval], event_hash[:units]) %>
+                      <%= date.strftime("%a, %B %d, %Y") unless date.blank? %>
+                    </div>
+                  </div>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<% end %>
+
+
+<% if false %>
+  <ul>
+    <% @subject.subject_schedules.each do |subject_schedule| %>
+      <li>
+        <%= subject_schedule.schedule.name %> <%= subject_schedule.initial_due_date.strftime("%a, %B %d, %Y") unless subject_schedule.initial_due_date.blank? %>
+        <% subject_schedule.schedule.sorted_items.each do |item| %>
+          <p>
+          <% design = subject_schedule.schedule.project.designs.find_by_id(item[:design_id]) %>
+          <%= item[:event_name] %> <%= item[:interval] %> <%= item[:units] %> &middot;
+          <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), target: '_blank' if design %>
+          &middot;
+          <% date = subject_schedule.offset_date(item[:interval], item[:units]) %>
+          <%= date.strftime("%a, %B %d, %Y") unless date.blank? %>
+          </p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
