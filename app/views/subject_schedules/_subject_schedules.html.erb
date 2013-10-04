@@ -31,9 +31,8 @@
                     </div>
                     <div class="panel-body">
                       <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id, event_id: event.id), target: '_blank' if design and event %>
-                      &middot;
                       <% date = subject_schedule.offset_date(event_hash[:interval], event_hash[:units]) %>
-                      <%= date.strftime("%a, %B %d, %Y") unless date.blank? %>
+                      <%= date.strftime(" &middot; %a, %B %d, %Y").html_safe unless date.blank? %>
                     </div>
                   </div>
                 <% end %>
