@@ -21,8 +21,11 @@ class SubjectSchedulesControllerTest < ActionController::TestCase
 
   test "should create subject_schedule" do
     assert_difference('SubjectSchedule.count') do
-      post :create, project_id: @project, subject_id: @subject, subject_schedule: { schedule_id: @subject_schedule.schedule_id, initial_due_date: @subject_schedule.initial_due_date }
+      post :create, project_id: @project, subject_id: @subject, subject_schedule: { schedule_id: @subject_schedule.schedule_id, initial_due_date: "10/15/2013" }
     end
+
+    assert_not_nil assigns(:subject_schedule)
+    assert_equal Date.parse("20131015"), assigns(:subject_schedule).initial_due_date
 
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
   end
@@ -38,7 +41,11 @@ class SubjectSchedulesControllerTest < ActionController::TestCase
   end
 
   test "should update subject_schedule" do
-    patch :update, id: @subject_schedule, project_id: @project, subject_id: @subject, subject_schedule: { schedule_id: @subject_schedule.schedule_id, initial_due_date: @subject_schedule.initial_due_date }
+    patch :update, id: @subject_schedule, project_id: @project, subject_id: @subject, subject_schedule: { schedule_id: @subject_schedule.schedule_id, initial_due_date: "10/20/2013" }
+
+    assert_not_nil assigns(:subject_schedule)
+    assert_equal Date.parse("20131020"), assigns(:subject_schedule).initial_due_date
+
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
   end
 

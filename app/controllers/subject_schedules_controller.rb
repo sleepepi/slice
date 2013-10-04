@@ -98,6 +98,10 @@ class SubjectSchedulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subject_schedule_params
+      params[:subject_schedule] ||= { blank: '1' }
+
+      params[:subject_schedule][:initial_due_date] = parse_date(params[:subject_schedule][:initial_due_date]) unless params[:subject_schedule][:initial_due_date].blank?
+
       params.require(:subject_schedule).permit(:schedule_id, :initial_due_date)
     end
 end
