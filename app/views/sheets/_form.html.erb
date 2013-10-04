@@ -46,8 +46,6 @@
 
   <%= f.hidden_field :project_id %>
 
-  Event ID: <%= params[:event_id] %>
-
   <% if @sheet.new_record? %>
     <div class="form-group">
       <%= f.label :design_id, nil, class: 'col-md-2 control-label' %>
@@ -83,6 +81,24 @@
       <%= @project = @sheet.project; @subject = @sheet.subject; render partial: 'sites/selection' %>
     </div>
   </div>
+
+  <% if @sheet.event and @sheet.subject_schedule %>
+    <div class="form-group">
+      <%= label_tag :subject_schedule_id, 'Schedule', class: 'col-md-2 control-label' %>
+      <div class="col-md-10" style="margin-top:8px">
+        <%= f.hidden_field :subject_schedule_id %>
+        <%= @sheet.subject_schedule.schedule.name %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :event_id, 'Event', class: 'col-md-2 control-label' %>
+      <div class="col-md-10" style="margin-top:8px">
+        <%= f.hidden_field :event_id %>
+        <%= @sheet.event.name %><%= @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank? %>
+      </div>
+    </div>
+  <% end %>
 
   <%= hidden_field_tag :continue, '0' %>
 

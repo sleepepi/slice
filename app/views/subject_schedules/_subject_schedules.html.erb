@@ -1,4 +1,4 @@
-<% @subject.subject_schedules.each do |subject_schedule| %>
+<% @subject.subject_schedules.order(:initial_due_date).each do |subject_schedule| %>
 <div class="panel panel-default">
   <div class="panel-heading">
     <%= link_to 'Remove Schedule', [subject_schedule.subject.project, subject_schedule.subject, subject_schedule], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse pull-right', data: { confirm: "Are you sure you want to remove #{subject_schedule.name}?" } %>
@@ -13,7 +13,12 @@
           <tr>
             <% subject_schedule.schedule.sorted_items.each do |event_hash| %>
               <% event = @project.events.find_by_id(event_hash[:event_id]) %>
-              <th><%= event.name if event %></th>
+              <th>
+                <%= event.name if event %>
+                <span style="font-weight: 300;">
+                  <% date = subject_schedule.offset_date(event_hash[:interval], event_hash[:units]) %><%= date.strftime("<br /> %a, %B %d, %Y").html_safe unless date.blank? %>
+                </span>
+              </th>
             <% end %>
           </tr>
         </thead>
@@ -30,9 +35,7 @@
                       <h3 class="panel-title"><%= panel_hash[:name] %></h3>
                     </div>
                     <div class="panel-body">
-                      <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id, event_id: event.id), target: '_blank' if design and event %>
-                      <% date = subject_schedule.offset_date(event_hash[:interval], event_hash[:units]) %>
-                      <%= date.strftime(" &middot; %a, %B %d, %Y").html_safe unless date.blank? %>
+                      <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id, event_id: event.id, subject_schedule_id: subject_schedule.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), target: '_blank' if design and event %>
                     </div>
                   </div>
                 <% end %>

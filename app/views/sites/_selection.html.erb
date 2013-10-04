@@ -1,11 +1,11 @@
 <% if @project %>
   <% if @subject and @subject.site and @disable_selection %>
-    <span class="help-block" style="margin-top:9px">
+    <span class="help-block" style="margin-top:8px">
       <%= hidden_field_tag :site_id, @subject.site.id %>
       <%= @subject.site.name %>
     </span>
   <% elsif @project.sites.size == 1 %>
-    <span class="help-block" style="margin-top:9px">
+    <span class="help-block" style="margin-top:8px">
       <%= hidden_field_tag :site_id, @project.sites.first.id %>
       <%= @project.sites.first.name %>
     </span>
@@ -13,7 +13,7 @@
     <% prefix_site_id = @project.site_id_with_prefix(params[:subject_code] || (@subject ? @subject.subject_code.to_s : '')) %>
     <%= select_tag :site_id, options_for_select([['---', nil]] + @project.sites.order('name').collect{|s| [s.name, s.id]}, (@subject ? @subject.site_id : prefix_site_id)), class: 'form-control' %>
   <% else %>
-    <span class="help-block" style="margin-top:9px">
+    <span class="help-block" style="margin-top:8px">
       You need to <%= link_to 'add', new_project_site_path(@project) %> at least one site to this project.
     </span>
   <% end %>

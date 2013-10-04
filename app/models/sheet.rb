@@ -8,6 +8,8 @@ class Sheet < ActiveRecord::Base
   audited
   has_associated_audits
 
+  attr_accessor :event_id, :subject_schedule_id
+
   # Concerns
   include Deletable, Latexable
 
@@ -465,6 +467,15 @@ class Sheet < ActiveRecord::Base
     sheet_variable.response_file_url
   end
   # END TODO AND REFACTOR
+
+  # Temp holders
+  def event
+    self.project.events.find_by_id(self.event_id)
+  end
+
+  def subject_schedule
+    self.subject ? self.subject.subject_schedules.find_by_id(self.subject_schedule_id) : nil
+  end
 
   protected
 
