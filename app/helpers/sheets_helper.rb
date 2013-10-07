@@ -1,10 +1,10 @@
 module SheetsHelper
 
-  def coverage_helper(sheet)
+  def coverage_helper(sheet, placement = 'right')
     content_tag(  :span, "#{sheet.percent}%",
                   class: "label label-coverage #{sheet.coverage}",
                   rel: 'tooltip',
-                  data: { placement: 'right' },
+                  data: { placement: placement },
                   title: sheet.out_of )
   end
 

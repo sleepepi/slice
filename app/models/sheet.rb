@@ -8,8 +8,6 @@ class Sheet < ActiveRecord::Base
   audited
   has_associated_audits
 
-  attr_accessor :event_id, :subject_schedule_id
-
   # Concerns
   include Deletable, Latexable
 
@@ -61,6 +59,8 @@ class Sheet < ActiveRecord::Base
   # Model Validation
   validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id
   validates_uniqueness_of :authentication_token, allow_nil: true
+  validates_uniqueness_of :event_id, allow_nil: true, scope: [ :subject_schedule_id, :design_id, :deleted ]
+  validates_uniqueness_of :subject_schedule_id, allow_nil: true, scope: [ :event_id, :design_id, :deleted ]
 
   # Model Relationships
   belongs_to :user
@@ -69,6 +69,8 @@ class Sheet < ActiveRecord::Base
   belongs_to :design
   belongs_to :project
   belongs_to :subject
+  belongs_to :event
+  belongs_to :subject_schedule
   has_many :sheet_variables
   has_many :responses
   has_many :variables, -> { where deleted: false }, through: :sheet_variables
@@ -467,15 +469,6 @@ class Sheet < ActiveRecord::Base
     sheet_variable.response_file_url
   end
   # END TODO AND REFACTOR
-
-  # Temp holders
-  def event
-    self.project.events.find_by_id(self.event_id)
-  end
-
-  def subject_schedule
-    self.subject ? self.subject.subject_schedules.find_by_id(self.subject_schedule_id) : nil
-  end
 
   protected
 

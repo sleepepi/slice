@@ -6,6 +6,7 @@ class SubjectSchedule < ActiveRecord::Base
   # Model Relationships
   belongs_to :subject
   belongs_to :schedule
+  has_many :sheets, -> { where deleted: false }
 
   def name
     self.schedule ? self.schedule.name : ''
@@ -37,16 +38,29 @@ class SubjectSchedule < ActiveRecord::Base
     new_date
   end
 
-  def panel_hash
+  def panel_hash(event_id, design_id)
     hash = [
-      { name: 'Incomplete', css_class: 'default' },
-      { name: 'Verified',   css_class: 'success' },
-      { name: 'Completed',  css_class: 'primary' },
-      { name: 'Entered',    css_class: 'info' },
-      { name: 'Missed',     css_class: 'danger' },
-      { name: 'Ignored',    css_class: 'warning' }
+      { order: 0, name: 'Missed',     css_class: 'danger' },
+      { order: 1, name: 'Incomplete', css_class: 'default' },
+      { order: 2, name: 'Entered',    css_class: 'info' },
+      { order: 3, name: 'Completed',  css_class: 'primary' },
+      { order: 4, name: 'Verified',   css_class: 'success' },
+      { order: 5, name: 'Ignored',    css_class: 'warning' }
     ]
-    hash[rand(hash.size)]
+
+    sheet = sheet(event_id, design_id)
+
+    if sheet and sheet.percent == 100
+      hash.select{|i| i[:name] == 'Completed'}.first
+    elsif sheet
+      hash.select{|i| i[:name] == 'Entered'}.first
+    else
+      hash.select{|i| i[:name] == 'Incomplete'}.first
+    end
+  end
+
+  def sheet(event_id, design_id)
+    sheets.where( event_id: event_id, design_id: design_id ).first
   end
 
 end
