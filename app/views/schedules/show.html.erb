@@ -7,55 +7,41 @@
   <%= link_to "Delete Schedule", [@project, @schedule], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Schedule #{@schedule.name}?" } %>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Creator</dt>
-  <dd><%= link_to @schedule.user.name, @schedule.user if @schedule.user %></dd>
+<% unless @schedule.description.blank? %>
+  <blockquote>
+    <%= simple_markdown @schedule.description %>
+    <small><%= @schedule.user.name %></small>
+  </blockquote>
+<% end %>
 
-  <dt>Description</dt>
-  <dd><%= simple_format @schedule.description %></dd>
-
-  <dt>Events</dt>
-  <dd>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <% @schedule.sorted_items.each do |event_hash| %>
-              <% event = @project.events.find_by_id(event_hash[:event_id]) %>
-              <th style="padding-top:0px">
-                <%= event.name if event %>
-                <div style="font-weight:300;">
-                  <%= event_hash[:interval].to_i %> <%= event_hash[:units] %>
-                </div>
-              </th>
-            <% end %>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <% @schedule.sorted_items.each do |event_hash| %>
-              <% designs = @schedule.designs( event_hash[:design_ids] ) %>
-              <td>
-                <div class="list-group" style="margin-bottom:0px">
-                  <% designs.each do |design| %>
-                    <%= link_to design.name, [design.project, design], target: '_blank', class: 'list-group-item' %>
-                  <% end %>
-                </div>
-              </td>
-            <% end %>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </dd>
-
-  <dt>Subjects</dt>
-  <dd>
-    <ul>
-      <% @schedule.subject_schedules.each do |subject_schedule| %>
-        <li><%= link_to subject_schedule.subject.name, [subject_schedule.subject.project, subject_schedule.subject], target: '_blank' %></li>
-      <% end %>
-    </ul>
-  </dd>
-
-</dl>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <% @schedule.sorted_items.each do |event_hash| %>
+          <% event = @project.events.find_by_id(event_hash[:event_id]) %>
+          <th style="padding-top:0px">
+            <%= event.name if event %>
+            <div style="font-weight:300;">
+              <%= event_hash[:interval].to_i %> <%= event_hash[:units] %>
+            </div>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <% @schedule.sorted_items.each do |event_hash| %>
+          <% designs = @schedule.designs( event_hash[:design_ids] ) %>
+          <td>
+            <div class="list-group" style="margin-bottom:0px">
+              <% designs.each do |design| %>
+                <%= link_to design.name, [design.project, design], target: '_blank', class: 'list-group-item' %>
+              <% end %>
+            </div>
+          </td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+</div>

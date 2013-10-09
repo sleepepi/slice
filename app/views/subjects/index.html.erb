@@ -4,6 +4,8 @@
     <%= link_to @project.name, @project %> &middot; <%= @title %>
     <%= link_to "Create Subject", new_project_subject_path(@project), class: 'btn btn-xs btn-primary' if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
     <%= link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs' %>
+    <%= link_to 'Schedules', project_schedules_path(@project), class: 'btn btn-default btn-xs' %>
+    <%= link_to 'Events', project_events_path(@project), class: 'btn btn-default btn-xs' %>
   </h1>
 </div>
 

@@ -4,8 +4,7 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'schedules.name', 'Name', 'schedules_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'schedules.description', 'Description', 'schedules_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'schedules.items', 'Items', 'schedules_search') %></th>
+      <th>Events</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'schedules.user_id', 'Creator', 'schedules_search') %></th>
       <th>Actions</th>
     </tr>
@@ -14,8 +13,13 @@
   <% @schedules.each do |schedule| %>
     <tr>
       <td><%= link_to schedule.name, [schedule.project, schedule] %></td>
-      <td><%= schedule.description %></td>
-      <td><%= schedule.items %></td>
+      <td>
+        <% schedule.items.each do |item| %>
+          <% if event = schedule.project.events.find_by_id(item[:event_id]) %>
+            <%= link_to event.name, [event.project, event], class: 'btn btn-xs btn-default' %>
+          <% end %>
+        <% end %>
+      </td>
       <td><%= link_to schedule.user.name, schedule.user %></td>
       <td>
         <%= link_to 'Edit', edit_project_schedule_path(schedule.project, schedule), class: 'btn btn-xs btn-default' %>
