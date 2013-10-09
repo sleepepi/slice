@@ -41,22 +41,14 @@ class SubjectSchedule < ActiveRecord::Base
   def panel_hash(event_id, design_id)
     hash = [
       { order: 0, name: 'Missed',     css_class: 'danger' },
-      { order: 1, name: 'Incomplete', css_class: 'default' },
+      { order: 1, name: 'Unentered', css_class: 'default' },
       { order: 2, name: 'Entered',    css_class: 'info' },
       { order: 3, name: 'Completed',  css_class: 'primary' },
       { order: 4, name: 'Verified',   css_class: 'success' },
       { order: 5, name: 'Ignored',    css_class: 'warning' }
     ]
-
-    sheet = sheet(event_id, design_id)
-
-    if sheet and sheet.percent == 100
-      hash.select{|i| i[:name] == 'Completed'}.first
-    elsif sheet
-      hash.select{|i| i[:name] == 'Entered'}.first
-    else
-      hash.select{|i| i[:name] == 'Incomplete'}.first
-    end
+    name = ( sheet(event_id, design_id) ? 'Entered' : 'Unentered' )
+    hash.select{|i| i[:name] == name}.first
   end
 
   def sheet(event_id, design_id)
