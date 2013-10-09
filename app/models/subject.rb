@@ -48,4 +48,16 @@ class Subject < ActiveRecord::Base
     self.sheets.where("sheets.id NOT IN (?)", sheet_ids).count == 0
   end
 
+  def subject_schedule_events(design_id)
+    result = []
+    self.subject_schedules.each do |subject_schedule|
+      subject_schedule.schedule.items.each do |item|
+        event = self.project.events.find_by_id(item[:event_id])
+        event_date = subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless subject_schedule.initial_due_date.blank?
+        result << ["#{subject_schedule.name} &middot; #{event.name}#{event_date}".html_safe, "#{subject_schedule.id}-#{event.id}"] if event and item[:design_ids].include?(design_id.to_s)
+      end
+    end
+    result
+  end
+
 end

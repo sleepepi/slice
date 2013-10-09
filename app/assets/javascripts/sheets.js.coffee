@@ -102,6 +102,12 @@ jQuery ->
     .on('click', '[data-object~="sidebar-link"]', () ->
       $(this).blur()
     )
+    .on('change', '[data-object~="set-subject-schedule-event"]', () ->
+      subject_schedule_id = $(this).val().split('-')[0]
+      event_id = $(this).val().split('-')[1]
+      $("#sheet_subject_schedule_id").val(subject_schedule_id)
+      $("#sheet_event_id").val(event_id)
+    )
 
   $('#sheet_subject_id').each( () ->
     $this = $(this)

@@ -17,7 +17,13 @@
     <tr>
       <th>Coverage</th>
       <th><%= @sheet.project.subject_code_name_full %></th>
-      <% if @sheet.project.acrostic_enabled? %><th>Acrostic</th><% end %>
+      <% if @sheet.event and @sheet.subject_schedule %>
+        <th>Schedule</th>
+        <th>Event</th>
+      <% end %>
+      <% if @sheet.project.acrostic_enabled? %>
+        <th>Acrostic</th>
+      <% end %>
       <th>Site</th>
       <th>
         <% if @sheet.recently_created? %>
@@ -34,22 +40,16 @@
       <td>
         <%= status_helper(@sheet.subject) if @sheet.subject %>
         <%= link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject %>
-        <% if @sheet.event and @sheet.subject_schedule %>
-          <table>
-            <thead>
-              <tr>
-                <th>Schedule</th>
-                <th>Event</th>
-              </tr>
-            </thead>
-            <tr>
-              <td><%= @sheet.subject_schedule.schedule.name %></td>
-              <td><%= @sheet.event.name %><%= @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank? %></td>
-            </tr>
-          </table>
-        <% end %>
       </td>
-      <% if @sheet.project.acrostic_enabled? %><td><%= @sheet.subject.acrostic %></td><% end %>
+      <% if @sheet.event and @sheet.subject_schedule %>
+        <td><%= @sheet.subject_schedule.schedule.name %></td>
+        <td><%= @sheet.event.name %><%= @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank? %></td>
+      <% end %>
+
+      <% if @sheet.project.acrostic_enabled? %>
+        <td><%= @sheet.subject.acrostic %></td>
+      <% end %>
+
       <td><%= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site %></td>
       <td>
         <% if @sheet.recently_created? %>

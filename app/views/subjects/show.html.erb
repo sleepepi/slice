@@ -1,7 +1,7 @@
 <% @title = @subject.name %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= link_to 'Subjects', project_subjects_path(@project) %> &middot; <%= @title %>
+    <%= link_to @project.name, @project %> &middot; <%= link_to 'Subjects', project_subjects_path(@project) %> &middot; <%= @title %> <%= status_helper(@subject, true) %>
   </h1>
   <% if current_user.all_subjects.pluck(:id).include?(@subject.id) %>
     <%= link_to "Edit Subject", edit_project_subject_path(@subject.project, @subject), class: 'btn btn-default btn-xs' %>
@@ -11,8 +11,8 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Subject Code</dt>
-  <dd><%= @subject.subject_code %></dd>
+  <dt>Site</dt>
+  <dd><%= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site %></dd>
 
   <% if @subject.project.acrostic_enabled? %>
     <dt>Acrostic</dt>
@@ -21,15 +21,6 @@
 
   <dt>Email</dt>
   <dd><%= @subject.email %></dd>
-
-  <dt>Status</dt>
-  <dd><%= status_helper(@subject, true) %></dd>
-
-  <dt>Site</dt>
-  <dd><%= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site %></dd>
-
-  <dt>Creator</dt>
-  <dd><%= link_to @subject.user.name, @subject.user if @subject.user %></dd>
 
   <dt>Sheets</dt>
   <dd>
@@ -42,8 +33,11 @@
 </dl>
 
 <div class="page-header">
-  <h1>Schedules</h1>
-  <%= link_to 'Add Schedule', '#add_schedule_modal', data: { toggle: 'modal' }, class: 'btn btn-xs btn-default' %>
+  <h1>
+    Schedules
+    <%= link_to 'Add Schedule', '#add_schedule_modal', data: { toggle: 'modal' }, class: 'btn btn-xs btn-default' %>
+  </h1>
+
 </div>
 
 <div id="subject-schedules">

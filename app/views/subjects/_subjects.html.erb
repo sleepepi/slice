@@ -11,7 +11,6 @@
       <% end %>
 
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.site_id', 'Site', 'subjects_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.user_id', 'Creator', 'subjects_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -26,7 +25,6 @@
       <td><%= subject.acrostic %></td>
       <% end %>
       <td><%= link_to subject.site.name, [subject.site.project, subject.site] if subject.site %></td>
-      <td><%= link_to subject.user.name, subject.user if subject.user %></td>
       <td>
         <% if current_user.all_subjects.pluck(:id).include?(subject.id) %>
           <%= link_to 'Edit', edit_project_subject_path(subject.project, subject), class: 'btn btn-default btn-xs' %>
