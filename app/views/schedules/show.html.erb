@@ -47,33 +47,6 @@
         </tbody>
       </table>
     </div>
-
-<% if false %>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Event</th>
-          <th>Offset</th>
-          <th>Designs</th>
-        </tr>
-      </thead>
-      <% @schedule.sorted_items.each do |event_hash| %>
-        <% event = @project.events.find_by_id(event_hash[:event_id]) %>
-        <% designs = @schedule.designs( event_hash[:design_ids] ) %>
-        <tr>
-          <td><%= event.name if event %></td>
-          <td><%= event_hash[:interval].to_i %> <%= event_hash[:units] %></td>
-          <td>
-            <div class="list-group" style="margin-bottom:0px">
-              <% designs.each do |design| %>
-                <%= link_to design.name, [design.project, design], target: '_blank', class: 'list-group-item' %>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-<% end %>
   </dd>
 
   <dt>Subjects</dt>
