@@ -224,6 +224,12 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should show project activity" do
+    get :activity, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should show project" do
     get :show, id: @project
     assert_not_nil assigns(:project)

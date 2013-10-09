@@ -7,10 +7,6 @@ class ProjectsController < ApplicationController
   # Concerns
   include Buildable
 
-  def activity
-
-  end
-
   def favorite
     project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
     project_favorite.update favorite: (params[:favorite] == '1')
