@@ -2,16 +2,18 @@
   <td class="center">
     <span class="glyphicon glyphicon-list-alt"></span>
   </td>
-  <td style="padding-top:10px;padding-bottom:10px;">
+  <td>
     <% recently_created = sheet.recently_created? %>
     <div style="border-left:2px solid <%= recently_created ? '#93edc0' : '#9ccef0' %>;padding-left:5px">
-      <%= recently_created ? sheet.user.name : sheet.last_user.name %>
+      <% user = (recently_created ? sheet.user : sheet.last_user) %>
+      <%= image_tag user.avatar_url(32, "identicon"), class: 'img-rounded' %>
+      <%= user.name %>
       <b><% if recently_created %>created<% else %>updated<% end %> sheet</b>
-      <%= link_to sheet.name, [sheet.project, sheet] %> for <%= link_to sheet.subject.name, [sheet.subject.project, sheet.subject] %>
+      <%= link_to sheet.name, [sheet.project, sheet] %> for <%= sheet.project.subject_code_name_full %> <%= link_to sheet.subject.name, [sheet.subject.project, sheet.subject] %>
       <span class="text-muted"><%= distance_of_time_in_words_to_now(recently_created ? sheet.created_at : sheet.last_edited_at ).gsub('about ', '') %> ago</span>
     </div>
   </td>
 </tr>
 <tr>
-  <td colspan="2"><hr class="soften" style="margin-top:20px;margin-bottom:20px" /></td>
+  <td colspan="2"><hr class="soften" style="margin-top:10px;margin-bottom:10px" /></td>
 </tr>
