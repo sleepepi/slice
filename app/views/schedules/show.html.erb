@@ -8,46 +8,26 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Name</dt>
-  <dd><%= @schedule.name %></dd>
+  <dt>Creator</dt>
+  <dd><%= link_to @schedule.user.name, @schedule.user if @schedule.user %></dd>
 
   <dt>Description</dt>
   <dd><%= simple_format @schedule.description %></dd>
 
   <dt>Events</dt>
   <dd>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <td>Event</td>
-          <td>Offset</td>
-          <td>Designs</td>
-        </tr>
-      </thead>
-      <% @schedule.sorted_items.each do |event_hash| %>
-        <% event = @project.events.find_by_id(event_hash[:event_id]) %>
-        <% designs = @schedule.designs( event_hash[:design_ids] ) %>
-        <tr>
-          <td><%= event.name if event %></td>
-          <td><%= event_hash[:interval] %> <%= event_hash[:units] %></td>
-          <td>
-            <div class="list-group" style="margin-bottom:0px">
-              <% designs.each do |design| %>
-                <%= link_to design.name, [design.project, design], target: '_blank', class: 'list-group-item' %>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
           <tr>
             <% @schedule.sorted_items.each do |event_hash| %>
               <% event = @project.events.find_by_id(event_hash[:event_id]) %>
-              <td><%= event.name if event %></td>
+              <th style="padding-top:0px">
+                <%= event.name if event %>
+                <div style="font-weight:300;">
+                  <%= event_hash[:interval].to_i %> <%= event_hash[:units] %>
+                </div>
+              </th>
             <% end %>
           </tr>
         </thead>
@@ -67,6 +47,33 @@
         </tbody>
       </table>
     </div>
+
+<% if false %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Offset</th>
+          <th>Designs</th>
+        </tr>
+      </thead>
+      <% @schedule.sorted_items.each do |event_hash| %>
+        <% event = @project.events.find_by_id(event_hash[:event_id]) %>
+        <% designs = @schedule.designs( event_hash[:design_ids] ) %>
+        <tr>
+          <td><%= event.name if event %></td>
+          <td><%= event_hash[:interval].to_i %> <%= event_hash[:units] %></td>
+          <td>
+            <div class="list-group" style="margin-bottom:0px">
+              <% designs.each do |design| %>
+                <%= link_to design.name, [design.project, design], target: '_blank', class: 'list-group-item' %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+<% end %>
   </dd>
 
   <dt>Subjects</dt>
@@ -77,8 +84,5 @@
       <% end %>
     </ul>
   </dd>
-
-  <dt>Creator</dt>
-  <dd><%= link_to @schedule.user.name, @schedule.user if @schedule.user %></dd>
 
 </dl>
