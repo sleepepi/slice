@@ -10,28 +10,6 @@
   <%= link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs' %>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Site</dt>
-  <dd><%= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site %></dd>
-
-  <% if @subject.project.acrostic_enabled? %>
-    <dt>Acrostic</dt>
-    <dd><%= @subject.acrostic %></dd>
-  <% end %>
-
-  <dt>Email</dt>
-  <dd><%= @subject.email %></dd>
-
-  <dt>Sheets</dt>
-  <dd>
-    <ul>
-      <% @subject.sheets.order('created_at DESC').each do |sheet| %>
-        <li><%= link_to sheet.name, [sheet.project, sheet] %> - entered <%= simple_time sheet.created_at %></li>
-      <% end %>
-    </ul>
-  </dd>
-</dl>
-
 <div class="page-header">
   <h1>
     Schedules
@@ -63,3 +41,26 @@
 <% end %>
 </form>
 <% end %>
+
+
+<dl class="dl-horizontal">
+  <dt>Site</dt>
+  <dd><%= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site %></dd>
+
+  <% if @subject.project.acrostic_enabled? %>
+    <dt>Acrostic</dt>
+    <dd><%= @subject.acrostic %></dd>
+  <% end %>
+
+  <dt>Email</dt>
+  <dd><%= @subject.email %></dd>
+
+  <dt>Sheets</dt>
+  <dd>
+    <ul>
+      <% @subject.sheets.order('created_at DESC').each do |sheet| %>
+        <li><%= link_to sheet.name, [sheet.project, sheet] %> - entered <%= simple_time sheet.created_at %></li>
+      <% end %>
+    </ul>
+  </dd>
+</dl>

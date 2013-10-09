@@ -39,11 +39,11 @@
                       <div class="panel-body list-group" style="padding: inherit">
                         <% panel_items.each do |order, panel_name, panel_class, design, position| %>
                           <% if sheet = subject_schedule.sheet(event.id, design.id) %>
-                            <%= link_to project_sheet_path(sheet.project, sheet), target: '_blank', class: 'list-group-item' do %>
+                            <%= link_to project_sheet_path(sheet.project, sheet), class: 'list-group-item' do %>
                               <%= coverage_helper(sheet, 'left') %> <%= sheet.name %>
                             <% end %>
                           <% elsif event %>
-                            <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id, event_id: event.id, subject_schedule_id: subject_schedule.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), target: '_blank', class: 'list-group-item' %>
+                            <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id, event_id: event.id, subject_schedule_id: subject_schedule.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'list-group-item' %>
                           <% end %>
                         <% end %>
                       </div>
