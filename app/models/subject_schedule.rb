@@ -8,8 +8,13 @@ class SubjectSchedule < ActiveRecord::Base
   belongs_to :schedule
   has_many :sheets, -> { where deleted: false }
 
+  def destroy
+    self.sheets.each{ |s| s.update( event_id: nil, subject_schedule_id: nil ) }
+    super
+  end
+
   def name
-    self.schedule ? self.schedule.name : ''
+    self.schedule.name
   end
 
   def offset_date(interval, units)
