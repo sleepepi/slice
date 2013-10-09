@@ -2,54 +2,59 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <%= link_to 'Remove Schedule', [subject_schedule.subject.project, subject_schedule.subject, subject_schedule], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse pull-right', data: { confirm: "Are you sure you want to remove #{subject_schedule.name}?" } %>
-      <h3 class="panel-title"><%= subject_schedule.schedule.name %><%= subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless subject_schedule.initial_due_date.blank? %></h3>
+      <h3 class="panel-title">
+        <%= link_to subject_schedule.schedule.name, edit_project_subject_subject_schedule_path(@project, @subject, subject_schedule.id), remote: true, method: :get %>
+        <%= subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless subject_schedule.initial_due_date.blank? %>
+      </h3>
     </div>
     <div class="panel-body">
       <div class="table-responsive">
         <table class="table table-striped">
           <thead>
             <tr>
-              <% subject_schedule.schedule.sorted_items.each do |event_hash| %>
-                <% event = @project.events.find_by_id(event_hash[:event_id]) %>
+              <% subject_schedule.schedule.sorted_items.each do |item| %>
+                <% if event = @project.events.find_by_id(item[:event_id]) %>
                 <th>
-                  <%= event.name if event %>
+                  <%= event.name %>
                   <span style="font-weight: 300;">
-                    <% date = subject_schedule.offset_date(event_hash[:interval], event_hash[:units]) %><%= date.strftime("<br /> %a, %B %d, %Y").html_safe unless date.blank? %>
+                    <% date = subject_schedule.offset_date(item[:interval], item[:units]) %><%= date.strftime("<br /> %a, %B %d, %Y").html_safe unless date.blank? %>
                   </span>
                 </th>
+                <% end %>
               <% end %>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <% subject_schedule.schedule.sorted_items.each_with_index do |event_hash, index| %>
-                <% event = @project.events.find_by_id(event_hash[:event_id]) %>
-                <% designs = subject_schedule.schedule.designs( event_hash[:design_ids] ) %>
-                <td>
-                  <% array_to_sort = [] %>
-                  <% designs.each do |design| %>
-                    <% panel_hash = subject_schedule.panel_hash(event_hash[:event_id], design.id) %>
-                    <% array_to_sort << [panel_hash[:order], panel_hash[:name], panel_hash[:css_class], design, event_hash[:design_ids].index(design.id.to_s)] %>
-                  <% end %>
-                  <% array_to_sort.sort{ |a,b| [a[0], a[4]] <=> [b[0], b[4]] }.group_by{|i| [i[0],i[1],i[2]]}.each do |(order, panel_name, panel_class), panel_items| %>
-                    <div class="panel panel-<%= panel_class %>">
-                      <div class="panel-heading">
-                        <h3 class="panel-title"><%= panel_name %></h3>
-                      </div>
-                      <div class="panel-body list-group" style="padding: inherit">
-                        <% panel_items.each do |order, panel_name, panel_class, design, position| %>
-                          <% if sheet = subject_schedule.sheet(event.id, design.id) %>
-                            <%= link_to project_sheet_path(sheet.project, sheet), class: 'list-group-item' do %>
-                              <%= coverage_helper(sheet, 'left') %> <%= sheet.name %>
+              <% subject_schedule.schedule.sorted_items.each do |item| %>
+                <% if event = @project.events.find_by_id(item[:event_id]) %>
+                  <% designs = subject_schedule.schedule.designs( item[:design_ids] ) %>
+                  <td>
+                    <% array_to_sort = [] %>
+                    <% designs.each do |design| %>
+                      <% panel_hash = subject_schedule.panel_hash(item[:event_id], design.id) %>
+                      <% array_to_sort << [panel_hash[:order], panel_hash[:name], panel_hash[:css_class], design, item[:design_ids].index(design.id.to_s)] %>
+                    <% end %>
+                    <% array_to_sort.sort{ |a,b| [a[0], a[4]] <=> [b[0], b[4]] }.group_by{|i| [i[0],i[1],i[2]]}.each do |(order, panel_name, panel_class), panel_items| %>
+                      <div class="panel panel-<%= panel_class %>">
+                        <div class="panel-heading">
+                          <h3 class="panel-title"><%= panel_name %></h3>
+                        </div>
+                        <div class="panel-body list-group" style="padding: inherit">
+                          <% panel_items.each do |order, panel_name, panel_class, design, position| %>
+                            <% if sheet = subject_schedule.sheet(event.id, design.id) %>
+                              <%= link_to project_sheet_path(sheet.project, sheet), class: 'list-group-item' do %>
+                                <%= coverage_helper(sheet, 'left') %> <%= sheet.name %>
+                              <% end %>
+                            <% elsif event %>
+                              <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id, event_id: event.id, subject_schedule_id: subject_schedule.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'list-group-item' %>
                             <% end %>
-                          <% elsif event %>
-                            <%= link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id, event_id: event.id, subject_schedule_id: subject_schedule.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'list-group-item' %>
                           <% end %>
-                        <% end %>
+                        </div>
                       </div>
-                    </div>
-                  <% end %>
-                </td>
+                    <% end %>
+                  </td>
+                <% end %>
               <% end %>
             </tr>
           </tbody>

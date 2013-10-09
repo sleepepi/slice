@@ -1,12 +1,8 @@
 $("#schedule_modal_content").html("<%= escape_javascript(render partial: 'subject_schedules/form') %>");
 $("#schedule_modal").modal('show');
 
-<% @subject_schedule.errors.each do |key, value| %>
-  $('#subject_schedule_<%= key %>').parent().parent().addClass('has-error');
-<% end %>
-
 $(".datepicker").datepicker('remove');
 $(".datepicker").datepicker({ autoclose: true });
 $(".datepicker").change(function(){
-try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
+  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
 });

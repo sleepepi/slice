@@ -7,7 +7,6 @@ class SubjectsController < ApplicationController
   before_action :set_editable_subject, only: [ :edit, :update, :destroy ]
   before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy ]
 
-
   # GET /subjects
   # GET /subjects.json
   def index

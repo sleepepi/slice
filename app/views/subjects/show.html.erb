@@ -13,7 +13,7 @@
 <div class="page-header">
   <h1>
     Schedules
-    <%= link_to 'Add Schedule', '#add_schedule_modal', data: { toggle: 'modal' }, class: 'btn btn-xs btn-default' %>
+    <%= link_to 'Add Schedule', new_project_subject_subject_schedule_path(@project, @subject), remote: true, method: :get, class: 'btn btn-xs btn-default' %>
   </h1>
 
 </div>
@@ -22,7 +22,15 @@
   <%= render partial: 'subject_schedules/subject_schedules' %>
 </div>
 
-<%= render partial: 'subject_schedules/add_schedule_popup' %>
+<div class="modal" id="schedule_modal">
+  <div class="modal-dialog modal-wide-width">
+    <div class="modal-content" id="schedule_modal_content">
+    </div>
+  </div>
+</div>
+
+
+<%#= render partial: 'subject_schedules/add_schedule_popup' %>
 
 <div class="page-header">
   <h1>Sheets Entered</h1>

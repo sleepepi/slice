@@ -10,12 +10,6 @@ class SubjectSchedulesController < ApplicationController
   before_action :redirect_without_subject_schedule, only: [ :show, :edit, :update, :destroy ]
 
 
-  # # GET /subject_schedules
-  # # GET /subject_schedules.json
-  # def index
-  #   @subject_schedules = SubjectSchedule.all
-  # end
-
   # # GET /subject_schedules/1
   # # GET /subject_schedules/1.json
   # def show
@@ -55,9 +49,11 @@ class SubjectSchedulesController < ApplicationController
       if @subject_schedule.update(subject_schedule_params)
         format.html { redirect_to [@subject_schedule.subject.project, @subject_schedule.subject], notice: 'Subject schedule was successfully updated.' }
         format.json { head :no_content }
+        format.js   { render 'show' }
       else
         format.html { render action: 'edit' }
         format.json { render json: @subject_schedule.errors, status: :unprocessable_entity }
+        format.js   { render 'edit' }
       end
     end
   end
