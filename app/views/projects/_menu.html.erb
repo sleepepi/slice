@@ -1,8 +1,35 @@
+<% recent_sheets = @project.sheets.where("created_at > ? or last_edited_at > ?", Time.now - 1.day, Time.now - 1.day).to_a %>
+<% recent_comments = current_user.all_viewable_comments.with_project(@project.id).where("created_at > ?", Time.now - 1.day).to_a %>
+
+<% all_objects = (recent_sheets + recent_comments).sort{ |o1, o2| ((o2.class.method_defined?(:last_edited_at) and o2.last_edited_at != nil) ? o2.last_edited_at : o2.created_at) <=> ((o1.class.method_defined?(:last_edited_at) and o1.last_edited_at != nil) ? o1.last_edited_at : o1.created_at) } %>
+
 <div class="list-group">
   <%= link_to '<span class="glyphicon glyphicon-inbox"></span> Collect'.html_safe, @project, tabindex: "-1", class: "list-group-item #{ 'active' if location == 'collect' }" %>
   <%= link_to '<span class="glyphicon glyphicon-eye-open"></span> Explore'.html_safe, explore_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'explore' }" %>
   <%= link_to '<span class="glyphicon glyphicon-wrench"></span> Setup'.html_safe,   setup_project_path(@project),   tabindex: "-1", class: "list-group-item #{ 'active' if location == 'setup' }" if @project.editable_by?(current_user) %>
   <%= link_to '<span class="glyphicon glyphicon-user"></span> Sharing'.html_safe, sharing_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'sharing' }" %>
-  <%= link_to '<span class="glyphicon glyphicon-list"></span> Activity'.html_safe, activity_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'activity' }" %>
+  <%= link_to '<span class="glyphicon glyphicon-list"></span> Activity'.html_safe, activity_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'activity' }" if all_objects.size == 0 %>
   <%= link_to '<span class="glyphicon glyphicon-pushpin"></span> About'.html_safe, about_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'about' }" %>
 </div>
+
+
+<% if all_objects.size > 0 %>
+  <div class="list-group">
+    <%= link_to '<span class="glyphicon glyphicon-list"></span> Activity'.html_safe, activity_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'activity' }" %>
+      <% all_objects[0..10].each do |object| %>
+      <% if object.class == Sheet %>
+        <% recently_created = object.recently_created? %>
+        <%= link_to [object.project, object], class: 'list-group-item', style: "white-space:nowrap;overflow:hidden;#{recently_created ? 'border-color: #dff0d8; background-color:#d6e9c6' : 'border-color: #bce8f1; background-color:#d9edf7'}" do %>
+          <% user = (recently_created ? object.user : object.last_user) %>
+          <%= image_tag user.avatar_url(32, "identicon"), size: '32x32', class: 'img-rounded' %>
+          <span class="text-small"><%= object.name %></span>
+        <% end %>
+      <% elsif object.class == Comment %>
+        <%= link_to [object.sheet.project, object.sheet], class: 'list-group-item', style: 'white-space:nowrap;overflow:hidden;' do %>
+          <%= image_tag object.user.avatar_url(32, "identicon"), size: '32x32', alt: '', style: 'vertical-align: middle', class: 'img-rounded' %>
+          <span class="text-small"><%= strip_tags(simple_markdown object.description).truncate(100, separator: ' ').html_safe %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
