@@ -2,10 +2,13 @@
 
 ### Enhancements
 - **Project Changes**
-  - The project page has been reorganized to highlight three steps
-    - Data Designs: Create and edit forms/surveys to provide templates for collecting data
-    - Data Collection: Entering new data, and viewing entered data
-    - Data Exports: Download collected data for further review or analysis
+  - The project page has been reorganized to highlight different steps
+    - Collect: Entering new data sheets, subjects, and sites
+    - Explore: Download collected data for further review or analysis, and view reports
+    - Setup: Create and edit forms/survey, events, and schedules
+    - Sharing: Add other users to project
+    - Activity: Shows recent project activity
+    - About: Shows news, contacts, documents, links and project description
 - **Schedules**
   - Schedules allow subjects to be assigned groups of designs by date
   - Schedules are comprised of multiple events

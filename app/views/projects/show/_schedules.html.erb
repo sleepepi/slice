@@ -1,0 +1,38 @@
+<% title = "Schedules" %>
+<% if @project.schedules.size == 0 %>
+  <h2 class="about-title"><%= title %></h2>
+
+  <%= link_to 'Create Schedule', new_project_schedule_path(@project), class: 'btn btn-block btn-lg btn-primary' %>
+<% else %>
+
+  <h2 class="about-title"><%= link_to title, project_schedules_path(@project) %></h2>
+
+  <hr class="soften" style="margin-top:20px">
+
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>Schedule</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-link="<%= new_project_schedule_path(@project) %>" style="cursor:pointer">
+        <td colspan="2" class="center"><%= link_to 'Create Schedule', new_project_schedule_path(@project) %></td>
+      </tr>
+      <% @project.schedules.order('name').limit(10).each do |schedule| %>
+        <tr data-link="<%= project_schedule_path(schedule.project, schedule) %>" style="cursor:pointer" data-object="hover-show" data-target="#schedule_<%= schedule.id %>_edit_link">
+          <td><%= schedule.name %></td>
+          <td>
+            <div style="height:22px">
+              <%= link_to 'edit', edit_project_schedule_path(schedule.project, schedule), class: 'btn btn-default btn-xs', id: "schedule_#{schedule.id}_edit_link", style: 'display:none' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      <tr data-link="<%= project_schedules_path(@project) %>" style="cursor:pointer">
+        <td colspan="2" class="center"><%= link_to "View More", project_schedules_path(@project) %><% if @project.schedules.count > 0 %> <span class="badge badge-info"><%= @project.schedules.count %></span><% end %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

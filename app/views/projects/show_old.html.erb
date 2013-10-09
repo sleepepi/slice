@@ -1,0 +1,128 @@
+<% @title = "#{@project.name}" %>
+
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, collect_project_path(@project) %>
+
+    <% if current_user.all_viewable_and_site_projects.size == 1 %>
+      <div class="pull-right"><%= link_to 'Create Project', new_project_path, class: 'btn btn-xs btn-primary' %></div>
+    <% end %>
+  </h1>
+
+  <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+    <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-xs' %></div>
+    <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
+  <% end %>
+  <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
+</div>
+
+<%= simple_markdown @project.description %>
+
+<% col_width = (@project.editable_by?(current_user) ? 'col-sm-4' : 'col-sm-6') %>
+
+<div class="row">
+  <% if @project.editable_by?(current_user) %>
+    <div class="col-sm-4">
+      <%= render partial: 'projects/show/designs' %>
+    </div>
+  <% end %>
+
+  <div class="<%= col_width %>" style="overflow-x:hidden">
+    <%= render partial: 'projects/show/recent' %>
+  </div>
+
+  <div class="<%= col_width %>">
+    <%= render partial: 'projects/show/exports' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="<%= col_width %>">
+    <%= render partial: 'projects/show/reports' %>
+  </div>
+
+  <div class="<%= col_width %>">
+    <%= render partial: 'projects/show/links' %>
+  </div>
+
+  <% if @project.editable_by?(current_user) %>
+    <div class="col-sm-4">
+      <%= render partial: 'projects/show/subjects' %>
+    </div>
+  <% end %>
+</div>
+
+<% if @project.show_posts? or @project.show_documents? or @project.show_contacts? %>
+  <% extra_col_width = "col-sm-#{12 / [@project.show_posts?, @project.show_documents?, @project.show_contacts?].select{|t| t}.size}" %>
+  <div class="row">
+    <% if @project.show_posts? %>
+      <div class="<%= extra_col_width %>">
+        <%= render partial: 'projects/show/posts' %>
+      </div>
+    <% end %>
+    <% if @project.show_documents? %>
+      <div class="<%= extra_col_width %>">
+        <%= render partial: 'projects/show/documents' %>
+      </div>
+    <% end %>
+    <% if @project.show_contacts? %>
+      <div class="<%= extra_col_width %>">
+        <%= render partial: 'projects/show/contacts' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @project.editable_by?(current_user) %>
+  <div class="row">
+    <div class="col-sm-4">
+      <%= render partial: 'projects/show/sites' %>
+    </div>
+
+    <% if false %>
+      <div class="col-sm-4">
+        <%= render partial: 'projects/show/variables' %>
+      </div>
+      <div class="col-sm-4">
+        <%= render partial: 'projects/show/domains' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+<hr class="soften">
+
+<% if @project.logo.size > 0 %>
+  <div data-object="hover-show" data-target="#project_logo_delete_icon" id="logo_container" style="text-align:center">
+    <div style="background-color:white">
+      <%= image_tag @project.logo_url, style: "height:128px" %>
+    </div>
+    <div style="height:20px">
+      <div id="project_logo_delete_icon" style="display:none">
+        <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+          <%= number_to_human_size(@project.logo.size) %>
+          <%= link_to 'remove logo', remove_file_project_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to remove the project logo?" } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div style="clear:both"></div>
+<% end %>
+
+<% if @project.editable_by?(current_user) %>
+  <div class="page-header">
+    <h2>Sharing</h2>
+  </div>
+
+  <div class="row">
+    <% ['editors', 'viewers'].each do |relation, editor| %>
+      <div class="col-md-6">
+        <% @relation = relation; @editor = editor %>
+        <p>
+          <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
+        </p>
+      </div>
+    <% end %>
+  </div>
+<% end %>

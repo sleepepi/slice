@@ -19,6 +19,10 @@ Slice::Application.routes.draw do
       post :edit_filter
       post :favorite
       get :activity
+      get :explore
+      get :sharing
+      get :setup
+      get :about
     end
 
     collection do

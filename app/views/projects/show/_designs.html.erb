@@ -1,8 +1,8 @@
-<% title = "Data Designs" %>
+<% title = "Designs" %>
 <% if @project.designs.size == 0 %>
   <h2 class="about-title"><%= title %></h2>
 
-  <%= link_to 'Create a Design', new_project_design_path(@project), class: 'btn btn-block btn-lg btn-primary' %>
+  <%= link_to 'Create Design', new_project_design_path(@project), class: 'btn btn-block btn-lg btn-primary' %>
 <% else %>
 
   <h2 class="about-title"><%= link_to title, project_designs_path(@project) %></h2>

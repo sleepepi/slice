@@ -1,0 +1,21 @@
+<% @title = "#{@project.name}" %>
+
+<%= render partial: 'projects/link_bar', locals: { title: 'Sharing' } %>
+
+<div class="row">
+  <div class="col-md-10">
+    <div class="row">
+      <% ['editors', 'viewers'].each do |relation, editor| %>
+        <div class="col-sm-6">
+          <% @relation = relation; @editor = editor %>
+          <p>
+            <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <%= render partial: 'projects/menu', locals: { location: 'sharing' } %>
+  </div>
+</div>
