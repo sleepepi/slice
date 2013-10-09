@@ -10,6 +10,12 @@ class SubjectSchedulesController < ApplicationController
   before_action :redirect_without_subject_schedule, only: [ :show, :edit, :update, :destroy ]
 
 
+  # # GET /subject_schedules
+  # # GET /subject_schedules.json
+  # def index
+  #   @subject_schedules = SubjectSchedule.all
+  # end
+
   # # GET /subject_schedules/1
   # # GET /subject_schedules/1.json
   # def show
