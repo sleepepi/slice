@@ -10,46 +10,25 @@
   <%= link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs' %>
 </div>
 
-<div class="page-header">
-  <h1>
-    Schedules
-    <%= link_to 'Add Schedule', new_project_subject_subject_schedule_path(@project, @subject), remote: true, method: :get, class: 'btn btn-xs btn-default' %>
-  </h1>
-
-</div>
-
-<div id="subject-schedules">
-  <%= render partial: 'subject_schedules/subject_schedules' %>
-</div>
-
-<div class="modal" id="schedule_modal">
-  <div class="modal-dialog modal-wide-width">
-    <div class="modal-content" id="schedule_modal_content">
+<% if @project.schedules.size > 0 %>
+  <div class="modal" id="schedule_modal">
+    <div class="modal-dialog modal-wide-width">
+      <div class="modal-content" id="schedule_modal_content">
+      </div>
     </div>
   </div>
-</div>
 
+  <div class="page-header">
+    <h1>
+      Schedules
+      <%= link_to 'Add Schedule', new_project_subject_subject_schedule_path(@project, @subject), remote: true, method: :get, class: 'btn btn-xs btn-default' %>
+    </h1>
+  </div>
 
-<%#= render partial: 'subject_schedules/add_schedule_popup' %>
-
-<div class="page-header">
-  <h1>Sheets Entered</h1>
-</div>
-<% @subjects = Subject.current.where(id: @subject.id).page(0).per(-1) %>
-<% @designs = @project.designs.order('name') %>
-<%= render partial: 'projects/subject_report', locals: { no_header: '1' } %>
-
-
-<% sheet_variables = @subject.sheets.collect{|s| s.sheet_variables.with_variable_type('file')}.flatten[0..100] %>
-<% if sheet_variables.size > 0 %>
-<h2>Files</h2>
-<form class="form-horizontal">
-<% sheet_variables.each do |sheet_variable| %>
-  <%= @sheet = sheet_variable.sheet; @variable = sheet_variable.variable; render partial: 'sheet_variables/show' %>
+  <div id="subject-schedules">
+    <%= render partial: 'subject_schedules/subject_schedules' %>
+  </div>
 <% end %>
-</form>
-<% end %>
-
 
 <dl class="dl-horizontal">
   <dt>Site</dt>
@@ -72,3 +51,21 @@
     </ul>
   </dd>
 </dl>
+
+<div class="page-header">
+  <h1>Sheets Entered</h1>
+</div>
+<% @subjects = Subject.current.where(id: @subject.id).page(0).per(-1) %>
+<% @designs = @project.designs.order('name') %>
+<%= render partial: 'projects/subject_report', locals: { no_header: '1' } %>
+
+
+<% sheet_variables = @subject.sheets.collect{|s| s.sheet_variables.with_variable_type('file')}.flatten[0..100] %>
+<% if sheet_variables.size > 0 %>
+<h2>Files</h2>
+<form class="form-horizontal">
+<% sheet_variables.each do |sheet_variable| %>
+  <%= @sheet = sheet_variable.sheet; @variable = sheet_variable.variable; render partial: 'sheet_variables/show' %>
+<% end %>
+</form>
+<% end %>
