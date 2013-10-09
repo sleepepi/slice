@@ -100,7 +100,7 @@
         </div>
       </div>
     <% end %>
-  <% elsif @sheet.subject.subject_schedule_events(@sheet.design_id).size > 0 %>
+  <% elsif @sheet.subject and @sheet.subject.subject_schedule_events(@sheet.design_id).size > 0 %>
     <div class="form-group">
       <%= label_tag :subject_schedule_event, 'Schedule', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
