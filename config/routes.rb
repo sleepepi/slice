@@ -23,6 +23,7 @@ Slice::Application.routes.draw do
       get :share
       get :setup
       get :about
+      post :transfer
     end
 
     collection do

@@ -9,6 +9,7 @@
     - Share: Add other users to project
     - Activity: Show recent project activity
     - About: Show news, contacts, documents, links and project description
+  - Project ownership can now be transferred by the project owner to another user on the project
 - **Schedules**
   - Schedules allow subjects to be assigned groups of designs by date
   - Schedules are comprised of multiple events

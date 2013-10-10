@@ -7,6 +7,18 @@ class ProjectsController < ApplicationController
   # Concerns
   include Buildable
 
+  def transfer
+    @project = current_user.projects.find_by_id(params[:id])
+    if @project and transfer_to = @project.users.find_by_id(params[:user_id])
+      @project.update( user_id: transfer_to.id )
+      @project_user = @project.project_users.where(user_id: current_user.id).first_or_create( creator_id: transfer_to.id )
+      @project_user.update( editor: true )
+      redirect_to setup_project_path(@project), notice: "Project was successfully transferred to #{transfer_to.name}."
+    else
+      redirect_without_project
+    end
+  end
+
   def favorite
     project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
     project_favorite.update favorite: (params[:favorite] == '1')

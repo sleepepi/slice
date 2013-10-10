@@ -6,6 +6,19 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should transfer project to another user" do
+    post :transfer, id: @project, user_id: users(:pending)
+    assert_not_nil assigns(:project)
+    assert_equal true, assigns(:project).editors.pluck(:id).include?(users(:valid).id)
+    assert_redirected_to setup_project_path(assigns(:project))
+  end
+
+  test "should not transfer project as non-owner" do
+    post :transfer, id: projects(:three), user_id: users(:valid)
+    assert_nil assigns(:project)
+    assert_redirected_to projects_path
+  end
+
   test "should get filters" do
     post :filters, id: @project, f: [{ id: variables(:dropdown).id, axis: 'row', missing: '0' }, { id: 'site', axis: 'col', missing: '0' }], format: 'js'
     assert_template 'filters'
