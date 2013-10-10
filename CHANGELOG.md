@@ -22,8 +22,8 @@
 - **General Changes**
   - Recent activity now displays a message if there hasn't been any recent activity
 - **Gem Changes**
-  - Updated pg to 0.17.0
-  - Updated contour to 2.2.0.beta2
+  - Updated to pg 0.17.0
+  - Updated to contour 2.2.0.beta2
 
 ### Bug Fixes
 - Inline checkboxes now wrap text correctly on smaller screens
