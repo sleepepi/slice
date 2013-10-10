@@ -13,6 +13,6 @@
     </td>
   <% end %>
   <td>
-    <%= link_to 'remove', '#', data: { object: 'remove', target: "#variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-xs btn-danger-inverse', tabindex: "-1" if variable.multiple_rows? %>
+    <%= link_to 'Remove', '#', data: { object: 'remove', target: "#variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-xs btn-danger-inverse', tabindex: "-1" if variable.multiple_rows? %>
   </td>
 </tr>
