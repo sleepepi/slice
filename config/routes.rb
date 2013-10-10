@@ -20,7 +20,7 @@ Slice::Application.routes.draw do
       post :favorite
       get :activity
       get :explore
-      get :sharing
+      get :share
       get :setup
       get :about
     end

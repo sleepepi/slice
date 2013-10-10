@@ -6,7 +6,7 @@
     - Collect: Entering new data sheets, subjects, and sites
     - Explore: Download collected data for further review or analysis, and view reports
     - Setup: Create and edit forms/surveys, events, and schedules
-    - Sharing: Add other users to project
+    - Share: Add other users to project
     - Activity: Show recent project activity
     - About: Show news, contacts, documents, links and project description
 - **Schedules**

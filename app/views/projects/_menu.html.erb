@@ -7,7 +7,7 @@
   <%= link_to '<span class="glyphicon glyphicon-inbox"></span> Collect'.html_safe, @project, tabindex: "-1", class: "list-group-item #{ 'active' if location == 'collect' }" %>
   <%= link_to '<span class="glyphicon glyphicon-eye-open"></span> Explore'.html_safe, explore_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'explore' }" %>
   <%= link_to '<span class="glyphicon glyphicon-wrench"></span> Setup'.html_safe,   setup_project_path(@project),   tabindex: "-1", class: "list-group-item #{ 'active' if location == 'setup' }" if @project.editable_by?(current_user) %>
-  <%= link_to '<span class="glyphicon glyphicon-user"></span> Sharing'.html_safe, sharing_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'sharing' }" %>
+  <%= link_to '<span class="glyphicon glyphicon-user"></span> Share'.html_safe, share_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'share' }" %>
   <%= link_to '<span class="glyphicon glyphicon-list"></span> Activity'.html_safe, activity_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'activity' }" if all_objects.size == 0 %>
   <%= link_to '<span class="glyphicon glyphicon-pushpin"></span> About'.html_safe, about_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'about' }" %>
 </div>

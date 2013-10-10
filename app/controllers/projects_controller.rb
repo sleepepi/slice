@@ -1,8 +1,8 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :settings, :show, :collect, :explore, :sharing, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
+  before_action :set_viewable_project, only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
   before_action :set_editable_project, only: [ :setup, :edit, :update, :destroy, :remove_file ]
-  before_action :redirect_without_project, only: [ :settings, :show, :collect, :explore, :setup, :sharing, :about, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
+  before_action :redirect_without_project, only: [ :settings, :show, :collect, :explore, :setup, :share, :about, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
 
   # Concerns
   include Buildable
