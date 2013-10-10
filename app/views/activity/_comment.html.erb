@@ -11,7 +11,7 @@
       <div>
         <%= comment.user.name %>
         <b>commented on</b>
-        <%= link_to comment.sheet.name, [comment.sheet.project, comment.sheet] %> for <%= comment.sheet.project.subject_code_name_full %> <%= link_to comment.sheet.subject.name, [comment.sheet.subject.project, comment.sheet.subject] %>
+        <%= link_to comment.sheet.name, [comment.sheet.project, comment.sheet] %> for <%= link_to comment.sheet.subject.name, [comment.sheet.subject.project, comment.sheet.subject] %>
       </div>
       <div>
         <%= image_tag comment.user.avatar_url(32, "identicon"), size: '32x32', alt: '', style: 'vertical-align: middle', class: 'img-rounded' %> <%= strip_tags(simple_markdown comment.description).truncate(100, separator: ' ').html_safe %>

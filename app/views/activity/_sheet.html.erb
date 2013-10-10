@@ -9,7 +9,7 @@
       <%= image_tag user.avatar_url(32, "identicon"), class: 'img-rounded' %>
       <%= user.name %>
       <b><% if recently_created %>created<% else %>updated<% end %> sheet</b>
-      <%= link_to sheet.name, [sheet.project, sheet] %> for <%= sheet.project.subject_code_name_full %> <%= link_to sheet.subject.name, [sheet.subject.project, sheet.subject] %>
+      <%= link_to sheet.name, [sheet.project, sheet] %> for <%= link_to sheet.subject.name, [sheet.subject.project, sheet.subject] %>
       <span class="text-muted"><%= distance_of_time_in_words_to_now(recently_created ? sheet.created_at : sheet.last_edited_at ).gsub('about ', '') %> ago</span>
     </div>
   </td>

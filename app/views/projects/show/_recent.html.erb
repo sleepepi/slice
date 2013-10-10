@@ -1,4 +1,4 @@
-<% title = 'Sheets' %>
+<% title = 'Recent Entries' %>
 
 <% if @project.sheets.size == 0 and @project.designs.size == 0 and current_user.all_projects.pluck(:id).include?(@project.id) %>
   <h2 class="about-title"><%= title %></h2>
