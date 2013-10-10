@@ -40,7 +40,7 @@
       <h3 class="panel-title">Transfer Ownership</h3>
     </div>
     <div class="panel-body">
-      <p>Click here to transfer the project ownership to another user. Note that this will remove you from the project if you are not an editor or a viewer under the project <%= link_to 'Share', share_project_path(@project), class: 'btn btn-xs btn-default' %> link.</p>
+      <p>Click here to transfer the project ownership to another user. This will make you an editor on the project.</p>
       <div><%= link_to 'Transfer Ownership', '#', data: { object: 'modal-show', target: "#project_#{@project.id}_transfer_modal" }, class: 'btn btn-danger-inverse' %></div>
     </div>
   </div>
