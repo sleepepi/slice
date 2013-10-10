@@ -1,5 +1,5 @@
-<% recent_sheets = @project.sheets.where("created_at > ? or last_edited_at > ?", Time.now - 1.day, Time.now - 1.day).limit(10).to_a %>
-<% recent_comments = current_user.all_viewable_comments.with_project(@project.id).where("created_at > ?", Time.now - 1.day).limit(10).to_a %>
+<% recent_sheets = @project.sheets.where("created_at > ? or last_edited_at > ?", Time.now - 1.day, Time.now - 1.day).to_a %>
+<% recent_comments = current_user.all_viewable_comments.with_project(@project.id).where("created_at > ?", Time.now - 1.day).to_a %>
 
 <% all_objects = (recent_sheets + recent_comments).sort{ |o1, o2| ((o2.class.method_defined?(:last_edited_at) and o2.last_edited_at != nil) ? o2.last_edited_at : o2.created_at) <=> ((o1.class.method_defined?(:last_edited_at) and o1.last_edited_at != nil) ? o1.last_edited_at : o1.created_at) } %>
 
@@ -16,7 +16,7 @@
 <% if all_objects.size > 0 %>
   <div class="list-group">
     <%= link_to '<span class="glyphicon glyphicon-list"></span> Activity'.html_safe, activity_project_path(@project), tabindex: "-1", class: "list-group-item #{ 'active' if location == 'activity' }" %>
-      <% all_objects[0..10].each do |object| %>
+      <% all_objects[0..9].each do |object| %>
       <% if object.class == Sheet %>
         <% recently_created = object.recently_created? %>
         <%= link_to [object.project, object], class: 'list-group-item', rel: 'tooltip', data: { title: object.subject.name, placement: 'left' } do %>
