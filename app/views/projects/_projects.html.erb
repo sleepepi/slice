@@ -5,7 +5,7 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.name', 'Name', 'projects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.description', 'Description', 'projects_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.user_id', 'Creator', 'projects_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.user_id', 'Owner', 'projects_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -19,10 +19,8 @@
       <td><%= project.description %></td>
       <td><%= link_to project.user.name, project.user if project.user %></td>
       <td>
-        <% if current_user.all_projects.pluck(:id).include?(project.id) %>
-          <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-default btn-xs' %>
-          <%= link_to 'Delete', project, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{project.name}?" } %>
-        <% end %>
+        <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-default btn-xs' if current_user.all_projects.pluck(:id).include?(project.id) %>
+        <%= link_to 'Delete', project, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{project.name}?" } if project.user == current_user %>
       </td>
     </tr>
   <% end %>

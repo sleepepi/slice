@@ -1,22 +1,21 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
-  before_action :set_editable_project, only: [ :setup, :edit, :update, :destroy, :remove_file ]
-  before_action :redirect_without_project, only: [ :settings, :show, :collect, :explore, :setup, :share, :about, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
+  before_action :set_editable_project, only: [ :setup, :edit, :update, :remove_file ]
+  before_action :set_owner_project, only: [ :transfer, :destroy ]
+  before_action :redirect_without_project, only: [ :settings, :show, :collect, :explore, :setup, :share, :about, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite, :activity, :transfer ] # :update_filter
 
   # Concerns
   include Buildable
 
   def transfer
-    @project = current_user.projects.find_by_id(params[:id])
-    if @project and transfer_to = @project.users.find_by_id(params[:user_id])
+    if transfer_to = @project.users.find_by_id(params[:user_id])
       @project.update( user_id: transfer_to.id )
       @project_user = @project.project_users.where(user_id: current_user.id).first_or_create( creator_id: transfer_to.id )
       @project_user.update( editor: true )
-      redirect_to setup_project_path(@project), notice: "Project was successfully transferred to #{transfer_to.name}."
-    else
-      redirect_without_project
+      flash[:notice] = "Project was successfully transferred to #{transfer_to.name}."
     end
+    redirect_to setup_project_path(@project)
   end
 
   def favorite
@@ -179,6 +178,10 @@ class ProjectsController < ApplicationController
     def set_editable_project
       super(:id)
       # @project = current_user.all_projects.find_by_id(params[:id])
+    end
+
+    def set_owner_project
+      @project = current_user.projects.find_by_id(params[:id])
     end
 
     def redirect_without_project
