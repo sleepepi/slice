@@ -23,14 +23,14 @@
           <div style="border-left: 2px solid <%= recently_created ? '#93edc0' : '#9ccef0' %>;margin-left:-10px;margin-right:-10px;padding-left:5px;white-space:nowrap;overflow:hidden;">
             <% user = (recently_created ? object.user : object.last_user) %>
             <%= image_tag user.avatar_url(32, "identicon"), size: '32x32', class: 'img-rounded' %>
-            <span class="text-small"><%= object.name %></span>
+            <%= object.name %>
           </div>
         <% end %>
       <% elsif object.class == Comment %>
         <%= link_to [object.sheet.project, object.sheet], class: 'list-group-item', rel: 'tooltip', data: { title: object.sheet.subject.name, placement: 'left' } do %>
           <div style="border-left: 2px solid #ffbe40;margin-left:-10px;margin-right:-10px;padding-left:5px;white-space:nowrap;overflow:hidden;">
             <%= image_tag object.user.avatar_url(32, "identicon"), size: '32x32', alt: '', style: 'vertical-align: middle', class: 'img-rounded' %>
-            <span class="text-small"><%= strip_tags(simple_markdown object.description).truncate(100, separator: ' ').html_safe %></span>
+            <%= strip_tags(simple_markdown object.description).truncate(100, separator: ' ').html_safe %>
           </div>
         <% end %>
       <% end %>
