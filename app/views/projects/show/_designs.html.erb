@@ -9,7 +9,7 @@
 
   <hr class="soften" style="margin-top:20px">
 
-  <table class="table table-hover table-condensed">
+  <table class="table table-hover table-condensed"><col width="70px" /><col /><col width="120px" />
     <thead>
       <tr>
         <th>Sheets</th>
@@ -26,8 +26,11 @@
           <td><% if design.sheets.count > 0 %><span class="badge badge-info"><%= design.sheets.count %></span><% end %></td>
           <td><%= design.name %></td>
           <td>
-            <div style="height:22px">
-              <%= link_to 'Edit', edit_project_design_path(design.project, design), class: 'btn btn-default btn-xs', id: "design_#{design.id}_edit_link", style: 'display:none' %>
+            <div style="height:22px;">
+              <span id="design_<%= design.id %>_edit_link" style="display:none">
+                <%= link_to 'Edit', edit_project_design_path(design.project, design), class: 'btn btn-default btn-xs' %>
+                <%= link_to 'PDF', print_project_design_path(design.project, design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' %>
+              </span>
             </div>
           </td>
         </tr>
