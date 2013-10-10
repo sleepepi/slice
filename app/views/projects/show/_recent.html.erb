@@ -28,7 +28,7 @@
     <thead>
       <tr>
         <th>Subject</th>
-        <th>Sheet</th>
+        <th colspan="2">Sheet</th>
         <% if show_schedules %>
           <th>Schedule</th>
           <th>Event</th>
@@ -39,7 +39,7 @@
     <tbody>
       <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
         <tr data-link="<%= new_project_sheet_path(@project) %>" style="cursor:pointer">
-          <td></td><td colspan="<%= show_schedules ? '4' : '2' %>"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
+          <td></td><td colspan="<%= show_schedules ? '5' : '3' %>"><%= link_to 'Create Sheet', new_project_sheet_path(@project) %></td>
         </tr>
       <% end %>
       <% viewable_sheets.each do |sheet| %>
@@ -47,17 +47,25 @@
           <td>
             <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden"><%= status_helper(sheet.subject) %>&nbsp;<%= sheet.subject.name %></div>
           </td>
-          <td>
+          <td colspan="2">
             <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden">
-              <%= sheet.name %>
               <% if sheet.comments.size > 0 %>
                 <span class="badge badge-info"><%= sheet.comments.size %></span>
               <% end %>
+              <%= sheet.name %>
             </div>
           </td>
           <% if show_schedules %>
-            <td><%= sheet.subject_schedule.schedule.name if sheet.subject_schedule %></td>
-            <td><%= sheet.event.name if sheet.event %></td>
+            <td>
+              <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden">
+                <%= sheet.subject_schedule.schedule.name if sheet.subject_schedule %>
+              </div>
+            </td>
+            <td>
+              <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden">
+                <%= sheet.event.name if sheet.event %>
+              </div>
+            </td>
           <% end %>
           <td style="white-space:nowrap">
             <%= sheet.last_edited_at.blank? ? simple_date(sheet.created_at) : simple_date(sheet.last_edited_at) %>
@@ -66,7 +74,7 @@
         </tr>
       <% end %>
       <tr data-link="<%= project_sheets_path(@project) %>" style="cursor:pointer">
-        <td></td><td colspan="<%= show_schedules ? '4' : '2' %>"><%= link_to 'View More', project_sheets_path(@project) %></td>
+        <td></td><td colspan="<%= show_schedules ? '5' : '3' %>"><%= link_to 'View More', project_sheets_path(@project) %></td>
       </tr>
     </tbody>
   </table>
