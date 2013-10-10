@@ -56,8 +56,8 @@
             </div>
           </td>
           <% if show_schedules %>
-            <td><%= sheet.subject_schedule.schedule.name %></td>
-            <td><%= sheet.event.name %></td>
+            <td><%= sheet.subject_schedule.schedule.name if sheet.subject_schedule %></td>
+            <td><%= sheet.event.name if sheet.event %></td>
           <% end %>
           <td style="white-space:nowrap">
             <%= sheet.last_edited_at.blank? ? simple_date(sheet.created_at) : simple_date(sheet.last_edited_at) %>
