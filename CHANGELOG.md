@@ -5,10 +5,10 @@
   - The project page has been reorganized to highlight different steps
     - Collect: Entering new data sheets, subjects, and sites
     - Explore: Download collected data for further review or analysis, and view reports
-    - Setup: Create and edit forms/survey, events, and schedules
+    - Setup: Create and edit forms/surveys, events, and schedules
     - Sharing: Add other users to project
-    - Activity: Shows recent project activity
-    - About: Shows news, contacts, documents, links and project description
+    - Activity: Show recent project activity
+    - About: Show news, contacts, documents, links and project description
 - **Schedules**
   - Schedules allow subjects to be assigned groups of designs by date
   - Schedules are comprised of multiple events
@@ -23,7 +23,7 @@
   - Recent activity now displays a message if there hasn't been any recent activity
 - **Gem Changes**
   - Updated pg to 0.17.0
-  - Updated to contour 2.2.0.beta2
+  - Updated contour to 2.2.0.beta2
 
 ### Bug Fixes
 - Inline checkboxes now wrap text correctly on smaller screens
