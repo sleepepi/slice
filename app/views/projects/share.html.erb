@@ -27,8 +27,13 @@
           <div class="panel-body">
             <% if site.users.size > 0 %>
               <ul class="list-unstyled">
-                <% site.users.each do |user|  %>
-                  <li><%= user.name %></li>
+                <% site.site_users.each do |site_user|  %>
+                  <% if user = site_user.user %>
+                    <li>
+                      <%= user.name %>
+                      <%= link_to 'Remove', [site_user.project, site_user], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to remove yourself from Site #{site.name}?" } if current_user.all_viewable_sites.include?(site) and current_user == user %>
+                    </li>
+                  <% end %>
                 <% end %>
               </ul>
             <% else %>
