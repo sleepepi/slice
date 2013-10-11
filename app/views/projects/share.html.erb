@@ -14,33 +14,33 @@
         </div>
       <% end %>
     </div>
+
+    <h3>Sites</h3>
+
+    <div class="row">
+    <% current_user.all_viewable_sites.where( project_id: @project.id ).order('name').each do |site| %>
+      <div class="col-xs-6 col-sm-4 col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><%= link_to site.name, [site.project, site] %></h3>
+          </div>
+          <div class="panel-body">
+            <% if site.users.size > 0 %>
+              <ul class="list-unstyled">
+                <% site.users.each do |user|  %>
+                  <li><%= user.name %></li>
+                <% end %>
+              </ul>
+            <% else %>
+              <span class="text-muted">No Members</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
   </div>
   <div class="col-md-2">
     <%= render partial: 'projects/menu', locals: { location: 'share' } %>
   </div>
-</div>
-
-<h3>Sites</h3>
-
-<div class="row">
-<% current_user.all_viewable_sites.where( project_id: @project.id ).order('name').each do |site| %>
-  <div class="col-xs-6 col-sm-4 col-md-3">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= link_to site.name, [site.project, site] %></h3>
-      </div>
-      <div class="panel-body">
-        <% if site.users.size > 0 %>
-          <ul class="list-unstyled">
-            <% site.users.each do |user|  %>
-              <li><%= user.name %></li>
-            <% end %>
-          </ul>
-        <% else %>
-          <span class="text-muted">No Members</span>
-        <% end %>
-      </div>
-    </div>
-  </div>
-<% end %>
 </div>
