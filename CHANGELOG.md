@@ -17,6 +17,7 @@
     - Each event can contain one or more designs
     - An event can only be included once per schedule
     - A design can only be included once per event
+  - Creating a sheet from the subject schedule now redirects back to the subject page
 - **Design Changes**
   - Editing autocomplete variables now display user submitted variables for reference
   - Adding sections and variables is now more apparent on design editor

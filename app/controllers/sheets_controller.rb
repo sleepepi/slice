@@ -164,7 +164,13 @@ class SheetsController < ApplicationController
     respond_to do |format|
       if @sheet.save
         update_variables!
-        url = (params[:continue].to_s == '1' ? new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }) : [@sheet.project, @sheet])
+        url = if params[:continue].to_s == '1'
+          new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id })
+        elsif @sheet.event and @sheet.subject_schedule
+          [@sheet.subject.project, @sheet.subject]
+        else
+          [@sheet.project, @sheet]
+        end
 
         format.html { redirect_to url, notice: 'Sheet was successfully created.' }
         format.json { render action: 'show', status: :created, location: @sheet }
