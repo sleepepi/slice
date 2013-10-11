@@ -1,7 +1,7 @@
 <% @title = @document.name %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= link_to 'Documents', project_documents_path(@project) %> &middot; <%= @title %>
+    <%= link_to @project.name, about_project_path(@project) %> &middot; <%= link_to 'Documents', project_documents_path(@project) %> &middot; <%= @title %>
   </h1>
   <%= link_to "Edit Document", edit_project_document_path(@document.project, @document), class: 'btn btn-default btn-xs' %>
   <%= link_to "Delete Document", [@document.project, @document], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Document #{@document.name}?" } %>
