@@ -3,11 +3,12 @@
 
   showInteractiveDesignModal();
 
-  $("#interactive-design-container").find('input, textarea').first().focus();
 <% elsif ['section_or_variable', 'new_variable', 'new_section'].include?(params[:new]) %>
   $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/#{params[:new]}_popup")) %>");
   showInteractiveDesignModal();
 <% end %>
+
+$("#interactive-design-container").find('input, textarea').first().focus();
 
 $(".chzn-select").chosen({ allow_single_deselect: true });
 $(".datepicker").datepicker('remove');
