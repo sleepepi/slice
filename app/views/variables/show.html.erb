@@ -1,7 +1,7 @@
 <% @title = @variable.display_name %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= link_to "Variables", project_variables_path(@project) %> &middot; <%= @title %>
+    <%= link_to @project.name, setup_project_path(@project) %> &middot; <%= link_to "Variables", project_variables_path(@project) %> &middot; <%= @title %>
   </h1>
   <% if @variable.editable_by?(current_user) %>
     <%= link_to "Edit Variable", edit_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs' %>

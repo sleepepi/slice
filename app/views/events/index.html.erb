@@ -1,7 +1,7 @@
 <% @title = 'Events' %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= @title %>
+    <%= link_to @project.name, setup_project_path(@project) %> &middot; <%= @title %>
     <%= link_to "Create Event", new_project_event_path(@project), class: 'btn btn-xs btn-primary' %>
     <%= link_to 'Schedules', project_schedules_path(@project), class: 'btn btn-default btn-xs' %>
   </h1>

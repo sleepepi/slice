@@ -270,7 +270,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should update project" do
     put :update, id: @project, project: { description: @project.description, name: @project.name }
 
-    assert_redirected_to project_path(assigns(:project))
+    assert_redirected_to setup_project_path(assigns(:project))
   end
 
   test "should not update project with blank name" do
