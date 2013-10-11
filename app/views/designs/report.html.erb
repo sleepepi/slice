@@ -1,7 +1,7 @@
 <% @title = "#{@design.name} Report" %>
 <div class="page-header">
   <h1>
-    <%= link_to @project.name, @project %> &middot; <%= link_to "Summary Report", report_project_path(@project) %> &middot; <%= link_to @design.name, [@design.project, @design] %> Report
+    <%= link_to @project.name, explore_project_path(@project) %> &middot; <%= link_to "Summary Report", report_project_path(@project) %> &middot; <%= link_to @design.name, [@design.project, @design] %> Report
   </h1>
 </div>
 
