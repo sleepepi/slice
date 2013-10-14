@@ -1,14 +1,14 @@
-## 0.21.0
+## 0.21.0 (October 14, 2013)
 
 ### Enhancements
 - **Project Changes**
   - The project page has been reorganized to highlight different steps
-    - Collect: Entering new data sheets, subjects, and sites
-    - Explore: Download collected data for further review or analysis, and view reports
-    - Setup: Create and edit forms/surveys, events, and schedules
-    - Share: Add other users to project
-    - Activity: Show recent project activity
-    - About: Show news, contacts, documents, links and project description
+    - **Collect**: Entering new data sheets, subjects, and sites
+    - **Explore**: Download collected data for further review or analysis, and view reports
+    - **Setup**: Create and edit forms/surveys, events, and schedules
+    - **Share**: Add other users to project
+    - **About**: Show news, contacts, documents, links and project description
+    - **Activity**: Show recent project activity
   - Project ownership can now be transferred by the project owner to another user on the project
 - **Schedules**
   - Schedules allow subjects to be assigned groups of designs by date
