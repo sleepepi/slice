@@ -1,4 +1,7 @@
-## 0.21.2
+## 0.21.2 (October 15, 2013)
+
+### Enhancements
+- Removed autocomplete while filling out domain option values, names, and descriptions
 
 ### Bug Fixes
 - Removed extraneous information on subject schedules introduced in 0.21.1

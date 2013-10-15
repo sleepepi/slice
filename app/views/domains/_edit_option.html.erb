@@ -17,13 +17,13 @@
       <%= hidden_field_tag "domain[option_tokens][][option_index]", option_index %>
     </div>
     <div class="col-xs-2">
-      <%= text_field_tag "domain[option_tokens][][value]", @option[:value], rel: 'tooltip', title: 'Value', class: 'form-control' %>
+      <%= text_field_tag "domain[option_tokens][][value]", @option[:value], autocomplete: 'off', rel: 'tooltip', title: 'Value', class: 'form-control' %>
     </div>
     <div class="col-xs-2">
-      <%= text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, rel: 'tooltip', title: 'Name', class: 'form-control' %>
+      <%= text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control' %>
     </div>
     <div class="col-xs-2">
-      <%= text_field_tag "domain[option_tokens][][description]", @option[:description], rel: 'tooltip', title: 'Description', tabindex: "-1", class: 'form-control' %>
+      <%= text_field_tag "domain[option_tokens][][description]", @option[:description], autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: "-1", class: 'form-control' %>
     </div>
     <div class="col-xs-2">
       <label class="checkbox checkbox-inline <%= 'selected' if @option[:missing_code] == '1' %>"><%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1" %> Missing Code</label>
