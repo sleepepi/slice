@@ -1,5 +1,8 @@
 ## 0.21.1
 
+### Bug Fixes
+- Fixed an issue that occurred when a scheduled event had no designs associated with it
+
 ## 0.21.0 (October 14, 2013)
 
 ### Enhancements

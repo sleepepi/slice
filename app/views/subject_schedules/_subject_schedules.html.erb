@@ -27,13 +27,14 @@
           <tbody>
             <tr>
               <% subject_schedule.schedule.sorted_items.each do |item| %>
+                <%= item_design_ids = (item[:design_ids] || []) %>
                 <% if event = @project.events.find_by_id(item[:event_id]) %>
-                  <% designs = subject_schedule.schedule.designs( item[:design_ids] ) %>
+                  <% designs = subject_schedule.schedule.designs( item_design_ids ) %>
                   <td>
                     <% array_to_sort = [] %>
                     <% designs.each do |design| %>
                       <% panel_hash = subject_schedule.panel_hash(item[:event_id], design.id) %>
-                      <% array_to_sort << [panel_hash[:order], panel_hash[:name], panel_hash[:css_class], design, item[:design_ids].index(design.id.to_s)] %>
+                      <% array_to_sort << [panel_hash[:order], panel_hash[:name], panel_hash[:css_class], design, item_design_ids.index(design.id.to_s)] %>
                     <% end %>
                     <% array_to_sort.sort{ |a,b| [a[0], a[4]] <=> [b[0], b[4]] }.group_by{|i| [i[0],i[1],i[2]]}.each do |(order, panel_name, panel_class), panel_items| %>
                       <div class="panel panel-<%= panel_class %>">
