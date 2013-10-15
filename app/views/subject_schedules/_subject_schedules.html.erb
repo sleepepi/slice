@@ -27,7 +27,7 @@
           <tbody>
             <tr>
               <% subject_schedule.schedule.sorted_items.each do |item| %>
-                <%= item_design_ids = (item[:design_ids] || []) %>
+                <% item_design_ids = (item[:design_ids] || []) %>
                 <% if event = @project.events.find_by_id(item[:event_id]) %>
                   <% designs = subject_schedule.schedule.designs( item_design_ids ) %>
                   <td>

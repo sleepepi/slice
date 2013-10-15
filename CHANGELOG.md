@@ -1,5 +1,8 @@
 ## 0.21.2
 
+### Bug Fixes
+- Removed extraneous information on subject schedules introduced in 0.21.1
+
 ## 0.21.1 (October 15, 2013)
 
 ### Bug Fixes
