@@ -2,6 +2,8 @@
 
 ### Bug Fixes
 - Fixed an issue that occurred when a scheduled event had no designs associated with it
+- Dropdowns that aren't in a grid are now the correct full width
+- Dropdowns in grids now have a minimum width specified
 
 ## 0.21.0 (October 14, 2013)
 

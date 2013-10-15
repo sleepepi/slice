@@ -1,3 +1,5 @@
+<% is_grid = defined?(grid) %>
+
 <%= select_tag field_name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, response),
       data: {
               title: variable.display_name,
@@ -8,4 +10,4 @@
             },
       rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}",
       disabled: disabled,
-      class: "chzn-select" %>
+      class: "chzn-select #{'form-control' unless is_grid}" %>
