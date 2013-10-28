@@ -1,5 +1,8 @@
 ## 0.21.3
 
+### Bug Fix
+- Fixed a bug that prevented users from being added to a project by email
+
 ## 0.21.2 (October 15, 2013)
 
 ### Enhancements

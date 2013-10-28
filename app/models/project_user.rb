@@ -19,7 +19,7 @@ class ProjectUser < ActiveRecord::Base
   private
 
   def notify_user
-    UserMailer.user_added_to_project(self).deliver if Rails.env.production? and self.invite_token.blank?
+    UserMailer.user_added_to_project(self).deliver if Rails.env.production? and self.invite_token.blank? and self.user
   end
 
 end
