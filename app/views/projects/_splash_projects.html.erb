@@ -7,59 +7,44 @@
     </div>
   </div>
 <% else %>
-  <% create_project_link_added = false %>
-  <% @projects.in_groups_of(3).each do |project_row| %>
-    <div class="row">
-      <% project_row.each do |project| %>
-        <% if project %>
-          <div class="col-md-4" data-link="<%= project_path(project) %>" style="cursor:pointer" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
-            <h2 class="about-title">
-              <% if project.favorited_by?(current_user) %>
-                <span class="glyphicon glyphicon-star" style="font-size:14px"></span>
-              <% end %>
-              <%= link_to project.name, project %> <%= link_to project.recent_sheets.count, project_sheets_path(project), class: 'label label-success' if project.recent_sheets.count > 0 %>
-            </h2>
-            <div style="text-align:center;background-color:white;height:128px;padding-bottom:5px">
-              <% if project.logo.size > 0 %>
-                <%= image_tag project.logo_url, style: "height:128px" %>
-              <% else %>
-                <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
-              <% end %>
+  <div class="row">
+    <% @projects.each do |project| %>
+      <div class="col-xs-12 col-sm-6 col-md-4" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <%= link_to project.name, project %>
+              <%= link_to project.recent_sheets.count, project_sheets_path(project), class: 'label label-success pull-right', style: 'color: white' if project.recent_sheets.count > 0 %>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div style="text-align:center;background-color:white;padding-bottom:5px;height:145px;line-height:145px">
+              <%= link_to image_tag( (project.logo.size > 0 ? project.logo_url : 'project-default-logo.png'), style: 'max-width:100%;max-height:140px' ), project %>
             </div>
             <div style="height:1px;margin-top:2px">
-              <% if current_user.all_viewable_projects.pluck(:id).include?(project.id) %>
-                <div style="text-align:center;display:none;" id="project_<%= project.id %>_create_link" data-link="<%= new_project_sheet_path(project) %>">
-                  <%= link_to 'Create Sheet', new_project_sheet_path(project), class: 'btn btn-default btn-xs' %>
+              <% if current_user.all_projects.pluck(:id).include?(project.id) %>
+                <div style="text-align:center;display:none;padding-top:6px" id="project_<%= project.id %>_create_link" data-link="<%= new_project_sheet_path(project) %>">
+                  <%= link_to 'Create Sheet', new_project_sheet_path(project), class: 'btn btn-primary btn-xs' %>
                 </div>
               <% end %>
             </div>
-            <hr class="soften">
           </div>
-        <% elsif project.blank? and not create_project_link_added %>
-          <div class="col-md-4" data-link="<%= new_project_path %>" style="cursor:pointer">
-            <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
-            <div style="text-align:center;background-color:white;height:128px">
-              <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
-            </div>
-            <hr class="soften">
-          </div>
-          <% create_project_link_added = true %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% unless create_project_link_added %>
-    <div class="row">
-      <div class="col-md-4" data-link="<%= new_project_path %>" style="cursor:pointer">
-        <h2 class="about-title"><p class="about-signup"><%= link_to 'Create Project', new_project_path, class: "btn btn-primary btn-large" %></p></h2>
-        <div style="text-align:center;background-color:white;height:128px">
-          <%= image_tag 'project-default-logo.png', style: 'height:128px' %>
         </div>
-        <hr class="soften">
+      </div>
+    <% end %>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= link_to 'Create Project', new_project_path %></h3>
+        </div>
+        <div class="panel-body">
+          <div style="text-align:center;background-color:white;padding-bottom:5px;height:145px;line-height:145px">
+            <%= link_to image_tag( 'project-default-logo.png', style: 'max-width:100%;max-height:140px' ), new_project_path %>
+          </div>
+        </div>
       </div>
     </div>
-  <% end %>
+  </div>
 <% end %>
 
 <div class="center"><%= paginate @projects, theme: "contour" %></div>

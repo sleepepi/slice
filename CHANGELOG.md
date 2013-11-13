@@ -1,5 +1,9 @@
 ## 0.22.0
 
+### Enhancements
+- **Project Changes**
+  - Project splash updated with cleaner panels between projects
+
 ## 0.21.3 (October 28, 2013)
 
 ### Bug Fix
