@@ -3,6 +3,7 @@
 ### Enhancements
 - **Project Changes**
   - Project splash updated with cleaner panels between projects
+  - Create Project button moved to menu bar if a user is only on one project, and has been removed from project page
 - **Sheet Changes**
   - Removed project logo from sheet PDFs
 - **Design Changes**

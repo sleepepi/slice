@@ -103,6 +103,9 @@ Contour.setup do |config|
               { header: 'Recent' },
               { name: 'Activity', path: 'activity_project_path(current_user.all_favorite_projects[2])' }]
     },
+    {
+      name: 'Create Project', display: 'signed_in', path: 'new_project_path', position: 'left', condition: 'current_user.all_viewable_and_site_projects.size == 1'
+    }
     # {
     #   name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
     #   links: [{ name: 'Create Project', path: 'new_project_path' }]
