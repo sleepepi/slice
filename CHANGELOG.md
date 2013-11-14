@@ -10,6 +10,7 @@
   - Removed project logo from design PDFs
   - Design PDFs now have placeholders for subject code and entered date similar to sheet PDFs
   - Simplifications for the design editor
+  - Removing variables now prompts the user to make sure that is what is intended
 - **Variable Changes**
   - Minor styling changes for better consistency of radio, checkbox, and scale variables
 
