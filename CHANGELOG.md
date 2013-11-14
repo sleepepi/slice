@@ -13,6 +13,8 @@
   - Removing variables or sections now prompts the user to make sure that is what is intended
 - **Variable Changes**
   - Minor styling changes for better consistency of radio, checkbox, and scale variables
+- **JSON API Changes**
+  - Subject entered and unentered schedules and associated sheets are now part of the JSON object that is returned
 - **Gem Changes**
   - Updated to rails 4.0.1
 
