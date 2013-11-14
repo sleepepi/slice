@@ -454,3 +454,7 @@ div.filter-sort-container {
   margin-bottom: 15px;
   padding: 7px 9px;
 }
+
+label.checkbox, label.radio {
+  font-weight: normal;
+}

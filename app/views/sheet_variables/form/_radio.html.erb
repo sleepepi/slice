@@ -18,7 +18,7 @@
     <% end %>
     <tbody>
       <tr>
-        <td><%= variable.display_name %></td>
+        <td style="font-weight:bold"><%= variable.display_name %></td>
         <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description]]}.each do |name, value, description| %>
           <td style="text-align:center" class="sheet-container">
             <% selected = (value == response) %>
