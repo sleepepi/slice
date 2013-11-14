@@ -7,6 +7,7 @@
   - Removed project logo from sheet PDFs
 - **Design Changes**
   - Removed project logo from design PDFs
+  - Design PDFs now have placeholders for subject code and entered date similar to sheet PDFs
 
 ## 0.21.3 (October 28, 2013)
 
