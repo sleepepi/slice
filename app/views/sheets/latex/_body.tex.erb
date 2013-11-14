@@ -5,15 +5,6 @@
 % \cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
 % \rfoot{\thepage\ of \pageref{LastPage}}
 
-<% if @sheet.project.logo.size > 0 %>
-\begin{wrapfigure}{r}
-  \centering
-  \includegraphics[width=25pt]{<%= @sheet.project.logo.path %>}
-  \noindent
-  \label{simulationfigure}
-\end{wrapfigure}
-<% end %>
-
 \section*{<%= latex_safe @sheet.design.name %>}
 
 <%= latex_safe @sheet.design.description %> \\

@@ -3,6 +3,10 @@
 ### Enhancements
 - **Project Changes**
   - Project splash updated with cleaner panels between projects
+- **Sheet Changes**
+  - Removed project logo from sheet PDFs
+- **Design Changes**
+  - Removed project logo from design PDFs
 
 ## 0.21.3 (October 28, 2013)
 

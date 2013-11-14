@@ -43,17 +43,6 @@
 
 \begin{document}
 
-<% if @design.project.logo.size > 0 %>
-\begin{wrapfigure}{r}
-    \centering
-    \includegraphics[width=25pt]{<%= @design.project.logo.path if @design.project.logo.size > 0 %>}
-    \noindent
-    \label{simulationfigure}
-\end{wrapfigure}
-<% end %>
-
-
-
 \section*{<%= latex_safe @design.name %>}
 
 <%= latex_safe @design.description %> \\
