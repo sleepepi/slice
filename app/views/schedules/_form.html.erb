@@ -41,29 +41,6 @@
     </div>
   </div>
 
-<% if false %>
-  <div id="items_container" data-object="sortable">
-    <%= render partial: 'schedules/items' %>
-  </div>
-
-  <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-      <label class="control-label">
-        <%= link_to 'Add Another Item', add_item_project_schedules_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default' %>
-      </label>
-    </div>
-  </div>
-<% end %>
-
-<% if false %>
-  <div class="form-group">
-    <%= f.label :items, nil, class: 'col-md-2 control-label' %>
-    <div class="col-md-10">
-      <%= f.text_area :items, rows: 7, class: 'form-control' %>
-    </div>
-  </div>
-<% end %>
-
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
       <%= f.submit nil, class: 'btn btn-primary' %>

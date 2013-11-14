@@ -103,7 +103,6 @@ Slice::Application.routes.draw do
 
     resources :schedules do
       collection do
-        # post :add_item
         post :add_event
         post :add_design
       end
