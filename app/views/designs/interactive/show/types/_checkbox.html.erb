@@ -1,52 +1,52 @@
 <% is_grid = defined?(grid) %>
 
-<div data-object="pull-partial-edit" data-edit="variable_domain" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
-  <% if variable.alignment == 'scale' %>
-    <table class="table"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %>
-      <% if variable.first_scale_variable?(@design) %>
-        <thead>
-          <tr>
-            <th></th>
-            <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-              <th style="text-align:center">
-                <%= name %>
-              </th>
-            <% end %>
-          </tr>
-        </thead>
-      <% end %>
-      <tbody>
+<% if variable.alignment == 'scale' %>
+  <table class="table"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %>
+    <% if variable.first_scale_variable?(@design) %>
+      <thead>
         <tr>
-          <td>
-            <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
-              <%= variable.display_name %>
-            </span>
-          </td>
+          <th></th>
           <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-            <td style="text-align:center" class="sheet-container">
-              <label class="checkbox checkbox-inline">
-                <%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true, style: 'margin-left:-14px' %>
-              </label>
-            </td>
+            <th style="text-align:center">
+              <%= name %>
+            </th>
           <% end %>
         </tr>
-        <tr class="design-preview-hide">
-          <td colspan="<%= variable.shared_options.size + 1 %>" style="text-align:center"><span class="hover-dark muted">Click to Edit Choices</span></td>
-        </tr>
-      </tbody>
-    </table>
-  <% else %>
-    <div class="sheet-container" style="<%= 'white-space:nowrap' if is_grid or variable.alignment == 'horizontal' %>">
-      <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
-      <% end %>
-      <% if variable.options_only_missing.size > 0 %>
-        <span class="label label-danger">Missing Codes</span>
-      <% end %>
-      <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-        <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
-      <% end %>
-    </div>
-    <span class="hover-dark muted design-preview-hide">Click to Edit Choices</span>
-  <% end %>
-</div>
+      </thead>
+    <% end %>
+    <tbody>
+      <tr>
+        <td>
+          <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
+            <%= variable.display_name %>
+          </span>
+        </td>
+        <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+          <td style="text-align:center" class="sheet-container">
+            <label class="checkbox checkbox-inline">
+              <%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true, style: 'margin-left:-14px' %>
+            </label>
+          </td>
+        <% end %>
+      </tr>
+      <tr class="design-preview-hide">
+        <td colspan="<%= variable.shared_options.size + 1 %>" style="text-align:center">
+          <%= link_to 'Click to Edit Choices', '#', data: { object: 'pull-partial-edit', edit: 'variable_domain', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success' %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% else %>
+  <div class="sheet-container" style="<%= 'white-space:nowrap' if is_grid or variable.alignment == 'horizontal' %>">
+    <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+      <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
+    <% end %>
+    <% if variable.options_only_missing.size > 0 %>
+      <span class="label label-danger">Missing Codes</span>
+    <% end %>
+    <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+      <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>"><%= check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true %> <%= value %>: <%= name %></label>
+    <% end %>
+  </div>
+  <%= link_to 'Click to Edit Choices', '#', data: { object: 'pull-partial-edit', edit: 'variable_domain', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success design-preview-hide' %>
+<% end %>

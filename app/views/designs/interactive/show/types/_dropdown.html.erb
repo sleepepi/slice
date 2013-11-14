@@ -1,8 +1,7 @@
-<div data-object="pull-partial-edit" data-edit="variable_domain" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element">
-  <% if variable.shared_options.size == 0 %>
-    <span class="hover-dark muted design-preview-hide">Click to Add Choices</span>
-  <% else %>
-    <%= select_tag @variable.name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, nil), disabled: true, class: "chzn-select" %>
-    <span class="hover-dark muted design-preview-hide">Click to Edit Choices</span>
-  <% end %>
-</div>
+<% unless variable.shared_options.size == 0 %>
+  <%= select_tag @variable.name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing, nil), disabled: true, class: "chzn-select" %>
+<% end %>
+
+<%= link_to '#', data: { object: 'pull-partial-edit', edit: 'variable_domain', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success design-preview-hide' do %>
+  Click to <%= variable.shared_options.size == 0 ? 'Add' : 'Edit' %> Choices
+<% end %>
