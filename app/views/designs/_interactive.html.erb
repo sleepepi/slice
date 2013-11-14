@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1><%= link_to @project.name, setup_project_path(@project) %> &middot; <%= link_to 'Designs', project_designs_path(@project) %></h1>
+  <h1><%= link_to @project.name, setup_project_path(@project) %> &middot; <%= link_to @design.name, [@design.project, @design] %> &middot; Edit</h1>
 </div>
 
 <div class="modal" id="interactive_design_modal">
@@ -10,10 +10,6 @@
 </div>
 
 <div class="btn-toolbar">
-  <div class="btn-group">
-    <%= link_to 'Stop Editing', '#', class: 'btn btn-default btn-xs', data: { object: 'design-stop-edit', path: project_designs_path(@project) } %>
-  </div>
-
   <div class="btn-group" data-toggle="buttons">
     <% [['Edit Mode', true],['Preview Mode', false]].each do |label, previewable| %>
       <% if previewable %>
@@ -28,7 +24,6 @@
     <% end %>
   </div>
 </div>
-
 
 <hr class="soften" style="margin-top:20px;" />
 

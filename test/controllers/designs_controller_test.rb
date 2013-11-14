@@ -437,8 +437,7 @@ class DesignsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:design)
-    assert_template 'create'
-    assert_response :success
+    assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 
   test "should not create design with invalid project" do

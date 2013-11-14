@@ -1,8 +1,8 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :overview ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :print, :report_print, :report, :reporter, :import, :create_import, :progress, :reimport, :update_import, :overview ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :overview ]
   before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
   before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :reimport, :update_import, :overview ]
@@ -10,6 +10,9 @@ class DesignsController < ApplicationController
   # Concerns
   include Buildable
 
+  # POST /designs/add_question.js
+  def add_question
+  end
 
   # Get /designs/1/overview
   # Get /designs/1/overview.js
@@ -204,10 +207,13 @@ class DesignsController < ApplicationController
 
   # POST /designs.js
   def create
-    @errors = []
     @design = current_user.designs.create(design_params)
-    if @design.errors.any? and params[:update] == 'design_name'
-      @errors += @design.errors.messages.collect{|key, errors| ["design_#{key.to_s}", "Design #{key.to_s.humanize.downcase} #{errors.first}"]}
+
+    if @design.save
+      @design.create_variables_from_questions!
+      redirect_to edit_project_design_path( @project, @design )
+    else
+      render action: 'new'
     end
   end
 
@@ -309,7 +315,8 @@ class DesignsController < ApplicationController
       params[:design][:project_id] = @project.id
 
       params.require(:design).permit(
-        :name, :slug, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available
+        :name, :slug, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available,
+        { :questions => [ :question_name, :question_type ] }
       )
     end
 

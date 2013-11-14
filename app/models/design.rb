@@ -1,8 +1,4 @@
 class Design < ActiveRecord::Base
-  # attr_accessible :description, :name, :options, :option_tokens, :project_id, :updater_id, :csv_file, :csv_file_uploaded_at, :csv_file_cache, :remove_csv_file
-
-  # attr_accessor :option_tokens
-
   mount_uploader :csv_file, SpreadsheetUploader
 
   serialize :options, Array
@@ -12,6 +8,8 @@ class Design < ActiveRecord::Base
 
   # Concerns
   include Searchable, Deletable, Latexable
+
+  attr_writer :questions
 
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
@@ -32,6 +30,10 @@ class Design < ActiveRecord::Base
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
+
+  def questions
+    @questions || [ { question_name: '', question_type: 'free text' } ]
+  end
 
   def create_section(params, position)
     errors = []
@@ -146,6 +148,16 @@ class Design < ActiveRecord::Base
       end
     end
     errors
+  end
+
+  def create_variables_from_questions!
+    variable_question_map = { 'free text' => 'string', 'single choice' => 'radio', 'multi choice' => 'checkbox', 'date' => 'date', 'time' => 'time', 'number' => 'numeric', 'file upload' => 'file' }
+    self.questions.select{|hash| not hash[:question_name].blank?}.each_with_index do |question_hash, position|
+      name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, '_').gsub(/^[\d_]/, 'n').gsub(/_{2,}/, '_').gsub(/_$/, '')[0..31].strip
+      name = "var_#{Digest::SHA1.hexdigest(Time.now.usec.to_s)[0..27]}" if self.project.variables.where( name: name ).size != 0
+      params = ActionController::Parameters.new( variable_type: variable_question_map[question_hash[:question_type]] || 'string', name: name, display_name: question_hash[:question_name] )
+      self.create_variable(params, position)
+    end
   end
 
   def remove_option(position)

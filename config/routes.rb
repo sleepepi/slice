@@ -58,9 +58,6 @@ Slice::Application.routes.draw do
         post :reorder
         get :report
         post :report
-        get :reporter
-        post :reporter
-        get :reporter_print
         get :report_print
         post :progress
         get :reimport
@@ -71,6 +68,7 @@ Slice::Application.routes.draw do
         post :selection
         get :import
         post :create_import
+        post :add_question
       end
     end
 
