@@ -440,6 +440,41 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 
+  test "should create design and save parseable redirect_url" do
+    assert_difference('Design.count') do
+      post :create, project_id: @project, design: { name: 'Public with Valid Redirect', redirect_url: 'http://example.com' }, format: 'js'
+    end
+
+    assert_not_nil assigns(:design)
+
+    assert_equal 'http://example.com', assigns(:design).redirect_url
+
+    assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
+  end
+
+  test "should create design but not save non http redirect_url" do
+    assert_difference('Design.count') do
+      post :create, project_id: @project, design: { name: 'Public with Invalid Redirect', redirect_url: 'fake123' }, format: 'js'
+    end
+
+    assert_not_nil assigns(:design)
+
+    assert_equal '', assigns(:design).redirect_url
+
+    assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
+  end
+
+  test "should create design but not save nonparseable redirect_url" do
+    assert_difference('Design.count') do
+      post :create, project_id: @project, design: { name: 'Public with Invalid Redirect', redirect_url: 'fa\\ke' }, format: 'js'
+    end
+
+    assert_not_nil assigns(:design)
+    assert_equal '', assigns(:design).redirect_url
+
+    assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
+  end
+
   test "should not create design with invalid project" do
     assert_difference('Design.count', 0) do
       post :create, project_id: -1, design: { name: 'Design Three' }, format: 'js'

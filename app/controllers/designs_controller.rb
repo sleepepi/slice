@@ -314,9 +314,18 @@ class DesignsController < ApplicationController
       params[:design][:updater_id] = current_user.id
       params[:design][:project_id] = @project.id
 
+      if params[:design].has_key?(:redirect_url)
+        begin
+          uri = URI.parse(params[:design][:redirect_url])
+          params[:design][:redirect_url] = uri.kind_of?(URI::HTTP) ? uri.to_s : ''
+        rescue
+          params[:design][:redirect_url] = ''
+        end
+      end
+
       params.require(:design).permit(
         :name, :slug, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available,
-        { :questions => [ :question_name, :question_type ] }
+        { :questions => [ :question_name, :question_type ] }, :redirect_url
       )
     end
 

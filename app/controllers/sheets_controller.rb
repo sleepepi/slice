@@ -132,7 +132,11 @@ class SheetsController < ApplicationController
       update_variables!
       UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
       UserMailer.survey_user_link(@sheet).deliver if Rails.env.production? and not @subject.email.blank?
-      redirect_to about_survey_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
+      if @design.redirect_url.blank?
+        redirect_to about_survey_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
+      else
+        redirect_to @design.redirect_url
+      end
     else
       redirect_to about_survey_path, alert: 'This survey no longer exists.'
     end

@@ -105,6 +105,18 @@ admin_public_design:
   project: three
   publicly_available: true
 
+admin_public_design_with_redirect:
+  name: On Public Admin with Redirect
+  slug: public-survey-redirect
+  options: [
+            { section_name: 'Section A Admin', section_id: '_section_a_admin' },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:public_autocomplete) %> }
+           ]
+  user: admin
+  project: three
+  publicly_available: true
+  redirect_url: 'http://localhost/survey_completed'
+
 single_design:
   name: On single_design project
   # description:

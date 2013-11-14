@@ -11,6 +11,7 @@
   - Design PDFs now have placeholders for subject code and entered date similar to sheet PDFs
   - Simplifications for the design editor
   - Removing variables or sections now prompts the user to make sure that is what is intended
+  - Surveys can now specify a redirect_url where the user is directed after completing a survey
 - **Subject Changes**
   - Simplified subject status so subjects can either be `valid` or `test`
 - **Variable Changes**

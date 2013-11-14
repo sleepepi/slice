@@ -380,6 +380,24 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to about_survey_path(project_id: assigns(:project).id, sheet_id: assigns(:sheet).id, sheet_authentication_token: assigns(:sheet).authentication_token)
   end
 
+  test "should submit public survey and redirect to redirect_url" do
+    assert_difference('Subject.count') do
+      assert_difference('Sheet.count') do
+        post :submit_public_survey, id: designs(:admin_public_design_with_redirect), project_id: designs(:admin_public_design).project, email: 'test@example.com'
+      end
+    end
+
+    assert_not_nil assigns(:design)
+    assert_equal true, assigns(:design).publicly_available
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_equal 'test@example.com', assigns(:subject).email
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet).authentication_token
+
+    assert_redirected_to 'http://localhost/survey_completed'
+  end
+
   test "should not submit private survey" do
     assert_difference('Subject.count', 0) do
       assert_difference('Sheet.count', 0) do
