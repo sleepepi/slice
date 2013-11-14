@@ -1,8 +1,0 @@
-<% if @schedule.sorted_items.size == 0 %>
-  <% @item = { description: '', interval: 0, units: 'days' } %>
-  <%= render partial: 'edit_item' %>
-<% else %>
-  <% @schedule.sorted_items.each do |item| %>
-    <%= @item = item; render partial: 'edit_item' %>
-  <% end %>
-<% end %>

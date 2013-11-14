@@ -8,15 +8,3 @@
     <%= link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#event_#{@position}_design_#{position}" }, tabindex: '-1' %>
   </div>
 </div>
-
-<% if false %>
-<div id="event_<%= params[:position] %>_design_<%= @position %>" style="line-height:30px;padding-top:5px" class="row">
-  <div class="col-md-offset-2 col-xs-2">
-    <%= text_field_tag "schedule[items][][events][]", option, class: 'form-control', placeholder: 'Option Name' %>
-    <%= select_tag "schedule[items][][event_id][design_ids][]", options_for_select([[nil, nil]] + @project.events.order(:name).collect{|e| [e.name, e.id]}, design_hash[:design_id]), class: 'form-control' %>
-  </div>
-  <div class="col-xs-3">
-    <%= link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#event_#{params[:position]}_design_#{@position}" }, tabindex: '-1' %>
-  </div>
-</div>
-<% end %>
