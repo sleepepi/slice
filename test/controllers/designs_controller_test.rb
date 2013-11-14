@@ -253,19 +253,19 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get report gender (row) by weight (column)" do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:gender).id, axis: 'row', missing: '0' }, { id: variables(:weight).id, axis: 'col', missing: '0' }], statuses: [ 'valid', 'pending', 'test' ]
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:gender).id, axis: 'row', missing: '0' }, { id: variables(:weight).id, axis: 'col', missing: '0' }], statuses: [ 'valid', 'test' ]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should get report weight (row) by site (column)" do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:weight).id, axis: 'row', missing: '0' }, { id: 'site', axis: 'col', missing: '0' }], statuses: [ 'valid', 'pending', 'test' ]
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:weight).id, axis: 'row', missing: '0' }, { id: 'site', axis: 'col', missing: '0' }], statuses: [ 'valid', 'test' ]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should get report site and gender (row) by weight (column)" do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }], statuses: [ 'valid', 'pending', 'test' ]
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }], statuses: [ 'valid', 'test' ]
     assert_not_nil assigns(:design)
     assert_response :success
   end
@@ -277,7 +277,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get report site and gender (row) by weight (column) as CSV" do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }], statuses: [ 'valid', 'pending', 'test' ], format: 'csv'
+    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }], statuses: [ 'valid', 'test' ], format: 'csv'
     assert_not_nil assigns(:design)
     assert_response :success
   end

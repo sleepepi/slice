@@ -42,12 +42,10 @@
         <tr>
           <% if include_header %>
             <td style="line-height:30px">
-              <% case subject.status when 'valid' %>
+              <% if subject.status == 'valid' %>
                 <span class="label label-success"><%= subject.status %></span>
-              <% when 'test' %>
-                <span class="label label-info"><%= subject.status %></span>
               <% else %>
-                <span class="label label-warning"><%= subject.status %></span>
+                <span class="label label-info"><%= subject.status %></span>
               <% end %>
             </td>
             <td style="line-height:30px"><%= link_to subject.subject_code, [subject.project, subject] %></td>

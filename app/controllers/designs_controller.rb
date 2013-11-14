@@ -17,7 +17,7 @@ class DesignsController < ApplicationController
   # Get /designs/1/overview
   # Get /designs/1/overview.js
   def overview
-    @statuses = params[:statuses] || ['valid', 'pending', 'test']
+    @statuses = params[:statuses] || ['valid']
     @sheets = current_user.all_viewable_sheets.where( project_id: @project.id, design_id: @design.id ).with_subject_status(@statuses)
   end
 

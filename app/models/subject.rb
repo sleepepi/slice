@@ -1,6 +1,6 @@
 class Subject < ActiveRecord::Base
 
-  STATUS = ["valid", "pending", "test"].collect{|i| [i,i]}
+  STATUS = ["valid", "test"].collect{|i| [i,i]}
 
   # Concerns
   include Deletable
@@ -37,7 +37,7 @@ class Subject < ActiveRecord::Base
     site = project.sites.find_by_id(project.site_id_with_prefix(subject_code))
     if site
       default_site = site
-      default_status = 'valid' if site.valid_subject_code?(subject_code)
+      default_status = 'valid'
     end
 
     subject = project.subjects.where(subject_code: subject_code).first_or_create( acrostic: acrostic, user_id: user.id, site_id: default_site.id, status: default_status )

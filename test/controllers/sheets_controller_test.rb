@@ -270,20 +270,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
- test "should create new non-validated subject" do
-    assert_difference('Subject.count') do
-      assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A600', site_id: sites(:valid_range).id
-      end
-    end
-
-    assert_not_nil assigns(:sheet)
-    assert_equal Subject.last, assigns(:sheet).subject
-    assert_equal 'pending', assigns(:sheet).subject.status
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
   test "should create sheet and not alter status of existing subject" do
     assert_difference('Subject.count', 0) do
       assert_difference('Sheet.count') do

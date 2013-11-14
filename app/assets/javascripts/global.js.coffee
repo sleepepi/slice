@@ -70,9 +70,9 @@ jQuery ->
       $('[data-object~="filter"]').val('')
       $('[data-object~="filter-html"]').html('')
       $('#variable-type-all').button('toggle')
-      $('[data-object~="set-statuses"]').addClass('active')
-      $('#statuses_pending').prop('checked', true)
-      $('#statuses_test').prop('checked', true)
+      $('#statuses_valid').parent().addClass('active')
+      $('#statuses_test').parent().removeClass('active')
+      $('#statuses_test').prop('checked', false)
       $('#statuses_valid').prop('checked', true)
       $($(this).data('target')).submit()
       false

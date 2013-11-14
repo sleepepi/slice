@@ -11,6 +11,8 @@
   - Design PDFs now have placeholders for subject code and entered date similar to sheet PDFs
   - Simplifications for the design editor
   - Removing variables or sections now prompts the user to make sure that is what is intended
+- **Subject Changes**
+  - Simplified subject status so subjects can either be `valid` or `test`
 - **Variable Changes**
   - Minor styling changes for better consistency of radio, checkbox, and scale variables
 - **JSON API Changes**

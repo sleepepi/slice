@@ -5,7 +5,7 @@ one:
   subject_code: Code01
   user: valid
   site: one
-  status: pending
+  status: valid
   acrostic: ""
 
 two:
@@ -13,7 +13,7 @@ two:
   subject_code: Code02
   user: valid
   site: one
-  status: pending
+  status: valid
   acrostic: ""
 
 three:

@@ -60,8 +60,7 @@
     <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-md-2 control-label', id: 'subject_code_name_full' %>
     <div class="col-md-10">
       <div class="<%= 'input-group' if @project.sites_with_range.size > 0 %>">
-        <% statuses = { 'valid' => 'success', 'test' => 'info', 'pending' => 'warning' } %>
-        <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.collect{|s| { subject_code: s.subject_code, status_class: (statuses[s.status] || 'warning'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
+        <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.collect{|s| { subject_code: s.subject_code, status_class: (s.status == 'valid' ? 'success' : 'info'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
         <% if @project.sites_with_range.size > 0 %><span class="input-group-btn"><%= link_to 'Site Ranges', '#', class: 'btn btn-default', data: { toggle: 'modal', target: '#site_ranges' }, tabindex: '-1' %></span><% end %>
       </div>
     </div>

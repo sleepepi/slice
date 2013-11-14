@@ -17,7 +17,7 @@ class SheetsController < ApplicationController
     sheet_scope = sheet_scope.last_entry if @filter == 'last'
     sheet_scope = sheet_scope.first_entry if @filter == 'first'
 
-    @statuses = params[:statuses] || ['valid', 'pending', 'test']
+    @statuses = params[:statuses] || ['valid']
     sheet_scope = sheet_scope.with_subject_status(@statuses)
 
     @sheet_after = parse_date(params[:sheet_after])
@@ -231,7 +231,6 @@ class SheetsController < ApplicationController
 
       unless params[:subject_code].blank? or params[:site_id].blank?
         subject = @project.subjects.where( subject_code: params[:subject_code] ).first_or_create( user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s )
-        subject.update( status: 'valid' ) if subject.site and subject.site.valid_subject_code?(params[:subject_code]) and subject.status != 'test'
       end
 
       subject.update( acrostic: params[:subject_acrostic].to_s ) if subject

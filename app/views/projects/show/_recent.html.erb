@@ -1,6 +1,6 @@
 <% title = 'Recent Entries' %>
 
-<% viewable_sheets = current_user.all_viewable_sheets.where( project_id: @project.id ).order('created_at DESC').limit(10) %>
+<% viewable_sheets = current_user.all_viewable_sheets.where( project_id: @project.id ).with_subject_status('valid').order('created_at DESC').limit(10) %>
 
 <% if viewable_sheets.size == 0 and @project.designs.size == 0 and current_user.all_projects.pluck(:id).include?(@project.id) %>
   <h2 class="about-title"><%= title %></h2>

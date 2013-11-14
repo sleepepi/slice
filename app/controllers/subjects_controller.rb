@@ -13,7 +13,7 @@ class SubjectsController < ApplicationController
     current_user.pagination_set!('subjects', params[:subjects_per_page].to_i) if params[:subjects_per_page].to_i > 0
 
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
-    @statuses = params[:statuses] || ['valid', 'pending', 'test']
+    @statuses = params[:statuses] || ['valid']
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).where(status: @statuses).search(params[:search]).order(@order)
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
     subject_scope = subject_scope.without_design(params[:without_design_id]) unless params[:without_design_id].blank?

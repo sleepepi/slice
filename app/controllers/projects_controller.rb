@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1/subject_report.js
   def subject_report
     current_user.pagination_set!('subjects', params[:subjects_per_page].to_i) if params[:subjects_per_page].to_i > 0
-    @statuses = params[:statuses] || ['valid', 'pending', 'test']
+    @statuses = params[:statuses] || ['valid']
     @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order('subject_code').page(params[:page]).per( current_user.pagination_count('subjects') )
     @designs = @project.designs.order('name')
   end
