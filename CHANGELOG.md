@@ -13,6 +13,8 @@
   - Removing variables or sections now prompts the user to make sure that is what is intended
 - **Variable Changes**
   - Minor styling changes for better consistency of radio, checkbox, and scale variables
+- **Gem Changes**
+  - Updated to rails 4.0.1
 
 ## 0.21.3 (October 28, 2013)
 

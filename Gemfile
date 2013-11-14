@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '4.0.0'
+gem 'rails',                '4.0.1'
 
 # Database Adapter
 gem 'pg',                   '0.17.0'
