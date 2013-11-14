@@ -3,7 +3,7 @@
   <div data-object="pull-partial-edit" data-edit="section" data-position="<%= @position %>" class="page-header editable-design-element">
     <% if section_type > 0 %><h4><% else %><h2><% end %>
       <%= @option[:section_name] %>
-      <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position }, class: 'btn btn-xs btn-danger-inverse design-preview-hide' %>
+      <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position, confirm: "Are you sure you want section '#{@option[:section_name]}' from the design?" }, class: 'btn btn-xs btn-danger-inverse design-preview-hide' %>
     <% if section_type > 0 %></h4><% else %></h2><% end %>
     <% if @option[:section_description].blank? %>
       <div class="muted design-preview-hide">Click to Edit Section Description</div>
