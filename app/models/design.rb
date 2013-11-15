@@ -3,8 +3,11 @@ class Design < ActiveRecord::Base
 
   serialize :options, Array
 
+  # Callbacks
   before_save :check_option_validations
   after_save :reset_sheet_total_response_count, :set_slug
+
+  QUESTION_TYPES = [['free text', 'string'], ['select one answer', 'radio'], ['select multiple answers', 'checkbox'], ['date', 'date'], ['time', 'time'], ['number', 'numeric'], ['file upload', 'file']]
 
   # Concerns
   include Searchable, Deletable, Latexable
@@ -151,11 +154,10 @@ class Design < ActiveRecord::Base
   end
 
   def create_variables_from_questions!
-    variable_question_map = { 'free text' => 'string', 'single choice' => 'radio', 'multi choice' => 'checkbox', 'date' => 'date', 'time' => 'time', 'number' => 'numeric', 'file upload' => 'file' }
     self.questions.select{|hash| not hash[:question_name].blank?}.each_with_index do |question_hash, position|
       name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, '_').gsub(/^[\d_]/, 'n').gsub(/_{2,}/, '_').gsub(/_$/, '')[0..31].strip
       name = "var_#{Digest::SHA1.hexdigest(Time.now.usec.to_s)[0..27]}" if self.project.variables.where( name: name ).size != 0
-      params = ActionController::Parameters.new( variable_type: variable_question_map[question_hash[:question_type]] || 'string', name: name, display_name: question_hash[:question_name] )
+      params = ActionController::Parameters.new( variable_type: QUESTION_TYPES.collect{|name,value| value}.include?(question_hash[:question_type]) ? question_hash[:question_type] : 'string', name: name, display_name: question_hash[:question_name] )
       self.create_variable(params, position)
     end
   end
