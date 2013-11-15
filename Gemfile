@@ -16,7 +16,7 @@ gem 'rails-observers',      '0.1.2'
 # gem 'audited-activerecord', '3.0.0.rails4',       github: 'remomueller/audited', branch: 'rails4'
 
 gem 'systemu',              '~> 2.5.2'
-gem 'rubyzip',              '~> 1.0.0'
+gem 'rubyzip',              '~> 1.1.0'
 gem 'mail_view',            '~> 2.0.1'
 gem 'naturalsort',          '~> 1.1.1'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'

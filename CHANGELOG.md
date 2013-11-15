@@ -20,6 +20,7 @@
   - Subject entered and unentered schedules and associated sheets are now part of the JSON object that is returned
 - **Gem Changes**
   - Updated to rails 4.0.1
+  - Updated to rubyzip 1.1.0
 - Removed support for Ruby 1.9.3
 
 ## 0.21.3 (October 28, 2013)
