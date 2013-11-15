@@ -136,7 +136,7 @@ module Buildable
   end
 
   def build_row_strata
-    max_strata = 0
+    max_strata = 100
     max_strata = 50 if @row_filters.size == 3
     max_strata = 300 if @row_filters.size == 2
 
@@ -160,9 +160,10 @@ module Buildable
   end
 
   def build_table_header
+    max_strata = 100
     @table_header = @row_filters.collect{ |h| h[:variable].display_name }
     @column_filters.each do |filter|
-      @table_header += filter[:variable].report_strata(filter[:missing] == '1', 0, filter, @sheets)
+      @table_header += filter[:variable].report_strata(filter[:missing] == '1', max_strata, filter, @sheets)
     end
     @table_header << { name: 'Total', tooltip: 'Total', calculation: 'array_count', column_type: 'total' }
   end

@@ -223,7 +223,7 @@ class Variable < ActiveRecord::Base
     ['dropdown', 'checkbox', 'radio', 'integer', 'numeric'].include?(self.variable_type)
   end
 
-  def report_strata(include_missing, max_strata = 0, hash, sheet_scope)
+  def report_strata(include_missing, max_strata, hash, sheet_scope)
     @report_strata = if self.has_statistics? and hash[:axis] == 'col'
       [ { filters: [], name: 'N',      tooltip: 'N',      calculation: 'array_count'                            },
         { filters: [], name: 'Mean',   tooltip: 'Mean',   calculation: 'array_mean'                             },
@@ -250,7 +250,7 @@ class Variable < ActiveRecord::Base
     end
     @report_strata << { filters: [{ variable_id: self.id, value: ':missing' }], name: '', tooltip: 'Unknown', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
     @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id ? self.id : self.name })}
-    @report_strata[0..(max_strata - 1)]
+    @report_strata.last(max_strata)
   end
 
   def edge_date(sheet_scope, method)
@@ -270,12 +270,14 @@ class Variable < ActiveRecord::Base
   end
 
   def generate_date_buckets(sheet_scope, by)
+    max_length_of_time_in_years = 200
     min = self.min_date(sheet_scope)
     max = self.max_date(sheet_scope)
     date_buckets = []
+    last_years = (min.year..max.year).last(max_length_of_time_in_years)
     case by when "week"
       current_cweek = min.cweek
-      (min.year..max.year).each do |year|
+      last_years.each do |year|
         (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
           start_date = Date.commercial(year,cweek) - 1.day
           end_date = Date.commercial(year,cweek) + 5.days
@@ -286,7 +288,7 @@ class Variable < ActiveRecord::Base
       end
     when "month"
       current_month = min.month
-      (min.year..max.year).each do |year|
+      last_years.each do |year|
         (current_month..12).each do |month|
           start_date = Date.parse("#{year}-#{month}-01")
           end_date = Date.parse("#{year}-#{month}-01").end_of_month
@@ -296,7 +298,7 @@ class Variable < ActiveRecord::Base
         current_month = 1
       end
     when "year"
-      (min.year..max.year).each do |year|
+      last_years.each do |year|
         start_date = Date.parse("#{year}-01-01")
         end_date = Date.parse("#{year}-12-31")
         date_buckets << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date }

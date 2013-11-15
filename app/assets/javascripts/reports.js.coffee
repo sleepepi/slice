@@ -2,6 +2,18 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@setScrollShadow = (element) ->
+  if $(element).scrollLeft() == 0
+    $(element).removeClass("shadow-inset-left")
+  else
+    $(element).addClass("shadow-inset-left")
+
+  if $(element).scrollLeft() >= $(element).children().width() - $(element).width()
+    $(element).removeClass("shadow-inset-right")
+  else
+    $(element).addClass("shadow-inset-right")
+  false
+
 @submitReportWithFilters = () ->
   filters = $("#filters_form").serialize()
   $.post($("#report_form").attr('action'), filters + '&' + $("#report_form").serialize(), null, 'script')

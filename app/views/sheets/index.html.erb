@@ -91,15 +91,15 @@
             <%= hidden_field_tag "f[][value]", filter[:value] %>
             <%= hidden_field_tag "f[][start_date]", filter[:start_date] %>
             <%= hidden_field_tag "f[][end_date]", filter[:end_date] %>
-            <% if filter[:missing] == '1' %><span class="label" style="background-color:#ffc8ba;" title="Includes Missing">m</span><% end %>
-            <% if ['sheet_date', 'date'].include?(v.variable_type) %><span class="label" style="background-color:#7aa6ff;" title="by"><%= filter[:by] %></span><% end %>
+            <% if filter[:missing] == '1' %><span class="label label-default" style="background-color:#ffc8ba;" title="Includes Missing">m</span><% end %>
+            <% if ['sheet_date', 'date'].include?(v.variable_type) %><span class="label label-default" style="background-color:#7aa6ff;" title="by"><%= filter[:by] %></span><% end %>
             <span title="<%= v.display_name %>" style="overflow:hidden;cursor:default;font-size:0.8em">
               <%= v.display_name %>
             </span>
             <% if ['sheet_date', 'date'].include?(v.variable_type) %>
-              <span class="label"><%= filter[:start_date] %></span> to <span class="label"><%= filter[:end_date] %></span>
+              <span class="label label-default"><%= filter[:start_date] %></span> to <span class="label label-default"><%= filter[:end_date] %></span>
             <% else %>
-              <span class="label"><%= filter[:value] %></span>
+              <span class="label label-default"><%= filter[:value] %></span>
             <% end %>
             <%#= link_to 'Edit', '#', data: { object: 'edit-filter', variable_id: filter[:id], project_id: v.project_id }, class: 'btn btn-default btn-xs' %>
             <%#= link_to 'Remove', "#", data: { object: 'remove-filter', target: "#variable_#{filter[:id]}" }, class: 'btn btn-xs btn-danger-inverse' %>

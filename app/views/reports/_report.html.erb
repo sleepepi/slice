@@ -1,6 +1,6 @@
 <% if @total_rows > @per_page %>
-<div class="alert">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
+<div class="alert alert-warning">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   <%= link_to 'previous', '#', class: 'btn btn-default btn-xs', data: { object: 'set-value', target: '#page', value: params[:page] - 1 } if params[:page] > 1 %>
   <%= link_to 'next', '#', class: 'btn btn-default btn-xs', data: { object: 'set-value', target: '#page', value: params[:page] + 1 } if @per_page > 0 and params[:page] < @total_rows.to_f / @per_page %>
 
@@ -10,11 +10,10 @@
 <% end %>
 
 <h3 style="text-align:center;margin:0px"><%= @report_title %></h3>
+<h5 style="text-align:center;margin:0px;padding-bottom:8px"><%= @report_subtitle.html_safe %></h5>
 
+<div class="table-responsive-always shadow-inset-left shadow-inset-right">
 <table class="table table-hover"><col width="1px" />
-  <caption style="padding-bottom:8px">
-    <%= @report_subtitle.html_safe %>
-  </caption>
   <thead>
     <tr>
       <th></th>
@@ -105,6 +104,7 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
 <div class="center muted"><%= @report_caption %></div>
 

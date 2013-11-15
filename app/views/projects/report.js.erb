@@ -5,3 +5,8 @@ loadPeity();
 
 $(".tooltip").remove();
 $("[rel~=tooltip]").tooltip({ trigger: 'hover' });
+
+$('.table-responsive-always').scroll( function(){
+  setScrollShadow(this)
+});
+setScrollShadow($('.table-responsive-always'));

@@ -23,6 +23,9 @@
   - Updated to rubyzip 1.1.0
 - Removed support for Ruby 1.9.3
 
+### Bug Fix
+- Reports now handle large date ranges more robustly
+
 ## 0.21.3 (October 28, 2013)
 
 ### Bug Fix

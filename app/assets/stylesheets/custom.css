@@ -458,3 +458,33 @@ div.filter-sort-container {
 label.checkbox, label.radio {
   font-weight: normal;
 }
+
+.table-responsive-always {
+  width: 100%;
+  margin-bottom: 15px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  /*border: 1px solid #dddddd;*/
+}
+
+.shadow-inset-left {
+  -moz-box-shadow:    inset 10px 0 10px -10px rgba(0,0,0,0.4);
+  -webkit-box-shadow: inset 10px 0 10px -10px rgba(0,0,0,0.4);
+   box-shadow:        inset 10px 0 10px -10px rgba(0,0,0,0.4);
+}
+
+.shadow-inset-right {
+  -moz-box-shadow:    inset -10px 0 10px -10px rgba(0,0,0,0.4);
+  -webkit-box-shadow: inset -10px 0 10px -10px rgba(0,0,0,0.4);
+   box-shadow:        inset -10px 0 10px -10px rgba(0,0,0,0.4);
+}
+
+.shadow-inset-left.shadow-inset-right {
+  -moz-box-shadow:    inset 10px 0 10px -10px rgba(0,0,0,0.4),
+                      inset -10px 0 10px -10px rgba(0,0,0,0.4);
+  -webkit-box-shadow: inset 10px 0 10px -10px rgba(0,0,0,0.4),
+                      inset -10px 0 10px -10px rgba(0,0,0,0.4);
+   box-shadow:        inset 10px 0 10px -10px rgba(0,0,0,0.4),
+                      inset -10px 0 10px -10px rgba(0,0,0,0.4);
+}
+
