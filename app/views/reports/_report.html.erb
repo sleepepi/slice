@@ -20,7 +20,7 @@
       <% @table_header.each do |header| %>
         <th>
           <% if header.kind_of?(Hash) %>
-            <span class="count-rot315 <%= 'muted' if header[:name].blank? %>" rel="tooltip" title="<%= header[:tooltip] %>"><%= header[:name].blank? ? 'Unknown' : header[:name].truncate(10) %></span>
+            <span class="count-rot315 <%= 'text-muted' if header[:name].blank? %>" rel="tooltip" title="<%= header[:tooltip] %>"><%= header[:name].blank? ? 'Unknown' : header[:name].truncate(10) %></span>
           <% else %>
             <%= header %>
           <% end %>
@@ -38,7 +38,7 @@
       <% @table_footer[:cells].each do |hash| %>
         <% if hash[:colspan].blank? %>
           <td>
-            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%= hash[:tooltip] %>" data-placement="right">
+            <span class="<%= 'text-muted' if hash[:count] == nil %>" rel="tooltip" title="<%= hash[:tooltip] %>" data-placement="right">
               <span class="rounded-borders" style="background-color: transparent">
                 <% link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], filter: @filter, statuses: @statuses) %>
                 <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-' %>
@@ -74,8 +74,8 @@
           <td>
             <% reverse_index = index - row[:cells].size + 1 %>
             <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
-            <span class="<%= 'muted' if hash[:count] == nil %>" rel="tooltip" title="<%= hash[:tooltip] %>" data-placement="right">
-              <span class="rounded-borders <%= 'muted' if hash[:name].blank? %>" style="background-color: transparent">
+            <span class="<%= 'text-muted' if hash[:count] == nil %>" rel="tooltip" title="<%= hash[:tooltip] %>" data-placement="right">
+              <span class="rounded-borders <%= 'text-muted' if hash[:name].blank? %>" style="background-color: transparent">
                 <% link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], filter: @filter, statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], filter: @filter, statuses: @statuses) %>
                 <%= '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-' %>
                 <% if hash[:name].blank? %>Unknown<% else %><% if not hash[:link].blank? %><%= link_to hash[:name], root_path + hash[:link] %><% else %><%= link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank') %><% end %><% end %></span>
