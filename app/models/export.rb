@@ -129,7 +129,7 @@ class Export < ActiveRecord::Base
 
       CSV.open(export_file, "wb") do |csv|
         variables = all_design_variables_without_grids(sheet_scope)
-        csv << ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"] + variables.collect{|v| v.name}
+        csv << ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + variables.collect{|v| v.name}
         rows.each do |hash|
           sheet = hash[:sheet]
           row = [ sheet.name,
@@ -140,7 +140,9 @@ class Export < ActiveRecord::Base
                   sheet.subject.name,
                   sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
                   sheet.subject.status,
-                  sheet.user.name ]
+                  sheet.user.name,
+                  sheet.subject_schedule ? sheet.subject_schedule.name : nil,
+                  sheet.event ? sheet.event.name : nil ]
           variables.each do |variable|
             row << hash[variable.id.to_s]
           end
@@ -178,7 +180,7 @@ class Export < ActiveRecord::Base
         variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
         grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
 
-        row = ["", "", "", "", "", "", "", "", ""]
+        row = ["", "", "", "", "", "", "", "", "", "", ""]
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -189,7 +191,7 @@ class Export < ActiveRecord::Base
 
         csv << row
 
-        row = ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator"]
+        row = ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -212,7 +214,9 @@ class Export < ActiveRecord::Base
                     sheet.subject.name,
                     sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
                     sheet.subject.status,
-                    sheet.user.name ]
+                    sheet.user.name,
+                    sheet.subject_schedule ? sheet.subject_schedule.name : nil,
+                    sheet.event ? sheet.event.name : nil ]
 
             grid_group_variables.each do |variable|
               variable.grid_variables.each do |grid_variable_hash|
@@ -419,6 +423,8 @@ data slice#{'_grids' if use_grids};
   informat acrostic             $100.     ;   * Subject acrostic ;
   informat status               $10.      ;   * Subject status ;
   informat creator              $100.     ;   * Sheet creator ;
+  informat schedule_name        $500.     ;   * Schedule name ;
+  informat event_name           $500.     ;   * Event name ;
 
   /* Sheet Variables */
 #{variables.collect{|v| "  informat #{v.name} #{v.sas_informat}. ;" }.join("\n")}
@@ -433,6 +439,8 @@ data slice#{'_grids' if use_grids};
   format acrostic               $100.     ;
   format status                 $10.      ;
   format creator                $100.     ;
+  format schedule_name          $500.     ;
+  format event_name             $500.     ;
 
   /* Sheet Variables */
 #{variables.collect{|v| "  format #{v.name} #{v.sas_format}. ;" }.join("\n")}
@@ -449,6 +457,8 @@ data slice#{'_grids' if use_grids};
     acrostic
     status
     creator
+    schedule_name
+    event_name
 #{variables.collect{|v| "    #{v.name}"}.join("\n")}
   ;
 run;
@@ -473,6 +483,8 @@ data slice#{'_grids' if use_grids};
   label acrostic='Subject Acrostic';
   label status='Subject Status';
   label creator='Sheet Creator';
+  label schedule_name='Schedule Name';
+  label event_name='Event Name';
 
   /* Sheet Variables */
 #{variables.collect{|v| "  label #{v.name}='#{v.display_name.gsub("'", "''")}';" }.join("\n")}

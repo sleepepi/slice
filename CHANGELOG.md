@@ -8,6 +8,8 @@
   - Inviting emails for project editors have been adjusted to be more clear
 - **Sheet Changes**
   - Removed project logo from sheet PDFs
+- **Export Changes**
+  - CSV and SAS exports now include the sheet's `schedule_name` and `event_name`
 - **Design Changes**
   - Removed project logo from design PDFs
   - Design PDFs now have placeholders for subject code and entered date similar to sheet PDFs
