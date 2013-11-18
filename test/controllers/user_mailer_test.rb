@@ -58,7 +58,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [project_user.invite_email], email.to
-    assert_equal "#{project_user.creator.name} Invites You to View Project #{project_user.project.name}", email.subject
+    assert_equal "#{project_user.creator.name} Invites You to Edit Project #{project_user.project.name}", email.subject
     assert_match(/#{project_user.creator.name} has invited you to Project #{project_user.project.name}/, email.encoded)
   end
 

@@ -31,7 +31,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @project_user = project_user
     mail(to: project_user.user.email,
-         subject: "#{project_user.creator.name} Allows You to View Project #{project_user.project.name}",
+         subject: "#{project_user.creator.name} Allows You to #{project_user.editor? ? 'Edit' : 'View'} Project #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
@@ -39,7 +39,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @project_user = project_user
     mail(to: project_user.invite_email,
-         subject: "#{project_user.creator.name} Invites You to View Project #{project_user.project.name}",
+         subject: "#{project_user.creator.name} Invites You to #{project_user.editor? ? 'Edit' : 'View'} Project #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
