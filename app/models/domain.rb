@@ -10,7 +10,7 @@ class Domain < ActiveRecord::Base
   scope :search, lambda { |arg| where("LOWER(domains.name) LIKE ? or LOWER(domains.description) LIKE ? or LOWER(domains.options) LIKE ?", arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
 
   # Model Validation
-  validates_presence_of :name, :project_id, :user_id
+  validates_presence_of :name, :display_name, :project_id, :user_id
   validates_format_of :name, with: /\A[a-z]\w*\Z/i
   validates :name, length: { maximum: 30 }
   validates_uniqueness_of :name, scope: [:deleted, :project_id]

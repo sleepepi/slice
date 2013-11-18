@@ -19,20 +19,22 @@
     <div class="col-xs-2">
       <%= text_field_tag "domain[option_tokens][][value]", @option[:value], autocomplete: 'off', rel: 'tooltip', title: 'Value', class: 'form-control' %>
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-4">
       <%= text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control' %>
     </div>
-    <div class="col-xs-2">
-      <%= text_field_tag "domain[option_tokens][][description]", @option[:description], autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: "-1", class: 'form-control' %>
-    </div>
-    <div class="col-xs-2">
-      <label class="checkbox checkbox-inline <%= 'selected' if @option[:missing_code] == '1' %>"><%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1" %> Missing Code</label>
-      <% if total_count > 0 %>
-        <span class="text-muted"><%= pluralize total_count, 'response' %> uses this option.</span>
-      <% end %>
-    </div>
-    <div class="col-xs-3">
+    <% if false %>
+      <div class="col-xs-2" style="display:none">
+        <%= text_field_tag "domain[option_tokens][][description]", @option[:description], autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: "-1", class: 'form-control' %>
+      </div>
+      <div class="col-xs-2">
+        <label class="checkbox checkbox-inline <%= 'selected' if @option[:missing_code] == '1' %>"><%= check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1" %> Missing Code</label>
+      </div>
+    <% end %>
+    <div class="col-xs-5">
       <%= link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#option_#{@position}", count: total_count }, id: "option_#{@position}_delete_link", tabindex: "-1" %>
+        <% if total_count > 0 %>
+          <span class="text-muted"><%= pluralize total_count, 'response' %> use<%= 's' if total_count == 1 %> this option.</span>
+        <% end %>
     </div>
   </div>
 </div>

@@ -16,6 +16,9 @@
   - Simplifications for the design editor
   - Removing variables or sections now prompts the user to make sure that is what is intended
   - Surveys can now specify a redirect_url where the user is directed after completing a survey
+  - Domain creation simplified to be more in line with variable creation
+    - Domain `display_name` field added which autogenerates the correctly formatted `name`
+    - Values are not visible when initially creating an answer option, instead options are enumerated starting at one
 - **Subject Changes**
   - Simplified subject status so subjects can either be `valid` or `test`
 - **Variable Changes**

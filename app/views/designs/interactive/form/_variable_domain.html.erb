@@ -10,23 +10,45 @@
 <div class="modal-body">
 
   <form id="domain_form" class="form-horizontal">
-
-    <div class="form-group">
-      <label class="col-md-2 control-label">Domain Name</label>
-      <div class="col-md-10">
-        <%= text_field_tag "domain[name]", @domain.name, maxlength: 30, class: 'form-control', autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '' } %>
-        <div class="bs-callout bs-callout-info">
-          <h4>Naming convention</h4>
-
-          <ul>
-            <li>Must be a letter <code>a-zA-Z</code> followed by letters <code>a-zA-Z</code>, numbers<code>0-9</code>, or underscores<code>_</code>.</li>
-            <li>Max length <b>30 characters</b>.</li>
-          </ul>
-          Ex: <code>domain1_population</code>
+    <% if @domain.new_record? %>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Domain Display Name</label>
+        <div class="col-md-10">
+          <%= text_field_tag "domain[display_name]", @domain.display_name, class: 'form-control', autocomplete: 'off', data: { object: 'create-domain-name push-partial-change-text-field', target: '', domain_target: '#domain_name, #domain_name_display' } %>
         </div>
       </div>
-    </div>
 
+      <div class="form-group">
+        <label class="col-md-2 control-label">Domain Name</label>
+        <div class="col-md-10">
+          <%= hidden_field_tag "domain[name]" %>
+          <%= text_field_tag "domain_name_display", @domain.name, maxlength: 30, autocomplete: 'off', disabled: true, data: { placement: 'right' }, class: 'form-control' %>
+        </div>
+      </div>
+    <% else %>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Domain Display Name</label>
+        <div class="col-md-10">
+          <%= text_field_tag "domain[display_name]", @domain.display_name, class: 'form-control', autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '' } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-2 control-label">Domain Name</label>
+        <div class="col-md-10">
+          <%= text_field_tag "domain[name]", @domain.name, maxlength: 30, class: 'form-control', autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '' } %>
+          <div class="bs-callout bs-callout-info">
+            <h4>Naming convention</h4>
+
+            <ul>
+              <li>Must be a letter <code>a-zA-Z</code> followed by letters <code>a-zA-Z</code>, numbers<code>0-9</code>, or underscores<code>_</code>.</li>
+              <li>Max length <b>30 characters</b>.</li>
+            </ul>
+            Ex: <code>domain1_population</code>
+          </div>
+        </div>
+      </div>
+    <% end %>
     <div class="form-group">
       <label class="col-md-2 control-label">Options</label>
       <div id="domain_option" class="col-md-10" data-placement="left">

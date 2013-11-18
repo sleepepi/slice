@@ -91,7 +91,7 @@ class DomainsController < ApplicationController
       params[:domain][:user_id] = current_user.id unless @domain
 
       params.require(:domain).permit(
-        :name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] }
+        :name, :display_name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] }
       )
     end
 

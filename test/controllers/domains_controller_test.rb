@@ -38,7 +38,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should create domain" do
     assert_difference('Domain.count') do
-      post :create, project_id: @project, domain: { name: 'new_domain',
+      post :create, project_id: @project, domain: { name: 'new_domain', display_name: 'New Domain',
                                                     option_tokens: [
                                                       { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
                                                       { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
@@ -49,7 +49,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create domain where options have non-unique values" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: @project, domain: { name: 'new_domain', description: @domain.description,
+      post :create, project_id: @project, domain: { name: 'new_domain', display_name: 'New Domain', description: @domain.description,
                                                     option_tokens: [
                                                       { name: "Chocolate", value: "1", description: "" },
                                                       { name: "Vanilla", value: "1", description: ""} ] }
@@ -63,7 +63,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create domain where options have colons as part of the value" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: @project, domain: { name: 'new_domain', description: @domain.description,
+      post :create, project_id: @project, domain: { name: 'new_domain', display_name: 'New Domain', description: @domain.description,
                                 option_tokens: [
                                   { name: "Chocolate", value: "1-chocolate", description: "" },
                                   { name: "Vanilla", value: "2:vanilla", description: "" } ] }
@@ -77,7 +77,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create domain where options have blank value" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: @project, domain: { name: 'new_domain', description: @domain.description,
+      post :create, project_id: @project, domain: { name: 'new_domain', display_name: 'New Domain', description: @domain.description,
                                                     option_tokens: [ { name: "Chocolate", value: "", description: "" } ] }
     end
 
@@ -89,7 +89,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create domain with blank name" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: @project, domain: { name: '', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+      post :create, project_id: @project, domain: { name: '', display_name: '', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
     end
 
     assert_not_nil assigns(:domain)
@@ -100,7 +100,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test "should not create document with invalid project" do
     assert_difference('Domain.count', 0) do
-      post :create, project_id: -1, domain: { name: 'new_domain', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+      post :create, project_id: -1, domain: { name: 'new_domain', display_name: 'New Domain', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
     end
 
     assert_nil assigns(:domain)
@@ -133,7 +133,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test "should update domain" do
-    put :update, id: @domain, project_id: @project, domain: { name: @domain.name,
+    put :update, id: @domain, project_id: @project, domain: { name: @domain.name, display_name: @domain.display_name,
                                                               option_tokens: [
                                                                 { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
                                                                 { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
@@ -150,7 +150,7 @@ class DomainsControllerTest < ActionController::TestCase
 
     put :update, id: domains(:change_options), project_id: @project,
                  domain: {
-                    name: domains(:change_options).name,
+                    name: domains(:change_options).name, display_name: domains(:change_options).display_name,
                     description: domains(:change_options).description,
                     option_tokens: [
                       { name: "Option 1", value: "1", description: "Should have value 1", option_index: "0" },
@@ -179,7 +179,7 @@ class DomainsControllerTest < ActionController::TestCase
     assert_equal 2, domains(:change_options).grids.where(response: '3').size
     put :update, id: domains(:change_options), project_id: @project,
                  domain: {
-                    name: domains(:change_options).name,
+                    name: domains(:change_options).name, display_name: domains(:change_options).display_name,
                     description: domains(:change_options).description,
                     option_tokens: [
                       { name: "Option 1", value: "2", description: "Should have value 1", option_index: "0" },
@@ -207,7 +207,7 @@ class DomainsControllerTest < ActionController::TestCase
 
     put :update, id: domains(:change_options), project_id: @project,
                  domain: {
-                    name: domains(:change_options).name,
+                    name: domains(:change_options).name, display_name: domains(:change_options).display_name,
                     description: domains(:change_options).description,
                     option_tokens: [
                         { name: "Option 1", value: "1", description: "Should have value 1", option_index: "0" },
@@ -231,7 +231,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test "should not update domain with blank name" do
-    put :update, id: @domain, project_id: @project, domain: { name: '', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+    put :update, id: @domain, project_id: @project, domain: { name: '', display_name: '', option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
 
     assert_not_nil assigns(:domain)
     assert assigns(:domain).errors.size > 0
@@ -240,7 +240,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test "should not update domain with invalid project" do
-    put :update, id: @domain, project_id: -1, domain: { name: @domain.name, option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+    put :update, id: @domain, project_id: -1, domain: { name: @domain.name, display_name: @domain.display_name, option_tokens: [ { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' }, { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
 
     assert_nil assigns(:domain)
     assert_nil assigns(:project)

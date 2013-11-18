@@ -7,9 +7,19 @@
   setDomainOptionPlaceholders()
 
 @setDomainOptionPlaceholders = () ->
-  $("[name='domain[option_tokens][][value]']").each( (index, element) ->
-    $(element).attr('placeholder', "#{index + 1}")
-  )
+  if $('#is_new_domain').val() == '1'
+    $("[name='domain[option_tokens][][value]']").each( (index, element) ->
+      $(element).val("#{index + 1}")
+      $(element).parent().hide()
+    )
+    $("[name='domain[option_tokens][][name]']").each( (index, element) ->
+      $(element).parent().removeClass('col-xs-4')
+      $(element).parent().addClass('col-xs-6')
+    )
+  else
+    $("[name='domain[option_tokens][][value]']").each( (index, element) ->
+      $(element).attr('placeholder', "#{index + 1}")
+    )
   $("[name='domain[option_tokens][][name]']").each( (index, element) ->
     $(element).attr('placeholder', "Option #{index + 1}")
   )
@@ -21,4 +31,9 @@ jQuery ->
     .on('click', '#add_more_domain_options', () ->
       $.post(root_url + 'projects/' + $("#domain_project_id").val() + '/domains/add_option', $("form").serialize() + "&_method=post", null, "script")
       false
+    )
+    .on('keyup', '[data-object~="create-domain-name"]', () ->
+      new_value = $(this).val().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+      new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,30)
+      $($(this).data('domain-target')).val(new_value)
     )

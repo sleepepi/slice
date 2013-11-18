@@ -3,6 +3,7 @@
 
 one:
   name: difficulty_rating
+  display_name: Difficulty Rating
   options: [{ name: Easy,       value: '1' },
             { name: Medium,     value: '2' },
             { name: Hard,       value: '3' }]
@@ -11,6 +12,7 @@ one:
 
 two:
   name: weekday
+  display_name: Weekday
   options: [{ name: Sunday,     value: '0' },
             { name: Monday,     value: '1' },
             { name: Tuesday,    value: '2' },
@@ -23,6 +25,7 @@ two:
 
 icecream_flavors:
   name: icecream_flavors
+  display_name: Icecream Flavors
   options: [{ name: 'Chocolate', value: '1', description: '' },
             { name: 'Vanilla', value: '2', description: '' }]
   user: valid
@@ -30,6 +33,7 @@ icecream_flavors:
 
 change_options:
   name: change_options
+  display_name: Change Options
   description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
   options: [{ name: 'Option 1', value: '2', description: 'Should have value 1' },
             { name: 'Option 2', value: '3', description: 'Should have value 2' },
@@ -39,6 +43,7 @@ change_options:
 
 var_one_options:
   name: one_options
+  display_name: One Options
   description:
   options: [{ name: 'Name', value: 'Value', description: 'Description' }]
   user: valid
@@ -46,6 +51,7 @@ var_one_options:
 
 var_two_options:
   name: two_options
+  display_name: Two Options
   description:
   options: [{ name: 'Name', value: 'Value', description: 'Description' }]
   user: valid
@@ -53,6 +59,7 @@ var_two_options:
 
 var_dropdown_options:
   name: dropdown_options
+  display_name: Dropdown Options
   description:
   options: [{ name: 'Male', value: 'm', description: 'Male Gender' },
             { name: 'Female', value: 'f', description: 'Female Gender' }]
@@ -61,6 +68,7 @@ var_dropdown_options:
 
 var_checkbox_options:
   name: checkbox_options
+  display_name: Checkbox Options
   description:
   options: [{ name: 'ACCT 101', value: 'acct101', description: 'Introduction to Accounting' },
             { name: 'ECON 101', value: 'econ101', description: 'Introduction to Microeconomics' },
@@ -72,6 +80,7 @@ var_checkbox_options:
 
 var_radio_options:
   name: radio_options
+  display_name: Radio Options
   description:
   options: [{ name: 'Freshman', value: '1', description: 'Year 1' },
             { name: 'Sophomore', value: '2', description: 'Year 2' },
@@ -83,6 +92,7 @@ var_radio_options:
 
 var_change_options:
   name: var_change_options
+  display_name: Var Change Options
   description: This variable...now domain... has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets.
   options: [{ name: 'Option 1', value: '2', description: 'Should have value 1' },
             { name: 'Option 2', value: '3', description: 'Should have value 2' },
@@ -92,6 +102,7 @@ var_change_options:
 
 two_restaurants:
   name: two_restaurants
+  display_name: Two Restaurants
   description: Has two restaurants and will be used to test switching a variable to larger domains and smaller domains
   options: [{ name: 'Avocado Place', value: '1' },
             { name: 'Banana Anarchy', value: '2' }]
@@ -101,6 +112,7 @@ two_restaurants:
 
 three_restaurants:
   name: three_restaurants
+  display_name: Three Restaurants
   description: Has three restaurants and will be used to test switching a variable to smaller domains
   options: [{ name: 'Avocado Place', value: '1' },
             { name: 'Banana Anarchy', value: '2' },
@@ -110,6 +122,7 @@ three_restaurants:
 
 one_restaurant_encompassing:
   name: one_restaurant_encompassing
+  display_name: One Restaurant Encompassing
   description: Switching to this is allowed from a domain with sheets that collected data for only the first restaurant
   options: [{ name: 'Avocado Place', value: '1' }]
   user: valid
@@ -117,6 +130,7 @@ one_restaurant_encompassing:
 
 one_restaurant_not_encompassing:
   name: one_restaurant_not_encompassing
+  display_name: One Restaurant Not Encompassing
   description: Switching to this is not allowed from a domain with sheets that collected data for the first restaurant
   options: [{ name: 'Banana Anarchy', value: '2' }]
   user: valid
@@ -124,5 +138,6 @@ one_restaurant_not_encompassing:
 
 integer_unknown:
   name: age_unknown
+  display_name: Age Unknown
   description: Missing values for unknown ages
   options: [{ name: 'Unknown', value: '-9', missing_code: '1' }, { name: 'Refusal to provide age', value: '-10', missing_code: '1' }]
