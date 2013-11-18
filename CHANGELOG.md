@@ -20,6 +20,8 @@
   - Simplified subject status so subjects can either be `valid` or `test`
 - **Variable Changes**
   - Minor styling changes for better consistency of radio, checkbox, and scale variables
+- **Report Changes**
+  - Overview reports that identify mininums, medians, and maximums now provide a link to find the related sheets
 - **JSON API Changes**
   - Subject entered and unentered schedules and associated sheets are now part of the JSON object that is returned
 - **Gem Changes**

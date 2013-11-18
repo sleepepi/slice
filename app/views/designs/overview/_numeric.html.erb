@@ -23,9 +23,18 @@
       <td><%= filter_link(Sheet.array_count(valid_responses), @project, @design, @variable, ':any', @statuses) %></td>
       <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_mean') %></td>
       <td><% stdev = Sheet.array_calculation(valid_sheets, @variable, 'array_standard_deviation') %><%= "&plusmn; #{stdev}".html_safe if stdev %></td>
-      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_median') %></td>
-      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_min') %></td>
-      <td><%= Sheet.array_calculation(valid_sheets, @variable, 'array_max') %></td>
+      <td>
+        <% median = Sheet.array_calculation(valid_sheets, @variable, 'array_median') %>
+        <%= filter_link(median, @project, @design, @variable, "%g"%median, @statuses) %>
+      </td>
+      <td>
+        <% min = Sheet.array_calculation(valid_sheets, @variable, 'array_min') %>
+        <%= filter_link(min, @project, @design, @variable, "%g"%min, @statuses) %>
+      </td>
+      <td>
+        <% max = Sheet.array_calculation(valid_sheets, @variable, 'array_max') %>
+        <%= filter_link(max, @project, @design, @variable, "%g"%max, @statuses) %>
+      </td>
       <td><%= filter_link(Sheet.array_count(missing_responses), @project, @design, @variable, ':missing', @statuses) %></td>
       <td><%= filter_link(Sheet.array_count(responses), @project, @design, nil, nil, @statuses) %></td>
     </tr>
