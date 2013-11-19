@@ -16,6 +16,7 @@ toggleGroupInput = (input, group_name, event) ->
     $("input[name='" + group_name + "']").parent("label").removeClass("selected") unless input.attr('type') == "checkbox"
     input.parent("label").addClass("selected")
   input.focus()
+  input.change()
 
 selectWithKeystroke = (event) ->
   # input field has to be radio button or checkbox

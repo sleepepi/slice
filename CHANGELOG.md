@@ -35,6 +35,7 @@
 
 ### Bug Fix
 - Reports now handle large date ranges more robustly
+- Unselecting a radio box by clicking on it now properly applies any conditional branching logic
 
 ## 0.21.3 (October 28, 2013)
 
