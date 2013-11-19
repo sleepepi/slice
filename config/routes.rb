@@ -24,6 +24,7 @@ Slice::Application.routes.draw do
       get :setup
       get :about
       post :transfer
+      post :invite_user
     end
 
     collection do

@@ -6,6 +6,7 @@
   - Create Project button moved to menu bar if a user is only on one project, and has been removed from project page
   - Minor styling updated on Sharing and Report pages
   - Inviting emails for project editors have been adjusted to be more clear
+  - Share page simplified and project editors/viewers and site editors/viewers can now be invited from the same page
 - **Sheet Changes**
   - Removed project logo from sheet PDFs
 - **Export Changes**

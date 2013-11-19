@@ -4,45 +4,33 @@
 
 <div class="row">
   <div class="col-md-10">
-    <div class="row">
-      <% ['editors', 'viewers'].each do |relation, editor| %>
-        <div class="col-sm-6">
-          <% @relation = relation; @editor = editor %>
-          <p>
-            <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
-          </p>
-        </div>
+    <div class="jumbotron jumbotron-bordered">
+      <h1>Share with...</h1>
+      <% if @project.editable_by?(current_user) %>
+        <%= form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do %>
+          <div class="form-group">
+            <%= text_field_tag 'invite_email', '', autocomplete: "off", data: { object: 'typeahead', local: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json }, class: 'form-control', placeholder: 'Email Address' %>
+          </div>
+
+          <div class="form-group">
+            <%= select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control' %>
+          </div>
+
+          <div class="form-group">
+            <label class="btn btn-default">
+              <%= check_box_tag 'editor', '1', true %> Editor
+            </label>
+          </div>
+
+          <div class="form-group">
+            <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>
+          </div>
+        <% end %>
       <% end %>
     </div>
 
-    <h3>Sites</h3>
-
-    <div class="row">
-    <% current_user.all_viewable_sites.where( project_id: @project.id ).order('name').each do |site| %>
-      <div class="col-xs-6 col-sm-4 col-md-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><%= link_to site.name, [site.project, site] %></h3>
-          </div>
-          <div class="panel-body">
-            <% if site.users.size > 0 %>
-              <ul class="list-unstyled">
-                <% site.site_users.each do |site_user|  %>
-                  <% if user = site_user.user %>
-                    <li>
-                      <%= user.name %>
-                      <%= link_to 'Remove', [site_user.project, site_user], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to remove yourself from Site #{site.name}?" } if current_user.all_viewable_sites.include?(site) and current_user == user %>
-                    </li>
-                  <% end %>
-                <% end %>
-              </ul>
-            <% else %>
-              <span class="text-muted">No Members</span>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    <% end %>
+    <div id="project-members">
+      <%= render partial: 'projects/members' %>
     </div>
   </div>
   <div class="col-md-2">

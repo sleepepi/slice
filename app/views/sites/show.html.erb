@@ -28,28 +28,25 @@
 
   <dt>Creator</dt>
   <dd><%= link_to @site.user.name, @site.user if @site.user %></dd>
-</dl>
 
-
-<%= form_tag project_site_users_path(@project, site_user: { site_id: @site.id } ), method: :post, remote: true, class: 'form-horizontal' do %>
-  <div class="form-group">
-    <label class="col-md-2 control-label">Site Members</label>
-    <div class="col-md-10">
-      <div class="input-group">
-        <% if current_user.all_sites.pluck(:id).include?(@site.id) %>
-          <%= text_field_tag :invite_email, nil, placeholder: 'Email', class: 'form-control' %>
-          <span class="input-group-btn">
-            <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>
-          </span>
+  <dt>Site Members</dt>
+  <dd>
+    <% if @site.site_users.size == 0 %>
+      <span class="text-muted">No Members on Site</span>
+    <% else %>
+      <table class="table" style="table-layout:fixed;margin-top:-8px">
+        <thead>
+          <tr>
+            <th><%= @site.name %></th>
+            <th>Role</th>
+            <th>Invited By</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <% @site.site_users.order(editor: :desc, id: :asc).each do |member| %>
+          <%= render partial: 'projects/member_row', locals: { member: member } %>
         <% end %>
-      </div>
-      <div class="bs-callout bs-callout-info">
-        Can view Sheets and Subjects on <%= @site.name %> and create Comments.
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<div id="site_users">
-  <%= render partial: 'site_users/index' %>
-</div>
+      </table>
+    <% end %>
+  </dd>
+</dl>

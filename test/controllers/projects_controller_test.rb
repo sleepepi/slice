@@ -6,6 +6,72 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should create project user" do
+    assert_difference('ProjectUser.count') do
+      post :invite_user, id: @project, editor: '1', invite_email: users(:two).name + " [#{users(:two).email}]", format: 'js'
+    end
+
+    assert_not_nil assigns(:member)
+    assert_template 'members'
+  end
+
+  test "should create project user and automatically add associated user" do
+    assert_difference('ProjectUser.count') do
+      post :invite_user, id: projects(:single_design), editor: '1', invite_email: users(:pending).name + " [#{users(:pending).email}]", format: 'js'
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:user)
+
+    assert_not_nil assigns(:member)
+    assert_template 'members'
+  end
+
+  test "should create project user invitation" do
+    assert_difference('ProjectUser.count') do
+      post :invite_user, id: @project, editor: '1', invite_email: "invite@example.com", format: 'js'
+    end
+
+    assert_not_nil assigns(:member)
+    assert_not_nil assigns(:member).invite_token
+
+    assert_template 'members'
+  end
+
+  test "should not create project user with invalid project id" do
+    assert_difference('ProjectUser.count', 0) do
+      post :invite_user, id: -1, editor: '1', invite_email: users(:two).name + " [#{users(:two).email}]", format: 'js'
+    end
+
+    assert_nil assigns(:member)
+    assert_response :success
+  end
+
+  test "should create site user as editor" do
+    assert_difference('SiteUser.count') do
+      post :invite_user, id: @project, site_id: sites(:one), editor: '1', invite_email: 'invite@example.com', format: 'js'
+    end
+
+    assert_not_nil assigns(:member)
+    assert_equal true, assigns(:member).editor
+
+    assert_template 'members'
+    assert_response :success
+  end
+
+  test "should create site user as viewer" do
+    assert_difference('SiteUser.count') do
+      post :invite_user, id: @project, site_id: sites(:one), invite_email: 'invite@example.com', format: 'js'
+    end
+
+    assert_not_nil assigns(:member)
+    assert_equal false, assigns(:member).editor
+
+    assert_template 'members'
+    assert_response :success
+  end
+
+
   test "should transfer project to another user" do
     post :transfer, id: @project, user_id: users(:pending)
     assert_not_nil assigns(:project)

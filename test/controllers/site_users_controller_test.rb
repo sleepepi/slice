@@ -60,24 +60,6 @@ class SiteUsersControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should create site_user" do
-    assert_difference('SiteUser.count') do
-      post :create, project_id: @project, site_user: { site_id: @site_user.site_id }, invite_email: 'invite@example.com', format: 'js'
-    end
-
-    assert_template 'index'
-    assert_response :success
-  end
-
-  test "should not create site user with invalid site id" do
-    assert_difference('SiteUser.count', 0) do
-      post :create, project_id: @project, site_user: { site_id: -1 }, invite_email: 'invite@example.com', format: 'js'
-    end
-
-    assert_nil assigns(:site_user)
-    assert_response :success
-  end
-
   test "should destroy site_user" do
     assert_difference('SiteUser.count', -1) do
       delete :destroy, id: @site_user, project_id: @project, format: 'js'
@@ -86,7 +68,7 @@ class SiteUsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:site_user)
     assert_not_nil assigns(:site)
 
-    assert_template 'index'
+    assert_template 'projects/members'
     assert_response :success
   end
 
@@ -111,7 +93,7 @@ class SiteUsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:site_user)
     assert_not_nil assigns(:site)
 
-    assert_template 'index'
+    assert_template 'projects/members'
     assert_response :success
   end
 end

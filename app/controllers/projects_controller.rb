@@ -1,12 +1,35 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
-  before_action :set_editable_project, only: [ :setup, :edit, :update, :remove_file ]
-  before_action :set_owner_project, only: [ :transfer, :destroy ]
-  before_action :redirect_without_project, only: [ :settings, :show, :collect, :explore, :setup, :share, :about, :subject_report, :report, :report_print, :edit, :update, :destroy, :remove_file, :filters, :new_filter, :edit_filter, :favorite, :activity, :transfer ] # :update_filter
+  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
+  before_action :set_editable_project,      only: [ :setup, :edit, :update, :remove_file, :invite_user ]
+  before_action :set_owner_project,         only: [ :transfer, :destroy ]
+  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :remove_file, :invite_user, :transfer, :destroy ] # :update_filter
 
   # Concerns
   include Buildable
+
+  def invite_user
+    invite_email = params[:invite_email].to_s.strip
+    @user = current_user.associated_users.find_by_email(invite_email.split('[').last.to_s.split(']').first)
+    @site = @project.sites.find_by_id(params[:site_id])
+
+    if @site
+      member_scope = @site.site_users.where(project_id: @project)
+    else
+      member_scope = @project.project_users
+    end
+
+    if @user
+      @member = member_scope.where(user_id: @user.id).first_or_create( creator_id: current_user.id )
+      @member.update( editor: (params[:editor] == '1') )
+    elsif not invite_email.blank?
+      @member = member_scope.where(invite_email: invite_email).first_or_create( creator_id: current_user.id )
+      @member.update( editor: (params[:editor] == '1') )
+      @member.generate_invite_token!
+    end
+
+    render 'projects/members'
+  end
 
   def transfer
     if transfer_to = @project.users.find_by_id(params[:user_id])
