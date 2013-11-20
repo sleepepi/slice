@@ -42,6 +42,19 @@
         <%= select_tag :without_design_id, options_for_select([['---', nil]] + @project.designs.order('name').collect{|d| [d.name, d.id]}, params[:without_design_id] ), data: { object: 'filter' }, class: 'form-control' %>
       </div>
     </div>
+
+
+    <% if event = @project.events.find_by_id(params[:without_event_id]) and schedule = @project.schedules.find_by_id(params[:without_schedule_id]) %>
+      <div class="col-md-4 form-group" data-object="filter-html">
+        <label class="col-md-2 control-label">Without</label>
+        <div class="col-md-10">
+          <%= schedule.name %> &middot; <%= event.name %>
+          <%= hidden_field_tag :without_event_id, params[:without_event_id], data: { object: 'filter' } %>
+          <%= hidden_field_tag :without_schedule_id, params[:without_schedule_id], data: { object: 'filter' } %>
+        </div>
+      </div>
+    <% end %>
+
   </div>
 
   <div class="form-group">

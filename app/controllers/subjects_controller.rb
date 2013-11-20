@@ -16,7 +16,7 @@ class SubjectsController < ApplicationController
     @statuses = params[:statuses] || ['valid']
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).where(status: @statuses).search(params[:search]).order(@order)
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
-    subject_scope = subject_scope.without_design(params[:without_design_id]) unless params[:without_design_id].blank?
+    subject_scope = Subject.without_design_event_schedule(subject_scope, @project, params[:without_design_id], params[:without_event_id], params[:without_schedule_id])
 
     @subjects = subject_scope.page(params[:page]).per( current_user.pagination_count('subjects') )
   end

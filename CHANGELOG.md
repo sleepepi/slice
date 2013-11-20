@@ -20,6 +20,10 @@
   - Domain creation simplified to be more in line with variable creation
     - Domain `display_name` field added which autogenerates the correctly formatted `name`
     - Values are not visible when initially creating an answer option, instead options are enumerated starting at one
+- **Schedule Changes**
+  - Schedules now display the count of subjects that have been assigned the schedule
+    - Subjects who have not filled out a schedule can now be identified and filtered
+    - Schedules show statistics by event and by design the amount of assigned schedules that have been entered and unentered
 - **Subject Changes**
   - Simplified subject status so subjects can either be `valid` or `test`
 - **Variable Changes**

@@ -61,4 +61,17 @@ class Subject < ActiveRecord::Base
     result
   end
 
+  def self.without_design_event_schedule(subject_scope, project, design_id, event_id, schedule_id)
+    if not design_id.blank? and (event_id.blank? or schedule_id.blank?)
+      subject_scope = subject_scope.without_design(design_id)
+    elsif not design_id.blank? and not event_id.blank? and not schedule_id.blank?
+      assigned_subject_schedule_ids = SubjectSchedule.where( schedule_id: schedule_id ).pluck(:id)
+      entered_subject_schedule_ids = project.sheets.where( subject_schedule_id: assigned_subject_schedule_ids, event_id: event_id, design_id: design_id ).pluck( :subject_schedule_id )
+      unentered_subject_ids = SubjectSchedule.where( schedule_id: schedule_id ).where( "id NOT IN (?)", entered_subject_schedule_ids ).pluck(:subject_id)
+      subject_scope = subject_scope.where( id: unentered_subject_ids )
+    end
+
+    subject_scope
+  end
+
 end

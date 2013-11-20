@@ -1,5 +1,8 @@
 class SubjectSchedule < ActiveRecord::Base
 
+  # Named Scopes
+  scope :with_subject_status, lambda { |arg| where("subject_schedules.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, arg).references(:subjects) }
+
   # Model Validation
   validates_presence_of :subject_id, :schedule_id
 
