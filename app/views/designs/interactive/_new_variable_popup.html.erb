@@ -7,67 +7,47 @@
 </div>
 <div class="modal-body">
 
-  <div class="row">
-    <div class="col-md-6">
-      <form id="variable_form" class="form-horizontal">
-        <div class="form-group">
-          <label class="col-md-2 control-label">Display Name</label>
-          <div class="col-md-10">
-            <%= text_field_tag "variable[display_name]", '', autocomplete: 'off', data: { object: 'create-variable-name', target: '#variable_name, #variable_name_display' }, class: 'form-control' %>
-            <%= hidden_field_tag "variable[variable_type]", params[:variable_type] %>
-            <div class="bs-callout bs-callout-info">
-              <h4>Heads up!</h4>
+  <form id="variable_form" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-md-2 control-label">Display Name</label>
+      <div class="col-md-10">
+        <%= text_field_tag "variable[display_name]", '', autocomplete: 'off', data: { object: 'create-variable-name', target: '#variable_name, #variable_name_display' }, class: 'form-control' %>
+        <%= hidden_field_tag "variable[variable_type]", params[:variable_type] %>
+        <div class="bs-callout bs-callout-info">
+          <h4>Heads up!</h4>
 
-              <p>The display name is the question as displayed to the user who is filling out the form.</p>
+          <p>The display name is the question as displayed to the user who is filling out the form.</p>
 
-              <p>Ex: <span class="text-muted">What is your age?</span></p>
-            </div>
-          </div>
+          <p>Ex: <span class="text-muted">What is your age?</span></p>
         </div>
-
-        <div class="form-group">
-          <label class="col-md-2 control-label">Name</label>
-          <div class="col-md-10">
-            <%= hidden_field_tag "variable[name]" %>
-            <%= text_field_tag "variable_name_display", '', maxlength: 32, autocomplete: 'off', disabled: true, data: { placement: 'right' }, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-md-10 col-md-offset-2">
-            <%= button_tag 'Add', data: { object: 'push-partial-change', target: '#variable_form', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
 
-    <% if @design.variable_ids.blank? %>
-      <% variables = @project.variables.where(variable_type: params[:variable_type]) %>
-    <% else %>
-      <% variables = @project.variables.where(variable_type: params[:variable_type]).where("variables.id NOT IN (?)", @design.variable_ids) %>
-    <% end %>
-    <% if variables.count > 0 %>
-      <div class="col-md-6">
-        <form class="form-horizontal">
-          <div class="form-group">
-            <label class="col-md-2 control-label">Existing Variable</label>
-            <div class="col-md-10">
-              <%= select_tag 'variable[id]', options_for_select( [['', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: 'form-control chzn-select' %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-md-10 col-md-offset-2">
-              <%= button_tag 'Add Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
-            </div>
-          </div>
-        </form>
+    <div class="form-group">
+      <label class="col-md-2 control-label">Name</label>
+      <div class="col-md-10">
+        <%= hidden_field_tag "variable[name]" %>
+        <%= text_field_tag "variable_name_display", '', maxlength: 32, autocomplete: 'off', disabled: true, data: { placement: 'right' }, class: 'form-control' %>
       </div>
-    <% end %>
-  </div>
-
+    </div>
+  </form>
 
 </div>
 <div class="modal-footer">
+  <%= button_tag 'Add Variable', data: { object: 'push-partial-change', target: '#variable_form', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
+
+  <% if @design.variable_ids.blank? %>
+    <% variables = @project.variables.where(variable_type: params[:variable_type]) %>
+  <% else %>
+    <% variables = @project.variables.where(variable_type: params[:variable_type]).where("variables.id NOT IN (?)", @design.variable_ids) %>
+  <% end %>
+  <% if variables.count > 0 %>
+    or
+    <span class="form-inline">
+      <%= select_tag 'variable[id]', options_for_select( [['--Existing Variables--', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: 'form-control' %>
+      <%= button_tag 'Use Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
+    </span>
+  <% end %>
+
   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 </div>

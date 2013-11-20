@@ -66,7 +66,7 @@
 </div>
 <div class="modal-footer">
   <% if @domain.new_record? %>
-    <%= button_tag 'Create', data: { object: 'push-partial-change', target: '#domain_form', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
+    <%= button_tag 'Add Domain', data: { object: 'push-partial-change', target: '#domain_form', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
   <% else %>
     <% other_variables = @domain.variables.count - 1 %>
     <%= button_tag "Update Existing Domain" + (other_variables > 0 ? " (linked to #{pluralize(other_variables, 'other variable')})" : ""), data: { object: 'push-partial-change', target: '#domain_form', update: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
@@ -77,7 +77,7 @@
   <% if domains.count > 0 %>
     or
     <span class="form-inline">
-      <%= select_tag 'domain[id]', options_for_select( [['', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ), class: 'form-control' %>
+      <%= select_tag 'domain[id]', options_for_select( [['--Existing Domains--', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ), class: 'form-control' %>
       <%= button_tag 'Use Selected Domain', data: { object: 'push-partial-change', target: '#domain_id', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
     </span>
   <% end %>
