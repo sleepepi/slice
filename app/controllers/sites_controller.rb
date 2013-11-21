@@ -1,17 +1,11 @@
 class SitesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :index, :show ]
-  before_action :set_editable_project, only: [ :new, :edit, :create, :update, :destroy, :selection ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :selection ]
+  before_action :set_editable_project, only: [ :new, :edit, :create, :update, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
   before_action :set_viewable_site, only: [ :show ]
   before_action :set_editable_site, only: [ :edit, :update, :destroy ]
   before_action :redirect_without_site, only: [ :show, :edit, :update, :destroy ]
-
-
-  def selection
-    @subject = @project.subjects.find_by_subject_code(params[:subject_code])
-    @disable_selection = (params[:select] != '1')
-  end
 
   # GET /sites
   # GET /sites.json

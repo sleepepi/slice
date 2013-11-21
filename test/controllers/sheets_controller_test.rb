@@ -132,7 +132,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should not remove attached file" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     post :remove_file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil, format: 'js'
 
     assert_nil assigns(:sheet)
@@ -145,6 +145,18 @@ class SheetsControllerTest < ActionController::TestCase
   test "should get new" do
     get :new, project_id: @project
     assert_response :success
+  end
+
+  test "should get new as site editor" do
+    login(users(:site_one_editor))
+    get :new, project_id: @project
+    assert_response :success
+  end
+
+  test "should not get new as site viewer" do
+    login(users(:site_one_viewer))
+    get :new, project_id: @project
+    assert_redirected_to root_path
   end
 
   test "should get new and select the single design" do
@@ -296,8 +308,8 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should not create sheet for site user" do
-    login(users(:site_one_user))
+  test "should not create sheet for site viewer" do
+    login(users(:site_one_viewer))
     assert_difference('Sheet.count', 0) do
       post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
                     subject_code: 'Code01',
@@ -307,6 +319,66 @@ class SheetsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path
+  end
+
+  test "should create sheet for site editor" do
+    login(users(:site_one_editor))
+    assert_difference('Sheet.count') do
+      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
+                    subject_code: 'Code01',
+                    site_id: sites(:one).id
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should not create sheet for site editor for another site" do
+    login(users(:site_one_editor))
+    assert_difference('Sheet.count', 0) do
+      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
+                    subject_code: 'S2Code001',
+                    site_id: sites(:two).id
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
+    assert_template 'new'
+    assert_response :success
+  end
+
+  test "should create sheet and reassign subject to another site on the project" do
+    assert_difference('Subject.count', 0) do
+      assert_difference('Sheet.count') do
+        post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
+                      subject_code: 'Code01',
+                      site_id: sites(:three).id
+      end
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal sites(:three).id, assigns(:sheet).subject.site_id
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should not create sheet for site editor for subject that already exists on another site" do
+    login(users(:site_one_editor))
+    assert_difference('Sheet.count', 0) do
+      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
+                    subject_code: 'S2001',
+                    site_id: sites(:one).id
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
+    assert_template 'new'
+    assert_response :success
   end
 
   test "should not create sheet or subject if site_id is missing" do
@@ -331,7 +403,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should show sheet to site viewer" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :show, id: @sheet, project_id: @project
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
@@ -481,7 +553,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should not show sheet for user from different site" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :show, id: sheets(:three), project_id: @project
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
@@ -505,6 +577,18 @@ class SheetsControllerTest < ActionController::TestCase
   test "should get edit" do
     get :edit, id: @sheet, project_id: @project
     assert_response :success
+  end
+
+  test "should get edit for site editor" do
+    login(users(:site_one_editor))
+    get :edit, id: @sheet, project_id: @project
+    assert_response :success
+  end
+
+  test "should not get edit for site viewer" do
+    login(users(:site_one_viewer))
+    get :edit, id: @sheet, project_id: @project
+    assert_redirected_to root_path
   end
 
   test "should update sheet" do

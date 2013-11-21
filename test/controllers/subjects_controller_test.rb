@@ -70,7 +70,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should not create subject for site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     assert_difference('Subject.count', 0) do
       post :create, project_id: @project, subject: { subject_code: 'Code03', acrostic: '', status: 'valid' }, site_id: sites(:one).id
     end
@@ -89,7 +89,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should show subject to site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :show, id: @subject, project_id: @project
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
@@ -113,7 +113,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should not show subject on different site to site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :show, id: subjects(:three), project_id: @project
     assert_nil assigns(:subject)
     assert_redirected_to project_subjects_path

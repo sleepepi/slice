@@ -11,8 +11,8 @@ class Project < ActiveRecord::Base
 
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
-  scope :with_editor, lambda { |*args| where('projects.user_id IN (?) or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
-  scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") }
+  scope :with_editor, lambda { |*args| where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
+  scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}").references(:project_favorites) }
 
   # Model Validation
   validates_presence_of :name, :user_id
@@ -50,10 +50,20 @@ class Project < ActiveRecord::Base
     self.sheets.with_subject_status('valid').where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
   end
 
+  # Project Owners and Project Editors
   def editable_by?(current_user)
     @editable_by ||= begin
       current_user.all_projects.where(id: self.id).count == 1
     end
+  end
+
+  # Project Owners
+  def deletable_by?(current_user)
+    current_user.projects.where( id: self.id ).count == 1
+  end
+
+  def can_edit_sheets_and_subjects?(current_user)
+    current_user.all_sheet_editable_projects.where( id: self.id ).count == 1
   end
 
   def sites_with_range

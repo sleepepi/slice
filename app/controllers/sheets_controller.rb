@@ -1,7 +1,7 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print ]
-  before_action :set_editable_project, only: [ :edit, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :new, :remove_file, :create, :update, :destroy ]
   before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :new, :remove_file, :create, :update, :destroy ]
   before_action :set_viewable_sheet, only: [ :show, :print ]
   before_action :set_editable_sheet, only: [ :edit, :audits, :remove_file, :update, :destroy ]
@@ -216,12 +216,17 @@ class SheetsController < ApplicationController
 
   private
 
+    def set_editable_project_or_editable_site
+
+      @project = current_user.all_sheet_editable_projects.find_by_id(params[:project_id])
+    end
+
     def set_viewable_sheet
       @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
     end
 
     def set_editable_sheet
-      @sheet = @project.sheets.find_by_id(params[:id])
+      @sheet = current_user.all_sheets.find_by_id(params[:id])
     end
 
     def redirect_without_sheet
@@ -233,11 +238,7 @@ class SheetsController < ApplicationController
 
       params[:sheet][:project_id] = @project.id
 
-      unless params[:subject_code].blank? or params[:site_id].blank?
-        subject = @project.subjects.where( subject_code: params[:subject_code] ).first_or_create( user_id: current_user.id, site_id: params[:site_id], acrostic: params[:subject_acrostic].to_s )
-      end
-
-      subject.update( acrostic: params[:subject_acrostic].to_s ) if subject
+      subject = current_user.create_subject(@project, params[:subject_code].to_s, params[:site_id].to_s, params[:subject_acrostic].to_s)
 
       params[:sheet][:subject_id] = (subject ? subject.id : nil)
       params[:sheet][:last_user_id] = current_user.id

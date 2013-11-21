@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
 
   def all_favorite_projects
     @all_favorite_projects ||= begin
-      self.all_viewable_projects.by_favorite(self.id).where("project_favorites.favorite = ?", true).order('name')
+      self.all_viewable_and_site_projects.by_favorite(self.id).where("project_favorites.favorite = ?", true).order('name')
     end
   end
 
@@ -92,6 +92,15 @@ class User < ActiveRecord::Base
     @all_viewable_and_site_projects ||= begin
       Project.current.where(id: self.all_viewable_sites.pluck(:project_id) + self.all_viewable_projects.pluck(:id))
     end
+  end
+
+  # Project Owners, Project Editors, and Site Editors
+  def all_sheet_editable_projects
+    Project.current.where( id: self.all_projects.pluck(:id) + self.all_editable_sites.pluck(:project_id) )
+  end
+
+  def all_projects_or_site_editor_on_project(site_id)
+    Project.current.where( id: self.all_projects.pluck(:id) + self.all_editable_sites.where( id: site_id ).pluck(:project_id) )
   end
 
   def all_reports
@@ -130,10 +139,10 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Project Editors can modify sheets
+  # Project Editors and Site Editors on that site can modify sheet
   def all_sheets
     @all_sheets ||= begin
-      Sheet.current.with_project(self.all_projects.pluck(:id))
+      Sheet.current.with_site(self.all_editable_sites.pluck(:id))
     end
   end
 
@@ -158,6 +167,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Project Editors and Site Editors
+  def all_editable_sites
+    @all_editable_sites ||= begin
+      Site.current.with_project_or_as_site_editor(self.all_projects.pluck(:id), self)
+    end
+  end
+
   # Project Editors can modify subjects
   def all_subjects
     Subject.current.with_project(self.all_projects.pluck(:id))
@@ -167,6 +183,26 @@ class User < ActiveRecord::Base
   def all_viewable_subjects
     @all_viewable_subjects ||= begin
       Subject.current.with_site(self.all_viewable_sites.pluck(:id))
+    end
+  end
+
+  # Editors can only create subject if they can edit the specific site (all_projects_or_site_editor_on_project(site_id))
+  def create_subject(project, subject_code, site_id, acrostic)
+    if self.all_editable_sites.where( id: site_id, project_id: project.id ).count == 1
+      if not subject_code.blank? and not site_id.blank?
+        if subject = project.subjects.where( subject_code: subject_code ).first and self.all_editable_sites.where( id: subject.site_id, project_id: project.id ).count == 1
+          # subject exists, and is on another "editable" site for user
+          # Change subject to new "accepted site"
+          subject.update( acrostic: acrostic, site_id: site_id )
+        else
+          # subject does not exist, attempt to create new subject
+          subject = project.subjects.where( subject_code: subject_code, site_id: site_id ).first_or_create( user_id: self.id, acrostic: acrostic )
+        end
+      end
+
+      subject
+    else
+      nil
     end
   end
 

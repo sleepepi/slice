@@ -384,7 +384,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should not reorder for invalid design" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
     assert_nil assigns(:design)
     assert_response :success

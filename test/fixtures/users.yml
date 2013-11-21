@@ -46,11 +46,20 @@ deleted:
   email: deleted@example.com
   encrypted_password: ""
 
-site_one_user:
+site_one_viewer:
   first_name: SiteOne
-  last_name: MyString
+  last_name: Viewer
   status: active
   deleted: false
   system_admin: false
-  email: site_one_user@example.com
+  email: site_one_viewer@example.com
+  encrypted_password: ""
+
+site_one_editor:
+  first_name: SiteOne
+  last_name: Editor
+  status: active
+  deleted: false
+  system_admin: false
+  email: site_one_editor@example.com
   encrypted_password: ""

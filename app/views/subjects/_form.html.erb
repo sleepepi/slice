@@ -17,8 +17,8 @@
 
   <div class="form-group">
     <%= label_tag 'site_id', 'Site', class: 'col-md-2 control-label' %>
-    <div class="col-md-10" id="site">
-      <%= @project = @subject.project; render partial: 'sites/selection' %>
+    <div class="col-md-10">
+      <%= render partial: 'sites/selection' %>
     </div>
   </div>
 

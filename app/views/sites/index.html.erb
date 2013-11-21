@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= @title %>
-    <%= link_to "Create Site", new_project_site_path(@project), class: 'btn btn-xs btn-primary' if current_user.all_projects.pluck(:id).include?(@project.id) %>
+    <%= link_to "Create Site", new_project_site_path(@project), class: 'btn btn-xs btn-primary' if @project.editable_by?(current_user) %>
   </h1>
 </div>
 

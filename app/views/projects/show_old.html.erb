@@ -9,8 +9,10 @@
     <% end %>
   </h1>
 
-  <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+  <% if @project.editable_by?(current_user) %>
     <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-xs' %></div>
+  <% end %>
+  <% if @project.deletable_by?(current_user) %>
     <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %></div>
   <% end %>
   <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
@@ -100,7 +102,7 @@
     </div>
     <div style="height:20px">
       <div id="project_logo_delete_icon" style="display:none">
-        <% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+        <% if @project.editable_by?(current_user) %>
           <%= number_to_human_size(@project.logo.size) %>
           <%= link_to 'remove logo', remove_file_project_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to remove the project logo?" } %>
         <% end %>

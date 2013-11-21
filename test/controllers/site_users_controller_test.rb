@@ -73,7 +73,7 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test "should not destroy site_user as a site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     assert_difference('SiteUser.count', 0) do
       delete :destroy, id: @site_user, project_id: @project, format: 'js'
     end
@@ -85,9 +85,9 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test "should destroy site_user if signed in user is the selected site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     assert_difference('SiteUser.count', -1) do
-      delete :destroy, id: site_users(:site_user), project_id: @project, format: 'js'
+      delete :destroy, id: site_users(:site_viewer), project_id: @project, format: 'js'
     end
 
     assert_not_nil assigns(:site_user)

@@ -7,14 +7,6 @@ class SitesControllerTest < ActionController::TestCase
     @site = sites(:one)
   end
 
-  test "should get site selection" do
-    post :selection, project_id: @project, subject_code: subjects(:one).subject_code, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:disable_selection)
-    assert_template 'selection'
-  end
-
   test "should get index" do
     get :index, project_id: @project
     assert_response :success
@@ -78,7 +70,7 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test "should not create site for site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     assert_difference('Site.count', 0) do
       post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One', emails: 'email@example.com', prefix: 'Prefix' }
     end
@@ -96,7 +88,7 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test "should show site for site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :show, id: @site, project_id: @project
     assert_not_nil assigns(:site)
     assert_response :success

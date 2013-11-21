@@ -169,7 +169,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should get splash and redirect to single project" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :splash
     assert_not_nil assigns(:projects)
     assert_equal 1, assigns(:projects).count
@@ -237,7 +237,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should not remove attached file" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     post :remove_file, id: @project, format: 'js'
     assert_nil assigns(:project)
     assert_response :success
@@ -316,7 +316,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should show project to site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :show, id: @project
     assert_not_nil assigns(:project)
     assert_response :success

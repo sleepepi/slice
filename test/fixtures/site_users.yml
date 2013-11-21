@@ -6,12 +6,14 @@ one:
   user: valid
   creator: valid
   invite_token: validintwo
+  editor: false
 
 two:
   site: one
   project: one
   user: valid
   creator: valid
+  editor: false
 
 invited:
   project: one
@@ -19,11 +21,22 @@ invited:
   creator: valid
   invite_token: abc123
   invite_email: invited_user@example.com
+  editor: false
 
-site_user:
+site_viewer:
   project: one
   site: one
   creator: valid
-  user: site_one_user
+  user: site_one_viewer
   invite_token: site1usertoken
-  invite_email: site_one_user@example.com
+  invite_email: site_one_viewer@example.com
+  editor: false
+
+site_editor:
+  project: one
+  site: one
+  creator: valid
+  user: site_one_editor
+  invite_token: ccd113
+  invite_email: site_one_editor@example.com
+  editor: true

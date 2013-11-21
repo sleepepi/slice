@@ -1,4 +1,4 @@
-<% if current_user.all_projects.pluck(:id).include?(@project.id) %>
+<% if @project.editable_by?(current_user) %>
   <%= form_tag project_users_path(project_user: { project_id: @project.id, editor: @relation == 'editors' }), method: :post, remote: true, class: 'form-horizontal' do %>
 
     <div class="form-group">

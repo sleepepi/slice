@@ -7,6 +7,7 @@
   - Minor styling updated on Sharing and Report pages
   - Inviting emails for project editors have been adjusted to be more clear
   - Share page simplified and project editors/viewers and site editors/viewers can now be invited from the same page
+  - Site editors can now create and edit sheets for subjects on their site
 - **Sheet Changes**
   - Removed project logo from sheet PDFs
 - **Export Changes**

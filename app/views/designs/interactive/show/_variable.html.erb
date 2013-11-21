@@ -38,7 +38,7 @@
 <% end %>
 
 <div class="download-container design-preview-hide">
-  <div class="download-container-after">Variable Options</div>
+  <div class="download-container-after">Variable Options <code><%= @variable.name %></code></div>
   <dl class="dl-horizontal" style="margin:20px 0px 0px 0px">
     <% unless @variable.deleted? %>
       <% variable_types = if ['string', 'text'].include?(@variable.variable_type) %>

@@ -284,7 +284,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not get edit for site user" do
-    login(users(:site_one_user))
+    login(users(:site_one_viewer))
     get :edit, id: @variable, project_id: @project
 
     assert_nil assigns(:variable)
