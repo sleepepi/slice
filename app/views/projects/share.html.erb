@@ -5,29 +5,29 @@
 <div class="row">
   <div class="col-md-10">
     <% if @project.editable_by?(current_user) %>
-      <div class="jumbotron jumbotron-bordered">
-        <h1>Share with...</h1>
+      <h2>Share with...</h2>
 
-        <%= form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do %>
-          <div class="form-group">
-            <%= text_field_tag 'invite_email', '', autocomplete: "off", data: { object: 'typeahead', local: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json }, class: 'form-control', placeholder: 'Email Address' %>
-          </div>
+      <%= form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do %>
+        <div class="form-group">
+          <%= text_field_tag 'invite_email', '', autocomplete: "off", data: { object: 'typeahead', local: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json }, class: 'form-control', placeholder: 'Email Address' %>
+        </div>
 
-          <div class="form-group">
-            <%= select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control' %>
-          </div>
+        <div class="form-group">
+          <%= select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control' %>
+        </div>
 
-          <div class="form-group">
-            <label class="btn btn-default">
-              <%= check_box_tag 'editor', '1', true %> Editor
-            </label>
-          </div>
+        <div class="form-group">
+          <label class="btn btn-default">
+            <%= check_box_tag 'editor', '1', true %> Editor
+          </label>
+        </div>
 
-          <div class="form-group">
-            <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>
-          </div>
-        <% end %>
-      </div>
+        <div class="form-group">
+          <%= submit_tag 'Invite By Email', class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+      <hr class="soften" style="margin: 54px 0px" />
+
     <% end %>
 
     <div id="project-members">

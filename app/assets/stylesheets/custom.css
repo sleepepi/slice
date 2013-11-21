@@ -487,13 +487,3 @@ label.checkbox, label.radio {
    box-shadow:        inset 10px 0 10px -10px rgba(0,0,0,0.4),
                       inset -10px 0 10px -10px rgba(0,0,0,0.4);
 }
-
-.jumbotron-bordered {
-  -moz-box-shadow:    0 0 10px #5cb85c,
-                      0 0 10px #5cb85c;
-  -webkit-box-shadow: 0 0 10px #5cb85c,
-                      0 0 10px #5cb85c;
-  box-shadow:         0 0 10px #5cb85c,
-                      0 0 10px #5cb85c;
-  background-color: white;
-}

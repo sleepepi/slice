@@ -162,10 +162,6 @@ jQuery ->
     $("#global-search-form").submit() if e.which == 13
   )
 
-  $(document).on('typeahead:selected', '[data-object~="typeahead"]', (event, datum) ->
-    $(this).submit()
-  )
-
   initializeTypeahead();
 
   $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
