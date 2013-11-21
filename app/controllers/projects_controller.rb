@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ] # :update_filter
+  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ]
   before_action :set_editable_project,      only: [ :setup, :edit, :update, :remove_file, :invite_user ]
   before_action :set_owner_project,         only: [ :transfer, :destroy ]
-  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :remove_file, :invite_user, :transfer, :destroy ] # :update_filter
+  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :remove_file, :invite_user, :transfer, :destroy ]
 
   # Concerns
   include Buildable
@@ -53,9 +53,6 @@ class ProjectsController < ApplicationController
   def edit_filter
     @variable = @project.variable_by_id(params[:variable_id])
   end
-
-  # def update_filter
-  # end
 
   def filters
   end
