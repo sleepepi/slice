@@ -33,6 +33,50 @@
     <div id="project-members">
       <%= render partial: 'projects/members' %>
     </div>
+
+    <table class="table" style="table-layout:fixed">
+      <thead>
+        <tr>
+          <th>Roles</th>
+          <th>Create Designs, Variables, Sites, Schedules, Events</th>
+          <th>Create Sheets, Subjects</th>
+          <th>View Sheets, Subjects</th>
+          <th>Comment on Sheets</th>
+        </tr>
+        <tr>
+          <td>Project Editor</td>
+          <td class="success">Yes</td>
+          <td class="success">Yes</td>
+          <td class="success">Yes</td>
+          <td class="success">Yes</td>
+        </tr>
+        <tr>
+          <td>Project Viewer</td>
+          <td class="danger">No</td>
+          <td class="danger">No</td>
+          <td class="success">Yes</td>
+          <td class="success">Yes</td>
+        </tr>
+        <tr>
+          <td>Site Editor</td>
+          <td class="danger">No</td>
+          <td class="success">Yes*</td>
+          <td class="success">Yes*</td>
+          <td class="success">Yes*</td>
+        </tr>
+        <tr>
+          <td>Site Viewer</td>
+          <td class="danger">No</td>
+          <td class="danger">No</td>
+          <td class="success">Yes*</td>
+          <td class="success">Yes*</td>
+        </tr>
+      </thead>
+    </table>
+
+    * Only for subjects on the site member's site
+
+
   </div>
   <div class="col-md-2">
     <%= render partial: 'projects/menu', locals: { location: 'share' } %>
