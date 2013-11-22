@@ -39,6 +39,10 @@ class ApplicationController < ActionController::Base
     @project = current_user.all_projects.find_by_id(params[id])
   end
 
+  def set_editable_project_or_editable_site
+    @project = current_user.all_sheet_editable_projects.find_by_id(params[:project_id])
+  end
+
   def redirect_without_project(path = root_path)
     empty_response_or_root_path(path) unless @project
   end

@@ -9,16 +9,14 @@
         <%= render partial: 'projects/show/recent' %>
       </div>
     </div>
-    <% if @project.editable_by?(current_user) %>
-      <div class="row">
-        <div class="col-sm-6">
-          <%= render partial: 'projects/show/subjects' %>
-        </div>
-        <div class="col-sm-6">
-          <%= render partial: 'projects/show/sites' %>
-        </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= render partial: 'projects/show/subjects' %>
       </div>
-    <% end %>
+      <div class="col-sm-6">
+        <%= render partial: 'projects/show/sites' %>
+      </div>
+    </div>
   </div>
   <div class="col-md-2">
     <%= render partial: 'projects/menu', locals: { location: 'collect' } %>

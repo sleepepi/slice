@@ -216,11 +216,6 @@ class SheetsController < ApplicationController
 
   private
 
-    def set_editable_project_or_editable_site
-
-      @project = current_user.all_sheet_editable_projects.find_by_id(params[:project_id])
-    end
-
     def set_viewable_sheet
       @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
     end

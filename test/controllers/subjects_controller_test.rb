@@ -69,7 +69,7 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should not create subject for site user" do
+  test "should not create subject for site viewer" do
     login(users(:site_one_viewer))
     assert_difference('Subject.count', 0) do
       post :create, project_id: @project, subject: { subject_code: 'Code03', acrostic: '', status: 'valid' }, site_id: sites(:one).id
@@ -79,6 +79,30 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:subject)
 
     assert_redirected_to root_path
+  end
+
+  test "should create subject for site editor" do
+    login(users(:site_one_editor))
+    assert_difference('Subject.count') do
+      post :create, project_id: @project, subject: { subject_code: 'Code03', acrostic: '', status: 'valid' }, site_id: sites(:one).id
+    end
+
+    assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
+  end
+
+  test "should not create subject for site editor for another site" do
+    login(users(:site_one_editor))
+    assert_difference('Subject.count', 0) do
+      post :create, project_id: @project, subject: { subject_code: 'Code03', acrostic: '', status: 'valid' }, site_id: sites(:two).id
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+
+    assert_not_nil assigns(:subject)
+    assert assigns(:subject).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:subject).errors[:site_id]
+    assert_template 'new'
   end
 
   test "should show subject" do
@@ -122,6 +146,24 @@ class SubjectsControllerTest < ActionController::TestCase
   test "should get edit" do
     get :edit, id: @subject, project_id: @project
     assert_response :success
+  end
+
+  test "should get edit for site editor" do
+    login(users(:site_one_editor))
+    get :edit, id: @subject, project_id: @project
+    assert_response :success
+  end
+
+  test "should not get edit for site editor for another site" do
+    login(users(:site_one_editor))
+    get :edit, id: subjects(:three), project_id: @project
+    assert_redirected_to project_subjects_path
+  end
+
+  test "should not get edit for site viewer" do
+    login(users(:site_one_viewer))
+    get :edit, id: @subject, project_id: @project
+    assert_redirected_to root_path
   end
 
   test "should not get edit for invalid subject" do
@@ -168,6 +210,16 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
 
     assert_redirected_to root_path
+  end
+
+  test "should not update subject for site editor for another site" do
+    login(users(:site_one_editor))
+    put :update, id: subjects(:three), project_id: @project, subject: { subject_code: "New Subject Code", acrostic: '', status: @subject.status }, site_id: sites(:one)
+
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:subject)
+
+    assert_redirected_to project_subjects_path
   end
 
   test "should destroy subject" do

@@ -2,10 +2,8 @@
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= @title %>
-    <%= link_to "Create Subject", new_project_subject_path(@project), class: 'btn btn-xs btn-primary' if current_user.all_viewable_projects.pluck(:id).include?(@project.id) %>
+    <%= link_to "Create Subject", new_project_subject_path(@project), class: 'btn btn-xs btn-primary' if @project.can_edit_sheets_and_subjects?(current_user) %>
     <%= link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs' %>
-    <%= link_to 'Schedules', project_schedules_path(@project), class: 'btn btn-default btn-xs' %>
-    <%= link_to 'Events', project_events_path(@project), class: 'btn btn-default btn-xs' %>
   </h1>
 </div>
 
@@ -31,7 +29,7 @@
     <div class="col-md-4 form-group" id="select_site">
       <%= label :site_id, 'Site', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag :site_id, options_for_select([['---', nil]] + @project.sites.order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), data: { object: 'filter' }, class: 'form-control' %>
+        <%= select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where( project_id: @project.id ).order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), data: { object: 'filter' }, class: 'form-control' %>
       </div>
 
     </div>

@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :index, :show ]
-  before_action :set_editable_project, only: [ :new, :edit, :create, :update, :destroy ]
+  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy ]
   before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
   before_action :set_viewable_subject, only: [ :show ]
   before_action :set_editable_subject, only: [ :edit, :update, :destroy ]
@@ -84,7 +84,7 @@ class SubjectsController < ApplicationController
     end
 
     def set_editable_subject
-      @subject = @project.subjects.find_by_id(params[:id])
+      @subject = current_user.all_subjects.find_by_id(params[:id])
     end
 
     def redirect_without_subject
@@ -94,7 +94,7 @@ class SubjectsController < ApplicationController
     def subject_params
       params[:subject] ||= {}
 
-      params[:subject][:site_id] = params[:site_id]
+      params[:subject][:site_id] = (current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i) ? params[:site_id].to_i : nil)
       params[:subject][:project_id] = @project.id
 
       params.require(:subject).permit(

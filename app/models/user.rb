@@ -174,9 +174,11 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Project Editors can modify subjects
+  # Project Editors and Site Editors can modify subjects
   def all_subjects
-    Subject.current.with_project(self.all_projects.pluck(:id))
+    @all_subjects ||= begin
+      Subject.current.where( site_id: self.all_editable_sites.pluck(:id) )
+    end
   end
 
   # Project Editors and Viewers and Site Members can view subjects
