@@ -24,6 +24,7 @@
     - Domain `display_name` field added which autogenerates the correctly formatted `name`
     - Values are not visible when initially creating an answer option, instead options are enumerated starting at one
   - Variable and domain creation button layout is more consistent
+  - Variable on design editor now display conditional branching logic
 - **Schedule Changes**
   - Schedules now display the count of subjects that have been assigned the schedule
     - Subjects who have not filled out a schedule can now be identified and filtered
