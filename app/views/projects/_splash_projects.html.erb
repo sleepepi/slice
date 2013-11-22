@@ -22,7 +22,7 @@
               <%= link_to image_tag( (project.logo.size > 0 ? project.logo_url : 'project-default-logo.png'), style: 'max-width:100%;max-height:140px' ), project %>
             </div>
             <div style="height:1px;margin-top:2px">
-              <% if current_user.all_projects.pluck(:id).include?(project.id) %>
+              <% if project.can_edit_sheets_and_subjects?(current_user) %>
                 <div style="text-align:center;display:none;padding-top:6px" id="project_<%= project.id %>_create_link" data-link="<%= new_project_sheet_path(project) %>">
                   <%= link_to 'Create Sheet', new_project_sheet_path(project), class: 'btn btn-primary btn-xs' %>
                 </div>
