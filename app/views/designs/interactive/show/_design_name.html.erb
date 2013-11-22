@@ -1,8 +1,7 @@
 <% design_name = @design.valid? ? @design.name : @design.name_was %>
 <h2>
-  <span data-object="pull-partial-edit" data-edit="design_name" class="editable-design-element">
-    <% if design_name.blank? %><span class="text-muted">Click to Edit Design Name</span><% else %><%= design_name %><% end %>
-  </span>
+  <% if design_name.blank? %><span class="text-muted">No Name</span><% else %><%= design_name %><% end %>
+  <%= link_to 'Edit Design Name', '#', data: { object: 'pull-partial-edit', edit: 'design_name' }, class: 'btn btn-xs btn-default design-preview-hide' %>
   <div class="design-preview-hide">
     <div class="btn-group" data-toggle="buttons">
       <% [['private', false],['public', true]].each do |label, value| %>

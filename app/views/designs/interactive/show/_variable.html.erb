@@ -12,18 +12,14 @@
     <% if @variable.uses_scale? %>
       <%# Nothing %>
     <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
-      <div class="page-header editable-design-element" style="margin-top:0px">
+      <div class="page-header" style="margin-top:0px">
         <h4 style="padding:0px">
-          <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="editable-design-element">
-            <%= @variable.display_name %>
-          </span>
+          <%= @variable.display_name %>
         </h4>
       </div>
     <% else %>
       <label class="col-md-2 control-label">
-        <span data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="editable-design-element">
-          <%= @variable.display_name %>
-        </span>
+        <%= @variable.display_name %>
       </label>
     <% end %>
 
@@ -37,9 +33,11 @@
   </div>
 <% end %>
 
-<div class="download-container design-preview-hide">
-  <div class="download-container-after">Variable <code><%= @variable.name %></code><% if @option and not @option[:branching_logic].blank? %> show if <code><%= @option[:branching_logic] %></code><% end %></div>
-  <dl class="dl-horizontal" style="margin:20px 0px 0px 0px">
+<table class="table table-condensed design-preview-hide" style="table-layouts:fixed">
+  <tr class="active">
+    <td>
+      <code><%= @variable.name %></code><% if @option and not @option[:branching_logic].blank? %> show if <code><%= @option[:branching_logic] %></code><% end %>
+    </td>
     <% unless @variable.deleted? %>
       <% variable_types = if ['string', 'text'].include?(@variable.variable_type) %>
         <% ['string', 'text'] %>
@@ -51,8 +49,8 @@
         <% [@variable.variable_type] %>
       <% end %>
       <% if variable_types.size > 1 %>
-        <dt>Type</dt>
-        <dd>
+        <td>
+          <strong>Type</strong>
           <div class="btn-group" data-toggle="buttons">
             <% variable_types.collect{|v| [v,v]}.each do |label, value| %>
               <label class="btn btn-xs btn-default <%= 'active' if @variable.variable_type == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"variable_type":"<%= value %>"}}' data-position="<%= @position %>">
@@ -61,12 +59,12 @@
               </label>
             <% end %>
           </div>
-        </dd>
+        </td>
       <% end %>
 
       <% if ['radio', 'checkbox'].include?(@variable.variable_type) %>
-        <dt>Options Alignment</dt>
-        <dd>
+        <td>
+          <strong>Options Alignment</strong>
           <div class="btn-group" data-toggle="buttons">
             <% Variable::ALIGNMENT.each do |label, value| %>
               <label class="btn btn-xs btn-default <%= 'active' if @variable.alignment == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"alignment":"<%= value %>"}}' data-position="<%= @position %>">
@@ -75,12 +73,12 @@
               </label>
             <% end %>
           </div>
-        </dd>
+        </td>
       <% end %>
 
       <% unless ['radio', 'checkbox'].include?(@variable.variable_type) and @variable.alignment == 'scale' %>
-        <dt>Display Name</dt>
-        <dd>
+        <td>
+          <strong>Display Name</strong>
           <div class="btn-group" data-toggle="buttons">
             <% Variable::DISPLAY_NAME_VISIBILITY.each do |label, value| %>
               <label class="btn btn-xs btn-default <%= 'active' if @variable.display_name_visibility == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"display_name_visibility":"<%= value %>"}}' data-position="<%= @position %>">
@@ -89,12 +87,12 @@
               </label>
             <% end %>
           </div>
-        </dd>
+        </td>
       <% end %>
 
       <% if ['time', 'date'].include?(@variable.variable_type) %>
-        <dt>Current <%= @variable.variable_type.titleize %> Button</dt>
-        <dd>
+        <td>
+          <strong>Current <%= @variable.variable_type.titleize %> Button</strong>
           <div class="btn-group" data-toggle="buttons">
             <% [['show', true],['hide', false]].each do |label, value| %>
               <label class="btn btn-xs btn-default <%= 'active' if @variable.show_current_button == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"show_current_button":"<%= value %>"}}' data-position="<%= @position %>">
@@ -103,12 +101,12 @@
               </label>
             <% end %>
           </div>
-        </dd>
+        </td>
       <% end %>
 
       <% if ['grid'].include?(@variable.variable_type) %>
-        <dt>Allow Multiple Rows</dt>
-        <dd>
+        <td>
+          <strong>Allow Multiple Rows</strong>
           <div class="btn-group" data-toggle="buttons">
             <% [['enabled', true],['disabled', false]].each do |label, value| %>
               <label class="btn btn-xs btn-default <%= 'active' if @variable.multiple_rows == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"multiple_rows":"<%= value %>"}}' data-position="<%= @position %>">
@@ -117,20 +115,20 @@
               </label>
             <% end %>
           </div>
-        </dd>
+        </td>
 
-        <dt>Default Row Number</dt>
-        <dd>
-          <div data-object="pull-partial-edit" data-edit="variable_grid_rows" data-position="<%= @position %>" data-variable-id="<%= @variable.id %>" class="add-on <%= 'text-muted' if @variable.append.blank? %> editable-design-element">
-            <%= @variable.default_row_number %>
-          </div>
-        </dd>
+        <td>
+          <strong>Default Row Number</strong>
+          <%= link_to @variable.default_row_number, '#', data: { object: 'pull-partial-edit', edit: 'variable_grid_rows', position: @position, variable_id: @variable.id }, class: 'btn btn-xs btn-default' %>
+        </td>
       <% end %>
     <% end %>
 
-    <dt>Actions</dt>
-    <dd>
+    <td>
+      <strong>Actions</strong>
+      <%= link_to 'Edit', '#', data: { object: 'pull-partial-edit', edit: 'variable_display_name', position: @position, variable_id: @variable.id }, class: 'btn btn-xs btn-default' %>
       <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'variable', position: @position, confirm: "Are you sure you want to remove '#{@variable.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse' %>
-    </dd>
-  </dl>
-</div>
+    </td>
+
+  </tr>
+</table>

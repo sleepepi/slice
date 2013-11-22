@@ -2,11 +2,7 @@
 <% max_position = (variable.default_row_number - 1) %>
 <% range = (0..max_position) %>
 
-<% if variable.grid_variables.size == 0 %>
-  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element design-preview-hide">
-    <span class="hover-dark muted">Click to Add Grid Variables</span>
-  </div>
-<% else %>
+<% if variable.grid_variables.size > 0 %>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -29,8 +25,6 @@
 
   <%= button_tag 'Add Row', disabled: true, title: variable.display_name if variable.multiple_rows? %>
 
-  <div data-object="pull-partial-edit" data-edit="variable_grid_variables" data-position="<%= @position %>" data-variable-id="<%= variable.id %>" class="editable-design-element design-preview-hide">
-    <span class="hover-dark muted">Click to Edit Grid Variable</span>
-  </div>
-
 <% end %>
+
+<%= link_to 'Click to Edit Grid Variables', '#', data: { object: 'pull-partial-edit', edit: 'variable_grid_variables', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success design-preview-hide' %>

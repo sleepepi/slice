@@ -18,6 +18,7 @@
   - Removed project logo from design PDFs
   - Design PDFs now have placeholders for subject code and entered date similar to sheet PDFs
   - Simplifications for the design editor
+    - Reduced the size of the variable layout options bar
   - Removing variables or sections now prompts the user to make sure that is what is intended
   - Surveys can now specify a redirect_url where the user is directed after completing a survey
   - Domain creation simplified to be more in line with variable creation
