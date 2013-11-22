@@ -44,6 +44,7 @@
 ### Bug Fix
 - Reports now handle large date ranges more robustly
 - Unselecting a radio box by clicking on it now properly applies any conditional branching logic
+- Hitting the `Enter` key when creating or updating a domain on the design editor now correctly saves the domain
 
 ## 0.21.3 (October 28, 2013)
 
