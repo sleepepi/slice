@@ -234,6 +234,10 @@ class SheetsController < ApplicationController
       params[:sheet][:project_id] = @project.id
 
       subject = current_user.create_subject(@project, params[:subject_code].to_s, params[:site_id].to_s, params[:subject_acrostic].to_s)
+      if subject and ss = SubjectSchedule.find_by_id(params[:sheet][:subject_schedule_id]) and ss.subject_id != subject.id
+        params[:sheet][:subject_schedule_id] = nil
+        params[:sheet][:event_id] = nil
+      end
 
       params[:sheet][:subject_id] = (subject ? subject.id : nil)
       params[:sheet][:last_user_id] = current_user.id

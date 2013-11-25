@@ -213,6 +213,21 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to project_subject_path(assigns(:sheet).subject.project, assigns(:sheet).subject)
   end
 
+  test "should create sheet with and remove subject schedule and event if the subject is changed" do
+    assert_difference('Sheet.count') do
+      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), subject_schedule_id: subject_schedules(:one).id, event_id: events(:one).id },
+                    subject_code: subjects(:one).subject_code,
+                    site_id: subjects(:one).site_id,
+                    variables: { }
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:sheet).subject_schedule
+    assert_nil assigns(:sheet).event
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   test "should create sheet and continue" do
     assert_difference('Sheet.count') do
       post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
