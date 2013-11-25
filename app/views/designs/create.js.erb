@@ -1,13 +1,4 @@
 $("#design_id").val("<%= @design.id %>");
-<% if not @design.new_record? %>
-if(browserSupportsPushState){
-  window.history.pushState("create", "Edit Design: <%= escape_javascript(@design.name) %>", '<%= edit_project_design_path(@project, @design) %>');
-  $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
-  document.title = "Edit Design: <%= escape_javascript(@design.name) %>";
-} else {
-  window.location.href = '<%= edit_project_design_path(@project, @design) %>';
-}
-<% end %>
 
 <% if @errors.size > 0 %>
   <% @errors.each do |element_id, message| %>
@@ -17,8 +8,8 @@ if(browserSupportsPushState){
     element.tooltip('destroy').tooltip({ "title": "<%= escape_javascript(message.html_safe) %>", "trigger": "manual" }).tooltip('show');
   <% end %>
 <% else %>
-  <% if ['design_name', 'design_description'].include?(params[:update]) %>
-    $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
+  <% if params[:update] == 'design_name' %>
+    $("#design_name-container").html("<%= escape_javascript(render("designs/interactive/show/design_name")) %>");
     hideInteractiveDesignModal();
   <% end %>
 <% end %>

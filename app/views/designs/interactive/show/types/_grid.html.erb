@@ -23,8 +23,8 @@
     </tbody>
   </table>
 
-  <%= button_tag 'Add Row', disabled: true, title: variable.display_name if variable.multiple_rows? %>
+  <%= link_to 'Add Row', '#', class: 'btn btn-default btn-xs', disabled: 'disabled', data: { object: 'suppress-click' }, tabindex: "-1" if variable.multiple_rows? %>
 
 <% end %>
 
-<%= link_to 'Click to Edit Grid Variables', '#', data: { object: 'pull-partial-edit', edit: 'variable_grid_variables', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success design-preview-hide' %>
+<%= link_to 'Edit Grid Questions', '#', data: { object: 'pull-partial-edit', edit: 'variable_grid_variables', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success design-preview-hide' %>

@@ -6,9 +6,8 @@
     element.tooltip('destroy').tooltip({ "title": "<%= escape_javascript(message.html_safe) %>", "trigger": "manual" }).tooltip('show');
   <% end %>
 <% else %>
-  <% if ['design_name', 'design_description'].include?(params[:update]) %>
-    $("#<%= params[:update] %>-container").html("<%= escape_javascript(render("designs/interactive/show/#{params[:update]}")) %>");
-    $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
+  <% if params[:update] == 'design_name' %>
+    $("#design_name-container").html("<%= escape_javascript(render("designs/interactive/show/design_name")) %>");
   <% elsif (params[:variable] and params[:variable][:alignment]) or ['domain'].include?(params[:update]) or ['section', 'variable', 'domain'].include?(params[:create]) or ['section', 'variable'].include?(params[:delete]) %>
     $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
   <% elsif ['section', 'variable'].include?(params[:update]) %>

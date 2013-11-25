@@ -4,16 +4,21 @@
   <% if @variable.uses_scale? %>
     <%# Nothing %>
   <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
-    <div class="page-header" style="margin-top:0px">
-      <h4 style="padding:0px">
-        <%= @variable.display_name %>
-      </h4>
+    <div class="col-xs-12">
+      <div class="page-header" style="margin-top:0px">
+        <h4 style="padding:0px">
+          <%= @variable.display_name %>
+        </h4>
+      </div>
     </div>
   <% else %>
     <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'col-md-2 control-label' %>
   <% end %>
 
-  <div class="<%= "col-md-10" if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %> <%= 'col-md-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
+  <% col_class = 'col-xs-12' %>
+  <% col_class = 'col-md-10' if @variable.display_name_visibility != 'gone' and not @variable.uses_scale? %>
+
+  <div class="<%= col_class %> <%= 'col-md-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
     <div style="line-height:30px">
 
       <% sheet_variable = (@sheet ? @sheet.sheet_variables.find_by_variable_id(@variable.id) : nil) %>

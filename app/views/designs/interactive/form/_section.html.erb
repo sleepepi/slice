@@ -28,18 +28,7 @@
       <label class="col-md-2 control-label">Branching Logic</label>
       <div class="col-md-10">
         <%= text_area_tag "section[branching_logic]", @option[:branching_logic], rows: 3, class: 'form-control' %>
-        <div class="bs-callout bs-callout-info">
-          <h4>Branching Logic Examples</h4>
-
-          <table class="table table-bordered">
-            <tbody>
-              <tr><td style="font-weight:bold">General</td><td><code>variable == 5</code></td></tr>
-              <tr><td style="font-weight:bold">OR</td><td><code>a &gt; 5 || b &lt; 2</code></td></tr>
-              <tr><td style="font-weight:bold">AND</td><td><code>a &gt; 5 &amp;&amp; a &lt; 10</code></td></tr>
-              <tr><td style="font-weight:bold">Checkbox</td><td><code>overlap(variable, ['5'])</code></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <%= render partial: 'layouts/branching_logic_examples' %>
       </div>
     </div>
 

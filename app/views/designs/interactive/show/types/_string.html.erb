@@ -6,4 +6,6 @@
   <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'append', variable: variable } %>
 </div>
 
+<%= link_to 'Edit Prefix', '#', data: { object: 'pull-partial-edit', edit: 'variable_prepend', position: @position, variable_id: variable.id }, class: 'design-preview-hide btn btn-xs btn-default' %>
+<%= link_to 'Edit Suffix', '#', data: { object: 'pull-partial-edit', edit: 'variable_append', position: @position, variable_id: variable.id }, class: 'design-preview-hide btn btn-xs btn-default' %>
 <%= link_to 'Edit Autocomplete Values', '#', data: { object: 'pull-partial-edit', edit: 'variable_autocomplete', position: @position, variable_id: variable.id }, class: 'design-preview-hide btn btn-xs btn-default' %>

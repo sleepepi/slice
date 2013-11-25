@@ -11,17 +11,12 @@
 
 <div class="btn-toolbar">
   <div class="btn-group" data-toggle="buttons">
-    <% [['Edit Mode', true],['Preview Mode', false]].each do |label, previewable| %>
-      <% if previewable %>
-        <label class="btn btn-xs btn-default active" data-object="edit-mode">
-          <input type="radio" name="preview_modes" id="edit-mode"><%= label %>
-        </label>
-      <% else %>
-        <label class="btn btn-xs btn-default" data-object="preview-mode">
-          <input type="radio" name="preview_modes" id="preview-mode"><%= label %>
-        </label>
-      <% end %>
-    <% end %>
+    <label class="btn btn-xs btn-default active" data-object="edit-mode">
+      <input type="radio" name="preview_modes" id="edit-mode">Edit <u>M</u>ode
+    </label>
+    <label class="btn btn-xs btn-default" data-object="preview-mode">
+      <input type="radio" name="preview_modes" id="preview-mode">Preview <u>M</u>ode
+    </label>
   </div>
 </div>
 
@@ -33,7 +28,6 @@
 
 <div class="page-header">
   <div id="design_name-container"><%= render partial: 'designs/interactive/show/design_name' %></div>
-  <div id="design_description-container"><%= render partial: 'designs/interactive/show/design_description' %></div>
 </div>
 
 <div id="design-sections-and-variables-container">

@@ -1,7 +1,7 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h4 class="modal-title">
-    Select New Section or Variable
+    Add Section or Question
   </h4>
 </div>
 <div class="modal-body">
@@ -54,15 +54,15 @@
                 <% when 'time' %>
                   <div class="time-input form-inline">
                     <span class="hour-box">
-                      <%= text_field_tag "hour_time", '', placeholder: 'hh', class: 'form-control' %>
+                      <%= text_field_tag "hour_time", '', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;' %>
                     </span>
                     &#58;
                     <span class="min-box">
-                      <%= text_field_tag "min_time", '', placeholder: 'mm', class: 'form-control' %>
+                      <%= text_field_tag "min_time", '', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;' %>
                     </span>
                     &#58;
                     <span class="sec-box">
-                      <%= text_field_tag "sec_time", '', placeholder: 'ss', class: 'form-control' %>
+                      <%= text_field_tag "sec_time", '', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;' %>
                     </span>
                   </div>
                 <% when 'file' %>
@@ -81,7 +81,7 @@
                             <input placeholder="Mouth breath number" type="text" value="1" class="form-control">
                           </td>
                           <td>
-                             <%= select_tag 'exercise', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 2), disabled: false, class: "form-control chzn-select" %>
+                             <%= select_tag 'exercise', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 2), disabled: false, class: 'chzn-select' %>
                           </td>
                         </tr>
                         <tr>
@@ -89,7 +89,7 @@
                             <input placeholder="Mouth breath number" type="text" value="2" class="form-control">
                           </td>
                           <td>
-                             <%= select_tag 'exercise2', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 3), disabled: false, class: "form-control chzn-select" %>
+                             <%= select_tag 'exercise2', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 3), disabled: false, class: 'chzn-select' %>
                           </td>
                         </tr>
                       </tbody>
