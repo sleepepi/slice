@@ -1,5 +1,8 @@
 ## 0.22.1
 
+### Bug Fix
+- Projects with one site now correctly show site selection when creating sheets and subjects
+
 ## 0.22.0 (November 25, 2013)
 
 ### Enhancements
