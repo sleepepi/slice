@@ -19,14 +19,14 @@
   - Design PDFs now have placeholders for subject code and entered date similar to sheet PDFs
   - Simplifications for the design editor
     - Reduced the size of the variable layout options bar
-  - Removing variables or sections now prompts the user to make sure that is what is intended
+    - Shortcut Key `M` added to toggle between **Edit Mode** and **Preview Mode**
+    - Removing variables or sections now prompts the user to make sure that is what is intended
+    - Variable and domain creation button layout is more consistent
+    - Variable on design editor now display conditional branching logic
   - Surveys can now specify a redirect_url where the user is directed after completing a survey
   - Domain creation simplified to be more in line with variable creation
     - Domain `display_name` field added which autogenerates the correctly formatted `name`
     - Values are not visible when initially creating an answer option, instead options are enumerated starting at one
-  - Variable and domain creation button layout is more consistent
-  - Variable on design editor now display conditional branching logic
-  - Shortcut Key `M` added to toggle between **Edit Mode** and **Preview Mode**
 - **Schedule Changes**
   - Schedules now display the count of subjects that have been assigned the schedule
     - Subjects who have not filled out a schedule can now be identified and filtered
