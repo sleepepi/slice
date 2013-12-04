@@ -3,7 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 4.0.2
-  - Updated to contour 2.2.0.rc
+  - Updated to contour 2.2.0.rc2
   - Updated to kaminari 0.15.0
   - Updated to coffee-rails 4.0.1
   - Updated to sass-rails 4.0.1
