@@ -7,6 +7,7 @@
   - Updated to kaminari 0.15.0
   - Updated to coffee-rails 4.0.1
   - Updated to sass-rails 4.0.1
+  - Updated to simplecov 0.8.2
 
 ## 0.22.1 (November 25, 2013)
 
