@@ -33,6 +33,14 @@
       $(element).hide()
   )
 
+@ready = () ->
+  contourReady()
+  initializeTypeahead()
+  $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
+  window.$isDirty = false
+  msg = "You haven't saved your changes."
+  window.onbeforeunload = (el) -> return msg if window.$isDirty
+
 jQuery ->
   $(document)
     .on('click', '[data-object~="remove"]', () ->
@@ -169,20 +177,10 @@ jQuery ->
     $("#global-search-form").submit() if e.which == 13
   )
 
-  initializeTypeahead();
-
-  $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
-
-  window.$isDirty = false
-  msg = 'You haven\'t saved your changes.'
-
   $(document).on('change', ':input', () ->
     if $("#isdirty").val() == '1'
       window.$isDirty = true
   )
 
-  $(document).ready( () ->
-    window.onbeforeunload = (el) ->
-      if window.$isDirty
-        return msg
-  )
+$(document).ready(ready)
+$(document).on('page:load', ready)
