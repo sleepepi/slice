@@ -136,10 +136,10 @@ Contour.setup do |config|
   }
 
   # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
-  config.news_feed = 'https://sleepepi.partners.org/category/informatics/slice/feed/rss'
+  # config.news_feed = ''
 
   # Enter the max number of items you want to see in the news feed.
-  config.news_feed_items = 3
+  # config.news_feed_items = 3
 
   # The following three parameters can be set as strings, which will rotate through the colors on a daily basis, selecting an index using (YearDay % ArraySize)
 
