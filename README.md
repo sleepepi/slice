@@ -21,7 +21,7 @@ This readme assumes the following installation directory: /var/www/slice
 ```
 cd /var/www
 
-git clone git://github.com/remomueller/slice.git
+git clone https://github.com/remomueller/slice.git
 
 cd slice
 
@@ -35,7 +35,7 @@ ruby lib/initial_setup.rb
 
 bundle exec rake db:migrate RAILS_ENV=production
 
-bundle exec rake assets:precompile
+bundle exec rake assets:precompile RAILS_ENV=production
 ```
 
 Run Rails Server (or use Apache or nginx)
@@ -53,7 +53,7 @@ All done!
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
 
 ```
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.0.0-p247/bin/bundle exec rake daily_digest RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.0.0-p353/bin/bundle exec rake daily_digest RAILS_ENV=production
 ```
 
 ## Contributing to Slice
