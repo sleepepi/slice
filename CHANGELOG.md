@@ -1,4 +1,4 @@
-## 0.22.4
+## 0.22.4 (December 6, 2013)
 
 ### Bug Fix
 - Hitting the `Enter` key when adding a new variable to a design now correctly creates the variable
