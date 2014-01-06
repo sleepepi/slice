@@ -12,4 +12,8 @@ class VariableTest < ActiveSupport::TestCase
     assert_equal "<= 50",             Variable.new(soft_maximum: 50).range_tooltip
   end
 
+  test "should be first scale variable if scale variable exists by itself in a grid" do
+    assert_equal true, variables(:scale_in_grid).first_scale_variable?(designs(:contains_single_scale_in_grid))
+  end
+
 end

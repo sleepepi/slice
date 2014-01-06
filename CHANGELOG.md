@@ -5,6 +5,9 @@
   - Updated to contour 2.2.0
   - Updated to pg 0.17.1
 
+### Bug Fix
+- Fixed a bug that prevented designs to be shown when a scale variable was included on a grid
+
 ## 0.22.4 (December 6, 2013)
 
 ### Bug Fix

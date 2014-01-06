@@ -170,7 +170,7 @@ class Variable < ActiveRecord::Base
   def first_scale_variable?(design)
     return true unless design
 
-    previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id) > 0
+    previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id).to_i > 0
 
     position = design.options.index((design.options.select{|o| o[:variable_id].to_i == self.id}.first))
     previous_variable = design.variable_at(position - 1) if position and position - 1 >= 0

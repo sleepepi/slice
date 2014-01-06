@@ -192,6 +192,16 @@ scale:
   user: valid
   project: one
 
+scale_in_grid:
+  name: scale_in_grid
+  display_name: A Scale Variable Inside a Grid
+  domain: change_options
+  # description:
+  variable_type: radio
+  alignment: scale
+  user: valid
+  project: one
+
 grid:
   name: grid
   display_name: Grid of Variables
@@ -207,6 +217,16 @@ grid:
                     { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
                     { variable_id: <%= ActiveRecord::FixtureSet.identify(:time) %> }
                   ]
+  default_row_number: 3
+  user: valid
+  project: one
+
+grid_with_scale_variable:
+  name: grid_with_scale_variable
+  display_name: Grid of a Single Scale Variable
+  description: Testing for grid containing a scale variable
+  variable_type: grid
+  grid_variables: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:scale_in_grid) %> } ]
   default_row_number: 3
   user: valid
   project: one

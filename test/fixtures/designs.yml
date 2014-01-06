@@ -146,3 +146,10 @@ two_scale_variables:
   options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:change_domain_options) %> }, { variable_id: <%= ActiveRecord::FixtureSet.identify(:scale) %> } ]
   user: valid
   project: one
+
+contains_single_scale_in_grid:
+  name: scale_in_grid
+  # description:
+  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:grid_with_scale_variable) %> } ]
+  user: valid
+  project: one
