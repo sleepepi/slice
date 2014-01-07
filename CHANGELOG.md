@@ -5,6 +5,7 @@
 - **Gem Changes**
   - Updated to jbuilder 2.0
   - Updated to contour 2.2.1
+  - Updated to systemu 2.6.0
 
 ## 0.22.5 (January 6, 2014)
 
