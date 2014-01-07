@@ -2,6 +2,8 @@
 
 ### Enhancements
 - Use of Ruby 2.1.0 is now recommended
+- **Gem Changes**
+  - Updated to jbuilder 2.0
 
 ## 0.22.5 (January 6, 2014)
 
