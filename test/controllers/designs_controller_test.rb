@@ -8,14 +8,14 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should show design overview" do
-    get :overview, id: @design, project_id: @project
+    get :overview, id: designs(:all_variable_types), project_id: @project
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should show design overview with ajax" do
-    get :overview, id: @design, project_id: @project, format: 'js'
+    get :overview, id: designs(:all_variable_types), project_id: @project, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_template 'overview'

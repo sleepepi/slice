@@ -1,5 +1,8 @@
 ## 0.22.7
 
+### Bug Fix
+- Fixed a bug that prevented designs overview to render if they included a numeric variable with no responses (reported by ekaplan)
+
 ## 0.22.6 (January 7, 2014)
 
 ### Enhancements
