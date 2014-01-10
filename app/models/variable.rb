@@ -324,6 +324,8 @@ class Variable < ActiveRecord::Base
       '$500'
     elsif ['date'].include?(self.variable_type)
       'yymmdd10'
+    elsif ['time'].include?(self.variable_type)
+      'time8'
     elsif ['dropdown', 'radio'].include?(self.variable_type) and self.domain and not self.domain.all_numeric?
       '$500'
     elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.variable_type)
