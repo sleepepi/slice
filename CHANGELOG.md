@@ -1,5 +1,11 @@
 ## 0.22.7
 
+### Enhancements
+- Exports zip files **no longer** include:
+  - user's last name
+  - spaces between date and time, replaced by underscore
+  - time in 12-hour am/pm format, replaced by 24-hour format
+
 ### Bug Fix
 - Fixed a bug that prevented designs overview to render if they included a numeric variable with no responses (reported by ekaplan)
 

@@ -34,7 +34,7 @@ class Export < ActiveRecord::Base
 
   def generate_export!(sheet_scope)
     begin
-      filename = "#{self.name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{self.created_at.strftime("%I%M%P")}"
+      filename = "#{self.name.gsub(/[^a-zA-Z0-9_-]/, '_')}_#{self.created_at.strftime("%H%M")}"
 
       all_files = [] # If numerous files are created then they need to be zipped!
 
