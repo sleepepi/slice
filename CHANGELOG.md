@@ -1,4 +1,4 @@
-## 0.22.7
+## 0.22.7 (January 10, 2014)
 
 ### Enhancements
 - **Export Changes**
