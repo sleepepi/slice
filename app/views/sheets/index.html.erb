@@ -8,14 +8,14 @@
 
 <div id="contour-backdrop" style="<%= 'display:none' unless params[:e].to_s == '1' %>"></div>
 
-<%= form_tag project_sheets_path(@project), method: :get, remote: true, id: "sheets_search", class: 'form-vertical', data: { object: 'form-load' } do %>
+<%= form_tag project_sheets_path(@project), method: :get, id: "sheets_search", class: 'form-vertical' do %>
   <div class="contour-modal-wrapper" data-object="contour_modal_wrapper" style="<%= 'display:none' unless params[:e].to_s == '1' %>">
     <div class="contour-modal" data-object="contour_modal_container">
       <%= render partial: 'sheets/export_popup' %>
     </div>
   </div>
 
-  <%= hidden_field_tag :order %>
+  <%= hidden_field_tag :order, params[:order] %>
 
   <div class="row">
     <div class="col-md-4 form-group">
@@ -111,13 +111,15 @@
 
   <div class="form-group">
     <div class="col-md-10 col-md-offset-2">
-      <%= submit_tag 'Search', class: 'btn btn-primary' %>
+      <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
 
       <%= link_to 'Export', '#', class: 'btn btn-default', data: { object: 'show-contour-modal' } %>
 
-      <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#sheets_search', object: 'reset-filters' } %>
+      <%= link_to 'Reset', project_sheets_path(@project), class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
 
-<div id="sheets"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<div id="sheets">
+  <%= render partial: 'sheets/sheets' %>
+</div>

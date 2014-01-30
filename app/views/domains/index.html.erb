@@ -6,13 +6,14 @@
   </h1>
 </div>
 
-<%= form_tag project_domains_path(@project), method: :get, remote: true, id: "domains_search", class: 'form-inline', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+<%= form_tag project_domains_path(@project), method: :get, id: "domains_search", class: 'form-inline' do %>
+  <%= hidden_field_tag :order, params[:order] %>
 
   <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
-  <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#domains_search', object: 'reset-filters' } %>
-
+  <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
+  <%= link_to 'Reset', project_domains_path(@project), class: 'btn btn-default' %>
 <% end %>
 
-<div id="domains"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<div id="domains">
+  <%= render partial: 'domains/domains' %>
+</div>

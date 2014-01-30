@@ -1,6 +1,7 @@
 ## 0.23.0
 
 ### Enhancements
+- Faster page navigation through the use of turbolinks
 - **Gem Changes**
   - Updated to contour 2.3.0.beta1
 

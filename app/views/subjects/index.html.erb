@@ -7,8 +7,8 @@
   </h1>
 </div>
 
-<%= form_tag project_subjects_path(@project), method: :get, remote: true, id: "subjects_search", class: 'form-vertical', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+<%= form_tag project_subjects_path(@project), method: :get, id: "subjects_search", class: 'form-vertical' do %>
+  <%= hidden_field_tag :order, params[:order] %>
   <div class="row">
     <div class="col-md-4 form-group">
       <%= label :search, 'Search', class: 'col-md-2 control-label' %>
@@ -57,10 +57,12 @@
 
   <div class="form-group">
     <div class="col-md-10 col-md-offset-2">
-      <%= submit_tag 'Search', class: 'btn btn-primary' %>
-      <%= link_to 'Reset', '#', class: 'btn btn-default', data: { target: '#subjects_search', object: 'reset-filters' } %>
+      <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
+      <%= link_to 'Reset', project_subjects_path(@project), class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
 
-<div id="subjects"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<div id="subjects">
+  <%= render partial: 'subjects/subjects' %>
+</div>

@@ -51,7 +51,7 @@
 @ready = () ->
   contourReady()
   $(document).off("click", ".pagination a, .page a, .next a, .prev a")
-  $(document).off("click", ".per_page a")
+  # $(document).off("click", ".per_page a")
   globalReady()
   designsReady()
   domainsReady()

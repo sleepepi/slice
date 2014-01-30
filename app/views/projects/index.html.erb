@@ -6,10 +6,12 @@
   </h1>
 </div>
 
-<%= form_tag projects_path, method: :get, remote: true, id: "projects_search", class: 'form-inline', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+<%= form_tag projects_path, method: :get, id: "projects_search", class: 'form-inline' do %>
+  <%= hidden_field_tag :order, params[:order] %>
   <%= text_field_tag 'search', params[:search], class: 'form-control' %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
 <% end %>
 
-<div id="projects"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<div id="projects">
+  <%= render partial: 'projects/projects' %>
+</div>

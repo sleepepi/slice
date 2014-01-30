@@ -11,7 +11,7 @@ class CommentsController < ApplicationController
   # GET /comments.json
   def index
     @order = scrub_order(Comment, params[:order], 'created_at DESC')
-    @comments = current_user.all_viewable_comments.search(params[:search]).order(@order).page(params[:page]).per(50)
+    @comments = current_user.all_viewable_comments.search(params[:search]).order(@order).page(params[:page]).per(20)
   end
 
   # GET /comments/1
