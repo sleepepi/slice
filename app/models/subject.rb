@@ -14,7 +14,7 @@ class Subject < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :project_id, :subject_code, :user_id, :site_id
-  validates_uniqueness_of :subject_code, scope: [ :deleted, :project_id ]
+  validates_uniqueness_of :subject_code, case_sensitive: false, scope: [ :deleted, :project_id ]
 
   def name
     self.subject_code

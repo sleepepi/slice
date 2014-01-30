@@ -5,6 +5,9 @@
 - **Gem Changes**
   - Updated to contour 2.3.0.beta1
 
+### Bug Fix
+- Subject codes are no longer case-sensitive
+
 ## 0.22.7 (January 10, 2014)
 
 ### Enhancements

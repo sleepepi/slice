@@ -48,13 +48,24 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should not create subject with blank subject code" do
-    assert_difference('Site.count', 0) do
+    assert_difference('Subject.count', 0) do
       post :create, project_id: @project, subject: { subject_code: '', acrostic: '', status: @subject.status }, site_id: @subject.site_id
     end
 
     assert_not_nil assigns(:subject)
     assert assigns(:subject).errors.size > 0
     assert_equal ["can't be blank"], assigns(:subject).errors[:subject_code]
+    assert_template 'new'
+  end
+
+  test "should not create subject with a subject code that differs only in upper or lower case to an existing subject code" do
+    assert_difference('Subject.count', 0) do
+      post :create, project_id: @project, subject: { subject_code: 'code01', acrostic: '', status: @subject.status }, site_id: @subject.site_id
+    end
+
+    assert_not_nil assigns(:subject)
+    assert assigns(:subject).errors.size > 0
+    assert_equal ["has already been taken"], assigns(:subject).errors[:subject_code]
     assert_template 'new'
   end
 
