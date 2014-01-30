@@ -1,7 +1,9 @@
-<%= form_tag splash_projects_path, method: :get, remote: true, id: "splash_projects_search", class: 'form-inline', data: { object: 'form-load' } do %>
-  <%#= hidden_field_tag :order %>
+<%= form_tag splash_projects_path, method: :get, id: "splash_projects_search", class: 'form-inline' do %>
+  <%#= hidden_field_tag :order, params[:order] %>
   <%#= text_field_tag 'search', params[:search], class: 'form-control' %>
-  <%#= submit_tag 'Search', class: 'btn btn-primary' %>
+  <%#= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
 <% end %>
 
-<div id="splash_projects" style="margin-top:20px"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<div id="splash_projects" style="margin-top:20px">
+  <%= render partial: 'projects/splash_projects' %>
+</div>
