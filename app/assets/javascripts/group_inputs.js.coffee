@@ -20,7 +20,9 @@ toggleGroupInput = (input, group_name, event) ->
 
 selectWithKeystroke = (event) ->
   # input field has to be radio button or checkbox
-  if event.which == 96
+  #  96 = backtick (`)
+  # 126 = tilda    (~)
+  if event.which == 96 or event.which == 126
     clearSelections(event.target)
   else
     selected_value = String.fromCharCode(event.which)

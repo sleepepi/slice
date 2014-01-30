@@ -7,6 +7,8 @@
 - **Design Changes**
   - When editing a design, checkbox and radio options in scale format now display how they display on sheets
     - Previously in edit mode, the variables weren't displaying the value along with the name, `Option A` instead of `1: Option A`
+- **Sheet Changes**
+  - Clicking tilda (~) now clears radio and checkbox selections along with back tick (`)
 - **Gem Changes**
   - Updated to contour 2.3.0.beta1
 
