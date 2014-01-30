@@ -33,6 +33,10 @@
       $(element).hide()
   )
 
+@setFocusToField = (element_id) ->
+  val = $(element_id).val()
+  $(element_id).focus().val('').val(val)
+
 @globalReady = () ->
   initializeTypeahead()
   $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
@@ -42,6 +46,7 @@
   $("#global-search").typeahead(
     remote: root_url + 'search?q=%QUERY'
   )
+  setFocusToField("#search")
 
 @ready = () ->
   contourReady()
