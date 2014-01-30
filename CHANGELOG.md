@@ -4,6 +4,9 @@
 - Faster page navigation through the use of turbolinks
 - **Project Changes**
   - Project email setting added that disables all daily digest and sheet comment emails for everyone on that project
+- **Design Changes**
+  - When editing a design, checkbox and radio options in scale format now display how they display on sheets
+    - Previously in edit mode, the variables weren't displaying the value along with the name, `Option A` instead of `1: Option A`
 - **Gem Changes**
   - Updated to contour 2.3.0.beta1
 
