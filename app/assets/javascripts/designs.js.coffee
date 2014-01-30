@@ -131,94 +131,9 @@
   else
     $.post(root_url + 'projects/' + $("#project_id").val() + '/designs', changes || params, null, "script")
 
-
-jQuery ->
-
+@designsReady = () ->
   loadVariableSortable()
-
   $('#form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
-
-  $(document)
-    .on('change', '[data-object~="condition"]', () ->
-      updateAllVariables()
-      updateCalculatedVariables()
-    )
-    .on('click', '[data-object~="design-stop-edit"]', (e) ->
-      design_id = parseInt($('#design_id').val())
-      url = $(this).data('path')
-      url += "/#{design_id}" if design_id > 0
-
-      if nonStandardClick(e)
-        window.open(url)
-      else
-        window.location = url
-      false
-    )
-    .on('keyup', '[data-object~="create-variable-name"]', () ->
-      new_value = $(this).val().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
-      new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,32)
-      $($(this).data('variable-name-target')).val(new_value)
-    )
-    .on('click', '[data-object~="pull-partial-edit"]', () ->
-      design_id = parseInt($('#design_id').val())
-      changes = $(this).data('changes') || {}
-      changes.new = $(this).data('new')
-      changes.edit = $(this).data('edit')
-      changes.position = $(this).data('position')
-      changes.variable_id = $(this).data('variable-id')
-      changes.variable_type = $(this).data('variable-type')
-      if design_id > 0
-        $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val() + '/edit', changes, null, "script")
-      else
-        $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/new', changes, null, "script")
-      false
-    )
-    .on('keypress', '[data-object~="push-partial-change-text-field"]', (e) ->
-      if e.which == 13 # Enter
-        pushPartialChange(this)
-        e.preventDefault()
-    )
-    .on('click', '[data-object~="push-partial-change"]', () ->
-      pushPartialChange(this)
-      false
-    )
-    .on('click', '#reorder_design_button', () ->
-      if $(this).attr('disabled') != 'disabled'
-        $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
-        rows = $('#compact_design').sortable('toArray').toString()
-        $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script')
-        $('#saving_modal').modal(backdrop: 'static', keyboard: false)
-      false
-    )
-    .on('click', '#reorder_design_sections_button', () ->
-      if $(this).attr('disabled') != 'disabled'
-        $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
-        sections = $('#reorder_sections_design').sortable('toArray').toString()
-        $.post($('#reorder_sections_design_form').attr('action'), '&sections='+sections, null, 'script')
-        $('#saving_modal').modal(backdrop: 'static', keyboard: false)
-      false
-    )
-    .on('click', '#sections_link', () ->
-      $(this).closest('li').addClass('disabled')
-      $('#variables_link').closest('li').removeClass('disabled')
-      $('#reorder_design_button, #compact_design_container').hide()
-      $('#reorder_design_sections_button, #reorder_sections_container').show()
-      false
-    )
-    .on('click', '#variables_link', () ->
-      $(this).closest('li').addClass('disabled')
-      $('#sections_link').closest('li').removeClass('disabled')
-      $('#reorder_design_button, #compact_design_container').show()
-      $('#reorder_design_sections_button, #reorder_sections_container').hide()
-      false
-    )
-    .on('click', '[data-object~="preview-mode"]', () ->
-      $('.design-preview-hide').hide()
-    )
-    .on('click', '[data-object~="edit-mode"]', () ->
-      $('.design-preview-hide').show()
-    )
-
   initializeDesignReordering()
 
   $("#form_grid_variables div").last().click()
@@ -229,4 +144,87 @@ jQuery ->
         $.post($(this).data('path'), "interval=#{interval}", null, "script")
       )
     , 5000)
+
+
+$(document)
+  .on('change', '[data-object~="condition"]', () ->
+    updateAllVariables()
+    updateCalculatedVariables()
+  )
+  .on('click', '[data-object~="design-stop-edit"]', (e) ->
+    design_id = parseInt($('#design_id').val())
+    url = $(this).data('path')
+    url += "/#{design_id}" if design_id > 0
+
+    if nonStandardClick(e)
+      window.open(url)
+    else
+      window.location = url
+    false
+  )
+  .on('keyup', '[data-object~="create-variable-name"]', () ->
+    new_value = $(this).val().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+    new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,32)
+    $($(this).data('variable-name-target')).val(new_value)
+  )
+  .on('click', '[data-object~="pull-partial-edit"]', () ->
+    design_id = parseInt($('#design_id').val())
+    changes = $(this).data('changes') || {}
+    changes.new = $(this).data('new')
+    changes.edit = $(this).data('edit')
+    changes.position = $(this).data('position')
+    changes.variable_id = $(this).data('variable-id')
+    changes.variable_type = $(this).data('variable-type')
+    if design_id > 0
+      $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val() + '/edit', changes, null, "script")
+    else
+      $.get(root_url + 'projects/' + $("#project_id").val() + '/designs/new', changes, null, "script")
+    false
+  )
+  .on('keypress', '[data-object~="push-partial-change-text-field"]', (e) ->
+    if e.which == 13 # Enter
+      pushPartialChange(this)
+      e.preventDefault()
+  )
+  .on('click', '[data-object~="push-partial-change"]', () ->
+    pushPartialChange(this)
+    false
+  )
+  .on('click', '#reorder_design_button', () ->
+    if $(this).attr('disabled') != 'disabled'
+      $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
+      rows = $('#compact_design').sortable('toArray').toString()
+      $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script')
+      $('#saving_modal').modal(backdrop: 'static', keyboard: false)
+    false
+  )
+  .on('click', '#reorder_design_sections_button', () ->
+    if $(this).attr('disabled') != 'disabled'
+      $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
+      sections = $('#reorder_sections_design').sortable('toArray').toString()
+      $.post($('#reorder_sections_design_form').attr('action'), '&sections='+sections, null, 'script')
+      $('#saving_modal').modal(backdrop: 'static', keyboard: false)
+    false
+  )
+  .on('click', '#sections_link', () ->
+    $(this).closest('li').addClass('disabled')
+    $('#variables_link').closest('li').removeClass('disabled')
+    $('#reorder_design_button, #compact_design_container').hide()
+    $('#reorder_design_sections_button, #reorder_sections_container').show()
+    false
+  )
+  .on('click', '#variables_link', () ->
+    $(this).closest('li').addClass('disabled')
+    $('#sections_link').closest('li').removeClass('disabled')
+    $('#reorder_design_button, #compact_design_container').show()
+    $('#reorder_design_sections_button, #reorder_sections_container').hide()
+    false
+  )
+  .on('click', '[data-object~="preview-mode"]', () ->
+    $('.design-preview-hide').hide()
+  )
+  .on('click', '[data-object~="edit-mode"]', () ->
+    $('.design-preview-hide').show()
+  )
+
 

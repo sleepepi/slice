@@ -40,67 +40,66 @@
       $(this).peity($(this).data('type'))
   )
 
-jQuery ->
-  $(document)
-    .on('click', '[data-object~="set-percent"], [data-object~="set-by"], [data-object~="set-filter"]', (e) ->
-      $(this).find('input').prop('checked', true)
-      submitReportWithFilters()
-      e.preventDefault()
-    )
-    .on('click', '[data-object~="set-statuses"]', () ->
-      if $(this).find('input').is(':checked')
-        $(this).find('input').prop('checked', false)
-      else
-        $(this).find('input').prop('checked', true)
-      if $($(this).data('target')).length > 0
-        $($(this).data('target')).submit()
-      else
-        submitReportWithFilters()
-    )
-    .on('change', '[data-object~="form-reload"]', () ->
-      $($(this).data('target')).submit()
-    )
-    .on('click', '[data-object~="export-report-pdf"]', () ->
-      window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
-      false
-    )
-    .on('click', '[data-object~="export-report-pdf-with-filters"]', () ->
-      window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize())
-      false
-    )
-    .on('click', '[data-object~="export-csv-with-filters"]', () ->
-      url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize()
-      if $(this).data('page') == 'blank'
-        window.open(url)
-      else
-        window.location = url
-      false
-    )
-    .on('change', '#row_variable_temp_ids', (event, value) ->
-      values = if $('#row_variable_ids').val() == '' then [] else $('#row_variable_ids').val().split(',')
-      if value['selected']
-        values.push(value['selected']) if $.inArray(value['selected'], values) == -1
-      if value['deselected']
-        position = $.inArray(value['deselected'], values)
-        values.splice(position,1).pop(value['deselected']) if position >= 0
-      $('#row_variable_ids').val(values.join(','))
-      $('#report_form').submit()
-    )
-    .on('click', '[data-object~="set-value"]', () ->
-      $($(this).data('target')).val($(this).data('value'))
-      submitReportWithFilters()
-      false
-    )
-    .on('click', '[data-object~="refresh-report"]', () ->
-      submitReportWithFilters()
-      false
-    )
+@reportsReady = () ->
+  loadPeity()
 
-  $('#variable_id').on('change', () ->
+$(document)
+  .on('click', '[data-object~="set-percent"], [data-object~="set-by"], [data-object~="set-filter"]', (e) ->
+    $(this).find('input').prop('checked', true)
+    submitReportWithFilters()
+    e.preventDefault()
+  )
+  .on('click', '[data-object~="set-statuses"]', () ->
+    if $(this).find('input').is(':checked')
+      $(this).find('input').prop('checked', false)
+    else
+      $(this).find('input').prop('checked', true)
+    if $($(this).data('target')).length > 0
+      $($(this).data('target')).submit()
+    else
+      submitReportWithFilters()
+  )
+  .on('change', '[data-object~="form-reload"]', () ->
+    $($(this).data('target')).submit()
+  )
+  .on('click', '[data-object~="export-report-pdf"]', () ->
+    window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
+    false
+  )
+  .on('click', '[data-object~="export-report-pdf-with-filters"]', () ->
+    window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize())
+    false
+  )
+  .on('click', '[data-object~="export-csv-with-filters"]', () ->
+    url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize()
+    if $(this).data('page') == 'blank'
+      window.open(url)
+    else
+      window.location = url
+    false
+  )
+  .on('change', '#row_variable_temp_ids', (event, value) ->
+    values = if $('#row_variable_ids').val() == '' then [] else $('#row_variable_ids').val().split(',')
+    if value['selected']
+      values.push(value['selected']) if $.inArray(value['selected'], values) == -1
+    if value['deselected']
+      position = $.inArray(value['deselected'], values)
+      values.splice(position,1).pop(value['deselected']) if position >= 0
+    $('#row_variable_ids').val(values.join(','))
+    $('#report_form').submit()
+  )
+  .on('click', '[data-object~="set-value"]', () ->
+    $($(this).data('target')).val($(this).data('value'))
+    submitReportWithFilters()
+    false
+  )
+  .on('click', '[data-object~="refresh-report"]', () ->
+    submitReportWithFilters()
+    false
+  )
+  .on('change', '#variable_id', () ->
     if $(this).val() == '' or $(this).val() == null
       $('#row-include-blank').hide()
     else
       $('#row-include-blank').show()
   )
-
-  loadPeity()

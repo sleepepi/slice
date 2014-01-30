@@ -29,22 +29,22 @@ selectWithKeystroke = (event) ->
     toggleGroupInput(input, group_name, event) if input.length > 0
   $(event.target).change()
 
-jQuery ->
-  $(document).on("keypress", ".radio input:radio", selectWithKeystroke)
-  $(document).on("keypress", ".checkbox input:checkbox", selectWithKeystroke)
-  $(document).on("click", ".radio input:radio", () ->
+
+$(document)
+  .on("keypress", ".radio input:radio", selectWithKeystroke)
+  .on("keypress", ".checkbox input:checkbox", selectWithKeystroke)
+  .on("click", ".radio input:radio", () ->
     radio = $(this)
     group_name = radio.attr("name")
     toggleGroupInput(radio, group_name, event)
   )
-  $(document).on("click", ".checkbox input:checkbox", () ->
+  .on("click", ".checkbox input:checkbox", () ->
     $(this).focus()
   )
-
-  $(document).on("focus", ".radio input:radio, .checkbox input:checkbox", () ->
+  .on("focus", ".radio input:radio, .checkbox input:checkbox", () ->
     $(this).parent().addClass("focus")
   )
-  $(document).on("focusout", ".radio input:radio, .checkbox input:checkbox", () ->
+  .on("focusout", ".radio input:radio, .checkbox input:checkbox", () ->
     $(this).parent().removeClass("focus")
   )
 

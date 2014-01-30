@@ -84,30 +84,29 @@ clearTimeFields = (name) ->
   $("input:text[name='sec_"+name+"']").val("")
 
 
-jQuery ->
-  $(document)
-    .on("keypress", ".time-input", (event) ->
-      if event.which == 96
-        clearTimeFields($(this).find("input:hidden").attr("name"))
-        event.preventDefault()
-    )
-    .on("keyup", ".time-input .hour-box input", (event) ->
-      manageTimeInput(event, $(this), 0, 23)
-    )
-    .on("keyup", ".time-input .min-box input", (event) ->
-      manageTimeInput(event, $(this), 0, 59)
-    )
-    .on("keyup", ".time-input .sec-box input", (event) ->
-      manageTimeInput(event, $(this), 0, 59)
-    )
-    .on('click', '[data-object~="set-time-input-to-current-time"]', setCurrentTime)
-    .on('change', ".time-input input", () ->
-      reformatTimeInput($(this), parseInt($(this).val()))
-    )
-    .on('blur', ".time-input input", () ->
-      reformatTimeInput($(this), parseInt($(this).val()))
-    )
-    .on("click", '[data-object~="clear-time-input"]', (event) ->
-      clearTimeFields($(this).data("target-input"))
+$(document)
+  .on("keypress", ".time-input", (event) ->
+    if event.which == 96
+      clearTimeFields($(this).find("input:hidden").attr("name"))
       event.preventDefault()
-    )
+  )
+  .on("keyup", ".time-input .hour-box input", (event) ->
+    manageTimeInput(event, $(this), 0, 23)
+  )
+  .on("keyup", ".time-input .min-box input", (event) ->
+    manageTimeInput(event, $(this), 0, 59)
+  )
+  .on("keyup", ".time-input .sec-box input", (event) ->
+    manageTimeInput(event, $(this), 0, 59)
+  )
+  .on('click', '[data-object~="set-time-input-to-current-time"]', setCurrentTime)
+  .on('change', ".time-input input", () ->
+    reformatTimeInput($(this), parseInt($(this).val()))
+  )
+  .on('blur', ".time-input input", () ->
+    reformatTimeInput($(this), parseInt($(this).val()))
+  )
+  .on("click", '[data-object~="clear-time-input"]', (event) ->
+    clearTimeFields($(this).data("target-input"))
+    event.preventDefault()
+  )

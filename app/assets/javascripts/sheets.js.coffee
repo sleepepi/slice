@@ -70,45 +70,7 @@
     $spy = $(this).scrollspy('refresh')
   )
 
-jQuery ->
-  $("#sheet_design_id").on('change', () ->
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize() + '&' + $("#sheet_subject_id").serialize(), null, "script")
-    false
-  )
-
-  $(document)
-    .on('click', '[data-object~="export"]', () ->
-      url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
-      if $(this).data('page') == 'blank'
-        window.open(url)
-      else
-        window.location = url
-      false
-    )
-    .on('click', "[data-link]", (e) ->
-      if nonStandardClick(e)
-        window.open($(this).data("link"))
-        return false
-      else
-        window.location = $(this).data("link")
-    )
-    .on('click', '[data-object~="export-data"]', () ->
-      $('[data-dismiss~=alert]').click()
-      form = $(this).data('target')
-      $.get($(form).attr("action"), $(form).serialize() + '&export=1', null, "script")
-      $(this).attr('disabled', 'disabled')
-      false
-    )
-    .on('click', '[data-object~="sidebar-link"]', () ->
-      $(this).blur()
-    )
-    .on('change', '[data-object~="set-subject-schedule-event"]', () ->
-      subject_schedule_id = $(this).val().split('-')[0]
-      event_id = $(this).val().split('-')[1]
-      $("#sheet_subject_schedule_id").val(subject_schedule_id)
-      $("#sheet_event_id").val(event_id)
-    )
-
+@sheetsReady = () ->
   $('#sheet_subject_id').each( () ->
     $this = $(this)
     $this.typeahead(
@@ -117,11 +79,46 @@ jQuery ->
       engine: Hogan
     )
   )
+  initializeSheet()
 
-  $(document).on('typeahead:selected', "#sheet_subject_id", (event, datum) ->
+$(document)
+  .on('click', '[data-object~="export"]', () ->
+    url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
+    if $(this).data('page') == 'blank'
+      window.open(url)
+    else
+      window.location = url
+    false
+  )
+  .on('click', "[data-link]", (e) ->
+    if nonStandardClick(e)
+      window.open($(this).data("link"))
+      return false
+    else
+      window.location = $(this).data("link")
+  )
+  .on('click', '[data-object~="export-data"]', () ->
+    $('[data-dismiss~=alert]').click()
+    form = $(this).data('target')
+    $.get($(form).attr("action"), $(form).serialize() + '&export=1', null, "script")
+    $(this).attr('disabled', 'disabled')
+    false
+  )
+  .on('click', '[data-object~="sidebar-link"]', () ->
+    $(this).blur()
+  )
+  .on('change', '[data-object~="set-subject-schedule-event"]', () ->
+    subject_schedule_id = $(this).val().split('-')[0]
+    event_id = $(this).val().split('-')[1]
+    $("#sheet_subject_schedule_id").val(subject_schedule_id)
+    $("#sheet_event_id").val(event_id)
+  )
+  .on('change', '#sheet_design_id', () ->
+    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize() + '&' + $("#sheet_subject_id").serialize(), null, "script")
+    false
+  )
+  .on('typeahead:selected', "#sheet_subject_id", (event, datum) ->
     $(this).val(datum['value'])
     $('#sheet_subject_acrostic').val(datum['acrostic'])
     $('#site_id').val(datum['site_id'])
   )
-
-  initializeSheet()

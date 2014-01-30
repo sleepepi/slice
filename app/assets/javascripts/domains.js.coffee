@@ -24,16 +24,16 @@
     $(element).attr('placeholder', "Option #{index + 1}")
   )
 
-jQuery ->
+@domainsReady = () ->
   activateDomainOptions()
 
-  $(document)
-    .on('click', '#add_more_domain_options', () ->
-      $.post(root_url + 'projects/' + $("#domain_project_id").val() + '/domains/add_option', $("form").serialize() + "&_method=post", null, "script")
-      false
-    )
-    .on('keyup', '[data-object~="create-domain-name"]', () ->
-      new_value = $(this).val().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
-      new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,30)
-      $($(this).data('domain-target')).val(new_value)
-    )
+$(document)
+  .on('click', '#add_more_domain_options', () ->
+    $.post(root_url + 'projects/' + $("#domain_project_id").val() + '/domains/add_option', $("form").serialize() + "&_method=post", null, "script")
+    false
+  )
+  .on('keyup', '[data-object~="create-domain-name"]', () ->
+    new_value = $(this).val().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+    new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,30)
+    $($(this).data('domain-target')).val(new_value)
+  )
