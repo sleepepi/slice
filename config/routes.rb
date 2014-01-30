@@ -56,7 +56,8 @@ Slice::Application.routes.draw do
       member do
         get :copy
         get :print
-        post :reorder
+        get :reorder
+        post :update_order
         get :report
         post :report
         get :report_print

@@ -318,15 +318,21 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should show design reorder mode" do
+    get :reorder, id: @design, project_id: @project
+    assert_template 'reorder'
+    assert_response :success
+  end
+
   test "should reorder variables" do
-    post :reorder, id: @design, project_id: @project, rows: "option_1,option_0,option_2", format: 'js'
+    post :update_order, id: @design, project_id: @project, rows: "option_1,option_0,option_2", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [ActiveRecord::FixtureSet.identify(:two), ActiveRecord::FixtureSet.identify(:one), ActiveRecord::FixtureSet.identify(:date)], assigns(:design).options.collect{|option| option[:variable_id]}
-    assert_template 'reorder'
+    assert_template 'update_order'
   end
 
   test "should reorder sections" do
-    post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_1,section_0", format: 'js'
+    post :update_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_1,section_0", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [
                     ActiveRecord::FixtureSet.identify(:date),
@@ -341,11 +347,11 @@ class DesignsControllerTest < ActionController::TestCase
                     ActiveRecord::FixtureSet.identify(:checkbox),
                     ActiveRecord::FixtureSet.identify(:radio)
                  ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
-    assert_template 'reorder'
+    assert_template 'update_order'
   end
 
   test "should reorder sections (keep same order)" do
-    post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
+    post :update_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
     assert_not_nil assigns(:design)
 
     assert_equal [
@@ -361,11 +367,11 @@ class DesignsControllerTest < ActionController::TestCase
                     ActiveRecord::FixtureSet.identify(:numeric),
                     ActiveRecord::FixtureSet.identify(:file)
                  ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
-    assert_template 'reorder'
+    assert_template 'update_order'
   end
 
   test "should not reorder sections with different section count" do
-    post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_1", format: 'js'
+    post :update_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_1", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [
                 ActiveRecord::FixtureSet.identify(:date),
@@ -380,12 +386,12 @@ class DesignsControllerTest < ActionController::TestCase
                 ActiveRecord::FixtureSet.identify(:numeric),
                 ActiveRecord::FixtureSet.identify(:file)
              ], assigns(:design).options.collect{|option| option[:variable_id].blank? ? option[:section_name] : option[:variable_id]}
-    assert_template 'reorder'
+    assert_template 'update_order'
   end
 
   test "should not reorder for invalid design" do
     login(users(:site_one_viewer))
-    post :reorder, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
+    post :update_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
     assert_nil assigns(:design)
     assert_response :success
   end

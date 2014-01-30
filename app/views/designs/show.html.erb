@@ -38,40 +38,6 @@
   </dl>
 <% end %>
 
-<ul class="pagination">
-  <li><a href="#" id="sections_link">Sections</a></li>
-  <li class="active"><a href="#"><%= @design.sections.count %></a></li>
-</ul>
-
-<ul class="pagination">
-  <li class="disabled"><a href="#" id="variables_link">Variables</a></li>
-  <li class="active"><a href="#"><%= @design.variable_ids.count %></a></li>
-</ul>
-
-<%= link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top' %>
-<%= link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top;display:none' %>
-
-<div class="modal" id="saving_modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Reordering Design</h4>
-      </div>
-      <div class="modal-body">
-        <p>Your changes to the design are being saved...this shouldn't take longer than a minute.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="compact_design_container">
-  <%= render partial: 'compact_design' %>
-</div>
-
-<div id="reorder_sections_container" style="display:none">
-  <%= render partial: 'reorder_sections' %>
-</div>
-
 <%= hidden_field_tag 'sheet[project_id]', @project.id %>
 <form class="form-horizontal" id="design">
   <div class="center"><%= image_tag 'contour/ajax-loader.gif' %></div>

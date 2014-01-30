@@ -1,23 +1,27 @@
-<%= form_tag reorder_project_design_path(@design.project, @design), method: :post, remote: true, id: 'reorder_design_form' do %>
-  <ul class="design-list" id="compact_design" data-object="sortable">
+<%= form_tag update_order_project_design_path(@design.project, @design), method: :post, remote: true, id: 'reorder_design_form' do %>
+  <ul class="design-list" id="compact_design" data-object="sortable" style="cursor:move">
   <% @design.options.each_with_index do |option, position| %>
     <% if option[:variable_id].blank? %>
-      <li id="option_<%= position %>" class="li-section">
+      <li id="option_<%= position %>" class="li-section" style="white-space:nowrap;margin-bottom:5px">
         <% if option[:section_type].to_i > 0 %><div style="width:6px;display:inline-block">&nbsp;</div><% end %>
         <div style="display:inline-block"><a href="#"><%= option[:section_name] %></a></div>
       </li>
     <% elsif variable = Variable.find_by_id(option[:variable_id]) %>
-      <li id="option_<%= position %>" class="li-variable">
-        <div style="width:28px;display:inline-block"><a href="#" style="<%= 'color:#D14' if variable.deleted? %>"><span class="glyphicon glyphicon-move"></span></a></div>
-        <div style="width:20%;display:inline-block">
+      <li id="option_<%= position %>" class="li-variable" style="white-space:nowrap;margin-bottom:5px">
+        <div style="display:inline-block;overflow:hidden;white-space:nowrap;width:70%;<%= 'text-decoration: line-through;' if variable.deleted? %>">
+          <span class="glyphicon glyphicon-move" style="<%= 'color:#D14' if variable.deleted? %>"></span>
+          <%= variable.display_name %>
+        </div>
+        <div style="display:inline-block; width:65px;white-space:nowrap;overflow:hidden">
+          <span class="label label-<%= variable.deleted? ? 'important' : variable.variable_type %>"><%= variable.deleted? ? 'deleted' : variable.variable_type %></span>
+        </div>
+        <div style="width:20%;display:inline-block;white-space:nowrap;overflow:hidden">
           <% if variable.deleted? %>
-            <a href="#" data-object="suppress-click" style="color:#D14"><%= variable.name %></a>
+            <code style="color:#D14;text-decoration: line-through;"><%= variable.name %></code>
           <% else %>
-            <%= link_to variable.name, [variable.project, variable] %>
+            <code><%= variable.name %></code>
           <% end %>
         </div>
-        <div style="display:inline-block;overflow:hidden;white-space:nowrap;width:50%;<%= 'text-decoration: line-through;' if variable.deleted? %>"><%= variable.display_name %></div>
-        <div style="display:inline-block"><span class="label label-<%= variable.deleted? ? 'important' : variable.variable_type %>"><%= variable.deleted? ? 'deleted' : variable.variable_type %></span></div>
       </li>
     <% end %>
   <% end %>

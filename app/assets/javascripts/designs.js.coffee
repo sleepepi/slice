@@ -144,7 +144,7 @@
         $.post($(this).data('path'), "interval=#{interval}", null, "script")
       )
     , 5000)
-
+  $(".active[data-object~='edit-mode'],.active[data-object~='preview-mode']").click();
 
 $(document)
   .on('change', '[data-object~="condition"]', () ->

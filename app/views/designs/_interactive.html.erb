@@ -11,13 +11,14 @@
 
 <div class="btn-toolbar">
   <div class="btn-group" data-toggle="buttons">
-    <label class="btn btn-xs btn-default active" data-object="edit-mode">
+    <label class="btn btn-xs btn-default <%= 'active' if params[:mode] != 'preview' %>" data-object="edit-mode">
       <input type="radio" name="preview_modes" id="edit-mode">Edit <u>M</u>ode
     </label>
-    <label class="btn btn-xs btn-default" data-object="preview-mode">
+    <label class="btn btn-xs btn-default <%= 'active' if params[:mode] == 'preview' %>" data-object="preview-mode">
       <input type="radio" name="preview_modes" id="preview-mode">Preview <u>M</u>ode
     </label>
   </div>
+  <%= link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default' %>
 </div>
 
 <hr class="soften" style="margin-top:20px;" />

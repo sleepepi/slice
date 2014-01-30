@@ -1,0 +1,56 @@
+<div class="page-header">
+  <h1><%= link_to @project.name, setup_project_path(@project) %> &middot; <%= link_to @design.name, [@design.project, @design] %> &middot; Reorder</h1>
+</div>
+
+<div class="modal" id="interactive_design_modal">
+  <div class="modal-dialog modal-wide-width">
+    <div class="modal-content" id="interactive-design-container">
+    </div>
+  </div>
+</div>
+
+<div class="btn-toolbar">
+  <div class="btn-group">
+    <%= link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: 'btn btn-xs btn-default' %>
+    <%= link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: 'preview'), class: 'btn btn-xs btn-default' %>
+  </div>
+  <%= link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default active' %>
+</div>
+
+<hr class="soften" style="margin-top:20px;" />
+
+
+
+<ul class="pagination">
+  <li><a href="#" id="sections_link">Sections</a></li>
+  <li class="active"><a href="#"><%= @design.sections.count %></a></li>
+</ul>
+
+<ul class="pagination">
+  <li class="disabled"><a href="#" id="variables_link">Variables</a></li>
+  <li class="active"><a href="#"><%= @design.variable_ids.count %></a></li>
+</ul>
+
+<%= link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top' %>
+<%= link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top;display:none' %>
+
+<div class="modal" id="saving_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Reordering Design</h4>
+      </div>
+      <div class="modal-body">
+        <p>Your changes to the design are being saved...this shouldn't take longer than a minute.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="compact_design_container">
+  <%= render partial: 'compact_design' %>
+</div>
+
+<div id="reorder_sections_container" style="display:none">
+  <%= render partial: 'reorder_sections' %>
+</div>

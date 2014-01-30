@@ -1,14 +1,9 @@
 $('#compact_design_container').html("<%= escape_javascript(render("compact_design")) %>");
 $('#reorder_sections_container').html("<%= escape_javascript(render("reorder_sections")) %>");
 
-
 initializeDesignReordering();
 
 $('#reorder_design_button').attr('disabled', 'disabled');
 $('#reorder_design_sections_button').attr('disabled', 'disabled');
 
 $('#saving_modal').modal('hide');
-
-showWaiting('#design', '', true);
-
-$('[data-object~="form-load"]').submit();

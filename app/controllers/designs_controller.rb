@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :overview ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :overview ]
-  before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import ]
-  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :reimport, :update_import, :overview ]
+  before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :update_order, :progress, :reimport, :update_import ]
+  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :update_order, :print, :report_print, :report, :progress, :reimport, :update_import, :overview ]
 
   # Concerns
   include Buildable
@@ -142,12 +142,15 @@ class DesignsController < ApplicationController
     @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id]) unless params[:sheet].blank?
   end
 
-  def reorder
+  def update_order
     if params[:rows].blank?
       @design.reorder_sections(params[:sections].to_s.split(','), current_user)
     else
       @design.reorder(params[:rows].to_s.split(','), current_user)
     end
+  end
+
+  def reorder
   end
 
   # GET /designs
