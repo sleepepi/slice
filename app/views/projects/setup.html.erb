@@ -31,6 +31,14 @@
   </div>
   <div class="panel-body">
     <p>Click here to edit the project name, project description, and to set optional project widgets like news, documents, and contacts for the project about page.</p>
+    <% if @project.disable_all_emails? %>
+      <p>
+        <div class="bs-callout bs-callout-warning">
+          <h4>Emails Disabled</h4>
+          Daily Digest and Sheet Comment <strong>emails are disabled</strong> for this project.
+        </div>
+      </p>
+    <% end %>
     <div><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default' %></div>
   </div>
 </div>

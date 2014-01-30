@@ -2,6 +2,8 @@
 
 ### Enhancements
 - Faster page navigation through the use of turbolinks
+- **Project Changes**
+  - Project email setting added that disables all daily digest and sheet comment emails for everyone on that project
 - **Gem Changes**
   - Updated to contour 2.3.0.beta1
 

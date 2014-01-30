@@ -106,6 +106,21 @@
   </div>
 
   <div class="form-group">
+    <div class="col-md-2">
+      <label>Email Settings</label>
+    </div>
+    <div class="col-md-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :disable_all_emails %>
+          Disable Daily Digest and Sheet Comment Emails
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
     <div class="col-md-10 col-md-offset-2">
       <%= f.submit nil, class: 'btn btn-primary' %>
       <%= cancel %>
