@@ -12,7 +12,7 @@
 - **Sheet Changes**
   - Clicking tilda (~) now clears radio and checkbox selections along with back tick (`)
 - **Gem Changes**
-  - Updated to contour 2.3.0.beta1
+  - Updated to contour 2.3.0
 
 ### Bug Fix
 - Subject codes are no longer case-sensitive
