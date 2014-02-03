@@ -2,6 +2,7 @@
 
 ### Bug Fix
 - Dropdowns, checkboxes, and radio buttons in grids now correctly show values for non-public designs (reported by ekaplan)
+- Sheet responses for full-width questions no longer extend into margin
 
 ## 0.23.0 (February 3, 2014)
 
