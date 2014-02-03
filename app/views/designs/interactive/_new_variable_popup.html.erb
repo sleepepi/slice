@@ -11,7 +11,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Display Name</label>
       <div class="col-md-10">
-        <%= text_field_tag "variable[display_name]", '', autocomplete: 'off', data: { object: 'create-variable-name push-partial-change-text-field', target: '#variable_form', create: 'variable', position: params[:position],  variable_name_target: '#variable_name, #variable_name_display' }, class: 'form-control' %>
+        <%= text_field_tag "variable[display_name]", '', autocomplete: 'off', data: { object: 'create-variable-name push-partial-change-text-field', target: '#variable_form', create: 'variable', position: params[:position],  variable_name_target: '#variable_name' }, class: 'form-control' %>
         <%= hidden_field_tag "variable[variable_type]", params[:variable_type] %>
         <div class="bs-callout bs-callout-info">
           <h4>Heads up!</h4>
@@ -26,8 +26,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Name</label>
       <div class="col-md-10">
-        <%= hidden_field_tag "variable[name]" %>
-        <%= text_field_tag "variable_name_display", '', maxlength: 32, autocomplete: 'off', disabled: true, data: { placement: 'right' }, class: 'form-control' %>
+        <%= text_field_tag "variable[name]", '', maxlength: 32, autocomplete: 'off', data: { placement: 'right' }, class: 'form-control' %>
       </div>
     </div>
   </form>

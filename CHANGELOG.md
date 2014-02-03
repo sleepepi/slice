@@ -8,6 +8,7 @@
   - When editing a design, checkbox and radio options in scale format now display how they display on sheets
     - Previously in edit mode, the variables weren't displaying the value along with the name, `Option A` instead of `1: Option A`
   - Reorder mode has been cleaned up and moved to be as an option under Edit Design
+  - Variable names can now be edited in addition to the display name when adding variables to a design
 - **Sheet Changes**
   - Clicking tilda (~) now clears radio and checkbox selections along with back tick (`)
 - **Gem Changes**
