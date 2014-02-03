@@ -1,4 +1,4 @@
-## 0.23.0
+## 0.23.0 (February 3, 2014)
 
 ### Enhancements
 - Faster page navigation through the use of turbolinks
