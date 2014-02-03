@@ -11,6 +11,7 @@
   - Variable names can now be edited in addition to the display name when adding variables to a design
 - **Sheet Changes**
   - Clicking tilda (~) now clears radio and checkbox selections along with back tick (`)
+  - Public surveys now longer display the value of the answer
 - **Gem Changes**
   - Updated to contour 2.3.0
 

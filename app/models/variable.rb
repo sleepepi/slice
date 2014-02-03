@@ -194,8 +194,8 @@ class Variable < ActiveRecord::Base
     self.shared_options.select{|opt| opt[:missing_code] == '1'}
   end
 
-  def grouped_by_missing
-    [ ['', self.options_without_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[opt[:value],opt[:name]].compact.join(': '),opt[:value]]}] ]
+  def grouped_by_missing(show_values)
+    [ ['', self.options_without_missing.collect{|opt| [[(show_values ? opt[:value] : nil),opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[(show_values ? opt[:value] : nil),opt[:name]].compact.join(': '),opt[:value]]}] ]
   end
 
   def options_or_autocomplete(include_missing)
