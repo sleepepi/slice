@@ -5,7 +5,7 @@
   <% max_position = sheet_variable ? (sheet_variable.grids.pluck(:position) + [variable.default_row_number - 1]).max.to_i : (variable.default_row_number - 1) %>
   <% range = (0..max_position) %>
 <% end %>
-
+<% show_values = true unless defined?(show_values) %>
 
 <table class="table table-hover">
   <thead>
@@ -19,7 +19,7 @@
   </thead>
   <tbody id="variable_<%= variable.id %>_grid_container" class="grid_sortable">
     <% range.each do |position| %>
-      <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, sheet_variable: sheet_variable, position: position, variable: variable } %>
+      <%= render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, sheet_variable: sheet_variable, position: position, variable: variable, show_values: show_values } %>
     <% end %>
   </tbody>
 </table>

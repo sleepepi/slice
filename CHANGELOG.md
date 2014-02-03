@@ -1,5 +1,8 @@
 ## 0.23.1
 
+### Bug Fix
+- Dropdowns, checkboxes, and radio buttons in grids now correctly show values for non-public designs (reported by ekaplan)
+
 ## 0.23.0 (February 3, 2014)
 
 ### Enhancements
