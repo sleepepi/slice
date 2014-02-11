@@ -8,7 +8,7 @@ gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              '~> 2.3.0'
+gem 'contour',              '~> 2.4.0.beta1'
 gem 'kaminari',             '~> 0.15.1'
 gem 'carrierwave',          '~> 0.9.0'
 # gem 'audited-activerecord', '~> 3.0.0'
