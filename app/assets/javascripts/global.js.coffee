@@ -50,8 +50,6 @@
 
 @ready = () ->
   contourReady()
-  $(document).off("click", ".pagination a, .page a, .next a, .prev a")
-  # $(document).off("click", ".per_page a")
   globalReady()
   designsReady()
   domainsReady()
@@ -93,20 +91,6 @@ $(document)
   )
   .on('click', '[data-object~="submit"]', () ->
     $($(this).data('target')).submit()
-    false
-  )
-  .on('click', '[data-object~="reset-filters"]', () ->
-    $('[data-object~="filter"]').val('')
-    $('[data-object~="filter-html"]').html('')
-    $('#variable-type-all').button('toggle')
-    $('#statuses_valid').parent().addClass('active')
-    $('#statuses_test').parent().removeClass('active')
-    $('#statuses_test').prop('checked', false)
-    $('#statuses_valid').prop('checked', true)
-    $($(this).data('target')).submit()
-    false
-  )
-  .on('click', '[data-object~="suppress-click"]', () ->
     false
   )
   .on('mouseenter', '[data-object~="hover-show"]', () ->

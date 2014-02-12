@@ -1,18 +1,18 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'exports', per_page: 20, object_count: @exports.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @exports.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.status', '', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.created_at', 'Exported', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_xls', 'XLS', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_csv_labeled', 'CSV Labeled', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_csv_raw', 'CSV Raw', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_pdf', 'PDF', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_files', 'Files', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_data_dictionary', 'Data Dictionary', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_sas', 'SAS', 'exports_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.file', 'File', 'exports_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.status', '') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.created_at', 'Exported') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_xls', 'XLS') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_csv_labeled', 'CSV Labeled') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_csv_raw', 'CSV Raw') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_pdf', 'PDF') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_files', 'Files') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_data_dictionary', 'Data Dictionary') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_sas', 'SAS') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.file', 'File') %></th>
       <th style="white-space:nowrap">Size</th>
       <th>Actions</th>
     </tr>

@@ -20,14 +20,12 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
       return
     end
-    current_user.pagination_set!('users', params[:users_per_page].to_i) if params[:users_per_page].to_i > 0
 
     @order = scrub_order(User, params[:order], 'users.current_sign_in_at DESC')
-    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per( current_user.pagination_count('users') )
+    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per( 40 )
 
     respond_to do |format|
       format.html
-      format.js
       format.json do # TODO: Put into jbuilder instead!
         render json: params[:q].to_s.split(',').collect{ |u| (u.strip.downcase == 'me') ? { name: current_user.name, id: current_user.name } : { name: u.strip.titleize, id: u.strip.titleize } } + @users.collect{ |u| { name: u.name, id: u.name } }
       end

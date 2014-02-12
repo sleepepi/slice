@@ -1,11 +1,11 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'posts', per_page: 20, object_count: @posts.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @posts.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.name', 'Name', 'posts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.description', 'Description', 'posts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.archived', 'Archived', 'posts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.name', 'Name') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.description', 'Description') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'posts.archived', 'Archived') %></th>
       <th>Actions</th>
     </tr>
   </thead>

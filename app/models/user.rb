@@ -66,16 +66,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def pagination_count(model)
-    self.pagination[model.to_s].to_i > 0 ? self.pagination[model.to_s].to_i : 25
-  end
-
-  def pagination_set!(model, count)
-    original_pagination = self.pagination
-    original_pagination[model.to_s] = count
-    self.update_attributes pagination: original_pagination
-  end
-
   def all_projects
     @all_projects ||= begin
       Project.current.with_editor(self.id, true)

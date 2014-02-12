@@ -10,9 +10,8 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
-    current_user.pagination_set!('sites', params[:sites_per_page].to_i) if params[:sites_per_page].to_i > 0
     @order = scrub_order(Site, params[:order], 'sites.name')
-    @sites = current_user.all_viewable_sites.search(params[:search]).where(project_id: @project.id).order(@order).page(params[:page]).per( current_user.pagination_count('sites') )
+    @sites = current_user.all_viewable_sites.search(params[:search]).where(project_id: @project.id).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /sites/1

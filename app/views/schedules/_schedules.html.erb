@@ -1,9 +1,9 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'schedules', per_page: 20, object_count: @schedules.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @schedules.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'schedules.name', 'Name', 'schedules_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'schedules.name', 'Name') %></th>
       <th>Events</th>
       <th>Actions</th>
     </tr>

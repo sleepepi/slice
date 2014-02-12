@@ -1,12 +1,12 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'domains', per_page: 20, object_count: @domains.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @domains.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th># Variables</th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.name', 'Name', 'domains_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.name', 'Name') %></th>
       <th style="white-space:nowrap">Options</th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.user_id', '', 'domains_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'domains.user_id', '') %></th>
       <th>Actions</th>
     </tr>
   </thead>

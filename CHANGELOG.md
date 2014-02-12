@@ -2,7 +2,7 @@
 
 ### Enhancements
 - **Gem Changes**
-  - Updated to contour 2.4.0.beta1
+  - Updated to contour 2.4.0.beta2
 
 ## 0.23.1 (February 3, 2014)
 

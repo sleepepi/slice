@@ -47,8 +47,6 @@ class VariablesController < ApplicationController
   # GET /variables
   # GET /variables.json
   def index
-    current_user.pagination_set!('variables', params[:variables_per_page].to_i) if params[:variables_per_page].to_i > 0
-
     @order = scrub_order(Variable, params[:order], 'variables.name')
     variable_scope = current_user.all_viewable_variables.search(params[:search]).order(@order)
 
@@ -56,7 +54,7 @@ class VariablesController < ApplicationController
     variable_scope = variable_scope.where(user_id: params[:user_id]) unless params[:user_id].blank?
     variable_scope = variable_scope.with_variable_type(params[:variable_type]) unless params[:variable_type].blank? or params[:variable_type] == 'on'
 
-    @variables = variable_scope.page(params[:page]).per( current_user.pagination_count('variables') )
+    @variables = variable_scope.page(params[:page]).per( 40 )
   end
 
   # GET /variables/1

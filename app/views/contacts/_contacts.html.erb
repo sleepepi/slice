@@ -1,15 +1,15 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'contacts', per_page: 20, object_count: @contacts.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @contacts.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.title', 'Title', 'contacts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.name', 'Name', 'contacts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.phone', 'Phone', 'contacts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.fax', 'Fax', 'contacts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.email', 'Email', 'contacts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.position', 'Position', 'contacts_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.archived', 'Archived', 'contacts_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.title', 'Title') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.name', 'Name') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.phone', 'Phone') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.fax', 'Fax') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.email', 'Email') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.position', 'Position') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'contacts.archived', 'Archived') %></th>
       <th>Actions</th>
     </tr>
   </thead>

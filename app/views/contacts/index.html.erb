@@ -6,12 +6,10 @@
   </h1>
 </div>
 
-<%= form_tag project_contacts_path(@project), method: :get, id: "contacts_search", class: 'form-inline' do %>
+<%= form_tag project_contacts_path(@project), method: :get, class: 'form-inline' do %>
   <%= hidden_field_tag :order, params[:order] %>
   <%= text_field_tag 'search', params[:search], class: 'form-control' %>
   <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
 <% end %>
 
-<div id="contacts">
-  <%= render partial: 'contacts/contacts' %>
-</div>
+<%= render partial: 'contacts/contacts' %>

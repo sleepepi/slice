@@ -48,75 +48,68 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should get paginated index" do
-    get :index, project_id: @project, format: 'js'
+    get :index, project_id: @project, page: 2
     assert_not_nil assigns(:sheets)
-    assert_template 'index'
-  end
-
-  test "should get index and set per page" do
-    get :index, project_id: @project, format: 'js', sheets_per_page: 50
-    assert_not_nil assigns(:sheets)
-    assert_equal 50, users(:valid).reload.pagination_count('sheets')
     assert_template 'index'
   end
 
   test "should get paginated index order by site" do
-    get :index, project_id: @project, order: 'sheets.site_name', format: 'js'
+    get :index, project_id: @project, order: 'sheets.site_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
   test "should get paginated index order by site descending" do
-    get :index, project_id: @project, order: 'sheets.site_name DESC', format: 'js'
+    get :index, project_id: @project, order: 'sheets.site_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
 
-  test "should get paginated index by design_name" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.design_name'
+  test "should get index by design_name" do
+    get :index, project_id: @project, order: 'sheets.design_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index by design_name desc" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.design_name DESC'
+  test "should get index by design_name desc" do
+    get :index, project_id: @project, order: 'sheets.design_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index by subject_code" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.subject_code'
+  test "should get index by subject_code" do
+    get :index, project_id: @project, order: 'sheets.subject_code'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index by subject_code desc" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.subject_code DESC'
+  test "should get index by subject_code desc" do
+    get :index, project_id: @project, order: 'sheets.subject_code DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index by project_name" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.project_name'
+  test "should get index by project_name" do
+    get :index, project_id: @project, order: 'sheets.project_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index by project_name desc" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.project_name DESC'
+  test "should get index by project_name desc" do
+    get :index, project_id: @project, order: 'sheets.project_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index by user_name" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.user_name'
+  test "should get index by user_name" do
+    get :index, project_id: @project, order: 'sheets.user_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index by user_name desc" do
-    get :index, project_id: @project, format: 'js', order: 'sheets.user_name DESC'
+  test "should get index by user_name desc" do
+    get :index, project_id: @project, order: 'sheets.user_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end

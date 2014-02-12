@@ -156,8 +156,6 @@ class DesignsController < ApplicationController
   # GET /designs
   # GET /designs.json
   def index
-    current_user.pagination_set!('designs', params[:designs_per_page].to_i) if params[:designs_per_page].to_i > 0
-
     design_scope = current_user.all_viewable_designs.search(params[:search])
 
     @order = params[:order]
@@ -176,7 +174,7 @@ class DesignsController < ApplicationController
       design_scope = design_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
     end
 
-    @designs = design_scope.page(params[:page]).per( current_user.pagination_count('designs') )
+    @designs = design_scope.page(params[:page]).per( 40 )
   end
 
   # This is the latex view

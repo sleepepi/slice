@@ -1,12 +1,12 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'documents', per_page: 20, object_count: @documents.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @documents.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.name', 'Name', 'documents_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.category', 'Category', 'documents_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.file', 'File', 'documents_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.archived', 'Archived', 'documents_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.name', 'Name') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.category', 'Category') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.file', 'File') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'documents.archived', 'Archived') %></th>
       <th>Actions</th>
     </tr>
   </thead>

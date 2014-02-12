@@ -10,15 +10,13 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.json
   def index
-    current_user.pagination_set!('subjects', params[:subjects_per_page].to_i) if params[:subjects_per_page].to_i > 0
-
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
     @statuses = params[:statuses] || ['valid']
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).where(status: @statuses).search(params[:search]).order(@order)
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
     subject_scope = Subject.without_design_event_schedule(subject_scope, @project, params[:without_design_id], params[:without_event_id], params[:without_schedule_id])
 
-    @subjects = subject_scope.page(params[:page]).per( current_user.pagination_count('subjects') )
+    @subjects = subject_scope.page(params[:page]).per( 40 )
   end
 
   # GET /subjects/1

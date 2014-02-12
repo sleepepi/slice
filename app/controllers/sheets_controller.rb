@@ -10,7 +10,6 @@ class SheetsController < ApplicationController
   # GET /sheets
   # GET /sheets.json
   def index
-    current_user.pagination_set!('sheets', params[:sheets_per_page].to_i) if params[:sheets_per_page].to_i > 0
     sheet_scope = current_user.all_viewable_sheets.search(params[:search])
 
     @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
@@ -58,7 +57,7 @@ class SheetsController < ApplicationController
 
     generate_export(sheet_scope, (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1'), (params[:sas].to_s == '1')) if params[:export].to_s == '1'
 
-    @sheets = sheet_scope.page(params[:page]).per( current_user.pagination_count('sheets') )
+    @sheets = sheet_scope.page(params[:page]).per( 40 )
   end
 
   # This is the latex view

@@ -11,7 +11,7 @@
     <div class="form-group">
       <%= label :search, 'Search', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
+        <%= text_field_tag 'search', params[:search], class: 'form-control' %>
       </div>
     </div>
 
@@ -30,6 +30,4 @@
   </div>
 <% end %>
 
-<div id="variables">
-  <%= render partial: 'variables/variables' %>
-</div>
+<%= render partial: 'variables/variables' %>

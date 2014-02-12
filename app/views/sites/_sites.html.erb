@@ -1,12 +1,12 @@
-<%= render partial: 'layouts/per_page', locals: { type: 'sites', per_page: 20, object_count: @sites.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @sites.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.name', 'Name', 'sites_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.prefix', 'Prefix', 'sites_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.description', 'Description', 'sites_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.user_id', 'Creator', 'sites_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.name', 'Name') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.prefix', 'Prefix') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.description', 'Description') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'sites.user_id', 'Creator') %></th>
       <th>Actions</th>
     </tr>
   </thead>

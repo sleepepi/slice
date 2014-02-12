@@ -1,12 +1,12 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'links', per_page: 20, object_count: @links.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @links.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.name', 'Name', 'links_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.category', 'Category', 'links_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.url', 'URL', 'links_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.archived', 'Archived', 'links_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.name', 'Name') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.category', 'Category') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.url', 'URL') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'links.archived', 'Archived') %></th>
       <th>Actions</th>
     </tr>
   </thead>

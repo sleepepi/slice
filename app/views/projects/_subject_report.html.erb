@@ -3,7 +3,7 @@
 
 <% if include_header %>
   <h3 style="text-align:center;margin:0px">Subject vs. Design</h3>
-  <%= render partial: 'layouts/per_page', locals: { type: 'subjects', per_page: 20, object_count: @subjects.total_count } %>
+  <%= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @subjects.total_count } %>
 <% end %>
 
 <div class="table-responsive">

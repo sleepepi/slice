@@ -35,12 +35,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get index with pagination" do
-    get :index, format: 'js'
-    assert_not_nil assigns(:users)
-    assert_template 'index'
-  end
-
   test "should get index for autocomplete" do
     login(users(:valid))
     get :index, format: 'json'

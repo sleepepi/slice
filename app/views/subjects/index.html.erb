@@ -13,7 +13,7 @@
     <div class="col-md-4 form-group">
       <%= label :search, 'Search', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' } %>
+        <%= text_field_tag 'search', params[:search], class: 'form-control' %>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
     <div class="col-md-4 form-group" id="select_site">
       <%= label :site_id, 'Site', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where( project_id: @project.id ).order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), data: { object: 'filter' }, class: 'form-control' %>
+        <%= select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where( project_id: @project.id ).order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), class: 'form-control' %>
       </div>
 
     </div>
@@ -37,7 +37,7 @@
     <div class="col-md-4 form-group" id="select_design">
       <%= label :without_design_id, 'Without Design', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag :without_design_id, options_for_select([['---', nil]] + @project.designs.order('name').collect{|d| [d.name, d.id]}, params[:without_design_id] ), data: { object: 'filter' }, class: 'form-control' %>
+        <%= select_tag :without_design_id, options_for_select([['---', nil]] + @project.designs.order('name').collect{|d| [d.name, d.id]}, params[:without_design_id] ), class: 'form-control' %>
       </div>
     </div>
 
@@ -47,8 +47,8 @@
         <label class="col-md-2 control-label">Without</label>
         <div class="col-md-10">
           <%= schedule.name %> &middot; <%= event.name %>
-          <%= hidden_field_tag :without_event_id, params[:without_event_id], data: { object: 'filter' } %>
-          <%= hidden_field_tag :without_schedule_id, params[:without_schedule_id], data: { object: 'filter' } %>
+          <%= hidden_field_tag :without_event_id, params[:without_event_id] %>
+          <%= hidden_field_tag :without_schedule_id, params[:without_schedule_id] %>
         </div>
       </div>
     <% end %>
@@ -63,6 +63,4 @@
   </div>
 <% end %>
 
-<div id="subjects">
-  <%= render partial: 'subjects/subjects' %>
-</div>
+<%= render partial: 'subjects/subjects' %>

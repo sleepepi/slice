@@ -1,12 +1,12 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'comments', per_page: 20, object_count: @comments.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @comments.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.user_id', 'User', 'comments_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.sheet_id', 'Sheet', 'comments_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.description', 'Description', 'comments_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.created_at', 'Created at', 'comments_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.user_id', 'User') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.sheet_id', 'Sheet') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.description', 'Description') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'comments.created_at', 'Created at') %></th>
       <th>Actions</th>
     </tr>
   </thead>

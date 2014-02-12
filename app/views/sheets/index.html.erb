@@ -21,20 +21,20 @@
     <div class="col-md-4 form-group">
       <%= label :search, 'Search', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' }, placeholder: 'Design Name or Subject Code' %>
+        <%= text_field_tag 'search', params[:search], class: 'form-control', placeholder: 'Design Name or Subject Code' %>
       </div>
     </div>
     <div class="col-md-4 form-group">
       <%= label :sheet_after, 'Date after', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker form-control', data: { object: 'filter' } %>
+        <%= text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker form-control' %>
       </div>
     </div>
 
     <div class="col-md-4 form-group">
       <%= label :sheet_before, 'Date before', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker form-control', data: { object: 'filter' } %>
+        <%= text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker form-control' %>
       </div>
     </div>
   </div>
@@ -44,33 +44,33 @@
     <div class="col-md-4 form-group">
       <%= label :project_id, 'Project', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), data: { object: 'filter' }, class: 'form-control' %>
+        <%= select_tag :project_id, options_for_select([['---', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] ), class: 'form-control' %>
       </div>
     </div>
     <% end %>
     <div class="col-md-4 form-group">
       <%= label :site_id, 'Site', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where(project_id: @project.id).order(:name).collect{|s| [s.name, s.id]}, params[:site_id]), data: { object: 'filter' }, class: 'form-control' %>
+        <%= select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where(project_id: @project.id).order(:name).collect{|s| [s.name, s.id]}, params[:site_id]), class: 'form-control' %>
       </div>
     </div>
     <div class="col-md-4 form-group">
       <%= label :design_id, 'Design', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag :design_id, options_for_select([['---', nil]] + current_user.all_viewable_designs.where(project_id: @project.id).order(:name).collect{|d| [d.name, d.id]}, params[:design_id]), data: { object: 'filter' }, class: 'form-control' %>
+        <%= select_tag :design_id, options_for_select([['---', nil]] + current_user.all_viewable_designs.where(project_id: @project.id).order(:name).collect{|d| [d.name, d.id]}, params[:design_id]), class: 'form-control' %>
       </div>
     </div>
     <div class="col-md-4 form-group">
       <%= label :user_id, 'Creator', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_sheet.order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), data: { object: 'filter' }, class: 'form-control' %>
+        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_sheet.order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control' %>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-4 form-group">
-      <%= hidden_field_tag :filter, @filter, data: { object: 'filter' } %>
+      <%= hidden_field_tag :filter, @filter %>
       <%= label :statuses, 'Status', class: 'col-md-2 control-label' %>
 
       <div class="col-md-10">

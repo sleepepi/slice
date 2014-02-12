@@ -6,15 +6,12 @@
   </h1>
 </div>
 
-<%= form_tag project_sites_path(@project), method: :get, id: "sites_search", class: 'form-inline' do %>
+<%= form_tag project_sites_path(@project), method: :get, class: 'form-inline' do %>
   <%= hidden_field_tag :order, params[:order] %>
 
-  <%= text_field_tag 'search', params[:search], class: 'form-control', data: { object: 'filter' }  %>
+  <%= text_field_tag 'search', params[:search], class: 'form-control' %>
   <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
   <%= link_to 'Reset', project_sites_path(@project), class: 'btn btn-default' %>
-
 <% end %>
 
-<div id="sites">
-  <%= render partial: 'sites/sites' %>
-</div>
+<%= render partial: 'sites/sites' %>

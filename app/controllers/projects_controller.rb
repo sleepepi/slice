@@ -77,9 +77,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1/subject_report
   # GET /projects/1/subject_report.js
   def subject_report
-    current_user.pagination_set!('subjects', params[:subjects_per_page].to_i) if params[:subjects_per_page].to_i > 0
     @statuses = params[:statuses] || ['valid']
-    @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order('subject_code').page(params[:page]).per( current_user.pagination_count('subjects') )
+    @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order('subject_code').page(params[:page]).per( 40 )
     @designs = @project.designs.order('name')
   end
 
@@ -121,9 +120,8 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    current_user.pagination_set!('projects', params[:projects_per_page].to_i) if params[:projects_per_page].to_i > 0
     @order = scrub_order(Project, params[:order], 'projects.name')
-    @projects = current_user.all_viewable_projects.search(params[:search]).order(@order).page(params[:page]).per( current_user.pagination_count('projects') )
+    @projects = current_user.all_viewable_projects.search(params[:search]).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /projects/1
