@@ -1,9 +1,9 @@
 require 'omniauth-openid'
 require 'omniauth-ldap'
-require 'omniauth-twitter'
-require 'omniauth-facebook'
-require 'omniauth-linkedin'
-require 'omniauth-cas'
+# require 'omniauth-twitter'
+# require 'omniauth-facebook'
+# require 'omniauth-linkedin'
+# require 'omniauth-cas'
 
 require 'openid/store/filesystem'
 Rails.application.config.middleware.use OmniAuth::Builder do
@@ -11,17 +11,18 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :open_id, store: OpenID::Store::Filesystem.new('/tmp')
   provider :LDAP, host: 'ldap.example.com', port: 389, method: :plain, base: 'cn=users,dc=example,dc=com', uid: 'sAMAccountName', domain: '' #, try_sasl: true, sasl_mechanisms: "GSS-SPNEGO"
 
-  provider :twitter, 'CONSUMER_KEY', 'CONSUMER_SECRET'
-  provider :facebook, 'APP_ID', 'APP_SECRET'
-  provider :linked_in, 'CONSUMER_KEY', 'CONSUMER_SECRET'
-  provider :cas, host: 'cas.yourdomain.com', login_url: 'https://www.example.com/cas'
+  # provider :twitter, 'CONSUMER_KEY', 'CONSUMER_SECRET'
+  # provider :facebook, 'APP_ID', 'APP_SECRET'
+  # provider :linked_in, 'CONSUMER_KEY', 'CONSUMER_SECRET'
+  # provider :cas, host: 'cas.yourdomain.com', login_url: 'https://www.example.com/cas'
 
   # Other providers will need gems added in your Gemfile, and the provider configured in this block.
   #   https://github.com/intridea/omniauth/wiki/List-of-Strategies
 end
 
 # This list will show the first choice as the default, and the rest as potential secondary login methods.
-PROVIDERS = [:google_apps, :open_id, :LDAP, :twitter, :facebook, :linked_in, :cas]
+# PROVIDERS = [:google_apps, :open_id, :LDAP, :twitter, :facebook, :linked_in, :cas]
+PROVIDERS = [:google_apps, :LDAP]
 
 # LDAP
 # :port (required) - The LDAP server port.
