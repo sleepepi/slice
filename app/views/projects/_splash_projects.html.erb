@@ -47,4 +47,4 @@
   </div>
 <% end %>
 
-<div class="center"><%= paginate @projects, theme: "contour" %></div>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 8, object_count: @projects.total_count, pagination: 'small' } %>
