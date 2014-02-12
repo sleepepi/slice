@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to contour 2.4.0.beta2
+- Added [NProgress](http://ricostacruz.com/nprogress) to visualize turbolinks transitions
 
 ## 0.23.1 (February 3, 2014)
 
