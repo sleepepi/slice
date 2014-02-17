@@ -178,7 +178,7 @@ class Design < ActiveRecord::Base
   end
 
   def copyable_attributes
-    self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+    self.attributes.reject{|key, val| ['id', 'slug', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
 
   # We want all validations to run so all errors will show up when submitting a form

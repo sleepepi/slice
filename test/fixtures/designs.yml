@@ -8,6 +8,7 @@ one:
   options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:one) %> },
             { variable_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, branching_logic: "var_1 == 'Value'" },
             { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> }]
+  slug: design-one
   user: valid
   project: one
 

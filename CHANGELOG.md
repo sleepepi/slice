@@ -7,6 +7,7 @@
 
 ### Bug Fix
 - Leading and trailing white spaces are now removed from subject codes when the record is saved
+- Copying designs no longer throws an error due to non-unique slug validation
 
 ## 0.23.1 (February 3, 2014)
 
