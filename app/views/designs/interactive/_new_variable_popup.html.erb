@@ -26,7 +26,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Name</label>
       <div class="col-md-10">
-        <%= text_field_tag "variable[name]", '', maxlength: 32, autocomplete: 'off', data: { placement: 'right' }, class: 'form-control' %>
+        <%= text_field_tag "variable[name]", '', maxlength: 32, autocomplete: 'off', data: { placement: 'right', object: 'push-partial-change-text-field', target: '#variable_form', create: 'variable', position: params[:position] }, class: 'form-control' %>
       </div>
     </div>
   </form>

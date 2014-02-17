@@ -11,6 +11,7 @@
 - Copying designs no longer throws an error due to non-unique slug validation
 - Adding grid rows now correctly appends values to dropdowns and radio variables when editing a sheet as an editor
 - Subject creation and index pages now correctly use the project setting for the subject code name
+- Typing `Enter` when adding a new variable to a design now correctly submits the form to create the variable
 
 ## 0.23.1 (February 3, 2014)
 
