@@ -4,6 +4,7 @@
 - **Gem Changes**
   - Updated to contour 2.4.0.beta3
 - Added [NProgress](http://ricostacruz.com/nprogress) to visualize turbolinks transitions
+- Grid variables with a fixed number of rows no longer show the actions column
 
 ### Bug Fix
 - Leading and trailing white spaces are now removed from subject codes when the record is saved

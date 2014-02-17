@@ -14,7 +14,9 @@
         <% v = Variable.find_by_id(grid_variable_id[:variable_id]) %>
         <th><%= v.display_name if v %></th>
       <% end %>
-      <th>Actions</th>
+      <% if variable.multiple_rows? %>
+        <th>Actions</th>
+      <% end %>
     </tr>
   </thead>
   <tbody id="variable_<%= variable.id %>_grid_container" class="grid_sortable">
