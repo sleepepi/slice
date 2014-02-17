@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.status', '') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.subject_code', 'Subject Code') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.subject_code', @project.subject_code_name_full) %></th>
 
       <% if (@project and @project.acrostic_enabled?) or not @project %>
         <th style="white-space:nowrap"><%== sort_field_helper(@order, 'subjects.acrostic', 'Acrostic') %></th>

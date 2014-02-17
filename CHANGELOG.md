@@ -9,6 +9,7 @@
 - Leading and trailing white spaces are now removed from subject codes when the record is saved
 - Copying designs no longer throws an error due to non-unique slug validation
 - Adding grid rows now correctly appends values to dropdowns and radio variables when editing a sheet as an editor
+- Subject creation and index pages now correctly use the project setting for the subject code name
 
 ## 0.23.1 (February 3, 2014)
 
