@@ -54,12 +54,17 @@
   <% @option = option %>
 
   <% if @option[:variable_id].blank? %>
+
     <% if @option[:section_type].to_i > 0 %>
       \subsubsection*{<%= latex_safe @option[:section_name] %>}
     <% else %>
+      <% unless index == 0 %>\pagebreak<% end %>
       \subsection*{<%= latex_safe @option[:section_name] %>}
     <% end %>
-    \hline
+
+    <% unless @option[:section_name].blank? %>
+      <%= latex_safe @option[:section_description] %>
+    <% end %>
 ~
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
     <% if @variable.variable_type == 'grid' %> <%# sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>

@@ -1,13 +1,9 @@
 <% section_type = @option[:section_type].to_i %>
 <section style="padding-top:30px">
-    <% if section_type > 0 %><h4><% else %><h2><% end %>
-      <%= @option[:section_name] %>
-      <%= link_to 'Edit Section', '#', data: { object: 'pull-partial-edit', edit: 'section', position: @position }, class: 'btn btn-xs btn-default design-preview-hide' %>
-      <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position, confirm: "Are you sure you want section '#{@option[:section_name]}' from the design?" }, class: 'btn btn-xs btn-danger-inverse design-preview-hide' %>
-    <% if section_type > 0 %></h4><% else %></h2><% end %>
-    <% if @option[:section_description].blank? %>
-      <div class="muted design-preview-hide">Click to Edit Section Description</div>
-    <% else %>
-      <%= simple_markdown @option[:section_description] %>
-    <% end %>
+  <% if section_type > 0 %><h4><% else %><h2><% end %>
+  <%= @option[:section_name] %>
+  <%= link_to 'Edit Section', '#', data: { object: 'pull-partial-edit', edit: 'section', position: @position }, class: 'btn btn-xs btn-default design-preview-hide' %>
+  <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position, confirm: "Are you sure you want section '#{@option[:section_name]}' from the design?" }, class: 'btn btn-xs btn-danger-inverse design-preview-hide' %>
+  <% if section_type > 0 %></h4><% else %></h2><% end %>
+  <%= simple_markdown @option[:section_description] unless @option[:section_description].blank? %>
 </section>
