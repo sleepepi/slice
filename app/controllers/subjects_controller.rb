@@ -92,6 +92,8 @@ class SubjectsController < ApplicationController
     def subject_params
       params[:subject] ||= {}
 
+      params[:subject][:subject_code] = params[:subject][:subject_code].strip unless params[:subject][:subject_code].blank?
+
       params[:subject][:site_id] = (current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i) ? params[:site_id].to_i : nil)
       params[:subject][:project_id] = @project.id
 

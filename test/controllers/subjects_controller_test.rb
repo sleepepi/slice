@@ -47,15 +47,15 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
   end
 
-  # test "should create subject and strip whitespace" do
-  #   assert_difference('Subject.count') do
-  #     post :create, project_id: @project, subject: { subject_code: ' Code04 ', acrostic: '', status: @subject.status }, site_id: @subject.site_id
-  #   end
+  test "should create subject and strip whitespace" do
+    assert_difference('Subject.count') do
+      post :create, project_id: @project, subject: { subject_code: ' Code04 ', acrostic: '', status: @subject.status }, site_id: @subject.site_id
+    end
 
-  #   assert_equal 'Code04', assigns(:subject).subject_code
+    assert_equal 'Code04', assigns(:subject).subject_code
 
-  #   assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
-  # end
+    assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
+  end
 
   test "should not create subject with blank subject code" do
     assert_difference('Subject.count', 0) do

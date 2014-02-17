@@ -182,6 +182,7 @@ class User < ActiveRecord::Base
   def create_subject(project, subject_code, site_id, acrostic)
     if self.all_editable_sites.where( id: site_id, project_id: project.id ).count == 1
       if not subject_code.blank? and not site_id.blank?
+        subject_code.strip!
         if subject = project.subjects.where( "LOWER(subjects.subject_code) = ?", subject_code.downcase ).first and self.all_editable_sites.where( id: subject.site_id, project_id: project.id ).count == 1
           # subject exists, and is on another "editable" site for user
           # Change subject to new "accepted site"

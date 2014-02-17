@@ -5,6 +5,9 @@
   - Updated to contour 2.4.0.beta3
 - Added [NProgress](http://ricostacruz.com/nprogress) to visualize turbolinks transitions
 
+### Bug Fix
+- Leading and trailing white spaces are now removed from subject codes when the record is saved
+
 ## 0.23.1 (February 3, 2014)
 
 ### Bug Fix
