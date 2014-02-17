@@ -91,11 +91,13 @@ $(document)
     false
   )
   .on('click', "[data-link]", (e) ->
-    if nonStandardClick(e)
+    if $(e.target).is('a')
+      # Do nothing, propagate standard behavior
+    else if nonStandardClick(e)
       window.open($(this).data("link"))
       return false
     else
-      window.location = $(this).data("link")
+      Turbolinks.visit($(this).data("link"))
   )
   .on('click', '[data-object~="export-data"]', () ->
     $('[data-dismiss~=alert]').click()
