@@ -215,7 +215,8 @@ $(document)
   )
   .on('click', '[data-object~="grid-row-add"]', () ->
     variable_id = $(this).data('variable-id')
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/add_grid_row', 'sheet_authentication_token=' + ($('#sheet_authentication_token').val() || ""), null, "script")
+    header = $(this).data('header')
+    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/add_grid_row', 'sheet_authentication_token=' + ($('#sheet_authentication_token').val() || "") + '&header=' + header, null, "script")
     false
   )
   .on('click', '[data-object~="set-current-time"]', () ->

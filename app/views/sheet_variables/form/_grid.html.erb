@@ -24,4 +24,4 @@
   </tbody>
 </table>
 
-<%= link_to 'Add Row', '#', class: 'btn btn-default btn-xs', data: { object: 'grid-row-add', variable_id: variable.id }, tabindex: "-1" if variable.multiple_rows? %>
+<%= link_to 'Add Row', '#', class: 'btn btn-default btn-xs', data: { object: 'grid-row-add', variable_id: variable.id, header: show_values ? '1' : '0' }, tabindex: "-1" if variable.multiple_rows? %>
