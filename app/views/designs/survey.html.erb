@@ -17,8 +17,12 @@
   </div>
 
   <div class="form-signin">
-    <p class="lead">Please enter your email</p>
-    <%= email_field_tag :email, '', class: 'form-control', placeholder: 'Email' %>
+    <% if @design.project.collect_email_on_surveys? %>
+      <p class="lead">Please enter your email</p>
+      <%= email_field_tag :email, '', class: 'form-control', placeholder: 'Email' %>
+    <% else %>
+      <p class="lead">Thank you</p>
+    <% end %>
 
     <% form_name = "survey_#{@design.id}_form" %>
     <%= submit_tag 'Submit Survey', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large' %>

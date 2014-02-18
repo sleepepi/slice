@@ -210,6 +210,7 @@ class ProjectsController < ApplicationController
       params.require(:project).permit(
         :name, :description, :acrostic_enabled, :subject_code_name,
         :show_contacts, :show_documents, :show_posts, :disable_all_emails,
+        :collect_email_on_surveys,
         # Uploaded Logo
         :logo, :logo_uploaded_at, :logo_cache,
         # Will automatically generate a site if the project has no site
