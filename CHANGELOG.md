@@ -1,4 +1,4 @@
-## 0.23.3
+## 0.23.3 (February 18, 2014)
 
 ### Enhancements
 - Project level setting that allows project owners to disable collecting email by default on public surveys
