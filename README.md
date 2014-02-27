@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/slice.png)](https://gemnasium.com/remomueller/slice)
 [![Code Climate](https://codeclimate.com/github/remomueller/slice.png)](https://codeclimate.com/github/remomueller/slice)
 
-A clinical research interface geared at collecting robust and consistent data by providing a strong framework for designing data dictionaries and collection forms. Slice also provides exports of the data and the data dictionaries created as well as providing a simple reporting interface. Using Rails 4.0+ and Ruby 2.1.0+.
+A clinical research interface geared at collecting robust and consistent data by providing a strong framework for designing data dictionaries and collection forms. Slice also provides exports of the data and the data dictionaries created as well as providing a simple reporting interface. Using Rails 4.0+ and Ruby 2.1.1+.
 
 ## Installation
 
@@ -53,7 +53,7 @@ All done!
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
 
 ```
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.1.0/bin/bundle exec rake daily_digest RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.1.1/bin/bundle exec rake daily_digest RAILS_ENV=production
 ```
 
 ## Contributing to Slice
