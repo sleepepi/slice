@@ -1,3 +1,5 @@
+## 0.23.4
+
 ## 0.23.3 (February 18, 2014)
 
 ### Enhancements
