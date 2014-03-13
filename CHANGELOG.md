@@ -1,5 +1,9 @@
 ## 0.23.5
 
+### Enhancements
+- **Gem Changes**
+  - Updated to contour 2.4.0
+
 ### Bug Fix
 - Fixed a bug that slowed down the design editor due to multiplying hidden calendar popups
 
