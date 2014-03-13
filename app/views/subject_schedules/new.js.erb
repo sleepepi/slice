@@ -5,8 +5,4 @@ $("#schedule_modal").modal('show');
   $('#subject_schedule_<%= key %>').parent().parent().addClass('has-error');
 <% end %>
 
-$(".datepicker").datepicker('remove');
-$(".datepicker").datepicker({ autoclose: true });
-$(".datepicker").change(function(){
-try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
-});
+resetDatePickers();

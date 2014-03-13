@@ -1,8 +1,4 @@
 $("#schedule_modal_content").html("<%= escape_javascript(render partial: 'subject_schedules/form') %>");
 $("#schedule_modal").modal('show');
 
-$(".datepicker").datepicker('remove');
-$(".datepicker").datepicker({ autoclose: true });
-$(".datepicker").change(function(){
-  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
-});
+resetDatePickers();

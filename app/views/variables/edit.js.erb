@@ -9,8 +9,4 @@ loadVariableSortable();
 
 $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
 
-$(".datepicker").datepicker('remove');
-$(".datepicker").datepicker({ autoclose: true });
-$(".datepicker").change(function(){
-  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
-});
+resetDatePickers();

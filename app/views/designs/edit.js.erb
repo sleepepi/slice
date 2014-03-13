@@ -11,11 +11,8 @@
 $("#interactive-design-container").find('input, textarea').first().focus();
 
 $(".chzn-select").chosen({ allow_single_deselect: true });
-$(".datepicker").datepicker('remove');
-$(".datepicker").datepicker({ autoclose: true });
-$(".datepicker").change(function(){
-  try { $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val()))); } catch(e) { }
-});
+resetDatePickers();
+
 <% if ['variable_domain', 'variable_grid_variables'].include?(params[:edit]) %>
   $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
 <% end %>

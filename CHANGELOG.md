@@ -1,5 +1,8 @@
 ## 0.23.5
 
+### Bug Fix
+- Fixed a bug that slowed down the design editor due to multiplying hidden calendar popups
+
 ## 0.23.4 (February 27, 2014)
 
 ### Enhancements
