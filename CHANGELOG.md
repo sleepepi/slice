@@ -6,6 +6,9 @@
   - Updated to redcarpet 3.1.1
   - Updated to carrierwave 0.10.0
 
+### Bug Fix
+- Fixed a bug that caused the top vertical radio or checkbox option to hide the related question in the mobile view
+
 ## 0.23.5 (March 13, 2014)
 
 ### Enhancements
