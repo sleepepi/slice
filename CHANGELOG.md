@@ -4,6 +4,7 @@
 - **Gem Changes**
   - Updated to rails 4.0.4
   - Updated to redcarpet 3.1.1
+  - Updated to carrierwave 0.10.0
 
 ## 0.23.5 (March 13, 2014)
 
