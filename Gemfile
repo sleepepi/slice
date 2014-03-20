@@ -20,7 +20,7 @@ gem 'rubyzip',              '~> 1.1.0'
 gem 'mail_view',            '~> 2.0.1'
 gem 'naturalsort',          '~> 1.1.1'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
-gem 'redcarpet',            '~> 3.0.0'
+gem 'redcarpet',            '~> 3.1.1'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.0.1'

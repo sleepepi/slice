@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 4.0.4
+  - Updated to redcarpet 3.1.1
 
 ## 0.23.5 (March 13, 2014)
 
