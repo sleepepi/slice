@@ -4,8 +4,6 @@ gem 'rails',                '4.1.0.rc2'
 
 # Database Adapter
 gem 'pg',                   '0.17.1'
-gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
-gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
 # Gems used by project
 gem 'contour',              '~> 2.5.0.beta1'
@@ -34,7 +32,6 @@ gem 'turbolinks'
 # Testing
 group :test do
   # Pretty printed test output
-  gem 'win32console',                             platforms: [ :mswin, :mingw ]
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'simplecov',          '~> 0.8.2',           require: false
