@@ -19,4 +19,4 @@
 
 <% end %>
 
-<%= form_tag survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token), remote: true, method: :get, data: { object: 'form-load' } %>
+<%= form_tag survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token, header: '0'), remote: true, method: :get, data: { object: 'form-load' } %>

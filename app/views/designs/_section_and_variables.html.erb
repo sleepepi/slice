@@ -2,12 +2,13 @@
   <div class="page-header">
     <h1><%= @design.name %></h1>
   </div>
+<% end %>
 
-  <% unless @design.description.blank? %>
-    <div class="bs-callout bs-callout-info">
-      <%= simple_markdown @design.description %>
-    </div>
-  <% end %>
+<% unless @design.description.blank? %>
+  <div class="bs-callout bs-callout-info">
+    <% if params[:header] == '0' %><h4>About this Survey</h4><% end %>
+    <%= simple_markdown @design.description %>
+  </div>
 <% end %>
 
 <% show_navigation = (@design.sections.size > 1) %>

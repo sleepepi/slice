@@ -1,13 +1,5 @@
 <% @title = @design.name %>
 
-<% unless @design.description.blank? %>
-<div class="bs-callout bs-callout-info">
-  <h4>About this Survey</h4>
-
-  <%= simple_markdown @design.description %>
-</div>
-<% end %>
-
 <%= hidden_field_tag 'isdirty', '1' %>
 
 <%= form_tag project_submit_public_survey_path(@design.project, @design), method: :post, class: 'form-horizontal', multipart: true, id: "survey_#{@design.id}_form" do |f| %>
