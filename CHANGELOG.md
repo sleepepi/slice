@@ -10,6 +10,7 @@
 ### Bug Fix
 - Domain display name field is now available when creating a domain
 - Updating branching logic on designs now strips out extra white space
+- Date variable fields no longer obscure dropdowns
 
 ## 0.23.6 (March 20, 2014)
 

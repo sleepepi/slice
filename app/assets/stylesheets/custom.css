@@ -492,3 +492,9 @@ label.checkbox, label.radio {
 .page-header {
   text-align: left;
 }
+
+/* Should be lower than chzn-drop */
+.datepicker {
+  z-index: 1075 !important;
+}
+
