@@ -9,28 +9,21 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should get raw csv" do
     assert_difference('Export.count') do
-      get :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'
+      xhr :get, :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'
     end
     assert_response :success
   end
 
   test "should get labeled csv" do
     assert_difference('Export.count') do
-      get :index, project_id: @project, export: '1', csv_labeled: '1', format: 'js'
-    end
-    assert_response :success
-  end
-
-  test "should get xls" do
-    assert_difference('Export.count') do
-      get :index, project_id: @project, export: '1', xls: '1', format: 'js'
+      xhr :get, :index, project_id: @project, export: '1', csv_labeled: '1', format: 'js'
     end
     assert_response :success
   end
 
   test "should get pdf collation" do
     assert_difference('Export.count') do
-      get :index, project_id: @project, export: '1', pdf: '1', format: 'js'
+      xhr :get, :index, project_id: @project, export: '1', pdf: '1', format: 'js'
     end
     assert_response :success
   end
@@ -434,7 +427,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should show sheet with ajax" do
-    get :show, id: @sheet, project_id: @project, format: 'js'
+    xhr :get, :show, id: @sheet, project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_template 'show'
@@ -442,7 +435,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should show sheet with ajax with all variables" do
-    get :show, id: sheets(:all_variables), project_id: sheets(:all_variables).project_id, format: 'js'
+    xhr :get, :show, id: sheets(:all_variables), project_id: sheets(:all_variables).project_id, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_template 'show'
@@ -450,7 +443,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should show sheet with grid responses" do
-    get :show, id: sheets(:has_grid), project_id: @project, format: 'js'
+    xhr :get, :show, id: sheets(:has_grid), project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_template 'show'

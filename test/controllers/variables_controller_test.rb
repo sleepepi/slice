@@ -63,7 +63,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should format number" do
-    get :format_number, id: variables(:calculated), project_id: @project, calculated_number: "25.359", format: 'js'
+    xhr :get, :format_number, id: variables(:calculated), project_id: @project, calculated_number: "25.359", format: 'js'
 
     assert_not_nil assigns(:variable)
     assert_equal "25.36", assigns(:result)
@@ -72,7 +72,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should format number on variable with blank format" do
-    get :format_number, id: variables(:calculated_without_format), project_id: @project, calculated_number: "25.359", format: 'js'
+    xhr :get, :format_number, id: variables(:calculated_without_format), project_id: @project, calculated_number: "25.359", format: 'js'
 
     assert_not_nil assigns(:variable)
     assert_equal "25.359", assigns(:result)
@@ -81,7 +81,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should format number using authentication token" do
-    get :format_number, id: variables(:external_calculated), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, calculated_number: "25.359", format: 'js'
+    xhr :get, :format_number, id: variables(:external_calculated), project_id: sheets(:external).project, sheet_authentication_token: sheets(:external).authentication_token, calculated_number: "25.359", format: 'js'
 
     assert_not_nil assigns(:variable)
     assert_equal "25.36", assigns(:result)
@@ -90,7 +90,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not format number for invalid variable" do
-    get :format_number, id: -1, project_id: @project, calculated_number: "25.359", format: 'js'
+    xhr :get, :format_number, id: -1, project_id: @project, calculated_number: "25.359", format: 'js'
 
     assert_nil assigns(:variable)
     assert_nil assigns(:result)

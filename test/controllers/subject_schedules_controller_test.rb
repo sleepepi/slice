@@ -15,7 +15,7 @@ class SubjectSchedulesControllerTest < ActionController::TestCase
   # end
 
   test "should get new" do
-    get :new, project_id: @project, subject_id: @subject, format: 'js'
+    xhr :get, :new, project_id: @project, subject_id: @subject, format: 'js'
     assert_template 'new'
     assert_response :success
   end
@@ -32,13 +32,13 @@ class SubjectSchedulesControllerTest < ActionController::TestCase
   end
 
   test "should show subject_schedule" do
-    get :show, id: @subject_schedule, project_id: @project, subject_id: @subject, format: 'js'
+    xhr :get, :show, id: @subject_schedule, project_id: @project, subject_id: @subject, format: 'js'
     assert_template 'show'
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @subject_schedule, project_id: @project, subject_id: @subject, format: 'js'
+    xhr :get, :edit, id: @subject_schedule, project_id: @project, subject_id: @subject, format: 'js'
     assert_template 'edit'
     assert_response :success
   end

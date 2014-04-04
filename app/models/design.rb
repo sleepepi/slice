@@ -302,11 +302,11 @@ class Design < ActiveRecord::Base
 
   # Array...
   def variables
-    pure_variables.sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
+    pure_variables.sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
   end
 
   def reportable_variables(variable_types, except_variable_ids = [0])
-    self.pure_variables.where("variables.id NOT IN (?)", except_variable_ids).where(variable_type: variable_types).sort!{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }.collect{|v| [self.containing_section(v.id), v.display_name, v.id]}
+    self.pure_variables.where("variables.id NOT IN (?)", except_variable_ids).where(variable_type: variable_types).sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }.collect{|v| [self.containing_section(v.id), v.display_name, v.id]}
   end
 
   def grouped_reportable_variables(variable_types, except_variable_ids = [0])

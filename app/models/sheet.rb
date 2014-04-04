@@ -298,7 +298,7 @@ class Sheet < ActiveRecord::Base
 
   def self.array_median(array)
     return nil if array.size == 0
-    array = array.sort!
+    array = array.sort
     len = array.size
     len % 2 == 1 ? array[len/2] : (array[len/2 - 1] + array[len/2]).to_f / 2
   end

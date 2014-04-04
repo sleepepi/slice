@@ -1,5 +1,10 @@
 ## 0.24.0
 
+- **Gem Changes**
+  - Updated to rails 4.1.0.rc2
+  - Updated to contour 2.5.0.beta1
+  - Removed turn, and replaced with minitest and minitest-reporters
+
 ## 0.23.6 (March 20, 2014)
 
 ### Enhancements

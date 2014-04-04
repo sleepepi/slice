@@ -15,7 +15,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should show design overview with ajax" do
-    get :overview, id: designs(:all_variable_types), project_id: @project, format: 'js'
+    xhr :get, :overview, id: designs(:all_variable_types), project_id: @project, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_template 'overview'
@@ -432,7 +432,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get new with ajax" do
-    get :new, project_id: @project, format: 'js'
+    xhr :get, :new, project_id: @project, format: 'js'
     assert_template 'edit'
     assert_response :success
   end
