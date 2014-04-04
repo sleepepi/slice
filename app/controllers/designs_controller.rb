@@ -1,8 +1,8 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :overview ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :overview ]
   before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :update_order, :progress, :reimport, :update_import ]
   before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :update_order, :print, :report_print, :report, :progress, :reimport, :update_import, :overview ]
@@ -29,6 +29,33 @@ class DesignsController < ApplicationController
     else
       empty_response_or_root_path(about_path)
     end
+  end
+
+  def json_import
+  end
+
+  def json_import_create
+    if params[:json_file].blank?
+      @error = 'JSON File can\'t be blank.'
+      render 'json_import'
+    else
+
+
+      json = JSON.parse(params[:json_file].read)  #rescue json = nil
+
+      if json
+        [json].flatten.each do |design_json|
+          @project.create_design_from_json(design_json, current_user)
+        end
+
+        redirect_to project_designs_path(@project)
+      else
+        @error = 'Error parsing JSON file'
+        render 'json_import'
+      end
+    end
+
+    # JSON.parse()
   end
 
   def import

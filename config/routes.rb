@@ -71,6 +71,8 @@ Slice::Application.routes.draw do
         get :import
         post :create_import
         post :add_question
+        get :json_import
+        post :json_import_create
       end
     end
 

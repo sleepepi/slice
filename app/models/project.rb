@@ -115,6 +115,76 @@ class Project < ActiveRecord::Base
     not project_favorite.blank? and project_favorite.favorite?
   end
 
+  def create_design_from_json(design_json, current_user)
+    options = self.create_options_from_json(design_json['options'], current_user)
+    description = design_json['description'].to_s.strip
+    name = design_json['name'].to_s.strip
+    self.designs.where( name: name ).first_or_create( description: description, user_id: current_user.id, options: options )
+  end
+
+  def create_options_from_json(options_json, current_user)
+    options = []
+    options_json.each do |option_json|
+      option = {}
+      if not option_json['variable'].blank?
+        variable = self.create_variable_from_json(option_json['variable'], current_user)
+        if variable
+          option[:variable_id] = variable.id
+          option[:branching_logic] = option_json['branching_logic'].to_s.strip
+        end
+      elsif not option_json['section_name'].blank?
+        option[:section_name] = option_json['section_name'].to_s.strip
+        option[:section_id] = option_json['section_id'].to_s.strip
+        option[:section_description] = option_json['section_description'].to_s.strip
+        option[:section_type] = option_json['section_type'].to_i
+        option[:branching_logic] = option_json['branching_logic'].to_s.strip
+      end
+      options << option unless option.blank?
+    end
+    options
+  end
+
+  def create_variable_from_json(variable_json, current_user)
+    domain = self.create_domain_from_json(variable_json['domain'], current_user) unless variable_json['domain'].blank?
+    name = variable_json['name']
+    keys = [ :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
+      # For Integers and Numerics
+      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+      # For Dates
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+      # For Date, Time
+      :show_current_button,
+      # For Calculated Variables
+      :calculation, :format,
+      # For Integer, Numeric, and Calculated
+      :units,
+      # For Grid Variables
+      # { :grid_tokens => [ :variable_id ] },
+      :multiple_rows, :default_row_number,
+      # For Autocomplete Strings
+      :autocomplete_values,
+      # Radio and Checkbox
+      :alignment
+    ]
+    hash = {}
+    keys.each do |key|
+      hash[key] = variable_json[key.to_s].to_s.strip
+    end
+    hash[:domain_id] = domain.id if domain
+    hash[:user_id] = current_user.id
+    variable = self.variables.where( name: name ).first_or_create( hash )
+  end
+
+  def create_domain_from_json(domain_json, current_user)
+    name = domain_json['name'].to_s.strip
+
+    display_name = domain_json['display_name'].to_s.strip
+    description = domain_json['description'].to_s.strip
+    options = domain_json['options'].collect{|hash| hash.symbolize_keys }
+
+    self.domains.where( name: name ).first_or_create( display_name: display_name, description: description, options: options, user_id: current_user.id )
+  end
+
   private
 
     # Creates a default site if the project has no site associated with it
