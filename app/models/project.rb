@@ -146,6 +146,7 @@ class Project < ActiveRecord::Base
 
   def create_variable_from_json(variable_json, current_user)
     domain = self.create_domain_from_json(variable_json['domain'], current_user) unless variable_json['domain'].blank?
+    grid_variables = self.create_grid_variables_from_json(variable_json['grid_variables'], current_user) unless variable_json['grid_variables'].blank?
     name = variable_json['name']
     keys = [ :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
       # For Integers and Numerics
@@ -171,6 +172,7 @@ class Project < ActiveRecord::Base
       hash[key] = variable_json[key.to_s].to_s.strip
     end
     hash[:domain_id] = domain.id if domain
+    hash[:grid_variables] = grid_variables if grid_variables
     hash[:user_id] = current_user.id
     variable = self.variables.where( name: name ).first_or_create( hash )
   end
@@ -183,6 +185,15 @@ class Project < ActiveRecord::Base
     options = domain_json['options'].collect{|hash| hash.symbolize_keys }
 
     self.domains.where( name: name ).first_or_create( display_name: display_name, description: description, options: options, user_id: current_user.id )
+  end
+
+  def create_grid_variables_from_json(grid_variables_json, current_user)
+    grid_variables = []
+    grid_variables_json.each do |grid_variable_json|
+      variable = self.create_variable_from_json(grid_variable_json, current_user)
+      grid_variables << { variable_id: variable.id } if variable
+    end
+    grid_variables
   end
 
   private

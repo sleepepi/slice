@@ -10,7 +10,7 @@ json.extract! variable, :description, :name, :display_name, :variable_type, :dis
                   # Integer and Numeric and Calculated
                   :units,
                   # Grid
-                  :grid_variables, :multiple_rows, :default_row_number,
+                  :multiple_rows, :default_row_number,
                   # Autocomplete
                   :autocomplete_values,
                   # Radio and Checkbox
@@ -18,4 +18,14 @@ json.extract! variable, :description, :name, :display_name, :variable_type, :dis
 
 json.domain do
   json.partial! 'domains/domain', domain: variable.domain if variable.domain
+end
+
+if variable.variable_type == 'grid'
+  json.grid_variables do
+    json.array!(variable.grid_variable_ids) do |grid_variable_id|
+      if grid_variable = variable.project.variables.where.not( variable_type: 'grid' ).find_by_id(grid_variable_id)
+        json.partial! 'variables/variable', variable: grid_variable
+      end
+    end
+  end
 end
