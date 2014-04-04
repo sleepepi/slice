@@ -62,7 +62,7 @@ class Design < ActiveRecord::Base
       section_params[:section_id] = "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase
       new_option_tokens = self.options
       section_params.each do |key, value|
-        new_option_tokens[position][key.to_sym] = value
+        new_option_tokens[position][key.to_sym] = value.to_s.strip
       end
       self.options = new_option_tokens
       unless self.save
@@ -137,7 +137,7 @@ class Design < ActiveRecord::Base
     unless option_params.blank?
       new_option_tokens = self.options
       option_params.each do |key, value|
-        new_option_tokens[position][key.to_sym] = value
+        new_option_tokens[position][key.to_sym] = value.to_s.strip
       end
       self.options = new_option_tokens
       self.save
