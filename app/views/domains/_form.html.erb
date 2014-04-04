@@ -16,6 +16,13 @@
   <% end %>
 
   <div class="form-group">
+    <%= f.label :display_name, nil, class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
+      <%= f.text_field :display_name, class: 'form-control', autocomplete: 'off', data: { object: (@domain.new_record? ? 'create-domain-name' : ''), domain_target: '#domain_name' } %>
+    </div>
+  </div>
+
+  <div class="form-group">
     <%= f.label :name, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.text_field :name, maxlength: 30, class: 'form-control' %>

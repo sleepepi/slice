@@ -1,10 +1,14 @@
 ## 0.24.0
 
+### Enhancements
 - **Gem Changes**
   - Updated to rails 4.1.0.rc2
   - Updated to contour 2.5.0.beta1
   - Removed turn, and replaced with minitest and minitest-reporters
   - Removed Windows-specific gems
+
+### Bug Fix
+- Domain display name field is now available when creating a domain
 
 ## 0.23.6 (March 20, 2014)
 
