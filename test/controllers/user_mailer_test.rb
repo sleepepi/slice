@@ -126,7 +126,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}", email.subject
-    assert_match(/Hello #{valid.first_name},/, email.encoded)
+    assert_match(/Dear #{valid.first_name},/, email.encoded)
   end
 
   test "comment by mail email" do
