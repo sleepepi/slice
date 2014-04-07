@@ -6,6 +6,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @system_admin = system_admin
     @user = user
+    @email_to = system_admin.email
     mail(to: system_admin.email,
          subject: "#{user.name} Signed Up",
          reply_to: user.email)
@@ -14,6 +15,7 @@ class UserMailer < ActionMailer::Base
   def status_activated(user)
     setup_email
     @user = user
+    @email_to = user.email
     mail(to: user.email,
          subject: "#{user.name}'s Account Activated") #,
 #         reply_to: user.email)
@@ -22,6 +24,7 @@ class UserMailer < ActionMailer::Base
   def invite_user_to_site(site_user)
     setup_email
     @site_user = site_user
+    @email_to = site_user.invite_email
     mail(to: site_user.invite_email,
          subject: "#{site_user.creator.name} Invites You to View Site #{site_user.site.name}",
          reply_to: site_user.creator.email)
@@ -30,6 +33,7 @@ class UserMailer < ActionMailer::Base
   def user_added_to_project(project_user)
     setup_email
     @project_user = project_user
+    @email_to = project_user.user.email
     mail(to: project_user.user.email,
          subject: "#{project_user.creator.name} Allows You to #{project_user.editor? ? 'Edit' : 'View'} Project #{project_user.project.name}",
          reply_to: project_user.creator.email)
@@ -38,6 +42,7 @@ class UserMailer < ActionMailer::Base
   def invite_user_to_project(project_user)
     setup_email
     @project_user = project_user
+    @email_to = project_user.invite_email
     mail(to: project_user.invite_email,
          subject: "#{project_user.creator.name} Invites You to #{project_user.editor? ? 'Edit' : 'View'} Project #{project_user.project.name}",
          reply_to: project_user.creator.email)
@@ -47,6 +52,7 @@ class UserMailer < ActionMailer::Base
   def sheet_completion_request(sheet, email, additional_text)
     @sheet = sheet
     @additional_text = additional_text
+    @email_to = sheet.last_user.email
     mail(to: "#{sheet.last_user.name} <#{sheet.last_user.email}>",
          bcc: email,
          subject: "Request to Fill Out #{sheet.design.name}",
@@ -55,24 +61,28 @@ class UserMailer < ActionMailer::Base
 
   def survey_completed(sheet)
     @sheet = sheet
+    @email_to = sheet.user.email
     mail(to: "#{sheet.user.name} <#{sheet.user.email}>",
          subject: "#{sheet.subject.subject_code} Submitted #{sheet.design.name}")
   end
 
   def survey_user_link(sheet)
     @sheet = sheet
+    @email_to = sheet.subject.email
     mail(to: sheet.subject.email,
          subject: "Thank you for Submitting #{sheet.design.name}")
   end
 
   def export_ready(export)
     @export = export
+    @email_to = export.user.email
     mail(to: "#{export.user.name} <#{export.user.email}>",
          subject: "Your Data Export for #{export.project.name} is now Ready")
   end
 
   def import_complete(design)
     @design = design
+    @email_to = design.user.email
     mail(to: "#{design.user.name} <#{design.user.email}>",
          subject: "Your Design Data Import for #{design.project.name} is Complete")
   end
@@ -89,6 +99,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @comment = comment
     @recipient = recipient
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: "#{comment.user.name} Commented on #{comment.sheet.name} on #{comment.sheet.project.name}",
          reply_to: comment.user.email)
@@ -97,6 +108,7 @@ class UserMailer < ActionMailer::Base
   def project_news(post, recipient)
     @post = post
     @recipient = recipient
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: "#{post.name} [#{post.user.name} Added a News Post on #{post.project.name}]",
          reply_to: post.user.email)

@@ -1,8 +1,10 @@
-<%= @comment.user.name %> <span style="border:1px solid #c2daff;background-color:#edf4ff">COMMENTED</span> on <%= link_to @comment.sheet.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}" %> on <%=  link_to @comment.sheet.project.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}" %>.<br />
+<%= render partial: 'email_header' %>
+
+<%= @comment.user.name %> <span style="padding:5px;background-color:#428bca;color:white">commented</span> on <%= link_to @comment.sheet.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}", style: "color: #428bca;" %> on <%=  link_to @comment.sheet.project.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}", style: "color: #428bca;" %>.<br />
 <br />
 
 <% @comment.sheet.comments.order('created_at DESC').limit(5).each do |comment| %>
-<table style="background-color: white;border: 0px;"><col width="50px"/>
+<table style="width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-family:Arial;font-size:14px;"><col width="50px"/>
   <tr style="background-color: white;border: 0px;">
     <td style="background-color: white;border: 0px;vertical-align:top;">
       <%= image_tag('http:'+comment.user.avatar_url(50, "identicon"), size: '50x50', alt: '', style: 'vertical-align: middle') %>
@@ -20,6 +22,6 @@
 
 
 <br />
-<%= @sheet = @comment.sheet; render partial: 'sheet_note' %><br />
-<br />
-<%= @footer_html %>
+<%= @sheet = @comment.sheet; render partial: 'sheet_note' %>
+
+<%= render partial: 'email_footer' %>
