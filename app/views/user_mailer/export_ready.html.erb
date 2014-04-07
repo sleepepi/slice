@@ -1,11 +1,11 @@
-Hello <%= @export.user.name %>,<br />
+<%= render partial: 'email_header' %>
+
+<b>Dear <%= @export.user.first_name %>,</b><br />
 <br />
-The data export you requested for <b><%= @export.project.name %></b> is now ready for download.<br />
+The data export you requested for <b><%= @export.project.name %></b> is now <span style="padding:5px;background-color:#5cb85c;color:white">ready</span> for download.<br />
 <br />
 Click the following link to download your data export:<br />
 <br />
-<%= link_to SITE_URL + project_export_path(@export.project, @export), SITE_URL + project_export_path(@export.project, @export) %><br />
-<br />
-Thank you!<br />
-<br />
-<%= DEFAULT_APP_NAME %> Mailer
+<center><%= link_to SITE_URL + project_export_path(@export.project, @export), SITE_URL + project_export_path(@export.project, @export), style: "color: #428bca;" %></center><br />
+
+<%= render partial: 'email_footer' %>
