@@ -15,7 +15,6 @@ gem 'rails-observers',      '0.1.2'
 
 gem 'systemu',              '~> 2.6.0'
 gem 'rubyzip',              '~> 1.1.0'
-gem 'mail_view',            '~> 2.0.1'
 gem 'naturalsort',          '~> 1.1.1'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'redcarpet',            '~> 3.1.1'

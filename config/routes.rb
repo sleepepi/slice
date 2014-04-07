@@ -1,7 +1,5 @@
 Slice::Application.routes.draw do
 
-  mount MailPreview => 'mail_view' if Rails.env.development?
-
   resources :comments
 
   get "survey", to: "survey#index", as: :about_survey

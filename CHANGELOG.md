@@ -5,6 +5,7 @@
   - Download the JSON version of the design (or designs) from origin project
   - Use the Import Design from JSON to import the designs
   - Import won't overright existing designs/variables/domains if  design/variable/domain of the same name already exists
+- Updated email styling template
 - **Gem Changes**
   - Updated to rails 4.1.0.rc2
   - Updated to contour 2.5.0.beta1

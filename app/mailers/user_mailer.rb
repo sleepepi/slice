@@ -80,6 +80,7 @@ class UserMailer < ActionMailer::Base
   def daily_digest(recipient)
     setup_email
     @recipient = recipient
+    @email_to = recipient.email
 
     mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
   end
