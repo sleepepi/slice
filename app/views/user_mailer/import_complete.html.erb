@@ -1,11 +1,12 @@
-Hello <%= @design.user.name %>,<br />
+<%= render partial: 'email_header' %>
+
+<b>Dear <%= @design.user.first_name %>,</b><br />
 <br />
-The design data import for <b><%= @design.project.name %></b> is now complete.<br />
+The design data import for <b><%= @design.project.name %></b> is now <span style="padding:5px;background-color:#5cb85c;color:white">complete</span>.<br />
 <br />
 Click the following link to see newly imported data:<br />
 <br />
-<%= link_to SITE_URL + project_sheets_path(@design.project, design_id: @design.id), SITE_URL + project_sheets_path(@design.project, design_id: @design.id) %><br />
-<br />
-Thank you!<br />
-<br />
-<%= DEFAULT_APP_NAME %> Mailer
+<center><%= link_to SITE_URL + project_sheets_path(@design.project, design_id: @design.id), SITE_URL + project_sheets_path(@design.project, design_id: @design.id), style: "color: #428bca;" %></center><br />
+
+
+<%= render partial: 'email_footer' %>
