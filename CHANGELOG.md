@@ -6,6 +6,7 @@
   - Use the Import Design from JSON to import the designs
   - Import won't overright existing designs/variables/domains if  design/variable/domain of the same name already exists
 - Updated email styling template
+- Small file image uploads on sheets are no longer stretched to fill the width of the page
 - **Gem Changes**
   - Updated to rails 4.1.0.rc2
   - Updated to contour 2.5.0.beta1

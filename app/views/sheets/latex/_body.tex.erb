@@ -65,11 +65,10 @@
   <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@sheet.response_file_url(@variable).to_s.split('.').last.downcase) %>
 
 \begin{figure}[!htpb]
-    \centering
-    \includegraphics[width=6.5in]{<%= @sheet.response_file(@variable).path %>}
-    <% unless @variable.description.blank? %>
-      \caption{<%= latex_safe @variable.description %>}
-    <% end %>
+  \includegraphics[max width=7.5in]{<%= @sheet.response_file(@variable).path %>}
+  <% unless @variable.description.blank? %>
+    \caption{<%= latex_safe @variable.description %>}
+  <% end %>
 \end{figure}
 
   <% else %>
