@@ -21,6 +21,7 @@
 - Date variable fields no longer obscure dropdowns
 - Domain values are no longer shown when editing a submitted survey
 - Sheets index now properly populates only users who have created a sheet in the creator list
+- Designs index now properly populates only users who have created a design in the creator list
 
 ## 0.23.6 (March 20, 2014)
 
