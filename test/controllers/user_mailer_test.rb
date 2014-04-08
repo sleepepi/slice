@@ -81,7 +81,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [sheet.subject.email], email.to
     assert_equal "Thank you for Submitting #{sheet.design.name}", email.subject
-    assert_match(/Thank you for submitting #{sheet.name}\. If you wish to make any changes and resubmit the survey, you can do so here:/, email.encoded)
+    assert_match(/Thank you for submitting #{sheet.name}\.\r\n\r\nYou can make changes to your survey responses here:/, email.encoded)
   end
 
   test "export ready email" do
