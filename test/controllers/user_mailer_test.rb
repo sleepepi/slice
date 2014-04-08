@@ -62,18 +62,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_user.creator.name} has invited you to Project #{project_user.project.name}/, email.encoded)
   end
 
-  test "sheet completion request email" do
-    sheet = sheets(:external)
-
-    email = UserMailer.sheet_completion_request(sheet, 'external_user@example.com', "Your feedback is important. Please click the link below to complete the form.\n\nIf you have any questions on completing the form, you can reply to this email, or contact #{sheet.last_user.name} at #{sheet.last_user.email}.").deliver
-    assert !ActionMailer::Base.deliveries.empty?
-
-    assert_equal [sheet.last_user.email], email.to
-    assert_equal "Request to Fill Out #{sheet.design.name}", email.subject
-    assert_match(/#{sheet.last_user.name} has requested that you fill out/, email.encoded)
-    assert_match(/Your feedback is important. Please click the link below to complete the form\./, email.encoded)
-  end
-
   test "survey completed email" do
     sheet = sheets(:external)
 
