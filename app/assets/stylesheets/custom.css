@@ -498,3 +498,6 @@ label.checkbox, label.radio {
   z-index: 1075 !important;
 }
 
+.navbar-fixed-top, .navbar-fixed-bottom {
+  z-index: 1080 !important;
+}
