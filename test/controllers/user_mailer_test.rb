@@ -13,7 +13,7 @@ class UserMailerTest < ActionMailer::TestCase
     # Test the body of the sent email contains what we expect it to
     assert_equal [admin.email], email.to
     assert_equal "#{valid.name} Signed Up", email.subject
-    assert_match(/#{valid.name} \[#{valid.email}\] has signed up for an account\./, email.encoded)
+    assert_match(/#{valid.name} \[#{valid.email}\] signed up for an account\./, email.encoded)
   end
 
   test "status activated email" do

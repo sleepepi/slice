@@ -1,9 +1,11 @@
-Hello <%= @system_admin.first_name %>,<br />
+<%= render partial: 'email_header' %>
+
+<b>Dear <%= @system_admin.first_name %>,</b><br />
 <br />
-<%= @user.name %> [<%= @user.email %>] has signed up for an account.<br />
+<%= @user.name %> [<%= @user.email %>] <span style="padding:5px;background-color:#f0ad4e;color:white">signed up</span> for an account.<br />
 <br />
-Please login <%= link_to "#{SITE_URL}/users/#{@user.id}/edit", "#{SITE_URL}/users/#{@user.id}/edit" %> to approve or deny the request.<br />
+Click the following link to approve or deny the registration here:<br />
 <br />
-Thank you!<br />
-<br />
-<%= DEFAULT_APP_NAME %> System Mailer
+<center><%= link_to "#{SITE_URL}/users/#{@user.id}/edit", "#{SITE_URL}/users/#{@user.id}/edit", style: "color: #428bca" %></center><br />
+
+<%= render partial: 'email_footer' %>
