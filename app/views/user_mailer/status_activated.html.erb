@@ -1,9 +1,11 @@
-Hello <%= @user.first_name %>,<br />
+<%= render partial: 'email_header' %>
+
+<b>Dear <%= @user.first_name %>,</b><br />
 <br />
-Your account [<%= @user.email %>] has been activated.<br />
+Your account <b><%= @user.email %></b> has been <span style="padding:5px;background-color:#5cb85c;color:white">activated</span>.<br />
 <br />
-You can now login here: <%= link_to SITE_URL, SITE_URL %><br />
+You can now login here:<br />
 <br />
-Thank you!<br />
-<br />
-<%= DEFAULT_APP_NAME %> System Mailer
+<center><%= link_to SITE_URL, SITE_URL, style: "color: #428bca" %></center><br />
+
+<%= render partial: 'email_footer' %>
