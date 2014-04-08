@@ -70,7 +70,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [sheet.user.email], email.to
     assert_equal "#{sheet.subject.subject_code} Submitted #{sheet.design.name}", email.subject
-    assert_match(/#{sheet.subject.subject_code} has completed a survey that you requested for #{sheet.name}\. You can view the completed sheet here:/, email.encoded)
+    assert_match(/#{sheet.subject.subject_code} completed a survey that you requested for #{sheet.name}\. You can view the completed sheet here:/, email.encoded)
   end
 
   test "survey user link" do

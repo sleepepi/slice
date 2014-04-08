@@ -1,10 +1,11 @@
-Hello <%= @sheet.user.name %>,<br />
+<%= render partial: 'email_header' %>
+
+<b>Dear <%= @sheet.user.first_name %>,</b><br />
 <br />
-<b><%= @sheet.subject.subject_code %></b> has completed a survey that you requested for <b><%= @sheet.name %></b>. You can view the completed sheet here:<br />
+<%= @sheet.subject.subject_code %> <span style="padding:5px;background-color:#428bca;color:white">completed</span> a survey that you requested for <b><%= @sheet.name %></b>.<br />
 <br />
-<%= link_to SITE_URL + project_sheet_path(@sheet.project, @sheet), SITE_URL + project_sheet_path(@sheet.project, @sheet) %><br />
+You can view the completed sheet here:<br />
 <br />
-Thank you!<br />
-<%= DEFAULT_APP_NAME %> Mailer<br />
-<br />
-<i>This email was automatically generated.</i>
+<center><%= link_to SITE_URL + project_sheet_path(@sheet.project, @sheet), SITE_URL + project_sheet_path(@sheet.project, @sheet), style: "color: #428bca" %></center><br />
+
+<%= render partial: 'email_footer' %>
