@@ -1,6 +1,6 @@
 <%= render partial: 'email_header' %>
 
-<%= @site_user.creator.name %> has <span style="padding:5px;background-color:#428bca;color:white">invited</span> you to <%= link_to @site_user.site.project.name, "#{SITE_URL}/projects/#{@site_user.site.project.id}", style: "color: #428bca;" %> as part of the <%= link_to @site_user.site.name, "#{SITE_URL}/projects/#{@site_user.site.project.id}/sites/#{@site_user.site.id}", style: "color: #428bca" %> site.<br />
+<%= @site_user.creator.name %> <span style="padding:5px;background-color:#428bca;color:white">invited</span> you to <%= link_to @site_user.site.project.name, "#{SITE_URL}/projects/#{@site_user.site.project.id}", style: "color: #428bca;" %> as part of the <%= link_to @site_user.site.name, "#{SITE_URL}/projects/#{@site_user.site.project.id}/sites/#{@site_user.site.id}", style: "color: #428bca" %> site.<br />
 <br />
 Click the following link to accept the invitation:<br />
 <br />

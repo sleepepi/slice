@@ -37,7 +37,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [site_user.invite_email], email.to
     assert_equal "#{site_user.creator.name} Invites You to View Site #{site_user.site.name}", email.subject
-    assert_match(/#{site_user.creator.name} has invited you to Site #{site_user.site.name}/, email.encoded)
+    assert_match(/#{site_user.creator.name} invited you to Site #{site_user.site.name}/, email.encoded)
   end
 
   test "user added to project email" do
@@ -48,7 +48,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [project_user.user.email], email.to
     assert_equal "#{project_user.creator.name} Allows You to View Project #{project_user.project.name}", email.subject
-    assert_match(/#{project_user.creator.name} has added you to Project #{project_user.project.name}/, email.encoded)
+    assert_match(/#{project_user.creator.name} added you to Project #{project_user.project.name}/, email.encoded)
   end
 
   test "user invited to project email" do
@@ -59,7 +59,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [project_user.invite_email], email.to
     assert_equal "#{project_user.creator.name} Invites You to Edit Project #{project_user.project.name}", email.subject
-    assert_match(/#{project_user.creator.name} has invited you to Project #{project_user.project.name}/, email.encoded)
+    assert_match(/#{project_user.creator.name} invited you to Project #{project_user.project.name}/, email.encoded)
   end
 
   test "survey completed email" do
