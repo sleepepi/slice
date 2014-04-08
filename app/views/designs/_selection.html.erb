@@ -1,4 +1,5 @@
 <%# This file loads a design to be used in a sheet %>
 <% if @design %>
+  <%= render partial: 'sheets/cross_sheet_values' %>
   <%= render partial: 'designs/section_and_variables' %>
 <% end %>

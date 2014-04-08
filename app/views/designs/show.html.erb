@@ -38,6 +38,11 @@
   </dl>
 <% end %>
 
+<dl class="dl-horizontal">
+  <dt>Read Only Variables</dt>
+  <dd><%= @design.read_only_variable_names %></dd>
+</dl>
+
 <%= hidden_field_tag 'sheet[project_id]', @project.id %>
 <form class="form-horizontal" id="design">
   <div class="center"><%= image_tag 'contour/ajax-loader.gif' %></div>

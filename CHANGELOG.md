@@ -7,6 +7,8 @@
   - Import won't overright existing designs/variables/domains if  design/variable/domain of the same name already exists
 - Updated email styling template
 - Small file image uploads on sheets are no longer stretched to fill the width of the page
+- Designs can now include references to variables collected on other sheets
+  - The referenced variables are shown when creating, updating, or displayin a sheet
 - **Gem Changes**
   - Updated to rails 4.1.0.rc2
   - Updated to contour 2.5.0.beta1

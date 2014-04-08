@@ -45,6 +45,13 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label class="col-md-2 control-label">Read Only Variables</label>
+      <div class="col-md-10">
+        <%= text_field_tag "design[read_only_variables]", @design.read_only_variables, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, class: 'form-control' %>
+      </div>
+    </div>
+
   </form>
 </div>
 <div class="modal-footer">

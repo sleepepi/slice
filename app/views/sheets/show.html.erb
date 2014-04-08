@@ -62,6 +62,10 @@
   </tbody>
 </table>
 
+<form class="form-horizontal">
+  <%= render partial: 'sheets/cross_sheet_values' %>
+</form>
+
 <%= form_tag [@sheet.project, @sheet], method: :get, remote: true, data: { object: 'form-load' }, style: 'display:none' do %>
 <% end %>
 
