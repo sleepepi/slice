@@ -10,7 +10,7 @@
 - Designs can now include references to variables collected on other sheets
   - The referenced variables are shown when creating, updating, or displayin a sheet
 - **Gem Changes**
-  - Updated to rails 4.1.0.rc2
+  - Updated to rails 4.1.0
   - Updated to contour 2.5.0.beta1
   - Removed turn, and replaced with minitest and minitest-reporters
   - Removed Windows-specific gems
