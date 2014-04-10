@@ -501,3 +501,14 @@ label.checkbox, label.radio {
 .navbar-fixed-top, .navbar-fixed-bottom {
   z-index: 1080 !important;
 }
+
+.modal-dialog {
+  margin: 60px 10px;
+}
+
+/* Should be moved to Contour */
+@media (min-width: 768px) {
+  .modal-dialog {
+    margin: 80px auto !important;
+  }
+}
