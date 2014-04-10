@@ -76,7 +76,7 @@
   <% if domains.count > 0 %>
     or
     <span class="form-inline">
-      <%= select_tag 'domain[id]', options_for_select( [['--Existing Domains--', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ), class: 'form-control' %>
+      <%= select_tag 'domain[id]', options_for_select( [['--Existing Domains--', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ), style: 'width:200px', class: 'form-control' %>
       <%= button_tag 'Use Selected Domain', data: { object: 'push-partial-change', target: '#domain_id', create: 'domain', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary' %>
     </span>
   <% end %>

@@ -43,7 +43,7 @@
   <% if variables.count > 0 %>
     or
     <span class="form-inline">
-      <%= select_tag 'variable[id]', options_for_select( [['--Existing Variables--', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), class: 'form-control' %>
+      <%= select_tag 'variable[id]', options_for_select( [['--Existing Variables--', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), style: 'width:200px', class: 'form-control' %>
       <%= button_tag 'Use Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary' %>
     </span>
   <% end %>
