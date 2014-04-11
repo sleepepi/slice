@@ -28,6 +28,8 @@ gem 'jbuilder',             '~> 2.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 
+gem 'sprockets-rails',      '2.1.1'
+
 # Testing
 group :test do
   # Pretty printed test output
