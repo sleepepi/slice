@@ -1,6 +1,12 @@
 ## 0.24.0
 
 ### Enhancements
+- Projects have a setting that when enabled allows the locking and unlocking of sheets
+  - Project editors can lock and unlock sheets.
+  - Locking a sheet is accomplished by checking the lock checkbox at bottom of sheet.
+  - Sheets can not be edited until they are unlocked by a project editor
+  - Sheet PDFs show who locked the sheet and when.
+  - **Caveat:** Disabling this setting while having sheets that are locked, will remove the ability to unlock or edit these sheets, until the project level setting is reenabled
 - Designs can now be copied from one project to another
   - Download the JSON version of the design (or designs) from origin project
   - Use the Import Design from JSON to import the designs

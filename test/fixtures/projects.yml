@@ -4,6 +4,7 @@ one:
   name: Project One
   description: MyText
   user: valid
+  lockable: true
 
 two:
   name: Project Two

@@ -1,11 +1,12 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print ]
-  before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :new, :remove_file, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :new, :remove_file, :create, :update, :destroy ]
+  before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :new, :remove_file, :create, :update, :destroy, :unlock ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :new, :remove_file, :create, :update, :destroy, :unlock ]
   before_action :set_viewable_sheet, only: [ :show, :print ]
-  before_action :set_editable_sheet, only: [ :edit, :audits, :remove_file, :update, :destroy ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :remove_file, :update, :destroy ]
+  before_action :set_editable_sheet, only: [ :edit, :audits, :remove_file, :update, :destroy, :unlock ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :remove_file, :update, :destroy, :unlock ]
+  before_action :redirect_with_locked_sheet, only: [ :edit, :remove_file, :update, :destroy ]
 
   # GET /sheets
   # GET /sheets.json
@@ -24,6 +25,8 @@ class SheetsController < ApplicationController
 
     sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
     sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+
+    sheet_scope = sheet_scope.where( locked: true ) if params[:locked].to_s == '1'
 
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
 
@@ -213,6 +216,17 @@ class SheetsController < ApplicationController
     end
   end
 
+  def unlock
+    if @project.lockable?
+      flash[:notice] = 'Sheet was successfully unlocked.'
+      @sheet.update locked: false, last_user_id: current_user.id, last_edited_at: Time.now
+    end
+    respond_to do |format|
+      format.html { redirect_to [@sheet.project, @sheet] }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
     def set_viewable_sheet
@@ -221,6 +235,10 @@ class SheetsController < ApplicationController
 
     def set_editable_sheet
       @sheet = current_user.all_sheets.find_by_id(params[:id])
+    end
+
+    def redirect_with_locked_sheet
+      redirect_to [@sheet.project, @sheet] if @sheet.locked?
     end
 
     def redirect_without_sheet
@@ -242,9 +260,11 @@ class SheetsController < ApplicationController
       params[:sheet][:last_user_id] = current_user.id
       params[:sheet][:last_edited_at] = Time.now
 
+      params[:sheet].delete(:locked) unless @project.lockable?
+
       params.require(:sheet).permit(
         :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at,
-        :event_id, :subject_schedule_id
+        :event_id, :subject_schedule_id, :locked
       )
     end
 

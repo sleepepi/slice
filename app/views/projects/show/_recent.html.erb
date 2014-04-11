@@ -49,6 +49,7 @@
           </td>
           <td colspan="2">
             <div style="white-space: nowrap; overflow: hidden; overflow-x: hidden">
+              <% if sheet.locked? %><span class="glyphicon glyphicon-lock" style="color:#5bc0de"></span><% end %>
               <% if sheet.comments.size > 0 %>
                 <span class="badge badge-info"><%= sheet.comments.size %></span>
               <% end %>

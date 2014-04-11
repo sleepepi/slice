@@ -69,6 +69,20 @@
         <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#sheets_search' } %>
       </div>
     </div>
+
+    <% if @project.lockable? %>
+      <div class="col-md-4 form-group">
+        <%= label :locked, 'Locked', class: 'col-md-2 control-label' %>
+
+        <div class="col-md-10">
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default btn-xs <%= 'active' if params[:locked].to_s == '1' %>">
+              <%= check_box_tag 'locked', '1', params[:locked].to_s == '1', id: 'locked' %> Filter Locked
+            </label>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 
   <div class="row">

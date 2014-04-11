@@ -44,6 +44,7 @@ Slice::Application.routes.draw do
         get :audits
         get :survey
         post :submit_survey
+        post :unlock
       end
     end
 

@@ -124,3 +124,6 @@ $(document)
     $('#sheet_subject_acrostic').val(datum['acrostic'])
     $('#site_id').val(datum['site_id'])
   )
+  .on('change', '#locked', () ->
+    $('#sheets_search').submit()
+  )

@@ -30,6 +30,21 @@
   <% end %>
 <% end %>
 
+<% unless params[:header] == '0' %>
+  <% if @project.lockable? %>
+    <div class="well">
+      <div class="form-group">
+        <%= label_tag :locked, "<span class='glyphicon glyphicon-leaf' style='color:#5cb85c'></span> eSignature and Lock".html_safe, class: 'col-md-2 control-label' %>
+        <div class="col-md-10">
+          <%= check_box_tag "sheet[locked]", '1', @sheet.locked %> By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge.
+          <p><strong>Checking this box will <span class="glyphicon glyphicon-lock" style="color:#5bc0de"></span> LOCK this sheet and disable further editing.</strong></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
 <% if show_navigation %>
   </div>
 </div>

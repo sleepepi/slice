@@ -263,7 +263,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should create project" do
     assert_difference('Site.count') do
       assert_difference('Project.count') do
-        post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png') }
+        post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png'), lockable: '1' }
       end
     end
 
@@ -271,6 +271,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal "#{Rails.root}/public/uploads/project/logo/#{assigns(:project).id}/rails.png", assigns(:project).logo.path
     assert_equal 1, assigns(:project).sites.count
     assert_equal "Default Site", assigns(:project).sites.first.name
+    assert_equal true, assigns(:project).lockable?
 
     assert_redirected_to project_path(assigns(:project))
   end

@@ -96,6 +96,10 @@ class Sheet < ActiveRecord::Base
     self.update_attributes(last_viewed_by_id: current_user.id, last_viewed_at: Time.now)
   end
 
+  def contributors
+    self.all_audits.reject{|a| a.audited_changes.keys.include?('last_viewed_at') or not a.user }.collect{|a| a.user.name}.uniq.join(', ')
+  end
+
   def name
     self.design.name
   end

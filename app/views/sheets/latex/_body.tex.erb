@@ -84,4 +84,14 @@
   <% end %>
 <% end %>
 
+<% if @sheet.locked? %>
+\Needspace{7\baselineskip}
+\subsubsection*{}
+\shadowbox{
+This sheet was \textbf{locked} and \textbf{electronically signed} by \textbf{<%= latex_safe @sheet.last_user.name %>}<% if @sheet.last_edited_at %> on \textbf{<%= @sheet.last_edited_at.strftime("%b %d, %Y") %>} at \textbf{<%= @sheet.last_edited_at.strftime("%I:%M %p") %>}<% end %>.
+}
+\Needspace{7\baselineskip}
+\subsubsection*{Contributors}
+<%= latex_safe @sheet.contributors %>
+<% end %>
 \newpage

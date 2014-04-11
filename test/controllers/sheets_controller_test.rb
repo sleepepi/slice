@@ -34,6 +34,13 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheets)
   end
 
+  test "should get index and filter by locked sheets" do
+    get :index, project_id: @project, locked: '1'
+    assert_not_nil assigns(:sheets)
+    assert_equal 1, assigns(:sheets).count
+    assert_response :success
+  end
+
   test "should get index with invalid project" do
     get :index, project_id: -1
     assert_nil assigns(:sheets)
@@ -607,6 +614,12 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should not get edit for locked sheet" do
+    get :edit, id: sheets(:locked), project_id: @project
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   test "should update sheet" do
     put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
@@ -739,6 +752,26 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should update and lock sheet" do
+    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal true, assigns(:sheet).locked
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should not update locked sheet" do
+    put :update, id: sheets(:locked), project_id: @project, sheet: { locked: '0' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal true, assigns(:sheet).locked
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   test "should destroy sheet" do
     assert_difference('Sheet.current.count', -1) do
       delete :destroy, id: @sheet, project_id: @project
@@ -759,5 +792,49 @@ class SheetsControllerTest < ActionController::TestCase
     assert_nil assigns(:sheet)
 
     assert_redirected_to root_path
+  end
+
+  test "should not destroy locked sheet" do
+    assert_difference('Sheet.current.count', 0) do
+      delete :destroy, id: sheets(:locked), project_id: @project
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should unlock sheet" do
+    post :unlock, id: sheets(:locked), project_id: @project
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal false, assigns(:sheet).locked
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should not lock sheet on project that does not have lockable and unlockable enabled" do
+    login(users(:admin))
+    put :update, id: sheets(:external), project_id: projects(:three), sheet: { locked: '1' }, subject_code: sheets(:external).subject.subject_code, site_id: sheets(:external).subject.site_id, variables: { }
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal false, assigns(:sheet).locked
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should not unlock sheet on project that does not have lockable and unlockable enabled" do
+    login(users(:admin))
+    post :unlock, id: sheets(:locked_on_non_lockable_project), project_id: projects(:three)
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal true, assigns(:sheet).locked
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 end
