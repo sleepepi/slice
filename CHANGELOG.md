@@ -17,6 +17,7 @@
 - Small file image uploads on sheets are no longer stretched to fill the width of the page
 - Designs can now include references to variables collected on other sheets
   - The referenced variables are shown when creating, updating, or displayin a sheet
+  - Section images are included on sheet and design PDFs
 - **Gem Changes**
   - Updated to rails 4.1.0
   - Updated to contour 2.5.0.beta1

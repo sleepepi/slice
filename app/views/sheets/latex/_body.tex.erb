@@ -19,7 +19,13 @@
     <% else %>
       \subsection*{<%= latex_safe @option[:section_name] %>}
     <% end %>
-    \hline
+
+    <% section = @sheet.design.sections.find_by_name( @option[:section_name] ) %>
+    <% if section and section.image.url %>
+      \begin{figure}[!htpb]
+        \includegraphics[max width=7.5in]{<%= section.image.path %>}
+      \end{figure}
+    <% end %>
 ~
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) and @sheet.show_variable?(@option[:branching_logic]) %>
     <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
