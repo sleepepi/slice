@@ -249,8 +249,8 @@ class DesignsController < ApplicationController
   def update
     @errors = []
     unless params[:section].blank?
-      @errors += @design.create_section(params[:section], params[:position].to_i) if params[:create] == 'section'
-      @errors += @design.update_section(params[:section], params[:position].to_i) if params[:update] == 'section'
+      @errors += @design.create_section(params[:section], params[:position].to_i, current_user) if params[:create] == 'section'
+      @errors += @design.update_section(params[:section], params[:position].to_i, current_user) if params[:update] == 'section'
     end
     unless params[:variable].blank?
       @errors += @design.create_variable(params[:variable], params[:position].to_i) if params[:create] == 'variable'

@@ -1,4 +1,4 @@
-<% links = @design.sections.collect{|opt| { name: opt[:section_name], href: "##{opt[:section_id]}" }} %>
+<% links = @design.main_sections.collect{|opt| { name: opt[:section_name], href: "##{opt[:section_id]}" }} %>
 
 <div class="bs-sidebar affix">
   <ul class="nav bs-sidenav">

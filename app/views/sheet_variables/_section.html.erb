@@ -9,5 +9,6 @@
       <%= @option[:section_name] %>
     <% if section_type > 0 %></h4><% else %></h2><% end %>
     <%= simple_markdown @option[:section_description] unless @option[:section_description].blank? %>
+    <%= render partial: 'sections/image' %>
   </div>
 </section>

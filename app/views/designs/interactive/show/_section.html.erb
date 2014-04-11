@@ -6,4 +6,5 @@
   <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position, confirm: "Are you sure you want section '#{@option[:section_name]}' from the design?" }, class: 'btn btn-xs btn-danger-inverse design-preview-hide' %>
   <% if section_type > 0 %></h4><% else %></h2><% end %>
   <%= simple_markdown @option[:section_description] unless @option[:section_description].blank? %>
+  <%= render partial: 'sections/image' %>
 </section>

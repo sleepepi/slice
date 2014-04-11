@@ -8,12 +8,12 @@
   </h4>
 </div>
 <div class="modal-body">
-  <form id="section_form" class="form-horizontal">
+  <form id="section_form" class="form-horizontal" enctype="multipart/form-data">
 
     <div class="form-group">
       <label class="col-md-2 control-label">Name</label>
       <div class="col-md-10">
-        <%= text_field_tag "section[section_name]", @option[:section_name], data: { object: 'push-partial-change-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control' %>
+        <%= text_field_tag "section[section_name]", @option[:section_name], data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control' %>
       </div>
     </div>
 
@@ -21,6 +21,27 @@
       <label class="col-md-2 control-label">Description</label>
       <div class="col-md-10">
         <%= text_area_tag "section[section_description]", @option[:section_description], rows: 3, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-2 control-label">Section Image</label>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-6">
+            <%= file_field_tag "section[section_image]", data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control' %>
+          </div>
+          <% if false %>
+            <div class="col-md-6">
+              <div class="sheet-container">
+                <label class="checkbox checkbox-inline negation">
+                  <%= check_box_tag "section[section_image][remove_response_file]", '1', false %>
+                  Remove Image
+                </label>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
 
@@ -47,6 +68,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <%= button_tag 'Update', data: { object: 'push-partial-change', target: '#section_form', update: 'section', position: params[:position] }, class: 'btn btn-primary' %>
+  <%= button_tag 'Update', data: { object: 'push-partial-change-with-file', target: '#section_form', update: 'section', position: params[:position] }, class: 'btn btn-primary' %>
   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 </div>

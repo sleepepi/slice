@@ -6,11 +6,11 @@
   </h4>
 </div>
 <div class="modal-body">
-  <form id="section_form" class="form-horizontal">
+  <form id="section_form" class="form-horizontal" enctype="multipart/form-data">
     <div class="form-group">
       <label class="col-md-2 control-label">Section Name</label>
       <div class="col-md-10">
-        <%= text_field_tag "section[section_name]", '', data: { object: 'push-partial-change-text-field', target: '#section_form', create: 'section', position: params[:position] }, autocomplete: 'off', class: 'form-control' %>
+        <%= text_field_tag "section[section_name]", '', data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', create: 'section', position: params[:position] }, autocomplete: 'off', class: 'form-control' %>
       </div>
     </div>
 
@@ -18,6 +18,17 @@
       <label class="col-md-2 control-label">Section Description</label>
       <div class="col-md-10">
         <%= text_area_tag "section[section_description]", '', autocomplete: 'off', rows: 3, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-2 control-label">Section Image</label>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-6">
+          <%= file_field_tag "section[section_image]", data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', create: 'section', position: params[:position] }, class: 'form-control' %>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -36,6 +47,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <%= button_tag 'Add Section', data: { object: 'push-partial-change', target: '#section_form', create: 'section', position: params[:position] }, class: 'btn btn-primary' %>
+  <%= button_tag 'Add Section', data: { object: 'push-partial-change-with-file', target: '#section_form', create: 'section', position: params[:position] }, class: 'btn btn-primary' %>
   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 </div>

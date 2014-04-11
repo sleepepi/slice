@@ -11,6 +11,8 @@
   - Download the JSON version of the design (or designs) from origin project
   - Use the Import Design from JSON to import the designs
   - Import won't overright existing designs/variables/domains if  design/variable/domain of the same name already exists
+- Design sections can now have an image uploaded to be included underneath the section
+  - Requires HTML5 compatible browsers
 - Updated email styling template
 - Small file image uploads on sheets are no longer stretched to fill the width of the page
 - Designs can now include references to variables collected on other sheets

@@ -106,6 +106,30 @@
 @resetPushPartialChangeButtons = () ->
   $("#interactive-design-container [data-object~='push-partial-change']").removeAttr('disabled')
 
+@pushPartialChangeWithFile = (element) ->
+  formData = new FormData()
+
+  formData.append("section[section_name]", $("#section_section_name").val())
+  formData.append("section[section_description]", $("#section_section_description").val())
+  formData.append("section[section_image]", $("#section_section_image").prop("files")[0])
+  formData.append("section[section_branching_logic]", $("#section_section_branching_logic").val())
+  formData.append("section[section_type]", $("#section_section_type").val())
+
+  formData.append("position", $(element).data('position')) unless $(element).data('position') == undefined
+  formData.append("variable_id", $(element).data('variable-id')) unless $(element).data('variable-id') == undefined
+  formData.append("create", $(element).data('create')) unless $(element).data('create') == undefined
+  formData.append("update", $(element).data('update')) unless $(element).data('update') == undefined
+  formData.append("delete", $(element).data('delete')) unless $(element).data('delete') == undefined
+
+  $.ajax(
+    url: root_url + 'projects/' + $("#project_id").val() + '/designs/' + $('#design_id').val()
+    type: 'PUT'
+    data: formData
+    cache: false
+    contentType: false
+    processData: false
+  )
+
 @pushPartialChange = (element) ->
   disablePushPartialChangeButtons()
   design_id = parseInt($('#design_id').val())
@@ -188,6 +212,15 @@ $(document)
   )
   .on('click', '[data-object~="push-partial-change"]', () ->
     pushPartialChange(this)
+    false
+  )
+  .on('keypress', '[data-object~="push-partial-change-with-file-text-field"]', (e) ->
+    if e.which == 13 # Enter
+      pushPartialChangeWithFile(this)
+      e.preventDefault()
+  )
+  .on('click', '[data-object~="push-partial-change-with-file"]', () ->
+    pushPartialChangeWithFile(this)
     false
   )
   .on('click', '#reorder_design_button', () ->

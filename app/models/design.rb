@@ -30,6 +30,7 @@ class Design < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :sheets, -> { where deleted: false }
+  has_many :sections
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
 
   # Model Methods
@@ -38,15 +39,18 @@ class Design < ActiveRecord::Base
     @questions || [ { question_name: '', question_type: 'free text' } ]
   end
 
-  def create_section(params, position)
+  def create_section(params, position, current_user)
     errors = []
-    section_params = params.permit(:section_name, :section_description, :section_type)
-    section = { section_name: section_params[:section_name].to_s.strip, section_id: "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:section_description].to_s.strip, section_type: section_params[:section_type].to_i }
+    section_params = params.permit(:section_name, :section_description, :section_type, :section_image)
+    section_hash = { section_name: section_params[:section_name].to_s.strip, section_id: "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:section_description].to_s.strip, section_type: section_params[:section_type].to_i }
     unless section_params[:section_name].to_s.strip.blank?
       new_option_tokens = self.options
-      new_option_tokens.insert(position, section)
+      new_option_tokens.insert(position, section_hash)
       self.options = new_option_tokens
-      unless self.save
+      if self.save
+        section = self.sections.where( name: section_hash[:section_name] ).first_or_create( project_id: self.project_id, user_id: current_user.id )
+        section.update( description: section_hash[:description], sub_section: section_hash[:section_type] == 1, image: section_params[:section_image] )
+      else
         errors += [['section_section_name', 'Section name must be unique!']]
       end
     else
@@ -55,9 +59,9 @@ class Design < ActiveRecord::Base
     errors
   end
 
-  def update_section(params, position)
+  def update_section(params, position, current_user)
     errors = []
-    section_params = params.permit(:section_name, :section_description, :branching_logic, :section_type)
+    section_params = params.permit(:section_name, :section_description, :branching_logic, :section_type, :section_image)
     unless section_params[:section_name].blank?
       section_params[:section_id] = "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase
       new_option_tokens = self.options
@@ -65,7 +69,10 @@ class Design < ActiveRecord::Base
         new_option_tokens[position][key.to_sym] = value.to_s.strip
       end
       self.options = new_option_tokens
-      unless self.save
+      if self.save
+        section = self.sections.where( name: section_params[:section_name] ).first_or_create( project_id: self.project_id, user_id: current_user.id )
+        section.update( description: section_params[:section_description], sub_section: section_params[:section_type] == 1, image: section_params[:section_image] )
+      else
         errors += [['section_section_name', 'Section name must be unique!']]
       end
     else
@@ -279,7 +286,7 @@ class Design < ActiveRecord::Base
     section_subsections
   end
 
-  def sections
+  def main_sections
     self.options.select{|option| not option[:section_name].blank? and option[:section_type].to_i == 0}
   end
 
