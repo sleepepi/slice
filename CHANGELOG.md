@@ -1,23 +1,27 @@
 ## 0.24.0
 
 ### Enhancements
-- Projects have a setting that when enabled allows the locking and unlocking of sheets
-  - Project editors can lock and unlock sheets.
-  - Locking a sheet is accomplished by checking the lock checkbox at bottom of sheet.
-  - Sheets can not be edited until they are unlocked by a project editor
-  - Sheet PDFs show who locked the sheet and when.
-  - **Caveat:** Disabling this setting while having sheets that are locked, will remove the ability to unlock or edit these sheets, until the project level setting is reenabled
-- Designs can now be copied from one project to another
-  - Download the JSON version of the design (or designs) from origin project
-  - Use the Import Design from JSON to import the designs
-  - Import won't overright existing designs/variables/domains if  design/variable/domain of the same name already exists
-- Design sections can now have an image uploaded to be included underneath the section
-  - Requires HTML5 compatible browsers
-- Updated email styling template
-- Small file image uploads on sheets are no longer stretched to fill the width of the page
-- Designs can now include references to variables collected on other sheets
-  - The referenced variables are shown when creating, updating, or displayin a sheet
-  - Section images are included on sheet and design PDFs
+- **Project Changes**
+  - Projects have a setting that when enabled allows the locking and unlocking of sheets
+    - Project editors can lock and unlock sheets.
+    - Locking a sheet is accomplished by checking the lock checkbox at bottom of sheet.
+    - Sheets can not be edited until they are unlocked by a project editor
+    - Sheet PDFs show who locked the sheet and when.
+    - *Caveat:* Disabling this setting while having sheets that are locked, will remove the ability to unlock or edit these sheets, until the project level setting is reenabled
+- **Design Changes**
+  - Designs can now be copied from one project to another
+    - Download the JSON version of the design (or designs) from origin project
+    - Use the Import Design from JSON to import the designs
+    - Import won't overright existing designs/variables/domains if  design/variable/domain of the same name already exists
+  - Design sections can now have an image uploaded to be included underneath the section
+    - Requires HTML5 compatible browsers
+    - Section images are included on sheet and design PDFs
+  - Designs can now include references to variables collected on other sheets
+    - The referenced variables are shown when creating, updating, or displaying a sheet
+- **Sheet Changes**
+  - Small file image uploads on sheets are no longer stretched to fill the width of the page
+- **General Changes**
+  - Updated email styling template
 - **Gem Changes**
   - Updated to rails 4.1.0
   - Updated to contour 2.5.0.beta1
