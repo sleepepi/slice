@@ -23,7 +23,7 @@
         </td>
       </tr>
       <% if project_sheets.size > 15 %>
-        <tr><td colspan="5" style="padding-left:20px;"><%= link_to pluralize(project_sheets.count, 'sheet'), "#{SITE_URL}/projects/#{project.id}/sheets" %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered</td></tr>
+        <tr><td colspan="5" style="padding-left:20px;"><%= link_to pluralize(project_sheets.count, 'sheet'), "#{SITE_URL}/projects/#{project.id}/sheets", style: "color: #428bca;" %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered</td></tr>
       <% else  %>
         <% project_sheets.group_by{|s| s.subject_id}.each do |subject_id, subject_sheets| %>
           <% subject = Subject.find_by_id(subject_id) %>

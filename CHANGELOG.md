@@ -4,6 +4,7 @@
 - **General Changes**
   - Typing `w` will toggle between full width mode and fixed width mode
   - Clicking the `Create Domain` on the variable new/edit page now opens a blank browser tab
+  - Updated "# sheets created" link color in daily digest email to match styling of other links
 
 ## 0.24.0 (April 14, 2014)
 
