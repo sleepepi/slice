@@ -56,7 +56,8 @@ Slice::Application.routes.draw do
         get :copy
         get :print
         get :reorder
-        post :update_order
+        post :update_section_order
+        post :update_option_order
         get :report
         post :report
         get :report_print

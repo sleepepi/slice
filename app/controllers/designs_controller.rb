@@ -1,11 +1,11 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!,        except: [ :survey ]
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :overview ]
-  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create ]
-  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create ]
+  before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_section_order, :update_option_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create ]
+  before_action :redirect_without_project,  only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_section_order, :update_option_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create ]
   before_action :set_viewable_design,       only: [ :print, :report_print, :report, :overview ]
-  before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :update_order, :progress, :reimport, :update_import ]
-  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :update_order, :print, :report_print, :report, :progress, :reimport, :update_import, :overview ]
+  before_action :set_editable_design,       only: [ :show, :edit, :update, :destroy, :reorder, :update_section_order, :update_option_order, :progress, :reimport, :update_import ]
+  before_action :redirect_without_design,   only: [ :show, :edit, :update, :destroy, :reorder, :update_section_order, :update_option_order, :print, :report_print, :report, :progress, :reimport, :update_import, :overview ]
 
   # Concerns
   include Buildable
@@ -169,15 +169,16 @@ class DesignsController < ApplicationController
     @design = current_user.all_viewable_designs.find_by_id(params[:sheet][:design_id]) unless params[:sheet].blank?
   end
 
-  def update_order
-    row_order = params[:rows].to_s.split(',').collect{ |a| a.gsub('option_', '').to_i }
+  def update_section_order
     section_order = params[:sections].to_s.split(',').collect{ |a| a.gsub('section_', '').to_i }
+    @design.reorder_sections(section_order, current_user)
+    render 'update_order'
+  end
 
-    if row_order.blank?
-      @design.reorder_sections(section_order, current_user)
-    else
-      @design.reorder_options(row_order, current_user)
-    end
+  def update_option_order
+    row_order = params[:rows].to_s.split(',').collect{ |a| a.gsub('option_', '').to_i }
+    @design.reorder_options(row_order, current_user)
+    render 'update_order'
   end
 
   def reorder
