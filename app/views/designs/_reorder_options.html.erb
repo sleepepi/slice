@@ -1,13 +1,13 @@
 <%= form_tag update_option_order_project_design_path(@design.project, @design), method: :post, remote: true, id: 'reorder_design_form' do %>
-  <ul class="design-list" id="compact_design" data-object="sortable" style="cursor:move">
+  <ul class="design-list" id="reorder_options" data-object="sortable" style="cursor:move">
   <% @design.options.each_with_index do |option, position| %>
     <% if option[:variable_id].blank? %>
-      <li id="option_<%= position %>" class="li-section" style="white-space:nowrap;margin-bottom:5px">
+      <li id="option_<%= position %>" class="li-section" style="white-space:nowrap;margin-bottom:5px" data-position="<%= position %>">
         <% if option[:section_type].to_i > 0 %><div style="width:6px;display:inline-block">&nbsp;</div><% end %>
         <div style="display:inline-block"><a href="#"><%= option[:section_name] %></a></div>
       </li>
     <% elsif variable = Variable.find_by_id(option[:variable_id]) %>
-      <li id="option_<%= position %>" class="li-variable" style="white-space:nowrap;margin-bottom:5px">
+      <li id="option_<%= position %>" class="li-variable" style="white-space:nowrap;margin-bottom:5px" data-position="<%= position %>">
         <div style="display:inline-block;overflow:hidden;white-space:nowrap;width:70%;<%= 'text-decoration: line-through;' if variable.deleted? %>">
           <span class="glyphicon glyphicon-move" style="<%= 'color:#D14' if variable.deleted? %>"></span>
           <%= variable.display_name %>

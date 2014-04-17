@@ -62,33 +62,25 @@
 @overlap = (a, b, c = 1) ->
   intersection(a, b).length >= c
 
-@toggleReorderDesignSubmitButton = () ->
-  rows = $.map($('#compact_design').sortable('toArray'), (val, i) -> parseInt(val.replace('option_', '')))
-  if rows.toString() == rows.sort((a,b) -> a - b).toString()
-    $('#reorder_design_button').attr('disabled', 'disabled')
+@toggleReorderSubmitButton = (sortable_container, reorder_button) ->
+  sortable_order = $(sortable_container).sortable('toArray', attribute: 'data-position')
+  if sortable_order.toString() == sortable_order.sort((a,b) -> a - b).toString()
+    $(reorder_button).attr('disabled', 'disabled')
   else
-    $('#reorder_design_button').removeAttr('disabled')
-  false
-
-@toggleReorderSectionsSubmitButton = () ->
-  sections = $.map($('#reorder_sections_design').sortable('toArray'), (val, i) -> parseInt(val.replace('section_', '')))
-  if sections.toString() == sections.sort((a,b) -> a - b).toString()
-    $('#reorder_design_sections_button').attr('disabled', 'disabled')
-  else
-    $('#reorder_design_sections_button').removeAttr('disabled')
+    $(reorder_button).removeAttr('disabled')
   false
 
 @initializeDesignReordering = () ->
-  $('#compact_design[data-object~="sortable"]').sortable(
+  $('#reorder_options[data-object~="sortable"]').sortable(
     placeholder: "li-section li-placeholder"
     stop: () ->
-      toggleReorderDesignSubmitButton()
+      toggleReorderSubmitButton($(this), '#reorder_design_button')
       true
   )
   $('#reorder_sections_design[data-object~="sortable"]').sortable(
     placeholder: "li-section li-placeholder"
     stop: () ->
-      toggleReorderSectionsSubmitButton()
+      toggleReorderSubmitButton($(this), '#reorder_design_sections_button')
       true
   )
 
@@ -226,7 +218,7 @@ $(document)
   .on('click', '#reorder_design_button', () ->
     if $(this).attr('disabled') != 'disabled'
       $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
-      rows = $('#compact_design').sortable('toArray').toString()
+      rows = $('#reorder_options').sortable('toArray', attribute: 'data-position').toString()
       $.post($('#reorder_design_form').attr('action'), '&rows='+rows, null, 'script')
       $('#saving_modal').modal(backdrop: 'static', keyboard: false)
     false
@@ -234,7 +226,7 @@ $(document)
   .on('click', '#reorder_design_sections_button', () ->
     if $(this).attr('disabled') != 'disabled'
       $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
-      sections = $('#reorder_sections_design').sortable('toArray').toString()
+      sections = $('#reorder_sections_design').sortable('toArray', attribute: 'data-position').toString()
       $.post($('#reorder_sections_design_form').attr('action'), '&sections='+sections, null, 'script')
       $('#saving_modal').modal(backdrop: 'static', keyboard: false)
     false
@@ -242,14 +234,14 @@ $(document)
   .on('click', '#sections_link', () ->
     $(this).closest('li').addClass('disabled')
     $('#variables_link').closest('li').removeClass('disabled')
-    $('#reorder_design_button, #compact_design_container').hide()
+    $('#reorder_design_button, #reorder_options_container').hide()
     $('#reorder_design_sections_button, #reorder_sections_container').show()
     false
   )
   .on('click', '#variables_link', () ->
     $(this).closest('li').addClass('disabled')
     $('#sections_link').closest('li').removeClass('disabled')
-    $('#reorder_design_button, #compact_design_container').show()
+    $('#reorder_design_button, #reorder_options_container').show()
     $('#reorder_design_sections_button, #reorder_sections_container').hide()
     false
   )

@@ -170,13 +170,13 @@ class DesignsController < ApplicationController
   end
 
   def update_section_order
-    section_order = params[:sections].to_s.split(',').collect{ |a| a.gsub('section_', '').to_i }
+    section_order = params[:sections].to_s.split(',').collect{ |a| a.to_i }
     @design.reorder_sections(section_order, current_user)
     render 'update_order'
   end
 
   def update_option_order
-    row_order = params[:rows].to_s.split(',').collect{ |a| a.gsub('option_', '').to_i }
+    row_order = params[:rows].to_s.split(',').collect{ |a| a.to_i }
     @design.reorder_options(row_order, current_user)
     render 'update_order'
   end

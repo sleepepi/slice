@@ -325,14 +325,14 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should reorder options" do
-    post :update_option_order, id: @design, project_id: @project, rows: "option_1,option_0,option_2", format: 'js'
+    post :update_option_order, id: @design, project_id: @project, rows: "1,0,2", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [ActiveRecord::FixtureSet.identify(:two), ActiveRecord::FixtureSet.identify(:one), ActiveRecord::FixtureSet.identify(:date)], assigns(:design).options.collect{|option| option[:variable_id]}
     assert_template 'update_order'
   end
 
   test "should reorder sections" do
-    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_1,section_0", format: 'js'
+    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "1,0", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [
                     ActiveRecord::FixtureSet.identify(:date),
@@ -351,7 +351,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should reorder sections (keep same order)" do
-    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
+    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "0,1", format: 'js'
     assert_not_nil assigns(:design)
 
     assert_equal [
@@ -371,7 +371,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should not reorder sections with different section count" do
-    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_1", format: 'js'
+    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "1", format: 'js'
     assert_not_nil assigns(:design)
     assert_equal [
                 ActiveRecord::FixtureSet.identify(:date),
@@ -391,7 +391,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should not reorder for invalid design" do
     login(users(:site_one_viewer))
-    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "section_0,section_1", format: 'js'
+    post :update_section_order, id: designs(:sections_and_variables), project_id: @project, sections: "0,1", format: 'js'
     assert_nil assigns(:design)
     assert_response :success
   end
