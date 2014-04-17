@@ -325,10 +325,8 @@ class Design < ActiveRecord::Base
     self.options[0..location].select{|option| not option[:section_name].blank?}.collect{|option| option[:section_name]}.last
   end
 
-  # sections = ["section_0","section_2","section_1"]
-  def reorder_sections(section_positions, current_user)
-    new_sections = section_positions.collect{|a| a.gsub('section_', '').to_i}
-    return if new_sections.size == 0 or new_sections.sort != (0..self.section_names.size - 1).to_a
+  def reorder_sections(section_order, current_user)
+    return if section_order.size == 0 or section_order.sort != (0..self.section_names.size - 1).to_a
     original_sections = {}
 
     current_section = nil
@@ -347,21 +345,20 @@ class Design < ActiveRecord::Base
 
     rows = original_sections[nil].blank? ? [] : (original_sections[nil][0]..original_sections[nil][1]).to_a
 
-    new_sections.each do |position|
+    section_order.each do |position|
       rows = rows + (original_sections[position][0]..original_sections[position][1]).to_a
     end
 
-    self.reorder(rows.collect{|i| "option_#{i}"}, current_user)
+    self.reorder_options(rows, current_user)
   end
 
-  def reorder(rows, current_user)
-    new_rows = rows.collect{|a| a.gsub('option_', '').to_i}
-    return if new_rows.size == 0 or new_rows.sort != (0..self.options.size - 1).to_a
+  def reorder_options(row_order, current_user)
+    return if row_order.size == 0 or row_order.sort != (0..self.options.size - 1).to_a
 
     original_options = self.options
     new_options = []
 
-    new_rows.each_with_index do |row, new_location|
+    row_order.each_with_index do |row, new_location|
       old_location = row
       new_options << original_options[old_location]
     end

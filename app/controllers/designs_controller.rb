@@ -170,10 +170,13 @@ class DesignsController < ApplicationController
   end
 
   def update_order
-    if params[:rows].blank?
-      @design.reorder_sections(params[:sections].to_s.split(','), current_user)
+    row_order = params[:rows].to_s.split(',').collect{ |a| a.gsub('option_', '').to_i }
+    section_order = params[:sections].to_s.split(',').collect{ |a| a.gsub('section_', '').to_i }
+
+    if row_order.blank?
+      @design.reorder_sections(section_order, current_user)
     else
-      @design.reorder(params[:rows].to_s.split(','), current_user)
+      @design.reorder_options(row_order, current_user)
     end
   end
 

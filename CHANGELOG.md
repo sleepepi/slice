@@ -1,5 +1,8 @@
 ## 0.24.2
 
+### Refactoring
+- Slight refactoring of the design section and variable reorder method
+
 ## 0.24.1 (April 17, 2014)
 
 ### Enhancements
