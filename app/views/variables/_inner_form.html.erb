@@ -180,7 +180,7 @@
   <div class="col-md-10">
     <% if @variable.project.domains.size == 0 %>
       <div class="alert alert-info">
-        <strong>Heads up!</strong> In order to have choices, variables need to be associated to a domain of options. Variables can share domains. <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs' %>
+        <strong>Heads up!</strong> In order to have choices, variables need to be associated to a domain of options. Variables can share domains. <%= link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs', target: '_blank' %>
       </div>
     <% else %>
       <%= f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] }, {}, class: 'form-control' %>
