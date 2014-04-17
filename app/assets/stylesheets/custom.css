@@ -512,3 +512,7 @@ label.checkbox, label.radio {
     margin: 80px auto !important;
   }
 }
+
+.wide-container {
+  width: 100% !important;
+}

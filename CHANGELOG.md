@@ -1,5 +1,9 @@
 ## 0.24.1
 
+### Enhancements
+- **General Changes**
+  - Typing `w` will toggle between full width mode and fixed width mode
+
 ## 0.24.0 (April 14, 2014)
 
 ### Enhancements

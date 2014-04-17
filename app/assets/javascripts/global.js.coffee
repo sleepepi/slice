@@ -158,6 +158,11 @@ $(document)
         $('#edit-mode').click()
       e.preventDefault()
       return
+    # Key is 'w'
+    if e.which == 87 and not $("input, textarea, select, a").is(":focus")
+      $('.container').toggleClass('wide-container')
+      e.preventDefault()
+      return
   )
   .on('click', '[data-object~="settings-save"]', () ->
     window.$isDirty = false
