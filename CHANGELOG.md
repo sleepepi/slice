@@ -5,6 +5,7 @@
 
 ### Refactoring
 - Slight refactoring of the design sections and options reorder method
+- Slight refactoring of `SheetVariable` model
 
 ## 0.24.1 (April 17, 2014)
 

@@ -86,16 +86,16 @@ class SheetVariable < ActiveRecord::Base
 
     return result unless object
 
-    if ['dropdown', 'radio'].include?(object.variable.variable_type)
+    case object.variable.variable_type when 'dropdown', 'radio'
       hash = (object.variable.shared_options.select{|option| option[:value] == object.response}.first || {})
       result[:name] = hash[:name]
       result[:value] = hash[:value]
       result[:description] = hash[:description]
-    elsif ['checkbox'].include?(object.variable.variable_type)
+    when 'checkbox'
       result = object.variable.shared_options.select{|option| object.responses.pluck(:value).include?(option[:value])}.collect do |option|
         { name: option[:name], value: option[:value], description: option[:description] }
       end
-    elsif ['integer', 'numeric', 'calculated'].include?(object.variable.variable_type)
+    when 'integer', 'numeric', 'calculated'
       hash = object.variable.options_only_missing.select{|option| option[:value] == object.response}.first
       if hash.blank?
         result[:name] = ((not object.response.blank? and not object.response == 'NaN' and not object.variable.prepend.blank?) ? "#{object.variable.prepend} " : '') +
@@ -109,21 +109,21 @@ class SheetVariable < ActiveRecord::Base
         result[:value] = hash[:value]
         result[:description] = hash[:description]
       end
-    elsif ['file'].include?(object.variable.variable_type)
+    when 'file'
       if object.response_file.size > 0
         result[:name] = object.response_file.to_s.split('/').last
         result[:value] = object.response_file
         result[:description] = object.variable.description
       end
-    elsif ['date'].include?(object.variable.variable_type)
+    when 'date'
       result[:name] = object.response_with_add_on # Potentially format this in the future
       result[:value] = object.response
       result[:description] = object.variable.description
-    elsif ['time'].include?(object.variable.variable_type)
+    when 'time'
       result[:name] = object.response # Potentially format this in the future
       result[:value] = object.response
       result[:description] = object.variable.description
-    elsif ['string', 'text'].include?(object.variable.variable_type)
+    when 'string', 'text'
       result[:name] = object.response_with_add_on
       result[:value] = object.response
       result[:description] = object.variable.description
