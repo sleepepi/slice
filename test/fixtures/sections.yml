@@ -19,3 +19,25 @@ two:
   project_id: 1
   design_id: 1
   user_id: 1
+
+public:
+  name: Public Section
+  # description:
+  sub_section: false
+  # branching_logic:
+  image: rails.png
+  project: three
+  design: admin_public_design
+  user: admin
+
+private:
+  name: Private Section
+  # description:
+  sub_section: false
+  # branching_logic:
+  image: rails.png
+  project: three
+  design: sections_and_variables
+  user: valid
+
+

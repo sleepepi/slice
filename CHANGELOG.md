@@ -1,5 +1,8 @@
 ## 0.24.2
 
+### Enhancements
+- Uploaded file storage locations updated
+
 ### Refactoring
 - Slight refactoring of the design sections and options reorder method
 

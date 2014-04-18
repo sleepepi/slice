@@ -119,7 +119,7 @@ has_grid_row_one_var_b:
   # response:
   user: valid
   position: 0
-  response_file: MyText
+  response_file: rails.png
 
 has_grid_row_one_var_c:
   sheet_variable: has_grid
@@ -162,3 +162,19 @@ has_grid_row_one_var_h:
   response: 11:59:59
   user: valid
   position: 0
+
+has_grid_row_one_attached_file:
+  sheet_variable: has_grid_with_file
+  variable: file
+  # response:
+  user: valid
+  position: 0
+  response_file: rails.png
+
+has_grid_row_two_no_attached_file:
+  sheet_variable: has_grid_with_file
+  variable: file
+  # response:
+  user: valid
+  position: 1
+  # response_file: rails.png

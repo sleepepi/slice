@@ -65,6 +65,13 @@ has_grid:
   user: valid
   last_user: valid
 
+has_grid_with_file:
+  design: has_grid
+  project: one
+  subject: two
+  user: valid
+  last_user: valid
+
 weight_and_gender_subject_one:
   design: weight_and_gender
   project: one

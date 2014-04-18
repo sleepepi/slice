@@ -53,7 +53,7 @@ value_to_update_c3:
 file_attachment:
   variable: file
   sheet: file_attached
-  response_file: test_file.txt
+  response_file: rails.png
   user: valid
 
 gender_male:
@@ -146,6 +146,12 @@ has_grid:
   variable: grid
   sheet: has_grid
   # response
+  user: valid
+
+has_grid_with_file:
+  variable: grid
+  sheet: has_grid_with_file
+  # response:
   user: valid
 
 weight_subject_one:

@@ -4,6 +4,7 @@ Slice::Application.routes.draw do
 
   get "survey", to: "survey#index", as: :about_survey
   get "survey/:slug", to: "survey#show"
+  get "survey/:slug/sections/:section_id/image", to: "survey#section_image", as: :survey_section_image
 
   resources :projects, constraints: { format: /json|pdf|csv/ } do
     member do
@@ -23,6 +24,7 @@ Slice::Application.routes.draw do
       get :about
       post :transfer
       post :invite_user
+      get :logo
     end
 
     collection do
@@ -41,6 +43,7 @@ Slice::Application.routes.draw do
       member do
         get :print
         post :remove_file
+        get :file
         get :audits
         get :survey
         post :submit_survey
@@ -73,6 +76,12 @@ Slice::Application.routes.draw do
         post :add_question
         get :json_import
         post :json_import_create
+      end
+
+      resources :sections do
+        member do
+          get :image
+        end
       end
     end
 

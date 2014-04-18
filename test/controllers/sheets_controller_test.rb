@@ -114,23 +114,86 @@ class SheetsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should get attached file" do
+    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
+    get :file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil
+
+    assert_not_nil response
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet_variable)
+    assert_not_nil assigns(:object)
+
+    assert_kind_of String, response.body
+    assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:object).response_file.url) ), response.body
+  end
+
+  test "should get attached file in grid" do
+    assert_not_equal 0, grids(:has_grid_row_one_attached_file).response_file.size
+    get :file, id: sheets(:has_grid_with_file), project_id: @project, sheet_variable_id: sheet_variables(:has_grid_with_file), variable_id: variables(:file), position: 0
+
+    assert_not_nil response
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet_variable)
+    assert_not_nil assigns(:object)
+
+    assert_kind_of String, response.body
+    assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:object).response_file.url) ), response.body
+  end
+
+  test "should not get non-existent file in grid" do
+    assert_equal 0, grids(:has_grid_row_two_no_attached_file).response_file.size
+    get :file, id: sheets(:has_grid_with_file), project_id: @project, sheet_variable_id: sheet_variables(:has_grid_with_file), variable_id: variables(:file), position: 1
+
+    assert_not_nil response
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet_variable)
+    assert_not_nil assigns(:object)
+    assert_equal 0, assigns(:object).response_file.size
+
+    assert_response :success
+  end
+
+  test "should not get attached file for viewer on different site" do
+    login(users(:site_one_viewer))
+    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
+    get :file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil
+
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:sheet)
+    assert_nil assigns(:variable)
+    assert_nil assigns(:sheet_variable)
+
+    assert_redirected_to project_sheets_path(assigns(:project))
+  end
+
   test "should remove attached file" do
+    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
     post :remove_file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil, format: 'js'
 
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:variable)
     assert_not_nil assigns(:sheet_variable)
 
+    assert_equal 0, sheet_variables(:file_attachment).response_file.size
     assert_template 'remove_file'
+
+    # Reset file after test
+    FileUtils.cp File.join('app', 'assets', 'images', 'rails.png'), File.join('test', 'support', 'sheet_variables', '11993616', 'response_file', 'rails.png')
   end
 
   test "should not remove attached file" do
+    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
     login(users(:site_one_viewer))
     post :remove_file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil, format: 'js'
 
     assert_nil assigns(:sheet)
     assert_nil assigns(:variable)
     assert_nil assigns(:sheet_variable)
+
+    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
 
     assert_response :success
   end
@@ -451,6 +514,14 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should show sheet with grid responses" do
     xhr :get, :show, id: sheets(:has_grid), project_id: @project, format: 'js'
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:project)
+    assert_template 'show'
+    assert_response :success
+  end
+
+  test "should show sheet with attached file" do
+    xhr :get, :show, id: sheets(:file_attached), project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_template 'show'

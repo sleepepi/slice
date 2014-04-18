@@ -5,6 +5,7 @@ one:
   description: MyText
   user: valid
   lockable: true
+  logo: rails.png
 
 two:
   name: Project Two

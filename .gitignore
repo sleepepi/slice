@@ -35,6 +35,10 @@
 /public/javascripts/cache/*
 /public/uploads/*
 
+# CarrierWave
+/carrierwave/**/*
+/test/support/uploads/*
+
 # Other Files
 
 /Gemfile.lock

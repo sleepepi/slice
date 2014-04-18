@@ -6,6 +6,23 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should get logo as project editor" do
+    get :logo, id: @project
+
+    assert_not_nil response
+    assert_not_nil assigns(:project)
+
+    assert_kind_of String, response.body
+    assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:project).logo.url) ), response.body
+  end
+
+  test "should not get logo as non-project user" do
+    login(users(:two))
+    get :logo, id: @project
+
+    assert_redirected_to projects_path
+  end
+
   test "should create project user" do
     assert_difference('ProjectUser.count') do
       post :invite_user, id: @project, editor: '1', invite_email: users(:two).name + " [#{users(:two).email}]", format: 'js'
@@ -231,7 +248,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should remove attached file" do
-    post :remove_file, id: @project, format: 'js'
+    post :remove_file, id: projects(:two), format: 'js'
     assert_not_nil assigns(:project)
     assert_template 'remove_file'
   end
@@ -268,7 +285,7 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:project)
-    assert_equal "#{Rails.root}/public/uploads/project/logo/#{assigns(:project).id}/rails.png", assigns(:project).logo.path
+    assert_equal File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'), assigns(:project).logo.path
     assert_equal 1, assigns(:project).sites.count
     assert_equal "Default Site", assigns(:project).sites.first.name
     assert_equal true, assigns(:project).lockable?
@@ -284,7 +301,7 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:project)
-    assert_equal "#{Rails.root}/public/uploads/project/logo/#{assigns(:project).id}/rails.png", assigns(:project).logo.path
+    assert_equal File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'), assigns(:project).logo.path
     assert_equal 1, assigns(:project).sites.count
     assert_equal "New Site with Project", assigns(:project).sites.first.name
 

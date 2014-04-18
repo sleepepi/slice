@@ -1,11 +1,11 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
-  before_action :set_viewable_project, only: [ :index, :show, :print ]
+  before_action :set_viewable_project, only: [ :index, :show, :print, :file ]
   before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :new, :remove_file, :create, :update, :destroy, :unlock ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :new, :remove_file, :create, :update, :destroy, :unlock ]
-  before_action :set_viewable_sheet, only: [ :show, :print ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :new, :remove_file, :create, :update, :destroy, :unlock, :file ]
+  before_action :set_viewable_sheet, only: [ :show, :print, :file ]
   before_action :set_editable_sheet, only: [ :edit, :audits, :remove_file, :update, :destroy, :unlock ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :remove_file, :update, :destroy, :unlock ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :remove_file, :update, :destroy, :unlock, :file ]
   before_action :redirect_with_locked_sheet, only: [ :edit, :remove_file, :update, :destroy ]
 
   # GET /sheets
@@ -141,6 +141,21 @@ class SheetsController < ApplicationController
       end
     else
       redirect_to about_survey_path, alert: 'This survey no longer exists.'
+    end
+  end
+
+  def file
+    @sheet_variable = @sheet.sheet_variables.find_by_id(params[:sheet_variable_id])
+    @object = if params[:position].blank? or params[:variable_id].blank?
+      @sheet_variable
+    else
+      @sheet_variable.grids.find_by_variable_id_and_position(params[:variable_id], params[:position].to_i) if @sheet_variable  # Grid
+    end
+
+    if @object and @object.response_file.size > 0
+      send_file File.join( CarrierWave::Uploader::Base.root, @object.response_file.url )
+    else
+      render nothing: true
     end
   end
 

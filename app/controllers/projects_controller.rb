@@ -1,12 +1,16 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity ]
+  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :logo ]
   before_action :set_editable_project,      only: [ :setup, :edit, :update, :remove_file, :invite_user ]
   before_action :set_owner_project,         only: [ :transfer, :destroy ]
-  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :remove_file, :invite_user, :transfer, :destroy ]
+  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :remove_file, :invite_user, :transfer, :destroy, :logo ]
 
   # Concerns
   include Buildable
+
+  def logo
+    send_file File.join( CarrierWave::Uploader::Base.root, @project.logo.url )
+  end
 
   def invite_user
     invite_email = params[:invite_email].to_s.strip

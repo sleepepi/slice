@@ -37,7 +37,7 @@ all_variable_types:
   project: one
 
 sections_and_variables:
-  name: Section and Variables
+  name: Sections and Variables
   description: Used to test section and variable reordering
   options: [
               { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> },
@@ -54,6 +54,7 @@ sections_and_variables:
            ]
   user: valid
   project: one
+  slug: 'sections-and-variables'
 
 section_and_file:
   name: Section and File Variable

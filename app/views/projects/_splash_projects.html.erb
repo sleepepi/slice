@@ -19,7 +19,7 @@
           </div>
           <div class="panel-body">
             <div style="text-align:center;background-color:white;padding-bottom:5px;height:145px;line-height:145px">
-              <%= link_to image_tag( (project.logo.size > 0 ? project.logo_url : 'project-default-logo.png'), style: 'max-width:100%;max-height:140px' ), project %>
+              <%= link_to image_tag( (project.logo.size > 0 ? logo_project_path(project) : 'project-default-logo.png'), style: 'max-width:100%;max-height:140px' ), project %>
             </div>
             <div style="height:1px;margin-top:2px">
               <% if project.can_edit_sheets_and_subjects?(current_user) %>
