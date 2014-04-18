@@ -2,10 +2,6 @@ require 'test_helper'
 
 class SheetTest < ActiveSupport::TestCase
 
-  test "should get response file url" do
-    assert_equal "", sheets(:all_variables).response_file_url(variables(:file))
-  end
-
   test "should hide variable only if branching logic evaluates to false" do
     assert_equal false, sheets(:one).show_variable?("1 == 0")
   end

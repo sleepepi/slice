@@ -4,6 +4,7 @@
 - Removed unused `remove_file` JS partials
 - Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
 - Added tests for setting design survey slug
+- Removed redundant `response_file` and `response_file_url` methods from `Design` model
 
 ## 0.24.3 (April 18, 2014)
 

@@ -67,18 +67,18 @@
       <% end %>
     \end{itemize}
   <% end %>
-<% elsif @variable.variable_type == 'file' and @sheet.response_file(@variable).size > 0 %>
-  <% if ['jpg', 'jpeg', 'gif', 'png'].include?(@sheet.response_file_url(@variable).to_s.split('.').last.downcase) %>
+<% elsif @variable.variable_type == 'file' and response_file = @sheet.get_response(@variable, :raw) and response_file.size > 0 %>
+  <% if ['jpg', 'jpeg', 'gif', 'png'].include?(response_file.path.split('.').last.downcase) %>
 
 \begin{figure}[!htpb]
-  \includegraphics[max width=7.5in]{<%= @sheet.response_file(@variable).path %>}
+  \includegraphics[max width=7.5in]{<%= response_file.path %>}
   <% unless @variable.description.blank? %>
     \caption{<%= latex_safe @variable.description %>}
   <% end %>
 \end{figure}
 
   <% else %>
-    <%= latex_safe @sheet.response_file_url(@variable).split('/').last %>
+    <%= latex_safe response_file.path.split('/').last %>
   <% end %>
 <% elsif @sheet.get_response(@variable, :name).blank? %>
   \textcolor[gray]{0.5}{Unknown}
