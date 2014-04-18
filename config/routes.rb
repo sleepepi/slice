@@ -42,7 +42,6 @@ Slice::Application.routes.draw do
     resources :sheets do
       member do
         get :print
-        post :remove_file
         get :file
         get :audits
         get :survey

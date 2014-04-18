@@ -169,35 +169,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to project_sheets_path(assigns(:project))
   end
 
-  test "should remove attached file" do
-    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
-    post :remove_file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil, format: 'js'
-
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:variable)
-    assert_not_nil assigns(:sheet_variable)
-
-    assert_equal 0, sheet_variables(:file_attachment).response_file.size
-    assert_template 'remove_file'
-
-    # Reset file after test
-    FileUtils.cp File.join('app', 'assets', 'images', 'rails.png'), File.join('test', 'support', 'sheet_variables', '11993616', 'response_file', 'rails.png')
-  end
-
-  test "should not remove attached file" do
-    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
-    login(users(:site_one_viewer))
-    post :remove_file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil, format: 'js'
-
-    assert_nil assigns(:sheet)
-    assert_nil assigns(:variable)
-    assert_nil assigns(:sheet_variable)
-
-    assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
-
-    assert_response :success
-  end
-
   test "should get new" do
     get :new, project_id: @project
     assert_response :success
