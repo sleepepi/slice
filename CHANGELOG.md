@@ -1,12 +1,14 @@
+## 0.24.4
+
+### Refactoring
+- Removed unused `remove_file` JS partials
+- Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
+
 ## 0.24.3 (April 18, 2014)
 
 ### Bug Fix
 - Fixed inability to download project exports
 - Fixed inability to download project documents
-
-### Refactoring
-- Removed unused `remove_file` JS partials
-- Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
 
 ## 0.24.2 (April 18, 2014)
 
