@@ -1,10 +1,10 @@
 <% is_grid = defined?(grid) %>
 
-<% response = {} %>
-<% response = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
+<% response_name = sheet_variable.get_response_by_position(:name, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
+<% response_file = sheet_variable.get_response_by_position(:raw, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
 
 <div class="row">
-  <div class="col-md-<%= (response[:value] and response[:value].size > 0) ? 6 : 12 %>">
+  <div class="col-md-<%= (response_file and response_file.size > 0) ? 6 : 12 %>">
 <%= file_field_tag "#{field_name}[response_file]",
       data: {
               content: variable.description,
@@ -18,12 +18,12 @@
       class: 'form-control' %>
 <%= hidden_field_tag "#{field_name}[response_file][cache]" %>
   </div>
-<% if response[:value] and response[:value].size > 0 %>
+<% if response_file and response_file.size > 0 %>
   <div class="col-md-6">
     <div class="sheet-container">
       <label class="checkbox checkbox-inline negation">
         <%= check_box_tag "#{field_name}[remove_response_file]", '1', false %>
-        Remove <code><%= response[:name] %></code> <tt><%= number_to_human_size(response[:value].size) %></tt>
+        Remove <code><%= response_name %></code> <tt><%= number_to_human_size(response_file.size) %></tt>
       </label>
     </div>
   </div>

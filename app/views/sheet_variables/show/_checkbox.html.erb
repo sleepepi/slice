@@ -1,7 +1,7 @@
 <% is_grid = defined?(grid) %>
 
-<% responses = [] %>
-<% responses = is_grid ? sheet_variable.response_hash(position, variable.id) : sheet_variable.response_hash if sheet_variable %>
+<% response_names = sheet_variable.get_response_by_position(:name, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
+<% response_raws = sheet_variable.get_response_by_position(:raw, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
 
 <% if variable.alignment == 'scale' %>
   <table class="table table-hover"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %><col width="1px"/>
@@ -22,7 +22,7 @@
         <td style="font-weight:bold"><%= variable.display_name %></td>
         <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description]]}.each do |name, value, description| %>
           <td style="text-align:center" class="sheet-container">
-            <% selected = (responses.collect{|i| i[:value].to_s}.include?(value)) %>
+            <% selected = (response_raws.include?(value)) %>
             <label class="checkbox checkbox-inline <%= 'selected' if selected %>">
               <%= check_box_tag "#{variable.name}[]", "#{value}", selected, disabled: true, style: 'margin-left:-14px' %>
             </label>
@@ -32,9 +32,9 @@
     </tbody>
   </table>
 <% else %>
-  <% responses.each do |hash| %>
+  <% response_names.each do |response_name| %>
     <% unless is_grid %><p><% end %>
-    <span class="rounded-borders" rel="tooltip" title="<%= hash[:description] %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true"><%= "#{hash[:value]}: #{hash[:name]}" unless hash[:value].blank? %></span>
+    <span class="rounded-borders" rel="tooltip" title="<%= variable.description %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true"><%= response_name %></span>
     <% unless is_grid %></p><% end %>
   <% end %>
 <% end %>

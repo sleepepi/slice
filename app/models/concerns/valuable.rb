@@ -42,7 +42,7 @@ module Valuable
     when 'calculated'
       self.calculated_response(raw_format)
     when 'file'
-      self.file_response
+      self.file_response(raw_format)
     else
       self.response
     end
@@ -50,11 +50,13 @@ module Valuable
 
   def response_with_add_on
     prepend_string = ''
+    units_string = ''
     append_string = ''
 
     prepend_string = self.variable.prepend + " " if not self.response.blank? and not self.variable.prepend.blank?
+    units_string =  " " + self.variable.units if not self.response.blank? and not self.variable.units.blank?
     append_string =  " " + self.variable.append if not self.response.blank? and not self.variable.append.blank?
-    prepend_string + self.response + append_string
+    prepend_string + self.response + units_string + append_string
   end
 
   def grid_responses(raw_format = :raw)
@@ -69,34 +71,33 @@ module Valuable
     grid_responses.to_json
   end
 
-  # Currently returns different objects for different response types, TODO change to be the same
   def checkbox_responses(raw_format = :raw)
     if raw_format == :name
       self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[:value] + ": " + option[:name]}
     else
-      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[(raw_format == :raw ? :value : :name)]}.join(',')
+      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[(raw_format == :raw ? :value : :name)]}
     end
   end
 
-  def file_response
-    self.response_file.size > 0 ? self.response_file.to_s.split('/').last : ''
+  def file_response(raw_format = :raw)
+    if raw_format == :name
+      self.response_file.size > 0 ? self.response_file.to_s.split('/').last : ''
+    else
+      self.response_file
+    end
   end
 
   def dropdown_or_radio_response(raw_format = :raw)
     if raw_format == :raw
       begin Integer(self.response) end rescue self.response
-    elsif raw_format == :name
-      hash_value_and_name
     else
-      hash_name
+      hash_value_and_name
     end
   end
 
   def integer_response(raw_format = :raw)
     if raw_format == :raw
       begin Integer(self.response) end rescue self.response
-    elsif raw_format == :name
-      hash_value_and_name_or_response
     else
       hash_name_or_response
     end
@@ -105,8 +106,6 @@ module Valuable
   def numeric_response(raw_format = :raw)
     if raw_format == :raw
       begin Float(self.response) end rescue self.response
-    elsif raw_format == :name
-      hash_value_and_name_or_response
     else
       hash_name_or_response
     end
@@ -116,16 +115,12 @@ module Valuable
     if raw_format == :raw
       begin Float(self.response) end rescue self.response
     else
-      self.response
+      hash_name_or_response
     end
   end
 
   def hash_name_or_response
-    hash_name.blank? ? self.response : hash_name
-  end
-
-  def hash_value_and_name_or_response
-    hash_value_and_name.blank? ? self.response : hash_value_and_name
+    hash_name.blank? ? self.response_with_add_on : hash_name
   end
 
   def hash_name

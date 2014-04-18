@@ -6,6 +6,7 @@
 
 ### Refactoring
 - Removed unused `remove_file` JS partials
+- Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
 
 ## 0.24.2 (April 18, 2014)
 

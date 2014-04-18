@@ -72,63 +72,14 @@ class SheetVariable < ActiveRecord::Base
     response
   end
 
-  # Return a hash that represents the name, value, and description of the response
-  # Ex: Given Variable Gender With Response Male, returns: { label: 'Male', value: 'm', description: 'Male gender of human species' }
-  # This is used mainly by the sheet_variables/show/_*.html.erb partials to show/format variable responses
-  def response_hash(position = nil, variable_id = nil)
-    result = { name: '', value: '', description: '', color: '' }
-
+  def get_response_by_position(raw_format, position, variable_id)
     object = if position.blank? or variable_id.blank?
       self # SheetVariable
     else
       self.grids.find_by_variable_id_and_position(variable_id, position) # Grid
     end
 
-    return result unless object
-
-    case object.variable.variable_type when 'dropdown', 'radio'
-      hash = (object.variable.shared_options.select{|option| option[:value] == object.response}.first || {})
-      result[:name] = hash[:name]
-      result[:value] = hash[:value]
-      result[:description] = hash[:description]
-    when 'checkbox'
-      result = object.variable.shared_options.select{|option| object.responses.pluck(:value).include?(option[:value])}.collect do |option|
-        { name: option[:name], value: option[:value], description: option[:description] }
-      end
-    when 'integer', 'numeric', 'calculated'
-      hash = object.variable.options_only_missing.select{|option| option[:value] == object.response}.first
-      if hash.blank?
-        result[:name] = ((not object.response.blank? and not object.response == 'NaN' and not object.variable.prepend.blank?) ? "#{object.variable.prepend} " : '') +
-                        object.response +
-                        ((not object.response.blank? and not object.response == 'NaN' and not object.variable.units.blank?) ? " #{object.variable.units}" : '') +
-                        ((not object.response.blank? and not object.response == 'NaN' and not object.variable.append.blank?) ? " #{object.variable.append}" : '')
-        result[:value] = object.response
-        result[:description] = object.variable.description
-      else
-        result[:name] = hash[:value] + ": " + hash[:name]
-        result[:value] = hash[:value]
-        result[:description] = hash[:description]
-      end
-    when 'file'
-      if object.response_file.size > 0
-        result[:name] = object.response_file.to_s.split('/').last
-        result[:value] = object.response_file
-        result[:description] = object.variable.description
-      end
-    when 'date'
-      result[:name] = object.response_with_add_on # Potentially format this in the future
-      result[:value] = object.response
-      result[:description] = object.variable.description
-    when 'time'
-      result[:name] = object.response # Potentially format this in the future
-      result[:value] = object.response
-      result[:description] = object.variable.description
-    when 'string', 'text'
-      result[:name] = object.response_with_add_on
-      result[:value] = object.response
-      result[:description] = object.variable.description
-    end
-    result
+    object ? object.get_response(raw_format) : ''
   end
 
   # Returns it's ID if it's not empty, else nil

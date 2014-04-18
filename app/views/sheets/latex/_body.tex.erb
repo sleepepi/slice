@@ -43,8 +43,8 @@
   <% @variable.grid_variables.each do |grid_variable| %>
     <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
     <% if grid %>
-      <%= latex_safe grid.get_response(:label) %>
-      <%= latex_safe grid.variable.units if not grid.variable.units.blank? and not grid.get_response(:label).blank? %>
+      <% grid_response = grid.get_response(:name) %>
+      <%= latex_safe grid_response.kind_of?(Array) ? grid_response.join(', ') : grid_response %>
       &
     <% end %>
   <% end %>
@@ -83,7 +83,7 @@
 <% elsif @sheet.get_response(@variable, :name).blank? %>
   \textcolor[gray]{0.5}{Unknown}
 <% else %>
-  <%= latex_safe @variable.prepend if not @sheet.get_response(@variable, :name).blank? and not @variable.prepend.blank? %> <%= latex_safe @sheet.get_response(@variable, :name) %> <%= latex_safe @variable.units if not @sheet.get_response(@variable, :name).blank? and not @variable.units.blank? %> <%= latex_safe @variable.append if not @sheet.get_response(@variable, :name).blank? and not @variable.append.blank? %>
+  <%= latex_safe @sheet.get_response(@variable, :name) %>
 <% end %>
 
     <% end %>
