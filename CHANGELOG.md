@@ -6,7 +6,7 @@
 ### Refactoring
 - Slight refactoring of the design sections and options reorder method
 - Slight refactoring of `SheetVariable` model
-- Removed unused `remove_file` action from `SheetsController`
+- Removed unused `remove_file` action from `SheetsController` and `ProjectsController`
 
 ## 0.24.1 (April 17, 2014)
 

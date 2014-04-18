@@ -247,17 +247,26 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to projects_path
   end
 
-  test "should remove attached file" do
-    post :remove_file, id: projects(:two), format: 'js'
+  test "should remove attached logo" do
+    assert_not_equal 0, @project.logo.size
+    patch :update, id: @project.id, project: { remove_logo: '1' }
+
     assert_not_nil assigns(:project)
-    assert_template 'remove_file'
+    assert_equal 0, assigns(:project).logo.size
+
+    assert_redirected_to setup_project_path(assigns(:project))
+
+    # Reset File after test run
+    FileUtils.cp File.join('test', 'support', 'projects', 'rails.png'), File.join('test', 'support', 'projects', '980190962', 'logo', 'rails.png')
   end
 
-  test "should not remove attached file" do
+  test "should not remove attached logo" do
+    assert_not_equal 0, @project.logo.size
     login(users(:site_one_viewer))
-    post :remove_file, id: @project, format: 'js'
+    patch :update, id: @project.id, project: { remove_logo: '1' }
     assert_nil assigns(:project)
-    assert_response :success
+    assert_not_equal 0, @project.logo.size
+    assert_redirected_to projects_path
   end
 
   test "should get index" do

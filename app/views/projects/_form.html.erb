@@ -67,8 +67,24 @@
   <div class="form-group">
     <%= f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.file_field :logo, class: 'form-control' %>
-      <%= f.hidden_field :logo_cache %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.file_field :logo, class: 'form-control' %>
+          <%= f.hidden_field :logo_cache %>
+        </div>
+
+        <% if @project.logo and @project.logo.size > 0 %>
+          <div class="col-md-6">
+            <div class="sheet-container">
+              <label class="checkbox checkbox-inline negation">
+                <%= check_box_tag "project[remove_logo]", '1', false %>
+                Remove <code><%= @project.logo.path.split('/').last %></code> <tt><%= number_to_human_size(@project.logo.size) %></tt>
+              </label>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
     </div>
   </div>
 

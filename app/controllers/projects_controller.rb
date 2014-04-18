@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :logo ]
-  before_action :set_editable_project,      only: [ :setup, :edit, :update, :remove_file, :invite_user ]
+  before_action :set_editable_project,      only: [ :setup, :edit, :update, :invite_user ]
   before_action :set_owner_project,         only: [ :transfer, :destroy ]
-  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :remove_file, :invite_user, :transfer, :destroy, :logo ]
+  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo ]
 
   # Concerns
   include Buildable
@@ -117,10 +117,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def remove_file
-    @project.remove_logo!
-  end
-
   # GET /projects
   # GET /projects.json
   def index
@@ -216,7 +212,7 @@ class ProjectsController < ApplicationController
         :show_contacts, :show_documents, :show_posts, :disable_all_emails,
         :collect_email_on_surveys, :lockable,
         # Uploaded Logo
-        :logo, :logo_uploaded_at, :logo_cache,
+        :logo, :logo_uploaded_at, :logo_cache, :remove_logo,
         # Will automatically generate a site if the project has no site
         :site_name
       )
