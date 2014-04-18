@@ -15,7 +15,7 @@
   <dt>File</dt>
   <dd>
     <% if @export.file.size > 0 %>
-      <% full_url = "#{request.script_name}#{@export.file.url}" %>
+      <% full_url = file_project_export_path(@project, @export) %>
       <%= link_to @export.file.to_s.split('/').last, full_url, target: '_blank', class: 'btn btn-default btn-xs' %>
       <%= number_to_human_size(@export.file.size) %>
       <span class="text-muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.file_created_at, { include_seconds: true }) %>.</span>

@@ -4,10 +4,11 @@ one:
   name: MyString
   include_files: false
   status: ready
-  # file: MyString
+  file: rails.png.zip
   user: valid
   project: one
   viewed: false
+  file_created_at: 2013-10-03 12:30:45
 
 two:
   name: MyString2

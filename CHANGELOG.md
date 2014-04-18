@@ -1,5 +1,8 @@
 ## 0.24.3
 
+### Bug Fix
+- Fixed inability to download exports
+
 ## 0.24.2 (April 18, 2014)
 
 ### Enhancements

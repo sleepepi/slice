@@ -1,10 +1,18 @@
 class ExportsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index, :show, :progress, :mark_unread, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :progress, :mark_unread, :destroy ]
-  before_action :set_viewable_export, only: [ :show, :mark_unread, :progress ]
+  before_action :set_viewable_project, only: [ :index, :show, :file, :progress, :mark_unread, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :file, :progress, :mark_unread, :destroy ]
+  before_action :set_viewable_export, only: [ :show, :file, :mark_unread, :progress ]
   before_action :set_editable_export, only: [ :destroy ]
-  before_action :redirect_without_export, only: [ :show, :mark_unread, :progress, :destroy ]
+  before_action :redirect_without_export, only: [ :show, :file, :mark_unread, :progress, :destroy ]
+
+  def file
+    if @export.file.size > 0
+      send_file File.join( CarrierWave::Uploader::Base.root, @export.file.url )
+    else
+      render nothing: true
+    end
+  end
 
   # POST /exports/1.js
   def progress

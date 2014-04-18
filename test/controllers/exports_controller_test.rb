@@ -26,6 +26,39 @@ class ExportsControllerTest < ActionController::TestCase
   #   assert_redirected_to export_path(assigns(:export))
   # end
 
+  test "should download export file" do
+    assert_not_equal 0, @export.file.size
+    get :file, id: @export, project_id: @project
+
+    assert_not_nil response
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:export)
+
+    assert_kind_of String, response.body
+    assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:export).file.url) ), response.body
+  end
+
+  test "should not download empty export file" do
+    assert_equal 0, exports(:two).file.size
+    get :file, id: exports(:two), project_id: @project
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:export)
+
+    assert_response :success
+  end
+
+  test "should not download export file as non user" do
+    assert_not_equal 0, @export.file.size
+    login(users(:site_one_viewer))
+    get :file, id: @export, project_id: @project
+
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:export)
+
+    assert_redirected_to project_exports_path(assigns(:project))
+  end
+
   test "should show export" do
     get :show, id: @export, project_id: @project
     assert_not_nil assigns(:export)
