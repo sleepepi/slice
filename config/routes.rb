@@ -32,7 +32,11 @@ Slice::Application.routes.draw do
     end
 
     resources :contacts
-    resources :documents
+    resources :documents do
+      member do
+        get :file
+      end
+    end
     resources :events
 
     resources :posts

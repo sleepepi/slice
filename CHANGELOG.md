@@ -2,6 +2,7 @@
 
 ### Bug Fix
 - Fixed inability to download exports
+- Fixed inability to download project documents
 
 ## 0.24.2 (April 18, 2014)
 

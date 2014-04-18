@@ -3,7 +3,7 @@
 one:
   name: MyString
   category: MyString
-  file: test_file.txt
+  file: rails.png
   archived: false
   user: valid
   project: one

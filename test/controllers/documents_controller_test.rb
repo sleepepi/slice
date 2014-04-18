@@ -7,6 +7,39 @@ class DocumentsControllerTest < ActionController::TestCase
     @document = documents(:one)
   end
 
+  test "should download document file" do
+    assert_not_equal 0, @document.file.size
+    get :file, id: @document, project_id: @project
+
+    assert_not_nil response
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:document)
+
+    assert_kind_of String, response.body
+    assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:document).file.url) ), response.body
+  end
+
+  test "should not download empty document file" do
+    assert_equal 0, documents(:two).file.size
+    get :file, id: documents(:two), project_id: @project
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:document)
+
+    assert_response :success
+  end
+
+  test "should not download document file as non user" do
+    assert_not_equal 0, @document.file.size
+    login(users(:two))
+    get :file, id: @document, project_id: @project
+
+    assert_nil assigns(:project)
+    assert_nil assigns(:document)
+
+    assert_redirected_to root_path
+  end
+
   test "should get index" do
     get :index, project_id: @project
     assert_response :success
