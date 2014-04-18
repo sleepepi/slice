@@ -605,6 +605,25 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: @design, project_id: @project, design: { description: "Updated Description" }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
+    assert_equal "Updated Description", assigns(:design).description
+    assert_template 'update'
+  end
+
+  test "should update design and make publicly available" do
+    put :update, id: @design, project_id: @project, design: { publicly_available: '1' }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_equal 'design-one', assigns(:design).slug
+    assert_equal true, assigns(:design).publicly_available
+    assert_template 'update'
+  end
+
+  test "should update design and make custom slug" do
+    put :update, id: @design, project_id: @project, design: { publicly_available: '1', slug: 'design-one-custom' }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_equal 'design-one-custom', assigns(:design).slug
+    assert_equal true, assigns(:design).publicly_available
     assert_template 'update'
   end
 

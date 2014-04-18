@@ -3,6 +3,7 @@
 ### Refactoring
 - Removed unused `remove_file` JS partials
 - Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
+- Added tests for setting design survey slug
 
 ## 0.24.3 (April 18, 2014)
 
