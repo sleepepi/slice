@@ -507,7 +507,7 @@ class Design < ActiveRecord::Base
         if self.valid?
           self.save
         else
-          self.slug = self.name.parameterize + '-' + SecureRandom.hex(8)
+          self.slug += "-#{SecureRandom.hex(8)}"
           self.save
         end
       end
