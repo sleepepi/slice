@@ -4,6 +4,9 @@
 - Fixed inability to download project exports
 - Fixed inability to download project documents
 
+### Refactoring
+- Removed unused `remove_file` JS partials
+
 ## 0.24.2 (April 18, 2014)
 
 ### Enhancements
