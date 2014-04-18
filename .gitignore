@@ -33,7 +33,6 @@
 /public/cache/*
 /public/stylesheets/cache/*
 /public/javascripts/cache/*
-/public/uploads/*
 
 # CarrierWave
 /carrierwave/**/*
