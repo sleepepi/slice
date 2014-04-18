@@ -1,4 +1,4 @@
-## 0.24.2
+## 0.24.2 (April 18, 2014)
 
 ### Enhancements
 - Uploaded file storage locations updated
