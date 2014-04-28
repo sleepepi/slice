@@ -1,5 +1,9 @@
 ## 0.24.4
 
+### Enhancements
+- **Gem Changes**
+  - Fixed version of `minitest-reporters` to `1.0.2` due to incompatibility of `1.0.3` with `simplecov` coverage report
+
 ### Refactoring
 - Removed unused `remove_file` JS partials
 - Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
