@@ -10,6 +10,7 @@
 - Added tests for setting design survey slug
 - Removed redundant `response_file` and `response_file_url` methods from `Design` model
 - Removed `response`, `position`, and `sheet_variable` local variables from `sheet_variable` show partials
+- Moved common parse date and parse time code to a library module `DateAndTimeParser`
 
 ## 0.24.3 (April 18, 2014)
 

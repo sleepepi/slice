@@ -8,7 +8,7 @@ class SheetVariable < ActiveRecord::Base
   has_associated_audits
 
   # Concerns
-  include Valuable
+  include Valuable, DateAndTimeParser
 
   # Model Validation
   validates_presence_of :sheet_id, :user_id
@@ -79,18 +79,6 @@ class SheetVariable < ActiveRecord::Base
     else
       nil
     end
-  end
-
-  private
-
-  # Copied from Application Controller
-  def parse_date(date_string, default_date = '')
-    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
-  end
-
-  # Copied from Application Controller
-  def parse_time(time_string, default_time = '')
-    Time.parse(time_string).strftime('%H:%M:%S') rescue default_time
   end
 
 end
