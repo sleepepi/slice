@@ -14,6 +14,7 @@
 ### Testing
 - Added tests for importing a design from JSON format
 - Added tests for setting design survey slug
+- Added tests for updating domains and variables when editing the design
 
 ## 0.24.3 (April 18, 2014)
 
