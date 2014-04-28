@@ -31,3 +31,8 @@ single_design:
   name: Project With One Design
   description: When creating sheets the single design should always show by default.
   user: valid
+
+empty:
+  name: Empty Project
+  description: Empty for JSON Import
+  user: valid

@@ -14,8 +14,8 @@ class DesignsController < ApplicationController
   def add_question
   end
 
-  # Get /designs/1/overview
-  # Get /designs/1/overview.js
+  # GET /designs/1/overview
+  # GET /designs/1/overview.js
   def overview
     @statuses = params[:statuses] || ['valid']
     @sheets = current_user.all_viewable_sheets.where( project_id: @project.id, design_id: @design.id ).with_subject_status(@statuses)
@@ -35,27 +35,17 @@ class DesignsController < ApplicationController
   end
 
   def json_import_create
-    if params[:json_file].blank?
+    begin
+      json = JSON.parse(params[:json_file].read)  #rescue json = nil
+      [json].flatten.each do |design_json|
+        @project.create_design_from_json(design_json, current_user)
+      end
+
+      redirect_to project_designs_path(@project)
+    rescue
       @error = 'JSON File can\'t be blank.'
       render 'json_import'
-    else
-
-
-      json = JSON.parse(params[:json_file].read)  #rescue json = nil
-
-      if json
-        [json].flatten.each do |design_json|
-          @project.create_design_from_json(design_json, current_user)
-        end
-
-        redirect_to project_designs_path(@project)
-      else
-        @error = 'Error parsing JSON file'
-        render 'json_import'
-      end
     end
-
-    # JSON.parse()
   end
 
   def import

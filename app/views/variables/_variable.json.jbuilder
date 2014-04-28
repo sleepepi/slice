@@ -1,4 +1,4 @@
-json.extract! variable, :description, :name, :display_name, :variable_type, :display_name_visibility, :prepend, :append, :created_at, :updated_at,
+json.extract! variable, :name, :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
                   # Integer and Numeric
                   :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
                   # Date

@@ -11,6 +11,7 @@
 - Removed redundant `response_file` and `response_file_url` methods from `Design` model
 - Removed `response`, `position`, and `sheet_variable` local variables from `sheet_variable` show partials
 - Moved common parse date and parse time code to a library module `DateAndTimeParser`
+- Added tests for importing a design from JSON format
 
 ## 0.24.3 (April 18, 2014)
 

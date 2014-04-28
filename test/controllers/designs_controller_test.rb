@@ -44,6 +44,48 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get json import" do
+    get :json_import, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should create design from json template" do
+    assert_difference('Domain.count', 8) do
+      assert_difference('Variable.count', 27) do
+        assert_difference('Design.count') do
+          post :json_import_create, project_id: projects(:empty), json_file: fixture_file_upload('../../test/support/designs/all_variables.json')
+        end
+      end
+    end
+
+    assert_not_nil assigns(:project)
+    design = assigns(:project).designs.last
+    assert_equal 'All Variables', design.name
+    assert_equal 35, design.options.count
+    assert_redirected_to project_designs_path(assigns(:project))
+  end
+
+  test "should not create design from invalid json template" do
+    assert_difference('Design.count', 0) do
+      post :json_import_create, project_id: projects(:empty), json_file: fixture_file_upload('../../test/support/design_import.csv')
+    end
+
+    assert_not_nil assigns(:project)
+    assert_template 'json_import'
+    assert_response :success
+  end
+
+  test "should not create design from blank json template" do
+    assert_difference('Design.count', 0) do
+      post :json_import_create, project_id: projects(:empty)
+    end
+
+    assert_not_nil assigns(:project)
+    assert_template 'json_import'
+    assert_response :success
+  end
+
   test "should get import" do
     get :import, project_id: @project
     assert_not_nil assigns(:design)
