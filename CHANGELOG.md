@@ -9,6 +9,7 @@
 - Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
 - Added tests for setting design survey slug
 - Removed redundant `response_file` and `response_file_url` methods from `Design` model
+- Removed `response`, `position`, and `sheet_variable` local variables from `sheet_variable` show partials
 
 ## 0.24.3 (April 18, 2014)
 

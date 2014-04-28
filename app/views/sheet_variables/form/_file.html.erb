@@ -1,7 +1,5 @@
-<% is_grid = defined?(grid) %>
-
-<% response_name = sheet_variable.get_response_by_position(:name, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
-<% response_file = sheet_variable.get_response_by_position(:raw, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
+<% response_name = object.get_response(:name) if object %>
+<% response_file = object.get_response(:raw) if object %>
 
 <div class="row">
   <div class="col-md-<%= (response_file and response_file.size > 0) ? 6 : 12 %>">

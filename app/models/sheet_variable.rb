@@ -72,16 +72,6 @@ class SheetVariable < ActiveRecord::Base
     response
   end
 
-  def get_response_by_position(raw_format, position, variable_id)
-    object = if position.blank? or variable_id.blank?
-      self # SheetVariable
-    else
-      self.grids.find_by_variable_id_and_position(variable_id, position) # Grid
-    end
-
-    object ? object.get_response(raw_format) : ''
-  end
-
   # Returns it's ID if it's not empty, else nil
   def empty_or_not
     if self.responses.count > 0 or self.grids.count > 0 or not self.response.blank?

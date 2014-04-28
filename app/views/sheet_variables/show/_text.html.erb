@@ -1,5 +1,3 @@
-<% is_grid = defined?(grid) %>
-
-<% response_name = sheet_variable.get_response_by_position(:name, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
-
-<span rel="tooltip" title="<%= variable.description %>" data-placement="top" style="display:inline-block" data-html="true"><%= simple_format response_name.to_s %></span>
+<% if object %>
+  <%= simple_format object.get_response(:name).to_s %>
+<% end %>

@@ -1,7 +1,5 @@
-<% is_grid = defined?(grid) %>
-
-<% response_names = sheet_variable.get_response_by_position(:name, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
-<% response_raws = sheet_variable.get_response_by_position(:raw, (defined?(position) ? position : nil), variable.id) if sheet_variable %>
+<% response_names = object.get_response(:name) if object %>
+<% response_raws = object.get_response(:raw) if object %>
 
 <% if variable.alignment == 'scale' %>
   <table class="table table-hover"><col width="300px"/><%== "<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>"*variable.options_missing_at_end.size %><col width="1px"/>
@@ -33,8 +31,8 @@
   </table>
 <% else %>
   <% response_names.each do |response_name| %>
-    <% unless is_grid %><p><% end %>
-    <span class="rounded-borders" rel="tooltip" title="<%= variable.description %>" data-placement="<%= is_grid ? 'top' : 'right' %>" data-html="true"><%= response_name %></span>
-    <% unless is_grid %></p><% end %>
+    <% unless defined?(position) %><p><% end %>
+      <%= response_name %>
+    <% unless defined?(position) %></p><% end %>
   <% end %>
 <% end %>
