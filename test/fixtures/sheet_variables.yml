@@ -77,13 +77,13 @@ grid:
 date:
   variable: date
   sheet: all_variables
-  response: 2013-04-17
+  response: "2013-04-17"
   user: valid
 
 time:
   variable: time
   sheet: all_variables
-  response: 22:30:00
+  response: "22:30:00"
   user: valid
 
 string:
@@ -92,10 +92,22 @@ string:
   response: Weight Lifting and Salsa
   user: valid
 
+text:
+  variable: text
+  sheet: all_variables
+  response: "This Text is across \nMultiple Lines"
+  user: valid
+
 integer:
   variable: integer
   sheet: all_variables
   response: -9
+  user: valid
+
+calculated:
+  variable: calculated
+  sheet: all_variables
+  response: 24.36
   user: valid
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'

@@ -111,14 +111,16 @@ height:
   name: height
   display_name: Height (m)
   # description:
+  units: m
   variable_type: numeric
   user: valid
   project: one
 
 weight:
   name: weight
-  display_name: Weight (kg)
+  display_name: Weight
   # description:
+  units: kg
   variable_type: numeric
   user: valid
   project: one
@@ -136,6 +138,7 @@ calculated:
   name: var_bmi
   display_name: Body Mass Index
   description: Automatically calculated variable
+  units: "kg / (m * m)"
   variable_type: calculated
   user: valid
   calculation: "weight / (height * height)"

@@ -7,3 +7,4 @@ require 'zip'
 require 'uri'
 # In lib directory
 require 'date_and_time_parser'
+require 'valuables'

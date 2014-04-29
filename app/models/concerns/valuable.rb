@@ -1,5 +1,9 @@
+require 'valuables'
+
 module Valuable
   extend ActiveSupport::Concern
+
+  include Valuables
 
   included do
     # Named Scopes
@@ -28,109 +32,13 @@ module Valuable
   end
 
   def get_response(raw_format = :raw)
-    case self.variable.variable_type
-    when 'grid'
-      self.respond_to?('grids') ? self.grid_responses(raw_format) : self.response
-    when 'checkbox'
-      self.checkbox_responses(raw_format)
-    when 'dropdown', 'radio'
-      self.dropdown_or_radio_response(raw_format)
-    when 'integer'
-      self.integer_response(raw_format)
-    when 'numeric'
-      self.numeric_response(raw_format)
-    when 'calculated'
-      self.calculated_response(raw_format)
-    when 'file'
-      self.file_response(raw_format)
-    else
-      self.response
-    end
-  end
+    valuable = Valuables.for(self)
 
-  def response_with_add_on
-    prepend_string = ''
-    units_string = ''
-    append_string = ''
-
-    prepend_string = self.variable.prepend + " " if not self.response.blank? and not self.variable.prepend.blank?
-    units_string =  " " + self.variable.units if not self.response.blank? and not self.variable.units.blank?
-    append_string =  " " + self.variable.append if not self.response.blank? and not self.variable.append.blank?
-    prepend_string + self.response + units_string + append_string
-  end
-
-  def grid_responses(raw_format = :raw)
-    grid_responses = []
-    (0..self.grids.pluck(:position).max.to_i).each do |position|
-      self.variable.grid_variables.each do |grid_variable|
-        grid = self.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
-        grid_responses[position] ||= {}
-        grid_responses[position][grid.variable.name] = grid.get_response(raw_format) if grid
+      if raw_format == :raw
+        return valuable.raw
+      else
+        return valuable.name
       end
-    end
-    grid_responses.to_json
-  end
-
-  def checkbox_responses(raw_format = :raw)
-    if raw_format == :name
-      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[:value] + ": " + option[:name]}
-    else
-      self.variable.shared_options_select_values(self.responses.pluck(:value)).collect{|option| option[(raw_format == :raw ? :value : :name)]}
-    end
-  end
-
-  def file_response(raw_format = :raw)
-    if raw_format == :name
-      self.response_file.size > 0 ? self.response_file.to_s.split('/').last : ''
-    else
-      self.response_file
-    end
-  end
-
-  def dropdown_or_radio_response(raw_format = :raw)
-    if raw_format == :raw
-      begin Integer(self.response) end rescue self.response
-    else
-      hash_value_and_name
-    end
-  end
-
-  def integer_response(raw_format = :raw)
-    if raw_format == :raw
-      begin Integer(self.response) end rescue self.response
-    else
-      hash_name_or_response
-    end
-  end
-
-  def numeric_response(raw_format = :raw)
-    if raw_format == :raw
-      begin Float(self.response) end rescue self.response
-    else
-      hash_name_or_response
-    end
-  end
-
-  def calculated_response(raw_format = :raw)
-    if raw_format == :raw
-      begin Float(self.response) end rescue self.response
-    else
-      hash_name_or_response
-    end
-  end
-
-  def hash_name_or_response
-    hash_name.blank? ? self.response_with_add_on : hash_name
-  end
-
-  def hash_name
-    hash = (self.variable.shared_options_select_values([self.response]).first || {})
-    hash[:name]
-  end
-
-  def hash_value_and_name
-    hash = (self.variable.shared_options_select_values([self.response]).first || {})
-    [hash[:value], hash[:name]].compact.join(': ')
   end
 
 end
