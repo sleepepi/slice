@@ -13,6 +13,7 @@
 
 ### Bug Fix
 - Fixed a bug that kept sections from being changed to subsections on the design editor
+- Clicking on the total links on design overviews now correctly filters to the corresponding sheets on the sheets index
 
 ### Refactoring
 - Removed unused `remove_file` JS partials

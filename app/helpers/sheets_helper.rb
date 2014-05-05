@@ -9,8 +9,11 @@ module SheetsHelper
   end
 
   def filter_link(count, project, design, variable, value, statuses)
-    variable_id = variable ? variable.id : nil
-    link_to_if( !count.blank?, count || '-', project_sheets_path(project, design_id: design.id, f: [{ variable_id: variable_id, value: value }], statuses: statuses), target: '_blank' )
+    if variable
+      link_to_if( !count.blank?, count || '-', project_sheets_path(project, design_id: design.id, f: [{ variable_id: variable.id, value: value }], statuses: statuses), target: '_blank' )
+    else
+      link_to_if( !count.blank?, count || '-', project_sheets_path(project, design_id: design.id, statuses: statuses), target: '_blank' )
+    end
   end
 
 end
