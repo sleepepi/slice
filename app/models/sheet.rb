@@ -126,6 +126,7 @@ class Sheet < ActiveRecord::Base
       sheets.each do |sheet|
         @sheet = sheet # Needed by Binding
         file.syswrite(ERB.new(latex_partial('body')).result(binding))
+        file.syswrite(ERB.new(latex_partial('audits')).result(binding))
       end
       file.syswrite(ERB.new(latex_partial('footer')).result(binding))
     end

@@ -800,6 +800,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheet)
 
     assert_equal true, assigns(:sheet).locked
+    assert_not_nil assigns(:sheet).first_locked_at
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
@@ -853,6 +854,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheet)
 
     assert_equal false, assigns(:sheet).locked
+    assert_not_nil assigns(:sheet).first_locked_at
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end

@@ -132,8 +132,11 @@
                 <% ['response', 'response_file', 'value'].each do |response_type| %>
                   <% if response = audit.audited_changes[response_type] and ['create', 'update', 'destroy'].include?(audit.action) %>
                     <% response = [response[1], response[0]] if audit.action == 'create' %>
-                    <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0].blank? %>"><% if response[0].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
-                    <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1].blank? %>"><% if response[1].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                    <% response = [response[0].to_s.split('/').last, response[1].to_s] if response_type == 'response_file' %>
+                    <% if response[0].to_s != response[1].to_s %>
+                      <span style="padding: 0px;<%= "background-color:#FAA;" unless response[0].blank? %>"><% if response[0].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[0].to_s, response[1].to_s, highlighter: '<span class="highlight-subtract">\1</span>') %><% end %></span> &rarr;
+                      <span style="padding: 0px;<%= "background-color:#AFA;" unless response[1].blank? %>"><% if response[1].blank? %><span class="text-muted">null</span><% else %><%= highlight(response[1].to_s, response[0].to_s, highlighter: '<span class="highlight-add">\1</span>') %><% end %></span>
+                    <% end %>
                   <% end %>
                 <% end %>
               </td>
