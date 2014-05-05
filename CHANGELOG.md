@@ -4,6 +4,9 @@
 - **Gem Changes**
   - Updated to minitest-reporters 1.0.4
 
+### Bug Fix
+- Fixed a bug that kept sections from being changed to subsections on the design editor
+
 ### Refactoring
 - Removed unused `remove_file` JS partials
 - Removed duplicatation in `SheetVariable` model, and moved heavy lifting to the `Valuable` concern as initially intended
