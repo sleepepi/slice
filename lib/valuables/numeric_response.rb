@@ -15,7 +15,7 @@ module Valuables
     private
 
     def response_with_add_on
-      [@object.variable.prepend, @object.response, @object.variable.units, @object.variable.append].compact.join(' ').squish
+      @object.response.blank? ? "" : [@object.variable.prepend, @object.response, @object.variable.units, @object.variable.append].compact.join(' ').squish
     end
 
     def hash_name_or_response
