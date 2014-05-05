@@ -7,6 +7,7 @@
 - **Sheet Changes**
   - Printed PDFs have better styling for sections and subsections
   - Moved project name to top center of PDF
+  - Split subject name and subject acrostic across two lines on top left of PDF
 - **Gem Changes**
   - Updated to minitest-reporters 1.0.4
 
