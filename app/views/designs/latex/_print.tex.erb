@@ -14,6 +14,7 @@
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \usepackage{indentfirst}
 \usepackage{tabularx}
+\usepackage{scrextend}
 
 % \usepackage{hyperref}
 \usepackage{pifont}
@@ -23,6 +24,8 @@
 
 \usepackage{ulem}
 
+\subsectionfont{\normalfont\Large\underline}
+\subsubsectionfont{\normalfont\large\underline}
 
 \fancyhf{}
 
@@ -73,12 +76,12 @@
       \includegraphics[max width=7.5in]{<%= section.image.path %>}
     \end{figure}
   <% end %>
-~
+
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
     <% if @variable.variable_type == 'grid' %> <%# sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 \Needspace{7\baselineskip}
-\subsubsection*{<%= latex_safe @variable.display_name %>}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
 
 \begin{table*}[!htbp]\centering
 
@@ -100,8 +103,9 @@
     <% else %>
 
 \Needspace{7\baselineskip}
-\subsubsection*{<%= latex_safe @variable.display_name %>}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
 
+\vspace{1 mm}
 <% if @variable.variable_type == 'date' %>
  \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~} \\
  \indent\textcolor[gray]{0.5}{MM / DD / YYYY}
@@ -118,14 +122,15 @@
   \textcolor[gray]{0.5}{File Upload}
 <% elsif @variable.variable_type == 'text' %>
 
-\line(1,0){400}\\
-\indent\line(1,0){400}\\
-\indent\line(1,0){400}\\
-\indent\line(1,0){400}
+  \line(1,0){400}\\
+  \indent\line(1,0){400}\\
+  \indent\line(1,0){400}\\
+  \indent\line(1,0){400}
 
 <% else %>
   <%= latex_safe @variable.prepend unless @variable.prepend.blank? %> \dotuline{~~~~~~~~~~~~~~~~~~~~~~~~} <%= latex_safe @variable.units unless @variable.units.blank? %> <%= latex_safe @variable.append unless @variable.append.blank? %>
 <% end %>
+\vspace{2 mm}
 
     <% end %>
   <% end %>

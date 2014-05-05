@@ -1,6 +1,10 @@
 ## 0.24.4
 
 ### Enhancements
+- **Design Changes**
+  - Printed PDFs have better styling for sections and subsections
+- **Sheet Changes**
+  - Printed PDFs have better styling for sections and subsections
 - **Gem Changes**
   - Updated to minitest-reporters 1.0.4
 

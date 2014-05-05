@@ -26,12 +26,12 @@
         \includegraphics[max width=7.5in]{<%= section.image.path %>}
       \end{figure}
     <% end %>
-~
+
   <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) and @sheet.show_variable?(@option[:branching_logic]) %>
     <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
 
 \Needspace{7\baselineskip}
-\subsubsection*{<%= latex_safe @variable.display_name %>}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
 
 \begin{longtable}{@{\extracolsep{\fill}}<%= "p{#{14.0/[@variable.grid_variables.size, 1].max}cm}"*@variable.grid_variables.size %>@{\extracolsep{\fill}}}
 <% @variable.grid_variables.each do |grid_variable| %>
@@ -54,11 +54,13 @@
     <% else %>
 
 \Needspace{7\baselineskip}
-\subsubsection*{<%= latex_safe @variable.display_name %>}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
 
 <% if @variable.variable_type == 'checkbox' %>
   <% if @sheet.get_response(@variable, :name).size == 0 %>
+    \vspace{1 mm}
     \textcolor[gray]{0.5}{Unknown}
+    \vspace{2 mm}
   <% else %>
     \begin{itemize}
       \setlength{\itemindent}{2.5em}
@@ -70,20 +72,26 @@
 <% elsif @variable.variable_type == 'file' and response_file = @sheet.get_response(@variable, :raw) and response_file.size > 0 %>
   <% if ['jpg', 'jpeg', 'gif', 'png'].include?(response_file.path.split('.').last.downcase) %>
 
-\begin{figure}[!htpb]
-  \includegraphics[max width=7.5in]{<%= response_file.path %>}
-  <% unless @variable.description.blank? %>
-    \caption{<%= latex_safe @variable.description %>}
-  <% end %>
-\end{figure}
+  \begin{figure}[!htpb]
+    \includegraphics[max width=7.5in]{<%= response_file.path %>}
+    <% unless @variable.description.blank? %>
+      \caption{<%= latex_safe @variable.description %>}
+    <% end %>
+  \end{figure}
 
   <% else %>
-    <%= latex_safe response_file.path.split('/').last %>
+    \vspace{1 mm}
+    <%= latex_safe @sheet.get_response(@variable, :name) %>
+    \vspace{2 mm}
   <% end %>
 <% elsif @sheet.get_response(@variable, :name).blank? %>
+  \vspace{1 mm}
   \textcolor[gray]{0.5}{Unknown}
+  \vspace{2 mm}
 <% else %>
+  \vspace{1 mm}
   <%= latex_safe @sheet.get_response(@variable, :name) %>
+  \vspace{2 mm}
 <% end %>
 
     <% end %>
