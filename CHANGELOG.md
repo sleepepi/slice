@@ -15,6 +15,7 @@
 ### Bug Fix
 - Fixed a bug that kept sections from being changed to subsections on the design editor
 - Clicking on the total links on design overviews now correctly filters to the corresponding sheets on the sheets index
+- Uploaded files now count correctly towards the sheet coverage calculation
 
 ### Refactoring
 - Removed unused `remove_file` JS partials

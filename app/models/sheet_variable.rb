@@ -74,7 +74,7 @@ class SheetVariable < ActiveRecord::Base
 
   # Returns it's ID if it's not empty, else nil
   def empty_or_not
-    if self.responses.count > 0 or self.grids.count > 0 or not self.response.blank?
+    if self.responses.count > 0 or self.grids.count > 0 or not self.response.blank? or not self.response_file.blank?
       self.id
     else
       nil
