@@ -2,7 +2,7 @@
 
 ### Enhancements
 - **Gem Changes**
-  - Fixed version of `minitest-reporters` to `1.0.2` due to incompatibility of `1.0.3` with `simplecov` coverage report
+  - Updated to minitest-reporters 1.0.4
 
 ### Refactoring
 - Removed unused `remove_file` JS partials
