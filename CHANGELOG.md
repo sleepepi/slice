@@ -1,4 +1,4 @@
-## 0.24.4
+## 0.24.4 (May 6, 2014)
 
 ### Enhancements
 - **Project Changes**
