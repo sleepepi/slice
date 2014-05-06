@@ -12,6 +12,10 @@ module Valuables
       begin Float(@object.response) end rescue @object.response
     end
 
+    def display_name
+      hash_display_name_or_response
+    end
+
     private
 
     def response_with_add_on
@@ -20,6 +24,10 @@ module Valuables
 
     def hash_name_or_response
       hash_value_and_name.blank? ? response_with_add_on : hash_value_and_name
+    end
+
+    def hash_display_name_or_response
+      hash_display_name.blank? ? response_with_add_on : hash_display_name
     end
 
   end

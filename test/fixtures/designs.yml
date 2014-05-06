@@ -14,9 +14,12 @@ one:
 two:
   name: Design Two
   description: MyText
-  options: []
+  options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox_two) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric_two) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown_two) %> },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:time_two) %> }]
   user: valid
-  project: one
+  project: two
 
 all_variable_types:
   name: All Variable Types

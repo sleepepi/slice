@@ -32,13 +32,7 @@ module Valuable
   end
 
   def get_response(raw_format = :raw)
-    valuable = Valuables.for(self)
-
-      if raw_format == :raw
-        return valuable.raw
-      else
-        return valuable.name
-      end
+    Valuables.for(self).send(raw_format)
   end
 
 end

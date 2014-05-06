@@ -195,6 +195,10 @@ class Project < ActiveRecord::Base
     grid_variables
   end
 
+  def show_type
+    self.hide_values_on_pdfs? ? :display_name : :name
+  end
+
   private
 
     # Creates a default site if the project has no site associated with it

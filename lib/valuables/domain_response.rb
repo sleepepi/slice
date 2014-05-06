@@ -6,9 +6,16 @@ module Valuables
 
     protected
 
+    def hash
+      (@object.variable.shared_options_select_values([@object.response]).first || {})
+    end
+
     def hash_value_and_name
-      hash = (@object.variable.shared_options_select_values([@object.response]).first || {})
       [hash[:value], hash[:name]].compact.join(': ')
+    end
+
+    def hash_display_name
+      hash[:name].to_s
     end
 
   end

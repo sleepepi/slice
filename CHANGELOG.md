@@ -1,6 +1,8 @@
 ## 0.24.4
 
 ### Enhancements
+- **Project Changes**
+  - Added project setting to hide answer values on PDFs
 - **Design Changes**
   - Printed PDFs have better styling for sections and subsections
   - Moved project name to top center of PDF

@@ -37,6 +37,41 @@ checkbox:
   project: one
   domain: var_checkbox_options
 
+dropdown_two:
+  name: dropdown_two
+  display_name: Yes or No
+  # description: MyText
+  variable_type: dropdown
+  user: valid
+  project: two
+  domain: checkbox_two_domain
+
+checkbox_two:
+  name: checkbox_on_two
+  display_name: Checkbox on Two
+  # description:
+  variable_type: checkbox
+  user: valid
+  project: two
+  domain: checkbox_two_domain
+
+numeric_two:
+  name: weight_on_two
+  display_name: Weight On Two
+  description: Weight on Two
+  units: 'lbs'
+  variable_type: numeric
+  user: valid
+  project: two
+
+time_two:
+  name: time_two
+  display_name: Time Two
+  # description:
+  variable_type: time
+  user: valid
+  project: two
+
 radio:
   name: var_year
   display_name: Year

@@ -164,6 +164,20 @@
   </div>
 
   <div class="form-group">
+    <div class="col-md-2">
+      <label>Hide Values on PDFs</label>
+    </div>
+    <div class="col-md-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :hide_values_on_pdfs %>
+          Checking This Will Hide Answer Choice Values on Printed Sheets
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
     <div class="col-md-10 col-md-offset-2">
       <%= f.submit nil, class: 'btn btn-primary' %>
       <%= cancel %>

@@ -632,6 +632,13 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should print sheet on project that hides values" do
+    get :print, id: sheets(:two), project_id: projects(:two)
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_response :success
+  end
+
   test "should not print invalid sheet" do
     get :print, id: -1, project_id: @project
     assert_not_nil assigns(:project)

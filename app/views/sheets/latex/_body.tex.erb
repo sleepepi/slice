@@ -43,7 +43,7 @@
   <% @variable.grid_variables.each do |grid_variable| %>
     <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
     <% if grid %>
-      <% grid_response = grid.get_response(:name) %>
+      <% grid_response = grid.get_response(@sheet.project.show_type) %>
       <%= latex_safe grid_response.kind_of?(Array) ? grid_response.join(', ') : grid_response %>
       &
     <% end %>
@@ -57,14 +57,14 @@
 \begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
 
 <% if @variable.variable_type == 'checkbox' %>
-  <% if @sheet.get_response(@variable, :name).size == 0 %>
+  <% if @sheet.get_response(@variable, @sheet.project.show_type).size == 0 %>
     \vspace{1 mm}
     \textcolor[gray]{0.5}{Unknown}
     \vspace{2 mm}
   <% else %>
     \begin{itemize}
       \setlength{\itemindent}{2.5em}
-      <% @sheet.get_response(@variable, :name).each do |response| %>
+      <% @sheet.get_response(@variable, @sheet.project.show_type).each do |response| %>
         \item <%= latex_safe response %>
       <% end %>
     \end{itemize}
@@ -81,16 +81,16 @@
 
   <% else %>
     \vspace{1 mm}
-    <%= latex_safe @sheet.get_response(@variable, :name) %>
+    <%= latex_safe @sheet.get_response(@variable, @sheet.project.show_type) %>
     \vspace{2 mm}
   <% end %>
-<% elsif @sheet.get_response(@variable, :name).blank? %>
+<% elsif @sheet.get_response(@variable, @sheet.project.show_type).blank? %>
   \vspace{1 mm}
   \textcolor[gray]{0.5}{Unknown}
   \vspace{2 mm}
 <% else %>
   \vspace{1 mm}
-  <%= latex_safe @sheet.get_response(@variable, :name) %>
+  <%= latex_safe @sheet.get_response(@variable, @sheet.project.show_type) %>
   \vspace{2 mm}
 <% end %>
 

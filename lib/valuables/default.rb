@@ -16,6 +16,10 @@ module Valuables
       @object.response
     end
 
+    def display_name
+      self.name
+    end
+
   end
 
 end

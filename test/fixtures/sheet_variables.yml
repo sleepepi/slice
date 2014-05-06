@@ -6,10 +6,28 @@ one:
   response: Value
   user: valid
 
-two:
-  variable: two
+checkbox_two:
+  variable: checkbox_two
   sheet: two
-  response: Value
+  # response: "['1','2']" # Through Association with Responses.yml
+  user: valid
+
+numeric_two:
+  variable: numeric_two
+  sheet: two
+  response: 150
+  user: valid
+
+dropdown_two:
+  variable: dropdown_two
+  sheet: two
+  response: 1
+  user: valid
+
+time_two:
+  variable: time_two
+  sheet: two
+  response: 22:30:45
   user: valid
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'

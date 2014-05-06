@@ -34,6 +34,13 @@ valid_range:
   code_minimum: 100
   code_maximum: 500
 
+site_on_project_two:
+  name: Site on Project Two
+  # description:
+  project: two
+  user: valid
+  prefix: ''
+
 admin_site:
   name: Admin Only Site
   description: One admin's project

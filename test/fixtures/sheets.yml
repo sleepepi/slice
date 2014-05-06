@@ -8,9 +8,9 @@ one:
   last_user: valid
 
 two:
-  design: one
+  design: two
   project: two
-  subject: one
+  subject: sample
   user: valid
   last_user: valid
 

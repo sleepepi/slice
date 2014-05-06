@@ -26,3 +26,16 @@ has_grid_row_one_var_c:
   grid: has_grid_row_one_var_c
   user: valid
   value: econ101
+
+
+pdf_variable_one:
+  variable: checkbox_two
+  sheet_variable: checkbox_two
+  user: valid
+  value: 1
+
+pdf_variable_one:
+  variable: checkbox_two
+  sheet_variable: checkbox_two
+  user: valid
+  value: 2

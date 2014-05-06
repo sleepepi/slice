@@ -31,6 +31,14 @@ icecream_flavors:
   user: valid
   project: one
 
+checkbox_two_domain:
+  name: checkbox_two_domain
+  display_name: Checkbox Two Domain
+  options: [{ name: 'Yes', value: '1' },
+            { name: 'No', value: '2' }]
+  user: valid
+  project: two
+
 change_options:
   name: change_options
   display_name: Change Options
