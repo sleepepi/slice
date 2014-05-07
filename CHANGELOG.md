@@ -1,4 +1,4 @@
-## 0.24.6
+## 0.24.6 (May 7, 2014)
 
 ### Bug Fix
 - Fixed an issue preventing site editors from editing sheets
