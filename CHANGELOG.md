@@ -1,4 +1,4 @@
-## 0.24.7
+## 0.24.7 (May 7, 2014)
 
 ### Bug Fix
 - Fixed a bug that prevented newly created sheets from being locked
