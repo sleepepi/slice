@@ -1,5 +1,5 @@
 <% if @sheet %>
-  <% subject = @project.subjects.find_by_subject_code( @sheet.subject ? @sheet.subject.subject_code : params[:subject_code] ) %>
+  <% subject = @sheet.project.subjects.find_by_subject_code( @sheet.subject ? @sheet.subject.subject_code : params[:subject_code] ) %>
   <% if @sheet.design and not @sheet.design.read_only_variable_names.blank? and subject %>
     <% @sheet.design.read_only_variable_names.each do |variable_name| %>
       <% variable = @sheet.design.project.variables.find_by_name( variable_name ) %>
