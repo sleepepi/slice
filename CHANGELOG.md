@@ -1,5 +1,8 @@
 ## 0.24.6
 
+### Bug Fix
+- Fixed an issue preventing site editors from editing sheets
+
 ## 0.24.5 (May 7, 2014)
 
 ### Enhancements
@@ -8,7 +11,6 @@
 
 ### Bug Fix
 - Fixed an issue displaying checkbox results on sheets
-- Fixed an issue preventing site editors from editing sheets
 
 ## 0.24.4 (May 6, 2014)
 

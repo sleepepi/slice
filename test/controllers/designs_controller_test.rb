@@ -608,9 +608,27 @@ class DesignsControllerTest < ActionController::TestCase
 
   test "should get selection" do
     post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
+    assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal assigns(:design), designs(:all_variable_types)
     assert_template 'selection'
+    assert_response :success
+  end
+
+  test "should get selection as site editor" do
+    login(users(:site_one_editor))
+    post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
+    assert_not_nil assigns(:sheet)
+    assert_equal assigns(:design), designs(:all_variable_types)
+    assert_template 'selection'
+    assert_response :success
+  end
+
+  test "should not get selection as site viewer" do
+    login(users(:site_one_viewer))
+    post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
+    assert_nil assigns(:project)
+    assert_nil assigns(:design)
     assert_response :success
   end
 
