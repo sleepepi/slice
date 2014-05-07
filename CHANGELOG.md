@@ -1,5 +1,8 @@
 ## 0.24.8
 
+### Bug Fix
+- Fixed a bug that prevented cross sheet variables from displaying properly
+
 ## 0.24.7 (May 7, 2014)
 
 ### Bug Fix
