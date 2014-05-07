@@ -1,5 +1,8 @@
 ## 0.24.5
 
+### Bug Fix
+- Fixed an issue displaying checkbox results on sheets
+
 ## 0.24.4 (May 6, 2014)
 
 ### Enhancements
