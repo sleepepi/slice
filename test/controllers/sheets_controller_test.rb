@@ -224,6 +224,33 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+  test "should create sheet and lock sheet" do
+    assert_difference('Sheet.count') do
+      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' },
+                    subject_code: @sheet.subject.subject_code,
+                    site_id: @sheet.subject.site_id,
+                    variables: {
+                      "#{variables(:dropdown).id}" => 'm',
+                      "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
+                      "#{variables(:radio).id}" => '2',
+                      "#{variables(:string).id}" => 'This is a string',
+                      "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                      "#{variables(:integer).id}" => 30,
+                      "#{variables(:numeric).id}" => 180.5,
+                      "#{variables(:date).id}" => '05/28/2012',
+                      "#{variables(:file).id}" => { response_file: '' },
+                      "#{variables(:time).id}" => '14:30:00',
+                      "#{variables(:calculated).id}" => '1234'
+                    }
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal 11, assigns(:sheet).variables.size
+    assert_equal true, assigns(:sheet).locked
+    assert_not_nil assigns(:sheet).first_locked_at
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
 
   test "should create sheet with subject schedule and event" do
     assert_difference('Sheet.count') do

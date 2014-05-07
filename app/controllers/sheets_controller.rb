@@ -258,7 +258,7 @@ class SheetsController < ApplicationController
       params[:sheet][:last_edited_at] = Time.now
 
       params[:sheet].delete(:locked) unless @project.lockable?
-      params[:sheet][:first_locked_at] = Time.now if params[:sheet][:locked].to_s == '1' and @sheet.first_locked_at == nil
+      params[:sheet][:first_locked_at] = Time.now if (@sheet and params[:sheet][:locked].to_s == '1' and @sheet.first_locked_at == nil) or (!@sheet and params[:sheet][:locked].to_s == '1')
 
       params.require(:sheet).permit(
         :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at,
