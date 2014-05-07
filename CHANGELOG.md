@@ -1,5 +1,9 @@
 ## 0.24.5
 
+### Enhancements
+- **Gem Changes**
+  - Updated to rails 4.1.1
+
 ### Bug Fix
 - Fixed an issue displaying checkbox results on sheets
 - Fixed an issue preventing site editors from editing sheets
