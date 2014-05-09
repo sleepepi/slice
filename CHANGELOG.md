@@ -1,5 +1,9 @@
 ## 0.24.9
 
+### Enhancements
+- **Gem Changes**
+  - Updated to contour 2.5.0
+
 ### Bug Fix
 - Fixed a bug that prevented audits from printing correctly on sheet PDFs
 
