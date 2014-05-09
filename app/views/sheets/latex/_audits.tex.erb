@@ -5,17 +5,21 @@
 \textbf{Electronically signed} by \textbf{<%= latex_safe latex_safe @sheet.last_user.name %>}<% if @sheet.last_edited_at %> on \textbf{<%= latex_safe @sheet.last_edited_at.strftime("%b %d, %Y") %>} at \textbf{<%= latex_safe @sheet.last_edited_at.strftime("%I:%M %p") %>}<% end %>.
 }
 \Needspace{7\baselineskip}
-\subsubsection*{Contributors}
-<%= latex_safe latex_safe @sheet.contributors %>
+<% unless @sheet.contributors.blank? %>
+  \subsubsection*{Contributors}
+  <%= latex_safe latex_safe @sheet.contributors %>
+<% end %>
 
-<% if @sheet.all_audits.where(auditable_type: ['SheetVariable', 'Grid', 'Response', 'Sheet']).where('created_at >= ? and ? IS NOT NULL', @sheet.first_locked_at, @sheet.first_locked_at).count > 0 %>
+<% all_audits = @sheet.all_audits.where(auditable_type: ['SheetVariable', 'Grid', 'Response', 'Sheet']).where('created_at > ? and ? IS NOT NULL', (@sheet.first_locked_at ? @sheet.first_locked_at + 1.minute : nil), @sheet.first_locked_at) %>
+
+<% if all_audits.count > 0 %>
 \subsection*{Amendments}
 
-<% @sheet.all_audits.where(auditable_type: ['SheetVariable', 'Grid', 'Response', 'Sheet']).where('created_at >= ? and ? IS NOT NULL', @sheet.first_locked_at, @sheet.first_locked_at).group_by{|a| [a.created_at.month, a.created_at.year]}.each do |(month, year), audits| %>
+<% all_audits.group_by{|a| [a.created_at.month, a.created_at.year]}.each do |(month, year), audits| %>
 
   \subsubsection*{<%= latex_safe Date::ABBR_MONTHNAMES[month] %> <%= latex_safe year %>}
 
-  \begin{longtable}{@{\extracolsep{\fill}}p{3.75cm}p{4.00cm}p{7.25cm}p{5cm}@{\extracolsep{\fill}}}
+  \begin{longtable}{@{\extracolsep{\fill}}p{3.75cm}p{5.00cm}p{6.25cm}p{3cm}@{\extracolsep{\fill}}}
 
   Time & Change & & Amended By \\
 
@@ -46,10 +50,14 @@
             <% end %>
           <% end %>
         <% elsif ['Sheet'].include?(audit.auditable_type) %>
-          <% if audit.audited_changes['locked'] and audit.audited_changes['locked'][1] == true %>
-            <%= latex_safe audit.created_at.strftime("%Y-%m-%d %r") %> &
-            \textbf{Locked} & &
-            <%= latex_safe audit.user.name if audit.user %> &
+          <% if audit.audited_changes['locked'] %>
+            <% val = audit.audited_changes['locked'] %>
+            <% value = (val.kind_of?(Array) ? val : [nil, val]) %>
+            <% if value[1] == true %>
+              <%= latex_safe audit.created_at.strftime("%Y-%m-%d %r") %> &
+              \textbf{Locked} & &
+              <%= latex_safe audit.user.name if audit.user %> &
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
