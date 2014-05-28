@@ -10,6 +10,7 @@
   <%= latex_safe latex_safe @sheet.contributors %>
 <% end %>
 
+<% if false %>
 <% all_audits = @sheet.all_audits.where(auditable_type: ['SheetVariable', 'Grid', 'Response', 'Sheet']).where('created_at > ? and ? IS NOT NULL', (@sheet.first_locked_at ? @sheet.first_locked_at + 1.minute : nil), @sheet.first_locked_at) %>
 
 <% if all_audits.count > 0 %>
@@ -69,6 +70,7 @@
   \end{longtable}
 <% end %>
 
+<% end %>
 <% end %>
 
 <% end %>
