@@ -4,6 +4,7 @@
 - **Sheet Changes**
   - Removed Amendments from sheet PDFs
   - PDFs now include the word `Page` in front of the `1 of 5` to display as `Page 1 of 5`
+  - PDFs now include the word `Printed on` in front of the date on the bottom center of the PDF
 - Use of Ruby 2.1.2 is now recommended
 
 ## 0.24.9 (May 9, 2014)

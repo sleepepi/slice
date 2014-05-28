@@ -33,7 +33,7 @@
 \chead{\textbf{<%= latex_safe @design.project.name %>}\\}
 \rhead{\textbf{Entered} \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~}\\}
 \lfoot{<%= latex_safe @design.name %>}
-\cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
+\cfoot{Printed on <%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
 \rfoot{Page \thepage\ of \pageref{LastPage}}
 
 
