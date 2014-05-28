@@ -1,7 +1,9 @@
 ## 0.24.10
 
 ### Enhancements
-- Removed Amendments from sheet PDFs
+- **Sheet Changes**
+  - Removed Amendments from sheet PDFs
+  - PDFs now include the word `Page` in front of the `1 of 5` to display as `Page 1 of 5`
 - Use of Ruby 2.1.2 is now recommended
 
 ## 0.24.9 (May 9, 2014)

@@ -3,7 +3,7 @@
 \rhead{\textbf{Entered} <%= latex_safe @sheet.created_at.strftime("%B %-d, %Y") %>\\<% if @sheet.last_edited_at and @sheet.created_at.to_date != @sheet.last_edited_at.to_date %>\textbf{Updated} <%= latex_safe @sheet.last_edited_at.strftime("%B %-d, %Y") %><% end %>}
 \lfoot{<%= latex_safe @sheet.design.name %>}
 % \cfoot{<%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
-% \rfoot{\thepage\ of \pageref{LastPage}}
+% \rfoot{Page \thepage\ of \pageref{LastPage}}
 
 \section*{<%= latex_safe @sheet.design.name %>}
 
