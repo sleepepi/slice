@@ -66,6 +66,7 @@ class Sheet < ActiveRecord::Base
   belongs_to :user
   belongs_to :last_user, class_name: "User"
   belongs_to :last_viewed_by, class_name: "User"
+  belongs_to :first_locked_by, class_name: "User"
   belongs_to :design
   belongs_to :project
   belongs_to :subject

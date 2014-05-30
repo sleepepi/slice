@@ -148,6 +148,7 @@ locked:
   last_user: valid
   locked: true
   first_locked_at: 2014-03-22 11:02:57
+  first_locked_by: valid
 
 locked_on_non_lockable_project:
   design: admin_design
@@ -157,3 +158,4 @@ locked_on_non_lockable_project:
   last_user: admin
   locked: true
   first_locked_at: 2014-03-22 14:20:24
+  first_locked_by: admin

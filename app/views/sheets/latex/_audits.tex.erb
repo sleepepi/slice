@@ -1,9 +1,19 @@
 <% if @sheet.locked? %>
 \Needspace{7\baselineskip}
 \subsubsection*{}
+
+<% if @sheet.first_locked_at %>
 \shadowbox{
-\textbf{Electronically signed} by \textbf{<%= latex_safe latex_safe @sheet.last_user.name %>}<% if @sheet.last_edited_at %> on \textbf{<%= latex_safe @sheet.last_edited_at.strftime("%b %d, %Y") %>} at \textbf{<%= latex_safe @sheet.last_edited_at.strftime("%I:%M %p") %>}<% end %>.
+\textbf{Electronically signed} by \textbf{<%= latex_safe "#{@sheet.first_locked_by.name}" if @sheet.first_locked_by %>} on \textbf{<%= latex_safe @sheet.first_locked_at.strftime("%b %d, %Y") %>} at \textbf{<%= latex_safe @sheet.first_locked_at.strftime("%I:%M %p") %>}.
 }
+<% end %>
+
+<% if @sheet.last_edited_at and @sheet.first_locked_at != @sheet.last_edited_at %>
+\shadowbox{
+\textbf{Amended} by \textbf{<%= latex_safe @sheet.last_user.name %>}<% if @sheet.last_edited_at %> on \textbf{<%= latex_safe @sheet.last_edited_at.strftime("%b %d, %Y") %>} at \textbf{<%= latex_safe @sheet.last_edited_at.strftime("%I:%M %p") %>}<% end %>.
+}
+<% end %>
+
 \Needspace{7\baselineskip}
 <% unless @sheet.contributors.blank? %>
   \subsubsection*{Contributors}

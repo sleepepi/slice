@@ -1,5 +1,9 @@
 ## 0.24.11
 
+### Enhancements
+- **Sheet Changes**
+  - Sheet PDFs now list the first time the sheet was locked, as well as the latest amendment date
+
 ## 0.24.10 (May 28, 2014)
 
 ### Enhancements

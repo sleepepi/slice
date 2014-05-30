@@ -248,6 +248,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_equal 11, assigns(:sheet).variables.size
     assert_equal true, assigns(:sheet).locked
     assert_not_nil assigns(:sheet).first_locked_at
+    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
@@ -835,6 +836,7 @@ class SheetsControllerTest < ActionController::TestCase
 
     assert_equal true, assigns(:sheet).locked
     assert_not_nil assigns(:sheet).first_locked_at
+    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
@@ -889,6 +891,7 @@ class SheetsControllerTest < ActionController::TestCase
 
     assert_equal false, assigns(:sheet).locked
     assert_not_nil assigns(:sheet).first_locked_at
+    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end

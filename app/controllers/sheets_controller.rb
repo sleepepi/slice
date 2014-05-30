@@ -243,6 +243,8 @@ class SheetsController < ApplicationController
     end
 
     def sheet_params
+      current_time = Time.now
+
       params[:sheet] ||= {}
 
       params[:sheet][:project_id] = @project.id
@@ -255,14 +257,17 @@ class SheetsController < ApplicationController
 
       params[:sheet][:subject_id] = (subject ? subject.id : nil)
       params[:sheet][:last_user_id] = current_user.id
-      params[:sheet][:last_edited_at] = Time.now
+      params[:sheet][:last_edited_at] = current_time
 
       params[:sheet].delete(:locked) unless @project.lockable?
-      params[:sheet][:first_locked_at] = Time.now if (@sheet and params[:sheet][:locked].to_s == '1' and @sheet.first_locked_at == nil) or (!@sheet and params[:sheet][:locked].to_s == '1')
+      if (@sheet and params[:sheet][:locked].to_s == '1' and @sheet.first_locked_at == nil) or (!@sheet and params[:sheet][:locked].to_s == '1')
+        params[:sheet][:first_locked_at] = current_time
+        params[:sheet][:first_locked_by_id] = current_user.id
+      end
 
       params.require(:sheet).permit(
         :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at,
-        :event_id, :subject_schedule_id, :locked, :first_locked_at
+        :event_id, :subject_schedule_id, :locked, :first_locked_at, :first_locked_by_id
       )
     end
 
