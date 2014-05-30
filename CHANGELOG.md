@@ -1,4 +1,4 @@
-## 0.24.11
+## 0.24.11 (May 30, 2014)
 
 ### Enhancements
 - **Sheet Changes**
