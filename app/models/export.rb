@@ -416,6 +416,7 @@ data slice#{'_grids' if use_grids};
   infile "&import_folder.\\&import_file#{'_grids' if use_grids}._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=#{use_grids ? 3 : 2} ;
 
   /* Design and Subject Variables */
+  informat sheet_id             best32.   ;   * Sheet ID ;
   informat name                 $500.     ;   * Design name ;
   informat description          $5000.    ;   * Design description ;
   informat sheet_creation_date  yymmdd10. ;   * Sheet creation date ;
@@ -432,6 +433,7 @@ data slice#{'_grids' if use_grids};
 #{variables.collect{|v| "  informat #{v.name} #{v.sas_informat}. ;" }.join("\n")}
 
   /* Design and Subject Variables */
+  format sheet_id               best32.   ;
   format name                   $500.     ;
   format description            $500.     ;
   format sheet_creation_date    yymmdd10. ;
@@ -450,6 +452,7 @@ data slice#{'_grids' if use_grids};
   /* Define Column Names */
 
   input
+    sheet_id
     name
     description
     sheet_creation_date
@@ -476,6 +479,7 @@ data slice#{'_grids' if use_grids};
   set slice#{'_grids' if use_grids};
 
   /* Design and Subject Variables */
+  label sheet_id='Sheet ID';
   label name='Design Name';
   label description='Design Description';
   label sheet_creation_date='Sheet Creation Date';

@@ -1,5 +1,8 @@
 ## 0.24.13
 
+### Bug Fix
+- Fixed a bug that didn't add the new `Sheet ID` column to the generated SAS script
+
 ## 0.24.12 (June 16, 2014)
 
 ### Enhancements
