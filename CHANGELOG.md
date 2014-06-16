@@ -1,5 +1,9 @@
 ## 0.24.12
 
+### Enhancements
+- **Sheet Changes**
+  - Added `Sheet ID` to sheet and grid exports to allow for easier merging across records
+
 ## 0.24.11 (May 30, 2014)
 
 ### Enhancements

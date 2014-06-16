@@ -129,10 +129,11 @@ class Export < ActiveRecord::Base
 
       CSV.open(export_file, "wb") do |csv|
         variables = all_design_variables_without_grids(sheet_scope)
-        csv << ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + variables.collect{|v| v.name}
+        csv << ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + variables.collect{|v| v.name}
         rows.each do |hash|
           sheet = hash[:sheet]
-          row = [ sheet.name,
+          row = [ sheet.id,
+                  sheet.name,
                   sheet.description,
                   sheet.created_at.strftime("%Y-%m-%d"),
                   sheet.project.name,
@@ -180,7 +181,7 @@ class Export < ActiveRecord::Base
         variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
         grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
 
-        row = ["", "", "", "", "", "", "", "", "", "", ""]
+        row = ["", "", "", "", "", "", "", "", "", "", "", ""]
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -191,7 +192,7 @@ class Export < ActiveRecord::Base
 
         csv << row
 
-        row = ["Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
+        row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
@@ -206,7 +207,8 @@ class Export < ActiveRecord::Base
           sheet = hash[:sheet]
 
           hash[:rows].each do |sheet_row|
-            row = [ sheet.name,
+            row = [ sheet.id,
+                    sheet.name,
                     sheet.description,
                     sheet.created_at.strftime("%Y-%m-%d"),
                     sheet.project.name,
