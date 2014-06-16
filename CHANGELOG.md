@@ -1,4 +1,4 @@
-## 0.24.13
+## 0.24.13 (June 16, 2014)
 
 ### Bug Fix
 - Fixed a bug that didn't add the new `Sheet ID` column to the generated SAS script
