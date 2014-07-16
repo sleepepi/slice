@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 4.1.4
+  - Updated to kaminari 0.16.1
 
 ## 0.24.13 (June 16, 2014)
 
