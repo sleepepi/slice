@@ -7,6 +7,9 @@
   - Updated to rails 4.1.4
   - Updated to kaminari 0.16.1
 
+### Bug Fixes
+- Fixed a bug that prevented date hard and soft, minimums and maximums from updating on the design editor
+
 ## 0.24.13 (June 16, 2014)
 
 ### Bug Fix

@@ -10,7 +10,7 @@ class Design < ActiveRecord::Base
   QUESTION_TYPES = [['free text', 'string'], ['select one answer', 'radio'], ['select multiple answers', 'checkbox'], ['date', 'date'], ['time', 'time'], ['number', 'numeric'], ['file upload', 'file']]
 
   # Concerns
-  include Searchable, Deletable, Latexable
+  include Searchable, Deletable, Latexable, DateAndTimeParser
 
   attr_writer :questions
 
@@ -148,6 +148,10 @@ class Design < ActiveRecord::Base
       end
       self.options = new_option_tokens
       self.save
+    end
+
+    [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
+      params[date] = parse_date(params[date]) if params[date]
     end
 
     variable_params = params.permit(:name, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button, :autocomplete_values, :multiple_rows, :default_row_number, { :grid_tokens => [ :variable_id ] })
