@@ -3,7 +3,7 @@
 one:
   variable: one
   sheet: two
-  response: Value
+  response: 1
   user: valid
 
 checkbox_two:
@@ -206,4 +206,58 @@ gender_subject_two:
   variable: gender
   sheet: weight_and_gender_subject_two
   response: f
+  user: valid
+
+half_filled_first_answer:
+  variable: one
+  sheet: filled_out_half_visible
+  response: 2
+  user: valid
+
+not_triggering_hidden_first_answer:
+  variable: one
+  sheet: filled_out_all_visible
+  response: 2
+  user: valid
+
+date_visible_third_answer:
+  variable: date
+  sheet: filled_out_all_visible
+  response: 2014-05-05
+  user: valid
+
+filled_out_all_first:
+  variable: one
+  sheet: filled_out_entire_sheet
+  response: 1
+  user: valid
+
+filled_out_all_second:
+  variable: two
+  sheet: filled_out_entire_sheet
+  response: Text Response
+  user: valid
+
+filled_out_all_third:
+  variable: date
+  sheet: filled_out_entire_sheet
+  response: 2014-05-06
+  user: valid
+
+filled_out_some_first:
+  variable: one
+  sheet: all_visible_not_all_answered
+  response: 1
+  user: valid
+
+filled_out_some_second:
+  variable: two
+  sheet: all_visible_not_all_answered
+  response: Text Response
+  user: valid
+
+hidden_response_answered:
+  variable: two
+  sheet: hidden_response_answered
+  response: Some response
   user: valid

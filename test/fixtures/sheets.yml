@@ -159,3 +159,33 @@ locked_on_non_lockable_project:
   locked: true
   first_locked_at: 2014-03-22 14:20:24
   first_locked_by: admin
+
+filled_out_half_visible:
+  design: one
+  project: one
+  subject: one
+  user: valid
+
+filled_out_all_visible:
+  design: one
+  project: one
+  subject: one
+  user: valid
+
+filled_out_entire_sheet:
+  design: one
+  project: one
+  subject: one
+  user: valid
+
+all_visible_not_all_answered:
+  design: one
+  project: one
+  subject: one
+  user: valid
+
+hidden_response_answered:
+  design: one
+  project: one
+  subject: one
+  user: valid

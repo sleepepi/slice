@@ -293,7 +293,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should update variable" do
-    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
+    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name }
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 

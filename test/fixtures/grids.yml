@@ -4,7 +4,7 @@
 one:
   sheet_variable: one
   variable: one
-  response: Value
+  response: 1
   response_file: MyText
   position: 0
   user: valid
@@ -12,7 +12,7 @@ one:
 two:
   sheet_variable: one
   variable: one
-  response: Value
+  response: 2
   response_file: MyText
   position: 1
   user: valid

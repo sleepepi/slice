@@ -6,7 +6,7 @@ one:
   name: Design One
   description: MyText
   options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:one) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, branching_logic: "var_1 == 'Value'" },
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, branching_logic: "var_1 == 1" },
             { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> }]
   user: valid
   project: one

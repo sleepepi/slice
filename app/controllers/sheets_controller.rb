@@ -305,8 +305,7 @@ class SheetsController < ApplicationController
           sv.update_attributes sv.format_response(sv.variable.variable_type, response)
         end
       end
-      @sheet.update_column :response_count, @sheet.non_blank_design_variable_responses
-      @sheet.update_column :total_response_count, @sheet.total_design_variables
+      @sheet.update_response_count!
     end
 
 end

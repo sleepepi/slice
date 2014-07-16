@@ -1,6 +1,8 @@
 ## 0.25.0
 
 ### Enhancements
+- **Sheet Changes**
+  - Sheet completion percentage is now based on visible responses only
 - **Gem Changes**
   - Updated to rails 4.1.4
   - Updated to kaminari 0.16.1

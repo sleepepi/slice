@@ -29,4 +29,12 @@ class SheetTest < ActiveSupport::TestCase
     assert_equal 0, /^#([0-9abcdef]){6}$/ =~ sheets(:coverage_0).color
   end
 
+  test "sheet completion should be based on non hidden responses" do
+    assert_equal 50, sheets(:filled_out_half_visible).percent
+    assert_equal 100, sheets(:filled_out_all_visible).percent
+    assert_equal 100, sheets(:filled_out_entire_sheet).percent
+    assert_equal 66, sheets(:all_visible_not_all_answered).percent
+    assert_equal 0, sheets(:hidden_response_answered).percent
+  end
+
 end

@@ -53,7 +53,8 @@ var_one_options:
   name: one_options
   display_name: One Options
   description:
-  options: [{ name: 'Name', value: 'Value', description: 'Description' }]
+  options: [{ name: Show Hidden, value: '1' },
+            { name: No More questions, value: '2' }]
   user: valid
   project: one
 
