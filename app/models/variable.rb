@@ -339,4 +339,38 @@ class Variable < ActiveRecord::Base
     self.sas_informat
   end
 
+  def csv_column
+    if self.variable_type == 'checkbox'
+      [self.name] + self.shared_options.collect{|option| "#{self.name}__#{option[:value]}"}
+    else
+      self.name
+    end
+  end
+
+  def csv_column_ids
+    if self.variable_type == 'checkbox'
+      [self.id.to_s] + self.shared_options.collect{|option| "#{self.id.to_s}__#{option[:value]}"}
+    else
+      self.id.to_s
+    end
+  end
+
+  def sas_informat_definition
+    if self.variable_type == 'checkbox'
+      option_informat = (self.domain && !self.domain.all_numeric? ? '$500' : 'best32')
+      ["  informat #{self.name} #{self.sas_informat}. ;"] + self.shared_options.collect{|option| "  informat #{self.id.to_s}__#{option[:value]} #{option_informat}. ;"}
+    else
+      "  informat #{self.name} #{self.sas_informat}. ;"
+    end
+  end
+
+  def sas_format_definition
+    if self.variable_type == 'checkbox'
+      option_format = (self.domain && !self.domain.all_numeric? ? '$500' : 'best32')
+      ["  format #{self.name} #{self.sas_format}. ;"] + self.shared_options.collect{|option| "  format #{self.id.to_s}__#{option[:value]} #{option_format}. ;"}
+    else
+      "  format #{self.name} #{self.sas_format}. ;"
+    end
+  end
+
 end

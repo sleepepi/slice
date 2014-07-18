@@ -189,3 +189,9 @@ hidden_response_answered:
   project: one
   subject: one
   user: valid
+
+checkbox_example_one:
+  design: checkbox_and_radio
+  project: one
+  subject: one
+  user: valid

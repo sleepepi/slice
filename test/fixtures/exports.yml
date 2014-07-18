@@ -24,3 +24,17 @@ two:
   include_data_dictionary: true
   include_sas: true
   include_files: true
+
+three:
+  name: My Checkbox Export
+  status: pending
+  user: valid
+  project: one
+  viewed: false
+  include_xls: false
+  include_csv_labeled: false
+  include_csv_raw: true
+  include_pdf: false
+  include_data_dictionary: false
+  include_sas: false
+  include_files: false

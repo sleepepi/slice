@@ -39,3 +39,15 @@ pdf_variable_one:
   sheet_variable: checkbox_two
   user: valid
   value: 2
+
+export_me_one:
+  variable: checkbox
+  sheet_variable: exportable_one
+  user: valid
+  value: econ101
+
+export_me_two:
+  variable: checkbox
+  sheet_variable: exportable_one
+  user: valid
+  value: math123

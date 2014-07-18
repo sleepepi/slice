@@ -157,3 +157,7 @@ contains_single_scale_in_grid:
   options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:grid_with_scale_variable) %> } ]
   user: valid
   project: one
+
+checkbox_and_radio:
+  name: Checkbox and Radio for Export Test
+  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %>}, { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %>}]

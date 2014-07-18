@@ -119,8 +119,15 @@ class Export < ActiveRecord::Base
         hash = { sheet: sheet }
         sheet.sheet_variables.each do |sv|
           unless sv.variable.variable_type == 'grid'
-            hash[sv.variable_id.to_s] = (raw_data ? sv.get_response(:raw) : sv.get_response(:name))
+            response = (raw_data ? sv.get_response(:raw) : sv.get_response(:name))
+            hash[sv.variable_id.to_s] = response
             hash[sv.variable_id.to_s] = hash[sv.variable_id.to_s].join(',') if hash[sv.variable_id.to_s].kind_of?(Array)
+            if sv.variable.variable_type == 'checkbox'
+              sv.variable.shared_options.each_with_index do |option, index|
+                search_string = (raw_data ? option[:value] : "#{option[:value]}: #{option[:name]}")
+                hash["#{sv.variable_id.to_s}__#{option[:value]}"] = search_string if response.include?(search_string)
+              end
+            end
           end
         end
         rows << hash
@@ -129,7 +136,9 @@ class Export < ActiveRecord::Base
 
       CSV.open(export_file, "wb") do |csv|
         variables = all_design_variables_without_grids(sheet_scope)
-        csv << ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + variables.collect{|v| v.name}
+        column_headers = variables.collect(&:csv_column).flatten
+        column_ids = variables.collect(&:csv_column_ids).flatten
+        csv << ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + column_headers
         rows.each do |hash|
           sheet = hash[:sheet]
           row = [ sheet.id,
@@ -144,8 +153,8 @@ class Export < ActiveRecord::Base
                   sheet.user.name,
                   sheet.subject_schedule ? sheet.subject_schedule.name : nil,
                   sheet.event ? sheet.event.name : nil ]
-          variables.each do |variable|
-            row << hash[variable.id.to_s]
+          column_ids.each do |column_id|
+            row << hash[column_id]
           end
           csv << row
         end
@@ -398,6 +407,10 @@ class Export < ActiveRecord::Base
     end
 
     def sas_step1(variables, use_grids)
+      column_headers = variables.collect(&:csv_column).flatten
+      column_informats = variables.collect(&:sas_informat_definition).flatten
+      column_formats = variables.collect(&:sas_format_definition).flatten
+
       <<-eos
 /* Replace carriage returns inside delimiters */
 data _null_;
@@ -430,7 +443,7 @@ data slice#{'_grids' if use_grids};
   informat event_name           $500.     ;   * Event name ;
 
   /* Sheet Variables */
-#{variables.collect{|v| "  informat #{v.name} #{v.sas_informat}. ;" }.join("\n")}
+#{column_informats.join("\n")}
 
   /* Design and Subject Variables */
   format sheet_id               best32.   ;
@@ -447,7 +460,7 @@ data slice#{'_grids' if use_grids};
   format event_name             $500.     ;
 
   /* Sheet Variables */
-#{variables.collect{|v| "  format #{v.name} #{v.sas_format}. ;" }.join("\n")}
+#{column_formats.join("\n")}
 
   /* Define Column Names */
 
@@ -464,7 +477,7 @@ data slice#{'_grids' if use_grids};
     creator
     schedule_name
     event_name
-#{variables.collect{|v| "    #{v.name}"}.join("\n")}
+#{column_headers.collect{|c| "    #{c}"}.join("\n")}
   ;
 run;
 

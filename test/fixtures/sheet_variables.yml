@@ -261,3 +261,15 @@ hidden_response_answered:
   sheet: hidden_response_answered
   response: Some response
   user: valid
+
+exportable_one:
+  variable: checkbox
+  sheet: checkbox_example_one
+  # response: "['econ101','math123']" # Through association with responses.yml
+  user: valid
+
+exportable_two:
+  variable: radio
+  sheet: checkbox_example_one
+  response: 1
+  user: valid
