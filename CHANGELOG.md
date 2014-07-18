@@ -6,6 +6,7 @@
 - **Gem Changes**
   - Updated to rails 4.1.4
   - Updated to kaminari 0.16.1
+  - Updated to simplecov 0.9.0
 
 ### Bug Fixes
 - Fixed a bug that prevented date hard and soft, minimums and maximums from updating on the design editor
