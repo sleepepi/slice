@@ -399,9 +399,11 @@ class Export < ActiveRecord::Base
 /* TO POINT TO THE LOCATION WHERE YOU    */
 /* DOWNLOADED THE CSV AND SAS FILES      */
 
-%let import_folder      = C: ;
-%let import_file        = #{filename}_raw ;
-%let import_file_grids  = #{filename}_grids_raw ;
+%let a=%sysget(SAS_EXECFILEPATH);
+%let b=%sysget(SAS_EXECFILENAME);
+
+%let path_file= %sysfunc(tranwrd(&a,&b,#{filename}_raw));
+%let path_file_grids= %sysfunc(tranwrd(&a,&b,#{filename}_grids_raw));
 
       eos
     end
@@ -414,8 +416,8 @@ class Export < ActiveRecord::Base
       <<-eos
 /* Replace carriage returns inside delimiters */
 data _null_;
-  infile "&import_folder.\\&import_file#{'_grids' if use_grids}..csv" recfm=n;
-  file "&import_folder.\\&import_file#{'_grids' if use_grids}._sas.csv" recfm=n;
+  infile "&path_file#{'_grids' if use_grids}..csv" recfm=n;
+  file "&path_file#{'_grids' if use_grids}._sas.csv" recfm=n;
   input a $char1.;
   retain open 0;
   if a='"' then open=not open;
@@ -426,7 +428,7 @@ run;
 /* Step 1: Import data into slice work library */
 
 data slice#{'_grids' if use_grids};
-  infile "&import_folder.\\&import_file#{'_grids' if use_grids}._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=#{use_grids ? 3 : 2} ;
+  infile "&path_file#{'_grids' if use_grids}._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=#{use_grids ? 3 : 2} ;
 
   /* Design and Subject Variables */
   informat sheet_id             best32.   ;   * Sheet ID ;
