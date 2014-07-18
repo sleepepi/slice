@@ -358,7 +358,7 @@ class Variable < ActiveRecord::Base
   def sas_informat_definition
     if self.variable_type == 'checkbox'
       option_informat = (self.domain && !self.domain.all_numeric? ? '$500' : 'best32')
-      ["  informat #{self.name} #{self.sas_informat}. ;"] + self.shared_options.collect{|option| "  informat #{self.id.to_s}__#{option[:value]} #{option_informat}. ;"}
+      ["  informat #{self.name} #{self.sas_informat}. ;"] + self.shared_options.collect{|option| "  informat #{self.name.to_s}__#{option[:value]} #{option_informat}. ;"}
     else
       "  informat #{self.name} #{self.sas_informat}. ;"
     end
@@ -367,7 +367,7 @@ class Variable < ActiveRecord::Base
   def sas_format_definition
     if self.variable_type == 'checkbox'
       option_format = (self.domain && !self.domain.all_numeric? ? '$500' : 'best32')
-      ["  format #{self.name} #{self.sas_format}. ;"] + self.shared_options.collect{|option| "  format #{self.id.to_s}__#{option[:value]} #{option_format}. ;"}
+      ["  format #{self.name} #{self.sas_format}. ;"] + self.shared_options.collect{|option| "  format #{self.name.to_s}__#{option[:value]} #{option_format}. ;"}
     else
       "  format #{self.name} #{self.sas_format}. ;"
     end
