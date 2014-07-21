@@ -43,7 +43,7 @@
 
 
     <% if event = @project.events.find_by_id(params[:without_event_id]) and schedule = @project.schedules.find_by_id(params[:without_schedule_id]) %>
-      <div class="col-md-4 form-group" data-object="filter-html">
+      <div class="col-md-4 form-group">
         <label class="col-md-2 control-label">Without</label>
         <div class="col-md-10">
           <%= schedule.name %> &middot; <%= event.name %>

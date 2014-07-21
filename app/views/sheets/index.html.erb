@@ -85,35 +85,33 @@
     <% end %>
   </div>
 
-  <div class="row">
-    <div class="col-md-6 form-group" data-object="filter-html">
-      <% (params[:f] || []).each do |filter| %>
-        <% filter[:id] = filter[:variable_id] %>
-        <% v = @project.variable_by_id(filter[:id]) %>
-        <% if v %>
-          <div id="variable_<%= filter[:id] %>" class="filter-bubble" style="overflow:hidden;white-space:nowrap;cursor:default" data-variable-id="<%= filter[:id] %>" data-project-id="<%= v.project_id %>">
-            <%= hidden_field_tag "f[][id]", filter[:id] %> <%# TODO, this one to be removed %>
-            <%= hidden_field_tag "f[][variable_id]", filter[:variable_id] %>
-            <%= hidden_field_tag "f[][value]", filter[:value] %>
-            <%= hidden_field_tag "f[][start_date]", filter[:start_date] %>
-            <%= hidden_field_tag "f[][end_date]", filter[:end_date] %>
-            <% if filter[:missing] == '1' %><span class="label label-default" style="background-color:#ffc8ba;" title="Includes Missing">m</span><% end %>
-            <% if ['sheet_date', 'date'].include?(v.variable_type) %><span class="label label-default" style="background-color:#7aa6ff;" title="by"><%= filter[:by] %></span><% end %>
-            <span title="<%= v.display_name %>" style="overflow:hidden;cursor:default;font-size:0.8em">
-              <%= v.display_name %>
-            </span>
-            <% if ['sheet_date', 'date'].include?(v.variable_type) %>
-              <span class="label label-default"><%= filter[:start_date] %></span> to <span class="label label-default"><%= filter[:end_date] %></span>
-            <% else %>
-              <span class="label label-default"><%= filter[:value] %></span>
-            <% end %>
-            <%#= link_to 'Edit', '#', data: { object: 'edit-filter', variable_id: filter[:id], project_id: v.project_id }, class: 'btn btn-default btn-xs' %>
-            <%#= link_to 'Remove', "#", data: { object: 'remove-filter', target: "#variable_#{filter[:id]}" }, class: 'btn btn-xs btn-danger-inverse' %>
-          </div>
-        <% end %>
+  <% (params[:f] || []).in_groups_of(3, false).each do |row_filters| %>
+    <div class="row">
+      <% row_filters.each do |filter| %>
+        <div class="col-md-4 form-group">
+          <% if v = @project.variable_by_id(filter[:variable_id]) %>
+            <%= label "variable_id_#{filter[:variable_id]}", v.display_name, class: 'col-md-2 control-label' %>
+            <div class="col-md-10">
+              <%= hidden_field_tag "f[][variable_id]", filter[:variable_id] %>
+              <%= hidden_field_tag "f[][start_date]", filter[:start_date] %>
+              <%= hidden_field_tag "f[][end_date]", filter[:end_date] %>
+              <% if filter[:missing] == '1' %><span class="label label-default" style="background-color:#ffc8ba;" title="Includes Missing">m</span><% end %>
+              <% if ['sheet_date', 'date'].include?(v.variable_type) %>
+                <span class="label label-default"><%= filter[:start_date] %></span> to <span class="label label-default"><%= filter[:end_date] %></span>
+              <% else %>
+                <% if ['dropdown', 'radio', 'checkbox'].include?(v.variable_type) %>
+                  <%= select_tag 'f[][value]', options_for_select(v.options_missing_at_end.collect{|o| ["#{o[:value]}: #{o[:name]}", o[:value]]} + [[':any', ':any'],[':missing', ':missing']], filter[:value]), class: 'form-control' %>
+                <% else %>
+                  <%= hidden_field_tag "f[][value]", filter[:value] %>
+                  <span class="label label-default"><%= filter[:value] %></span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     </div>
-  </div>
+  <% end %>
 
   <div class="form-group">
     <div class="col-md-10 col-md-offset-2">

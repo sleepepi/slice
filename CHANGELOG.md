@@ -3,6 +3,8 @@
 ### Enhancements
 - **Design Changes**
   - Added links to all variables that exist on the design
+  - Design reports now allow checkbox variables to be selected
+  - Design overview now links and filters checkbox variable options
 - **Sheet Changes**
   - Sheet completion percentage is now based on visible responses only
   - CSV exports now additionally split checkbox variables into individual columns by domain options

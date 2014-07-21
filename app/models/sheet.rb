@@ -21,6 +21,7 @@ class Sheet < ActiveRecord::Base
   scope :with_site, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first).references(:subjects) }
 
   scope :with_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)", args.first, args[1]) }
+  scope :with_checkbox_variable_response, lambda { |*args| where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value = ? )", args.first, args[1]) }
 
   # These don't include blank codes
   scope :with_variable_response_after, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response >= ? and sheet_variables.response != '')", args.first, args[1]) }
@@ -32,10 +33,14 @@ class Sheet < ActiveRecord::Base
 
   # Only includes blank or unknown values
   scope :without_variable_response, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
-  # Includes entered values, or entered missing values
-  scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
+  scope :without_checkbox_variable_response, lambda { |*args| where("sheets.id NOT IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '')", args.first) }
+
+
+  # # Includes entered values, or entered missing values
+  # scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
   # Includes only entered values (that are not marked as missing)
   scope :with_any_variable_response_not_missing_code, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
+  scope :with_checkbox_any_variable_response_not_missing_code, lambda { |*args| where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '' and responses.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
   # Include blank, unknown, or values entered as missing
   scope :with_response_unknown_or_missing, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
 
@@ -155,7 +160,11 @@ class Sheet < ActiveRecord::Base
     end
 
     if stratum_variable and stratum_value == ':any' and not ['site', 'sheet_date', 'subject_status', 'design'].include?(stratum_variable.variable_type)
-      self.with_any_variable_response_not_missing_code(stratum_variable)
+      if stratum_variable.variable_type == 'checkbox'
+        self.with_checkbox_any_variable_response_not_missing_code(stratum_variable)
+      else
+        self.with_any_variable_response_not_missing_code(stratum_variable)
+      end
     elsif stratum_variable and stratum_variable.variable_type == 'design'
       self.with_design(stratum_value)
     elsif stratum_variable and stratum_variable.variable_type == 'site'
@@ -163,9 +172,17 @@ class Sheet < ActiveRecord::Base
     elsif stratum_variable and ['sheet_date', 'date'].include?(stratum_variable.variable_type) and stratum_value != ':missing'
       self.sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
     elsif not stratum_value.blank? and stratum_value != ':missing' # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
-      self.with_variable_response(stratum_id, stratum_value)
+      if stratum_variable.variable_type == 'checkbox'
+        self.with_checkbox_variable_response(stratum_id, stratum_value)
+      else
+        self.with_variable_response(stratum_id, stratum_value)
+      end
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
-      self.without_variable_response(stratum_id)
+      if stratum_variable.variable_type == 'checkbox'
+        self.without_checkbox_variable_response(stratum_id)
+      else
+        self.without_variable_response(stratum_id)
+      end
     end
   end
 
