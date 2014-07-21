@@ -439,7 +439,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def check_response_count_change
-    if self.total_design_variables != self.total_response_count
+    if self.total_response_count.to_i == 0
       self.update_response_count!
     end
   end
