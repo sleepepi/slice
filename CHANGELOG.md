@@ -1,6 +1,8 @@
 ## 0.25.0
 
 ### Enhancements
+- **Design Changes**
+  - Added links to all variables that exist on the design
 - **Sheet Changes**
   - Sheet completion percentage is now based on visible responses only
   - CSV exports now additionally split checkbox variables into individual columns by domain options

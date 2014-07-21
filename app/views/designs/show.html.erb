@@ -16,31 +16,49 @@
   <%= link_to "Overview", overview_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs' %>
 </div>
 
-<% if @design.publicly_available? or @design.total_rows > 0 %>
-  <dl class="dl-horizontal">
-    <% if @design.publicly_available? %>
-      <dt>Publicly Available</dt>
-      <dd>
-        <% if @design.slug.blank? %>
-          <%= link_to "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available? %>
-        <% else %>
-          <%= link_to "#{SITE_URL}/survey/#{@design.slug}", "#{SITE_URL}/survey/#{@design.slug}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available? %>
-        <% end %>
-      </dd>
-    <% end %>
-
-    <% if @design.total_rows > 0 %>
-      <dt>Import Progress</dt>
-      <dd id="progress" data-object="<%= 'ajax-timer' if @design.total_rows != @design.rows_imported %>" data-path="<%= progress_project_design_path(@design.project, @design) %>">
-        <%= render partial: 'designs/progress' %>
-      </dd>
-    <% end %>
-  </dl>
-<% end %>
-
 <dl class="dl-horizontal">
-  <dt>Read Only Variables</dt>
-  <dd><%= @design.read_only_variable_names %></dd>
+  <% if @design.publicly_available? %>
+    <dt>Publicly Available</dt>
+    <dd>
+      <% if @design.slug.blank? %>
+        <%= link_to "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{SITE_URL}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available? %>
+      <% else %>
+        <%= link_to "#{SITE_URL}/survey/#{@design.slug}", "#{SITE_URL}/survey/#{@design.slug}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available? %>
+      <% end %>
+    </dd>
+  <% end %>
+
+  <% if @design.total_rows > 0 %>
+    <dt>Import Progress</dt>
+    <dd id="progress" data-object="<%= 'ajax-timer' if @design.total_rows != @design.rows_imported %>" data-path="<%= progress_project_design_path(@design.project, @design) %>">
+      <%= render partial: 'designs/progress' %>
+    </dd>
+  <% end %>
+
+  <% if @design.read_only_variable_names.size > 0 %>
+    <dt>Read Only Variables</dt>
+    <dd><%= @design.read_only_variable_names %></dd>
+  <% end %>
+
+  <dt>All Variables</dt>
+  <dd>
+    <ul class="list-unstyled">
+      <% @design.variables.each do |variable| %>
+        <li>
+          <%= link_to variable.name, [variable.project, variable] %>
+          <% if variable.variable_type == 'grid' %>
+            <ul class="">
+              <% variable.grid_variable_ids.each do |grid_variable_id| %>
+                <% if grid_variable = variable.project.variables.find_by_id(grid_variable_id) %>
+                  <li><%= link_to grid_variable.name, [grid_variable.project, grid_variable] %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </dd>
 </dl>
 
 <%= hidden_field_tag 'sheet[project_id]', @project.id %>
