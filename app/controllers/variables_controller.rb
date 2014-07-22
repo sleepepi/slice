@@ -86,7 +86,13 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @variable.save
-        format.html { redirect_to [@variable.project, @variable], notice: 'Variable was successfully created.' }
+        url = if params[:continue].to_s == '1'
+          new_project_variable_path(@variable.project)
+        else
+          [@variable.project, @variable]
+        end
+
+        format.html { redirect_to url, notice: 'Variable was successfully created.' }
         format.js { render 'update' }
         format.json { render action: 'show', status: :created, location: @variable }
       else
@@ -103,7 +109,13 @@ class VariablesController < ApplicationController
   def update
     respond_to do |format|
       if @variable.update(variable_params)
-        format.html { redirect_to [@variable.project, @variable], notice: 'Variable was successfully updated.' }
+        url = if params[:continue].to_s == '1'
+          new_project_variable_path(@variable.project)
+        else
+          [@variable.project, @variable]
+        end
+
+        format.html { redirect_to url, notice: 'Variable was successfully updated.' }
         format.js
         format.json { head :no_content }
       else

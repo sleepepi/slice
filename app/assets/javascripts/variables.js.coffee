@@ -172,6 +172,8 @@ $(document)
   .on('click', '[data-object~="form-check-before-submit"]', () ->
     if checkForBlankOptions() == false
       return false
+    if $(this).data('continue')?
+      $('#continue').val($(this).data('continue'))
     $($(this).data('target')).submit()
     false
   )

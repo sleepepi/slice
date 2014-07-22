@@ -177,6 +177,14 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
+  test "should create variable and continue" do
+    assert_difference('Variable.count') do
+      post :create, project_id: @project, continue: '1', variable: { description: @variable.description, name: 'var_4', display_name: 'Variable Four', variable_type: @variable.variable_type }
+    end
+
+    assert_redirected_to new_project_variable_path(assigns(:variable).project)
+  end
+
   test "should create dropdown variable" do
     assert_difference('Variable.count') do
       post :create, project_id: @project, variable: { name: 'favorite_icecream', display_name: 'Favorite Icecream', variable_type: 'dropdown', domain_id: domains(:icecream_flavors).id }
@@ -295,6 +303,11 @@ class VariablesControllerTest < ActionController::TestCase
   test "should update variable" do
     put :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name }
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
+  test "should update variable and continue" do
+    put :update, id: @variable, project_id: @project, continue: '1', variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name }
+    assert_redirected_to new_project_variable_path(assigns(:variable).project)
   end
 
   test "should not update variable with blank display name" do

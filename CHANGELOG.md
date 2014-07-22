@@ -10,6 +10,8 @@
   - CSV exports now additionally split checkbox variables into individual columns by domain options
   - SAS export script now auto-detects location of CSV files
   - Arrow keys can now be used to navigate across string, numeric, and text input fields while creating or editing a sheet
+- **Variable Changes**
+  - A create/update and continue button lets users add multiple variables more quickly when creating many variables at once
 - **Gem Changes**
   - Updated to rails 4.1.4
   - Updated to kaminari 0.16.1
