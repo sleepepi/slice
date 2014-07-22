@@ -5,7 +5,7 @@
   <% unless variable.prepend.blank? %><span class="input-group-addon"><%= variable.prepend %></span><% end %>
   <%= text_field_tag field_name, response, class: 'form-control',
         data: {
-                object: 'minmax condition',
+                object: 'minmax condition cursor-navigatable',
                 hard_minimum: variable.hard_minimum, hard_maximum: variable.hard_maximum,
                 soft_minimum: variable.soft_minimum, soft_maximum: variable.soft_maximum,
                 name: variable.name, missing_codes: variable.missing_codes,
@@ -17,6 +17,7 @@
         title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip,
         disabled: disabled,
         rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}",
+        autocomplete: 'off',
         placeholder: is_grid ? variable.display_name : nil %>
   <% unless variable.units.blank? %><span class="input-group-addon"><%= variable.units %></span><% end %>
   <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>

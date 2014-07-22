@@ -9,6 +9,7 @@
   - Sheet completion percentage is now based on visible responses only
   - CSV exports now additionally split checkbox variables into individual columns by domain options
   - SAS export script now auto-detects location of CSV files
+  - Arrow keys can now be used to navigate across string, numeric, and text input fields while creating or editing a sheet
 - **Gem Changes**
   - Updated to rails 4.1.4
   - Updated to kaminari 0.16.1
