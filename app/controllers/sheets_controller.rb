@@ -1,4 +1,7 @@
 class SheetsController < ApplicationController
+  prepend_before_filter only: [ :survey, :submit_survey, :submit_public_survey ] { request.env["devise.skip_timeout"] = true }
+  skip_before_action :verify_authenticity_token, only: [ :survey, :submit_survey, :submit_public_survey ]
+
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print, :file ]
   before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :new, :create, :update, :destroy, :unlock ]
