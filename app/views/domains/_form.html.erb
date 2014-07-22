@@ -62,9 +62,13 @@
     </div>
   </div>
 
+  <%= hidden_field_tag :continue, '0' %>
+
   <div class="form-group">
     <div class="col-md-10 col-md-offset-2">
       <%= f.submit nil, class: 'btn btn-primary' %>
+      <% form_name = @domain.new_record? ? 'new_domain' : "edit_domain_#{@domain.id}" %>
+      <%= f.submit @domain.new_record? ? 'Create Domain and Continue' : 'Update Domain and Continue', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "domain-form-submit", continue: '1' } %>
       <%= cancel %>
     </div>
   </div>

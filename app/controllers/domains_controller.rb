@@ -41,7 +41,12 @@ class DomainsController < ApplicationController
 
     respond_to do |format|
       if @domain.save
-        format.html { redirect_to [@domain.project, @domain], notice: 'Domain was successfully created.' }
+        url = if params[:continue].to_s == '1'
+          new_project_domain_path(@domain.project)
+        else
+          [@domain.project, @domain]
+        end
+        format.html { redirect_to url, notice: 'Domain was successfully created.' }
         format.json { render action: 'show', status: :created, location: @domain }
       else
         format.html { render action: 'new' }
@@ -55,7 +60,12 @@ class DomainsController < ApplicationController
   def update
     respond_to do |format|
       if @domain.update(domain_params)
-        format.html { redirect_to [@domain.project, @domain], notice: 'Domain was successfully updated.' }
+        url = if params[:continue].to_s == '1'
+          new_project_domain_path(@domain.project)
+        else
+          [@domain.project, @domain]
+        end
+        format.html { redirect_to url, notice: 'Domain was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

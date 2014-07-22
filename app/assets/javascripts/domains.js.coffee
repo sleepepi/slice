@@ -37,3 +37,9 @@ $(document)
     new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,30)
     $($(this).data('domain-target')).val(new_value)
   )
+  .on('click', '[data-object~="domain-form-submit"]', () ->
+    if $(this).data('continue')?
+      $('#continue').val($(this).data('continue'))
+    $($(this).data('target')).submit()
+    false
+  )

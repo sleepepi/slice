@@ -12,6 +12,8 @@
   - Arrow keys can now be used to navigate across string, numeric, and text input fields while creating or editing a sheet
 - **Variable Changes**
   - A create/update and continue button lets users add multiple variables more quickly when creating many variables at once
+- **Domain Changes**
+  - A create/update and continue button lets users add multiple domains more quickly when creating many domains at once
 - **Gem Changes**
   - Updated to rails 4.1.4
   - Updated to kaminari 0.16.1

@@ -47,6 +47,17 @@ class DomainsControllerTest < ActionController::TestCase
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
+  test "should create domain and continue" do
+    assert_difference('Domain.count') do
+      post :create, project_id: @project, continue: '1', domain: { name: 'new_domain_2', display_name: 'New Domain Two',
+                                                    option_tokens: [
+                                                      { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
+                                                      { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+    end
+
+    assert_redirected_to new_project_domain_path(assigns(:domain).project)
+  end
+
   test "should not create domain where options have non-unique values" do
     assert_difference('Domain.count', 0) do
       post :create, project_id: @project, domain: { name: 'new_domain', display_name: 'New Domain', description: @domain.description,
@@ -138,6 +149,14 @@ class DomainsControllerTest < ActionController::TestCase
                                                                 { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
                                                                 { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
+  end
+
+  test "should update domain and continue" do
+    put :update, id: @domain, project_id: @project, continue: '1', domain: { name: @domain.name, display_name: @domain.display_name,
+                                                              option_tokens: [
+                                                                { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
+                                                                { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+    assert_redirected_to new_project_domain_path(assigns(:domain).project)
   end
 
   test "should update domain and change new option value for associated sheets and grids" do
