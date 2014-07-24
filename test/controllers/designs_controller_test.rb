@@ -742,6 +742,20 @@ class DesignsControllerTest < ActionController::TestCase
     assert_template 'update'
   end
 
+  test "should create a grid variable with questions and add it to design" do
+    assert_difference('Variable.current.count', 2) do
+      put :update, id: @design, project_id: @project, variable: { display_name: 'My New Variable', name: 'my_new_variable', variable_type: 'grid', questions: [ { "question_name" => 'Enter your address:', "question_type" => 'string' } ] }, position: 0, create: 'variable', format: 'js'
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_equal 4, assigns(:design).options.size
+    assert_equal 'my_new_variable', assigns(:design).variable_at(0).name
+    assert_equal 'My New Variable', assigns(:design).variable_at(0).display_name
+    assert_equal 'grid', assigns(:design).variable_at(0).variable_type
+    assert_equal 'enter_your_address', assigns(:project).variables.find(assigns(:design).variable_at(0).grid_variable_ids.first).name
+    assert_template 'update'
+  end
+
   test "should update an existing variable on a design" do
     put :update, id: designs(:sections_and_variables), project_id: @project, variable: { name: "var_date_updated", display_name: "Today's Date Updated", branching_logic: '1 = 1' }, position: 0, variable_id: variables(:date).id, update: 'variable', format: 'js'
     assert_not_nil assigns(:project)

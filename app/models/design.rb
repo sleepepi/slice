@@ -124,6 +124,9 @@ class Design < ActiveRecord::Base
       params[:display_name_visibility] = 'gone' if params[:variable_type].to_s == 'text'
       variable_params = params.permit(:name, :display_name, :variable_type, :display_name_visibility)
       variable = self.project.variables.create( variable_params )
+      if not variable.new_record? and variable.variable_type == 'grid' and not params[:questions].blank?
+        variable.create_variables_from_questions!(params[:questions])
+      end
     else
       variable = self.project.variables.find_by_id(params[:id])
     end

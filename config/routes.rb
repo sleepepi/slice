@@ -137,6 +137,7 @@ Slice::Application.routes.draw do
       end
       collection do
         post :add_grid_variable
+        post :add_question
         post :cool_lookup
       end
     end

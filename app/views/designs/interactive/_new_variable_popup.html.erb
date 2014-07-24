@@ -29,6 +29,27 @@
         <%= text_field_tag "variable[name]", '', maxlength: 32, autocomplete: 'off', data: { placement: 'right', object: 'push-partial-change-text-field', target: '#variable_form', create: 'variable', position: params[:position] }, class: 'form-control' %>
       </div>
     </div>
+
+    <% if params[:variable_type] == 'grid' %>
+      <div class="form-group">
+        <%= label :questions, 'Questions', class: 'col-md-2 control-label' %>
+        <div class="col-md-10">
+          <div class="bs-callout bs-callout-info" style="margin-top:0px">
+            <h4>Quick Start</h4>
+            <p><strong>Optional</strong>: Enter the questions you wish to ask on this design, and specify the format of the response. You can also skip adding questions here and add them in the advanced editor in the next step. The advanced editor will also provide finer control over responses to questions.</p>
+          </div>
+          <div id="questions">
+            <% questions = (params[:variable] && params[:variable][:questions] ? params[:variable][:questions] : [ { question_name: '', question_type: 'free text' } ]) %>
+            <% questions.each do |question_hash| %>
+              <%= render partial: 'variables/question', locals: { question_hash: question_hash } %>
+            <% end %>
+          </div>
+          <%= link_to 'Add Question', add_question_project_variables_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px' %>
+        </div>
+      </div>
+    <% end %>
+
+
   </form>
 
 </div>

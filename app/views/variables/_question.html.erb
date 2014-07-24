@@ -1,0 +1,16 @@
+<% position = Time.now.to_i.to_s + Time.now.usec.to_s unless position %>
+<% @position = position %>
+
+<div id="question_<%= @position %>" style="line-height:30px;padding-top:5px">
+  <div class="row">
+    <div class="col-xs-6 col-lg-8">
+      <%= text_field_tag "variable[questions][][question_name]", question_hash[:question_name], class: 'form-control' %>
+    </div>
+    <div class="col-xs-4 col-sm-2">
+      <%= select_tag "variable[questions][][question_type]", options_for_select(Design::QUESTION_TYPES, question_hash[:question_type]), class: 'form-control' %>
+    </div>
+    <div class="col-xs-2">
+      <%= link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#question_#{@position}" }, tabindex: '-1' %>
+    </div>
+  </div>
+</div>
