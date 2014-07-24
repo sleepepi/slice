@@ -41,8 +41,6 @@
   initializeTypeahead()
   $("span[rel~=tooltip], button[rel~=tooltip]").tooltip( trigger: 'hover' )
   window.$isDirty = false
-  msg = "You haven't saved your changes."
-  window.onbeforeunload = (el) -> return msg if window.$isDirty
   $("#global-search").typeahead(
     remote: root_url + 'search?q=%QUERY'
   )
@@ -59,9 +57,11 @@
   sheetsReady()
   variablesReady()
 
+$(window).onbeforeunload = () -> return "You haven't saved your changes." if window.$isDirty
 $(document).ready(ready)
 $(document)
   .on('page:load', ready)
+  .on('page:before-change', -> confirm("You haven't saved your changes.") if window.$isDirty)
   .on('click', '[data-object~="remove"]', () ->
     plural = if $(this).data('count') == 1 then '' else 's'
     if $(this).data('count') in [0, undefined] or ($(this).data('count') and confirm('Removing this option will PERMANENTLY ERASE DATA you have collected. Are you sure you want to RESET responses that used this option from ' + $(this).data('count') + ' sheet' + plural +  '?'))
