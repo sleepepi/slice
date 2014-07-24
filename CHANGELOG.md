@@ -11,6 +11,7 @@
   - CSV exports now additionally split checkbox variables into individual columns by domain options
   - SAS export script now auto-detects location of CSV files
   - Arrow keys can now be used to navigate across string, numeric, and text input fields while creating or editing a sheet
+  - The current grid row is highlighted when adding values to grids on a sheet
 - **Variable Changes**
   - A create/update and continue button lets users add multiple variables more quickly when creating many variables at once
 - **Domain Changes**
