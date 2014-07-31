@@ -94,6 +94,10 @@ class SheetsController < ApplicationController
       params[:sheet][:design_id] ||= @project.designs.first.id
     end
 
+    if @project.sites.size == 1
+      params[:site_id] ||= @project.sites.first.id
+    end
+
     @sheet = current_user.sheets.new(sheet_params)
   end
 

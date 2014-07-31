@@ -12,6 +12,7 @@
   - SAS export script now auto-detects location of CSV files
   - Arrow keys can now be used to navigate across string, numeric, and text input fields while creating or editing a sheet
   - The current grid row is highlighted when adding values to grids on a sheet
+  - Projects with one site will now default to that site when creating new sheets
 - **Variable Changes**
   - A create/update and continue button lets users add multiple variables more quickly when creating many variables at once
 - **Domain Changes**
