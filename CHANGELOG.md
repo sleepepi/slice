@@ -1,4 +1,4 @@
-## 0.25.0
+## 0.25.0 (July 31, 2014)
 
 ### Enhancements
 - **Design Changes**
