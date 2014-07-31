@@ -1,7 +1,3 @@
-# Crude fix for nearly-simultaneous keyboard presses causing unwanted focus changes
-
-@last_focus_change = Date.now()
-
 pad = (str, max) ->
   if !str then str = ""
   if str.length < max then pad("0" + str, max) else str
@@ -42,41 +38,6 @@ reformatTimeInput = (target, int_val) ->
   target.val(pad(s, 2)) unless $("input:hidden[name='"+name+"']").val() == ''
   setFullTimeField(target)
 
-focusOnNext = (target) ->
-  current_time = Date.now()
-  if (current_time - last_focus_change) > 150
-    @last_focus_change = current_time
-    control_group_inputs = target.closest(".form-group").find("input:visible")
-    current_control_index = control_group_inputs.index(target)
-
-    if current_control_index >= 0 and control_group_inputs[current_control_index + 1]
-      next_input = control_group_inputs[current_control_index + 1]
-    else if target.closest(".form-group").next(".form-group").length > 0
-      next_input = target.closest(".form-group").next(".form-group").find("input:visible").first()
-
-    if next_input
-      next_input.focus()
-      next_input.select()
-    else
-      target.closest("form").find("input:submit").first().focus()
-
-manageTimeInput = (event, target, min_val, max_val) ->
-  val = target.val()
-  if (event.keyCode >= 48 and event.keyCode <= 57) or ((event.keyCode-48) >= 48 and (event.keyCode-48) <= 57)
-    int_val = parseInt(val)
-
-    if val.length == 1 and int_val >= Math.ceil(max_val / 10.0) and int_val <= 9
-      #focusOnNext(target, next_input)
-      focusOnNext(target)
-    else if val.length == 2
-      if int_val >= min_val and int_val <= max_val
-        #focusOnNext(target, next_input)
-        focusOnNext(target)
-      else
-        target.select()
-  else
-    target.select()
-
 clearTimeFields = (name) ->
   $("input:hidden[name='"+name+"']").val("")
   $("input:text[name='hour_"+name+"']").val("")
@@ -89,15 +50,6 @@ $(document)
     if event.which == 96
       clearTimeFields($(this).find("input:hidden").attr("name"))
       event.preventDefault()
-  )
-  .on("keyup", ".time-input .hour-box input", (event) ->
-    manageTimeInput(event, $(this), 0, 23)
-  )
-  .on("keyup", ".time-input .min-box input", (event) ->
-    manageTimeInput(event, $(this), 0, 59)
-  )
-  .on("keyup", ".time-input .sec-box input", (event) ->
-    manageTimeInput(event, $(this), 0, 59)
   )
   .on('click', '[data-object~="set-time-input-to-current-time"]', setCurrentTime)
   .on('change', ".time-input input", () ->

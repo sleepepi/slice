@@ -13,6 +13,7 @@
   - Arrow keys can now be used to navigate across string, numeric, and text input fields while creating or editing a sheet
   - The current grid row is highlighted when adding values to grids on a sheet
   - Projects with one site will now default to that site when creating new sheets
+  - Entering time variables no longer auto skips forward, instead the arrow keys can be used to navigate forward and backwards
 - **Variable Changes**
   - A create/update and continue button lets users add multiple variables more quickly when creating many variables at once
 - **Domain Changes**
