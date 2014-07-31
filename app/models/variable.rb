@@ -393,7 +393,7 @@ class Variable < ActiveRecord::Base
   end
 
   def option_variable_name(value)
-    "#{self.name}__#{value}".last(28)
+    "#{self.name}__#{value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
   end
 
 end
