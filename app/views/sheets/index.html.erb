@@ -21,7 +21,7 @@
     <div class="col-md-4 form-group">
       <%= label :search, 'Search', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= text_field_tag 'search', params[:search], class: 'form-control', placeholder: 'Design Name or Subject Code' %>
+        <%= text_field_tag 'search', params[:search], class: 'form-control', placeholder: 'Design Name or Subject Code', autocomplete: 'off' %>
       </div>
     </div>
     <div class="col-md-4 form-group">

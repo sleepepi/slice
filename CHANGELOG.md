@@ -25,6 +25,7 @@
 - Fixed a bug that prevented date hard and soft, minimums and maximums from updating on the design editor
 - Fixed a bug that prevented a public survey from being submitted after a logged in user's session timed out
 - Fixed a bug that prevented a page navigation confirmation box from appearing when editing a sheet and attempting to leave the page without saving
+- Hitting `Enter` when searching on the sheets index no longer generates an export, and now correctly submits the selected search filters
 
 ## 0.24.13 (June 16, 2014)
 
