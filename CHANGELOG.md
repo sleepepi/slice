@@ -2,6 +2,7 @@
 
 ### Bug Fix
 - Fixed a bug that caused domain values to sometimes be displayed out of order when missing codes were set
+- Fixed an issue when using cursor navigation to select an autocomplete suggestion that would cause it to navigate to the next field instead of selecting the appropriate autocomplete suggestion
 
 ## 0.25.0 (July 31, 2014)
 

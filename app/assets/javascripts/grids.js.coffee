@@ -34,14 +34,17 @@
 
 $(document)
   .on('keydown', "[data-object~='cursor-navigatable']", (e) ->
-    if e.which == 37 and $(this).getCursorPosition() == 0
-      gridBack($(this), e)
-    if e.which == 39 and $(this).getCursorPosition() == $(this).val().length
-      gridForward($(this), e)
-    if e.which == 38
-      gridDown($(this), e)
-    if e.which == 40
-      gridUp($(this), e)
+    if $(".tt-dropdown-menu:visible").size() > 0
+      return
+    else
+      if e.which == 37 and $(this).getCursorPosition() == 0
+        gridBack($(this), e)
+      if e.which == 39 and $(this).getCursorPosition() == $(this).val().length
+        gridForward($(this), e)
+      if e.which == 38
+        gridDown($(this), e)
+      if e.which == 40
+        gridUp($(this), e)
   )
   .on('focus', ".table-grid input", () ->
     $(this).closest('.table-grid tr').addClass('info');
