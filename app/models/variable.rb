@@ -198,7 +198,7 @@ class Variable < ActiveRecord::Base
   end
 
   def options_missing_at_end
-    self.shared_options.sort{|a, b| a[:missing_code].to_i <=> b[:missing_code].to_i}
+    self.options_without_missing + self.options_only_missing
   end
 
   def options_without_missing
