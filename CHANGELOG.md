@@ -1,4 +1,4 @@
-## 0.25.1
+## 0.25.1 (August 1, 2014)
 
 ### Bug Fix
 - Fixed a bug that caused domain values to sometimes be displayed out of order when missing codes were set
