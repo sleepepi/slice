@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
 
   include DateAndTimeParser
 
+  def theme
+    render layout: 'theme'
+  end
+
   protected
 
   def check_system_admin

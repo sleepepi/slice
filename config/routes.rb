@@ -168,6 +168,7 @@ Slice::Application.routes.draw do
   get "/settings" => "users#settings", as: :settings
   get "/search" => "projects#search", as: :search
   get "/activity" => "users#activity", as: :activity
+  get "/theme" => "application#theme", as: :theme
 
   root to: 'projects#splash'
 

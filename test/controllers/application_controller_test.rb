@@ -13,4 +13,9 @@ class ApplicationControllerTest < ActionController::TestCase
     assert_equal "", @controller.send(:parse_time, "abc")
   end
 
+  test "should get theme" do
+    get :theme
+    assert_response :success
+  end
+
 end
