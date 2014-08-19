@@ -1,1 +1,1 @@
-$icon-font-path: "<%= SITE_URL %>/assets/"
+$icon-font-path: "<%= [nil, SITE_URL.gsub(/^https?:\/\//, '').split('/')[1..-1]].flatten.join('/') %>/assets/"
