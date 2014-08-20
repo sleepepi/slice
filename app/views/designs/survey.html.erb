@@ -5,7 +5,7 @@
 <%= form_tag project_submit_public_survey_path(@design.project, @design), method: :post, class: 'form-horizontal', multipart: true, id: "survey_#{@design.id}_form", authenticity_token: false do |f| %>
 
   <div id="design" style="min-height:200px">
-    <div class="center" style="margin-top:100px">Loading Survey <%= image_tag 'contour/ajax-loader.gif' %></div>
+    <div class="center" style="margin-top:100px">Loading Survey <%#= image_tag 'contour/ajax-loader.gif' %></div>
   </div>
 
   <div class="form-signin">
