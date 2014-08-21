@@ -37,7 +37,7 @@ class ActionDispatch::IntegrationTest
     user.update_column :status, user_template.status
     user.update_column :deleted, user_template.deleted?
     user.update_column :system_admin, user_template.system_admin?
-    post_via_redirect 'users/login', user: { email: email, password: password }
+    post_via_redirect '/users/login', user: { email: email, password: password }
     user
   end
 end

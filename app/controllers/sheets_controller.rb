@@ -299,7 +299,9 @@ class SheetsController < ApplicationController
     end
 
     def update_variables!
-      (params[:variables] || {}).each_pair do |variable_id, response|
+      variables_params = (params[:variables].blank? ? {} : params.require(:variables).permit!)
+
+      variables_params.each_pair do |variable_id, response|
         creator = (current_user ? current_user : @sheet.user)
 
         sv = @sheet.sheet_variables.where( variable_id: variable_id ).first_or_create( user_id: creator.id )
