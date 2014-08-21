@@ -1,11 +1,11 @@
-require 'audited'
-require 'audited/adapters/active_record'
+# require 'audited'
+# require 'audited/adapters/active_record'
 
 class SheetVariable < ActiveRecord::Base
   # attr_accessible :response, :sheet_id, :user_id, :variable_id, :response_file, :response_file_uploaded_at, :response_file_cache, :remove_response_file
 
-  audited associated_with: :sheet
-  has_associated_audits
+  # audited associated_with: :sheet
+  # has_associated_audits
 
   # Concerns
   include Valuable, DateAndTimeParser
