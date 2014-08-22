@@ -113,12 +113,12 @@ class SheetsController < ApplicationController
     @project = Project.current.find_by_id(params[:project_id])
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
     respond_to do |format|
-      if @project and @sheet
+      if @project and @sheet and not @sheet.locked?
         @design = @sheet.design
         format.html { render layout: 'minimal_layout' } # survey.html.erb
         format.js   # survey.js.erb
       else
-        format.html { redirect_to new_user_session_path, alert: 'Survey has already been submitted.' }
+        format.html { redirect_to new_user_session_path, alert: 'Survey has been locked.' }
         format.js { render nothing: true }
       end
     end
@@ -127,12 +127,12 @@ class SheetsController < ApplicationController
   def submit_survey
     @project = Project.current.find_by_id(params[:project_id])
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
-    if @project and @sheet
+    if @project and @sheet and not @sheet.locked?
       SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_update')
       UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
       redirect_to about_survey_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
     else
-      redirect_to new_user_session_path, alert: 'Survey has already been submitted.'
+      redirect_to new_user_session_path, alert: 'Survey has been locked.'
     end
   end
 

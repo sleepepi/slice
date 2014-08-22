@@ -22,7 +22,7 @@
         <%= link_to [object.project, object], class: 'list-group-item', rel: 'tooltip', data: { title: object.subject.name, placement: 'left', container: 'body' } do %>
           <div style="border-left: 2px solid <%= recently_created ? '#93edc0' : '#9ccef0' %>;margin-left:-10px;margin-right:-10px;padding-left:5px;white-space:nowrap;overflow:hidden;">
             <% user = (recently_created ? object.user : object.last_user) %>
-            <%= image_tag user.avatar_url(32, "identicon"), size: '32x32', class: 'img-rounded' %>
+            <% if user %><%= image_tag user.avatar_url(32, "identicon"), size: '32x32', class: 'img-rounded' %><% end %>
             <%= object.name %>
           </div>
         <% end %>
