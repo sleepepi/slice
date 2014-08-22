@@ -7,9 +7,7 @@ class SheetTransaction < ActiveRecord::Base
   belongs_to :user
   has_many :sheet_transaction_audits
 
-
   # Model Methods
-
 
   def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type)
     sheet_save_result = case transaction_type when 'sheet_create', 'public_sheet_create'

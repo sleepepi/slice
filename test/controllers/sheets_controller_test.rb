@@ -199,23 +199,25 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should create sheet" do
-    assert_difference('Sheet.count') do
-      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
-                    subject_code: @sheet.subject.subject_code,
-                    site_id: @sheet.subject.site_id,
-                    variables: {
-                      "#{variables(:dropdown).id}" => 'm',
-                      "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
-                      "#{variables(:radio).id}" => '2',
-                      "#{variables(:string).id}" => 'This is a string',
-                      "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                      "#{variables(:integer).id}" => 30,
-                      "#{variables(:numeric).id}" => 180.5,
-                      "#{variables(:date).id}" => '05/28/2012',
-                      "#{variables(:file).id}" => { response_file: '' },
-                      "#{variables(:time).id}" => '14:30:00',
-                      "#{variables(:calculated).id}" => '1234'
-                    }
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Sheet.count') do
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
+                      subject_code: @sheet.subject.subject_code,
+                      site_id: @sheet.subject.site_id,
+                      variables: {
+                        "#{variables(:dropdown).id}" => 'm',
+                        "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
+                        "#{variables(:radio).id}" => '2',
+                        "#{variables(:string).id}" => 'This is a string',
+                        "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                        "#{variables(:integer).id}" => 30,
+                        "#{variables(:numeric).id}" => 180.5,
+                        "#{variables(:date).id}" => '05/28/2012',
+                        "#{variables(:file).id}" => { response_file: '' },
+                        "#{variables(:time).id}" => '14:30:00',
+                        "#{variables(:calculated).id}" => '1234'
+                      }
+      end
     end
 
     assert_not_nil assigns(:sheet)
@@ -528,9 +530,11 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should submit public survey" do
-    assert_difference('Subject.count') do
-      assert_difference('Sheet.count') do
-        post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project, email: 'test@example.com'
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Subject.count') do
+        assert_difference('Sheet.count') do
+          post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project, email: 'test@example.com'
+        end
       end
     end
 
@@ -564,9 +568,11 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should not submit private survey" do
-    assert_difference('Subject.count', 0) do
-      assert_difference('Sheet.count', 0) do
-        post :submit_public_survey, id: designs(:admin_design), project_id: designs(:admin_design).project
+    assert_difference('SheetTransaction.count', 0) do
+      assert_difference('Subject.count', 0) do
+        assert_difference('Sheet.count', 0) do
+          post :submit_public_survey, id: designs(:admin_design), project_id: designs(:admin_design).project
+        end
       end
     end
 
@@ -719,7 +725,8 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should update sheet" do
-    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
+    assert_difference('SheetTransaction.count') do
+      put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
                     subject_code: @sheet.subject.subject_code,
                     site_id: @sheet.subject.site_id,
                     variables: {
@@ -733,6 +740,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:date).id}" => '05/29/2012',
                       "#{variables(:file).id}" => { response_file: '' }
                     }
+    end
 
     assert_not_nil assigns(:sheet)
     assert_equal 9, assigns(:sheet).variables.size
@@ -906,7 +914,10 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test "should unlock sheet" do
-    post :unlock, id: sheets(:locked), project_id: @project
+    assert_difference('SheetTransaction.count') do
+      post :unlock, id: sheets(:locked), project_id: @project
+    end
+
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
 

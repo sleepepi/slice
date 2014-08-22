@@ -96,16 +96,12 @@ class Sheet < ActiveRecord::Base
     []
   end
 
-  # def all_audits
-  #   Audited::Adapters::ActiveRecord::Audit.reorder("created_at DESC").where(["(auditable_type = 'Sheet' and auditable_id = ?) or (associated_type = 'Sheet' and associated_id = ?) or (associated_type = 'SheetVariable' and associated_id IN (?))", self.id, self.id, self.sheet_variables.collect{|sv| sv.id}])
-  # end
-
   def audit_show!(current_user)
     self.update_attributes(last_viewed_by_id: current_user.id, last_viewed_at: Time.now)
   end
 
   def contributors
-    self.all_audits.reject{|a| a.audited_changes.keys.include?('last_viewed_at') or not a.user }.collect{|a| a.user.name}.uniq.join(', ')
+    self.sheet_transactions.select{|st| st.user}.collect{|st| st.user.name}.uniq.join(', ')
   end
 
   def name

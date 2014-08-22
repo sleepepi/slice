@@ -229,7 +229,7 @@ class SheetsController < ApplicationController
   def unlock
     if @project.lockable?
       flash[:notice] = 'Sheet was successfully unlocked.'
-      @sheet.update locked: false, last_user_id: current_user.id, last_edited_at: Time.now
+      SheetTransaction.save_sheet!(@sheet, { locked: false, last_user_id: current_user.id, last_edited_at: Time.now }, { }, current_user, request.remote_ip, 'sheet_update')
     end
     respond_to do |format|
       format.html { redirect_to [@sheet.project, @sheet] }
