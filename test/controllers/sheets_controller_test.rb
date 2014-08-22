@@ -597,7 +597,7 @@ class SheetsControllerTest < ActionController::TestCase
     get :survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: '123'
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_equal "Survey has already been submitted.", flash[:alert]
+    assert_equal "Survey has been locked.", flash[:alert]
     assert_redirected_to new_user_session_path
   end
 
@@ -612,7 +612,7 @@ class SheetsControllerTest < ActionController::TestCase
     post :submit_survey, id: sheets(:external), project_id: sheets(:external).project, sheet_authentication_token: '123'
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_equal "Survey has already been submitted.", flash[:alert]
+    assert_equal "Survey has been locked.", flash[:alert]
     assert_redirected_to new_user_session_path
   end
 
