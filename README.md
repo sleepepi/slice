@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/remomueller/slice.svg?branch=master)](https://travis-ci.org/remomueller/slice)
 [![Dependency Status](https://gemnasium.com/remomueller/slice.svg)](https://gemnasium.com/remomueller/slice)
-[![Code Climate](https://codeclimate.com/github/remomueller/slice.png)](https://codeclimate.com/github/remomueller/slice)
+[![Code Climate](https://codeclimate.com/github/remomueller/slice/badges/gpa.svg)](https://codeclimate.com/github/remomueller/slice)
 
 A clinical research interface geared at collecting robust and consistent data by providing a strong framework for designing data dictionaries and collection forms. Slice also provides exports of the data and the data dictionaries created as well as providing a simple reporting interface. Using Rails 4.2+ and Ruby 2.1+.
 
