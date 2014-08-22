@@ -4,11 +4,11 @@ class SheetsController < ApplicationController
 
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print, :file ]
-  before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :new, :create, :update, :destroy, :unlock ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :new, :create, :update, :destroy, :unlock, :file ]
+  before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :transactions, :new, :create, :update, :destroy, :unlock ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
   before_action :set_viewable_sheet, only: [ :show, :print, :file ]
-  before_action :set_editable_sheet, only: [ :edit, :audits, :update, :destroy, :unlock ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :update, :destroy, :unlock, :file ]
+  before_action :set_editable_sheet, only: [ :edit, :audits, :transactions, :update, :destroy, :unlock ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :transactions, :update, :destroy, :unlock, :file ]
   before_action :redirect_with_locked_sheet, only: [ :edit, :update, :destroy ]
 
   # GET /sheets
@@ -87,6 +87,10 @@ class SheetsController < ApplicationController
 
   end
 
+  def transactions
+
+  end
+
   # GET /sheets/new
   def new
     if @project.designs.size == 1
@@ -124,7 +128,7 @@ class SheetsController < ApplicationController
     @project = Project.current.find_by_id(params[:project_id])
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
     if @project and @sheet
-      update_variables!
+      SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_update')
       UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
       redirect_to about_survey_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
     else
@@ -137,8 +141,8 @@ class SheetsController < ApplicationController
     @design = @project.designs.find_by_id(params[:id]) if @project # :id is the design ID!
     if @project and @design and @design.publicly_available?
       @subject = @project.create_valid_subject(params[:email])
-      @sheet = @project.sheets.create( design_id: @design.id, subject_id: @subject.id, user_id: @project.user_id, last_user_id: @project.user_id, authentication_token: Digest::SHA1.hexdigest(Time.now.usec.to_s) )
-      update_variables!
+      @sheet = @project.sheets.new({ project_id: @project.id, design_id: @design.id, subject_id: @subject.id, authentication_token: Digest::SHA1.hexdigest(Time.now.usec.to_s) })
+      SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
       UserMailer.survey_completed(@sheet).deliver if Rails.env.production?
       UserMailer.survey_user_link(@sheet).deliver if Rails.env.production? and not @subject.email.blank?
       if @design.redirect_url.blank?
@@ -172,8 +176,7 @@ class SheetsController < ApplicationController
     @sheet = current_user.sheets.new(sheet_params)
 
     respond_to do |format|
-      if @sheet.save
-        update_variables!
+      if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_create')
         url = if params[:continue].to_s == '1'
           new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id })
         elsif @sheet.event and @sheet.subject_schedule
@@ -195,9 +198,12 @@ class SheetsController < ApplicationController
   # PUT /sheets/1.json
   def update
     respond_to do |format|
-      if @sheet.update(sheet_params)
-        update_variables!
-        url = (params[:continue].to_s == '1' ? new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id }) : [@sheet.project, @sheet])
+      if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_update')
+        url = if params[:continue].to_s == '1'
+          new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id })
+        else
+          [@sheet.project, @sheet]
+        end
 
         format.html { redirect_to url, notice: 'Sheet was successfully updated.' }
         format.json { head :no_content }
@@ -298,23 +304,8 @@ class SheetsController < ApplicationController
       render text: "window.location.href = '#{project_export_path(export.project, export)}';"
     end
 
-    def update_variables!
-      variables_params = (params[:variables].blank? ? {} : params.require(:variables).permit!)
-
-      variables_params.each_pair do |variable_id, response|
-        creator = (current_user ? current_user : @sheet.user)
-
-        sv = @sheet.sheet_variables.where( variable_id: variable_id ).first_or_create( user_id: creator.id )
-        case sv.variable.variable_type when 'grid'
-          sv.update_grid_responses!(response, creator)
-        when 'checkbox'
-          response = [] if response.blank?
-          sv.update_responses!(response, creator, sv.sheet) # Response should be an array
-        else
-          sv.update_attributes sv.format_response(sv.variable.variable_type, response)
-        end
-      end
-      @sheet.update_response_count!
+    def variables_params
+      (params[:variables].blank? ? {} : params.require(:variables).permit!)
     end
 
 end

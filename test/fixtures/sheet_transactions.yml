@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  transaction_type: MyString
+  sheet_id: 1
+  user_id: 1
+  remote_ip: MyString
+  created_at: 2014-08-22 10:30:50
+
+two:
+  transaction_type: MyString
+  sheet_id: 1
+  user_id: 1
+  remote_ip: MyString
+  created_at: 2014-08-22 10:30:50

@@ -50,8 +50,8 @@ class UserMailer < ActionMailer::Base
 
   def survey_completed(sheet)
     @sheet = sheet
-    @email_to = sheet.user.email
-    mail(to: "#{sheet.user.name} <#{sheet.user.email}>",
+    @email_to = sheet.project.user.email
+    mail(to: "#{sheet.project.user.name} <#{sheet.project.user.email}>",
          subject: "#{sheet.subject.subject_code} Submitted #{sheet.design.name}")
   end
 

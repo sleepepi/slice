@@ -3,7 +3,7 @@ require 'valuables'
 module Valuable
   extend ActiveSupport::Concern
 
-  include Valuables
+  include Valuables, DateAndTimeParser
 
   included do
     # Named Scopes
@@ -25,7 +25,7 @@ module Valuable
     old_response_ids = self.responses.collect{|r| r.id} # Could use pluck, but pluck has issues with scopes and unsaved objects
     new_responses = []
     values.select{|v| not v.blank?}.each do |value|
-      new_responses << Response.where(class_foreign_key => self.id, sheet_id: sheet.id, variable_id: self.variable_id, value: value).first_or_create( user_id: current_user.id )
+      new_responses << Response.where(class_foreign_key => self.id, sheet_id: sheet.id, variable_id: self.variable_id, value: value).first_or_create( user_id: (current_user ? current_user.id : nil) )
     end
     self.responses = new_responses
     Response.where(id: old_response_ids, class_foreign_key => nil).destroy_all
@@ -33,6 +33,20 @@ module Valuable
 
   def get_response(raw_format = :raw)
     Valuables.for(self).send(raw_format)
+  end
+
+  # Returns response as a hash that can sent to update_attributes
+  def format_response(variable_type, response)
+    case variable_type when 'file'
+      response = {} if response.blank?
+    when 'date'
+      response = { response: parse_date(response, response) }
+    when 'time'
+      response = { response: parse_time(response) } # Currently things that aren't parsed are stored as blank.
+    else
+      response = { response: response }
+    end
+    response
   end
 
 end

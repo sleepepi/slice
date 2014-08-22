@@ -1,10 +1,4 @@
-# require 'audited'
-# require 'audited/adapters/active_record'
-
 class Sheet < ActiveRecord::Base
-
-  # audited
-  # has_associated_audits
 
   # Concerns
   include Deletable, Latexable
@@ -60,7 +54,7 @@ class Sheet < ActiveRecord::Base
   scope :order_by_user_name_desc, -> { joins("LEFT JOIN users ON users.id = sheets.user_id").order('users.last_name DESC, users.first_name DESC') }
 
   # Model Validation
-  validates_presence_of :design_id, :project_id, :subject_id, :user_id, :last_user_id
+  validates_presence_of :design_id, :project_id, :subject_id
   validates_uniqueness_of :authentication_token, allow_nil: true
   validates_uniqueness_of :event_id, allow_nil: true, scope: [ :subject_schedule_id, :design_id, :deleted ]
   validates_uniqueness_of :subject_schedule_id, allow_nil: true, scope: [ :event_id, :design_id, :deleted ]
@@ -80,6 +74,8 @@ class Sheet < ActiveRecord::Base
   has_many :variables, -> { where deleted: false }, through: :sheet_variables
   has_many :sheet_emails, -> { where deleted: false }
   has_many :comments, -> { where( deleted: false ).order( 'created_at desc' ) }
+  has_many :sheet_transactions
+  has_many :sheet_transaction_audits
 
   # Model Methods
   def self.last_entry

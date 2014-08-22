@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sheet_transaction: one
+  user_id: 1
+  sheet_id: 1
+  sheet_variable_id: 1
+  grid_id: 1
+  sheet_attribute_name: MyString
+  value_before: MyText
+  label_before: MyText
+  value_after: MyText
+  label_after: MyText
+  value_for_file: false
+  created_at: 2014-08-22 10:41:04
+
+two:
+  sheet_transaction: one
+  user_id: 1
+  sheet_id: 1
+  sheet_variable_id: 1
+  grid_id: 1
+  sheet_attribute_name: MyString
+  value_before: MyText
+  label_before: MyText
+  value_after: MyText
+  label_after: MyText
+  value_for_file: false
+  created_at: 2014-08-22 10:41:04

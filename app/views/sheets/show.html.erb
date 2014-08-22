@@ -67,6 +67,7 @@
         <% else %>
           <%= link_to_if (@sheet.audits.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.last_edited_at), audits_project_sheet_path(@sheet.project, @sheet) %><% if @sheet.last_user %> by <%= link_to @sheet.last_user.name, @sheet.last_user %><% end %>
         <% end %>
+        <%= link_to 'Transactions', transactions_project_sheet_path(@sheet.project, @sheet) %>
       </td>
     </tr>
   </tbody>

@@ -1,0 +1,66 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Transaction ID</th>
+      <th>Transaction Number</th>
+      <th>Created At</th>
+      <th>Type</th>
+      <th>Sheet ID</th>
+      <th>User ID</th>
+      <th>Remote IP</th>
+    </tr>
+  </thead>
+  <% @sheet.sheet_transactions.each_with_index do |t,index| %>
+    <tbody>
+      <tr>
+        <td><%= t.id %></td>
+        <td>#<%= index + 1 %></td>
+        <td><%= t.created_at %></td>
+        <td><%= t.transaction_type %></td>
+        <td><%= t.sheet_id %></td>
+        <td><%= t.user_id %></td>
+        <td><%= t.remote_ip %></td>
+      </tr>
+      <tr><td colspan="7">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>transaction_id</th>
+              <th>Transaction Number</th>
+              <th>user_id</th>
+              <th>sheet_id</th>
+              <th>sheet_variable_id</th>
+              <th>grid_id</th>
+              <th>attribute_name</th>
+              <th>value_before</th>
+              <th>value_after</th>
+              <th>label_before</th>
+              <th>label_after</th>
+              <th>value_for_file</th>
+              <th>created_at</th>
+            </tr>
+          </thead>
+          <% t.sheet_transaction_audits.each do |a| %>
+
+            <tr>
+              <td><%= a.sheet_transaction_id %></td>
+              <td>#<%= index + 1 %></td>
+              <td><%= a.user_id %></td>
+              <td><%= a.sheet_id %></td>
+              <td><%= a.sheet_variable_id %></td>
+              <td><%= a.grid_id %></td>
+              <td><%= a.sheet_attribute_name %></td>
+              <td class="<%= 'text-muted' unless a.value_before %>"><%= a.value_before == nil ? 'nil' : a.value_before %></td>
+
+              <td class="<%= 'text-muted' unless a.value_after %>"><%= a.value_after == nil ? 'nil' : a.value_after %></td>
+              <td><%= a.label_before %></td>
+              <td><%= a.label_after %></td>
+              <td><%= a.value_for_file %></td>
+              <td style="white-space:nowrap"><%= a.created_at %></td>
+            </tr>
+          <% end %>
+        </table>
+      </td></tr>
+    </tbody>
+  <% end %>
+</table>

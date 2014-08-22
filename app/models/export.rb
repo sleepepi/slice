@@ -150,7 +150,7 @@ class Export < ActiveRecord::Base
                   sheet.subject.name,
                   sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
                   sheet.subject.status,
-                  sheet.user.name,
+                  sheet.user ? sheet.user.name : nil,
                   sheet.subject_schedule ? sheet.subject_schedule.name : nil,
                   sheet.event ? sheet.event.name : nil ]
           column_ids.each do |column_id|
@@ -225,7 +225,7 @@ class Export < ActiveRecord::Base
                     sheet.subject.name,
                     sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
                     sheet.subject.status,
-                    sheet.user.name,
+                    sheet.user ? sheet.user.name : nil,
                     sheet.subject_schedule ? sheet.subject_schedule.name : nil,
                     sheet.event ? sheet.event.name : nil ]
 

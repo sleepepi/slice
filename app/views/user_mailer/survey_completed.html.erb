@@ -1,6 +1,6 @@
 <%= render partial: 'email_header' %>
 
-<b>Dear <%= @sheet.user.first_name %>,</b><br />
+<b>Dear <%= @sheet.project.user.first_name %>,</b><br />
 <br />
 <%= @sheet.subject.subject_code %> <span style="padding:5px;background-color:#428bca;color:white">completed</span> a survey that you requested for <b><%= @sheet.name %></b>.<br />
 <br />

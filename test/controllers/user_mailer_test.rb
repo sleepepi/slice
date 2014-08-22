@@ -68,7 +68,7 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.survey_completed(sheet).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
-    assert_equal [sheet.user.email], email.to
+    assert_equal [sheet.project.user.email], email.to
     assert_equal "#{sheet.subject.subject_code} Submitted #{sheet.design.name}", email.subject
     assert_match(/#{sheet.subject.subject_code} completed a survey that you requested for #{sheet.name}\. You can view the completed sheet here:/, email.encoded)
   end

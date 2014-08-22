@@ -617,6 +617,13 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show sheet transactions" do
+    get :transactions, id: @sheet, project_id: @project
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should not show invalid sheet" do
     get :show, id: -1, project_id: @project
     assert_nil assigns(:sheet)
@@ -640,6 +647,20 @@ class SheetsControllerTest < ActionController::TestCase
 
   test "should not show audits for invalid project" do
     get :audits, id: @sheet, project_id: -1
+    assert_nil assigns(:project)
+    assert_nil assigns(:sheet)
+    assert_redirected_to root_path
+  end
+
+  test "should not show transactions for invalid sheet" do
+    get :transactions, id: -1, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:sheet)
+    assert_redirected_to project_sheets_path(@project)
+  end
+
+  test "should not show transactions for invalid project" do
+    get :transactions, id: @sheet, project_id: -1
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path

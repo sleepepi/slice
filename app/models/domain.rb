@@ -80,7 +80,7 @@ class Domain < ActiveRecord::Base
     result
   end
 
-  # All of these changes are rolled back if the sheet is not saved successfully
+  # All of these changes are rolled back if the domain is not saved successfully
   # Wrapped in single transaction
   def option_tokens=(tokens)
     unless self.new_record?
