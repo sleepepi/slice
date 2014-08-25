@@ -465,25 +465,28 @@ class Design < ActiveRecord::Base
     self.update( total_rows: counter )
   end
 
-  def create_sheets!(default_site, default_status, current_user)
+  def create_sheets!(default_site, default_status, current_user, remote_ip)
     if self.csv_file.path and default_site
       self.update( import_started_at: Time.now )
       self.set_total_rows
       counter = 0
       CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ) do |line|
         row = line.to_hash.with_indifferent_access
+
         subject = Subject.first_or_create_with_defaults(self.project, row['Subject'], row['Acrostic'].to_s, current_user, default_site, default_status)
         if subject
-          sheet = self.sheets.where( subject_id: subject.id ).first_or_create( project_id: self.project_id, user_id: current_user.id, last_user_id: current_user.id )
+          sheet = self.sheets.where( subject_id: subject.id ).first_or_initialize( project_id: self.project_id, user_id: current_user.id, last_user_id: current_user.id )
+          transaction_type = (sheet.new_record? ? 'sheet_create' : 'sheet_update')
+          variables_params = {}
           self.load_variables.each do |hash|
             variable = self.project.variables.find_by_name(hash[:name])
             if variable and Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)
-              value = row[hash[:column_name]].to_s
-              sv = sheet.sheet_variables.where( variable_id: variable.id ).first_or_create( user_id: current_user.id )
-              sv.update( sv.format_response(variable.variable_type, value) )
+              variables_params[variable.id.to_s] = row[hash[:column_name]].to_s
             end
           end
+          SheetTransaction.save_sheet!(sheet, {}, variables_params, current_user, remote_ip, transaction_type)
         end
+
         counter += 1
         self.update( rows_imported: counter ) if counter % 25 == 0 or counter == self.total_rows
       end

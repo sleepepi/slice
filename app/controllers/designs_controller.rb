@@ -352,7 +352,7 @@ class DesignsController < ApplicationController
     end
 
     def generate_import
-      rake_task = "#{RAKE_PATH} design_import DESIGN_ID=#{@design.id} SITE_ID=#{params[:site_id].to_i} SUBJECT_STATUS=#{Subject::STATUS.flatten.include?(params[:subject_status].to_s) ? params[:subject_status].to_s : 'pending' } CURRENT_USER_ID=#{current_user.id} &"
+      rake_task = "#{RAKE_PATH} design_import DESIGN_ID=#{@design.id} SITE_ID=#{params[:site_id].to_i} SUBJECT_STATUS=#{Subject::STATUS.flatten.include?(params[:subject_status].to_s) ? params[:subject_status].to_s : 'pending' } CURRENT_USER_ID=#{current_user.id} REMOTE_IP=#{request.remote_ip} &"
       systemu rake_task unless Rails.env.test?
     end
 end
