@@ -1,62 +1,81 @@
-<table class="table">
+<% @title = "#{@sheet.name} Transactions" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %> &middot; <%= link_to 'Sheets', project_sheets_path(@project) %> &middot; <%= link_to @sheet.name, [@sheet.project, @sheet] %> &middot; Transactions
+  </h1>
+</div>
+
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Transaction ID</th>
       <th>Transaction Number</th>
-      <th>Created At</th>
+      <th>User</th>
       <th>Type</th>
-      <th>Sheet ID</th>
-      <th>User ID</th>
-      <th>Remote IP</th>
+      <th>Created At</th>
     </tr>
   </thead>
   <% @sheet.sheet_transactions.each_with_index do |t,index| %>
     <tbody>
       <tr>
-        <td><%= t.id %></td>
         <td>#<%= index + 1 %></td>
-        <td><%= t.created_at %></td>
+        <% if t.user %>
+          <td>
+          <%= image_tag t.user.avatar_url(16, "identicon"), size: '16x16', alt: '', style: 'vertical-align: middle', class: 'img-rounded' %>
+          <%= t.user.name %>
+          &middot; <%= t.remote_ip %>
+          </td>
+        <% else %>
+          <td class="text-muted">
+            Anonymous &middot; <%= t.remote_ip %>
+          </td>
+        <% end %>
         <td><%= t.transaction_type %></td>
-        <td><%= t.sheet_id %></td>
-        <td><%= t.user_id %></td>
-        <td><%= t.remote_ip %></td>
+        <td><%= t.created_at.strftime("%b %d, %Y at %l:%M %p") %></td>
       </tr>
-      <tr><td colspan="7">
+      <tr><td colspan="4">
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>transaction_id</th>
-              <th>Transaction Number</th>
-              <th>user_id</th>
-              <th>sheet_id</th>
-              <th>sheet_variable_id</th>
-              <th>grid_id</th>
-              <th>attribute_name</th>
-              <th>value_before</th>
-              <th>value_after</th>
-              <th>label_before</th>
-              <th>label_after</th>
-              <th>value_for_file</th>
-              <th>created_at</th>
+              <th>Attribute</th>
+              <th>Value Before</th>
+              <th>Value After</th>
             </tr>
           </thead>
           <% t.sheet_transaction_audits.each do |a| %>
 
             <tr>
-              <td><%= a.sheet_transaction_id %></td>
-              <td>#<%= index + 1 %></td>
-              <td><%= a.user_id %></td>
-              <td><%= a.sheet_id %></td>
-              <td><%= a.sheet_variable_id %></td>
-              <td><%= a.grid_id %></td>
-              <td><%= a.sheet_attribute_name %></td>
-              <td class="<%= 'text-muted' unless a.value_before %>"><%= a.value_before == nil ? 'nil' : a.value_before %></td>
-
-              <td class="<%= 'text-muted' unless a.value_after %>"><%= a.value_after == nil ? 'nil' : a.value_after %></td>
-              <td><%= a.label_before %></td>
+              <td style="white-space:nowrap">
+                <%= a.sheet_attribute_name %>
+                <% if a.sheet_variable %>
+                  <%= link_to a.sheet_variable.variable.name, [a.sheet_variable.variable.project, a.sheet_variable.variable] %>
+                <% end %>
+                <% if a.grid %>
+                  Row #<%= a.grid.position+1 %>
+                  <%= link_to a.grid.variable.name, [a.grid.variable.project, a.grid.variable] %>
+                <% end %>
+              </td>
+              <td class="<%= 'text-muted' unless a.value_before %>">
+                <% if a.value_before == nil %>
+                  nil
+                <% else %>
+                  <% mask = find_diff(a.value_before, a.value_after) %>
+                  <span style="padding: 0px;background-color:#FAA;"><% a.value_before.to_s.split('').each_with_index do |character, index| %><%= '<span class="highlight-subtract">'.html_safe if mask[index] %><%= character %><%= '</span>'.html_safe if mask[index] %><% end %></span>
+                  <%= link_to '<span class="glyphicon glyphicon-info-sign"></span>'.html_safe, '#', rel: 'tooltip', title: a.label_before, data: { object: 'suppress-click', placement: 'right', container: 'body' } if not a.label_before.blank? and a.label_before != a.value_before %>
+                <% end %>
+              </td>
+              <td class="<%= 'text-muted' unless a.value_after %>">
+                <% if a.value_after == nil %>
+                  nil
+                <% else %>
+                  <% mask = find_diff(a.value_after, a.value_before) %>
+                  <span style="padding: 0px;background-color:#AFA;"><% a.value_after.to_s.split('').each_with_index do |character, index| %><%= '<span class="highlight-add">'.html_safe if mask[index] %><%= character %><%= '</span>'.html_safe if mask[index] %><% end %></span>
+                  <%= link_to '<span class="glyphicon glyphicon-info-sign"></span>'.html_safe, '#', rel: 'tooltip', title: a.label_after, data: { object: 'suppress-click', placement: 'right', container: 'body' } if not a.label_after.blank? and a.label_after != a.value_after %>
+                <% end %>
+              </td>
+              <% if false %>
+              <td><%=  %></td>
               <td><%= a.label_after %></td>
-              <td><%= a.value_for_file %></td>
-              <td style="white-space:nowrap"><%= a.created_at %></td>
+              <% end %>
             </tr>
           <% end %>
         </table>

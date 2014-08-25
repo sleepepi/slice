@@ -16,7 +16,9 @@ class SheetTransaction < ActiveRecord::Base
       sheet.update(sheet_params)
     end
 
-    original_attributes = sheet.previous_changes.collect{|k,v| [k,v[0]]}
+    ignore_attributes = %w(created_at updated_at authentication_token)
+
+    original_attributes = sheet.previous_changes.collect{|k,v| [k,v[0]]}.reject{|k,v| ignore_attributes.include?(k.to_s)}
 
     if sheet_save_result
       sheet_transaction = self.create( transaction_type: transaction_type, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip )
@@ -87,7 +89,6 @@ class SheetTransaction < ActiveRecord::Base
   def update_response_with_transaction(object, response, current_user)
     sheet_variable_id = nil
     grid_id = nil
-    attribute_name = nil
 
     value_before = object.get_response(:raw).to_s
     label_before = object.get_response(:name).to_s
@@ -104,14 +105,13 @@ class SheetTransaction < ActiveRecord::Base
     value_for_file = (object.variable.variable_type == 'file')
     if object.class == SheetVariable
       sheet_variable_id = object.id
-      attribute_name = object.variable.name
     elsif object.class == Grid
       grid_id = object.id
-      attribute_name = "#{object.sheet_variable.variable.name} - #{object.variable.name}"
+      sheet_variable_id = object.sheet_variable.id
     end
 
     if value_before != value_after
-      self.sheet_transaction_audits.create( sheet_attribute_name: attribute_name, value_before: value_before, value_after: value_after, label_before: label_before, label_after: label_after, value_for_file: value_for_file, sheet_id: self.sheet_id, user_id: self.user_id, sheet_variable_id: sheet_variable_id, grid_id: grid_id )
+      self.sheet_transaction_audits.create( value_before: value_before, value_after: value_after, label_before: label_before, label_after: label_after, value_for_file: value_for_file, sheet_id: self.sheet_id, user_id: self.user_id, sheet_variable_id: sheet_variable_id, grid_id: grid_id )
     end
 
   end
