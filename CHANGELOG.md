@@ -9,6 +9,9 @@
   - Updated to rails 4.2.0.beta1
   - Updated to contour 2.6.0.beta4
 
+### Bug Fixes
+- Fixed a display issue on the dashboard caused by projects with long names
+
 ## 0.25.1 (August 1, 2014)
 
 ### Bug Fix

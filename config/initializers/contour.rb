@@ -38,7 +38,7 @@ Contour.setup do |config|
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
     {
-      name: 'current_user.all_favorite_projects.first.name', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects.first)', position: 'left',
+      name: 'current_user.all_favorite_projects.first.name.truncate(20)', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects.first)', position: 'left',
       condition: 'current_user.all_favorite_projects.first',
       links: [{ header: 'Sheets' },
               { name: 'Create Sheet', path: 'new_project_sheet_path(current_user.all_favorite_projects.first)', condition: 'current_user.all_projects.pluck(:id).include?(current_user.all_favorite_projects.first.id)' },
@@ -60,7 +60,7 @@ Contour.setup do |config|
               { name: 'Activity', path: 'activity_project_path(current_user.all_favorite_projects.first)' }]
     },
     {
-      name: 'current_user.all_favorite_projects[1].name', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects[1])', position: 'left',
+      name: 'current_user.all_favorite_projects[1].name.truncate(20)', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects[1])', position: 'left',
       condition: 'current_user.all_favorite_projects[1]',
       links: [{ header: 'Sheets' },
               { name: 'Create Sheet', path: 'new_project_sheet_path(current_user.all_favorite_projects[1])', condition: 'current_user.all_projects.pluck(:id).include?(current_user.all_favorite_projects[1].id)' },
@@ -82,7 +82,7 @@ Contour.setup do |config|
               { name: 'Activity', path: 'activity_project_path(current_user.all_favorite_projects[1])' }]
     },
     {
-      name: 'current_user.all_favorite_projects[2].name', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects[2])', position: 'left',
+      name: 'current_user.all_favorite_projects[2].name.truncate(20)', eval: true, display: 'signed_in', path: 'project_path(current_user.all_favorite_projects[2])', position: 'left',
       condition: 'current_user.all_favorite_projects[2]',
       links: [{ header: 'Sheets' },
               { name: 'Create Sheet', path: 'new_project_sheet_path(current_user.all_favorite_projects[2])', condition: 'current_user.all_projects.pluck(:id).include?(current_user.all_favorite_projects[2].id)' },
