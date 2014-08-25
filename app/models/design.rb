@@ -472,7 +472,6 @@ class Design < ActiveRecord::Base
       counter = 0
       CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ) do |line|
         row = line.to_hash.with_indifferent_access
-
         subject = Subject.first_or_create_with_defaults(self.project, row['Subject'], row['Acrostic'].to_s, current_user, default_site, default_status)
         if subject
           sheet = self.sheets.where( subject_id: subject.id ).first_or_initialize( project_id: self.project_id, user_id: current_user.id, last_user_id: current_user.id )
@@ -486,7 +485,6 @@ class Design < ActiveRecord::Base
           end
           SheetTransaction.save_sheet!(sheet, {}, variables_params, current_user, remote_ip, transaction_type)
         end
-
         counter += 1
         self.update( rows_imported: counter ) if counter % 25 == 0 or counter == self.total_rows
       end
