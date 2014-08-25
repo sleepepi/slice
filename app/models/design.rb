@@ -465,21 +465,21 @@ class Design < ActiveRecord::Base
     self.update( total_rows: counter )
   end
 
-  def create_sheets!(default_site, default_status)
+  def create_sheets!(default_site, default_status, current_user)
     if self.csv_file.path and default_site
       self.update( import_started_at: Time.now )
       self.set_total_rows
       counter = 0
       CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ) do |line|
         row = line.to_hash.with_indifferent_access
-        subject = Subject.first_or_create_with_defaults(self.project, row['Subject'], row['Acrostic'].to_s, self.user, default_site, default_status)
+        subject = Subject.first_or_create_with_defaults(self.project, row['Subject'], row['Acrostic'].to_s, current_user, default_site, default_status)
         if subject
-          sheet = self.sheets.where( subject_id: subject.id ).first_or_create( project_id: self.project_id, user_id: self.user_id, last_user_id: self.user_id )
+          sheet = self.sheets.where( subject_id: subject.id ).first_or_create( project_id: self.project_id, user_id: current_user.id, last_user_id: current_user.id )
           self.load_variables.each do |hash|
             variable = self.project.variables.find_by_name(hash[:name])
             if variable and Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)
               value = row[hash[:column_name]].to_s
-              sv = sheet.sheet_variables.where( variable_id: variable.id ).first_or_create( user_id: self.user_id )
+              sv = sheet.sheet_variables.where( variable_id: variable.id ).first_or_create( user_id: current_user.id )
               sv.update( sv.format_response(variable.variable_type, value) )
             end
           end
@@ -490,11 +490,11 @@ class Design < ActiveRecord::Base
     end
 
     self.update( import_ended_at: Time.now )
-    self.notify_user!
+    self.notify_user!(current_user)
   end
 
-  def notify_user!
-    UserMailer.import_complete(self).deliver if Rails.env.production?
+  def notify_user!(current_user)
+    UserMailer.import_complete(self, current_user).deliver if Rails.env.production?
   end
 
   def read_only_variable_names

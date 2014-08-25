@@ -3,6 +3,7 @@ require 'test_helper'
 class DesignTest < ActiveSupport::TestCase
 
   test "sheet creation from import" do
+    valid = User.find_by_email('valid@example.com')
     design = Design.create(
               name: 'Design Import from File',
               project_id: projects(:one).id,
@@ -18,7 +19,7 @@ class DesignTest < ActiveSupport::TestCase
                               } )
     assert_equal 5, design.options.size
     assert_difference('Sheet.count', 20) do
-      design.create_sheets!(projects(:one).sites.first, 'pending')
+      design.create_sheets!(projects(:one).sites.first, 'pending', valid)
     end
 
     assert_equal 2, design.sheets.with_subject_status('valid').count

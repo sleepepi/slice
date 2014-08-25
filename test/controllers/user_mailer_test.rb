@@ -97,11 +97,12 @@ class UserMailerTest < ActionMailer::TestCase
 
   test "import complete email" do
     design = designs(:one)
+    valid = users(:valid)
 
-    email = UserMailer.import_complete(design).deliver
+    email = UserMailer.import_complete(design, valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
-    assert_equal [design.user.email], email.to
+    assert_equal [valid.email], email.to
     assert_equal "Your Design Data Import for #{design.project.name} is Complete", email.subject
     assert_match(/The design data import for #{design.project.name} is now complete\./, email.encoded)
   end
