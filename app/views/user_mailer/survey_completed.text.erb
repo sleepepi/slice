@@ -3,7 +3,7 @@ Hello <%= @sheet.project.user.name %>,
 <%= @sheet.subject.subject_code %> completed a survey that you requested for <%= @sheet.name %>. You can view the completed sheet here:
 
 
-  <%= SITE_URL + project_sheet_path(@sheet.project, @sheet) %>
+  <%= SITE_URL + project_sheet_url(@sheet.project, @sheet, only_path: true) %>
 
 
 Thank you!

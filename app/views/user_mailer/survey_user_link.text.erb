@@ -3,7 +3,7 @@ Thank you for submitting <%= @sheet.name %>.
 You can make changes to your survey responses here:
 
 
-    <%= SITE_URL + survey_project_sheet_path(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token) %>
+    <%= SITE_URL + survey_project_sheet_url(@sheet.project, @sheet, sheet_authentication_token: @sheet.authentication_token, only_path: true) %>
 
 
 Thank you!

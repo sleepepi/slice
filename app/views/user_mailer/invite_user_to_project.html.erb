@@ -5,7 +5,7 @@
 Click the following link to accept the invitation:<br />
 <br />
 <center>
-  <%= link_to 'Accept Invitation', SITE_URL + accept_project_users_path(invite_token: @project_user.invite_token), style: "color: #428bca" %>
+  <%= link_to 'Accept Invitation', SITE_URL + accept_project_users_url(invite_token: @project_user.invite_token, only_path: true), style: "color: #428bca" %>
 </center><br />
 
 <%= render partial: 'email_footer' %>

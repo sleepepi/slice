@@ -5,7 +5,7 @@ The design data import for <%= @design.project.name %> is now complete.
 Click the following link to see newly imported data:
 
 
-    <%= SITE_URL + project_sheets_path(@design.project, design_id: @design.id) %>
+    <%= SITE_URL + project_sheets_url(@design.project, design_id: @design.id, only_path: true) %>
 
 
 Thank you!
