@@ -98,7 +98,8 @@ class DomainsController < ApplicationController
     def domain_params
       params[:domain] ||= {}
 
-      params[:domain][:user_id] = current_user.id unless @domain
+      # Always update user_id to correctly track sheet transactions
+      params[:domain][:user_id] = current_user.id # unless @domain
 
       params.require(:domain).permit(
         :name, :display_name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] }

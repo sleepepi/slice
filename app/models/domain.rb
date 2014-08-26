@@ -98,14 +98,16 @@ class Domain < ActiveRecord::Base
         [old_value, intermediate_value, new_value]
       end
 
+      sheet_transaction_ids = []
+
       # Reset any sheets that specified an option that has been removed
-      removable_values.each{ |value| self.update_response_values(value, nil) }
+      sheet_transaction_ids = removable_values.collect{ |value| self.update_response_values(value, nil, sheet_transaction_ids) }.flatten.uniq
 
       # Update all existing sheets to intermediate value for values that already existed and have changed
-      changed_values.each{ |old_value, intermediate_value, new_value| self.update_response_values(old_value, intermediate_value) }
+      sheet_transaction_ids = changed_values.collect{ |old_value, intermediate_value, new_value| self.update_response_values(old_value, intermediate_value, sheet_transaction_ids) }.flatten.uniq
 
       # Update all existing sheets to new value
-      changed_values.each{ |old_value, intermediate_value, new_value| self.update_response_values(intermediate_value, new_value) }
+      sheet_transaction_ids = changed_values.collect{ |old_value, intermediate_value, new_value| self.update_response_values(intermediate_value, new_value, sheet_transaction_ids) }.flatten.uniq
     end
 
     self.options = []
@@ -118,9 +120,18 @@ class Domain < ActiveRecord::Base
     end
   end
 
-  def update_response_values(database_value, new_value)
-    self.sheet_variables.where(response: database_value).each{|o| o.update response: new_value }
-    self.grids.where(response: database_value).each{|o| o.update response: new_value }
+  def update_response_values(database_value, new_value, sheet_transaction_ids)
+    sheet_transactions = SheetTransaction.where( id: sheet_transaction_ids )
+    svs = self.sheet_variables.where(response: database_value)
+    gds = self.grids.where(response: database_value)
+
+    sheet_transaction_ids = (svs + gds).collect do |o|
+      sheet_transaction = sheet_transactions.where( sheet_id: o.sheet_id ).first_or_create( transaction_type: 'domain_update', user_id: self.user.id, remote_ip: self.user.current_sign_in_ip )
+      sheet_transaction.update_response_with_transaction(o, new_value, self.user)
+      sheet_transaction.id
+    end
+
+    sheet_transaction_ids
   end
 
   # Returns true if all options are integers

@@ -54,7 +54,7 @@
                   <%= link_to a.grid.variable.name, [a.grid.variable.project, a.grid.variable] %>
                 <% end %>
               </td>
-              <td class="<%= 'text-muted' unless a.value_before %>">
+              <td class="<%= 'text-muted' if a.value_before == nil %>">
                 <% if a.value_before == nil %>
                   nil
                 <% else %>
@@ -63,7 +63,7 @@
                   <%= link_to '<span class="glyphicon glyphicon-info-sign"></span>'.html_safe, '#', rel: 'tooltip', title: a.label_before, data: { object: 'suppress-click', placement: 'right', container: 'body' } if not a.label_before.blank? and a.label_before != a.value_before %>
                 <% end %>
               </td>
-              <td class="<%= 'text-muted' unless a.value_after %>">
+              <td class="<%= 'text-muted' if a.value_after == nil %>">
                 <% if a.value_after == nil %>
                   nil
                 <% else %>
@@ -72,10 +72,6 @@
                   <%= link_to '<span class="glyphicon glyphicon-info-sign"></span>'.html_safe, '#', rel: 'tooltip', title: a.label_after, data: { object: 'suppress-click', placement: 'right', container: 'body' } if not a.label_after.blank? and a.label_after != a.value_after %>
                 <% end %>
               </td>
-              <% if false %>
-              <td><%=  %></td>
-              <td><%= a.label_after %></td>
-              <% end %>
             </tr>
           <% end %>
         </table>

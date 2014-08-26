@@ -11,4 +11,8 @@ class Grid < ActiveRecord::Base
   belongs_to :sheet_variable, touch: true
   belongs_to :user
 
+  def sheet_id
+    self.sheet_variable.sheet_id
+  end
+
 end
