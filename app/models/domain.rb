@@ -87,35 +87,25 @@ class Domain < ActiveRecord::Base
       original_options = self.options
       existing_options = tokens.reject{|hash| ['new', nil].include?(hash[:option_index]) }
 
-      # Reset any sheets that specified an option that has been removed
-      original_options.each_with_index do |hash, index|
-        unless existing_options.collect{|hash| hash[:option_index].to_i}.include?(index)
-          self.sheet_variables.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
-          self.grids.where(response: hash.symbolize_keys[:value]).each{|o| o.update_attributes response: nil }
-        end
+      removable_options = original_options.reject.each_with_index{ |hash,index| existing_options.collect{|hash| hash[:option_index].to_i}.include?(index) }
+      removable_values = removable_options.collect{ |hash| hash.symbolize_keys[:value] }
+
+      changed_options = existing_options.reject{ |hash| original_options[hash[:option_index].to_i].symbolize_keys[:value].strip == hash[:value].strip }
+      changed_values = changed_options.collect do |hash|
+        old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
+        new_value = hash[:value].strip
+        intermediate_value = old_value + ":" + new_value
+        [old_value, intermediate_value, new_value]
       end
+
+      # Reset any sheets that specified an option that has been removed
+      removable_values.each{ |value| self.update_response_values(value, nil) }
 
       # Update all existing sheets to intermediate value for values that already existed and have changed
-      existing_options.each do |hash|
-        old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
-        new_value = hash[:value].strip
-        if old_value != new_value
-          intermediate_value = old_value + ":" + new_value
-          self.sheet_variables.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
-          self.grids.where(response: old_value).each{|o| o.update_attributes response: intermediate_value }
-        end
-      end
+      changed_values.each{ |old_value, intermediate_value, new_value| self.update_response_values(old_value, intermediate_value) }
 
       # Update all existing sheets to new value
-      existing_options.each do |hash|
-        old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
-        new_value = hash[:value].strip
-        if old_value != new_value
-          intermediate_value = old_value + ":" + new_value
-          self.sheet_variables.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
-          self.grids.where(response: intermediate_value).each{|o| o.update_attributes response: new_value }
-        end
-      end
+      changed_values.each{ |old_value, intermediate_value, new_value| self.update_response_values(intermediate_value, new_value) }
     end
 
     self.options = []
@@ -126,6 +116,11 @@ class Domain < ActiveRecord::Base
                         missing_code: option_hash[:missing_code].to_s.strip
                       } unless option_hash[:name].strip.blank?
     end
+  end
+
+  def update_response_values(database_value, new_value)
+    self.sheet_variables.where(response: database_value).each{|o| o.update response: new_value }
+    self.grids.where(response: database_value).each{|o| o.update response: new_value }
   end
 
   # Returns true if all options are integers
