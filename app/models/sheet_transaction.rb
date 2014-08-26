@@ -3,6 +3,7 @@ class SheetTransaction < ActiveRecord::Base
   TRANSACTION_TYPE = ["sheet_create", "sheet_update", "public_sheet_create", "public_sheet_update", "domain_update", "sheet_rollback"]
 
   # Model Relationships
+  belongs_to :project
   belongs_to :sheet
   belongs_to :user
   has_many :sheet_transaction_audits
@@ -21,7 +22,7 @@ class SheetTransaction < ActiveRecord::Base
     original_attributes = sheet.previous_changes.collect{|k,v| [k,v[0]]}.reject{|k,v| ignore_attributes.include?(k.to_s)}
 
     if sheet_save_result
-      sheet_transaction = self.create( transaction_type: transaction_type, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip )
+      sheet_transaction = self.create( transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip )
       sheet_transaction.generate_audits!(original_attributes)
       sheet_transaction.update_variables!(variables_params, current_user)
     end
@@ -34,7 +35,7 @@ class SheetTransaction < ActiveRecord::Base
       value_before = (old_value == nil ? nil : old_value.to_s)
       value_after = (self.sheet.send(trackable_attribute) == nil ? nil : self.sheet.send(trackable_attribute).to_s)
       if value_before != value_after
-        self.sheet_transaction_audits.create( sheet_attribute_name: trackable_attribute.to_s, value_before: value_before, value_after: value_after, label_before: nil, label_after: nil, value_for_file: false, sheet_id: self.sheet_id, user_id: self.user_id )
+        self.sheet_transaction_audits.create( sheet_attribute_name: trackable_attribute.to_s, value_before: value_before, value_after: value_after, label_before: nil, label_after: nil, value_for_file: false, project_id: self.project_id, sheet_id: self.sheet_id, user_id: self.user_id )
       end
     end
   end
@@ -111,7 +112,7 @@ class SheetTransaction < ActiveRecord::Base
     end
 
     if value_before != value_after
-      self.sheet_transaction_audits.create( value_before: value_before, value_after: value_after, label_before: label_before, label_after: label_after, value_for_file: value_for_file, sheet_id: self.sheet_id, user_id: self.user_id, sheet_variable_id: sheet_variable_id, grid_id: grid_id )
+      self.sheet_transaction_audits.create( value_before: value_before, value_after: value_after, label_before: label_before, label_after: label_after, value_for_file: value_for_file, project_id: self.project_id, sheet_id: self.sheet_id, user_id: self.user_id, sheet_variable_id: sheet_variable_id, grid_id: grid_id )
     end
 
   end
