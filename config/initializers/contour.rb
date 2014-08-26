@@ -23,7 +23,7 @@ Contour.setup do |config|
       name: 'Sign Up', display: 'not_signed_in', path: 'new_user_registration_path', position: 'right'
     },
     {
-      name: 'image_tag(current_user.avatar_url(18, "blank"))+" "+current_user.name', eval: true, display: 'signed_in', path: 'settings_path', position: 'right',
+      name: 'image_tag(current_user.avatar_url(18, "blank"), size: "18x18", alt: "")+" "+current_user.name', eval: true, display: 'signed_in', path: 'settings_path', position: 'right',
       links: [{ name: "About Slice v#{Slice::VERSION::STRING}", path: 'about_path' },
               { divider: true },
               { header: 'Administrative', condition: 'current_user.system_admin?' },

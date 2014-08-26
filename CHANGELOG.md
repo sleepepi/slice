@@ -11,6 +11,7 @@
 
 ### Bug Fixes
 - Fixed a display issue on the dashboard caused by projects with long names
+- Fixed a graphical issue when gravatar failed to load in the navigation bar
 
 ## 0.25.1 (August 1, 2014)
 
