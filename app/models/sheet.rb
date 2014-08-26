@@ -74,7 +74,7 @@ class Sheet < ActiveRecord::Base
   has_many :variables, -> { where deleted: false }, through: :sheet_variables
   has_many :sheet_emails, -> { where deleted: false }
   has_many :comments, -> { where( deleted: false ).order( 'created_at desc' ) }
-  has_many :sheet_transactions
+  has_many :sheet_transactions, -> { order(id: :desc) }
   has_many :sheet_transaction_audits
 
   # Model Methods
@@ -88,12 +88,8 @@ class Sheet < ActiveRecord::Base
     self.where(id: sheet_ids)
   end
 
-  def audits
-    []
-  end
-
   def all_audits
-    []
+    Audit.where("(auditable_type = ? and auditable_id = ?) or (associated_type = ? and associated_id = ?) or (associated_type = ? and associated_id IN (?))", 'Sheet', self.id, 'Sheet', self.id, 'SheetVariable', self.sheet_variables.pluck(:id)).order(:id)
   end
 
   def audit_show!(current_user)

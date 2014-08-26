@@ -6,7 +6,7 @@ class SheetTransaction < ActiveRecord::Base
   belongs_to :project
   belongs_to :sheet
   belongs_to :user
-  has_many :sheet_transaction_audits
+  has_many :sheet_transaction_audits, -> { order :id }
 
   # Model Methods
 
@@ -17,7 +17,7 @@ class SheetTransaction < ActiveRecord::Base
       sheet.update(sheet_params)
     end
 
-    ignore_attributes = %w(created_at updated_at authentication_token)
+    ignore_attributes = %w(created_at updated_at authentication_token deleted last_viewed_at)
 
     original_attributes = sheet.previous_changes.collect{|k,v| [k,v[0]]}.reject{|k,v| ignore_attributes.include?(k.to_s)}
 

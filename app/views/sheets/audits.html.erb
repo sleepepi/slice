@@ -6,6 +6,12 @@
   </h1>
 </div>
 
+<div class="bs-callout bs-callout-danger">
+  <h4>Deprecation Notice</h4>
+
+  <p>The original audit system was replaced by a more robust <%= link_to 'transaction-based audit system', transactions_project_sheet_path(@sheet.project, @sheet) %>. These audits are only here for historical purposes and will be removed in a future update.</p>
+</div>
+
 <div class="pull-right">
   <%= render partial: 'layouts/checkbox_button_group', locals: { name: 'audit-row', options: ['create', 'update', 'view', 'destroy'].collect{|i| [i,i]}, selected: ['create', 'update', 'view', 'destroy'] } %>
 </div>
