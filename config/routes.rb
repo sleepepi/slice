@@ -170,6 +170,7 @@ Rails.application.routes.draw do
   get "/search" => "projects#search", as: :search
   get "/activity" => "users#activity", as: :activity
   get "/theme" => "application#theme", as: :theme
+  get "/font" => "application#font", as: :font
 
   root to: 'projects#splash'
 

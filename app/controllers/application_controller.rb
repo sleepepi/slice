@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
     render layout: 'theme'
   end
 
+  def font
+    render layout: 'theme'
+  end
+
   protected
 
   def check_system_admin
