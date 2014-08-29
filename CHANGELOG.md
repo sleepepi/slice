@@ -2,7 +2,7 @@
 
 ### Enhancements
 - **Auditing Changes**
-  - Full scale replacement of sheet auditing module
+  - Full scale replacement of sheet auditing module with transaction-based module
 - **Design Changes**
   - Mass importing sheets now notifies the user doing the import instead of the user who created the design
 - **Gem Changes**
