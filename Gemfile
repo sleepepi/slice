@@ -7,7 +7,7 @@ gem 'devise', git: 'https://github.com/plataformatec/devise.git',  branch: 'lm-r
 gem 'pg',                   '0.17.1'
 
 # Gems used by project
-gem 'contour',              '~> 2.6.0.beta5'
+gem 'contour',              '~> 2.6.0.beta6'
 gem 'kaminari',             '~> 0.16.1'
 gem 'carrierwave',          '~> 0.10.0'
 gem 'naturalsort',          '~> 1.1.1'

@@ -7,7 +7,7 @@
   - Mass importing sheets now notifies the user doing the import instead of the user who created the design
 - **Gem Changes**
   - Updated to rails 4.2.0.beta1
-  - Updated to contour 2.6.0.beta5
+  - Updated to contour 2.6.0.beta6
 
 ### Bug Fixes
 - Fixed a display issue on the dashboard caused by projects with long names
