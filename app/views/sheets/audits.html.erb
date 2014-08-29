@@ -29,17 +29,18 @@
   </thead>
   <tbody>
     <% @sheet.all_audits.group_by{|a| [a.created_at.month, a.created_at.year]}.each do |(month, year), audits| %>
-      <% all_audits_actions = audits.collect{|a| (a.audited_changes.keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or a.audited_changes.keys.sort == ['last_viewed_at']) ? 'view' : a.action }.uniq %>
+      <% all_audits_actions = audits.collect{|a| ((a.audited_changes rescue {}).keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or ((a.audited_changes rescue {})).keys.sort == ['last_viewed_at']) ? 'view' : a.action }.uniq %>
       <tr data-object="audit-row" data-all-audit-actions="<%= all_audits_actions.to_json %>">
         <td colspan="6" style="font-weight:bold;font-size:2em"><%= Date::ABBR_MONTHNAMES[month] %> <%= year %></td>
       </tr>
       <% audits.sort{|a,b| b.id <=> a.id}.each_with_index do |audit, audit_index| %>
+        <% rescued_audited_changes = (audit.audited_changes rescue {}) %>
         <% previous_audit = audits[audit_index - 1] %>
         <% if audit_index > 0 and previous_audit.created_at and audit.created_at and previous_audit.created_at.to_date != audit.created_at.to_date %>
           <tr><td>&vellip;</td><td colspan="5" class="text-muted"><%= distance_of_time_in_words(previous_audit.created_at, audit.created_at) %></td></tr>
         <% end %>
-        <% if audit.audited_changes.kind_of?(Hash) %>
-          <% audit_action = if audit.audited_changes.keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or audit.audited_changes.keys.sort == ['last_viewed_at'] %>
+        <% if rescued_audited_changes.kind_of?(Hash) %>
+          <% audit_action = if rescued_audited_changes.keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or rescued_audited_changes.keys.sort == ['last_viewed_at'] %>
             <% 'view' %>
           <% else %>
             <% audit.action %>
@@ -132,11 +133,11 @@
               <% end %>
             <% elsif ['SheetVariable', 'Grid', 'Response'].include?(audit.auditable_type) %>
               <% object = audit.auditable_type.constantize.find_by_id(audit.auditable_id) %>
-              <% variable = Variable.find_by_id(audit.audited_changes['variable_id']) %>
+              <% variable = Variable.find_by_id(rescued_audited_changes['variable_id']) %>
               <td><span <% if audit.auditable_type == 'Grid' %>rel="tooltip" title="<%= audit.auditable_type %><%= " #{object.position}" if object and object.respond_to?('position') %><% end %>" data-placement="left"><% if object %><%= object.variable.name %><% elsif variable %><%= variable.name %><% end %></span></td>
               <td>
                 <% ['response', 'response_file', 'value'].each do |response_type| %>
-                  <% if response = audit.audited_changes[response_type] and ['create', 'update', 'destroy'].include?(audit.action) %>
+                  <% if response = rescued_audited_changes[response_type] and ['create', 'update', 'destroy'].include?(audit.action) %>
                     <% response = [response[1], response[0]] if audit.action == 'create' %>
                     <% response = [response[0].to_s.split('/').last, response[1].to_s] if response_type == 'response_file' %>
                     <% if response[0].to_s != response[1].to_s %>
