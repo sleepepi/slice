@@ -2,7 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails',                '4.2.0.beta1'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git',  branch: 'lm-rails-4-2' #, ref: '2beae8e1438e2e5de201c5cbea9668af2f2e09f2'
+
 gem 'hashie',               '3.2.0' # Version 3.3.0 currently breaks omniauth
+gem 'sass', '3.4.1' # Version 3.4.2 currently breaks bootstrap-sass
 
 # Database Adapter
 gem 'pg',                   '0.17.1'
