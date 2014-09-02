@@ -11,8 +11,8 @@
     <% @projects.each do |project| %>
       <div class="col-xs-12 col-sm-6 col-md-4" data-object="hover-show" data-target="#project_<%= project.id %>_create_link">
         <div class="panel panel-default">
-          <div class="panel-heading" style="height:40px">
-            <h3 class="panel-title" style="white-space:nowrap;overflow:hidden;">
+          <div class="panel-heading" style="overflow:hidden">
+            <h3 class="panel-title" style="white-space:nowrap">
               <%= link_to project.name, project %>
               <%= link_to project.recent_sheets.count, project_sheets_path(project), class: 'label label-success pull-right', style: 'color: white' if project.recent_sheets.count > 0 %>
             </h3>
