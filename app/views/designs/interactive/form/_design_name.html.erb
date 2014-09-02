@@ -21,12 +21,25 @@
 
     <div class="form-group">
       <div class="col-md-10 col-md-offset-2">
-        <div class="checkbox">
-          <label>
-            <%= hidden_field_tag "design[publicly_available]", '0' %>
-            <%= check_box_tag "design[publicly_available]", '1', @design.publicly_available? %>
-            Publicly Available
-          </label>
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="checkbox">
+              <label>
+                <%= hidden_field_tag "design[publicly_available]", '0' %>
+                <%= check_box_tag "design[publicly_available]", '1', @design.publicly_available? %>
+                Publicly Available
+              </label>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="checkbox">
+              <label>
+                <%= hidden_field_tag "design[show_site]", '0' %>
+                <%= check_box_tag "design[show_site]", '1', @design.show_site? %>
+                Show Site Selection on Survey
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>

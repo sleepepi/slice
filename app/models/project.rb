@@ -97,9 +97,12 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def create_valid_subject(email)
+  def create_valid_subject(email, site_id)
     self.create_default_site if self.sites.count == 0
     hexdigest = Digest::SHA1.hexdigest(Time.now.usec.to_s)
+
+    site_id = self.sites.first.id unless site = self.sites.find_by_id(site_id)
+
     if email.blank?
       subject_code = hexdigest[0..12]
     elsif self.subjects.where( subject_code: email.to_s ).size == 0
@@ -107,7 +110,7 @@ class Project < ActiveRecord::Base
     else
       subject_code = "#{email.to_s} - #{hexdigest[0..8]}"
     end
-    self.subjects.create( subject_code: subject_code, user_id: self.user_id, site_id: self.sites.first.id, status: 'valid', acrostic: '', email: email.to_s )
+    self.subjects.create( subject_code: subject_code, user_id: self.user_id, site_id: site_id, status: 'valid', acrostic: '', email: email.to_s )
   end
 
   def favorited_by?(current_user)

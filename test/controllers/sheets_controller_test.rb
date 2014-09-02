@@ -567,6 +567,55 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to 'http://localhost/survey_completed'
   end
 
+  test "should submit public survey without selecting a site" do
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Subject.count') do
+        assert_difference('Sheet.count') do
+          post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project, email: 'test@example.com', site_id: ''
+        end
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet).subject
+    assert_equal sites(:admin_site).id, assigns(:sheet).subject.site_id
+
+    assert_redirected_to about_survey_path(project_id: assigns(:project).id, sheet_id: assigns(:sheet).id, sheet_authentication_token: assigns(:sheet).authentication_token)
+  end
+
+  test "should submit public survey with first site selected" do
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Subject.count') do
+        assert_difference('Sheet.count') do
+          post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project, email: 'test@example.com', site_id: sites(:admin_site).id
+        end
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet).subject
+    assert_equal sites(:admin_site).id, assigns(:sheet).subject.site_id
+
+    assert_redirected_to about_survey_path(project_id: assigns(:project).id, sheet_id: assigns(:sheet).id, sheet_authentication_token: assigns(:sheet).authentication_token)
+  end
+
+  test "should submit public survey with second site selected" do
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Subject.count') do
+        assert_difference('Sheet.count') do
+          post :submit_public_survey, id: designs(:admin_public_design), project_id: designs(:admin_public_design).project, email: 'test@example.com', site_id: sites(:admin_site_two).id
+        end
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet).subject
+    assert_equal sites(:admin_site_two).id, assigns(:sheet).subject.site_id
+
+    assert_redirected_to about_survey_path(project_id: assigns(:project).id, sheet_id: assigns(:sheet).id, sheet_authentication_token: assigns(:sheet).authentication_token)
+  end
+
+
   test "should not submit private survey" do
     assert_difference('SheetTransaction.count', 0) do
       assert_difference('Subject.count', 0) do

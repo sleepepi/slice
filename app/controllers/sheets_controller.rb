@@ -140,7 +140,7 @@ class SheetsController < ApplicationController
     @project = Project.current.find_by_id(params[:project_id])
     @design = @project.designs.find_by_id(params[:id]) if @project # :id is the design ID!
     if @project and @design and @design.publicly_available?
-      @subject = @project.create_valid_subject(params[:email])
+      @subject = @project.create_valid_subject(params[:email], params[:site_id])
       @sheet = @project.sheets.new({ project_id: @project.id, design_id: @design.id, subject_id: @subject.id, authentication_token: Digest::SHA1.hexdigest(Time.now.usec.to_s) })
       SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
       UserMailer.survey_completed(@sheet).deliver if Rails.env.production?

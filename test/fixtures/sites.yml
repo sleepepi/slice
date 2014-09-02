@@ -48,6 +48,13 @@ admin_site:
   user: admin
   prefix: ""
 
+admin_site_two:
+  name: Admin Only Site Two
+  description: Second site on admin's project
+  project: three
+  user: admin
+  prefix: ""
+
 single_design_site:
   name: On single_design project
   # description:
