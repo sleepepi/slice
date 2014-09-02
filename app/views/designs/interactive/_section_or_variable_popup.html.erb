@@ -5,10 +5,10 @@
   </h4>
 </div>
 <div class="modal-body">
-  <% ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file', 'grid'].in_groups_of(3).each do |row_items| %>
+  <% ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file', 'grid', 'existing_question'].in_groups_of(3).each do |row_items| %>
     <div class="row">
       <% row_items.each do |variable_type| %>
-        <% if variable_type and variable_type != 'section' %>
+        <% if variable_type and not ['section', 'existing_question'].include?(variable_type) %>
           <div class="<%= variable_type == 'grid' ? 'col-md-8' : 'col-md-4' %>">
             <div data-object="pull-partial-edit" data-new="new_variable" data-position="<%= params[:position] %>" data-variable-type="<%= variable_type %>" class="download-container editable-design-element">
               <div class="download-container-after"><%= variable_type.titleize %></div>
@@ -99,7 +99,7 @@
             </div>
           </div>
         <% end %>
-        <% if variable_type and variable_type == 'section' %>
+        <% if variable_type == 'section' %>
           <div class="col-md-4">
             <div data-object="pull-partial-edit" data-new="new_section" data-position="<%= params[:position] %>" class="download-container editable-design-element">
               <div class="download-container-after"><%= variable_type.titleize %></div>
@@ -109,6 +109,24 @@
               </div>
             </div>
           </div>
+        <% end %>
+        <% if variable_type == 'existing_question' %>
+          <% if @design.variable_ids.blank? %>
+            <% variables = @project.variables %>
+          <% else %>
+            <% variables = @project.variables.where("variables.id NOT IN (?)", @design.variable_ids) %>
+          <% end %>
+          <% if variables.count > 0 %>
+            <div class="col-md-4">
+              <div data-object="pull-partial-edit" data-new="existing_question" data-position="<%= params[:position] %>" class="download-container editable-design-element">
+                <div class="download-container-after">Existing Question</div>
+                <div style="margin-top:12px" class="center">
+                  <b>Existing Question</b><br>
+                  Add an existing variable from this project.
+                </div>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>

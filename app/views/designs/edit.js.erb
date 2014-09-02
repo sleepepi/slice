@@ -3,7 +3,7 @@
 
   showInteractiveDesignModal();
 
-<% elsif ['section_or_variable', 'new_variable', 'new_section'].include?(params[:new]) %>
+<% elsif ['section_or_variable', 'new_variable', 'new_section', 'existing_question'].include?(params[:new]) %>
   $("#interactive-design-container").html("<%= escape_javascript(render("designs/interactive/#{params[:new]}_popup")) %>");
   showInteractiveDesignModal();
 <% end %>

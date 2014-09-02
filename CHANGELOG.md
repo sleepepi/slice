@@ -5,6 +5,7 @@
   - Full scale replacement of sheet auditing module with transaction-based module
 - **Design Changes**
   - Mass importing sheets now notifies the user doing the import instead of the user who created the design
+  - Existing variables can now be added to a design without needing to select the type of question first
 - **Gem Changes**
   - Updated to rails 4.2.0.beta1
   - Updated to contour 2.6.0.beta6

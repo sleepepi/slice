@@ -661,6 +661,26 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should get add section or question popup" do
+    xhr :get, :edit, id: @design, project_id: @project, new: 'section_or_variable', position: '0', format: 'js'
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+
+    assert_template partial: 'designs/interactive/_section_or_variable_popup'
+    assert_response :success
+  end
+
+  test "should get add existing question popup" do
+    xhr :get, :edit, id: @design, project_id: @project, new: 'existing_question', position: '0', format: 'js'
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+
+    assert_template partial: 'designs/interactive/_existing_question_popup'
+    assert_response :success
+  end
+
   test "should update design" do
     put :update, id: @design, project_id: @project, design: { description: "Updated Description" }, format: 'js'
     assert_not_nil assigns(:project)
