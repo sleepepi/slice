@@ -86,16 +86,18 @@ class DomainsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  test "should not create domain where options have blank value" do
-    assert_difference('Domain.count', 0) do
+  test "should create domain where options have default values" do
+    assert_difference('Domain.count') do
       post :create, project_id: @project, domain: { name: 'new_domain', display_name: 'New Domain', description: @domain.description,
                                                     option_tokens: [ { name: "Chocolate", value: "", description: "" } ] }
     end
 
     assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
-    assert_equal ["values can't be blank"], assigns(:domain).errors[:option]
-    assert_template 'new'
+
+    assert_equal "Chocolate", assigns(:domain).options[0][:name]
+    assert_equal "1", assigns(:domain).options[0][:value]
+
+    assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
   test "should not create domain with blank name" do
@@ -148,6 +150,41 @@ class DomainsControllerTest < ActionController::TestCase
                                                               option_tokens: [
                                                                 { name: "Chocolate", value: "1", description: "", color: '#FFBBCC' },
                                                                 { name: "Vanilla", value: "2", description: "", color: '#FFAAFF' } ] }
+    assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
+  end
+
+  test "should update domain where values have been omitted" do
+    put :update, id: domains(:two), project_id: domains(:two).project, domain: { name: domains(:two).name, display_name: domains(:two).display_name,
+                  option_tokens: [
+                    { name: "Sunday", value: "" },
+                    { name: "Monday", value: "" },
+                    { name: "Tuesday", value: "" },
+                    { name: "Wednesday", value: "" },
+                    { name: "Thursday", value: "" },
+                    { name: "Friday", value: "" },
+                    { name: "Saturday", value: "" } ] }
+
+    assert_equal "Sunday", assigns(:domain).options[0][:name]
+    assert_equal "1", assigns(:domain).options[0][:value]
+
+    assert_equal "Monday", assigns(:domain).options[1][:name]
+    assert_equal "2", assigns(:domain).options[1][:value]
+
+    assert_equal "Tuesday", assigns(:domain).options[2][:name]
+    assert_equal "3", assigns(:domain).options[2][:value]
+
+    assert_equal "Wednesday", assigns(:domain).options[3][:name]
+    assert_equal "4", assigns(:domain).options[3][:value]
+
+    assert_equal "Thursday", assigns(:domain).options[4][:name]
+    assert_equal "5", assigns(:domain).options[4][:value]
+
+    assert_equal "Friday", assigns(:domain).options[5][:name]
+    assert_equal "6", assigns(:domain).options[5][:value]
+
+    assert_equal "Saturday", assigns(:domain).options[6][:name]
+    assert_equal "7", assigns(:domain).options[6][:value]
+
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 

@@ -85,6 +85,7 @@ class Design < ActiveRecord::Base
     errors = []
     variable = self.project.variables.find_by_id(variable_id)
     if params[:id].blank?
+      params = Domain.clean_option_tokens(params)
       domain_params = params.permit(:name, :display_name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] })
       domain_params[:user_id] = current_user.id
       domain = self.project.domains.new( domain_params )
@@ -109,6 +110,7 @@ class Design < ActiveRecord::Base
     errors = []
     variable = self.project.variables.find_by_id(variable_id)
     if variable and variable.domain
+      params = Domain.clean_option_tokens(params)
       domain_params = params.permit(:name, :display_name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] })
       variable.domain.update( domain_params )
       if variable.domain.errors.any?

@@ -147,4 +147,13 @@ class Domain < ActiveRecord::Base
     "#{ '$' unless self.all_numeric? }#{self.name}f"
   end
 
+  def self.clean_option_tokens(params)
+    (params[:option_tokens] || []).each_with_index do |option, index|
+      if not option[:name].blank? and option[:value].blank?
+        params[:option_tokens][index][:value] = "#{index+1}"
+      end
+    end
+    params
+  end
+
 end

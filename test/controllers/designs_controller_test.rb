@@ -822,6 +822,27 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design)
     assert_equal 11, assigns(:design).options.size
     assert_equal 'dropdown_options_new', assigns(:design).variable_at(2).domain.name
+    assert_equal 'Easy', assigns(:design).variable_at(2).domain.options[0][:name]
+    assert_equal '1', assigns(:design).variable_at(2).domain.options[0][:value]
+    assert_equal 'Medium', assigns(:design).variable_at(2).domain.options[1][:name]
+    assert_equal '2', assigns(:design).variable_at(2).domain.options[1][:value]
+    assert_equal 'Hard', assigns(:design).variable_at(2).domain.options[2][:name]
+    assert_equal '3', assigns(:design).variable_at(2).domain.options[2][:value]
+    assert_template 'update'
+  end
+
+  test "should update an existing domain on a design and fill in missing values" do
+    put :update, id: designs(:sections_and_variables), project_id: @project, domain: { name: 'dropdown_options_new', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '' }, { option_index: 'new', name: 'Medium', value: '' }, { option_index: 'new', name: 'Hard', value: '' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_equal 11, assigns(:design).options.size
+    assert_equal 'dropdown_options_new', assigns(:design).variable_at(2).domain.name
+    assert_equal 'Easy', assigns(:design).variable_at(2).domain.options[0][:name]
+    assert_equal '1', assigns(:design).variable_at(2).domain.options[0][:value]
+    assert_equal 'Medium', assigns(:design).variable_at(2).domain.options[1][:name]
+    assert_equal '2', assigns(:design).variable_at(2).domain.options[1][:value]
+    assert_equal 'Hard', assigns(:design).variable_at(2).domain.options[2][:name]
+    assert_equal '3', assigns(:design).variable_at(2).domain.options[2][:value]
     assert_template 'update'
   end
 
