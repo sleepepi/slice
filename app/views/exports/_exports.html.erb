@@ -12,6 +12,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_files', 'Files') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_data_dictionary', 'Data Dictionary') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_sas', 'SAS') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.include_r', 'R') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exports.file', 'File') %></th>
       <th style="white-space:nowrap">Size</th>
       <th>Actions</th>
@@ -29,6 +30,7 @@
       <td><%= simple_check export.include_files %></td>
       <td><%= simple_check export.include_data_dictionary %></td>
       <td><%= simple_check export.include_sas %></td>
+      <td><%= simple_check export.include_r %></td>
       <td>
         <% if export.file.size > 0 %>
           <% full_url = file_project_export_path(@project, export) %>

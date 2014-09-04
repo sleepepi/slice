@@ -24,6 +24,7 @@ two:
   include_data_dictionary: true
   include_sas: true
   include_files: true
+  include_r: true
 
 three:
   name: My Checkbox Export
@@ -38,3 +39,4 @@ three:
   include_data_dictionary: false
   include_sas: false
   include_files: false
+  include_r: false
