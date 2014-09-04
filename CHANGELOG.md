@@ -9,6 +9,8 @@
   - Public surveys have a setting to allow users to select a site while filling out a survey
 - **Domain Changes**
   - Option values no longer need to be entered and will fall back to the default placeholder numbers if left blank
+- **Export Changes**
+  - The SAS export now applies labels and domains to checkbox subvariables
 - **Adminstrative Changes**
   - System admins can now see if a user has been invited to a site to aid in the user activation process
 - **Gem Changes**

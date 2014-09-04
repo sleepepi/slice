@@ -392,6 +392,26 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def sas_format_label
+    if self.variable_type == 'checkbox'
+      ["  label #{self.name}='#{self.display_name.gsub("'", "''")}';"] + self.shared_options.collect{|option| "  label #{option_variable_name(option[:value])}='#{self.display_name.gsub("'", "''")} (#{option[:name]})' ;"}
+    else
+      "  label #{self.name}='#{self.display_name.gsub("'", "''")}';"
+    end
+  end
+
+  def sas_format_domain
+    if self.domain
+      case self.variable_type when 'checkbox'
+        self.shared_options.collect{|option| "  format #{option_variable_name(option[:value])} #{self.domain.sas_domain_name}. ;"}
+      else
+        "  format #{self.name} #{self.domain.sas_domain_name}. ;"
+      end
+    else
+      nil
+    end
+  end
+
   def option_variable_name(value)
     "#{self.name}__#{value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
   end

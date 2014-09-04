@@ -487,6 +487,8 @@ run;
     end
 
     def sas_step2(variables, use_grids)
+      format_labels = variables.collect(&:sas_format_label).flatten.compact.uniq
+
       <<-eos
 /* Step 2: Apply labels to variables using slice display names */
 
@@ -508,7 +510,7 @@ data slice#{'_grids' if use_grids};
   label event_name='Event Name';
 
   /* Sheet Variables */
-#{variables.collect{|v| "  label #{v.name}='#{v.display_name.gsub("'", "''")}';" }.join("\n")}
+#{format_labels.join("\n")}
 run;
 
       eos
@@ -526,13 +528,15 @@ run;
     end
 
     def sas_step4(variables, use_grids)
+      format_domains = variables.collect(&:sas_format_domain).flatten.compact.uniq
+
       <<-eos
 /* Step 4: Apply format to all of the variables */
 
 data slice#{'_grids' if use_grids};
   set slice#{'_grids' if use_grids};
 
-#{variables.collect{|v| (v.variable_type != 'checkbox' and v.domain) ? "  format #{v.name} #{v.domain.sas_domain_name}. ;" : nil }.compact.join("\n")}
+#{format_domains.join("\n")}
 run;
 
       eos
