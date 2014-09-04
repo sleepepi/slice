@@ -40,8 +40,7 @@ graphics.off
 # Create 'factor' variables for single/multi-option choices
 <% @export_formatter.factors.each do |name, options| %>
   slice$<%= name %> = factor(slice$<%= name %>, levels=c(<%= options.collect{|o| "\"#{o[:value]}\""}.join(',') %>))
-  levels(slice$<%= name %>) = c(<%= options.collect{|o| "\"#{o[:name].gsub('"', '\"')}\""}.join(',') %>)
-<% end %>
+  levels(slice$<%= name %>) = c(<%= options.collect{|o| "\"#{o[:name].gsub('"', '\"')}\""}.join(',') %>)<% end %>
 
 slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv')
 # Apply labels to grid variables
@@ -66,5 +65,4 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv')
 # Create 'factor' variables for single/multi-option choices
 <% @export_formatter.grid_factors.each do |name, options| %>
   slice_grids$<%= name %> = factor(slice_grids$<%= name %>, levels=c(<%= options.collect{|o| "\"#{o[:value]}\""}.join(',') %>))
-  levels(slice_grids$<%= name %>) = c(<%= options.collect{|o| "\"#{o[:name].gsub('"', '\"')}\""}.join(',') %>)
-<% end %>
+  levels(slice_grids$<%= name %>) = c(<%= options.collect{|o| "\"#{o[:name].gsub('"', '\"')}\""}.join(',') %>)<% end %>
