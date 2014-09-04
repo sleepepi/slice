@@ -43,6 +43,18 @@
     </ul>
   </dd>
 
+  <% site_invitations = SiteUser.where( invite_email: [@user.email]+@user.authentications.pluck(:uid) ).where( user_id: nil ) %>
+  <% if current_user.system_admin? and site_invitations.count > 0 %>
+    <dt>Invitations</dt>
+    <dd>
+      <ul class="list-unstyled">
+        <% (site_invitations.to_a*10).each do |site_user| %>
+          <li><%= @user.name %> was invited to <%= link_to site_user.project.name, site_user.project %> <%= simple_time site_user.created_at %> <%= " by #{site_user.creator.name}" if site_user.creator %>.</li>
+        <% end %>
+      </ul>
+    </dd>
+  <% end %>
+
   <dt>User Avatar</dt>
   <dd><%= image_tag @user.avatar_url, class: 'img-rounded' %></dd>
 
