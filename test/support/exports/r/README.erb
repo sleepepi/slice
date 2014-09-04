@@ -1,0 +1,45 @@
+Created
+=======
+
+    <%= Time.now.strftime("%a, %b %d, %Y at %I:%M %p") %>
+
+
+Project
+=======
+
+    <%= self.project.name %>
+
+
+Sheets Exported
+===============
+
+    <%= self.sheet_ids_count %>
+
+
+Included Files
+==============
+
+`-- R
+    |-- README.txt
+    |-- dataset_raw.csv
+    |-- dataset_grids_raw.csv
+    `-- dataset_r.r
+
+
+R IMPORT FILES
+================
+
+    This folder includes files required to import data into
+    a R data set. The main file, `dataset_r.r`,
+    contains variable and design definitions that are used
+    to label the captured data within R.
+
+    Make sure you unzip the downloaded `.zip` before attempting to
+    import into R.
+
+
+RAW DATASET FILES
+=================
+
+    The `_raw.csv` dataset files contain the actual data
+    values captured across various subjects and sheets.
