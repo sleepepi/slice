@@ -161,6 +161,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       post :update_settings
+      post :update_theme
     end
   end
 

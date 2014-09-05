@@ -18,7 +18,7 @@
             </h3>
           </div>
           <div class="panel-body">
-            <div style="text-align:center;background-color:white;padding-bottom:5px;height:145px;line-height:145px">
+            <div style="text-align:center;padding-bottom:5px;height:145px;line-height:145px">
               <%= link_to image_tag( (project.logo.size > 0 ? logo_project_path(project) : 'project-default-logo.png'), style: 'max-width:100%;max-height:140px' ), project %>
             </div>
             <div style="height:1px;margin-top:2px">
@@ -38,7 +38,7 @@
           <h3 class="panel-title"><%= link_to 'Create Project', new_project_path %></h3>
         </div>
         <div class="panel-body">
-          <div style="text-align:center;background-color:white;padding-bottom:5px;height:145px;line-height:145px">
+          <div style="text-align:center;padding-bottom:5px;height:145px;line-height:145px">
             <%= link_to image_tag( 'project-default-logo.png', style: 'max-width:100%;max-height:140px' ), new_project_path %>
           </div>
         </div>

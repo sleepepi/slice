@@ -46,6 +46,14 @@ class UsersController < ApplicationController
   # def create
   # end
 
+  def update_theme
+    if current_user.update(user_params)
+      redirect_to settings_path, notice: 'Theme was successfully updated.'
+    else
+      redirect_to settings_path, alert: 'Theme was not successfully updated.'
+    end
+  end
+
   def update
     if @user.update(user_params)
       original_status = @user.status
@@ -77,7 +85,7 @@ class UsersController < ApplicationController
       params[:user] ||= {}
 
       params.require(:user).permit(
-        :first_name, :last_name, :email
+        :first_name, :last_name, :email, :theme
       )
     end
 

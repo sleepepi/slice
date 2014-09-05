@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= [@title, Contour.application_name].compact.join(' - ').html_safe %></title>
+    <%= favicon_link_tag %>
+    <%= csrf_meta_tags %>
+
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= javascript_tag "var root_url='#{request.script_name + '/'}';var auth_token='#{form_authenticity_token}';" %>
+
+    <% if current_user and Slice::THEMES.collect{|theme_name, theme| theme}.include?(current_user.theme) %>
+      <%= stylesheet_link_tag    "application-#{current_user.theme}", media: "all", "data-turbolinks-track" => true %>
+    <% else %>
+      <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <% end %>
+  </head>
+  <body data-spy="scroll" data-target=".bs-sidebar" >
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <%= render partial: 'contour/layouts/menu' %>
+    </nav>
+
+    <div class="container" style="position:relative">
+      <div class="flash-block" data-object="flash-container">
+        <%= flash_block %>
+      </div>
+    </div>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+  </body>
+</html>

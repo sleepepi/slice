@@ -14,6 +14,9 @@
   - An R export option has been added to the statistical export section (thanks to @mcailler for the template R script)
 - **Adminstrative Changes**
   - System admins can now see if a user has been invited to a site to aid in the user activation process
+- **Setting Changes**
+  - An experimental Night Mode theme has been added to user settings
+    - Users can opt in to this mode by visiting their settings and selecting the "Night (Experimental)" theme
 - **Gem Changes**
   - Updated to rails 4.2.0.beta1
   - Updated to contour 2.6.0.beta6
