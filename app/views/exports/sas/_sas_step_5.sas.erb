@@ -1,0 +1,5 @@
+/* Step 5: Output summary of dataset */
+
+proc contents data=slice<%= '_grids' if use_grids %>;
+run;
+quit;

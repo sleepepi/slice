@@ -1,0 +1,7 @@
+<% domains = (use_grids ? @export_formatter.grid_domains : @export_formatter.domains) %>
+
+/* Step 3: Create formats for slice domain options */
+
+proc format;
+<%= domains.collect{ |d| d.sas_value_domain }.join("\n") %>
+run;

@@ -1,0 +1,10 @@
+<% variables = (use_grids ? @export_formatter.grid_variables : @export_formatter.variables) %>
+<% format_domains = variables.collect(&:sas_format_domain).flatten.compact.uniq %>
+
+/* Step 4: Apply format to all of the variables */
+
+data slice<%= '_grids' if use_grids %>;
+  set slice<%= '_grids' if use_grids %>;
+
+<%= format_domains.join("\n") %>
+run;

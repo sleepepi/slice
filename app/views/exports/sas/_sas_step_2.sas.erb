@@ -1,0 +1,25 @@
+<% variables = (use_grids ? @export_formatter.grid_variables : @export_formatter.variables) %>
+<% format_labels = variables.collect(&:sas_format_label).flatten.compact.uniq %>
+
+/* Step 2: Apply labels to variables using slice display names */
+
+data slice<%= '_grids' if use_grids %>;
+  set slice<%= '_grids' if use_grids %>;
+
+  /* Design and Subject Variables */
+  label sheet_id='Sheet ID';
+  label name='Design Name';
+  label description='Design Description';
+  label sheet_creation_date='Sheet Creation Date';
+  label project='Project';
+  label site='Site';
+  label subject='Subject ID';
+  label acrostic='Subject Acrostic';
+  label status='Subject Status';
+  label creator='Sheet Creator';
+  label schedule_name='Schedule Name';
+  label event_name='Event Name';
+
+  /* Sheet Variables */
+<%= format_labels.join("\n") %>
+run;

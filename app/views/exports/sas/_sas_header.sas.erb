@@ -1,0 +1,9 @@
+/*         Slice: v<%= Slice::VERSION::STRING %> */
+/* Date Generated: <%= Time.now.strftime("%a, %B %d, %Y at %-l:%M%p") %> */
+/*
+
+%let a=%sysget(SAS_EXECFILEPATH);
+%let b=%sysget(SAS_EXECFILENAME);
+
+%let path_file= %sysfunc(tranwrd(&a,&b,<%= @export_formatter.filename %>_raw));
+%let path_file_grids= %sysfunc(tranwrd(&a,&b,<%= @export_formatter.filename %>_grids_raw));
