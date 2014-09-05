@@ -18,7 +18,7 @@ run;
 /* Step 1: Import data into slice work library */
 
 data slice<%= '_grids' if use_grids %>;
-  infile "&path_file<%= '_grids' if use_grids %>._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=2 ;
+  infile "&path_file<%= '_grids' if use_grids %>._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=<%= use_grids ? 3 : 2 %> ;
 
   /* Design and Subject Variables */
   informat sheet_id             best32.   ;   * Sheet ID ;
