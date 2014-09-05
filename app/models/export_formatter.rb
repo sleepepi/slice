@@ -67,7 +67,7 @@ class ExportFormatter
 
   def get_factors(variable_scope)
     variable_factors = []
-    variables.each do |variable|
+    variable_scope.each do |variable|
       unless variable.shared_options.blank?
         unless variable.variable_type == 'checkbox'
           variable_factors << [variable.name, variable.shared_options]
