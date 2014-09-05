@@ -196,23 +196,12 @@ class Export < ActiveRecord::Base
         variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
         grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
 
-        row = ["", "", "", "", "", "", "", "", "", "", "", ""]
-
-        grid_group_variables.each do |variable|
-          variable.grid_variables.each do |grid_variable_hash|
-            grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-            row << variable.name if grid_variable
-          end
-        end
-
-        csv << row
-
         row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
 
         grid_group_variables.each do |variable|
           variable.grid_variables.each do |grid_variable_hash|
             grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-            row << grid_variable.name if grid_variable
+            row << variable.name + "__" + grid_variable.name if grid_variable
           end
         end
 

@@ -10,6 +10,7 @@
 - **Domain Changes**
   - Option values no longer need to be entered and will fall back to the default placeholder numbers if left blank
 - **Export Changes**
+  - CSV grid exports now only have a single header row, instead of two
   - The SAS export now applies labels and domains to checkbox subvariables
   - An R export option has been added to the statistical export section (thanks to @mcailler for the template R script)
 - **Adminstrative Changes**
