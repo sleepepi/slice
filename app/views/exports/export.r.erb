@@ -51,18 +51,18 @@ graphics.off
 slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2, header = FALSE)
 # Apply labels to grid variables
 
-  names(slice_grids$V1)  <- "Sheet.ID"
-  names(slice_grids$V2)  <- "Name"
-  names(slice_grids$V3)  <- "Description"
-  names(slice_grids$V4)  <- "Sheet.Creation.Date"
-  names(slice_grids$V5)  <- "Project"
-  names(slice_grids$V6)  <- "Site"
-  names(slice_grids$V7)  <- "Subject"
-  names(slice_grids$V8)  <- "Acrostic"
-  names(slice_grids$V9)  <- "Status"
-  names(slice_grids$V10) <- "Creator"
-  names(slice_grids$V11) <- "Schedule.Name"
-  names(slice_grids$V12) <- "Event.Name"
+  names(slice_grids)[1]  <- "Sheet.ID"
+  names(slice_grids)[2]  <- "Name"
+  names(slice_grids)[3]  <- "Description"
+  names(slice_grids)[4]  <- "Sheet.Creation.Date"
+  names(slice_grids)[5]  <- "Project"
+  names(slice_grids)[6]  <- "Site"
+  names(slice_grids)[7]  <- "Subject"
+  names(slice_grids)[8]  <- "Acrostic"
+  names(slice_grids)[9]  <- "Status"
+  names(slice_grids)[10] <- "Creator"
+  names(slice_grids)[11] <- "Schedule.Name"
+  names(slice_grids)[12] <- "Event.Name"
 
   # Design and Subject Variables
   label(slice_grids$Sheet.ID)            <- "Sheet ID"
@@ -80,7 +80,7 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2
 
   # Grid Variables
 <% @export_formatter.grid_labels.each_with_index do |(name, display_name), index| %>
-  names(slice_grids$V<%= index+13 %>) <- "<%= name %>"
+  names(slice_grids)[<%= index+13 %>] <- "<%= name %>"
   label(slice_grids$<%= name %>) <- "<%= display_name %>"
 <% end %>
 
