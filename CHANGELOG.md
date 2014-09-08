@@ -1,5 +1,8 @@
 ## 0.26.1
 
+### Configuration
+- Updated server configuration to maintain the database schema
+
 ## 0.26.0 (September 6, 2014)
 
 ### Enhancements
