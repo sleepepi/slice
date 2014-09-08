@@ -1,4 +1,4 @@
-## 0.26.1
+## 0.26.1 (September 8, 2014)
 
 ### Configuration
 - Updated server configuration to maintain the database schema
