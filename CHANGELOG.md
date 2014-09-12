@@ -1,3 +1,5 @@
+## 0.26.2
+
 ## 0.26.1 (September 8, 2014)
 
 ### Configuration
