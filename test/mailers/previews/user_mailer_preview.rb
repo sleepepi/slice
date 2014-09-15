@@ -43,7 +43,8 @@ class UserMailerPreview < ActionMailer::Preview
 
   def import_complete
     design = Design.current.first
-    UserMailer.import_complete(design)
+    recipient = User.current.first
+    UserMailer.import_complete(design, recipient)
   end
 
   # Updated

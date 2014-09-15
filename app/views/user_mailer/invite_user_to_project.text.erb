@@ -5,7 +5,7 @@ Hello,
 Click the following link to accept the invitation:
 
 
-    <%= SITE_URL + accept_project_users_url(invite_token: @project_user.invite_token, only_path: true) %>
+    <%= "#{SITE_URL}/project_users/accept?invite_token=#{@project_user.invite_token}" %>
 
 
 Thank you!

@@ -1,5 +1,8 @@
 ## 0.26.2
 
+### Bug Fix
+- Fixed an issue where emails were creating incorrect URLs (reported by @mcailler)
+
 ## 0.26.1 (September 8, 2014)
 
 ### Configuration
