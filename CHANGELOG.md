@@ -1,4 +1,4 @@
-## 0.26.2
+## 0.26.2 (September 15, 2014)
 
 ### Bug Fix
 - Fixed an issue where emails were creating incorrect URLs (reported by @mcailler)
