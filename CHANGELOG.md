@@ -6,6 +6,9 @@
   - Updated to contour 2.6.0.beta7
 - Use of Ruby 2.1.3 is now recommended
 
+### Bug Fix
+- Removed a trailing comment line in the SAS export script (fix by @mcailler)
+
 ## 0.26.2 (September 15, 2014)
 
 ### Bug Fix
