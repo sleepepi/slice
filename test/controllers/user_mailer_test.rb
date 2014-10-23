@@ -7,7 +7,7 @@ class UserMailerTest < ActionMailer::TestCase
     admin = users(:admin)
 
     # Send the email, then test that it got queued
-    email = UserMailer.notify_system_admin(admin, valid).deliver
+    email = UserMailer.notify_system_admin(admin, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     # Test the body of the sent email contains what we expect it to
@@ -20,7 +20,7 @@ class UserMailerTest < ActionMailer::TestCase
     valid = users(:valid)
 
     # Send the email, then test that it got queued
-    email = UserMailer.status_activated(valid).deliver
+    email = UserMailer.status_activated(valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     # Test the body of the sent email contains what we expect it to
@@ -32,7 +32,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "user invited to site email" do
     site_user = site_users(:invited)
 
-    email = UserMailer.invite_user_to_site(site_user).deliver
+    email = UserMailer.invite_user_to_site(site_user).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [site_user.invite_email], email.to
@@ -43,7 +43,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "user added to project email" do
     project_user = project_users(:one)
 
-    email = UserMailer.user_added_to_project(project_user).deliver
+    email = UserMailer.user_added_to_project(project_user).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [project_user.user.email], email.to
@@ -54,7 +54,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "user invited to project email" do
     project_user = project_users(:invited)
 
-    email = UserMailer.invite_user_to_project(project_user).deliver
+    email = UserMailer.invite_user_to_project(project_user).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [project_user.invite_email], email.to
@@ -65,7 +65,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "survey completed email" do
     sheet = sheets(:external)
 
-    email = UserMailer.survey_completed(sheet).deliver
+    email = UserMailer.survey_completed(sheet).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [sheet.project.user.email], email.to
@@ -76,7 +76,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "survey user link" do
     sheet = sheets(:external_with_email)
 
-    email = UserMailer.survey_user_link(sheet).deliver
+    email = UserMailer.survey_user_link(sheet).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [sheet.subject.email], email.to
@@ -87,7 +87,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "export ready email" do
     export = exports(:one)
 
-    email = UserMailer.export_ready(export).deliver
+    email = UserMailer.export_ready(export).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [export.user.email], email.to
@@ -99,7 +99,7 @@ class UserMailerTest < ActionMailer::TestCase
     design = designs(:one)
     valid = users(:valid)
 
-    email = UserMailer.import_complete(design, valid).deliver
+    email = UserMailer.import_complete(design, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -110,7 +110,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "daily digest email" do
     valid = users(:valid)
 
-    email = UserMailer.daily_digest(valid).deliver
+    email = UserMailer.daily_digest(valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -122,7 +122,7 @@ class UserMailerTest < ActionMailer::TestCase
     comment = comments(:one)
     valid = users(:valid)
 
-    email = UserMailer.comment_by_mail(comment, valid).deliver
+    email = UserMailer.comment_by_mail(comment, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -134,7 +134,7 @@ class UserMailerTest < ActionMailer::TestCase
     post = posts(:one)
     valid = users(:valid)
 
-    email = UserMailer.project_news(post, valid).deliver
+    email = UserMailer.project_news(post, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to

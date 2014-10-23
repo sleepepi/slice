@@ -22,7 +22,7 @@ class Post < ActiveRecord::Base
       unless self.archived?
         all_users = self.project.users_to_email - [self.user]
         all_users.each do |user_to_email|
-          UserMailer.project_news(self, user_to_email).deliver if Rails.env.production?
+          UserMailer.project_news(self, user_to_email).deliver_later if Rails.env.production?
         end
       end
     end

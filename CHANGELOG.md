@@ -1,3 +1,11 @@
+## 0.26.3
+
+### Enhancements
+- **Gem Changes**
+  - Updated to rails 4.2.0.beta2
+  - Updated to contour 2.6.0.beta7
+- Use of Ruby 2.1.3 is now recommended
+
 ## 0.26.2 (September 15, 2014)
 
 ### Bug Fix

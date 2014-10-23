@@ -21,7 +21,7 @@ class Export < ActiveRecord::Base
 
   # Model Methods
   def notify_user!
-    UserMailer.export_ready(self).deliver if Rails.env.production?
+    UserMailer.export_ready(self).deliver_later if Rails.env.production?
   end
 
   def self.filter(filters)

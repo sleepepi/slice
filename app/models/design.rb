@@ -497,7 +497,7 @@ class Design < ActiveRecord::Base
   end
 
   def notify_user!(current_user)
-    UserMailer.import_complete(self, current_user).deliver if Rails.env.production?
+    UserMailer.import_complete(self, current_user).deliver_later if Rails.env.production?
   end
 
   def read_only_variable_names
