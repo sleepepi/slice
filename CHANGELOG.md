@@ -7,6 +7,7 @@
     - A maximum of three projects are displayed in the navigation bar
 - **Sheet Changes**
   - Side navigation bar was removed to make better use of available space
+  - Missing codes are now colored red for better visibility when selected
 - **Variable Changes**
   - Variable calculations can now exceed the 255 character limit
 - **Gem Changes**

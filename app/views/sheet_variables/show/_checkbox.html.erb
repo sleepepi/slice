@@ -18,10 +18,10 @@
     <tbody>
       <tr>
         <td style="font-weight:bold"><%= variable.display_name %></td>
-        <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description]]}.each do |name, value, description| %>
+        <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing| %>
           <td style="text-align:center" class="sheet-container">
             <% selected = (response_raws.include?(value)) %>
-            <label class="checkbox checkbox-inline <%= 'selected' if selected %>">
+            <label class="checkbox checkbox-inline <%= 'selected' if selected %> <%= 'negation' if missing == '1' %>">
               <%= check_box_tag "#{variable.name}[]", "#{value}", selected, disabled: true, style: 'margin-left:-14px' %>
             </label>
           </td>

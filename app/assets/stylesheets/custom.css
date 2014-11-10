@@ -516,3 +516,8 @@ label.checkbox, label.radio {
 .wide-container {
   width: 100% !important;
 }
+
+.form-horizontal .radio,
+.form-horizontal .checkbox {
+  min-height: 31px;
+}
