@@ -135,7 +135,7 @@ $table-bg:                      darken($gray-darker, 4%) !default;
 //** Background color used for `.table-striped`.
 $table-bg-accent:               darken($table-bg, 6%) !default;
 //** Background color used for `.table-hover`.
-$table-bg-hover:                $gray-dark !default;
+$table-bg-hover:                lighten($gray-dark, 10%) !default;
 $table-bg-active:               $table-bg-hover !default;
 
 //** Border color for table and cell borders.

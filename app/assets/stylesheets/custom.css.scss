@@ -299,8 +299,8 @@ textarea:focus.warning-input  {
   padding: 6px 10px 6px 25px;
   font-size: 13px;
   line-height: 18px;
-  color: #555;
-  background-color: #f9f9f9;
+  color: $gray;
+  background-color: $table-bg-accent;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -308,8 +308,8 @@ textarea:focus.warning-input  {
 }
 
 .download-container .checkbox:hover, .sheet-container .checkbox:hover, .sheet-container .radio:hover {
-  color: #333;
-  background-color: #f5f5f5;
+  color: $gray-dark;
+  background-color: $table-bg-hover;
 }
 
 .download-container h3 {
@@ -322,12 +322,12 @@ textarea:focus.warning-input  {
 }
 
 .checkbox.selected, .checkbox.selected:hover, .radio.selected, .radio.selected:hover {
-  background-color: #7aa6ff;
+  background-color: darken($brand-primary, 15%);
   color: #fff;
 }
 
 .checkbox.selected.negation, .checkbox.selected.negation:hover, .radio.selected.negation, .radio.selected.negation:hover {
-  background-color: #b94a48;
+  background-color: darken($brand-danger, 15%);
   color: #fff;
 }
 
