@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Updated the top navigation menu
+  - Favoriting a project now puts it in the menu right away
+    - A maximum of three projects are displayed in the navigation bar
 - **Gem Changes**
   - Updated to rails 4.2.0.beta4
   - Updated to contour 2.6.0.beta8
