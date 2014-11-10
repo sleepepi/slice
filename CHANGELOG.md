@@ -1,6 +1,8 @@
 ## 0.27.0
 
 ### Enhancements
+- **General Changes**
+  - Updated the top navigation menu
 - **Gem Changes**
   - Updated to rails 4.2.0.beta4
   - Updated to contour 2.6.0.beta8

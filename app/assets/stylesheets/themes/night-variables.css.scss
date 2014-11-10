@@ -252,7 +252,8 @@ $dropdown-caret-color:           #000 !default;
 
 // Basics of a navbar
 $navbar-default-color:             $text-color !default;
-$navbar-default-bg:                $body-bg !default;
+// $navbar-default-bg:                $body-bg !default;
+$navbar-default-bg:                lighten($body-bg, 10%) !default;
 $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // Navbar links

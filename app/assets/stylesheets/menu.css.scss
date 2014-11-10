@@ -1,0 +1,16 @@
+.navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-brand.active {
+  color: $state-success-text !important;
+  background-color: $state-success-bg !important;
+}
+
+a.logout-button {
+  color: lighten($brand-danger, 15%) !important;
+}
+
+a.logout-button:hover {
+  color: $brand-danger !important;
+}
+
+.navbar-form.navbar-right:last-child {
+  margin-right: 0px;
+}
