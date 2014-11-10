@@ -352,7 +352,24 @@ class DesignsController < ApplicationController
     end
 
     def generate_import
-      rake_task = "#{RAKE_PATH} design_import DESIGN_ID=#{@design.id} SITE_ID=#{params[:site_id].to_i} SUBJECT_STATUS=#{Subject::STATUS.flatten.include?(params[:subject_status].to_s) ? params[:subject_status].to_s : 'pending' } CURRENT_USER_ID=#{current_user.id} REMOTE_IP=#{request.remote_ip} &"
-      systemu rake_task unless Rails.env.test?
+      unless Rails.env.test?
+        pid = Process.fork
+        if pid.nil? then
+          # In child
+          Rails.logger.debug "Design Import Started"
+
+          site = @design.project.sites.find_by_id(params[:site_id])
+          subject_status = (Subject::STATUS.flatten.include?(params[:subject_status].to_s) ? params[:subject_status].to_s : 'pending')
+          @design.create_sheets!(site, subject_status, current_user, request.remote_ip)
+
+          Rails.logger.debug "Design Import Complete"
+
+          Kernel.exit!
+        else
+          # In parent
+          Process.detach(pid)
+        end
+      end
+
     end
 end

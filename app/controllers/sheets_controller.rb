@@ -297,9 +297,20 @@ class SheetsController < ApplicationController
                   include_r: r,
                   sheet_ids_count: sheet_scope.count )
 
-      rake_task = "#{RAKE_PATH} sheet_export EXPORT_ID=#{export.id} SHEET_IDS='#{sheet_scope.pluck(:id).join(',')}' &"
+      unless Rails.env.test?
+        pid = Process.fork
+        if pid.nil? then
+          # In child
+          Rails.logger.debug "Sheet Export Started"
+          export.generate_export!(sheet_scope)
+          Rails.logger.debug "Sheet Export Complete"
 
-      systemu rake_task unless Rails.env.test?
+          Kernel.exit!
+        else
+          # In parent
+          Process.detach(pid)
+        end
+      end
 
       # flash[:notice] = 'You will be emailed when the export is ready for download.'
       render text: "window.location.href = '#{project_export_path(export.project, export)}';"

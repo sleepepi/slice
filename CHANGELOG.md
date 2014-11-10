@@ -7,6 +7,9 @@
   - Updated to redcarpet 3.2.0
 - Use of Ruby 2.1.4 is now recommended
 
+### Refactoring
+- Removed dependency on rake and systemu for background tasks
+
 ## 0.26.3 (October 23, 2014)
 
 ### Enhancements

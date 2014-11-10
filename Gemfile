@@ -14,7 +14,6 @@ gem 'rails-observers',      '0.1.2'
 gem 'redcarpet',            '~> 3.2.0'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'rubyzip',              '~> 1.1.0'
-gem 'systemu',              '~> 2.6.0'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.1.0'
