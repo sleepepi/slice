@@ -1,25 +1,14 @@
 <% show_navigation = (@sheet.design.main_sections.size > 1) %>
 
-<% if show_navigation %>
-<div class="row">
-  <div class="col-md-3 bs-docs-sidebar">
-    <%= @design = @sheet.design; render partial: 'designs/navigation' %>
-  </div>
-  <div class="col-md-9" id="main-bar">
-<% end %>
-    <form class="form-horizontal">
-      <% @sheet.design.options.each do |option| %>
-        <% @option = option %>
-        <% if @option[:variable_id].blank? %>
-          <%= render partial: 'sheet_variables/section' %>
-        <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %> <%# and @sheet.show_variable?(@option[:branching_logic]) # handled by client-side JavaScript %>
-          <div data-object="evaluate-branching-logic" data-branching-logic="<%= @sheet.expanded_branching_logic(@option[:branching_logic]) %>">
-            <%= render partial: 'sheet_variables/show' %>
-          </div>
-        <% end %>
-      <% end %>
-    </form>
-<% if show_navigation %>
-  </div>
-</div>
-<% end %>
+<form class="form-horizontal">
+  <% @sheet.design.options.each do |option| %>
+    <% @option = option %>
+    <% if @option[:variable_id].blank? %>
+      <%= render partial: 'sheet_variables/section' %>
+    <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %> <%# and @sheet.show_variable?(@option[:branching_logic]) # handled by client-side JavaScript %>
+      <div data-object="evaluate-branching-logic" data-branching-logic="<%= @sheet.expanded_branching_logic(@option[:branching_logic]) %>">
+        <%= render partial: 'sheet_variables/show' %>
+      </div>
+    <% end %>
+  <% end %>
+</form>

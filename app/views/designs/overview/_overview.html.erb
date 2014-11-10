@@ -1,13 +1,5 @@
 <% show_navigation = (@design.main_sections.size > 1) %>
 
-<% if show_navigation %>
-<div class="row">
-  <div class="col-md-3 bs-docs-sidebar">
-    <%= render partial: 'designs/navigation' %>
-  </div>
-  <div class="col-md-9" id="main-bar">
-<% end %>
-
 <% @colors = ['#3366cc', '#dc3912', '#ff9900', '#109618', '#66aa00', '#dd4477', '#0099c6', '#990099'] %>
 
 <form class="form-horizontal">
@@ -39,8 +31,3 @@
     <% end %>
   <% end %>
 </form>
-
-<% if show_navigation %>
-  </div>
-</div>
-<% end %>

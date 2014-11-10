@@ -24,7 +24,7 @@
     <%= javascript_tag "var root_url='#{request.script_name + '/'}';var auth_token='#{form_authenticity_token}';" %>
 
   </head>
-  <body data-spy="scroll" data-target=".bs-sidebar" >
+  <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <%= render partial: 'layouts/menu' %>
     </nav>

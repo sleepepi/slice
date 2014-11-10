@@ -27,7 +27,6 @@
   checkAllRanges()
   $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
   $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
-  loadAffix()
   $( ".grid_sortable" ).sortable({ axis: "y" })
 
 @evaluateBranchingLogic = () ->
@@ -45,29 +44,6 @@
     else
       $(element).hide()
       # $(element).css('background', "#0f0")
-  )
-  loadAffix()
-
-@loadAffix = () ->
-  $(document.body).scrollspy(
-    target: '.bs-sidebar'
-    offset: $('.navbar').outerHeight(true) + 10
-  )
-
-  $sideBar = $('.bs-sidebar')
-
-  $sideBar.affix(
-    offset:
-      top: () ->
-        offsetTop      = $('#main-bar').offset().top
-        sideBarMargin  = parseInt($sideBar.children(0).css('margin-top'), 10)
-        navOuterHeight = $('.navbar-fixed-top').height()
-        return (this.top = offsetTop - navOuterHeight - sideBarMargin)
-      bottom: () ->
-        return ( this.bottom = $(document.body).outerHeight(true) - $('#main-bar').offset().top - $('#main-bar').outerHeight(true) )
-  )
-  $('[data-spy="scroll"]').each( () ->
-    $spy = $(this).scrollspy('refresh')
   )
 
 @sheetsReady = () ->
@@ -105,9 +81,6 @@ $(document)
     $.get($(form).attr("action"), $(form).serialize() + '&export=1', null, "script")
     $(this).attr('disabled', 'disabled')
     false
-  )
-  .on('click', '[data-object~="sidebar-link"]', () ->
-    $(this).blur()
   )
   .on('change', '[data-object~="set-subject-schedule-event"]', () ->
     subject_schedule_id = $(this).val().split('-')[0]

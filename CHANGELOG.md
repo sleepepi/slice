@@ -5,6 +5,8 @@
   - Updated the top navigation menu
   - Favoriting a project now puts it in the menu right away
     - A maximum of three projects are displayed in the navigation bar
+- **Sheet Changes**
+  - Side navigation bar was removed to make better use of available space
 - **Variable Changes**
   - Variable calculations can now exceed the 255 character limit
 - **Gem Changes**
