@@ -14,6 +14,7 @@
   - Sheet variable display names are now left-aligned
   - Sheet variable display names now have a bit more space before the input fields
   - Choosing a design is now the last step when creating a new sheet
+  - Calculations on sheets are now hidden by default
 - **Variable Changes**
   - Variable calculations can now exceed the 255 character limit
   - Time and date inputs have been adjusted to better fit the expected input width

@@ -173,6 +173,10 @@ $(document)
     e.stopPropagation()
     false
   )
+  .on('click', '[data-object~="toggle-visibility"]', () ->
+    $($(this).data('target')).toggle()
+    false
+  )
   .on('typeahead:selected', "#global-search", (event, datum) ->
     $(this).val(datum['value'])
     $("#global-search-form").submit()

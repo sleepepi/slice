@@ -2,20 +2,22 @@
 
 <% location_id = field_name.gsub('[','_').gsub(']', '') %>
 
-<div class="<% unless variable.prepend.blank? and variable.units.blank? and variable.append.blank? %>input-group<% end %>">
+<div class="input-group">
   <% unless variable.prepend.blank? %><span class="input-group-addon"><%= variable.prepend %></span><% end %>
-  <%= hidden_field_tag field_name, response, disabled: disabled, data: { object: 'calculated', calculation: variable.calculation, variable_id: variable.id, target: "##{location_id}_calculation_result", name: variable.name, grid_position: defined?(position) ? position : "", location_id: location_id } %>
   <%= text_field_tag "#{location_id}_calculation_result", response, class: 'form-control',
                       disabled: 'disabled',
                       rel: "#{'popover' unless variable.calculation.blank?}",
                       data: { content: "<tt><div class=\"center\">#{variable.calculation}</div></tt>#{simple_format ("<hr/>" + variable.description.to_s) unless variable.description.blank?}",
                               title: variable.display_name,
                               html: true } %>
+  <%= hidden_field_tag field_name, response, disabled: disabled, data: { object: 'calculated', calculation: variable.calculation, variable_id: variable.id, target: "##{location_id}_calculation_result", name: variable.name, grid_position: defined?(position) ? position : "", location_id: location_id } %>
   <% unless variable.units.blank? %><span class="input-group-addon"><%= variable.units %></span><% end %>
   <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>
+  <span class="input-group-btn input-group-addon" style="margin:-1px;padding:0px;border:0px">
+    <%= link_to 'Calculation', '#', class: 'btn btn-default', tabindex: '-1', data: { object: 'toggle-visibility', target: "#calculation_#{location_id}"} %>
+  </span>
 </div>
 
-<div class="bs-callout bs-callout-info">
-  <h4>Calculation</h4>
+<div class="bs-callout bs-callout-info" id="calculation_<%= location_id %>" style="display:none">
   <code><%= variable.formatted_calculation %></code>
 </div>
