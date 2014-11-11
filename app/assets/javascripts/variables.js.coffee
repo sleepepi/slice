@@ -249,3 +249,7 @@ $(document)
   .on('change', '[data-object~="dateminmax"]', () ->
     setRangeDate($(this))
   )
+  .on('change', '.upload', () ->
+    file_name = this.value.replace(/\\/g, '/').replace(/.*\//, '')
+    $(this).parent().find('.file-input-display').html( file_name || 'Upload File' )
+  )
