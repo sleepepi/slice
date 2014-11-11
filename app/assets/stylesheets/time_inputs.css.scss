@@ -2,7 +2,17 @@
   white-space: nowrap;
 
   input[type="text"] {
-    min-width: 50px;
-    width: 50px;
+    min-width: 55px;
+    width: 55px;
+  }
+}
+
+.date-input {
+  width: 161px !important;
+
+  input[type="text"] {
+    min-width: 120px;
+    width: 120px !important;
+    margin-right: -1px;
   }
 }

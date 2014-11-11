@@ -1,10 +1,10 @@
 <% is_grid = defined?(grid) %>
 
-<div class="input-group">
+<div class="input-group date-input">
   <%= text_field_tag variable.name, '', class: 'form-control', disabled: true, placeholder: 'mm/dd/yyyy' %>
   <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
   <% if variable.show_current_button? %>
-    <span class="input-group-btn">
+    <span class="input-group-btn input-group-addon" style="margin:-1px;padding:0px;border:0px">
       <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
     </span>
   <% end %>

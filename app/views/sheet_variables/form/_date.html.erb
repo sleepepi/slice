@@ -1,6 +1,6 @@
 <% is_grid = defined?(grid) %>
 
-<div class="input-group">
+<div class="input-group date-input">
   <% unless variable.prepend.blank? %><span class="input-group-addon"><%= variable.prepend %></span><% end %>
   <%= text_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker form-control',
         data: {
@@ -21,7 +21,7 @@
   <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
   <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>
   <% if variable.show_current_button? %>
-    <span class="input-group-btn">
+    <span class="input-group-btn input-group-addon" style="margin:-1px;padding:0px;border:0px">
       <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
     </span>
   <% end %>
