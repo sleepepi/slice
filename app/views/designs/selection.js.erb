@@ -12,7 +12,8 @@ $("#design").html("<%= escape_javascript(render("designs/selection")) %>");
   <% @design.options.each do |option| %>
     <% @option = option %>
     <% if @option[:variable_id].blank? %>
-      $('#<%= @option[:section_id] %>').data('branching-logic', <%= raw @design.branching_logic_section(@option[:section_id]) %>);
+      <% @section = @design.sections.where( name: @option[:section_name] ).first %>
+      $('#section_<%= @section.id if @section %>').data('branching-logic', <%= raw @design.branching_logic_section(@section) %>);
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
       $('#varvar_<%= @variable.id %>').data('branching-logic', <%= raw @design.branching_logic(@variable) %>);
     <% end %>

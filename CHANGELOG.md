@@ -34,6 +34,7 @@
 - Fixed an issue displaying the chozen dropdown sprite
 - Fixed a styling issue with autocomplete fields preceded by a prepend string
 - Default site is now pre-selected for editors on a single site for projects that have more than one site
+- Sections no longer lose the associated image when updated, and now work correctly with branching logic
 
 ### Refactoring
 - Removed dependency on rake and systemu for background tasks

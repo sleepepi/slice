@@ -41,15 +41,15 @@ class Design < ActiveRecord::Base
 
   def create_section(params, position, current_user)
     errors = []
-    section_params = params.permit(:section_name, :section_description, :section_type, :section_image)
-    section_hash = { section_name: section_params[:section_name].to_s.strip, section_id: "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:section_description].to_s.strip, section_type: section_params[:section_type].to_i }
+    section_params = params.permit(:section_name, :section_description, :section_branching_logic, :section_type, :section_image)
+    section_hash = { section_name: section_params[:section_name].to_s.strip, section_id: "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:section_description].to_s.strip, section_type: section_params[:section_type].to_i, branching_logic: section_params[:branching_logic].to_s.strip }
     unless section_params[:section_name].to_s.strip.blank?
       new_option_tokens = self.options
       new_option_tokens.insert(position, section_hash)
       self.options = new_option_tokens
       if self.save
         section = self.sections.where( name: section_hash[:section_name] ).first_or_create( project_id: self.project_id, user_id: current_user.id )
-        section.update( description: section_hash[:description], sub_section: section_hash[:section_type] == 1, image: section_params[:section_image] )
+        section.update( description: section_hash[:description], sub_section: section_hash[:section_type] == 1, image: section_params[:section_image], branching_logic: section_params[:section_branching_logic] )
       else
         errors += [['section_section_name', 'Section name must be unique!']]
       end
@@ -61,7 +61,7 @@ class Design < ActiveRecord::Base
 
   def update_section(params, position, current_user)
     errors = []
-    section_params = params.permit(:section_name, :section_description, :branching_logic, :section_type, :section_image)
+    section_params = params.permit(:section_name, :section_description, :section_branching_logic, :section_type, :section_image)
     unless section_params[:section_name].blank?
       section_params[:section_id] = "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase
       new_option_tokens = self.options
@@ -71,7 +71,7 @@ class Design < ActiveRecord::Base
       self.options = new_option_tokens
       if self.save
         section = self.sections.where( name: section_params[:section_name] ).first_or_create( project_id: self.project_id, user_id: current_user.id )
-        section.update( description: section_params[:section_description], sub_section: section_params[:section_type] == 1, image: section_params[:section_image] )
+        section.update( description: section_params[:section_description], sub_section: section_params[:section_type] == 1, image: section_params[:section_image], branching_logic: section_params[:section_branching_logic] )
       else
         errors += [['section_section_name', 'Section name must be unique!']]
       end
@@ -256,8 +256,12 @@ class Design < ActiveRecord::Base
     end
   end
 
-  def branching_logic_section(section_id)
-    self.options.select{|item| item[:section_id].to_s == section_id.to_s }.collect{|item| item[:branching_logic].to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}}.join(' ').to_json
+  def branching_logic_section(section)
+    if section
+      section.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
+    else
+      ''
+    end
   end
 
   def branching_logic(variable)

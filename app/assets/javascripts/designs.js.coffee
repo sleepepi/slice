@@ -10,15 +10,10 @@
 
 
 # This function updates all variables starting with lowest one and progressing up in visibility.
-# After hiding or showing all the variables, it updates the scroll-spy to correct any offsets that may
-# have been introduced
 @updateAllVariables = () ->
   variableContainers = $('[data-object~="variable-container"]')
   variableContainers.each( (index, variableContainer) ->
     updateVariableContainer(variableContainer)
-  )
-  $('[data-spy="scroll"]').each( () ->
-    $spy = $(this).scrollspy('refresh')
   )
   false
 
