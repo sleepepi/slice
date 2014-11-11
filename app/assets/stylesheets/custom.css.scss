@@ -521,3 +521,18 @@ label.checkbox, label.radio {
 .form-horizontal .checkbox {
   min-height: 31px;
 }
+
+/* Contour Overrides */
+.twitter-typeahead {
+  color: $gray !important;
+  background-color: $input-bg !important;
+}
+
+.tt-dropdown-menu {
+  background-color: $dropdown-bg;
+  border: 1px solid $dropdown-fallback-border;
+  border: 1px solid $dropdown-border;
+  -webkit-box-shadow: 0 5px 10px $dropdown-border;
+     -moz-box-shadow: 0 5px 10px $dropdown-border;
+          box-shadow: 0 5px 10px $dropdown-border;
+}

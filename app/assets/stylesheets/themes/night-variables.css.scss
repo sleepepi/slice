@@ -67,7 +67,7 @@ $link-hover-color:      $link-color !default;
 // $headings-font-family:    $font-family-base !default;
 // $headings-font-weight:    500 !default;
 // $headings-line-height:    1.1 !default;
-$headings-color:          #fff !default;
+$headings-color:          #dedede !default;
 
 
 //== Iconography
@@ -111,7 +111,7 @@ $hr-border:                   $gray-dark !default;
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 
 //** Global color for active items (e.g., navs or dropdowns).
-$component-active-color:    #fff !default;
+$component-active-color:    #dedede !default;
 //** Global background color for active items (e.g., navs or dropdowns).
 $component-active-bg:       $brand-primary !default;
 
@@ -148,7 +148,7 @@ $table-border-color:            $gray-dark !default;
 
 $btn-font-weight:                normal !default;
 
-$btn-default-color:              #fff !default;
+$btn-default-color:              #dedede !default;
 $btn-default-bg:                 lighten($gray-dark, 10%) !default;
 $btn-default-border:             $btn-default-bg !default;
 
@@ -180,7 +180,7 @@ $btn-link-disabled-color:        $gray-light !default;
 //##
 
 //** `<input>` background color
-$input-bg:                       #fff !default;
+$input-bg:                       #444 !default;
 //** `<input disabled>` background color
 $input-bg-disabled:              $gray-lighter !default;
 
@@ -224,16 +224,16 @@ $dropdown-fallback-border:       #444 !default;
 $dropdown-divider-bg:            rgba(255,255,255,0.1) !default;
 
 //** Dropdown link text color.
-$dropdown-link-color:            #fff !default;
+$dropdown-link-color:            #dedede !default;
 //** Hover color for dropdown links.
-$dropdown-link-hover-color:      #fff !default;
+$dropdown-link-hover-color:      #dedede !default;
 //** Active dropdown menu item background color.
 $dropdown-link-active-bg:        $component-active-bg !default;
 //** Hover background for dropdown links.
 $dropdown-link-hover-bg:         $dropdown-link-active-bg !default;
 
 //** Active dropdown menu item text color.
-$dropdown-link-active-color:     #fff !default;
+$dropdown-link-active-color:     #dedede !default;
 
 //** Disabled dropdown menu item background color.
 $dropdown-link-disabled-color:   $text-muted !default;
@@ -258,16 +258,16 @@ $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // Navbar links
 $navbar-default-link-color:                $text-color !default;
-$navbar-default-link-hover-color:          #fff !default;
+$navbar-default-link-hover-color:          #dedede !default;
 $navbar-default-link-hover-bg:             hsla(0, 100%, 100%, 0) !default;
-$navbar-default-link-active-color:         #fff !default;
+$navbar-default-link-active-color:         #dedede !default;
 $navbar-default-link-active-bg:            hsla(0, 100%, 100%, 0) !default;
 $navbar-default-link-disabled-color:       $gray-light !default;
 $navbar-default-link-disabled-bg:          hsla(0, 100%, 100%, 0) !default;
 
 // Navbar brand label
-$navbar-default-brand-color:               #fff !default;
-$navbar-default-brand-hover-color:         #fff !default;
+$navbar-default-brand-color:               #dedede !default;
+$navbar-default-brand-hover-color:         #dedede !default;
 $navbar-default-brand-hover-bg:            hsla(0, 100%, 100%, 0) !default;
 
 // Navbar toggle
@@ -284,7 +284,7 @@ $navbar-inverse-border:                     darken($navbar-inverse-bg, 10%) !def
 
 // Inverted navbar links
 $navbar-inverse-link-color:                 $gray-light !default;
-$navbar-inverse-link-hover-color:           #fff !default;
+$navbar-inverse-link-hover-color:           #dedede !default;
 $navbar-inverse-link-hover-bg:              hsla(0, 100%, 100%, 0) !default;
 $navbar-inverse-link-active-color:          $navbar-inverse-link-hover-color !default;
 $navbar-inverse-link-active-bg:             hsla(0, 100%, 100%, 0) !default;
@@ -292,13 +292,13 @@ $navbar-inverse-link-disabled-color:        #aaa !default;
 $navbar-inverse-link-disabled-bg:           hsla(0, 100%, 100%, 0) !default;
 
 // Inverted navbar brand label
-$navbar-inverse-brand-color:                #fff !default;
-$navbar-inverse-brand-hover-color:          #fff !default;
+$navbar-inverse-brand-color:                #dedede !default;
+$navbar-inverse-brand-hover-color:          #dedede !default;
 $navbar-inverse-brand-hover-bg:             hsla(0, 100%, 100%, 0) !default;
 
 // Inverted navbar toggle
 $navbar-inverse-toggle-hover-bg:            #333 !default;
-$navbar-inverse-toggle-icon-bar-bg:         #fff !default;
+$navbar-inverse-toggle-icon-bar-bg:         #dedede !default;
 $navbar-inverse-toggle-border-color:        #333 !default;
 
 
@@ -321,7 +321,7 @@ $nav-tabs-border-color:                     $gray-dark !default;
 $nav-tabs-link-hover-border-color:          hsla(0, 100%, 100%, 0) !default;
 
 $nav-tabs-active-link-hover-bg:             $brand-primary !default;
-$nav-tabs-active-link-hover-color:          #fff !default;
+$nav-tabs-active-link-hover-color:          #dedede !default;
 $nav-tabs-active-link-hover-border-color:   $gray-dark !default;
 
 $nav-tabs-justified-link-border-color:            #ddd !default;
@@ -336,15 +336,15 @@ $nav-pills-active-link-hover-color:         $component-active-color !default;
 //
 //##
 
-$pagination-color:                     #fff !default;
+$pagination-color:                     #dedede !default;
 $pagination-bg:                        $gray-darker !default;
 $pagination-border:                    $gray-dark !default;
 
-$pagination-hover-color:               #fff !default;
+$pagination-hover-color:               #dedede !default;
 $pagination-hover-bg:                  $component-active-bg !default;
 $pagination-hover-border:              hsla(0, 100%, 100%, 0) !default;
 
-$pagination-active-color:              #fff !default;
+$pagination-active-color:              #dedede !default;
 $pagination-active-bg:                 $brand-primary !default;
 $pagination-active-border:             hsla(0, 100%, 100%, 0) !default;
 
@@ -384,19 +384,19 @@ $jumbotron-heading-color:        inherit !default;
 //
 //## Define colors for form feedback states and, by default, alerts.
 
-$state-success-text:             #fff !default;
+$state-success-text:             #dedede !default;
 $state-success-bg:               $brand-success !default;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
-$state-info-text:                #fff !default;
+$state-info-text:                #dedede !default;
 $state-info-bg:                  $brand-info !default;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
 
-$state-warning-text:             #fff !default;
+$state-warning-text:             #dedede !default;
 $state-warning-bg:               $brand-warning !default;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 3%) !default;
 
-$state-danger-text:              #fff !default;
+$state-danger-text:              #dedede !default;
 $state-danger-bg:                $brand-danger !default;
 $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 3%) !default;
 
@@ -466,9 +466,9 @@ $label-warning-bg:            $brand-warning !default;
 $label-danger-bg:             $brand-danger !default;
 
 //** Default label text color
-$label-color:                 #fff !default;
+$label-color:                 #dedede !default;
 //** Default text color of a linked label
-$label-link-hover-color:      #fff !default;
+$label-link-hover-color:      #dedede !default;
 
 
 //== Modals
@@ -535,7 +535,7 @@ $alert-danger-border:         $state-danger-border !default;
 //** Background color of the whole progress component
 $progress-bg:                 $gray-darker !default;
 //** Progress bar text color
-$progress-bar-color:          #fff !default;
+$progress-bar-color:          #dedede !default;
 
 //** Default progress bar color
 $progress-bar-bg:             $brand-primary !default;
@@ -578,7 +578,7 @@ $list-group-disabled-text-color: $list-group-disabled-color !default;
 
 $list-group-link-color:         $text-color !default;
 $list-group-link-hover-color:   $list-group-link-color !default;
-$list-group-link-heading-color: #fff !default;
+$list-group-link-heading-color: #dedede !default;
 
 
 //== Panels
@@ -595,7 +595,7 @@ $panel-footer-bg:             $panel-default-heading-bg !default;
 $panel-default-text:          $text-color !default;
 $panel-default-border:        $panel-inner-border !default;
 
-$panel-primary-text:          #fff !default;
+$panel-primary-text:          #dedede !default;
 $panel-primary-border:        $brand-primary !default;
 $panel-primary-heading-bg:    $brand-primary !default;
 
@@ -645,15 +645,15 @@ $well-border:                 darken($well-bg, 7%) !default;
 //
 //##
 
-$badge-color:                 #fff !default;
+$badge-color:                 #dedede !default;
 //** Linked badge text color on hover
-$badge-link-hover-color:      #fff !default;
+$badge-link-hover-color:      #dedede !default;
 $badge-bg:                    $brand-primary !default;
 
 //** Badge text color in active nav link
 $badge-active-color:          $brand-primary !default;
 //** Badge background color in active nav link
-$badge-active-bg:             #fff !default;
+$badge-active-bg:             #dedede !default;
 
 $badge-font-weight:           bold !default;
 $badge-line-height:           1 !default;
@@ -669,7 +669,7 @@ $breadcrumb-padding-horizontal: 15px !default;
 //** Breadcrumb background color
 $breadcrumb-bg:                 $gray-darker !default;
 //** Breadcrumb text color
-$breadcrumb-color:              #fff !default;
+$breadcrumb-color:              #dedede !default;
 //** Text color of current page in the breadcrumb
 $breadcrumb-active-color:       $text-color !default;
 //** Textual separator for between breadcrumb elements
@@ -682,15 +682,15 @@ $breadcrumb-separator:          "/" !default;
 
 $carousel-text-shadow:                        0 1px 2px rgba(0,0,0,.6) !default;
 
-$carousel-control-color:                      #fff !default;
+$carousel-control-color:                      #dedede !default;
 $carousel-control-width:                      15% !default;
 $carousel-control-opacity:                    .5 !default;
 $carousel-control-font-size:                  20px !default;
 
-$carousel-indicator-active-bg:                #fff !default;
-$carousel-indicator-border-color:             #fff !default;
+$carousel-indicator-active-bg:                #dedede !default;
+$carousel-indicator-border-color:             #dedede !default;
 
-$carousel-caption-color:                      #fff !default;
+$carousel-caption-color:                      #dedede !default;
 
 
 //== Close
@@ -699,7 +699,7 @@ $carousel-caption-color:                      #fff !default;
 
 $close-font-weight:           bold !default;
 $close-color:                 #000 !default;
-$close-text-shadow:           0 1px 0 #fff !default;
+$close-text-shadow:           0 1px 0 #dedede !default;
 
 
 //== Code
@@ -709,7 +709,7 @@ $close-text-shadow:           0 1px 0 #fff !default;
 $code-color:                  #c7254e !default;
 $code-bg:                     #f9f2f4 !default;
 
-$kbd-color:                   #fff !default;
+$kbd-color:                   #dedede !default;
 $kbd-bg:                      #333 !default;
 
 $pre-bg:                      #f5f5f5 !default;
