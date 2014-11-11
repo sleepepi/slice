@@ -536,3 +536,8 @@ label.checkbox, label.radio {
      -moz-box-shadow: 0 5px 10px $dropdown-border;
           box-shadow: 0 5px 10px $dropdown-border;
 }
+
+.input-group .twitter-typeahead:not(:first-child) > .form-control {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}

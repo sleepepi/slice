@@ -23,6 +23,7 @@
 - Fixed an issue reordering sections on designs that included subsections
 - Fixed an issue selecting radio buttons in Firefox
 - Fixed an issue displaying the chozen dropdown sprite
+- Fixed a styling issue with autocomplete fields preceded by a prepend string
 
 ### Refactoring
 - Removed dependency on rake and systemu for background tasks
