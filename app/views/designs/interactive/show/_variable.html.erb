@@ -9,11 +9,7 @@
   </div>
 <% else %>
   <% if not @variable.uses_scale? and ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
-    <div class="page-header" style="margin-top:0px">
-      <h4 style="padding:0px">
-        <%= @variable.display_name %>
-      </h4>
-    </div>
+    <label><%= @variable.display_name %></label>
   <% end %>
 
   <div class="form-group">

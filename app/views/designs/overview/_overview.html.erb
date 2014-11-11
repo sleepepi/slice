@@ -10,10 +10,8 @@
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
 
       <% if ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
-        <div class="col-xs-12 page-header" style="margin-top:0px">
-          <h4 style="padding:0px">
-            <%= @variable.display_name %>
-          </h4>
+        <div class="col-xs-12">
+          <label><%= @variable.display_name %></label>
         </div>
       <% end %>
 
