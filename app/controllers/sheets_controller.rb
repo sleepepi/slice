@@ -98,8 +98,10 @@ class SheetsController < ApplicationController
       params[:sheet][:design_id] ||= @project.designs.first.id
     end
 
-    if @project.sites.size == 1
-      params[:site_id] ||= @project.sites.first.id
+    viewable_sites = current_user.all_editable_sites.where(project_id: @project.id)
+
+    if viewable_sites.size == 1
+      params[:site_id] ||= viewable_sites.first.id
     end
 
     @sheet = current_user.sheets.new(sheet_params)
