@@ -541,3 +541,7 @@ label.checkbox, label.radio {
   border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;
 }
+
+.form-group .control-label {
+  text-align: left;
+}
