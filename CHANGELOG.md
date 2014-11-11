@@ -20,6 +20,7 @@
 
 ### Bug Fixes
 - Fixed an issue reordering sections on designs that included subsections
+- Fixed an issue selecting radio buttons in Firefox
 
 ### Refactoring
 - Removed dependency on rake and systemu for background tasks

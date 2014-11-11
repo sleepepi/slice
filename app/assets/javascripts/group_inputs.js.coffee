@@ -35,7 +35,7 @@ selectWithKeystroke = (event) ->
 $(document)
   .on("keypress", ".radio input:radio", selectWithKeystroke)
   .on("keypress", ".checkbox input:checkbox", selectWithKeystroke)
-  .on("click", ".radio input:radio", () ->
+  .on("click", ".radio input:radio", (event) ->
     radio = $(this)
     group_name = radio.attr("name")
     toggleGroupInput(radio, group_name, event)
