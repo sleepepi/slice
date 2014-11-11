@@ -7,6 +7,7 @@
     - A maximum of three projects are displayed in the navigation bar
   - Current input focus in Night Mode is now more visible
     - Made other general improvements to Night Mode
+  - Added project-specific Export Data links dashboard
 - **Sheet Changes**
   - Side navigation bar was removed to make better use of available space
   - Missing codes are now colored red for better visibility when selected
