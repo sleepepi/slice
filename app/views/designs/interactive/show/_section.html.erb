@@ -1,10 +1,13 @@
 <% section_type = @option[:section_type].to_i %>
+<% @section = @design.sections.where( name: @option[:section_name] ).first %>
+
 <section style="padding-top:30px">
   <% if section_type > 0 %><h3><% else %><h2><% end %>
-  <%= @option[:section_name] %>
+  <%= @section ? @section.name : @option[:section_name] %>
   <%= link_to 'Edit Section', '#', data: { object: 'pull-partial-edit', edit: 'section', position: @position }, class: 'btn btn-xs btn-default design-preview-hide' %>
-  <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position, confirm: "Are you sure you want section '#{@option[:section_name]}' from the design?" }, class: 'btn btn-xs btn-danger-inverse design-preview-hide' %>
+  <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'section', position: @position, confirm: "Are you sure you want section '#{@section ? @section.name : @option[:section_name]}' from the design?" }, class: 'btn btn-xs btn-danger-inverse design-preview-hide' %>
   <% if section_type > 0 %></h3><% else %></h2><% end %>
-  <%= simple_markdown @option[:section_description] unless @option[:section_description].blank? %>
+  <% section_description = (@section ? @section.description : @option[:section_description]) %>
+  <%= simple_markdown section_description unless section_description.blank? %>
   <%= render partial: 'sections/image' %>
 </section>

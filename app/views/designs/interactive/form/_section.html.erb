@@ -1,5 +1,5 @@
 <% @option = @design.options[params[:position].to_i] %>
-<% section = @design.sections.where( name: @option[:section_name] ).first %>
+<% @section = @design.sections.where( name: @option[:section_name] ).first %>
 
 
 <div class="modal-header">
@@ -14,14 +14,14 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Name</label>
       <div class="col-md-10">
-        <%= text_field_tag "section[section_name]", (section ? section.name : @option[:section_name]), data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control' %>
+        <%= text_field_tag "section[section_name]", (@section ? @section.name : @option[:section_name]), data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control' %>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-md-2 control-label">Description</label>
       <div class="col-md-10">
-        <%= text_area_tag "section[section_description]", (section ? section.name : @option[:section_description]), rows: 3, class: 'form-control' %>
+        <%= text_area_tag "section[section_description]", (@section ? @section.description : @option[:section_description]), rows: 3, class: 'form-control' %>
       </div>
     </div>
 
@@ -30,7 +30,7 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-6">
-            <%= file_field_tag "section[section_image]", data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control' %>
+            <%= file_field_tag "section[section_image]", data: { object: 'push-partial-change-with-file-text-field', target: '#section_form', update: 'section', position: params[:position] }, class: 'form-control', value: (@section ? @section.image : nil) %>
           </div>
           <% if false %>
             <div class="col-md-6">
@@ -49,7 +49,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Branching Logic</label>
       <div class="col-md-10">
-        <%= text_area_tag "section[section_branching_logic]", (section ? section.branching_logic : @option[:branching_logic]), rows: 3, class: 'form-control' %>
+        <%= text_area_tag "section[section_branching_logic]", (@section ? @section.branching_logic : @option[:branching_logic]), rows: 3, class: 'form-control' %>
         <%= render partial: 'layouts/branching_logic_examples' %>
       </div>
     </div>
@@ -58,7 +58,7 @@
       <div class="col-md-10 col-md-offset-2">
         <div class="checkbox">
           <label>
-            <%= check_box_tag "section[section_type]", "1", (section ? section.sub_section : @option[:section_type].to_i > 0)  %>
+            <%= check_box_tag "section[section_type]", "1", (@section ? @section.sub_section : @option[:section_type].to_i > 0)  %>
             Subsection
           </label>
         </div>
