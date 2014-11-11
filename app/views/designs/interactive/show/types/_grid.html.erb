@@ -8,11 +8,11 @@
       <tr>
         <% variable.grid_variables.each do |grid_variable_id| %>
           <% v = Variable.find_by_id(grid_variable_id[:variable_id]) %>
-          <th>
+          <td>
             <div data-object="pull-partial-edit" data-edit="variable_display_name" data-position="<%= @position %>" data-variable-id="<%= v.id %>" class="editable-design-element">
               <%= v.display_name if v %>
             </div>
-          </th>
+          </td>
         <% end %>
       </tr>
     </thead>

@@ -3,10 +3,10 @@
     <thead>
       <tr>
         <% variable.grid_variables.each do |grid_variable| %>
-          <th>
+          <td>
             <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
             <%= v.display_name if v %>
-          </th>
+          </td>
         <% end %>
       </tr>
     </thead>
