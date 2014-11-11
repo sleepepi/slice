@@ -12,6 +12,7 @@
   - Missing codes are now colored red for better visibility when selected
   - Variable display names now display consistently in both above and inline formats
   - Sheet variable display names are now left-aligned
+  - Sheet variable display names now have a bit more space before the input fields
 - **Variable Changes**
   - Variable calculations can now exceed the 255 character limit
   - Time and date inputs have been adjusted to better fit the expected input width

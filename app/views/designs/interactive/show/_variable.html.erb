@@ -1,7 +1,7 @@
 <% if @variable.deleted? %>
   <div class="form-group error">
-    <label class="col-md-2 control-label"><%= @variable.display_name %></label>
-    <div class="col-md-10">
+    <label class="col-md-3 control-label"><%= @variable.display_name %></label>
+    <div class="col-md-9">
       <div style="line-height:30px">
         This variable has been deleted. Click below to remove from design.
       </div>
@@ -14,12 +14,12 @@
 
   <div class="form-group">
     <% if not @variable.uses_scale? and 'visible' == @variable.display_name_visibility %>
-      <label class="col-md-2 control-label">
+      <label class="col-md-3 control-label">
         <%= @variable.display_name %>
       </label>
     <% end %>
 
-    <div class="<%= (@variable.uses_scale? || @variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-10') %> <%= 'col-md-offset-2' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
+    <div class="<%= (@variable.uses_scale? || @variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9') %> <%= 'col-md-offset-3' if @variable.display_name_visibility == 'invisible' and not @variable.uses_scale? %>">
       <div style="line-height:30px">
         <% if Variable::TYPE.flatten.uniq.include?(@variable.variable_type) %>
           <%= render partial: "designs/interactive/show/types/#{@variable.variable_type}", locals: { variable: @variable } %>

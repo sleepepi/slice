@@ -48,8 +48,8 @@
 
   <% if @sheet.new_record? %>
     <div class="form-group">
-      <%= f.label :design_id, nil, class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
+      <%= f.label :design_id, nil, class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
         <% designs = current_user.all_viewable_designs.with_project(@project.id) %>
         <%= select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)), {}, class: 'form-control' %>
       </div>
@@ -57,8 +57,8 @@
   <% end %>
 
   <div class="form-group">
-    <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-md-2 control-label', id: 'subject_code_name_full' %>
-    <div class="col-md-10">
+    <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-md-3 control-label', id: 'subject_code_name_full' %>
+    <div class="col-md-9">
       <div class="<%= 'input-group' if @project.sites_with_range.size > 0 %>">
         <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.where( site_id: current_user.all_editable_sites ).collect{|s| { subject_code: s.subject_code, status_class: (s.status == 'valid' ? 'success' : 'info'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
         <% if @project.sites_with_range.size > 0 %><span class="input-group-btn"><%= link_to 'Site Ranges', '#', class: 'btn btn-default', data: { toggle: 'modal', target: '#site_ranges' }, tabindex: '-1' %></span><% end %>
@@ -67,15 +67,15 @@
   </div>
 
   <div class="form-group" style="<%= 'display:none' unless @sheet.project and @sheet.project.acrostic_enabled? %>" id="acrostic-container">
-    <%= label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'col-md-2 control-label' %>
-    <div class="col-md-10">
+    <%= label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'col-md-3 control-label' %>
+    <div class="col-md-9">
       <%= text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic', class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= label_tag 'site_id', 'Site', class: 'col-md-2 control-label' %>
-    <div class="col-md-10">
+    <%= label_tag 'site_id', 'Site', class: 'col-md-3 control-label' %>
+    <div class="col-md-9">
       <%= @subject = @sheet.subject; render partial: 'sites/selection' %>
     </div>
   </div>
@@ -83,16 +83,16 @@
   <% if @sheet.new_record? %>
     <% if @sheet.event and @sheet.subject_schedule %>
       <div class="form-group">
-        <%= label_tag :subject_schedule_id, 'Schedule', class: 'col-md-2 control-label' %>
-        <div class="col-md-10" style="margin-top:8px">
+        <%= label_tag :subject_schedule_id, 'Schedule', class: 'col-md-3 control-label' %>
+        <div class="col-md-9" style="margin-top:8px">
           <%= f.hidden_field :subject_schedule_id %>
           <%= @sheet.subject_schedule.schedule.name %>
         </div>
       </div>
 
       <div class="form-group">
-        <%= label_tag :event_id, 'Event', class: 'col-md-2 control-label' %>
-        <div class="col-md-10" style="margin-top:8px">
+        <%= label_tag :event_id, 'Event', class: 'col-md-3 control-label' %>
+        <div class="col-md-9" style="margin-top:8px">
           <%= f.hidden_field :event_id %>
           <%= @sheet.event.name %><%= @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank? %>
         </div>
@@ -100,8 +100,8 @@
     <% end %>
   <% elsif @sheet.subject and @sheet.subject.subject_schedule_events(@sheet.design_id).size > 0 %>
     <div class="form-group">
-      <%= label_tag :subject_schedule_event, 'Schedule', class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
+      <%= label_tag :subject_schedule_event, 'Schedule', class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
         <%= f.hidden_field :subject_schedule_id %>
         <%= f.hidden_field :event_id %>
         <%= select_tag :subject_schedule_event, options_for_select([['---', nil]] + @sheet.subject.subject_schedule_events(@sheet.design_id), "#{@sheet.subject_schedule_id}-#{@sheet.event_id}"), class: 'form-control', data: { object: 'set-subject-schedule-event' } %>
@@ -116,7 +116,7 @@
   </div>
 
   <div class="form-group">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-9 col-md-offset-3">
       <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
       <%= f.submit nil,       class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
       <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit", continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
