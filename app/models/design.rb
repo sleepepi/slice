@@ -309,6 +309,10 @@ class Design < ActiveRecord::Base
     end
   end
 
+  def main_section_names
+    self.main_sections.collect{|option| option[:section_name]}
+  end
+
   # ActiveRecord...
   def pure_variables
     @pure_variables ||= begin
@@ -335,7 +339,7 @@ class Design < ActiveRecord::Base
   end
 
   def reorder_sections(section_order, current_user)
-    return if section_order.size == 0 or section_order.sort != (0..self.section_names.size - 1).to_a
+    return if section_order.size == 0 or section_order.sort != (0..self.main_section_names.size - 1).to_a
     original_sections = {}
 
     current_section = nil

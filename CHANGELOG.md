@@ -17,6 +17,9 @@
   - Updated to redcarpet 3.2.0
 - Use of Ruby 2.1.4 is now recommended
 
+### Bug Fixes
+- Fixed an issue reordering sections on designs that included subsections
+
 ### Refactoring
 - Removed dependency on rake and systemu for background tasks
 
