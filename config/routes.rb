@@ -135,6 +135,7 @@ Rails.application.routes.draw do
         get :format_number
         post :add_grid_row
         get :typeahead
+        post :restore
       end
       collection do
         post :add_grid_variable

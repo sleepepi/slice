@@ -1,11 +1,12 @@
 class VariablesController < ApplicationController
   before_action :authenticate_user!, except: [ :add_grid_row, :format_number, :typeahead ]
   before_action :set_viewable_project, only: [ :cool_lookup ]
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :cool_lookup ]
+  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore, :cool_lookup ]
+  before_action :set_restorable_variable, only: [ :restore ]
   before_action :set_editable_variable, only: [ :show, :edit, :update, :destroy ]
   before_action :set_authenticatable_variable, only: [ :add_grid_row, :typeahead, :format_number ]
-  before_action :redirect_without_variable, only: [ :show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number ]
+  before_action :redirect_without_variable, only: [ :show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number, :restore ]
 
   def cool_lookup
     @variable = @project.variable_by_id(params[:variable_id])
@@ -139,10 +140,19 @@ class VariablesController < ApplicationController
     end
   end
 
+  def restore
+    @variable.update deleted: false
+    redirect_to [@project, @variable]
+  end
+
   private
 
     def set_editable_variable
       @variable = @project.variables.find_by_id(params[:id])
+    end
+
+    def set_restorable_variable
+      @variable = Variable.where( project_id: @project.id, deleted: true ).find_by_id(params[:id])
     end
 
     def set_authenticatable_variable

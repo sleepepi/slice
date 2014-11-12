@@ -21,7 +21,8 @@
   - Variable calculations can now exceed the 255 character limit
   - Time and date inputs have been adjusted to better fit the expected input width
   - Numeric fields with ranges no longer accept numbers with non-numeric components, ex: '100 years'
-  - Date variables are now availble in three formats, "YYYY-MM-DD", "MM/DD/YYYY", and "DD/MM/YYYY"
+  - Date variables are now available in three formats, "YYYY-MM-DD", "MM/DD/YYYY", and "DD/MM/YYYY"
+  - Deleted variables that still exist on designs can be restored in certain circumstances
 - **Gem Changes**
   - Updated to rails 4.2.0.beta4
   - Updated to contour 2.6.0.beta8

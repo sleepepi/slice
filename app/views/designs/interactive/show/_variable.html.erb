@@ -136,7 +136,16 @@
 
     <td>
       <strong>Actions</strong>
-      <%= link_to 'Edit', '#', data: { object: 'pull-partial-edit', edit: 'variable_display_name', position: @position, variable_id: @variable.id }, class: 'btn btn-xs btn-default' %>
+      <% if @variable.deleted? %>
+        <% @variable.deleted = false %>
+        <% if @variable.valid? %>
+          <%= link_to 'Restore', restore_project_variable_path(@project, @variable), method: :post, class: 'btn btn-xs btn-success' %>
+        <% else %>
+          This variable cannot be restored. A new variable with the same name already exists.
+        <% end %>
+      <% else %>
+        <%= link_to 'Edit', '#', data: { object: 'pull-partial-edit', edit: 'variable_display_name', position: @position, variable_id: @variable.id }, class: 'btn btn-xs btn-default' %>
+      <% end %>
       <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'variable', position: @position, confirm: "Are you sure you want to remove '#{@variable.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse' %>
     </td>
 
