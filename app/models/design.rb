@@ -260,7 +260,7 @@ class Design < ActiveRecord::Base
     if section
       section.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
     else
-      ''
+      ''.to_json
     end
   end
 
