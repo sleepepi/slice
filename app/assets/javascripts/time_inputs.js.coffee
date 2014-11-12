@@ -38,6 +38,59 @@ reformatTimeInput = (target, int_val) ->
   target.val(pad(s, 2)) unless $("input:hidden[name='"+name+"']").val() == ''
   setFullTimeField(target)
 
+@setFullDateField = (element) ->
+  name = element.data("target-input")
+  target_input = $(name)
+  day_target = $(name.replace("#", "#day_"))
+  month_target = $(name.replace("#", "#month_"))
+  year_target = $(name.replace("#", "#year_"))
+
+  day_int = parseInt(day_target.val())
+  month_int = parseInt(month_target.val())
+  year_int = parseInt(year_target.val())
+
+  temp_date = Date.parse("#{year_int}-#{month_int}-#{day_int} 00:00:00");
+  date = new Date(temp_date)
+
+  day = date.getDate()
+  month = date.getMonth()+1
+  year = date.getFullYear()
+
+  if !isNaN(day) and !isNaN(month) and !isNaN(year)
+    target_input.val(String(date.getMonth()+1)+"/"+String(date.getDate())+"/"+String(date.getFullYear()))
+  else
+    target_input.val('')
+  target_input.change()
+  false
+
+@clearDateFields = (element) ->
+  name = element.data("target-input")
+  target_input = $(name)
+  day_target = $(name.replace("#", "#day_"))
+  month_target = $(name.replace("#", "#month_"))
+  year_target = $(name.replace("#", "#year_"))
+
+  target_input.val("")
+  day_target.val("")
+  month_target.val("")
+  year_target.val("")
+  target_input.change()
+
+@setCurrentDate = (element) ->
+  name = element.data("target-input")
+  target_input = $(name)
+  day_target = $(name.replace("#", "#day_"))
+  month_target = $(name.replace("#", "#month_"))
+  year_target = $(name.replace("#", "#year_"))
+
+  date = new Date()
+
+  target_input.val(String(date.getMonth()+1)+"/"+String(date.getDate())+"/"+String(date.getFullYear()))
+  day_target.val(date.getDate())
+  month_target.val(date.getMonth()+1)
+  year_target.val(date.getFullYear())
+  target_input.change()
+
 clearTimeFields = (name) ->
   $("input:hidden[name='"+name+"']").val("")
   $("input:text[name='hour_"+name+"']").val("")
@@ -62,3 +115,18 @@ $(document)
     clearTimeFields($(this).data("target-input"))
     event.preventDefault()
   )
+  .on("click", '[data-object~="clear-date-input"]', () ->
+    clearDateFields($(this))
+    false
+  )
+  .on('change', '[data-object~="date-field"]', () ->
+    setFullDateField($(this))
+  )
+  .on('blur', '[data-object~="date-field"]', () ->
+    setFullDateField($(this))
+  )
+  .on('click', '[data-object~="set-date-input-to-current-date"]', () ->
+    setCurrentDate($(this))
+    false
+  )
+

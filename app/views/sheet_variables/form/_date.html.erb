@@ -1,28 +1,17 @@
 <% is_grid = defined?(grid) %>
 
-<div class="input-group date-input">
-  <% unless variable.prepend.blank? %><span class="input-group-addon"><%= variable.prepend %></span><% end %>
-  <%= text_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue response), class: 'datepicker form-control',
-        data: {
-                object: 'dateminmax',
-                content: variable.description,
-                title: variable.display_name,
-                date_hard_minimum: (variable.date_hard_minimum.strftime('%m/%d/%Y') rescue ''), date_hard_maximum: (variable.date_hard_maximum.strftime('%m/%d/%Y') rescue ''),
-                date_soft_minimum: (variable.date_soft_minimum.strftime('%m/%d/%Y') rescue ''), date_soft_maximum: (variable.date_soft_maximum.strftime('%m/%d/%Y') rescue ''),
-                missing_codes: variable.missing_codes, placement: (variable.show_current_button? ? 'left' : 'right'),
-                html: true,
-                container: 'body'
-              },
-        rel: "#{variable.description.blank? ? '' : 'popover'}",
-        autocomplete: 'off',
-        disabled: disabled,
-        title: variable.display_name,
-        placeholder: 'mm/dd/yyyy' %>
-  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-  <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>
-  <% if variable.show_current_button? %>
-    <span class="input-group-btn input-group-addon" style="margin:-1px;padding:0px;border:0px">
-      <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
+<div class="date-input form-inline">
+  <%= hidden_field_tag field_name, (Date.parse(response).strftime('%m/%d/%Y') rescue ""), data: { object: "condition" }, disabled: disabled %>
+
+  <% variable.date_order.each_with_index do |component, index| %>
+    <% (formatting, string_format) = variable.date_formatting(component) %>
+    <span class="<%= component %>-box">
+      <%= text_field_tag "#{component}_#{field_name}", (Date.parse(response).strftime(string_format) rescue ""), maxlength: formatting.size, disabled: disabled, data: { target_input: "##{field_name.gsub('[', '_').gsub(']', '')}", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: formatting, class: 'form-control', style: 'display: inline-block;' %>
     </span>
+    <%= variable.date_separator unless index == variable.date_order.size - 1 %>
   <% end %>
+  <% if variable.show_current_button? %>
+    <%= link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default btn-xs', tabindex: '-1' if variable.show_current_button? %>
+  <% end %>
+  <%= link_to 'Clear', '#', data: { object: 'clear-date-input', target_input: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default btn-xs', tabindex: '-1' %>
 </div>

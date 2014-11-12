@@ -1,12 +1,15 @@
 <% is_grid = defined?(grid) %>
 
-<div class="input-group date-input">
-  <%= text_field_tag variable.name, '', class: 'form-control', disabled: true, placeholder: 'mm/dd/yyyy' %>
-  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-  <% if variable.show_current_button? %>
-    <span class="input-group-btn input-group-addon" style="margin:-1px;padding:0px;border:0px">
-      <%= link_to 'Today', '#', data: { object: 'set-current-time', target_date: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
+<div class="date-input form-inline">
+  <% variable.date_order.each_with_index do |component, index| %>
+    <% (formatting, string_format) = variable.date_formatting(component) %>
+    <span class="<%= component %>-box">
+      <%= text_field_tag "#{component}_#{variable.name}", "", maxlength: formatting.size, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: formatting, class: 'form-control', style: 'display: inline-block;' %>
     </span>
+    <%= variable.date_separator unless index == variable.date_order.size - 1 %>
+  <% end %>
+    <% if variable.show_current_button? %>
+    <%= link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
   <% end %>
 </div>
 

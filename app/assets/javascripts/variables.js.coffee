@@ -239,6 +239,9 @@ $(document)
 
     $($(this).data('target-time')).val(hours+":"+minutes+":00")
     $($(this).data('target-date')).val(month + "/" + day + "/" + year)
+    $($(this).data('target-date').replace('#', '#month_')).val(month)
+    $($(this).data('target-date').replace('#', '#day_')).val(day)
+    $($(this).data('target-date').replace('#', '#year_')).val(year)
     $($(this).data('target-time')).change()
     $($(this).data('target-date')).change()
     false

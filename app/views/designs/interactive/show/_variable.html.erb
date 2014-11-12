@@ -100,6 +100,20 @@
         </td>
       <% end %>
 
+      <% if ['date'].include?(@variable.variable_type) %>
+        <td>
+          <strong>Current <%= @variable.variable_type.titleize %> Button</strong>
+          <div class="btn-group" data-toggle="buttons">
+            <% [['MM/DD/YYYY', '%m/%d/%Y'],['DD/MM/YYYY', '%d/%m/%Y'],['YYYY-MM-DD', '%Y-%m-%d']].each do |label, value| %>
+              <label class="btn btn-xs btn-default <%= 'active' if @variable.format == value %>" data-object="push-partial-change" data-update="variable" data-variable-id="<%= @variable.id %>" data-changes='{"variable":{"format":"<%= value %>"}}' data-position="<%= @position %>">
+                <%= radio_button_tag "format", value, @variable.format == value %>
+                <%= label %>
+              </label>
+            <% end %>
+          </div>
+        </td>
+      <% end %>
+
       <% if ['grid'].include?(@variable.variable_type) %>
         <td>
           <strong>Allow Multiple Rows</strong>

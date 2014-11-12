@@ -8,11 +8,14 @@
 }
 
 .date-input {
-  width: 161px !important;
+  white-space: nowrap;
 
-  input[type="text"] {
-    min-width: 120px;
-    width: 120px !important;
-    margin-right: -1px;
+  .month-box input[type="text"], .day-box input[type="text"] {
+    min-width: 55px;
+    width: 55px;
+  }
+  .year-box input[type="text"] {
+    min-width: 63px;
+    width: 63px;
   }
 }

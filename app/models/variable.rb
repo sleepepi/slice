@@ -416,4 +416,32 @@ class Variable < ActiveRecord::Base
     "#{self.name}__#{value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
   end
 
+  def date_order
+    case self.format when '%m/%d/%Y'
+      ['month', 'day', 'year']
+    when '%d/%m/%Y'
+      ['day', 'month', 'year']
+    else
+      ['year', 'month', 'day']
+    end
+  end
+
+  def date_formatting(component)
+    case component when 'month'
+      ['mm', '%m']
+    when 'day'
+      ['dd', '%d']
+    when 'year'
+      ['yyyy', '%Y']
+    end
+  end
+
+  def date_separator
+    case self.format when '%m/%d/%Y', '%d/%m/%Y'
+      '/'
+    else
+      '-'
+    end
+  end
+
 end
