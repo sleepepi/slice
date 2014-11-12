@@ -2,7 +2,7 @@
 <% disabled = '' if defined?(disabled) == nil %>
 <% show_values = true unless defined?(show_values) %>
 
-<div class="form-group" data-object="variable-container" id="varvar_<%= @variable.id %>" data-required="<%= @option[:required] %>" data-required-field="variables[<%= @variable.id %>]<%= '[]' if @variable.variable_type == 'checkbox' %>" data-required-type="<%= @variable.variable_type %>">
+<div class="form-group" data-object="variable-container" id="varvar_<%= @variable.id %>" data-required="<%= @option[:required] if @option %>" data-required-field="variables[<%= @variable.id %>]<%= '[]' if @variable.variable_type == 'checkbox' %>" data-required-type="<%= @variable.variable_type %>">
   <% if @variable.uses_scale? %>
     <%# Nothing %>
   <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
