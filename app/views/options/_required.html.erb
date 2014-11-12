@@ -1,0 +1,5 @@
+<% case option[:required] when 'required' %>
+  <%= link_to '*', '#', class: 'btn btn-xs btn-danger-inverse', rel: 'tooltip', data: { object: 'suppress-click', title: 'Required Field' } %>
+<% when 'recommended' %>
+  <%= link_to '*', '#', class: 'btn btn-xs btn-primary', rel: 'tooltip', data: { object: 'suppress-click', title: 'Recommended Field' } %>
+<% end %>

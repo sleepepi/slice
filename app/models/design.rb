@@ -134,7 +134,7 @@ class Design < ActiveRecord::Base
     end
     if variable and not variable.new_record?
       new_option_tokens = self.options
-      new_option_tokens.insert(position, { variable_id: variable.id, branching_logic: '' })
+      new_option_tokens.insert(position, { variable_id: variable.id, branching_logic: '', required: '' })
       self.options = new_option_tokens
       self.save
     else
@@ -145,7 +145,7 @@ class Design < ActiveRecord::Base
 
   def update_variable(params, position, variable_id)
     errors = []
-    option_params = params.permit(:branching_logic)
+    option_params = params.permit(:branching_logic, :required)
     unless option_params.blank?
       new_option_tokens = self.options
       option_params.each do |key, value|

@@ -2,12 +2,12 @@
 <% disabled = '' if defined?(disabled) == nil %>
 <% show_values = true unless defined?(show_values) %>
 
-<div class="form-group" data-object="variable-container" id="varvar_<%= @variable.id %>">
+<div class="form-group" data-object="variable-container" id="varvar_<%= @variable.id %>" data-required="<%= @option[:required] %>" data-required-field="variables[<%= @variable.id %>]<%= '[]' if @variable.variable_type == 'checkbox' %>" data-required-type="<%= @variable.variable_type %>">
   <% if @variable.uses_scale? %>
     <%# Nothing %>
   <% elsif ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
     <div class="col-xs-12">
-      <label><%= @variable.display_name %></label>
+      <label><%= @variable.display_name %> <%= render partial: 'options/required', locals: { option: @option } %></label>
     </div>
     <div style="clear:both"></div>
   <% else %>

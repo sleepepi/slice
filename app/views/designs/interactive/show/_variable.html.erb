@@ -17,13 +17,13 @@
   </div>
 <% else %>
   <% if not @variable.uses_scale? and ['invisible', 'gone'].include?(@variable.display_name_visibility) %>
-    <label><%= @variable.display_name %></label>
+    <label><%= @variable.display_name %> <%= render partial: 'options/required', locals: { option: @option } %></label>
   <% end %>
 
   <div class="form-group">
     <% if not @variable.uses_scale? and 'visible' == @variable.display_name_visibility %>
       <label class="col-md-3 control-label">
-        <%= @variable.display_name %>
+        <%= @variable.display_name %> <%= render partial: 'options/required', locals: { option: @option } %>
       </label>
     <% end %>
 

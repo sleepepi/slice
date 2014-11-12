@@ -49,6 +49,18 @@
           <%= render partial: 'layouts/branching_logic_examples' %>
         </div>
       </div>
+
+      <% if ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time'].include?(@variable.variable_type) %>
+        <div class="form-group">
+          <label class="col-md-2 control-label">Required on Form?</label>
+          <div class="col-md-10">
+            <%= select_tag "variable[required]", options_for_select([['Not Required', ''], ['Recommended', 'recommended'], ['Required', 'required']], @option[:required]), class: 'form-control' %>
+          </div>
+        </div>
+      <% else %>
+        <%= hidden_field_tag "variable[required]", '' %>
+      <% end %>
+
     <% end %>
 
   </form>

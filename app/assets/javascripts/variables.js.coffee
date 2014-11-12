@@ -71,6 +71,37 @@
   else if checkValue(el.val(), el.data('soft-minimum'), el.data('soft-maximum'), el.data('missing-codes'))
     el.addClass('warning-input')
 
+@checkPresence = (element) ->
+  if element.data('required-type') == 'checkbox' or element.data('required-type') == 'radio'
+    value = $("[name='#{element.data('required-field')}']").filter( () ->
+      $(this).is(':checked')
+    )
+    value.size() == 0
+  else
+    value = $("[name='#{element.data('required-field')}']").val()
+    $.trim(value) == ''
+
+@checkRequired = () ->
+  $('[data-required~="required"]').removeClass('has-error')
+  required_fields = $('[data-required~="required"]:visible').filter( () ->
+    checkPresence($(this))
+  )
+  required_fields.addClass('has-error')
+  if required_fields.size() > 0
+    alert('Some required fields are not set!')
+    return false
+  true
+
+@checkRecommended = () ->
+  $('[data-required~="recommended"]').removeClass('has-warning')
+  recommended_fields = $('[data-required~="recommended"]:visible').filter( () ->
+    checkPresence($(this))
+  )
+  recommended_fields.addClass('has-warning')
+  if recommended_fields.size() > 0 and !confirm('Some recommended fields are blank. Proceed anyways?')
+    return false
+  true
+
 @checkMinMax = () ->
   $('[data-object~="minmax"]').parent().parent().removeClass('error')
   number_fields = $('[data-object~="minmax"]').filter( () ->
@@ -83,11 +114,11 @@
   true
 
 @checkSoftMinMax = () ->
-  $('[data-object~="minmax"]').parent().parent().removeClass('warning')
+  $('[data-object~="minmax"]').parent().parent().removeClass('has-warning')
   number_fields = $('[data-object~="minmax"]').filter( () ->
     checkValue($(this).val(), $(this).data('soft-minimum'), $(this).data('soft-maximum'), $(this).data('missing-codes'))
   )
-  number_fields.parent().parent().addClass('warning')
+  number_fields.parent().parent().addClass('has-warning')
   if number_fields.size() > 0 and !confirm('Some numeric fields are out of the recommended range. Proceed anyways?')
     return false
   true
@@ -114,11 +145,11 @@
   true
 
 @checkSoftDateMinMax = () ->
-  $('[data-object~="dateminmax"]').parent().parent().removeClass('warning')
+  $('[data-object~="dateminmax"]').parent().parent().removeClass('has-warning')
   date_fields = $('[data-object~="dateminmax"]').filter( () ->
     ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-soft-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-soft-maximum')))
   )
-  date_fields.parent().parent().addClass('warning')
+  date_fields.parent().parent().addClass('has-warning')
   if date_fields.size() > 0 and !confirm('Some dates are out of the recommended range. Proceed anyways?')
     return false
   true
@@ -189,6 +220,10 @@ $(document)
     if checkSoftMinMax() == false
       return false
     if checkSoftDateMinMax() == false
+      return false
+    if checkRequired() == false
+      return false
+    if checkRecommended() == false
       return false
     window.$isDirty = false
     if $(this).data('continue')?

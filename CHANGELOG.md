@@ -8,6 +8,11 @@
   - Current input focus in Night Mode is now more visible
     - Made other general improvements to Night Mode
   - Added project-specific Export Data links to dashboard
+- **Design Changes**
+  - Variables can now be set as **Required**, **Recommended**, and **Not Required** on designs
+    - **Required** variables need to have a value set for the form to be submitted
+    - **Recommended** variables prompt the user to fill them in or continue saving if they have no value set
+    - **Not Required** variables work as variables have in the past
 - **Sheet Changes**
   - Side navigation bar was removed to make better use of available space
   - Missing codes are now colored red for better visibility when selected
