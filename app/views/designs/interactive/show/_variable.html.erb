@@ -3,7 +3,15 @@
     <label class="col-md-3 control-label"><%= @variable.display_name %></label>
     <div class="col-md-9">
       <div style="line-height:30px">
-        This variable has been deleted. Click below to remove from design.
+        This variable has been deleted.
+        <% @variable.deleted = false %>
+        <% if @variable.valid? %>
+          You can <%= link_to 'Restore', restore_project_variable_path(@project, @variable), method: :post, class: 'btn btn-xs btn-success' %> or
+        <% else %>
+          A new variable with the same name already exists.<br />You can
+        <% end %>
+        <%= link_to 'Remove', '#', data: { object: 'push-partial-change', delete: 'variable', position: @position, confirm: "Are you sure you want to remove '#{@variable.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse' %> this variable from the design.
+        <% @variable.deleted = true %>
       </div>
     </div>
   </div>
@@ -140,9 +148,8 @@
         <% @variable.deleted = false %>
         <% if @variable.valid? %>
           <%= link_to 'Restore', restore_project_variable_path(@project, @variable), method: :post, class: 'btn btn-xs btn-success' %>
-        <% else %>
-          This variable cannot be restored. A new variable with the same name already exists.
         <% end %>
+        <% @variable.deleted = true %>
       <% else %>
         <%= link_to 'Edit', '#', data: { object: 'pull-partial-edit', edit: 'variable_display_name', position: @position, variable_id: @variable.id }, class: 'btn btn-xs btn-default' %>
       <% end %>
