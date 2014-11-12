@@ -1,7 +1,7 @@
 <% if option %>
   <% case option[:required] when 'required' %>
-    <%= link_to '*', '#', class: 'btn btn-xs btn-danger-inverse', rel: 'tooltip', data: { object: 'suppress-click', title: 'Required Field' } %>
+    <%= link_to '*', '#', class: 'btn btn-xs btn-danger-inverse', rel: 'tooltip', data: { object: 'suppress-click', title: 'Required Field', placement: 'right' } %>
   <% when 'recommended' %>
-    <%= link_to '*', '#', class: 'btn btn-xs btn-primary', rel: 'tooltip', data: { object: 'suppress-click', title: 'Recommended Field' } %>
+    <%= link_to '*', '#', class: 'btn btn-xs btn-primary', rel: 'tooltip', data: { object: 'suppress-click', title: 'Recommended Field', placement: 'right' } %>
   <% end %>
 <% end %>

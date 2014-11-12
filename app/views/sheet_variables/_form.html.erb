@@ -11,7 +11,9 @@
     </div>
     <div style="clear:both"></div>
   <% else %>
-    <%= label 'variables', "#{@variable.id}", @variable.display_name, class: 'col-md-3 control-label' %>
+    <label class="col-md-3 control-label" for="variable_<%= @variable.id %>">
+      <%= @variable.display_name %> <%= render partial: 'options/required', locals: { option: @option } %>
+    </label>
   <% end %>
 
   <% col_class = 'col-xs-12' %>
