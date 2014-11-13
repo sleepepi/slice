@@ -537,6 +537,32 @@ label.checkbox, label.radio {
           box-shadow: 0 5px 10px $dropdown-border;
 }
 
+
+.bs-callout code,
+.bs-callout .highlight {
+  background-color: $gray-lighter; // #fff;
+}
+
+/* Themes for different contexts */
+
+.bs-callout-danger {
+  background-color: $panel-danger-heading-bg;// #fcf2f2;
+  border-color: $panel-danger-border; // #dfb5b4;
+  color: $panel-danger-text;
+}
+.bs-callout-warning {
+  background-color: $panel-warning-heading-bg;// #fefbed;
+  border-color: $panel-warning-border; // #f1e7bc;
+  color: $panel-warning-text;
+}
+.bs-callout-info {
+  background-color: $panel-info-heading-bg;// #f0f7fd;
+  border-color: $panel-info-border; // #d0e3f0;
+  color: $panel-info-text;
+}
+
+
+
 .input-group .twitter-typeahead:not(:first-child) > .form-control {
   border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;
