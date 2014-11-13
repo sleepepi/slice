@@ -231,7 +231,7 @@ textarea:focus.warning-input  {
 #contour-backdrop {
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: $dropdown-border;
   position: fixed;
   top: 0;
   right: 0;
@@ -252,16 +252,16 @@ textarea:focus.warning-input  {
   left: 0;
   right: 0;
   z-index: 1025;
-  background-color: white;
-  border: 1px solid #999;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: $body-bg;
+  border: 1px solid $dropdown-fallback-border; // #999;
+  border: 1px solid $dropdown-border; // rgba(0, 0, 0, 0.3);
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
   outline: none;
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 3px 7px $dropdown-border; // rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px $dropdown-border; // rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px $dropdown-border; // rgba(0, 0, 0, 0.3);
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -271,8 +271,8 @@ textarea:focus.warning-input  {
   position: relative;
   margin: 0 0 20px 0;
   padding: 19px;
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: $body-bg; // #fff;
+  border: 1px solid $gray-lighter; /// #ddd;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -285,9 +285,9 @@ textarea:focus.warning-input  {
   padding: 3px 7px;
   font-size: 12px;
   font-weight: 300;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  color: #9da0a4;
+  background-color: $body-bg; // #f5f5f5;
+  border: 1px solid $dropdown-fallback-border; // #ddd;
+  // color: #9da0a4;
   -webkit-border-radius: 4px 0 4px 0;
   -moz-border-radius: 4px 0 4px 0;
   border-radius: 4px 0 4px 0;
@@ -299,7 +299,6 @@ textarea:focus.warning-input  {
   padding: 6px 10px 6px 25px;
   font-size: 13px;
   line-height: 18px;
-  color: $gray;
   background-color: $table-bg-accent;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -308,7 +307,6 @@ textarea:focus.warning-input  {
 }
 
 .download-container .checkbox:hover, .sheet-container .checkbox:hover, .sheet-container .radio:hover {
-  color: $gray-dark;
   background-color: $table-bg-hover;
 }
 
