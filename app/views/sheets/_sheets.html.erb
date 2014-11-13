@@ -28,7 +28,12 @@
       <td><%= simple_time sheet.created_at %></td>
       <td><%= simple_time sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at %></td>
       <td><%= link_to sheet.subject.site.name, [sheet.subject.site.project, sheet.subject.site] if sheet.subject and sheet.subject.site %></td>
-      <td><%= link_to sheet.user.name, sheet.user if sheet.user %></td>
+      <td>
+        <% if sheet.user %>
+          <%#= image_tag sheet.user.avatar_url(18), style: 'vertical-align:text-bottom' %>
+          <%= link_to sheet.user.name, sheet.user %>
+        <% end %>
+      </td>
       <td>
         <%= link_to 'PDF', print_project_sheet_path(sheet.project, sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' %>
         <% if current_user.all_sheets.pluck(:id).include?(sheet.id) and not sheet.locked? %>
