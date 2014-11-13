@@ -32,7 +32,7 @@
   - Updated to rails 4.2.0.beta4
   - Updated to contour 2.6.0.beta8
   - Updated to redcarpet 3.2.0
-- Use of Ruby 2.1.4 is now recommended
+- Use of Ruby 2.1.5 is now recommended
 
 ### Bug Fixes
 - Fixed an issue reordering sections on designs that included subsections
