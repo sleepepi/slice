@@ -559,6 +559,22 @@ label.checkbox, label.radio {
   color: $panel-info-text;
 }
 
+.btn-danger-inverse {
+  color: $btn-danger-bg;
+  border: 1px solid $btn-danger-border !important;
+  background-color: $body-bg;
+}
+
+.btn-danger-inverse:hover,
+.btn-danger-inverse:focus,
+.btn-danger-inverse:active,
+.btn-danger-inverse.active,
+.btn-danger-inverse.disabled,
+.btn-danger-inverse[disabled] {
+  color: $body-bg !important;
+  background-color: $btn-danger-bg;
+  border: 1px solid $btn-danger-border !important;
+}
 
 
 .input-group .twitter-typeahead:not(:first-child) > .form-control {
