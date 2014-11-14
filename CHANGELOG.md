@@ -8,6 +8,8 @@
   - Current input focus in Night Mode is now more visible
     - Made other general improvements to Night Mode
   - Added project-specific Export Data links to dashboard
+- **Project Changes**
+  - Projects can now enable Double Data Entry for sheets
 - **Design Changes**
   - Variables can now be set as **Required**, **Recommended**, and **Not Required** on designs
     - **Required** variables need to have a value set for the form to be submitted

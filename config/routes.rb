@@ -51,6 +51,7 @@ Rails.application.routes.draw do
         get :survey
         post :submit_survey
         post :unlock
+        get :double_data_entry
       end
     end
 

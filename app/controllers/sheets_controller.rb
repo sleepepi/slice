@@ -4,12 +4,12 @@ class SheetsController < ApplicationController
 
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print, :file ]
-  before_action :set_editable_project_or_editable_site, only: [ :edit, :audits, :transactions, :new, :create, :update, :destroy, :unlock ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :audits, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
+  before_action :set_editable_project_or_editable_site, only: [ :edit, :double_data_entry, :audits, :transactions, :new, :create, :update, :destroy, :unlock ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :double_data_entry, :audits, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
   before_action :set_viewable_sheet, only: [ :show, :print, :file ]
-  before_action :set_editable_sheet, only: [ :edit, :audits, :transactions, :update, :destroy, :unlock ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :audits, :transactions, :update, :destroy, :unlock, :file ]
-  before_action :redirect_with_locked_sheet, only: [ :edit, :update, :destroy ]
+  before_action :set_editable_sheet, only: [ :edit, :double_data_entry, :audits, :transactions, :update, :destroy, :unlock ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :double_data_entry, :audits, :transactions, :update, :destroy, :unlock, :file ]
+  before_action :redirect_with_locked_sheet, only: [ :edit, :double_data_entry, :update, :destroy ]
 
   # GET /sheets
   # GET /sheets.json
@@ -109,6 +109,10 @@ class SheetsController < ApplicationController
 
   # GET /sheets/1/edit
   def edit
+  end
+
+  # GET /sheets/1/double_data_entry
+  def double_data_entry
   end
 
   def survey
