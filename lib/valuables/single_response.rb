@@ -8,10 +8,6 @@ module Valuables
       hash_value_and_name
     end
 
-    def raw
-      begin Integer(@object.response) end rescue @object.response
-    end
-
     def display_name
       hash_display_name
     end

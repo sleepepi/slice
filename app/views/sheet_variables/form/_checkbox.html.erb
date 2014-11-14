@@ -1,15 +1,7 @@
 <% is_grid = defined?(grid) %>
 <% show_values = true unless defined?(show_values) %>
 
-<% if response.kind_of?(Array) %>
-  <% responses = response %>
-<% else %>
-  <% if is_grid %>
-    <% responses = ((defined?(object) and object) ? object.responses.collect{|r| r.value} : []) %>
-  <% else %>
-    <% responses = ((defined?(sheet_variable) and sheet_variable) ? sheet_variable.responses.collect{|r| r.value} : []) %>
-  <% end %>
-<% end %>
+<% response = response.collect(&:to_s) rescue response = [] %>
 
 <%= hidden_field_tag "#{field_name}[]", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.variable_type } %>
 
@@ -32,7 +24,7 @@
         <td style="font-weight:bold"><%= variable.display_name %> <%= render partial: 'options/required', locals: { option: @option } %></td>
         <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing| %>
           <td style="text-align:center" class="sheet-container">
-            <% selected = (responses.collect{|i| i.to_s}.include?(value)) %>
+            <% selected = (response.include?(value)) %>
             <label class="checkbox checkbox-inline <%= 'selected' if selected %> <%= 'negation' if missing == '1' %>"
                    data-content="<%= description %>"
                    data-title="<%= value %>: <%= name %>"
@@ -47,11 +39,14 @@
   </table>
 <% else %>
   <div class="sheet-container" style="<%= 'white-space:nowrap' if is_grid or variable.alignment == 'horizontal' %>">
-    <% variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-      <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %> <%= 'selected' if responses.collect{|i| i.to_s}.include?(value) %>"><%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <% if show_values %><%= value %>: <% end %><%= name %></label>
-    <% end %>
-    <% variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
-      <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %> <%= 'selected' if responses.collect{|i| i.to_s}.include?(value) %> negation"><%= check_box_tag "#{field_name}[]", "#{value}", responses.collect{|i| i.to_s}.include?(value), data: { object: "condition" }, disabled: disabled %> <% if show_values %><%= value %>: <% end %><%= name %></label>
+    <% variable.shared_options.collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, value, missing_code| %>
+      <label class="checkbox <%= 'checkbox-inline' if is_grid or variable.alignment == 'horizontal' %>
+                             <%= 'selected' if response.include?(value) %>
+                             <%= 'negation' if missing_code == '1' %>">
+        <%= check_box_tag "#{field_name}[]", "#{value}", response.include?(value), data: { object: "condition" }, disabled: disabled %>
+        <% if show_values %><%= value %>: <% end %>
+        <%= name %>
+      </label>
     <% end %>
   </div>
 <% end %>

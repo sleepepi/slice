@@ -128,7 +128,7 @@ class SheetVariableTest < ActiveSupport::TestCase
   end
 
   test "get grid raw value" do
-    assert_equal "[{\"change_options\":2},{\"change_options\":3},{\"change_options\":3},{\"change_options\":1},{\"change_options\":1},{\"change_options\":1}]", sheet_variables(:grid).get_response(:raw)
+    assert_equal "[{\"change_options\":\"2\"},{\"change_options\":\"3\"},{\"change_options\":\"3\"},{\"change_options\":\"1\"},{\"change_options\":\"1\"},{\"change_options\":\"1\"}]", sheet_variables(:grid).get_response(:raw)
   end
 
   test "get date valuable class" do
