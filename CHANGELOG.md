@@ -8,6 +8,7 @@
   - Current input focus in Night Mode is now more visible
     - Made other general improvements to Night Mode
   - Added project-specific Export Data links to dashboard
+  - An experimental Winter Mode theme has been added to user settings
 - **Project Changes**
   - Projects can now enable Double Data Entry for sheets
     - A sheet Verification Report now exists to compare responses from the original entry to the double data entry sheets

@@ -1,0 +1,47 @@
+@import 'slice-variables';
+
+@import 'themes/winter-variables';
+
+@import 'tree';
+
+@-webkit-keyframes snow {
+    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
+    50% { background-color: #DAF1FF }
+    100% {
+        background-position: 500px 1000px, 400px 400px, 300px 300px;
+        background-color: $body-bg;
+    }
+}
+@-moz-keyframes snow {
+    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
+    50% { background-color: #DAF1FF }
+    100% {
+        background-position: 500px 1000px, 400px 400px, 300px 300px;
+        background-color: $body-bg;
+    }
+}
+@-ms-keyframes snow {
+    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
+    50% { background-color: #DAF1FF }
+    100% {
+        background-position: 500px 1000px, 400px 400px, 300px 300px;
+        background-color: $body-bg;
+    }
+}
+@keyframes snow {
+    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
+    50% { background-color: #DAF1FF }
+    100% {
+        background-position: 500px 1000px, 400px 400px, 300px 300px;
+        background-color: $body-bg;
+    }
+}
+
+body {
+    background-color: $body-bg;
+    background-image: url('winter/snow1<%= asset_path('winter/snow1.png').split('snow1').last %>'), url('winter/snow2<%= asset_path('winter/snow2.png').split('snow2').last %>'), url('winter/snow3<%= asset_path('winter/snow3.png').split('snow3').last %>');
+    -webkit-animation: snow 20s linear infinite;
+    -moz-animation: snow 20s linear infinite;
+    -ms-animation: snow 20s linear infinite;
+    animation: snow 20s linear infinite;
+}
