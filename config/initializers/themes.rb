@@ -1,1 +1,1 @@
-Slice::THEMES = [['Night (Experimental)', 'night']]
+Slice::THEMES = [['Night', 'night']]
