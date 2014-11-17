@@ -28,12 +28,12 @@
           <td>Total</td>
         <% end %>
         <% @designs.each do |design| %>
-          <% count = design.sheets.where(subject_id: @subjects.pluck(:id)).count %>
+          <% count = design.sheets.original_entry.where(subject_id: @subjects.pluck(:id)).count %>
           <td class="<%= 'text-muted' if count == 0 %>">
             <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id) %>
           </td>
         <% end %>
-        <td><%= link_to @designs.sum{|d| d.sheets.where(subject_id: @subjects.pluck(:id)).count}, project_sheets_path(@project) %></td>
+        <td><%= link_to @designs.sum{|d| d.sheets.original_entry.where(subject_id: @subjects.pluck(:id)).count}, project_sheets_path(@project) %></td>
       </tr>
     </tfoot>
     <% end %>
@@ -51,7 +51,7 @@
             <td style="line-height:30px"><%= link_to subject.subject_code, [subject.project, subject] %></td>
           <% end %>
           <% @designs.each do |design| %>
-            <% count = design.sheets.where(subject_id: subject.id).count %>
+            <% count = design.sheets.original_entry.where(subject_id: subject.id).count %>
             <td class="<%= 'text-muted' if count == 0 %>" data-object="hover-show" data-target="#subject_<%= subject.id %>_design_<%= design.id %>_add_link" style="line-height:30px">
               <% add_url = new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: subject.subject_code, subject_acrostic: subject.acrostic, site_id: subject.site_id) %>
               <% show_url = project_sheets_path(@project, design_id: design.id, search: subject.subject_code) %>
@@ -67,7 +67,7 @@
               <% end %>
             </td>
           <% end %>
-          <% count = @designs.collect{ |d| d.sheets.where(subject_id: subject.id).count }.sum %>
+          <% count = @designs.collect{ |d| d.sheets.original_entry.where(subject_id: subject.id).count }.sum %>
           <td class="<%= 'text-muted' if count == 0 %>" style="line-height:30px">
             <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, search: subject.subject_code) %>
           </td>

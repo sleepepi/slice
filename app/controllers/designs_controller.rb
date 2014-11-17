@@ -19,7 +19,7 @@ class DesignsController < ApplicationController
   # GET /designs/1/overview.js
   def overview
     @statuses = params[:statuses] || ['valid']
-    @sheets = current_user.all_viewable_sheets.where( project_id: @project.id, design_id: @design.id ).with_subject_status(@statuses)
+    @sheets = current_user.all_viewable_sheets.original_entry.where( project_id: @project.id, design_id: @design.id ).with_subject_status(@statuses)
   end
 
   def survey

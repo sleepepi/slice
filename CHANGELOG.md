@@ -10,6 +10,7 @@
   - Added project-specific Export Data links to dashboard
 - **Project Changes**
   - Projects can now enable Double Data Entry for sheets
+    - A sheet Verification Report now exists to compare responses from the original entry to the double data entry sheets
 - **Design Changes**
   - Variables can now be set as **Required**, **Recommended**, and **Not Required** on designs
     - **Required** variables need to have a value set for the form to be submitted

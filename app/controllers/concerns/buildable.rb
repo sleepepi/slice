@@ -132,6 +132,8 @@ module Buildable
     # sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
 
     sheet_scope = sheet_scope.with_subject_status(@statuses)
+    sheet_scope = sheet_scope.original_entry
+
     @sheets = sheet_scope
   end
 

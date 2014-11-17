@@ -1,7 +1,7 @@
-class Sheet < ActiveRecord::Base
+ class Sheet < ActiveRecord::Base
 
   # Concerns
-  include Deletable, Latexable
+  include Deletable, Latexable, DoubleDataEntry
 
   # Named Scopes
   scope :search, lambda { |arg| where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ).references(:designs) }

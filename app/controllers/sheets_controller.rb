@@ -4,12 +4,12 @@ class SheetsController < ApplicationController
 
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print, :file ]
-  before_action :set_editable_project_or_editable_site, only: [ :edit, :double_data_entry, :audits, :transactions, :new, :create, :update, :destroy, :unlock ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :double_data_entry, :audits, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
+  before_action :set_editable_project_or_editable_site, only: [ :edit, :double_data_entry, :verification_report, :audits, :transactions, :new, :create, :update, :destroy, :unlock ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :double_data_entry, :verification_report, :audits, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
   before_action :set_viewable_sheet, only: [ :show, :print, :file ]
-  before_action :set_editable_sheet, only: [ :edit, :double_data_entry, :audits, :transactions, :update, :destroy, :unlock ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :double_data_entry, :audits, :transactions, :update, :destroy, :unlock, :file ]
-  before_action :redirect_with_locked_sheet, only: [ :edit, :double_data_entry, :update, :destroy ]
+  before_action :set_editable_sheet, only: [ :edit, :double_data_entry, :verification_report, :audits, :transactions, :update, :destroy, :unlock ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :double_data_entry, :verification_report, :audits, :transactions, :update, :destroy, :unlock, :file ]
+  before_action :redirect_with_locked_sheet, only: [ :edit, :double_data_entry, :verification_report, :update, :destroy ]
 
   # GET /sheets
   # GET /sheets.json
@@ -30,6 +30,9 @@ class SheetsController < ApplicationController
     sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
 
     sheet_scope = sheet_scope.where( locked: true ) if params[:locked].to_s == '1'
+
+    # We don't want to include sheets that are used for double data entry and sheet verification.
+    sheet_scope = sheet_scope.original_entry
 
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
 
@@ -113,6 +116,7 @@ class SheetsController < ApplicationController
 
   # GET /sheets/1/double_data_entry
   def double_data_entry
+    @double_data_entry_sheet = current_user.sheets.new(@sheet.shared_verification_params)
   end
 
   def survey
@@ -286,7 +290,8 @@ class SheetsController < ApplicationController
 
       params.require(:sheet).permit(
         :design_id, :project_id, :subject_id, :variable_ids, :last_user_id, :last_edited_at,
-        :event_id, :subject_schedule_id, :locked, :first_locked_at, :first_locked_by_id
+        :event_id, :subject_schedule_id, :locked, :first_locked_at, :first_locked_by_id,
+        :verifying_sheet_id
       )
     end
 

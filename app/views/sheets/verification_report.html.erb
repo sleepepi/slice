@@ -1,0 +1,41 @@
+<% @title = "Sheet ##{@sheet.id} Verification Report" %>
+<div class="page-header">
+  <h1>
+    <%= link_to @project.name, @project %>
+    &middot; <%= link_to 'Sheets', project_sheets_path(@project) %> &middot; <%= link_to @sheet.name, [@project, @sheet] %> Verification Report
+  </h1>
+</div>
+
+<% all_sheets = [@sheet] + @sheet.verification_sheets %>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <% all_sheets.each do |sheet| %>
+          <th class="<%= 'warning' if sheet.double_data_entry? %>"><%= link_to sheet.id, [sheet.project, sheet] %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <% @sheet.design.options.each do |option| %>
+      <% @option = option %>
+      <% if @option[:variable_id].blank? %>
+        <% @section = @sheet.design.sections.where( name: @option[:section_name] ).first %>
+        <tr style="font-weight: bold">
+          <td colspan="<%= all_sheets.count + 1 %>">
+            <%= @section ? @section.name : @option[:section_name] %>
+          </td>
+        </tr>
+      <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
+        <% all_responses = all_sheets.collect{ |sheet| sheet.get_response(@variable, :name) } %>
+        <tr class="<%= 'danger' if all_responses.uniq.count > 1 %>">
+          <td><%= @variable.display_name %></td>
+          <% all_responses.each do |response| %>
+            <td><%= response %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>

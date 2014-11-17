@@ -46,7 +46,7 @@
   <dd>
     <ul>
       <% @subject.sheets.order('created_at DESC').each do |sheet| %>
-        <li><%= link_to sheet.name, [sheet.project, sheet] %> - entered <%= simple_time sheet.created_at %></li>
+        <li><%= link_to sheet.name, [sheet.project, sheet] %> - entered <%= simple_time sheet.created_at %> <% if sheet.double_data_entry? %><span class="label label-warning">Double Data Entry</span><% end %></li>
       <% end %>
     </ul>
   </dd>

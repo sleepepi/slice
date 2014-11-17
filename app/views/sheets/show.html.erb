@@ -1,4 +1,13 @@
 <% @title = @sheet.name %>
+
+<% if @sheet.double_data_entry? %>
+  <div class="progress">
+    <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+      <span>Double Data Entry</span>
+    </div>
+  </div>
+<% end %>
+
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to 'Sheets', project_sheets_path(@project) %> &middot; <%= @title %>
@@ -15,13 +24,39 @@
       <% end %>
     <% else %>
       <%= link_to "Edit Sheet", edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' %>
-      <%= link_to "Double Data Entry", double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' if @project.double_data_entry? %>
       <%= link_to "Delete Sheet", [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } %>
     <% end %>
   <% end %>
-  <%= link_to "PDF", print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' %>
-
+  <%= link_to "<span class='glyphicon glyphicon-print'></span> PDF".html_safe, print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' %>
+  <% if @project.double_data_entry? %>
+    <% if @sheet.not_double_data_entry? %>
+      <%= link_to "New Double Data Entry", double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' %>
+    <% else %>
+      <%= link_to "Original Sheet ##{@sheet.verifying_sheet.id}", [@sheet.verifying_sheet.project, @sheet.verifying_sheet], class: 'btn btn-warning btn-xs' %>
+    <% end %>
+  <% end %>
 </div>
+
+<% if @project.double_data_entry? and @sheet.not_double_data_entry? and @sheet.verification_sheets.count > 0 %>
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">Double Data Entry</h3>
+    </div>
+    <div class="panel-body">
+      <ul class="list-unstyled" style="line-height:34px">
+        <li><%= link_to 'Verification Report', verification_report_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-xs btn-default' %>
+      <% @sheet.verification_sheets.each do |sheet| %>
+        <li>
+          <%= link_to "Verification Sheet ##{sheet.id}", [sheet.project, sheet], class: 'btn btn-warning btn-xs' %>
+          <% if sheet.contributors.present? %>
+            by <%= sheet.contributors %>
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
 
 <table class="table table-striped">
   <thead>

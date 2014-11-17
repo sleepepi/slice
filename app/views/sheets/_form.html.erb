@@ -1,3 +1,11 @@
+<% if @sheet.double_data_entry? %>
+  <div class="progress">
+    <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+      <span>Double Data Entry</span>
+    </div>
+  </div>
+<% end %>
+
 <div class="page-header">
   <h1><%= link_to @project.name, @project %> &middot; <%= @title %></h1>
 </div>
@@ -45,28 +53,44 @@
   <% end %>
 
   <%= f.hidden_field :project_id %>
+  <%= f.hidden_field :verifying_sheet_id if @sheet.double_data_entry? %>
 
   <div class="form-group">
     <%= label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-md-3 control-label', id: 'subject_code_name_full' %>
     <div class="col-md-9">
-      <div class="<%= 'input-group' if @project.sites_with_range.size > 0 %>">
-        <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.where( site_id: current_user.all_editable_sites ).collect{|s| { subject_code: s.subject_code, status_class: (s.status == 'valid' ? 'success' : 'info'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
-        <% if @project.sites_with_range.size > 0 %><span class="input-group-btn"><%= link_to 'Site Ranges', '#', class: 'btn btn-default', data: { toggle: 'modal', target: '#site_ranges' }, tabindex: '-1' %></span><% end %>
-      </div>
+      <% if @sheet.not_double_data_entry? %>
+        <div class="<%= 'input-group' if @project.sites_with_range.size > 0 %>">
+          <%= text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.where( site_id: current_user.all_editable_sites ).collect{|s| { subject_code: s.subject_code, status_class: (s.status == 'valid' ? 'success' : 'info'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control' %>
+          <% if @project.sites_with_range.size > 0 %><span class="input-group-btn"><%= link_to 'Site Ranges', '#', class: 'btn btn-default', data: { toggle: 'modal', target: '#site_ranges' }, tabindex: '-1' %></span><% end %>
+        </div>
+      <% else %>
+        <%= hidden_field_tag :subject_code, @sheet.subject.subject_code %>
+        <div style="line-height:34px;"><%= @sheet.subject.subject_code %></div>
+      <% end %>
     </div>
   </div>
 
   <div class="form-group" style="<%= 'display:none' unless @sheet.project and @sheet.project.acrostic_enabled? %>" id="acrostic-container">
     <%= label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'col-md-3 control-label' %>
     <div class="col-md-9">
-      <%= text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic', class: 'form-control' %>
+      <% if @sheet.not_double_data_entry? %>
+        <%= text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic', class: 'form-control' %>
+      <% else %>
+        <%= hidden_field_tag :subject_acrostic, @sheet.subject.acrostic %>
+        <div style="line-height:34px;"><%= @sheet.subject.acrostic %></div>
+      <% end %>
     </div>
   </div>
 
   <div class="form-group">
     <%= label_tag 'site_id', 'Site', class: 'col-md-3 control-label' %>
     <div class="col-md-9">
-      <%= @subject = @sheet.subject; render partial: 'sites/selection' %>
+      <% if @sheet.not_double_data_entry? %>
+        <%= @subject = @sheet.subject; render partial: 'sites/selection' %>
+      <% else %>
+        <%= hidden_field_tag :site_id, @sheet.subject.site_id %>
+        <div style="line-height:34px;"><%= @sheet.subject.site.name %></div>
+      <% end %>
     </div>
   </div>
 
@@ -74,13 +98,18 @@
     <div class="form-group">
       <%= f.label :design_id, nil, class: 'col-md-3 control-label' %>
       <div class="col-md-9">
-        <% designs = current_user.all_viewable_designs.with_project(@project.id) %>
-        <%= select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)), {}, class: 'form-control' %>
+        <% if @sheet.not_double_data_entry? %>
+          <% designs = current_user.all_viewable_designs.with_project(@project.id) %>
+          <%= select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)), {}, class: 'form-control' %>
+        <% else %>
+          <%= f.hidden_field :design_id %>
+          <div style="line-height:34px;"><%= @sheet.design.name %></div>
+        <% end %>
       </div>
     </div>
   <% end %>
 
-  <% if @sheet.new_record? %>
+  <% if @sheet.new_record? and @sheet.not_double_data_entry? %>
     <% if @sheet.event and @sheet.subject_schedule %>
       <div class="form-group">
         <%= label_tag :subject_schedule_id, 'Schedule', class: 'col-md-3 control-label' %>
@@ -119,7 +148,9 @@
     <div class="col-md-9 col-md-offset-3">
       <% form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}" %>
       <%= f.submit nil,       class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'  %>
-      <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit", continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
+      <% if @sheet.not_double_data_entry? %>
+        <%= f.submit @sheet.new_record? ? 'Create Sheet and Continue' : 'Update Sheet and Continue', class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit", continue: '1' }, id: 'sheet_submit_btn_and_continue'  %>
+      <% end %>
       <%= link_to 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'btn btn-large btn-default' %>
     </div>
   </div>

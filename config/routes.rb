@@ -52,6 +52,7 @@ Rails.application.routes.draw do
         post :submit_survey
         post :unlock
         get :double_data_entry
+        get :verification_report
       end
     end
 
