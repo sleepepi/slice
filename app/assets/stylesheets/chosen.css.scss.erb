@@ -8,24 +8,24 @@
   min-width: 150px;
 }
 .chzn-container .chzn-drop {
-  background: #fff;
-  border: 1px solid #aaa;
+  background: $dropdown-bg;
+  border: 1px solid $dropdown-fallback-border;
   border-top: 0;
   position: absolute;
   top: 29px;
   left: 0;
   width: 100% !important;
-  -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
-  -moz-box-shadow   : 0 4px 5px rgba(0,0,0,.15);
-  box-shadow        : 0 4px 5px rgba(0,0,0,.15);
+  -webkit-box-shadow: 0 4px 5px $dropdown-border;
+  -moz-box-shadow   : 0 4px 5px $dropdown-border;
+  box-shadow        : 0 4px 5px $dropdown-border;
   z-index: 1085;
 }
 /* @end */
 
 /* @group Single Chosen */
 .chzn-container-single .chzn-single {
-  background-color: #ffffff;
-  border: 1px solid #aaaaaa;
+  background-color: $dropdown-bg;
+  border: 1px solid $dropdown-fallback-border;
   color: #444444;
   text-decoration: none;
   display: block;
@@ -36,11 +36,10 @@
   line-height: 1.428571429;
   color: #555555;
   vertical-align: middle;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
+  border: 1px solid $dropdown-fallback-border;
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px $dropdown-border;
+  box-shadow: inset 0 1px 1px $dropdown-border;
   -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
@@ -120,12 +119,12 @@
 
 /* @group Multi Chosen */
 .chzn-container-multi .chzn-choices {
-  background-color: #fff;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff));
-  background-image: -webkit-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background-image: -moz-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background-image: -o-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background-image: linear-gradient(#eeeeee 1%, #ffffff 15%);
+  background-color: $dropdown-bg;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(1%, #eeeeee), color-stop(15%, $dropdown-bg));
+  background-image: -webkit-linear-gradient(top, #eeeeee 1%, $dropdown-bg 15%);
+  background-image: -moz-linear-gradient(top, #eeeeee 1%, $dropdown-bg 15%);
+  background-image: -o-linear-gradient(top, #eeeeee 1%, $dropdown-bg 15%);
+  background-image: linear-gradient(#eeeeee 1%, $dropdown-bg 15%);
   border: 1px solid #aaa;
   margin: 0;
   padding: 0;
@@ -175,11 +174,11 @@
   background-image: -moz-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
   background-image: -o-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
   background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  -webkit-box-shadow: 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
-  -moz-box-shadow   : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
-  box-shadow        : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
+  -webkit-box-shadow: 0 0 2px $dropdown-bg inset, 0 1px 0 rgba(0,0,0,0.05);
+  -moz-box-shadow   : 0 0 2px $dropdown-bg inset, 0 1px 0 rgba(0,0,0,0.05);
+  box-shadow        : 0 0 2px $dropdown-bg inset, 0 1px 0 rgba(0,0,0,0.05);
   color: #333;
-  border: 1px solid #aaaaaa;
+  border: 1px solid $dropdown-fallback-border;
   line-height: 13px;
   padding: 3px 20px 3px 5px;
   margin: 3px 0 3px 5px;
@@ -306,21 +305,21 @@
 .chzn-container-active .chzn-single {
   border-color: rgba(82, 168, 236, 0.8);
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px $dropdown-border, 0 0 8px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 1px 1px $dropdown-border, 0 0 8px rgba(82, 168, 236, 0.6);
 }
 .chzn-container-active .chzn-single-with-drop {
-  border: 1px solid #aaa;
-  -webkit-box-shadow: 0 1px 0 #fff inset;
-  -moz-box-shadow   : 0 1px 0 #fff inset;
-  box-shadow        : 0 1px 0 #fff inset;
+  border: 1px solid $dropdown-fallback-border;
+  -webkit-box-shadow: 0 1px 0 $dropdown-bg inset;
+  -moz-box-shadow   : 0 1px 0 $dropdown-bg inset;
+  box-shadow        : 0 1px 0 $dropdown-bg inset;
   background-color: #eee;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#ffffff', GradientType=0 );
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(20%, #eeeeee), color-stop(80%, #ffffff));
-  background-image: -webkit-linear-gradient(top, #eeeeee 20%, #ffffff 80%);
-  background-image: -moz-linear-gradient(top, #eeeeee 20%, #ffffff 80%);
-  background-image: -o-linear-gradient(top, #eeeeee 20%, #ffffff 80%);
-  background-image: linear-gradient(#eeeeee 20%, #ffffff 80%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$dropdown-bg', endColorstr='$dropdown-bg', GradientType=0 );
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(20%, $dropdown-bg), color-stop(80%, $dropdown-bg));
+  background-image: -webkit-linear-gradient(top, $dropdown-bg 20%, $dropdown-bg 80%);
+  background-image: -moz-linear-gradient(top, $dropdown-bg 20%, $dropdown-bg 80%);
+  background-image: -o-linear-gradient(top, $dropdown-bg 20%, $dropdown-bg 80%);
+  background-image: linear-gradient($dropdown-bg 20%, $dropdown-bg 80%);
   -webkit-border-bottom-left-radius : 0;
   -webkit-border-bottom-right-radius: 0;
   -moz-border-radius-bottomleft : 0;
@@ -376,12 +375,12 @@
 .chzn-rtl .chzn-results .group-option { padding-left: 0; padding-right: 15px; }
 .chzn-rtl.chzn-container-active .chzn-single-with-drop div { border-right: none; }
 .chzn-rtl .chzn-search input {
-  background: #fff url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px;
-  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -webkit-gradient(linear, 0 0, 0 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff));
-  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -webkit-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -moz-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -o-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, linear-gradient(#eeeeee 1%, #ffffff 15%);
+  background: $body-bg url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px;
+  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -webkit-gradient(linear, 0 0, 0 100%, color-stop(1%, #eeeeee), color-stop(15%, $dropdown-bg));
+  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -webkit-linear-gradient(top, #eeeeee 1%, $dropdown-bg 15%);
+  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -moz-linear-gradient(top, #eeeeee 1%, $dropdown-bg 15%);
+  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, -o-linear-gradient(top, #eeeeee 1%, $dropdown-bg 15%);
+  background: url('chosen-sprite<%= asset_path('chosen-sprite.png').split('chosen-sprite').last %>') no-repeat -30px -20px, linear-gradient(#eeeeee 1%, $dropdown-bg 15%);
   padding: 4px 5px 4px 20px;
   direction: rtl;
 }
