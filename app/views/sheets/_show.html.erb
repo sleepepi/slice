@@ -4,7 +4,7 @@
     <% if @option[:variable_id].blank? %>
       <%= render partial: 'sheet_variables/section' %>
     <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %> <%# and @sheet.show_variable?(@option[:branching_logic]) # handled by client-side JavaScript %>
-      <div data-object="evaluate-branching-logic" data-branching-logic="<%= @sheet.expanded_branching_logic(@option[:branching_logic]) %>">
+      <div data-object="evaluate-branching-logic" data-branching-logic="<%= @sheet.expanded_branching_logic(@option[:branching_logic]) %>" class="<%= cycle('variable-shade', 'variable-blind') %>">
         <%= render partial: 'sheet_variables/show' %>
       </div>
     <% end %>
