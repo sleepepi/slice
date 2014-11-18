@@ -14,10 +14,10 @@ $gray-light:             lighten(#000, 60%) !default;   // #999
 $gray-lighter:           lighten(#000, 93.5%) !default; // #eee
 
 $brand-primary:         #2FA4E7 !default;
-$brand-success:         #A8DBDF !default;
-$brand-info:            #033C73 !default;
-$brand-warning:         #059FDB !default;
-$brand-danger:          #B14BFF !default;
+$brand-success:         #6BA848 !default; // #A8DBDF !default;
+$brand-info:            #43C3F5 !default;
+$brand-warning:         #8EB0D0 !default; // #033C73 !default;
+$brand-danger:          #D11111 !default; // #B14BFF !default;
 
 
 //== Scaffolding
@@ -346,7 +346,7 @@ $pager-disabled-color:                 $gray-light !default;
 //##
 
 $jumbotron-color:                inherit !default;
-$jumbotron-bg:                   $gray-lighter !default;
+$jumbotron-bg:                   lighten($brand-primary, 30%) !default;
 $jumbotron-heading-color:        inherit !default;
 
 
@@ -354,21 +354,21 @@ $jumbotron-heading-color:        inherit !default;
 //
 //## Define colors for form feedback states and, by default, alerts.
 
-$state-success-text:             #468847 !default;
-$state-success-bg:               #dff0d8 !default;
+$state-success-text:             darken($brand-success, 15%) !default;
+$state-success-bg:               $brand-success !default;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
-$state-info-text:                #3a87ad !default;
-$state-info-bg:                  #d9edf7 !default;
+$state-info-text:                $brand-info !default;
+$state-info-bg:                  $brand-info !default;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
 
-$state-warning-text:             #c09853 !default;
-$state-warning-bg:               #fcf8e3 !default;
-$state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 3%) !default;
+$state-warning-text:             $brand-warning !default;
+$state-warning-bg:               $brand-warning !default;
+$state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
-$state-danger-text:              #b94a48 !default;
-$state-danger-bg:                #f2dede !default;
-$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 3%) !default;
+$state-danger-text:              $brand-danger !default;
+$state-danger-bg:                $brand-danger !default;
+$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
 
 
 //== Tooltips
@@ -456,19 +456,19 @@ $modal-footer-border-color:   $modal-header-border-color !default;
 //## Define alert colors, border radius, and padding.
 
 $alert-success-bg:            $state-success-bg !default;
-$alert-success-text:          $state-success-text !default;
+$alert-success-text:          #333 !default;
 $alert-success-border:        $state-success-border !default;
 
 $alert-info-bg:               $state-info-bg !default;
-$alert-info-text:             $state-info-text !default;
+$alert-info-text:             #333 !default;
 $alert-info-border:           $state-info-border !default;
 
 $alert-warning-bg:            $state-warning-bg !default;
-$alert-warning-text:          $state-warning-text !default;
+$alert-warning-text:          #333 !default;
 $alert-warning-border:        $state-warning-border !default;
 
 $alert-danger-bg:             $state-danger-bg !default;
-$alert-danger-text:           $state-danger-text !default;
+$alert-danger-text:           #333 !default;
 $alert-danger-border:         $state-danger-border !default;
 
 
@@ -543,19 +543,19 @@ $panel-primary-text:          #fff !default;
 $panel-primary-border:        $panel-default-border !default;
 $panel-primary-heading-bg:    $brand-primary !default;
 
-$panel-success-text:          $state-success-text !default;
+$panel-success-text:          #333 !default;
 $panel-success-border:        $panel-default-border !default;
 $panel-success-heading-bg:    $brand-success !default;
 
-$panel-info-text:             $state-info-text !default;
+$panel-info-text:             #333 !default;
 $panel-info-border:           $panel-default-border !default;
 $panel-info-heading-bg:       $brand-info !default;
 
-$panel-warning-text:          $state-warning-text !default;
+$panel-warning-text:          #333 !default;
 $panel-warning-border:        $panel-default-border !default;
 $panel-warning-heading-bg:    $brand-warning !default;
 
-$panel-danger-text:           $state-danger-text !default;
+$panel-danger-text:           #333 !default;
 $panel-danger-border:         $panel-default-border !default;
 $panel-danger-heading-bg:     $brand-danger !default;
 
@@ -577,7 +577,7 @@ $thumbnail-caption-color:     $text-color !default;
 //
 //##
 
-$well-bg:                     #f5f5f5 !default;
+$well-bg:                     lighten($brand-primary, 40%) !default;
 $well-border:                 darken($well-bg, 7%) !default;
 
 
