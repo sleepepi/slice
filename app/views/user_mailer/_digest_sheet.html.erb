@@ -1,5 +1,6 @@
 <td style='padding-left:10px;'>
   <%= link_to @sheet.name, "#{SITE_URL}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}", style: "color: #428bca;" %>
+  <% if @sheet.double_data_entry? %><span style="font-size:0.8em;padding:1px 3px;background-color: #777;color:#fff;">Verification Sheet</span><% end %>
 </td>
 
 <td style='padding-left:10px;'>
