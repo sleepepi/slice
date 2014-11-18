@@ -81,7 +81,7 @@ class Project < ActiveRecord::Base
 
   def users_to_email
     result = (self.users + [self.user] + self.sites.collect{|s| s.users}.flatten).uniq
-    result = result.select{ |u| u.email_on?(:send_email) and u.email_on?("project_#{self.id}") }
+    result = result.select{ |u| u.email_on?(:send_email) }
   end
 
   # Returns "fake" constructed variables like 'site' and 'sheet_date'
