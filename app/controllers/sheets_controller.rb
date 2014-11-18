@@ -33,6 +33,8 @@ class SheetsController < ApplicationController
 
     # We don't want to include sheets that are used for double data entry and sheet verification.
     sheet_scope = sheet_scope.original_entry
+    sheet_scope = sheet_scope.double_data_entry_exists if params[:double_data_entry] == 'with'
+    sheet_scope = sheet_scope.double_data_entry_does_not_exist if params[:double_data_entry] == 'without'
 
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
 

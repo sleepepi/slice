@@ -83,6 +83,15 @@
         </div>
       </div>
     <% end %>
+
+    <% if @project.double_data_entry? %>
+      <div class="col-md-4 form-group">
+        <%= label :double_data_entry, 'Double Data Entry', class: 'col-md-2 control-label' %>
+        <div class="col-md-10">
+          <%= select_tag 'double_data_entry', options_for_select([['---', nil], ['All With Double Data Entry', 'with'], ['All Without Double Data Entry', 'without']], params[:double_data_entry]), class: 'form-control' %>
+        </div>
+      </div>
+    <% end %>
   </div>
 
   <% (params[:f] || []).in_groups_of(3, false).each do |row_filters| %>

@@ -23,6 +23,7 @@
         <% if sheet.comments.size > 0 %>
           <span class="badge badge-info"><%= sheet.comments.size %></span>
         <% end %>
+        <% if sheet.verification_sheets.count > 0 %><div><span class="label label-warning">Double Data</span></div><% end %>
       </td>
       <td style="white-space:nowrap"><%= status_helper(sheet.subject) %> <%= link_to sheet.subject.name, [sheet.subject.project, sheet.subject] if sheet.subject %></td>
       <td><%= simple_time sheet.created_at %></td>
