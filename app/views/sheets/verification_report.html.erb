@@ -14,7 +14,7 @@
       <tr>
         <th>Variable</th>
         <% all_sheets.each do |sheet| %>
-          <th class="<%= 'warning' if sheet.double_data_entry? %>"><%= link_to sheet.id, [sheet.project, sheet] %></th>
+          <th class="<%= 'warning' if sheet.double_data_entry? %>"><%= link_to "Sheet ##{sheet.id} - #{sheet.subject.subject_code} (#{sheet.contributors})", [sheet.project, sheet] %></th>
         <% end %>
       </tr>
     </thead>

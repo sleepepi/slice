@@ -603,8 +603,13 @@ label.checkbox, label.radio {
   filter: alpha(opacity=0);
 }
 
+.variable-shade, .variable-blind {
+  padding: 10px;
+}
+
 .variable-shade {
   background-color: $table-bg-accent;
+  border-left: 2px solid $table-border-color;
 }
 
 .variable-blind {
