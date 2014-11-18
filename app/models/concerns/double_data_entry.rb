@@ -7,7 +7,7 @@ module DoubleDataEntry
     scope :double_data_entry_does_not_exist, -> { where("sheets.id NOT IN (select sheets.verifying_sheet_id from sheets where sheets.verifying_sheet_id IS NOT NULL and sheets.deleted = ?)", false) }
 
     belongs_to :verifying_sheet, class_name: "Sheet"
-    has_many :verification_sheets, -> { order :id }, foreign_key: "verifying_sheet_id", class_name: "Sheet"
+    has_many :verification_sheets, -> { where(deleted: false).order(:id) }, foreign_key: "verifying_sheet_id", class_name: "Sheet"
   end
 
   def shared_verification_params

@@ -30,7 +30,7 @@
   <%= link_to "<span class='glyphicon glyphicon-print'></span> PDF".html_safe, print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' %>
   <% if @project.double_data_entry? %>
     <% if @sheet.not_double_data_entry? %>
-      <%= link_to "New Double Data Entry", double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' %>
+      <%= link_to "New Double Data Entry", double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' if @sheet.verification_sheets.count == 0 %>
     <% else %>
       <%= link_to "Original Sheet ##{@sheet.verifying_sheet.id}", [@sheet.verifying_sheet.project, @sheet.verifying_sheet], class: 'btn btn-warning btn-xs' %>
     <% end %>

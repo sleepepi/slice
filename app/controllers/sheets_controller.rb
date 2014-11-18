@@ -118,6 +118,7 @@ class SheetsController < ApplicationController
 
   # GET /sheets/1/double_data_entry
   def double_data_entry
+    redirect_to [@sheet.project, @sheet] if @sheet.verification_sheets.count > 0
     @double_data_entry_sheet = current_user.sheets.new(@sheet.shared_verification_params)
   end
 
