@@ -17,7 +17,7 @@ class Variable < ActiveRecord::Base
   #                 # Radio and Checkbox
   #                 :alignment, :domain_id
 
-  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'].sort.collect{|i| [i,i]}
+  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid', 'signature'].sort.collect{|i| [i,i]}
   TYPE_IMPORTABLE = ['string', 'text', 'integer', 'numeric', 'date', 'time'].sort.collect{|i| [i,i]}
   TYPE_DOMAIN = ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
   DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]

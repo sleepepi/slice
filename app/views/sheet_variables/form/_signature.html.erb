@@ -1,0 +1,3 @@
+<%= hidden_field_tag field_name, response, data: { object: "condition" }, disabled: disabled %>
+<canvas class="pad" width="300" height="55" data-object="signature" data-signature-target="<%= "##{field_name.gsub('[', '_').gsub(']', '')}" %>"></canvas>
+<span class="clearButton" style="position: absolute; margin-top: 12.5px; margin-left: 10px;"><%= link_to 'clear', '#', class: 'btn btn-xs btn-default', tabindex: '-1', data: { object: 'clear-signature', target: "##{field_name.gsub('[', '_').gsub(']', '')}" } %></span>

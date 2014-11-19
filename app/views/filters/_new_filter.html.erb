@@ -3,7 +3,7 @@
 <% filter_ids = [0] if filter_ids.blank? %>
 <% row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'checkbox', 'radio', 'string', 'numeric', 'date', 'integer', 'calculated', 'text', 'time'], filter_ids) %>
 <% # All ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid'] %>
-<% # Unused ['checkbox', 'file', 'grid'] %>
+<% # Unused ['checkbox', 'file', 'grid', 'signature'] %>
 <% extra_variables = [] %>
 <% extra_variables << ['Site', 'site'] if filters.select{|f| f[:id] == 'site'}.size == 0 %>
 <% extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0 %>

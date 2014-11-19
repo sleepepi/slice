@@ -32,6 +32,8 @@
   - Numeric fields with ranges no longer accept numbers with non-numeric components, ex: '100 years'
   - Date variables are now available in three formats, "YYYY-MM-DD", "MM/DD/YYYY", and "DD/MM/YYYY"
   - Deleted variables that still exist on designs can be restored in certain circumstances
+  - Added a new variable type "signature"
+    - This variable allows users to add signature fields to designs
 - **Gem Changes**
   - Updated to rails 4.2.0.beta4
   - Updated to contour 2.6.0.beta8

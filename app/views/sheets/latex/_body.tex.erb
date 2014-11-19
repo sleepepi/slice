@@ -84,6 +84,10 @@
     <%= latex_safe @sheet.get_response(@variable, @sheet.project.show_type) %>
     \vspace{2 mm}
   <% end %>
+<% elsif @variable.variable_type == 'signature' %>
+  \vspace{1 mm}
+  \textcolor[gray]{0.5}{Signature Currently Unavailable in PDF view}
+  \vspace{2 mm}
 <% elsif @sheet.get_response(@variable, @sheet.project.show_type).blank? %>
   \vspace{1 mm}
   \textcolor[gray]{0.5}{Unknown}

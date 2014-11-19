@@ -5,7 +5,7 @@
   </h4>
 </div>
 <div class="modal-body">
-  <% ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file', 'grid', 'existing_question'].in_groups_of(3).each do |row_items| %>
+  <% ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file', 'signature', 'existing_question', 'grid'].in_groups_of(3).each do |row_items| %>
     <div class="row">
       <% row_items.each do |variable_type| %>
         <% if variable_type and not ['section', 'existing_question'].include?(variable_type) %>
@@ -67,6 +67,8 @@
                   </div>
                 <% when 'file' %>
                   <%= button_tag 'Choose File', disabled: true %>
+                <% when 'signature' %>
+                  <%= image_tag 'signature.png', style: 'cursor:pointer' %>
                 <% when 'grid' %>
                     <table class="table table-hover">
                       <thead>
