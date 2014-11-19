@@ -136,7 +136,7 @@ class SheetVariableTest < ActiveSupport::TestCase
   end
 
   test "get date name value" do
-    assert_equal "2013-04-17", sheet_variables(:date).get_response(:name)
+    assert_equal "04/17/2013", sheet_variables(:date).get_response(:name)
   end
 
   test "get date raw value" do
