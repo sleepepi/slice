@@ -417,12 +417,12 @@ class Variable < ActiveRecord::Base
   end
 
   def date_order
-    case self.format when '%m/%d/%Y'
-      ['month', 'day', 'year']
+    case self.format when '%Y/%m/%d'
+      ['year', 'month', 'day']
     when '%d/%m/%Y'
       ['day', 'month', 'year']
     else
-      ['year', 'month', 'day']
+      ['month', 'day', 'year']
     end
   end
 
