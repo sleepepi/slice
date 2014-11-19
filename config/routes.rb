@@ -73,6 +73,7 @@ Rails.application.routes.draw do
         get :reimport
         patch :update_import
         get :overview
+        get :master_verification
       end
       collection do
         post :selection

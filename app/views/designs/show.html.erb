@@ -14,6 +14,9 @@
 
   <%= link_to "Report", report_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs' %>
   <%= link_to "Overview", overview_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs' %>
+  <% if @project.double_data_entry? and @design.sheets.double_data_entry_exists.count > 0 %>
+    <%= link_to "Master Verification", master_verification_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs' %>
+  <% end %>
 </div>
 
 <dl class="dl-horizontal">
