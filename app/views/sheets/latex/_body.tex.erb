@@ -85,9 +85,15 @@
     \vspace{2 mm}
   <% end %>
 <% elsif @variable.variable_type == 'signature' %>
-  \vspace{1 mm}
-  \textcolor[gray]{0.5}{Signature Currently Unavailable in PDF view}
-  \vspace{2 mm}
+  <% if response_file = @sheet.get_response(@variable, :raw_file) and response_file.size > 0 %>
+    \begin{figure}[!htpb]
+      \includegraphics[max width=7.5in]{<%= response_file.path %>}
+    \end{figure}
+  <% else %>
+    \vspace{1 mm}
+    \textcolor[gray]{0.5}{No Signature}
+    \vspace{2 mm}
+  <% end %>
 <% elsif @sheet.get_response(@variable, @sheet.project.show_type).blank? %>
   \vspace{1 mm}
   \textcolor[gray]{0.5}{Unknown}

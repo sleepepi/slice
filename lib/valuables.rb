@@ -8,6 +8,7 @@ require 'valuables/numeric_response'
 require 'valuables/multiple_response'
 require 'valuables/single_response'
 require 'valuables/time_response'
+require 'valuables/signature_response'
 
 
 module Valuables
@@ -25,7 +26,8 @@ module Valuables
     'radio' => SingleResponse,
     'string' => Default,
     'text' => Default,
-    'time' => TimeResponse
+    'time' => TimeResponse,
+    'signature' => SignatureResponse
   }
 
   def self.for(object)
