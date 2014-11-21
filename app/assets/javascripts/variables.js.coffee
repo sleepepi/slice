@@ -77,6 +77,13 @@
       $(this).is(':checked')
     )
     value.size() == 0
+  else if element.data('required-type') == 'signature'
+    try
+      result = JSON.parse($("[name='#{element.data('required-field')}']").val()).length < 20
+    catch
+      result = true
+    finally
+      result
   else
     value = $("[name='#{element.data('required-field')}']").val()
     $.trim(value) == ''
