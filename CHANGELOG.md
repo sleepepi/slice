@@ -1,4 +1,4 @@
-## 0.27.1
+## 0.27.1 (November 21, 2014)
 
 ### Bug Fixes
 - Fixed a bug that prevented dates from being saved in Internet Explorer and Firefox
