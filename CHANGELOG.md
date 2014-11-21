@@ -17,6 +17,7 @@
     - **Required** variables need to have a value set for the form to be submitted
     - **Recommended** variables prompt the user to fill them in or continue saving if they have no value set
     - **Not Required** variables work as variables have in the past
+  - The design editor has been redesigned to reduce clutter while generating new forms
 - **Sheet Changes**
   - Side navigation bar was removed to make better use of available space
   - Missing codes are now colored red for better visibility when selected

@@ -247,9 +247,13 @@ $(document)
   )
   .on('click', '[data-object~="preview-mode"]', () ->
     $('.design-preview-hide').hide()
+    $('[data-object~="design-preview-expand"]').removeClass('col-sm-6')
+    $('[data-object~="design-preview-expand"]').addClass('col-sm-12')
   )
   .on('click', '[data-object~="edit-mode"]', () ->
     $('.design-preview-hide').show()
+    $('[data-object~="design-preview-expand"]').removeClass('col-sm-12')
+    $('[data-object~="design-preview-expand"]').addClass('col-sm-6')
   )
 
 

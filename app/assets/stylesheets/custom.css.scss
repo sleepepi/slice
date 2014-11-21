@@ -576,6 +576,22 @@ label.checkbox, label.radio {
   border: 1px solid $btn-danger-border !important;
 }
 
+.btn-cutout {
+  color: $gray;
+  border: 2px dashed $gray;
+  background-color: $gray-lighter;
+}
+
+.btn-cutout:hover,
+.btn-cutout:focus,
+.btn-cutout:active,
+.btn-cutout.active,
+.btn-cutout.disabled,
+.btn-cutout[disabled] {
+  color: $gray-dark !important;
+  border: 2px dashed $gray-dark !important;
+  background-color: $gray-light !important;
+}
 
 .input-group .twitter-typeahead:not(:first-child) > .form-control {
   border-bottom-left-radius: 0 !important;
@@ -618,4 +634,9 @@ label.checkbox, label.radio {
 
 .table-borderless tr td {
   border-width: 0px !important;
+}
+
+.design-edit-box {
+  background-color: $table-bg-accent;
+  border-left: 2px solid $table-border-color;
 }

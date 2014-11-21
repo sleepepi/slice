@@ -1,6 +1,5 @@
-<h2>
+<h2 style="margin-top:0px">
   <%= @design.name %>
-  <%= link_to 'Edit Name and Description', '#', data: { object: 'pull-partial-edit', edit: 'design_name' }, class: 'btn btn-xs btn-default design-preview-hide' %>
 </h2>
 
 <%= simple_markdown @design.description unless @design.description.blank? %>

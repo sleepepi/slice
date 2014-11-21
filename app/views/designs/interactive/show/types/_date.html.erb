@@ -9,8 +9,8 @@
     <%= variable.date_separator unless index == variable.date_order.size - 1 %>
   <% end %>
     <% if variable.show_current_button? %>
-    <%= link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default', tabindex: '-1' if variable.show_current_button? %>
+    <%= link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default btn-xs', tabindex: '-1', disabled: true if variable.show_current_button? %>
   <% end %>
 </div>
 
-<%= link_to 'Edit Ranges', '#', data: { object: 'pull-partial-edit', edit: 'variable_date', position: @position, variable_id: variable.id }, class: 'design-preview-hide btn btn-xs btn-default' %>
+<%= link_to 'Edit Ranges', '#', data: { object: 'pull-partial-edit', edit: 'variable_date', position: @position, variable_id: variable.id }, class: 'design-preview-hide btn btn-xs btn-success' %>

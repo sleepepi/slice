@@ -2,6 +2,8 @@
   <%= select_tag @variable.name, "<option value=''></option>".html_safe + grouped_options_for_select(variable.grouped_by_missing(true), nil), disabled: true, class: "chzn-select" %>
 <% end %>
 
+<div>
 <%= link_to '#', data: { object: 'pull-partial-edit', edit: 'variable_domain', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success design-preview-hide' do %>
-  Click to <%= variable.shared_options.size == 0 ? 'Add' : 'Edit' %> Choices
+  <%= variable.shared_options.size == 0 ? 'Add' : 'Edit' %> Choices
 <% end %>
+</div>
