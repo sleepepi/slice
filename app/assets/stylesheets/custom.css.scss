@@ -615,3 +615,7 @@ label.checkbox, label.radio {
 .variable-blind {
 
 }
+
+.table-borderless tr td {
+  border-width: 0px !important;
+}
