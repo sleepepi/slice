@@ -5,36 +5,33 @@
   - Updated the top navigation menu
   - Favoriting a project now puts it in the menu right away
     - A maximum of three projects are displayed in the navigation bar
-  - Current input focus in Night Mode is now more visible
-    - Made other general improvements to Night Mode
-  - Added project-specific Export Data links to dashboard
-  - An experimental Winter Mode theme has been added to user settings
+  - The Night theme has had several visual improvements
+  - Added a new experimental Winter theme to user settings
 - **Project Changes**
   - Projects can now enable Double Data Entry for sheets
     - A sheet Verification Report now exists to compare responses from the original entry to the double data entry sheets
+  - A Data Export link has been added to the projects dashboard
 - **Design Changes**
-  - Variables can now be set as **Required**, **Recommended**, and **Not Required** on designs
-    - **Required** variables need to have a value set for the form to be submitted
-    - **Recommended** variables prompt the user to fill them in or continue saving if they have no value set
-    - **Not Required** variables work as variables have in the past
+  - Variables can now be set as `Required`, `Recommended`, and `Not Required` on designs
+    - `Required` variables need to have a value set for the form to be submitted
+    - `Recommended` variables encourage the user to fill them in when saving the survey if they have no value set
+    - `Not Required` variables work as variables have in the past
   - The design editor has been redesigned to reduce clutter while generating new forms
+- **Variable Changes**
+  - Added a new "signature" variable type is available on designs
+    - This variable allows users to add signature fields to designs
+  - Variable calculations can now exceed the 255 character limit
+  - Date variables are now available in three formats, `MM/DD/YYYY`, `YYYY-MM-DD`, and `DD/MM/YYYY`
+  - Deleted variables that still exist on designs can be restored in certain circumstances
+  - Time inputs have been adjusted to better fit the expected input width
+  - Numeric fields with ranges no longer accept numbers with non-numeric components, ex: '100 years'
 - **Sheet Changes**
   - Side navigation bar was removed to make better use of available space
   - Missing codes are now colored red for better visibility when selected
   - Variable display names now display consistently in both above and inline formats
-  - Sheet variable display names are now left-aligned
-  - Sheet variable display names now have a bit more space before the input fields
   - Choosing a design is now the last step when creating a new sheet
   - Calculations on sheets are now hidden by default
-  - Made file upload button consistent across browsers
-- **Variable Changes**
-  - Variable calculations can now exceed the 255 character limit
-  - Time and date inputs have been adjusted to better fit the expected input width
-  - Numeric fields with ranges no longer accept numbers with non-numeric components, ex: '100 years'
-  - Date variables are now available in three formats, "YYYY-MM-DD", "MM/DD/YYYY", and "DD/MM/YYYY"
-  - Deleted variables that still exist on designs can be restored in certain circumstances
-  - Added a new variable type "signature"
-    - This variable allows users to add signature fields to designs
+  - File upload button now looks consistent across browsers
 - **Gem Changes**
   - Updated to rails 4.2.0.beta4
   - Updated to contour 2.6.0.beta8
