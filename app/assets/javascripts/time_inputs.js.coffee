@@ -49,7 +49,8 @@ reformatTimeInput = (target, int_val) ->
   month_int = parseInt(month_target.val())
   year_int = parseInt(year_target.val())
 
-  temp_date = Date.parse("#{year_int}-#{month_int}-#{day_int} 00:00:00");
+  temp_date = Date.parse("#{year_int}/#{month_int}/#{day_int} 00:00:00")
+
   date = new Date(temp_date)
 
   day = date.getDate()
