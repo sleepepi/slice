@@ -2,61 +2,71 @@ module SheetExport
   extend ActiveSupport::Concern
 
   def generate_csv_sheets(sheet_scope, filename, raw_data, folder)
-    generate_csv_sheets_internal(sheet_scope, filename, raw_data, folder)
+    sheet_ids = sheet_scope.pluck(:id)
+    generate_csv_sheets_internal(sheet_ids, filename, raw_data, folder)
   end
 
   private
 
-  def generate_csv_sheets_internal(sheet_scope, filename, raw_data, folder)
+  def generate_csv_sheets_internal(sheet_ids, filename, raw_data, folder)
     export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
 
-    rows = []
+    CSV.open(export_file, "wb") do |csv|
+      variables = all_design_variables_without_grids_using_design_ids(Sheet.where(id: sheet_ids).pluck(:design_id).uniq)
 
-    sheet_scope.each do |sheet|
-      hash = { sheet_id: sheet.id }
-      sheet.sheet_variables.each do |sv|
-        unless sv.variable.variable_type == 'grid'
-          response = (raw_data ? sv.get_response(:raw) : sv.get_response(:name))
-          hash[sv.variable_id.to_s] = response
-          hash[sv.variable_id.to_s] = hash[sv.variable_id.to_s].join(',') if hash[sv.variable_id.to_s].kind_of?(Array)
-          if sv.variable.variable_type == 'checkbox'
-            sv.variable.shared_options.each_with_index do |option, index|
-              search_string = (raw_data ? option[:value] : "#{option[:value]}: #{option[:name]}")
-              hash["#{sv.variable_id.to_s}__#{option[:value]}"] = search_string if response.include?(search_string)
-            end
+      write_csv_header(csv, variables.collect(&:csv_column).flatten)
+      write_csv_body(sheet_ids, csv, raw_data, variables)
+
+      variables = nil # Freeing Memory
+    end
+    ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
+  end
+
+  def write_csv_header(csv, column_headers)
+    csv << ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + column_headers
+  end
+
+  def write_csv_body(sheet_ids, csv, raw_data, variables)
+    sheet_ids.sort.reverse.each do |sheet_id|
+      sheet = Sheet.find_by_id sheet_id
+      write_sheet_to_csv(csv, sheet, variables, raw_data) if sheet
+      sheet = nil # Freeing Memory
+    end
+  end
+
+  def write_sheet_to_csv(csv, sheet, variables, raw_data)
+    row = [ sheet.id,
+            sheet.name,
+            sheet.description,
+            sheet.created_at.strftime("%Y-%m-%d"),
+            sheet.project.name,
+            sheet.subject.site.name,
+            sheet.subject.name,
+            sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
+            sheet.subject.status,
+            sheet.user ? sheet.user.name : nil,
+            sheet.subject_schedule ? sheet.subject_schedule.name : nil,
+            sheet.event ? sheet.event.name : nil ]
+    variables.each do |variable|
+      response = sheet.get_response(variable, (raw_data ? :raw : :name))
+      row << (response.kind_of?(Array) ? response.join(',') : response)
+      if variable.variable_type == 'checkbox'
+        variable.shared_options.each_with_index do |option, index|
+          search_string = (raw_data ? option[:value] : "#{option[:value]}: #{option[:name]}")
+          if response.include?(search_string)
+            row << search_string
+          else
+            row << nil
           end
         end
       end
-      rows << hash
-      update_steps(1)
     end
+    csv << row
+    row = nil # Freeing Memory
+  end
 
-    CSV.open(export_file, "wb") do |csv|
-      variables = all_design_variables_without_grids(sheet_scope)
-      column_headers = variables.collect(&:csv_column).flatten
-      column_ids = variables.collect(&:csv_column_ids).flatten
-      csv << ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + column_headers
-      rows.each do |hash|
-        sheet = sheet_scope.find_by_id(hash[:sheet_id])
-        row = [ sheet.id,
-                sheet.name,
-                sheet.description,
-                sheet.created_at.strftime("%Y-%m-%d"),
-                sheet.project.name,
-                sheet.subject.site.name,
-                sheet.subject.name,
-                sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
-                sheet.subject.status,
-                sheet.user ? sheet.user.name : nil,
-                sheet.subject_schedule ? sheet.subject_schedule.name : nil,
-                sheet.event ? sheet.event.name : nil ]
-        column_ids.each do |column_id|
-          row << hash[column_id]
-        end
-        csv << row
-      end
-    end
-    ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
+  def all_design_variables_without_grids_using_design_ids(design_ids)
+    Design.where(id: design_ids).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
   end
 
 end

@@ -1,5 +1,8 @@
 ## 0.27.3
 
+### Enhancement
+- Further memory usage improvements for sheet exports
+
 ## 0.27.2 (November 24, 2014)
 
 ### Enhancement
