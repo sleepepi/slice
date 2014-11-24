@@ -7,7 +7,7 @@ class Export < ActiveRecord::Base
   STATUS = ["ready", "pending", "failed"].collect{|i| [i,i]}
 
   # Concerns
-  include Deletable
+  include Deletable, GridExport, SheetExport
 
   # Named Scopes
   scope :search, lambda { |arg| where("LOWER(exports.name) LIKE ?", arg.to_s.downcase.gsub(/^| |$/, '%')) }
@@ -114,138 +114,6 @@ class Export < ActiveRecord::Base
 
     def update_steps(amount)
       self.update_column :steps_completed, self.steps_completed + amount
-    end
-
-    def generate_csv_sheets(sheet_scope, filename, raw_data, folder)
-      export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
-
-      rows = []
-
-      sheet_scope.includes( sheet_variables: [ :variable ] ).each do |sheet|
-        hash = { sheet: sheet }
-        sheet.sheet_variables.each do |sv|
-          unless sv.variable.variable_type == 'grid'
-            response = (raw_data ? sv.get_response(:raw) : sv.get_response(:name))
-            hash[sv.variable_id.to_s] = response
-            hash[sv.variable_id.to_s] = hash[sv.variable_id.to_s].join(',') if hash[sv.variable_id.to_s].kind_of?(Array)
-            if sv.variable.variable_type == 'checkbox'
-              sv.variable.shared_options.each_with_index do |option, index|
-                search_string = (raw_data ? option[:value] : "#{option[:value]}: #{option[:name]}")
-                hash["#{sv.variable_id.to_s}__#{option[:value]}"] = search_string if response.include?(search_string)
-              end
-            end
-          end
-        end
-        rows << hash
-        update_steps(1)
-      end
-
-      CSV.open(export_file, "wb") do |csv|
-        variables = all_design_variables_without_grids(sheet_scope)
-        column_headers = variables.collect(&:csv_column).flatten
-        column_ids = variables.collect(&:csv_column_ids).flatten
-        csv << ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"] + column_headers
-        rows.each do |hash|
-          sheet = hash[:sheet]
-          row = [ sheet.id,
-                  sheet.name,
-                  sheet.description,
-                  sheet.created_at.strftime("%Y-%m-%d"),
-                  sheet.project.name,
-                  sheet.subject.site.name,
-                  sheet.subject.name,
-                  sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
-                  sheet.subject.status,
-                  sheet.user ? sheet.user.name : nil,
-                  sheet.subject_schedule ? sheet.subject_schedule.name : nil,
-                  sheet.event ? sheet.event.name : nil ]
-          column_ids.each do |column_id|
-            row << hash[column_id]
-          end
-          csv << row
-        end
-      end
-      ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
-    end
-
-    def generate_csv_grids(sheet_scope, filename, raw_data, folder)
-      export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
-
-      rows = []
-
-      sheet_scope.includes( sheet_variables: [ :variable, { grids: :variable } ] ).each do |sheet|
-        hash = { sheet: sheet, rows: [] }
-        sheet.sheet_variables.each do |sv|
-          if sv.variable.variable_type == 'grid'
-            sv.grids.each do |grid|
-              hash[:rows][grid.position] ||= {}
-              hash[:rows][grid.position][sv.variable_id.to_s] ||= {}
-
-              result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
-              result = result.join(',') if result.kind_of?(Array)
-
-              hash[:rows][grid.position][sv.variable_id.to_s][grid.variable_id.to_s] = result
-            end
-          end
-        end
-        rows << hash
-        update_steps(1)
-      end
-
-      CSV.open(export_file, "wb") do |csv|
-        variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
-        grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
-
-        row = ["", "", "", "", "", "", "", "", "", "", "", ""]
-
-        grid_group_variables.each do |variable|
-          variable.grid_variables.each do |grid_variable_hash|
-            grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-            row << variable.name if grid_variable
-          end
-        end
-
-        csv << row
-
-        row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
-
-        grid_group_variables.each do |variable|
-          variable.grid_variables.each do |grid_variable_hash|
-            grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-            row << grid_variable.name if grid_variable
-          end
-        end
-
-        csv << row
-
-        rows.each do |hash|
-          sheet = hash[:sheet]
-
-          hash[:rows].each do |sheet_row|
-            row = [ sheet.id,
-                    sheet.name,
-                    sheet.description,
-                    sheet.created_at.strftime("%Y-%m-%d"),
-                    sheet.project.name,
-                    sheet.subject.site.name,
-                    sheet.subject.name,
-                    sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
-                    sheet.subject.status,
-                    sheet.user ? sheet.user.name : nil,
-                    sheet.subject_schedule ? sheet.subject_schedule.name : nil,
-                    sheet.event ? sheet.event.name : nil ]
-
-            grid_group_variables.each do |variable|
-              variable.grid_variables.each do |grid_variable_hash|
-                row << (sheet_row[variable.id.to_s].blank? ? '' : sheet_row[variable.id.to_s][grid_variable_hash[:variable_id].to_s])
-              end
-            end
-            csv << row
-          end
-        end
-      end
-
-      ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
     end
 
     def generate_pdf(sheet_scope, filename)
