@@ -2,89 +2,97 @@ module GridExport
   extend ActiveSupport::Concern
 
   def generate_csv_grids(sheet_scope, filename, raw_data, folder)
-    generate_csv_grids_internal(sheet_scope, filename, raw_data, folder)
+    sheet_ids = sheet_scope.pluck(:id)
+    sheet_scope = nil # Freeing Memory
+    generate_csv_grids_internal(sheet_ids, filename, raw_data, folder)
   end
 
   private
 
-  def generate_csv_grids_internal(sheet_scope, filename, raw_data, folder)
+  def generate_csv_grids_internal(sheet_ids, filename, raw_data, folder)
     export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
 
-    rows = []
-
-    sheet_scope.each do |sheet|
-      hash = { sheet_id: sheet.id, rows: [] }
-      sheet.sheet_variables.each do |sv|
-        if sv.variable.variable_type == 'grid'
-          sv.grids.each do |grid|
-            hash[:rows][grid.position] ||= {}
-            hash[:rows][grid.position][sv.variable_id.to_s] ||= {}
-
-            result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
-            result = result.join(',') if result.kind_of?(Array)
-
-            hash[:rows][grid.position][sv.variable_id.to_s][grid.variable_id.to_s] = result
-          end
-        end
-      end
-      rows << hash
-      update_steps(1)
-    end
-
     CSV.open(export_file, "wb") do |csv|
-      variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
-      grid_group_variables = Variable.current.where(variable_type: 'grid', id: variable_ids)
+      grid_group_variables = all_design_variables_only_grids_using_design_ids(Sheet.where(id: sheet_ids).pluck(:design_id).uniq)
 
-      row = ["", "", "", "", "", "", "", "", "", "", "", ""]
+      write_grid_csv_header(csv, grid_group_variables)
+      write_grid_csv_body(sheet_ids, csv, raw_data, grid_group_variables)
 
-      grid_group_variables.each do |variable|
-        variable.grid_variables.each do |grid_variable_hash|
-          grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-          row << variable.name if grid_variable
-        end
-      end
-
-      csv << row
-
-      row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
-
-      grid_group_variables.each do |variable|
-        variable.grid_variables.each do |grid_variable_hash|
-          grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-          row << grid_variable.name if grid_variable
-        end
-      end
-
-      csv << row
-
-      rows.each do |hash|
-        sheet = sheet_scope.find_by_id(hash[:sheet_id])
-
-        hash[:rows].each do |sheet_row|
-          row = [ sheet.id,
-                  sheet.name,
-                  sheet.description,
-                  sheet.created_at.strftime("%Y-%m-%d"),
-                  sheet.project.name,
-                  sheet.subject.site.name,
-                  sheet.subject.name,
-                  sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
-                  sheet.subject.status,
-                  sheet.user ? sheet.user.name : nil,
-                  sheet.subject_schedule ? sheet.subject_schedule.name : nil,
-                  sheet.event ? sheet.event.name : nil ]
-
-          grid_group_variables.each do |variable|
-            variable.grid_variables.each do |grid_variable_hash|
-              row << (sheet_row[variable.id.to_s].blank? ? '' : sheet_row[variable.id.to_s][grid_variable_hash[:variable_id].to_s])
-            end
-          end
-          csv << row
-        end
-      end
+      grid_group_variables = nil # Freeing Memory
     end
 
     ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
+  end
+
+  def write_grid_csv_header(csv, grid_group_variables)
+    row = ["", "", "", "", "", "", "", "", "", "", "", ""]
+
+    grid_group_variables.each do |variable|
+      variable.grid_variables.each do |grid_variable_hash|
+        grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
+        row << variable.name if grid_variable
+        grid_variable = nil # Freeing Memory
+      end
+    end
+
+    csv << row
+
+    row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
+
+    grid_group_variables.each do |variable|
+      variable.grid_variables.each do |grid_variable_hash|
+        grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
+        row << grid_variable.name if grid_variable
+        grid_variable = nil # Freeing Memory
+      end
+    end
+
+    csv << row
+  end
+
+  def write_grid_csv_body(sheet_ids, csv, raw_data, grid_group_variables)
+    sheet_ids.sort.reverse.each do |sheet_id|
+      sheet = Sheet.find_by_id sheet_id
+      write_grid_sheet_to_csv(csv, sheet, grid_group_variables, raw_data) if sheet
+      sheet = nil # Freeing Memory
+      update_steps(1)
+    end
+  end
+
+  def write_grid_sheet_to_csv(csv, sheet, grid_group_variables, raw_data)
+    row = [ sheet.id,
+            sheet.name,
+            sheet.description,
+            sheet.created_at.strftime("%Y-%m-%d"),
+            sheet.project.name,
+            sheet.subject.site.name,
+            sheet.subject.name,
+            sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
+            sheet.subject.status,
+            sheet.user ? sheet.user.name : nil,
+            sheet.subject_schedule ? sheet.subject_schedule.name : nil,
+            sheet.event ? sheet.event.name : nil ]
+
+    grid_group_variables.each do |variable|
+      sheet_variable = sheet.sheet_variables.find_by_variable_id(variable.id)
+      variable.grid_variables.each do |grid_variable_hash|
+        if sheet_variable and grid = sheet_variable.grids.find_by_variable_id(grid_variable_hash[:variable_id])
+          result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
+          result = result.join(',') if result.kind_of?(Array)
+        else
+          result = nil
+        end
+        row << result
+      end
+      sheet_variable = nil # Freeing Memory
+    end
+    csv << row
+    row = nil # Freeing Memory
+  end
+
+  def all_design_variables_only_grids_using_design_ids(design_ids)
+    variable_ids = Design.where(id: design_ids).collect(&:variable_ids).flatten.uniq
+    Variable.current.where(variable_type: 'grid', id: variable_ids)
   end
 
 end
