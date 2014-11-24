@@ -4,13 +4,13 @@ require 'omniauth-ldap'
 # require 'omniauth-facebook'
 # require 'omniauth-linkedin'
 # require 'omniauth-cas'
+# require 'openid/store/filesystem'
 
-require 'openid/store/filesystem'
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :open_id, store: OpenID::Store::Filesystem.new('/tmp'), name: 'google_apps', identifier: 'https://www.google.com/accounts/o8/id'
-  provider :open_id, store: OpenID::Store::Filesystem.new('/tmp')
+  provider :open_id, name: 'google_apps', identifier: 'https://www.google.com/accounts/o8/id'
   provider :LDAP, host: 'ldap.example.com', port: 389, method: :plain, base: 'cn=users,dc=example,dc=com', uid: 'sAMAccountName', domain: '' #, try_sasl: true, sasl_mechanisms: "GSS-SPNEGO"
 
+  # provider :open_id, store: OpenID::Store::Filesystem.new('/tmp')
   # provider :twitter, 'CONSUMER_KEY', 'CONSUMER_SECRET'
   # provider :facebook, 'APP_ID', 'APP_SECRET'
   # provider :linked_in, 'CONSUMER_KEY', 'CONSUMER_SECRET'

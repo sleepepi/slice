@@ -1,5 +1,8 @@
 ## 0.27.2
 
+### Enhancement
+- Updated Google Omniauth to no longer write to disk
+
 ## 0.27.1 (November 21, 2014)
 
 ### Bug Fix
