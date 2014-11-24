@@ -3,6 +3,7 @@ module SheetExport
 
   def generate_csv_sheets(sheet_scope, filename, raw_data, folder)
     sheet_ids = sheet_scope.pluck(:id)
+    sheet_scope = nil # Freeing Memory
     generate_csv_sheets_internal(sheet_ids, filename, raw_data, folder)
   end
 
@@ -31,6 +32,7 @@ module SheetExport
       sheet = Sheet.find_by_id sheet_id
       write_sheet_to_csv(csv, sheet, variables, raw_data) if sheet
       sheet = nil # Freeing Memory
+      update_steps(1)
     end
   end
 
