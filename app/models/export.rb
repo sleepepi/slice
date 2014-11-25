@@ -106,7 +106,6 @@ class Export < ActiveRecord::Base
       steps += sheet_ids_count if self.include_sas?
       steps += sheet_ids_count if self.include_pdf?
       steps += sheet_ids_count if self.include_data_dictionary?
-      steps += sheet_ids_count if self.include_sas?
       steps += sheet_ids_count if self.include_r?
       steps += sheet_ids_count if self.include_files?
       self.update_column :total_steps, steps
@@ -234,8 +233,6 @@ class Export < ActiveRecord::Base
       File.open(export_file, 'w') do |file|
         file.syswrite(ERB.new(File.read(erb_file)).result(binding))
       end
-
-      update_steps(self.sheet_ids_count)
 
       [["#{language.upcase}/#{export_file.split('/').last}", export_file], generate_readme(language)]
     end
