@@ -73,20 +73,26 @@ module GridExport
             sheet.subject_schedule ? sheet.subject_schedule.name : nil,
             sheet.event ? sheet.event.name : nil ]
 
-    grid_group_variables.each do |variable|
-      sheet_variable = sheet.sheet_variables.find_by_variable_id(variable.id)
-      variable.grid_variables.each do |grid_variable_hash|
-        if sheet_variable and grid = sheet_variable.grids.find_by_variable_id(grid_variable_hash[:variable_id])
-          result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
-          result = result.join(',') if result.kind_of?(Array)
-        else
-          result = nil
+    position = 1
+
+    (0..sheet.max_grids_position).to_a.each do |position|
+      grid_row = []
+      grid_group_variables.each do |variable|
+        sheet_variable = sheet.sheet_variables.find_by_variable_id(variable.id)
+        variable.grid_variables.each do |grid_variable_hash|
+          if sheet_variable and grid = sheet_variable.grids.where( position: position ).find_by_variable_id(grid_variable_hash[:variable_id])
+            result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
+            result = result.join(',') if result.kind_of?(Array)
+          else
+            result = nil
+          end
+          grid_row << result
         end
-        row << result
+        sheet_variable = nil # Freeing Memory
       end
-      sheet_variable = nil # Freeing Memory
+      csv << (row + grid_row) unless grid_row.compact.empty?
+      grid_row = nil
     end
-    csv << row
     row = nil # Freeing Memory
   end
 
@@ -94,5 +100,4 @@ module GridExport
     variable_ids = Design.where(id: design_ids).collect(&:variable_ids).flatten.uniq
     Variable.current.where(variable_type: 'grid', id: variable_ids)
   end
-
 end

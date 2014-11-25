@@ -171,6 +171,63 @@ has_grid_row_one_attached_file:
   position: 0
   response_file: rails.png
 
+has_grid_row_two_var_a:
+  sheet_variable: has_grid
+  variable: change_options
+  response: 2
+  user: valid
+  position: 1
+
+has_grid_row_two_var_b:
+  sheet_variable: has_grid
+  variable: file
+  # response:
+  user: valid
+  position: 1
+  # response_file: rails.png
+
+has_grid_row_two_var_c:
+  sheet_variable: has_grid
+  variable: checkbox
+  # response:
+  user: valid
+  position: 1
+
+has_grid_row_two_var_d:
+  sheet_variable: has_grid
+  variable: height
+  response: 2.6
+  user: valid
+  position: 1
+
+has_grid_row_two_var_e:
+  sheet_variable: has_grid
+  variable: weight
+  response: 80.0
+  user: valid
+  position: 1
+
+has_grid_row_two_var_f:
+  sheet_variable: has_grid
+  variable: calculated
+  response: 11.83
+  user: valid
+  position: 1
+
+has_grid_row_two_var_g:
+  sheet_variable: has_grid
+  variable: integer
+  response: 36
+  user: valid
+  position: 1
+
+has_grid_row_two_var_h:
+  sheet_variable: has_grid
+  variable: time
+  response: 12:00:00
+  user: valid
+  position: 1
+
 has_grid_row_two_no_attached_file:
   sheet_variable: has_grid_with_file
   variable: file
