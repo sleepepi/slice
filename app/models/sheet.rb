@@ -135,8 +135,9 @@
   end
 
   # This returns the maximum size of any grid.
-  # Ex: A Sheet has two grid variables on it, one with 3 rows, and the other with 2.
-  #     This function would return 3. This number is used to combine grids on similar rows in the sheet grids xls export
+  # Ex: A Sheet has two grid variables on it, one with 3 rows, and the other with 1.
+  #     This function would return 2 (position is zero-indexed, so [0,1,2]). This
+  #     number is used to combine grids on similar rows in the sheet grids export
   def max_grids_position
     self.sheet_variables.size > 0 ? self.sheet_variables.collect(&:max_grids_position).max : -1
   end
