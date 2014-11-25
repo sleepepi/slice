@@ -1,4 +1,4 @@
-## 0.27.4
+## 0.27.4 (November 25, 2014)
 
 ### Bug Fix
 - Fixed a bug that prevented multiple rows in a grid from being exported
