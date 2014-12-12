@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '4.2.0.beta4'
+gem 'rails',                '4.2.0.rc2'
 
 # Database Adapter
 gem 'pg',                   '0.17.1'
@@ -30,7 +30,7 @@ group :test do
   # Pretty printed test output
   gem 'minitest'
   gem 'minitest-reporters'
-  gem 'simplecov',          '~> 0.9.0',           require: false
+  gem 'simplecov',          '~> 0.9.1',           require: false
 end
 
 group :development, :test do
