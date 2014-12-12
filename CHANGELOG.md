@@ -1,5 +1,8 @@
 ## 0.27.6
 
+### Bug Fix
+- Fixed a bug that prevented new rows from being added to a grid
+
 ## 0.27.5 (December 12, 2014)
 
 ### Enhancements

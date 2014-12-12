@@ -4,7 +4,7 @@
   <% variable.grid_variables.each do |grid_variable| %>
     <td>
     <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) if sheet_variable %>
-    <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: (position).to_s.last(10)) unless grid %>
+    <% grid = Grid.new(variable_id: grid_variable[:variable_id], position: (position).to_s.last(9)) unless grid %>
 
     <%# The following line sets the response for the grid variable to that from the params hash, and if that doesn't exist, it checks if there was something stored in the database (grid variable) %>
     <% response = ((not params[:variables].blank? and not params[:variables][variable.id.to_s].blank? and not params[:variables][variable.id.to_s][position.to_s].blank?) ? params[:variables][variable.id.to_s][position.to_s][grid_variable[:variable_id].to_s] : (grid ? grid.get_response(:raw) : nil)) %>
