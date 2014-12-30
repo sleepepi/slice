@@ -45,6 +45,7 @@
     remote: root_url + 'search?q=%QUERY'
   )
   setFocusToField("#search")
+  Turbolinks.enableProgressBar()
 
 @ready = () ->
   contourReady()
@@ -189,6 +190,3 @@ $(document)
     if $("#isdirty").val() == '1'
       window.$isDirty = true
   )
-  .on('page:fetch',   () -> NProgress.start() )
-  .on('page:change',  () -> NProgress.done() )
-  .on('page:restore', () -> NProgress.remove() )

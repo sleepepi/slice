@@ -2,6 +2,7 @@
 
 ### Enhancements
 - Use of Ruby 2.2.0 is now recommended
+- Removed NProgress in favor of Turbolinks progress bar
 - **Gem Changes**
   - Updated to rails 4.2.0
   - Updated to contour 2.6.0.rc
