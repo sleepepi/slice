@@ -1,4 +1,4 @@
-## 0.27.7
+## 0.27.7 (December 30, 2014)
 
 ### Enhancements
 - Use of Ruby 2.2.0 is now recommended
