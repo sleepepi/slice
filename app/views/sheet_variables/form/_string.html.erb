@@ -13,7 +13,6 @@
         rel: "#{variable.description.blank? ? '' : 'popover'}",
         autocomplete: 'off',
         disabled: disabled,
-        title: variable.display_name,
         placeholder: is_grid ? variable.display_name : nil %>
   <% unless variable.append.blank? %><span class="input-group-addon"><%= variable.append %></span><% end %>
 </div>
