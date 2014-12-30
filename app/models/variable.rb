@@ -394,7 +394,7 @@ class Variable < ActiveRecord::Base
 
   def sas_format_label
     if self.variable_type == 'checkbox'
-      ["  label #{self.name}='#{self.display_name.gsub("'", "''")}';"] + self.shared_options.collect{|option| "  label #{option_variable_name(option[:value])}='#{self.display_name.gsub("'", "''")} (#{option[:name]})' ;"}
+      ["  label #{self.name}='#{self.display_name.gsub("'", "''")}';"] + self.shared_options.collect{|option| "  label #{option_variable_name(option[:value])}='#{self.display_name.gsub("'", "''")} (#{option[:name].to_s.gsub("'", "''")})' ;"}
     else
       "  label #{self.name}='#{self.display_name.gsub("'", "''")}';"
     end

@@ -6,6 +6,9 @@
   - Updated to rails 4.2.0
   - Updated to contour 2.6.0.rc
 
+### Bug Fix
+- Fixed a bug that incorrectly output SAS labels for domains
+
 ## 0.27.6 (December 12, 2014)
 
 ### Bug Fix
