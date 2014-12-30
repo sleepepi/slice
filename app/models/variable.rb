@@ -182,6 +182,10 @@ class Variable < ActiveRecord::Base
     self.shared_options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
   end
 
+  def all_codes
+    self.shared_options.collect{|opt| opt[:value]}
+  end
+
   def first_scale_variable?(design)
     return true unless design
 

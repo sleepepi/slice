@@ -3,6 +3,8 @@
 ### Enhancements
 - Use of Ruby 2.2.0 is now recommended
 - Removed NProgress in favor of Turbolinks progress bar
+- **Sheet Changes**
+  - Numeric values with valid domain codes outside of the numeric hard min/max range, are now accepted as valid responses
 - **Gem Changes**
   - Updated to rails 4.2.0
   - Updated to contour 2.6.0.rc
