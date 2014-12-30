@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '4.2.0.rc2'
+gem 'rails',                '4.2.0'
 
 # Database Adapter
 gem 'pg',                   '0.17.1'
 
 # Gems used by project
-gem 'contour',              '~> 2.6.0.beta8'
+gem 'contour',              '~> 2.6.0.rc'
 gem 'kaminari',             '~> 0.16.1'
 gem 'carrierwave',          '~> 0.10.0'
 gem 'naturalsort',          '~> 1.1.1'
@@ -18,7 +18,7 @@ gem 'chunky_png',           '~> 1.3.1'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.1.0'
-gem 'sass-rails',           '~> 5.0.0.beta1'
+gem 'sass-rails',           '~> 5.0'
 gem 'uglifier',             '>= 1.3.0'
 
 gem 'jbuilder',             '~> 2.0'
@@ -38,7 +38,7 @@ group :development, :test do
   # gem 'byebug'
 
   # Access an IRB console on exceptions page and /console in development
-  gem 'web-console', '~> 2.0.0.beta2'
+  gem 'web-console', '~> 2.0'
 
   # # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
