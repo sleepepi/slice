@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails',                '4.2.0'
 
 # Database Adapter
-gem 'pg',                   '0.17.1'
+gem 'pg',                   '0.18.1'
 
 # Gems used by project
 gem 'contour',              '~> 2.6.0.rc'

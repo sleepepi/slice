@@ -1,5 +1,8 @@
 ## 0.28.0
 
+- **Gem Changes**
+  - Updated to pg 0.18.1
+
 ## 0.27.7 (December 30, 2014)
 
 ### Enhancements
