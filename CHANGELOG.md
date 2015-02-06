@@ -3,6 +3,7 @@
 - **Gem Changes**
   - Updated to pg 0.18.1
   - Updated to contour 2.7.0.beta1
+  - Updated to kaminari 0.16.2
 
 ## 0.27.7 (December 30, 2014)
 
