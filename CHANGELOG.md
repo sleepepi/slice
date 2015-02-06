@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Streamlined login system by removing alternate logins
+  - Removed approval process for new user registration
 - **Gem Changes**
   - Updated to pg 0.18.1
   - Updated to contour 2.7.0.beta1

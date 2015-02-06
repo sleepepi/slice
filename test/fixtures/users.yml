@@ -28,13 +28,13 @@ admin:
   email: admin@example.com
   encrypted_password: ""
 
-pending:
+associated:
   first_name: MyString
   last_name: MyString
-  status: pending
+  status: active
   deleted: false
   system_admin: false
-  email: pending@example.com
+  email: associated@example.com
   encrypted_password: ""
 
 deleted:

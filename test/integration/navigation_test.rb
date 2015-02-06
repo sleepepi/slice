@@ -7,17 +7,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
 
   def setup
     @valid = users(:valid)
-    @pending = users(:pending)
     @deleted = users(:deleted)
-  end
-
-  test "pending users should be not be allowed to login" do
-    get "/projects"
-    assert_redirected_to new_user_session_path
-
-    sign_in_as(@pending, "123456", "pending-2@example.com")
-    assert_equal new_user_session_path, path
-    assert_equal I18n.t('devise.failure.inactive'), flash[:alert]
   end
 
   test "deleted users should be not be allowed to login" do

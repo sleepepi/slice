@@ -242,12 +242,11 @@ class User < ActiveRecord::Base
 
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
-    super and self.status == 'active' and not self.deleted?
+    super and not self.deleted?
   end
 
   def destroy
     super
-    update_column :status, 'inactive'
     update_column :updated_at, Time.now
   end
 

@@ -34,7 +34,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should create project user and automatically add associated user" do
     assert_difference('ProjectUser.count') do
-      post :invite_user, id: projects(:single_design), editor: '1', invite_email: users(:pending).name + " [#{users(:pending).email}]", format: 'js'
+      post :invite_user, id: projects(:single_design), editor: '1', invite_email: users(:associated).name + " [#{users(:associated).email}]", format: 'js'
     end
 
     assert_not_nil assigns(:project)
@@ -90,7 +90,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
 
   test "should transfer project to another user" do
-    post :transfer, id: @project, user_id: users(:pending)
+    post :transfer, id: @project, user_id: users(:associated)
     assert_not_nil assigns(:project)
     assert_equal true, assigns(:project).editors.pluck(:id).include?(users(:valid).id)
     assert_redirected_to setup_project_path(assigns(:project))
