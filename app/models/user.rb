@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
                 ]
 
   # Concerns
-  include Contourable, Deletable
+  include Deletable
 
   # Named Scopes
   scope :human, -> { all } # Placeholder
@@ -38,7 +38,6 @@ class User < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
 
   # Model Relationships
-  has_many :authentications
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
@@ -283,14 +282,6 @@ class User < ActiveRecord::Base
 
   def reverse_name
     "#{last_name}, #{first_name}"
-  end
-
-  def apply_omniauth(omniauth)
-    unless omniauth['info'].blank?
-      self.first_name = omniauth['info']['first_name'] if first_name.blank?
-      self.last_name = omniauth['info']['last_name'] if last_name.blank?
-    end
-    super
   end
 
   private

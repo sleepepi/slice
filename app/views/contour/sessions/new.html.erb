@@ -18,16 +18,14 @@
   </div>
 <% end %>
 
-<% if PROVIDERS.size > 0 %>
-  <div class="form-signin">
-    <h2 class="form-signin-heading">Sign in with</h2>
-    <% PROVIDERS.each do |provider| %>
-      <a href="<%= request.script_name + "/" + OmniAuth.config.path_prefix.split('/').last.to_s + "/" + provider.to_s.downcase %>" class="btn btn-large btn-default" style="white-space:nowrap">
-        <%= image_tag "contour/#{provider.to_s.downcase}_32.png", align: 'absmiddle' %>
-      </a>
-    <% end %>
-  </div>
-<% end %>
+<div class="form-signin">
+  <h2 class="form-signin-heading">Important</h2>
+    In order to simplify our sign up process for a greater number of
+users, we're removing alternate sign in strategies like Google Auth and LDAP
+logins. If you used one of thes alternate strategies, you can reset your
+password by clicking <%= link_to "Forgot your password?", new_password_path(resource_name) %> and set a new password using the
+link sent to your email address.
+</div>
 
 <% if devise_mapping.registerable? %>
   <div class="center" style="margin-bottom:20px">

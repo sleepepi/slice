@@ -21,7 +21,6 @@
 
 /config/application.yml
 /config/database.yml
-/config/initializers/omniauth.rb
 /config/initializers/secret_token.rb
 
 /public/cache/*

@@ -43,7 +43,7 @@
     </ul>
   </dd>
 
-  <% site_invitations = SiteUser.where( invite_email: [@user.email]+@user.authentications.pluck(:uid) ).where( user_id: nil ) %>
+  <% site_invitations = SiteUser.where( invite_email: @user.email ).where( user_id: nil ) %>
   <% if current_user.system_admin? and site_invitations.count > 0 %>
     <dt>Invitations</dt>
     <dd>
@@ -57,20 +57,5 @@
 
   <dt>User Avatar</dt>
   <dd><%= image_tag @user.avatar_url, class: 'img-rounded' %></dd>
-
-  <% if current_user.system_admin? and @user.authentications.size > 0 %>
-    <dt>Authentications</dt>
-    <dd>
-      <div style="margin-top:10px">
-        <% @user.authentications.each do |authentication| %>
-          <div class="authentication">
-            <%= image_tag "contour/#{authentication.provider}_32.png", height: "32px" %>
-            <div class="provider"><%= authentication.provider.titleize %></div>
-            <div class="uid"><%= authentication.uid %></div>
-          </div>
-        <% end %>
-      </div>
-    </dd>
-  <% end %>
 </dl>
 
