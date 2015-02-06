@@ -6,6 +6,7 @@
   - Updated to kaminari 0.16.2
   - Updated to naturalsort 1.2.0
   - Removed dependency on rails-observers
+  - Use Haml for new views
 
 ## 0.27.7 (December 30, 2014)
 
