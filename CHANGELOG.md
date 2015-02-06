@@ -7,6 +7,7 @@
   - Updated to naturalsort 1.2.0
   - Removed dependency on rails-observers
   - Use Haml for new views
+  - Updated to jquery-rails 4.0.3
 
 ## 0.27.7 (December 30, 2014)
 
