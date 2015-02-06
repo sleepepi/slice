@@ -1,5 +1,6 @@
 ## 0.28.0
 
+### Enhancements
 - **Gem Changes**
   - Updated to pg 0.18.1
   - Updated to contour 2.7.0.beta1
@@ -9,6 +10,9 @@
   - Use Haml for new views
   - Updated to jquery-rails 4.0.3
   - Use Figaro to centralize application configuration
+
+### Refactoring
+- Simplified how image assets are referenced from SCSS file
 
 ## 0.27.7 (December 30, 2014)
 

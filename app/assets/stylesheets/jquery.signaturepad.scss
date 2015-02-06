@@ -12,12 +12,12 @@
    *
    * http://www.useragentman.com/blog/2011/12/21/cross-browser-css-cursor-images-in-depth/
    */
-  cursor: url('pen<%= asset_path('pen.cur').split('pen').last %>'), crosshair;
+  cursor: asset-url('pen.cur'), crosshair;
   /**
    * IE will ignore this line because of the hotspot position
    * Unfortunately we need this twice, because some browsers ignore the hotspot inside the .cur
    */
-  cursor: url('pen<%= asset_path('pen.cur').split('pen').last %>') 16 16, crosshair;
+  cursor: asset-url('pen.cur') 16 16, crosshair;
 
   -ms-touch-action: none;
   -webkit-user-select: none;
