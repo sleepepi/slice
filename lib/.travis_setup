@@ -1,14 +1,14 @@
-postgres
-
-
-
+http://localhost
+Slice
+support@example.com
 localhost
 25
+plain
+smtp@example.com
+smtp_username
+smtp_password
+/usr/bin/pdflatex
+postgres
 
-travis-ci@example.com
-
-
-Slice
-http://localhost
 
 

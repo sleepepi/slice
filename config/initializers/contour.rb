@@ -2,7 +2,7 @@
 Contour.setup do |config|
 
   # Enter your application name here. The name will be displayed in the title of all pages, ex: AppName - PageTitle
-  config.application_name = DEFAULT_APP_NAME
+  config.application_name = ENV['website_name']
 
   # If you want to style your name using html you can do so here, ex: <b>App</b>Name
   # config.application_name_html = ''

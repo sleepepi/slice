@@ -1,11 +1,11 @@
 Dear <%= @project_user.user.first_name %>,
 
-<%= @project_user.creator.name %> added you to Project <%= @project_user.project.name %> located here <%= "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
+<%= @project_user.creator.name %> added you to Project <%= @project_user.project.name %> located here <%= "#{ENV['website_url']}/projects/#{@project_user.project.id}" %>.<br />
 
 <% if @project_user.editor? %>You may edit the project and add new designs, variables, and sheets to it!<% else %>You may view the project and sheets!<% end %>
 
 Thank you!
 
-<%= DEFAULT_APP_NAME %> Mailer
+<%= ENV['website_name'] %> Mailer
 
 <%= @footer_txt %>

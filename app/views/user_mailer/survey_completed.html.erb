@@ -7,6 +7,6 @@
 You can view the completed sheet here:<br />
 <br />
 
-<center><%= link_to "#{SITE_URL}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}", "#{SITE_URL}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}", style: "color: #428bca" %></center><br />
+<center><%= link_to "#{ENV['website_url']}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}", "#{ENV['website_url']}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}", style: "color: #428bca" %></center><br />
 
 <%= render partial: 'email_footer' %>

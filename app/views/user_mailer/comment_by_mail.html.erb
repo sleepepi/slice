@@ -1,6 +1,6 @@
 <%= render partial: 'email_header' %>
 
-<%= @comment.user.name %> <span style="padding:5px;background-color:#428bca;color:white">commented</span> on <%= link_to @comment.sheet.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}", style: "color: #428bca;" %> on <%=  link_to @comment.sheet.project.name, "#{SITE_URL}/projects/#{@comment.sheet.project.id}", style: "color: #428bca;" %>.<br />
+<%= @comment.user.name %> <span style="padding:5px;background-color:#428bca;color:white">commented</span> on <%= link_to @comment.sheet.name, "#{ENV['website_url']}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}", style: "color: #428bca;" %> on <%=  link_to @comment.sheet.project.name, "#{ENV['website_url']}/projects/#{@comment.sheet.project.id}", style: "color: #428bca;" %>.<br />
 <br />
 
 <% @comment.sheet.comments.order('created_at DESC').limit(5).each do |comment| %>

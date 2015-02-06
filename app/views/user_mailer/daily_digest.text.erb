@@ -4,10 +4,10 @@ Dear <%= @recipient.first_name %>,
 ADDED Recently
 
 <% @recipient.digest_sheets_created.group_by{|s| s.project_id}.each do |project_id, project_sheets| %>
-<%= ((project = Project.find_by_id(project_id)) ? "#{project.name}, #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
+<%= ((project = Project.find_by_id(project_id)) ? "#{project.name}, #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
 <% if project_sheets.size > 15 %>
-    <%= pluralize(project_sheets.count, 'sheet') %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered, <%= "#{SITE_URL}/projects/#{project.id}/sheets" %>
+    <%= pluralize(project_sheets.count, 'sheet') %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered, <%= "#{ENV['website_url']}/projects/#{project.id}/sheets" %>
 <% else %>
 <% project_sheets.each do |sheet| %>
     <%= @sheet = sheet; render partial: 'digest_sheet' %>
@@ -21,10 +21,10 @@ ADDED Recently
 COMMENTS
 
 <% @recipient.digest_comments.group_by{|s| s.project_id}.each do |project_id, comments| %>
-<%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
+<%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 <% comments.group_by{|s| s.sheet_id}.each do |sheet_id, comments| %>
 
-  <%= ((sheet = Sheet.find_by_id(sheet_id)) ? "#{sheet.name} #{SITE_URL}/projects/#{sheet.project.id}/sheets/#{sheet.id}" : 'No Sheet') %>
+  <%= ((sheet = Sheet.find_by_id(sheet_id)) ? "#{sheet.name} #{ENV['website_url']}/projects/#{sheet.project.id}/sheets/#{sheet.id}" : 'No Sheet') %>
 
   <% comments.each do |comment| %>
      <%= @comment = comment; render partial: 'digest_comment' %>

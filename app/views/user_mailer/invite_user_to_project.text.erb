@@ -1,15 +1,15 @@
 Hello,
 
-<%= @project_user.creator.name %> invited you to Project <%= @project_user.project.name %> located here <%= "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
+<%= @project_user.creator.name %> invited you to Project <%= @project_user.project.name %> located here <%= "#{ENV['website_url']}/projects/#{@project_user.project.id}" %>.<br />
 
 Click the following link to accept the invitation:
 
 
-    <%= "#{SITE_URL}/project_users/accept?invite_token=#{@project_user.invite_token}" %>
+    <%= "#{ENV['website_url']}/project_users/accept?invite_token=#{@project_user.invite_token}" %>
 
 
 Thank you!
 
-<%= DEFAULT_APP_NAME %> Mailer
+<%= ENV['website_name'] %> Mailer
 
 <%= @footer_txt %>

@@ -9,6 +9,6 @@
 
 
 
-This post was added by <%= @post.user.name %> to <%= @post.project.name %> on <%= DEFAULT_APP_NAME %>
+This post was added by <%= @post.user.name %> to <%= @post.project.name %> on <%= ENV['website_name'] %>
 
-<%= "#{SITE_URL}/projects/#{@post.project.id}" %>
+<%= "#{ENV['website_url']}/projects/#{@post.project.id}" %>

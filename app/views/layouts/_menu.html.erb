@@ -7,7 +7,7 @@
       <span class="icon-bar"></span>
     </button>
 
-    <%= link_to DEFAULT_APP_NAME, root_path, class: "navbar-brand #{'active' if current_page?(root_path)}" %>
+    <%= link_to ENV['website_name'], root_path, class: "navbar-brand #{'active' if current_page?(root_path)}" %>
   </div>
 
   <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -77,7 +77,7 @@
               <li><%= link_to "<span class='glyphicon glyphicon-wrench'></span> Admin Dashboard".html_safe, users_path %></li>
             <% end %>
             <li class="divider"></li>
-            <li><%= link_to "<span class='glyphicon glyphicon-info-sign'></span> About #{DEFAULT_APP_NAME}".html_safe, about_path %></li>
+            <li><%= link_to "<span class='glyphicon glyphicon-info-sign'></span> About #{ENV['website_name']}".html_safe, about_path %></li>
           </ul>
         </li>
         <li>

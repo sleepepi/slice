@@ -5,9 +5,9 @@ The design data import for <%= @design.project.name %> is now complete.
 Click the following link to see newly imported data:
 
 
-    <%= "#{SITE_URL}/projects/#{@design.project_id}/sheets?design_id=#{@design.id}" %>
+    <%= "#{ENV['website_url']}/projects/#{@design.project_id}/sheets?design_id=#{@design.id}" %>
 
 
 Thank you!
 
-<%= DEFAULT_APP_NAME %> Mailer
+<%= ENV['website_name'] %> Mailer

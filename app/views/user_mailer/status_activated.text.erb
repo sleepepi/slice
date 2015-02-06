@@ -2,8 +2,8 @@ Dear <%= @user.first_name %>,
 
 Your account [<%= @user.email %>] has been activated.
 
-You can now login here: <%= SITE_URL %>
+You can now login here: <%= ENV['website_url'] %>
 
 Thank you!
 
-<%= DEFAULT_APP_NAME %> System Mailer
+<%= ENV['website_name'] %> System Mailer

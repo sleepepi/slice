@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "#{DEFAULT_APP_NAME} <#{ActionMailer::Base.smtp_settings[:email]}>"
+  default from: "#{ENV['website_name']} <#{ActionMailer::Base.smtp_settings[:email]}>"
   add_template_helper(ApplicationHelper)
 
   def notify_system_admin(system_admin, user)
@@ -107,7 +107,7 @@ class UserMailer < ActionMailer::Base
   protected
 
   def setup_email
-    @footer_html = "<div style=\"color:#777\">Change #{DEFAULT_APP_NAME} email settings here: <a href=\"#{SITE_URL}/settings\">#{SITE_URL}/settings</a></div><br /><br />".html_safe
-    @footer_txt = "Change #{DEFAULT_APP_NAME} email settings here: #{SITE_URL}/settings"
+    @footer_html = "<div style=\"color:#777\">Change #{ENV['website_name']} email settings here: <a href=\"#{ENV['website_url']}/settings\">#{ENV['website_url']}/settings</a></div><br /><br />".html_safe
+    @footer_txt = "Change #{ENV['website_name']} email settings here: #{ENV['website_url']}/settings"
   end
 end

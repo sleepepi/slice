@@ -1,11 +1,11 @@
 <%= render partial: 'email_header' %>
 
-<%= @project_user.creator.name %> <span style="padding:5px;background-color:#428bca;color:white">invited</span> you to <%= link_to @project_user.project.name, "#{SITE_URL}/projects/#{@project_user.project.id}", style: "color: #428bca;" %>.<br />
+<%= @project_user.creator.name %> <span style="padding:5px;background-color:#428bca;color:white">invited</span> you to <%= link_to @project_user.project.name, "#{ENV['website_url']}/projects/#{@project_user.project.id}", style: "color: #428bca;" %>.<br />
 <br />
 Click the following link to accept the invitation:<br />
 <br />
 <center>
-  <%= link_to 'Accept Invitation', "#{SITE_URL}/project_users/accept?invite_token=#{@project_user.invite_token}", style: "color: #428bca" %>
+  <%= link_to 'Accept Invitation', "#{ENV['website_url']}/project_users/accept?invite_token=#{@project_user.invite_token}", style: "color: #428bca" %>
 </center><br />
 
 <%= render partial: 'email_footer' %>

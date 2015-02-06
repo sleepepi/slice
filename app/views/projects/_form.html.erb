@@ -35,7 +35,7 @@
       <%= f.text_field :subject_code_name, placeholder: "Subject Code", class: 'form-control' %>
       <div class="bs-callout bs-callout-info">
         <h4>What is the Subject Code name?</h4>
-        <%= DEFAULT_APP_NAME %> requires a unique string in order to identify subjects. By default the unique string is labeled <code>Subject Code</code>, however you may choose to change it to <code>Participant ID</code>, <code>Survey Recipient Number</code>, or any other suitable nomenclature that fits your particular project.
+        <%= ENV['website_name'] %> requires a unique string in order to identify subjects. By default the unique string is labeled <code>Subject Code</code>, however you may choose to change it to <code>Participant ID</code>, <code>Survey Recipient Number</code>, or any other suitable nomenclature that fits your particular project.
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@
         <%= f.text_field :site_name, placeholder: 'Default Site', class: 'form-control' %>
         <div class="bs-callout bs-callout-info">
           <h4>What is the Site name?</h4>
-          <%= DEFAULT_APP_NAME %> requires subjects be grouped by site. This requirement helps enforce unique subject codes within a site and also allows reports to break down subject counts by site. If your project does not have subjects that span multiple sites, you can leave this blank, which will create a single site for your project named <code>Default Site</code>. Each project is required to have at least one site, however if you need more than one, you can add additional sites after the project has been created.
+          <%= ENV['website_name'] %> requires subjects be grouped by site. This requirement helps enforce unique subject codes within a site and also allows reports to break down subject counts by site. If your project does not have subjects that span multiple sites, you can leave this blank, which will create a single site for your project named <code>Default Site</code>. Each project is required to have at least one site, however if you need more than one, you can add additional sites after the project has been created.
         </div>
       </div>
     </div>

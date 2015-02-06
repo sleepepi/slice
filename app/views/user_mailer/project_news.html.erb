@@ -12,6 +12,6 @@
 <br />
 <br />
 
-This post was <span style="padding:5px;background-color:#5cb85c;color:white">added</span> by <%= @post.user.name %> to <%= link_to @post.project.name, "#{SITE_URL}/projects/#{@post.project.id}", style: "color: #428bca" %> on <%= link_to DEFAULT_APP_NAME, SITE_URL, style: "color: #428bca" %>.
+This post was <span style="padding:5px;background-color:#5cb85c;color:white">added</span> by <%= @post.user.name %> to <%= link_to @post.project.name, "#{ENV['website_url']}/projects/#{@post.project.id}", style: "color: #428bca" %> on <%= link_to ENV['website_name'], ENV['website_url'], style: "color: #428bca" %>.
 
 <%= render partial: 'email_footer' %>

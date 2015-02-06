@@ -1,4 +1,4 @@
-<%= @comment.user.name %> COMMENTED on <%= @comment.sheet.name %> on <%=  @comment.sheet.project.name %> located at <%= "#{SITE_URL}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}" %>.
+<%= @comment.user.name %> COMMENTED on <%= @comment.sheet.name %> on <%=  @comment.sheet.project.name %> located at <%= "#{ENV['website_url']}/projects/#{@comment.sheet.project.id}/sheets/#{@comment.sheet.id}" %>.
 
 
 <% @comment.sheet.comments.order('created_at DESC').limit(5).each do |comment| %>

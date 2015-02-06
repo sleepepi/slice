@@ -3,10 +3,10 @@ Thank you for submitting <%= @sheet.name %>.
 You can make changes to your survey responses here:
 
 
-    <%= "#{SITE_URL}/projects/#{@sheet.project_id}/sheets/#{@sheet.id}/survey?sheet_authentication_token=#{@sheet.authentication_token}" %>
+    <%= "#{ENV['website_url']}/projects/#{@sheet.project_id}/sheets/#{@sheet.id}/survey?sheet_authentication_token=#{@sheet.authentication_token}" %>
 
 
 Thank you!
-<%= DEFAULT_APP_NAME %> Mailer
+<%= ENV['website_name'] %> Mailer
 
 This email was automatically generated.

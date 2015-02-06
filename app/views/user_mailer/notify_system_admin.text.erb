@@ -4,8 +4,8 @@ Dear <%= @system_admin.first_name %>,
 
 Click the following link to approve or deny the registration here:
 
-  <%= "#{SITE_URL}/users/#{@user.id}/edit" %>
+  <%= "#{ENV['website_url']}/users/#{@user.id}/edit" %>
 
 Thank you!
 
-<%= DEFAULT_APP_NAME %> System Mailer
+<%= ENV['website_name'] %> System Mailer

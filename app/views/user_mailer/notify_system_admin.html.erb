@@ -6,6 +6,6 @@
 <br />
 Click the following link to approve or deny the registration here:<br />
 <br />
-<center><%= link_to "#{SITE_URL}/users/#{@user.id}/edit", "#{SITE_URL}/users/#{@user.id}/edit", style: "color: #428bca" %></center><br />
+<center><%= link_to "#{ENV['website_url']}/users/#{@user.id}/edit", "#{ENV['website_url']}/users/#{@user.id}/edit", style: "color: #428bca" %></center><br />
 
 <%= render partial: 'email_footer' %>

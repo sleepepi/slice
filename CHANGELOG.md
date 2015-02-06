@@ -8,6 +8,7 @@
   - Removed dependency on rails-observers
   - Use Haml for new views
   - Updated to jquery-rails 4.0.3
+  - Use Figaro to centralize application configuration
 
 ## 0.27.7 (December 30, 2014)
 

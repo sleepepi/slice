@@ -1,16 +1,16 @@
-<% @title = "About #{DEFAULT_APP_NAME}" %>
+<% @title = "About #{ENV['website_name']}" %>
 
 <div class="row" style="margin-top:54px">
   <div class="col-md-12">
     <h1 class="about-title"><%= @title %></h1>
-    <p class="about-tagline">Visit our <%= link_to 'online community', ABOUT_PAGE_FORUM, target: '_blank' %> or contact us <%= mail_to ABOUT_PAGE_CONTACT, 'via email', target: '_blank', subject: "#{DEFAULT_APP_NAME} Question" %>.</p>
+    <p class="about-tagline">Visit our <%= link_to 'online community', 'https://sleepepi.partners.org', target: '_blank' %> or contact us <%= mail_to ENV['support_email'], 'via email', target: '_blank', subject: "#{ENV['website_name']} Question" %>.</p>
     <p class="about-signup"><%= link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-large" %></p>
   </div>
 </div>
 
 <hr class="soften">
 
-<p class="about-description"><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' } %> and <%= link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' } %> clinical research interface for collecting and analyzing data.</p>
+<p class="about-description"><%= ENV['website_name'] %> is a <%= link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' } %> and <%= link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' } %> clinical research interface for collecting and analyzing data.</p>
 
 <div class="row">
   <div class="col-md-4">
@@ -39,9 +39,9 @@
 
 <footer class="footer">
   <p class="muted about-footer">
-    <%= DEFAULT_APP_NAME %> Version <%= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}" %>
+    <%= ENV['website_name'] %> Version <%= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}" %>
   </p>
   <p class="muted about-footer">
-    By using <%= DEFAULT_APP_NAME %> you are agreeing to the <%= link_to 'Acceptable Use Policy', about_use_path %>.
+    By using <%= ENV['website_name'] %> you are agreeing to the <%= link_to 'Acceptable Use Policy', about_use_path %>.
   </p>
 </footer>

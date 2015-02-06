@@ -19,11 +19,11 @@
       <tr>
         <td colspan="5" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-size:1.2em">
           <% project = Project.find_by_id(project_id) %>
-          <%= project ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}", style: "color: #428bca;") : 'No Project' %>
+          <%= project ? link_to(project.name, "#{ENV['website_url']}/projects/#{project.id}", style: "color: #428bca;") : 'No Project' %>
         </td>
       </tr>
       <% if project_sheets.size > 15 %>
-        <tr><td colspan="5" style="padding-left:20px;"><%= link_to pluralize(project_sheets.count, 'sheet'), "#{SITE_URL}/projects/#{project.id}/sheets", style: "color: #428bca;" %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered</td></tr>
+        <tr><td colspan="5" style="padding-left:20px;"><%= link_to pluralize(project_sheets.count, 'sheet'), "#{ENV['website_url']}/projects/#{project.id}/sheets", style: "color: #428bca;" %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered</td></tr>
       <% else  %>
         <% project_sheets.group_by{|s| s.subject_id}.each do |subject_id, subject_sheets| %>
           <% subject = Subject.find_by_id(subject_id) %>
@@ -32,7 +32,7 @@
               <% if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id}) %>
                 <span style="padding: 2px 4px;font-size:0.8em;background-color:#5bc0de;color:white">New</span>
               <% end %>
-              <%= subject ? link_to(subject.name, "#{SITE_URL}/projects/#{subject.site.project_id}/subjects/#{subject.id}", style: "color: #428bca;") : 'No Subject' %>
+              <%= subject ? link_to(subject.name, "#{ENV['website_url']}/projects/#{subject.site.project_id}/subjects/#{subject.id}", style: "color: #428bca;") : 'No Subject' %>
             </td>
           </tr>
           <% subject_sheets.each do |sheet| %>
@@ -60,13 +60,13 @@
     </thead>
     <% @recipient.digest_comments.group_by{|s| s.project_id}.each do |project_id, comments| %>
       <tr><td colspan="3" style="border-top:1px solid #ddd;"></td></tr>
-      <tr><td colspan="3" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;"><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}", style: "color: #428bca;") : 'No Project') %></td></tr>
+      <tr><td colspan="3" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;"><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{ENV['website_url']}/projects/#{project.id}", style: "color: #428bca;") : 'No Project') %></td></tr>
       <% comments.group_by{|s| s.sheet_id}.each do |sheet_id, comments| %>
         <% sheet = Sheet.find_by_id(sheet_id) %>
         <tr>
           <td colspan="2" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;">
-            <%= link_to sheet.subject.name, "#{SITE_URL}/projects/#{sheet.project.id}/subjects/#{sheet.subject.id}", style: "color: #428bca;" %> -
-            <%= sheet ? link_to(sheet.name, "#{SITE_URL}/projects/#{sheet.project.id}/sheets/#{sheet.id}", style: "color: #428bca;") : 'No Sheet' %>
+            <%= link_to sheet.subject.name, "#{ENV['website_url']}/projects/#{sheet.project.id}/subjects/#{sheet.subject.id}", style: "color: #428bca;" %> -
+            <%= sheet ? link_to(sheet.name, "#{ENV['website_url']}/projects/#{sheet.project.id}/sheets/#{sheet.id}", style: "color: #428bca;") : 'No Sheet' %>
           </td>
           <td style="text-align:right"><%= render partial: 'digest_sheet_percent', locals: { sheet: sheet } %></td>
         </tr>

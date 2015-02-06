@@ -15,6 +15,7 @@ gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'rubyzip',              '~> 1.1.0'
 gem 'chunky_png',           '~> 1.3.1'
 gem 'haml'
+gem 'figaro',               '~> 1.1.0'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.1.0'

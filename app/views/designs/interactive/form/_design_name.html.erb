@@ -54,7 +54,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Redirect URL</label>
       <div class="col-md-10">
-        <%= text_field_tag "design[redirect_url]", @design.redirect_url, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, placeholder: "#{SITE_URL}/about", class: 'form-control' %>
+        <%= text_field_tag "design[redirect_url]", @design.redirect_url, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, placeholder: "#{ENV['website_url']}/about", class: 'form-control' %>
       </div>
     </div>
 

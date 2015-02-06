@@ -127,7 +127,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{comment.user.name} Commented on #{comment.sheet.name} on #{comment.sheet.project.name}", email.subject
-    assert_match(/#{comment.user.name} COMMENTED on #{comment.sheet.name} on #{comment.sheet.project.name} located at #{SITE_URL}\/projects\/#{comment.sheet.project.id}\/sheets\/#{comment.sheet.id}\./, email.encoded)
+    assert_match(/#{comment.user.name} COMMENTED on #{comment.sheet.name} on #{comment.sheet.project.name} located at #{ENV['website_url']}\/projects\/#{comment.sheet.project.id}\/sheets\/#{comment.sheet.id}\./, email.encoded)
   end
 
   test "project news post email" do
@@ -139,7 +139,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{post.name} [#{post.user.name} Added a News Post on #{post.project.name}]", email.subject
-    assert_match(/This post was added by #{post.user.name} to #{post.project.name} on #{DEFAULT_APP_NAME}/, email.encoded)
+    assert_match(/This post was added by #{post.user.name} to #{post.project.name} on #{ENV['website_name']}/, email.encoded)
   end
 
 end

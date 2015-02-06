@@ -6,6 +6,6 @@ Your account <b><%= @user.email %></b> has been <span style="padding:5px;backgro
 <br />
 You can now login here:<br />
 <br />
-<center><%= link_to SITE_URL, SITE_URL, style: "color: #428bca" %></center><br />
+<center><%= link_to ENV['website_url'], ENV['website_url'], style: "color: #428bca" %></center><br />
 
 <%= render partial: 'email_footer' %>

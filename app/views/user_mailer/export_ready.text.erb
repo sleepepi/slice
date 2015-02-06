@@ -5,9 +5,9 @@ The data export you requested for <%= @export.project.name %> is now ready for d
 Click the following link to download your data export:
 
 
-    <%= "#{SITE_URL}/projects/#{@export.project_id}/exports/#{@export.id}" %>
+    <%= "#{ENV['website_url']}/projects/#{@export.project_id}/exports/#{@export.id}" %>
 
 
 Thank you!
 
-<%= DEFAULT_APP_NAME %> Mailer
+<%= ENV['website_name'] %> Mailer
