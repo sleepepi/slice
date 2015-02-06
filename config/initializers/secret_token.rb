@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Slice::Application.config.secret_key_base = '<%= (Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s))[0..127] %>'
+Slice::Application.config.secret_key_base = ENV['website_secret']
