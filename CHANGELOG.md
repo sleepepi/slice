@@ -13,6 +13,7 @@
   - Use Haml for new views
   - Updated to jquery-rails 4.0.3
   - Use Figaro to centralize application configuration
+  - Removed dependency on ruby-ntlm gem
 
 ### Bug Fix
 - Site editors can now properly add rows to grids
