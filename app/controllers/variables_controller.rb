@@ -162,9 +162,9 @@ class VariablesController < ApplicationController
       end
 
       if params[:sheet_authentication_token].blank? and current_user
-        @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-        empty_response_or_root_path unless @project
+        @project = current_user.all_viewable_and_site_projects.find_by_id(params[:project_id])
         @variable = current_user.all_viewable_variables.find_by_id(params[:id])
+        empty_response_or_root_path unless @project
       else
         @project = Project.current.find_by_id(params[:project_id])
         @sheet = @project.sheets.find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?

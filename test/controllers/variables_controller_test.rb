@@ -55,6 +55,15 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should add grid row for site editor" do
+    login(users(:site_one_editor))
+    post :add_grid_row, id: variables(:grid), project_id: @project, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:variable)
+    assert_template 'add_grid_row'
+    assert_response :success
+  end
+
   test "should not add grid row for user not on project" do
     login(users(:two))
     post :add_grid_row, id: variables(:grid), project_id: @project, format: 'js'

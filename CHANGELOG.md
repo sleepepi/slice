@@ -14,6 +14,9 @@
   - Updated to jquery-rails 4.0.3
   - Use Figaro to centralize application configuration
 
+### Bug Fix
+- Site editors can now properly add rows to grids
+
 ### Refactoring
 - Simplified how image assets are referenced from SCSS file
 

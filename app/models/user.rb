@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
 
   def all_viewable_variables
     @all_viewable_variables ||= begin
-      Variable.current.with_project(self.all_viewable_projects.pluck(:id))
+      Variable.current.with_project(self.all_viewable_and_site_projects.pluck(:id))
     end
   end
 
