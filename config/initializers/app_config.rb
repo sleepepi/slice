@@ -1,7 +1,6 @@
 require 'csv'
 require 'execjs'
 require 'natural_sort'
-require 'ntlm/smtp'
 require 'zip'
 require 'uri'
 # In lib directory
