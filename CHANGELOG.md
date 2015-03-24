@@ -4,6 +4,9 @@
 - **General Changes**
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration
+- **Schedule Changes**
+  - Schedules can now be ordered by their position relative to each other
+  - A Schedule Subject Report is now available
 - **Gem Changes**
   - Updated to rails 4.2.1
   - Updated to pg 0.18.1

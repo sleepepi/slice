@@ -130,6 +130,9 @@ Rails.application.routes.draw do
 
     resources :subjects do
       resources :subject_schedules
+      collection do
+        get :report
+      end
     end
 
     resources :variables do

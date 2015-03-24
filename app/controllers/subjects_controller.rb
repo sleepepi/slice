@@ -1,11 +1,20 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index, :show ]
+  before_action :set_viewable_project, only: [ :index, :show, :report ]
   before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
+  before_action :redirect_without_project, only: [ :index, :show, :report, :new, :edit, :create, :update, :destroy ]
   before_action :set_viewable_subject, only: [ :show ]
   before_action :set_editable_subject, only: [ :edit, :update, :destroy ]
   before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy ]
+
+  def report
+    @schedules = @project.schedules.order(:position)
+    @statuses = params[:statuses] || ['valid']
+    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).where(status: @statuses).search(params[:search]).order(@order)
+    @subjects = subject_scope.page(params[:page]).per( 40 )
+
+    render layout: 'layouts/application_custom_full'
+  end
 
   # GET /subjects
   # GET /subjects.json

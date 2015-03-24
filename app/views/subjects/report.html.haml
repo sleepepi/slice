@@ -1,0 +1,34 @@
+- @title = 'Schedule Report'
+.page-header
+  %h1
+    = link_to @project.name, project_path(@project)
+    &middot;
+    = link_to 'Subjects', project_subjects_path(@project)
+    &middot;
+    = @title
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Subject
+      - @schedules.each do |schedule|
+        %th= schedule.name
+
+  %tbody
+    - @subjects.each do |subject|
+      %tr
+        %td{ style: 'white-space:nowrap' }
+          = status_helper(subject)
+          = link_to subject.subject_code, [subject.project, subject]
+        - @schedules.each do |schedule|
+          %td.center
+            - subject_schedule_ids = subject.subject_schedules.where(schedule_id: schedule.id).pluck(:id)
+            - if subject_schedule_ids.blank?
+              .text-muted -
+            - else
+              = @project.sheets.where(subject_schedule_id: subject_schedule_ids).where("response_count = total_response_count").count
+              \/
+              = schedule.items.collect{|i| i['design_ids']}.flatten.count
+
+.center
+  = paginate @subjects, theme: "contour"

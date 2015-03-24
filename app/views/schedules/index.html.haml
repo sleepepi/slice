@@ -1,0 +1,15 @@
+- @title = 'Schedules'
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = @title
+    = link_to "Create Schedule", new_project_schedule_path(@project), class: 'btn btn-xs btn-primary'
+    = link_to 'Events', project_events_path(@project), class: 'btn btn-default btn-xs'
+
+= form_tag project_schedules_path(@project), method: :get, class: 'form-inline' do
+  = hidden_field_tag :order, params[:order]
+  = text_field_tag 'search', params[:search], class: 'form-control'
+  = submit_tag 'Search', class: 'btn btn-primary', name: nil
+
+= render partial: 'schedules/schedules'

@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
   # GET /schedules
   # GET /schedules.json
   def index
-    @order = scrub_order(Schedule, params[:order], "schedules.name")
+    @order = scrub_order(Schedule, params[:order], "schedules.position")
     @schedules = @project.schedules.search(params[:search]).order(@order).page(params[:page]).per( 20 )
   end
 
@@ -28,7 +28,7 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/new
   def new
-    @schedule = @project.schedules.new
+    @schedule = @project.schedules.new(position: (@project.schedules.count + 1) * 10)
   end
 
   # GET /schedules/1/edit
@@ -93,7 +93,7 @@ class SchedulesController < ApplicationController
       params[:schedule][:user_id] = current_user.id
 
       params.require(:schedule).permit(
-        :name, :description, :items, :user_id,
+        :name, :description, :items, :user_id, :position,
         { :items => [ :event_id, :interval, :units, :design_ids => [] ] }
       )
     end

@@ -4,6 +4,7 @@
     <%= link_to @project.name, @project %> &middot; <%= @title %>
     <%= link_to "Create Subject", new_project_subject_path(@project), class: 'btn btn-xs btn-primary' if @project.can_edit_sheets_and_subjects?(current_user) %>
     <%= link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs' %>
+    <%= link_to "Subject Report by Schedule", report_project_subjects_path(@project), class: 'btn btn-default btn-xs' %>
   </h1>
 </div>
 

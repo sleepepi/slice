@@ -1,0 +1,30 @@
+= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @schedules.total_count }
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th{ style: "white-space:nowrap" }
+        = sort_field_helper(@order, 'schedules.position', 'Position')
+      %th{ style: "white-space:nowrap" }
+        = sort_field_helper(@order, 'schedules.name', 'Name')
+      %th
+        Events
+      %th
+        Actions
+
+  - @schedules.each do |schedule|
+    %tr
+      %td
+        = schedule.position
+      %td
+        = link_to schedule.name, [schedule.project, schedule]
+      %td
+        - schedule.items.each do |item|
+          - if event = schedule.project.events.find_by_id(item[:event_id])
+            = link_to event.name, [event.project, event], class: 'btn btn-xs btn-default'
+      %td
+        = link_to 'Edit', edit_project_schedule_path(schedule.project, schedule), class: 'btn btn-xs btn-default'
+        = link_to 'Delete', [schedule.project, schedule], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Schedule #{schedule.name}?" }
+
+.center
+  = paginate @schedules, theme: 'contour'
