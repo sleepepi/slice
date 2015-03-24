@@ -20,6 +20,7 @@
 ### Bug Fix
 - Site editors can now properly add rows to grids
 - Reduced the amount of information logged to the log file
+- Fixed an issue loading multiple pages on the project summary report
 
 ### Refactoring
 - Simplified how image assets are referenced from SCSS file
