@@ -1,0 +1,75 @@
+- @title = 'Sign in'
+.sign-up-form
+  .sign-up-form-title
+    Sign in
+
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-vertical' }) do |f|
+    .form-group
+      = f.label :email, class: 'control-label'
+      = f.email_field :email, class: 'form-control'
+
+    .form-group
+      = f.label :password, class: 'control-label'
+      = link_to "(Forgot password?)", new_password_path(resource_name), tabindex: '-1'
+      = f.password_field :password, class: 'form-control', autocomplete: 'off'
+
+    .form-group
+      = f.submit "Sign in", class: 'btn btn-success'
+
+
+- if devise_mapping.confirmable?
+  .center{ style: "margin-bottom:20px" }
+    = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
+
+.sign-up-form{ style: 'margin-top: 20px;border: 1px solid transparent' }
+  %h2.form-signin-heading Important
+  %p
+    In order to simplify our sign up process for a greater number of
+    users, we're removing alternate sign in strategies like Google Auth and LDAP
+    logins. If you used one of these alternate strategies, you can reset your
+    password by clicking
+    = link_to "Forgot your password?", new_password_path(resource_name)
+    and set a new password using the
+    link sent to your email address.
+
+
+
+%hr.soften
+
+%p.about-description
+  = ENV['website_name']
+  is a
+  = link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' }
+  and
+  = link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
+  clinical research interface for collecting and analyzing data.
+
+.row
+  .col-md-4
+    %h2.about-title
+      Design Forms
+    %ul
+      %li Create new designs and variables, or copy from existing libraries.
+      %li Updating variables migrates already filled-out form data keeping all of your project data in sync.
+  .col-md-4
+    %h2.about-title Manage Multi-site Projects
+    %ul
+      %li Enroll subjects across sites.
+      %li Sites can view their subjects and receipts.
+  .col-md-4
+    %h2.about-title Email Receipts
+    %ul
+      %li Email PDF receipts to sites when a subject form is completed.
+
+%hr.soften
+
+%footer.footer
+  %p.muted.about-footer
+    = ENV['website_name']
+    Version
+    = link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}"
+  %p.muted.about-footer
+    By using
+    = ENV['website_name']
+    you are agreeing to the
+    = link_to('Acceptable Use Policy', about_use_path) + "."

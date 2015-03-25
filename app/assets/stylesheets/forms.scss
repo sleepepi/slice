@@ -1,0 +1,36 @@
+.sign-up-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.sign-up-form-title {
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  // border-radius: 2px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .sign-up-form-title {
+    background-color: #337ab7;
+    color: #FFF;
+    font-weight: 300;
+    // display: block;
+    border-radius: 0px;
+    font-size: 24px;
+    margin: -20px -20px 20px -20px;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+
+
+  .sign-up-form {
+    overflow: hidden;
+    border: 1px solid #2e6da4;
+    padding: 20px;
+    background-color: #FFF;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 5px;
+  }
+}
