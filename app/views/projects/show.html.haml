@@ -1,0 +1,18 @@
+- @title = "#{@project.name}"
+
+- if beta_enabled?(current_user)
+  = render partial: 'projects/beta/show'
+- else
+  = render partial: 'projects/link_bar', locals: { title: 'Collect' }
+  .row
+    .col-md-10
+      .row
+        .col-sm-12
+          = render partial: 'projects/show/recent'
+      .row
+        .col-sm-6
+          = render partial: 'projects/show/subjects'
+        .col-sm-6
+          = render partial: 'projects/show/sites'
+    .col-md-2
+      = render partial: 'projects/menu', locals: { location: 'collect' }

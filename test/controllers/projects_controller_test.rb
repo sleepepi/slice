@@ -342,6 +342,12 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show project using slug" do
+    get :show, id: projects(:named_project)
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should show project to site user" do
     login(users(:site_one_viewer))
     get :show, id: @project

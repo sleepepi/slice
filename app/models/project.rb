@@ -16,6 +16,8 @@ class Project < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :name, :user_id
+  validates_uniqueness_of :slug, scope: [ :deleted ], allow_blank: true
+  validates_format_of :slug, with: /\A[a-z][a-z0-9\-]*\Z/, allow_blank: true
 
   # Model Relationships
   belongs_to :user
@@ -45,6 +47,14 @@ class Project < ActiveRecord::Base
   has_many :domains, -> { where deleted: false }
 
   # Model Methods
+
+  def to_param
+    slug.blank? ? id : slug
+  end
+
+  def self.find_by_param(input)
+    self.where("slug = ? or id = ?", input.to_s, input.to_i).first
+  end
 
   def recent_sheets
     self.sheets.with_subject_status('valid').where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))

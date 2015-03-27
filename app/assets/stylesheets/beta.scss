@@ -1,5 +1,5 @@
 .beta-corner {
-  z-index: 100;
+  z-index: -5;
   position: absolute;
   right: 0;
   top: 0;
@@ -16,7 +16,7 @@
 }
 
 .beta-text {
-  z-index: 100;
+  z-index: 0;
   position: absolute;
   right: -5px;
   top: 93px;

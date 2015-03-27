@@ -200,7 +200,7 @@ class ProjectsController < ApplicationController
     end
 
     def set_owner_project
-      @project = current_user.projects.find_by_id(params[:id])
+      @project = current_user.projects.find_by_param(params[:id])
     end
 
     def redirect_without_project
@@ -209,7 +209,7 @@ class ProjectsController < ApplicationController
 
     def project_params
       params.require(:project).permit(
-        :name, :description, :acrostic_enabled, :subject_code_name,
+        :name, :slug, :description, :acrostic_enabled, :subject_code_name,
         :show_contacts, :show_documents, :show_posts, :disable_all_emails,
         :collect_email_on_surveys, :lockable, :hide_values_on_pdfs,
         :double_data_entry,

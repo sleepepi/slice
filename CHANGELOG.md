@@ -1,13 +1,18 @@
 ## 0.28.0
 
 ### Enhancements
-- **General Changes**
+- **Beta Changes**
   - Users can now enable a beta preview of the site in their settings
+  - The Projects Overview page has been updated to better show projects for users with numerous projects
+  - The Project Show page for individual projects will allow users to quickly create subjects and launch events for the selected subject
+- **General Changes**
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration
   - Updated the menu bar and sign up and registration pages
   - Added the new Try Slice logo, along with an animated Try Slice loading animation
   - Added new contact page and new footer
+- **Project Changes**
+  - Projects can now have a slug specified to support a nicer URL structure
 - **Schedule Changes**
   - Schedules can now be ordered by their position relative to each other
   - A Schedule Subject Report is now available

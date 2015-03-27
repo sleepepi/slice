@@ -25,15 +25,15 @@ class ApplicationController < ActionController::Base
   private
 
   def set_viewable_project(id = :project_id)
-    @project = current_user.all_viewable_and_site_projects.find_by_id(params[id])
+    @project = current_user.all_viewable_and_site_projects.find_by_param(params[id])
   end
 
   def set_editable_project(id = :project_id)
-    @project = current_user.all_projects.find_by_id(params[id])
+    @project = current_user.all_projects.find_by_param(params[id])
   end
 
   def set_editable_project_or_editable_site
-    @project = current_user.all_sheet_editable_projects.find_by_id(params[:project_id])
+    @project = current_user.all_sheet_editable_projects.find_by_param(params[:project_id])
   end
 
   def redirect_without_project(path = root_path)

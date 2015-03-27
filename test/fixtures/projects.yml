@@ -37,3 +37,8 @@ empty:
   name: Empty Project
   description: Empty for JSON Import
   user: valid
+
+named_project:
+  name: Has a Slug
+  slug: has-a-slug
+  user: valid
