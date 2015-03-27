@@ -2,6 +2,7 @@
 
 ### Enhancements
 - **General Changes**
+  - Users can now enable a beta preview of the site in their settings
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration
   - Updated the menu bar and sign up and registration pages

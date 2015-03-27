@@ -1,0 +1,51 @@
+.beta-corner {
+  z-index: 100;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 200px 200px 0;
+  border-color: transparent #00ff8c transparent transparent;
+  border-style: inset;
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+}
+
+.beta-text {
+  z-index: 100;
+  position: absolute;
+  right: -5px;
+  top: 93px;
+
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+}
+
+.beta-text a {
+  padding: 3px 5px;
+  margin-top:20px;
+  border-radius: 40px;
+  min-width: 200px;
+  max-width: 500px;
+  width: 100%;
+  color: #4cae4c !important;
+  border-color: #4cae4c !important;
+  background-color: white !important;
+  -webkit-transition: all .4s ease; /* Fade to color for Chrome and Safari */
+  -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+}
+
+.beta-text a:hover,
+.beta-text a:focus,
+.beta-text a:active {
+  text-decoration: none;
+  color: #fff !important;
+  background-color: rgb(255, 157, 107) !important; // #337ab7 !important; // #47a447 !important;
+  border-color: rgb(255, 133, 71) !important; // #398439 !important;
+}

@@ -22,6 +22,8 @@
     = javascript_tag "var root_url='#{request.script_name + '/'}';var auth_token='#{form_authenticity_token}';"
 
   %body.has-sticky-footer
+    = render partial: 'layouts/beta_corner'
+
     %nav.navbar.navbar-default.navbar-fixed-top{ role: "navigation" }
       .container
         = render partial: 'layouts/menu'
