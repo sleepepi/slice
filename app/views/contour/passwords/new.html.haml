@@ -4,6 +4,11 @@
   .sign-up-form-title
     Reset Password
 
+  %p.lead.center
+    Enter your email address to receive a password reset email. You may
+    = link_to 'contact us', contact_path
+    if you don't remember which email you used to register.
+
   = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form-vertical' }) do |f|
     - if resource.errors.any?
       #error_explanation.bs-callout.bs-callout-danger

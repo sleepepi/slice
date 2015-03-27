@@ -1,0 +1,56 @@
+/* Set the fixed height of the footer here */
+$sticky-footer-height: 367px;
+$sticky-footer-height-sm: 228px;
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body.has-sticky-footer {
+  /* Margin bottom by footer height */
+  margin-bottom: $sticky-footer-height;
+}
+body.has-sticky-footer footer {
+  height: $sticky-footer-height;
+  text-align: center;
+
+  /* Positioning */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 50px;
+}
+
+body.has-sticky-footer footer h4 {
+  margin-top:20px;
+  padding-top:0px;
+  color: #999;
+}
+
+body.has-sticky-footer footer a {
+  color: #DDD;
+  font-weight: 300;
+}
+
+body.has-sticky-footer footer a:hover,
+body.has-sticky-footer footer a:focus,
+body.has-sticky-footer footer a:active,
+body.has-sticky-footer footer a.active,
+body.has-sticky-footer footer a.disabled,
+body.has-sticky-footer footer a[disabled] {
+  color: rgb(255, 157, 107);
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  body.has-sticky-footer {
+    margin-bottom: $sticky-footer-height-sm;
+  }
+  body.has-sticky-footer footer {
+    height: $sticky-footer-height-sm;
+    text-align: left;
+  }
+  body.has-sticky-footer footer h4 {
+    margin-top: 0px;
+  }
+}

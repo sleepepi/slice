@@ -5,6 +5,8 @@
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration
   - Updated the menu bar and sign up and registration pages
+  - Added the new Try Slice logo, along with an animated Try Slice loading animation
+  - Added new contact page and new footer
 - **Schedule Changes**
   - Schedules can now be ordered by their position relative to each other
   - A Schedule Subject Report is now available

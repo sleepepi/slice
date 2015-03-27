@@ -1,0 +1,26 @@
+- @background_class = 'white-texture'
+.page-header
+  %h1
+    Contact Us
+
+.row
+  .col-sm-6{ style: "margin-bottom:40px" }
+    %h2.faded-header
+      via email
+    %p
+      = link_to "mailto:#{ENV['support_email']}" do
+        = ENV['support_email']
+
+    %h2.faded-header{ style: 'margin-top:40px' }
+      our address
+    %p
+      %strong Sleep and Circadian Disorders
+      %br
+      221 Longwood Avenue, BLI 225
+      %br
+      Boston, MA 02115
+
+  .col-sm-6.hidden-xs
+    %div{ style: 'max-width:550px;' }
+      .embed-responsive.embed-responsive-4by3
+        %iframe{ src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1474.6248107484807!2d-71.10213110000002!3d42.33720110000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3798becf638f7%3A0xe2639f29e2d8b5be!2s221+Longwood+Ave%2C+Boston%2C+MA+02115!5e0!3m2!1sen!2sus!4v1423857348369" }

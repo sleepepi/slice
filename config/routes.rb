@@ -174,6 +174,7 @@ Rails.application.routes.draw do
 
   get "/about" => "application#about", as: :about
   get "/about/use" => "application#use", as: :about_use
+  get "/contact" => "application#contact", as: :contact
   get "/settings" => "users#settings", as: :settings
   get "/search" => "projects#search", as: :search
   get "/activity" => "users#activity", as: :activity

@@ -21,19 +21,6 @@
   .center{ style: "margin-bottom:20px" }
     = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
 
-.sign-up-form{ style: 'margin-top: 20px;border: 1px solid transparent' }
-  %h2.form-signin-heading Important
-  %p
-    In order to simplify our sign up process for a greater number of
-    users, we're removing alternate sign in strategies like Google Auth and LDAP
-    logins. If you used one of these alternate strategies, you can reset your
-    password by clicking
-    = link_to "Forgot your password?", new_password_path(resource_name)
-    and set a new password using the
-    link sent to your email address.
-
-
-
 %hr.soften
 
 %p.about-description
@@ -73,3 +60,6 @@
     = ENV['website_name']
     you are agreeing to the
     = link_to('Acceptable Use Policy', about_use_path) + "."
+
+.center{ style: "margin-top:40px" }
+  = image_tag 'try-slice-logo.png', style: "max-width:100%"

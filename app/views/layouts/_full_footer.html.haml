@@ -1,0 +1,32 @@
+.row
+  .col-sm-3.col-xs-6
+    %h4= ENV['website_name']
+    %ul.list-unstyled
+      %li= link_to 'About', about_path
+  - if current_user
+    .col-sm-3.col-xs-6
+      %h4 Projects
+      %ul.list-unstyled
+        %li= link_to 'My Projects', projects_path
+
+    .col-sm-3.col-xs-6
+      %h4 Recent Activity
+      %ul.list-unstyled
+        %li= link_to 'Activity Overview', activity_path
+  - else
+    .col-sm-3.col-xs-6
+      %h4 Register
+      %ul.list-unstyled
+        %li= link_to 'New User Registration', new_user_registration_path
+
+    .col-sm-3.col-xs-6
+      %h4 Trouble Logging In?
+      %ul.list-unstyled
+        %li= link_to 'I Forgot My Password!', new_user_password_path
+  .col-sm-3.col-xs-6
+    %h4 Support
+    %ul.list-unstyled
+      %li= link_to 'Contact Us', contact_path
+
+%h4{ style: 'margin-top:20px' } &copy; 2015 Division of Sleep And Circadian Disorders
+
