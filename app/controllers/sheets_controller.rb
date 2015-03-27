@@ -38,6 +38,8 @@ class SheetsController < ApplicationController
 
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
 
+    params[:project_id] = @project.id
+
     ['design', 'project', 'site', 'user'].each do |filter|
       sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
     end
@@ -123,7 +125,7 @@ class SheetsController < ApplicationController
   end
 
   def survey
-    @project = Project.current.find_by_id(params[:project_id])
+    @project = Project.current.find_by_param(params[:project_id])
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
     respond_to do |format|
       if @project and @sheet and not @sheet.locked?
@@ -138,7 +140,7 @@ class SheetsController < ApplicationController
   end
 
   def submit_survey
-    @project = Project.current.find_by_id(params[:project_id])
+    @project = Project.current.find_by_param(params[:project_id])
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
     if @project and @sheet and not @sheet.locked?
       SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_update')
@@ -150,7 +152,7 @@ class SheetsController < ApplicationController
   end
 
   def submit_public_survey
-    @project = Project.current.find_by_id(params[:project_id])
+    @project = Project.current.find_by_param(params[:project_id])
     @design = @project.designs.find_by_id(params[:id]) if @project # :id is the design ID!
     if @project and @design and @design.publicly_available?
       @subject = @project.create_valid_subject(params[:email], params[:site_id])
