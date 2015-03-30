@@ -8,6 +8,7 @@
   - New subjects can now be quickly created by searching for them from the main project page
     - Users can then choose the new subject's site on the followup screen
     - Entering an existing subject code redirects to the subject's main page
+  - Subject pages now prompt users to select the appropriate study-level event for which they want to enter a subject's sheet
 - **General Changes**
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration

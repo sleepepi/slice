@@ -1,0 +1,22 @@
+%h1
+  Event:
+  = params[:event_slug].to_s.upcase
+
+
+%p.lead Look at all the designs you can choose from for this event!
+
+
+%h2 Available Forms
+
+- @project.designs.limit(2).order("RANDOM()").each_with_index do |design, index|
+
+  .markdown-container.paper-texture
+    %h3= design.name
+    - if index == 0
+      = link_to 'get started', new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+    - else
+      %p.lead.text-muted 20% complete
+      = link_to 'edit me now', new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+
+%div
+  = link_to 'BACK TO SUBJECT', [@project, @subject]

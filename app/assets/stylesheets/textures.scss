@@ -40,3 +40,9 @@
   background-color: #333;
   // background-image: asset-url('static/footer_lodyas.png');
 }
+
+// Paper Texture
+.paper-texture {
+  @include tile-texture;
+  background-image: asset-url('textures/handmadepaper.png');
+}

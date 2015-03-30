@@ -1,0 +1,44 @@
+// sheets.scss
+// This file is used to give sheets a more physical feel.
+
+.markdown-container {
+  background-color: #FFF;
+  // border: 1px solid #AEAEAE;
+
+  // background-color: rgba(255, 255, 255, 0.25);
+
+  margin: 20px;
+
+  padding: 20px;
+  box-shadow: 5px 5px 15px #888888;
+
+  img {
+    max-width: 100%;
+  }
+
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .markdown-container {
+    padding: 30px;
+  }
+}
+
+@media screen and (min-width: $screen-md-min) {
+  .markdown-container {
+    padding: 40px;
+  }
+}
+
+@media screen and (min-width: $screen-lg-min) {
+  .markdown-container {
+    padding: 60px;
+  }
+}
+
+
+.little-container {
+  padding: 5px;
+  // border: 1px solid #dedede;
+  margin-bottom: 10px;
+}

@@ -1,4 +1,8 @@
 <% @title = @subject.name %>
+
+<% if beta_enabled?(current_user) %>
+  <%= render partial: 'subjects/beta/show' %>
+<% else %>
 <div class="page-header">
   <h1>
     <%= link_to @project.name, @project %> &middot; <%= link_to 'Subjects', project_subjects_path(@project) %> &middot; <%= @title %> <%= status_helper(@subject, true) %>
@@ -68,4 +72,5 @@
   <%= @sheet = sheet_variable.sheet; @variable = sheet_variable.variable; render partial: 'sheet_variables/show' %>
 <% end %>
 </form>
+<% end %>
 <% end %>

@@ -1,12 +1,20 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :index, :show, :report ]
-  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site ]
-  before_action :redirect_without_project, only: [ :index, :show, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site ]
+  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
+  before_action :redirect_without_project, only: [ :index, :show, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
   before_action :set_viewable_subject, only: [ :show ]
-  before_action :set_editable_subject, only: [ :edit, :update, :destroy ]
-  before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
+  before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
 
+
+  # Event chosen! Choose a design time.
+  def put_a_subject_on_an_event
+  end
+
+  # So many events, so little time
+  def choose_an_event_for_subject
+  end
 
   ## Find or create subject for the purpose of filling out a sheet for the subject.
   def choose_site

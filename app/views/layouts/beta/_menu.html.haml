@@ -10,5 +10,21 @@
 .collapse.navbar-collapse.navbar-ex1-collapse
   - if @project
     %ul.nav.navbar-nav
-      %li.hidden-xs.hidden-sm.active
+      %li.hidden-xs.hidden-sm
         = link_to @project.name, @project
+      - case params[:controller] when 'subjects'
+        %li.hidden-xs.hidden-sm
+          = link_to project_subjects_path(@project) do
+            Subjects
+            %span.badge= @project.subjects.where(status: 'valid').count
+      - when 'sites'
+        %li.hidden-xs.hidden-sm
+          = link_to project_sites_path(@project) do
+            Sites
+            %span.badge= @project.sites.count
+      - when 'designs'
+        %li.hidden-xs.hidden-sm
+          = link_to project_designs_path(@project) do
+            Designs
+            %span.badge= @project.designs.count
+

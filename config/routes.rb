@@ -130,6 +130,10 @@ Rails.application.routes.draw do
 
     resources :subjects do
       resources :subject_schedules
+      member do
+        get "put_a_subject_on_an_event/:event_slug", action: :put_a_subject_on_an_event, as: :put_a_subject_on_an_event
+        get :choose_an_event_for_subject
+      end
       collection do
         get :choose_site, path: 'choose-site'
         get :report

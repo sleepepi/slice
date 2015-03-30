@@ -7,6 +7,20 @@ class SubjectsControllerTest < ActionController::TestCase
     @subject = subjects(:one)
   end
 
+  test "should show events available to a subject" do
+    get :choose_an_event_for_subject, id: @subject, project_id: @project
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_response :success
+  end
+
+  test "should show designs available to a subject for a specific event" do
+    get :put_a_subject_on_an_event, id: @subject, project_id: @project, event_slug: 'baseline'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_response :success
+  end
+
   test "should get choose site for new subject" do
     get :choose_site, project_id: @project, subject_code: 'CodeNew'
     assert_not_nil assigns(:project)
