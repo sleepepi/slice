@@ -58,6 +58,7 @@
   sheetsReady()
   variablesReady()
   signaturesReady()
+  subjectsReady()
 
 $(window).onbeforeunload = () -> return "You haven't saved your changes." if window.$isDirty
 $(document).ready(ready)
@@ -185,6 +186,13 @@ $(document)
   )
   .on('keydown', "#global-search", (e) ->
     $("#global-search-form").submit() if e.which == 13
+  )
+  .on('typeahead:selected', "#subject-search", (event, datum) ->
+    $(this).val(datum['value'])
+    $("#subject-search-form").submit()
+  )
+  .on('keydown', "#subject-search", (e) ->
+    $("#subject-search-form").submit() if e.which == 13
   )
   .on('change', ':input', () ->
     if $("#isdirty").val() == '1'

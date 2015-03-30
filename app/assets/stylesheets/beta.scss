@@ -1,42 +1,17 @@
-.beta-corner {
-  z-index: -5;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 200px 200px 0;
-  border-color: transparent #00ff8c transparent transparent;
-  border-style: inset;
-  -webkit-transform: rotate(360deg);
-  -moz-transform: rotate(360deg);
-  -ms-transform: rotate(360deg);
-  -o-transform: rotate(360deg);
-}
-
 .beta-text {
-  z-index: 0;
-  position: absolute;
-  right: -5px;
-  top: 93px;
-
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
+  position: relative;
+  background-color: #4cae4c;
+  padding: 20px;
+  margin-top: -20px;
 }
 
 .beta-text a {
   padding: 3px 5px;
-  margin-top:20px;
-  border-radius: 40px;
-  min-width: 200px;
-  max-width: 500px;
-  width: 100%;
+  position: relative;
   color: #4cae4c !important;
   border-color: #4cae4c !important;
   background-color: white !important;
+  border-radius: 40px;
   -webkit-transition: all .4s ease; /* Fade to color for Chrome and Safari */
   -webkit-backface-visibility: hidden; /* Fix for transition flickering */
 }
@@ -48,4 +23,45 @@
   color: #fff !important;
   background-color: rgb(255, 157, 107) !important; // #337ab7 !important; // #47a447 !important;
   border-color: rgb(255, 133, 71) !important; // #398439 !important;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .beta-corner {
+    background-color: transparent;
+    z-index: -5;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 200px 200px 0;
+    border-color: transparent #4cae4c transparent transparent;
+    border-style: inset;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+
+  .beta-text {
+    padding: 0px;
+    margin-top: 0px;
+    z-index: 0;
+    position: absolute;
+    right: -5px;
+    top: 93px;
+
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+  }
+
+  .beta-text a {
+    margin-top:20px;
+    min-width: 200px;
+    max-width: 500px;
+    width: 100%;
+  }
 }

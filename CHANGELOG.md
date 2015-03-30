@@ -5,6 +5,9 @@
   - Users can now enable a beta preview of the site in their settings
   - The Projects Overview page has been updated to better show projects for users with numerous projects
   - The Project Show page for individual projects will allow users to quickly create subjects and launch events for the selected subject
+  - New subjects can now be quickly created by searching for them from the main project page
+    - Users can then choose the new subject's site on the followup screen
+    - Entering an existing subject code redirects to the subject's main page
 - **General Changes**
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration

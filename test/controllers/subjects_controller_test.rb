@@ -7,6 +7,20 @@ class SubjectsControllerTest < ActionController::TestCase
     @subject = subjects(:one)
   end
 
+  test "should get choose site for new subject" do
+    get :choose_site, project_id: @project, subject_code: 'CodeNew'
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:subject)
+    assert_response :success
+  end
+
+  test "should redirect to subject when choosing site for existing subject" do
+    get :choose_site, project_id: @project, subject_code: 'Code01'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_redirected_to [assigns(:project), assigns(:subject)]
+  end
+
   test "should get report" do
     get :report, project_id: @project
     assert_response :success

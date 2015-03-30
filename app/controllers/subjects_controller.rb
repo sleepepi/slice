@@ -1,11 +1,30 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :index, :show, :report ]
-  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :report, :new, :edit, :create, :update, :destroy ]
+  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site ]
+  before_action :redirect_without_project, only: [ :index, :show, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site ]
   before_action :set_viewable_subject, only: [ :show ]
   before_action :set_editable_subject, only: [ :edit, :update, :destroy ]
   before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy ]
+
+
+  ## Find or create subject for the purpose of filling out a sheet for the subject.
+  def choose_site
+    @subject = current_user.all_viewable_subjects.where(project_id: @project.id).find_by_subject_code(params[:subject_code])
+    redirect_to [@project, @subject] if @subject
+  end
+
+  def search
+    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:q]).order('subject_code').limit(10)
+
+    if @subjects.count == 0
+      render json: [{ value: params[:q], subject_code: params[:q], status_class: 'warning', status: 'NEW' }]
+    else
+      render json: @subjects.collect{ |s| { value: s.subject_code, subject_code: s.subject_code, status_class: (s.status == 'valid' ? 'success' : 'info'), status: s.status.first  } }
+    end
+  end
+
+  # --------
 
   def report
     @schedules = @project.schedules.order(:position)

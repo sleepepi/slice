@@ -1,0 +1,22 @@
+%h1
+  Create New Subject on Site
+
+%p.lead
+  %span.glyphicon.glyphicon-user
+  A new subject will be created on one of the following sites.
+%p.lead
+  Please choose
+  a site to proceed to the data entry for the new subject.
+
+%hr
+
+- current_user.all_editable_sites.order(:name).where(project_id: @project.id).in_groups_of(3, false).each do |sites_row|
+  .row
+    - sites_row.each do |site|
+      .col-sm-6{ style: 'margin-bottom:20px' }
+        = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code], acrostic: '' }, site_id: site.id), method: :post, class: 'btn btn-success-inverse btn-block btn-lg' do
+          %span.glyphicon.glyphicon-plus
+          Create
+          %strong.btn-text-emphasis= params[:subject_code]
+          on
+          %strong.btn-text-emphasis= site.name

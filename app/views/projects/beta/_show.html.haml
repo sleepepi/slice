@@ -1,1 +1,38 @@
-%strong Enter Data - Export Data - Randomize Subject
+%h1 Enter Subject Code
+
+= form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-vertical', id: 'subject-search-form' do
+  = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { "project-slug" => @project.to_param }
+
+
+%h2 Recent Subjects
+- current_user.all_viewable_subjects.where(project_id: @project.id).order(created_at: :desc).limit(5).each do |subject|
+  %div{ style: 'margin-bottom: 10px' }
+    = status_helper(subject)
+    = link_to subject.subject_code, [@project, subject]
+
+
+
+- if false
+  %strong Enter Data - Export Data - Randomize Subject
+
+
+
+  %div
+
+    %h2 Enter Data
+
+    Enter Subject Code Here:
+
+    = form_tag project_subjects_path(@project), method: :get, class: 'form-vertical', id: 'subject-search-form' do
+      = text_field_tag 'search', '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { "project-slug" => @project.to_param }
+
+  %hr.soften{ style: "margin-top:54px;margin-bottom:54px" }
+
+  = link_to 'Export Data - One Click', project_sheets_path(@project, e: '1'), class: 'btn btn-lg btn-success'
+
+
+  = link_to 'Randomize Subject', '#', class: 'btn btn-lg btn-success', data: { object: 'suppress-click' }
+
+  = link_to edit_project_path(@project), class: 'btn btn-lg btn-default' do
+    %span.glyphicon.glyphicon-cog
+    Setup

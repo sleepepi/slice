@@ -131,7 +131,9 @@ Rails.application.routes.draw do
     resources :subjects do
       resources :subject_schedules
       collection do
+        get :choose_site, path: 'choose-site'
         get :report
+        get :search
       end
     end
 
