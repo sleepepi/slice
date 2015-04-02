@@ -131,7 +131,8 @@ Rails.application.routes.draw do
     resources :subjects do
       resources :subject_schedules
       member do
-        get "put_a_subject_on_an_event/:event_slug", action: :put_a_subject_on_an_event, as: :put_a_subject_on_an_event
+        get "put_a_subject_on_an_event/:event_id", action: :put_a_subject_on_an_event, as: :put_a_subject_on_an_event
+        post :launch_subject_event
         get :choose_an_event_for_subject
       end
       collection do

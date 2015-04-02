@@ -1,15 +1,32 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :index, :show, :report ]
-  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
-  before_action :redirect_without_project, only: [ :index, :show, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
+  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :put_a_subject_on_an_event, :choose_an_event_for_subject, :launch_subject_event ]
+  before_action :redirect_without_project, only: [ :index, :show, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :put_a_subject_on_an_event, :choose_an_event_for_subject, :launch_subject_event ]
   before_action :set_viewable_subject, only: [ :show ]
-  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
-  before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy, :put_a_subject_on_an_event, :choose_an_event_for_subject ]
+  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :put_a_subject_on_an_event, :choose_an_event_for_subject, :launch_subject_event ]
+  before_action :redirect_without_subject, only: [ :show, :edit, :update, :destroy, :put_a_subject_on_an_event, :choose_an_event_for_subject, :launch_subject_event ]
 
+
+  def launch_subject_event
+    @event = @project.events.find_by_param(params[:event_id])
+    if @event
+
+      if date = parse_date(params[:event_date], nil)
+        @subject.subject_events.create(event_id: @event.id, event_date: date)
+        redirect_to [@project, @subject], notice: 'Subject event added successfully.'
+      else
+        redirect_to put_a_subject_on_an_event_project_subject_path(@project, @subject, event_id: @event.to_param), alert: 'Please enter a valid date.'
+      end
+    else
+      redirect_to [@project, @subject], alert: "Event #{params[:event_id]} not found on project." unless @event
+    end
+  end
 
   # Event chosen! Choose a design time.
   def put_a_subject_on_an_event
+    @event = @project.events.find_by_param(params[:event_id])
+    redirect_to [@project, @subject], alert: "Event #{params[:event_id]} not found on project." unless @event
   end
 
   # So many events, so little time

@@ -27,4 +27,12 @@
           = link_to project_designs_path(@project) do
             Designs
             %span.badge= @project.designs.count
+      - if false
+        -# when 'projects'
+          %li.hidden-xs.hidden-sm
+            = link_to project_designs_path(@project) do
+              Find Subject
+          %form#global-search-form.navbar-form.navbar-right{ action: search_path }
+            %input#global-search.form-control{ name: "q", type: "text", autocomplete: "off", value: params[:q], placeholder: "Search" }
+
 

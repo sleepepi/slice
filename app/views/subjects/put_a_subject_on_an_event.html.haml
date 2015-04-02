@@ -1,22 +1,47 @@
 %h1
   Event:
-  = params[:event_slug].to_s.upcase
+  = @event.name
 
 
-%p.lead Look at all the designs you can choose from for this event!
+%p.lead
+  Please enter the date of the event. Please note that this is
+  %strong NOT
+  the date of data entry.
 
 
-%h2 Available Forms
+%hr.soften
 
-- @project.designs.limit(2).order("RANDOM()").each_with_index do |design, index|
+= form_tag launch_subject_event_project_subject_path(@project, @subject, event_id: @event.to_param), method: :post, class: 'form-horizontal' do
+  .form-group
+    = label_tag "event_date", nil, class: 'col-md-2 control-label'
+    .col-md-10
+      .date-input.form-inline
+        = hidden_field_tag 'event_date', (Date.parse(params[:event_date]).strftime('%m/%d/%Y') rescue "")
+        %span.month-box
+          = text_field_tag "month_event_date", params[:month_event_date], maxlength: 2, data: { target_input: "#event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+        \-
+        %span.day-box
+          = text_field_tag "day_event_date", params[:day_event_date], maxlength: 2, data: { target_input: "#event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+        \-
+        %span.year-box
+          = text_field_tag "year_event_date", params[:year_event_date], maxlength: 4, data: { target_input: "#event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
 
-  .markdown-container.paper-texture
-    %h3= design.name
-    - if index == 0
-      = link_to 'get started', new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
-    - else
-      %p.lead.text-muted 20% complete
-      = link_to 'edit me now', new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+        = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "#event_date" }, class: 'btn btn-default btn-xs', tabindex: '-1'
+        = link_to 'Clear', '#', data: { object: 'clear-date-input', target_input: "#event_date" }, class: 'btn btn-default btn-xs', tabindex: '-1'
 
-%div
-  = link_to 'BACK TO SUBJECT', [@project, @subject]
+  .form-group
+    = label_tag "designs", nil, class: 'col-md-2 control-label'
+    .col-md-10
+      %ul.list-unstyled{ style: 'margin-top:10px' }
+        - @event.event_designs.each do |event_design|
+          %li
+            = event_design.design.name
+
+  %hr.soften
+
+  .row
+    .col-xs-6
+      = submit_tag 'Launch Event', class: 'btn btn-success btn-block'
+    .col-xs-6
+      = link_to 'Nevermind Go Back to Subject', [@project, @subject], class: 'btn btn-default btn-block'
+

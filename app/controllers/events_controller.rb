@@ -8,8 +8,8 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @order = scrub_order(Event, params[:order], "events.name")
-    @events = @project.events.search(params[:search]).order(@order).page(params[:page]).per( 20 )
+    @order = scrub_order(Event, params[:order], "events.position")
+    @events = @project.events.search(params[:search]).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /events/1
@@ -19,7 +19,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = @project.events.new
+    @event = @project.events.new(position: (@project.events.count + 1) * 10)
   end
 
   # GET /events/1/edit
@@ -70,7 +70,7 @@ class EventsController < ApplicationController
   private
 
     def set_editable_event
-      @event = @project.events.find_by_id(params[:id])
+      @event = @project.events.find_by_param(params[:id])
     end
 
     def redirect_without_event
@@ -83,7 +83,7 @@ class EventsController < ApplicationController
 
       params[:event][:user_id] = current_user.id
 
-      params.require(:event).permit(:name, :description, :user_id)
+      params.require(:event).permit(:name, :slug, :description, :position, :scheduled, :archived, :user_id)
     end
 
 end

@@ -58,6 +58,7 @@
   validates_uniqueness_of :authentication_token, allow_nil: true
   validates_uniqueness_of :event_id, allow_nil: true, scope: [ :subject_schedule_id, :design_id, :deleted ]
   validates_uniqueness_of :subject_schedule_id, allow_nil: true, scope: [ :event_id, :design_id, :deleted ]
+  validates_uniqueness_of :subject_event_id, allow_nil: true, scope: [ :design_id, :deleted ]
 
   # Model Relationships
   belongs_to :user
@@ -69,6 +70,7 @@
   belongs_to :subject
   belongs_to :event
   belongs_to :subject_schedule
+  belongs_to :subject_event
   has_many :sheet_variables
   has_many :responses
   has_many :variables, -> { where deleted: false }, through: :sheet_variables

@@ -1,26 +1,127 @@
 %h1
-  Subject
+  %span.glyphicon.glyphicon-object-align-horizontal
   = @subject.subject_code
 
-%p.lead
-  Subject Created
+- if false
+  %p
+    - if current_user.all_subjects.pluck(:id).include?(@subject.id)
+      = link_to "Edit Subject", edit_project_subject_path(@subject.project, @subject), class: 'btn btn-default btn-xs'
+      = link_to "Delete Subject", [@subject.project, @subject], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" }
+
+- if @subject.subject_events.count == 0
+  %h2
+    Launch Event
+
+  .row
+    - if event = @project.events.where(scheduled: true, archived: false).order(:position).first
+      .col-sm-6{ style: 'margin-bottom:20px' }
+        = link_to put_a_subject_on_an_event_project_subject_path(@project, @subject, event_id: event.to_param), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
+          .text-muted Initial Event
+          %span.glyphicon.glyphicon-plus
+          New
+          %strong.btn-text-emphasis= event.name
+
+    .col-sm-6{ style: 'margin-bottom:20px' }
+      = link_to choose_an_event_for_subject_project_subject_path(@project, @subject), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
+        .text-muted More Events
+        %span.glyphicon.glyphicon-eye
+        Show me
+        %strong.btn-text-emphasis other events
+        !
+- else
+  %h2
+    Scheduled Events
+
+  - @subject.subject_events.each_with_index do |subject_event, index|
+    %span.black-box{ class: "#{'active' if index == 0}", style: "background-color: black;color: white;#{'background-color:orange' if index == 0}" }
+      = link_to "#subject_event_#{subject_event.id}", "aria-controls" => "subject_event_#{subject_event.id}", role: 'tab', data: { toggle: 'tab' } do
+        = subject_event.event.name
+        - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
+        - designs_count = subject_event.event.designs.count
+        - if sheets_completed == designs_count
+          %span.text-success
+            %span.glyphicon.glyphicon-ok
+        - elsif sheets_started == 0
+          %span.text-muted
+            %span.glyphicon.glyphicon-tasks
+        - else
+          %span.text-warning
+            %span.glyphicon.glyphicon-tasks
 
 
-%h2
-  Launch Event
+  %div{ role: "tabpanel", style: 'margin-bottom:20px' }
+    %ul.nav.nav-tabs{ role: "tablist" }
+      %li{ role: "presentation" }
+        = link_to '+', '#add-event', "aria-controls" => 'add-event', role: 'tab', data: { toggle: 'tab' }
+      - @subject.subject_events.each_with_index do |subject_event, index|
+        %li{ role: "presentation", class: "#{'active' if index == 0}" }
+          = link_to "#subject_event_#{subject_event.id}", "aria-controls" => "subject_event_#{subject_event.id}", role: 'tab', data: { toggle: 'tab' } do
+            = subject_event.event.name
+            - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
+            - designs_count = subject_event.event.designs.count
+            - if sheets_completed == designs_count
+              %span.text-success
+                %span.glyphicon.glyphicon-ok
+            - elsif sheets_started == 0
+              %span.text-muted
+                %span.glyphicon.glyphicon-tasks
+            - else
+              %span.text-warning
+                %span.glyphicon.glyphicon-tasks
 
-.row
-  .col-sm-6{ style: 'margin-bottom:20px' }
-    = link_to put_a_subject_on_an_event_project_subject_path(@project, @subject, event_slug: 'baseline-prescreening'), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
-      .text-muted Initial Event
-      %span.glyphicon.glyphicon-plus
-      New
-      %strong.btn-text-emphasis= "Baseline / Prescreening"
+      - if false
+        %li{ role: "presentation" }
+          = link_to 'Profile', '#profile', "aria-controls" => 'profile', role: 'tab', data: { toggle: 'tab' }
+        %li{ role: "presentation" }
+          = link_to 'Messages', '#messages', "aria-controls" => 'messages', role: 'tab', data: { toggle: 'tab' }
+        %li{ role: "presentation" }
+          = link_to 'Settings', '#settings', "aria-controls" => 'settings', role: 'tab', data: { toggle: 'tab' }
 
-  .col-sm-6{ style: 'margin-bottom:20px' }
-    = link_to choose_an_event_for_subject_project_subject_path(@project, @subject), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
-      .text-muted More Events
-      %span.glyphicon.glyphicon-eye
-      Show me
-      %strong.btn-text-emphasis other events
-      !
+    .tab-content
+      .tab-pane#add-event{ role: "tabpanel" }
+        .row
+          .col-sm-offset-3.col-sm-6{ style: '' }
+            .center{ style: 'margin-bottom:20px;margin-top: 20px' }
+              = link_to choose_an_event_for_subject_project_subject_path(@project, @subject), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
+                .text-muted Add More Events
+                %span.glyphicon.glyphicon-eye
+                Show me
+                %strong.btn-text-emphasis other events
+                !
+      - @subject.subject_events.each_with_index do |subject_event, index|
+        %div.tab-pane{ role: "tabpanel", class: "#{'active' if index == 0}", id: "subject_event_#{subject_event.id}", style: 'border-right:1px solid #ddd;border-bottom:1px solid #ddd;border-left:1px solid #ddd;padding:15px' }
+          %p.lead=subject_event.event_date
+          %ul.list-unstyled
+            - subject_event.event.designs.each do |design|
+              %li
+                - sheet = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id).first
+                - if sheet
+                  = link_to design.name, edit_project_sheet_path(@project, sheet)
+                  = coverage_helper(sheet)
+                - else
+                  = design.name
+                  = link_to 'get started', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+      - if false
+        .tab-pane#messages{ role: "tabpanel" }
+          Messages
+        .tab-pane#settings{ role: "tabpanel" }
+          Settings
+
+- if false
+  %h2
+    Subject Events Listed and Assigned
+
+  - @subject.subject_events.each do |subject_event|
+    %h3=subject_event.event.name
+    %p.lead=subject_event.event_date
+    %ul.list-unstyled
+      - subject_event.event.designs.each do |design|
+        %li
+          = design.name
+          - sheet = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id).first
+          - if sheet
+            = coverage_helper(sheet)
+            = link_to 'edit me now', edit_project_sheet_path(@project, sheet)
+          - else
+            = link_to 'get started', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+

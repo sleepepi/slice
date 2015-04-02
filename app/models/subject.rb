@@ -27,6 +27,8 @@ class Subject < ActiveRecord::Base
   has_many :sheets, -> { where deleted: false }
   has_many :subject_schedules
 
+  has_many :subject_events, -> { order(:event_date) }
+
   # Model Methods
 
   def self.first_or_create_with_defaults(project, subject_code, acrostic, user, default_site, default_status)

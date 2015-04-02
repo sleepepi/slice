@@ -1,0 +1,21 @@
+.flash-alert, .flash-notice {
+  position: relative;
+  z-index: -10;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  .lead {
+    margin: 0px;
+  }
+}
+
+
+.flash-alert {
+  background-color: $alert-warning-bg;
+  background-image: none;
+}
+
+.flash-notice {
+  background-color: $alert-success-bg;
+  color: #333;
+  background-image: none;
+}

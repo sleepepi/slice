@@ -2,12 +2,14 @@
 
 one:
   name: Event One
+  slug: event-one
   description: MyText
   project: one
   user: valid
 
 two:
-  name: Event One
+  name: Event Two
+  slug: event-two
   description: MyText
   project: one
   user: valid

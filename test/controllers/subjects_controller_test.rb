@@ -15,10 +15,19 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test "should show designs available to a subject for a specific event" do
-    get :put_a_subject_on_an_event, id: @subject, project_id: @project, event_slug: 'baseline'
+    get :put_a_subject_on_an_event, id: @subject, project_id: @project, event_id: 'event-one'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
     assert_response :success
+  end
+
+  test "should not show designs available to a subject for a non-existent event" do
+    get :put_a_subject_on_an_event, id: @subject, project_id: @project, event_id: 'event-does-not-exist'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_nil assigns(:event)
+    assert_redirected_to [assigns(:project), assigns(:subject)]
   end
 
   test "should get choose site for new subject" do

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subject_id: 1
+  event_id: 1
+  status: MyString
+  event_date: 2015-03-31
+
+two:
+  subject_id: 1
+  event_id: 1
+  status: MyString
+  event_date: 2015-03-31
