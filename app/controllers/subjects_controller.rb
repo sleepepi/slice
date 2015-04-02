@@ -75,6 +75,7 @@ class SubjectsController < ApplicationController
   # GET /subjects/1
   # GET /subjects/1.json
   def show
+    render layout: 'layouts/application_custom_full'
   end
 
   # GET /subjects/new
