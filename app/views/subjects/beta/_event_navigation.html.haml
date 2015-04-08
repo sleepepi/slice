@@ -1,0 +1,69 @@
+- @subject.subject_events.each_with_index do |subject_event, index|
+  .black-box{ class: "#{'active' if subject_event == @subject_event}", style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if subject_event == @subject_event}" }
+    - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
+    - designs_count = subject_event.event.designs.count
+    - if sheets_completed == designs_count
+      %span.text-success
+        %span.glyphicon.glyphicon-ok
+    - elsif sheets_started == 0
+      %span.text-muted
+        %span.glyphicon.glyphicon-tasks
+    - else
+      %span.text-warning
+        %span.glyphicon.glyphicon-tasks
+    = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")) do
+      = subject_event.event.name
+.black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'events'}", class: "#{'active' if params[:action] == 'events'}" }
+  = link_to events_project_subject_path(@project, @subject) do
+    %span.glyphicon.glyphicon-plus
+    Add New Event
+.black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'timeline'}", class: "#{'active' if params[:action] == 'timeline'}" }
+  = link_to timeline_project_subject_path(@project, @subject) do
+    %span.glyphicon.glyphicon-calendar
+    Timeline
+- if false
+  - if @subject_event
+  - else
+    .col-xs-9{ style: 'border: 1px solid red' }
+      %div{ role: "tabpanel", style: 'margin-bottom:20px' }
+        .tab-content
+          .tab-pane#add-event{ role: "tabpanel" }
+            - if true
+              = render partial: 'subjects/beta/choose_event'
+            - else
+              .row
+                .col-sm-offset-3.col-sm-6{ style: '' }
+                  .center{ style: 'margin-bottom:20px;margin-top: 20px' }
+                    = link_to choose_an_event_for_subject_project_subject_path(@project, @subject), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
+                      .text-muted Add More Events
+                      %span.glyphicon.glyphicon-eye
+                      Show me
+                      %strong.btn-text-emphasis other events
+                      !
+          - @subject.subject_events.each_with_index do |subject_event, index|
+            .tab-pane{ role: "tabpanel", class: "#{'active' if subject_event == @subject_event}", id: "subject_event_#{subject_event.id}", style: 'border-right:1px solid #ddd;border-bottom:1px solid #ddd;border-left:1px solid #ddd;padding:15px' }
+              %p.lead=subject_event.event_date
+              %ul.list-unstyled
+                - subject_event.event.designs.each do |design|
+                  %li
+                    - sheet = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id).first
+                    - if sheet
+                      = link_to design.name, edit_project_sheet_path(@project, sheet)
+                      = coverage_helper(sheet)
+                    - else
+                      = design.name
+                      = link_to 'get started', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+          .tab-pane#history{ role: "tabpanel" }
+            %p.lead.center
+              Awesome! Today
+              %strong Remo M
+              added a new event to the subject!
+            %p.lead.text-muted.center
+              This subject has no history. No European history, no American history, no ancient history. Nada.
+            %p.lead.text-muted.center
+              For all we know, nothing happened before this subject was created. However, on
+              = @subject.created_at
+              our subject came into existence. And Slice became a better place.
+          - if false
+            .tab-pane#settings{ role: "tabpanel" }
+              Settings

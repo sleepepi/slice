@@ -1,0 +1,20 @@
+%h1
+  %span.glyphicon.glyphicon-user
+  = @subject.subject_code
+
+.row
+  .col-xs-3{ style: 'border: 1px solid blue;padding:0px' }
+    = render partial: 'subjects/beta/event_navigation'
+
+  .col-xs-9
+    %p.lead=@subject_event.event_date
+    %ul.list-unstyled
+      - @subject_event.event.designs.each do |design|
+        %li
+          - sheet = @subject.sheets.where(subject_event_id: @subject_event.id, design_id: design.id).first
+          - if sheet
+            = link_to design.name, edit_project_sheet_path(@project, sheet)
+            = coverage_helper(sheet)
+          - else
+            = design.name
+            = link_to 'get started', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: @subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)

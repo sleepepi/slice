@@ -12,7 +12,7 @@
       %ul.list-unstyled
         - @project.events.where(scheduled: true, archived: false).order(:position).each do |event|
           %li.little-container
-            = link_to event.name, put_a_subject_on_an_event_project_subject_path(@project, @subject, event_id: event.to_param)
+            = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
             - if event.designs.count > 0
               %ul.text-muted
                 - event.designs.each do |design|
@@ -25,7 +25,7 @@
       %ul.list-unstyled
         - @project.events.where(scheduled: false, archived: false).order(:position).each do |event|
           %li.little-container
-            = link_to event.name, put_a_subject_on_an_event_project_subject_path(@project, @subject, event_id: event.to_param)
+            = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
             %ul.text-muted
               %li Pre-Screening Demographics Form
               %li Pre-Screening Intake Questionnaire

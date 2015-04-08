@@ -131,9 +131,12 @@ Rails.application.routes.draw do
     resources :subjects do
       resources :subject_schedules
       member do
-        get "put_a_subject_on_an_event/:event_id", action: :put_a_subject_on_an_event, as: :put_a_subject_on_an_event
+        get "choose-date/:event_id", action: :choose_date, as: :choose_date
         post :launch_subject_event
         get :choose_an_event_for_subject
+        get :events
+        get "events/:event_id/:event_date", action: :event, as: :event
+        get :timeline
       end
       collection do
         get :choose_site, path: 'choose-site'

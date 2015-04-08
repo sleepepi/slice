@@ -1,0 +1,10 @@
+%h1
+  %span.glyphicon.glyphicon-user
+  = @subject.subject_code
+
+.row
+  .col-xs-3{ style: 'border: 1px solid blue;padding:0px' }
+    = render partial: 'subjects/beta/event_navigation'
+
+  .col-xs-9
+    = render partial: 'subjects/beta/choose_event'
