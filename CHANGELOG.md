@@ -31,6 +31,7 @@
   - Updated to jquery-rails 4.0.3
   - Use Figaro to centralize application configuration
   - Removed dependency on ruby-ntlm gem
+  - Updated to chunky_png 1.3.4
 - Use of Ruby 2.2.1 is now recommended
 
 ### Bug Fix

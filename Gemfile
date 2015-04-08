@@ -12,7 +12,7 @@ gem 'carrierwave',          '~> 0.10.0'
 gem 'naturalsort',          '~> 1.2.0'
 gem 'redcarpet',            '~> 3.2.0'
 gem 'rubyzip',              '~> 1.1.0'
-gem 'chunky_png',           '~> 1.3.1'
+gem 'chunky_png',           '~> 1.3.4'
 gem 'haml'
 gem 'figaro',               '~> 1.1.0'
 
