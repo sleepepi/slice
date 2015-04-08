@@ -4,62 +4,43 @@
 valid:
   first_name: FirstName
   last_name: LastName
-  status: active
-  deleted: false
-  system_admin: false
   email: valid@example.com
   encrypted_password: ""
 
 two:
-  first_name: MyString
-  last_name: MyString
-  status: active
-  deleted: false
-  system_admin: false
+  first_name: Two
+  last_name: Deux
   email: EmailTwo
   encrypted_password: ""
 
 admin:
-  first_name: MyString
-  last_name: MyString
-  status: active
-  deleted: false
-  system_admin: true
+  first_name: System
+  last_name: Admin
   email: admin@example.com
   encrypted_password: ""
+  system_admin: true
 
 associated:
-  first_name: MyString
-  last_name: MyString
-  status: active
-  deleted: false
-  system_admin: false
+  first_name: Associated
+  last_name: User
   email: associated@example.com
   encrypted_password: ""
 
 deleted:
-  first_name: MyString
-  last_name: MyString
-  status: active
-  deleted: true
-  system_admin: false
+  first_name: Deleted
+  last_name: Deleted
   email: deleted@example.com
   encrypted_password: ""
+  deleted: true
 
 site_one_viewer:
   first_name: SiteOne
   last_name: Viewer
-  status: active
-  deleted: false
-  system_admin: false
   email: site_one_viewer@example.com
   encrypted_password: ""
 
 site_one_editor:
   first_name: SiteOne
   last_name: Editor
-  status: active
-  deleted: false
-  system_admin: false
   email: site_one_editor@example.com
   encrypted_password: ""

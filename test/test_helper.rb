@@ -1,20 +1,12 @@
 require 'simplecov'
+require 'minitest/pride'
 
-require 'minitest/autorun'
-require 'minitest/reporters'
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-
-ENV["RAILS_ENV"] = "test"
+ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
 class ActiveSupport::TestCase
-  ActiveRecord::Migration.check_pending!
-
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  #
-  # Note: You'll currently still have to declare fixtures explicitly in integration tests
-  # -- they do not yet inherit this setting
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
@@ -34,7 +26,6 @@ class ActionDispatch::IntegrationTest
     user = User.create(password: password, password_confirmation: password, email: email,
                        first_name: user_template.first_name, last_name: user_template.last_name)
     user.save!
-    user.update_column :status, user_template.status
     user.update_column :deleted, user_template.deleted?
     user.update_column :system_admin, user_template.system_admin?
     post_via_redirect '/login', user: { email: email, password: password }
