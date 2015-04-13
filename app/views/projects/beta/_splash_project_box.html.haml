@@ -1,4 +1,4 @@
-.projects-box
+.projects-box.project-gradient
   .pull-right
     = link_to project_subjects_path(project), class: 'hover-link' do
       = number_with_delimiter project.subjects.where(status: 'valid').count

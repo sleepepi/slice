@@ -27,6 +27,12 @@
         = render partial: 'layouts/menu'
 
     - if beta_enabled?(current_user)
+      - if params[:controller] == 'projects' and params[:action] == 'show'
+        .project-navigation
+          .container-fluid
+            = render partial: 'projects/beta/navigation'
+
+    - if beta_enabled?(current_user)
       = render partial: 'layouts/beta/flash_message'
     - else
       .container{ style: "position:relative" }
