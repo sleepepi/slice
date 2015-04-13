@@ -1,0 +1,11 @@
+.projects-box
+  = link_to project do
+    = project.name
+  .pull-right
+    = link_to project_subjects_path(project), class: 'hover-link' do
+      = number_with_delimiter project.subjects.where(status: 'valid').count
+    = link_to favorite_project_path(project, favorite: project.favorited_by?(current_user) ? '0' : '1'), method: :post do
+      - if project.favorited_by?(current_user)
+        %span.glyphicon.glyphicon-star
+      - else
+        %span.glyphicon.glyphicon-star-empty

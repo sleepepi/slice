@@ -48,7 +48,11 @@ class ProjectsController < ApplicationController
   def favorite
     project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
     project_favorite.update favorite: (params[:favorite] == '1')
-    redirect_to @project
+    if current_user.beta_enabled?
+      redirect_to root_path
+    else
+      redirect_to @project
+    end
   end
 
   def new_filter
@@ -92,7 +96,11 @@ class ProjectsController < ApplicationController
   def splash
     flash.delete(:notice)
     @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").page(params[:page]).per( 8 )
-    redirect_to @projects.first if @projects.total_count == 1
+    if @projects.total_count == 1
+      redirect_to @projects.first
+    elsif current_user.beta_enabled?
+      render layout: 'layouts/application_custom_full'
+    end
   end
 
   def report
@@ -128,6 +136,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
+    render layout: 'layouts/application_custom_full' if current_user.beta_enabled?
   end
 
   # GET /projects/1/settings

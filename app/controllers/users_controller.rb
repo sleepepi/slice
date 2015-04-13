@@ -4,6 +4,10 @@ class UsersController < ApplicationController
   before_action :set_user, only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_user, only: [ :show, :edit, :update, :destroy ]
 
+  def settings
+    render layout: 'layouts/application_custom_full' if current_user.beta_enabled?
+  end
+
   def update_settings
     notifications = {}
     email_settings = ['send_email'] + User::EMAILABLES.collect{|emailable, description| emailable.to_s} + current_user.all_viewable_projects.collect{|p| User::EMAILABLES.collect{|emailable, description| "project_#{p.id}_#{emailable.to_s}"}}.flatten

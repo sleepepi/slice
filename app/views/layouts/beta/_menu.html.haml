@@ -8,6 +8,10 @@
   = link_to ENV['website_name'], root_path, class: "navbar-brand"
 
 .collapse.navbar-collapse.navbar-ex1-collapse
+  - if current_page?(splash_projects_path) or current_page?(root_path)
+    %ul.nav.navbar-nav
+      %li
+        = link_to 'My Projects', splash_projects_path
   - if @project
     %ul.nav.navbar-nav
       %li.hidden-xs.hidden-sm
@@ -36,3 +40,7 @@
             %input#global-search.form-control{ name: "q", type: "text", autocomplete: "off", value: params[:q], placeholder: "Search" }
 
 
+  %ul.nav.navbar-nav.navbar-right
+    %li.hidden-xs
+      = link_to settings_path do
+        %span.glyphicon.glyphicon-cog
