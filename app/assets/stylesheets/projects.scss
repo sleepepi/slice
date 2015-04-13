@@ -2,7 +2,7 @@
   background-color: $body-bg;
   margin: 10px -15px;
 
-  padding: 10px;
+  padding: 10px 10px 10px 25px;
 
   background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, darken($body-bg, 5%) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,darken($body-bg, 5%))); /* Chrome,Safari4+ */
@@ -12,14 +12,14 @@
   background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,darken($body-bg, 5%) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr=darken($body-bg, 5%),GradientType=0 ); /* IE6-9 */
 
-  -webkit-transition: all .2s ease; /* Fade to color for Chrome and Safari */
-  -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+  // -webkit-transition: all .2s ease; /* Fade to color for Chrome and Safari */
+  // -webkit-backface-visibility: hidden; /* Fix for transition flickering */
 }
 
-.projects-box:hover {
-  background-color: $alert-info-bg;
-  box-shadow: 3px 3px 10px #888888;
-}
+// .projects-box:hover {
+//   background-color: $alert-info-bg;
+//   box-shadow: 3px 3px 10px #888888;
+// }
 
 @media screen and (min-width: $screen-sm-min) {
   .projects-box {

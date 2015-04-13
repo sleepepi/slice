@@ -99,7 +99,7 @@ class ProjectsController < ApplicationController
     if @projects.total_count == 1
       redirect_to @projects.first
     elsif current_user.beta_enabled?
-      render layout: 'layouts/application_custom_full'
+      render layout: 'layouts/application_custom'
     end
   end
 

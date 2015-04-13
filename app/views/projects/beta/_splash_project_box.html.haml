@@ -1,6 +1,4 @@
 .projects-box
-  = link_to project do
-    = project.name
   .pull-right
     = link_to project_subjects_path(project), class: 'hover-link' do
       = number_with_delimiter project.subjects.where(status: 'valid').count
@@ -9,3 +7,5 @@
         %span.glyphicon.glyphicon-star
       - else
         %span.glyphicon.glyphicon-star-empty
+  = link_to project do
+    = project.name

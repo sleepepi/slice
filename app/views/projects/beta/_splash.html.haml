@@ -15,6 +15,11 @@
   - @projects.reject{|p| p.favorited_by?(current_user)}.each do |project|
     = render partial: 'projects/beta/splash_project_box', locals: { project: project }
 
+.projects-box
+  = link_to new_project_path, class: 'btn btn-success-inverse' do
+    %span.glyphicon.glyphicon-plus
+    Create
+    %strong.btn-text-emphasis New Project
 
 .center
   = paginate @projects, theme: "contour"

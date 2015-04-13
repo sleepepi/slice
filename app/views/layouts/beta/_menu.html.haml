@@ -12,7 +12,7 @@
     %ul.nav.navbar-nav
       %li
         = link_to 'My Projects', splash_projects_path
-  - if @project
+  - if @project and !@project.new_record?
     %ul.nav.navbar-nav
       %li.hidden-xs.hidden-sm
         = link_to @project.name, @project
