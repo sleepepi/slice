@@ -37,14 +37,12 @@
 
 <hr class="soften">
 
-<footer class="footer">
-  <p class="muted about-footer">
-    <%= ENV['website_name'] %> Version <%= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}" %>
-  </p>
-  <p class="muted about-footer">
-    By using <%= ENV['website_name'] %> you are agreeing to the <%= link_to 'Acceptable Use Policy', about_use_path %>.
-  </p>
-</footer>
+<p class="muted about-footer">
+  <%= ENV['website_name'] %> Version <%= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}" %>
+</p>
+<p class="muted about-footer">
+  By using <%= ENV['website_name'] %> you are agreeing to the <%= link_to 'Acceptable Use Policy', about_use_path %>.
+</p>
 
 
 <div class="center" style="margin-top:40px">

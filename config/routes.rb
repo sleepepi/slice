@@ -182,14 +182,18 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/about" => "application#about", as: :about
-  get "/about/use" => "application#use", as: :about_use
-  get "/contact" => "application#contact", as: :contact
+  scope module: 'application' do
+    get :about
+    get :contact
+    get :font
+    get :use, path: '/about/use', as: :about_use
+    get :theme
+    get :version
+  end
+
   get "/settings" => "users#settings", as: :settings
   get "/search" => "projects#search", as: :search
   get "/activity" => "users#activity", as: :activity
-  get "/theme" => "application#theme", as: :theme
-  get "/font" => "application#font", as: :font
 
   root to: 'projects#splash'
 
