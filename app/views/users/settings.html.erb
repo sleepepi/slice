@@ -16,7 +16,7 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
   <div class="form-group">
     <label class="col-md-2 control-label">Theme</label>
     <div class="col-md-10">
-      <%= select_tag "user[theme]", options_for_select([['Default', nil]] + Slice::THEMES, current_user.theme), class: 'form-control' %>
+      <%= select_tag "user[theme]", options_for_select([['Minimalist', nil]] + Slice::THEMES, current_user.theme), class: 'form-control' %>
     </div>
   </div>
 

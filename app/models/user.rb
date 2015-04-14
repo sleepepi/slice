@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   has_many :designs, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
   has_many :projects, -> { where deleted: false }
+  has_many :project_favorites
   has_many :reports, -> { where deleted: false }
   has_many :sheets, -> { where deleted: false }
   has_many :sites, -> { where deleted: false }
@@ -61,7 +62,7 @@ class User < ActiveRecord::Base
 
   def all_favorite_projects
     @all_favorite_projects ||= begin
-      self.all_viewable_and_site_projects.by_favorite(self.id).where("project_favorites.favorite = ?", true).order('name')
+      self.all_viewable_and_site_projects.by_favorite(self.id).where("project_favorites.favorite = ?", true).order(:name)
     end
   end
 

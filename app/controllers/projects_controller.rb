@@ -8,6 +8,16 @@ class ProjectsController < ApplicationController
   # Concerns
   include Buildable
 
+  # POST /projects/save_project_order.js
+  def save_project_order
+    page = [params[:page].to_i,1].max
+    params[:project_ids].each_with_index do |project_id, index|
+      project_favorite = current_user.project_favorites.where(project_id: project_id).first_or_create
+      project_favorite.update( position: ((page - 1) * Project::PER_PAGE) + index )
+    end
+    render nothing: true
+  end
+
   def logo
     send_file File.join( CarrierWave::Uploader::Base.root, @project.logo.url )
   end

@@ -1,7 +1,8 @@
-.projects-box.project-gradient
+.projects-box.project-gradient{ data: { project_id: project.id } }
   .pull-right
+    %span.glyphicon.glyphicon-option-vertical.handle
     = link_to project_subjects_path(project), class: 'hover-link' do
-      = number_with_delimiter project.subjects.where(status: 'valid').count
+      - number_with_delimiter project.subjects.where(status: 'valid').count
     = link_to favorite_project_path(project, favorite: project.favorited_by?(current_user) ? '0' : '1'), method: :post do
       - if project.favorited_by?(current_user)
         %span.glyphicon.glyphicon-star

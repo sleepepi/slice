@@ -4,6 +4,7 @@
 - **Beta Changes**
   - Users can now enable a beta preview of the site in their settings
   - The Projects Overview page has been updated to better show projects for users with numerous projects
+    - Projects can now be reordered and favorited on the project overview page
   - The Project Show page for individual projects will allow users to quickly create subjects and launch events for the selected subject
   - New subjects can now be quickly created by searching for them from the main project page
     - Users can then choose the new subject's site on the followup screen

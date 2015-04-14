@@ -1,5 +1,7 @@
 class Project < ActiveRecord::Base
 
+  PER_PAGE = 40
+
   mount_uploader :logo, ImageUploader
 
   # Concerns

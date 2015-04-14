@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     collection do
       get :splash
       get :search
+      post :save_project_order
     end
 
     resources :contacts

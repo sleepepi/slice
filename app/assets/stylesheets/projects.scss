@@ -39,3 +39,12 @@
   color: #DEDEDE; //$navbar-inverse-color;
   text-decoration: none;
 }
+
+.handle {
+  display: none;
+  cursor: move;
+}
+
+.projects-box:hover .handle {
+  display: inline-block;
+}
