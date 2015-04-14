@@ -13,6 +13,10 @@
         %span.glyphicon.glyphicon-tasks
     = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")) do
       = subject_event.event.name
+.black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'eventless'}", class: "#{'active' if params[:action] == 'eventless'}" }
+  = link_to eventless_project_subject_path(@project, @subject) do
+    %span.glyphicon.glyphicon-duplicate
+    Loose Sheets
 .black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'events'}", class: "#{'active' if params[:action] == 'events'}" }
   = link_to events_project_subject_path(@project, @subject) do
     %span.glyphicon.glyphicon-plus
@@ -21,6 +25,7 @@
   = link_to timeline_project_subject_path(@project, @subject) do
     %span.glyphicon.glyphicon-calendar
     Timeline
+
 - if false
   - if @subject_event
   - else

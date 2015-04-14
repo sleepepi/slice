@@ -139,6 +139,7 @@ Rails.application.routes.draw do
         get :events
         get "events/:event_id/:event_date", action: :event, as: :event
         get :timeline
+        get :eventless
       end
       collection do
         get :choose_site, path: 'choose-site'
