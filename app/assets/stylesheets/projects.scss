@@ -48,3 +48,7 @@
 .projects-box:hover .handle {
   display: inline-block;
 }
+
+.projects-hide-move .handle {
+  display: none !important;
+}

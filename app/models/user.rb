@@ -66,6 +66,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def all_unarchived_projects
+    @all_unarchived_projects ||= begin
+      self.all_viewable_and_site_projects.by_favorite(self.id).where.not("project_favorites.archived = ?", true)
+    end
+  end
+
+  def all_archived_projects
+    @all_archived_projects ||= begin
+      self.all_viewable_and_site_projects.by_favorite(self.id).where("project_favorites.archived = ?", true).order(:name)
+    end
+  end
+
   def all_projects
     @all_projects ||= begin
       Project.current.with_editor(self.id, true)

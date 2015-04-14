@@ -130,6 +130,14 @@ class Project < ActiveRecord::Base
     not project_favorite.blank? and project_favorite.favorite?
   end
 
+  def archived_by?(current_user)
+    if project_favorite = self.project_favorites.find_by_user_id(current_user.id)
+      project_favorite.archived?
+    else
+      false
+    end
+  end
+
   def create_design_from_json(design_json, current_user)
     options = self.create_options_from_json(design_json['options'], current_user)
     description = design_json['description'].to_s.strip

@@ -1,8 +1,8 @@
 - if flash[:notice]
   .flash-notice
     .lead.center
-      = flash[:notice]
+      = flash[:notice].html_safe
 - if flash[:alert]
   .flash-alert
     .lead.center
-      = flash[:alert]
+      = flash[:alert].html_safe

@@ -1,12 +1,26 @@
 .projects-box.project-gradient{ data: { project_id: project.id } }
   .pull-right
-    %span.glyphicon.glyphicon-option-vertical.handle
+    %span.glyphicon.glyphicon-move.handle
     = link_to project_subjects_path(project), class: 'hover-link' do
       - number_with_delimiter project.subjects.where(status: 'valid').count
-    = link_to favorite_project_path(project, favorite: project.favorited_by?(current_user) ? '0' : '1'), method: :post do
-      - if project.favorited_by?(current_user)
-        %span.glyphicon.glyphicon-star
-      - else
-        %span.glyphicon.glyphicon-star-empty
+    = link_to '#', data: { object: 'toggle-visibility', target: "#project_#{project.id}_details" } do
+      %span.glyphicon.glyphicon-option-vertical
+
+  = link_to favorite_project_path(project, favorite: project.favorited_by?(current_user) ? '0' : '1'), style: 'text-decoration:none', method: :post do
+    - if project.favorited_by?(current_user)
+      %span.glyphicon.glyphicon-star
+    - else
+      %span.glyphicon.glyphicon-star-empty
   = link_to project do
     = project.name
+  %div{ id: "project_#{project.id}_details", style: 'display:none' }
+    .pull-right
+      - if project.archived_by?(current_user)
+        = link_to archive_project_path(project, archive: '0'), method: :post, class: 'btn btn-xs btn-default' do
+          %span.glyphicon.glyphicon-eye-open
+          Restore
+      - else
+        = link_to archive_project_path(project, archive: '1'), method: :post, class: 'btn btn-xs btn-default' do
+          %span.glyphicon.glyphicon-eye-close
+          Archive
+    &nbsp;

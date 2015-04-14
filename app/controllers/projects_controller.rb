@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :logo ]
+  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :logo ]
   before_action :set_editable_project,      only: [ :setup, :edit, :update, :invite_user ]
   before_action :set_owner_project,         only: [ :transfer, :destroy ]
-  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo ]
+  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo ]
 
   # Concerns
   include Buildable
@@ -65,6 +65,24 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def archive
+    project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
+    project_favorite.update archived: (params[:archive] == '1')
+    if params[:undo] == '1'
+      if params[:archive] == '1'
+        redirect_to archives_path, notice: 'Your action has been undone.'
+      else
+        redirect_to root_path, notice: 'Your action has been undone.'
+      end
+    else
+      if params[:archive] == '1'
+        redirect_to root_path, notice: "#{view_context.link_to(@project.name, @project)} has been archived. #{view_context.link_to 'Undo', archive_project_path(@project, archive: '0', undo: '1'), method: :post}"
+      else
+        redirect_to archives_path, notice: "#{view_context.link_to(@project.name, @project)} has been restored. #{view_context.link_to 'Undo', archive_project_path(@project, archive: '1', undo: '1'), method: :post}"
+      end
+    end
+  end
+
   def new_filter
     @design = @project.designs.find_by_id(params[:design_id])
   end
@@ -104,9 +122,18 @@ class ProjectsController < ApplicationController
   # GET /projects/1/splash
   # GET /projects/1/splash.js
   def splash
-    flash.delete(:notice)
-    @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").page(params[:page]).per( 8 )
-    redirect_to @projects.first if @projects.total_count == 1
+    flash.delete(:notice) if flash[:notice] == 'Signed in successfully.'
+    if current_user.beta_enabled?
+      @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).where.not("project_favorites.archived = ?", true).order("(favorite IS NULL or favorite = 'f') ASC, position, name").page(params[:page]).per( Project::PER_PAGE )
+    else
+      @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").page(params[:page]).per( 8 )
+    end
+
+    redirect_to @projects.first if current_user.all_viewable_and_site_projects.count == 1
+  end
+
+  def archives
+    @projects = current_user.all_archived_projects.order(:name).page(params[:page]).per( Project::PER_PAGE )
   end
 
   def report

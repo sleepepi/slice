@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       post :transfer
       post :invite_user
       get :logo
+      post :archive
     end
 
     collection do
@@ -190,6 +191,10 @@ Rails.application.routes.draw do
     get :use, path: '/about/use', as: :about_use
     get :theme
     get :version
+  end
+
+  scope module: 'projects' do
+    get :archives
   end
 
   get "/settings" => "users#settings", as: :settings

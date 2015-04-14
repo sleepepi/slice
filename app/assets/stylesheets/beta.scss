@@ -27,7 +27,7 @@
 @media screen and (min-width: $screen-sm-min) {
   .beta-corner {
     background-color: transparent;
-    // z-index: -5;
+    z-index: -5;
     position: absolute;
     right: 0;
     top: 0;
@@ -49,6 +49,7 @@
     position: absolute;
     right: -5px;
     top: 93px;
+    background-color: transparent;
 
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
