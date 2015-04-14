@@ -32,6 +32,8 @@ class Design < ActiveRecord::Base
   has_many :sheets, -> { where deleted: false }
   has_many :sections
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
+  has_many :event_designs
+
 
   # Model Methods
 

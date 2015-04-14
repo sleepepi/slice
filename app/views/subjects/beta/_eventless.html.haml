@@ -1,0 +1,12 @@
+.row
+  .col-xs-3{ style: 'border: 1px solid blue;padding:0px' }
+    = render partial: 'subjects/beta/event_navigation'
+
+  .col-xs-9
+    %h2 Loose Sheets
+    %p.lead.center
+      These sheets are not associated with a specific project event.
+
+    %ul
+      - @subject.sheets.where(event_id: nil).each do |sheet|
+        %li= link_to sheet.name, project_sheet_path(@project, sheet)

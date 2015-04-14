@@ -5,7 +5,6 @@ class UsersController < ApplicationController
   before_action :redirect_without_user, only: [ :show, :edit, :update, :destroy ]
 
   def settings
-    render layout: 'layouts/application_custom_full' if current_user.beta_enabled?
   end
 
   def update_settings

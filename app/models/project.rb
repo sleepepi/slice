@@ -74,6 +74,14 @@ class Project < ActiveRecord::Base
     current_user.projects.where( id: self.id ).count == 1
   end
 
+  def designs_with_event
+    self.designs.joins(:event_designs)
+  end
+
+  def designs_without_event
+    self.designs.where.not(id: self.designs.joins(:event_designs).select(:id))
+  end
+
   def can_edit_sheets_and_subjects?(current_user)
     current_user.all_sheet_editable_projects.where( id: self.id ).count == 1
   end

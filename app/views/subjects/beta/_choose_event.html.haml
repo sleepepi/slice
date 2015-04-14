@@ -5,7 +5,7 @@
 
 
 .row
-  .col-md-6
+  .col-md-4
     %h2 Scheduled Events
 
     - if @project.events.where(scheduled: true, archived: false).count > 0
@@ -19,7 +19,7 @@
                   %li= design.name
 
 
-  .col-md-6
+  .col-md-4
     %h2 Unscheduled Events
     - if @project.events.where(scheduled: false, archived: false).count > 0
       %ul.list-unstyled
@@ -29,3 +29,12 @@
             %ul.text-muted
               %li Pre-Screening Demographics Form
               %li Pre-Screening Intake Questionnaire
+
+  .col-md-4
+    %h2 Eventless Designs
+    %ul.list-unstyled
+      - @project.designs_without_event.each do |design|
+        %li.little-container
+          = link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+
+
