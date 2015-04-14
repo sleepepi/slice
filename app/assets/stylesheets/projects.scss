@@ -9,6 +9,11 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr=darken($body-bg, 5%),GradientType=0 ); /* IE6-9 */
 }
 
+.project-details {
+  display: none;
+  padding: 20px 0px 0px 0px;
+}
+
 .projects-box {
   margin: 10px -15px;
   padding: 10px 10px 10px 25px;
