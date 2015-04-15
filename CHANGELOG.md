@@ -36,7 +36,7 @@
   - Updated to chunky_png 1.3.4
   - Updated to redcarpet 3.2.3
   - Updated to rubyzip 1.1.7
-- Use of Ruby 2.2.1 is now recommended
+- Use of Ruby 2.2.2 is now recommended
 
 ### Bug Fix
 - Site editors can now properly add rows to grids
