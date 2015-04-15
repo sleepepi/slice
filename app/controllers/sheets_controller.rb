@@ -14,7 +14,7 @@ class SheetsController < ApplicationController
   # GET /sheets
   # GET /sheets.json
   def index
-    sheet_scope = current_user.all_viewable_sheets.search(params[:search])
+    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).search(params[:search])
 
     @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
     sheet_scope = sheet_scope.last_entry if @filter == 'last'
@@ -38,9 +38,7 @@ class SheetsController < ApplicationController
 
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
 
-    params[:project_id] = @project.id
-
-    ['design', 'project', 'site', 'user'].each do |filter|
+    ['design', 'site', 'user'].each do |filter|
       sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
     end
 

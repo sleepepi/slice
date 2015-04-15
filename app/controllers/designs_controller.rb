@@ -177,7 +177,7 @@ class DesignsController < ApplicationController
   # GET /designs
   # GET /designs.json
   def index
-    design_scope = current_user.all_viewable_designs.search(params[:search])
+    design_scope = current_user.all_viewable_designs.where(project_id: @project.id).search(params[:search])
 
     @order = params[:order]
     case params[:order] when 'designs.user_name'
@@ -190,10 +190,7 @@ class DesignsController < ApplicationController
     end
 
     design_scope = design_scope.where(id: params[:design_ids]) unless params[:design_ids].blank?
-
-    ['project', 'user'].each do |filter|
-      design_scope = design_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
-    end
+    design_scope = design_scope.with_user(params[:user_id]) unless params[:user_id].blank?
 
     @designs = design_scope.page(params[:page]).per( 40 )
   end
