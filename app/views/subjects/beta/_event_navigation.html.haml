@@ -1,4 +1,4 @@
-- if @project.events.count > 0
+- if @project.events.where(archived: false).count > 0
   = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action].in?(['choose_event', 'show'])}"
   = link_to pluralize(@subject.subject_events.count, 'Event'), events_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'events'}"
   - if params[:action].in?(['events', 'event'])
@@ -6,7 +6,7 @@
       %div{ style: 'margin: 5px 0px 5px 20px' }
         = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'event' and subject_event == @subject_event}" do
           - subject_event.event.name
-= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'data_entry' or (@project.events.count == 0 and params[:action] == 'show')}"
+= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'data_entry' or (@project.events.where(archived: false).count == 0 and params[:action] == 'show')}"
 = link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'sheets'}"
 = link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'timeline'}"
 
