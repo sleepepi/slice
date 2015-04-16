@@ -15,6 +15,8 @@ class Project < ActiveRecord::Base
   scope :with_user, lambda { |arg| where(user_id: arg) }
   scope :with_editor, lambda { |*args| where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
   scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}").references(:project_favorites) }
+  scope :archived, -> { where(project_favorites: { archived: true }) }
+  scope :unarchived, -> { where(project_favorites: { archived: [nil, false] }) }
 
   # Model Validation
   validates_presence_of :name, :user_id

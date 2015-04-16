@@ -68,13 +68,13 @@ class User < ActiveRecord::Base
 
   def all_unarchived_projects
     @all_unarchived_projects ||= begin
-      self.all_viewable_and_site_projects.by_favorite(self.id).where.not("project_favorites.archived = ?", true)
+      self.all_viewable_and_site_projects.by_favorite(self.id).unarchived
     end
   end
 
   def all_archived_projects
     @all_archived_projects ||= begin
-      self.all_viewable_and_site_projects.by_favorite(self.id).where("project_favorites.archived = ?", true).order(:name)
+      self.all_viewable_and_site_projects.by_favorite(self.id).archived.order(:name)
     end
   end
 
