@@ -8,7 +8,7 @@
     .indented-menu-item
       = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'choose_event'}"
 = link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'sheets' or (@project.events.where(archived: false).count == 0 and params[:action] == 'show')}"
-- if params[:action].in?(['sheets', 'data_entry'])
+- if params[:action].in?(['sheets', 'data_entry']) or (@project.events.where(archived: false).count == 0 and params[:action] == 'show')
   .indented-menu-item
     = link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'data_entry'}"
 = link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'timeline'}"

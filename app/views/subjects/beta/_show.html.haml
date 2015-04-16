@@ -4,7 +4,7 @@
     = render partial: 'subjects/beta/event_navigation'
 
   .col-sm-10.main-project-content
-    - if @project.events.count > 0
+    - if @project.events.where(archived: false).count > 0
       = render partial: 'subjects/beta/events'
     - else
       = render partial: 'subjects/beta/sheets'
