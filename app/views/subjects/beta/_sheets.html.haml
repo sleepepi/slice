@@ -2,5 +2,7 @@
 
 %ul
   - @subject.sheets.each do |sheet|
-    %li= link_to sheet.name, project_sheet_path(@project, sheet)
+    %li
+      = link_to sheet.name, project_sheet_path(@project, sheet)
+      = coverage_helper(sheet)
 
