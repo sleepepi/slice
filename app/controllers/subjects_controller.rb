@@ -15,10 +15,10 @@ class SubjectsController < ApplicationController
 
   def event
     @event = @project.events.find_by_param(params[:event_id])
-    @event_date = (Date.strptime(params[:event_date], "%Y%m%d") rescue nil)
-    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_event_date(@event_date) if @event
+    # @event_date = (Date.strptime(params[:event_date], "%Y%m%d") rescue nil)
+    # @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_event_date(@event_date) if @event
+    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
     redirect_to [@project, @subject] unless @subject_event
-    params[:event_date]
   end
 
   def events
@@ -37,7 +37,7 @@ class SubjectsController < ApplicationController
     if @event
 
       if date = parse_date(params[:event_date], nil) and @subject_event = @subject.subject_events.create(event_id: @event.id, event_date: date)
-        redirect_to event_project_subject_path(@project, @subject, event_id: @event, event_date: @subject_event.event_date.strftime("%Y%m%d")), notice: 'Subject event added successfully.'
+        redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), notice: 'Subject event added successfully.'
       else
         redirect_to choose_date_project_subject_path(@project, @subject, event_id: @event.to_param), alert: 'Please enter a valid date.'
       end

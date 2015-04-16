@@ -3,7 +3,7 @@
   - if params[:action].in?(['events', 'event', 'show', 'choose_event'])
     - @subject.subject_events.each do |subject_event|
       .indented-menu-item
-        = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'event' and subject_event == @subject_event}" do
+        = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date.strftime("%Y%m%d")), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'event' and subject_event == @subject_event}" do
           - subject_event.event.name
     .indented-menu-item
       = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'choose_event'}"
@@ -27,7 +27,7 @@
       - else
         %span.text-warning
           %span.glyphicon.glyphicon-tasks
-      = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")) do
+      = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date.strftime("%Y%m%d")) do
         = subject_event.event.name
   .black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'sheets' or @sheet}", class: "#{'active' if params[:action] == 'sheets' or @sheet}" }
     = link_to sheets_project_subject_path(@project, @subject) do
