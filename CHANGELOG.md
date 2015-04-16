@@ -11,6 +11,7 @@
     - Users can then choose the new subject's site on the followup screen
     - Entering an existing subject code redirects to the subject's main page
   - Subject pages now prompt users to select the appropriate study-level event for which they want to enter a subject's sheet
+  - Subject page now organizes subject sheets and events in a persistent left hand navigation bar
 - **General Changes**
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration

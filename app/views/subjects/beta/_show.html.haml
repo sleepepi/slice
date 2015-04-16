@@ -1,6 +1,15 @@
-%h1
-  %span.glyphicon.glyphicon-user
-  = @subject.subject_code
+= render partial: 'subjects/beta/header'
+
+.row
+  .col-sm-2.left-project-navigation
+    = render partial: 'subjects/beta/event_navigation'
+
+  .col-sm-10.main-project-content
+    - if @project.events.count > 0
+      = render partial: 'subjects/beta/choose_event'
+    - else
+      = render partial: 'subjects/beta/data_entry'
+
 
 - if false
   %p
@@ -8,29 +17,31 @@
       = link_to "Edit Subject", edit_project_subject_path(@subject.project, @subject), class: 'btn btn-default btn-xs'
       = link_to "Delete Subject", [@subject.project, @subject], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" }
 
-- if @subject.sheets.count == 0
+- if false
 
-  -# if @subject.subject_events.count == 0
-  %h2
-    Launch Event
+  - if @subject.sheets.count == 0
 
-  .row
-    - if event = @project.events.where(scheduled: true, archived: false).order(:position).first
-      .col-sm-6{ style: 'margin-bottom:20px' }
-        = link_to choose_date_project_subject_path(@project, @subject, event_id: event.to_param), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
-          .text-muted Initial Event
-          %span.glyphicon.glyphicon-plus
-          New
-          %strong.btn-text-emphasis= event.name
+    - if false # if @subject.subject_events.count == 0
+      %h2
+        Launch Event
 
-    .col-sm-6{ style: 'margin-bottom:20px' }
-      = link_to choose_an_event_for_subject_project_subject_path(@project, @subject), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
-        .text-muted More Events
-        %span.glyphicon.glyphicon-eye
-        Show me
-        %strong.btn-text-emphasis other events
-        !
-- else
+      .row
+        - if event = @project.events.where(scheduled: true, archived: false).order(:position).first
+          .col-sm-6{ style: 'margin-bottom:20px' }
+            = link_to choose_date_project_subject_path(@project, @subject, event_id: event.to_param), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
+              .text-muted Initial Event
+              %span.glyphicon.glyphicon-plus
+              New
+              %strong.btn-text-emphasis= event.name
+
+        .col-sm-6{ style: 'margin-bottom:20px' }
+          = link_to choose_an_event_for_subject_project_subject_path(@project, @subject), method: :get, class: 'btn btn-success-inverse btn-block btn-lg' do
+            .text-muted More Events
+            %span.glyphicon.glyphicon-eye
+            Show me
+            %strong.btn-text-emphasis other events
+            !
+
   - if @subject_event = @subject.subject_events.first
     .row
       .col-xs-3{ style: 'border: 1px solid blue;padding:0px' }
@@ -49,4 +60,4 @@
                 = design.name
                 = link_to 'get started', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: @subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
   - else
-    = render partial: 'subjects/beta/eventless'
+    = render partial: 'subjects/beta/sheets'

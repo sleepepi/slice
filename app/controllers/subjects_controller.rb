@@ -1,15 +1,16 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index, :show, :timeline, :eventless, :event, :report ]
-  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :events, :launch_subject_event ]
-  before_action :redirect_without_project, only: [ :index, :show, :timeline, :eventless, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :events, :launch_subject_event ]
-  before_action :set_viewable_subject, only: [ :show, :timeline, :eventless, :event ]
-  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :events, :launch_subject_event ]
-  before_action :redirect_without_subject, only: [ :show, :timeline, :eventless, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :events, :launch_subject_event ]
+  before_action :set_viewable_project, only: [ :index, :show, :timeline, :events, :sheets, :event, :report ]
+  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :launch_subject_event ]
+  before_action :redirect_without_project, only: [ :index, :show, :timeline, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event ]
+  before_action :set_viewable_subject, only: [ :show, :timeline, :sheets, :event ]
+  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event ]
+  before_action :redirect_without_subject, only: [ :show, :timeline, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event ]
 
+  def data_entry
+  end
 
-  def timeline
-
+  def choose_event
   end
 
   def event
@@ -21,12 +22,15 @@ class SubjectsController < ApplicationController
   end
 
   def events
-
   end
 
-  # Displays all sheets that aren't associated with an event
-  def eventless
+  def sheets
   end
+
+  def timeline
+  end
+
+
 
   def launch_subject_event
     @event = @project.events.find_by_param(params[:event_id])

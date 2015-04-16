@@ -1,12 +1,11 @@
-%h1
-  %span.glyphicon.glyphicon-user
-  = @subject.subject_code
+= render partial: 'subjects/beta/header'
 
 .row
-  .col-xs-3{ style: 'border: 1px solid blue;padding:0px' }
+  .col-sm-2.left-project-navigation
     = render partial: 'subjects/beta/event_navigation'
 
-  .col-xs-9
+  .col-sm-10.main-project-content
+    %h2 Timeline
     %p.lead.center
       Awesome! Today
       %strong Remo M

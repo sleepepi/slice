@@ -1,40 +1,11 @@
-%h1 Available Project Events for Subject
+%h2 Available Events
 
-%p.lead
-  Wow, all these events to choose from!
-
-
-.row
-  .col-md-4
-    %h2 Scheduled Events
-
-    - if @project.events.where(scheduled: true, archived: false).count > 0
-      %ul.list-unstyled
-        - @project.events.where(scheduled: true, archived: false).order(:position).each do |event|
-          %li.little-container
-            = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
-            - if event.designs.count > 0
-              %ul.text-muted
-                - event.designs.each do |design|
-                  %li= design.name
-
-
-  .col-md-4
-    %h2 Unscheduled Events
-    - if @project.events.where(scheduled: false, archived: false).count > 0
-      %ul.list-unstyled
-        - @project.events.where(scheduled: false, archived: false).order(:position).each do |event|
-          %li.little-container
-            = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
-            %ul.text-muted
-              %li Pre-Screening Demographics Form
-              %li Pre-Screening Intake Questionnaire
-
-  .col-md-4
-    %h2 Eventless Designs
-    %ul.list-unstyled
-      - @project.designs_without_event.each do |design|
-        %li.little-container
-          = link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
-
-
+- if @project.events.where(archived: false).count > 0
+  %ul.list-unstyled
+    - @project.events.where(archived: false).order(:position).each do |event|
+      %li.little-container
+        = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
+        - if event.designs.count > 0
+          %ul.text-muted
+            - event.designs.each do |design|
+              %li= design.name

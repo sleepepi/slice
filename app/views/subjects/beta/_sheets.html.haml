@@ -1,0 +1,6 @@
+%h2 All Sheets
+
+%ul
+  - @subject.sheets.each do |sheet|
+    %li= link_to sheet.name, project_sheet_path(@project, sheet)
+

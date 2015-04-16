@@ -1,0 +1,7 @@
+%h2 Data Entry Selection
+%ul.list-unstyled
+  - @project.designs.order(:name).each do |design|
+    %li.little-container
+      = link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
+
+

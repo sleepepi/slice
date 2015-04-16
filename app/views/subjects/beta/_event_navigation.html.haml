@@ -1,30 +1,43 @@
-- @subject.subject_events.each_with_index do |subject_event, index|
-  .black-box{ class: "#{'active' if subject_event == @subject_event}", style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if subject_event == @subject_event}" }
-    - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
-    - designs_count = subject_event.event.designs.count
-    - if sheets_completed == designs_count
-      %span.text-success
-        %span.glyphicon.glyphicon-ok
-    - elsif sheets_started == 0
-      %span.text-muted
-        %span.glyphicon.glyphicon-tasks
-    - else
-      %span.text-warning
-        %span.glyphicon.glyphicon-tasks
-    = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")) do
-      = subject_event.event.name
-.black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'eventless' or @sheet}", class: "#{'active' if params[:action] == 'eventless' or @sheet}" }
-  = link_to eventless_project_subject_path(@project, @subject) do
-    %span.glyphicon.glyphicon-duplicate
-    Loose Sheets
-.black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'events'}", class: "#{'active' if params[:action] == 'events'}" }
-  = link_to events_project_subject_path(@project, @subject) do
-    %span.glyphicon.glyphicon-plus
-    Add New Event
-.black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'timeline'}", class: "#{'active' if params[:action] == 'timeline'}" }
-  = link_to timeline_project_subject_path(@project, @subject) do
-    %span.glyphicon.glyphicon-calendar
-    Timeline
+- if @project.events.count > 0
+  = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action].in?(['choose_event', 'show'])}"
+  = link_to pluralize(@subject.subject_events.count, 'Event'), events_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'events'}"
+  - if params[:action].in?(['events', 'event'])
+    - @subject.subject_events.each do |subject_event|
+      %div{ style: 'margin: 5px 0px 5px 20px' }
+        = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'event' and subject_event == @subject_event}" do
+          - subject_event.event.name
+= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'data_entry'}"
+= link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'sheets'}"
+= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "btn btn-xs btn-default btn-block #{'active' if params[:action] == 'timeline'}"
+
+- if false
+  - @subject.subject_events.each_with_index do |subject_event, index|
+    .black-box{ class: "#{'active' if subject_event == @subject_event}", style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if subject_event == @subject_event}" }
+      - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
+      - designs_count = subject_event.event.designs.count
+      - if sheets_completed == designs_count
+        %span.text-success
+          %span.glyphicon.glyphicon-ok
+      - elsif sheets_started == 0
+        %span.text-muted
+          %span.glyphicon.glyphicon-tasks
+      - else
+        %span.text-warning
+          %span.glyphicon.glyphicon-tasks
+      = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, event_date: subject_event.event_date.strftime("%Y%m%d")) do
+        = subject_event.event.name
+  .black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'sheets' or @sheet}", class: "#{'active' if params[:action] == 'sheets' or @sheet}" }
+    = link_to sheets_project_subject_path(@project, @subject) do
+      %span.glyphicon.glyphicon-duplicate
+      Loose Sheets
+  .black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'events'}", class: "#{'active' if params[:action] == 'events'}" }
+    = link_to events_project_subject_path(@project, @subject) do
+      %span.glyphicon.glyphicon-plus
+      Add New Event
+  .black-box{ style: "background-color: black;color: white;padding:10px;#{'background-color:orange' if params[:action] == 'timeline'}", class: "#{'active' if params[:action] == 'timeline'}" }
+    = link_to timeline_project_subject_path(@project, @subject) do
+      %span.glyphicon.glyphicon-calendar
+      Timeline
 
 - if false
   - if @subject_event
