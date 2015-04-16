@@ -21,6 +21,11 @@
           = link_to project_subjects_path(@project) do
             Subjects
             %span.badge= @project.subjects.where(status: 'valid').count
+        - if @subject
+          %li.hidden-xs.hidden-sm
+            = link_to project_subject_path(@project, @subject) do
+              = @subject.name
+
       - when 'sites'
         %li.hidden-xs.hidden-sm
           = link_to project_sites_path(@project) do
