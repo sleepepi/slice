@@ -1,0 +1,10 @@
+%form.form-horizontal
+  = render partial: 'sheets/cross_sheet_values'
+
+= form_tag [@sheet.project, @sheet], method: :get, remote: true, data: { object: 'form-load' }, style: 'display:none' do
+  &nbsp;
+
+
+%div{ id: "sheet_#{@sheet.id}" }
+  .center
+    = image_tag 'try-slice-waiting.gif'
