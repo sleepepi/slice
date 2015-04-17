@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   # Model Relationships
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
+  has_many :events, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
   has_many :projects, -> { where deleted: false }
   has_many :project_favorites

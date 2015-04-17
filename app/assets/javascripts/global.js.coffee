@@ -60,6 +60,7 @@
   signaturesReady()
   subjectsReady()
   projectsReady()
+  eventsReady()
 
 $(window).onbeforeunload = () -> return "You haven't saved your changes." if window.$isDirty
 $(document).ready(ready)

@@ -1,9 +1,14 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
+  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :add_design ]
+  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :add_design ]
   before_action :set_editable_event, only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_event, only: [ :show, :edit, :update, :destroy ]
+
+  # POST /events/add_design.js
+  def add_design
+  end
+
 
   # GET /events
   # GET /events.json
@@ -19,7 +24,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = @project.events.new(position: (@project.events.count + 1) * 10)
+    @event = current_user.events.where(project_id: @project.id).new(position: (@project.events.count + 1) * 10)
   end
 
   # GET /events/1/edit
@@ -29,7 +34,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = @project.events.new(event_params)
+    @event = current_user.events.where(project_id: @project.id).new(event_params)
 
     respond_to do |format|
       if @event.save
@@ -79,11 +84,10 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params[:event] ||= {}
-
-      params[:event][:user_id] = current_user.id
-
-      params.require(:event).permit(:name, :slug, :description, :position, :scheduled, :archived, :user_id)
+      params.require(:event).permit(
+        :name, :slug, :description, :position, :scheduled, :archived,
+        :event_designs_attributes => [ :id, :design_id, :position ]
+      )
     end
 
 end

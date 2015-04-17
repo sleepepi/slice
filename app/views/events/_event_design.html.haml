@@ -1,0 +1,12 @@
+- position = Time.now.to_i.to_s + Time.now.usec.to_s unless position
+- @position = position
+
+%div{ id: "design_#{@position}", style: "line-height:30px;padding-top:5px" }
+  .row
+    .col-xs-2
+      = hidden_field_tag "event[event_designs_attributes][][id]", (event_design ? event_design.id : nil)
+      = select_tag "event[event_designs_attributes][][design_id]", options_for_select([[nil, nil]] + @project.designs.order(:name).collect{|d| [d.name, d.id]}, (event_design ? event_design.design_id : nil)), class: 'form-control'
+      = text_field_tag "event[event_designs_attributes][][position]", @position, class: 'form-control'
+    .col-xs-3
+      %span.glyphicon.glyphicon-move.design-handle
+      = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#design_#{@position}" }, tabindex: '-1'

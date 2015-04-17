@@ -34,6 +34,16 @@
         %p Ex: <code>abc123-trial</code>
 
   .form-group
+    %label.col-md-2.control-label Designs
+    .col-md-10
+      = link_to 'Add Design', add_design_project_events_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'
+      #designs{ data: { object: 'sortable' } }
+        = hidden_field_tag 'event[event_designs_attributes][]', nil
+        - @event.event_designs.each do |event_design|
+          = render partial: 'events/event_design', locals: { event_design: event_design, position: event_design.position }
+
+
+  .form-group
     = f.label :description, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_area :description, rows: 7, class: 'form-control'

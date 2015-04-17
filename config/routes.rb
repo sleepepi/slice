@@ -39,7 +39,12 @@ Rails.application.routes.draw do
         get :file
       end
     end
-    resources :events
+
+    resources :events do
+      collection do
+        post :add_design
+      end
+    end
 
     resources :posts
     resources :links

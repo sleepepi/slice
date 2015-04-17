@@ -1,0 +1,41 @@
+- @title = @event.name
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to 'Events', project_events_path(@project)
+    &middot;
+    = @title
+  = link_to "Edit Event", edit_project_event_path(@event.project, @event), class: 'btn btn-default btn-xs'
+  = link_to "Delete Event", [@event.project, @event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Event #{@event.name}?" }
+
+%dl.dl-horizontal
+
+  %dt Slug
+  %dd= @event.slug
+
+  %dt Position
+  %dd= @event.position
+
+  %dt Designs
+  %dd
+    %ul.list-unstyled
+      - @event.event_designs.each do |event_design|
+        %li
+          = link_to event_design.design.name, [@project, event_design.design]
+          Position:
+          = event_design.position
+
+
+  %dt Description
+  %dd= simple_format @event.description
+
+  %dt User
+  %dd= link_to @event.user.name, @event.user if @event.user
+
+  %dt Archived
+  %dd= simple_check @event.archived
+
+  %dt Scheduled
+  %dd= simple_check @event.scheduled
+
