@@ -11,7 +11,7 @@
   .project-details{ id: "project_#{project.id}_details" }
     .pull-right
       %strong.hidden-xs Actions
-      = link_to archive_project_path(project, archive: project.archived_by?(current_user) ? '0' : '1'), method: :post, class: 'btn btn-xs btn-default' do
+      = link_to archive_project_path(project, archive: archived ? '0' : '1'), method: :post, class: 'btn btn-xs btn-default' do
         - if project.archived_by?(current_user)
           %span.glyphicon.glyphicon-eye-open
           %span.hidden-xs
@@ -21,7 +21,7 @@
           %span.hidden-xs
             Archive
       &nbsp;
-      = link_to favorite_project_path(project, favorite: project.favorited_by?(current_user) ? '0' : '1'), class: 'btn btn-xs btn-default', method: :post do
+      = link_to favorite_project_path(project, favorite: favorited ? '0' : '1'), class: 'btn btn-xs btn-default', method: :post do
         - if project.favorited_by?(current_user)
           %span.glyphicon.glyphicon-star
           %span.hidden-xs

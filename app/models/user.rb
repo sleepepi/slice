@@ -86,15 +86,11 @@ class User < ActiveRecord::Base
   end
 
   def all_viewable_projects
-    @all_viewable_projects ||= begin
-      Project.current.with_editor(self.id, [true, false])
-    end
+    Project.current.with_editor(self.id, [true, false])
   end
 
   def all_viewable_and_site_projects
-    @all_viewable_and_site_projects ||= begin
-      Project.current.where(id: self.all_viewable_sites.pluck(:project_id) + self.all_viewable_projects.pluck(:id))
-    end
+    Project.current.viewable_by_user(self)
   end
 
   # Project Owners, Project Editors, and Site Editors
@@ -108,7 +104,7 @@ class User < ActiveRecord::Base
 
   def all_reports
     @all_reports ||= begin
-       Report.current.where(user_id: self.id)
+      Report.current.where(user_id: self.id)
     end
   end
 
@@ -159,21 +155,21 @@ class User < ActiveRecord::Base
   # Project Editors
   def all_sites
     @all_sites ||= begin
-      Site.current.with_project(self.all_projects.pluck(:id))
+      Site.current.where(project_id: self.all_projects.select(:id))
     end
   end
 
   # Project Editors and Viewers and Site Members
   def all_viewable_sites
     @all_viewable_sites ||= begin
-      Site.current.with_project_or_as_site_user(self.all_viewable_projects.pluck(:id), self)
+      Site.current.with_project_or_as_site_user(self.all_viewable_projects.select(:id), self.id)
     end
   end
 
   # Project Editors and Site Editors
   def all_editable_sites
     @all_editable_sites ||= begin
-      Site.current.with_project_or_as_site_editor(self.all_projects.pluck(:id), self)
+      Site.current.with_project_or_as_site_editor(self.all_projects.select(:id), self.id)
     end
   end
 

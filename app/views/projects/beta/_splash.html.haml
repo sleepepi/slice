@@ -1,5 +1,5 @@
-- favorited_projects = @projects.select{|p| p.favorited_by?(current_user)}
-- current_projects = @projects.reject{|p| p.favorited_by?(current_user)}
+- favorited_projects = @projects.by_favorite(current_user.id).where(project_favorites: { favorite: true })
+- current_projects = @projects.by_favorite(current_user.id).where(project_favorites: { favorite: [false, nil] })
 
 - if favorited_projects.count > 0
   %div{ style: 'margin-bottom:20px' }
@@ -7,7 +7,7 @@
 
     %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'favored' } }
       - favorited_projects.each do |project|
-        = render partial: 'projects/beta/splash_project_box', locals: { project: project }
+        = render partial: 'projects/beta/splash_project_box', locals: { project: project, favorited: true, archived: false }
 
 - if current_projects.count > 0
   %div{ style: 'margin-bottom:20px' }
@@ -15,7 +15,7 @@
 
     %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'unfavored' } }
       - current_projects.each do |project|
-        = render partial: 'projects/beta/splash_project_box', locals: { project: project }
+        = render partial: 'projects/beta/splash_project_box', locals: { project: project, favorited: false, archived: false }
 
 .projects-box
   = link_to new_project_path, class: 'btn btn-success-inverse' do
@@ -31,76 +31,3 @@
     %p.lead{ style: 'margin-bottom:5px' }
       You have
       = link_to(pluralize(current_user.all_archived_projects.count, "archived project"), archives_path) + "."
-
-
-- if false
-  %div{ style: "margin-left:100px" }
-
-    %div{ style: 'margin-bottom:20px' }
-      Favorites
-
-      .projects-box{ style: "margin-left: 20px" }
-        - @projects.select{|p| p.favorited_by?(current_user)}.each do |project|
-          %div{ style: 'border-bottom: 1px solid #333;padding:10px 0px;' }
-            = link_to project.name, project
-            .pull-right
-              = link_to project_subjects_path(project), class: 'hover-link' do
-                = number_with_delimiter project.subjects.where(status: 'valid').count
-              - if project.favorited_by?(current_user)
-                %span.glyphicon.glyphicon-star
-              - else
-                %span.glyphicon.glyphicon-star-empty
-
-
-    %div{ style: 'margin-bottom:20px' }
-      Inbox
-
-      .projects-box{ style: "margin-left: 20px" }
-        - @projects.reject{|p| p.favorited_by?(current_user)}.each do |project|
-          %div{ style: 'border-bottom: 1px solid #333;padding:10px 0px;' }
-            = link_to project.name, project
-            .pull-right
-              = link_to project_subjects_path(project), class: 'hover-link' do
-                = number_with_delimiter project.subjects.where(status: 'valid').count
-              - if project.favorited_by?(current_user)
-                %span.glyphicon.glyphicon-star
-              - else
-                %span.glyphicon.glyphicon-star-empty
-
-    %div{ style: 'margin-bottom:20px' }
-      Archived
-
-      .projects-box{ style: "margin-left: 20px" }
-        .text-muted{ style: 'padding:10px 0px;' }
-          You have
-          %strong 3
-          archived projects.
-
-
-
-
-  .center
-    = paginate @projects, theme: "contour"
-
-
-
-
-  %table.table{ style: 'table-layout:fixed' }
-    %thead
-      %tr
-        - ['S', 'M', 'T', 'W', 'R', 'F', 'S'].each do |weekday|
-          %th.center= weekday
-    %tbody
-      %tr{ style: 'border-top: 0px solid transparent' }
-        %td{ style: 'border: 1px solid #DDD'}
-
-        %td{ style: 'border: 1px solid #DDD'}
-          S1(2)
-        %td{ style: 'border: 1px solid #DDD'}
-          S2
-          %br
-          S3
-        %td{ style: 'border: 1px solid #DDD'}
-        %td{ style: 'border: 1px solid #DDD'}
-        %td{ style: 'border: 1px solid #DDD'}
-        %td{ style: 'border: 1px solid #DDD'}

@@ -18,6 +18,11 @@ class Project < ActiveRecord::Base
   scope :archived, -> { where(project_favorites: { archived: true }) }
   scope :unarchived, -> { where(project_favorites: { archived: [nil, false] }) }
 
+  # Left Joins
+  scope :join_project_users, -> { joins('LEFT JOIN "project_users" ON "project_users"."project_id" = "projects"."id"') }
+  scope :join_site_users, -> { joins('LEFT JOIN "sites" ON "sites"."project_id" = "projects"."id" AND "sites"."deleted" = \'f\'').joins('LEFT JOIN "site_users" ON "site_users"."site_id" = "sites"."id"') }
+  scope :viewable_by_user, lambda { |arg| join_project_users.join_site_users.where("projects.user_id = ? or project_users.user_id = ? or site_users.user_id = ?", arg, arg, arg) }
+
   # Model Validation
   validates_presence_of :name, :user_id
   validates_uniqueness_of :slug, scope: [ :deleted ], allow_blank: true
@@ -57,7 +62,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.find_by_param(input)
-    self.where("slug = ? or id = ?", input.to_s, input.to_i).first
+    self.where("projects.slug = ? or projects.id = ?", input.to_s, input.to_i).first
   end
 
   def recent_sheets
