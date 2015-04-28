@@ -37,6 +37,7 @@
   - Updated to chunky_png 1.3.4
   - Updated to redcarpet 3.2.3
   - Updated to rubyzip 1.1.7
+  - Updated to simplecov 0.10.0
 - Use of Ruby 2.2.2 is now recommended
 
 ### Bug Fix
