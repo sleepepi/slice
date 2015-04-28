@@ -50,6 +50,7 @@
 ### Refactoring
 - Simplified how image assets are referenced from SCSS file
 - Reduced number of database queries for events and designs indexes
+- Improved the load time of the sheets index
 
 ## 0.27.7 (December 30, 2014)
 

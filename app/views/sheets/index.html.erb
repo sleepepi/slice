@@ -55,7 +55,7 @@
     <div class="col-md-4 form-group">
       <%= label :user_id, 'Creator', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.where( id: @project.sheets.pluck(:user_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control' %>
+        <%= select_tag 'user_id', options_for_select([['---', nil]] + User.where( id: @project.sheets.select(:user_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control' %>
       </div>
     </div>
   </div>

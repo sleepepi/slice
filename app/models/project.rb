@@ -21,6 +21,10 @@ class Project < ActiveRecord::Base
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ?)
     OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)", arg, arg, arg) }
 
+  scope :editable_by_user, lambda { |arg| where("projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+    OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ? and project_users.editor = ?)
+    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ? and site_users.editor = ?)", arg, arg, true, arg, true) }
+
   # Model Validation
   validates_presence_of :name, :user_id
   validates_uniqueness_of :slug, scope: [ :deleted ], allow_blank: true

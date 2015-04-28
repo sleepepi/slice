@@ -14,7 +14,7 @@ class SheetsController < ApplicationController
   # GET /sheets
   # GET /sheets.json
   def index
-    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).search(params[:search])
+    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: [ :site ]).search(params[:search])
 
     @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
     sheet_scope = sheet_scope.last_entry if @filter == 'last'
@@ -44,21 +44,21 @@ class SheetsController < ApplicationController
 
     @order = params[:order]
     case params[:order] when 'sheets.site_name'
-      sheet_scope = sheet_scope.order_by_site_name
+      sheet_scope = sheet_scope.order("sites.name")
     when 'sheets.site_name DESC'
-      sheet_scope = sheet_scope.order_by_site_name_desc
+      sheet_scope = sheet_scope.order("sites.name desc")
     when 'sheets.design_name'
-      sheet_scope = sheet_scope.order_by_design_name
+      sheet_scope = sheet_scope.order("designs.name")
     when 'sheets.design_name DESC'
-      sheet_scope = sheet_scope.order_by_design_name_desc
+      sheet_scope = sheet_scope.order("designs.name desc")
     when 'sheets.subject_code'
-      sheet_scope = sheet_scope.order_by_subject_code
+      sheet_scope = sheet_scope.order("subjects.subject_code")
     when 'sheets.subject_code DESC'
-      sheet_scope = sheet_scope.order_by_subject_code_desc
+      sheet_scope = sheet_scope.order("subjects.subject_code desc")
     when 'sheets.user_name'
-      sheet_scope = sheet_scope.order_by_user_name
+      sheet_scope = sheet_scope.order("users.last_name, users.first_name")
     when 'sheets.user_name DESC'
-      sheet_scope = sheet_scope.order_by_user_name_desc
+      sheet_scope = sheet_scope.order("users.last_name desc, users.first_name desc")
     else
       @order = scrub_order(Sheet, params[:order], 'sheets.created_at DESC')
       sheet_scope = sheet_scope.order(@order)

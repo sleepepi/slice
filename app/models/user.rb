@@ -95,11 +95,7 @@ class User < ActiveRecord::Base
 
   # Project Owners, Project Editors, and Site Editors
   def all_sheet_editable_projects
-    Project.current.where( id: self.all_projects.pluck(:id) + self.all_editable_sites.pluck(:project_id) )
-  end
-
-  def all_projects_or_site_editor_on_project(site_id)
-    Project.current.where( id: self.all_projects.pluck(:id) + self.all_editable_sites.where( id: site_id ).pluck(:project_id) )
+    Project.current.editable_by_user(self)
   end
 
   def all_reports
@@ -136,16 +132,12 @@ class User < ActiveRecord::Base
 
   # Project Editors and Site Editors on that site can modify sheet
   def all_sheets
-    @all_sheets ||= begin
-      Sheet.current.with_site(self.all_editable_sites.pluck(:id))
-    end
+    Sheet.current.with_site(self.all_editable_sites.select(:id))
   end
 
   # Project Editors and Viewers and Site Members can view sheets
   def all_viewable_sheets
-    @all_viewable_sheets ||= begin
-      Sheet.current.with_site(self.all_viewable_sites.pluck(:id))
-    end
+    Sheet.current.with_site(self.all_viewable_sites.select(:id))
   end
 
   # Project Editors
@@ -157,33 +149,25 @@ class User < ActiveRecord::Base
 
   # Project Editors and Viewers and Site Members
   def all_viewable_sites
-    @all_viewable_sites ||= begin
-      Site.current.with_project_or_as_site_user(self.all_viewable_projects.select(:id), self.id)
-    end
+    Site.current.with_project_or_as_site_user(self.all_viewable_projects.select(:id), self.id)
   end
 
   # Project Editors and Site Editors
   def all_editable_sites
-    @all_editable_sites ||= begin
-      Site.current.with_project_or_as_site_editor(self.all_projects.select(:id), self.id)
-    end
+    Site.current.with_project_or_as_site_editor(self.all_projects.select(:id), self.id)
   end
 
   # Project Editors and Site Editors can modify subjects
   def all_subjects
-    @all_subjects ||= begin
-      Subject.current.where( site_id: self.all_editable_sites.pluck(:id) )
-    end
+    Subject.current.where(site_id: self.all_editable_sites.select(:id))
   end
 
   # Project Editors and Viewers and Site Members can view subjects
   def all_viewable_subjects
-    @all_viewable_subjects ||= begin
-      Subject.current.with_site(self.all_viewable_sites.pluck(:id))
-    end
+    Subject.current.where(site_id: self.all_viewable_sites.select(:id))
   end
 
-  # Editors can only create subject if they can edit the specific site (all_projects_or_site_editor_on_project(site_id))
+  # Editors can only create subject if they can edit the specific site
   def create_subject(project, subject_code, site_id, acrostic)
     if self.all_editable_sites.where( id: site_id, project_id: project.id ).count == 1
       if not subject_code.blank? and not site_id.blank?

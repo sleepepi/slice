@@ -8,7 +8,6 @@ class Subject < ActiveRecord::Base
   # Named Scopes
   scope :search, lambda { |arg| where( 'LOWER(subject_code) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%') ) }
   scope :with_project, lambda { |arg| where( project_id: arg ) }
-  scope :with_site, lambda { |arg| where( site_id: arg ) }
   scope :without_design, lambda { |arg| where( "subjects.id NOT IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, arg ) }
   scope :with_design, lambda { |arg| where( "subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, arg ) }
 

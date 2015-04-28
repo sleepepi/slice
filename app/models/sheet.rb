@@ -38,21 +38,6 @@
 
   scope :with_subject_status, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first).references(:subjects) }
 
-  scope :order_by_site_name, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id").order('sites.name') }
-  scope :order_by_site_name_desc, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id LEFT JOIN sites ON sites.id = subjects.site_id").order('sites.name DESC') }
-
-  scope :order_by_design_name, -> { joins("LEFT JOIN designs ON designs.id = sheets.design_id").order('designs.name') }
-  scope :order_by_design_name_desc, -> { joins("LEFT JOIN designs ON designs.id = sheets.design_id").order('designs.name DESC') }
-
-  scope :order_by_subject_code, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id").order('subjects.subject_code') }
-  scope :order_by_subject_code_desc, -> { joins("LEFT JOIN subjects ON subjects.id = sheets.subject_id").order('subjects.subject_code DESC') }
-
-  # scope :order_by_project_name, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name') }
-  # scope :order_by_project_name_desc, -> { joins("LEFT JOIN projects ON projects.id = sheets.project_id").order('projects.name DESC') }
-
-  scope :order_by_user_name, -> { joins("LEFT JOIN users ON users.id = sheets.user_id").order('users.last_name, users.first_name') }
-  scope :order_by_user_name_desc, -> { joins("LEFT JOIN users ON users.id = sheets.user_id").order('users.last_name DESC, users.first_name DESC') }
-
   # Model Validation
   validates_presence_of :design_id, :project_id, :subject_id
   validates_uniqueness_of :authentication_token, allow_nil: true
@@ -108,6 +93,10 @@
 
   def description
     self.design.description
+  end
+
+  def editable_by?(current_user)
+    current_user.all_sheets.where(id: self.id).count == 1
   end
 
   def recently_created?

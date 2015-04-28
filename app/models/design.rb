@@ -192,7 +192,7 @@ class Design < ActiveRecord::Base
   end
 
   def editable_by?(current_user)
-    current_user.all_designs.pluck(:id).include?(self.id)
+    current_user.all_designs.where(id: self.id).count == 1
   end
 
   def copyable_attributes
