@@ -32,6 +32,16 @@ class EventsControllerTest < ActionController::TestCase
     assert_redirected_to project_event_path(assigns(:event).project, assigns(:event))
   end
 
+  test "should create event with two designs" do
+    assert_difference('Event.count') do
+      post :create, project_id: @project, event: { name: 'New Event', description: @event.description, design_ids: [designs(:one).id, designs(:all_variable_types).id] }
+    end
+
+    assert_equal 2, assigns(:event).designs.count
+
+    assert_redirected_to project_event_path(assigns(:event).project, assigns(:event))
+  end
+
   test "should not create event with blank name" do
     assert_difference('Event.count', 0) do
       post :create, project_id: @project, event: { name: '', description: @event.description }

@@ -3,6 +3,10 @@ class Event < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
 
+
+  attr_accessor :design_ids
+  after_save :set_event_designs
+
   # Named Scopes
 
   # Model Validation
@@ -27,6 +31,18 @@ class Event < ActiveRecord::Base
 
   def self.find_by_param(input)
     self.where("slug = ? or id = ?", input.to_s, input.to_i).first
+  end
+
+  private
+
+  def set_event_designs
+    if self.design_ids and self.design_ids.kind_of?(Array)
+      self.event_designs.destroy_all
+      self.design_ids.uniq.each_with_index do |design_id, index|
+        design = self.project.designs.find_by_id design_id
+        self.event_designs.create(design_id: design.id, position: index) if design
+      end
+    end
   end
 
 end

@@ -20,6 +20,8 @@
   - Added new contact page and new footer
 - **Project Changes**
   - Projects can now have a slug specified to support a nicer URL structure
+- **Event Changes**
+  - Designs can now be directly associated to events
 - **Schedule Changes**
   - Schedules can now be ordered by their position relative to each other
   - A Schedule Subject Report is now available

@@ -23,8 +23,6 @@
       - @event.event_designs.each do |event_design|
         %li
           = link_to event_design.design.name, [@project, event_design.design]
-          Position:
-          = event_design.position
 
 
   %dt Description
