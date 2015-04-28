@@ -115,15 +115,11 @@ class User < ActiveRecord::Base
   end
 
   def all_designs
-    @all_designs ||= begin
-      Design.current.with_project(self.all_projects.pluck(:id))
-    end
+    Design.current.with_project(self.all_projects.select(:id))
   end
 
   def all_viewable_designs
-    @all_viewable_designs ||= begin
-      Design.current.with_project(self.all_viewable_sites.pluck(:project_id) + self.all_viewable_projects.pluck(:id))
-    end
+    Design.current.with_project(self.all_viewable_and_site_projects.select(:project_id))
   end
 
   def all_variables

@@ -177,7 +177,7 @@ class DesignsController < ApplicationController
   # GET /designs
   # GET /designs.json
   def index
-    design_scope = current_user.all_viewable_designs.where(project_id: @project.id).search(params[:search])
+    design_scope = current_user.all_viewable_designs.where(project_id: @project.id).includes(:user).search(params[:search])
 
     @order = params[:order]
     case params[:order] when 'designs.user_name'

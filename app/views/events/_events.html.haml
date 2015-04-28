@@ -21,7 +21,7 @@
       %td
         = event.position
       %td
-        = link_to event.name, [event.project, event]
+        = link_to event.name, [@project, event]
       %td
         = simple_check event.scheduled
       %td
@@ -29,8 +29,8 @@
       %td
         = event.description
       %td
-        = link_to 'Edit', edit_project_event_path(event.project, event), class: 'btn btn-xs btn-default'
-        = link_to 'Delete', [event.project, event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Event #{event.name}?" }
+        = link_to 'Edit', edit_project_event_path(@project, event), class: 'btn btn-xs btn-default'
+        = link_to 'Delete', [@project, event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Event #{event.name}?" }
 
 .center
   = paginate @events, theme: 'contour'

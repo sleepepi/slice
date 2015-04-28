@@ -1,0 +1,25 @@
+= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @designs.total_count }
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'designs.name', 'Name')
+      %th{ style: "white-space:nowrap" } Variables
+      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'designs.user_name', 'Creator')
+      %th Actions
+
+  - @designs.each do |design|
+
+    %tr{ id: "design_#{design.id}" }
+      %td= link_to design.name, [@project, design]
+
+      %td= design.variable_ids.count
+      %td= link_to design.user.name, design.user if design.user
+      %td
+        = link_to 'Copy', copy_project_design_path(@project, design), class: 'btn btn-default btn-xs'
+        - if design.editable_by?(current_user)
+          = link_to 'Edit', edit_project_design_path(@project, design), class: 'btn btn-default btn-xs'
+          = link_to 'Delete', [@project, design], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Design #{design.name}?" }
+
+.center
+  = paginate @designs, theme: "contour"
