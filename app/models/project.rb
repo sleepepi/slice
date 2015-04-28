@@ -17,11 +17,9 @@ class Project < ActiveRecord::Base
   scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}").references(:project_favorites) }
   scope :archived, -> { where(project_favorites: { archived: true }) }
   scope :unarchived, -> { where(project_favorites: { archived: [nil, false] }) }
-
-  # Left Joins
-  scope :join_project_users, -> { joins('LEFT JOIN "project_users" ON "project_users"."project_id" = "projects"."id"') }
-  scope :join_site_users, -> { joins('LEFT JOIN "sites" ON "sites"."project_id" = "projects"."id" AND "sites"."deleted" = \'f\'').joins('LEFT JOIN "site_users" ON "site_users"."site_id" = "sites"."id"') }
-  scope :viewable_by_user, lambda { |arg| join_project_users.join_site_users.where("projects.user_id = ? or project_users.user_id = ? or site_users.user_id = ?", arg, arg, arg) }
+  scope :viewable_by_user, lambda { |arg| where("projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+    OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ?)
+    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)", arg, arg, arg) }
 
   # Model Validation
   validates_presence_of :name, :user_id

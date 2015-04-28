@@ -1,5 +1,5 @@
-- favorited_projects = @projects.by_favorite(current_user.id).where(project_favorites: { favorite: true })
-- current_projects = @projects.by_favorite(current_user.id).where(project_favorites: { favorite: [false, nil] })
+- favorited_projects = @projects.where(project_favorites: { favorite: true })
+- current_projects = @projects.where(project_favorites: { favorite: [false, nil] })
 
 - if favorited_projects.count > 0
   %div{ style: 'margin-bottom:20px' }
