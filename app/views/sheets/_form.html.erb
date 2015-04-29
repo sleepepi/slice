@@ -126,9 +126,10 @@
           <%= @sheet.event.name %><%= @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank? %>
         </div>
       </div>
-    <% elsif @sheet.subject_event %>
+    <% end %>
+    <% if @sheet.subject_event %>
       <div class="form-group">
-        <%= label_tag :subject_event_id, 'Event', class: 'col-md-3 control-label' %>
+        <%= label_tag :subject_event_id, 'Subject Event', class: 'col-md-3 control-label' %>
         <div class="col-md-9" style="margin-top:8px">
           <%= f.hidden_field :subject_event_id %>
           <%= @sheet.subject_event.event.name %>

@@ -51,6 +51,8 @@
       - if @sheet.event and @sheet.subject_schedule
         %th Schedule
         %th Event
+      - if @sheet.subject_event
+        %th Subject Event
       - if @sheet.project.acrostic_enabled?
         %th Acrostic
       %th Site
@@ -70,7 +72,12 @@
         %td
           = @sheet.event.name
           = @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank?
-
+      - if @sheet.subject_event
+        %td
+          = link_to event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date.strftime("%Y%m%d")) do
+            = @sheet.subject_event.event.name
+            \-
+            = @sheet.subject_event.event_date.strftime("%a, %B %d, %Y")
       - if @sheet.project.acrostic_enabled?
         %td= @sheet.subject.acrostic
 

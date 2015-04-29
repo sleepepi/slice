@@ -11,7 +11,7 @@
         %li
           - sheet = @subject.sheets.where(subject_event_id: @subject_event.id, design_id: design.id).first
           - if sheet
-            = link_to design.name, edit_project_sheet_path(@project, sheet)
+            = link_to design.name, project_sheet_path(@project, sheet)
             = coverage_helper(sheet)
           - else
             = design.name

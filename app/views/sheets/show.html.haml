@@ -10,10 +10,10 @@
     .col-sm-10.main-project-content
       = render partial: 'sheets/header_info_limited'
 
-  .markdown-container
-    = render partial: 'sheets/body_info'
+      .markdown-container
+        = render partial: 'sheets/body_info'
 
-  = render partial: 'sheets/body_after'
+      = render partial: 'sheets/body_after'
 - else
   = render partial: 'sheets/header_info'
   = render partial: 'sheets/body_info'
