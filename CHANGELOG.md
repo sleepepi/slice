@@ -25,6 +25,8 @@
 - **Schedule Changes**
   - Schedules can now be ordered by their position relative to each other
   - A Schedule Subject Report is now available
+- **Sheet Changes**
+  - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
 - **Gem Changes**
   - Updated to rails 4.2.1
   - Updated to pg 0.18.1
@@ -51,6 +53,7 @@
 - Simplified how image assets are referenced from SCSS file
 - Reduced number of database queries for events and designs indexes
 - Improved the load time of the sheets index
+- Removed deprecated sheet audit system
 
 ## 0.27.7 (December 30, 2014)
 

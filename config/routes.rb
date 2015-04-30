@@ -53,7 +53,6 @@ Rails.application.routes.draw do
       member do
         get :print
         get :file
-        get :audits
         get :transactions
         get :survey
         post :submit_survey

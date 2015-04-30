@@ -4,11 +4,11 @@ class SheetsController < ApplicationController
 
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print, :file, :verification_report ]
-  before_action :set_editable_project_or_editable_site, only: [ :edit, :double_data_entry, :audits, :transactions, :new, :create, :update, :destroy, :unlock ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :double_data_entry, :verification_report, :audits, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
+  before_action :set_editable_project_or_editable_site, only: [ :edit, :double_data_entry, :transactions, :new, :create, :update, :destroy, :unlock ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :double_data_entry, :verification_report, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
   before_action :set_viewable_sheet, only: [ :show, :print, :file, :verification_report ]
-  before_action :set_editable_sheet, only: [ :edit, :double_data_entry, :audits, :transactions, :update, :destroy, :unlock ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :double_data_entry, :verification_report, :audits, :transactions, :update, :destroy, :unlock, :file ]
+  before_action :set_editable_sheet, only: [ :edit, :double_data_entry, :transactions, :update, :destroy, :unlock ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :double_data_entry, :verification_report, :transactions, :update, :destroy, :unlock, :file ]
   before_action :redirect_with_locked_sheet, only: [ :edit, :double_data_entry, :verification_report, :update, :destroy ]
 
   # GET /sheets
@@ -85,15 +85,10 @@ class SheetsController < ApplicationController
   # GET /sheets/1
   # GET /sheets/1.json
   def show
-    @sheet.audit_show!(current_user)
   end
 
-  def audits
-
-  end
-
+  # GET /sheets/1/transactions
   def transactions
-
   end
 
   # GET /sheets/new

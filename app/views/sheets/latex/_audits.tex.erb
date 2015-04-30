@@ -20,69 +20,6 @@
   <%= latex_safe latex_safe @sheet.contributors %>
 <% end %>
 
-<% if false %>
-<% all_audits = @sheet.all_audits.where(auditable_type: ['SheetVariable', 'Grid', 'Response', 'Sheet']).where('created_at > ? and ? IS NOT NULL', (@sheet.first_locked_at ? @sheet.first_locked_at + 1.minute : nil), @sheet.first_locked_at) %>
-
-<% if all_audits.count > 0 %>
-\subsection*{Amendments}
-
-<% all_audits.group_by{|a| [a.created_at.month, a.created_at.year]}.each do |(month, year), audits| %>
-
-  \subsubsection*{<%= latex_safe Date::ABBR_MONTHNAMES[month] %> <%= latex_safe year %>}
-
-  \begin{longtable}{@{\extracolsep{\fill}}p{3.75cm}p{5.00cm}p{6.25cm}p{3cm}@{\extracolsep{\fill}}}
-
-  Time & Change & & Amended By \\
-
-  \midrule
-
-  <% audits.sort{|a,b| [b.created_at.strftime("%Y%m%d%T"), (a.auditable_type == 'Sheet' ? 0 : 1)] <=> [a.created_at.strftime("%Y%m%d%T"), (b.auditable_type == 'Sheet' ? 0 : 1)]}.each_with_index do |audit, audit_index| %>
-
-    <% if audit.audited_changes.kind_of?(Hash) %>
-      <% audit_action = audit.action unless audit.audited_changes.keys.sort == ['last_viewed_at', 'last_viewed_by_id'] or audit.audited_changes.keys.sort == ['last_viewed_at'] %>
-
-      <% if ['create', 'update'].include?(audit_action) %>
-        <% if ['SheetVariable', 'Grid', 'Response'].include?(audit.auditable_type) %>
-          <% object = audit.auditable_type.constantize.find_by_id(audit.auditable_id) %>
-          <% variable = Variable.find_by_id(audit.audited_changes['variable_id']) %>
-          <% ['response', 'response_file', 'value'].each do |response_type| %>
-            <% if response = audit.audited_changes[response_type] and ['create', 'update', 'destroy'].include?(audit.action) %>
-              <% response = [response[1], response[0]] if audit.action == 'create' %>
-              <% response = [response[0].to_s.split('/').last, response[1].to_s] if response_type == 'response_file' %>
-
-              <% if response[0].to_s != response[1].to_s %>
-                <%= latex_safe audit.created_at.strftime("%Y-%m-%d %r") %> &
-                <% if object %><%= latex_safe object.variable.name %><% elsif variable %><%= latex_safe variable.name %><% end %> &
-                <%= latex_safe (response[0].blank? ? 'null' : response[0].to_s) %>
-                $\rightarrow$
-                <%= latex_safe (response[1].blank? ? 'null' : response[1].to_s) %> &
-                <%= latex_safe audit.user.name if audit.user %> &
-              <% end %>
-            <% end %>
-          <% end %>
-        <% elsif ['Sheet'].include?(audit.auditable_type) %>
-          <% if audit.audited_changes['locked'] %>
-            <% val = audit.audited_changes['locked'] %>
-            <% value = (val.kind_of?(Array) ? val : [nil, val]) %>
-            <% if value[1] == true %>
-              <%= latex_safe audit.created_at.strftime("%Y-%m-%d %r") %> &
-              \textbf{Locked} & &
-              <%= latex_safe audit.user.name if audit.user %> &
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% else %>
-    <% end %>
-
-  <% end %>
-
-  \end{longtable}
-<% end %>
-
-<% end %>
-<% end %>
-
 <% end %>
 
 \newpage

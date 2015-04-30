@@ -48,7 +48,6 @@
   # Model Relationships
   belongs_to :user
   belongs_to :last_user, class_name: "User"
-  belongs_to :last_viewed_by, class_name: "User"
   belongs_to :first_locked_by, class_name: "User"
   belongs_to :design
   belongs_to :project
@@ -73,14 +72,6 @@
   def self.first_entry
     sheet_ids = self.order('subject_id, created_at ASC').pluck("DISTINCT ON (subject_id) sheets.id")
     self.where(id: sheet_ids)
-  end
-
-  def all_audits
-    Audit.where("(auditable_type = ? and auditable_id = ?) or (associated_type = ? and associated_id = ?) or (associated_type = ? and associated_id IN (?))", 'Sheet', self.id, 'Sheet', self.id, 'SheetVariable', self.sheet_variables.pluck(:id)).order(:id)
-  end
-
-  def audit_show!(current_user)
-    self.update_attributes(last_viewed_by_id: current_user.id, last_viewed_at: Time.now)
   end
 
   def contributors
