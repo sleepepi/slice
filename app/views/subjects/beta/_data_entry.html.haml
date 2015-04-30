@@ -1,7 +1,9 @@
 %h2 Data Entry Selection
-%ul.list-unstyled
-  - @project.designs.order(:name).each do |design|
-    %li.little-container
-      = link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id)
 
-
+.row
+  - @project.designs.order(:name).in_groups(3, nil).each do |designs|
+    .col-sm-4
+      - designs.each do |design|
+        - if design
+          %div{ style: 'margin-bottom:10px;' }
+            = link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'btn btn-default btn-block', style: 'white-space: normal;'
