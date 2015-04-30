@@ -110,23 +110,26 @@
   <% end %>
 
   <% if @sheet.new_record? and @sheet.not_double_data_entry? %>
-    <% if @sheet.event and @sheet.subject_schedule %>
-      <div class="form-group">
-        <%= label_tag :subject_schedule_id, 'Schedule', class: 'col-md-3 control-label' %>
-        <div class="col-md-9" style="margin-top:8px">
-          <%= f.hidden_field :subject_schedule_id %>
-          <%= @sheet.subject_schedule.schedule.name %>
+    <% if false %>
+      <% if @sheet.event and @sheet.subject_schedule %>
+        <div class="form-group">
+          <%= label_tag :subject_schedule_id, 'Schedule', class: 'col-md-3 control-label' %>
+          <div class="col-md-9" style="margin-top:8px">
+            <%= f.hidden_field :subject_schedule_id %>
+            <%= @sheet.subject_schedule.schedule.name %>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <%= label_tag :event_id, 'Event', class: 'col-md-3 control-label' %>
-        <div class="col-md-9" style="margin-top:8px">
-          <%= f.hidden_field :event_id %>
-          <%= @sheet.event.name %><%= @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank? %>
+        <div class="form-group">
+          <%= label_tag :event_id, 'Event', class: 'col-md-3 control-label' %>
+          <div class="col-md-9" style="margin-top:8px">
+            <%= f.hidden_field :event_id %>
+            <%= @sheet.event.name %><%= @sheet.subject_schedule.initial_due_date.strftime(" &middot; %a, %B %d, %Y").html_safe unless @sheet.subject_schedule.initial_due_date.blank? %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
+
     <% if @sheet.subject_event %>
       <div class="form-group">
         <%= label_tag :subject_event_id, 'Subject Event', class: 'col-md-3 control-label' %>
@@ -137,14 +140,16 @@
       </div>
     <% end %>
   <% elsif @sheet.subject and @sheet.subject.subject_schedule_events(@sheet.design_id).size > 0 %>
-    <div class="form-group">
-      <%= label_tag :subject_schedule_event, 'Schedule', class: 'col-md-3 control-label' %>
-      <div class="col-md-9">
-        <%= f.hidden_field :subject_schedule_id %>
-        <%= f.hidden_field :event_id %>
-        <%= select_tag :subject_schedule_event, options_for_select([['---', nil]] + @sheet.subject.subject_schedule_events(@sheet.design_id), "#{@sheet.subject_schedule_id}-#{@sheet.event_id}"), class: 'form-control', data: { object: 'set-subject-schedule-event' } %>
+    <% if false %>
+      <div class="form-group">
+        <%= label_tag :subject_schedule_event, 'Schedule', class: 'col-md-3 control-label' %>
+        <div class="col-md-9">
+          <%= f.hidden_field :subject_schedule_id %>
+          <%= f.hidden_field :event_id %>
+          <%= select_tag :subject_schedule_event, options_for_select([['---', nil]] + @sheet.subject.subject_schedule_events(@sheet.design_id), "#{@sheet.subject_schedule_id}-#{@sheet.event_id}"), class: 'form-control', data: { object: 'set-subject-schedule-event' } %>
+        </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
 
   <% unless @sheet.new_record? %>
