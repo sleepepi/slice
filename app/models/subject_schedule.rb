@@ -1,7 +1,7 @@
 class SubjectSchedule < ActiveRecord::Base
 
   # Named Scopes
-  scope :with_subject_status, lambda { |arg| where("subject_schedules.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, arg).references(:subjects) }
+  scope :with_subject_status, lambda { |arg| includes(:subject).where(subjects: { status: arg, deleted: false })}
 
   # Model Validation
   validates_presence_of :subject_id, :schedule_id
@@ -12,7 +12,7 @@ class SubjectSchedule < ActiveRecord::Base
   has_many :sheets, -> { where deleted: false }
 
   def destroy
-    self.sheets.each{ |s| s.update( event_id: nil, subject_schedule_id: nil ) }
+    self.sheets.each{ |s| s.update( event_id: nil, subject_schedule_id: nil, subject_event_id: nil ) }
     super
   end
 

@@ -1,0 +1,30 @@
+.row
+  .col-sm-2.left-project-navigation
+    = render partial: 'subjects/beta/header'
+    = render partial: 'subjects/beta/event_navigation'
+
+  .col-sm-10.main-project-content
+    %h2= @subject_event.event.name
+
+    = form_tag update_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), method: :post, class: 'form-horizontal' do
+      .form-group
+        = label_tag "new_event_date", nil, class: 'col-md-2 control-label'
+        .col-md-10
+          .date-input.form-inline
+            = hidden_field_tag 'new_event_date', (@subject_event.event_date.strftime('%m/%d/%Y') rescue "")
+            %span.month-box
+              = text_field_tag "month_new_event_date", (@subject_event.event_date.strftime('%m') rescue ''), maxlength: 2, data: { target_input: "#new_event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+            \-
+            %span.day-box
+              = text_field_tag "day_new_event_date", (@subject_event.event_date.strftime('%d') rescue ''), maxlength: 2, data: { target_input: "#new_event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+            \-
+            %span.year-box
+              = text_field_tag "year_new_event_date", (@subject_event.event_date.strftime('%Y') rescue ''), maxlength: 4, data: { target_input: "#new_event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
+
+      %hr.soften
+
+      .row
+        .col-xs-6
+          = submit_tag 'Update Event', class: 'btn btn-success btn-block'
+        .col-xs-6
+          = link_to 'Cancel', event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), class: 'btn btn-default btn-block'

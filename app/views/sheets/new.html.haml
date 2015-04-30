@@ -1,4 +1,4 @@
-- @title = "Edit Sheet: #{@sheet.name}"
+- @title = "New Sheet"
 
 - if @subject = @sheet.subject and beta_enabled?(current_user)
   .row
@@ -7,7 +7,6 @@
       = render partial: 'subjects/beta/event_navigation'
 
     .col-sm-10.main-project-content
-      =# render partial: 'sheets/header_info_limited'
       .markdown-container
         = render 'form'
 

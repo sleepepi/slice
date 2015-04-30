@@ -1,18 +1,5 @@
 %h2 All Events
 
-%ul
-  - @subject.subject_events.each_with_index do |subject_event, index|
-    %li
-      - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
-      - designs_count = subject_event.event.designs.count
-      - if sheets_completed == designs_count
-        %span.text-success
-          %span.glyphicon.glyphicon-ok
-      - elsif sheets_started == 0
-        %span.text-muted
-          %span.glyphicon.glyphicon-tasks
-      - else
-        %span.text-warning
-          %span.glyphicon.glyphicon-tasks
-      = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date.strftime("%Y%m%d")) do
-        = subject_event.event.name
+- @subject.subject_events.each do |subject_event|
+  = render subject_event
+

@@ -142,6 +142,8 @@ Rails.application.routes.draw do
         get :choose_an_event_for_subject
         get :events
         get "events/:event_id/:subject_event_id/:event_date", action: :event, as: :event
+        get "events/:event_id/:subject_event_id/:event_date/edit", action: :edit_event, as: :edit_event
+        post "events/:event_id/:subject_event_id/:event_date", action: :update_event, as: :update_event
         get :timeline
         get :sheets
         get :data_entry, path: 'data-entry'

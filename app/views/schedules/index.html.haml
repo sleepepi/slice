@@ -4,7 +4,6 @@
     = link_to @project.name, setup_project_path(@project)
     &middot;
     = @title
-    = link_to "Create Schedule", new_project_schedule_path(@project), class: 'btn btn-xs btn-primary'
     = link_to 'Events', project_events_path(@project), class: 'btn btn-default btn-xs'
 
 = form_tag project_schedules_path(@project), method: :get, class: 'form-inline' do

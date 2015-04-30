@@ -1,9 +1,17 @@
+- events_highlighted = (params[:action] == 'events' or (!@subject_event and !@sheet and params[:action] == 'show'))
+- show_all_events = (params[:action] == 'events' or params[:action] == 'choose_event' or @subject_event or (@sheet and @sheet.subject_event))
+- sheets_highlighted = (params[:action] == 'sheets' or (@sheet and !@sheet.subject_event) or (params[:action] == 'show' and @project.events.where(archived: false).count == 0))
+=# @sheet
+=# !@sheet.subject_event
+- show_all_sheets = (sheets_highlighted or params[:action] == 'data_entry')
+
 - if @project.events.where(archived: false).count > 0
-  = link_to pluralize(@subject.subject_events.count, 'Event'), events_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ (params[:action].in?(['events', 'show']) and !(params[:action].in?(['show', 'edit']) and @sheet and @sheet.subject_event)) ? 'active btn-success' : 'btn-default' }"
-  - if params[:action].in?(['events', 'event', 'show', 'edit', 'choose_event'])
+  = link_to pluralize(@subject.subject_events.count, 'Event'), events_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ events_highlighted ? 'active btn-success' : 'btn-default' }"
+  - if show_all_events
     - @subject.subject_events.each do |subject_event|
       .indented-menu-item
-        = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date.strftime("%Y%m%d")), class: "btn btn-xs btn-block #{ ((params[:action] == 'event' and subject_event == @subject_event) or (params[:action].in?(['show', 'edit']) and @sheet and @sheet.subject_event == subject_event)) ? 'active btn-success' : 'btn-default' }", style: 'white-space: normal;' do
+        - event_highlighted = ((params[:action] == 'event' and subject_event == @subject_event) or (params[:action].in?(['show', 'edit']) and @sheet and @sheet.subject_event == subject_event))
+        = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date.strftime("%Y%m%d")), class: "btn btn-xs btn-block #{ event_highlighted ? 'active btn-success' : 'btn-default' }", style: 'white-space: normal;' do
           - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
           - designs_count = subject_event.event.designs.count
           - if sheets_completed == designs_count
@@ -18,8 +26,8 @@
           = subject_event.event.name
     .indented-menu-item
       = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{params[:action] == 'choose_event' ? 'active btn-success' : 'btn-default' }"
-= link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{(params[:action] == 'sheets' or (@project.events.where(archived: false).count == 0 and params[:action] == 'show')) ? 'active btn-success' : 'btn-default' }"
-- if params[:action].in?(['sheets', 'data_entry']) or (@project.events.where(archived: false).count == 0 and params[:action] == 'show')
+= link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{sheets_highlighted ? 'active btn-success' : 'btn-default' }"
+- if show_all_sheets
   .indented-menu-item
     = link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'data_entry' ? 'active btn-success' : 'btn-default' }"
-= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{params[:action] == 'timeline' ? 'active btn-success' : 'btn-default' }"
+= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'timeline' ? 'active btn-success' : 'btn-default' }"

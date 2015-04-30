@@ -14,24 +14,16 @@
   <%= link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs' %>
 </div>
 
-<% if @project.schedules.size > 0 %>
-  <div class="modal" id="schedule_modal">
-    <div class="modal-dialog modal-wide-width">
-      <div class="modal-content" id="schedule_modal_content">
-      </div>
-    </div>
-  </div>
-
+<% if @project.events.size > 0 %>
   <div class="page-header">
     <h1>
-      Schedules
-      <%= link_to 'Add Schedule', new_project_subject_subject_schedule_path(@project, @subject), remote: true, method: :get, class: 'btn btn-xs btn-default' %>
+      Events
+      <%= link_to 'Add Event', choose_event_project_subject_path(@project, @subject), class: 'btn btn-xs btn-default' %>
     </h1>
   </div>
 
-  <div id="subject-schedules">
-    <%= render partial: 'subject_schedules/subject_schedules' %>
-  </div>
+
+  Subject schedules have been removed and replaced by events. See all <%= link_to 'subject events', events_project_subject_path(@project, @subject) %> here.
 <% end %>
 
 <dl class="dl-horizontal">

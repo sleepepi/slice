@@ -3,6 +3,8 @@
   # Concerns
   include Deletable, Latexable, DoubleDataEntry
 
+  before_save :check_subject_event_subject_match
+
   # Named Scopes
   scope :search, lambda { |arg| where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ).references(:designs) }
   scope :sheet_before, lambda { |*args| where("sheets.created_at < ?", (args.first+1.day).at_midnight) }
@@ -487,6 +489,12 @@
 
   def self.latex_safe(mystring)
     self.new.latex_safe(mystring)
+  end
+
+  def check_subject_event_subject_match
+    if self.subject_event
+      self.subject_event_id = nil if self.subject_event.subject != self.subject
+    end
   end
 
 end

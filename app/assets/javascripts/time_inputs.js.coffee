@@ -57,7 +57,7 @@ reformatTimeInput = (target, int_val) ->
   month = date.getMonth()+1
   year = date.getFullYear()
 
-  if !isNaN(day) and !isNaN(month) and !isNaN(year)
+  if !isNaN(day_int) and !isNaN(month_int) and !isNaN(year_int) and !isNaN(day) and !isNaN(month) and !isNaN(year)
     target_input.val(String(date.getMonth()+1)+"/"+String(date.getDate())+"/"+String(date.getFullYear()))
   else
     target_input.val('')

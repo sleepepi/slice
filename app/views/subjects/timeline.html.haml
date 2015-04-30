@@ -5,13 +5,15 @@
 
   .col-sm-10.main-project-content
     %h2 Timeline
-    %p.lead.center
-      Awesome! Today
-      %strong Remo M
-      added a new event to the subject!
-    %p.lead.text-muted.center
-      This subject has no history. No European history, no American history, no ancient history. Nada.
-    %p.lead.text-muted.center
-      For all we know, nothing happened before this subject was created. However, on
-      = @subject.created_at
-      our subject came into existence. And Slice became a better place.
+
+    - @subject.sheets.original_entry.order(created_at: :desc).each do |sheet|
+      %p
+        = sheet.created_at.strftime("%a, %B %d, %Y")
+        = link_to sheet.name, [@project, sheet]
+        added
+        - if sheet.user
+          by
+          = sheet.user.name
+    %p
+      = @subject.created_at.strftime("%a, %B %d, %Y")
+      Subject created

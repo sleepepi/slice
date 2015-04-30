@@ -11,8 +11,8 @@
         = sort_field_helper(@order, 'events.scheduled', 'Scheduled')
       %th{ style: "white-space:nowrap" }
         = sort_field_helper(@order, 'events.archived', 'Archived')
-      %th{ style: "white-space:nowrap" }
-        = sort_field_helper(@order, 'events.description', 'Description')
+      %th
+        Designs
       %th
         Actions
 
@@ -27,7 +27,7 @@
       %td
         = simple_check event.archived
       %td
-        = event.description
+        = event.designs.count
       %td
         = link_to 'Edit', edit_project_event_path(@project, event), class: 'btn btn-xs btn-default'
         = link_to 'Delete', [@project, event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Event #{event.name}?" }

@@ -1,11 +1,11 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :index, :show, :timeline, :events, :sheets, :event, :report ]
-  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :launch_subject_event ]
-  before_action :redirect_without_project, only: [ :index, :show, :timeline, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event ]
+  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event ]
+  before_action :redirect_without_project, only: [ :index, :show, :timeline, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
   before_action :set_viewable_subject, only: [ :show, :timeline, :sheets, :event ]
-  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event ]
-  before_action :redirect_without_subject, only: [ :show, :timeline, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event ]
+  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
+  before_action :redirect_without_subject, only: [ :show, :timeline, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
 
   def data_entry
   end
@@ -15,10 +15,28 @@ class SubjectsController < ApplicationController
 
   def event
     @event = @project.events.find_by_param(params[:event_id])
-    # @event_date = (Date.strptime(params[:event_date], "%Y%m%d") rescue nil)
-    # @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_event_date(@event_date) if @event
     @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
     redirect_to [@project, @subject] unless @subject_event
+  end
+
+  def edit_event
+    @event = @project.events.find_by_param(params[:event_id])
+    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    redirect_to [@project, @subject] unless @subject_event
+  end
+
+  def update_event
+    @event = @project.events.find_by_param(params[:event_id])
+    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    if @subject_event and date = parse_date(params[:new_event_date], nil)
+      @subject_event.update event_date: date
+      redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), notice: 'Subject event updated successfully.'
+    elsif @subject_event and date == nil
+      redirect_to edit_event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), alert: 'Please enter a valid date.'
+    else
+      redirect_to [@project, @subject], alert: "#{params[:new_event_date].inspect}"
+    end
+
   end
 
   def events
@@ -37,7 +55,7 @@ class SubjectsController < ApplicationController
     if @event
 
       if date = parse_date(params[:event_date], nil) and @subject_event = @subject.subject_events.create(event_id: @event.id, event_date: date)
-        redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), notice: 'Subject event added successfully.'
+        redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), notice: 'Subject event created successfully.'
       else
         redirect_to choose_date_project_subject_path(@project, @subject, event_id: @event.to_param), alert: 'Please enter a valid date.'
       end
