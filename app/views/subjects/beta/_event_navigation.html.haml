@@ -1,5 +1,5 @@
 - events_highlighted = (params[:action] == 'events' or (!@subject_event and !@sheet and params[:action] == 'show'))
-- show_all_events = (params[:action] == 'events' or params[:action] == 'choose_event' or @subject_event or (@sheet and @sheet.subject_event))
+- show_all_events = (events_highlighted or params[:action] == 'choose_event' or params[:action] == 'choose_date' or @subject_event or (@sheet and @sheet.subject_event))
 - sheets_highlighted = (params[:action] == 'sheets' or (@sheet and !@sheet.subject_event) or (params[:action] == 'show' and @project.events.where(archived: false).count == 0))
 =# @sheet
 =# !@sheet.subject_event
@@ -25,7 +25,7 @@
               %span.glyphicon.glyphicon-tasks
           = subject_event.event.name
     .indented-menu-item
-      = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{params[:action] == 'choose_event' ? 'active btn-success' : 'btn-default' }"
+      = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{(params[:action] == 'choose_event' or params[:action] == 'choose_date') ? 'active btn-success' : 'btn-default' }"
 = link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{sheets_highlighted ? 'active btn-success' : 'btn-default' }"
 - if show_all_sheets
   .indented-menu-item

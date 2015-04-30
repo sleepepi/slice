@@ -27,7 +27,7 @@
             %td
               = coverage_helper(sheet)
             %td
-              = link_to design.name, project_sheet_path(@project, sheet)
+              = link_to sheet.name, project_sheet_path(@project, sheet)
             %td{ style: 'text-align:right' }
               - if sheet.comments.count > 0
                 %span.label.label-default

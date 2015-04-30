@@ -1,11 +1,20 @@
 %h2 Available Events
 
 - if @project.events.where(archived: false).count > 0
-  %ul.list-unstyled
+  %table.table.table-bordered
     - @project.events.where(archived: false).order(:position).each do |event|
-      %li.little-container
-        = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
+      %tr
         - if event.designs.count > 0
-          %ul.text-muted
-            - event.designs.each do |design|
-              %li= design.name
+          %td
+            .panel.panel-default
+              .panel-heading
+                = event.name
+              .panel-body
+                - if event.designs.count > 0
+                  %ul.list-unstyled
+                    - event.designs.each do |design|
+                      %li= design.name
+              .panel-footer
+                = link_to choose_date_project_subject_path(@project, @subject, event_id: event.to_param), class: 'btn btn-xs btn-block btn-success-inverse' do
+                  Select
+                  %strong.btn-text-emphasis=event.name

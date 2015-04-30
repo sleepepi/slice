@@ -4,26 +4,57 @@
 %h2 All Sheets
 
 - if uncategorized_sheets.count > 0
-  %h3
-    Uncategorized
-    %span.badge= uncategorized_sheets.count
-  %ul
-    - uncategorized_sheets.each do |sheet|
-      %li
-        = link_to sheet.name, project_sheet_path(@project, sheet)
-        = coverage_helper(sheet)
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        %span.badge= uncategorized_sheets.count
+      - if categorized_sheets.count == 0
+        Sheets
+      - else
+        No Event
+    .panel-body
+      %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+        %col{ width: '60px' }
+        %col
+        %col{ width: '120px' }
+        - uncategorized_sheets.each do |sheet|
+          %tr
+            %td
+              = coverage_helper(sheet)
+            %td
+              = link_to sheet.name, project_sheet_path(@project, sheet)
+            %td{ style: 'text-align:right' }
+              - if sheet.comments.count > 0
+                %span.label.label-default
+                  = sheet.comments.count
+                  %span.glyphicon.glyphicon-comment
 
 - if categorized_sheets.count > 0
-  %h3
-    On an Event
-    %span.badge=categorized_sheets.count
-  %ul
-    - categorized_sheets.each do |sheet|
-      %li
-        = link_to sheet.name, project_sheet_path(@project, sheet)
-        = coverage_helper(sheet)
-        = link_to event_project_subject_path(@project, sheet.subject, event_id: sheet.subject_event.event, subject_event_id: sheet.subject_event.id, event_date: sheet.subject_event.event_date.strftime("%Y%m%d")) do
-          = sheet.subject_event.event.name
-          \-
-          = sheet.subject_event.event_date.strftime("%a, %B %d, %Y")
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        %span.badge= categorized_sheets.count
+      On an Event
+    .panel-body
+      %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+        %col{ width: '60px' }
+        %col
+        %col
+        %col{ width: '120px' }
+        - categorized_sheets.includes(:subject_event).order("subject_events.event_date desc").each do |sheet|
+          %tr
+            %td
+              = coverage_helper(sheet)
+            %td
+              = link_to sheet.name, [@project, sheet]
+              %br
+              .text-muted
+                = sheet.subject_event.event.name
+            %td
 
+              = sheet.subject_event.event_date.strftime("%a, %B %d, %Y")
+            %td{ style: 'text-align:right' }
+              - if sheet.comments.count > 0
+                %span.label.label-default
+                  = sheet.comments.count
+                  %span.glyphicon.glyphicon-comment
