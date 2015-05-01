@@ -12,7 +12,7 @@ namespace :events do
         event = schedule.project.events.find_by_id(item[:event_id])
         puts "Working on Event #{event.name}"
         puts "Event has #{event.designs.count} and will have #{item[:design_ids].count} designs"
-        event.design_ids = (event.designs.pluck(:id) | item[:design_ids])
+        event.design_ids = (event.designs.pluck(:id) | item[:design_ids]).uniq
         event.save
       end
     end
