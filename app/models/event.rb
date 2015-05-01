@@ -38,7 +38,7 @@ class Event < ActiveRecord::Base
   def set_event_designs
     if self.design_ids and self.design_ids.kind_of?(Array)
       self.event_designs.destroy_all
-      self.design_ids.uniq.each_with_index do |design_id, index|
+      self.design_ids.collect(&:to_i).uniq.each_with_index do |design_id, index|
         design = self.project.designs.find_by_id design_id
         self.event_designs.create(design_id: design.id, position: index) if design
       end
