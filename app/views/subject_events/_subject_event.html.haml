@@ -1,7 +1,7 @@
 .panel.panel-default
   .panel-heading
     .pull-right
-      = subject_event.event_date.strftime("%a, %B %d, %Y")
+      = subject_event.event_date_to_s
     - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
     - designs_count = subject_event.event.designs.count
     - if sheets_completed == designs_count
@@ -13,7 +13,7 @@
     - else
       %span.text-warning
         %span.glyphicon.glyphicon-tasks
-    = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date.strftime("%Y%m%d")) do
+    = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
       = subject_event.event.name
   .panel-body
     %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }

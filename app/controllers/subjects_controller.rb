@@ -30,9 +30,9 @@ class SubjectsController < ApplicationController
     @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
     if @subject_event and date = parse_date(params[:new_event_date], nil)
       @subject_event.update event_date: date
-      redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), notice: 'Subject event updated successfully.'
+      redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), notice: 'Subject event updated successfully.'
     elsif @subject_event and date == nil
-      redirect_to edit_event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), alert: 'Please enter a valid date.'
+      redirect_to edit_event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), alert: 'Please enter a valid date.'
     else
       redirect_to [@project, @subject], alert: "#{params[:new_event_date].inspect}"
     end
@@ -55,7 +55,7 @@ class SubjectsController < ApplicationController
     if @event
 
       if date = parse_date(params[:event_date], nil) and @subject_event = @subject.subject_events.create(event_id: @event.id, event_date: date)
-        redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date.strftime("%Y%m%d")), notice: 'Subject event created successfully.'
+        redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), notice: 'Subject event created successfully.'
       else
         redirect_to choose_date_project_subject_path(@project, @subject, event_id: @event.to_param), alert: 'Please enter a valid date.'
       end

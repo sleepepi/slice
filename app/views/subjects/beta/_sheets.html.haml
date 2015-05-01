@@ -52,7 +52,7 @@
                 = sheet.subject_event.event.name
             %td
 
-              = sheet.subject_event.event_date.strftime("%a, %B %d, %Y")
+              = sheet.subject_event.event_date_to_s
             %td{ style: 'text-align:right' }
               - if sheet.comments.count > 0
                 %span.label.label-default
