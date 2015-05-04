@@ -169,6 +169,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
+    @events = @project.events.where(archived: false)
   end
 
   # GET /projects/1/settings
