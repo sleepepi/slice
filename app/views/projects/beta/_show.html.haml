@@ -9,7 +9,8 @@
     %tr
       %th Subject
       %th Sheet
-      %th Event
+      - if @project.events.where(archived: false).count > 0
+        %th Event
 
   %tbody
     - current_user.all_viewable_subjects.where(project_id: @project.id).order(created_at: :desc).limit(10).each do |subject|
@@ -21,12 +22,13 @@
         %td
           - if sheet
             = link_to sheet.name, [@project, sheet]
-        %td
-          - if sheet and sheet.subject_event
-            = link_to event_project_subject_path(@project, sheet.subject, event_id: sheet.subject_event.event, subject_event_id: sheet.subject_event.id, event_date: sheet.subject_event.event_date_to_param) do
-              = sheet.subject_event.event.name
-              \-
-              = sheet.subject_event.event_date_to_s
+        - if @project.events.where(archived: false).count > 0
+          %td
+            - if sheet and sheet.subject_event
+              = link_to event_project_subject_path(@project, sheet.subject, event_id: sheet.subject_event.event, subject_event_id: sheet.subject_event.id, event_date: sheet.subject_event.event_date_to_param) do
+                = sheet.subject_event.event.name
+                \-
+                = sheet.subject_event.event_date_to_s
     %tr
       %td.center{ colspan: '3' }
         = link_to project_subjects_path(@project) do
