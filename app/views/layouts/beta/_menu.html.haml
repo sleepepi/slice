@@ -46,6 +46,24 @@
 
 
   %ul.nav.navbar-nav.navbar-right
-    %li.hidden-xs
+    %li.hidden-xs.hidden-sm
       = link_to settings_path do
-        %span.glyphicon.glyphicon-cog
+        = image_tag(current_user.avatar_url(26, "identicon"), class: 'img-rounded', style: 'float:left;margin-right:5px;margin-top:-2px')
+        %span= current_user.first_name
+        %span.hidden-sm= current_user.last_name
+    %li
+      = link_to settings_path do
+        .visible-xs.visible-sm
+          %span
+            Settings
+          %span.glyphicon.glyphicon-cog
+        .hidden-xs.hidden-sm
+          %span.glyphicon.glyphicon-cog
+    %li
+      = link_to destroy_user_session_path, class: 'logout-button' do
+        .visible-xs.visible-sm
+          %span
+            Sign Out
+          %span.glyphicon.glyphicon-log-out
+        .hidden-xs.hidden-sm
+          %span.glyphicon.glyphicon-log-out
