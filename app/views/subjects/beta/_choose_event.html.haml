@@ -1,11 +1,11 @@
 %h2 Available Events
 
 - if @project.events.where(archived: false).count > 0
-  %table.table.table-bordered
-    - @project.events.where(archived: false).order(:position).each do |event|
-      %tr
-        - if event.designs.count > 0
-          %td
+  .row
+    - @project.events.where(archived: false).order(:position).in_groups(2, nil).each do |events|
+      .col-md-6
+        - events.each do |event|
+          - if event and event.designs.count > 0
             .panel.panel-default
               .panel-heading
                 = event.name
