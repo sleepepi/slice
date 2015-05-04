@@ -11,7 +11,7 @@
   - if current_page?(splash_projects_path) or current_page?(root_path)
     %ul.nav.navbar-nav
       %li
-        = link_to 'My Projects', splash_projects_path
+        = link_to 'My Projects', root_path
   - if @project and !@project.new_record?
     %ul.nav.navbar-nav
       %li.hidden-xs.hidden-sm
