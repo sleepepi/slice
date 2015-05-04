@@ -11,12 +11,12 @@
       %span.text-muted
         %span.glyphicon.glyphicon-tasks
     - else
-      %span.text-warning
+      %span.text-highlight
         %span.glyphicon.glyphicon-tasks
     = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
       = subject_event.event.name
   .panel-body
-    %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+    %table.table.table-striped{ style: 'table-layout:fixed;margin-bottom:0px' }
       %col{ width: '60px' }
       %col
       %col{ width: '120px' }
@@ -30,7 +30,7 @@
               = link_to sheet.name, project_sheet_path(@project, sheet)
             %td{ style: 'text-align:right' }
               - if sheet.comments.count > 0
-                %span.label.label-default
+                = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
                   = sheet.comments.count
                   %span.glyphicon.glyphicon-comment
           - else
