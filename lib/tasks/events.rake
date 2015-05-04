@@ -19,9 +19,6 @@ namespace :events do
     puts "#{EventDesign.count - event_design_count} Event Designs were created."
   end
 
-
-
-
   desc 'Move sheets associated with a schedule, to a specific event instead'
   task move_schedules: :environment do
     subject_event_count = SubjectEvent.count
