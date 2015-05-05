@@ -1,6 +1,6 @@
 <% missing_responses = responses.select{|r| r.blank?} %>
 <% valid_responses = responses.select{|r| not r.blank?} %>
-<% responses_and_subjects = @variable.sheet_variables.where(sheet_id: sheet_scope.pluck(:id)).select{|sv| not sv.response.blank?}.collect{|sv| [sv.response, sv.sheet.subject]} %>
+<% responses_and_subjects = @variable.sheet_variables.where(sheet_id: sheet_scope.select(:id)).select{|sv| not sv.response.blank?}.collect{|sv| [sv.response, sv.sheet.subject]} %>
 
 <table class="table">
   <thead>

@@ -61,7 +61,7 @@
 <h2>Files</h2>
 <form class="form-horizontal">
 <% sheet_variables.each do |sheet_variable| %>
-  <%= @sheet = sheet_variable.sheet; @variable = sheet_variable.variable; render partial: 'sheet_variables/show' %>
+  <%= @sheet = sheet_variable.sheet; render partial: 'sheet_variables/show', locals: { variable: sheet_variable.variable, sheet_variable: sheet_variable } %>
 <% end %>
 </form>
 <% end %>

@@ -199,12 +199,12 @@
 
   # Buffers with blank responses for sheets that don't have a sheet_variable for the specific variable
   def self.sheet_responses(variable)
-    responses = SheetVariable.where(sheet_id: self.all.pluck(:id), variable_id: variable.id).pluck(:response)
+    responses = SheetVariable.where(sheet_id: self.all.select(:id), variable_id: variable.id).pluck(:response)
     responses + ['']*([self.all.count - responses.size, 0].max)
   end
 
   def self.sheet_responses_for_checkboxes(variable)
-    Response.where(sheet_id: self.all.pluck(:id), variable_id: variable.id).pluck(:value)
+    Response.where(sheet_id: self.all.select(:id), variable_id: variable.id).pluck(:value)
   end
 
   def expanded_branching_logic(branching_logic)
@@ -266,7 +266,7 @@
 
 
   def grids
-    Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).pluck(:id))
+    Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).select(:id))
   end
 
   # Returns the file path with the relative location
@@ -326,7 +326,7 @@
       responses = sheet_scope.pluck(:created_at) if variable.variable_type == 'sheet_date'
       responses = sheet_scope.includes(:subject).collect{|s| s.subject.status } if variable.variable_type == 'subject_status'
     else
-      responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.pluck(:id), variable_id: variable.id).pluck(:response) : [])
+      responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id).pluck(:response) : [])
     end
     # Convert to integer or float
     variable && variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)

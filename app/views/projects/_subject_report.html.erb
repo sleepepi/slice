@@ -28,12 +28,12 @@
           <td>Total</td>
         <% end %>
         <% @designs.each do |design| %>
-          <% count = design.sheets.original_entry.where(subject_id: @subjects.pluck(:id)).count %>
+          <% count = design.sheets.original_entry.where(subject_id: @subjects.select(:id)).count %>
           <td class="<%= 'text-muted' if count == 0 %>">
             <%= link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id) %>
           </td>
         <% end %>
-        <td><%= link_to @designs.sum{|d| d.sheets.original_entry.where(subject_id: @subjects.pluck(:id)).count}, project_sheets_path(@project) %></td>
+        <td><%= link_to @designs.sum{|d| d.sheets.original_entry.where(subject_id: @subjects.select(:id)).count}, project_sheets_path(@project) %></td>
       </tr>
     </tfoot>
     <% end %>

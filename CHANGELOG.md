@@ -27,6 +27,7 @@
   - A Schedule Subject Report is now available
 - **Sheet Changes**
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
+  - Slight performance improvements in loading large sheets
 - **Gem Changes**
   - Updated to rails 4.2.1
   - Updated to pg 0.18.1
