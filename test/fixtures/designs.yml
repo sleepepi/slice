@@ -161,3 +161,13 @@ contains_single_scale_in_grid:
 checkbox_and_radio:
   name: Checkbox and Radio for Export Test
   options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %>}, { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %>}]
+
+on_slug_project:
+  name: On Project with Slug
+  options: [
+              { variable_id: <%= ActiveRecord::FixtureSet.identify(:string_on_survey) %> }
+           ]
+  user: valid
+  project: named_project
+  publicly_available: true
+

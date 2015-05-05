@@ -37,6 +37,13 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to about_path
   end
 
+  test "should get survey for projects using a slugs" do
+    post :survey, id: designs(:on_slug_project), project_id: projects(:named_project)
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test "should show progress" do
     post :progress, id: @design, project_id: @project, format: 'js'
     assert_not_nil assigns(:design)

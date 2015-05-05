@@ -322,3 +322,11 @@ data_captured:
   user: valid
   project: one
   domain: two_restaurants
+
+string_on_survey:
+  name: string_on_survey
+  display_name: String on Survey
+  description: Description
+  variable_type: string
+  user: valid
+  project: named_project
