@@ -7,5 +7,5 @@
       = render partial: 'sheet_variables/section'
     - elsif variable = variables.select{ |v| v.id == @option[:variable_id].to_i }.first
       %div{ class: "#{cycle('variable-shade', 'variable-blind')}", data: { object: "evaluate-branching-logic", branching_logic: "#{@sheet.expanded_branching_logic(@option[:branching_logic])}" } }
-        - sheet_variable = sheet_variables.select{ |sv| sv.id == variable.id }.first
+        - sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
         = render partial: 'sheet_variables/show', locals: { variable: variable, sheet_variable: sheet_variable }
