@@ -23,7 +23,7 @@ class DesignsController < ApplicationController
   end
 
   def survey
-    @project = Project.current.find_by_id(params[:project_id])
+    @project = Project.current.find_by_param(params[:project_id])
     @design = @project.designs.where( publicly_available: true ).find_by_id(params[:id]) if @project
     if @design
       render layout: 'minimal_layout'
