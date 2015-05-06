@@ -1,0 +1,31 @@
+= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @variables.total_count }
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th{ style: "white-space:nowrap" }# Designs
+      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.name', 'Name')
+      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.display_name', 'Display Name')
+      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.variable_type', 'Variable Type')
+      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.options', 'Options')
+      %th Actions
+
+  - @variables.each do |variable|
+    %tr{ id: "variable_#{variable.id}" }
+      %td= variable.inherited_designs.count
+      %td= link_to variable.name, [variable.project, variable]
+      %td= link_to variable.display_name, [variable.project, variable]
+      %td
+        %span.label{ class: "label-#{variable.variable_type}" }= variable.variable_type
+      %td
+        - if not variable.shared_options.blank?
+          - variable.alignment = 'vertical'
+          = render partial: "sheet_variables/form/#{variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" }
+      %td{ style: "white-space:nowrap" }
+        = link_to 'Copy', copy_project_variable_path(variable.project, variable), class: 'btn btn-default btn-xs'
+        - if variable.editable_by?(current_user)
+          = link_to 'Edit', edit_project_variable_path(variable.project, variable), class: 'btn btn-default btn-xs'
+          = link_to 'Delete', [variable.project, variable], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Variable #{variable.name}?" }
+
+.center
+  = paginate @variables, theme: "contour"

@@ -51,7 +51,7 @@ class VariablesController < ApplicationController
     @order = scrub_order(Variable, params[:order], 'variables.name')
     variable_scope = current_user.all_viewable_variables.search(params[:search]).order(@order)
 
-    variable_scope = variable_scope.where(project_id: params[:project_id]) unless params[:project_id].blank?
+    variable_scope = variable_scope.where(project_id: @project.id)
     variable_scope = variable_scope.where(user_id: params[:user_id]) unless params[:user_id].blank?
     variable_scope = variable_scope.with_variable_type(params[:variable_type]) unless params[:variable_type].blank? or params[:variable_type] == 'on'
 
