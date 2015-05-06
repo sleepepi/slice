@@ -104,7 +104,7 @@
   formData.append("section[section_name]", $("#section_section_name").val())
   formData.append("section[section_description]", $("#section_section_description").val())
   formData.append("section[section_image]", $("#section_section_image").prop("files")[0])
-  formData.append("section[section_branching_logic]", $("#section_section_branching_logic").val())
+  formData.append("section[section_branching_logic]", $("#section_section_branching_logic").val()) unless $("#section_section_branching_logic").val() == undefined
   formData.append("section[section_type]", section_type)
 
   formData.append("position", $(element).data('position')) unless $(element).data('position') == undefined
