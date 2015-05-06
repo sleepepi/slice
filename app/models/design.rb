@@ -510,10 +510,6 @@ class Design < ActiveRecord::Base
     UserMailer.import_complete(self, current_user).deliver_later if Rails.env.production?
   end
 
-  def read_only_variable_names
-    self.read_only_variables.to_s.gsub(/[^\w]/, ',').split(/,/).reject{|a| a.blank?}.uniq
-  end
-
   private
 
     # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage

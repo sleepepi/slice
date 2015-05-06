@@ -344,7 +344,7 @@ class DesignsController < ApplicationController
 
       params.require(:design).permit(
         :name, :slug, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available, :show_site,
-        { :questions => [ :question_name, :question_type ] }, :redirect_url, :read_only_variables
+        { :questions => [ :question_name, :question_type ] }, :redirect_url
       )
     end
 
