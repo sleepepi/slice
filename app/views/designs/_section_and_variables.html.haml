@@ -1,0 +1,33 @@
+- unless params[:header] == '0'
+  .page-header
+    %h1= @design.name
+
+- unless @design.description.blank?
+  .bs-callout.bs-callout-info
+    = simple_markdown @design.description
+
+
+- variables = @project.variables.where(id: @sheet.design.options.collect{ |option| option[:variable_id] }).to_a
+- sheet_variables = @sheet.sheet_variables.to_a
+
+- @design.options.each do |option|
+  - @option = option
+  - if @option[:variable_id].blank?
+    = render 'sheet_variables/section'
+  - elsif variable = variables.select{ |v| v.id == @option[:variable_id].to_i }.first
+    = render 'sheet_variables/form', show_values: params[:header] != '0', variable: variable, sheet_variables: sheet_variables
+
+- unless params[:header] == '0'
+  - if @project.lockable?
+    .well
+      .form-group
+        = label_tag :locked, "<span class='glyphicon glyphicon-leaf' style='color:#5cb85c'></span> eSignature and Lock".html_safe, class: 'col-md-3 control-label'
+        .col-md-9{ style: "padding-left: 20px;display: block;min-height: 27px;padding-top: 7px;" }
+          = check_box_tag "sheet[locked]", '1', @sheet.locked, style: 'float: left;margin-left: -20px;'
+          By checking this box I attest that I have personally entered all of the available data recorded and reviewed
+          for completeness and accuracy. All information entered by me is correct to the best of my knowledge.
+          %div{ style: "margin-top:1em" }
+            %strong
+              Checking this box will
+              %span.glyphicon.glyphicon-lock{ style: "color:#5bc0de" }
+              LOCK this sheet and disable further editing.

@@ -1,0 +1,26 @@
+-# Range should either be the existing positions (which are long strings) or the
+-# positions from the sheet_variables
+
+- all_grids = object ? object.grids.to_a : []
+
+- if not params[:variables].blank? and not params[:variables][variable.id.to_s].blank?
+  - range = params[:variables][variable.id.to_s].keys
+- else
+  - max_position = object ? (all_grids.collect(&:position) + [variable.default_row_number - 1]).max.to_i : (variable.default_row_number - 1)
+  - range = (0..max_position)
+
+- show_values = true unless defined?(show_values)
+
+%table.table.table-hover.table-grid
+  %thead
+    %tr
+      - variable.grid_variables.each do |grid_variable_id|
+        - v = Variable.find_by_id(grid_variable_id[:variable_id])
+        %td= v.display_name if v
+      - if variable.multiple_rows?
+        %td Actions
+  %tbody.grid_sortable{ id: "variable_#{variable.id}_grid_container" }
+    - range.each do |position|
+      = render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids }
+
+= link_to 'Add Row', '#', class: 'btn btn-default btn-xs', data: { object: 'grid-row-add', variable_id: variable.id, header: show_values ? '1' : '0' }, tabindex: "-1" if variable.multiple_rows?
