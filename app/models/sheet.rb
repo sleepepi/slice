@@ -211,8 +211,14 @@
     branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
   end
 
+  def design_pure_variables_cache
+    @design_pure_variables_cache ||= begin
+      self.design.pure_variables.to_a
+    end
+  end
+
   def variable_javascript_value(variable_name)
-    variable = self.design.pure_variables.find_by_name(variable_name)
+    variable = self.design_pure_variables_cache.select{|v| v.name == variable_name}.first
     result = if variable
       self.get_response(variable, :raw).to_json
     else
