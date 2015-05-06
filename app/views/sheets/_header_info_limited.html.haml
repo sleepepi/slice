@@ -9,8 +9,22 @@
   - if current_user.all_sheets.pluck(:id).include?(@sheet.id)
     - if @sheet.locked?
       .well
-        This sheet was <span class="glyphicon glyphicon-lock" style="color:#5bc0de"></span> <strong>locked</strong> and <span class="glyphicon glyphicon-leaf" style="color:#5cb85c"></span> <strong>electronically signed</strong> by <strong style="color:#428BCC"><%= @sheet.last_user.name %></strong><% if @sheet.last_edited_at %> on <strong><%= @sheet.last_edited_at.strftime("%b %d, %Y") %></strong> at <strong><%= @sheet.last_edited_at.strftime("%I:%M %p") %></strong><% end %>.
-        <div style="margin-top:1em">Contributors: <%= @sheet.contributors %></div>
+        This sheet was
+        %span.glyphicon.glyphicon-lock{ style: "color:#5bc0de" }
+        %strong locked
+        and
+        %span.glyphicon.glyphicon-leaf{ style: "color:#5cb85c" }
+        %strong electronically signed
+        by
+        %strong{ style: "color:#428BCC" }= @sheet.last_user.name
+        - if @sheet.last_edited_at
+          on
+          %strong= @sheet.last_edited_at.strftime("%b %d, %Y")
+          at
+          %strong= @sheet.last_edited_at.strftime("%I:%M %p.")
+        %div{ style: "margin-top:1em" }
+          Contributors:
+          = @sheet.contributors
 
       - if @project.lockable?
         = link_to "Unlock Sheet", unlock_project_sheet_path(@sheet.project, @sheet), method: :post, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to unlock this Sheet #{@sheet.name}?" }
