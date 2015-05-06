@@ -22,7 +22,10 @@
         Events
         = link_to 'Add Event', choose_event_project_subject_path(@project, @subject), class: 'btn btn-xs btn-default'
 
-    Subject schedules have been removed and replaced by events. See all <%= link_to 'subject events', events_project_subject_path(@project, @subject) %> here.
+    %div{ style: 'margin-bottom:20px' }
+      Subject schedules have been removed and replaced by events. See all
+      = link_to 'subject events', events_project_subject_path(@project, @subject)
+      here.
 
   %dl.dl-horizontal
     %dt Site
