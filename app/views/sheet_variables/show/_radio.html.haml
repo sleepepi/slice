@@ -1,0 +1,26 @@
+- response_name = object.get_response(:name) if object
+- response_raw = object.get_response(:raw) if object
+
+- if variable.alignment == 'scale'
+  %table.table.table-borderless
+    %col{ width: "300px" }
+    - (1..variable.options_missing_at_end.size).each do
+      %col{ width: "#{100/(variable.options_missing_at_end.size+2)}%" }
+    %col{ width: "1px" }
+    - if variable.first_scale_variable?(@sheet.design)
+      %thead
+        %tr
+          %th
+          - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
+            %th{ style: "text-align:center" }
+              = "#{value}: #{name}"
+    %tbody
+      %tr
+        %td{ style: "font-weight:bold" }= variable.display_name
+        - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing|
+          %td.sheet-container{ style: "text-align:center" }
+            - selected = (value.to_s == response_raw.to_s)
+            %label.radio.radio-inline{ class: "#{'selected' if selected} #{'negation' if missing == '1'}" }
+              = radio_button_tag variable.name, "#{value}", selected, disabled: true, style: 'margin-left:-14px'
+- else
+  = response_name

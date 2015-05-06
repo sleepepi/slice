@@ -1,0 +1,16 @@
+- if sheet_variable
+  %table.table.table-hover.table-condensed{ style: "margin-top:-5px" }
+    %thead
+      %tr
+        - variable.grid_variables.each do |grid_variable|
+          %td
+            - v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id])
+            = v.display_name if v
+    %tbody
+      - (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position|
+        %tr
+          - variable.grid_variables.each do |grid_variable|
+            %td
+              - grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position)
+              - if grid and (Variable::TYPE.flatten.uniq - ['grid']).include?(grid.variable.variable_type)
+                = render partial: "sheet_variables/show/#{grid.variable.variable_type}", locals: { variable: grid.variable, object: grid }
