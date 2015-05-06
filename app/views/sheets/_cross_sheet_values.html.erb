@@ -12,7 +12,6 @@
           <div class="col-md-10" style="margin-top:8px">
             <% sheet_variables.each do |sheet_variable| %>
               <p style="margin-bottom:0px">
-              <%# TODO: Refactor to use sheet_variables/show partial %>
               <%= link_to project_sheet_path(sheet_variable.sheet.project, sheet_variable.sheet) do %>
                 <% if variable.variable_type == 'grid' %>
                   <%= render partial: "sheet_variables/show/#{variable.variable_type}", locals: { variable: variable, sheet_variable: sheet_variable } %>
