@@ -76,7 +76,7 @@ class SubjectsController < ApplicationController
 
   ## Find or create subject for the purpose of filling out a sheet for the subject.
   def choose_site
-    @subject = current_user.all_viewable_subjects.where(project_id: @project.id).find_by_subject_code(params[:subject_code])
+    @subject = current_user.all_viewable_subjects.where(project_id: @project.id).where("LOWER(subjects.subject_code) = ?", params[:subject_code].to_s.downcase).first
     redirect_to [@project, @subject] if @subject
   end
 
