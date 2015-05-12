@@ -7,6 +7,16 @@ class SubjectsControllerTest < ActionController::TestCase
     @subject = subjects(:one)
   end
 
+  test "should get timeline" do
+    get :timeline, id: @subject, project_id: @project
+    assert_response :success
+  end
+
+  test "should get settings" do
+    get :settings, id: @subject, project_id: @project
+    assert_response :success
+  end
+
   test "should show events available to a subject" do
     get :choose_an_event_for_subject, id: @subject, project_id: @project
     assert_not_nil assigns(:project)

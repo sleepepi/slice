@@ -30,6 +30,10 @@ class Subject < ActiveRecord::Base
 
   # Model Methods
 
+  def editable_by?(current_user)
+    current_user.all_subjects.where(id: self.id).count == 1
+  end
+
   def self.first_or_create_with_defaults(project, subject_code, acrostic, user, default_site, default_status)
     # (1) Find existing subject...
     subject = project.subjects.where(subject_code: subject_code).first

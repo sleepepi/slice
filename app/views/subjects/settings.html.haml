@@ -1,0 +1,27 @@
+.row
+  .col-sm-2.left-project-navigation
+    = render partial: 'subjects/beta/header'
+    = render partial: 'subjects/beta/event_navigation'
+
+  .col-sm-10.main-project-content
+    %h2
+      Settings
+
+    %div{ style: 'margin-bottom: 20px' }
+      - if @subject.editable_by?(current_user)
+        = link_to "Edit Subject", edit_project_subject_path(@subject.project, @subject), class: 'btn btn-default btn-xs'
+        = link_to "Delete Subject", [@subject.project, @subject], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" }
+
+    %dl.dl-horizontal
+      %dt Status
+      %dd= status_helper(@subject, true)
+
+      %dt Site
+      %dd= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site
+
+      - if @subject.project.acrostic_enabled?
+        %dt Acrostic
+        %dd= @subject.acrostic
+
+      %dt Email
+      %dd= @subject.email
