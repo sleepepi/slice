@@ -79,4 +79,8 @@ class Subject < ActiveRecord::Base
     subject_scope
   end
 
+  def uploaded_files
+    SheetVariable.where(sheet_id: self.sheets.select(:id)).includes(:variable).where(variables: { variable_type: 'file' })
+  end
+
 end

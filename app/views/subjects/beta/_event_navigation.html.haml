@@ -32,3 +32,5 @@
     = link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'data_entry' ? 'active btn-success' : 'btn-default' }"
 = link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'timeline' ? 'active btn-success' : 'btn-default' }"
 = link_to 'Settings', settings_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'settings' ? 'active btn-success' : 'btn-default' }"
+- if @subject.uploaded_files.count > 0 or params[:action] == 'files'
+  = link_to 'Files', files_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'files' ? 'active btn-success' : 'btn-default' }"

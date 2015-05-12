@@ -1,0 +1,30 @@
+.row
+  .col-sm-2.left-project-navigation
+    = render partial: 'subjects/beta/header'
+    = render partial: 'subjects/beta/event_navigation'
+
+  .col-sm-10.main-project-content
+    %h2
+      Uploaded Files
+
+
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th Sheet
+          %th Variable
+          %th File
+      %tfoot
+        %tr
+          %th Total Files
+          %th
+          %th=@subject.uploaded_files.count
+      %tbody
+        - @uploaded_files.each do |sv|
+          %tr
+            %td= link_to sv.sheet.name, [@project, sv.sheet]
+            %td= sv.variable.display_name
+            %td= @sheet = sv.sheet; render "sheet_variables/show/file", variable: sv.variable, object: sv
+
+    .center
+      = paginate @uploaded_files, theme: "contour"
