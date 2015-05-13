@@ -6,7 +6,6 @@
 - show_all_sheets = (sheets_highlighted or params[:action] == 'data_entry')
 
 %ul.left-navigation
-
   - if @project.events.where(archived: false).count > 0
     %li
       = link_to pluralize(@subject.subject_events.count, 'Event'), events_project_subject_path(@project, @subject), class: "#{'active' if events_highlighted}"
