@@ -1,9 +1,7 @@
 - events_highlighted = (params[:action] == 'events' or (!@subject_event and !@sheet and params[:action] == 'show'))
-- show_all_events = (events_highlighted or params[:action] == 'choose_event' or params[:action] == 'choose_date' or @subject_event or (@sheet and @sheet.subject_event))
+- show_all_events = true # (events_highlighted or params[:action] == 'choose_event' or params[:action] == 'choose_date' or @subject_event or (@sheet and @sheet.subject_event))
 - sheets_highlighted = (params[:action] == 'sheets' or (@sheet and !@sheet.subject_event) or (params[:action] == 'show' and @project.events.where(archived: false).count == 0))
-=# @sheet
-=# !@sheet.subject_event
-- show_all_sheets = (sheets_highlighted or params[:action] == 'data_entry')
+- show_all_sheets = true # (sheets_highlighted or params[:action] == 'data_entry')
 
 %ul.left-navigation
   - if @project.events.where(archived: false).count > 0
