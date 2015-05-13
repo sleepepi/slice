@@ -9,13 +9,13 @@ a.subject-title {
   padding-top: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  color: #333;
+  color: $text-color;
   margin-bottom: 10px;
   margin-left: -15px;
   margin-right: -15px;
   display: inline-block;
   position: relative;
-  background-color: #F8F8F8;
+  background-color: $navbar-default-bg;
   text-decoration: none;
 }
 
@@ -28,7 +28,7 @@ a.subject-title {
   height: 0;
   border-style: solid;
   border-width: 0px 32px 32px 0px;
-  border-color: transparent #F8F8F8 transparent transparent;
+  border-color: transparent $navbar-default-bg transparent transparent;
 }
 
 .subject-title::after {
@@ -40,20 +40,20 @@ a.subject-title {
   height: 0;
   border-style: solid;
   border-width: 32px 32px 0 0;
-  border-color: #F8F8F8 transparent transparent transparent;
+  border-color: $navbar-default-bg transparent transparent transparent;
 }
 
 a.subject-title:hover {
-  color: #fff;
-  background-color: #4cae4c;
+  color: $btn-success-color;
+  background-color: $btn-success-bg;
 }
 
 a.subject-title:hover::before {
-  border-color: transparent #4cae4c transparent transparent
+  border-color: transparent $btn-success-bg transparent transparent
 }
 
 a.subject-title:hover::after {
-  border-color: #4cae4c transparent transparent transparent
+  border-color: $btn-success-bg transparent transparent transparent
 }
 
 
@@ -70,25 +70,36 @@ ul.left-navigation {
     margin-bottom: 5px;
 
     a {
-      border-bottom: 1px solid #398439;
-      border-left: 1px solid #398439;
+      border-bottom: 1px solid $btn-success-border;
+      border-left: 1px solid $btn-success-border;
       postion: relative;
       text-decoration: none;
       padding: 5px 0px;
       padding-left: 50px;
       display: block;
 
-      color: #333;
+      color: $text-color;
       .emphasis {
         font-weight: 600;
         display: inline-block;
-        color: #4cae4c;
+        color: $btn-success-bg;
       }
     }
     a::before {
       content: "";
       position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0px 28px 28px 0px;
+      border-color: transparent transparent $btn-success-border transparent;
+    }
 
+    a::after {
+      content: "";
+      position: absolute;
       left: -1px;
       top: 0px;
       width: 0;
@@ -98,31 +109,18 @@ ul.left-navigation {
       border-color: transparent transparent $body-bg transparent;
     }
 
-    a::after {
-      content: "";
-      position: absolute;
-      z-index: -5;
-      left: 0px;
-      top: 0px;
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 0px 28px 28px 0px;
-      border-color: transparent transparent #398439 transparent;
-    }
-
     a:hover, a.active {
-      color: #fff;
-      background-color: #5cb85c;
+      color: $btn-success-color;
+      background-color: $btn-success-bg;
       .emphasis {
-        color: #333;       }
+        color: #333;
+      }
     }
   }
 
   li::before {
     content: "";
     position: absolute;
-
     left: 40px;
     top: 9px;
     width: 0;
@@ -133,21 +131,21 @@ ul.left-navigation {
   }
 
   li:hover::before {
-    border-left-color: #333;
+    border-left-color: $text-color;
   }
 
   ul {
     list-style: none;
-    padding-left: 28px;
+    padding-left: 27px;
     li {
       margin-bottom: 0px;
       a::before {
         top: inherit;
-        bottom: 0px;
+        bottom: 1px;
       }
       a::after {
         top: inherit;
-        bottom: 1px;
+        bottom: 0px;
       }
     }
     li:not(:last-child) a::before {
