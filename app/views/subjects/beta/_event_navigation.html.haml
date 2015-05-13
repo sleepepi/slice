@@ -39,3 +39,8 @@
   %li= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'settings'}"
   - if @subject.uploaded_files.count > 0 or params[:action] == 'files'
     %li= link_to 'Files', files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}"
+  - if @subject.comments.count > 0 or params[:action] == 'files'
+    %li
+      = link_to comments_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'comments'}" do
+        .emphasis= @subject.comments.count
+        = 'Comment'.pluralize(@subject.comments.count)

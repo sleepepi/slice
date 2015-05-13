@@ -1,11 +1,11 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index, :show, :timeline, :settings, :files, :events, :sheets, :event, :report ]
+  before_action :set_viewable_project, only: [ :index, :show, :timeline, :comments, :settings, :files, :events, :sheets, :event, :report ]
   before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event ]
-  before_action :redirect_without_project, only: [ :index, :show, :timeline, :settings, :files, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
-  before_action :set_viewable_subject, only: [ :show, :timeline, :settings, :files, :sheets, :event ]
+  before_action :redirect_without_project, only: [ :index, :show, :timeline, :comments, :settings, :files, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
+  before_action :set_viewable_subject, only: [ :show, :timeline, :comments, :settings, :files, :sheets, :event ]
   before_action :set_editable_subject, only: [ :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
-  before_action :redirect_without_subject, only: [ :show, :timeline, :settings, :files, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
+  before_action :redirect_without_subject, only: [ :show, :timeline, :comments, :settings, :files, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event ]
 
   def data_entry
   end
@@ -46,6 +46,10 @@ class SubjectsController < ApplicationController
   end
 
   def timeline
+  end
+
+  def comments
+    @comments = @subject.comments.includes(:user, :sheet).order(created_at: :desc).page(params[:page]).per(20)
   end
 
   def files

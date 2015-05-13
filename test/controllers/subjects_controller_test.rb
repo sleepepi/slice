@@ -12,6 +12,11 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get comments" do
+    get :comments, id: @subject, project_id: @project
+    assert_response :success
+  end
+
   test "should get settings" do
     get :settings, id: @subject, project_id: @project
     assert_response :success

@@ -14,6 +14,7 @@
   - Subject page now organizes subject sheets and events in a persistent left hand navigation bar
   - The new subject page now contains a link to subject timeline and settings
   - The new subject page contains a list of uploaded files across all of the subject's sheets
+  - Subject show page now shows all comments for a subject in a new tab
 - **General Changes**
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration

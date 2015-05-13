@@ -30,6 +30,10 @@ class Subject < ActiveRecord::Base
 
   # Model Methods
 
+  def comments
+    Comment.current.where(sheet_id: self.sheets.select(:id))
+  end
+
   def editable_by?(current_user)
     current_user.all_subjects.where(id: self.id).count == 1
   end
@@ -80,7 +84,7 @@ class Subject < ActiveRecord::Base
   end
 
   def uploaded_files
-    SheetVariable.where(sheet_id: self.sheets.select(:id)).includes(:variable).where(variables: { variable_type: 'file' })
+    SheetVariable.where(sheet_id: self.sheets.select(:id)).includes(:variable).where(variables: { variable_type: 'file' }).order(created_at: :desc)
   end
 
 end

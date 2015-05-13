@@ -1,0 +1,126 @@
+.anchor-top {
+  position: relative;
+  top:-50px;
+  display: block;
+  height: 0;
+  width:0;
+}
+
+.topics-container {
+  padding: 0px;
+  margin-left: -40px;
+  margin-right: -40px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .topics-container {
+    margin: 0px;
+  }
+}
+
+.posts-container {
+  padding-top: 10px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .posts-container {
+    padding: 20px;
+    padding-top: 30px;
+  }
+}
+
+@media screen and (min-width: $screen-md-min) {
+  .posts-container {
+    padding: 40px;
+    padding-top: 50px;
+  }
+}
+
+.post-avatar {
+  width: 75px;
+  margin: 0px 10px;
+  height: 55px;
+}
+
+.post-container {
+  background-color: #FFF;
+  margin-left: 75px;
+  margin-top: -55px;
+  margin-bottom: 20px;
+  border: 1px solid #CCC;
+  border-right-width: 0px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .post-container {
+    border-right-width: 1px;
+    margin-right: 10px;
+  }
+}
+
+.post-header {
+  background-color: #f7f7f7;
+  padding: 10px;
+  position: relative;
+}
+
+.post-header:before, .post-header:after {
+  position: absolute;
+  top: 11px;
+  left: -16px;
+  right: 100%;
+  width: 0;
+  height: 0;
+  display: block;
+  content: " ";
+  border-color: transparent;
+  border-style: solid solid outset;
+  pointer-events: none;
+}
+
+.post-header:before {
+  border-right-color: #BBB;
+  border-width: 8px;
+}
+
+.post-header:after {
+  border-width: 7px;
+  border-right-color: #f7f7f7;
+  margin-top: 1px;
+  margin-left: 2px;
+}
+
+.post-body {
+  padding: 10px;
+  overflow: hidden;
+}
+
+.post-footer {
+  position: relative;
+  height: 25px;
+}
+
+.post-footer .core-member, .post-footer .aug-member {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  font-size: 12px;
+  color: #FFF;
+  padding: 4px 8px;
+}
+
+.post-footer .core-member {
+  background-color: #428bca;
+}
+
+.post-footer .aug-member {
+  background-color: #5cb85c;
+}
+
+.post-description-control {
+  outline: none;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
