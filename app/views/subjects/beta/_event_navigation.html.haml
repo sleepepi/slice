@@ -5,32 +5,36 @@
 =# !@sheet.subject_event
 - show_all_sheets = (sheets_highlighted or params[:action] == 'data_entry')
 
-- if @project.events.where(archived: false).count > 0
-  = link_to pluralize(@subject.subject_events.count, 'Event'), events_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ events_highlighted ? 'active btn-success' : 'btn-default' }"
-  - if show_all_events
-    - @subject.subject_events.each do |subject_event|
-      .indented-menu-item
-        - event_highlighted = ((params[:action] == 'event' and subject_event == @subject_event) or (params[:action].in?(['show', 'edit']) and @sheet and @sheet.subject_event == subject_event))
-        = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "btn btn-xs btn-block #{ event_highlighted ? 'active btn-success' : 'btn-default' }", style: 'white-space: normal;' do
-          - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.select(:id)).count
-          - designs_count = subject_event.event.designs.count
-          - if sheets_completed == designs_count
-            %span.text-success
-              %span.glyphicon.glyphicon-ok
-          - elsif sheets_started == 0
-            %span.text-muted
-              %span.glyphicon.glyphicon-tasks
-          - else
-            %span.text-highlight
-              %span.glyphicon.glyphicon-tasks
-          = subject_event.event.name
-    .indented-menu-item
-      = link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{(params[:action] == 'choose_event' or params[:action] == 'choose_date') ? 'active btn-success' : 'btn-default' }"
-= link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{sheets_highlighted ? 'active btn-success' : 'btn-default' }"
-- if show_all_sheets
-  .indented-menu-item
-    = link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'data_entry' ? 'active btn-success' : 'btn-default' }"
-= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'timeline' ? 'active btn-success' : 'btn-default' }"
-= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'settings' ? 'active btn-success' : 'btn-default' }"
-- if @subject.uploaded_files.count > 0 or params[:action] == 'files'
-  = link_to 'Files', files_project_subject_path(@project, @subject), class: "btn btn-xs btn-block #{ params[:action] == 'files' ? 'active btn-success' : 'btn-default' }"
+%ul.left-navigation
+
+  - if @project.events.where(archived: false).count > 0
+    %li
+      = link_to pluralize(@subject.subject_events.count, 'Event'), events_project_subject_path(@project, @subject), class: "#{'active' if events_highlighted}"
+      - if show_all_events
+        %ul
+          - @subject.subject_events.each do |subject_event|
+            %li
+              - event_highlighted = ((params[:action] == 'event' and subject_event == @subject_event) or (params[:action].in?(['show', 'edit']) and @sheet and @sheet.subject_event == subject_event))
+              = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "#{'active' if event_highlighted}" do
+                - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.select(:id)).count
+                - designs_count = subject_event.event.designs.count
+                - if sheets_completed == designs_count
+                  %span.text-success
+                    %span.glyphicon.glyphicon-ok
+                - elsif sheets_started == 0
+                  %span.text-muted
+                    %span.glyphicon.glyphicon-tasks
+                - else
+                  %span.text-highlight
+                    %span.glyphicon.glyphicon-tasks
+                = subject_event.event.name
+          %li= link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'choose_event' or params[:action] == 'choose_date'}"
+  %li
+    = link_to pluralize(@subject.sheets.count, 'Sheet'), sheets_project_subject_path(@project, @subject), class: "#{'active' if sheets_highlighted}"
+    - if show_all_sheets
+      %ul
+        %li= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'data_entry'}"
+  %li= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'timeline'}"
+  %li= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'settings'}"
+  - if @subject.uploaded_files.count > 0 or params[:action] == 'files'
+    %li= link_to 'Files', files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}"

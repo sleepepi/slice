@@ -1,34 +1,3 @@
-.indented-menu-item {
-  margin: 5px 0px 5px 20px;
-}
-
-.left-project-navigation {
-  // border: 1px solid green;
-  margin-bottom: 20px;
-  // padding-top: 20px;
-}
-
-.left-project-navigation .btn-block {
-  text-align: left;
-}
-
-
-.main-project-content {
-  // border: 1px solid red;
-  margin-bottom: 20px;
-}
-
-@media screen and (min-width: $screen-sm-min) {
-  .left-project-navigation {
-    padding-right: 0px;
-  }
-
-  .main-project-content {
-    // padding-left: 0px;
-  }
-}
-
-
 .project-gradient {
   background-color: $body-bg;
   background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, darken($body-bg, 5%) 100%); /* FF3.6+ */
