@@ -2,7 +2,7 @@
   margin-top: -13px;
 }
 
-.subject-title {
+a.subject-title {
   margin-top: -20px;
   font-size: 18px;
   padding-bottom: 5px;
@@ -16,6 +16,7 @@
   display: inline-block;
   position: relative;
   background-color: #F8F8F8;
+  text-decoration: none;
 }
 
 .subject-title::before {
@@ -43,7 +44,6 @@
 }
 
 a.subject-title:hover {
-  text-decoration: none;
   color: #fff;
   background-color: #4cae4c;
 }
