@@ -75,7 +75,7 @@
             <% end %>
           \end{itemize}
         <% end %>
-      <% elsif variable.variable_type == 'file' and response_file = @sheet.get_response(variable, :raw) and response_file.size > 0 %>
+      <% elsif variable.variable_type == 'file' and sheet_variable and response_file = sheet_variable.get_response(:raw) and response_file.size > 0 %>
         <% if ['jpg', 'jpeg', 'gif', 'png'].include?(response_file.path.split('.').last.downcase) %>
 
         \begin{figure}[!htpb]
@@ -91,7 +91,7 @@
           \vspace{2 mm}
         <% end %>
       <% elsif variable.variable_type == 'signature' %>
-        <% if response_file = @sheet.get_response(variable, :raw_file) and response_file.size > 0 %>
+        <% if sheet_variable and response_file = sheet_variable.get_response(:raw_file) and response_file.size > 0 %>
           \begin{figure}[!htpb]
             \includegraphics[max width=7.5in]{<%= response_file.path %>}
           \end{figure}
