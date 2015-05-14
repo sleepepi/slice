@@ -27,11 +27,13 @@ module GridExport
   def write_grid_csv_header(csv, grid_group_variables)
     row = ["", "", "", "", "", "", "", "", "", "", "", ""]
 
+    all_grid_variables = Variable.current.where(id: grid_group_variables.collect{|v| v.grid_variables.collect{|gv| gv[:variable_id]}}.flatten).to_a
+
     grid_group_variables.each do |variable|
-      variable.grid_variables.each do |grid_variable_hash|
-        grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-        row << variable.name if grid_variable
-        grid_variable = nil # Freeing Memory
+      variable.grid_variables.each do |grid_variable|
+        v = all_grid_variables.select{|gv| gv.id == grid_variable[:variable_id].to_i}.first
+        row << variable.name if v
+        v = nil # Freeing Memory
       end
     end
 
@@ -40,10 +42,10 @@ module GridExport
     row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
 
     grid_group_variables.each do |variable|
-      variable.grid_variables.each do |grid_variable_hash|
-        grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
-        row << grid_variable.name if grid_variable
-        grid_variable = nil # Freeing Memory
+      variable.grid_variables.each do |grid_variable|
+        v = all_grid_variables.select{|gv| gv.id == grid_variable[:variable_id].to_i}.first
+        row << v.name if v
+        v = nil # Freeing Memory
       end
     end
 
@@ -83,8 +85,8 @@ module GridExport
       grid_group_variables.each do |variable|
         sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
         all_grids = sheet_variable.grids.to_a if sheet_variable
-        variable.grid_variables.each do |grid_variable_hash|
-          if sheet_variable and all_grids and grid = all_grids.select{|g| g.variable_id == grid_variable_hash[:variable_id].to_i and g.position == position}.first
+        variable.grid_variables.each do |grid_variable|
+          if sheet_variable and all_grids and grid = all_grids.select{|g| g.variable_id == grid_variable[:variable_id].to_i and g.position == position}.first
             result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
             result = result.join(',') if result.kind_of?(Array)
           else
