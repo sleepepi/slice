@@ -63,7 +63,7 @@
       \begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
 
       <% if variable.variable_type == 'checkbox' %>
-        <% if sheet_variable.get_response(@sheet.project.show_type).size == 0 %>
+        <% if !sheet_variable or (sheet_variable and sheet_variable.get_response(@sheet.project.show_type).size == 0) %>
           \vspace{1 mm}
           \textcolor[gray]{0.5}{Unknown}
           \vspace{2 mm}
@@ -87,7 +87,7 @@
 
         <% else %>
           \vspace{1 mm}
-          <%= latex_safe sheet_variable.get_response(@sheet.project.show_type) %>
+          <%= latex_safe(sheet_variable.get_response(@sheet.project.show_type)) if sheet_variable %>
           \vspace{2 mm}
         <% end %>
       <% elsif variable.variable_type == 'signature' %>
@@ -100,13 +100,13 @@
           \textcolor[gray]{0.5}{No Signature}
           \vspace{2 mm}
         <% end %>
-      <% elsif sheet_variable.get_response(@sheet.project.show_type).blank? %>
+      <% elsif !sheet_variable or (sheet_variable and sheet_variable.get_response(@sheet.project.show_type).blank?) %>
         \vspace{1 mm}
         \textcolor[gray]{0.5}{Unknown}
         \vspace{2 mm}
       <% else %>
         \vspace{1 mm}
-        <%= latex_safe sheet_variable.get_response(@sheet.project.show_type) %>
+        <%= latex_safe(sheet_variable.get_response(@sheet.project.show_type)) if sheet_variable %>
         \vspace{2 mm}
       <% end %>
 
