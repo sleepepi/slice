@@ -75,12 +75,16 @@ module GridExport
 
     position = 1
 
+
+    sheet_variables = sheet.sheet_variables.to_a
+
     (0..sheet.max_grids_position).to_a.each do |position|
       grid_row = []
       grid_group_variables.each do |variable|
-        sheet_variable = sheet.sheet_variables.find_by_variable_id(variable.id)
+        sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
+        all_grids = sheet_variable.grids.to_a if sheet_variable
         variable.grid_variables.each do |grid_variable_hash|
-          if sheet_variable and grid = sheet_variable.grids.where( position: position ).find_by_variable_id(grid_variable_hash[:variable_id])
+          if sheet_variable and all_grids and grid = all_grids.select{|g| g.variable_id == grid_variable_hash[:variable_id].to_i and g.position == position}.first
             result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
             result = result.join(',') if result.kind_of?(Array)
           else

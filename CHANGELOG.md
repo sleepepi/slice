@@ -31,6 +31,8 @@
 - **Sheet Changes**
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
   - Slight performance improvements in loading large sheets
+- **Export Changes**
+  - Improved the speed at which sheet exports are generated
 - **Design Changes**
   - Removed underused and confusing cross sheet variables from designs
 - **Gem Changes**

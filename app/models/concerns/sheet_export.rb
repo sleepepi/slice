@@ -13,7 +13,7 @@ module SheetExport
     export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
 
     CSV.open(export_file, "wb") do |csv|
-      variables = all_design_variables_without_grids_using_design_ids(Sheet.where(id: sheet_ids).pluck(:design_id).uniq)
+      variables = all_design_variables_without_grids_using_design_ids(Sheet.where(id: sheet_ids).select(:design_id))
 
       write_csv_header(csv, variables.collect(&:csv_column).flatten)
       write_csv_body(sheet_ids, csv, raw_data, variables)
@@ -49,8 +49,18 @@ module SheetExport
             sheet.user ? sheet.user.name : nil,
             sheet.subject_schedule ? sheet.subject_schedule.name : nil,
             sheet.event ? sheet.event.name : nil ]
+
+    sheet_variables = sheet.sheet_variables.to_a
     variables.each do |variable|
-      response = sheet.get_response(variable, (raw_data ? :raw : :name))
+      sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
+      response = if sheet_variable
+        sheet_variable.get_response(raw_data ? :raw : :name)
+      elsif variable.variable_type == 'checkbox'
+        ['']
+      else
+        ''
+      end
+
       row << (response.kind_of?(Array) ? response.join(',') : response)
       if variable.variable_type == 'checkbox'
         variable.shared_options.each_with_index do |option, index|
