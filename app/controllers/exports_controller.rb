@@ -22,7 +22,7 @@ class ExportsController < ApplicationController
   # GET /exports.json
   def index
     @order = scrub_order(Export, params[:order], "exports.created_at DESC")
-    @exports = current_user.all_viewable_exports.where(project_id: @project.id).filter(params).search(params[:search]).order(@order).page(params[:page]).per( 20 )
+    @exports = current_user.all_viewable_exports.where(project_id: @project.id).search(params[:search]).order(@order).page(params[:page]).per( 20 )
   end
 
   # GET /exports/1

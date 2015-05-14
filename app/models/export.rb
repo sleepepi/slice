@@ -24,14 +24,6 @@ class Export < ActiveRecord::Base
     UserMailer.export_ready(self).deliver_later if Rails.env.production?
   end
 
-  def self.filter(filters)
-    scope = self.all
-    filters.each_pair do |key, value|
-      scope = scope.where(key => value) if self.column_names.include?(key.to_s) and not value.blank?
-    end
-    scope
-  end
-
   def generate_export!(sheet_scope)
     begin
       filename = "#{self.name.gsub(/[^a-zA-Z0-9_-]/, '_')}_#{self.created_at.strftime("%H%M")}"
