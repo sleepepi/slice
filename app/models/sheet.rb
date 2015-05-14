@@ -123,7 +123,7 @@
   #     This function would return 2 (position is zero-indexed, so [0,1,2]). This
   #     number is used to combine grids on similar rows in the sheet grids export
   def max_grids_position
-    self.sheet_variables.size > 0 ? self.sheet_variables.collect(&:max_grids_position).max : -1
+    Grid.where(sheet_variable_id: self.sheet_variables.select(:id)).pluck(:position).max || -1
   end
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)

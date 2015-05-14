@@ -12,11 +12,6 @@ class SheetVariable < ActiveRecord::Base
   belongs_to :user
   has_many :grids
 
-
-  def max_grids_position
-    self.variable.variable_type == 'grid' && self.grids.size > 0 ? self.grids.pluck(:position).max : -1
-  end
-
   # Returns it's ID if it's not empty, else nil
   def empty_or_not
     if self.responses.count > 0 or self.grids.count > 0 or not self.response.blank? or not self.response_file.blank?

@@ -37,4 +37,8 @@ class SheetTest < ActiveSupport::TestCase
     assert_equal 0, sheets(:hidden_response_answered).percent
   end
 
+  test "get max grids position" do
+    assert_equal 1, sheets(:has_grid).max_grids_position
+  end
+
 end

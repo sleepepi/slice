@@ -54,7 +54,7 @@ module GridExport
 
   def write_grid_csv_body(sheet_ids, csv, raw_data, grid_group_variables)
     sheet_ids.sort.reverse.each do |sheet_id|
-      sheet = Sheet.find_by_id sheet_id
+      sheet = Sheet.includes(:project, :user, :subject_schedule, :event, subject: [:site]).find_by_id sheet_id
       write_grid_sheet_to_csv(csv, sheet, grid_group_variables, raw_data) if sheet
       sheet = nil # Freeing Memory
       update_steps(1)
@@ -76,7 +76,6 @@ module GridExport
             sheet.event ? sheet.event.name : nil ]
 
     position = 1
-
 
     sheet_variables = sheet.sheet_variables.includes(grids: [variable: [:domain]]).to_a
 

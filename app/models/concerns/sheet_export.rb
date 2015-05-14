@@ -29,7 +29,7 @@ module SheetExport
 
   def write_csv_body(sheet_ids, csv, raw_data, variables)
     sheet_ids.sort.reverse.each do |sheet_id|
-      sheet = Sheet.find_by_id sheet_id
+      sheet = Sheet.includes(:project, :user, :subject_schedule, :event, subject: [:site]).find_by_id sheet_id
       write_sheet_to_csv(csv, sheet, variables, raw_data) if sheet
       sheet = nil # Freeing Memory
       update_steps(1)
