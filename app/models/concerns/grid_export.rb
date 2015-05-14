@@ -78,7 +78,7 @@ module GridExport
     position = 1
 
 
-    sheet_variables = sheet.sheet_variables.to_a
+    sheet_variables = sheet.sheet_variables.includes(grids: [variable: [:domain]]).to_a
 
     (0..sheet.max_grids_position).to_a.each do |position|
       grid_row = []

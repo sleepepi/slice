@@ -50,7 +50,7 @@ module SheetExport
             sheet.subject_schedule ? sheet.subject_schedule.name : nil,
             sheet.event ? sheet.event.name : nil ]
 
-    sheet_variables = sheet.sheet_variables.to_a
+    sheet_variables = sheet.sheet_variables.includes(variable: [:domain]).to_a
     variables.each do |variable|
       sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
       response = if sheet_variable
