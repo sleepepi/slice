@@ -1,10 +1,11 @@
 - if sheet_variable
+  - grid_variables = @project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a
   %table.table.table-hover.table-condensed{ style: "margin-top:-5px" }
     %thead
       %tr
         - variable.grid_variables.each do |grid_variable|
           %td
-            - v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id])
+            - v = grid_variables.select{|gv| gv.id == grid_variable[:variable_id].to_i}.first
             = v.display_name if v
     %tbody
       - all_grids = sheet_variable.grids.to_a

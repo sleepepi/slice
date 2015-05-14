@@ -9,6 +9,10 @@
 
 <%= latex_safe @sheet.design.description %> \\
 
+<% variables = @sheet.project.variables.where(id: @sheet.design.options.collect{ |option| option[:variable_id] }).to_a %>
+<% sheet_variables = @sheet.sheet_variables.to_a %>
+
+
 <% @sheet.design.options.each_with_index do |option, index| %>
   \FloatBarrier
   <% @option = option %>
@@ -27,82 +31,84 @@
       \end{figure}
     <% end %>
 
-  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) and @sheet.show_variable?(@option[:branching_logic]) %>
-    <% if @variable.variable_type == 'grid' and sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
+  <% elsif variable = variables.select{ |v| v.id == @option[:variable_id].to_i }.first and @sheet.show_variable?(@option[:branching_logic]) %>
+    <% sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first %>
+    <% if variable.variable_type == 'grid' and sheet_variable %>
+      <% grid_variables = @sheet.project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a %>
+      \Needspace{7\baselineskip}
+      \begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
 
-\Needspace{7\baselineskip}
-\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
-
-\begin{longtable}{@{\extracolsep{\fill}}<%= "p{#{14.0/[@variable.grid_variables.size, 1].max}cm}"*@variable.grid_variables.size %>@{\extracolsep{\fill}}}
-<% @variable.grid_variables.each do |grid_variable| %>
-  <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
-  <%= latex_safe v.display_name if v %> &
-<% end %>
-\midrule
-<% (0..sheet_variable.grids.pluck(:position).max.to_i).each do |position| %>
-  <% @variable.grid_variables.each do |grid_variable| %>
-    <% grid = sheet_variable.grids.find_by_variable_id_and_position(grid_variable[:variable_id], position) %>
-    <% if grid %>
-      <% grid_response = grid.get_response(@sheet.project.show_type) %>
-      <%= latex_safe grid_response.kind_of?(Array) ? grid_response.join(', ') : grid_response %>
-      &
-    <% end %>
-  <% end %>
-<% end %>
-\end{longtable}
+      \begin{longtable}{@{\extracolsep{\fill}}<%= "p{#{14.0/[variable.grid_variables.size, 1].max}cm}"*variable.grid_variables.size %>@{\extracolsep{\fill}}}
+      <% variable.grid_variables.each do |grid_variable| %>
+        <% v = grid_variables.select{|gv| gv.id == grid_variable[:variable_id].to_i}.first %>
+        <%= latex_safe v.display_name if v %> &
+      <% end %>
+      \midrule
+      <% all_grids = sheet_variable.grids.to_a %>
+      <% (0..all_grids.collect(&:position).max.to_i).each do |position| %>
+        <% variable.grid_variables.each do |grid_variable| %>
+          <% grid = all_grids.select{|g| g.variable_id == grid_variable[:variable_id].to_i and g.position == position}.first %>
+          <% if grid %>
+            <% grid_response = grid.get_response(@sheet.project.show_type) %>
+            <%= latex_safe grid_response.kind_of?(Array) ? grid_response.join(', ') : grid_response %>
+            &
+          <% end %>
+        <% end %>
+      <% end %>
+      \end{longtable}
 
     <% else %>
 
-\Needspace{7\baselineskip}
-\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
+      \Needspace{7\baselineskip}
+      \begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
 
-<% if @variable.variable_type == 'checkbox' %>
-  <% if @sheet.get_response(@variable, @sheet.project.show_type).size == 0 %>
-    \vspace{1 mm}
-    \textcolor[gray]{0.5}{Unknown}
-    \vspace{2 mm}
-  <% else %>
-    \begin{itemize}
-      \setlength{\itemindent}{2.5em}
-      <% @sheet.get_response(@variable, @sheet.project.show_type).each do |response| %>
-        \item <%= latex_safe response %>
+      <% if variable.variable_type == 'checkbox' %>
+        <% if sheet_variable.get_response(@sheet.project.show_type).size == 0 %>
+          \vspace{1 mm}
+          \textcolor[gray]{0.5}{Unknown}
+          \vspace{2 mm}
+        <% else %>
+          \begin{itemize}
+            \setlength{\itemindent}{2.5em}
+            <% sheet_variable.get_response(@sheet.project.show_type).each do |response| %>
+              \item <%= latex_safe response %>
+            <% end %>
+          \end{itemize}
+        <% end %>
+      <% elsif variable.variable_type == 'file' and response_file = @sheet.get_response(variable, :raw) and response_file.size > 0 %>
+        <% if ['jpg', 'jpeg', 'gif', 'png'].include?(response_file.path.split('.').last.downcase) %>
+
+        \begin{figure}[!htpb]
+          \includegraphics[max width=7.5in]{<%= response_file.path %>}
+          <% unless variable.description.blank? %>
+            \caption{<%= latex_safe variable.description %>}
+          <% end %>
+        \end{figure}
+
+        <% else %>
+          \vspace{1 mm}
+          <%= latex_safe sheet_variable.get_response(@sheet.project.show_type) %>
+          \vspace{2 mm}
+        <% end %>
+      <% elsif variable.variable_type == 'signature' %>
+        <% if response_file = @sheet.get_response(variable, :raw_file) and response_file.size > 0 %>
+          \begin{figure}[!htpb]
+            \includegraphics[max width=7.5in]{<%= response_file.path %>}
+          \end{figure}
+        <% else %>
+          \vspace{1 mm}
+          \textcolor[gray]{0.5}{No Signature}
+          \vspace{2 mm}
+        <% end %>
+      <% elsif sheet_variable.get_response(@sheet.project.show_type).blank? %>
+        \vspace{1 mm}
+        \textcolor[gray]{0.5}{Unknown}
+        \vspace{2 mm}
+      <% else %>
+        \vspace{1 mm}
+        <%= latex_safe sheet_variable.get_response(@sheet.project.show_type) %>
+        \vspace{2 mm}
       <% end %>
-    \end{itemize}
-  <% end %>
-<% elsif @variable.variable_type == 'file' and response_file = @sheet.get_response(@variable, :raw) and response_file.size > 0 %>
-  <% if ['jpg', 'jpeg', 'gif', 'png'].include?(response_file.path.split('.').last.downcase) %>
-
-  \begin{figure}[!htpb]
-    \includegraphics[max width=7.5in]{<%= response_file.path %>}
-    <% unless @variable.description.blank? %>
-      \caption{<%= latex_safe @variable.description %>}
-    <% end %>
-  \end{figure}
-
-  <% else %>
-    \vspace{1 mm}
-    <%= latex_safe @sheet.get_response(@variable, @sheet.project.show_type) %>
-    \vspace{2 mm}
-  <% end %>
-<% elsif @variable.variable_type == 'signature' %>
-  <% if response_file = @sheet.get_response(@variable, :raw_file) and response_file.size > 0 %>
-    \begin{figure}[!htpb]
-      \includegraphics[max width=7.5in]{<%= response_file.path %>}
-    \end{figure}
-  <% else %>
-    \vspace{1 mm}
-    \textcolor[gray]{0.5}{No Signature}
-    \vspace{2 mm}
-  <% end %>
-<% elsif @sheet.get_response(@variable, @sheet.project.show_type).blank? %>
-  \vspace{1 mm}
-  \textcolor[gray]{0.5}{Unknown}
-  \vspace{2 mm}
-<% else %>
-  \vspace{1 mm}
-  <%= latex_safe @sheet.get_response(@variable, @sheet.project.show_type) %>
-  \vspace{2 mm}
-<% end %>
 
     <% end %>
   <% end %>
