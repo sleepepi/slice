@@ -1,82 +1,84 @@
 - @title = "#{@sheet.name} Transactions"
-.page-header
-  %h1
-    = link_to @project.name, @project
-    &middot;
-    = link_to 'Sheets', project_sheets_path(@project)
-    &middot;
-    = link_to @sheet.name, [@sheet.project, @sheet]
-    &middot; Transactions
 
-- @sheet_transactions = @sheet.sheet_transactions
-- variable = @project.variables.find_by_name(params[:variable])
-- sheet_transaction_total = @sheet_transactions.count
+- @subject = @sheet.subject
+= render 'subjects/beta/header'
+.row
+  .col-sm-2
+    = render partial: 'subjects/beta/event_navigation'
+  .col-sm-10
+    %h1.subject-header
+      = link_to @sheet.name, [@sheet.project, @sheet]
+      &middot; Transactions
 
-%table.table.table-striped
-  %thead
-    %tr
-      %th Transaction Number
-      %th User
-      %th Type
-      %th Created At
+    - @sheet_transactions = @sheet.sheet_transactions
+    - variable = @project.variables.find_by_name(params[:variable])
+    - sheet_transaction_total = @sheet_transactions.count
 
-  - @sheet_transactions.each_with_index do |t,index|
-    - if not variable or (variable and @sheet.sheet_variables.where(id: t.sheet_transaction_audits.pluck(:sheet_variable_id)).select{|sv| sv.variable_id == variable.id }.count > 0)
-      %tbody
+    %table.table.table-striped
+      %thead
         %tr
-          %td= "##{sheet_transaction_total - index}"
-          - if t.user
-            %td
-              = image_tag t.user.avatar_url(16, "identicon"), size: '16x16', alt: '', style: 'vertical-align: middle', class: 'img-rounded'
-              = t.user.name
-              &middot;
-              = t.remote_ip
-          - else
-            %td.text-muted
-              Anonymous &middot;
-              = t.remote_ip
-          %td= t.transaction_type
-          %td= t.created_at.strftime("%b %d, %Y at %l:%M %p")
-        %tr
-          %td{ colspan: "4" }
-            %table.table.table-bordered
-              %thead
-                %tr
-                  %th Attribute
-                  %th Value Before
-                  %th Value After
-              - t.sheet_transaction_audits.each do |a|
-                - if not variable or (variable and a.sheet_variable and a.sheet_variable.variable_id == variable.id)
-                  %tr
-                    %td{ style: "white-space:nowrap" }
-                      = a.sheet_attribute_name
-                      - if a.sheet_variable
-                        = link_to a.sheet_variable.variable.name, [a.sheet_variable.variable.project, a.sheet_variable.variable]
-                      - if a.grid
-                        Row
-                        = "##{a.grid.position+1}"
-                        = link_to a.grid.variable.name, [a.grid.variable.project, a.grid.variable]
-                    %td{ class: "#{'text-muted' if a.value_before == nil or a.value_before == ''}" }
-                      - if a.value_before == nil
-                        nil
-                      - elsif a.value_before == ''
-                        %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right" } } &#9872;
-                      - else
-                        - mask = find_diff(a.value_before, a.value_after)
-                        %span{ style: "padding: 0px;background-color:#FAA;" }
-                          = a.value_before.to_s.split('').each_with_index.collect{ |character, index| (mask[index] and a.sheet_attribute_name != 'last_edited_at') ? "<span class='highlight-subtract'>#{character}</span>" : character }.join('').html_safe
-                        - if not a.label_before.blank? and a.label_before != a.value_before
-                          = link_to '#', rel: 'tooltip', title: a.label_before, data: { object: 'suppress-click', placement: 'right', container: 'body' } do
-                            %span.glyphicon.glyphicon-info-sign
-                    %td{ class: "#{'text-muted' if a.value_after == nil or a.value_after == ''}" }
-                      - if a.value_after == nil
-                        nil
-                      - elsif a.value_after == ''
-                        %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right" } } &#9872;
-                      - else
-                        - mask = find_diff(a.value_after, a.value_before)
-                        %span{ style: "padding: 0px;background-color:#AFA;" }
-                          = a.value_after.to_s.split('').each_with_index.collect{ |character, index| (mask[index] and a.sheet_attribute_name != 'last_edited_at') ? "<span class='highlight-add'>#{character}</span>" : character }.join('').html_safe
-                        - if not a.label_after.blank? and a.label_after != a.value_after
-                          = link_to '#', rel: 'tooltip', title: a.label_after, data: { object: 'suppress-click', placement: 'right', container: 'body' } do
-                            %span.glyphicon.glyphicon-info-sign
+          %th Transaction Number
+          %th User
+          %th Type
+          %th Created At
+
+      - @sheet_transactions.each_with_index do |t,index|
+        - if not variable or (variable and @sheet.sheet_variables.where(id: t.sheet_transaction_audits.pluck(:sheet_variable_id)).select{|sv| sv.variable_id == variable.id }.count > 0)
+          %tbody
+            %tr
+              %td= "##{sheet_transaction_total - index}"
+              - if t.user
+                %td
+                  = image_tag t.user.avatar_url(16, "identicon"), size: '16x16', alt: '', style: 'vertical-align: middle', class: 'img-rounded'
+                  = t.user.name
+                  &middot;
+                  = t.remote_ip
+              - else
+                %td.text-muted
+                  Anonymous &middot;
+                  = t.remote_ip
+              %td= t.transaction_type
+              %td= t.created_at.strftime("%b %d, %Y at %l:%M %p")
+            %tr
+              %td{ colspan: "4" }
+                %table.table.table-bordered
+                  %thead
+                    %tr
+                      %th Attribute
+                      %th Value Before
+                      %th Value After
+                  - t.sheet_transaction_audits.each do |a|
+                    - if not variable or (variable and a.sheet_variable and a.sheet_variable.variable_id == variable.id)
+                      %tr
+                        %td{ style: "white-space:nowrap" }
+                          = a.sheet_attribute_name
+                          - if a.sheet_variable
+                            = link_to a.sheet_variable.variable.name, [a.sheet_variable.variable.project, a.sheet_variable.variable]
+                          - if a.grid
+                            Row
+                            = "##{a.grid.position+1}"
+                            = link_to a.grid.variable.name, [a.grid.variable.project, a.grid.variable]
+                        %td{ class: "#{'text-muted' if a.value_before == nil or a.value_before == ''}" }
+                          - if a.value_before == nil
+                            nil
+                          - elsif a.value_before == ''
+                            %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right" } } &#9872;
+                          - else
+                            - mask = find_diff(a.value_before, a.value_after)
+                            %span{ style: "padding: 0px;background-color:#FAA;" }
+                              = a.value_before.to_s.split('').each_with_index.collect{ |character, index| (mask[index] and a.sheet_attribute_name != 'last_edited_at') ? "<span class='highlight-subtract'>#{character}</span>" : character }.join('').html_safe
+                            - if not a.label_before.blank? and a.label_before != a.value_before
+                              = link_to '#', rel: 'tooltip', title: a.label_before, data: { object: 'suppress-click', placement: 'right', container: 'body' } do
+                                %span.glyphicon.glyphicon-info-sign
+                        %td{ class: "#{'text-muted' if a.value_after == nil or a.value_after == ''}" }
+                          - if a.value_after == nil
+                            nil
+                          - elsif a.value_after == ''
+                            %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right" } } &#9872;
+                          - else
+                            - mask = find_diff(a.value_after, a.value_before)
+                            %span{ style: "padding: 0px;background-color:#AFA;" }
+                              = a.value_after.to_s.split('').each_with_index.collect{ |character, index| (mask[index] and a.sheet_attribute_name != 'last_edited_at') ? "<span class='highlight-add'>#{character}</span>" : character }.join('').html_safe
+                            - if not a.label_after.blank? and a.label_after != a.value_after
+                              = link_to '#', rel: 'tooltip', title: a.label_after, data: { object: 'suppress-click', placement: 'right', container: 'body' } do
+                                %span.glyphicon.glyphicon-info-sign

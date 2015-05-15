@@ -2,20 +2,16 @@
 // This file is used to give sheets a more physical feel.
 
 .markdown-container {
-  background-color: #FFF;
-  // border: 1px solid #AEAEAE;
-
-  // background-color: rgba(255, 255, 255, 0.25);
-
+  background-color: $body-bg;
   margin: 20px;
 
   padding: 20px;
-  box-shadow: 5px 5px 15px #888888;
+  box-shadow: 5px 5px 15px $gray-light;
+
 
   img {
     max-width: 100%;
   }
-
 }
 
 @media screen and (min-width: $screen-sm-min) {
@@ -39,6 +35,5 @@
 
 .little-container {
   padding: 5px;
-  // border: 1px solid #dedede;
   margin-bottom: 10px;
 }
