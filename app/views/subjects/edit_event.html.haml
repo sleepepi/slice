@@ -5,7 +5,7 @@
     = render partial: 'subjects/beta/event_navigation'
 
   .col-sm-10
-    %h1.subject-header
+    %h2.subject-header
       = @subject_event.event.name
 
     = form_tag update_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :post, class: 'form-horizontal' do

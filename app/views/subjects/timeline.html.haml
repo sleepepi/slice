@@ -5,7 +5,7 @@
     = render partial: 'subjects/beta/event_navigation'
 
   .col-sm-10
-    %h1.subject-header
+    %h2.subject-header
       Timeline
 
     - @subject.sheets.original_entry.order(created_at: :desc).each do |sheet|
