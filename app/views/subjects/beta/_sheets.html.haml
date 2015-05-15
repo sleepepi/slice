@@ -1,7 +1,8 @@
 - uncategorized_sheets = @subject.sheets.where(subject_event_id: nil)
 - categorized_sheets = @subject.sheets.where.not(subject_event_id: nil)
 
-%h2 All Sheets
+%h1.subject-header
+  All Sheets
 
 - if uncategorized_sheets.count > 0
   .panel.panel-default

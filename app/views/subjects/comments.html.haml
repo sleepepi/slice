@@ -4,8 +4,9 @@
   .col-sm-2
     = render partial: 'subjects/beta/event_navigation'
 
-  .col-sm-10.main-project-content
-    %h2 Comments
+  .col-sm-10
+    %h1.subject-header
+      Comments
 
     .posts-container.math-texture
       - @comments.each do |comment|

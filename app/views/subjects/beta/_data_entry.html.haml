@@ -1,4 +1,5 @@
-%h2 Data Entry Selection
+%h1.subject-header
+  Data Entry Selection
 
 .row
   - @project.designs.order(:name).in_groups(3, nil).each do |designs|

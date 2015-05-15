@@ -36,7 +36,6 @@
       %ul
         %li= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'data_entry'}"
   %li= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'timeline'}"
-  %li= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'settings'}"
   - if @subject.uploaded_files.count > 0 or params[:action] == 'files'
     %li= link_to 'Files', files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}"
   - if @subject.comments.count > 0 or params[:action] == 'comments'
@@ -44,3 +43,4 @@
       = link_to comments_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'comments'}" do
         .emphasis= @subject.comments.count
         = 'Comment'.pluralize(@subject.comments.count)
+  %li= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'settings'}"

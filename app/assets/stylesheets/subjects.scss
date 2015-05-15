@@ -57,6 +57,28 @@ a.subject-title:hover::after {
 }
 
 
+.subject-header {
+  background-image: -webkit-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
+  background-image:    -moz-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
+  background-image:     -ms-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
+  background-image:      -o-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
+  background-color: $btn-success-bg;
+  color: $btn-success-color;
+  margin: 0px -15px 20px -15px;
+  padding: 5px 15px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .subject-header {
+    border-bottom: 1px solid $btn-success-bg;
+    background-image: none;
+    background-color: transparent;
+    color: $text-color;
+    margin: -18px 0px 20px 0px;
+    padding: 0px;
+  }
+}
+
 ul.left-navigation {
   list-style: none;
   padding-left: 0px;
@@ -74,8 +96,7 @@ ul.left-navigation {
       border-left: 1px solid $btn-success-border;
       postion: relative;
       text-decoration: none;
-      padding: 5px 0px;
-      padding-left: 50px;
+      padding: 5px 0px 5px 50px;
       display: block;
 
       color: $text-color;
