@@ -4,11 +4,12 @@
   = render 'subjects/beta/header'
   .row
     .col-sm-2
-      = render partial: 'subjects/beta/event_navigation'
+      = render 'subjects/beta/event_navigation'
 
     .col-sm-10
-      .markdown-container
-        = render 'form'
+      = render 'sheets/beta/form_header'
+  .markdown-container
+    = render '/sheets/beta/form'
 
 - else
   = render 'form'
