@@ -8,14 +8,94 @@
     %h2.subject-header
       Timeline
 
-    - @subject.sheets.original_entry.order(created_at: :desc).each do |sheet|
-      %p
-        = sheet.created_at.strftime("%a, %B %d, %Y")
-        = link_to sheet.name, [@project, sheet]
-        added
-        - if sheet.user
+    - events = (@subject.sheets.original_entry.order(created_at: :desc) + @subject.comments.to_a + @subject.subject_events.to_a).sort_by(&:created_at).reverse
+
+    - events.each_with_index do |event, index|
+      - current_index = events.count - index + 1
+      - current_page = (params[:page].to_i > 1 ? params[:page].to_i : 1)
+      - if event.class == Sheet
+        - sheet = event
+        %a.anchor-top{ name: "c#{current_index}" }
+        .post-container-skinny
+          .post-header-skinny
+            .pull-right
+              %a{ href: "#c#{current_index}" }= "##{current_index}"
+            - if sheet.user
+              = image_tag sheet.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
+            = link_to sheet.name, [@project, sheet]
+            %span.label.label-success added
+            - if sheet.user
+              by
+              = sheet.user.name
+            - else
+              from public survey
+            %abbr{ rel: "tooltip", data: { title: sheet.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
+              = time_ago_in_words(sheet.created_at)
+              ago
+      - elsif event.class == SubjectEvent
+        - subject_event = event
+        %a.anchor-top{ name: "c#{current_index}" }
+        .post-container-skinny
+          .post-header-skinny
+            .pull-right
+              %a{ href: "#c#{current_index}" }= "##{current_index}"
+            = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
+            %span.label.label-success added
+            %abbr{ rel: "tooltip", data: { title: subject_event.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
+              = time_ago_in_words(subject_event.created_at)
+              ago
+      - elsif event.class == Comment
+        - comment = event
+        %a.anchor-top{ name: "c#{current_index}" }
+        - if comment.deleted?
+          .post-avatar
+          .post-container
+            .post-header
+              .pull-right
+                %a{ href: "#c#{current_index}" }= "##{current_index}"
+              %i.text-muted Comment Deleted
+        - else
+          .post-avatar
+            = image_tag comment.user.avatar_url(50, "identicon"), size: '50x50', class: 'img-thumbnail', style: "min-height:55px;min-width:55px;border-radius:0px;"
+          .post-container
+            .post-header
+              .pull-right{ style: 'font-weight:200' }
+                - if current_user and comment.editable_by?(current_user)
+                  = link_to edit_comment_path(comment), class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Edit Comment' do
+                    %span.glyphicon.glyphicon-edit
+                  &nbsp;
+                - if current_user and comment.deletable_by?(current_user)
+                  = link_to comment, method: :delete, data: { confirm: "Are you sure you want to delete Comment ##{current_index}"}, class: 'btn btn-xs btn-danger-inverse' do
+                    %span.glyphicon.glyphicon-trash
+                  &nbsp;
+                %a{ href: "#c#{current_index}" }= "##{current_index}"
+
+              = comment.user.name
+              %span.small.text-muted
+                %abbr{ rel: "tooltip", data: { title: comment.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
+                  = time_ago_in_words(comment.created_at)
+                  ago
+                on
+                = link_to comment.sheet.name, [@project, comment.sheet]
+
+            .post-body
+              %div{ id: "comment_#{comment.id}_container", style: 'margin-bottom: -20px;' }
+                = render partial: 'comments/formatted', locals: { comment: comment }
+
+    - current_index = 1
+    .post-container-skinny
+      .post-header-skinny
+        .pull-right
+          %a{ href: "#c#{current_index}" }= "##{current_index}"
+        - if @subject.user
+          = image_tag @subject.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
+        = link_to @subject.name, [@project, @subject]
+        %span.label.label-success created
+        - if @subject.user
           by
-          = sheet.user.name
-    %p
-      = @subject.created_at.strftime("%a, %B %d, %Y")
-      Subject created
+          = @subject.user.name
+        - else
+          from public survey
+        %abbr{ rel: "tooltip", data: { title: @subject.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
+          = time_ago_in_words(@subject.created_at)
+          ago

@@ -23,10 +23,10 @@
             %td
               = coverage_helper(sheet)
             %td
-              = link_to sheet.name, project_sheet_path(@project, sheet)
+              = link_to sheet.name, [@project, sheet]
             %td{ style: 'text-align:right' }
               - if sheet.comments.count > 0
-                %span.label.label-default
+                = link_to [@project, sheet], class: 'btn btn-xs btn-primary' do
                   = sheet.comments.count
                   %span.glyphicon.glyphicon-comment
 
@@ -56,6 +56,6 @@
               = sheet.subject_event.event_date_to_s
             %td{ style: 'text-align:right' }
               - if sheet.comments.count > 0
-                %span.label.label-default
+                = link_to [@project, sheet], class: 'btn btn-xs btn-primary' do
                   = sheet.comments.count
                   %span.glyphicon.glyphicon-comment

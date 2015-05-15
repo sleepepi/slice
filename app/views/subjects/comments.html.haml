@@ -8,42 +8,41 @@
     %h2.subject-header
       Comments
 
-    .posts-container.math-texture
-      - @comments.each do |comment|
-        - current_page = (params[:page].to_i > 1 ? params[:page].to_i : 1)
-        - current_index = 1
-        %a.anchor-top{ name: "c#{current_index}" }
-        - if comment.deleted?
-          .post-avatar
-          .post-container
-            .post-header
-              .pull-right
-                %a{ href: "#c#{current_index}" }= "##{current_index}"
-              %i.text-muted Comment Deleted
-        - else
-          .post-avatar
-            = image_tag comment.user.avatar_url(50, "identicon"), size: '50x50', class: 'img-thumbnail', style: "min-height:55px;min-width:55px;border-radius:0px;"
-          .post-container
-            .post-header
-              .pull-right
-                - if current_user and comment.editable_by?(current_user)
-                  = link_to edit_comment_path(comment), class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Edit Comment' do
-                    %span.glyphicon.glyphicon-edit
-                  &nbsp;
-                - if current_user and comment.deletable_by?(current_user)
-                  = link_to comment, method: :delete, data: { confirm: "Are you sure you want to delete Comment ##{current_index}"}, class: 'btn btn-xs btn-danger-inverse' do
-                    %span.glyphicon.glyphicon-trash
-                  &nbsp;
-                %a{ href: "#c#{current_index}" }= "##{current_index}"
+    - @comments.each do |comment|
+      - current_page = (params[:page].to_i > 1 ? params[:page].to_i : 1)
+      - current_index = 1
+      %a.anchor-top{ name: "c#{current_index}" }
+      - if comment.deleted?
+        .post-avatar
+        .post-container
+          .post-header
+            .pull-right
+              %a{ href: "#c#{current_index}" }= "##{current_index}"
+            %i.text-muted Comment Deleted
+      - else
+        .post-avatar
+          = image_tag comment.user.avatar_url(50, "identicon"), size: '50x50', class: 'img-thumbnail', style: "min-height:55px;min-width:55px;border-radius:0px;"
+        .post-container
+          .post-header
+            .pull-right
+              - if current_user and comment.editable_by?(current_user)
+                = link_to edit_comment_path(comment), class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Edit Comment' do
+                  %span.glyphicon.glyphicon-edit
+                &nbsp;
+              - if current_user and comment.deletable_by?(current_user)
+                = link_to comment, method: :delete, data: { confirm: "Are you sure you want to delete Comment ##{current_index}"}, class: 'btn btn-xs btn-danger-inverse' do
+                  %span.glyphicon.glyphicon-trash
+                &nbsp;
+              %a{ href: "#c#{current_index}" }= "##{current_index}"
 
-              = comment.user.name
-              %span.small.text-muted
-                %abbr{ rel: "tooltip", data: { title: comment.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
-                  = time_ago_in_words(comment.created_at)
-                  ago
-                on
-                = link_to comment.sheet.name, [@project, comment.sheet]
+            = comment.user.name
+            %span.small.text-muted
+              %abbr{ rel: "tooltip", data: { title: comment.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
+                = time_ago_in_words(comment.created_at)
+                ago
+              on
+              = link_to comment.sheet.name, [@project, comment.sheet]
 
-            .post-body
-              %div{ id: "comment_#{comment.id}_container" }
-                = render partial: 'comments/formatted', locals: { comment: comment }
+          .post-body
+            %div{ id: "comment_#{comment.id}_container", style: 'margin-bottom: -20px;' }
+              = render partial: 'comments/formatted', locals: { comment: comment }
