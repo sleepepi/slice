@@ -31,6 +31,8 @@
 - **Sheet Changes**
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
   - Slight performance improvements in loading large sheets
+- **Survey Changes**
+  - A second notification email is no longer sent when users edit and resubmit a public survey
 - **Export Changes**
   - Improved the speed at which sheet exports are generated
 - **Design Changes**

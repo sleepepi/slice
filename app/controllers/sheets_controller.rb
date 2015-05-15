@@ -137,7 +137,6 @@ class SheetsController < ApplicationController
     @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
     if @project and @sheet and not @sheet.locked?
       SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_update')
-      UserMailer.survey_completed(@sheet).deliver_later if Rails.env.production?
       redirect_to about_survey_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
     else
       redirect_to new_user_session_path, alert: 'Survey has been locked.'
