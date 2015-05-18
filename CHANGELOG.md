@@ -16,6 +16,11 @@
     - The subject timeline lists subject events, sheets, and comments
   - The new subject page contains a list of uploaded files across all of the subject's sheets
   - Subject show page now shows all comments for a subject in a new tab
+  - Sheets can now be added directly to existing subject events
+    - A sheet for a specific design can't be added multiple times to the same event
+    - In the case were a design exists multiple times, the subject event only counts one of the sheets for event completion
+    - The subject event lists designs that have duplicate sheets
+    - The subject event also displays designs for filled out sheets that are explicitly listed on the project event
 - **General Changes**
   - Streamlined login system by removing alternate logins
   - Removed approval process for new user registration

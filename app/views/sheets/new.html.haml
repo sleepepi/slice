@@ -2,12 +2,11 @@
 
 - if @subject = @sheet.subject and beta_enabled?(current_user)
   = render 'subjects/beta/header'
-  .row
-    .col-sm-2
-      = render 'subjects/beta/event_navigation'
 
-    .col-sm-10
-      = render 'sheets/beta/form_header'
+
+  =# render 'subjects/beta/event_navigation'
+
+  = render 'sheets/beta/form_header'
   .markdown-container
     = render '/sheets/beta/form'
 

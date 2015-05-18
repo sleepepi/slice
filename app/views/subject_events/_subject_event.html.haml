@@ -2,7 +2,7 @@
   .panel-heading
     .pull-right
       = subject_event.event_date_to_s
-    - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).count
+    - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).pluck(:design_id).uniq.count
     - designs_count = subject_event.event.designs.count
     - if sheets_completed == designs_count
       %span.text-success
@@ -21,9 +21,39 @@
       %col
       %col{ width: '120px' }
       - subject_event.event.designs.each do |design|
-        %tr
-          - sheet = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id).first
-          - if sheet
+        - sheets = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id)
+        - if sheets.count > 0
+          - sheets.each do |sheet|
+            %tr{ class: "#{'warning' if sheets.count > 1}"}
+              %td
+                = coverage_helper(sheet)
+              %td
+                = link_to sheet.name, project_sheet_path(@project, sheet)
+              %td{ style: 'text-align:right' }
+                - if sheet.comments.count > 0
+                  = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
+                    = sheet.comments.count
+                    %span.glyphicon.glyphicon-comment
+                - if sheets.count > 1
+                  %span.glyphicon.glyphicon-warning-sign.text-warning{ rel: 'tooltip', title: 'Duplicate Entry', data: { placement: 'left', container: 'body' } }
+        - else
+          %tr
+            %td
+            %td
+              = design.name
+            %td
+              = link_to 'Create Sheet', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'btn btn-primary btn-xs btn-block'
+    - if non_design_sheets = subject_event.sheets.where.not(design_id: subject_event.event.designs.select(:id)) and non_design_sheets.count > 0
+      %div{ style: 'margin-top: 20px' }
+        .bs-callout.bs-callout-warning
+          %h4 Extra Sheets
+          The following sheets are not explicitly listed on the project event.
+      %table.table.table-striped{ style: 'table-layout:fixed;margin-bottom:0px' }
+        %col{ width: '60px' }
+        %col
+        %col{ width: '120px' }
+        - non_design_sheets.each do |sheet|
+          %tr
             %td
               = coverage_helper(sheet)
             %td
@@ -33,9 +63,3 @@
                 = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
                   = sheet.comments.count
                   %span.glyphicon.glyphicon-comment
-          - else
-            %td
-            %td
-              = design.name
-            %td
-              = link_to 'Create Sheet', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'btn btn-primary btn-xs btn-block'

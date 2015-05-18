@@ -5,6 +5,7 @@ class SubjectEvent < ActiveRecord::Base
   # Model Relationships
   belongs_to :subject
   belongs_to :event
+  has_many :sheets
 
   # Model Methods
 
@@ -13,7 +14,7 @@ class SubjectEvent < ActiveRecord::Base
   end
 
   def event_date_to_s
-    self.event_date ? self.event_date.strftime("%a, %B %d, %Y") : 'No Date'
+    self.event_date ? self.event_date.strftime("%a, %B %-d, %Y") : 'No Date'
   end
 
 end
