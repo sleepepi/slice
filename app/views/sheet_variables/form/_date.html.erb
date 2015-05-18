@@ -13,5 +13,5 @@
   <% if variable.show_current_button? %>
     <%= link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default btn-xs', tabindex: '-1' if variable.show_current_button? %>
   <% end %>
-  <%= link_to 'Clear', '#', data: { object: 'clear-date-input', target_input: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default btn-xs', tabindex: '-1' %>
+  <%= link_to 'Clear', '#', data: { object: 'clear-date-input', target_input: "##{field_name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default btn-xs', tabindex: '-1' unless is_grid %>
 </div>
