@@ -1,7 +1,7 @@
 -# Range should either be the existing positions (which are long strings) or the
 -# positions from the sheet_variables
 
-- all_grids = object ? object.grids.to_a : []
+- all_grids = object ? object.grids.includes(variable: [:domain]).to_a : []
 - grid_variables = @project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a
 
 - if not params[:variables].blank? and not params[:variables][variable.id.to_s].blank?

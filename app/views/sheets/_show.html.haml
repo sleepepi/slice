@@ -1,6 +1,6 @@
 %form.form-horizontal
   - variables = @project.variables.where(id: @sheet.design.options.collect{ |option| option[:variable_id] }).to_a
-  - sheet_variables = @sheet.sheet_variables.to_a
+  - sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a
   - @sheet.design.options.each do |option|
     - @option = option
     - if @option[:variable_id].blank?

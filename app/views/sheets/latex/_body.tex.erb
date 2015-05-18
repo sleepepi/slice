@@ -10,7 +10,7 @@
 <%= latex_safe @sheet.design.description %> \\
 
 <% variables = @sheet.project.variables.where(id: @sheet.design.options.collect{ |option| option[:variable_id] }).to_a %>
-<% sheet_variables = @sheet.sheet_variables.to_a %>
+<% sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a %>
 
 
 <% @sheet.design.options.each_with_index do |option, index| %>
@@ -44,7 +44,7 @@
         <%= latex_safe v.display_name if v %> &
       <% end %>
       \midrule
-      <% all_grids = sheet_variable.grids.to_a %>
+      <% all_grids = sheet_variable.grids.includes(variable: [:domain]).to_a %>
       <% (0..all_grids.collect(&:position).max.to_i).each do |position| %>
         <% variable.grid_variables.each do |grid_variable| %>
           <% grid = all_grids.select{|g| g.variable_id == grid_variable[:variable_id].to_i and g.position == position}.first %>

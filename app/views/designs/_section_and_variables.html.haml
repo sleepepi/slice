@@ -8,7 +8,7 @@
 
 
 - variables = @project.variables.where(id: @design.options.collect{ |option| option[:variable_id] }).to_a
-- sheet_variables = @sheet ? @sheet.sheet_variables.to_a : []
+- sheet_variables = @sheet ? @sheet.sheet_variables.includes(variable: [:domain]).to_a : []
 
 - @design.options.each do |option|
   - @option = option
