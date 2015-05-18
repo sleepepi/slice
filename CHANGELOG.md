@@ -31,9 +31,9 @@
   - Projects can now have a slug specified to support a nicer URL structure
 - **Event Changes**
   - Designs can now be directly associated to events
+  - Subjects page now doubles as an event completion report
 - **Schedule Changes**
   - Schedules can now be ordered by their position relative to each other
-  - A Schedule Subject Report is now available
 - **Sheet Changes**
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
   - Slight performance improvements in loading large sheets

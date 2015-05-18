@@ -97,19 +97,6 @@ class SubjectsController < ApplicationController
     end
   end
 
-  # --------
-
-  def report
-    @events = @project.events.order(:position)
-
-    @schedules = @project.schedules.order(:position)
-    @statuses = params[:statuses] || ['valid']
-    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).where(status: @statuses).search(params[:search]).order(@order)
-    @subjects = subject_scope.page(params[:page]).per( 40 )
-
-    render layout: 'layouts/application_custom_full'
-  end
-
   # GET /subjects
   # GET /subjects.json
   def index

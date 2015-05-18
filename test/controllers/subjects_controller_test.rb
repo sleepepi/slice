@@ -64,11 +64,6 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:subject)]
   end
 
-  test "should get report" do
-    get :report, project_id: @project
-    assert_response :success
-  end
-
   test "should get index" do
     get :index, project_id: @project
     assert_response :success

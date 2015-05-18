@@ -154,7 +154,6 @@ Rails.application.routes.draw do
       end
       collection do
         get :choose_site, path: 'choose-site'
-        get :report
         get :search
       end
     end
