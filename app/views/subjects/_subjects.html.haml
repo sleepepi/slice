@@ -1,4 +1,4 @@
-= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @subjects.total_count }
+= render 'contour/layouts/per_page', per_page: 40, object_count: @subjects.total_count
 
 %table.table.table-striped
   %col{ width: "30px" }
@@ -24,12 +24,12 @@
         %td.center{ style: 'white-space:nowrap' }
           - subject_event_ids = subject.subject_events.where(event_id: event.id).pluck(:id)
           - if subject_event_ids.blank?
-            .text-muted -
+            = link_to '+', choose_date_project_subject_path(@project, subject, event_id: event.to_param), class: 'btn btn-xs btn-success-inverse'
           - else
-            = @project.sheets.where(subject_event_id: subject_event_ids).count
+            = @project.sheets.where(subject_event_id: subject_event_ids).pluck(:design_id).uniq.count
             \/
             = event.designs.count
-      %td
+      %td{ style: 'white-space:nowrap' }
         - if current_user.all_subjects.pluck(:id).include?(subject.id)
           = link_to 'Edit', edit_project_subject_path(@project, subject), class: 'btn btn-default btn-xs'
           = link_to 'Delete', [@project, subject], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{subject.name}?" }
