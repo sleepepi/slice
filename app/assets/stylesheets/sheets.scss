@@ -37,3 +37,10 @@
   padding: 5px;
   margin-bottom: 10px;
 }
+
+.sheet-drag-helper {
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 2px 4px;
+  background-color: $body-bg;
+}
