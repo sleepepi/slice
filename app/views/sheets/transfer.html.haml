@@ -1,0 +1,13 @@
+- @title = "Edit Sheet: #{@sheet.name}"
+
+- if @subject = @sheet.subject
+  = render 'subjects/beta/header'
+
+%h2.subject-header
+  Transfer Sheet to Another Subject
+
+
+= form_tag transfer_project_sheet_path(@project, @sheet), method: :patch, class: 'form-inline' do
+  = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: 'form-control chzn-select'
+  = submit_tag 'Transfer to Subject', class: 'btn btn-primary', name: nil
+  = link_to 'Cancel', [@project, @sheet], class: 'btn btn-default'

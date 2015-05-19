@@ -6,6 +6,7 @@ one:
   subject: one
   user: valid
   last_user: valid
+  subject_event: one
 
 two:
   design: two

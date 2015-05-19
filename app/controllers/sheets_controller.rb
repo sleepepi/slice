@@ -4,12 +4,12 @@ class SheetsController < ApplicationController
 
   before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
   before_action :set_viewable_project, only: [ :index, :show, :print, :file, :verification_report ]
-  before_action :set_editable_project_or_editable_site, only: [ :edit, :double_data_entry, :transactions, :new, :create, :update, :destroy, :unlock ]
-  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :double_data_entry, :verification_report, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
+  before_action :set_editable_project_or_editable_site, only: [ :edit, :transfer, :double_data_entry, :transactions, :new, :create, :update, :destroy, :unlock ]
+  before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :transfer, :double_data_entry, :verification_report, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
   before_action :set_viewable_sheet, only: [ :show, :print, :file, :verification_report ]
-  before_action :set_editable_sheet, only: [ :edit, :double_data_entry, :transactions, :update, :destroy, :unlock ]
-  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :double_data_entry, :verification_report, :transactions, :update, :destroy, :unlock, :file ]
-  before_action :redirect_with_locked_sheet, only: [ :edit, :double_data_entry, :verification_report, :update, :destroy ]
+  before_action :set_editable_sheet, only: [ :edit, :transfer, :double_data_entry, :transactions, :update, :destroy, :unlock ]
+  before_action :redirect_without_sheet, only: [ :show, :print, :edit, :transfer, :double_data_entry, :verification_report, :transactions, :update, :destroy, :unlock, :file ]
+  before_action :redirect_with_locked_sheet, only: [ :edit, :transfer, :double_data_entry, :verification_report, :update, :destroy ]
 
   # GET /sheets
   # GET /sheets.json
@@ -218,6 +218,25 @@ class SheetsController < ApplicationController
         format.html { render action: 'edit' }
         format.json { render json: @sheet.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # GET /sheets/1/transfer
+  # PUT /sheets/1/transfer?subject_id=1
+  def transfer
+    original_subject = @sheet.subject
+    subject = @project.subjects.find_by_id(params[:subject_id])
+    if subject and subject == original_subject
+      redirect_to [@project, @sheet], alert: "No changes made to sheet."
+    elsif subject
+      notice = if params[:undo] == '1'
+        'Your action has been undone.'
+      else
+        "Successfully transferred sheet from subject <b>#{original_subject.subject_code}</b> to <b>#{subject.subject_code}</b>. #{view_context.link_to 'Undo', transfer_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch}"
+      end
+
+      SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.now }, { }, current_user, request.remote_ip, 'sheet_update')
+      redirect_to [@project, @sheet], notice: notice
     end
   end
 

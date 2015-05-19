@@ -38,6 +38,7 @@
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
   - Slight performance improvements in loading large sheets
   - Removed 'Clear' buttons from time and date variables on grids to decrease the overall widths of large grids
+  - Sheets can now be transferred between subject in case the subject was entered incorrectly
 - **Survey Changes**
   - A second notification email is no longer sent when users edit and resubmit a public survey
 - **Export Changes**

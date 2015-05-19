@@ -59,6 +59,8 @@ Rails.application.routes.draw do
         post :unlock
         get :double_data_entry
         get :verification_report
+        get :transfer
+        patch :transfer
       end
     end
 

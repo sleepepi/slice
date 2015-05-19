@@ -910,6 +910,78 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+  test "should get transfer sheet for editor" do
+    get :transfer, project_id: @project, id: @sheet
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_response :success
+  end
+
+  test "should not get transfer sheet for viewer" do
+    login(users(:site_one_viewer))
+    get :transfer, project_id: @project, id: @sheet
+    assert_nil assigns(:project)
+    assert_nil assigns(:sheet)
+    assert_redirected_to root_path
+  end
+
+  test "should not get transfer sheet for locked sheet" do
+    get :transfer, project_id: @project, id: sheets(:locked)
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_redirected_to [assigns(:project), assigns(:sheet)]
+  end
+
+  test "should transfer sheet to new subject for editor" do
+    patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:two)
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal subjects(:two).id, assigns(:sheet).subject_id
+    assert_equal nil, assigns(:sheet).subject_event_id
+    assert_equal users(:valid).id, assigns(:sheet).last_user_id
+    assert_not_nil assigns(:sheet).last_edited_at
+
+    assert_redirected_to [assigns(:project), assigns(:sheet)]
+  end
+
+  test "should undo transfer for subject for editor" do
+    patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:two), undo: '1'
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal subjects(:two).id, assigns(:sheet).subject_id
+    assert_equal nil, assigns(:sheet).subject_event_id
+    assert_equal users(:valid).id, assigns(:sheet).last_user_id
+    assert_not_nil assigns(:sheet).last_edited_at
+
+    assert_redirected_to [assigns(:project), assigns(:sheet)]
+  end
+
+  test "should not make changes if transfer does not provide a new subject" do
+    patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:one)
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_redirected_to [assigns(:project), assigns(:sheet)]
+  end
+
+  test "should not transfer sheet to new subject for viewer" do
+    login(users(:site_one_viewer))
+    patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:two)
+
+    assert_nil assigns(:project)
+    assert_nil assigns(:sheet)
+
+    assert_redirected_to root_path
+  end
+
+
   test "should destroy sheet" do
     assert_difference('Sheet.current.count', -1) do
       delete :destroy, id: @sheet, project_id: @project
