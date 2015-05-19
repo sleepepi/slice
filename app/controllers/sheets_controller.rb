@@ -186,8 +186,6 @@ class SheetsController < ApplicationController
       if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_create')
         url = if params[:continue].to_s == '1'
           new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id })
-        elsif @sheet.event and @sheet.subject_schedule
-          [@sheet.subject.project, @sheet.subject]
         else
           [@sheet.project, @sheet]
         end

@@ -43,9 +43,6 @@
   # Model Validation
   validates_presence_of :design_id, :project_id, :subject_id
   validates_uniqueness_of :authentication_token, allow_nil: true
-  validates_uniqueness_of :event_id, allow_nil: true, scope: [ :subject_schedule_id, :design_id, :deleted ]
-  validates_uniqueness_of :subject_schedule_id, allow_nil: true, scope: [ :event_id, :design_id, :deleted ]
-  validates_uniqueness_of :subject_event_id, allow_nil: true, scope: [ :design_id, :deleted ]
 
   # Model Relationships
   belongs_to :user
