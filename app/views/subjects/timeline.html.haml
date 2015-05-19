@@ -35,12 +35,19 @@
       - elsif event.class == SubjectEvent
         - subject_event = event
         %a.anchor-top{ name: "c#{current_index}" }
+        .post-type
+          %strong Event
         .post-container-skinny
           .post-header-skinny
             .pull-right
               %a{ href: "#c#{current_index}" }= "##{current_index}"
+            - if subject_event.user
+              = image_tag subject_event.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
             = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
             %span.label.label-success added
+            - if subject_event.user
+              by
+              = subject_event.user.name
             %abbr{ rel: "tooltip", data: { title: subject_event.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(subject_event.created_at)
               ago

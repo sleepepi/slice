@@ -5,6 +5,7 @@ class SubjectEvent < ActiveRecord::Base
   # Model Relationships
   belongs_to :subject
   belongs_to :event
+  belongs_to :user
   has_many :sheets
 
   # Model Methods

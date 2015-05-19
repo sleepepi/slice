@@ -22,7 +22,8 @@
           %span.glyphicon.glyphicon-lock{ style: "color:#5bc0de" }
         = link_to sheet.design.name, [@project, sheet]
         - if sheet.comments.size > 0
-          %span.badge.badge-info= sheet.comments.size
+          %span.glyphicon.glyphicon-comment
+          = sheet.comments.size
         - if sheet.verification_sheets.count > 0
           %div
             %span.label.label-warning Double Data
