@@ -61,6 +61,7 @@ Rails.application.routes.draw do
         get :verification_report
         get :transfer
         patch :transfer
+        patch :move_to_event
       end
     end
 

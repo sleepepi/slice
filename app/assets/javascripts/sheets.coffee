@@ -2,6 +2,35 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@activateSheetDraggables = () ->
+  $('[data-object~="sheet-draggable"]').draggable(
+    revert: 'invalid'
+    helper: () ->
+      "<div style='border:1px solid black;border-radius:4px;padding:2px 4px;background-color:white' class=''>Sheet #{$(this).data('sheet-name')}</div>"
+      # count = $('[data-object~="sticky-checkbox"]:checked').length
+      # if count > 1
+      #   "<div class='sticky-box'>&equiv;&nbsp;&nbsp;#{count} Tasks Selected</div>"
+      # else
+      #   "<div class='sticky-box'>"+$(this).children('[data-object~="sticky-helper"]').first().html()+"</div>"
+    cursorAt: { left: 10 }
+    appendTo: "body"
+  )
+
+@activateEventDroppables = () ->
+  $('[data-object~="event-droppable"]').droppable(
+    hoverClass: "event-droppable-hover"
+    tolerance: "pointer"
+    drop: ( event, ui ) ->
+      project_id = $(this).data('project-id')
+      subject_event_id = $(this).data('subject-event-id')
+
+      sheet_id = ui['draggable'].data('sheet-id')
+      $.post(root_url + "projects/#{project_id}/sheets/#{sheet_id}/move_to_event", "_method=patch&subject_event_id=#{subject_event_id}", null, "script")
+    accept: ( draggable ) ->
+      $(this).data('subject-event-id') != draggable.data('subject-event-id')
+  )
+
+
 @initializeSheet = (filter_element = '') ->
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
   $("#{filter_element} .datepicker").datepicker('remove')
@@ -58,6 +87,8 @@
     )
   )
   initializeSheet()
+  activateSheetDraggables()
+  activateEventDroppables()
 
 $(document)
   .on('click', '[data-object~="export"]', () ->

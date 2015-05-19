@@ -12,7 +12,7 @@
       - if show_all_events
         %ul
           - @subject.subject_events.each do |subject_event|
-            %li
+            %li{ data: { object: 'event-droppable', project_id: @project.to_param, subject_event_id: subject_event.id } }
               - event_highlighted = ((params[:action] == 'event' and subject_event == @subject_event) or (params[:action].in?(['show', 'edit']) and @sheet and @sheet.subject_event == subject_event))
               = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "#{'active' if event_highlighted}" do
                 - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).pluck(:design_id).uniq.count

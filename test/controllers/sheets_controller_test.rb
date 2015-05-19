@@ -981,6 +981,38 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should move sheet to subject event for editor" do
+    patch :move_to_event, project_id: @project, id: @sheet, subject_event_id: subject_events(:one), format: 'js'
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_equal subject_events(:one).id, assigns(:sheet).subject_event_id
+    assert_equal users(:valid).id, assigns(:sheet).last_user_id
+    assert_not_nil assigns(:sheet).last_edited_at
+    assert_not_nil assigns(:subject)
+
+    assert_template 'move_to_event'
+  end
+
+  test "should not make changes if move_to_event does not provide a new subject" do
+    patch :move_to_event, project_id: @project, id: @sheet, format: 'js'
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+
+    assert_response :success
+  end
+
+  test "should not move sheet to subject event for viewer" do
+    login(users(:site_one_viewer))
+    patch :move_to_event, project_id: @project, id: @sheet, subject_event_id: subject_events(:one), format: 'js'
+
+    assert_nil assigns(:project)
+    assert_nil assigns(:sheet)
+
+    assert_response :success
+  end
 
   test "should destroy sheet" do
     assert_difference('Sheet.current.count', -1) do

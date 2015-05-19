@@ -1,0 +1,19 @@
+%tr{ class: "#{'highlight' if @sheet == sheet}" }
+  %td
+    %span.glyphicon.glyphicon-move{ style: 'cursor:pointer', data: { object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id } }
+  %td
+    = coverage_helper(sheet)
+  %td
+    = link_to sheet.name, [@project, sheet]
+    - if sheet.subject_event
+      %br
+      .text-muted
+        = sheet.subject_event.event.name
+  - if sheet.subject_event
+    %td
+      = sheet.subject_event.event_date_to_s
+  %td{ style: 'text-align:right' }
+    - if sheet.comments.count > 0
+      = link_to [@project, sheet], class: 'btn btn-xs btn-primary' do
+        = sheet.comments.count
+        %span.glyphicon.glyphicon-comment

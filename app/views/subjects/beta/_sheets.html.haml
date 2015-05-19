@@ -15,20 +15,12 @@
         No Event
     .panel-body
       %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+        %col{ width: '33px' }
         %col{ width: '60px' }
         %col
         %col{ width: '120px' }
         - uncategorized_sheets.each do |sheet|
-          %tr
-            %td
-              = coverage_helper(sheet)
-            %td
-              = link_to sheet.name, [@project, sheet]
-            %td{ style: 'text-align:right' }
-              - if sheet.comments.count > 0
-                = link_to [@project, sheet], class: 'btn btn-xs btn-primary' do
-                  = sheet.comments.count
-                  %span.glyphicon.glyphicon-comment
+          = render 'subjects/beta/sheet', sheet: sheet
 
 - if categorized_sheets.count > 0
   .panel.panel-default
@@ -38,24 +30,10 @@
       On an Event
     .panel-body
       %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+        %col{ width: '33px' }
         %col{ width: '60px' }
         %col
         %col
         %col{ width: '120px' }
-        - categorized_sheets.includes(:subject_event).order("subject_events.event_date desc").each do |sheet|
-          %tr
-            %td
-              = coverage_helper(sheet)
-            %td
-              = link_to sheet.name, [@project, sheet]
-              %br
-              .text-muted
-                = sheet.subject_event.event.name
-            %td
-
-              = sheet.subject_event.event_date_to_s
-            %td{ style: 'text-align:right' }
-              - if sheet.comments.count > 0
-                = link_to [@project, sheet], class: 'btn btn-xs btn-primary' do
-                  = sheet.comments.count
-                  %span.glyphicon.glyphicon-comment
+        - categorized_sheets.includes(:subject_event).order("subject_events.event_date").each do |sheet|
+          = render 'subjects/beta/sheet', sheet: sheet
