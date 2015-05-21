@@ -21,7 +21,7 @@ class Event < ActiveRecord::Base
   has_many :event_designs, -> { order(:position) }
   has_many :designs, -> { where deleted: false }, through: :event_designs
 
-  accepts_nested_attributes_for :event_designs, allow_destroy: true
+  has_many :subject_events
 
   # Model Methods
 

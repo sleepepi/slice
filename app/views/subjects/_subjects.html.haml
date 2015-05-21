@@ -10,7 +10,15 @@
         %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'subjects.acrostic', 'Acrostic')
       %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'subjects.site_id', 'Site')
       - @events.each do |event|
-        %th= event.name
+        %th
+          - if event.id.to_i == params[:event_id].to_i
+            = link_to event.name, project_subjects_path(without_event_id: event.id)
+          - else
+            = link_to event.name, project_subjects_path(event_id: event.id)
+          - if event.id.in?([params[:event_id].to_i, params[:without_event_id].to_i])
+            = link_to project_subjects_path, class: 'text-danger', rel: 'tooltip', data: { title: 'Remove Filter', container: 'body', placement: 'right' } do
+              %span.glyphicon.glyphicon-filter
+
       %th Actions
 
   - @subjects.each do |subject|

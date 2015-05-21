@@ -8,6 +8,8 @@ class SubjectEvent < ActiveRecord::Base
   belongs_to :user
   has_many :sheets
 
+  scope :with_valid_subjects, -> { joins(:subject).where(subjects: { status: 'valid', deleted: false }) }
+
   # Model Methods
 
   def event_date_to_param

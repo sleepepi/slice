@@ -113,7 +113,19 @@ class SubjectsController < ApplicationController
     @statuses = params[:statuses] || ['valid']
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).where(status: @statuses).search(params[:search]).order(@order)
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
-    subject_scope = Subject.without_design_event_schedule(subject_scope, @project, params[:without_design_id], params[:without_event_id], params[:without_schedule_id])
+
+    if params[:on_event_design_id].present? and params[:event_id].present?
+      subject_scope = subject_scope.with_entered_design_on_event(params[:on_event_design_id], params[:event_id])
+    elsif params[:not_on_event_design_id].present? and params[:event_id].present?
+      subject_scope = subject_scope.with_unentered_design_on_event(params[:not_on_event_design_id], params[:event_id])
+    elsif params[:event_id].present?
+      subject_scope = subject_scope.with_event(params[:event_id])
+    elsif params[:without_event_id].present?
+      subject_scope = subject_scope.without_event(params[:without_event_id])
+    else
+      subject_scope = subject_scope.without_design(params[:without_design_id]) if params[:without_design_id].present?
+      subject_scope = subject_scope.with_design(params[:design_id]) if params[:design_id].present?
+    end
 
     @subjects = subject_scope.page(params[:page]).per( 40 )
     @events = @project.events.where(archived: false).order(:position)

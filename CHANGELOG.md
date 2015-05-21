@@ -34,8 +34,11 @@
 - **Event Changes**
   - Designs can now be directly associated to events
   - Subjects page now doubles as an event completion report
+  - Event page provides a table of designs by entered, unentered, and unassigned with links to the filtered subjects
 - **Schedule Changes**
   - Schedules can now be ordered by their position relative to each other
+- **Subject Changes**
+  - Subject index can now be filtered by event and also by designs on and not on specific events
 - **Sheet Changes**
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
   - Slight performance improvements in loading large sheets

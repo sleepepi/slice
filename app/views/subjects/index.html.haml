@@ -1,0 +1,75 @@
+- @title = 'Subjects'
+.page-header
+  %h1
+    = link_to @project.name, @project
+    &middot;
+    = @title
+    = link_to "Create Subject", new_project_subject_path(@project), class: 'btn btn-xs btn-primary' if @project.can_edit_sheets_and_subjects?(current_user)
+    = link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs'
+
+= form_tag project_subjects_path(@project), method: :get, id: "subjects_search", class: 'form-vertical' do
+  = hidden_field_tag :order, params[:order]
+  .row
+    .col-md-4.form-group
+      = label :search, 'Search', class: 'col-md-3 control-label'
+      .col-md-9
+        = text_field_tag 'search', params[:search], class: 'form-control'
+
+    .col-md-4.form-group
+      = label :site_id, 'Site', class: 'col-md-3 control-label'
+      .col-md-9
+        = select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where( project_id: @project.id ).order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), class: 'form-control'
+
+    .col-md-4.form-group
+      %label.col-md-3.control-label Subjects
+      .col-md-9
+        = render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#subjects_search' }
+
+  .row
+    - if event = @project.events.find_by_id(params[:event_id]) and design = @project.designs.find_by_id(params[:on_event_design_id])
+      .col-md-12.form-group
+        %label.col-md-3.control-label With Design on Event
+        .col-md-9
+          = hidden_field_tag :event_id, params[:event_id]
+          = hidden_field_tag :on_event_design_id, params[:on_event_design_id]
+          = design.name
+          on
+          = event.name
+    - elsif event = @project.events.find_by_id(params[:event_id]) and design = @project.designs.find_by_id(params[:not_on_event_design_id])
+      .col-md-12.form-group
+        %label.col-md-3.control-label Without Design on Event
+        .col-md-9
+          = hidden_field_tag :event_id, params[:event_id]
+          = hidden_field_tag :not_on_event_design_id, params[:not_on_event_design_id]
+          = design.name
+          not on
+          = event.name
+    - elsif event = @project.events.find_by_id(params[:event_id])
+      .col-md-12.form-group
+        %label.col-md-3.control-label With Event
+        .col-md-9
+          = hidden_field_tag :event_id, params[:event_id]
+          = event.name
+    - elsif event = @project.events.find_by_id(params[:without_event_id])
+      .col-md-12.form-group
+        %label.col-md-3.control-label Without Event
+        .col-md-9
+          = hidden_field_tag :without_event_id, params[:without_event_id]
+          = event.name
+    - else
+      .col-md-6.form-group
+        = label :without_design_id, 'Without Design', class: 'col-md-3 control-label'
+        .col-md-9
+          = select_tag :without_design_id, options_for_select([['---', nil]] + @project.designs.order('name').collect{|d| [d.name, d.id]}, params[:without_design_id] ), class: 'form-control'
+
+      .col-md-6.form-group
+        %label.col-md-3.control-label With Design
+        .col-md-9
+          = select_tag :design_id, options_for_select([['---', nil]] + @project.designs.order('name').collect{|d| [d.name, d.id]}, params[:design_id] ), class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = submit_tag 'Search', class: 'btn btn-primary', name: nil
+      = link_to 'Reset', project_subjects_path(@project), class: 'btn btn-default'
+
+= render 'subjects/subjects'

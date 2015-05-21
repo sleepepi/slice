@@ -10,6 +10,11 @@ class Subject < ActiveRecord::Base
   scope :with_project, lambda { |arg| where( project_id: arg ) }
   scope :without_design, lambda { |arg| where( "subjects.id NOT IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, arg ) }
   scope :with_design, lambda { |arg| where( "subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))", false, arg ) }
+  scope :without_event, lambda { |event| where("subjects.id NOT IN (select subject_events.subject_id from subject_events where subject_events.event_id IN (?))", event) }
+  scope :with_event, lambda { |event| where("subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id IN (?))", event) }
+  scope :with_entered_design_on_event, lambda {|design, event| where("subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ? and sheets.subject_event_id IS NOT NULL))", event, false, design)}
+  scope :with_unentered_design_on_event, lambda {|design, event| where("subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id NOT IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ? and sheets.subject_event_id IS NOT NULL))", event, false, design)}
+  scope :without_design_on_event, lambda {|design, event| where("subjects.id NOT IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ?))", event, false, design)}
 
   # Model Validation
   validates_presence_of :project_id, :subject_code, :user_id, :site_id
@@ -68,19 +73,6 @@ class Subject < ActiveRecord::Base
       end
     end
     result
-  end
-
-  def self.without_design_event_schedule(subject_scope, project, design_id, event_id, schedule_id)
-    if not design_id.blank? and (event_id.blank? or schedule_id.blank?)
-      subject_scope = subject_scope.without_design(design_id)
-    elsif not design_id.blank? and not event_id.blank? and not schedule_id.blank?
-      assigned_subject_schedule_ids = SubjectSchedule.where( schedule_id: schedule_id ).pluck(:id)
-      entered_subject_schedule_ids = project.sheets.where( subject_schedule_id: assigned_subject_schedule_ids, event_id: event_id, design_id: design_id ).pluck( :subject_schedule_id )
-      unentered_subject_ids = SubjectSchedule.where( schedule_id: schedule_id ).where( "id NOT IN (?)", entered_subject_schedule_ids ).pluck(:subject_id)
-      subject_scope = subject_scope.where( id: unentered_subject_ids )
-    end
-
-    subject_scope
   end
 
   def uploaded_files

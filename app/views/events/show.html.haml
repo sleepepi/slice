@@ -17,14 +17,6 @@
   %dt Position
   %dd= @event.position
 
-  %dt Designs
-  %dd
-    %ul.list-unstyled
-      - @event.event_designs.each do |event_design|
-        %li
-          = link_to event_design.design.name, [@project, event_design.design]
-
-
   %dt Description
   %dd= simple_format @event.description
 
@@ -36,4 +28,67 @@
 
   %dt Scheduled
   %dd= simple_check @event.scheduled
+
+
+  %dt Information
+  %dd
+    - assigned_count = @event.subject_events.with_valid_subjects.count
+    = pluralize assigned_count, 'event'
+    assigned for
+    - assigned_subject_count = @event.subject_events.with_valid_subjects.pluck(:subject_id).uniq.count
+    = pluralize assigned_subject_count, 'subject'
+
+    - subject_count = @project.subjects.where(status: 'valid').count
+
+    %table.table{ style: "table-layout:fixed;" }
+      %thead
+        %tr
+          %th
+          %th.center{ colspan: 2 } Assigned  (# of Subjects)
+          %th.center Unassigned  (# of Subjects)
+        %tr
+          %th Design
+          %th.center Entered
+          %th.center Unentered
+          %th
+      - @event.designs.each do |design|
+        %tr
+          %td
+            = link_to design.name, [@project, design]
+          %td.center
+            - entered_count = @project.subjects.with_entered_design_on_event(design, @event).count
+            - if entered_count > 0
+              = link_to entered_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
+              - if subject_count > 0
+                %span.text-muted{ style: "font-size:0.7em" }
+                  = "#{(entered_count * 100.0 / subject_count).round}%"
+          %td.center
+            - unentered_count = assigned_subject_count - entered_count
+            - if unentered_count > 0
+              = link_to unentered_count, project_subjects_path(@project, not_on_event_design_id: design.id, event_id: @event.id)
+              - if subject_count > 0
+                %span.text-muted{ style: "font-size:0.7em" }
+                  = "#{(unentered_count * 100.0 / subject_count).round}%"
+            - else
+              %span.text-muted -
+          %td.center
+            - unassigned_count = @project.subjects.without_event(@event).count
+            - if unassigned_count > 0
+              = link_to unassigned_count, project_subjects_path(@project, without_event_id: @event.id)
+              - if subject_count > 0
+                %span.text-muted{ style: "font-size:0.7em" }
+                  = "#{(unassigned_count * 100.0 / subject_count).round}%"
+
+
+
+
+
+
+
+
+
+
+
+
+
 
