@@ -12,6 +12,8 @@
     - Entering an existing subject code redirects to the subject's main page
   - Subject pages now prompt users to select the appropriate study-level event for which they want to enter a subject's sheet
   - Subject page now organizes subject sheets and events in a persistent left hand navigation bar
+  - Events assigned to subjects can now be removed
+    - Removing an event will not remove sheets that have been added to that event
   - The new subject page now contains a link to subject timeline and settings
     - The subject timeline lists subject events, sheets, and comments
   - The new subject page contains a list of uploaded files across all of the subject's sheets

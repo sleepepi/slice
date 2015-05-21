@@ -8,5 +8,7 @@
     %h2.subject-header
       = @subject_event.event.name
 
-    = link_to 'Edit Event', edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: 'btn btn-default btn-xs', style: 'margin-bottom: 20px'
+    %div{ style: 'margin-bottom: 20px' }
+      = link_to 'Edit Event', edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: 'btn btn-default btn-xs'
+      = link_to 'Delete Event', destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Are you sure you want to remove #{@subject_event.event.name} from subject? Associated sheets will not be deleted." }, class: 'btn btn-danger-inverse btn-xs'
     = render @subject_event

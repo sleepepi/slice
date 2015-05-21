@@ -7,6 +7,22 @@ class SubjectsControllerTest < ActionController::TestCase
     @subject = subjects(:one)
   end
 
+  test "should destroy event and not destroy associated sheets" do
+    @subject_event = subject_events(:one)
+    assert_difference('SubjectEvent.count', -1) do
+      assert_difference('Sheet.current.count', 0) do
+        delete :destroy_event, project_id: @project, id: @subject, event_id: @subject_event.event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param
+      end
+    end
+
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_not_nil assigns(:subject_event)
+
+    assert_redirected_to [assigns(:project), assigns(:subject)]
+  end
+
   test "should get timeline" do
     get :timeline, id: @subject, project_id: @project
     assert_response :success
