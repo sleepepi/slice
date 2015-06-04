@@ -8,11 +8,15 @@
     = render 'projects/beta/menu'
 
   .col-sm-10
-    %h1 Enter Subject Code
+    %h2.project-header Enter Subject Code
 
     = form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-vertical', id: 'subject-search-form' do
-      = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { "project-slug" => @project.to_param }
+      .input-group
+        = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { "project-slug" => @project.to_param }
+        %span.input-group-btn
+          = submit_tag 'Find or Create Subject', class: 'btn btn-default'
 
+    %hr.soften{ style: "margin-top:20px;margin-bottom:20px" }
 
     %table.table.table-striped
       %thead
