@@ -21,7 +21,7 @@
           = link_to project_subjects_path(@project) do
             Subjects
             %span.badge= @project.subjects.where(status: 'valid').count
-        - if @subject
+        - if @subject and not @subject.new_record?
           %li.hidden-xs.hidden-sm
             = link_to project_subject_path(@project, @subject) do
               = @subject.name

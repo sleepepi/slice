@@ -1,0 +1,70 @@
+- @title = "#{@project.name} - Collaborators"
+.project-title-container
+  = link_to @project.name, @project, class: 'project-title'
+
+.row
+  .col-sm-2
+    = render 'projects/beta/menu'
+
+  .col-sm-10
+    %h2.project-header
+      Collaborators
+    .row
+      .col-md-10
+        - if @project.editable_by?(current_user)
+          %h2 Share with...
+
+          = form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do
+            .form-group
+              = text_field_tag 'invite_email', '', autocomplete: "off", data: { object: 'typeahead', local: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json }, class: 'form-control', placeholder: 'Email Address'
+
+            .form-group
+              = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
+
+            .form-group
+              %label.btn.btn-default
+                = check_box_tag 'editor', '1', true
+                Editor
+
+            .form-group
+              = submit_tag 'Invite By Email', class: 'btn btn-primary'
+
+          %hr.soften{ style: "margin: 54px 0px" }
+
+        #project-members
+          = render 'projects/members'
+
+        %table.table.table-fixed
+          %thead
+            %tr
+              %th Roles
+              %th Create Designs, Variables, Sites, Schedules, Events
+              %th Create Sheets, Subjects
+              %th View Sheets, Subjects
+              %th Comment on Sheets
+            %tr
+              %td Project Editor
+              %td.success Yes
+              %td.success Yes
+              %td.success Yes
+              %td.success Yes
+            %tr
+              %td Project Viewer
+              %td.danger No
+              %td.danger No
+              %td.success Yes
+              %td.success Yes
+            %tr
+              %td Site Editor
+              %td.danger No
+              %td.success Yes*
+              %td.success Yes*
+              %td.success Yes*
+            %tr
+              %td Site Viewer
+              %td.danger No
+              %td.danger No
+              %td.success Yes*
+              %td.success Yes*
+
+        \* Only for subjects on the site member's site

@@ -7,6 +7,7 @@
     - Projects can now be reordered and favorited on the projects overview page
     - Projects can now be sent to the archives from the projects overview page
   - The Project Show page for individual projects will allow users to quickly create subjects and launch events for the selected subject
+  - Project show page now has a new left hand navigation
   - New subjects can now be quickly created by searching for them from the main project page
     - Users can then choose the new subject's site on the followup screen
     - Entering an existing subject code redirects to the subject's main page
