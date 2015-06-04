@@ -1,10 +1,30 @@
-- if beta_enabled?(current_user)
-  = render partial: 'projects/beta/splash'
-- else
-  = form_tag splash_projects_path, method: :get, id: "splash_projects_search", class: 'form-inline' do
-    =# hidden_field_tag :order, params[:order]
-    =# text_field_tag 'search', params[:search], class: 'form-control'
-    =# submit_tag 'Search', class: 'btn btn-primary', name: nil
+- if @favorited_projects.count > 0
+  %div{ style: 'margin-bottom:20px' }
+    %p.lead{ style: 'margin-bottom:5px' } Favorites
 
-  #splash_projects{ style: "margin-top:20px" }
-    = render partial: 'projects/splash_projects'
+    %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'favored' } }
+      - @favorited_projects.each do |project|
+        = render partial: 'projects/beta/splash_project_box', locals: { project: project, favorited: true, archived: false }
+
+- if @current_projects.count > 0
+  %div{ style: 'margin-bottom:20px' }
+    %p.lead{ style: 'margin-bottom:5px' } Current Projects
+
+    %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'unfavored' } }
+      - @current_projects.each do |project|
+        = render partial: 'projects/beta/splash_project_box', locals: { project: project, favorited: false, archived: false }
+
+.projects-box
+  = link_to new_project_path, class: 'btn btn-success-inverse' do
+    %span.glyphicon.glyphicon-plus
+    Create
+    %strong.btn-text-emphasis New Project
+
+.center
+  = paginate @projects, theme: "contour"
+
+- if current_user.all_archived_projects.count > 0
+  %div{ style: 'margin-bottom:20px' }
+    %p.lead{ style: 'margin-bottom:5px' }
+      You have
+      = link_to(pluralize(current_user.all_archived_projects.count, "archived project"), archives_path) + "."

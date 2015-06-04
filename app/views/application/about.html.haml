@@ -1,0 +1,53 @@
+- @title = "About #{ENV['website_name']}"
+
+.row{ style: "margin-top:54px" }
+  .col-md-12
+    %h1.about-title= @title
+    %p.about-tagline
+      = ENV['website_name']
+      is a
+      = link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' }
+      and
+      = link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
+      clinical research interface for collecting and analyzing data.
+    %p.about-signup
+      = link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-large"
+    %p.about-tagline
+      Questions?
+      = succeed '.' do
+        = link_to 'Contact us', contact_path
+
+%hr.soften
+
+.row
+  .col-md-4
+    %h2.about-title Design Forms
+    %ul
+      %li Create new designs and variables, or copy from existing libraries.
+      %li Updating variables migrates already filled-out form data keeping all of your project data in sync.
+  .col-md-4
+    %h2.about-title Manage Multi-site Projects
+    %ul
+      %li Enroll subjects across sites.
+      %li Sites can view their subjects and receipts.
+  .col-md-4
+    %h2.about-title Email Receipts
+    %ul
+      %li Email PDF receipts to sites when a subject form is completed.
+
+%hr.soften
+
+%p.text-muted.about-footer
+  = ENV['website_name']
+  Version
+  = link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}"
+
+%p.text-muted.about-footer
+  By using
+  = ENV['website_name']
+  you are agreeing to the
+  = succeed '.' do
+    = link_to 'Acceptable Use Policy', about_use_path
+
+.center{ style: "margin-top:40px" }
+  = image_tag 'try-slice-logo.png'

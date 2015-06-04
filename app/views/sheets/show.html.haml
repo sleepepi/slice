@@ -1,20 +1,15 @@
 - @title = @sheet.name
 
-- if beta_enabled?(current_user)
-  - @subject = @sheet.subject
-  = render 'subjects/beta/header'
-  .row
-    .col-sm-2
-      = render partial: 'subjects/beta/event_navigation'
+- @subject = @sheet.subject
+= render 'subjects/beta/header'
+.row
+  .col-sm-2
+    = render 'subjects/beta/event_navigation'
 
-    .col-sm-10
-      = render partial: 'sheets/header_info_limited'
+  .col-sm-10
+    = render 'sheets/header_info_limited'
 
-  .markdown-container
-    = render partial: 'sheets/body_info'
+.markdown-container
+  = render 'sheets/body_info'
 
-  = render partial: 'sheets/body_after'
-- else
-  = render partial: 'sheets/header_info'
-  = render partial: 'sheets/body_info'
-  = render partial: 'sheets/body_after'
+= render 'sheets/body_after'

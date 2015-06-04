@@ -26,14 +26,9 @@
       .container-fluid
         = render partial: 'layouts/menu'
 
-    - if beta_enabled?(current_user)
-      = render partial: 'layouts/beta/flash_message'
-    - else
-      .container{ style: "position:relative" }
-        .flash-block{ data: { object: "flash-container" } }
-          = flash_block
+    = render partial: 'layouts/flash_message'
 
-    = render partial: 'layouts/beta/beta_corner'
+    =# render partial: 'layouts/beta/beta_corner'
 
     .container-fluid.content-margin
       = yield

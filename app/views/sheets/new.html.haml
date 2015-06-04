@@ -1,14 +1,11 @@
 - @title = "New Sheet"
 
-- if @subject = @sheet.subject and beta_enabled?(current_user)
+- if @subject = @sheet.subject
   = render 'subjects/beta/header'
-
-
-  =# render 'subjects/beta/event_navigation'
 
   = render 'sheets/beta/form_header'
   .markdown-container
-    = render '/sheets/beta/form'
+    = render 'sheets/beta/form'
 
 - else
   = render 'form'

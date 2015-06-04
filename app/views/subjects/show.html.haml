@@ -1,73 +1,13 @@
 - @title = @subject.name
 
-- if beta_enabled?(current_user)
-  = render partial: 'subjects/beta/show'
-- else
-  .page-header
-    %h1
-      = link_to @project.name, @project
-      &middot;
-      = link_to 'Subjects', project_subjects_path(@project)
-      &middot;
-      = @title
-      = status_helper(@subject, true)
-    - if current_user.all_subjects.pluck(:id).include?(@subject.id)
-      = link_to "Edit Subject", edit_project_subject_path(@subject.project, @subject), class: 'btn btn-default btn-xs'
-      = link_to "Delete Subject", [@subject.project, @subject], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" }
-    = link_to "Subject Report", subject_report_project_path(@project), class: 'btn btn-default btn-xs'
+= render 'subjects/beta/header'
 
-  - if @project.events.size > 0
-    .page-header
-      %h1
-        Events
-        = link_to 'Add Event', choose_event_project_subject_path(@project, @subject), class: 'btn btn-xs btn-default'
+.row
+  .col-sm-2
+    = render 'subjects/beta/event_navigation'
 
-    %div{ style: 'margin-bottom:20px' }
-      Subject schedules have been removed and replaced by events. See all
-      = link_to 'subject events', events_project_subject_path(@project, @subject)
-      here.
-
-  %dl.dl-horizontal
-    %dt Site
-    %dd= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site
-
-    - if @subject.project.acrostic_enabled?
-      %dt Acrostic
-      %dd= @subject.acrostic
-
-    %dt Email
-    %dd= @subject.email
-
-    %dt Sheets
-    %dd
-      %ul
-        - @subject.sheets.order('created_at DESC').each do |sheet|
-          %li
-            = link_to sheet.name, [sheet.project, sheet]
-            \- entered
-            = simple_time sheet.created_at
-            - if sheet.double_data_entry?
-              %span.label.label-warning Double Data Entry
-
-  .page-header
-    %h1 Sheets Entered
-
-  - @subjects = Subject.current.where(id: @subject.id).page(0).per(-1)
-  - @designs = @project.designs.order('name')
-  = render partial: 'projects/subject_report', locals: { no_header: '1' }
-
-
-  - sheet_variables = @subject.sheets.collect{|s| s.sheet_variables.with_variable_type('file')}.flatten[0..100]
-  - if sheet_variables.size > 0
-    %h2 Files
-    %form.form-horizontal
-      - sheet_variables.each do |sheet_variable|
-        - variable = sheet_variable.variable
-        - @sheet = sheet_variable.sheet
-        - if not variable.uses_scale? and ['invisible', 'gone'].include?(variable.display_name_visibility)
-          %label= variable.display_name
-        .form-group
-          - if not variable.uses_scale? and 'visible' == variable.display_name_visibility
-            = label 'variables', "#{variable.id}", variable.display_name, class: 'col-md-3 control-label'
-          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')} #{'col-md-offset-3' if variable.display_name_visibility == 'invisible' and not variable.uses_scale?}", style: "line-height:30px;padding-top:4px;" }
-            = render "sheet_variables/show/file", variable: variable, object: sheet_variable
+  .col-sm-10
+    - if @project.events.where(archived: false).count > 0
+      = render 'subjects/beta/events'
+    - else
+      = render 'subjects/beta/sheets'

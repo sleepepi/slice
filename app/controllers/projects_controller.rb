@@ -58,11 +58,7 @@ class ProjectsController < ApplicationController
   def favorite
     project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
     project_favorite.update favorite: (params[:favorite] == '1')
-    if current_user.beta_enabled?
-      redirect_to root_path
-    else
-      redirect_to @project
-    end
+    redirect_to root_path
   end
 
   def archive
@@ -117,17 +113,17 @@ class ProjectsController < ApplicationController
     @statuses = params[:statuses] || ['valid']
     @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order('subject_code').page(params[:page]).per( 40 )
     @designs = @project.designs.order('name')
+    render layout: 'layouts/application_custom_full'
   end
 
   # GET /projects/1/splash
   # GET /projects/1/splash.js
   def splash
     flash.delete(:notice) if flash[:notice] == 'Signed in successfully.'
-    if current_user.beta_enabled?
-      @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).unarchived.order("(favorite IS NULL or favorite = 'f') ASC, position, name").page(params[:page]).per( Project::PER_PAGE )
-    else
-      @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").page(params[:page]).per( 8 )
-    end
+    @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).unarchived.order("(favorite IS NULL or favorite = 'f') ASC, position, name").page(params[:page]).per( Project::PER_PAGE )
+
+    @favorited_projects = @projects.where(project_favorites: { favorite: true })
+    @current_projects = @projects.where(project_favorites: { favorite: [false, nil] })
 
     redirect_to @projects.first if current_user.all_viewable_and_site_projects.count == 1
   end
