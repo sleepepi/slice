@@ -1,16 +1,12 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :logo ]
+  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :logo ]
   before_action :set_editable_project,      only: [ :setup, :edit, :update, :invite_user ]
   before_action :set_owner_project,         only: [ :transfer, :destroy ]
-  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :explore, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo ]
+  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo ]
 
   # Concerns
   include Buildable
-
-  def explore
-    redirect_to @project
-  end
 
   # POST /projects/save_project_order.js
   def save_project_order

@@ -17,7 +17,6 @@ Rails.application.routes.draw do
       post :edit_filter
       post :favorite
       get :activity
-      get :explore
       get :share
       get :setup
       get :about

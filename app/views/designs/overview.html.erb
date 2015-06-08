@@ -8,7 +8,7 @@
   <% end %>
 
   <h1>
-    <%= link_to @project.name, explore_project_path(@project) %> &middot; <%= link_to @design.name, [@design.project, @design] %> Overview
+    <%= link_to @project.name, @project %> &middot; <%= link_to @design.name, [@design.project, @design] %> Overview
   </h1>
 </div>
 
