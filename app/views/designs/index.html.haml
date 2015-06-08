@@ -19,13 +19,13 @@
       = hidden_field_tag :order, params[:order]
       .row
         .col-md-4.form-group
-          = label :search, 'Search', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :search, 'Search', class: 'col-md-3 control-label'
+          .col-md-9
             = text_field_tag 'search', params[:search], class: 'form-control'
 
         .col-md-4.form-group
-          = label :user_id, 'Creator', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :user_id, 'Creator', class: 'col-md-3 control-label'
+          .col-md-9
             = select_tag 'user_id', options_for_select([['---', nil]] + User.where( id: @project.designs.select(:user_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control'
 
         .col-md-4.form-group

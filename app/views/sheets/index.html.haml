@@ -24,46 +24,46 @@
 
       .row
         .col-md-4.form-group
-          = label :search, 'Search', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :search, 'Search', class: 'col-md-3 control-label'
+          .col-md-9
             = text_field_tag 'search', params[:search], class: 'form-control', placeholder: 'Design Name or Subject Code', autocomplete: 'off'
         .col-md-4.form-group
-          = label :sheet_after, 'Date after', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :sheet_after, 'Date after', class: 'col-md-3 control-label'
+          .col-md-9
             = text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker form-control'
 
         .col-md-4.form-group
-          = label :sheet_before, 'Date before', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :sheet_before, 'Date before', class: 'col-md-3 control-label'
+          .col-md-9
             = text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker form-control'
 
       .row
         .col-md-4.form-group
-          = label :site_id, 'Site', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :site_id, 'Site', class: 'col-md-3 control-label'
+          .col-md-9
             = select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where(project_id: @project.id).order(:name).collect{|s| [s.name, s.id]}, params[:site_id]), class: 'form-control'
         .col-md-4.form-group
-          = label :design_id, 'Design', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :design_id, 'Design', class: 'col-md-3 control-label'
+          .col-md-9
             = select_tag :design_id, options_for_select([['---', nil]] + current_user.all_viewable_designs.where(project_id: @project.id).order(:name).collect{|d| [d.name, d.id]}, params[:design_id]), class: 'form-control'
         .col-md-4.form-group
-          = label :user_id, 'Creator', class: 'col-md-2 control-label'
-          .col-md-10
+          = label :user_id, 'Creator', class: 'col-md-3 control-label'
+          .col-md-9
             = select_tag 'user_id', options_for_select([['---', nil]] + User.where( id: @project.sheets.select(:user_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control'
 
       .row
         .col-md-4.form-group
           = hidden_field_tag :filter, @filter
-          = label :statuses, 'Status', class: 'col-md-2 control-label'
+          = label :statuses, 'Status', class: 'col-md-3 control-label'
 
-          .col-md-10
+          .col-md-9
             = render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#sheets_search' }
 
         - if @project.lockable?
           .col-md-4.form-group
-            = label :locked, 'Locked', class: 'col-md-2 control-label'
+            = label :locked, 'Locked', class: 'col-md-3 control-label'
 
-            .col-md-10
+            .col-md-9
               .btn-group{ data: { toggle: "buttons" } }
                 %label.btn.btn-default.btn-xs{ class: "#{'active' if params[:locked].to_s == '1'}" }
                   = check_box_tag 'locked', '1', params[:locked].to_s == '1', id: 'locked'
@@ -71,8 +71,8 @@
 
         - if @project.double_data_entry?
           .col-md-4.form-group
-            = label :double_data_entry, 'Double Data Entry', class: 'col-md-2 control-label'
-            .col-md-10
+            = label :double_data_entry, 'Double Data Entry', class: 'col-md-3 control-label'
+            .col-md-9
               = select_tag 'double_data_entry', options_for_select([['---', nil], ['All With Double Data Entry', 'with'], ['All Without Double Data Entry', 'without']], params[:double_data_entry]), class: 'form-control'
 
       - (params[:f] || []).in_groups_of(3, false).each do |row_filters|
@@ -80,8 +80,8 @@
           - row_filters.each do |filter|
             .col-md-4.form-group
               - if v = @project.variable_by_id(filter[:variable_id])
-                = label "variable_id_#{filter[:variable_id]}", v.display_name, class: 'col-md-2 control-label'
-                .col-md-10
+                = label "variable_id_#{filter[:variable_id]}", v.display_name, class: 'col-md-3 control-label'
+                .col-md-9
                   = hidden_field_tag "f[][variable_id]", filter[:variable_id]
                   = hidden_field_tag "f[][start_date]", filter[:start_date]
                   = hidden_field_tag "f[][end_date]", filter[:end_date]
