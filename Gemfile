@@ -6,7 +6,7 @@ gem 'rails',                '4.2.1'
 gem 'pg',                   '0.18.2'
 
 # Gems used by project
-gem 'contour',              '~> 3.0.0.beta1'
+gem 'contour',              '~> 3.0.0.rc'
 gem 'kaminari',             '~> 0.16.3'
 gem 'carrierwave',          '~> 0.10.0'
 gem 'naturalsort',          '~> 1.2.0'

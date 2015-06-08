@@ -55,7 +55,7 @@
 - **Gem Changes**
   - Updated to rails 4.2.1
   - Updated to pg 0.18.2
-  - Updated to contour 3.0.0.beta1
+  - Updated to contour 3.0.0.rc
   - Updated to kaminari 0.16.3
   - Updated to naturalsort 1.2.0
   - Removed dependency on rails-observers
