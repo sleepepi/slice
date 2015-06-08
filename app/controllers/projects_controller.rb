@@ -8,6 +8,10 @@ class ProjectsController < ApplicationController
   # Concerns
   include Buildable
 
+  def explore
+    redirect_to @project
+  end
+
   # POST /projects/save_project_order.js
   def save_project_order
     page = [params[:page].to_i,1].max

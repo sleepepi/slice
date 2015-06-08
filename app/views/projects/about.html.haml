@@ -1,0 +1,32 @@
+- @title = "#{@project.name} - About"
+
+.project-title-container
+  = link_to @project.name, @project, class: 'project-title'
+
+.row
+  .col-sm-2
+    = render 'projects/beta/menu'
+
+  .col-sm-10
+    %h2.project-header
+      About
+
+    - unless @project.description.blank?
+      %blockquote
+        = simple_markdown @project.description
+
+    - if @project.show_posts? or @project.show_documents? or @project.show_contacts?
+      - extra_col_width = "col-sm-#{12 / [@project.show_posts?, @project.show_documents?, @project.show_contacts?].select{|t| t}.size}"
+      .row
+        - if @project.show_posts?
+          %div{ class: "#{extra_col_width}" }
+            = render 'projects/show/posts'
+        - if @project.show_documents?
+          %div{ class: "#{extra_col_width}" }
+            = render 'projects/show/documents'
+        - if @project.show_contacts?
+          %div{ class: "#{extra_col_width}" }
+            = render 'projects/show/contacts'
+
+    = render 'projects/show/links'
+

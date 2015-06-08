@@ -1,6 +1,6 @@
 %ul.left-navigation
   %li
-    = link_to 'Overview', @project
+    = link_to 'Overview', @project, class: "#{'active' if current_page?(project_path(@project))}"
     %ul
       %li= link_to 'Subjects', project_subjects_path(@project), class: "#{'active' if current_page?(project_subjects_path(@project))}"
       %li= link_to 'Sheets', project_sheets_path(@project), class: "#{'active' if current_page?(project_sheets_path(@project))}"
