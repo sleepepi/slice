@@ -54,6 +54,9 @@
   - Improved the speed at which sheet exports are generated
 - **Design Changes**
   - Removed underused and confusing cross sheet variables from designs
+- **Email Changes**
+  - Removed sign up notification emails for admins
+  - Removed account approved notification emails
 - **Gem Changes**
   - Updated to rails 4.2.1
   - Updated to pg 0.18.2

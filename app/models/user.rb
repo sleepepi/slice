@@ -11,9 +11,6 @@ class User < ActiveRecord::Base
   serialize :pagination, Hash
   serialize :email_notifications, Hash
 
-  # Callbacks
-  after_create :notify_system_admins
-
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
   EMAILABLES =  [
@@ -273,11 +270,4 @@ class User < ActiveRecord::Base
     "#{last_name}, #{first_name}"
   end
 
-  private
-
-  def notify_system_admins
-    User.current.system_admins.each do |system_admin|
-      UserMailer.notify_system_admin(system_admin, self).deliver_later if Rails.env.production?
-    end
-  end
 end
