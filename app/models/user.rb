@@ -11,8 +11,6 @@ class User < ActiveRecord::Base
   serialize :pagination, Hash
   serialize :email_notifications, Hash
 
-  STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
-
   EMAILABLES =  [
                   [ :daily_digest, 'Receive daily digest emails of sheets that have been created the previous day' ],
                   [ :sheet_comment, 'Receive email when a comment is added to a sheet' ]
@@ -23,7 +21,6 @@ class User < ActiveRecord::Base
 
   # Named Scopes
   scope :human, -> { all } # Placeholder
-  scope :status, lambda { |arg|  where( status: arg ) }
   scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
   scope :system_admins, -> { where( system_admin: true ) }
   scope :with_sheet, -> { where("users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false ) }

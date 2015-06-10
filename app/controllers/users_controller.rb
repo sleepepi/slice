@@ -60,7 +60,6 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       @user.update_column :system_admin, params[:user][:system_admin]
-      @user.update_column :status, params[:user][:status]
       redirect_to @user, notice: 'User was successfully updated.'
     else
       render action: "edit"

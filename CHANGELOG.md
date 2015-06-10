@@ -87,6 +87,7 @@
 - Reduced number of database queries for events and designs indexes
 - Improved the load time of the sheets index
 - Removed deprecated sheet audit system
+- Removed status field from the user model
 
 ## 0.27.7 (December 30, 2014)
 
