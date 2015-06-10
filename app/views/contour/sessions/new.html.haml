@@ -50,16 +50,5 @@
 
 %hr.soften
 
-%footer.footer
-  %p.muted.about-footer
-    = ENV['website_name']
-    Version
-    = link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/#{Slice::VERSION::MAJOR}.#{Slice::VERSION::MINOR}.#{Slice::VERSION::TINY}"
-  %p.muted.about-footer
-    By using
-    = ENV['website_name']
-    you are agreeing to the
-    = link_to('Acceptable Use Policy', about_use_path) + "."
-
 .center{ style: "margin-top:40px" }
   = image_tag 'try-slice-logo.png', style: "max-width:100%"

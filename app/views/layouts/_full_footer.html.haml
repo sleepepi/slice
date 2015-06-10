@@ -17,12 +17,20 @@
     .col-sm-3.col-xs-6
       %h4 Register
       %ul.list-unstyled
-        %li= link_to 'New User Registration', new_user_registration_path
+        %li
+          = link_to new_user_registration_path do
+            %span.hidden-xs New User Registration
+            %span.visible-xs Sign Up
 
     .col-sm-3.col-xs-6
-      %h4 Trouble Logging In?
+      %h4
+        %span.hidden-xs Trouble Logging In?
+        %span.visible-xs Password
       %ul.list-unstyled
-        %li= link_to 'I Forgot My Password!', new_user_password_path
+        %li
+          = link_to new_user_password_path do
+            %span.hidden-xs I Forgot My Password!
+            %span.visible-xs Reset
   .col-sm-3.col-xs-6
     %h4 Support
     %ul.list-unstyled
