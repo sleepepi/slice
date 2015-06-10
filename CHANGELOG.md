@@ -77,6 +77,7 @@
 - Reduced the amount of information logged to the log file
 - Fixed an issue loading multiple pages on the project summary report
 - Adding sections to a design no longer prefill the branching logic as "undefined"
+- Numeric and integer values will no longer append zeros after the decimal place when updated on a sheet
 
 ### Refactoring
 - Simplified how image assets are referenced from SCSS file

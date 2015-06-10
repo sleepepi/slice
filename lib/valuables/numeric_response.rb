@@ -9,7 +9,16 @@ module Valuables
     end
 
     def raw
-      begin Float(@object.response) end rescue @object.response
+      begin
+        string_response = "%g" % @object.response
+        begin
+          Integer(string_response)
+        rescue
+          Float(string_response)
+        end
+      rescue
+        @object.response
+      end
     end
 
     def display_name
