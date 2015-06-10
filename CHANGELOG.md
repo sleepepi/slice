@@ -1,13 +1,34 @@
 ## 0.28.0
 
 ### Enhancements
-- **Beta Changes**
-  - Users can now enable a beta preview of the site in their settings
+- **General Changes**
+  - Several pages have been redesigned to be more subject-centric instead of sheet-centric
+  - Streamlined login system by removing alternate logins
+  - Removed approval process for new user registration
+  - Updated the menu bar and sign up and registration pages
+  - Added the new Try Slice logo, along with an animated Try Slice loading animation
+  - Added new contact page and new footer
+- **Project Changes**
+  - Projects can now have a slug specified to support a nicer URL structure
   - The Projects Overview page has been updated to better show projects for users with numerous projects
     - Projects can now be reordered and favorited on the projects overview page
     - Projects can now be sent to the archives from the projects overview page
   - The Project Show page for individual projects will allow users to quickly create subjects and launch events for the selected subject
   - Project show page now has a new left hand navigation
+- **Schedule and Event Changes**
+  - Schedules have been removed and have been replaced by events
+  - Events can be ordered by their position relative to each other
+  - Designs can now be directly associated to events
+  - Subjects page now doubles as an event completion report
+  - Event page provides a table of designs by entered, unentered, and unassigned with links to the filtered subjects
+  - Sheets can now be added directly to existing subject events
+    - A sheet for a specific design can be added multiple times to the same event
+    - In the case were a design exists multiple times, the subject event only counts one of the sheets for event completion
+    - The subject event lists designs that have duplicate sheets
+    - The subject event also displays designs for filled out sheets that are explicitly listed on the project event
+- **Subject Changes**
+  - Subject index can now be filtered by event and also by designs on and not on specific events
+  - Subjects created from public surveys no longer appear to be created by the project owner
   - New subjects can now be quickly created by searching for them from the main project page
     - Users can then choose the new subject's site on the followup screen
     - Entering an existing subject code redirects to the subject's main page
@@ -19,28 +40,6 @@
     - The subject timeline lists subject events, sheets, and comments
   - The new subject page contains a list of uploaded files across all of the subject's sheets
   - Subject show page now shows all comments for a subject in a new tab
-  - Sheets can now be added directly to existing subject events
-    - A sheet for a specific design can't be added multiple times to the same event
-    - In the case were a design exists multiple times, the subject event only counts one of the sheets for event completion
-    - The subject event lists designs that have duplicate sheets
-    - The subject event also displays designs for filled out sheets that are explicitly listed on the project event
-- **General Changes**
-  - Streamlined login system by removing alternate logins
-  - Removed approval process for new user registration
-  - Updated the menu bar and sign up and registration pages
-  - Added the new Try Slice logo, along with an animated Try Slice loading animation
-  - Added new contact page and new footer
-- **Project Changes**
-  - Projects can now have a slug specified to support a nicer URL structure
-- **Event Changes**
-  - Designs can now be directly associated to events
-  - Subjects page now doubles as an event completion report
-  - Event page provides a table of designs by entered, unentered, and unassigned with links to the filtered subjects
-- **Schedule Changes**
-  - Schedules can now be ordered by their position relative to each other
-- **Subject Changes**
-  - Subject index can now be filtered by event and also by designs on and not on specific events
-  - Subjects created from public surveys no longer appear to be created by the project owner
 - **Sheet Changes**
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
   - Slight performance improvements in loading large sheets
