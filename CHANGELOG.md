@@ -1,5 +1,8 @@
 ## 0.28.1
 
+### Bug Fix
+- Fixed an issue rendering the project menu
+
 ## 0.28.0 (June 10, 2015)
 
 ### Enhancements

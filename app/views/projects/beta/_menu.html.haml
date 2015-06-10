@@ -4,7 +4,7 @@
     %ul
       %li= link_to 'Subjects', project_subjects_path(@project), class: "#{'active' if current_page?(project_subjects_path(@project))}"
       %li= link_to 'Sheets', project_sheets_path(@project), class: "#{'active' if current_page?(project_sheets_path(@project))}"
-      - if current_page?(project_sheets_path)
+      - if current_page?(project_sheets_path(@project))
         %li= link_to 'Export Data', '#', data: { object: 'show-contour-modal' }
       - else
         %li= link_to 'Export Data', project_sheets_path(@project, e: '1')
