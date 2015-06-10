@@ -47,6 +47,7 @@
   - Removed 'Clear' buttons from time and date variables on grids to decrease the overall widths of large grids
   - Sheets can now be transferred between subject in case the subject was entered incorrectly
   - Sheets can now be dragged to a subject event when looking at sheets on a specific subject's page
+  - Grids now have a visible indication that they can be reordered
 - **Survey Changes**
   - A second notification email is no longer sent when users edit and resubmit a public survey
 - **Export Changes**

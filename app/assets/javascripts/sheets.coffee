@@ -50,7 +50,10 @@
   checkAllRanges()
   $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
   $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
-  $( ".grid_sortable" ).sortable({ axis: "y" })
+  $( ".grid_sortable" ).sortable(
+    axis: "y"
+    handle: ".grid-handle"
+  )
   $('[rel=tooltip]').tooltip()
   signaturesReady()
 

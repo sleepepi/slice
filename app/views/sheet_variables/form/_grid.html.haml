@@ -15,6 +15,7 @@
 %table.table.table-hover.table-grid
   %thead
     %tr
+      %td
       - variable.grid_variables.each do |grid_variable|
         - v = grid_variables.select{|gv| gv.id == grid_variable[:variable_id].to_i}.first
         %td= v.display_name if v
@@ -22,6 +23,6 @@
         %td Actions
   %tbody.grid_sortable{ id: "variable_#{variable.id}_grid_container" }
     - range.each do |position|
-      = render partial: "sheet_variables/form/grid_variables", locals: { disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids }
+      = render "sheet_variables/form/grid_variables", disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids
 
 = link_to 'Add Row', '#', class: 'btn btn-default btn-xs', data: { object: 'grid-row-add', variable_id: variable.id, header: show_values ? '1' : '0' }, tabindex: "-1" if variable.multiple_rows?
