@@ -1,5 +1,9 @@
 ## 0.28.1
 
+### Enhancement
+- **Gem Changes**
+  - Updated to figaro 1.1.1
+
 ### Bug Fix
 - Fixed an issue rendering the project menu
 

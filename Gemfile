@@ -14,7 +14,7 @@ gem 'redcarpet',            '~> 3.3.1'
 gem 'rubyzip',              '~> 1.1.7'
 gem 'chunky_png',           '~> 1.3.4'
 gem 'haml'
-gem 'figaro',               '~> 1.1.0'
+gem 'figaro',               '~> 1.1.1'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.1.0'
