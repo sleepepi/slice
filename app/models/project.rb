@@ -139,7 +139,7 @@ class Project < ActiveRecord::Base
     else
       subject_code = "#{email.to_s} - #{hexdigest[0..8]}"
     end
-    self.subjects.create( subject_code: subject_code, user_id: self.user_id, site_id: site_id, status: 'valid', acrostic: '', email: email.to_s )
+    self.subjects.create( subject_code: subject_code, site_id: site_id, status: 'valid', acrostic: '', email: email.to_s )
   end
 
   def favorited_by?(current_user)

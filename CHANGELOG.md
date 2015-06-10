@@ -40,6 +40,7 @@
   - Schedules can now be ordered by their position relative to each other
 - **Subject Changes**
   - Subject index can now be filtered by event and also by designs on and not on specific events
+  - Subjects created from public surveys no longer appear to be created by the project owner
 - **Sheet Changes**
   - `last_edited_at` sheet attribute no longer shows detailed comparison for changes in sheet transactions
   - Slight performance improvements in loading large sheets

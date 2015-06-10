@@ -17,7 +17,7 @@ class Subject < ActiveRecord::Base
   scope :without_design_on_event, lambda {|design, event| where("subjects.id NOT IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ?))", event, false, design)}
 
   # Model Validation
-  validates_presence_of :project_id, :subject_code, :user_id, :site_id
+  validates_presence_of :project_id, :subject_code, :site_id
   validates_uniqueness_of :subject_code, case_sensitive: false, scope: [ :deleted, :project_id ]
 
   def name
