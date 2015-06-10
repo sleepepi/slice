@@ -72,7 +72,7 @@
   - Updated to redcarpet 3.2.3
   - Updated to rubyzip 1.1.7
   - Updated to simplecov 0.10.0
-  - Updated to redcarpet 3.3.0
+  - Updated to redcarpet 3.3.1
 - Use of Ruby 2.2.2 is now recommended
 
 ### Bug Fix
