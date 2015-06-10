@@ -2,7 +2,7 @@
 - disabled = '' if defined?(disabled) == nil
 - show_values = true unless defined?(show_values)
 
-.form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')}", data: { object: "variable-container", required: "#{@option[:required] if @option}", required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type } }
+.form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'}", data: { object: "variable-container", required: "#{@option[:required] if @option}", required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type } }
   - if variable.uses_scale?
     -# Nothing
   - elsif ['invisible', 'gone'].include?(variable.display_name_visibility)
