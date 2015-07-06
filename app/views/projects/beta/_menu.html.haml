@@ -17,3 +17,4 @@
       %ul
         %li= link_to 'Designs', project_designs_path(@project), class: "#{'active' if current_page?(project_designs_path(@project))}"
         %li= link_to 'Events', project_events_path(@project), class: "#{'active' if current_page?(project_events_path(@project))}"
+        %li= link_to 'Randomization Schemes', project_randomization_schemes_path(@project), class: "#{'active' if current_page?(project_randomization_schemes_path(@project))}"

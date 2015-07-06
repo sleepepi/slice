@@ -1,6 +1,8 @@
 ## 0.29.0
 
-### Enhancement
+### Enhancements
+- **Randomizations Added**
+  - Project owners and editors can now add one or more randomization schemes to a project
 - **Gem Changes**
   - Updated to rails 4.2.3
   - Updated to contour 3.0.1.rc

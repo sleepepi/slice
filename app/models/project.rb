@@ -57,6 +57,8 @@ class Project < ActiveRecord::Base
 
   has_many :domains, -> { where deleted: false }
 
+  has_many :randomization_schemes, -> { where deleted: false }
+
   # Model Methods
 
   def to_param

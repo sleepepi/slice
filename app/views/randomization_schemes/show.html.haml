@@ -1,0 +1,24 @@
+- @title = @randomization_scheme.name
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to 'Randomization Schemes', project_randomization_schemes_path(@project)
+    &middot;
+    = @title
+  = link_to "Edit Randomization Scheme", edit_project_randomization_scheme_path(@randomization_scheme.project, @randomization_scheme), class: 'btn btn-default btn-xs'
+  = link_to "Delete Randomization Scheme", [@randomization_scheme.project, @randomization_scheme], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{@randomization_scheme.name}?" }
+
+%dl.dl-horizontal
+
+  %dt Description
+  %dd= simple_markdown @randomization_scheme.description
+
+  %dt Creator
+  %dd= link_to @randomization_scheme.user.name, @randomization_scheme.user if @randomization_scheme.user
+
+  %dt Published
+  %dd= simple_check @randomization_scheme.published
+
+  %dt Randomization Goal
+  %dd= @randomization_scheme.randomization_goal
