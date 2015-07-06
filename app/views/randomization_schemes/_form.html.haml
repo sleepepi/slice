@@ -9,7 +9,7 @@
     #error_explanation.bs-callout.bs-callout-danger
       %h4
         = pluralize(@randomization_scheme.errors.count, "error")
-        prohibited this schedule from being saved
+        prohibited this randomization scheme from being saved
 
       %ul
         - @randomization_scheme.errors.full_messages.each do |msg|

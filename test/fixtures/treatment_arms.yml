@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Treatment A
+  project: valid
+  randomization_scheme: one
+  allocation: 2
+  user: valid
+
+two:
+  name: Treatment B
+  project: valid
+  randomization_scheme: one
+  allocation: 3
+  user: valid

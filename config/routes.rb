@@ -114,7 +114,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :randomization_schemes
+    resources :randomization_schemes do
+      resources :treatment_arms
+    end
 
     resources :sites do
       collection do

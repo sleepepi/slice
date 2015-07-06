@@ -6,8 +6,8 @@
     = link_to 'Randomization Schemes', project_randomization_schemes_path(@project)
     &middot;
     = @title
-  = link_to "Edit Randomization Scheme", edit_project_randomization_scheme_path(@randomization_scheme.project, @randomization_scheme), class: 'btn btn-default btn-xs'
-  = link_to "Delete Randomization Scheme", [@randomization_scheme.project, @randomization_scheme], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{@randomization_scheme.name}?" }
+  = link_to "Edit Randomization Scheme", edit_project_randomization_scheme_path(@project, @randomization_scheme), class: 'btn btn-default btn-xs'
+  = link_to "Delete Randomization Scheme", [@project, @randomization_scheme], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{@randomization_scheme.name}?" }
 
 %dl.dl-horizontal
 
@@ -22,3 +22,13 @@
 
   %dt Randomization Goal
   %dd= @randomization_scheme.randomization_goal
+
+  %dt= link_to 'Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
+  %dd
+    %ul.list-unstyled
+      - @randomization_scheme.treatment_arms.each do |treatment_arm|
+        %li
+          = link_to treatment_arm.name, [@project, @randomization_scheme, treatment_arm]
+          Allocation:
+          %code
+            = treatment_arm.allocation
