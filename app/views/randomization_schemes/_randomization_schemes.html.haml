@@ -20,4 +20,4 @@
         %td= randomization_scheme.randomization_goal
         %td
           = link_to 'Edit', edit_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-default btn-xs'
-          = link_to 'Delete', [@project, randomization_scheme], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{randomization_scheme.name}?" }
+          = link_to 'Delete', [@project, randomization_scheme], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{randomization_scheme.name}?" }

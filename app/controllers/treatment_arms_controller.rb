@@ -85,7 +85,6 @@ class TreatmentArmsController < ApplicationController
       empty_response_or_root_path(project_treatment_arms_path(@project, @randomization_scheme)) unless @treatment_arm
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def treatment_arm_params
       params[:treatment_arm] ||= { blank: '1' }
 

@@ -115,6 +115,7 @@ Rails.application.routes.draw do
     end
 
     resources :randomization_schemes do
+      resources :block_size_multipliers
       resources :treatment_arms
     end
 

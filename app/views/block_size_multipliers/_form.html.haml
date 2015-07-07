@@ -1,0 +1,35 @@
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to @randomization_scheme.name, [@project, @randomization_scheme]
+    &middot;
+    = @title
+
+= form_for [@project, @randomization_scheme, @block_size_multiplier], html: { class: 'form-horizontal' } do |f|
+  - if @block_size_multiplier.errors.any?
+    #error_explanation.bs-callout.bs-callout-danger
+      %h4
+        = pluralize(@block_size_multiplier.errors.count, "error")
+        prohibited this block size multiplier from being saved
+
+      %ul
+        - @block_size_multiplier.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :value, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      .input-group
+        .input-group-addon &times;
+        = f.text_field :value, class: 'form-control'
+
+  .form-group
+    = f.label :allocation, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :allocation, class: 'form-control'
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

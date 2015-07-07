@@ -2,14 +2,14 @@
 
 one:
   name: Treatment A
-  project: valid
+  project: one
   randomization_scheme: one
   allocation: 2
   user: valid
 
 two:
   name: Treatment B
-  project: valid
+  project: one
   randomization_scheme: one
   allocation: 3
   user: valid

@@ -1,0 +1,2 @@
+module BlockSizeMultipliersHelper
+end

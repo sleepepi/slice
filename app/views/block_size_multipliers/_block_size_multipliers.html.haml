@@ -1,0 +1,19 @@
+= render 'contour/layouts/per_page', per_page: 40, object_count: @block_size_multipliers.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap Value
+      %th.nowrap Allocation
+      %th.nowrap User
+      %th Actions
+
+  %tbody
+    - @block_size_multipliers.each do |block_size_multiplier|
+      %tr
+        %td= link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
+        %td= block_size_multiplier.allocation
+        %td= link_to block_size_multiplier.user.name, block_size_multiplier.user if block_size_multiplier.user
+        %td
+          = link_to 'Edit', edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), class: 'btn btn-default btn-xs'
+          = link_to 'Delete', [@project, @randomization_scheme, block_size_multiplier], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Block Size Multiplier #{block_size_multiplier.name}?" }

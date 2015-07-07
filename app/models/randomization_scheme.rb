@@ -1,5 +1,8 @@
 class RandomizationScheme < ActiveRecord::Base
 
+  # Triggers
+  after_create :create_default_block_size_multipliers
+
   # Concerns
   include Searchable, Deletable
 
@@ -13,8 +16,17 @@ class RandomizationScheme < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  has_many :treatment_arms, -> { where deleted: false }
+  has_many :block_size_multipliers, -> { where deleted: false }
+  has_many :treatment_arms,         -> { where deleted: false }
 
   # Model Methods
+
+  private
+
+    def create_default_block_size_multipliers
+      (1..4).each do |value|
+        self.block_size_multipliers.create(project_id: self.project_id, user_id: self.user_id, value: value)
+      end
+    end
 
 end

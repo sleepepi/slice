@@ -32,3 +32,13 @@
           Allocation:
           %code
             = treatment_arm.allocation
+
+  %dt= link_to 'Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
+  %dd
+    %ul.list-unstyled
+      - @randomization_scheme.block_size_multipliers.each do |block_size_multiplier|
+        %li
+          = link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
+          Allocation:
+          %code
+            = block_size_multiplier.allocation
