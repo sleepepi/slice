@@ -6,6 +6,7 @@
   - **Permuted-block Configuration**
     - Treatment Arms can now be specified along with a weight allocation
     - Different block sizes and allocations can now be specified
+    - Stratification Factors with options can now be specified
 - **Gem Changes**
   - Updated to rails 4.2.3
   - Updated to contour 3.0.1.rc

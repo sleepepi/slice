@@ -1,0 +1,21 @@
+- @title = 'Stratification Factors'
+
+.project-title-container
+  = link_to @project.name, @project, class: 'project-title'
+
+.row
+  .col-sm-2
+    = render 'projects/beta/menu'
+
+  .col-sm-10
+    %h2.project-header
+      = link_to @randomization_scheme.name, [@project, @randomization_scheme]
+      &middot;
+      = @title
+    %div{ style: 'margin-bottom: 20px' }
+      = link_to "Create Stratification Factor", new_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme), class: 'btn btn-xs btn-primary'
+
+    = form_tag project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme), method: :get, class: 'form-vertical' do
+      = hidden_field_tag :order, params[:order]
+
+    = render 'stratification_factors/stratification_factors'

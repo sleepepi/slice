@@ -116,6 +116,7 @@ Rails.application.routes.draw do
 
     resources :randomization_schemes do
       resources :block_size_multipliers
+      resources :stratification_factors
       resources :treatment_arms
     end
 

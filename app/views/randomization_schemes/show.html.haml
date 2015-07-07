@@ -42,3 +42,13 @@
           Allocation:
           %code
             = block_size_multiplier.allocation
+
+  %dt= link_to 'Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)
+  %dd
+    %ul.list-unstyled
+      - @randomization_scheme.stratification_factors.each do |stratification_factor|
+        %li
+          = link_to stratification_factor.name, [@project, @randomization_scheme, stratification_factor]
+          %ul
+            - stratification_factor.options.each do |label, value|
+              %li= "#{value}: #{label}"

@@ -1,0 +1,23 @@
+- @title = @stratification_factor.name
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to @randomization_scheme.name, [@project, @randomization_scheme]
+    &middot;
+    = link_to 'Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)
+    &middot;
+    = @title
+  = link_to "Edit Stratification Factor", edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-default btn-xs'
+  = link_to "Delete Stratification Factor", [@project, @randomization_scheme, @stratification_factor], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor #{@stratification_factor.name}?" }
+
+%dl.dl-horizontal
+
+  %dt Creator
+  %dd= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
+
+  %dt Options
+  %dd
+    %ul.list-unstyled
+      - @stratification_factor.options.each do |label, value|
+        %li= "#{value}: #{label}"

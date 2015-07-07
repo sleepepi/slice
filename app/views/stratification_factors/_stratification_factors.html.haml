@@ -1,0 +1,17 @@
+= render 'contour/layouts/per_page', per_page: 40, object_count: @stratification_factors.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap Name
+      %th.nowrap User
+      %th Actions
+
+  %tbody
+    - @stratification_factors.each do |stratification_factor|
+      %tr
+        %td= link_to stratification_factor.name, [@project, @randomization_scheme, stratification_factor]
+        %td= link_to stratification_factor.user.name, stratification_factor.user if stratification_factor.user
+        %td
+          = link_to 'Edit', edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, stratification_factor), class: 'btn btn-default btn-xs'
+          = link_to 'Delete', [@project, @randomization_scheme, stratification_factor], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor #{stratification_factor.name}?" }
