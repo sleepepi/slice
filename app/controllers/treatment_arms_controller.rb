@@ -82,7 +82,7 @@ class TreatmentArmsController < ApplicationController
     end
 
     def redirect_without_treatment_arm
-      empty_response_or_root_path(project_treatment_arms_path(@project, @randomization_scheme)) unless @treatment_arm
+      empty_response_or_root_path(project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)) unless @treatment_arm
     end
 
     def treatment_arm_params

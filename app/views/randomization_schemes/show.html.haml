@@ -50,5 +50,5 @@
         %li
           = link_to stratification_factor.name, [@project, @randomization_scheme, stratification_factor]
           %ul
-            - stratification_factor.options.each do |label, value|
-              %li= "#{value}: #{label}"
+            - stratification_factor.stratification_factor_options.each do |stratification_factor_option|
+              %li= link_to stratification_factor_option.name, [@project, @randomization_scheme, stratification_factor, stratification_factor_option]

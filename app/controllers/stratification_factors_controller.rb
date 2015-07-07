@@ -82,7 +82,7 @@ class StratificationFactorsController < ApplicationController
     end
 
     def redirect_without_stratification_factor
-      empty_response_or_root_path(project_stratification_factors_path(@project, @randomization_scheme)) unless @stratification_factor
+      empty_response_or_root_path(project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)) unless @stratification_factor
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

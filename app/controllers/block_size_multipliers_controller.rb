@@ -82,7 +82,7 @@ class BlockSizeMultipliersController < ApplicationController
     end
 
     def redirect_without_block_size_multiplier
-      empty_response_or_root_path(project_block_size_multipliers_path(@project, @randomization_scheme)) unless @block_size_multiplier
+      empty_response_or_root_path(project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)) unless @block_size_multiplier
     end
 
     def block_size_multiplier_params

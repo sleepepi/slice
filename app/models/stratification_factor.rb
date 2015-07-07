@@ -13,11 +13,8 @@ class StratificationFactor < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :randomization_scheme
+  has_many :stratification_factor_options, -> { where deleted: false }
 
   # Model Methods
-
-  def options
-    [["One", 1], ["Two", 2]]
-  end
 
 end
