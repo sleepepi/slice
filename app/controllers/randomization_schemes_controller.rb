@@ -10,27 +10,47 @@ class RandomizationSchemesController < ApplicationController
   end
 
   def randomize_subject_to_list
+    @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
 
-    render text: params.inspect
+    subject = current_user.all_subjects.where(project_id: @project.id).where("LOWER(subjects.subject_code) = ?", params[:subject_code].to_s.downcase).first
 
+    unless subject
+      @randomization.errors.add(:subject_code, "can't be blank")
+      render 'randomize_subject'
+      return
+    end
 
+    list = nil
+    @randomization_scheme.lists.each do |l|
+      if l.options.pluck(:id).sort == (params[:stratification_factors] || []).collect{ |stratification_factor_id, option_id| option_id.to_i }.sort
+        list = l
+        break
+      end
+    end
 
-    # subject = @project.subjects...
-    # list = @randomization_scheme.lists...
-    # @randomization_scheme.randomize_subject_to_list!(subject, list, current_user)
+    unless list
+      @randomization.errors.add(:stratification_factors, "can't be blank")
+      render 'randomize_subject'
+      return
+    end
 
+    if params[:attested] != '1'
+      @randomization.errors.add(:attested, "must be checked")
+      render 'randomize_subject'
+      return
+    end
 
+    @randomization = @randomization_scheme.randomize_subject_to_list!(subject, list, current_user)
 
-
-    # From Randomization Web Application
-    # stratum_keys = params.keys.select{|key| key =~ /^stratum_[\d]*$/}
-    # values = params.each.select{|key, value| stratum_keys.include?(key)}.collect{|k,v| v}.compact
-
-    # if @assignment = @project.create_randomization!(params[:subject_code], values, current_user, params[:attested].to_i == 1)
-    #   redirect_to [@project, @assignment], notice: "Subject successfully randomized to #{@assignment.treatment_arm}.".html_safe
-    # else
-    #   render action: 'randomize_subject'
-    # end
+    if @randomization and @randomization.errors.full_messages == []
+      redirect_to [@project, @randomization], notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
+    elsif @randomization
+      @randomization.errors.delete(:subject_id)
+      @randomization.errors.add(:subject_id, "has already been randomized")
+      render 'randomize_subject'
+    else
+      redirect_to project_randomizations_path, alert: "Subject was NOT successfully randomized. Please try again."
+    end
   end
 
   # GET /randomization_schemes

@@ -29,11 +29,15 @@ class Randomization < ActiveRecord::Base
   end
 
   def add_subject!(subject, current_user)
-    randomization.update subject: subject, randomized_by: current_user, randomized_at: Time.zone.now
+    self.update subject: subject, randomized_by: current_user, randomized_at: Time.zone.now, attested: true
   end
 
   def randomized?
     self.subject_id != nil
+  end
+
+  def randomization_number
+    self.randomization_scheme.randomizations.order(:randomized_at).pluck(:id).index(self.id) + 1 rescue nil
   end
 
 end

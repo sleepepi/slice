@@ -13,6 +13,7 @@
     - Lists are popuplated by block groups based on shuffled block size multipliers and treatment arm allocations
     - Lists are expanded dynamically with new block groups when new subjects are randomized in cases when the lists runs out of available randomizations in previous block groups
   - **Subject Randomization**
+    - Subjects can now be randomized to lists
     - Randomizations can be undone
     - Randomizations track the user who randomized the subject and the time the subject was randomized
 - **Gem Changes**

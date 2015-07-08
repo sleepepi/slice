@@ -30,14 +30,14 @@
       .col-md-10
         - stratification_factor.stratification_factor_options.each do |option|
           %label.radio-inline
-            = radio_button_tag "stratum_#{stratification_factor.id}", option.value, params["stratum_#{stratification_factor.id}"] == option.value, class: 'radio'
+            = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == option.id.to_s : false), class: 'radio'
             = option.label
 
   .well
     .form-group
       = label_tag :attested, "<span class='glyphicon glyphicon-leaf' style='color:#5cb85c'></span> Attestation".html_safe, class: 'col-md-2 control-label'
       .col-md-10{ style: "padding-left: 20px;display: block;min-height: 27px;padding-top: 7px;" }
-        = check_box_tag :attested, '1', false, style: 'float: left;margin-left: -20px;'
+        = check_box_tag :attested, '1', params[:attested] == '1', style: 'float: left;margin-left: -20px;'
         = @randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements)
 
   .form-group

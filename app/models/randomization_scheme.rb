@@ -65,6 +65,7 @@ class RandomizationScheme < ActiveRecord::Base
 
     # Add subject to randomization list
     randomization.add_subject!(subject, current_user) if randomization
+    randomization
   end
 
   def generate_next_block_group!(current_user)
