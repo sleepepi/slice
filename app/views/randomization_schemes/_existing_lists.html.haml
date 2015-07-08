@@ -1,0 +1,59 @@
+- if @randomization_scheme.randomizations.where.not(subject_id: nil).size > 0
+  .bs-callout.bs-callout-info
+    %strong Randomization Started
+
+    The lists are now
+    = succeed '.' do
+      %strong locked
+    In order to recreate these lists, the existing randomizations need to be
+    manually cleared. Click on the existing randomizations and then select
+    = succeed '.' do
+      %strong Undo Randomization
+- else
+  - if @project.randomizations.size > 0
+    = link_to 'Regenerate Lists', '#', data: { object: 'generate_lists', project_id: @project.id, confirm: 'Are you sure you want to irreversibly destroy the existing lists?' }, class: 'btn btn-danger-inverse btn-xs', style: 'margin-top:6px'
+  - else
+    = link_to 'Generate Lists', '#', data: { object: 'generate_lists', project_id: @project.id }, class: 'btn btn-default btn-xs', style: 'margin-top:6px'
+
+- lists = @randomization_scheme.lists
+
+.table-responsive
+  %table.table
+    %thead
+      %tr
+        - lists.each do |list|
+          %th.nowrap
+            %strong= list.name
+            %small.text-muted
+              = surround '(', ')' do
+                = list.randomizations.where.not(subject_id: nil).count
+
+    %tbody
+      %tr
+        - lists.each do |list|
+          %td
+            - list.randomizations.order(:block_group, :position).group_by(&:block_group).each do |block_group, randomizations|
+              .block-group
+                - assignment_block_position = 1
+                - current_multiplier = randomizations.first.multiplier
+                .multiplier{ class: "multiplier_#{current_multiplier}" }
+                  - randomizations.each_with_index do |randomization, index|
+                    - # The HTML end and start DIVs below are intentional
+                    - if current_multiplier != randomization.multiplier or (assignment_block_position - 1 != 0 and (assignment_block_position - 1) % (randomization.multiplier * @randomization_scheme.minimum_block_size) == 0)
+                      - current_multiplier = randomization.multiplier
+                      - assignment_block_position = 2
+                      </div>
+                      <div class="multiplier multiplier_#{current_multiplier}">
+                    - else
+                      - assignment_block_position += 1
+
+                      - if randomization.subject
+                        .nowrap
+                          = link_to [@project, randomization], rel: 'tooltip', title: randomization.subject.subject_code do
+                            = randomization.position
+                            = randomization.treatment_arm.name
+                      - else
+                        .nowrap.text-muted
+                          = randomization.position
+                          = randomization.treatment_arm.name
+

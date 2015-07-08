@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :lists
   resources :comments
 
   get "survey", to: "survey#index", as: :about_survey
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
       post :invite_user
       get :logo
       post :archive
+      get "choose-randomization-scheme", action: :choose_randomization_scheme, as: :choose_randomization_scheme
     end
 
     collection do
@@ -114,8 +116,19 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :randomizations do
+      member do
+        patch :undo
+      end
+    end
+
     resources :randomization_schemes do
+      member do
+        get "randomize-subject", action: :randomize_subject, as: :randomize_subject
+        post "randomize-subject", action: :randomize_subject_to_list, as: :randomize_subject_to_list
+      end
       resources :block_size_multipliers
+      resources :lists
       resources :stratification_factors do
         resources :stratification_factor_options
       end

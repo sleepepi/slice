@@ -1,0 +1,16 @@
+%h1
+  Choose a Randomization Scheme
+
+%p.lead
+  This project has multiple randomization schemes.
+  Please choose the scheme you would like to use below.
+
+%hr
+
+- @project.randomization_schemes.published.in_groups_of(3, false).each do |randomization_schemes_row|
+  .row
+    - randomization_schemes_row.each do |randomization_scheme|
+      .col-sm-6{ style: 'margin-bottom:20px' }
+        = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-success-inverse btn-block btn-lg' do
+          Choose
+          %strong.btn-text-emphasis= randomization_scheme.name

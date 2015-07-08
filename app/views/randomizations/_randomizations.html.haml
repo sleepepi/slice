@@ -1,0 +1,39 @@
+= render 'contour/layouts/per_page', per_page: 40, object_count: @randomizations.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap= sort_field_helper(@order, 'randomizations.created_at', 'Name')
+      %th.nowrap Randomization scheme
+      %th.nowrap Creator
+      %th.nowrap List
+      %th.nowrap Block group
+      %th.nowrap Multiplier
+      %th.nowrap Position
+      %th.nowrap Treatment arm
+      %th.nowrap Subject
+      %th.nowrap Randomized at
+      %th.nowrap Randomized by
+      %th.nowrap Attested
+      %th Actions
+
+  %tbody
+    - @randomizations.each do |randomization|
+      %tr
+        %td= link_to randomization.name, [@project, randomization]
+        %td= randomization.randomization_scheme_id
+        %td= link_to randomization.user.name, randomization.user if randomization.user
+        %td= randomization.list_id
+        %td= randomization.block_group
+        %td= randomization.multiplier
+        %td= randomization.position
+        %td= randomization.treatment_arm_id
+        %td= randomization.subject_id
+        %td= randomization.randomized_at
+        %td= randomization.randomized_by.name if randomization.randomized_by
+        %td= randomization.attested
+        %td
+          - if randomization.randomized?
+            = link_to 'Undo', undo_project_randomization_path(@project, randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{randomization.list.name}" if randomization.list}?" }
+          - if false
+            = link_to "Delete Randomization", [@project, randomization], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization #{randomization.name}?" }

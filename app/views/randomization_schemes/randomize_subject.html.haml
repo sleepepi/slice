@@ -1,0 +1,45 @@
+- @title = "Randomize Subject"
+.page-header
+  %h1
+    = link_to "Projects", projects_path
+    &middot;
+    = link_to @project.name, @project
+    &middot;
+    = @title
+
+= form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: 'form-horizontal' do |f|
+  - if @randomization.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize(@randomization.errors.count, "error")
+        prohibited this subject from being randomized
+
+      %ul
+        - @randomization.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = label :subject_code, 'Subject Code', class: 'col-md-2 control-label'
+    .col-md-10
+      = text_field_tag :subject_code, params[:subject_code], autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { "project-slug" => @project.to_param }
+
+  - @randomization_scheme.stratification_factors.each do |stratification_factor|
+    .form-group
+      %label.col-md-2.control-label
+        = stratification_factor.name
+      .col-md-10
+        - stratification_factor.stratification_factor_options.each do |option|
+          %label.radio-inline
+            = radio_button_tag "stratum_#{stratification_factor.id}", option.value, params["stratum_#{stratification_factor.id}"] == option.value, class: 'radio'
+            = option.label
+
+  .well
+    .form-group
+      = label_tag :attested, "<span class='glyphicon glyphicon-leaf' style='color:#5cb85c'></span> Attestation".html_safe, class: 'col-md-2 control-label'
+      .col-md-10{ style: "padding-left: 20px;display: block;min-height: 27px;padding-top: 7px;" }
+        = check_box_tag :attested, '1', false, style: 'float: left;margin-left: -20px;'
+        = @randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements)
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      = submit_tag "Randomize!", class: 'btn btn-lg btn-success'

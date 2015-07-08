@@ -52,3 +52,12 @@
           %ul
             - stratification_factor.stratification_factor_options.each do |stratification_factor_option|
               %li= link_to stratification_factor_option.name, [@project, @randomization_scheme, stratification_factor, stratification_factor_option]
+
+  %dt= link_to 'Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)
+  %dd
+    %ul.list-unstyled
+      - @randomization_scheme.lists.each do |list|
+        %li
+          = link_to list.name, [@project, @randomization_scheme, list]
+
+= render "randomization_schemes/existing_lists"

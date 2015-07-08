@@ -7,6 +7,14 @@
     - Treatment Arms can now be specified along with a weight allocation
     - Different block sizes and allocations can now be specified
     - Stratification Factors with options can now be specified
+    - Randomization goal can now be specified
+  - **List Generation**
+    - Lists are generated as a product of the stratification factor options
+    - Lists are popuplated by block groups based on shuffled block size multipliers and treatment arm allocations
+    - Lists are expanded dynamically with new block groups when new subjects are randomized in cases when the lists runs out of available randomizations in previous block groups
+  - **Subject Randomization**
+    - Randomizations can be undone
+    - Randomizations track the user who randomized the subject and the time the subject was randomized
 - **Gem Changes**
   - Updated to rails 4.2.3
   - Updated to contour 3.0.1

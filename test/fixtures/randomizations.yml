@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  randomization_scheme: one
+  user: valid
+  # list_id: 1
+  block_group: 1
+  multiplier: 1
+  position: 1
+  treatment_arm: one
+  subject: one
+  randomized_at: 2015-07-07 15:57:40
+  randomized_by: valid
+  attested: true
+  deleted: false
+
+two:
+  project: one
+  randomization_scheme: one
+  user: valid
+  # list_id: 1
+  block_group: 1
+  multiplier: 1
+  position: 1
+  treatment_arm: one
+  subject: one
+  randomized_at: 2015-07-07 15:57:40
+  randomized_by: valid
+  attested: true
+  deleted: false

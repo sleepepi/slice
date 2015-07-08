@@ -1,0 +1,47 @@
+- @title = @randomization.name
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to 'Randomizations', project_randomizations_path(@project)
+    &middot;
+    = @title
+  - if @randomization.randomized?
+    = link_to 'Undo', undo_project_randomization_path(@project, @randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{@randomization.list.name}" if @randomization.list}?" }
+  - if false
+    = link_to "Delete Randomization", [@project, @randomization], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization #{@randomization.name}?" }
+
+%dl.dl-horizontal
+
+  %dt Creator
+  %dd= link_to @randomization.user.name, @randomization.user if @randomization.user
+
+  %dt Randomization scheme
+  %dd= @randomization.randomization_scheme.name if @randomization.randomization_scheme
+
+  %dt Treatment arm
+  %dd= @randomization.treatment_arm.name if @randomization.treatment_arm
+
+  %dt Subject
+  %dd= @randomization.subject.name if @randomization.subject
+
+  %dt Randomized at
+  %dd= @randomization.randomized_at
+
+  %dt Randomized by
+  %dd= @randomization.randomized_by.name if @randomization.randomized_by
+
+  %dt Attested
+  %dd= simple_check @randomization.attested
+
+  %dt List
+  %dd= @randomization.list_id
+
+  %dt Block group
+  %dd= @randomization.block_group
+
+  %dt Multiplier
+  %dd= @randomization.multiplier
+
+  %dt Position
+  %dd= @randomization.position

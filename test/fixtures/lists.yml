@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  randomization_scheme: one
+  user: valid
+  name: MyString
+  deleted: false
+
+two:
+  project: one
+  randomization_scheme: one
+  user: valid
+  name: MyString
+  deleted: false

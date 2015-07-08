@@ -1,12 +1,18 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,      only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :logo ]
-  before_action :set_editable_project,      only: [ :setup, :edit, :update, :invite_user ]
+  before_action :set_editable_project,      only: [ :setup, :edit, :update, :invite_user, :choose_randomization_scheme ]
   before_action :set_owner_project,         only: [ :transfer, :destroy ]
-  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo ]
+  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo, :choose_randomization_scheme ]
 
   # Concerns
   include Buildable
+
+  def choose_randomization_scheme
+    if @project.randomization_schemes.published.count == 1
+      redirect_to randomize_subject_to_list_project_randomization_scheme_path(@project, @project.randomization_schemes.published.first)
+    end
+  end
 
   # POST /projects/save_project_order.js
   def save_project_order

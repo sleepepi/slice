@@ -1,0 +1,33 @@
+- @title = 'Randomizations'
+
+.project-title-container
+  = link_to @project.name, @project, class: 'project-title'
+
+.row
+  .col-sm-2
+    = render 'projects/beta/menu'
+
+  .col-sm-10
+    %h2.project-header
+      = @title
+    %div{ style: 'margin-bottom: 20px' }
+      = link_to "Randomize Subject", choose_randomization_scheme_project_path(@project), class: 'btn btn-xs btn-primary'
+
+    = form_tag project_randomizations_path(@project), method: :get, class: 'form-vertical' do
+      = hidden_field_tag :order, params[:order]
+      .row
+        .col-md-4.form-group
+          = label :search, 'Search', class: 'col-md-3 control-label'
+          .col-md-9
+            = text_field_tag 'search', params[:search], class: 'form-control'
+
+        .col-md-4.form-group
+          = label :randomized_by_id, 'Randomizer', class: 'col-md-3 control-label'
+          .col-md-9
+            = select_tag :randomized_by_id, options_for_select([['---', nil]] + User.where( id: @project.randomizations.select(:randomized_by_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:randomized_by_id]), class: 'form-control'
+
+        .col-md-4.form-group
+          = submit_tag 'Search', class: 'btn btn-primary', name: nil
+          = link_to 'Reset', project_randomizations_path(@project), class: 'btn btn-default'
+
+    = render 'randomizations/randomizations'

@@ -2,8 +2,36 @@ class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project
   before_action :redirect_without_project
-  before_action :set_randomization_scheme,                only: [:show, :edit, :update, :destroy]
-  before_action :redirect_without_randomization_scheme,   only: [:show, :edit, :update, :destroy]
+  before_action :set_randomization_scheme,                only: [:randomize_subject, :randomize_subject_to_list, :show, :edit, :update, :destroy]
+  before_action :redirect_without_randomization_scheme,   only: [:randomize_subject, :randomize_subject_to_list, :show, :edit, :update, :destroy]
+
+  def randomize_subject
+    @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
+  end
+
+  def randomize_subject_to_list
+
+    render text: params.inspect
+
+
+
+    # subject = @project.subjects...
+    # list = @randomization_scheme.lists...
+    # @randomization_scheme.randomize_subject_to_list!(subject, list, current_user)
+
+
+
+
+    # From Randomization Web Application
+    # stratum_keys = params.keys.select{|key| key =~ /^stratum_[\d]*$/}
+    # values = params.each.select{|key, value| stratum_keys.include?(key)}.collect{|k,v| v}.compact
+
+    # if @assignment = @project.create_randomization!(params[:subject_code], values, current_user, params[:attested].to_i == 1)
+    #   redirect_to [@project, @assignment], notice: "Subject successfully randomized to #{@assignment.treatment_arm}.".html_safe
+    # else
+    #   render action: 'randomize_subject'
+    # end
+  end
 
   # GET /randomization_schemes
   # GET /randomization_schemes.json
