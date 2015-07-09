@@ -54,4 +54,10 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.project_news(post, recipient)
   end
 
+  def subject_randomized
+    randomization = Randomization.where.not(subject_id: nil).first
+    user = User.current.first
+    UserMailer.subject_randomized(randomization, user)
+  end
+
 end

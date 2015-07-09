@@ -24,12 +24,18 @@ class Randomization < ActiveRecord::Base
 
   # Model Methods
 
+  def event_at
+    self.randomized_at
+  end
+
   def name
-    "BG: #{block_group}, MP: #{multiplier}, PS: #{position}"
+    self.randomization_number || ""
   end
 
   def add_subject!(subject, current_user)
-    self.update subject: subject, randomized_by: current_user, randomized_at: Time.zone.now, attested: true
+    if self.update subject: subject, randomized_by: current_user, randomized_at: Time.zone.now, attested: true
+      self.notify_users!
+    end
   end
 
   def randomized?
@@ -37,7 +43,24 @@ class Randomization < ActiveRecord::Base
   end
 
   def randomization_number
-    self.randomization_scheme.randomizations.order(:randomized_at).pluck(:id).index(self.id) + 1 rescue nil
+    self.randomization_scheme.randomizations.where.not(subject_id: nil).order(:randomized_at).pluck(:id).index(self.id) + 1 rescue nil
+  end
+
+  def notify_users!
+    unless Rails.env.test?
+      pid = Process.fork
+      if pid.nil? then
+        # In child
+        all_users = self.project.users_to_email - [self.randomized_by]
+        users_to_email.each do |user_to_email|
+          UserMailer.subject_randomized(self, user_to_email).deliver_later if Rails.env.production?
+        end
+        Kernel.exit!
+      else
+        # In parent
+        Process.detach(pid)
+      end
+    end
   end
 
 end

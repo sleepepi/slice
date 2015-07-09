@@ -12,6 +12,10 @@ class SubjectEvent < ActiveRecord::Base
 
   # Model Methods
 
+  def event_at
+    self.created_at
+  end
+
   def event_date_to_param
     self.event_date ? self.event_date.strftime("%Y%m%d") : 'no-date'
   end

@@ -28,10 +28,10 @@ class Subject < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :site
-  has_many :sheets, -> { where deleted: false }
+  has_many :randomizations,     -> { where deleted: false }
+  has_many :sheets,             -> { where deleted: false }
   has_many :subject_schedules
-
-  has_many :subject_events, -> { order(:event_date) }
+  has_many :subject_events,     -> { order(:event_date) }
 
   # Model Methods
 

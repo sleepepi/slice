@@ -63,6 +63,11 @@
   has_many :sheet_transaction_audits
 
   # Model Methods
+
+  def event_at
+    self.created_at
+  end
+
   def self.last_entry
     sheet_ids = self.order('subject_id, created_at DESC').pluck("DISTINCT ON (subject_id) sheets.id")
     self.where(id: sheet_ids)

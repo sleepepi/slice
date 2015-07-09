@@ -8,7 +8,7 @@ class RandomizationsController < ApplicationController
   # GET /randomizations
   # GET /randomizations.json
   def index
-    @randomizations = @project.randomizations.order(:block_group, :position).page(params[:page]).per(40)
+    @randomizations = @project.randomizations.includes(:subject).order("randomized_at DESC NULLS LAST").page(params[:page]).per(40)
   end
 
   # GET /randomizations/1

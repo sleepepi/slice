@@ -3,35 +3,27 @@
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper(@order, 'randomizations.created_at', 'Name')
-      %th.nowrap Randomization scheme
-      %th.nowrap Creator
-      %th.nowrap List
-      %th.nowrap Block group
-      %th.nowrap Multiplier
-      %th.nowrap Position
-      %th.nowrap Treatment arm
+      %th.nowrap Scheme
+      %th.nowrap Randomization #
       %th.nowrap Subject
-      %th.nowrap Randomized at
-      %th.nowrap Randomized by
-      %th.nowrap Attested
+      %th.nowrap Treatment Arm
+      %th.nowrap List
+      %th.nowrap List Position
+      %th.nowrap Randomized At
+      %th.nowrap Randomized By
       %th Actions
 
   %tbody
     - @randomizations.each do |randomization|
       %tr
+        %td= link_to randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
         %td= link_to randomization.name, [@project, randomization]
-        %td= randomization.randomization_scheme_id
-        %td= link_to randomization.user.name, randomization.user if randomization.user
-        %td= randomization.list_id
-        %td= randomization.block_group
-        %td= randomization.multiplier
+        %td= link_to randomization.subject.name, [@project, randomization.subject] if randomization.subject
+        %td= link_to randomization.treatment_arm.name, [@project, randomization.randomization_scheme, randomization.treatment_arm] if randomization.randomization_scheme and randomization.treatment_arm
+        %td= randomization.list.name if randomization.list
         %td= randomization.position
-        %td= randomization.treatment_arm_id
-        %td= randomization.subject_id
-        %td= randomization.randomized_at
+        %td= simple_time randomization.randomized_at
         %td= randomization.randomized_by.name if randomization.randomized_by
-        %td= randomization.attested
         %td
           - if randomization.randomized?
             = link_to 'Undo', undo_project_randomization_path(@project, randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{randomization.list.name}" if randomization.list}?" }

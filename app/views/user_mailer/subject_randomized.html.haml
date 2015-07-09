@@ -1,0 +1,25 @@
+= render partial: 'email_header'
+
+%strong
+  Dear
+  = succeed ',' do
+    = @user.first_name
+%br
+%br
+%strong= @randomization.subject.name
+was
+%span{ style: "padding:5px;background-color:#5cb85c;color:white" } randomized
+to
+= @randomization.treatment_arm.name
+on
+= link_to @randomization.project.name, "#{ENV['website_url']}/projects/#{@randomization.project.to_param}", style: "color: #428bca"
+by
+= succeed '.' do
+  = @randomization.user.name
+%br
+%br
+%center
+  = link_to "View Randomization ##{@randomization.randomization_number} of #{@randomization.randomization_scheme.randomization_goal}", "#{ENV['website_url']}/projects/#{@randomization.project.to_param}/randomizations/#{@randomization.id}", style: "color: #428bca"
+%br
+
+= render 'email_footer'

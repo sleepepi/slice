@@ -85,6 +85,16 @@ class UserMailer < ActionMailer::Base
          reply_to: post.user.email)
   end
 
+  def subject_randomized(randomization, user)
+    setup_email
+    @randomization = randomization
+    @user = user
+    @email_to = user.email
+    mail(to: user.email,
+         subject: "#{randomization.user.name} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
+         reply_to: randomization.user.email)
+  end
+
   protected
 
   def setup_email

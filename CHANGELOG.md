@@ -17,6 +17,7 @@
     - Subjects can now be randomized to lists
     - Randomizations can be undone
     - Randomizations track the user who randomized the subject and the time the subject was randomized
+    - Emails are sent when subjects are randomized
 - **Gem Changes**
   - Updated to rails 4.2.3
   - Updated to contour 3.0.1

@@ -1,0 +1,14 @@
+Dear <%= @user.first_name %>,
+
+<%= @randomization.subject.name %> was randomized to <%= @randomization.treatment_arm.name %> on <%= @randomization.project.name %> by <%= @randomization.user.name %>.
+
+View Randomization #<%= @randomization.randomization_number %> of <%= @randomization.randomization_scheme.randomization_goal %>.
+
+    <%= "#{ENV['website_url']}/projects/#{@randomization.project.to_param}/randomizations/#{@randomization.id}" %>
+
+
+Thank you!
+
+<%= ENV['website_name'] %> Mailer
+
+<%= @footer_txt %>

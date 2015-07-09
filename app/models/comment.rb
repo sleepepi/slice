@@ -16,6 +16,10 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :sheet
 
+  def event_at
+    self.created_at
+  end
+
   def name
     "##{self.id}"
   end

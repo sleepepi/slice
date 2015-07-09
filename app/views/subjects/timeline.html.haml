@@ -8,7 +8,7 @@
     %h2.subject-header
       Timeline
 
-    - events = (@subject.sheets.original_entry.order(created_at: :desc) + @subject.comments.to_a + @subject.subject_events.to_a).sort_by(&:created_at).reverse
+    - events = (@subject.sheets.original_entry.order(created_at: :desc) + @subject.comments.to_a + @subject.subject_events.to_a + @subject.randomizations.to_a).sort_by(&:event_at).reverse
 
     - events.each_with_index do |event, index|
       - current_index = events.count - index + 1
@@ -51,6 +51,29 @@
             %abbr{ rel: "tooltip", data: { title: subject_event.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(subject_event.created_at)
               ago
+      - elsif event.class == Randomization
+        - randomization = event
+        %a.anchor-top{ name: "c#{current_index}" }
+        .post-container-skinny
+          .post-header-skinny
+            .pull-right
+              %a{ href: "#c#{current_index}" }= "##{current_index}"
+            - if randomization.user
+              = image_tag randomization.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
+            %span.label.label-primary Randomized
+            - if randomization.treatment_arm
+              to
+              %strong
+                = link_to randomization.treatment_arm.name, [@project, randomization]
+            - if randomization.user
+              by
+              = randomization.user.name
+            - else
+              from public survey
+            - if randomization.randomized_at
+              %abbr{ rel: "tooltip", data: { title: randomization.randomized_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
+                = time_ago_in_words(randomization.randomized_at)
+                ago
       - elsif event.class == Comment
         - comment = event
         %a.anchor-top{ name: "c#{current_index}" }

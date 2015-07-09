@@ -115,4 +115,16 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/This post was added by #{post.user.name} to #{post.project.name} on #{ENV['website_name']}/, email.encoded)
   end
 
+  test "subject randomization" do
+    randomization = randomizations(:one)
+    user = users(:valid)
+
+    email = UserMailer.subject_randomized(randomization, user).deliver_now
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [user.email], email.to
+    assert_equal "#{randomization.user.name} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}", email.subject
+    assert_match(/#{randomization.subject.name} was randomized to #{randomization.treatment_arm.name} on #{randomization.project.name} by #{randomization.user.name}\./, email.encoded)
+  end
+
 end
