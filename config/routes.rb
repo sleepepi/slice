@@ -128,7 +128,11 @@ Rails.application.routes.draw do
         post "randomize-subject", action: :randomize_subject_to_list, as: :randomize_subject_to_list
       end
       resources :block_size_multipliers
-      resources :lists
+      resources :lists do
+        collection do
+          post :generate
+        end
+      end
       resources :stratification_factors do
         resources :stratification_factor_options
       end

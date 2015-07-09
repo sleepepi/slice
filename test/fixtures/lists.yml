@@ -4,12 +4,26 @@ one:
   project: one
   randomization_scheme: one
   user: valid
-  name: MyString
+  name: "Male, < 40"
   deleted: false
 
 two:
   project: one
   randomization_scheme: one
   user: valid
-  name: MyString
+  name: "Male, >= 40"
+  deleted: false
+
+three:
+  project: one
+  randomization_scheme: one
+  user: valid
+  name: "Female, < 40"
+  deleted: false
+
+four:
+  project: one
+  randomization_scheme: one
+  user: valid
+  name: "Female, >= 40"
   deleted: false

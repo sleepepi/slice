@@ -6,7 +6,6 @@ one:
   randomization_scheme: one
   value: 1
   allocation: 2
-  deleted: false
 
 two:
   project: one
@@ -14,7 +13,6 @@ two:
   randomization_scheme: one
   value: 2
   allocation: 2
-  deleted: false
 
 three:
   project: one
@@ -22,7 +20,6 @@ three:
   randomization_scheme: one
   value: 3
   allocation: 1
-  deleted: false
 
 four:
   project: one
@@ -30,4 +27,17 @@ four:
   randomization_scheme: one
   value: 4
   allocation: 1
-  deleted: false
+
+five:
+  project: two
+  user: valid
+  randomization_scheme: three
+  value: 1
+  allocation: 1
+
+six:
+  project: one
+  user: valid
+  randomization_scheme: two
+  value: 1
+  allocation: 1

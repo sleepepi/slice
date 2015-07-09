@@ -8,8 +8,11 @@
     = link_to 'Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
     &middot;
     = @title
-  = link_to "Edit Treatment Arm", edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, @treatment_arm), class: 'btn btn-default btn-xs'
-  = link_to "Delete Treatment Arm", [@project, @randomization_scheme, @treatment_arm], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Treatment Arm #{@treatment_arm.name}?" }
+  - if @randomization_scheme.published?
+    = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+  - else
+    = link_to "Edit Treatment Arm", edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, @treatment_arm), class: 'btn btn-default btn-xs'
+    = link_to "Delete Treatment Arm", [@project, @randomization_scheme, @treatment_arm], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Treatment Arm #{@treatment_arm.name}?" }
 
 %dl.dl-horizontal
 

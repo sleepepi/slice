@@ -7,6 +7,7 @@ class StratificationFactorsController < ApplicationController
 
   before_action :set_stratification_factor,               only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_stratification_factor,  only: [:show, :edit, :update, :destroy]
+  before_action :redirect_with_published_scheme,          only: [:new, :create, :edit, :update, :destroy]
 
   # GET /stratification_factors
   # GET /stratification_factors.json
@@ -83,6 +84,13 @@ class StratificationFactorsController < ApplicationController
 
     def redirect_without_stratification_factor
       empty_response_or_root_path(project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)) unless @stratification_factor
+    end
+
+    def redirect_with_published_scheme
+      if @randomization_scheme.published?
+        flash[:alert] = "Stratification factors can't be created or edited on published randomization scheme."
+        empty_response_or_root_path(@stratification_factor ? [@project, @randomization_scheme, @stratification_factor] : project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme))
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

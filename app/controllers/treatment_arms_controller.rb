@@ -7,6 +7,7 @@ class TreatmentArmsController < ApplicationController
 
   before_action :set_treatment_arm,               only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_treatment_arm,  only: [:show, :edit, :update, :destroy]
+  before_action :redirect_with_published_scheme,  only: [:new, :create, :edit, :update, :destroy]
 
   # GET /treatment_arms
   # GET /treatment_arms.json
@@ -83,6 +84,13 @@ class TreatmentArmsController < ApplicationController
 
     def redirect_without_treatment_arm
       empty_response_or_root_path(project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)) unless @treatment_arm
+    end
+
+    def redirect_with_published_scheme
+      if @randomization_scheme.published?
+        flash[:alert] = "Treatment arms can't be created or edited on published randomization scheme."
+        empty_response_or_root_path(@treatment_arm ? [@project, @randomization_scheme, @treatment_arm] : project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme))
+      end
     end
 
     def treatment_arm_params

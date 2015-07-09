@@ -2,7 +2,8 @@ class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project
   before_action :redirect_without_project
-  before_action :set_randomization_scheme,                only: [:randomize_subject, :randomize_subject_to_list, :show, :edit, :update, :destroy]
+  before_action :set_randomization_scheme,                only: [:show, :edit, :update, :destroy]
+  before_action :set_published_randomization_scheme,      only: [:randomize_subject, :randomize_subject_to_list]
   before_action :redirect_without_randomization_scheme,   only: [:randomize_subject, :randomize_subject_to_list, :show, :edit, :update, :destroy]
 
   def randomize_subject
@@ -13,6 +14,12 @@ class RandomizationSchemesController < ApplicationController
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
 
     subject = current_user.all_subjects.where(project_id: @project.id).where("LOWER(subjects.subject_code) = ?", params[:subject_code].to_s.downcase).first
+
+    if @randomization_scheme.lists.count == 0
+      @randomization.errors.add(:lists, "need to be generated before a subject can be randomized")
+      render 'randomize_subject'
+      return
+    end
 
     unless subject
       @randomization.errors.add(:subject_code, "can't be blank")
@@ -49,7 +56,7 @@ class RandomizationSchemesController < ApplicationController
       @randomization.errors.add(:subject_id, "has already been randomized")
       render 'randomize_subject'
     else
-      redirect_to project_randomizations_path, alert: "Subject was NOT successfully randomized. Please try again."
+      redirect_to choose_randomization_scheme_project_path(@project), alert: "Subject was NOT successfully randomized. Block Size Multipliers and Treatment Arms may not be set up correctly."
     end
   end
 
@@ -119,6 +126,10 @@ class RandomizationSchemesController < ApplicationController
   private
     def set_randomization_scheme
       @randomization_scheme = @project.randomization_schemes.find_by_id(params[:id])
+    end
+
+    def set_published_randomization_scheme
+      @randomization_scheme = @project.randomization_schemes.published.find_by_id(params[:id])
     end
 
     def redirect_without_randomization_scheme

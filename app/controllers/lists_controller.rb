@@ -8,6 +8,14 @@ class ListsController < ApplicationController
   before_action :set_list,                only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_list,   only: [:show, :edit, :update, :destroy]
 
+  def generate
+    if @randomization_scheme.generate_lists!(current_user)
+      flash[:notice] = 'Lists were successfully created.'
+    else
+      flash[:alert] = 'Lists were NOT successfully created. Please be sure to UNDO any existing randomizations.'
+    end
+    redirect_to [@project, @randomization_scheme]
+  end
 
   # GET /lists
   # GET /lists.json

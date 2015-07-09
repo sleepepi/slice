@@ -30,8 +30,13 @@ class RandomizationScheme < ActiveRecord::Base
   # Model Methods
 
   def generate_lists!(current_user)
-    return if self.randomizations.where.not(subject_id: nil).size > 0
-    return if self.lists.count > 0
+    return false if self.randomizations.where.not(subject_id: nil).size > 0
+
+    self.randomizations.destroy_all
+    self.lists.destroy_all
+
+
+    # return if self.lists.count > 0
 
     list_option_ids = []
 
@@ -51,6 +56,7 @@ class RandomizationScheme < ActiveRecord::Base
         list.options << option
       end
     end
+    true
   end
 
   def randomize_subject_to_list!(subject, list, current_user)

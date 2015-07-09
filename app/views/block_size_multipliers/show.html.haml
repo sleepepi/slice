@@ -8,8 +8,11 @@
     = link_to 'Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
     &middot;
     = @title
-  = link_to "Edit Block Size Multiplier", edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier), class: 'btn btn-default btn-xs'
-  = link_to "Delete Block Size Multiplier", [@project, @randomization_scheme, @block_size_multiplier], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Block Size Multiplier #{@block_size_multiplier.name}?" }
+  - if @randomization_scheme.published?
+    = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+  - else
+    = link_to "Edit Block Size Multiplier", edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier), class: 'btn btn-default btn-xs'
+    = link_to "Delete Block Size Multiplier", [@project, @randomization_scheme, @block_size_multiplier], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Block Size Multiplier #{@block_size_multiplier.name}?" }
 
 %dl.dl-horizontal
 

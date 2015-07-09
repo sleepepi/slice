@@ -1,37 +1,49 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+male:
   project: one
   randomization_scheme: one
-  stratification_factor: one
+  stratification_factor: gender
   user: valid
   label: Male
   value: 1
-  deleted: false
 
-two:
+female:
   project: one
   randomization_scheme: one
-  stratification_factor: one
+  stratification_factor: gender
   user: valid
   label: Female
   value: 2
-  deleted: false
 
-three:
+ltforty:
   project: one
   randomization_scheme: one
-  stratification_factor: two
+  stratification_factor: age
   user: valid
   label: "< 40"
   value: 1
-  deleted: false
 
-four:
+gteforty:
   project: one
   randomization_scheme: one
-  stratification_factor: two
+  stratification_factor: age
   user: valid
   label: ">= 40"
   value: 2
-  deleted: false
+
+avgiq:
+  project: two
+  randomization_scheme: three
+  stratification_factor: iq
+  user: valid
+  label: Average IQ
+  value: 1
+
+aboveavgiq:
+  project: two
+  randomization_scheme: three
+  stratification_factor: iq
+  user: valid
+  label: Above Average IQ
+  value: 2

@@ -12,10 +12,10 @@ class StratificationFactorOption < ActiveRecord::Base
   validates_numericality_of :value, greater_than_or_equal_to: 1, only_integer: true
 
   # Model Relationships
-  belongs_to :user
   belongs_to :project
   belongs_to :randomization_scheme
   belongs_to :stratification_factor
+  belongs_to :user
 
   # Model Methods
 

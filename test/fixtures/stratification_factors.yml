@@ -1,15 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+gender:
   project: one
-  user: valid
   randomization_scheme: one
+  user: valid
   name: Gender
-  deleted: false
 
-two:
+age:
   project: one
-  user: valid
   randomization_scheme: one
+  user: valid
   name: Age
-  deleted: false
+
+iq:
+  project: two
+  randomization_scheme: three
+  user: valid
+  name: IQ
+
+weight:
+  project: one
+  randomization_scheme: two
+  user: valid
+  name: Weight

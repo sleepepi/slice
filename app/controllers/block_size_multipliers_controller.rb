@@ -7,6 +7,7 @@ class BlockSizeMultipliersController < ApplicationController
 
   before_action :set_block_size_multiplier,               only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_block_size_multiplier,  only: [:show, :edit, :update, :destroy]
+  before_action :redirect_with_published_scheme,          only: [:new, :create, :edit, :update, :destroy]
 
   # GET /block_size_multipliers
   # GET /block_size_multipliers.json
@@ -83,6 +84,13 @@ class BlockSizeMultipliersController < ApplicationController
 
     def redirect_without_block_size_multiplier
       empty_response_or_root_path(project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)) unless @block_size_multiplier
+    end
+
+    def redirect_with_published_scheme
+      if @randomization_scheme.published?
+        flash[:alert] = "Block size multipliers can't be created or edited on published randomization scheme."
+        empty_response_or_root_path(@block_size_multiplier ? [@project, @randomization_scheme, @block_size_multiplier] : project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme))
+      end
     end
 
     def block_size_multiplier_params

@@ -1,13 +1,49 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  project_id: 1
-  randomization_scheme_id: 1
-  list_id: 1
-  option_id: 1
+  project: one
+  randomization_scheme: one
+  list: one
+  option: male
 
 two:
-  project_id: 1
-  randomization_scheme_id: 1
-  list_id: 1
-  option_id: 1
+  project: one
+  randomization_scheme: one
+  list: one
+  option: ltforty
+
+three:
+  project: one
+  randomization_scheme: one
+  list: two
+  option: male
+
+four:
+  project: one
+  randomization_scheme: one
+  list: two
+  option: gteforty
+
+five:
+  project: one
+  randomization_scheme: one
+  list: three
+  option: female
+
+six:
+  project: one
+  randomization_scheme: one
+  list: three
+  option: ltforty
+
+seven:
+  project: one
+  randomization_scheme: one
+  list: four
+  option: female
+
+eight:
+  project: one
+  randomization_scheme: one
+  list: four
+  option: gteforty

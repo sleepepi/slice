@@ -13,5 +13,8 @@
         %td= link_to stratification_factor.name, [@project, @randomization_scheme, stratification_factor]
         %td= link_to stratification_factor.user.name, stratification_factor.user if stratification_factor.user
         %td
-          = link_to 'Edit', edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, stratification_factor), class: 'btn btn-default btn-xs'
-          = link_to 'Delete', [@project, @randomization_scheme, stratification_factor], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor #{stratification_factor.name}?" }
+          - if @randomization_scheme.published?
+            = link_to 'Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+          - else
+            = link_to 'Edit', edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, stratification_factor), class: 'btn btn-default btn-xs'
+            = link_to 'Delete', [@project, @randomization_scheme, stratification_factor], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor #{stratification_factor.name}?" }

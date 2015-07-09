@@ -13,3 +13,17 @@ two:
   randomization_scheme: one
   allocation: 3
   user: valid
+
+three:
+  name: Education
+  project: two
+  randomization_scheme: three
+  allocation: 1
+  user: valid
+
+four:
+  name: Treatment A
+  project: one
+  randomization_scheme: two
+  allocation: 1
+  user: valid

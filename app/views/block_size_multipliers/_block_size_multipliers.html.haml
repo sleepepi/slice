@@ -15,5 +15,8 @@
         %td= block_size_multiplier.allocation
         %td= link_to block_size_multiplier.user.name, block_size_multiplier.user if block_size_multiplier.user
         %td
-          = link_to 'Edit', edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), class: 'btn btn-default btn-xs'
-          = link_to 'Delete', [@project, @randomization_scheme, block_size_multiplier], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Block Size Multiplier #{block_size_multiplier.name}?" }
+          - if @randomization_scheme.published?
+            = link_to 'Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+          - else
+            = link_to 'Edit', edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), class: 'btn btn-default btn-xs'
+            = link_to 'Delete', [@project, @randomization_scheme, block_size_multiplier], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Block Size Multiplier #{block_size_multiplier.name}?" }

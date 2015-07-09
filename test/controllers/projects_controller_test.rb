@@ -6,6 +6,16 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should get choose randomization scheme and choose single published randomization scheme" do
+    get :choose_randomization_scheme, id: @project
+    assert_redirected_to randomize_subject_project_randomization_scheme_path(assigns(:project), randomization_schemes(:one))
+  end
+
+  test "should get choose randomization scheme and give options to multiple published randomization schemes" do
+    get :choose_randomization_scheme, id: projects(:two)
+    assert_response :success
+  end
+
   test "should get logo as project editor" do
     get :logo, id: @project
 

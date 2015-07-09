@@ -1,13 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: Randomization Scheme 1
+  name: Randomization Scheme 1 - Published
   description: MyText
   project: one
   user: valid
   published: true
   randomization_goal: 100
-  deleted: false
 
 two:
   name: Randomization Scheme 2
@@ -16,4 +15,19 @@ two:
   user: valid
   published: false
   randomization_goal: 0
-  deleted: false
+
+three:
+  name: IQ and Education Randomization
+  description: MyText
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 5
+
+four:
+  name: Randomization Scheme 2 - Published
+  description: MyText
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 200

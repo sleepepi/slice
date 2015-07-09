@@ -5,8 +5,8 @@ class StratificationFactorOptionsControllerTest < ActionController::TestCase
     login(users(:valid))
     @project = projects(:one)
     @randomization_scheme = randomization_schemes(:one)
-    @stratification_factor = stratification_factors(:one)
-    @stratification_factor_option = stratification_factor_options(:one)
+    @stratification_factor = stratification_factors(:gender)
+    @stratification_factor_option = stratification_factor_options(:male)
   end
 
   test "should get index" do

@@ -13,7 +13,10 @@
       &middot;
       = @title
     %div{ style: 'margin-bottom: 20px' }
-      = link_to "Create Block Size Multiplier", new_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme), class: 'btn btn-xs btn-primary'
+      - if @randomization_scheme.published?
+        = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+      - else
+        = link_to "Create Block Size Multiplier", new_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme), class: 'btn btn-xs btn-primary'
 
     = form_tag project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme), method: :get, class: 'form-vertical' do
       = hidden_field_tag :order, params[:order]
