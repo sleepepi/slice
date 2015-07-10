@@ -65,7 +65,8 @@ class RandomizationScheme < ActiveRecord::Base
 
     # Expand lists by another block group
     unless randomization
-      generate_next_block_group!(current_user)
+      max_needed_block_group = [self.next_block_group - 1, list.next_block_group].max
+      generate_next_block_group_up_to!(current_user, max_needed_block_group)
       randomization = list.randomizations.where(subject_id: nil).order(:position).first
     end
 
@@ -74,27 +75,16 @@ class RandomizationScheme < ActiveRecord::Base
     randomization
   end
 
-  def generate_next_block_group!(current_user)
-    block_group = (self.randomizations.pluck(:block_group).max + 1 rescue 0)
-
+  def generate_next_block_group_up_to!(current_user, block_group)
     multipliers = self.block_size_multipliers.collect{|m| [m.value] * m.allocation }.flatten
+    arms        = self.treatment_arms.collect{|arm| [arm.id] * arm.allocation }.flatten
     self.lists.each do |list|
-      list_position = (list.randomizations.pluck(:position).max + 1 rescue 0)
-      multipliers.shuffle.each do |multiplier|
-        (self.treatment_arms.collect{|arm| [arm.id] * arm.allocation }.flatten * multiplier).shuffle.each do |treatment_arm_id|
-          self.randomizations.create(
-            project_id: self.project_id,
-            list_id: list.id,
-            user_id: current_user.id,
-            position: list_position,
-            treatment_arm_id: treatment_arm_id,
-            block_group: block_group,
-            multiplier: multiplier
-          )
-          list_position += 1
-        end
-      end
+      list.generate_all_block_groups_up_to!(current_user, block_group, multipliers, arms)
     end
+  end
+
+  def next_block_group
+    (randomizations.pluck(:block_group).max || 0) + 1
   end
 
   def number_of_lists
