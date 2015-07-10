@@ -33,7 +33,7 @@ group :test do
   gem 'simplecov',          '~> 0.10.0',           require: false
 end
 
-group :development, :test do
+group :development do
   # Access an IRB console on exceptions page and /console in development
   gem 'web-console', '~> 2.0'
 end
