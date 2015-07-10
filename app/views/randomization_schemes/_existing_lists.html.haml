@@ -17,8 +17,8 @@
     %thead
       %tr
         - lists.each do |list|
-          %th.nowrap
-            %strong= list.name
+          %th.center
+            %strong= link_to list.name, [@project, @randomization_scheme, list]
             %small.text-muted
               = surround '(', ')' do
                 = list.randomizations.where.not(subject_id: nil).count

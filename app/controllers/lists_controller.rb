@@ -17,6 +17,12 @@ class ListsController < ApplicationController
     redirect_to [@project, @randomization_scheme]
   end
 
+  def expand
+    @randomization_scheme.add_missing_lists!(current_user)
+    flash[:notice] = 'Additional lists were successfully created.'
+    redirect_to [@project, @randomization_scheme]
+  end
+
   # GET /lists
   # GET /lists.json
   def index

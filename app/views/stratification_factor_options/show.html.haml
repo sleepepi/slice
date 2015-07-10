@@ -11,7 +11,10 @@
     &middot;
     = @title
   = link_to "Edit Stratification Factor Option", edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, @stratification_factor_option), class: 'btn btn-default btn-xs'
-  = link_to "Delete Stratification Factor Option", [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor Option #{@stratification_factor_option.name}?" }
+  - if @randomization_scheme.published?
+    = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+  - else
+    = link_to "Delete Stratification Factor Option", [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor Option #{@stratification_factor_option.name}?" }
 
 %dl.dl-horizontal
 

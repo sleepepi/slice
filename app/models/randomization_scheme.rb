@@ -29,12 +29,7 @@ class RandomizationScheme < ActiveRecord::Base
 
   # Model Methods
 
-  def generate_lists!(current_user)
-    return false if self.has_randomized_subjects?
-
-    self.randomizations.destroy_all
-    self.lists.destroy_all
-
+  def add_missing_lists!(current_user)
     list_option_ids = []
 
     if self.number_of_lists > 0 and self.number_of_lists < MAX_LISTS
@@ -46,9 +41,29 @@ class RandomizationScheme < ActiveRecord::Base
     end
 
     list_option_ids.each do |option_ids|
-      self.lists.create(project_id: self.project_id, user_id: current_user.id, options: self.stratification_factor_options.where(id: option_ids))
+      unless self.find_list_by_option_ids(option_ids)
+        self.lists.create(project_id: self.project_id, user_id: current_user.id, options: self.stratification_factor_options.where(id: option_ids))
+      end
     end
+  end
+
+  def generate_lists!(current_user)
+    return false if self.has_randomized_subjects?
+    self.randomizations.destroy_all
+    self.lists.destroy_all
+    self.add_missing_lists!(current_user)
     true
+  end
+
+  def find_list_by_option_ids(option_ids)
+    list = nil
+    self.lists.each do |l|
+      if l.options.pluck(:id).sort == option_ids.collect(&:to_i).sort
+        list = l
+        break
+      end
+    end
+    list
   end
 
   def randomize_subject_to_list!(subject, list, current_user)

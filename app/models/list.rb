@@ -19,7 +19,7 @@ class List < ActiveRecord::Base
   # Model Methods
 
   def name
-    self.list_options.includes(:option).collect(&:name).join(', ')
+    self.list_options.includes(:option).order("stratification_factor_options.stratification_factor_id").collect(&:name).join(', ')
   end
 
   def subject_randomizations

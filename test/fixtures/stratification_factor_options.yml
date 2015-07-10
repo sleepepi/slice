@@ -47,3 +47,11 @@ aboveavgiq:
   user: valid
   label: Above Average IQ
   value: 2
+
+lowweight:
+  project: one
+  randomization_scheme: two
+  stratification_factor: weight
+  user: valid
+  label: Low Weight
+  value: 1

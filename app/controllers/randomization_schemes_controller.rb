@@ -27,13 +27,8 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
-    list = nil
-    @randomization_scheme.lists.each do |l|
-      if l.options.pluck(:id).sort == (params[:stratification_factors] || []).collect{ |stratification_factor_id, option_id| option_id.to_i }.sort
-        list = l
-        break
-      end
-    end
+    option_ids = (params[:stratification_factors] || []).collect{ |stratification_factor_id, option_id| option_id }
+    list = @randomization_scheme.find_list_by_option_ids(option_ids)
 
     unless list
       @randomization.errors.add(:stratification_factors, "can't be blank")

@@ -13,6 +13,8 @@
     - Lists are popuplated by block groups based on shuffled block size multipliers and treatment arm allocations
     - Lists are expanded dynamically with new block groups when new subjects are randomized in cases when the lists runs out of available randomizations in previous block groups
     - Lists can be regenerated if they have zero randomized subjects
+    - Stratification options can be added, and corresponding lists can be generated after a randomization scheme is published
+    - Stratification options cannot be removed after a randomization scheme is published
   - **Subject Randomization**
     - Subjects can now be randomized to lists
     - Randomizations can be undone

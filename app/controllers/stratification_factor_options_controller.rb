@@ -9,6 +9,7 @@ class StratificationFactorOptionsController < ApplicationController
 
   before_action :set_stratification_factor_option,                only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_stratification_factor_option,   only: [:show, :edit, :update, :destroy]
+  before_action :redirect_with_published_scheme,                  only: [:destroy]
 
   # GET /stratification_factor_options
   # GET /stratification_factor_options.json
@@ -93,6 +94,13 @@ class StratificationFactorOptionsController < ApplicationController
 
     def redirect_without_stratification_factor_option
       empty_response_or_root_path(project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)) unless @stratification_factor_option
+    end
+
+    def redirect_with_published_scheme
+      if @randomization_scheme.published?
+        flash[:alert] = "Stratification factor options can't be deleted on published randomization scheme."
+        empty_response_or_root_path([@project, @randomization_scheme, @stratification_factor, @stratification_factor_option])
+      end
     end
 
     def stratification_factor_option_params
