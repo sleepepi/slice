@@ -1,0 +1,24 @@
+- list.randomizations.order(:block_group, :position).group_by(&:block_group).each do |block_group, randomizations|
+  .block-group
+    - assignment_block_position = 1
+    - current_multiplier = randomizations.first.multiplier
+    .multiplier{ class: "multiplier_#{current_multiplier}" }
+      - randomizations.each do |randomization|
+        - # The HTML end and start DIVs below are intentional
+        - if current_multiplier != randomization.multiplier or (assignment_block_position - 1 != 0 and (assignment_block_position - 1) % (randomization.multiplier * @randomization_scheme.minimum_block_size) == 0)
+          - current_multiplier = randomization.multiplier
+          - assignment_block_position = 2
+          </div>
+          <div class="multiplier multiplier_#{current_multiplier}">
+        - else
+          - assignment_block_position += 1
+
+        - if randomization.subject
+          .nowrap
+            = link_to [@project, randomization], rel: 'tooltip', title: randomization.subject.subject_code do
+              = randomization.position
+              = randomization.treatment_arm.name
+        - else
+          .nowrap.text-muted
+            = randomization.position
+            = randomization.treatment_arm.name

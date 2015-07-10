@@ -4,14 +4,13 @@
   %thead
     %tr
       %th.nowrap Name
+      %th.nowrap Randomized Subjects
       %th.nowrap Creator
-      %th Actions
 
   %tbody
     - @lists.each do |list|
       %tr
-        %td= link_to list.name, [@project, @randomization_scheme, list]
-        %td= link_to list.user.name, list.user if list.user
         %td
-          = link_to 'Edit', edit_project_randomization_scheme_list_path(@project, @randomization_scheme, list), class: 'btn btn-default btn-xs'
-          = link_to 'Delete', [@project, @randomization_scheme, list], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete List #{list.name}?" }
+          = link_to list.name, [@project, @randomization_scheme, list]
+        %td= link_to list.subject_randomizations.count
+        %td= link_to list.user.name, list.user if list.user

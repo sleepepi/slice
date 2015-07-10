@@ -1,9 +1,7 @@
 - @title = @randomization_scheme.name
 .page-header
   %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to 'Randomization Schemes', project_randomization_schemes_path(@project)
+    = link_to @project.name, project_randomization_schemes_path(@project)
     &middot;
     = @title
   = link_to "Edit Randomization Scheme", edit_project_randomization_scheme_path(@project, @randomization_scheme), class: 'btn btn-default btn-xs'
@@ -59,9 +57,9 @@
       - @randomization_scheme.lists.each do |list|
         %li
           = link_to list.name, [@project, @randomization_scheme, list]
-    - if @randomization_scheme.randomizations.where.not(subject_id: nil).size == 0
+    - unless @randomization_scheme.has_randomized_subjects?
       - if @randomization_scheme.randomizations.size > 0
-        = link_to 'Regenerate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), data: { confirm: 'Are you sure you want to irreversibly destroy the existing lists?' }, class: 'btn btn-danger-inverse btn-xs'
+        = link_to 'Regenerate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, data: { confirm: 'Are you sure you want to irreversibly destroy the existing lists?' }, class: 'btn btn-danger-inverse btn-xs'
       - else
         = link_to 'Generate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, class: 'btn btn-default btn-xs'
 

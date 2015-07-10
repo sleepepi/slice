@@ -30,13 +30,10 @@ class RandomizationScheme < ActiveRecord::Base
   # Model Methods
 
   def generate_lists!(current_user)
-    return false if self.randomizations.where.not(subject_id: nil).size > 0
+    return false if self.has_randomized_subjects?
 
     self.randomizations.destroy_all
     self.lists.destroy_all
-
-
-    # return if self.lists.count > 0
 
     list_option_ids = []
 
@@ -49,12 +46,7 @@ class RandomizationScheme < ActiveRecord::Base
     end
 
     list_option_ids.each do |option_ids|
-      options = self.stratification_factor_options.where(id: option_ids)
-      list_name = options.pluck(:label).join(', ')
-      list = self.lists.create(project_id: self.project_id, user_id: current_user.id, name: list_name)
-      options.each do |option|
-        list.options << option
-      end
+      self.lists.create(project_id: self.project_id, user_id: current_user.id, options: self.stratification_factor_options.where(id: option_ids))
     end
     true
   end
@@ -97,6 +89,10 @@ class RandomizationScheme < ActiveRecord::Base
 
   def randomization_requirements
     # "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge."
+  end
+
+  def has_randomized_subjects?
+    self.randomizations.where.not(subject_id: nil).count > 0
   end
 
   private

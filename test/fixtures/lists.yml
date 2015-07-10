@@ -1,29 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+# Male, < 40
 one:
   project: one
   randomization_scheme: one
   user: valid
-  name: "Male, < 40"
-  deleted: false
 
+# Male, >= 40
 two:
   project: one
   randomization_scheme: one
   user: valid
-  name: "Male, >= 40"
-  deleted: false
 
+# Female, < 40
 three:
   project: one
   randomization_scheme: one
   user: valid
-  name: "Female, < 40"
-  deleted: false
 
+# Female, >= 40
 four:
   project: one
   randomization_scheme: one
   user: valid
-  name: "Female, >= 40"
-  deleted: false

@@ -6,7 +6,7 @@ class List < ActiveRecord::Base
   # Named Scopes
 
   # Model Validation
-  validates_presence_of :project_id, :randomization_scheme_id, :user_id, :name
+  validates_presence_of :project_id, :randomization_scheme_id, :user_id
 
   # Model Relationships
   belongs_to :project
@@ -17,6 +17,14 @@ class List < ActiveRecord::Base
   has_many :randomizations, -> { where deleted: false }
 
   # Model Methods
+
+  def name
+    self.list_options.includes(:option).collect(&:name).join(', ')
+  end
+
+  def subject_randomizations
+    self.randomizations.where.not(subject_id: nil)
+  end
 
   def generate_all_block_groups_up_to!(current_user, max_block_group, multipliers, arms)
     current_block_group = self.next_block_group

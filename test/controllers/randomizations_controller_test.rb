@@ -25,10 +25,8 @@ class RandomizationsControllerTest < ActionController::TestCase
     assert_nil assigns(:randomization).subject_id
     assert_nil assigns(:randomization).randomized_by_id
     assert_nil assigns(:randomization).randomized_at
-    assert_redirected_to project_randomization_path(assigns(:project), assigns(:randomization))
+    assert_redirected_to project_randomizations_path(assigns(:project))
   end
-
-
 
   # test "should destroy randomization" do
   #   assert_difference('Randomization.current.count', -1) do

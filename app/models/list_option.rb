@@ -6,4 +6,9 @@ class ListOption < ActiveRecord::Base
   belongs_to :list
   belongs_to :option, class_name: 'StratificationFactorOption', foreign_key: 'option_id'
 
+  # Model Methods
+  def name
+    self.option.label
+  end
+
 end

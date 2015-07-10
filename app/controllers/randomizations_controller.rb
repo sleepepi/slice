@@ -21,7 +21,7 @@ class RandomizationsController < ApplicationController
   def undo
     @randomization.update(subject_id: nil, randomized_at: nil, randomized_by_id: nil, attested: false)
     respond_to do |format|
-      format.html { redirect_to [@project, @randomization], notice: 'Randomization was successfully removed.' }
+      format.html { redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully removed.' }
       format.json { render :show, status: :ok, location: @randomization }
     end
   end

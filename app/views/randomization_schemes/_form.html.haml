@@ -1,6 +1,6 @@
 .page-header
   %h1
-    = link_to @project.name, setup_project_path(@project)
+    = link_to @project.name, project_randomization_schemes_path(@project)
     &middot;
     = @title
 
@@ -32,10 +32,20 @@
 
   .form-group
     .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :published
-          Published
+      - if @randomization_scheme.has_randomized_subjects?
+        %div.alert.alert-info
+          %p
+            %strong Published
+          %p
+            Subject randomization has started. If you need to make changes to
+            treatment arms, block size multipliers, or stratification factors,
+            you will need to undo all existing randomizations, and then
+            unpublish the randomization scheme.
+      - else
+        .checkbox
+          %label
+            = f.check_box :published
+            Published
 
   .form-group
     .col-md-offset-2.col-md-10

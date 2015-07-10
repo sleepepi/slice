@@ -141,6 +141,10 @@ class RandomizationSchemesController < ApplicationController
 
       params[:randomization_scheme][:randomization_goal] = 0 if params[:randomization_scheme].has_key?(:randomization_goal) and params[:randomization_scheme][:randomization_goal].blank?
 
-      params.require(:randomization_scheme).permit(:name, :description, :published, :randomization_goal)
+      if @randomization_scheme and @randomization_scheme.has_randomized_subjects?
+        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
+      else
+        params.require(:randomization_scheme).permit(:name, :description, :published, :randomization_goal)
+      end
     end
 end
