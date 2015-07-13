@@ -22,6 +22,15 @@
     .col-md-10
       = f.text_field :name, class: 'form-control'
 
+  - if @randomization_scheme.stratification_factors.where(stratifies_by_site: true).count == 0 or @stratification_factor.stratifies_by_site?
+    .form-group
+      .col-md-10.col-md-offset-2
+        or
+        .checkbox
+          %label
+            = f.check_box :stratifies_by_site
+            Stratify by Site
+
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, class: 'btn btn-primary'

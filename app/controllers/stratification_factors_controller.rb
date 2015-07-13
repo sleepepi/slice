@@ -95,6 +95,6 @@ class StratificationFactorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def stratification_factor_params
-      params.require(:stratification_factor).permit(:name)
+      params.require(:stratification_factor).permit(:name, :stratifies_by_site)
     end
 end

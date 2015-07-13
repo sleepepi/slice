@@ -41,10 +41,15 @@
         %label.col-md-2.control-label
           = stratification_factor.name
         .col-md-10
-          - stratification_factor.stratification_factor_options.each do |option|
-            %label.radio-inline
-              = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == option.id.to_s : false), class: 'radio'
-              = option.label
+          - stratification_factor.option_hashes.each do |option_hash|
+            - if site = @project.sites.find_by_id(option_hash[:site_id])
+              %label.radio-inline
+                = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == site.id.to_s : false), class: 'radio'
+                = site.name
+            - elsif option = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
+              %label.radio-inline
+                = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == option.id.to_s : false), class: 'radio'
+                = option.label
 
     .well
       .form-group

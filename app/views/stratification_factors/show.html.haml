@@ -19,9 +19,16 @@
   %dt Creator
   %dd= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
 
-  %dt= link_to 'Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
-  %dd
-    %ul.list-unstyled
-      - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
-        %li
-          = link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]
+  - if @stratification_factor.stratifies_by_site?
+    %dt Sites
+    %dd
+      %ul.list-unstyled
+        - @project.sites.order(:name).each do |site|
+          %li= site.name
+  - else
+    %dt= link_to 'Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
+    %dd
+      %ul.list-unstyled
+        - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
+          %li
+            = link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]

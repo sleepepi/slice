@@ -47,9 +47,14 @@
       - @randomization_scheme.stratification_factors.each do |stratification_factor|
         %li
           = link_to stratification_factor.name, [@project, @randomization_scheme, stratification_factor]
-          %ul
-            - stratification_factor.stratification_factor_options.each do |stratification_factor_option|
-              %li= link_to stratification_factor_option.name, [@project, @randomization_scheme, stratification_factor, stratification_factor_option]
+          - if stratification_factor.stratifies_by_site?
+            %ul
+              - @project.sites.order(:name).each do |site|
+                %li= link_to site.name, [@project, site]
+          - else
+            %ul
+              - stratification_factor.stratification_factor_options.each do |stratification_factor_option|
+                %li= link_to stratification_factor_option.name, [@project, @randomization_scheme, stratification_factor, stratification_factor_option]
 
   %dt= link_to 'Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)
   %dd

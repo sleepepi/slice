@@ -7,6 +7,7 @@
     - Treatment Arms can now be specified along with a weight allocation
     - Different block sizes and allocations can now be specified
     - Stratification Factors with options can now be specified
+    - Site can now be a stratification factor
     - Randomization goal can now be specified
   - **List Generation**
     - Lists are generated as a product of the stratification factor options

@@ -1,5 +1,8 @@
 class List < ActiveRecord::Base
 
+  # Serialized
+  serialize :extra_options, Array
+
   # Concerns
   include Deletable
 
@@ -19,7 +22,15 @@ class List < ActiveRecord::Base
   # Model Methods
 
   def name
-    self.list_options.includes(:option).order("stratification_factor_options.stratification_factor_id").collect(&:name).join(', ')
+    [self.extra_option_names + self.option_names].join(', ')
+  end
+
+  def option_names
+    self.list_options.includes(:option).order("stratification_factor_options.stratification_factor_id").collect(&:name)
+  end
+
+  def extra_option_names
+    self.project.sites.where(id: self.extra_options.collect{|h| h[:site_id]}).order(:name).collect(&:name)
   end
 
   def subject_randomizations
@@ -57,6 +68,25 @@ class List < ActiveRecord::Base
 
   def next_block_group
     (randomizations.pluck(:block_group).max || 0) + 1
+  end
+
+  def criteria_match?(selected_criteria)
+    selected_criteria.collect!{|sfid,oid| [sfid.to_i, oid.to_i]}.sort!
+    return (self.criteria == selected_criteria)
+  end
+
+  # Returns sorted list of criteria in key value pairs [stratification_factor_id and stratification_factor_value]
+  # Stratification value can either be a stratification_factor_option_id or a site_id
+  def criteria
+    (self.option_pairs + extra_option_pairs).sort
+  end
+
+  def option_pairs
+    self.options.pluck(:stratification_factor_id, :id)
+  end
+
+  def extra_option_pairs
+    self.extra_options.collect{|h| [h[:stratification_factor_id].to_i, h[:site_id].to_i]}
   end
 
 end

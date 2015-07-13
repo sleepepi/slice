@@ -34,15 +34,19 @@ class RandomizationScheme < ActiveRecord::Base
 
     if self.number_of_lists > 0 and self.number_of_lists < MAX_LISTS
       if self.stratification_factors.count == 1
-        list_option_ids = self.stratification_factors.first.stratification_factor_options.pluck(:id).collect{|i| [i]}
+        list_option_ids = self.stratification_factors.first.option_hashes.collect{|i| [i]}
       else
-        list_option_ids = self.stratification_factors.collect{|sf| sf.stratification_factor_options.pluck(:id)}.inject(:product)
+        list_option_ids = self.stratification_factors.collect{|sf| sf.option_hashes}.inject(:product)
       end
     end
 
-    list_option_ids.each do |option_ids|
-      unless self.find_list_by_option_ids(option_ids)
-        self.lists.create(project_id: self.project_id, user_id: current_user.id, options: self.stratification_factor_options.where(id: option_ids))
+    list_option_ids.each do |option_hashes|
+      unless self.find_list_by_option_hashes(option_hashes)
+        stratification_factor_option_ids = option_hashes.collect{ |oh| oh[:stratification_factor_option_id] }
+        options = self.stratification_factor_options.where(id: stratification_factor_option_ids)
+        extra_options = option_hashes.select{ |oh| oh[:extra] }
+
+        self.lists.create(project_id: self.project_id, user_id: current_user.id, options: options, extra_options: extra_options)
       end
     end
   end
@@ -55,10 +59,15 @@ class RandomizationScheme < ActiveRecord::Base
     true
   end
 
-  def find_list_by_option_ids(option_ids)
+  def find_list_by_option_hashes(option_hashes)
+    criteria_pairs = option_hashes.collect{|h| [h[:stratification_factor_id], (h[:stratification_factor_option_id] || h[:site_id])]}
+    self.find_list_by_criteria_pairs(criteria_pairs)
+  end
+
+  def find_list_by_criteria_pairs(criteria_pairs)
     list = nil
     self.lists.each do |l|
-      if l.options.pluck(:id).sort == option_ids.collect(&:to_i).sort
+      if l.criteria_match?(criteria_pairs)
         list = l
         break
       end
@@ -95,7 +104,7 @@ class RandomizationScheme < ActiveRecord::Base
   end
 
   def number_of_lists
-    self.stratification_factors.collect{ |sf| sf.stratification_factor_options.count }.inject(:*).to_i
+    self.stratification_factors.collect{ |sf| sf.option_hashes.count }.inject(:*).to_i
   end
 
   def minimum_block_size

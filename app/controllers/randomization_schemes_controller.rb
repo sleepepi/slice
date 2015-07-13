@@ -27,8 +27,8 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
-    option_ids = (params[:stratification_factors] || []).collect{ |stratification_factor_id, option_id| option_id }
-    list = @randomization_scheme.find_list_by_option_ids(option_ids)
+    criteria_pairs = (params[:stratification_factors] || []).collect{ |stratification_factor_id, option_id| [stratification_factor_id, option_id] }
+    list = @randomization_scheme.find_list_by_criteria_pairs(criteria_pairs)
 
     unless list
       @randomization.errors.add(:stratification_factors, "can't be blank")
