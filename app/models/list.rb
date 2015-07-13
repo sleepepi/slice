@@ -22,7 +22,8 @@ class List < ActiveRecord::Base
   # Model Methods
 
   def name
-    [self.extra_option_names + self.option_names].join(', ')
+    names = self.extra_option_names + self.option_names
+    names.count == 0 ? "List" : names.join(', ')
   end
 
   def option_names

@@ -3,12 +3,15 @@
 ### Enhancements
 - **Randomizations Added**
   - Project owners and editors can now add one or more randomization schemes to a project
-  - **Permuted-block Configuration**
+  - Two types of randomization are available, ""
+  - **Permuted-block Algorithm**
     - Treatment Arms can now be specified along with a weight allocation
     - Different block sizes and allocations can now be specified
     - Stratification Factors with options can now be specified
     - Site can now be a stratification factor
     - Randomization goal can now be specified
+  - **Minimization Algorithm**
+    - Dynamic randomization can now be done as an alternative to Permuted-block Algorithm
   - **List Generation**
     - Lists are generated as a product of the stratification factor options
     - Lists are popuplated by block groups based on shuffled block size multipliers and treatment arm allocations

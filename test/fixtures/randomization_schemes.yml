@@ -7,6 +7,7 @@ one:
   user: valid
   published: true
   randomization_goal: 100
+  algorithm: permuted-block
 
 two:
   name: Randomization Scheme 2
@@ -15,6 +16,7 @@ two:
   user: valid
   published: false
   randomization_goal: 0
+  algorithm: permuted-block
 
 three:
   name: IQ and Education Randomization
@@ -23,6 +25,7 @@ three:
   user: valid
   published: true
   randomization_goal: 5
+  algorithm: permuted-block
 
 four:
   name: Randomization Scheme 2 - Published
@@ -31,3 +34,4 @@ four:
   user: valid
   published: true
   randomization_goal: 200
+  algorithm: permuted-block

@@ -18,6 +18,9 @@
   %dt Published
   %dd= simple_check @randomization_scheme.published
 
+  %dt Algorithm
+  %dd= simple_markdown @randomization_scheme.algorithm_name
+
   %dt Randomization Goal
   %dd= @randomization_scheme.randomization_goal
 
@@ -31,15 +34,16 @@
           %code
             = treatment_arm.allocation
 
-  %dt= link_to 'Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
-  %dd
-    %ul.list-unstyled
-      - @randomization_scheme.block_size_multipliers.each do |block_size_multiplier|
-        %li
-          = link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
-          Allocation:
-          %code
-            = block_size_multiplier.allocation
+  - if @randomization_scheme.permuted_block?
+    %dt= link_to 'Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
+    %dd
+      %ul.list-unstyled
+        - @randomization_scheme.block_size_multipliers.each do |block_size_multiplier|
+          %li
+            = link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
+            Allocation:
+            %code
+              = block_size_multiplier.allocation
 
   %dt= link_to 'Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)
   %dd

@@ -48,6 +48,21 @@
             Published
 
   .form-group
+    - if @randomization_scheme.published?
+      .col-md-10.col-md-offset-2
+        %div.alert.alert-info
+          %p
+            %strong Algorithm
+          %p
+            Subjects will be randomized using the
+            %code
+              = @randomization_scheme.algorithm_name
+    - else
+      = f.label :algorithm, nil, class: 'col-md-2 control-label'
+      .col-md-10
+        = f.select :algorithm, RandomizationScheme::ALGORITHMS, {}, class: 'form-control'
+
+  .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, class: 'btn btn-primary'
       = cancel

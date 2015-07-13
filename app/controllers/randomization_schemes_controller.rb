@@ -42,7 +42,7 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
-    @randomization = @randomization_scheme.randomize_subject_to_list!(subject, list, current_user)
+    @randomization = @randomization_scheme.randomize_subject_to_list!(subject, list, current_user, criteria_pairs)
 
     if @randomization and @randomization.errors.full_messages == []
       redirect_to [@project, @randomization], notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
@@ -51,7 +51,7 @@ class RandomizationSchemesController < ApplicationController
       @randomization.errors.add(:subject_id, "has already been randomized")
       render 'randomize_subject'
     else
-      redirect_to choose_randomization_scheme_project_path(@project), alert: "Subject was NOT successfully randomized. Block Size Multipliers and Treatment Arms may not be set up correctly."
+      redirect_to choose_randomization_scheme_project_path(@project), alert: "Subject was NOT successfully randomized. #{@randomization_scheme.randomization_error_message}"
     end
   end
 
@@ -139,7 +139,7 @@ class RandomizationSchemesController < ApplicationController
       if @randomization_scheme and @randomization_scheme.has_randomized_subjects?
         params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
       else
-        params.require(:randomization_scheme).permit(:name, :description, :published, :randomization_goal)
+        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm)
       end
     end
 end

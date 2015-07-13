@@ -21,6 +21,7 @@ class Randomization < ActiveRecord::Base
   belongs_to :treatment_arm
   belongs_to :subject
   belongs_to :randomized_by, class_name: 'User', foreign_key: 'randomized_by_id'
+  has_many :randomization_characteristics
 
   # Model Methods
 
@@ -52,7 +53,7 @@ class Randomization < ActiveRecord::Base
       if pid.nil? then
         # In child
         all_users = self.project.users_to_email - [self.randomized_by]
-        users_to_email.each do |user_to_email|
+        all_users.each do |user_to_email|
           UserMailer.subject_randomized(self, user_to_email).deliver_later if Rails.env.production?
         end
         Kernel.exit!
