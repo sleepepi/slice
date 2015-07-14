@@ -49,20 +49,7 @@
   %dd= @randomization.list.name if @randomization.list
 
   %dt List Position
-  %dd= @randomization.position
-
-
-
-  - if false
-    %dt Creator
-    %dd= link_to @randomization.user.name, @randomization.user if @randomization.user
-
-    %dt Attested
-    %dd= simple_check @randomization.attested
-
-    %dt Block group
-    %dd= @randomization.block_group
-
-    %dt Multiplier
-    %dd= @randomization.multiplier
-
+  - if @randomization.randomization_scheme and @randomization.randomization_scheme.permuted_block?
+    %dd= @randomization.position
+  - else
+    %dd= @randomization.list_position

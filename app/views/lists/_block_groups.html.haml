@@ -32,7 +32,6 @@
             = link_to [@project, randomization], rel: 'tooltip', title: randomization.subject.subject_code do
               = index + 1
               = randomization.treatment_arm.name
-            = randomization.randomization_characteristics.pluck(:site_id, :stratification_factor_option_id)
         - else
           .nowrap.text-muted
             = index + 1

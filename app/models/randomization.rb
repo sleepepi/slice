@@ -47,6 +47,10 @@ class Randomization < ActiveRecord::Base
     self.randomization_scheme.randomizations.where.not(subject_id: nil).order(:randomized_at).pluck(:id).index(self.id) + 1 rescue nil
   end
 
+  def list_position
+    self.list.randomizations.order(:created_at).pluck(:id).index(self.id) + 1 rescue nil
+  end
+
   def notify_users!
     unless Rails.env.test?
       pid = Process.fork
