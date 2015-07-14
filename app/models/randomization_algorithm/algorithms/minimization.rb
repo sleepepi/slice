@@ -1,6 +1,6 @@
 module RandomizationAlgorithm
 
-  class Minimisation < Default
+  class Minimization < Default
 
     attr_reader :randomization_scheme
 

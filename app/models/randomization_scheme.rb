@@ -5,7 +5,7 @@ class RandomizationScheme < ActiveRecord::Base
 
   # Constants
   MAX_LISTS = 128
-  ALGORITHMS = [['Permuted-Block Algorithm', 'permuted-block'], ['Minimisation Algorithm', 'minimisation']]
+  ALGORITHMS = [['Permuted-Block Algorithm', 'permuted-block'], ['Minimization Algorithm', 'minimization']]
 
   # Concerns
   include Searchable, Deletable
@@ -78,8 +78,8 @@ class RandomizationScheme < ActiveRecord::Base
     self.algorithm == 'permuted-block'
   end
 
-  def minimisation?
-    self.algorithm == 'minimisation'
+  def minimization?
+    self.algorithm == 'minimization'
   end
 
   def randomization_error_message

@@ -3,7 +3,7 @@
 ### Enhancements
 - **Randomizations Added**
   - Project owners and editors can now add one or more randomization schemes to a project
-  - Two types of randomization are available, ""
+  - Two types of randomization algorithms are available to use
   - **Permuted-block Algorithm**
     - Treatment Arms can now be specified along with a weight allocation
     - Different block sizes and allocations can now be specified
