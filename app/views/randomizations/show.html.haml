@@ -48,8 +48,29 @@
   %dt List
   %dd= @randomization.list.name if @randomization.list
 
+  - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization?
+    %dt Randomization Characteristics
+    %dd
+      %table.table.table-bordered
+        %thead
+          %tr
+            %th Stratification Factor
+            %th Option
+        - @randomization.randomization_characteristics.each do |randomization_characteristic|
+          %tr
+            %td= randomization_characteristic.stratification_factor.name
+            %td
+              - if sfo = randomization_characteristic.stratification_factor_option
+                = sfo.label
+              - elsif site = randomization_characteristic.site
+                = site.name
+
   %dt List Position
   - if @randomization.randomization_scheme and @randomization.randomization_scheme.permuted_block?
     %dd= @randomization.position
   - else
     %dd= @randomization.list_position
+
+  - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization?
+    %dt Notes
+    %dd= simple_markdown(@randomization.notes, 'table table-bordered')

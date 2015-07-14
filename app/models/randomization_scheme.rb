@@ -82,6 +82,10 @@ class RandomizationScheme < ActiveRecord::Base
     self.algorithm == 'minimization'
   end
 
+  def chance_for_random_selection
+    30
+  end
+
   def randomization_error_message
     RandomizationAlgorithm.for(self).randomization_error_message
   end

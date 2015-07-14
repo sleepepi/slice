@@ -1,13 +1,9 @@
-require 'randomization_algorithm/algorithms/default'
-require 'randomization_algorithm/algorithms/permuted_block'
-require 'randomization_algorithm/algorithms/minimization'
-
 module RandomizationAlgorithm
 
-  DEFAULT_CLASS = RandomizationAlgorithm::Default
+  DEFAULT_CLASS = RandomizationAlgorithm::Algorithms::Default
   ALGORITHM_CLASSES = {
-    'permuted-block' => PermutedBlock,
-    'minimization' => Minimization
+    'permuted-block' => RandomizationAlgorithm::Algorithms::PermutedBlock,
+    'minimization' => RandomizationAlgorithm::Algorithms::Minimization
   }
 
   def self.for(object)

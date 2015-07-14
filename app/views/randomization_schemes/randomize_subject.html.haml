@@ -34,7 +34,10 @@
     .form-group
       = label_tag :subject_code, 'Subject Code', class: 'col-md-2 control-label'
       .col-md-10
-        = text_field_tag :subject_code, params[:subject_code], autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { "project-slug" => @project.to_param }
+        - if Rails.env.development?
+          = select_tag :subject_code, options_for_select(@project.subjects.where.not(id: @randomization_scheme.randomizations.pluck(:subject_id)).collect{|s| [s.name, s.subject_code]} ), class: 'form-control'
+        - else
+          = text_field_tag :subject_code, params[:subject_code], autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { "project-slug" => @project.to_param }
 
     - @randomization_scheme.stratification_factors.each do |stratification_factor|
       .form-group

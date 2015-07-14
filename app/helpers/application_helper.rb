@@ -50,9 +50,14 @@ module ApplicationHelper
     ['http', 'https', 'ftp', 'mailto'].include?(URI.parse(url).scheme) rescue false
   end
 
-  def simple_markdown(text)
-    markdown = Redcarpet::Markdown.new( Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true )
-    target_link_as_blank(markdown.render(replace_numbers_with_ascii(text.to_s)))
+  def simple_markdown(text, table_class = '')
+    markdown = Redcarpet::Markdown.new( Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true, tables: true, lax_spacing: true, space_after_headers: true, underline: true, highlight: true, footnotes: true )
+    result = replace_numbers_with_ascii(text.to_s)
+    result = markdown.render(result)
+    result = result.encode('UTF-16', undef: :replace, invalid: :replace, replace: "").encode('UTF-8')
+    result = add_table_class(result, table_class) unless table_class.blank?
+    result = target_link_as_blank(result)
+    result.html_safe
   end
 
   def beta_enabled?(current_user)
@@ -62,7 +67,7 @@ module ApplicationHelper
   private
 
     def target_link_as_blank(text)
-      text.to_s.gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+      text.to_s.gsub(/<a(.*?)>/m, '<a\1 target="_blank">').html_safe
     end
 
     def replace_numbers_with_ascii(text)
@@ -71,6 +76,10 @@ module ApplicationHelper
 
     def ascii_number(number)
       "&##{(number.to_i + 48).to_s};"
+    end
+
+    def add_table_class(text, table_class)
+      text.to_s.gsub(/<table>/m, "<table class=\"#{table_class}\">").html_safe
     end
 
 end

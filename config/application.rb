@@ -26,7 +26,11 @@ module Slice
       DeviseController.respond_to :html, :json
     end
 
-    # For not swallow errors in after_commit/after_rollback callbacks.
+    # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Add RandomizationAlgorithm Module to autoload path
+    config.autoload_paths << Rails.root.join('app', 'models', 'randomization_algorithm')
+    config.autoload_paths << Rails.root.join('app', 'models', 'randomization_algorithm', 'algorithms')
   end
 end
