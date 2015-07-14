@@ -125,10 +125,10 @@ module RandomizationAlgorithm
             if criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
               stratification_factor_counts[criteria.join('x')] ||= {}
               if sf.stratifies_by_site?
-                site = @randomization_scheme.project.sites.find_by_id(criteria)
+                site = @randomization_scheme.project.sites.find_by_id(criteria.last)
                 stratification_factor_counts[criteria.join('x')][:name] = site.name if site
               else
-                sfo = @randomization_scheme.stratification_factor_options.find_by_id(criteria)
+                sfo = @randomization_scheme.stratification_factor_options.find_by_id(criteria.last)
                 stratification_factor_counts[criteria.join('x')][:name] = sfo.label if sfo
               end
             end
