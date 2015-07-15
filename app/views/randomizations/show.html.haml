@@ -71,10 +71,6 @@
   - else
     %dd= @randomization.list_position
 
-  - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization?
-    %dt Notes
-    %dd= simple_markdown(@randomization.notes, 'table table-bordered')
-
   - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization? and @randomization.dice_roll and @randomization.dice_roll_cutoff
     %dt Notes
     %dd
