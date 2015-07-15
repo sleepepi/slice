@@ -1,0 +1,41 @@
+%h2 Distributions
+
+- if @randomization_scheme.stratification_factors.collect{ |sf| sf.option_hashes.count }.inject(:*).to_i < RandomizationScheme::MAX_LISTS
+  - stratifications = if @randomization_scheme.stratification_factors.count == 1
+    - @randomization_scheme.stratification_factors.first.option_hashes.collect{|i| [i]}
+  - else
+    - @randomization_scheme.stratification_factors.collect{|sf| sf.option_hashes}.inject(:product)
+
+  %table.table.table-bordered
+    %thead
+      %tr
+        - @randomization_scheme.stratification_factors.each do |stratification_factor|
+          %th= stratification_factor.name
+        - @randomization_scheme.treatment_arms.each do |treatment_arm|
+          %th= treatment_arm.name
+    %tbody
+      - stratifications.each do |stratification|
+        %tr
+          - stratification.each do |option_hash|
+            %td
+              - if sfo = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
+                = sfo.label
+              - elsif site = @randomization_scheme.project.sites.find_by_id(option_hash[:site_id])
+                = site.name
+          - @randomization_scheme.treatment_arms.each do |treatment_arm|
+            %td
+              - randomization_scope = @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id)
+              - randomization_ids = []
+              - stratification.each do |option_hash|
+                - filtered_ids = []
+                - if sfo = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
+                  - filtered_ids = randomization_scope.includes(:randomization_characteristics).where(randomization_characteristics: { stratification_factor_option_id: sfo.id }).pluck(:id)
+                - elsif site = @randomization_scheme.project.sites.find_by_id(option_hash[:site_id])
+                  - filtered_ids = randomization_scope.includes(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id }).pluck(:id)
+                - else
+                  - filtered_ids = nil
+                - if randomization_ids.empty?
+                  - randomization_ids = filtered_ids
+                - elsif filtered_ids.kind_of?(Array)
+                  - randomization_ids = randomization_ids & filtered_ids
+              = randomization_ids.uniq.count
