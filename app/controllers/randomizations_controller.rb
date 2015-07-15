@@ -19,8 +19,7 @@ class RandomizationsController < ApplicationController
   # PATCH /randomizations/1/undo
   # PATCH /randomizations/1/undo.json
   def undo
-    @randomization.update(subject_id: nil, randomized_at: nil, randomized_by_id: nil, attested: false)
-    @randomization.randomization_characteristics.destroy_all
+    @randomization.undo!
     respond_to do |format|
       format.html { redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully removed.' }
       format.json { render :show, status: :ok, location: @randomization }

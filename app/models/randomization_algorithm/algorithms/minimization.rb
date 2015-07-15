@@ -65,25 +65,34 @@ module RandomizationAlgorithm
 
           # If 30% chance, select random treatment arm
           notes << "**Is treatment arm selection random?**"
-          if (dice_roll = rand(100)) < @randomization_scheme.chance_for_random_selection
-            notes << "Yes, ==#{dice_roll}== is less than #{@randomization_scheme.chance_for_random_selection}."
-            (treatment_arm, new_notes) = select_random_treatment_arm
+          dice_roll = rand(100)
+          dice_roll_cutoff = @randomization_scheme.chance_for_random_selection
+          past_distributions = {}
+          weighted_eligible_arms = nil
+
+          if dice_roll < dice_roll_cutoff
+            notes << "Yes, ==#{dice_roll}== is less than #{dice_roll_cutoff}."
+            (treatment_arm, new_notes, weighted_eligible_arms) = select_random_treatment_arm
             notes += new_notes
           else
-            notes << "No, ==#{dice_roll}== is greater than or equal to #{@randomization_scheme.chance_for_random_selection}."
-            (treatment_arm, new_notes) = get_treatment_arm(list, criteria_pairs)
+            notes << "No, ==#{dice_roll}== is greater than or equal to #{dice_roll_cutoff}."
+            (treatment_arm, new_notes, weighted_eligible_arms, past_distributions) = get_treatment_arm(list, criteria_pairs)
             notes += new_notes
           end
 
           randomization = nil
 
-          if treatment_arm
+          if treatment_arm and weighted_eligible_arms.kind_of?(Array)
             randomization = list.randomizations.create(
               project_id: @randomization_scheme.project_id,
               randomization_scheme_id: @randomization_scheme.id,
               user_id: current_user.id,
               treatment_arm_id: treatment_arm.id,
-              notes: notes.join("\n\n")
+              notes: notes.join("\n\n"),
+              dice_roll: dice_roll,
+              dice_roll_cutoff: dice_roll_cutoff,
+              past_distributions: past_distributions,
+              weighted_eligible_arms: weighted_eligible_arms.collect{ |arm| { name: arm.name, id: arm.id } }.sort{|a,b| a[:name] <=> b[:name]}
             )
             @randomization_scheme.stratification_factors.each do |sf|
               if criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
@@ -113,6 +122,8 @@ module RandomizationAlgorithm
 
         def get_treatment_arm(list, criteria_pairs)
           all_criteria_selected = true
+          past_distributions = {}
+
           notes = []
 
           notes << "**Select Treatment Arm Based on Criteria Distributions**"
@@ -134,7 +145,7 @@ module RandomizationAlgorithm
             end
           end
 
-          @randomization_scheme.treatment_arms.each do |treatment_arm|
+          @randomization_scheme.treatment_arms.positive_allocation.order(:name).each do |treatment_arm|
             randomization_ids = []
             @randomization_scheme.stratification_factors.each do |sf|
               unless criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
@@ -152,56 +163,71 @@ module RandomizationAlgorithm
               end
 
             end
-            # treatment_arms_and_counts << [treatment_arm, randomization_ids.uniq.count]
             treatment_arms_and_counts << [treatment_arm, randomization_ids.count]
           end
 
           # Arms should be weighted by their allocation
           # An arm with 0 current randomizations, and a zero allocation, should be set at Infinity
-          # An allocation of zero would make it never get selected if other treatment arms have a positive allocation (except for random chance)
+          # An allocation of zero would make it never get selected if other treatment arms have a positive allocation
 
-          weighted_treatment_arms_and_counts = treatment_arms_and_counts.collect{|arm, count| [arm, arm.allocation == 0 ? Infinity : (count / arm.allocation.to_f)]}
+          weighted_treatment_arms_and_counts = treatment_arms_and_counts.collect{|arm, count| [arm, count == 0 ? 0 : (count / arm.allocation.to_f)]}
 
+
+          past_distributions[:treatment_arms] = @randomization_scheme.treatment_arms.positive_allocation.order(:name).collect{ |arm| { name: arm.name, id: arm.id } }
           # Draw Table
           table = []
           table << "| Stratification Factor | #{@randomization_scheme.treatment_arms.collect(&:name).join(' | ')} |"
           table << "|:----|#{"----:|"*@randomization_scheme.treatment_arms.count}"
+
+          past_distributions[:stratification_factors] = []
+
           @randomization_scheme.stratification_factors.each do |sf|
+            sf_hash = {}
             if criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
               name = stratification_factor_counts[criteria.join('x')][:name]
+              sf_hash[:name] = name
+              sf_hash[:criteria] = criteria
+              sf_hash[:treatment_arm_counts] = []
               row = "|#{name}|"
-              @randomization_scheme.treatment_arms.each do |treatment_arm|
+              @randomization_scheme.treatment_arms.positive_allocation.order(:name).each do |treatment_arm|
                 count = stratification_factor_counts[criteria.join('x')][treatment_arm.id.to_s]
+                sf_hash[:treatment_arm_counts] << { count: count, treatment_arm_id: treatment_arm.id }
                 row += "#{count}|"
               end
 
               table << row
             end
+            past_distributions[:stratification_factors] << sf_hash
           end
+
+          past_distributions[:totals] = treatment_arms_and_counts.collect{|arm, count| { count: count, treatment_arm_id: arm.id } }
+          past_distributions[:weighted_totals] = weighted_treatment_arms_and_counts.collect{|arm, count| { count: count.round(2), treatment_arm_id: arm.id } }
+
           table << "|**Total**|#{treatment_arms_and_counts.collect(&:last).join(' | ')} |"
           table << "|**Weighted Total**|#{weighted_treatment_arms_and_counts.collect{|a| a.last.round(2)}.join(' | ')} |"
           notes << table.join("\n")
           # End Draw Table
 
           treatment_arm = nil
+          weighted_eligible_arms = nil
 
           if all_criteria_selected
             min_value = weighted_treatment_arms_and_counts.collect{|arm, count| count}.min
             eligible_arms = weighted_treatment_arms_and_counts.select{|arm, count| count == min_value}.collect{|arm, count| arm}
-            (treatment_arm, new_notes) = randomly_select_eligible_treatment_arm(eligible_arms)
+            (treatment_arm, new_notes, weighted_eligible_arms) = randomly_select_eligible_treatment_arm(eligible_arms)
             notes += new_notes
           end
 
-          [treatment_arm, notes]
+          [treatment_arm, notes, weighted_eligible_arms, past_distributions]
         end
 
         def select_random_treatment_arm
           notes = []
           notes << "**Randomly Select Treatment Arm**"
-          eligible_arms = @randomization_scheme.treatment_arms
-          (treatment_arm, new_notes) = randomly_select_eligible_treatment_arm(eligible_arms)
+          eligible_arms = @randomization_scheme.treatment_arms.positive_allocation
+          (treatment_arm, new_notes, weighted_eligible_arms) = randomly_select_eligible_treatment_arm(eligible_arms)
           notes += new_notes
-          [treatment_arm, notes]
+          [treatment_arm, notes, weighted_eligible_arms]
         end
 
         def randomly_select_eligible_treatment_arm(eligible_arms)
@@ -209,8 +235,8 @@ module RandomizationAlgorithm
           notes = []
           notes << "Weighted Eligible Arms: [#{weighted_eligible_arms.collect(&:name).sort.join(', ')}]" if weighted_eligible_arms.uniq.count > 1
           treatment_arm = weighted_eligible_arms[rand(weighted_eligible_arms.count)]
-          notes << "==#{treatment_arm.name}== selected."
-          [treatment_arm, notes]
+          notes << "==#{treatment_arm.name}== selected." if treatment_arm
+          [treatment_arm, notes, weighted_eligible_arms]
         end
     end
 

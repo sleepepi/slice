@@ -12,6 +12,7 @@
     - Randomization goal can now be specified
   - **Minimization Algorithm**
     - Dynamic randomization can now be done as an alternative to Permuted-block Algorithm
+    - Each randomization keeps track of the treatment arm selection process
   - **List Generation**
     - Lists are generated as a product of the stratification factor options
     - Lists are popuplated by block groups based on shuffled block size multipliers and treatment arm allocations

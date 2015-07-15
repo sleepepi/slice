@@ -1,5 +1,9 @@
 class Randomization < ActiveRecord::Base
 
+  # Serialized
+  serialize :past_distributions, Hash
+  serialize :weighted_eligible_arms, Array
+
   # Concerns
   include Deletable
 
@@ -66,6 +70,21 @@ class Randomization < ActiveRecord::Base
         Process.detach(pid)
       end
     end
+  end
+
+  def undo!
+    self.update(
+      subject_id: nil,
+      randomized_at: nil,
+      randomized_by_id: nil,
+      attested: false,
+      notes: nil,
+      dice_roll: nil,
+      dice_roll_cutoff: nil,
+      past_distributions: nil,
+      weighted_eligible_arms: nil
+    )
+    self.randomization_characteristics.destroy_all
   end
 
 end

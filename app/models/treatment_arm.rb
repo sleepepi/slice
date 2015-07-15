@@ -5,6 +5,8 @@ class TreatmentArm < ActiveRecord::Base
 
   # Named Scopes
 
+  scope :positive_allocation, -> { where 'treatment_arms.allocation > 0' }
+
   # Model Validation
   validates_presence_of :name, :user_id, :project_id, :randomization_scheme_id
   validates_uniqueness_of :name, case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id]

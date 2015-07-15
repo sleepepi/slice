@@ -74,3 +74,70 @@
   - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization?
     %dt Notes
     %dd= simple_markdown(@randomization.notes, 'table table-bordered')
+
+  - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization? and @randomization.dice_roll and @randomization.dice_roll_cutoff
+    %dt Notes
+    %dd
+      %p
+        %strong Is treatment arm selection random?
+      - if @randomization.dice_roll < @randomization.dice_roll_cutoff
+        %p
+          Yes,
+          %mark= @randomization.dice_roll
+          is less than
+          = succeed '.' do
+            = @randomization.dice_roll_cutoff
+      - else
+        %p
+          No,
+          %span{ rel: 'tooltip', title: 'Random Roll Between 0 and 99', data: { placement: 'right', container: 'body' } }
+            %mark= @randomization.dice_roll
+          is greater than or equal to
+          = succeed '.' do
+            %span{ rel: 'tooltip', title: 'Set by Scheme: Can be between 0 (Never Random) and 100 (Always Random)', data: { placement: 'right', container: 'body' } }= @randomization.dice_roll_cutoff
+
+      - if @randomization.dice_roll < @randomization.dice_roll_cutoff
+        %p
+          %strong Randomly Select Treatment Arm
+      - else
+        %p
+          %strong Select Treatment Arm Based on Criteria Distributions
+          %table.table.table-bordered
+            - if @randomization.past_distributions[:treatment_arms].kind_of?(Array)
+              %thead
+                %tr
+                  %th Stratification Factor
+                  - @randomization.past_distributions[:treatment_arms].each do |arm_hash|
+                    %th{ style: 'text-align:right' }= arm_hash[:name]
+            - if @randomization.past_distributions[:stratification_factors].kind_of?(Array)
+              %tbody
+                - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
+                  %tr
+                    %td= sf_hash[:name]
+                    - if sf_hash[:treatment_arm_counts].kind_of?(Array)
+                      - sf_hash[:treatment_arm_counts].each do |ta_hash|
+                        %td{ style: 'text-align:right' }= ta_hash[:count]
+            - if @randomization.past_distributions[:totals].kind_of?(Array) or (@randomization.past_distributions[:weighted_totals].kind_of?(Array) and @randomization.past_distributions[:treatment_arms].kind_of?(Array))
+              %tfoot
+                - if @randomization.past_distributions[:totals].kind_of?(Array)
+                  %tr
+                    %th Total
+                    - @randomization.past_distributions[:totals].each do |total_hash|
+                      %th{ style: 'text-align:right' }= total_hash[:count]
+                - if @randomization.past_distributions[:weighted_totals].kind_of?(Array)
+                  %tr
+                    %th Weighted Total
+                    - @randomization.past_distributions[:weighted_totals].each do |total_hash|
+                      %th{ style: 'text-align:right', class: "#{'success' if total_hash[:treatment_arm_id].in?(@randomization.weighted_eligible_arms.collect{|h| h[:id]})}" }= total_hash[:count]
+        %p
+          %strong Treatment Arms with Lowest Weighted Score and Treatment Arm Allocations
+
+      %p
+        = "Weighted Eligible Arms: [#{@randomization.weighted_eligible_arms.collect{|h| h[:name]}.join(', ')}]"
+
+      %p
+        %strong Treatment Arm Chosen from Eligible Treatment Arms
+      - if @randomization.treatment_arm
+        %p
+          %mark= @randomization.treatment_arm.name
+          selected.
