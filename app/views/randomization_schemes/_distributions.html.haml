@@ -39,3 +39,8 @@
                 - elsif filtered_ids.kind_of?(Array)
                   - randomization_ids = randomization_ids & filtered_ids
               = randomization_ids.uniq.count
+    %tfoot
+      %tr
+        %th{ colspan: @randomization_scheme.stratification_factors.count } Total
+        - @randomization_scheme.treatment_arms.each do |treatment_arm|
+          %th= @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id).count
