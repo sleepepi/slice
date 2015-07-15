@@ -15,23 +15,53 @@ module RandomizationAlgorithm
       # end
 
       def add_missing_lists!(current_user)
-        if @randomization_scheme.lists.count == 0 and self.number_of_lists > 0 and self.number_of_lists < RandomizationScheme::MAX_LISTS
-          @randomization_scheme.lists.create(project_id: @randomization_scheme.project_id, user_id: current_user.id)
+        if self.stratify_lists_by_site?
+
+          list_option_ids = []
+
+          if self.number_of_lists > 0 and self.number_of_lists < RandomizationScheme::MAX_LISTS
+            list_option_ids = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first.option_hashes.collect{|i| [i]}
+          end
+
+          list_option_ids.each do |option_hashes|
+            unless self.find_list_by_option_hashes(option_hashes)
+              extra_options = option_hashes.select{ |oh| oh[:extra] }
+              @randomization_scheme.lists.create(project_id: @randomization_scheme.project_id, user_id: current_user.id, extra_options: extra_options)
+            end
+          end
+        else
+          if @randomization_scheme.lists.count == 0 and self.number_of_lists > 0 and self.number_of_lists < RandomizationScheme::MAX_LISTS
+            @randomization_scheme.lists.create(project_id: @randomization_scheme.project_id, user_id: current_user.id)
+          end
         end
       end
 
-      # def number_of_lists
-      #   1
-      # end
+      def number_of_lists
+        if self.stratify_lists_by_site?
+          @randomization_scheme.project.sites.count
+        else
+          super
+        end
+      end
 
-      # def find_list_by_option_hashes(option_hashes)
-      #   criteria_pairs = option_hashes.collect{|h| [h[:stratification_factor_id], (h[:stratification_factor_option_id] || h[:site_id])]}
-      #   self.find_list_by_criteria_pairs(criteria_pairs)
-      # end
+      def find_list_by_criteria_pairs(criteria_pairs)
+        if self.stratify_lists_by_site?
+          site_only_criteria_pairs = criteria_pairs.select do |stratification_factor_id, option_id|
+            @randomization_scheme.stratification_factors.where(id: stratification_factor_id, stratifies_by_site: true).count == 1
+          end
 
-      # def find_list_by_criteria_pairs(criteria_pairs)
-      #   @randomization_scheme.lists.first
-      # end
+          list = nil
+          @randomization_scheme.lists.each do |l|
+            if l.criteria_match?(site_only_criteria_pairs)
+              list = l
+              break
+            end
+          end
+          list
+        else
+          super
+        end
+      end
 
       def randomize_subject_to_list!(subject, list, current_user, criteria_pairs)
         # Remove any blank randomizations
@@ -46,6 +76,10 @@ module RandomizationAlgorithm
       end
 
       protected
+
+        def stratify_lists_by_site?
+          @randomization_scheme.stratification_factors.where(stratifies_by_site: true).count > 0
+        end
 
         def generate_next_randomization!(list, current_user, criteria_pairs)
           criteria_pairs.collect!{|sfid,oid| [sfid.to_i, oid.to_i]}

@@ -13,6 +13,7 @@
   - **Minimization Algorithm**
     - Dynamic randomization can now be done as an alternative to Permuted-block Algorithm
     - Each randomization keeps track of the treatment arm selection process
+    - When site is a stratification factor, the minimization randomization scheme creates a list for each site
   - **List Generation**
     - Lists are generated as a product of the stratification factor options
     - Lists are popuplated by block groups based on shuffled block size multipliers and treatment arm allocations
