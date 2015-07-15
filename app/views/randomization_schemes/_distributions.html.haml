@@ -26,15 +26,15 @@
             %td
               - randomization_scope = @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id)
               - randomization_ids = []
-              - stratification.each do |option_hash|
+              - stratification.each_with_index do |option_hash, index|
                 - filtered_ids = []
                 - if sfo = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
-                  - filtered_ids = randomization_scope.includes(:randomization_characteristics).where(randomization_characteristics: { stratification_factor_option_id: sfo.id }).pluck(:id)
+                  - filtered_ids = randomization_scope.joins(:randomization_characteristics).where(randomization_characteristics: { stratification_factor_option_id: sfo.id }).pluck(:id)
                 - elsif site = @randomization_scheme.project.sites.find_by_id(option_hash[:site_id])
-                  - filtered_ids = randomization_scope.includes(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id }).pluck(:id)
+                  - filtered_ids = randomization_scope.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id }).pluck(:id)
                 - else
                   - filtered_ids = nil
-                - if randomization_ids.empty?
+                - if index == 0 and filtered_ids.kind_of?(Array)
                   - randomization_ids = filtered_ids
                 - elsif filtered_ids.kind_of?(Array)
                   - randomization_ids = randomization_ids & filtered_ids
