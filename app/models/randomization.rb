@@ -78,7 +78,6 @@ class Randomization < ActiveRecord::Base
       randomized_at: nil,
       randomized_by_id: nil,
       attested: false,
-      notes: nil,
       dice_roll: nil,
       dice_roll_cutoff: nil,
       past_distributions: nil,
