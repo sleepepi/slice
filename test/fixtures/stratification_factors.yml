@@ -23,3 +23,28 @@ weight:
   randomization_scheme: two
   user: valid
   name: Weight
+
+gender_min:
+  project: two
+  randomization_scheme: minimization
+  user: valid
+  name: Gender
+
+bmi_min:
+  project: two
+  randomization_scheme: minimization
+  user: valid
+  name: BMI
+
+by_site:
+  project: two
+  randomization_scheme: minimization
+  user: valid
+  name: By Site
+  stratifies_by_site: true
+
+gender_min2:
+  project: two
+  randomization_scheme: minimization_not_by_site
+  user: valid
+  name: Gender

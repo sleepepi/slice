@@ -27,3 +27,38 @@ four:
   randomization_scheme: two
   allocation: 1
   user: valid
+
+arm_a:
+  name: Treatment Arm A
+  project: two
+  randomization_scheme: minimization
+  allocation: 1
+  user: valid
+
+arm_b:
+  name: Treatment Arm B
+  project: two
+  randomization_scheme: minimization
+  allocation: 2
+  user: valid
+
+arm_c:
+  name: Treatment Arm C
+  project: two
+  randomization_scheme: minimization
+  allocation: 3
+  user: valid
+
+treatment_a:
+  name: Treatment Arm A
+  project: two
+  randomization_scheme: minimization_not_by_site
+  allocation: 1
+  user: valid
+
+treatment_a:
+  name: Treatment Arm A
+  project: two
+  randomization_scheme: minimization_not_by_site
+  allocation: 1
+  user: valid

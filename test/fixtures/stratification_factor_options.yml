@@ -55,3 +55,51 @@ lowweight:
   user: valid
   label: Low Weight
   value: 1
+
+male_min:
+  project: two
+  randomization_scheme: minimization
+  stratification_factor: gender_min
+  user: valid
+  label: Male
+  value: 1
+
+female_min:
+  project: two
+  randomization_scheme: minimization
+  stratification_factor: gender_min
+  user: valid
+  label: Female
+  value: 2
+
+lttwenty:
+  project: two
+  randomization_scheme: minimization
+  stratification_factor: bmi_min
+  user: valid
+  label: "< 20"
+  value: 1
+
+gtetwenty:
+  project: two
+  randomization_scheme: minimization
+  stratification_factor: bmi_min
+  user: valid
+  label: ">= 20"
+  value: 2
+
+male_min2:
+  project: two
+  randomization_scheme: minimization_not_by_site
+  stratification_factor: gender_min2
+  user: valid
+  label: Male
+  value: 1
+
+female_min2:
+  project: two
+  randomization_scheme: minimization_not_by_site
+  stratification_factor: gender_min2
+  user: valid
+  label: Female
+  value: 2

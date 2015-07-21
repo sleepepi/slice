@@ -35,3 +35,21 @@ four:
   published: true
   randomization_goal: 200
   algorithm: permuted-block
+
+minimization:
+  name: Minimization
+  description: Randomization Scheme using Minimization Algorithm
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 100
+  algorithm: minimization
+
+minimization_not_by_site:
+  name: Minimization Not By Site
+  description: Randomization Scheme using Minimization Algorithm with One List
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 100
+  algorithm: minimization

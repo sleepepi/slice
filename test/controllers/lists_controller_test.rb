@@ -17,6 +17,24 @@ class ListsControllerTest < ActionController::TestCase
     assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
   end
 
+  test "should generate lists for minimization scheme with multiple sites" do
+    assert_difference('List.count', 2) do
+      post :generate, project_id: projects(:two), randomization_scheme_id: randomization_schemes(:minimization)
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:randomization_scheme)
+    assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
+  end
+
+  test "should generate single list for minimization scheme not stratifying by site" do
+    assert_difference('List.count', 1) do
+      post :generate, project_id: projects(:two), randomization_scheme_id: randomization_schemes(:minimization_not_by_site)
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:randomization_scheme)
+    assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
+  end
+
   test "should get index" do
     get :index, project_id: @project, randomization_scheme_id: @randomization_scheme
     assert_response :success
