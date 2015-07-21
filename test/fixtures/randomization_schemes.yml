@@ -53,3 +53,13 @@ minimization_not_by_site:
   published: true
   randomization_goal: 100
   algorithm: minimization
+
+minimization_with_lists:
+  name: Minimization
+  description: Randomization Scheme using Minimization Algorithm with Lists
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 100
+  algorithm: minimization
+  # chance_for_random_selection: 0

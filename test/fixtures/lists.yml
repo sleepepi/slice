@@ -1,4 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+--- !map:HashWithIndifferentAccess
 
 # Male, < 40
 one:
@@ -23,3 +24,15 @@ four:
   project: one
   randomization_scheme: one
   user: valid
+
+site_one_minimization_list:
+  project: two
+  randomization_scheme: minimization_with_lists
+  user: valid
+  extra_options: [{ stratification_factor_id: <%= ActiveRecord::FixtureSet.identify(:by_site_with_lists) %>, site_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, extra: true }]
+
+site_two_minimization_list:
+  project: two
+  randomization_scheme: minimization_with_lists
+  user: valid
+  extra_options: [{ stratification_factor_id: <%= ActiveRecord::FixtureSet.identify(:by_site_with_lists) %>, site_id: <%= ActiveRecord::FixtureSet.identify(:site_on_project_two) %>, extra: true }]

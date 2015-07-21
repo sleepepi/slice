@@ -48,3 +48,16 @@ gender_min2:
   randomization_scheme: minimization_not_by_site
   user: valid
   name: Gender
+
+gender_with_lists:
+  project: two
+  randomization_scheme: minimization_with_lists
+  user: valid
+  name: Gender
+
+by_site_with_lists:
+  project: two
+  randomization_scheme: minimization_with_lists
+  user: valid
+  name: By Site
+  stratifies_by_site: true

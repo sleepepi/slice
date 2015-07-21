@@ -103,3 +103,19 @@ female_min2:
   user: valid
   label: Female
   value: 2
+
+male_min_with_lists:
+  project: two
+  randomization_scheme: minimization_with_lists
+  stratification_factor: gender_with_lists
+  user: valid
+  label: Male
+  value: 1
+
+female_min_with_lists:
+  project: two
+  randomization_scheme: minimization_with_lists
+  stratification_factor: gender_with_lists
+  user: valid
+  label: Female
+  value: 2

@@ -9,7 +9,7 @@ one:
   prefix: S1
 
 two:
-  name: Site Two
+  name: Site One on Project Two
   description: MyText
   project: two
   user: valid
@@ -35,7 +35,7 @@ valid_range:
   code_maximum: 500
 
 site_on_project_two:
-  name: Site on Project Two
+  name: Site Two on Project Two
   # description:
   project: two
   user: valid

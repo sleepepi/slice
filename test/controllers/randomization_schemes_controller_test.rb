@@ -30,9 +30,24 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
 
   test "should randomize subject for published scheme to list" do
     # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
-    post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "Code02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
+    assert_difference('RandomizationCharacteristic.count', 2) do
+      post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "Code02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
+    end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
+    assert_redirected_to [assigns(:project), assigns(:randomization)]
+  end
+
+  test "should randomize subject for published minimization scheme to list" do
+    # Stratification Factors { "Gender" => "Male", "Site" => "Two" }
+    assert_difference('Randomization.count', 1) do
+      assert_difference('RandomizationCharacteristic.count', 2) do
+        post :randomize_subject_to_list, project_id: projects(:two), id: randomization_schemes(:minimization_with_lists), subject_code: "2TWO02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:male_min_with_lists)}", "#{ActiveRecord::FixtureSet.identify(:by_site_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:two)}" }, attested: "1"
+      end
+    end
+    assert_not_nil assigns(:randomization_scheme)
+    assert_not_nil assigns(:randomization)
+    # assert_equal 0, assigns(:randomization).dice_roll_cutoff
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
