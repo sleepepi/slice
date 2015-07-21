@@ -1,6 +1,7 @@
 module RandomizationAlgorithm
 
   module Algorithms
+
     class Default
 
       attr_reader :randomization_scheme
@@ -30,6 +31,29 @@ module RandomizationAlgorithm
         @randomization_scheme.lists.first
       end
 
+      def add_randomization_characteristics!(randomization, criteria_pairs)
+        @randomization_scheme.stratification_factors.each do |sf|
+          if criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
+            if sf.stratifies_by_site?
+              randomization.randomization_characteristics.create(
+                project_id: @randomization_scheme.project_id,
+                randomization_scheme_id: @randomization_scheme.id,
+                list_id: randomization.list_id,
+                stratification_factor_id: sf.id,
+                site_id: @randomization_scheme.project.sites.where(id: criteria.last).pluck(:id).first
+              )
+            else
+              randomization.randomization_characteristics.create(
+                project_id: @randomization_scheme.project_id,
+                randomization_scheme_id: @randomization_scheme.id,
+                list_id: randomization.list_id,
+                stratification_factor_id: sf.id,
+                stratification_factor_option_id: sf.stratification_factor_options.where(id: criteria.last).pluck(:id).first
+              )
+            end
+          end
+        end
+      end
 
     end
 

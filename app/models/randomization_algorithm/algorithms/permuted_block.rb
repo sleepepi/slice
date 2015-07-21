@@ -15,17 +15,19 @@ module RandomizationAlgorithm
       end
 
       def add_missing_lists!(current_user)
-        list_option_ids = []
+        stratifications = []
 
         if self.number_of_lists > 0 and self.number_of_lists < RandomizationScheme::MAX_LISTS
-          if @randomization_scheme.stratification_factors.count == 1
-            list_option_ids = @randomization_scheme.stratification_factors.first.option_hashes.collect{|i| [i]}
-          else
-            list_option_ids = @randomization_scheme.stratification_factors.collect{|sf| sf.option_hashes}.inject(:product)
+          stratifications = [[]]
+          @randomization_scheme.stratification_factors.each do |stratification_factor|
+            stratifications = stratifications.product(stratification_factor.option_hashes)
           end
+          stratifications.collect!{|s| s.flatten}
         end
 
-        list_option_ids.each do |option_hashes|
+
+
+        stratifications.each do |option_hashes|
           unless self.find_list_by_option_hashes(option_hashes)
             stratification_factor_option_ids = option_hashes.collect{ |oh| oh[:stratification_factor_option_id] }
             options = @randomization_scheme.stratification_factor_options.where(id: stratification_factor_option_ids)
@@ -62,8 +64,16 @@ module RandomizationAlgorithm
           randomization = list.randomizations.where(subject_id: nil).order(:position).first
         end
 
-        # Add subject to randomization list
-        randomization.add_subject!(subject, current_user) if randomization
+
+        if randomization
+          # Add subject to randomization list
+          randomization.add_subject!(subject, current_user)
+
+          # Add Characteristics
+          self.add_randomization_characteristics!(randomization, criteria_pairs)
+        end
+
+
         randomization
       end
 
