@@ -15,8 +15,22 @@ class RandomizationSchemesController < ApplicationController
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:q]).order('subject_code').limit(10)
 
     result = @subjects.collect do |s|
+      status = 'E'
+      status_class = 'default'
       randomized = (s.randomizations.where(randomization_scheme_id: @randomization_scheme.id).count == 1)
-      { value: s.subject_code, subject_code: s.subject_code, status_class: (randomized ? 'primary' : 'default'), status: (randomized ? "R" : "?"), site_id: s.site_id  }
+      if @randomization_scheme.variable
+        unless s.has_value?(@randomization_scheme.variable, @randomization_scheme.variable_value)
+          # Subject Ineligible for Randomization
+          status = 'I'
+          status_class = 'danger'
+        end
+      end
+      if randomized
+        status = 'R'
+        status_class = 'primary'
+      end
+
+      { value: s.subject_code, subject_code: s.subject_code, status_class: status_class, status: status, site_id: s.site_id  }
     end
 
     render json: result
@@ -35,6 +49,14 @@ class RandomizationSchemesController < ApplicationController
 
     unless subject
       @randomization.errors.add(:subject_code, "can't be blank")
+      render 'randomize_subject'
+      return
+    end
+
+    if @randomization_scheme.variable and not subject.has_value?(@randomization_scheme.variable, @randomization_scheme.variable_value)
+      variable_message = "#{@randomization_scheme.variable.display_name} is not equal to #{@randomization_scheme.variable_value}"
+      @randomization.errors.add(:subject_id, "is ineligible for randomization due to variable criteria")
+      @randomization.errors.add(:subject_id, variable_message)
       render 'randomize_subject'
       return
     end
@@ -166,7 +188,7 @@ class RandomizationSchemesController < ApplicationController
       if @randomization_scheme and @randomization_scheme.has_randomized_subjects?
         params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
       else
-        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm, :chance_of_random_treatment_arm_selection)
+        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)
       end
     end
 end

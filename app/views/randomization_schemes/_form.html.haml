@@ -47,6 +47,29 @@
             = f.check_box :published
             Published
 
+  - if @randomization_scheme.has_randomized_subjects?
+    .form-group
+      .col-md-10.col-md-offset-2
+        %div.alert.alert-info
+          %p
+            %strong Variable Criteria
+          - if @randomization_scheme.variable
+            %p
+              = link_to @randomization_scheme.variable.name, [@project, @randomization_scheme.variable]
+            %p
+              = @randomization_scheme.variable_value
+          - else
+            No Mandatory Randomization Criteria
+  - else
+    .form-group
+      = f.label :variable_id, nil, class: 'col-md-2 control-label'
+      .col-md-10
+        = f.select :variable_id, [['---', nil]] + @project.variables.where(variable_type: ['dropdown', 'string', 'radio', 'integer', 'numeric']).order(:name).collect{|v| [v.name, v.id]}, {}, class: 'form-control'
+    .form-group
+      = f.label :variable_value, nil, class: 'col-md-2 control-label'
+      .col-md-10
+        = f.text_field :variable_value, class: 'form-control'
+
   .form-group
     - if @randomization_scheme.published?
       .col-md-10.col-md-offset-2

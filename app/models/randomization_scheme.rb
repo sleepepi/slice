@@ -22,6 +22,7 @@ class RandomizationScheme < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
+  belongs_to :variable
   has_many :block_size_multipliers, -> { where deleted: false }
   has_many :lists,                  -> { where deleted: false }
   has_many :randomizations,         -> { where deleted: false }

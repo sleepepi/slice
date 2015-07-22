@@ -24,6 +24,14 @@
   %dt Randomization Goal
   %dd= @randomization_scheme.randomization_goal
 
+  - if @randomization_scheme.variable
+    %dt Variable Criteria
+    %dd
+      = link_to @randomization_scheme.variable.name, [@project, @randomization_scheme.variable]
+      \=
+      = @randomization_scheme.variable_value
+
+
   - if @randomization_scheme.minimization?
     %dt Chance of Random Treatment Arm Selection
     %dd= @randomization_scheme.chance_of_random_treatment_arm_selection

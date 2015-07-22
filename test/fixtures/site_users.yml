@@ -46,6 +46,8 @@ project_two_site_viewer:
   site: two
   creator: valid
   user: site_two_viewer
+  invite_token: eeff
+  invite_email: site_two_viewer@example.com
   editor: false
 
 project_two_site_editor:
@@ -53,4 +55,6 @@ project_two_site_editor:
   site: two
   creator: valid
   user: site_two_editor
+  invite_token: ggff
+  invite_email: site_two_editor@example.com
   editor: true
