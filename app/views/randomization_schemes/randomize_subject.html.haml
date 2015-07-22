@@ -5,7 +5,7 @@
     &middot;
     = link_to @project.name, @project
     &middot;
-    = link_to "Randomize", choose_randomization_scheme_project_path(@project)
+    = link_to "Randomize", choose_scheme_project_randomizations_path(@project)
     Subject
 
 - if @randomization_scheme.lists.count == 0

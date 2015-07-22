@@ -14,6 +14,22 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get randomize subject for published scheme for site editor" do
+    login(users(:site_one_editor))
+    get :randomize_subject, project_id: @project, id: @randomization_scheme
+    assert_not_nil assigns(:randomization_scheme)
+    assert_not_nil assigns(:randomization)
+    assert_response :success
+  end
+
+  test "should not get randomize subject for published scheme for site viewer" do
+    login(users(:site_one_viewer))
+    get :randomize_subject, project_id: @project, id: @randomization_scheme
+    assert_nil assigns(:randomization_scheme)
+    assert_nil assigns(:randomization)
+    assert_redirected_to root_path
+  end
+
   test "should not get randomize subject for draft scheme" do
     get :randomize_subject, project_id: @project, id: randomization_schemes(:two)
     assert_not_nil assigns(:project)
@@ -36,6 +52,39 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert_redirected_to [assigns(:project), assigns(:randomization)]
+  end
+
+  test "should randomize subject for published scheme to list as site editor" do
+    login(users(:site_one_editor))
+    # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
+    assert_difference('RandomizationCharacteristic.count', 2) do
+      post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "Code02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
+    end
+    assert_not_nil assigns(:randomization_scheme)
+    assert_not_nil assigns(:randomization)
+    assert_redirected_to [assigns(:project), assigns(:randomization)]
+  end
+
+  test "should not randomize subject on another site as the site editor" do
+    login(users(:site_one_editor))
+    # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
+    assert_difference('RandomizationCharacteristic.count', 0) do
+      post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "S2001", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
+    end
+    assert assigns(:randomization).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:randomization).errors[:subject_code]
+    assert_response :success
+  end
+
+  test "should not randomize subject for published scheme to list as site viewer" do
+    login(users(:site_one_viewer))
+    # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
+    assert_difference('RandomizationCharacteristic.count', 0) do
+      post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "Code02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
+    end
+    assert_nil assigns(:randomization_scheme)
+    assert_nil assigns(:randomization)
+    assert_redirected_to root_path
   end
 
   test "should randomize subject for published minimization scheme to list" do

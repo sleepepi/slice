@@ -44,3 +44,15 @@ site_one_editor:
   last_name: Editor
   email: site_one_editor@example.com
   encrypted_password: ""
+
+site_two_viewer:
+  first_name: SiteTwo
+  last_name: Viewer
+  email: site_two_viewer@example.com
+  encrypted_password: ""
+
+site_two_editor:
+  first_name: SiteTwo
+  last_name: Editor
+  email: site_two_editor@example.com
+  encrypted_password: ""

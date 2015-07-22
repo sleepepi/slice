@@ -25,7 +25,6 @@ Rails.application.routes.draw do
       post :invite_user
       get :logo
       post :archive
-      get "choose-randomization-scheme", action: :choose_randomization_scheme, as: :choose_randomization_scheme
     end
 
     collection do
@@ -117,6 +116,9 @@ Rails.application.routes.draw do
     end
 
     resources :randomizations do
+      collection do
+        get "choose-scheme", action: :choose_scheme, as: :choose_scheme
+      end
       member do
         patch :undo
       end

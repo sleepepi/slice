@@ -40,3 +40,17 @@ site_editor:
   invite_token: ccd113
   invite_email: site_one_editor@example.com
   editor: true
+
+project_two_site_viewer:
+  project: two
+  site: two
+  creator: valid
+  user: site_two_viewer
+  editor: false
+
+project_two_site_editor:
+  project: two
+  site: two
+  creator: valid
+  user: site_two_editor
+  editor: true

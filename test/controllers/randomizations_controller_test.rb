@@ -7,13 +7,61 @@ class RandomizationsControllerTest < ActionController::TestCase
     @randomization = randomizations(:one)
   end
 
+  test "should get choose scheme and choose single published randomization scheme" do
+    get :choose_scheme, project_id: @project
+    assert_redirected_to randomize_subject_project_randomization_scheme_path(assigns(:project), randomization_schemes(:one))
+  end
+
+  test "should get choose scheme and give options to multiple published randomization schemes" do
+    get :choose_scheme, project_id: projects(:two)
+    assert_response :success
+  end
+
+  test "should get choose scheme for site editor" do
+    login(users(:site_two_editor))
+    get :choose_scheme, project_id: projects(:two)
+    assert_response :success
+  end
+
+  test "should not get choose scheme for site viewer" do
+    login(users(:site_two_viewer))
+    get :choose_scheme, project_id: projects(:two)
+    assert_redirected_to root_path
+  end
+
   test "should get index" do
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:randomizations)
   end
 
+  test "should get index for site editor" do
+    login(users(:site_one_editor))
+    get :index, project_id: @project
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test "should get index for site viewer" do
+    login(users(:site_one_viewer))
+    get :index, project_id: @project
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
   test "should show randomization" do
+    get :show, project_id: @project, id: @randomization
+    assert_response :success
+  end
+
+  test "should show randomization for site editor" do
+    login(users(:site_one_editor))
+    get :show, project_id: @project, id: @randomization
+    assert_response :success
+  end
+
+  test "should show randomization for site viewer" do
+    login(users(:site_one_viewer))
     get :show, project_id: @project, id: @randomization
     assert_response :success
   end

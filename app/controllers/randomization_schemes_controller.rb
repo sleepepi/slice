@@ -1,6 +1,7 @@
 class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project
+  before_action :set_editable_project_or_editable_site,   only: [:randomize_subject, :randomize_subject_to_list]
+  before_action :set_editable_project,                    only: [:index, :show, :new, :edit, :create, :update, :destroy]
   before_action :redirect_without_project
   before_action :set_randomization_scheme,                only: [:show, :edit, :update, :destroy]
   before_action :set_published_randomization_scheme,      only: [:randomize_subject, :randomize_subject_to_list]
@@ -65,7 +66,7 @@ class RandomizationSchemesController < ApplicationController
       @randomization.errors.add(:subject_id, "has already been randomized")
       render 'randomize_subject'
     else
-      redirect_to choose_randomization_scheme_project_path(@project), alert: "Subject was NOT successfully randomized. #{@randomization_scheme.randomization_error_message}"
+      redirect_to choose_scheme_project_randomizations_path(@project), alert: "Subject was NOT successfully randomized. #{@randomization_scheme.randomization_error_message}"
     end
   end
 

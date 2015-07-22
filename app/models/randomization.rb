@@ -8,6 +8,7 @@ class Randomization < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
+  scope :with_site, lambda { |arg| where("randomizations.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, arg).references(:subjects) }
 
   # Model Validation
   validates_presence_of :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group, :multiplier, :position, :treatment_arm_id
@@ -28,6 +29,10 @@ class Randomization < ActiveRecord::Base
   has_many :randomization_characteristics
 
   # Model Methods
+
+  def editable_by?(current_user)
+    current_user.all_randomizations.where(id: self.id).count == 1
+  end
 
   def event_at
     self.randomized_at

@@ -135,6 +135,16 @@ class User < ActiveRecord::Base
     Sheet.current.with_site(self.all_viewable_sites.select(:id))
   end
 
+  # Project Editors and site editors on that site can modify randomization
+  def all_randomizations
+    Randomization.current.with_site(self.all_editable_sites.select(:id))
+  end
+
+  # Project Editors and Viewers and Site Members can view sheets
+  def all_viewable_randomizations
+    Randomization.current.with_site(self.all_viewable_sites.select(:id))
+  end
+
   # Project Editors
   def all_sites
     @all_sites ||= begin
