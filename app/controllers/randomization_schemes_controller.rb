@@ -1,14 +1,25 @@
 class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project_or_editable_site,   only: [:randomize_subject, :randomize_subject_to_list]
+  before_action :set_editable_project_or_editable_site,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
   before_action :set_editable_project,                    only: [:index, :show, :new, :edit, :create, :update, :destroy]
   before_action :redirect_without_project
   before_action :set_randomization_scheme,                only: [:show, :edit, :update, :destroy]
-  before_action :set_published_randomization_scheme,      only: [:randomize_subject, :randomize_subject_to_list]
-  before_action :redirect_without_randomization_scheme,   only: [:randomize_subject, :randomize_subject_to_list, :show, :edit, :update, :destroy]
+  before_action :set_published_randomization_scheme,      only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
+  before_action :redirect_without_randomization_scheme,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list, :show, :edit, :update, :destroy]
 
   def randomize_subject
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
+  end
+
+  def subject_search
+    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:q]).order('subject_code').limit(10)
+
+    result = @subjects.collect do |s|
+      randomized = (s.randomizations.where(randomization_scheme_id: @randomization_scheme.id).count == 1)
+      { value: s.subject_code, subject_code: s.subject_code, status_class: (randomized ? 'primary' : 'default'), status: (randomized ? "R" : "?"), site_id: s.site_id  }
+    end
+
+    render json: result
   end
 
   def randomize_subject_to_list

@@ -61,6 +61,7 @@
   subjectsReady()
   projectsReady()
   eventsReady()
+  randomizationsReady()
 
 $(window).onbeforeunload = () -> return "You haven't saved your changes." if window.$isDirty
 $(document).ready(ready)
