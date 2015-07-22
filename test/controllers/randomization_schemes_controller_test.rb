@@ -48,6 +48,8 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert_equal 0, assigns(:randomization).dice_roll_cutoff
+    assert_equal [{ name: treatment_arms(:ongoing_a).name, id: treatment_arms(:ongoing_a).id }], assigns(:randomization).weighted_eligible_arms
+    assert_equal treatment_arms(:ongoing_a), assigns(:randomization).treatment_arm
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 

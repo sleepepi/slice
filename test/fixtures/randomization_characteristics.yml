@@ -17,3 +17,21 @@ two:
   stratification_factor_id: 1
   stratification_factor_option_id: 1
   site_id: 1
+
+min_one_criteria_one:
+  project: two
+  randomization_scheme: minimization_with_lists
+  list: site_two_minimization_list
+  randomization: min_one
+  stratification_factor: gender_with_lists
+  stratification_factor_option: male_min_with_lists
+  # site:
+
+min_one_criteria_two:
+  project: two
+  randomization_scheme: minimization_with_lists
+  list: site_two_minimization_list
+  randomization: min_one
+  stratification_factor: by_site_with_lists
+  # stratification_factor_option:
+  site: site_on_project_two

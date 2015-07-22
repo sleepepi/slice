@@ -13,7 +13,6 @@ one:
   randomized_at: 2015-07-07 15:57:40
   randomized_by: valid
   attested: true
-  deleted: false
 
 two:
   project: one
@@ -28,4 +27,18 @@ two:
   randomized_at: 2015-07-07 15:57:40
   randomized_by: valid
   attested: true
-  deleted: false
+
+min_one:
+  project: two
+  randomization_scheme: minimization_with_lists
+  user: valid
+  list: site_two_minimization_list
+  treatment_arm: ongoing_b
+  subject: randomized
+  randomized_at: 2015-07-07 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+  # past_distributions:
+  # weighted_eligible_arms:

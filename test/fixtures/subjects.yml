@@ -24,13 +24,21 @@ three:
   status: valid
   acrostic: ""
 
+randomized:
+  project: two
+  subject_code: alreadyRandomized01
+  user: valid
+  site: site_on_project_two
+  status: valid
+  acrostic: ""
+
 sample:
   project: two
   subject_code: 2TWO02
   user: valid
   site: site_on_project_two
   status: valid
-  acrostic: ''
+  acrostic: ""
 
 external:
   project: three
