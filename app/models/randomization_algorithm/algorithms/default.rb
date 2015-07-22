@@ -58,7 +58,7 @@ module RandomizationAlgorithm
       def all_criteria_selected?(criteria_pairs)
         criteria_pairs.collect!{|sfid,oid| [sfid.to_i, oid.to_i]}
         @randomization_scheme.stratification_factors.each do |sf|
-          if criteria_pairs.select{|sfid, oid| sfid == sf.id}.count == 0
+          if criteria_pairs.select{|sfid, oid| sfid == sf.id and oid.in?(sf.valid_values)}.count == 0
             # Return if not all criteria pairs are selected
             return false
           end

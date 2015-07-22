@@ -26,4 +26,12 @@ class StratificationFactor < ActiveRecord::Base
     end
   end
 
+  def valid_values
+    if self.stratifies_by_site?
+      self.project.sites.pluck(:id)
+    else
+      self.stratification_factor_options.pluck(:id)
+    end
+  end
+
 end
