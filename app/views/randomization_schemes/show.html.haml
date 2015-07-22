@@ -24,6 +24,10 @@
   %dt Randomization Goal
   %dd= @randomization_scheme.randomization_goal
 
+  - if @randomization_scheme.minimization?
+    %dt Chance of Random Treatment Arm Selection
+    %dd= @randomization_scheme.chance_of_random_treatment_arm_selection
+
   %dt= link_to 'Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
   %dd
     %ul.list-unstyled

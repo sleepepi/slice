@@ -42,12 +42,12 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     # Stratification Factors { "Gender" => "Male", "Site" => "Two" }
     assert_difference('Randomization.count', 1) do
       assert_difference('RandomizationCharacteristic.count', 2) do
-        post :randomize_subject_to_list, project_id: projects(:two), id: randomization_schemes(:minimization_with_lists), subject_code: "2TWO02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:male_min_with_lists)}", "#{ActiveRecord::FixtureSet.identify(:by_site_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:two)}" }, attested: "1"
+        post :randomize_subject_to_list, project_id: projects(:two), id: randomization_schemes(:minimization_with_lists), subject_code: "2TWO02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:male_min_with_lists)}", "#{ActiveRecord::FixtureSet.identify(:by_site_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:site_on_project_two)}" }, attested: "1"
       end
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    # assert_equal 0, assigns(:randomization).dice_roll_cutoff
+    assert_equal 0, assigns(:randomization).dice_roll_cutoff
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 

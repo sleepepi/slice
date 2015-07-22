@@ -17,6 +17,7 @@ class RandomizationScheme < ActiveRecord::Base
   validates_presence_of :name, :user_id, :project_id
   validates_uniqueness_of :name, case_sensitive: false, scope: [:deleted, :project_id]
   validates_numericality_of :randomization_goal, greater_than_or_equal_to: 0, only_integer: true
+  validates_numericality_of :chance_of_random_treatment_arm_selection, greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true
 
   # Model Relationships
   belongs_to :user
@@ -80,10 +81,6 @@ class RandomizationScheme < ActiveRecord::Base
 
   def minimization?
     self.algorithm == 'minimization'
-  end
-
-  def chance_for_random_selection
-    30
   end
 
   def randomization_error_message

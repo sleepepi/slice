@@ -93,7 +93,7 @@ module RandomizationAlgorithm
 
           # If 30% chance, select random treatment arm
           dice_roll = rand(100)
-          dice_roll_cutoff = @randomization_scheme.chance_for_random_selection
+          dice_roll_cutoff = @randomization_scheme.chance_of_random_treatment_arm_selection
           past_distributions = {}
           weighted_eligible_arms = nil
 

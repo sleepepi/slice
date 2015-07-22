@@ -135,11 +135,12 @@ class RandomizationSchemesController < ApplicationController
       params[:randomization_scheme] ||= { blank: '1' }
 
       params[:randomization_scheme][:randomization_goal] = 0 if params[:randomization_scheme].has_key?(:randomization_goal) and params[:randomization_scheme][:randomization_goal].blank?
+      params[:randomization_scheme][:chance_of_random_treatment_arm_selection] = 30 if params[:randomization_scheme].has_key?(:chance_of_random_treatment_arm_selection) and params[:randomization_scheme][:chance_of_random_treatment_arm_selection].blank?
 
       if @randomization_scheme and @randomization_scheme.has_randomized_subjects?
         params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
       else
-        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm)
+        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm, :chance_of_random_treatment_arm_selection)
       end
     end
 end
