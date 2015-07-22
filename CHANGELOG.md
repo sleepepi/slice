@@ -6,6 +6,7 @@
   - Treatment Arm distributions by stratification factors are shown on randomization scheme page
   - Two types of randomization algorithms are available to use
   - Randomization criteria are now stored when subject is randomized
+  - When site is used as a stratification factor, subjects can only be stratified to their own site
   - **Permuted-block Algorithm**
     - Treatment Arms can now be specified along with a weight allocation
     - Different block sizes and allocations can now be specified

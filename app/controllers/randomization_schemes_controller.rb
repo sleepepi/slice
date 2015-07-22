@@ -36,6 +36,20 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
+    unless @randomization_scheme.all_criteria_selected?(criteria_pairs)
+      @randomization.errors.add(:stratification_factors, "can't be blank")
+      render 'randomize_subject'
+      return
+    end
+
+    if stratification_factor = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
+      if subject.site_id.to_i != (params[:stratification_factors] || {})[stratification_factor.id.to_s.to_sym].to_i
+        @randomization.errors.add(:subject_id, "must be randomized to their site")
+        render 'randomize_subject'
+        return
+      end
+    end
+
     if params[:attested] != '1'
       @randomization.errors.add(:attested, "must be checked")
       render 'randomize_subject'

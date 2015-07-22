@@ -55,6 +55,10 @@ class RandomizationScheme < ActiveRecord::Base
     RandomizationAlgorithm.for(self).number_of_lists
   end
 
+  def all_criteria_selected?(criteria_pairs)
+    RandomizationAlgorithm.for(self).all_criteria_selected?(criteria_pairs)
+  end
+
   def minimum_block_size
     self.treatment_arms.pluck(:allocation).sum
   end

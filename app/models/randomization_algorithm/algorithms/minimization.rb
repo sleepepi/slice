@@ -84,12 +84,7 @@ module RandomizationAlgorithm
         def generate_next_randomization!(list, current_user, criteria_pairs)
           criteria_pairs.collect!{|sfid,oid| [sfid.to_i, oid.to_i]}
 
-          @randomization_scheme.stratification_factors.each do |sf|
-            unless criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
-              # Return if not all criteria pairs are selected
-              return nil
-            end
-          end
+          return nil unless self.all_criteria_selected?(criteria_pairs)
 
           # If 30% chance, select random treatment arm
           dice_roll = rand(100)

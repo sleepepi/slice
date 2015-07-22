@@ -53,6 +53,20 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
+  test "should not randomize subject for to another site" do
+    # Stratification Factors { "Gender" => "Male", "Site" => "One" }
+    assert_difference('Randomization.count', 0) do
+      assert_difference('RandomizationCharacteristic.count', 0) do
+        post :randomize_subject_to_list, project_id: projects(:two), id: randomization_schemes(:minimization_with_lists), subject_code: "2TWO02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:male_min_with_lists)}", "#{ActiveRecord::FixtureSet.identify(:by_site_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:two)}" }, attested: "1"
+      end
+    end
+    assert_not_nil assigns(:randomization_scheme)
+    assert_not_nil assigns(:randomization)
+    assert assigns(:randomization).errors.size > 0
+    assert_equal ["must be randomized to their site"], assigns(:randomization).errors[:subject_id]
+    assert_response :success
+  end
+
   test "should randomize subject for fully random minimization scheme to list" do
     # Stratification Factors { "Gender" => "Male" }
     assert_difference('Randomization.count', 1) do
