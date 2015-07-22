@@ -18,6 +18,11 @@ class RandomizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show randomization for minimization scheme" do
+    get :show, project_id: projects(:two), id: randomizations(:min_one)
+    assert_response :success
+  end
+
   test "should undo randomization" do
     patch :undo, project_id: @project, id: @randomization
     assert_not_nil assigns(:project)
