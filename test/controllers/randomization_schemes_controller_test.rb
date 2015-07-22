@@ -53,6 +53,34 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
+  test "should randomize subject for fully random minimization scheme to list" do
+    # Stratification Factors { "Gender" => "Male" }
+    assert_difference('Randomization.count', 1) do
+      assert_difference('RandomizationCharacteristic.count', 1) do
+        post :randomize_subject_to_list, project_id: projects(:two), id: randomization_schemes(:fully_random_minimization), subject_code: "2TWO02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender_random)}" => "#{ActiveRecord::FixtureSet.identify(:male_random)}" }, attested: "1"
+      end
+    end
+    assert_not_nil assigns(:randomization_scheme)
+    assert_not_nil assigns(:randomization)
+    assert_equal 100, assigns(:randomization).dice_roll_cutoff
+    assert_equal [{ name: treatment_arms(:random_a).name, id: treatment_arms(:random_a).id }, { name: treatment_arms(:random_b).name, id: treatment_arms(:random_b).id }, { name: treatment_arms(:random_b).name, id: treatment_arms(:random_b).id }], assigns(:randomization).weighted_eligible_arms
+    assert_redirected_to [assigns(:project), assigns(:randomization)]
+  end
+
+  test "should not randomize subject for minimization scheme without all criteria selected" do
+    # Stratification Factors { "Gender" => "Male" }
+    assert_difference('Randomization.count', 0) do
+      assert_difference('RandomizationCharacteristic.count', 0) do
+        post :randomize_subject_to_list, project_id: projects(:two), id: randomization_schemes(:minimization_with_lists), subject_code: "2TWO02", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:male_min_with_lists)}" }, attested: "1"
+      end
+    end
+    assert_not_nil assigns(:randomization_scheme)
+    assert_not_nil assigns(:randomization)
+    assert assigns(:randomization).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:randomization).errors[:stratification_factors]
+    assert_response :success
+  end
+
   test "should not randomize subject to list if already randomized" do
     post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "Code01", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
     assert_not_nil assigns(:randomization_scheme)

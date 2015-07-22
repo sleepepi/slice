@@ -119,3 +119,20 @@ female_min_with_lists:
   user: valid
   label: Female
   value: 2
+
+male_random:
+  project: two
+  randomization_scheme: fully_random_minimization
+  stratification_factor: gender_random
+  user: valid
+  label: Male
+  value: 1
+
+female_random:
+  project: two
+  randomization_scheme: fully_random_minimization
+  stratification_factor: gender_random
+  user: valid
+  label: Female
+  value: 2
+

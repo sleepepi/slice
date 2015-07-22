@@ -61,3 +61,9 @@ by_site_with_lists:
   user: valid
   name: By Site
   stratifies_by_site: true
+
+gender_random:
+  project: two
+  randomization_scheme: fully_random_minimization
+  user: valid
+  name: Gender

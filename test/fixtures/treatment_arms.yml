@@ -56,8 +56,8 @@ treatment_a:
   allocation: 1
   user: valid
 
-treatment_a:
-  name: Treatment Arm A
+treatment_b:
+  name: Treatment Arm B
   project: two
   randomization_scheme: minimization_not_by_site
   allocation: 1
@@ -74,5 +74,19 @@ ongoing_b:
   name: Ongoing B
   project: two
   randomization_scheme: minimization_with_lists
+  allocation: 2
+  user: valid
+
+random_a:
+  name: Treatment Arm A
+  project: two
+  randomization_scheme: fully_random_minimization
+  allocation: 1
+  user: valid
+
+random_b:
+  name: Treatment Arm B
+  project: two
+  randomization_scheme: fully_random_minimization
   allocation: 2
   user: valid

@@ -65,3 +65,13 @@ minimization_with_lists:
   randomization_goal: 100
   algorithm: minimization
   chance_of_random_treatment_arm_selection: 0
+
+fully_random_minimization:
+  name: Fully Random Minimization
+  description: Fully Random
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 100
+  algorithm: minimization
+  chance_of_random_treatment_arm_selection: 100
