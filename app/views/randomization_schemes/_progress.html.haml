@@ -1,0 +1,9 @@
+- randomization_count = randomization_scheme.randomizations.where.not(subject_id: nil).count
+- if randomization_count > 0 and randomization_scheme.randomization_goal > 0
+  - percent = [randomization_count * 100 / randomization_scheme.randomization_goal, 100].min
+  - status = "danger"
+  - status = "warning" if percent >= 33
+  - status = "success" if percent == 100
+  .progress.progress-striped
+    .progress-bar{ class: "progress-bar-#{status}", style: "width: #{percent}%;" }= "#{percent}%"
+

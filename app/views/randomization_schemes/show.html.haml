@@ -9,6 +9,11 @@
 
 %dl.dl-horizontal
 
+  - if @randomization_scheme.published?
+    %dt Randomized
+    %dd
+      = render 'randomization_schemes/progress', randomization_scheme: @randomization_scheme
+
   %dt Description
   %dd= simple_markdown @randomization_scheme.description
 
