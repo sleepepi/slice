@@ -311,7 +311,7 @@
   -moz-box-shadow   : 0 1px 0 $dropdown-bg inset;
   box-shadow        : 0 1px 0 $dropdown-bg inset;
   background-color: #eee;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$dropdown-bg', endColorstr='$dropdown-bg', GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$dropdown-bg}', endColorstr='#{$dropdown-bg}', GradientType=0 );
   background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(20%, $dropdown-bg), color-stop(80%, $dropdown-bg));
   background-image: -webkit-linear-gradient(top, $dropdown-bg 20%, $dropdown-bg 80%);
   background-image: -moz-linear-gradient(top, $dropdown-bg 20%, $dropdown-bg 80%);
