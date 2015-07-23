@@ -23,20 +23,19 @@
 
 /* @group Single Chosen */
 .chzn-container-single .chzn-single {
-  background-color: $dropdown-bg;
-  border: 1px solid $dropdown-fallback-border;
-  color: #444444;
+  background-color: $input-bg;
+  border: 1px solid $input-border;
+  color: $input-color;
   text-decoration: none;
   display: inline-block;
   width: 100%;
   height: 34px;
   padding: 6px 12px;
   font-size: 16px;
-  color: #555555;
   vertical-align: middle;
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px $dropdown-border;
-  box-shadow: inset 0 1px 1px $dropdown-border;
+  -webkit-box-shadow: inset 0 1px 1px $input-border;
+  box-shadow: inset 0 1px 1px $input-border;
   -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }

@@ -42,6 +42,7 @@
 
 ### Bug Fixes
 - Project list gradients now display properly in Internet Explorer 8
+- Fixed color of text in dropdowns in night mode
 
 ## 0.28.1  (June 10, 2015)
 
