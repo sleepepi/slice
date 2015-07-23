@@ -15,6 +15,6 @@
 $(document)
   .on('typeahead:selected', "[data-object~='randomization_subject_search']", (event, datum) ->
     $("#stratification_factors_#{$(this).data('sfo-id')}_#{datum['site_id']}").prop('checked', true)
+    $("#stratification_factors_#{$(this).data('sfo-id')}_#{datum['site_id']}").closest('.sheet-container').find('.radio').removeClass('selected')
+    $("#stratification_factors_#{$(this).data('sfo-id')}_#{datum['site_id']}").closest('.radio').addClass('selected')
   )
-
-
