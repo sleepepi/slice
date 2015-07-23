@@ -40,6 +40,9 @@
   - Updated to redcarpet 3.3.2
   - Only run `web-console` in development mode
 
+### Bug Fixes
+- Project list gradients now display properly in Internet Explorer 8
+
 ## 0.28.1  (June 10, 2015)
 
 ### Enhancement
