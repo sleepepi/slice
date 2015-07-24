@@ -6,11 +6,11 @@ class ApplicationControllerTest < ActionController::TestCase
   end
 
   test "should parse time" do
-    assert_equal "12:00:00", @controller.send(:parse_time, "12pm")
+    assert_equal "12:00:00", @controller.send(:parse_time_to_s, "12pm")
   end
 
   test "should parse invalid time" do
-    assert_equal "", @controller.send(:parse_time, "abc")
+    assert_equal "", @controller.send(:parse_time_to_s, "abc")
   end
 
   test "should get theme" do

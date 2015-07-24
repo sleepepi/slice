@@ -46,7 +46,11 @@ module Valuable
 
       response = { response: parse_date("#{month}/#{day}/#{year}", "") }
     when 'time'
-      response = { response: parse_time(response) } # Currently things that aren't parsed are stored as blank.
+      hour = parse_integer(response[:hour])
+      minutes = parse_integer(response[:minutes])
+      seconds = parse_integer(response[:seconds])
+
+      response = { response: parse_time_to_s("#{hour}:#{minutes}:#{seconds}", "") }
     else
       response = { response: response }
     end

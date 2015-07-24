@@ -32,6 +32,34 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_time
+    hour = parse_integer(params[:hour])
+    minutes = parse_integer(params[:minutes])
+    seconds = parse_integer(params[:seconds])
+
+    @time = parse_time("#{hour}:#{minutes}:#{seconds}", "")
+
+    if hour.blank? and minutes.blank? and seconds.blank?
+      @status = 'empty'
+    elsif @time.class == Time
+      @message = if @time.hour == 12 and @time.min == 0 and @time.sec == 0
+        "at noon"
+      elsif @time.hour == 0 and @time.min == 0 and @time.sec == 0
+        "at midnight"
+      elsif @time.hour < 12
+        "in the morning"
+      elsif @time.hour < 17
+        "in the afternoon"
+      else
+        "in the evening"
+      end
+      @status = 'success'
+    else
+      @status = 'error'
+    end
+
+  end
+
   protected
 
   def check_system_admin

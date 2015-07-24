@@ -214,7 +214,7 @@ class SheetsControllerTest < ActionController::TestCase
                         "#{variables(:numeric).id}" => 180.5,
                         "#{variables(:date).id}" => { month: '05', day: '28', year: '2012' },
                         "#{variables(:file).id}" => { response_file: '' },
-                        "#{variables(:time).id}" => '14:30:00',
+                        "#{variables(:time).id}" => { hour: '14', minutes: '30', seconds: '00' },
                         "#{variables(:calculated).id}" => '1234'
                       }
       end
@@ -241,7 +241,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:numeric).id}" => 180.5,
                       "#{variables(:date).id}" => { month: '05', day: '28', year: '2012' },
                       "#{variables(:file).id}" => { response_file: '' },
-                      "#{variables(:time).id}" => '14:30:00',
+                      "#{variables(:time).id}" => { hour: '14', minutes: '30', seconds: '00' },
                       "#{variables(:calculated).id}" => '1234'
                     }
     end
@@ -303,7 +303,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:numeric).id}" => 180.5,
                       "#{variables(:date).id}" => { month: '05', day: '28', year: '2012' },
                       "#{variables(:file).id}" => { response_file: '' },
-                      "#{variables(:time).id}" => '14:30:00',
+                      "#{variables(:time).id}" => { hour: '14', minutes: '30', seconds: '00' },
                       "#{variables(:calculated).id}" => '1234'
                     }
     end
@@ -811,7 +811,8 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:weight).id}" => '70.0',
                                                             "#{variables(:calculated).id}" => '31.11',
                                                             "#{variables(:integer).id}" => '25',
-                                                            "#{variables(:time).id}" => '11:30:59' },
+                                                            "#{variables(:time).id}" => { hour: '11', minutes: '30', seconds: '59' }
+                                                          },
                                                   "1" => {  "#{variables(:change_options).id}" => "2",
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => ['econ101'],
@@ -819,7 +820,8 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:weight).id}" => '0.0',
                                                             "#{variables(:calculated).id}" => '',
                                                             "#{variables(:integer).id}" => '25',
-                                                            "#{variables(:time).id}" => '13:20:01' },
+                                                            "#{variables(:time).id}" => { hour: '13', minutes: '20', seconds: '01' }
+                                                          },
                                                   "2" => {  "#{variables(:change_options).id}" => "3",
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => [],
@@ -827,8 +829,10 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:weight).id}" => '70.0',
                                                             "#{variables(:calculated).id}" => '31.11',
                                                             "#{variables(:integer).id}" => '25',
-                                                            "#{variables(:time).id}" => '14:56:33' } }
-                  }
+                                                            "#{variables(:time).id}" => { hour: '14', minutes: '56', seconds: '33' }
+                                                          }
+                                                }
+                             }
 
     assert_not_nil assigns(:sheet)
     assert_equal 1, assigns(:sheet).variables.size
@@ -847,7 +851,8 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:weight).id}" => '0.0',
                                                             "#{variables(:calculated).id}" => '',
                                                             "#{variables(:integer).id}" => '25',
-                                                            "#{variables(:time).id}" => '13:20:01' },
+                                                            "#{variables(:time).id}" => { hour: '13', minutes: '20', seconds: '01' }
+                                                          },
                                                   "2" => {  "#{variables(:change_options).id}" => "3",
                                                             "#{variables(:file).id}" => { response_file: fixture_file_upload('../../test/support/projects/rails.png') },
                                                             "#{variables(:checkbox).id}" => [],
@@ -855,8 +860,10 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:weight).id}" => '70.0',
                                                             "#{variables(:calculated).id}" => '31.11',
                                                             "#{variables(:integer).id}" => '25',
-                                                            "#{variables(:time).id}" => '14:56:33' } }
-                  }
+                                                            "#{variables(:time).id}" => { hour: '14', minutes: '56', seconds: '33' }
+                                                          }
+                                                }
+                              }
 
     assert_not_nil assigns(:sheet)
     assert_equal 1, assigns(:sheet).variables.size
