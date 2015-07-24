@@ -532,6 +532,7 @@ label.checkbox, label.radio {
 .twitter-typeahead {
   color: $gray !important;
   background-color: $input-bg !important;
+  display: block !important;
 }
 
 .tt-dropdown-menu {

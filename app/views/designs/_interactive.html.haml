@@ -1,0 +1,48 @@
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to @design.name, [@design.project, @design]
+    &middot; Edit
+
+#interactive_design_modal.modal
+  .modal-dialog.modal-wide-width
+    #interactive-design-container.modal-content
+
+.btn-toolbar
+  .btn-group{ data: { toggle: "buttons" } }
+    .btn.btn-xs.btn-default{ class: "#{'active' if params[:mode] != 'preview'}", data: { object: "edit-mode" } }
+      %input#edit-mode{ type: "radio", name: "preview_modes" }
+        Edit
+        = succeed 'ode' do
+          %u M
+    .btn.btn-xs.btn-default{ class: "#{'active' if params[:mode] == 'preview'}", data: { object: "preview-mode" } }
+      %input#preview-mode{ type: "radio", name: "preview_modes" }
+        Preview
+        = succeed 'ode' do
+          %u M
+  = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
+
+%hr.soften{ style: "margin-top:20px;" }
+
+= hidden_field_tag :project_id, @project.id
+= hidden_field_tag :design_id, @design.id
+
+
+.row
+  .col-sm-6{ data: { object: "design-preview-expand" } }
+    #design_name-container.page-header{ style: "margin-top:0px;padding-top:0px" }
+      = render 'designs/interactive/show/design_name'
+  .col-sm-6.design-preview-hide
+    %h4{ style: "margin-top:0px" } Design
+    .design-edit-box
+      %table.table{ style: "margin-bottom:0px;table-layout:fixed" }
+        %col{ width: "30%" }
+        %tr
+          %td{ style: "border-top-width:0px" }
+            %strong Actions
+          %td{ style: "border-top-width:0px" }
+            = link_to 'Edit Name and Description', '#', data: { object: 'pull-partial-edit', edit: 'design_name' }, class: 'btn btn-xs btn-default design-preview-hide'
+
+#design-sections-and-variables-container
+  = render 'designs/interactive/show/sections_and_variables'

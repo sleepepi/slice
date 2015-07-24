@@ -1,0 +1,177 @@
+.page-header
+  %h1= @title
+
+= form_for @project, html: { class: 'form-horizontal' } do |f|
+  - if @project.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize(@project.errors.count, "error")
+        prohibited this project from being saved
+
+      %ul
+        - @project.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :slug, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :slug, class: 'form-control'
+      .bs-callout.bs-callout-info
+        %h4 Naming convention
+        %ul
+          %li
+            Must be a lowercase letter
+            %code a-z
+            followed by lowercase letters
+            = succeed ',' do
+              %code a-z
+            numbers
+            = succeed ',' do
+              %code 0-9
+            or dashes
+            = succeed '.' do
+              %code -
+        %p
+          Ex:
+          %code abc123-trial
+
+  .form-group
+    = f.label :description, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    = f.label :subject_code_name, "Subject Code name", class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :subject_code_name, placeholder: "Subject Code", class: 'form-control'
+      .bs-callout.bs-callout-info
+        %h4 What is the Subject Code name?
+        = ENV['website_name']
+        requires a unique string in order to identify subjects. By default the unique string is labeled
+        = succeed ',' do
+          %code Subject Code
+        however you may choose to change it to
+        = succeed ',' do
+          %code Participant ID
+        = succeed ',' do
+          %code Survey Recipient Number
+        or any other suitable nomenclature that fits your particular project.
+
+  - if @project.sites.size == 0
+    .form-group
+      = f.label :site_name, nil, class: 'col-md-2 control-label'
+      .col-md-10
+        = f.text_field :site_name, placeholder: 'Default Site', class: 'form-control'
+        .bs-callout.bs-callout-info
+          %h4 What is the Site name?
+          = ENV['website_name']
+          requires subjects be grouped by site. This requirement helps enforce
+          unique subject codes within a site and also allows reports to break
+          down subject counts by site. If your project does not have subjects
+          that span multiple sites, you can leave this blank, which will create
+          a single site for your project named
+          = succeed '.' do
+            %code Default Site
+          Each project is required to have at least one site, however if you
+          need more than one, you can add additional sites after the project has
+          been created.
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :acrostic_enabled
+          Acrostic enabled
+
+  .form-group
+    = f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-md-2 control-label'
+    .col-md-10
+      .row
+        .col-md-6
+          = f.file_field :logo, class: 'form-control'
+          = f.hidden_field :logo_cache
+
+        - if @project.logo and @project.logo.size > 0
+          .col-md-6
+            .sheet-container
+              %label.checkbox.checkbox-inline.negation
+                = check_box_tag "project[remove_logo]", '1', false
+                Remove
+                %code= @project.logo.path.split('/').last
+                %tt= number_to_human_size(@project.logo.size)
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :show_posts
+          Show News
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :show_documents
+          Show Documents
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :show_contacts
+          Show Contacts
+
+  .form-group
+    .col-md-2
+      %label Email Settings
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :disable_all_emails
+          Disable Daily Digest and Sheet Comment Emails
+
+  .form-group
+    .col-md-2
+      %label Survey Settings
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :collect_email_on_surveys
+          Collect Survey Participants Emails
+
+  .form-group
+    .col-md-2
+      %label Locking of Sheets
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :lockable
+          Allow Sheets to be Locked and Unlocked for Editing
+
+  .form-group
+    .col-md-2
+      %label Hide Values on PDFs
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :hide_values_on_pdfs
+          Checking This Will Hide Answer Choice Values on Printed Sheets
+
+  .form-group
+    .col-md-2
+      %label Double Data Entry
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :double_data_entry
+          Checking This Will Enable Double Data Entry
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

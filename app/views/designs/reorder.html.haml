@@ -1,0 +1,47 @@
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to @design.name, [@design.project, @design]
+    &middot; Reorder
+
+#interactive_design_modal.modal
+  .modal-dialog.modal-wide-width
+    #interactive-design-container.modal-content
+
+.btn-toolbar
+  .btn-group
+    = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
+    = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: 'preview'), class: 'btn btn-xs btn-default'
+  = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default active'
+
+%hr.soften{ style: "margin-top:20px;" }
+
+%ul.pagination
+  %li
+    %a#sections_link{ href: "#" } Sections
+  %li.active
+    %a{ href: "#" }= @design.main_sections.count
+
+%ul.pagination
+  %li.disabled
+    %a#variables_link{ href: "#" } Variables
+  %li.active
+    %a{ href: "#" }= @design.variable_ids.count
+
+= link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top'
+= link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top;display:none'
+
+#saving_modal.modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h4.modal-title Reordering Design
+      .modal-body
+        %p Your changes to the design are being saved...this shouldn't take longer than a minute.
+
+#reorder_options_container
+  = render 'reorder_options'
+
+#reorder_sections_container{ style: "display:none" }
+  = render 'reorder_sections'
