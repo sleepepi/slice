@@ -45,6 +45,7 @@
 - Fixed color of text in dropdowns in night mode
 - Fixed positing of input text in dropdowns
 - Various display adjustments for Internet Explorer 8
+- Fixed date input consistency across browsers when using two-digit years
 
 ## 0.28.1  (June 10, 2015)
 

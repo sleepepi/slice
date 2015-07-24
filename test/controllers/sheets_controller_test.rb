@@ -212,7 +212,7 @@ class SheetsControllerTest < ActionController::TestCase
                         "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                         "#{variables(:integer).id}" => 30,
                         "#{variables(:numeric).id}" => 180.5,
-                        "#{variables(:date).id}" => '05/28/2012',
+                        "#{variables(:date).id}" => { month: '05', day: '28', year: '2012' },
                         "#{variables(:file).id}" => { response_file: '' },
                         "#{variables(:time).id}" => '14:30:00',
                         "#{variables(:calculated).id}" => '1234'
@@ -239,7 +239,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                       "#{variables(:integer).id}" => 30,
                       "#{variables(:numeric).id}" => 180.5,
-                      "#{variables(:date).id}" => '05/28/2012',
+                      "#{variables(:date).id}" => { month: '05', day: '28', year: '2012' },
                       "#{variables(:file).id}" => { response_file: '' },
                       "#{variables(:time).id}" => '14:30:00',
                       "#{variables(:calculated).id}" => '1234'
@@ -301,7 +301,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                       "#{variables(:integer).id}" => 30,
                       "#{variables(:numeric).id}" => 180.5,
-                      "#{variables(:date).id}" => '05/28/2012',
+                      "#{variables(:date).id}" => { month: '05', day: '28', year: '2012' },
                       "#{variables(:file).id}" => { response_file: '' },
                       "#{variables(:time).id}" => '14:30:00',
                       "#{variables(:calculated).id}" => '1234'
@@ -767,7 +767,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet',
                       "#{variables(:integer).id}" => 31,
                       "#{variables(:numeric).id}" => 190.5,
-                      "#{variables(:date).id}" => '05/29/2012',
+                      "#{variables(:date).id}" => { month: '05', day: '29', year: '2012' },
                       "#{variables(:file).id}" => { response_file: '' }
                     }
     end
@@ -790,7 +790,7 @@ class SheetsControllerTest < ActionController::TestCase
                       "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet',
                       "#{variables(:integer).id}" => 31,
                       "#{variables(:numeric).id}" => 190.5,
-                      "#{variables(:date).id}" => '05/29/2012',
+                      "#{variables(:date).id}" => { month: '05', day: '29', year: '2012' },
                       "#{variables(:file).id}" => { response_file: '' }
                     }
 

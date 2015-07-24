@@ -8,6 +8,30 @@ class ApplicationController < ActionController::Base
 
   include DateAndTimeParser
 
+  def check_date
+    month = parse_integer(params[:month])
+    day = parse_integer(params[:day])
+    year = parse_integer(params[:year])
+    @date = parse_date("#{month}/#{day}/#{year}", "")
+    @message = ""
+
+    if @date.class == Date
+      if @date.year > Date.today.year
+        @status = 'warning'
+        @message = "Far out date! Are you from the future?"
+      elsif @date.year < Date.today.year - 50
+        @status = 'warning'
+        @message = "Ancient digs! Did you enter the correct year?"
+      else
+        @status = 'success'
+      end
+    elsif month.blank? and day.blank? and year.blank?
+      @status = 'empty'
+    else
+      @status = 'error'
+    end
+  end
+
   protected
 
   def check_system_admin

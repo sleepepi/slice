@@ -1,8 +1,8 @@
-pad = (str, max) ->
+@pad = (str, max) ->
   if !str then str = ""
   if str.length < max then pad("0" + str, max) else str
 
-setCurrentTime = (event) ->
+@setCurrentTime = (event) ->
   name = $(event.target).data("target-input")
   currentTime = new Date()
   time =
@@ -17,7 +17,7 @@ setCurrentTime = (event) ->
 
   false
 
-setFullTimeField = (target) ->
+@setFullTimeField = (target) ->
   name = target.data("target-input")
   time =
     hour: pad($("input:text[name='hour_"+name+"']").val(), 2)
@@ -32,67 +32,72 @@ setFullTimeField = (target) ->
     $("input:hidden[name='"+name+"']").val(time["hour"]+":"+time["min"]+":"+time["sec"])
   false
 
-reformatTimeInput = (target, int_val) ->
+@reformatTimeInput = (target, int_val) ->
   name = target.data("target-input")
   if int_val then s = String(int_val) else s = ""
   target.val(pad(s, 2)) unless $("input:hidden[name='"+name+"']").val() == ''
   setFullTimeField(target)
 
-@setFullDateField = (element) ->
-  name = element.data("target-input")
-  target_input = $(name)
-  day_target = $(name.replace("#", "#day_"))
-  month_target = $(name.replace("#", "#month_"))
-  year_target = $(name.replace("#", "#year_"))
+@checkFullDate = (element) ->
+  changes = {}
 
-  day_int = parseInt(day_target.val())
-  month_int = parseInt(month_target.val())
-  year_int = parseInt(year_target.val())
+  target_name = element.data("target-name")
+  changes["day"] = $("##{target_name}_day").val()
+  changes["month"] = $("##{target_name}_month").val()
+  changes["year"] = $("##{target_name}_year").val()
 
-  temp_date = Date.parse("#{year_int}/#{month_int}/#{day_int} 00:00:00")
+  url = root_url + 'check-date'
 
-  date = new Date(temp_date)
-
-  day = date.getDate()
-  month = date.getMonth()+1
-  year = date.getFullYear()
-
-  if !isNaN(day_int) and !isNaN(month_int) and !isNaN(year_int) and !isNaN(day) and !isNaN(month) and !isNaN(year)
-    target_input.val(String(date.getMonth()+1)+"/"+String(date.getDate())+"/"+String(date.getFullYear()))
-  else
-    target_input.val('')
-  target_input.change()
+  $.getJSON(url, changes, (data) ->
+    $("##{target_name}_month").parent().removeClass('has-warning')
+    $("##{target_name}_day").parent().removeClass('has-warning')
+    $("##{target_name}_year").parent().removeClass('has-warning')
+    $("##{target_name}_month").parent().removeClass('has-error')
+    $("##{target_name}_day").parent().removeClass('has-error')
+    $("##{target_name}_year").parent().removeClass('has-error')
+    $("##{target_name}_error").hide()
+    $("##{target_name}_warning").hide()
+    $("##{target_name}_success").hide()
+    $("##{target_name}_alert_box").removeClass('bs-callout-success')
+    $("##{target_name}_alert_box").removeClass('bs-callout-warning')
+    $("##{target_name}_alert_box").removeClass('bs-callout-danger')
+    if data
+      $("##{target_name}_alert_box").show()
+      $("##{target_name}_message").html(data['message'])
+      $("##{target_name}_date_string").html(data['date_string'])
+      $("##{target_name}_#{data['status']}").show()
+      $("##{target_name}_alert_box").addClass('bs-callout-success')
+    if data['status'] == 'warning'
+      $("##{target_name}_year").parent().addClass('has-warning')
+      $("##{target_name}_alert_box").addClass('bs-callout-warning')
+    if data['status'] == 'error'
+      $("##{target_name}_alert_box").addClass('bs-callout-danger')
+      $("##{target_name}_year").parent().addClass('has-error')
+      $("##{target_name}_month").parent().addClass('has-error')
+      $("##{target_name}_day").parent().addClass('has-error')
+    if data['status'] == 'empty'
+      $("##{target_name}_alert_box").hide()
+  ).fail( (d, textStatus, error) ->
+    # Nothing
+  )
   false
 
 @clearDateFields = (element) ->
-  name = element.data("target-input")
-  target_input = $(name)
-  day_target = $(name.replace("#", "#day_"))
-  month_target = $(name.replace("#", "#month_"))
-  year_target = $(name.replace("#", "#year_"))
-
-  target_input.val("")
-  day_target.val("")
-  month_target.val("")
-  year_target.val("")
-  target_input.change()
+  target_name = element.data("target-name")
+  $("##{target_name}_day").val("")
+  $("##{target_name}_month").val("")
+  $("##{target_name}_year").val("")
+  $("##{target_name}_day").change()
 
 @setCurrentDate = (element) ->
-  name = element.data("target-input")
-  target_input = $(name)
-  day_target = $(name.replace("#", "#day_"))
-  month_target = $(name.replace("#", "#month_"))
-  year_target = $(name.replace("#", "#year_"))
-
+  target_name = element.data("target-name")
   date = new Date()
+  $("##{target_name}_day").val(date.getDate())
+  $("##{target_name}_month").val(date.getMonth()+1)
+  $("##{target_name}_year").val(date.getFullYear())
+  $("##{target_name}_day").change()
 
-  target_input.val(String(date.getMonth()+1)+"/"+String(date.getDate())+"/"+String(date.getFullYear()))
-  day_target.val(date.getDate())
-  month_target.val(date.getMonth()+1)
-  year_target.val(date.getFullYear())
-  target_input.change()
-
-clearTimeFields = (name) ->
+@clearTimeFields = (name) ->
   $("input:hidden[name='"+name+"']").val("")
   $("input:text[name='hour_"+name+"']").val("")
   $("input:text[name='min_"+name+"']").val("")
@@ -121,10 +126,10 @@ $(document)
     false
   )
   .on('change', '[data-object~="date-field"]', () ->
-    setFullDateField($(this))
+    checkFullDate($(this))
   )
   .on('blur', '[data-object~="date-field"]', () ->
-    setFullDateField($(this))
+    checkFullDate($(this))
   )
   .on('click', '[data-object~="set-date-input-to-current-date"]', () ->
     setCurrentDate($(this))

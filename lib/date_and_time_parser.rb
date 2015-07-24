@@ -8,4 +8,12 @@ module DateAndTimeParser
     Time.parse(time_string).strftime('%H:%M:%S') rescue default_time
   end
 
+  def parse_integer(string)
+    begin
+      Integer("%g" % string)
+    rescue
+      nil
+    end
+  end
+
 end

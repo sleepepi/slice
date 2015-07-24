@@ -40,7 +40,11 @@ module Valuable
     case variable_type when 'file'
       response = {} if response.blank?
     when 'date'
-      response = { response: parse_date(response, response) }
+      month = parse_integer(response[:month])
+      day = parse_integer(response[:day])
+      year = parse_integer(response[:year])
+
+      response = { response: parse_date("#{month}/#{day}/#{year}", "") }
     when 'time'
       response = { response: parse_time(response) } # Currently things that aren't parsed are stored as blank.
     else

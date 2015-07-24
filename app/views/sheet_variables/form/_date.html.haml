@@ -1,0 +1,24 @@
+- is_grid = defined?(grid)
+
+- target_name = field_name.gsub('[', '_').gsub(']', '')
+
+.date-input.form-inline
+  - variable.date_order.each_with_index do |component, index|
+    - (formatting, string_format) = variable.date_formatting(component)
+    %span{ class: "#{component}-box" }
+      = text_field_tag "#{field_name}[#{component}]", (Date.parse(response).strftime(string_format) rescue ""), maxlength: formatting.size, disabled: disabled, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: formatting, class: 'form-control', style: 'display: inline-block;'
+    = variable.date_separator unless index == variable.date_order.size - 1
+  - if variable.show_current_button?
+    = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1' if variable.show_current_button?
+  - unless is_grid
+    = link_to 'Clear', '#', data: { object: 'clear-date-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+  %span.glyphicon.glyphicon-question-sign.text-warning{ id: "#{target_name}_warning", style: 'display:none' }
+  %span.glyphicon.glyphicon-ok-sign.text-success{ id: "#{target_name}_success", style: 'display:none' }
+  %span.glyphicon.glyphicon-remove-sign.text-danger{ id: "#{target_name}_error", style: 'display:none' }
+- unless is_grid
+  .bs-callout{ id: "#{target_name}_alert_box", style: 'padding-top:0px;padding-bottom:0px' }
+    %strong{ id: "#{target_name}_date_string" }
+      = Date.parse(response).strftime("%B %d, %Y") rescue ""
+    %span{ id: "#{target_name}_message" }
+
+

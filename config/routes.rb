@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get "survey/:slug", to: "survey#show"
   get "survey/:slug/sections/:section_id/image", to: "survey#section_image", as: :survey_section_image
 
+  get "check-date", to: "application#check_date"
+
   resources :projects, constraints: { format: /json|pdf|csv/ } do
     member do
       get :report
