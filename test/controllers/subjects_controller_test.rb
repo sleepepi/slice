@@ -66,6 +66,62 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:subject)]
   end
 
+  test "should launch subject event for subject" do
+    post :launch_subject_event, id: @subject, project_id: @project, event_id: events(:one), event_date: { month: '2', day: '14', year: '2015' }
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_equal Date.parse("2015-02-14"), assigns(:subject_event).event_date
+    assert_redirected_to event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), subject_event_id: assigns(:subject_event), event_date: assigns(:subject_event).event_date_to_param)
+  end
+
+  test "should not launch subject event for subject with invalid date" do
+    post :launch_subject_event, id: @subject, project_id: @project, event_id: events(:one), event_date: { month: '2', day: '30', year: '2015' }
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_nil assigns(:subject_event)
+    assert_redirected_to choose_date_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), event_date: { month: 2, day: 30, year: 2015 })
+  end
+
+  test "should get subject event for subject" do
+    get :event, id: @subject, project_id: @project, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_not_nil assigns(:subject_event)
+    assert_response :success
+  end
+
+  test "should get edit subject event for subject" do
+    get :edit_event, id: @subject, project_id: @project, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_not_nil assigns(:subject_event)
+    assert_response :success
+  end
+
+  test "should update subject event for subject" do
+    post :update_event, id: @subject, project_id: @project, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param, new_event_date: { month: '12', day: '4', year: '2015' }
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_not_nil assigns(:subject_event)
+    assert_equal Date.parse("2015-12-04"), assigns(:subject_event).event_date
+    assert_redirected_to event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), subject_event_id: assigns(:subject_event), event_date: assigns(:subject_event).event_date_to_param)
+  end
+
+  test "should update subject event for subject with invalid date" do
+    post :update_event, id: @subject, project_id: @project, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param, new_event_date: { month: '12', day: '0', year: '2015' }
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_not_nil assigns(:subject_event)
+    assert_equal Date.parse("2015-03-31"), assigns(:subject_event).event_date
+    assert_redirected_to edit_event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), subject_event_id: assigns(:subject_event), event_date: assigns(:subject_event).event_date_to_param, new_event_date: { month: 12, day: 0, year: 2015 })
+  end
+
   test "should get choose site for new subject" do
     get :choose_site, project_id: @project, subject_code: 'CodeNew'
     assert_not_nil assigns(:project)

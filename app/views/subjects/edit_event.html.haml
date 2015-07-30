@@ -13,15 +13,15 @@
         = label_tag "new_event_date", nil, class: 'col-md-2 control-label'
         .col-md-10
           .date-input.form-inline
-            = hidden_field_tag 'new_event_date', (@subject_event.event_date.strftime('%m/%d/%Y') rescue '')
+            - target_name = "new_event_date"
             %span.month-box
-              = text_field_tag "month_new_event_date", (@subject_event.event_date.strftime('%m') rescue ''), maxlength: 2, data: { target_input: "#new_event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+              = text_field_tag "new_event_date[month]", (params[:new_event_date] ? params[:new_event_date][:month] : (@subject_event.event_date.strftime('%m') rescue '')), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
             \-
             %span.day-box
-              = text_field_tag "day_new_event_date", (@subject_event.event_date.strftime('%d') rescue ''), maxlength: 2, data: { target_input: "#new_event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+              = text_field_tag "new_event_date[day]", (params[:new_event_date] ? params[:new_event_date][:day] : (@subject_event.event_date.strftime('%d') rescue '')), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
             \-
             %span.year-box
-              = text_field_tag "year_new_event_date", (@subject_event.event_date.strftime('%Y') rescue ''), maxlength: 4, data: { target_input: "#new_event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
+              = text_field_tag "new_event_date[year]", (params[:new_event_date] ? params[:new_event_date][:year] : (@subject_event.event_date.strftime('%Y') rescue '')), maxlength: 4, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
 
       %hr.soften
 

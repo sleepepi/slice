@@ -47,6 +47,7 @@
 - Various display adjustments for Internet Explorer 8
 - Fixed date input consistency across browsers when using two-digit years
 - Fixed time input consistency across browsers and compatibility with Internet Explorer 8
+- Fixed a bug preventing dates from being entered and edited on subject events
 
 ## 0.28.1  (June 10, 2015)
 

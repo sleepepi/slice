@@ -28,13 +28,19 @@ class SubjectsController < ApplicationController
   def update_event
     @event = @project.events.find_by_param(params[:event_id])
     @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
-    if @subject_event and date = parse_date(params[:new_event_date], nil)
+
+    month = parse_integer(params[:new_event_date] ? params[:new_event_date][:month] : nil)
+    day = parse_integer(params[:new_event_date] ? params[:new_event_date][:day] : nil)
+    year = parse_integer(params[:new_event_date] ? params[:new_event_date][:year] : nil)
+    date = parse_date("#{month}/#{day}/#{year}", nil)
+
+    if @subject_event and date
       @subject_event.update event_date: date
       redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), notice: 'Subject event updated successfully.'
     elsif @subject_event and date == nil
-      redirect_to edit_event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), alert: 'Please enter a valid date.'
+      redirect_to edit_event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param, new_event_date: { month: month, day: day, year: year }), alert: 'Please enter a valid date.'
     else
-      redirect_to [@project, @subject], alert: "#{params[:new_event_date].inspect}"
+      redirect_to [@project, @subject], alert: "#{date.inspect}"
     end
   end
 
@@ -69,11 +75,15 @@ class SubjectsController < ApplicationController
   def launch_subject_event
     @event = @project.events.find_by_param(params[:event_id])
     if @event
+      month = parse_integer(params[:event_date] ? params[:event_date][:month] : nil)
+      day = parse_integer(params[:event_date] ? params[:event_date][:day] : nil)
+      year = parse_integer(params[:event_date] ? params[:event_date][:year] : nil)
+      date = parse_date("#{month}/#{day}/#{year}", nil)
 
-      if date = parse_date(params[:event_date], nil) and @subject_event = @subject.subject_events.create(event_id: @event.id, event_date: date, user_id: current_user.id)
+      if date and @subject_event = @subject.subject_events.create(event_id: @event.id, event_date: date, user_id: current_user.id)
         redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), notice: 'Subject event created successfully.'
       else
-        redirect_to choose_date_project_subject_path(@project, @subject, event_id: @event.to_param), alert: 'Please enter a valid date.'
+        redirect_to choose_date_project_subject_path(@project, @subject, event_id: @event.to_param, event_date: { month: month, day: day, year: year }), alert: 'Please enter a valid date.'
       end
     else
       redirect_to [@project, @subject], alert: "Event #{params[:event_id]} not found on project." unless @event

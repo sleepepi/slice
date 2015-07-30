@@ -25,18 +25,18 @@
         = label_tag "event_date", nil, class: 'col-md-2 control-label'
         .col-md-10
           .date-input.form-inline
-            = hidden_field_tag 'event_date', (Date.parse(params[:event_date]).strftime('%m/%d/%Y') rescue "")
+            - target_name = "event_date"
             %span.month-box
-              = text_field_tag "month_event_date", params[:month_event_date], maxlength: 2, data: { target_input: "#event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+              = text_field_tag "event_date[month]", (params[:event_date] ? params[:event_date][:month] : nil), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
             \-
             %span.day-box
-              = text_field_tag "day_event_date", params[:day_event_date], maxlength: 2, data: { target_input: "#event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+              = text_field_tag "event_date[day]", (params[:event_date] ? params[:event_date][:day] : nil), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
             \-
             %span.year-box
-              = text_field_tag "year_event_date", params[:year_event_date], maxlength: 4, data: { target_input: "#event_date", object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
+              = text_field_tag "event_date[year]", (params[:event_date] ? params[:event_date][:year] : nil), maxlength: 4, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
 
-            = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "#event_date" }, class: 'btn btn-default btn-xs', tabindex: '-1'
-            = link_to 'Clear', '#', data: { object: 'clear-date-input', target_input: "#event_date" }, class: 'btn btn-default btn-xs', tabindex: '-1'
+            = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+            = link_to 'Clear', '#', data: { object: 'clear-date-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
 
       .form-group
         = label_tag "designs", nil, class: 'col-md-2 control-label'
