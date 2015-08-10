@@ -42,7 +42,7 @@
                   - randomization_ids = randomization_ids & filtered_ids
               = randomization_ids.uniq.count
     %tbody
-      - @randomization_scheme.project.sites.each do |site|
+      - @randomization_scheme.project.sites.order(:name).each do |site|
         - randomization_scope = @randomization_scheme.randomizations.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id })
         %tr
           %th{ colspan: @randomization_scheme.stratification_factors.count }= site.name
