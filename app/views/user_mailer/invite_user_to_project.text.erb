@@ -1,11 +1,11 @@
 Hello,
 
-<%= @project_user.creator.name %> invited you to Project <%= @project_user.project.name %> located here <%= "#{ENV['website_url']}/projects/#{@project_user.project.id}" %>.<br />
+<%= @project_user.creator.name %> invited you to Project <%= @project_user.project.name %>.
 
 Click the following link to accept the invitation:
 
 
-    <%= "#{ENV['website_url']}/project_users/accept?invite_token=#{@project_user.invite_token}" %>
+    <%= "#{ENV['website_url']}/invite/#{@project_user.invite_token}" %>
 
 
 Thank you!

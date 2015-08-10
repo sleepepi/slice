@@ -1,5 +1,20 @@
 class SiteUsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:invite]
+
+  def invite
+    session[:site_invite_token] = params[:site_invite_token]
+    if current_user
+      site_invite_token = session[:site_invite_token]
+      if @site_user = SiteUser.find_by_invite_token(site_invite_token)
+        redirect_to accept_project_site_users_path(@site_user.project)
+      else
+        session[:site_invite_token] = nil
+        redirect_to root_path, alert: 'Invalid invitation token.'
+      end
+    else
+      redirect_to new_user_session_path
+    end
+  end
 
   # POST /site_users/1.js
   def resend
@@ -15,7 +30,8 @@ class SiteUsersController < ApplicationController
   end
 
   def accept
-    @site_user = SiteUser.find_by_invite_token(params[:invite_token])
+    site_invite_token = session.delete(:site_invite_token)
+    @site_user = SiteUser.find_by_invite_token(site_invite_token)
     if @site_user and @site_user.user == current_user
       redirect_to [@site_user.site.project, @site_user.site], notice: "You have already been added to #{@site_user.site.name}."
     elsif @site_user and @site_user.user

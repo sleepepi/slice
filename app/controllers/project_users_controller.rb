@@ -1,5 +1,14 @@
 class ProjectUsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:invite]
+
+  def invite
+    session[:invite_token] = params[:invite_token]
+    if current_user
+      redirect_to accept_project_users_path
+    else
+      redirect_to new_user_session_path
+    end
+  end
 
   # POST /project_users/1.js
   def resend
@@ -15,13 +24,14 @@ class ProjectUsersController < ApplicationController
   end
 
   def accept
-    @project_user = ProjectUser.find_by_invite_token(params[:invite_token])
+    invite_token = session.delete(:invite_token)
+    @project_user = ProjectUser.find_by_invite_token(invite_token)
     if @project_user and @project_user.user == current_user
       redirect_to @project_user.project, notice: "You have already been added to #{@project_user.project.name}."
     elsif @project_user and @project_user.user
       redirect_to root_path, alert: "This invite has already been claimed."
     elsif @project_user
-      @project_user.update_attributes user_id: current_user.id
+      @project_user.update user_id: current_user.id
       redirect_to @project_user.project, notice: "You have been successfully been added to the project."
     else
       redirect_to root_path, alert: 'Invalid invitation token.'

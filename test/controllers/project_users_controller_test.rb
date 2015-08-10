@@ -3,11 +3,12 @@ require 'test_helper'
 class ProjectUsersControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
-    @project_user = project_users(:one)
+    @pending_editor_invite = project_users(:pending_editor_invite)
+    @accepted_viewer_invite = project_users(:accepted_viewer_invite)
   end
 
   test "should resend project invitation" do
-    post :resend, id: @project_user, format: 'js'
+    post :resend, id: @pending_editor_invite, format: 'js'
 
     assert_not_nil assigns(:project_user)
     assert_not_nil assigns(:project)
@@ -24,7 +25,8 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should accept project user" do
     login(users(:two))
-    get :accept, invite_token: project_users(:invited).invite_token
+    session[:invite_token] = @pending_editor_invite.invite_token
+    get :accept
 
     assert_not_nil assigns(:project_user)
     assert_equal users(:two), assigns(:project_user).user
@@ -33,7 +35,8 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test "should accept existing project user" do
-    get :accept, invite_token: project_users(:two).invite_token
+    session[:invite_token] = project_users(:accepted_viewer_invite).invite_token
+    get :accept
 
     assert_not_nil assigns(:project_user)
     assert_equal users(:valid), assigns(:project_user).user
@@ -51,7 +54,8 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should not accept project user if invite token is already claimed" do
     login(users(:two))
-    get :accept, invite_token: 'validintwo'
+    session[:invite_token] = 'accepted_viewer_invite'
+    get :accept
 
     assert_not_nil assigns(:project_user)
     assert_not_equal users(:two), assigns(:project_user).user
@@ -61,7 +65,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should destroy project user" do
     assert_difference('ProjectUser.count', -1) do
-      delete :destroy, id: @project_user, format: 'js'
+      delete :destroy, id: @accepted_viewer_invite, format: 'js'
     end
 
     assert_not_nil assigns(:project)
@@ -70,7 +74,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should allow viewer to remove self from project" do
     assert_difference('ProjectUser.count', -1) do
-      delete :destroy, id: project_users(:five), format: 'js'
+      delete :destroy, id: @accepted_viewer_invite, format: 'js'
     end
 
     assert_not_nil assigns(:project)

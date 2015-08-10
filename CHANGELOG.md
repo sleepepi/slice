@@ -37,6 +37,8 @@
     - Randomizations can be undone
     - Randomizations track the user who randomized the subject and the time the subject was randomized
     - Emails are sent when subjects are randomized
+- **Project Changes**
+  - The invite process for new project and site, editors and viewers, has been simplified to allow new users to get added after registration to the appropriate site or project
 - **Gem Changes**
   - Updated to rails 4.2.3
   - Updated to contour 3.0.1

@@ -218,6 +218,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get "invite/:invite_token" => "project_users#invite"
+  get "site-invite/:site_invite_token" => "site_users#invite"
+
   resources :reports
 
 

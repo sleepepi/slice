@@ -120,6 +120,21 @@ class ProjectsController < ApplicationController
   # GET /projects/1/splash.js
   def splash
     flash.delete(:notice) if flash[:notice] == 'Signed in successfully.'
+
+    if session[:invite_token].present?
+      redirect_to accept_project_users_path
+      return
+    elsif session[:site_invite_token].present?
+      site_invite_token = session[:site_invite_token]
+      if @site_user = SiteUser.find_by_invite_token(site_invite_token)
+        redirect_to accept_project_site_users_path(@site_user.project)
+      else
+        session[:site_invite_token] = nil
+        redirect_to root_path, alert: 'Invalid invitation token.'
+      end
+      return
+    end
+
     @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).unarchived.order("(favorite IS NULL or favorite = 'f') ASC, position, name").page(params[:page]).per( Project::PER_PAGE )
 
     @favorited_projects = @projects.where(project_favorites: { favorite: true })

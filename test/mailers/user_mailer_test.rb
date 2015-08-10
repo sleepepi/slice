@@ -14,7 +14,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   test "user added to project email" do
-    project_user = project_users(:one)
+    project_user = project_users(:accepted_viewer_invite)
 
     email = UserMailer.user_added_to_project(project_user).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
@@ -25,7 +25,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   test "user invited to project email" do
-    project_user = project_users(:invited)
+    project_user = project_users(:pending_editor_invite)
 
     email = UserMailer.invite_user_to_project(project_user).deliver_now
     assert !ActionMailer::Base.deliveries.empty?

@@ -25,7 +25,8 @@ class SiteUsersControllerTest < ActionController::TestCase
 
   test "should accept site user" do
     login(users(:two))
-    get :accept, project_id: @project, invite_token: site_users(:invited).invite_token
+    session[:site_invite_token] = site_users(:invited).invite_token
+    get :accept, project_id: @project
 
     assert_not_nil assigns(:site_user)
     assert_equal users(:two), assigns(:site_user).user
@@ -34,7 +35,8 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test "should accept existing site user" do
-    get :accept, project_id: @project, invite_token: site_users(:two).invite_token
+    session[:site_invite_token] = site_users(:two).invite_token
+    get :accept, project_id: @project
 
     assert_not_nil assigns(:site_user)
     assert_equal users(:valid), assigns(:site_user).user
@@ -43,7 +45,8 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test "should not accept invalid token for site user" do
-    get :accept, project_id: @project, invite_token: 'imaninvalidtoken'
+    session[:site_invite_token] = 'imaninvalidtoken'
+    get :accept, project_id: @project
 
     assert_nil assigns(:site_user)
     assert_equal 'Invalid invitation token.', flash[:alert]
@@ -52,7 +55,8 @@ class SiteUsersControllerTest < ActionController::TestCase
 
   test "should not accept site user if invite token is already claimed" do
     login(users(:two))
-    get :accept, project_id: @project, invite_token: 'validintwo'
+    session[:site_invite_token] = 'validintwo'
+    get :accept, project_id: @project
 
     assert_not_nil assigns(:site_user)
     assert_not_equal users(:two), assigns(:site_user).user

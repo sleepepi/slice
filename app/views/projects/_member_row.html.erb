@@ -5,9 +5,9 @@
     <td>
       <span class="text-muted"><%= member.invite_email %></span>
       <% if member.kind_of?(ProjectUser) %>
-        <%= text_field_tag "member_invite", "#{ENV['website_url']}/project_users/accept?invite_token=#{member.invite_token}", class: 'form-control' if current_user == member.creator %>
+        <%= text_field_tag "member_invite", "#{ENV['website_url']}/invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator %>
       <% else %>
-        <%= text_field_tag "member_invite", "#{ENV['website_url']}/projects/#{member.project.id}/site_users/accept?invite_token=#{member.invite_token}", class: 'form-control' if current_user == member.creator %>
+        <%= text_field_tag "member_invite", "#{ENV['website_url']}/site-invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator %>
       <% end %>
     </td>
   <% end %>
