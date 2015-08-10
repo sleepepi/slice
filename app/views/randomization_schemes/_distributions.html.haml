@@ -41,13 +41,14 @@
                 - elsif filtered_ids.kind_of?(Array)
                   - randomization_ids = randomization_ids & filtered_ids
               = randomization_ids.uniq.count
-    %tbody
-      - @randomization_scheme.project.sites.order(:name).each do |site|
-        - randomization_scope = @randomization_scheme.randomizations.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id })
-        %tr
-          %th{ colspan: @randomization_scheme.stratification_factors.count }= site.name
-          - @randomization_scheme.treatment_arms.each do |treatment_arm|
-            %th= randomization_scope.where(treatment_arm_id: treatment_arm.id).count
+    - if @randomization_scheme.stratification_factors.where(stratifies_by_site: false).count > 0
+      %tbody
+        - @randomization_scheme.project.sites.order(:name).each do |site|
+          - randomization_scope = @randomization_scheme.randomizations.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id })
+          %tr
+            %th{ colspan: @randomization_scheme.stratification_factors.count }= site.name
+            - @randomization_scheme.treatment_arms.each do |treatment_arm|
+              %th= randomization_scope.where(treatment_arm_id: treatment_arm.id).count
     %tbody
       %tr
         %th{ colspan: @randomization_scheme.stratification_factors.count } Total
