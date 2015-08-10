@@ -3,7 +3,9 @@
 ### Enhancements
 - **Randomizations Added**
   - Project owners and editors can now add one or more randomization schemes to a project
-  - Treatment Arm distributions by stratification factors are shown on randomization scheme page
+  - Randomization Scheme page shows distributions and totals by:
+    - Stratification Factors
+    - Site
   - Two types of randomization algorithms are available to use
   - Randomization criteria are now stored when subject is randomized
   - When site is used as a stratification factor, subjects can only be stratified to their own site
