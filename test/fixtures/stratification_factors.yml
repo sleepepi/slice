@@ -67,3 +67,16 @@ gender_random:
   randomization_scheme: fully_random_minimization
   user: valid
   name: Gender
+
+edge_site:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  name: Site
+  stratifies_by_site: true
+
+edge_gender:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  name: Gender

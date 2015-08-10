@@ -35,3 +35,176 @@ min_one_criteria_two:
   stratification_factor: by_site_with_lists
   # stratification_factor_option:
   site: site_on_project_two
+
+## Edge Testing
+
+# Site One, Male 1 of 5, Treatment Arm A
+edge_one_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_one
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_one_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_one
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_male
+  # site:
+
+# Site One, Male 2 of 5, Treatment Arm A
+edge_two_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_two
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_two_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_two
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_male
+  # site:
+
+# Site One, Male 3 of 5, Treatment Arm A
+edge_three_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_three
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_three_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_three
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_male
+  # site:
+
+# Site One, Male 4 of 5, Treatment Arm A
+edge_four_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_four
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_four_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_four
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_male
+  # site:
+
+# Site One, Male 5 of 5, Treatment Arm A
+edge_five_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_five
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_five_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_five
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_male
+  # site:
+
+# Site One, Male 1 of 1, Treatment Arm B
+edge_six_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_six
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_six_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_six
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_male
+  # site:
+
+# Site One, Female 1 of 3, Treatment Arm B
+edge_seven_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_seven
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_seven_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_seven
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_female
+  # site:
+
+# Site One, Female 2 of 3, Treatment Arm B
+edge_eight_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_eight
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_eight_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_eight
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_female
+  # site:
+
+# Site One, Female 3 of 3, Treatment Arm B
+edge_nine_criteria_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_nine
+  stratification_factor: edge_site
+  # stratification_factor_option:
+  site: two
+
+edge_nine_criteria_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  list: edge_site_one_list
+  randomization: edge_nine
+  stratification_factor: edge_gender
+  stratification_factor_option: edge_female
+  # site:

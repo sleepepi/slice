@@ -136,3 +136,19 @@ female_random:
   label: Female
   value: 2
 
+edge_male:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  stratification_factor: edge_gender
+  user: valid
+  label: Male
+  value: 1
+
+edge_female:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  stratification_factor: edge_gender
+  user: valid
+  label: Female
+  value: 2
+

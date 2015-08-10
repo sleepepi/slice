@@ -41,3 +41,15 @@ random_list:
   project: two
   randomization_scheme: fully_random_minimization
   user: valid
+
+edge_site_one_list:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  extra_options:  [{ stratification_factor_id: <%= ActiveRecord::FixtureSet.identify(:edge_site) %>, site_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, extra: true }]
+
+edge_site_two_list:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  extra_options:  [{ stratification_factor_id: <%= ActiveRecord::FixtureSet.identify(:edge_site) %>, site_id: <%= ActiveRecord::FixtureSet.identify(:site_on_project_two) %>, extra: true }]

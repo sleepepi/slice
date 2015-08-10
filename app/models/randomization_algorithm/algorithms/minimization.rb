@@ -126,8 +126,10 @@ module RandomizationAlgorithm
           randomization_scope = list.randomizations
           treatment_arms_and_counts = []
 
+          non_site_stratification_factors = @randomization_scheme.stratification_factors.where(stratifies_by_site: false)
+
           stratification_factor_counts = {}
-          @randomization_scheme.stratification_factors.each do |sf|
+          non_site_stratification_factors.each do |sf|
             if criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
               stratification_factor_counts[criteria.join('x')] ||= {}
               if sf.stratifies_by_site?
@@ -142,7 +144,7 @@ module RandomizationAlgorithm
 
           @randomization_scheme.treatment_arms.positive_allocation.order(:name).each do |treatment_arm|
             randomization_ids = []
-            @randomization_scheme.stratification_factors.each do |sf|
+            non_site_stratification_factors.each do |sf|
               unless criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
                 all_criteria_selected = false
               end
@@ -168,7 +170,7 @@ module RandomizationAlgorithm
           past_distributions[:treatment_arms] = @randomization_scheme.treatment_arms.positive_allocation.order(:name).collect{ |arm| { name: arm.name, id: arm.id } }
           past_distributions[:stratification_factors] = []
 
-          @randomization_scheme.stratification_factors.each do |sf|
+          non_site_stratification_factors.each do |sf|
             sf_hash = {}
             if criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
               name = stratification_factor_counts[criteria.join('x')][:name]

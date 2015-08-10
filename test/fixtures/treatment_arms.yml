@@ -90,3 +90,17 @@ random_b:
   randomization_scheme: fully_random_minimization
   allocation: 2
   user: valid
+
+edge_a_3:
+  name: Ax3
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  allocation: 3
+  user: valid
+
+edge_b_1:
+  name: Bx1
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  allocation: 1
+  user: valid

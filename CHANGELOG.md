@@ -21,6 +21,7 @@
     - Dynamic randomization can now be done as an alternative to Permuted-block Algorithm
     - Each randomization keeps track of the treatment arm selection process
     - When site is a stratification factor, the minimization randomization scheme creates a list for each site
+      - Additionally, when site is a stratification factor, it is not included again when comparing existing weighted ratios of treatment arms by stratification factor
     - Chance of Random Treatment Arm Selection can now be set between 0 (Never Random) and 100 (Always Random), and is set to 30 by default
   - **List Generation**
     - Lists are generated as a product of the stratification factor options

@@ -75,3 +75,13 @@ fully_random_minimization:
   randomization_goal: 100
   algorithm: minimization
   chance_of_random_treatment_arm_selection: 100
+
+minimization_for_testing_edge_case:
+  name: Male and Female
+  description: This tests for an edge case where the randomization algorithm could choose the wrong treatment arm based on previous randomizations if including site while stratifying
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 10
+  algorithm: minimization
+  chance_of_random_treatment_arm_selection: 0

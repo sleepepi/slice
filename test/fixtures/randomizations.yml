@@ -42,3 +42,131 @@ min_one:
   dice_roll_cutoff: 0
   # past_distributions:
   # weighted_eligible_arms:
+
+## For Edge Case Minimization
+
+# Site One, Male 1 of 5, Treatment Arm A
+edge_one:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_a_3
+  subject: edge01
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Male 2 of 5, Treatment Arm A
+edge_two:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_a_3
+  subject: edge02
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Male 3 of 5, Treatment Arm A
+edge_three:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_a_3
+  subject: edge03
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Male 4 of 5, Treatment Arm A
+edge_four:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_a_3
+  subject: edge04
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Male 5 of 5, Treatment Arm A
+edge_five:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_a_3
+  subject: edge05
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Male 1 of 1, Treatment Arm B
+edge_six:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_b_1
+  subject: edge06
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Female 1 of 3, Treatment Arm B
+edge_seven:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_b_1
+  subject: edge07
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Female 2 of 3, Treatment Arm B
+edge_eight:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_b_1
+  subject: edge08
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0
+
+# Site One, Female 3 of 3, Treatment Arm B
+edge_nine:
+  project: two
+  randomization_scheme: minimization_for_testing_edge_case
+  user: valid
+  list: edge_site_one_list
+  treatment_arm: edge_b_1
+  subject: edge09
+  randomized_at: 2015-08-01 15:57:40
+  randomized_by: valid
+  attested: true
+  dice_roll: 50
+  dice_roll_cutoff: 0

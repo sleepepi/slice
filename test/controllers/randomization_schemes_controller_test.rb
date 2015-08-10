@@ -205,6 +205,22 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to project_randomization_schemes_path(assigns(:project))
   end
 
+  test "should randomize male to correct treatment arm for minimization scheme" do
+    # Stratification Factors { "Gender" => "Male", "Site" => "Site One on Project Two" }
+    assert_difference('Randomization.count', 1) do
+      assert_difference('RandomizationCharacteristic.count', 2) do
+        post :randomize_subject_to_list, project_id: projects(:two), id: randomization_schemes(:minimization_for_testing_edge_case), subject_code: "edge10", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:edge_gender)}" => "#{ActiveRecord::FixtureSet.identify(:edge_male)}", "#{ActiveRecord::FixtureSet.identify(:edge_site)}" => "#{ActiveRecord::FixtureSet.identify(:two)}" }, attested: "1"
+      end
+    end
+    assert_not_nil assigns(:randomization_scheme)
+    assert_not_nil assigns(:randomization)
+    assert_equal 0, assigns(:randomization).dice_roll_cutoff
+    # Should not include site in stratification factors
+    assert_equal [{ count: 1.67, treatment_arm_id: treatment_arms(:edge_a_3).id }, { count: 1.0, treatment_arm_id: treatment_arms(:edge_b_1).id }], assigns(:randomization).past_distributions[:weighted_totals]
+    assert_equal treatment_arms(:edge_b_1), assigns(:randomization).treatment_arm
+    assert_redirected_to [assigns(:project), assigns(:randomization)]
+  end
+
   test "should get index" do
     get :index, project_id: @project
     assert_response :success

@@ -64,3 +64,74 @@ test_one:
   site: valid_range
   status: test
   acrostic: ""
+
+## Edge Subjects for minimization
+edge01:
+  project: two
+  subject_code: edge01
+  user: valid
+  site: two
+  acrostic: ""
+
+edge02:
+  project: two
+  subject_code: edge01
+  user: valid
+  site: two
+  acrostic: ""
+
+edge03:
+  project: two
+  subject_code: edge01
+  user: valid
+  site: two
+  acrostic: ""
+
+edge04:
+  project: two
+  subject_code: edge04
+  user: valid
+  site: two
+  acrostic: ""
+
+edge05:
+  project: two
+  subject_code: edge05
+  user: valid
+  site: two
+  acrostic: ""
+
+edge06:
+  project: two
+  subject_code: edge06
+  user: valid
+  site: two
+  acrostic: ""
+
+edge07:
+  project: two
+  subject_code: edge07
+  user: valid
+  site: two
+  acrostic: ""
+
+edge08:
+  project: two
+  subject_code: edge08
+  user: valid
+  site: two
+  acrostic: ""
+
+edge09:
+  project: two
+  subject_code: edge09
+  user: valid
+  site: two
+  acrostic: ""
+
+edge10:
+  project: two
+  subject_code: edge10
+  user: valid
+  site: two
+  acrostic: ""
