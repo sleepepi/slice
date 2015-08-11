@@ -249,7 +249,7 @@ class Export < ActiveRecord::Base
     end
 
     def all_design_variables_without_grids(sheet_scope)
-      Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
+      Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
     end
 
 end

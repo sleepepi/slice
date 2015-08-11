@@ -12,11 +12,11 @@ class ExportFormatter
   end
 
   def setup_scoped_variables
-    @design_scope = Design.where(id: sheet_scope.pluck(:design_id))
+    @design_scope = Design.where(id: sheet_scope.pluck(:design_id)).order(:id)
     @variables = all_design_variables_without_grids
     @domains = Domain.where(id: @variables.collect{|v| v.domain_id}).order('name')
 
-    @variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).collect(&:variable_ids).flatten.uniq
+    @variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variable_ids).flatten.uniq
     @grid_group_variables = Variable.current.where(variable_type: 'grid', id: @variable_ids)
     @grid_variables = []
     @grid_group_variables.each do |variable|
@@ -29,7 +29,7 @@ class ExportFormatter
   end
 
   def all_design_variables_without_grids
-    Design.where(id: @sheet_scope.pluck(:design_id)).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
+    Design.where(id: @sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
   end
 
   def labels

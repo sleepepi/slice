@@ -102,7 +102,7 @@ module GridExport
   end
 
   def all_design_variables_only_grids_using_design_ids(design_ids)
-    variable_ids = Design.where(id: design_ids).collect(&:variable_ids).flatten.uniq
+    variable_ids = Design.where(id: design_ids).order(:id).collect(&:variable_ids).flatten.uniq
     Variable.current.where(variable_type: 'grid', id: variable_ids)
   end
 end
