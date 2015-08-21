@@ -40,6 +40,7 @@
 - **Project Changes**
   - The invite process for new project and site, editors and viewers, has been simplified to allow new users to get added after registration to the appropriate site or project
 - **Gem Changes**
+  - Use of Ruby 2.2.3 is now recommended
   - Updated to rails 4.2.3
   - Updated to contour 3.0.1
   - Updated to redcarpet 3.3.2
