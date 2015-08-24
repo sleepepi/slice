@@ -23,12 +23,12 @@ class RandomizationScheme < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :variable
-  has_many :block_size_multipliers, -> { where deleted: false }
+  has_many :block_size_multipliers, -> { where(deleted: false).order(:value) }
   has_many :lists,                  -> { where deleted: false }
   has_many :randomizations,         -> { where deleted: false }
   has_many :stratification_factors, -> { where deleted: false }
   has_many :stratification_factor_options, -> { where deleted: false }
-  has_many :treatment_arms,         -> { where deleted: false }
+  has_many :treatment_arms,         -> { where(deleted: false).order(:name) }
 
   # Model Methods
 

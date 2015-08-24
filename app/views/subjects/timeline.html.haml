@@ -58,16 +58,16 @@
           .post-header-skinny
             .pull-right
               %a{ href: "#c#{current_index}" }= "##{current_index}"
-            - if randomization.user
-              = image_tag randomization.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
+            - if randomization.randomized_by
+              = image_tag randomization.randomized_by.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
             %span.label.label-primary Randomized
             - if randomization.treatment_arm
               to
               %strong
                 = link_to randomization.treatment_arm.name, [@project, randomization]
-            - if randomization.user
+            - if randomization.randomized_by
               by
-              = randomization.user.name
+              = randomization.randomized_by.name
             - else
               from public survey
             - if randomization.randomized_at
