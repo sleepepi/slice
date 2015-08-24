@@ -20,7 +20,10 @@
         - if false
           %td= randomization_scheme.description
         %td= simple_check randomization_scheme.published
-        %td= randomization_scheme.randomization_goal
+        %td
+          = randomization_scheme.randomizations.where.not(subject_id: nil).count
+          of
+          = randomization_scheme.randomization_goal
         - if false
           %td
             = link_to 'Edit', edit_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-default btn-xs'

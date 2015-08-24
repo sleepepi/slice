@@ -27,7 +27,10 @@
   %dd= simple_markdown @randomization_scheme.algorithm_name
 
   %dt Randomization Goal
-  %dd= @randomization_scheme.randomization_goal
+  %dd
+    = @randomization_scheme.randomizations.where.not(subject_id: nil).count
+    of
+    = @randomization_scheme.randomization_goal
 
   - if @randomization_scheme.variable
     %dt Variable Criteria
