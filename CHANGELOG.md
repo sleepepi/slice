@@ -41,6 +41,8 @@
   - Emails sent by web application are now opt-in by default
 - **Admin Changes**
   - Admins can now disable user emails for accounts with invalid emails
+- **Design Changes**
+  - File type variables can now longer be added to grids
 - **Project Changes**
   - The invite process for new project and site, editors and viewers, has been simplified to allow new users to get added after registration to the appropriate site or project
   - Inviting collaborators to a project now also provides search results when typing in an email of an associated user
