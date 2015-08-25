@@ -35,6 +35,12 @@ class UsersController < ApplicationController
     end
   end
 
+  # get JSON
+  def invite
+    @users = current_user.associated_users.search(params[:q]).order('last_name, first_name').limit(10)
+    render json: @users.collect{ |u| { value: u.email, name: u.name  } }
+  end
+
   def show
   end
 

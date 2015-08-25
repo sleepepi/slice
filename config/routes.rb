@@ -231,6 +231,9 @@ Rails.application.routes.draw do
       post :update_settings
       post :update_theme
     end
+    collection do
+      get :invite
+    end
   end
 
   scope module: 'application' do

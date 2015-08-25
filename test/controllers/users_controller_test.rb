@@ -58,6 +58,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should get invite for regular user" do
+    login(users(:valid))
+    get :invite, q: 'associated'
+    users_json = JSON.parse(response.body)
+    assert_equal 'associated@example.com', users_json.first['value']
+    assert_equal 'Associated User', users_json.first['name']
+    assert_response :success
+  end
+
   # test "should get new" do
   #   get :new
   #   assert_not_nil assigns(:user)

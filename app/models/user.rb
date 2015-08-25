@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
   # Named Scopes
   scope :human, -> { all } # Placeholder
-  scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ? or ((LOWER(first_name) || LOWER(last_name)) LIKE ? ) or ((LOWER(last_name) || LOWER(first_name)) LIKE ? )', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
   scope :system_admins, -> { where( system_admin: true ) }
   scope :with_sheet, -> { where("users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)", false ) }
   scope :with_design, lambda { where("users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)", false) }
