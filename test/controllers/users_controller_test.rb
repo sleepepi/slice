@@ -9,17 +9,17 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update settings and enable email" do
-    post :update_settings, id: users(:admin), email: { send_email: '1' }
+    post :update_settings, id: users(:admin), emails_enabled: '1', email: { }
     users(:admin).reload # Needs reload to avoid stale object
-    assert_equal true, users(:admin).email_on?(:send_email)
+    assert_equal true, users(:admin).emails_enabled?
     assert_equal 'Email settings saved.', flash[:notice]
     assert_redirected_to settings_path
   end
 
   test "should update settings and disable email" do
-    post :update_settings, id: users(:admin), email: { send_email: '0' }
+    post :update_settings, id: users(:admin), emails_enabled: '0', email: { }
     users(:admin).reload # Needs reload to avoid stale object
-    assert_equal false, users(:admin).email_on?(:send_email)
+    assert_equal false, users(:admin).emails_enabled?
     assert_equal 'Email settings saved.', flash[:notice]
     assert_redirected_to settings_path
   end

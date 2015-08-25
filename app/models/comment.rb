@@ -30,7 +30,7 @@ class Comment < ActiveRecord::Base
 
   def users_to_email
     result = (self.sheet.project.users + [self.sheet.project.user] + self.sheet.subject.site.users).uniq - [self.user]
-    result = result.select{|u| u.email_on?(:send_email) and u.email_on?(:sheet_comment) and u.email_on?("project_#{self.sheet.project.id}_sheet_comment") }
+    result = result.select{|u| u.emails_enabled? and u.email_on?(:sheet_comment) and u.email_on?("project_#{self.sheet.project.id}_sheet_comment") }
   end
 
   def editable_by?(current_user)

@@ -51,7 +51,7 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
   <div class="form-group">
     <label class="col-md-2 control-label">All Projects</label>
     <div class="sheet-container col-md-10">
-      <label class="checkbox <%= 'selected' if current_user.email_on?(:send_email) %>"><%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email) %> <%= 'Receive email' %></label>
+      <label class="checkbox <%= 'selected' if current_user.emails_enabled? %>"><%= check_box_tag :emails_enabled, '1', current_user.emails_enabled? %> <%= 'Receive email' %></label>
     </div>
   </div>
   <% User::EMAILABLES.each do |notification, description| %>

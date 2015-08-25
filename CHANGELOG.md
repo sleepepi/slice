@@ -37,6 +37,10 @@
     - Randomizations can be undone
     - Randomizations track the user who randomized the subject and the time the subject was randomized
     - Emails are sent when subjects are randomized
+- **General Changes**
+  - Emails sent by web application are now opt-in by default
+- **Admin Changes**
+  - Admins can now disable user emails for accounts with invalid emails
 - **Project Changes**
   - The invite process for new project and site, editors and viewers, has been simplified to allow new users to get added after registration to the appropriate site or project
 - **Gem Changes**

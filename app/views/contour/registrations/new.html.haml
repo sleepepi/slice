@@ -31,6 +31,14 @@
       = f.label :password_confirmation, class: 'control-label'
       = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
 
+    .form-group
+      %label.control-label Receive Emails Notifications
+      .checkbox
+        %label
+          = f.check_box :emails_enabled
+          Allow the Slice to send you emails?
+
+
     - Contour.spam_fields.each do |name|
       .form-group.control-special
         = label_tag "#{resource_name}[#{name}]", name, class: 'control-label'

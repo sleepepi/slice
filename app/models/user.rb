@@ -247,7 +247,7 @@ class User < ActiveRecord::Base
 
   def all_digest_projects
     @all_digest_projects ||= begin
-      self.all_viewable_and_site_projects.where( disable_all_emails: false ).select{|p| self.email_on?(:send_email) and self.email_on?(:daily_digest) and self.email_on?("project_#{p.id}_daily_digest") }
+      self.all_viewable_and_site_projects.where( disable_all_emails: false ).select{|p| self.emails_enabled? and self.email_on?(:daily_digest) and self.email_on?("project_#{p.id}_daily_digest") }
     end
   end
 

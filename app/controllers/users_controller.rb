@@ -9,12 +9,12 @@ class UsersController < ApplicationController
 
   def update_settings
     notifications = {}
-    email_settings = ['send_email'] + User::EMAILABLES.collect{|emailable, description| emailable.to_s} + current_user.all_viewable_projects.collect{|p| User::EMAILABLES.collect{|emailable, description| "project_#{p.id}_#{emailable.to_s}"}}.flatten
+    email_settings = User::EMAILABLES.collect{|emailable, description| emailable.to_s} + current_user.all_viewable_projects.collect{|p| User::EMAILABLES.collect{|emailable, description| "project_#{p.id}_#{emailable.to_s}"}}.flatten
 
     email_settings.each do |email_setting|
       notifications[email_setting] = (not params[:email].blank? and params[:email][email_setting] == '1')
     end
-    current_user.update_attributes email_notifications: notifications
+    current_user.update email_notifications: notifications, emails_enabled: params[:emails_enabled]
     redirect_to settings_path, notice: 'Email settings saved.'
   end
 
@@ -82,10 +82,8 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params[:user] ||= {}
-
       params.require(:user).permit(
-        :first_name, :last_name, :email, :theme, :beta_enabled
+        :first_name, :last_name, :email, :theme, :beta_enabled, :emails_enabled
       )
     end
 

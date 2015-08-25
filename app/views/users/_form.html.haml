@@ -34,6 +34,13 @@
     .col-md-10.col-md-offset-2
       .checkbox
         %label
+          = f.check_box :emails_enabled
+          Emails Enabled
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
           = f.check_box :system_admin
           System Admin
 
