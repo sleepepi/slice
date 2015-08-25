@@ -7,6 +7,16 @@ class SubjectsControllerTest < ActionController::TestCase
     @subject = subjects(:one)
   end
 
+  test "should get search for regular user" do
+    get :search, project_id: @project, q: 'Code01'
+    subjects_json = JSON.parse(response.body)
+    assert_equal 'Code01', subjects_json.first['value']
+    assert_equal 'Code01', subjects_json.first['subject_code']
+    assert_equal 'success', subjects_json.first['status_class']
+    assert_equal 'v', subjects_json.first['status']
+    assert_response :success
+  end
+
   test "should destroy event and not destroy associated sheets" do
     @subject_event = subject_events(:one)
     assert_difference('SubjectEvent.count', -1) do
