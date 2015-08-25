@@ -1029,7 +1029,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
 
-    assert_redirected_to project_sheets_path(@project)
+    assert_redirected_to project_subject_path(@project, @sheet.subject)
   end
 
   test "should not destroy sheet with invalid project" do

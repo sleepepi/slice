@@ -60,6 +60,7 @@
 - Fixed time input consistency across browsers and compatibility with Internet Explorer 8
 - Fixed a bug preventing dates from being entered and edited on subject events
 - Fixed ordering of variables across CSVs and generated export scripts
+- Deleting a sheet now correctly redirects back to the subject page
 
 ## 0.28.1  (June 10, 2015)
 

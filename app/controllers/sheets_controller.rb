@@ -253,7 +253,7 @@ class SheetsController < ApplicationController
     @sheet.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_sheets_path(@project) }
+      format.html { redirect_to project_subject_path(@project, @sheet.subject) }
       format.js
       format.json { head :no_content }
     end
