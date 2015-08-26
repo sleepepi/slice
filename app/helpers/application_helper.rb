@@ -1,5 +1,7 @@
 module ApplicationHelper
 
+  include DateAndTimeParser
+
   # Prints out '6 hours ago, Yesterday, 2 weeks ago, 5 months ago, 1 year ago'
   def recent_activity(past_time)
     return '' unless past_time.kind_of?(Time)

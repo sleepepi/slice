@@ -249,6 +249,10 @@ Rails.application.routes.draw do
     get :archives
   end
 
+  namespace :validate do
+    post :variable
+  end
+
   get "/settings" => "users#settings", as: :settings
   get "/search" => "projects#search", as: :search
   get "/activity" => "users#activity", as: :activity

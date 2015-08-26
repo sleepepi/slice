@@ -125,6 +125,10 @@ date:
   variable_type: date
   user: valid
   project: one
+  # date_hard_maximum:
+  date_hard_minimum: 1990-01-01
+  # date_soft_maximum:
+  date_soft_minimum: 2000-01-01
 
 time:
   name: var_time

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     month = parse_integer(params[:month])
     day = parse_integer(params[:day])
     year = parse_integer(params[:year])
-    @date = parse_date("#{month}/#{day}/#{year}", "")
+    @date = parse_date_to_s("#{month}/#{day}/#{year}")
     @message = ""
 
     if @date.class == Date

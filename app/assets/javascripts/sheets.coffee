@@ -47,7 +47,7 @@
   )
   updateAllVariables()
   updateCalculatedVariables()
-  checkAllRanges()
+  # checkAllRanges()
   $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
   $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
   $( ".grid_sortable" ).sortable(

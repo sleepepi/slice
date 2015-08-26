@@ -28,7 +28,7 @@ class Variable < ActiveRecord::Base
   before_save :check_for_duplicate_variables, :check_for_valid_domain
 
   # Concerns
-  include Deletable
+  include Deletable, DateAndTimeParser
 
   # Named Scopes
   scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
@@ -446,6 +446,82 @@ class Variable < ActiveRecord::Base
     else
       '-'
     end
+  end
+
+  def value_in_range?(value)
+    return date_value_in_range?(value) if self.variable_type == 'date'
+
+    status = 'blank' # blank, invalid, out_of_range, in_hard_range, in_soft_range
+    message = ''
+
+    blank_value = value.blank?
+    invalid_format = false
+    in_hard_range = true
+    out_of_range = !in_hard_range
+    in_soft_range = true
+
+    if blank_value
+      status = 'blank'
+    elsif invalid_format
+      status = 'invalid'
+      message = 'Not a Valid Value'
+    elsif out_of_range
+      status = 'out_of_range'
+      message = 'Value Out of Range'
+    elsif in_soft_range
+      status = 'in_soft_range'
+      message = ''
+    else
+      status = 'in_hard_range'
+      message = 'Value Outside of Soft Range'
+    end
+
+    { status: status, message: message }
+  end
+
+  def date_value_in_range?(value)
+    date = parse_date_from_hash(value)
+    date_string = date.strftime("%B %-d, %Y") if date
+
+    blank_value = ((value[:month].blank? and value[:day].blank? and value[:year].blank?) rescue true)
+    invalid_format = (!blank_value and !date)
+    in_hard_range = date_in_hard_range?(date)
+    out_of_range = !in_hard_range
+    in_soft_range = date_in_soft_range?(date)
+
+    if blank_value
+      status = 'blank'
+      message = ''
+    elsif invalid_format
+      status = 'invalid'
+      message = 'Not a Valid Date'
+    elsif out_of_range
+      status = 'out_of_range'
+      message = 'Date Outside of Range'
+    elsif in_soft_range
+      status = 'in_soft_range'
+      message = ''
+    else
+      status = 'in_hard_range'
+      message = 'Date Outside of Soft Range'
+    end
+    { status: status, message: message, date_string: date_string }
+  end
+
+  def date_in_hard_range?(date)
+    less_or_equal_to_date?(date, date_hard_maximum) and greater_than_or_equal_to_date?(date, date_hard_minimum)
+  end
+
+  def date_in_soft_range?(date)
+    less_or_equal_to_date?(date, date_soft_maximum) and greater_than_or_equal_to_date?(date, date_soft_minimum)
+  end
+
+  def less_or_equal_to_date?(date, date_max)
+    !date or !date_max or (date_max and date <= date_max)
+  end
+
+  def greater_than_or_equal_to_date?(date, date_min)
+    !date or !date_min or (date_min and date >= date_min)
   end
 
 end

@@ -67,7 +67,11 @@ class Project < ActiveRecord::Base
   end
 
   def self.find_by_param(input)
-    self.where("projects.slug = ? or projects.id = ?", input.to_s, input.to_i).first
+    if input.class == Project
+      input
+    else
+      self.where("projects.slug = ? or projects.id = ?", input.to_s, input.to_i).first
+    end
   end
 
   def recent_sheets

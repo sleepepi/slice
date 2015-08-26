@@ -43,6 +43,10 @@
   - Admins can now disable user emails for accounts with invalid emails
 - **Design Changes**
   - File type variables can now longer be added to grids
+- **Variable Changes**
+  - Added better variable validation framework
+    - Users are provided more immediate feedback when entering data on sheets
+    - Data uses the same validation checks when saving on the server
 - **Project Changes**
   - The invite process for new project and site, editors and viewers, has been simplified to allow new users to get added after registration to the appropriate site or project
   - Inviting collaborators to a project now also provides search results when typing in an email of an associated user

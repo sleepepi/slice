@@ -32,7 +32,7 @@ class SubjectsController < ApplicationController
     month = parse_integer(params[:new_event_date] ? params[:new_event_date][:month] : nil)
     day = parse_integer(params[:new_event_date] ? params[:new_event_date][:day] : nil)
     year = parse_integer(params[:new_event_date] ? params[:new_event_date][:year] : nil)
-    date = parse_date("#{month}/#{day}/#{year}", nil)
+    date = parse_date("#{month}/#{day}/#{year}")
 
     if @subject_event and date
       @subject_event.update event_date: date
@@ -78,7 +78,7 @@ class SubjectsController < ApplicationController
       month = parse_integer(params[:event_date] ? params[:event_date][:month] : nil)
       day = parse_integer(params[:event_date] ? params[:event_date][:day] : nil)
       year = parse_integer(params[:event_date] ? params[:event_date][:year] : nil)
-      date = parse_date("#{month}/#{day}/#{year}", nil)
+      date = parse_date("#{month}/#{day}/#{year}")
 
       if date and @subject_event = @subject.subject_events.create(event_id: @event.id, event_date: date, user_id: current_user.id)
         redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), notice: 'Subject event created successfully.'

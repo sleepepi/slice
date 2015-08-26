@@ -106,10 +106,12 @@
 
 @clearDateFields = (element) ->
   target_name = element.data("target-name")
+  clearClassStyles(target_name)
   $("##{target_name}_day").val("")
   $("##{target_name}_month").val("")
   $("##{target_name}_year").val("")
   $("##{target_name}_day").change()
+  $("##{target_name}_day").blur()
 
 @setCurrentDate = (element) ->
   target_name = element.data("target-name")
