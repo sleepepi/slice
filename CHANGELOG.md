@@ -1316,7 +1316,7 @@
 ## 0.11.1 (November 30, 2012)
 
 ### Enhancements
-- Variable headers can now include simple formatting, i.e. HTML tags <a>, <b>, <i>
+- Variable headers can now include simple formatting, i.e. HTML tags `<a>`, `<b>`, `<i>`
 
 ### Bug Fix
 - Date and time variables with Show Current Button selected no longer create a JavaScript error when a user clicks the button Today button while entering a sheet
