@@ -54,23 +54,6 @@
     return false
   true
 
-# # Sets color for all ranges
-# @checkAllRanges = () ->
-#   $.each($('[data-object~="minmax"]'), () -> setRange($(this)))
-#   $.each($('[data-object~="dateminmax"]'), () -> setRangeDate($(this)))
-
-# @checkValue = (value, minimum, maximum, missing_codes) ->
-#   string_value = $.trim(value)
-#   float_value = parseFloat(string_value)
-#   (string_value not in missing_codes) and ((isNaN(string_value) and string_value.length > 0) or float_value < parseFloat(minimum) or float_value > parseFloat(maximum))
-
-# @setRange = (el) ->
-#   el.removeClass('error-input warning-input')
-#   if checkValue(el.val(), el.data('hard-minimum'), el.data('hard-maximum'), el.data('missing-codes'))
-#     el.addClass('error-input')
-#   else if checkValue(el.val(), el.data('soft-minimum'), el.data('soft-maximum'), el.data('missing-codes'))
-#     el.addClass('warning-input')
-
 # @checkPresence = (element) ->
 #   if element.data('required-type') == 'checkbox' or element.data('required-type') == 'radio'
 #     value = $("[name='#{element.data('required-field')}']").filter( () ->
@@ -93,78 +76,6 @@
 #     value = $("[name='#{element.data('required-field')}']").val()
 #     $.trim(value) == ''
 
-# @checkRequired = () ->
-#   $('[data-required~="required"]').removeClass('has-error')
-#   required_fields = $('[data-required~="required"]:visible').filter( () ->
-#     checkPresence($(this))
-#   )
-#   required_fields.addClass('has-error')
-#   if required_fields.size() > 0
-#     alert('Some required fields are not set!')
-#     return false
-#   true
-
-# @checkRecommended = () ->
-#   $('[data-required~="recommended"]').removeClass('has-warning')
-#   recommended_fields = $('[data-required~="recommended"]:visible').filter( () ->
-#     checkPresence($(this))
-#   )
-#   recommended_fields.addClass('has-warning')
-#   if recommended_fields.size() > 0 and !confirm('Some recommended fields are blank. Proceed anyways?')
-#     return false
-#   true
-
-# @checkMinMax = () ->
-#   $('[data-object~="minmax"]').parent().parent().removeClass('error')
-#   number_fields = $('[data-object~="minmax"]').filter( () ->
-#     checkValue($(this).val(), $(this).data('hard-minimum'), $(this).data('hard-maximum'), $(this).data('missing-codes'))
-#   )
-#   number_fields.parent().parent().addClass('has-error')
-#   if number_fields.size() > 0
-#     alert('Some numeric fields are out of range!')
-#     return false
-#   true
-
-# @checkSoftMinMax = () ->
-#   $('[data-object~="minmax"]').parent().parent().removeClass('has-warning')
-#   number_fields = $('[data-object~="minmax"]').filter( () ->
-#     checkValue($(this).val(), $(this).data('soft-minimum'), $(this).data('soft-maximum'), $(this).data('missing-codes'))
-#   )
-#   number_fields.parent().parent().addClass('has-warning')
-#   if number_fields.size() > 0 and !confirm('Some numeric fields are out of the recommended range. Proceed anyways?')
-#     return false
-#   true
-
-# @setRangeDate = (el) ->
-#   el.removeClass('error-input warning-input')
-#   if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(Date.parse($.trim(el.val()))) and $.trim(el.val()).length > 0) or Date.parse($.trim(el.val())) < Date.parse(el.data('date-hard-minimum')) or Date.parse($.trim(el.val())) > Date.parse(el.data('date-hard-maximum')))
-#     el.addClass('error-input')
-#   else if ($.trim(el.val()) not in el.data('missing-codes')) and ((isNaN(Date.parse($.trim(el.val()))) and $.trim(el.val()).length > 0) or Date.parse($.trim(el.val())) < Date.parse(el.data('date-soft-minimum')) or Date.parse($.trim(el.val())) > Date.parse(el.data('date-soft-maximum')))
-#     el.addClass('warning-input')
-
-# # Select dates that don't parse as dates, and are not blank
-# # or dates where the value is less than the hard minimum
-# # or dates where the value is greater than the hard maximum
-# @checkDateMinMax = () ->
-#   $('[data-object~="dateminmax"]').parent().parent().removeClass('error')
-#   date_fields = $('[data-object~="dateminmax"]').filter( () ->
-#     ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-hard-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-hard-maximum')))
-#   )
-#   date_fields.parent().parent().addClass('has-error')
-#   if date_fields.size() > 0
-#     alert('Some dates are out of range!')
-#     return false
-#   true
-
-# @checkSoftDateMinMax = () ->
-#   $('[data-object~="dateminmax"]').parent().parent().removeClass('has-warning')
-#   date_fields = $('[data-object~="dateminmax"]').filter( () ->
-#     ($.trim($(this).val()) not in $(this).data('missing-codes')) and ((isNaN(Date.parse($.trim($(this).val()))) and $.trim($(this).val()).length > 0) or Date.parse($.trim($(this).val())) < Date.parse($(this).data('date-soft-minimum')) or Date.parse($.trim($(this).val())) > Date.parse($(this).data('date-soft-maximum')))
-#   )
-#   date_fields.parent().parent().addClass('has-warning')
-#   if date_fields.size() > 0 and !confirm('Some dates are out of the recommended range. Proceed anyways?')
-#     return false
-#   true
 
 # Ex: parseValue('ess1', 'integer', '')
 #     parseValue('gender', 'string', '')
@@ -298,12 +209,6 @@ $(document)
     $(this).find('input').prop('checked', true)
     $('#variables_search').submit()
   )
-  # .on('change', '[data-object~="minmax"]', () ->
-  #   setRange($(this))
-  # )
-  # .on('change', '[data-object~="dateminmax"]', () ->
-  #   setRangeDate($(this))
-  # )
   .on('change', '.upload', () ->
     file_name = this.value.replace(/\\/g, '/').replace(/.*\//, '')
     $(this).parent().find('.file-input-display').html( file_name || 'Upload File' )
