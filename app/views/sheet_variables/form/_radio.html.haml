@@ -1,0 +1,41 @@
+- is_grid = defined?(grid)
+- show_values = true unless defined?(show_values)
+
+- target_name = field_name.gsub('[', '_').gsub(']', '')
+
+.radio-input{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'radio', status: variable.validator.status(response) } }
+  = hidden_field_tag "#{field_name}", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.variable_type }
+
+  - if variable.alignment == 'scale'
+    %table.table.table-borderless
+      %col{ width: "300px" }
+      = ("<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>" * variable.options_missing_at_end.size).html_safe
+      - if variable.first_scale_variable?(@design)
+        %thead
+          %tr
+            %th
+            - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
+              %th.text-center
+                - if show_values
+                  = succeed ':' do
+                    = value
+                = name
+      %tbody
+        %tr
+          %td{ style: "font-weight:bold" }
+            = variable.display_name
+            = render 'options/required', option: @option
+          - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing|
+            %td.text-center.sheet-container
+              - selected = (value == response)
+              %label.radio.radio-inline{ class: "#{'selected' if selected} #{'negation' if missing == '1'}", rel: (description.blank? ? 'tooltip' : 'popover'), data: { content: description, title: "#{value}: #{name}", placement: "bottom", html: "true" } }
+                = radio_button_tag field_name, "#{value}", selected, data: { object: "condition", name: variable.name, variable_type: variable.variable_type }, disabled: disabled, style: 'margin-left:-14px'
+  - else
+    .sheet-container{ class: "#{'nowrap' if is_grid or variable.alignment == 'horizontal' }" }
+      - variable.shared_options.collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, value, missing_code|
+        %label.radio{ class: "#{'radio-inline' if is_grid or variable.alignment == 'horizontal'} #{'selected' if value == response} #{'negation' if missing_code == '1' }" }
+          = radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.variable_type, previous: (value == response ? "checked" : "unchecked") }, disabled: disabled
+          - if show_values
+            = succeed ':' do
+              = value
+          = name

@@ -90,6 +90,12 @@
       $.each(children, (index, child) ->
         value.push($(child).val())
       )
+    when 'radio'
+      value = ''
+      children = $(parent).find('input:checked')
+      $.each(children, (index, child) ->
+        value = $(child).val()
+      )
     else
       value = $("##{$(parent).data('target-name')}").val()
   value
