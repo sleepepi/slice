@@ -1,0 +1,20 @@
+- is_grid = defined?(grid)
+
+- location_id = field_name.gsub('[','_').gsub(']', '')
+
+.row
+  .col-xs-10
+    .input-group
+      - unless variable.prepend.blank?
+        %span.input-group-addon= variable.prepend
+      = text_field_tag "#{location_id}_calculation_result", response, class: 'form-control', disabled: 'disabled'
+      = hidden_field_tag field_name, response, disabled: disabled, data: { object: 'calculated', calculation: variable.calculation, variable_id: variable.id, target: "##{location_id}_calculation_result", name: variable.name, grid_position: defined?(position) ? position : "", location_id: location_id }
+      - unless variable.units.blank?
+        %span.input-group-addon= variable.units
+      - unless variable.append.blank?
+        %span.input-group-addon= variable.append
+      %span.input-group-btn.input-group-addon{ style: "margin:-1px;padding:0px;border:0px" }
+        = link_to 'Calculation', '#', class: 'btn btn-default', tabindex: '-1', data: { object: 'toggle-visibility', target: "#calculation_#{location_id}"}
+
+    .bs-callout.bs-callout-info{ id: "calculation_#{location_id}", style: "display:none" }
+      %code= variable.formatted_calculation
