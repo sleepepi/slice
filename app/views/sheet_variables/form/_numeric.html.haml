@@ -1,0 +1,24 @@
+- is_grid = defined?(grid)
+
+- target_name = field_name.gsub('[', '_').gsub(']', '')
+- value = response
+
+.row
+  .col-xs-10
+    %div{ class: "#{'input-group' unless variable.prepend.blank? and variable.units.blank? and variable.append.blank?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'numeric', status: variable.validator.status(value) } }
+      - unless variable.prepend.blank?
+        %span.input-group-addon= variable.prepend
+      = text_field_tag field_name, response, class: 'form-control',
+        data: { object: 'minmax condition cursor-navigatable', hard_minimum: variable.hard_minimum,
+          hard_maximum: variable.hard_maximum, soft_minimum: variable.soft_minimum, soft_maximum: variable.soft_maximum,
+          name: variable.name, missing_codes: variable.all_codes, variable_type: variable.variable_type,
+          content: variable.description, grid_position: defined?(position) ? position : "", html: !variable.description.blank? },
+          title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip, disabled: disabled,
+          rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}", autocomplete: 'off', placeholder: is_grid ? variable.display_name : nil
+      - unless variable.units.blank?
+        %span.input-group-addon= variable.units
+      - unless variable.append.blank?
+        %span.input-group-addon= variable.append
+  .col-xs-2
+    = render 'validation/icons', target_name: target_name
+= render 'validation/full_message', variable: variable, value: value, target_name: target_name unless is_grid

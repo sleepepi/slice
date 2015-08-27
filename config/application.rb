@@ -32,5 +32,9 @@ module Slice
     # Add RandomizationAlgorithm Module to autoload path
     config.autoload_paths << Rails.root.join('app', 'models', 'randomization_algorithm')
     config.autoload_paths << Rails.root.join('app', 'models', 'randomization_algorithm', 'algorithms')
+
+    # Add Validation Module to autoload path
+    config.autoload_paths << Rails.root.join('app', 'models', 'validation')
+    config.autoload_paths << Rails.root.join('app', 'models', 'validation', 'validators')
   end
 end

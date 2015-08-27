@@ -225,18 +225,17 @@ $(document)
     false
   )
   .on('click', '[data-object~="variable-check-before-submit"]', () ->
-    # if checkMinMax() == false
-    #   return false
-    # if checkDateMinMax() == false
-    #   return false
-    # if checkSoftMinMax() == false
-    #   return false
-    # if checkSoftDateMinMax() == false
-    #   return false
-    # if checkRequired() == false
-    #   return false
-    # if checkRecommended() == false
-    #   return false
+    if checkInvalidFormat() == false
+      return false
+    if checkRequired() == false
+      return false
+    if checkOutOfRange() == false
+      return false
+    if checkRecommended() == false
+      return false
+    if checkOutOfSoftRange() == false
+      return false
+
     window.$isDirty = false
     if $(this).data('continue')?
       $('#continue').val($(this).data('continue'))

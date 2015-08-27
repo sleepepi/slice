@@ -6,9 +6,11 @@
   $("##{target_name}_month").parent().removeClass('has-warning')
   $("##{target_name}_day").parent().removeClass('has-warning')
   $("##{target_name}_year").parent().removeClass('has-warning')
+  $("##{target_name}").parent().removeClass('has-warning')
   $("##{target_name}_month").parent().removeClass('has-error')
   $("##{target_name}_day").parent().removeClass('has-error')
   $("##{target_name}_year").parent().removeClass('has-error')
+  $("##{target_name}").parent().removeClass('has-error')
   $("##{target_name}_error").hide()
   $("##{target_name}_warning").hide()
   $("##{target_name}_success").hide()
@@ -20,17 +22,26 @@
   $("##{target_name}_alert_box").show()
   $("##{target_name}_alert_box").addClass('bs-callout-success')
   $("##{target_name}_message").html(data['message'])
+  $("##{target_name}_formatted_value").html(data['formatted_value'])
+
+@setValidationProperty = (parent, data) ->
+  console.log "Setting Status Data Property #{data['status']}"
+  $(parent).data('status', data['status'])
 
 @setGenericValidityClass = (parent, data) ->
   target_name = parent.data("target-name")
   clearClassStyles(target_name)
   setDefaultClassStyles(target_name, data)
 
+  setValidationProperty(parent, data)
+
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
     $("##{target_name}_error").show()
+    $("##{target_name}").parent().addClass('has-error')
     $("##{target_name}_alert_box").addClass('bs-callout-danger')
   if data['status'] == 'in_hard_range'
     $("##{target_name}_warning").show()
+    $("##{target_name}").parent().addClass('has-warning')
     $("##{target_name}_alert_box").addClass('bs-callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_success").show()
@@ -41,7 +52,7 @@
   clearClassStyles(target_name)
   setDefaultClassStyles(target_name, data)
 
-  $("##{target_name}_date_string").html(data['date_string'])
+  setValidationProperty(parent, data)
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
     $("##{target_name}_error").show()
@@ -89,7 +100,6 @@
 
   changes = {}
   changes["project_id"] = $(parent).data('project-id')
-  changes["design_id"] = $(parent).data('design-id')
   changes["variable_id"] = $(parent).data('variable-id')
   changes["value"] = valueToJSON(parent)
 
@@ -105,6 +115,47 @@
   ).fail( (jqXHR, textStatus, errorThrown) ->
     console.log("FAIL: #{textStatus} #{errorThrown}")
   )
+
+@checkOutOfRange = () ->
+  out_of_range_fields = $('[data-status]:visible').filter( () ->
+    $(this).data('status') == "out_of_range"
+  )
+  if out_of_range_fields.length > 0
+    alert('Some values are out of range!')
+    return false
+  true
+
+@checkOutOfSoftRange = () ->
+  out_of_recommended_range_fields = $('[data-status]:visible').filter( () ->
+    $(this).data('status') == "in_hard_range"
+  )
+  if out_of_recommended_range_fields.length > 0 and !confirm('Some values are out of the recommended range. Proceed anyways?')
+    return false
+  true
+
+@checkRequired = () ->
+  required_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
+    $(this).data('status') == "blank"
+  )
+  if required_fields.length > 0
+    alert('Some required fields are not set!')
+    return false
+
+@checkRecommended = () ->
+  recommended_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
+    $(this).data('status') == "blank"
+  )
+  if recommended_fields.length > 0 and !confirm('Some recommended fiels are not set. Proceed anyways?')
+    return false
+
+@checkInvalidFormat = () ->
+  invalid_format_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
+    $(this).data('status') == "invalid"
+  )
+  if invalid_format_fields.length > 0
+    alert('Some values are invalid!')
+    return false
+
 
 $(document)
   # .on('change', '[data-object~="validate"] input', () ->

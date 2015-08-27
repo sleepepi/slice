@@ -86,7 +86,7 @@
     if data
       $("##{target_name}_alert_box").show()
       $("##{target_name}_message").html(data['message'])
-      $("##{target_name}_date_string").html(data['date_string'])
+      $("##{target_name}_formatted_value").html(data['formatted_value'])
       $("##{target_name}_#{data['status']}").show()
       $("##{target_name}_alert_box").addClass('bs-callout-success')
     if data['status'] == 'warning'
