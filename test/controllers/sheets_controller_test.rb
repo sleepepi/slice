@@ -226,6 +226,24 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+  test "should create sheet with large integer" do
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Sheet.count') do
+        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
+                      subject_code: @sheet.subject.subject_code,
+                      site_id: @sheet.subject.site_id,
+                      variables: {
+                        "#{variables(:integer).id}" => 127858751212122128384
+                      }
+      end
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal 127858751212122128384, assigns(:sheet).sheet_variables.first.get_response(:raw)
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   test "should create sheet and lock sheet" do
     assert_difference('Sheet.count') do
       post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' },

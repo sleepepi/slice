@@ -67,6 +67,7 @@
 - Fixed a bug preventing dates from being entered and edited on subject events
 - Fixed ordering of variables across CSVs and generated export scripts
 - Deleting a sheet now correctly redirects back to the subject page
+- Fixed a bug that prevented large integers from being saved to sheets
 
 ## 0.28.1  (June 10, 2015)
 

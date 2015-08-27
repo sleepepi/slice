@@ -5,7 +5,7 @@ module Valuables
   class IntegerResponse < NumericResponse
 
     def raw
-      begin Integer("%g" % @object.response) end rescue @object.response
+      begin Integer("%.0f" % @object.response) end rescue @object.response
     end
 
   end
