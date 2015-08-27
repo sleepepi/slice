@@ -1,5 +1,5 @@
 - target_name = field_name.gsub('[', '_').gsub(']', '')
-- value = nil
+- value = response
 
 %div{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'signature', status: variable.validator.status(value) } }
   = hidden_field_tag field_name, response, data: { object: "condition" }, disabled: disabled
