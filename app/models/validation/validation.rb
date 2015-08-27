@@ -3,7 +3,7 @@ module Validation
   DEFAULT_CLASS = Validation::Validators::Default
   VALIDATOR_CLASSES = {
     # 'calculated' => Validation::Validators::Calculated,
-    # 'checkbox' => Validation::Validators::Checkbox,
+    'checkbox' => Validation::Validators::MultipleChoice,
     'date' => Validation::Validators::Date,
     # 'dropdown' => Validation::Validators::Dropdown,
     # 'file' => Validation::Validators::File,

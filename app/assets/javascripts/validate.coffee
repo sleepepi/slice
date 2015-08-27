@@ -86,9 +86,9 @@
       value["year"]   = $("##{$(parent).data('target-name')}_year").val()
     when 'checkbox'
       value = []
-      children = $(parent).find('input')
+      children = $(parent).find('input:checked')
       $.each(children, (index, child) ->
-        value.push(child.val()) if child.prop('checked', true)
+        value.push($(child).val())
       )
     else
       value = $("##{$(parent).data('target-name')}").val()

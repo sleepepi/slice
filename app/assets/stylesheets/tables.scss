@@ -5,3 +5,11 @@
 .table-borderless tr td {
   border-width: 0px !important;
 }
+
+%td.text-right, %th.text-right {
+  text-align: right;
+}
+
+%td.text-center, %th.text-center {
+  text-align: center;
+}
