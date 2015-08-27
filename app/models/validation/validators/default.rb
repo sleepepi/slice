@@ -67,18 +67,6 @@ module Validation
         MESSAGES
       end
 
-      def required?
-        if option = get_option
-          option[:required] == 'required'
-        else
-          false
-        end
-      end
-
-      def get_option
-        @design.options.select{|o| o[:variable_id] == @variable.id}.first rescue nil
-      end
-
     end
   end
 end

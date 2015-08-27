@@ -27,7 +27,7 @@ module Validation
       end
 
       def formatted_value(value)
-        "#{value}#{" #{variable.units}" unless variable.units.blank?}"
+        "#{value}#{" #{variable.units}" unless variable.units.blank?}" unless value.blank?
       end
 
     private

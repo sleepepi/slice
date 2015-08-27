@@ -231,10 +231,12 @@ $(document)
       return false
     if checkOutOfRange() == false
       return false
-    if checkRecommended() == false
+    if checkRecommendedAndRecommendedRanges() == false
       return false
-    if checkOutOfSoftRange() == false
-      return false
+    # if checkRecommended() == false
+    #   return false
+    # if checkOutOfSoftRange() == false
+    #   return false
 
     window.$isDirty = false
     if $(this).data('continue')?

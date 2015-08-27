@@ -25,7 +25,6 @@
   $("##{target_name}_formatted_value").html(data['formatted_value'])
 
 @setValidationProperty = (parent, data) ->
-  console.log "Setting Status Data Property #{data['status']}"
   $(parent).data('status', data['status'])
 
 @setGenericValidityClass = (parent, data) ->
@@ -129,7 +128,7 @@
   out_of_recommended_range_fields = $('[data-status]:visible').filter( () ->
     $(this).data('status') == "in_hard_range"
   )
-  if out_of_recommended_range_fields.length > 0 and !confirm('Some values are out of the recommended range. Proceed anyways?')
+  if out_of_recommended_range_fields.length > 0 # and !confirm('Some values are out of the recommended range. Proceed anyways?')
     return false
   true
 
@@ -140,13 +139,15 @@
   if required_fields.length > 0
     alert('Some required fields are not set!')
     return false
+  true
 
 @checkRecommended = () ->
-  recommended_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
+  recommended_fields = $('[data-required~="recommended"]:visible').find('[data-status]:visible').filter( () ->
     $(this).data('status') == "blank"
   )
-  if recommended_fields.length > 0 and !confirm('Some recommended fiels are not set. Proceed anyways?')
+  if recommended_fields.length > 0 # and !confirm('Some recommended fields are not set. Proceed anyways?')
     return false
+  true
 
 @checkInvalidFormat = () ->
   invalid_format_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
@@ -155,12 +156,14 @@
   if invalid_format_fields.length > 0
     alert('Some values are invalid!')
     return false
+  true
 
+@checkRecommendedAndRecommendedRanges = () ->
+  if (!checkRecommended() or !checkOutOfSoftRange()) and !confirm('Some values are out of the recommended range. Proceed anyways?')
+    return false
+  true
 
 $(document)
-  # .on('change', '[data-object~="validate"] input', () ->
-  #   validateElement($(this))
-  # )
   .on('blur', '[data-object~="validate"] input', () ->
     validateElement($(this))
   )

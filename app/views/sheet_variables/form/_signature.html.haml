@@ -1,0 +1,10 @@
+- target_name = field_name.gsub('[', '_').gsub(']', '')
+- value = nil
+
+%div{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'signature', status: variable.validator.status(value) } }
+  = hidden_field_tag field_name, response, data: { object: "condition" }, disabled: disabled
+  %canvas.pad{ width: "300", height: "55", data: { object: "signature", signature_target: "##{target_name}" } }
+  %span.clearButton{ style: "position: absolute; margin-top: 12.5px; margin-left: 10px;" }
+    = link_to 'clear', '#', class: 'btn btn-xs btn-default', tabindex: '-1', data: { object: 'clear-signature', target_name: target_name }
+  =# render 'validation/icons', target_name: target_name
+= render 'validation/full_message', variable: variable, value: value, target_name: target_name

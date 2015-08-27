@@ -9,9 +9,9 @@ module Validation
     # 'file' => Validation::Validators::File,
     # 'grid' => Validation::Validators::Grid,
     'integer' => Validation::Validators::Integer,
-    'numeric' => Validation::Validators::Numeric
+    'numeric' => Validation::Validators::Numeric,
     # 'radio' => Validation::Validators::Radio,
-    # 'signature' => Validation::Validators::Signature,
+    'signature' => Validation::Validators::Signature
     # 'string' => Validation::Validators::String,
     # 'text' => Validation::Validators::Text,
     # 'time' => Validation::Validators::TimeOfDay,

@@ -11,7 +11,9 @@
 
 $(document)
   .on('click', '[data-object~="clear-signature"]', () ->
-    $($(this).data('target')).val('')
+    target_name = $(this).data("target-name")
+    clearClassStyles(target_name)
+    $("##{target_name}").val("")
     signaturesReady()
     false
   )
