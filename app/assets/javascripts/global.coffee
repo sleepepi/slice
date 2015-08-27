@@ -78,11 +78,11 @@ $(document)
       false
   )
   .on('click', '[data-object~="modal-show"]', () ->
-    $($(this).data('target')).modal({ dynamic: true });
+    $($(this).data('target')).modal({ dynamic: true })
     false
   )
   .on('click', '[data-object~="modal-hide"]', () ->
-    $($(this).data('target')).modal('hide');
+    $($(this).data('target')).modal('hide')
     false
   )
   .on('click', "#contour-backdrop", (e) ->

@@ -47,8 +47,8 @@ $(document)
         gridUp($(this), e)
   )
   .on('focus', ".table-grid input", () ->
-    $(this).closest('.table-grid tr').addClass('info');
+    $(this).closest('.table-grid tr').addClass('info')
   )
   .on('blur', ".table-grid input", () ->
-    $(this).closest('.table-grid tr').removeClass('info');
+    $(this).closest('.table-grid tr').removeClass('info')
   )

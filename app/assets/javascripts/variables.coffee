@@ -102,7 +102,7 @@
     # alert($(this).data('calculation'))
     calculation = $(this).data('calculation')
     grid_position = $(this).data('grid-position')
-    # calculation = calculation.replace(/([\w]+)/g, "parseInt($('[data-name=\"\$1\"]').val())");
+    # calculation = calculation.replace(/([\w]+)/g, "parseInt($('[data-name=\"\$1\"]').val())")
     if calculation
       grid_string = ''
       if grid_position != '' and grid_position != null and grid_position != undefined
@@ -119,7 +119,7 @@
 
 @variablesReady = () ->
   if $('#variable_variable_type')
-    toggleOptions($('#variable_variable_type'));
+    toggleOptions($('#variable_variable_type'))
 
 $(document)
   .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
