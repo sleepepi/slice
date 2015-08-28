@@ -1,4 +1,3 @@
-
 @resetDatePickers = () ->
   $('.datepicker-dropdown').remove() # Clean up DOM
   $(".datepicker").datepicker('remove')

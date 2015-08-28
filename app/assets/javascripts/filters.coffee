@@ -1,4 +1,3 @@
-
 @activateFilterSortable = () ->
   $('.filter-sort-container').sortable(
     placeholder: 'filter-bubble-faded'
