@@ -54,29 +54,6 @@
     return false
   true
 
-# @checkPresence = (element) ->
-#   if element.data('required-type') == 'checkbox' or element.data('required-type') == 'radio'
-#     value = $("[name='#{element.data('required-field')}']").filter( () ->
-#       $(this).is(':checked')
-#     )
-#     value.size() == 0
-#   else if element.data('required-type') == 'signature'
-#     try
-#       result = JSON.parse($("[name='#{element.data('required-field')}']").val()).length < 20
-#     catch
-#       result = true
-#     finally
-#       result
-#   else if element.data('required-type') == 'date' or element.data('required-type') == 'time'
-#     value = $(element).find('input').filter( () ->
-#       $.trim($(this).val()) != ''
-#     )
-#     value.size() == 0
-#   else
-#     value = $("[name='#{element.data('required-field')}']").val()
-#     $.trim(value) == ''
-
-
 # Ex: parseValue('ess1', 'integer', '')
 #     parseValue('gender', 'string', '')
 #     parseValue('bmi', 'float', '')
@@ -99,22 +76,16 @@
 
 @updateCalculatedVariables = () ->
   $.each($('[data-object~="calculated"]'), () ->
-    # alert($(this).data('calculation'))
     calculation = $(this).data('calculation')
     grid_position = $(this).data('grid-position')
-    # calculation = calculation.replace(/([\w]+)/g, "parseInt($('[data-name=\"\$1\"]').val())")
     if calculation
       grid_string = ''
       if grid_position != '' and grid_position != null and grid_position != undefined
         grid_string = '[data-grid-position="' + grid_position + '"]'
-      # calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseFloat($('[data-name=\"\$1\"]#{grid_string}').val())")
       calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseValue('\$1', 'float', '#{grid_string}')")
       calculation_result = eval(calculation)
       calculation_result = '' unless isNumber(calculation_result)
       $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result + '&target_name=' + $(this).data('target-name') + '&sheet_authentication_token=' + ($('#sheet_authentication_token').val() || ""), null, "script")
-
-    # $(this).val(calculation_result)
-    # $($(this).data('target')).html(calculation_result)
   )
 
 @variablesReady = () ->
