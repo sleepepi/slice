@@ -6,7 +6,7 @@ module Validation
     'checkbox' => Validation::Validators::MultipleChoice,
     'date' => Validation::Validators::Date,
     'dropdown' => Validation::Validators::SingleChoice,
-    # 'file' => Validation::Validators::File,
+    'file' => Validation::Validators::File,
     # 'grid' => Validation::Validators::Grid,
     'integer' => Validation::Validators::Integer,
     'numeric' => Validation::Validators::Numeric,
