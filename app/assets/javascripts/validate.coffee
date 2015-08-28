@@ -140,6 +140,6 @@
   true
 
 $(document)
-  .on('blur', '[data-object~="validate"] input', () ->
+  .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', () ->
     validateElement($(this))
   )

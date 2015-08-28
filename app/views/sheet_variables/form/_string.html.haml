@@ -1,0 +1,18 @@
+- is_grid = defined?(grid)
+
+- target_name = field_name.gsub('[', '_').gsub(']', '')
+- value = response
+
+%div{ class: "#{'input-group' unless variable.prepend.blank? and variable.append.blank?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'string', status: variable.validator.status(value) } }
+  - unless variable.prepend.blank?
+    %span.input-group-addon= variable.prepend
+  = text_field_tag field_name, response, class: 'form-control',
+    data: { content: variable.description, object: "condition variable-typeahead cursor-navigatable",
+      variable_id: variable.id, html: true },
+      title: variable.description.blank? ? '' : variable.display_name,
+      rel: "#{variable.description.blank? ? '' : 'popover'}",
+      autocomplete: 'off',
+      disabled: disabled,
+      placeholder: is_grid ? variable.display_name : nil
+  - unless variable.append.blank?
+    %span.input-group-addon= variable.append
