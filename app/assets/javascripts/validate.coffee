@@ -130,14 +130,6 @@
     return false
   true
 
-@checkOutOfSoftRange = () ->
-  out_of_recommended_range_fields = $('[data-status]:visible').filter( () ->
-    $(this).data('status') == "in_hard_range"
-  )
-  if out_of_recommended_range_fields.length > 0 # and !confirm('Some values are out of the recommended range. Proceed anyways?')
-    return false
-  true
-
 @checkRequired = () ->
   required_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
     $(this).data('status') == "blank"
@@ -147,25 +139,12 @@
     return false
   true
 
-@checkRecommended = () ->
-  recommended_fields = $('[data-required~="recommended"]:visible').find('[data-status]:visible').filter( () ->
-    $(this).data('status') == "blank"
-  )
-  if recommended_fields.length > 0 # and !confirm('Some recommended fields are not set. Proceed anyways?')
-    return false
-  true
-
 @checkInvalidFormat = () ->
   invalid_format_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
     $(this).data('status') == "invalid"
   )
   if invalid_format_fields.length > 0
     alert('Some values are invalid!')
-    return false
-  true
-
-@checkRecommendedAndRecommendedRanges = () ->
-  if (!checkRecommended() or !checkOutOfSoftRange()) and !confirm('Some values are out of the recommended range. Proceed anyways?')
     return false
   true
 
