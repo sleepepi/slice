@@ -1,22 +1,13 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-
 @clearClassStyles = (target_name) ->
-  $("##{target_name}_month").parent().removeClass('has-warning')
-  $("##{target_name}_day").parent().removeClass('has-warning')
-  $("##{target_name}_year").parent().removeClass('has-warning')
-  $("##{target_name}").parent().removeClass('has-warning')
-  $("##{target_name}_month").parent().removeClass('has-error')
-  $("##{target_name}_day").parent().removeClass('has-error')
-  $("##{target_name}_year").parent().removeClass('has-error')
-  $("##{target_name}").parent().removeClass('has-error')
+  $("##{target_name}_month").parent().removeClass('has-warning has-error')
+  $("##{target_name}_day").parent().removeClass('has-warning has-error')
+  $("##{target_name}_year").parent().removeClass('has-warning has-error')
+  $("##{target_name}").parent().removeClass('has-warning has-error')
   $("##{target_name}_error").hide()
   $("##{target_name}_warning").hide()
   $("##{target_name}_success").hide()
-  $("##{target_name}_alert_box").removeClass('bs-callout-success')
-  $("##{target_name}_alert_box").removeClass('bs-callout-warning')
-  $("##{target_name}_alert_box").removeClass('bs-callout-danger')
+  $("##{target_name}_alert_box")
+    .removeClass('bs-callout-success bs-callout-warning bs-callout-danger')
 
 @setDefaultClassStyles = (target_name, data) ->
   $("##{target_name}_alert_box").show()
@@ -44,7 +35,7 @@
     $("##{target_name}_alert_box").addClass('bs-callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_success").show()
-    $("##{target_name}_alert_box").show()
+    $("##{target_name}_alert_box").hide() if data['message'] == ''
 
 @setDateValidityClass = (parent, data) ->
   target_name = parent.data("target-name")

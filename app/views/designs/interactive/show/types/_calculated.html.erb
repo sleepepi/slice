@@ -1,7 +1,5 @@
 <% is_grid = defined?(grid) %>
 
-<% location_id = variable.name.gsub('[','_').gsub(']', '') %>
-
 <div class="input-group">
   <%= render partial: 'designs/interactive/show/variable_addon', locals: { method: 'prepend', variable: variable } %>
   <%= text_field_tag variable.name, '', class: 'form-control', disabled: true %>
