@@ -7,7 +7,7 @@ plain
 smtp@example.com
 smtp_username
 smtp_password
-/usr/bin/pdflatex
+echo /usr/bin/pdflatex
 postgres
 
 
