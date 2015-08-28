@@ -11,10 +11,10 @@ module Validation
     'integer' => Validation::Validators::Integer,
     'numeric' => Validation::Validators::Numeric,
     'radio' => Validation::Validators::SingleChoice,
-    'signature' => Validation::Validators::Signature
+    'signature' => Validation::Validators::Signature,
     # 'string' => Validation::Validators::String,
     # 'text' => Validation::Validators::Text,
-    # 'time' => Validation::Validators::TimeOfDay,
+    'time' => Validation::Validators::TimeOfDay
     # 'time_duration' => Validation::Validators::TimeDuration
   }
 

@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   get "survey/:slug/sections/:section_id/image", to: "survey#section_image", as: :survey_section_image
 
   get "check-date", to: "application#check_date"
-  get "check-time", to: "application#check_time"
 
   resources :projects, constraints: { format: /json|pdf|csv/ } do
     member do

@@ -19,12 +19,23 @@ module DateAndTimeParser
     end
   end
 
-  def parse_time(time_string, default_time = '')
+  def parse_time(time_string, default_time = nil)
     time_string.to_s.split(':', -1).last.size > 0 ? Time.strptime(time_string, "%H:%M:%S") : Time.strptime(time_string, "%H:%M:") rescue default_time
   end
 
   def parse_time_to_s(time_string, default_time = '')
     parse_time(time_string, default_time).strftime("%H:%M:%S") rescue default_time
+  end
+
+  def parse_time_from_hash(time_hash)
+    if time_hash.kind_of?(Hash)
+      hour = parse_integer(time_hash[:hour])
+      minutes = parse_integer(time_hash[:minutes])
+      seconds = parse_integer(time_hash[:seconds])
+      parse_time("#{hour}:#{minutes}:#{seconds}")
+    else
+      parse_time("")
+    end
   end
 
   def parse_integer(string)

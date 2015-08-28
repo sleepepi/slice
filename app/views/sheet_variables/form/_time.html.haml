@@ -1,8 +1,10 @@
 - is_grid = defined?(grid)
 
 - target_name = field_name.gsub('[', '_').gsub(']', '')
+- time = parse_time(response)
+- value = (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
 
-.time-input.form-inline
+.time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time', status: variable.validator.status(value) } }
 
   %span.hour-box
     = text_field_tag "#{field_name}[hour]", (Time.parse(response).strftime('%H') rescue response), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
@@ -17,12 +19,5 @@
     = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
   - unless is_grid
     = link_to 'Clear', '#', data: { object: 'clear-time-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
-  %span.glyphicon.glyphicon-question-sign.text-warning{ id: "#{target_name}_warning", style: 'display:none' }
-  %span.glyphicon.glyphicon-ok-sign.text-success{ id: "#{target_name}_success", style: 'display:none' }
-  %span.glyphicon.glyphicon-remove-sign.text-danger{ id: "#{target_name}_error", style: 'display:none' }
-
-- unless is_grid
-  .bs-callout{ id: "#{target_name}_alert_box", style: 'padding-top:0px;padding-bottom:0px' }
-    %strong{ id: "#{target_name}_time_string" }
-      = Time.parse(response).strftime("%-l:%M:%S %P") rescue ""
-    %span{ id: "#{target_name}_message" }
+  = render 'validation/icons', target_name: target_name
+= render 'validation/full_message', variable: variable, value: value, target_name: target_name unless is_grid
