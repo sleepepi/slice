@@ -70,6 +70,7 @@
 - Fixed ordering of variables across CSVs and generated export scripts
 - Deleting a sheet now correctly redirects back to the subject page
 - Fixed a bug that prevented large integers from being saved to sheets
+- Fixed display of sparkline tooltips
 
 ## 0.28.1  (June 10, 2015)
 

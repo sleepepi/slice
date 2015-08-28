@@ -858,8 +858,6 @@
             this.getSize(content);
             this.tooltip.html(content)
                 .css({
-                    'width': this.width,
-                    'height': this.height,
                     'visibility': 'visible'
                 });
             if (this.hidden) {
