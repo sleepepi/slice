@@ -184,13 +184,7 @@ class SheetsController < ApplicationController
 
     respond_to do |format|
       if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_create')
-        url = if params[:continue].to_s == '1'
-          new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id })
-        else
-          [@sheet.project, @sheet]
-        end
-
-        format.html { redirect_to url, notice: 'Sheet was successfully created.' }
+        format.html { redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully created.' }
         format.json { render action: 'show', status: :created, location: @sheet }
       else
         format.html { render action: 'new' }
@@ -204,13 +198,7 @@ class SheetsController < ApplicationController
   def update
     respond_to do |format|
       if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_update')
-        url = if params[:continue].to_s == '1'
-          new_project_sheet_path(@sheet.project, sheet: { design_id: @sheet.design_id })
-        else
-          [@sheet.project, @sheet]
-        end
-
-        format.html { redirect_to url, notice: 'Sheet was successfully updated.' }
+        format.html { redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

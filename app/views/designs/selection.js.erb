@@ -1,13 +1,5 @@
 $("#design").html("<%= escape_javascript(render("designs/selection")) %>");
 
-<% if @sheet.new_record? %>
-  $('#sheet_submit_btn').val('Create Sheet');
-  $('#sheet_submit_btn_and_continue').val('Create Sheet and Continue');
-<% else %>
-  $('#sheet_submit_btn').val('Update Sheet');
-  $('#sheet_submit_btn_and_continue').val('Update Sheet and Continue');
-<% end %>
-
 <% if @design %>
   <% @design.options.each do |option| %>
     <% @option = option %>

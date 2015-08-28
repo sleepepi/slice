@@ -47,6 +47,8 @@
   - Added better variable validation framework
     - Users are provided more immediate feedback when entering data on sheets
     - Data uses the same validation checks when saving on the server
+- **Sheet Changes**
+  - Removed the Save and Continue button as it does not make as much sense in a subject-centric model
 - **Project Changes**
   - The invite process for new project and site, editors and viewers, has been simplified to allow new users to get added after registration to the appropriate site or project
   - Inviting collaborators to a project now also provides search results when typing in an email of an associated user
