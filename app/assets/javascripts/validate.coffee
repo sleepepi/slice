@@ -94,6 +94,7 @@
     setTimeValidityClass(parent, data)
   else
     setGenericValidityClass(parent, data)
+  checkRequiredAndInvalidFormat()
 
 @valueToJSON = (parent) ->
   switch $(parent).data('components')
@@ -170,6 +171,22 @@
     alert('Some values are invalid!')
     return false
   true
+
+@checkRequiredAndInvalidFormat = () ->
+  fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
+    $(this).data('status') == "blank" || $(this).data('status') == "invalid"
+  )
+
+  out_of_range_fields = $('[data-status]:visible').filter( () ->
+    $(this).data('status') == "out_of_range"
+  )
+
+  field_count = fields.length + out_of_range_fields.length
+
+  if field_count > 0
+    $("#validation-messages").html("#{field_count} field#{if field_count == 1 then ' is' else 's are'} invalid, missing, or out of range")
+  else
+    $("#validation-messages").html("")
 
 $(document)
   .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', () ->
