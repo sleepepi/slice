@@ -1,19 +1,23 @@
 - is_grid = defined?(grid)
 
 - target_name = field_name.gsub('[', '_').gsub(']', '')
-- time = parse_time(response)
-- value = (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
+
+- if response.kind_of?(Hash)
+  - value = response
+- else
+  - time = parse_time(response)
+  - value = (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
 
 .time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time', status: variable.validator.status(value) } }
 
   %span.hour-box
-    = text_field_tag "#{field_name}[hour]", (Time.parse(response).strftime('%H') rescue response), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
+    = text_field_tag "#{field_name}[hour]", value[:hour], maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
   &#58;
   %span.min-box
-    = text_field_tag "#{field_name}[minutes]", (Time.parse(response).strftime('%M') rescue response), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+    = text_field_tag "#{field_name}[minutes]", value[:minutes], maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
   &#58;
   %span.sec-box
-    = text_field_tag "#{field_name}[seconds]", (Time.parse(response).strftime('%S') rescue response), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
+    = text_field_tag "#{field_name}[seconds]", value[:seconds], maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
 
   - if variable.show_current_button?
     = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
