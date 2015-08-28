@@ -169,14 +169,12 @@ span.rounded-borders {
   }
 }
 
-.highlight-add {
+ins.differ, .highlight-add {
   background-color: #DFD;  /* light green */
-  /* #AFA */ /* green */
 }
 
-.highlight-subtract {
+del.differ, .highlight-subtract {
   background-color: #FDD; /* light red */
-  /* #FAA; */ /* red */
 }
 
 .error-input {

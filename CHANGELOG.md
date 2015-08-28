@@ -58,6 +58,7 @@
   - Updated to contour 3.0.1
   - Updated to redcarpet 3.3.2
   - Only run `web-console` in development mode
+  - Added differ 0.1.2 gem to better show sheet transactions
 
 ### Bug Fixes
 - Project list gradients now display properly in Internet Explorer 8

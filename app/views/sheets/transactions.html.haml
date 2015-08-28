@@ -46,6 +46,7 @@
                     %tr
                       %th Attribute
                       %th Value Before
+                      %th Diff
                       %th Value After
                   - t.sheet_transaction_audits.each do |a|
                     - if not variable or (variable and a.sheet_variable and a.sheet_variable.variable_id == variable.id)
@@ -64,21 +65,14 @@
                           - elsif a.value_before == ''
                             %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right" } } &#9872;
                           - else
-                            - mask = find_diff(a.value_before, a.value_after)
-                            %span{ style: "padding: 0px;background-color:#FAA;" }
-                              = a.value_before.to_s.split('').each_with_index.collect{ |character, index| (mask[index] and a.sheet_attribute_name != 'last_edited_at') ? "<span class='highlight-subtract'>#{character}</span>" : character }.join('').html_safe
-                            - if not a.label_before.blank? and a.label_before != a.value_before
-                              = link_to '#', rel: 'tooltip', title: a.label_before, data: { object: 'suppress-click', placement: 'right', container: 'body' } do
-                                %span.glyphicon.glyphicon-info-sign
+                            = a.value_before
+                        %td
+                          - diff = Differ.diff_by_char(a.value_after.to_s, a.value_before.to_s)
+                          = diff.format_as(:html).html_safe
                         %td{ class: "#{'text-muted' if a.value_after == nil or a.value_after == ''}" }
                           - if a.value_after == nil
                             nil
                           - elsif a.value_after == ''
                             %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right" } } &#9872;
                           - else
-                            - mask = find_diff(a.value_after, a.value_before)
-                            %span{ style: "padding: 0px;background-color:#AFA;" }
-                              = a.value_after.to_s.split('').each_with_index.collect{ |character, index| (mask[index] and a.sheet_attribute_name != 'last_edited_at') ? "<span class='highlight-add'>#{character}</span>" : character }.join('').html_safe
-                            - if not a.label_after.blank? and a.label_after != a.value_after
-                              = link_to '#', rel: 'tooltip', title: a.label_after, data: { object: 'suppress-click', placement: 'right', container: 'body' } do
-                                %span.glyphicon.glyphicon-info-sign
+                            = a.value_after
