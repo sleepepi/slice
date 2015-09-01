@@ -47,6 +47,16 @@ module Validation
         get_time(value).strftime("%-l:%M:%S %P") rescue nil
       end
 
+      def response_to_value(response)
+        if response.kind_of?(Hash)
+          value = response
+        else
+          time = parse_time(response)
+          (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
+        end
+      end
+
+
     private
 
       def get_time(value)

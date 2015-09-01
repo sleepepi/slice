@@ -4,10 +4,6 @@ module DateAndTimeParser
     date_string.to_s.split('/', -1).last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
   end
 
-  def parse_date_to_s(date_string, default_date = '')
-    parse_date(date_string, default_date).strftime("%m/%d/%Y") rescue default_date
-  end
-
   def parse_date_from_hash(date_hash)
     if date_hash.kind_of?(Hash)
       month = parse_integer(date_hash[:month])

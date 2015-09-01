@@ -8,8 +8,9 @@
   <%= hidden_field_tag "sheet_authentication_token", @sheet.authentication_token %>
 
   <div id="design">
-    <div class="center"><%= image_tag 'try-slice-waiting.gif' %></div>
-    <%#= @design = @sheet.design; render partial: 'designs/selection' %>
+    <% params[:header] = '0' %>
+    <% params[:sheet_authentication_token] = @sheet.authentication_token %>
+    <%= @design = @sheet.design; render "designs/selection" %>
   </div>
 
   <div class="form-signin">

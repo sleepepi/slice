@@ -1,5 +1,3 @@
-$("#design").html("<%= escape_javascript(render("designs/selection")) %>");
-
 <% @design.options.each do |option| %>
   <% @option = option %>
   <% if @option[:variable_id].blank? %>

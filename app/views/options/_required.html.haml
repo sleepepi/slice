@@ -1,0 +1,5 @@
+- if option
+  - case option[:required] when 'required'
+    %span.text-danger.glyphicon.glyphicon-flag{ rel: 'tooltip', data: { object: 'suppress-click', title: 'Required Field', placement: 'top', container: 'body' } }
+  - when 'recommended'
+    %span.text-warning.glyphicon.glyphicon-flag{ rel: 'tooltip', data: { object: 'suppress-click', title: 'Recommended Field', placement: 'top', container: 'body' } }

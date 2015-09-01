@@ -103,16 +103,7 @@ $(document)
     false
   )
   .on('click', '[data-object~="variable-check-before-submit"]', () ->
-    if checkInvalidFormat() == false
-      return false
-    if checkRequired() == false
-      return false
-    if checkOutOfRange() == false
-      return false
-
     window.$isDirty = false
-    if $(this).data('continue')?
-      $('#continue').val($(this).data('continue'))
     $('[data-object~="variable-check-before-submit"]').attr('disabled', 'disabled')
     $($(this).data('target')).submit()
     false

@@ -61,8 +61,7 @@
 
 <%= hidden_field_tag 'sheet[project_id]', @project.id %>
 <form class="form-horizontal" id="design">
-  <div class="center"><%= image_tag 'try-slice-waiting.gif' %></div>
+  <%= @sheet = @design.sheets.new; render "designs/selection" %>
 </form>
 
-<%= form_tag selection_project_designs_path(@design.project, sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' }, id: 'new_sheet' do %>
-<% end %>
+<%= form_tag selection_project_designs_path(@design.project, sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' }, id: 'new_sheet' %>

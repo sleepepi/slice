@@ -15,6 +15,10 @@ module Validation
         nil
       end
 
+      def response_to_value(response)
+        JSON.parse(response) rescue nil
+      end
+
     end
   end
 end

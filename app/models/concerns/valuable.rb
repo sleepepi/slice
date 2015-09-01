@@ -44,7 +44,8 @@ module Valuable
       day = parse_integer(response[:day])
       year = parse_integer(response[:year])
 
-      response = { response: parse_date_to_s("#{month}/#{day}/#{year}") }
+      # Save valuable to string in "%Y-%m-%d" db format, passing in a date
+      response = { response: parse_date("#{month}/#{day}/#{year}") }
     when 'time'
       hour = parse_integer(response[:hour])
       minutes = parse_integer(response[:minutes])

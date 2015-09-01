@@ -14,6 +14,7 @@ $(document)
     target_name = $(this).data("target-name")
     clearClassStyles(target_name)
     $("##{target_name}").val("")
+    $("##{target_name}").blur()
     signaturesReady()
     false
   )

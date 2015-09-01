@@ -16,6 +16,14 @@ module Validation
         value.blank?
       end
 
+      def invalid_format?(value)
+        false
+      end
+
+      def out_of_range?(value)
+        false
+      end
+
       def formatted_value(value)
         nil
       end

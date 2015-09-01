@@ -1,3 +1,26 @@
 // Place all the styles related to the Validation controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$red-error: $brand-danger;
+$orange-warning: $brand-warning;
+
+.variable-shade.variable-errors {
+  color: $red-error;
+  border-left: 2px solid $red-error;
+}
+
+.variable-blind.variable-errors {
+  color: $red-error;
+  border-left: 2px solid $red-error;
+}
+
+.variable-shade.variable-warnings {
+  color: $orange-warning;
+  border-left: 2px solid $orange-warning;
+}
+
+.variable-blind.variable-warnings {
+  color: $orange-warning;
+  border-left: 2px solid $orange-warning;
+}

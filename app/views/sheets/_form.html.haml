@@ -5,14 +5,15 @@
 
 = form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: "multipart/form-data" }) do |f|
   - if @sheet.errors.any?
-    #error_explanation.bs-callout.bs-callout-danger
+    .bs-callout.bs-callout-danger
       %h4
         = pluralize(@sheet.errors.count, "error")
         prohibited this sheet from being saved
 
-      %ul
-        - @sheet.errors.full_messages.each do |msg|
-          %li= msg
+      - if false
+        %ul
+          - @sheet.errors.full_messages.each do |msg|
+            %li= msg
 
   = f.hidden_field :project_id
   = f.hidden_field :verifying_sheet_id if @sheet.double_data_entry?
@@ -85,7 +86,7 @@
             %div{ style: "line-height:34px;" }= @sheet.subject_event.event_date
 
   #design
-    .center= image_tag 'try-slice-waiting.gif'
+    = @design = @sheet.design; render "designs/selection"
 
   .form-group
     .col-md-9.col-md-offset-3
@@ -94,4 +95,4 @@
       = cancel
       %span#validation-messages.text-danger
 
-= form_tag selection_project_designs_path(@sheet.project, sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, subject_code: (@sheet.subject ? @sheet.subject.subject_code : params[:subject_code]), variables: params[:variables]), remote: true, method: :post, data: { object: 'form-load' }
+= form_tag selection_project_designs_path(@sheet.project, sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, subject_code: (@sheet.subject ? @sheet.subject.subject_code : params[:subject_code])), remote: true, method: :post, data: { object: 'form-load' }

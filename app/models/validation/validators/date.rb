@@ -34,6 +34,16 @@ module Validation
         get_date(value).strftime("%B %-d, %Y") rescue nil
       end
 
+      def response_to_value(response)
+        if response.kind_of?(Hash)
+          response
+        else
+          # This parses the date from "%Y-%m-%d" database format
+          date = (::Date.parse(response) rescue nil)
+          (date ? { month: date.month, day: date.day, year: date.year } : {})
+        end
+      end
+
     private
 
       def get_date(value)

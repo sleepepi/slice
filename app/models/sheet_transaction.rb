@@ -10,7 +10,26 @@ class SheetTransaction < ActiveRecord::Base
 
   # Model Methods
 
+  def self.validate_variable_values(sheet, variables_params)
+    variables_params.each do |variable_id, value|
+      variable = sheet.project.variables.find_by_id(variable_id)
+      validation_hash = variable.value_in_range?(value)
+      design = sheet.design
+      case validation_hash[:status] when 'blank' # AND REQUIRED
+        sheet.errors.add(:base, "#{variable.name} can't be blank") if variable.requirement_on_design(sheet.design) == 'required'
+      when 'invalid'
+        sheet.errors.add(:base, "#{variable.name} is invalid")
+      when 'out_of_range'
+        sheet.errors.add(:base, "#{variable.name} is out of range")
+      end
+    end
+    return sheet.errors.count == 0
+  end
+
   def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type)
+    return false unless self.validate_variable_values(sheet, variables_params)
+
+
     sheet_save_result = case transaction_type when 'sheet_create', 'public_sheet_create'
       sheet.save
     else

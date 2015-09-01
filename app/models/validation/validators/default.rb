@@ -45,6 +45,10 @@ module Validation
         value.to_s
       end
 
+      def response_to_value(response)
+        response
+      end
+
       def status(value)
         if blank_value?(value)
           'blank'

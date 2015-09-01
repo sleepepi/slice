@@ -229,17 +229,36 @@ class SheetsControllerTest < ActionController::TestCase
   test "should create sheet with large integer" do
     assert_difference('SheetTransaction.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
+        post :create, project_id: @project, sheet: { design_id: designs(:has_no_validations) },
                       subject_code: @sheet.subject.subject_code,
                       site_id: @sheet.subject.site_id,
                       variables: {
-                        "#{variables(:integer).id}" => 127858751212122128384
+                        "#{variables(:integer_no_range).id}" => 127858751212122128384
                       }
       end
     end
 
     assert_not_nil assigns(:sheet)
     assert_equal 127858751212122128384, assigns(:sheet).sheet_variables.first.get_response(:raw)
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should create sheet and save date to correct database format" do
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Sheet.count') do
+        post :create, project_id: @project, sheet: { design_id: designs(:has_no_validations) },
+                      subject_code: @sheet.subject.subject_code,
+                      site_id: @sheet.subject.site_id,
+                      variables: {
+                        "#{variables(:date_no_range).id}" => { month: '5', day: '2', year: '1992' }
+                      }
+      end
+
+    end
+
+    assert_not_nil assigns(:sheet)
+    assert_equal "1992-05-02", assigns(:sheet).sheet_variables.first.get_response(:raw)
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end

@@ -14,7 +14,8 @@
   <% end %>
 
   <div id="design" style="min-height:200px">
-    <div class="center" style="margin-top:100px">Loading Survey <%= image_tag 'try-slice-waiting.gif' %></div>
+    <% params[:header] = '0' %>
+    <%= render "designs/selection" %>
   </div>
 
   <div class="form-signin">

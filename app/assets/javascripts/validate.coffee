@@ -1,3 +1,21 @@
+@clearErrorAndWarning = (parent, data) ->
+  container = $(parent).closest('[data-object~="variable-container"]')
+  container.removeClass('variable-errors variable-warnings')
+
+@setError = (parent, data) ->
+  clearErrorAndWarning(parent, data)
+  container = $(parent).closest('[data-object~="variable-container"]')
+  container.addClass('variable-errors')
+
+@setWarning = (parent, data) ->
+  clearErrorAndWarning(parent, data)
+  container = $(parent).closest('[data-object~="variable-container"]')
+  container.addClass('variable-warnings')
+
+@setSuccess = (parent, data) ->
+  clearErrorAndWarning(parent, data)
+  # container = $(parent).closest('[data-object~="variable-container"]')
+
 @clearClassStyles = (target_name) ->
   $("##{target_name}_month").parent().removeClass('has-warning has-error')
   $("##{target_name}_day").parent().removeClass('has-warning has-error')
@@ -6,9 +24,6 @@
   $("##{target_name}_minutes").parent().removeClass('has-warning has-error')
   $("##{target_name}_seconds").parent().removeClass('has-warning has-error')
   $("##{target_name}").parent().removeClass('has-warning has-error')
-  $("##{target_name}_error").hide()
-  $("##{target_name}_warning").hide()
-  $("##{target_name}_success").hide()
   $("##{target_name}_alert_box")
     .removeClass('bs-callout-success bs-callout-warning bs-callout-danger')
 
@@ -20,6 +35,15 @@
 
 @setValidationProperty = (parent, data) ->
   $(parent).data('status', data['status'])
+  container = $(parent).closest('[data-object~="variable-container"]')
+  if data['status'] in ['invalid', 'out_of_range']
+    setError(parent, data)
+  else if data['status'] == 'blank' and container.data('required') == 'required'
+    setError(parent, data)
+  else if (data['status'] == 'blank' and container.data('required') == 'recommended') or (data['status'] == 'in_hard_range')
+    setWarning(parent, data)
+  else
+    setSuccess(parent, data)
 
 @setGenericValidityClass = (parent, data) ->
   target_name = parent.data("target-name")
@@ -29,15 +53,12 @@
   setValidationProperty(parent, data)
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
-    $("##{target_name}_error").show()
     $("##{target_name}").parent().addClass('has-error')
     $("##{target_name}_alert_box").addClass('bs-callout-danger')
   if data['status'] == 'in_hard_range'
-    $("##{target_name}_warning").show()
     $("##{target_name}").parent().addClass('has-warning')
     $("##{target_name}_alert_box").addClass('bs-callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
-    $("##{target_name}_success").show()
     $("##{target_name}_alert_box").hide() if data['message'] == ''
 
 @setDateValidityClass = (parent, data) ->
@@ -48,19 +69,16 @@
   setValidationProperty(parent, data)
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
-    $("##{target_name}_error").show()
     $("##{target_name}_alert_box").addClass('bs-callout-danger')
     $("##{target_name}_year").parent().addClass('has-error')
     $("##{target_name}_month").parent().addClass('has-error')
     $("##{target_name}_day").parent().addClass('has-error')
   if data['status'] == 'in_hard_range'
-    $("##{target_name}_warning").show()
     $("##{target_name}_year").parent().addClass('has-warning')
     $("##{target_name}_month").parent().addClass('has-warning')
     $("##{target_name}_day").parent().addClass('has-warning')
     $("##{target_name}_alert_box").addClass('bs-callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
-    $("##{target_name}_success").show()
     $("##{target_name}_alert_box").show()
 
 @setTimeValidityClass = (parent, data) ->
@@ -71,21 +89,17 @@
   setValidationProperty(parent, data)
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
-    $("##{target_name}_error").show()
     $("##{target_name}_alert_box").addClass('bs-callout-danger')
     $("##{target_name}_hour").parent().addClass('has-error')
     $("##{target_name}_minutes").parent().addClass('has-error')
     $("##{target_name}_seconds").parent().addClass('has-error')
   if data['status'] == 'in_hard_range'
-    $("##{target_name}_warning").show()
     $("##{target_name}_hour").parent().addClass('has-warning')
     $("##{target_name}_minutes").parent().addClass('has-warning')
     $("##{target_name}_seconds").parent().addClass('has-warning')
     $("##{target_name}_alert_box").addClass('bs-callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
-    $("##{target_name}_success").show()
     $("##{target_name}_alert_box").show()
-
 
 @setVariableValidityClass = (parent, data) ->
   if $(parent).data('components') == 'date'
@@ -144,33 +158,6 @@
   ).fail( (jqXHR, textStatus, errorThrown) ->
     console.log("FAIL: #{textStatus} #{errorThrown}")
   )
-
-@checkOutOfRange = () ->
-  out_of_range_fields = $('[data-status]:visible').filter( () ->
-    $(this).data('status') == "out_of_range"
-  )
-  if out_of_range_fields.length > 0
-    alert('Some values are out of range!')
-    return false
-  true
-
-@checkRequired = () ->
-  required_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
-    $(this).data('status') == "blank"
-  )
-  if required_fields.length > 0
-    alert('Some required fields are not set!')
-    return false
-  true
-
-@checkInvalidFormat = () ->
-  invalid_format_fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
-    $(this).data('status') == "invalid"
-  )
-  if invalid_format_fields.length > 0
-    alert('Some values are invalid!')
-    return false
-  true
 
 @checkRequiredAndInvalidFormat = () ->
   fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->

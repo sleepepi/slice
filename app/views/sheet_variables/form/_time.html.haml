@@ -2,11 +2,7 @@
 
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 
-- if response.kind_of?(Hash)
-  - value = response
-- else
-  - time = parse_time(response)
-  - value = (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
+- value = variable.response_to_value(response)
 
 .time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time', status: variable.validator.status(value) } }
 
@@ -23,5 +19,5 @@
     = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
   - unless is_grid
     = link_to 'Clear', '#', data: { object: 'clear-time-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
-  = render 'validation/icons', target_name: target_name
+
 = render 'validation/full_message', variable: variable, value: value, target_name: target_name unless is_grid

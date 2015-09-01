@@ -459,16 +459,34 @@ class Variable < ActiveRecord::Base
     self.validator.value_in_range?(value)
   end
 
-  def required_on_design?(design)
+  def response_to_value(response)
+    self.validator.response_to_value(response)
+  end
+
+  def requirement_on_design(design)
     if option = get_option_on_design(design)
-      option[:required] == 'required'
+      option[:required].blank? ? 'optional' : option[:required]
     else
-      false
+      'optional'
     end
   end
 
   def get_option_on_design(design)
     design.options.select{|o| o[:variable_id] == self.id}.first rescue nil
+  end
+
+
+  def validate_value(design, value)
+    validation_hash = self.value_in_range?(value)
+    requirement = self.requirement_on_design(design)
+
+    if validation_hash[:status].in?(['invalid', 'out_of_range']) or (validation_hash[:status] == 'blank' and requirement == 'required')
+      'error'
+    elsif (validation_hash[:status] == 'blank' and requirement == 'recommended') or (validation_hash[:status] == 'in_hard_range')
+      'warning'
+    else
+      'valid'
+    end
   end
 
 end

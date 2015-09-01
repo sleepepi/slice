@@ -1,12 +1,8 @@
 - is_grid = defined?(grid)
 
 - target_name = field_name.gsub('[', '_').gsub(']', '')
-- if response.kind_of?(Hash)
-  - value = response
-- else
-  - date = parse_date(response)
-  - value = (date ? { month: date.month, day: date.day, year: date.year } : {})
 
+- value = variable.response_to_value(response)
 
 .date-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'date', status: variable.validator.status(value) } }
   - variable.date_order.each_with_index do |component, index|
@@ -18,5 +14,4 @@
     = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
   - unless is_grid
     = link_to 'Clear', '#', data: { object: 'clear-date-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
-  = render 'validation/icons', target_name: target_name
 = render 'validation/full_message', variable: variable, value: value, target_name: target_name unless is_grid

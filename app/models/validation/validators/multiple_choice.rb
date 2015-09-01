@@ -18,6 +18,10 @@ module Validation
         nil
       end
 
+      def response_to_value(response)
+        response.collect(&:to_s).reject(&:blank?) rescue response = []
+      end
+
     end
   end
 end

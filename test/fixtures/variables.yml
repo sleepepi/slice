@@ -110,6 +110,18 @@ integer:
   project: one
   domain: integer_unknown
 
+integer_no_range:
+  name: integer_no_range
+  display_name: Integer No Range
+  description: This integer has no range
+  variable_type: integer
+  # hard_minimum:
+  # soft_minimum:
+  # soft_maximum:
+  # hard_maximum:
+  user: valid
+  project: one
+
 numeric:
   name: var_weight
   display_name: Weight
@@ -129,6 +141,18 @@ date:
   date_hard_minimum: 1990-01-01
   # date_soft_maximum:
   date_soft_minimum: 2000-01-01
+
+date_no_range:
+  name: date_no_range
+  display_name: Date with No Range
+  description: This date has no range
+  variable_type: date
+  user: valid
+  project: one
+  # date_hard_maximum:
+  # date_hard_minimum:
+  # date_soft_maximum:
+  # date_soft_minimum:
 
 time:
   name: var_time

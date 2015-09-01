@@ -627,8 +627,9 @@ label.checkbox, label.radio {
 }
 
 .variable-shade, .variable-blind {
-  background-color: $body-bg;
   padding: 10px;
+  background-color: $body-bg;
+  border-left: 2px solid transparent;
 }
 
 .variable-shade {

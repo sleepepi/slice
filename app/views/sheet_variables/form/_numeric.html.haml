@@ -3,16 +3,13 @@
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 - value = response
 
-.row
-  .col-xs-10
-    %div{ class: "#{'input-group' unless variable.prepend.blank? and variable.units.blank? and variable.append.blank?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'numeric', status: variable.validator.status(value) } }
-      - unless variable.prepend.blank?
-        %span.input-group-addon= variable.prepend
-      = text_field_tag field_name, response, class: 'form-control', data: { object: 'condition cursor-navigatable', name: variable.name, variable_type: variable.variable_type, content: variable.description, grid_position: defined?(position) ? position : "", html: !variable.description.blank? }, title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip, disabled: disabled, rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}", autocomplete: 'off', placeholder: is_grid ? variable.display_name : nil
-      - unless variable.units.blank?
-        %span.input-group-addon= variable.units
-      - unless variable.append.blank?
-        %span.input-group-addon= variable.append
-  .col-xs-2
-    = render 'validation/icons', target_name: target_name
+%div{ class: "#{'input-group' unless variable.prepend.blank? and variable.units.blank? and variable.append.blank?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'numeric', status: variable.validator.status(value) } }
+  - unless variable.prepend.blank?
+    %span.input-group-addon= variable.prepend
+  = text_field_tag field_name, response, class: 'form-control', data: { object: 'condition cursor-navigatable', name: variable.name, variable_type: variable.variable_type, content: variable.description, grid_position: defined?(position) ? position : "", html: !variable.description.blank? }, title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip, disabled: disabled, rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}", autocomplete: 'off', placeholder: is_grid ? variable.display_name : nil
+  - unless variable.units.blank?
+    %span.input-group-addon= variable.units
+  - unless variable.append.blank?
+    %span.input-group-addon= variable.append
+
 = render 'validation/full_message', variable: variable, value: value, target_name: target_name unless is_grid
