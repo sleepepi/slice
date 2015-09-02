@@ -222,7 +222,12 @@
   def variable_javascript_value(variable_name)
     variable = self.design_pure_variables_cache.select{|v| v.name == variable_name}.first
     result = if variable
-      self.get_response(variable, :raw).to_json
+      result = if sheet_variable = self.sheet_variables.select{|sv| sv.variable_id == variable.id}.first
+        sheet_variable.get_response(:raw)
+      else
+        variable.variable_type == 'checkbox' ? [''] : ''
+      end
+      result.to_json
     else
       variable_name
     end
@@ -270,8 +275,17 @@
   #   end
   # end
 
-
-
+  # Does not currently build response objects or grids
+  def build_temp_sheet_variables(variables_params)
+    variables_params.each do |variable_id, response|
+      variable = self.project.variables.find_by_id(variable_id)
+      sv = self.sheet_variables.select{|sv| sv.variable_id == variable.id}.first
+      sv = self.sheet_variables.build(variable_id: variable.id) unless sv
+      variable.db_key_value_pairs(response).each do |key, db_formatted_value|
+        sv.send("#{key}=", db_formatted_value)
+      end
+    end
+  end
 
   def grids
     Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).select(:id))

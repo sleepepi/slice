@@ -56,6 +56,13 @@ module Validation
         end
       end
 
+      def db_key_value_pairs(response)
+        hour = parse_integer(response[:hour])
+        minutes = parse_integer(response[:minutes])
+        seconds = parse_integer(response[:seconds])
+
+        { response: parse_time_to_s("#{hour}:#{minutes}:#{seconds}", "") }
+      end
 
     private
 

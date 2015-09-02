@@ -47,6 +47,7 @@
   - Added better variable validation framework
     - Users are provided more immediate feedback when entering data on sheets
     - Data uses the same validation checks when saving on the server
+    - Branching logic and hidden required variables are accounted for during validation
 - **Sheet Changes**
   - Removed the Save and Continue button as it does not make as much sense in a subject-centric model
 - **Project Changes**

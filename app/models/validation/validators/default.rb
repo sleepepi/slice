@@ -71,6 +71,10 @@ module Validation
         MESSAGES
       end
 
+      def db_key_value_pairs(response)
+        { response: response }
+      end
+
     end
   end
 end

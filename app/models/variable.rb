@@ -471,6 +471,18 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def db_key_value_pairs(response)
+    self.validator.db_key_value_pairs(response)
+  end
+
+  def visible_on_sheet?(sheet)
+    if option = self.get_option_on_design(sheet.design)
+      sheet.show_variable?(option[:branching_logic])
+    else
+      true
+    end
+  end
+
   def get_option_on_design(design)
     design.options.select{|o| o[:variable_id] == self.id}.first rescue nil
   end

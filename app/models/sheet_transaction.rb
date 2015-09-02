@@ -11,18 +11,30 @@ class SheetTransaction < ActiveRecord::Base
   # Model Methods
 
   def self.validate_variable_values(sheet, variables_params)
+    # This alters modifies existing sheet variables on the sheet variable and
+    # adds new unsaved sheet variables. No changes are saved here.
+    sheet.build_temp_sheet_variables(variables_params)
+
     variables_params.each do |variable_id, value|
       variable = sheet.project.variables.find_by_id(variable_id)
       validation_hash = variable.value_in_range?(value)
-      design = sheet.design
-      case validation_hash[:status] when 'blank' # AND REQUIRED
-        sheet.errors.add(:base, "#{variable.name} can't be blank") if variable.requirement_on_design(sheet.design) == 'required'
-      when 'invalid'
-        sheet.errors.add(:base, "#{variable.name} is invalid")
-      when 'out_of_range'
-        sheet.errors.add(:base, "#{variable.name} is out of range")
+
+      # Skip if hidden, visible_on_sheet? requires "build_temp_sheet_variables"
+      # to work to correctly merge new values and existing sheet_variable responses
+      # before checking if the variable is visible
+      if variable.visible_on_sheet?(sheet)
+        case validation_hash[:status] when 'blank' # AND REQUIRED
+          sheet.errors.add(:base, "#{variable.name} can't be blank") if variable.requirement_on_design(sheet.design) == 'required'
+        when 'invalid'
+          sheet.errors.add(:base, "#{variable.name} is invalid")
+        when 'out_of_range'
+          sheet.errors.add(:base, "#{variable.name} is out of range")
+        end
       end
     end
+
+    # Make sure sheet_variables are cleared to accurately count errors.
+    sheet.sheet_variables.reload
     return sheet.errors.count == 0
   end
 

@@ -28,6 +28,14 @@ module Validation
         nil
       end
 
+      def db_key_value_pairs(response)
+        if response.kind_of?(Hash)
+          response
+        else
+          {}
+        end
+      end
+
     end
   end
 end

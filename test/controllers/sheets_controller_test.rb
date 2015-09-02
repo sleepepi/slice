@@ -239,6 +239,7 @@ class SheetsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:sheet)
+    assigns(:sheet).sheet_variables.reload
     assert_equal 127858751212122128384, assigns(:sheet).sheet_variables.first.get_response(:raw)
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
@@ -258,6 +259,7 @@ class SheetsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:sheet)
+    assigns(:sheet).sheet_variables.reload
     assert_equal "1992-05-02", assigns(:sheet).sheet_variables.first.get_response(:raw)
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]

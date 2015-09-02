@@ -44,6 +44,15 @@ module Validation
         end
       end
 
+      def db_key_value_pairs(response)
+        month = parse_integer(response[:month])
+        day = parse_integer(response[:day])
+        year = parse_integer(response[:year])
+
+        # Save valuable to string in "%Y-%m-%d" db format, passing in a date
+        { response: parse_date("#{month}/#{day}/#{year}") }
+      end
+
     private
 
       def get_date(value)

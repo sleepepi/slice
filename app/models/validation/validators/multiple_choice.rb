@@ -22,6 +22,15 @@ module Validation
         response.collect(&:to_s).reject(&:blank?) rescue response = []
       end
 
+      def db_key_value_pairs(response)
+        # TODO: Build responses here
+
+        # { responses: [...] }
+
+        # { response: response }
+        {}
+      end
+
     end
   end
 end
