@@ -42,7 +42,8 @@ has_no_validations:
   name: Design with no validations or ranges
   description: Design with no validations or ranges
   options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:integer_no_range) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:date_no_range) %>}]
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:date_no_range) %>},
+            { variable_id: <%= ActiveRecord::FixtureSet.identify(:time_of_day_no_range) %>}]
   user: valid
   project: one
 

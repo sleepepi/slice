@@ -265,6 +265,26 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+  test "should create sheet and save time of day to correct database format" do
+    assert_difference('SheetTransaction.count') do
+      assert_difference('Sheet.count') do
+        post :create, project_id: @project, sheet: { design_id: designs(:has_no_validations) },
+                      subject_code: @sheet.subject.subject_code,
+                      site_id: @sheet.subject.site_id,
+                      variables: {
+                        "#{variables(:time_of_day_no_range).id}" => { hour: '13', minutes: '2', seconds: '' }
+                      }
+      end
+
+    end
+
+    assert_not_nil assigns(:sheet)
+    assigns(:sheet).sheet_variables.reload
+    assert_equal "13:02:00", assigns(:sheet).sheet_variables.first.get_response(:raw)
+
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   test "should create sheet and lock sheet" do
     assert_difference('Sheet.count') do
       post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' },

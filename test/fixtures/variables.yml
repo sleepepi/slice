@@ -162,6 +162,14 @@ time:
   user: valid
   project: one
 
+time_of_day_no_range:
+  name: time_of_day_no_range
+  display_name: Time with No Range
+  description: This time has no range
+  variable_type: time
+  user: valid
+  project: one
+
 file:
   name: var_file
   display_name: Upload a Picture
