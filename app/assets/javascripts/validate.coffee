@@ -25,11 +25,10 @@
   $("##{target_name}_seconds").parent().removeClass('has-warning has-error')
   $("##{target_name}").parent().removeClass('has-warning has-error')
   $("##{target_name}_alert_box")
-    .removeClass('bs-callout-success bs-callout-warning bs-callout-danger')
+    .removeClass('bs-callout-warning bs-callout-danger')
 
 @setDefaultClassStyles = (target_name, data) ->
   $("##{target_name}_alert_box").show()
-  $("##{target_name}_alert_box").addClass('bs-callout-success')
   $("##{target_name}_message").html(data['message'])
   $("##{target_name}_formatted_value").html(data['formatted_value'])
 

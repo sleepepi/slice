@@ -19,7 +19,6 @@
     $("##{target_name}_month").parent().removeClass('has-error')
     $("##{target_name}_day").parent().removeClass('has-error')
     $("##{target_name}_year").parent().removeClass('has-error')
-    $("##{target_name}_alert_box").removeClass('bs-callout-success')
     $("##{target_name}_alert_box").removeClass('bs-callout-warning')
     $("##{target_name}_alert_box").removeClass('bs-callout-danger')
     if data
@@ -27,7 +26,6 @@
       $("##{target_name}_message").html(data['message'])
       $("##{target_name}_formatted_value").html(data['formatted_value'])
       $("##{target_name}_#{data['status']}").show()
-      $("##{target_name}_alert_box").addClass('bs-callout-success')
     if data['status'] == 'warning'
       $("##{target_name}_year").parent().addClass('has-warning')
       $("##{target_name}_alert_box").addClass('bs-callout-warning')

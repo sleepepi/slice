@@ -1,3 +1,9 @@
-.bs-callout{ id: "#{target_name}_alert_box", style: "padding-top:0px;padding-bottom:0px;#{'display:none' unless variable.validator.show_full_message?(value)}" }
+- additional_class = if validate_response == 'error'
+  - "bs-callout-danger"
+- elsif validate_response == 'warning'
+  - "bs-callout-warning"
+- else
+  - ""
+.bs-callout{ id: "#{target_name}_alert_box", style: "padding-top:0px;padding-bottom:0px;#{'display:none' unless variable.validator.show_full_message?(value)}", class: "#{additional_class}" }
   %strong{ id: "#{target_name}_formatted_value" }= variable.validator.formatted_value(value)
   %span{ id: "#{target_name}_message" }= variable.validator.message(value)
