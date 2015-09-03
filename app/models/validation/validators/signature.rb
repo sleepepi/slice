@@ -11,12 +11,30 @@ module Validation
         MESSAGES
       end
 
+      def blank_value?(value)
+        get_signature(value) == []
+      end
+
       def formatted_value(value)
         nil
       end
 
       def response_to_value(response)
         JSON.parse(response) rescue nil
+      end
+
+    private
+
+      def get_signature(value)
+        if value.kind_of?(Array)
+          value
+        else
+          begin
+            JSON.parse(value)
+          rescue
+            []
+          end
+        end
       end
 
     end
