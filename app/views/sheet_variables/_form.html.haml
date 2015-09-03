@@ -7,7 +7,11 @@
 - response = (params[:variables].blank? ? (sheet_variable ? sheet_variable.get_response(:raw) : nil) : params[:variables][variable.id.to_s])
 
 - value = variable.response_to_value(response)
-- validate_response = variable.validate_value(@design, value)
+
+- validate_response = if @sheet.errors.count > 0
+  - variable.validate_value(@design, value)
+- else
+  - 'blank'
 
 .form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'} #{'variable-errors' if validate_response == 'error'} #{'variable-warnings' if validate_response == 'warning'}", data: { object: "variable-container", required: "#{@option[:required] if @option}", required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type } }
   - if variable.uses_scale?
