@@ -17,7 +17,7 @@ module Validation
       def message(value)
         full_message = messages[status(value).to_sym]
 
-        if time = get_time(value) and
+        if time = get_time(value)
           prepend = if time.hour == 12 and time.min == 0 and time.sec == 0
             "at noon"
           elsif time.hour == 0 and time.min == 0 and time.sec == 0
@@ -45,6 +45,10 @@ module Validation
 
       def formatted_value(value)
         get_time(value).strftime("%-l:%M:%S %P") rescue nil
+      end
+
+      def show_full_message?(value)
+        self.message(value) != ''
       end
 
       def response_to_value(response)

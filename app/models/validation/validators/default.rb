@@ -45,6 +45,10 @@ module Validation
         value.to_s
       end
 
+      def show_full_message?(value)
+        false
+      end
+
       def response_to_value(response)
         response
       end

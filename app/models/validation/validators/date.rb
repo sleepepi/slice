@@ -34,6 +34,10 @@ module Validation
         get_date(value).strftime("%B %-d, %Y") rescue nil
       end
 
+      def show_full_message?(value)
+        self.message(value) != ''
+      end
+
       def response_to_value(response)
         if response.kind_of?(Hash)
           response
