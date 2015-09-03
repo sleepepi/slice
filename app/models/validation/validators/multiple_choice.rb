@@ -22,13 +22,14 @@ module Validation
         response.collect(&:to_s).reject(&:blank?) rescue response = []
       end
 
+      # This is not used by multiple choice
       def db_key_value_pairs(response)
-        # TODO: Build responses here
-
-        # { responses: [...] }
-
-        # { response: response }
         {}
+      end
+
+      def store_temp_response(in_memory_sheet_variable, response)
+        in_memory_sheet_variable.responses = self.response_to_value(response).collect{|value| Validation::InMemoryResponse.new(value)}
+        in_memory_sheet_variable
       end
 
     end

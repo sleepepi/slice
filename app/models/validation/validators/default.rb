@@ -75,6 +75,13 @@ module Validation
         { response: response }
       end
 
+      def store_temp_response(in_memory_sheet_variable, response)
+        self.db_key_value_pairs(response).each do |key, db_formatted_value|
+          in_memory_sheet_variable.send("#{key}=", db_formatted_value) if in_memory_sheet_variable.respond_to?("#{key}=")
+        end
+        in_memory_sheet_variable
+      end
+
     end
   end
 end

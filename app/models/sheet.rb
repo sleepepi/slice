@@ -275,18 +275,6 @@
   #   end
   # end
 
-  # Does not currently build response objects or grids
-  def build_temp_sheet_variables(variables_params)
-    variables_params.each do |variable_id, response|
-      variable = self.project.variables.find_by_id(variable_id)
-      sv = self.sheet_variables.select{|sv| sv.variable_id == variable.id}.first
-      sv = self.sheet_variables.build(variable_id: variable.id) unless sv
-      variable.db_key_value_pairs(response).each do |key, db_formatted_value|
-        sv.send("#{key}=", db_formatted_value)
-      end
-    end
-  end
-
   def grids
     Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).select(:id))
   end

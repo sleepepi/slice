@@ -19,7 +19,8 @@ module Valuables
     private
 
     def response_options
-      @object.variable.shared_options_select_values(@object.responses.pluck(:value))
+      # Collect is used here since responses may be "built" and not yet saved to database
+      @object.variable.shared_options_select_values(@object.responses.collect(&:value))
     end
 
   end
