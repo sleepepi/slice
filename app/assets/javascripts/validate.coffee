@@ -179,3 +179,6 @@ $(document)
   .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', () ->
     validateElement($(this))
   )
+  .on('change', '[data-object~="validate"] .checkbox input:checkbox, [data-object~="validate"] .radio input:radio', () ->
+    validateElement($(this))
+  )
