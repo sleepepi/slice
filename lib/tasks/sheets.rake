@@ -14,12 +14,14 @@ namespace :sheets do
         total_project_sheets = project.sheets.count
         project.sheets.order(:id).each_with_index do |sheet, index|
           in_memory_sheet = Validation::InMemorySheet.new(sheet)
+          count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{"%0.2f" % ((index + 1) * 100.0 / total_project_sheets)}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{"%0.2f" % ((current_sheet + 1) * 100.0 / total_sheets)}%)]"
           if in_memory_sheet.valid?
-            print "\r#{"%6d" % sheet.id}:" + " VALID".colorize(:green) + " [Sheet #{index + 1} of #{total_project_sheets} (#{"%0.2f" % ((index + 1) * 100.0 / total_project_sheets)}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{"%0.2f" % ((current_sheet + 1) * 100.0 / total_sheets)}%)]"
+            print "\r#{"%6d" % sheet.id}:" + " VALID".colorize(:green) + count_message
             project_results[project.id][:valid_sheets_count] += 1
           else
-            puts "\n#{"%6d" % sheet.id}:" + " NOT VALID".colorize(:red) + "  #{ENV['website_url']}/projects/#{sheet.project.to_param}/sheets/#{sheet.to_param}"
-            puts "\n        " + "#{in_memory_sheet.errors.count} error#{'s' unless in_memory_sheet.errors.count == 1}".colorize(:red)
+            puts "\n#{"%6d" % sheet.id}:" + " NOT VALID".colorize(:red) + count_message
+            puts "        " + "#{ENV['website_url']}/projects/#{sheet.project.to_param}/sheets/#{sheet.to_param}"
+            puts "        " + "#{in_memory_sheet.errors.count} error#{'s' unless in_memory_sheet.errors.count == 1}".colorize(:red)
             in_memory_sheet.errors.each do |error|
               puts "       " + " #{error}"
             end
@@ -33,7 +35,7 @@ namespace :sheets do
     end
 
     project_results.each do |key, hash|
-      puts "\n"
+      puts "\n\n"
       puts "#{hash[:name]}".colorize( hash[:invalid_sheets_count] == 0 ? :green : :red) + " #{ENV['website_url']}/projects/#{hash[:param]}"
       puts "  #{hash[:valid_sheets_count]} VALID sheet#{'s' unless hash[:valid_sheets_count] == 1}".colorize(:green) + ', ' + "#{hash[:invalid_sheets_count]} NOT VALID sheet#{'s' unless hash[:invalid_sheets_count] == 1}".colorize(hash[:invalid_sheets_count] == 0 ? :white : :red)
     end
