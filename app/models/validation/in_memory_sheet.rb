@@ -5,12 +5,14 @@
 module Validation
   class InMemorySheet
     attr_accessor :sheet_variables, :project, :variables, :design
+    attr_accessor :errors
 
     def initialize(sheet)
       @sheet_variables = sheet.sheet_variables.collect{|sv| InMemorySheetVariable.new(sv.variable, sv.response, sv.response_file, sv.responses)}
       @project = sheet.project
       @design = sheet.design
       @variables = []
+      @errors = []
     end
 
     def merge_form_params!(variables_params)
@@ -48,6 +50,27 @@ module Validation
       else
         true
       end
+    end
+
+    def valid?
+      @variables = @project.variables.where(id: @design.options.collect{ |option| option[:variable_id] }).to_a
+      @variables.each do |variable|
+        if visible_on_sheet?(variable)
+          sheet_variable = @sheet_variables.select{|sv| sv.variable.id == variable.id}.first
+
+          value = variable.response_to_value(sheet_variable ? sheet_variable.get_raw_response : nil)
+
+          validation_hash = variable.value_in_range?(value)
+          case validation_hash[:status] when 'blank' # AND REQUIRED
+            @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
+          when 'invalid'
+            @errors << "#{variable.name} is invalid"
+          when 'out_of_range'
+            @errors << "#{variable.name} is out of range"
+          end
+        end
+      end
+      @errors.count == 0
     end
 
 
