@@ -9,8 +9,9 @@
   - Two types of randomization algorithms are available to use
   - Randomization criteria are now stored when subject is randomized
   - When site is used as a stratification factor, subjects can only be stratified to their own site
-  - Site Editors can create and undo randomizations for subjects on their site
-  - Site Viewers can view all existing randomization for subjects on their site
+  - Site editors can create for subjects on their site
+  - Site viewers can view all existing randomization for subjects on their site
+  - Only project owners and editors can undo randomizations
   - Subject randomization criteria can be set to only allow distinguishing between eligible and ineligible subjects
   - Randomization goal progress bar is displayed for each randomization scheme
   - **Permuted-block Algorithm**
