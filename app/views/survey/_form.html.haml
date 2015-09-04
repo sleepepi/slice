@@ -1,0 +1,44 @@
+
+= hidden_field_tag 'isdirty', '1'
+
+- if @sheet.new_record?
+  - submit_url = new_survey_path(@design.slug)
+  - submit_method = :post
+  - submit_button = 'Submit Survey'
+- else
+  - submit_url = edit_survey_path(@design.slug, @sheet.authentication_token)
+  - submit_method = :patch
+  - submit_button = 'Resubmit Survey'
+
+- form_name = "survey_#{@design.id}_form"
+= form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |f|
+  - if @sheet.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize(@sheet.errors.count, "error")
+        prohibited this survey from being submitted
+
+  - if @sheet.new_record?
+    = hidden_field_tag :subject_id, @sheet.subject_id
+
+  - if @design.show_site?
+    .form-group
+      = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+      .col-md-10
+        = select_tag :site_id, options_for_select([['---', nil]] + @design.project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'
+
+  #design{ style: "min-height:200px" }
+    - params[:header] = '0'
+    = render "designs/selection"
+
+  .form-signin
+
+    - if @sheet.new_record? and @design.project.collect_email_on_surveys?
+      %p.lead Please enter your email
+      = email_field_tag :email, params[:email], class: 'form-control', placeholder: 'Email'
+    - else
+      %p.lead Thank you
+
+    = submit_tag submit_button, data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large'
+
+= form_tag new_survey_path(@design.slug), remote: true, method: :get, data: { object: 'form-load' }

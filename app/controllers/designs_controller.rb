@@ -1,5 +1,5 @@
 class DesignsController < ApplicationController
-  before_action :authenticate_user!,        except: [ :survey ]
+  before_action :authenticate_user!
   before_action :set_viewable_project,      only: [ :print, :report_print, :report, :overview, :master_verification ]
   before_action :set_editable_project_or_editable_site, only: [ :selection ]
   before_action :set_editable_project,      only: [ :index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :update_section_order, :update_option_order, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create ]
@@ -20,16 +20,6 @@ class DesignsController < ApplicationController
   def overview
     @statuses = params[:statuses] || ['valid']
     @sheets = current_user.all_viewable_sheets.original_entry.where( project_id: @project.id, design_id: @design.id ).with_subject_status(@statuses)
-  end
-
-  def survey
-    @project = Project.current.find_by_param(params[:project_id])
-    @design = @project.designs.where( publicly_available: true ).find_by_id(params[:id]) if @project
-    if @design
-      render layout: 'minimal_layout'
-    else
-      empty_response_or_root_path(about_path)
-    end
   end
 
   def json_import

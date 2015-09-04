@@ -1,8 +1,5 @@
 class SheetsController < ApplicationController
-  prepend_before_filter only: [ :survey, :submit_survey, :submit_public_survey ] { request.env["devise.skip_timeout"] = true }
-  skip_before_action :verify_authenticity_token, only: [ :survey, :submit_survey, :submit_public_survey ]
-
-  before_action :authenticate_user!, except: [ :survey, :submit_survey, :submit_public_survey ]
+  before_action :authenticate_user!
   before_action :set_viewable_project, only: [ :index, :show, :print, :file, :verification_report ]
   before_action :set_editable_project_or_editable_site, only: [ :edit, :transfer, :move_to_event, :double_data_entry, :transactions, :new, :create, :update, :destroy, :unlock ]
   before_action :redirect_without_project, only: [ :index, :show, :print, :edit, :transfer, :move_to_event, :double_data_entry, :verification_report, :transactions, :new, :create, :update, :destroy, :unlock, :file ]
@@ -115,51 +112,6 @@ class SheetsController < ApplicationController
   def double_data_entry
     redirect_to [@sheet.project, @sheet] if @sheet.verification_sheets.count > 0
     @double_data_entry_sheet = current_user.sheets.new(@sheet.shared_verification_params)
-  end
-
-  def survey
-    @project = Project.current.find_by_param(params[:project_id])
-    @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
-    respond_to do |format|
-      if @project and @sheet and not @sheet.locked?
-        @design = @sheet.design
-        format.html { render layout: 'minimal_layout' } # survey.html.erb
-        format.js   # survey.js.erb
-      else
-        format.html { redirect_to new_user_session_path, alert: 'Survey has been locked.' }
-        format.js { render nothing: true }
-      end
-    end
-  end
-
-  def submit_survey
-    @project = Project.current.find_by_param(params[:project_id])
-    @sheet = @project.sheets.where(id: params[:id]).find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
-    if @project and @sheet and not @sheet.locked?
-      SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_update')
-      redirect_to about_survey_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
-    else
-      redirect_to new_user_session_path, alert: 'Survey has been locked.'
-    end
-  end
-
-  def submit_public_survey
-    @project = Project.current.find_by_param(params[:project_id])
-    @design = @project.designs.find_by_id(params[:id]) if @project # :id is the design ID!
-    if @project and @design and @design.publicly_available?
-      @subject = @project.create_valid_subject(params[:email], params[:site_id])
-      @sheet = @project.sheets.new({ project_id: @project.id, design_id: @design.id, subject_id: @subject.id, authentication_token: Digest::SHA1.hexdigest(Time.now.usec.to_s) })
-      SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
-      UserMailer.survey_completed(@sheet).deliver_later if Rails.env.production?
-      UserMailer.survey_user_link(@sheet).deliver_later if Rails.env.production? and not @subject.email.blank?
-      if @design.redirect_url.blank?
-        redirect_to about_survey_path(project_id: @project.id, sheet_id: @sheet.id, sheet_authentication_token: @sheet.authentication_token)
-      else
-        redirect_to @design.redirect_url
-      end
-    else
-      redirect_to about_survey_path, alert: 'This survey no longer exists.'
-    end
   end
 
   def file

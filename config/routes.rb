@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   resources :comments
 
   get "survey", to: "survey#index", as: :about_survey
-  get "survey/:slug", to: "survey#show"
+  get "survey/:slug", to: "survey#new", as: :new_survey
+  get "survey/:slug/:sheet_authentication_token", to: "survey#edit", as: :edit_survey
+  post "survey/:slug", to: "survey#create"
+  patch "survey/:slug/:sheet_authentication_token", to: "survey#update"
   get "survey/:slug/sections/:section_id/image", to: "survey#section_image", as: :survey_section_image
 
   get "check-date", to: "application#check_date"
@@ -56,8 +59,6 @@ Rails.application.routes.draw do
         get :print
         get :file
         get :transactions
-        get :survey
-        post :submit_survey
         post :unlock
         get :double_data_entry
         get :verification_report
@@ -66,9 +67,6 @@ Rails.application.routes.draw do
         patch :move_to_event
       end
     end
-
-    get "surveys/:id" => "designs#survey", as: :survey
-    post "surveys/:id" => "sheets#submit_public_survey", as: :submit_public_survey
 
     resources :designs do
       member do

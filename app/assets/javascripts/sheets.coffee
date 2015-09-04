@@ -23,17 +23,6 @@
 
 @initializeSheet = (filter_element = '') ->
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
-  $("#{filter_element} .datepicker").datepicker('remove')
-  $("#{filter_element} .datepicker").datepicker( autoclose: true )
-
-  $("#{filter_element} .datepicker").change( () ->
-    try
-      $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val())))
-
-    catch error
-      # Nothing
-  )
-
 
   $("#{filter_element} [data-object~='variable-typeahead']").each( () ->
     $this = $(this)
@@ -43,13 +32,10 @@
   )
   updateAllVariables()
   updateCalculatedVariables()
-  $("span[rel~=tooltip], label[rel~=tooltip]").tooltip( trigger: 'hover' )
-  $("span[rel~=popover], label[rel~=popover]").popover( trigger: 'hover' )
   $( ".grid_sortable" ).sortable(
     axis: "y"
     handle: ".grid-handle"
   )
-  $('[rel=tooltip]').tooltip()
   signaturesReady()
 
 @evaluateBranchingLogic = () ->
@@ -78,7 +64,7 @@
       engine: Hogan
     )
   )
-  initializeSheet()
+  # initializeSheet() # TODO, revisit, this may be needed again in the future if the second AJAX request for sheets is removed
   activateSheetDraggables()
   activateEventDroppables()
 

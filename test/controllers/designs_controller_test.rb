@@ -21,29 +21,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_template 'overview'
   end
 
-  test "should get public survey" do
-    post :survey, id: designs(:admin_public_design), project_id: projects(:three)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal true, assigns(:design).publicly_available
-    assert_response :success
-  end
-
-  test "should not get private survey" do
-    assert_equal false, designs(:admin_design).publicly_available
-    post :survey, id: designs(:admin_design), project_id: projects(:three)
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:design)
-    assert_redirected_to about_path
-  end
-
-  test "should get survey for projects using a slugs" do
-    post :survey, id: designs(:on_slug_project), project_id: projects(:named_project)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
   test "should show progress" do
     post :progress, id: @design, project_id: @project, format: 'js'
     assert_not_nil assigns(:design)

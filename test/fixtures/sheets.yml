@@ -37,15 +37,34 @@ all_variables:
   last_user: valid
 
 external:
-  design: admin_design
+  design: admin_public_design
   project: three
   subject: external
   user: admin
   authentication_token: abc123
   last_user: admin
 
+external_locked:
+  design: admin_public_design
+  project: three
+  subject: external
+  user: admin
+  authentication_token: external_locked
+  last_user: admin
+  locked: true
+  first_locked_at: 2015-09-04 13:16:40
+  first_locked_by: admin
+
+external_with_required_fields:
+  design: admin_public_design_with_required_fields
+  project: three
+  subject: external
+  user: admin
+  authentication_token: external_with_required_fields
+  last_user: admin
+
 external_with_email:
-  design: admin_design
+  design: admin_public_design
   project: three
   subject: external_with_email
   user: admin
