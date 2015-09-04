@@ -48,7 +48,7 @@ module Validation
       end
 
       def show_full_message?(value)
-        self.message(value) != ''
+        true
       end
 
       def response_to_value(response)

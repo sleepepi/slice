@@ -35,7 +35,7 @@ module Validation
       end
 
       def show_full_message?(value)
-        self.formatted_value(value) != nil
+        true
       end
 
       def response_to_value(response)
