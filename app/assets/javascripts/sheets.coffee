@@ -22,6 +22,7 @@
 
 
 @initializeSheet = (filter_element = '') ->
+  timeInMs = Date.now()
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
 
   $("#{filter_element} [data-object~='variable-typeahead']").each( () ->
@@ -37,6 +38,7 @@
     handle: ".grid-handle"
   )
   signaturesReady()
+  console.log "Sheet initialized in #{Date.now() - timeInMs} ms"
 
 @evaluateBranchingLogic = () ->
   $('[data-object~="evaluate-branching-logic"]').each( (index, element) ->
