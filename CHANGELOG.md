@@ -73,6 +73,7 @@
 - Deleting a sheet now correctly redirects back to the subject page
 - Fixed a bug that prevented large integers from being saved to sheets
 - Fixed display of sparkline tooltips
+- Fixed an issue where "send emails" was listed twice on the sign up form
 
 ## 0.28.1  (June 10, 2015)
 

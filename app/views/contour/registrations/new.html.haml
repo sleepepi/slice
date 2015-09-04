@@ -14,10 +14,13 @@
           - resource.errors.full_messages.each do |msg|
             %li= msg
 
-    - Contour.sign_up_fields.each do |field_hash|
-      .form-group
-        = f.label field_hash[:attribute], class: 'control-label'
-        = f.send(field_hash[:type], field_hash[:attribute], class: 'form-control')
+    .form-group
+      = f.label :first_name, class: 'control-label'
+      = f.text_field :first_name, class: 'form-control'
+
+    .form-group
+      = f.label :last_name, class: 'control-label'
+      = f.text_field :last_name, class: 'form-control'
 
     .form-group
       = f.label :email, class: 'control-label'
