@@ -54,6 +54,7 @@
 - **Project Changes**
   - The invite process for new project and site, editors and viewers, has been simplified to allow new users to get added after registration to the appropriate site or project
   - Inviting collaborators to a project now also provides search results when typing in an email of an associated user
+  - The new randomization module can be enabled in the project settings
 - **Gem Changes**
   - Use of Ruby 2.2.3 is now recommended
   - Updated to rails 4.2.4

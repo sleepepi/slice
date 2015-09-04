@@ -4,7 +4,7 @@
     %ul
       %li= link_to 'Subjects', project_subjects_path(@project), class: "#{'active' if current_page?(project_subjects_path(@project))}"
       %li= link_to 'Sheets', project_sheets_path(@project), class: "#{'active' if current_page?(project_sheets_path(@project))}"
-      - if @project.randomization_schemes.count > 0
+      - if @project.randomizations_enabled? and @project.randomization_schemes.count > 0
         %li= link_to 'Randomizations', project_randomizations_path(@project), class: "#{'active' if current_page?(project_randomizations_path(@project))}"
       - if current_page?(project_sheets_path(@project))
         %li= link_to 'Export Data', '#', data: { object: 'show-contour-modal' }
@@ -20,4 +20,5 @@
       %ul
         %li= link_to 'Designs', project_designs_path(@project), class: "#{'active' if current_page?(project_designs_path(@project))}"
         %li= link_to 'Events', project_events_path(@project), class: "#{'active' if current_page?(project_events_path(@project))}"
-        %li= link_to 'Randomization Schemes', project_randomization_schemes_path(@project), class: "#{'active' if current_page?(project_randomization_schemes_path(@project))}"
+        - if @project.randomizations_enabled?
+          %li= link_to 'Randomization Schemes', project_randomization_schemes_path(@project), class: "#{'active' if current_page?(project_randomization_schemes_path(@project))}"

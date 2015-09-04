@@ -6,12 +6,14 @@ one:
   user: valid
   lockable: true
   logo: rails.png
+  randomizations_enabled: true
 
 two:
   name: Project Two
   description: MyText
   user: valid
   hide_values_on_pdfs: true
+  randomizations_enabled: true
 
 three:
   name: Project Three

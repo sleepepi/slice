@@ -172,6 +172,15 @@
           Checking This Will Enable Double Data Entry
 
   .form-group
+    .col-md-2
+      %label Randomizations
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :randomizations_enabled
+          Checking This Will Enable Subjects to Be Randomized
+
+  .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
       = cancel
