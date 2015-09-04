@@ -75,6 +75,7 @@
 - Fixed a bug that prevented large integers from being saved to sheets
 - Fixed display of sparkline tooltips
 - Fixed an issue where "send emails" was listed twice on the sign up form
+- Fixed a bug that removed options when the option name was cleared
 
 ## 0.28.1  (June 10, 2015)
 

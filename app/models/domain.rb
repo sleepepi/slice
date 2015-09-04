@@ -46,8 +46,9 @@ class Domain < ActiveRecord::Base
     result_a = check_for_colons
     result_b = check_value_uniqueness
     result_c = check_for_blank_values
+    result_d = check_for_blank_names
 
-    result_a and result_b and result_c
+    result_a and result_b and result_c and result_d
   end
 
   def check_for_colons
@@ -75,6 +76,16 @@ class Domain < ActiveRecord::Base
     option_values = self.options.collect{|option| option[:value]}
     if option_values.select{|opt| opt.to_s.strip.blank?}.size > 0
       self.errors.add(:option, "values can't be blank" )
+      result = false
+    end
+    result
+  end
+
+  def check_for_blank_names
+    result = true
+    option_names = self.options.collect{|option| option[:name]}
+    if option_names.select{|opt| opt.to_s.strip.blank?}.size > 0
+      self.errors.add(:option, "names can't be blank" )
       result = false
     end
     result
@@ -116,7 +127,7 @@ class Domain < ActiveRecord::Base
                         value: option_hash[:value].strip,
                         description: option_hash[:description].to_s.strip,
                         missing_code: option_hash[:missing_code].to_s.strip
-                      } unless option_hash[:name].strip.blank?
+                      } unless option_hash[:name].strip.blank? and option_hash[:value].strip.blank?
     end
   end
 
