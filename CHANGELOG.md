@@ -1,4 +1,4 @@
-## 0.29.0
+## 0.29.0 (September 8, 2015)
 
 ### Enhancements
 - **Randomizations Added**
