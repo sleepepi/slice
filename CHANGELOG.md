@@ -1,5 +1,8 @@
 ## 0.29.1
 
+### Bug Fix
+- Fixed a bug saving large floating point numbers
+
 ## 0.29.0 (September 8, 2015)
 
 ### Enhancements
