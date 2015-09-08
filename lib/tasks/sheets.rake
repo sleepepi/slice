@@ -13,19 +13,26 @@ namespace :sheets do
 
         total_project_sheets = project.sheets.count
         project.sheets.order(:id).each_with_index do |sheet, index|
-          in_memory_sheet = Validation::InMemorySheet.new(sheet)
           count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{"%0.2f" % ((index + 1) * 100.0 / total_project_sheets)}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{"%0.2f" % ((current_sheet + 1) * 100.0 / total_sheets)}%)]"
-          if in_memory_sheet.valid?
+          if sheet.successfully_validated?
             print "\r#{"%6d" % sheet.id}:" + " VALID".colorize(:green) + count_message
             project_results[project.id][:valid_sheets_count] += 1
           else
-            puts "\n#{"%6d" % sheet.id}:" + " NOT VALID".colorize(:red) + count_message
-            puts "        " + "#{ENV['website_url']}/projects/#{sheet.project.to_param}/sheets/#{sheet.to_param}"
-            puts "        " + "#{in_memory_sheet.errors.count} error#{'s' unless in_memory_sheet.errors.count == 1}".colorize(:red)
-            in_memory_sheet.errors.each do |error|
-              puts "       " + " #{error}"
+            in_memory_sheet = Validation::InMemorySheet.new(sheet)
+            if in_memory_sheet.valid?
+              print "\r#{"%6d" % sheet.id}:" + " VALID".colorize(:green) + count_message
+              project_results[project.id][:valid_sheets_count] += 1
+              sheet.update successfully_validated: true
+            else
+              puts "\n#{"%6d" % sheet.id}:" + " NOT VALID".colorize(:red) + count_message
+              puts "        " + "#{ENV['website_url']}/projects/#{sheet.project.to_param}/sheets/#{sheet.to_param}"
+              puts "        " + "#{in_memory_sheet.errors.count} error#{'s' unless in_memory_sheet.errors.count == 1}".colorize(:red)
+              in_memory_sheet.errors.each do |error|
+                puts "       " + " #{error}"
+              end
+              project_results[project.id][:invalid_sheets_count] += 1
+              sheet.update successfully_validated: false
             end
-            project_results[project.id][:invalid_sheets_count] += 1
           end
           current_sheet += 1
         end

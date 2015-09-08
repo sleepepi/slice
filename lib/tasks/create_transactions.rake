@@ -18,7 +18,7 @@ task :create_transactions => :environment do
       transaction_type = 'sheet_create'
       sheet_transaction = SheetTransaction.create( transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: sheet.user_id, remote_ip: (sheet.user ? sheet.user.current_sign_in_ip : nil) )
 
-      ignored_attributes = %w(id created_at updated_at authentication_token deleted response_count total_response_count)
+      ignored_attributes = %w(id created_at updated_at authentication_token deleted response_count total_response_count successfully_validated)
 
       sheet.attributes.reject{|k,v| ignored_attributes.include?(k.to_s)}.each do |k,v|
         value_before = nil

@@ -1,5 +1,9 @@
 ## 0.29.1
 
+### Enhancements
+- **Validation Changes**
+  - Updated rake task to cache sheet validation status
+
 ### Bug Fix
 - Fixed a bug saving large floating point numbers
 

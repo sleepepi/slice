@@ -49,7 +49,7 @@ class SheetTransaction < ActiveRecord::Base
       sheet.update(sheet_params)
     end
 
-    ignore_attributes = %w(created_at updated_at authentication_token deleted)
+    ignore_attributes = %w(created_at updated_at authentication_token deleted successfully_validated)
 
     original_attributes = sheet.previous_changes.collect{|k,v| [k,v[0]]}.reject{|k,v| ignore_attributes.include?(k.to_s)}
 
