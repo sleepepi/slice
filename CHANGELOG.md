@@ -43,7 +43,7 @@
 - **Admin Changes**
   - Admins can now disable user emails for accounts with invalid emails
 - **Design Changes**
-  - File type variables can now longer be added to grids
+  - File type variables can no longer be added to grids
   - Public surveys now adhere to variable validations on form submission
 - **Variable Changes**
   - Added better variable validation framework
