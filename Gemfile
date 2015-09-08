@@ -31,7 +31,7 @@ gem 'turbolinks'
 group :test do
   # Pretty printed test output
   gem 'minitest'
-  gem 'minitest-reporters'
+  gem 'minitest-reporters', '~> 1.0.20'
   gem 'simplecov',          '~> 0.10.0',           require: false
 end
 
