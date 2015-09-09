@@ -91,8 +91,8 @@ class UserMailer < ActionMailer::Base
     @user = user
     @email_to = user.email
     mail(to: user.email,
-         subject: "#{randomization.user.name} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
-         reply_to: randomization.user.email)
+         subject: "#{randomization.randomized_by.name if randomization.randomized_by} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
+         reply_to: (randomization.randomized_by ? randomization.randomized_by.email : nil))
   end
 
   protected

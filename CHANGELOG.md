@@ -6,6 +6,7 @@
 
 ### Bug Fix
 - Fixed a bug saving large floating point numbers
+- Randomization emails now correctly state who randomized the subject
 
 ## 0.29.0 (September 8, 2015)
 

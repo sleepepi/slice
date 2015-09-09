@@ -13,9 +13,10 @@ to
 = @randomization.treatment_arm.name
 on
 = link_to @randomization.project.name, "#{ENV['website_url']}/projects/#{@randomization.project.to_param}", style: "color: #428bca"
-by
-= succeed '.' do
-  = @randomization.user.name
+- if @randomization.randomized_by
+  by
+  = succeed '.' do
+    = @randomization.randomized_by.name
 %br
 %br
 %center
