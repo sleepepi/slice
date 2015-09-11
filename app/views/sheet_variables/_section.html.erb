@@ -10,5 +10,5 @@
   <% end %>
   <% section_description = @section ? @section.description : @option[:section_description] %>
   <%= simple_markdown section_description unless section_description.blank? %>
-  <%= render partial: 'sections/image' %>
+  <%= render 'sections/image', section: @section %>
 </div>

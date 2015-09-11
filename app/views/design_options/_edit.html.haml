@@ -1,0 +1,133 @@
+- if section = @design_option.section
+  .modal-header
+    %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+    %h4.modal-title
+      Edit Section
+  .modal-body
+    = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, enctype: "multipart/form-data", authenticity_token: true, class: 'form-horizontal', id: 'design_option_form' do
+      - if section.errors.any?
+        .bs-callout.bs-callout-danger
+          %h4
+            = pluralize(section.errors.count, "error")
+            prohibited this section from being saved
+
+          %ul
+            - section.errors.full_messages.each do |msg|
+              %li= msg
+      .form-group
+        %label.col-md-2.control-label Name
+        .col-md-10
+          = text_field_tag "section[name]", section.name, class: 'form-control'
+
+      .form-group
+        %label.col-md-2.control-label Description
+        .col-md-10
+          = text_area_tag "section[description]", section.description, rows: 3, class: 'form-control'
+
+      .form-group
+        %label.col-md-2.control-label Section Image
+        .col-md-10
+          .row
+            .col-md-6
+              = file_field_tag "section[image]", class: 'form-control', value: section.image
+            - if section.image and section.image.size > 0
+              .col-md-6
+                .sheet-container
+                  %label.checkbox.checkbox-inline.negation
+                    = check_box_tag "section[remove_image]", '1', false
+                    Remove Image
+                    %code= section.image.path.split('/').last
+                    %tt= number_to_human_size(section.image.size)
+
+      .form-group
+        %label.col-md-2.control-label Branching Logic
+        .col-md-10
+          = text_area_tag "design_option[branching_logic]", @design_option.branching_logic, rows: 3, class: 'form-control'
+          = render 'layouts/branching_logic_examples'
+
+      .form-group
+        .col-md-10.col-md-offset-2
+          .checkbox
+            %label
+              = hidden_field_tag "section[sub_section]", "0"
+              = check_box_tag "section[sub_section]", "1", section.sub_section?
+              Subsection
+  .modal-footer
+    = button_tag 'Update', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+    %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+- elsif variable = @design_option.variable
+  .modal-header
+    %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+    %h4.modal-title
+      Edit Variable
+      &middot;
+      = variable.name
+  .modal-body
+    = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: 'form-horizontal', id: 'design_option_form' do
+      - if variable.errors.any?
+        .bs-callout.bs-callout-danger
+          %h4
+            = pluralize(variable.errors.count, "error")
+            prohibited this variable from being saved
+
+          %ul
+            - variable.errors.full_messages.each do |msg|
+              %li= msg
+      .form-group
+        %label.col-md-2.control-label Display Name
+        .col-md-10
+          = text_field_tag "variable[display_name]", variable.display_name, autocomplete: 'off', class: 'form-control'
+          .bs-callout.bs-callout-info
+            %h4 Heads up!
+
+            %p
+              The display name is the question as displayed to the user who is
+              filling out the form.
+            %p
+              Ex:
+              %span.text-muted What is your age?
+
+      .form-group
+        %label.col-md-2.control-label Name
+        .col-md-10
+          = text_field_tag "variable[name]", variable.name, maxlength: 32, class: 'form-control'
+          .bs-callout.bs-callout-info
+            %h4 Naming convention
+
+            %ul
+              %li
+                Must be a letter
+                %code a-zA-Z
+                followed by letters
+                = succeed ',' do
+                  %code a-zA-Z
+                numbers
+                = succeed ',' do
+                  %code 0-9
+                or underscores
+                = succeed '.' do
+                  %code _
+              %li
+                Max length
+                = succeed '.' do
+                  %strong 32 characters
+            Ex:
+            %code var1_population
+
+      .form-group
+        %label.col-md-2.control-label Branching Logic (Show If)
+        .col-md-10
+          = text_area_tag "design_option[branching_logic]", @design_option.branching_logic, rows: 3, class: 'form-control'
+          = render 'layouts/branching_logic_examples'
+
+      - if ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'signature'].include?(variable.variable_type)
+        .form-group
+          %label.col-md-2.control-label Required on Form?
+          .col-md-10
+            = select_tag "design_option[required]", options_for_select([['Not Required', ''], ['Recommended', 'recommended'], ['Required', 'required']], @design_option.required), class: 'form-control'
+      - else
+        = hidden_field_tag "design_option[required]", ''
+
+  .modal-footer
+    = button_tag 'Update', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+    %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel

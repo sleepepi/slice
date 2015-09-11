@@ -1,0 +1,174 @@
+- if section = design_option.section
+  .row
+    .col-sm-6{ data: { object: "design-preview-expand" } }
+      - if section.sub_section?
+        %h3= section.name
+      - else
+        %h2= section.name
+      = simple_markdown section.description unless section.description.blank?
+      = render 'sections/image', section: section
+    .col-sm-6.design-preview-hide
+      %h4{ style: "margin-top:0px" } Section
+      .design-edit-box
+        %table.table.table-fixed{ style: "margin-bottom:0px" }
+          %col{ width: "30%" }
+          - unless design_option.branching_logic.blank?
+            %tr
+              %td
+                %strong Show If
+              %td
+                %code= design_option.branching_logic
+          %tr
+            %td{ style: "border-top-width:0px" }
+              %strong Actions
+            %td{ style: "border-top-width:0px" }
+              = link_to 'Edit Section', edit_project_design_design_option_path(@project, @design, design_option), remote: true, class: 'btn btn-xs btn-default'
+              = link_to 'Remove', project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Are you sure you want to remove section '#{section.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse'
+
+- elsif variable = design_option.variable
+  .row
+    .col-sm-6{ style: "overflow-x:scroll;overflow-y:hidden", data: { object: "design-preview-expand" } }
+      - if variable.deleted?
+        .form-group.error
+          %label.col-md-3.control-label= variable.display_name
+          .col-md-9
+            %div{ style: "line-height:30px" }
+              This variable has been deleted.
+              - variable.deleted = false
+              - if variable.valid?
+                You can
+                = link_to 'restore', restore_project_variable_path(@project, variable), method: :post, class: 'btn btn-xs btn-success'
+                or
+              - else
+                A new variable with the same name already exists.
+                %br
+                You can
+              = link_to 'remove', '#', data: { object: 'push-partial-change', delete: 'variable', position: @position, confirm: "Are you sure you want to remove '#{variable.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse'
+              this variable from the design.
+              - variable.deleted = true
+      - else
+        - if not variable.uses_scale? and ['invisible', 'gone'].include?(variable.display_name_visibility)
+          %label
+            = variable.display_name
+            = render 'design_options/required', design_option: design_option
+
+        .form-group
+          - if not variable.uses_scale? and 'visible' == variable.display_name_visibility
+            %label.col-md-3.control-label
+              = variable.display_name
+              = render 'design_options/required', design_option: design_option
+
+          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')} #{'col-md-offset-3' if variable.display_name_visibility == 'invisible' and not variable.uses_scale?}" }
+            %div{ style: "line-height:30px" }
+              - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
+                = render "designs/interactive/show/types/#{variable.variable_type}", variable: variable, design_option: design_option
+    .col-sm-6.design-preview-hide
+      %h4{ style: "margin-top:0px" } Variable
+      .design-edit-box
+        %table.table.table-fixed{ style: "margin-bottom:0px" }
+          %col{ width: "30%" }
+          %tr
+            %td{ style: "border-top-width:0px" }
+              %strong Name
+            %td{ style: "border-top-width:0px" }
+              %code= variable.name
+          - unless design_option.branching_logic.blank?
+            %tr
+              %td
+                %strong Show If
+              %td
+                %code= design_option.branching_logic
+          - unless variable.deleted?
+            - variable_types = if ['string', 'text'].include?(variable.variable_type)
+              - ['string', 'text']
+            - elsif ['integer', 'numeric'].include?(variable.variable_type)
+              - ['integer', 'numeric']
+            - elsif ['radio', 'dropdown'].include?(variable.variable_type)
+              - ['radio', 'dropdown']
+            - else
+              - [variable.variable_type]
+            - if variable_types.size > 1
+              %tr
+                %td
+                  %strong Type
+                %td
+                  .btn-group{ data: { toggle: "buttons" } }
+                    - variable_types.collect{|v| [v,v]}.each do |label, value|
+                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.variable_type == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"variable_type\":\"#{value}\"}}", position: "#{@position}" } }
+                        = radio_button_tag "variable_type", value, variable.variable_type == value
+                        = label
+
+            - if ['radio', 'checkbox'].include?(variable.variable_type)
+              %tr
+                %td
+                  %strong Options Alignment
+                %td
+                  .btn-group{ data: { toggle: "buttons" } }
+                    - Variable::ALIGNMENT.each do |label, value|
+                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.alignment == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"alignment\":\"#{value}\"}}", position: "#{@position}" } }
+                        = radio_button_tag "alignment", value, variable.alignment == value
+                        = label
+
+            - unless ['radio', 'checkbox'].include?(variable.variable_type) and variable.alignment == 'scale'
+              %tr
+                %td
+                  %strong Display Name
+                %td
+                  .btn-group{ data: { toggle: "buttons" } }
+                    - Variable::DISPLAY_NAME_VISIBILITY.each do |label, value|
+                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.display_name_visibility == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"display_name_visibility\":\"#{value}\"}}", position: "#{@position}" } }
+                        = radio_button_tag "display_name_visibility", value, variable.display_name_visibility == value
+                        = label
+
+            - if ['time', 'date'].include?(variable.variable_type)
+              %tr
+                %td
+                  %strong
+                    Current
+                    = variable.variable_type.titleize
+                    Button
+                  %td
+                    .btn-group{ data: { toggle: "buttons" } }
+                      - [['show', true],['hide', false]].each do |label, value|
+                        %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.show_current_button == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"show_current_button\":\"#{value}\"}}", position: "#{@position}" } }
+                          = radio_button_tag "show_current_button", value, variable.show_current_button == value
+                          = label
+
+            - if ['date'].include?(variable.variable_type)
+              %tr
+                %td
+                  %strong Date Format
+                %td
+                  .btn-group{ data: { toggle: "buttons" } }
+                    - [['MM/DD/YYYY', '%m/%d/%Y'],['DD/MM/YYYY', '%d/%m/%Y'],['YYYY-MM-DD', '%Y-%m-%d']].each do |label, value|
+                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.format == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"format\":\"#{value}\"}}", position: "#{@position}" } }
+                        = radio_button_tag "format", value, variable.format == value
+                        = label
+
+            - if ['grid'].include?(variable.variable_type)
+              %tr
+                %td
+                  %strong Allow Multiple Rows
+                %td
+                  .btn-group{ data: { toggle: "buttons" } }
+                    - [['enabled', true],['disabled', false]].each do |label, value|
+                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.multiple_rows == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"multiple_rows\":\"#{value}\"}}", position: "#{@position}" } }
+                        = radio_button_tag "multiple_rows", value, variable.multiple_rows == value
+                        = label
+              %tr
+                %td
+                  %strong Default Row Number
+                %td
+                  = link_to variable.default_row_number, '#', data: { object: 'pull-partial-edit', edit: 'variable_grid_rows', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-default'
+          %tr
+            %td
+              %strong Actions
+            %td
+              - if variable.deleted?
+                - variable.deleted = false
+                - if variable.valid?
+                  = link_to 'Restore', restore_project_variable_path(@project, variable), method: :post, class: 'btn btn-xs btn-success'
+                - variable.deleted = true
+              - else
+                = link_to 'Edit', edit_project_design_design_option_path(@project, @design, design_option), remote: true, class: 'btn btn-xs btn-default'
+              = link_to 'Remove', project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Are you sure you want to remove variable '#{variable.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse'

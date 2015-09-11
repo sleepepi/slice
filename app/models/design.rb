@@ -34,8 +34,15 @@ class Design < ActiveRecord::Base
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
   has_many :event_designs
 
+  has_many :design_options, -> { order :position }
+  has_many :dbvariables, through: :design_options, source: :variable
+
 
   # Model Methods
+
+  def options
+    []
+  end
 
   def questions
     @questions || [ { question_name: '', question_type: 'free text' } ]

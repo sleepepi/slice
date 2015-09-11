@@ -1,0 +1,7 @@
+-# %form.form-horizontal
+.form-horizontal
+  = render 'design_options/new', position: 0
+  - @design.design_options.each_with_index do |design_option, position|
+    .interactive-variable-section-container{ id: "design_option_#{design_option.id}_container" }
+      = render 'design_options/show', design_option: design_option
+    = render 'design_options/new', position: position + 1

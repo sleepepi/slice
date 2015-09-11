@@ -1,6 +1,8 @@
 ## 0.30.0
 
 ### Enhancements
+- **Design Changes**
+  - Improved the method in which variables and sections are linked to designs
 - **Gem Changes**
   - Updated to pg 0.18.3
 

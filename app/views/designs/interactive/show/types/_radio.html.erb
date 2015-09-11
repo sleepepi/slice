@@ -18,7 +18,7 @@
       <tr>
         <td style="font-weight:bold">
           <%= variable.display_name %>
-          <%= render partial: 'options/required', locals: { option: @option } %>
+          <%= render 'design_options/required', design_option: design_option %>
         </td>
         <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing| %>
           <td style="text-align:center" class="sheet-container">

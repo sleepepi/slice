@@ -1,0 +1,8 @@
+$("#design_option_<%= @design_option.id %>_container").html("<%=j render 'design_options/show', design_option: @design_option %>");
+
+hideInteractiveDesignModal();
+$(".chzn-select").chosen({ allow_single_deselect: true });
+
+$(".active[data-object~='edit-mode']").click();
+$(".active[data-object~='preview-mode']").click();
+

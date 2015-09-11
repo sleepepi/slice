@@ -98,6 +98,9 @@ Rails.application.routes.draw do
           get :image
         end
       end
+
+      resources :design_options
+
     end
 
     resources :domains do

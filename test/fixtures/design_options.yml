@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   design_id: 1
+#   variable_id: 1
+#   section_id: 1
+#   position: 1
+#   required: MyString
+#   branching_logic: MyText
+
+# two:
+#   design_id: 1
+#   variable_id: 1
+#   section_id: 1
+#   position: 1
+#   required: MyString
+#   branching_logic: MyText

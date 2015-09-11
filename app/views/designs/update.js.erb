@@ -9,7 +9,7 @@
   <% if params[:update] == 'design_name' %>
     $("#design_name-container").html("<%= escape_javascript(render("designs/interactive/show/design_name")) %>");
   <% elsif (params[:variable] and params[:variable][:alignment]) or ['domain'].include?(params[:update]) or ['section', 'variable', 'domain'].include?(params[:create]) or ['section', 'variable'].include?(params[:delete]) %>
-    $("#design-sections-and-variables-container").html("<%= escape_javascript(render("designs/interactive/show/sections_and_variables")) %>");
+    $("#design-options").html("<%=j render 'design_options/index' %>");
   <% elsif ['section', 'variable'].include?(params[:update]) %>
     <% @position = params[:position].to_i %>
     <% @option = @design.options[@position] %>
