@@ -1,7 +1,7 @@
 <% if params[:target_name].blank? %>
-  $('#variables_<%= @variable.id %>').val("<%= escape_javascript(@result) %>");
-  $('#variables_<%= @variable.id %>_calculation_result').val("<%= escape_javascript(@result) %>");
+  $('#variables_<%= @variable.id %>').val("<%=j @result %>");
+  $('#variables_<%= @variable.id %>_calculation_result').val("<%=j @result %>");
 <% else %>
-  $('#<%= params[:target_name] %>').val("<%= escape_javascript(@result) %>");
-  $('#<%= params[:target_name] %>_calculation_result').val("<%= escape_javascript(@result) %>");
+  $('#<%= params[:target_name] %>').val("<%=j @result %>");
+  $('#<%= params[:target_name] %>_calculation_result').val("<%=j @result %>");
 <% end %>

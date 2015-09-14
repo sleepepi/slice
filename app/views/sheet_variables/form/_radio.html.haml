@@ -24,7 +24,7 @@
         %tr
           %td{ style: "font-weight:bold" }
             = variable.display_name
-            = render 'options/required', option: @option
+            = render 'design_options/required', design_option: design_option
           - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing|
             %td.text-center.sheet-container
               - selected = (value == response)

@@ -1,0 +1,7 @@
+.page-header{ id: "section_#{section.id}", data: { object: "variable-container" } }
+  - if section.sub_section?
+    %h3= section.name
+  - else
+    %h2= section.name
+  = simple_markdown section.description unless section.description.blank?
+  = render 'sections/image', design_option: design_option, section: section

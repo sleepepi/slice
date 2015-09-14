@@ -1,5 +1,5 @@
-$('#reorder_options_container').html("<%= escape_javascript(render("reorder_options")) %>");
-$('#reorder_sections_container').html("<%= escape_javascript(render("reorder_sections")) %>");
+$('#reorder_options_container').html("<%=j render 'design_options/reorder_options' %>");
+$('#reorder_sections_container').html("<%=j render 'design_options/reorder_sections' %>");
 
 initializeDesignReordering();
 

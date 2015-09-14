@@ -73,8 +73,6 @@ Rails.application.routes.draw do
         get :copy
         get :print
         get :reorder
-        post :update_section_order
-        post :update_option_order
         get :report
         post :report
         get :report_print
@@ -99,7 +97,12 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :design_options
+      resources :design_options do
+        collection do
+          post :update_section_order
+          post :update_option_order
+        end
+      end
 
     end
 

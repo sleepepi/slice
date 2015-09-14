@@ -40,9 +40,9 @@ class Design < ActiveRecord::Base
 
   # Model Methods
 
-  def options
-    []
-  end
+  # def options
+  #   []
+  # end
 
   def questions
     @questions || [ { question_name: '', question_type: 'free text' } ]
@@ -195,7 +195,8 @@ class Design < ActiveRecord::Base
   end
 
   def variable_at(position)
-    variable = Variable.find_by_id(self.options[position][:variable_id]) if self.options[position]
+    design_option = self.design_options[position]
+    design_option.variable if design_option
   end
 
   def editable_by?(current_user)
@@ -223,14 +224,14 @@ class Design < ActiveRecord::Base
     result
   end
 
-  def check_section_names
-    result = true
-    if self.section_names.uniq.size < self.section_names.size
-      self.errors.add(:section_names, "must be unique")
-      result = false
-    end
-    result
-  end
+  # def check_section_names
+  #   result = true
+  #   if self.section_names.uniq.size < self.section_names.size
+  #     self.errors.add(:section_names, "must be unique")
+  #     result = false
+  #   end
+  #   result
+  # end
 
   def options_with_grid_sub_variables
     new_options = []
@@ -290,53 +291,49 @@ class Design < ActiveRecord::Base
     end
   end
 
-  def variable_ids
-    @variable_ids ||= begin
-      self.options.select{|option| not option[:variable_id].blank?}.collect{|option| option[:variable_id].to_i}
-    end
-  end
+  # def variable_ids
+  #   @variable_ids ||= begin
+  #     self.options.select{|option| not option[:variable_id].blank?}.collect{|option| option[:variable_id].to_i}
+  #   end
+  # end
 
-  def subsections(section_name)
-    section_index = (self.options.index{|opt| opt[:section_name] == section_name} + 1) rescue nil
-    section_subsections = []
-    if section_index >= 0
-      self.options[section_index..-1].select{|o| not o[:section_name].blank?}.each do |option|
-        break if option[:section_type].to_i == 0
-        section_subsections << option
-      end
-    end
-    section_subsections
-  end
+  # def subsections(section_name)
+  #   section_index = (self.options.index{|opt| opt[:section_name] == section_name} + 1) rescue nil
+  #   section_subsections = []
+  #   if section_index >= 0
+  #     self.options[section_index..-1].select{|o| not o[:section_name].blank?}.each do |option|
+  #       break if option[:section_type].to_i == 0
+  #       section_subsections << option
+  #     end
+  #   end
+  #   section_subsections
+  # end
 
   def main_sections
-    self.options.select{|option| not option[:section_name].blank? and option[:section_type].to_i == 0}
+    self.design_options.joins(:section).where(sections: { sub_section: false })
   end
 
-  def all_sections
-    self.options.select{|option| not option[:section_name].blank?}
-  end
+  # def all_sections
+  #   self.options.select{|option| not option[:section_name].blank?}
+  # end
 
-  def section_names
-    @section_names ||= begin
-      self.all_sections.collect{|option| option[:section_name]}
-    end
-  end
+  # def section_names
+  #   @section_names ||= begin
+  #     self.all_sections.collect{|option| option[:section_name]}
+  #   end
+  # end
 
-  def main_section_names
-    self.main_sections.collect{|option| option[:section_name]}
-  end
+  # # ActiveRecord...
+  # def pure_variables
+  #   @pure_variables ||= begin
+  #     Variable.current.where(id: variable_ids)
+  #   end
+  # end
 
-  # ActiveRecord...
-  def pure_variables
-    @pure_variables ||= begin
-      Variable.current.where(id: variable_ids)
-    end
-  end
-
-  # Array...
-  def variables
-    pure_variables.sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
-  end
+  # # Array...
+  # def variables
+  #   pure_variables.sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
+  # end
 
   def reportable_variables(variable_types, except_variable_ids = [0])
     self.pure_variables.where("variables.id NOT IN (?)", except_variable_ids).where(variable_type: variable_types).sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }.collect{|v| [self.containing_section(v.id), v.display_name, v.id]}
@@ -352,14 +349,14 @@ class Design < ActiveRecord::Base
   end
 
   def reorder_sections(section_order, current_user)
-    return if section_order.size == 0 or section_order.sort != (0..self.main_section_names.size - 1).to_a
+    return if section_order.size == 0 or section_order.sort != (0..self.main_sections.count - 1).to_a
     original_sections = {}
 
     current_section = nil
     range_start = 0
     section_count = 0
-    self.options.each_with_index do |option, index|
-      if option[:section_name].blank? or option[:section_type].to_i > 0
+    self.design_options.each_with_index do |design_option, index|
+      if design_option.variable or (section = design_option.section and section.sub_section?)
         original_sections[current_section] = [range_start, index]
       else
         current_section = section_count
@@ -379,21 +376,12 @@ class Design < ActiveRecord::Base
   end
 
   def reorder_options(row_order, current_user)
-    return if row_order.size == 0 or row_order.sort != (0..self.options.size - 1).to_a
-
-    original_options = self.options
-    new_options = []
-
-    row_order.each_with_index do |row, new_location|
-      old_location = row
-      new_options << original_options[old_location]
+    return if row_order.size == 0 or row_order.sort != (0..self.design_options.count - 1).to_a
+    self.design_options.each do |design_option|
+      design_option.update position: row_order.index(design_option.position)
     end
-
-    # Only change if the options match up
-    if new_options.size == original_options.size
-      self.update_attributes updater_id: current_user.id, options: new_options
-      self.reload
-    end
+    self.update updater_id: current_user.id
+    self.reload
   end
 
   def latex_partial(partial)

@@ -1,17 +1,466 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+## Design One
 
-# one:
-#   design_id: 1
-#   variable_id: 1
-#   section_id: 1
-#   position: 1
-#   required: MyString
-#   branching_logic: MyText
+one_one:
+  design: one
+  variable: one
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
 
-# two:
-#   design_id: 1
-#   variable_id: 1
-#   section_id: 1
-#   position: 1
-#   required: MyString
-#   branching_logic: MyText
+one_two:
+  design: one
+  variable: two
+  # section:
+  position: 1
+  # required:
+  branching_logic: var_1 == 1
+
+one_date:
+  design: one
+  variable: date
+  # section:
+  position: 2
+  # required:
+  # branching_logic:
+
+## Design Two
+
+two_checkbox_two:
+  design: two
+  variable: checkbox_two
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+two_numeric_two:
+  design: two
+  variable: numeric_two
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+two_dropdown_two:
+  design: two
+  variable: dropdown_two
+  # section:
+  position: 2
+  # required:
+  # branching_logic:
+two_time_two:
+  design: two
+  variable: time_two
+  # section:
+  position: 3
+  # required:
+  # branching_logic:
+
+## Design All Variable Types
+
+all_variable_types_dropdown:
+  design: all_variable_types
+  variable: dropdown
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+all_variable_types_checkbox:
+  design: all_variable_types
+  variable: checkbox
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+all_variable_types_radio:
+  design: all_variable_types
+  variable: radio
+  # section:
+  position: 2
+  # required:
+  # branching_logic:
+
+all_variable_types_string:
+  design: all_variable_types
+  variable: string
+  # section:
+  position: 3
+  # required:
+  branching_logic: "var_year == 1 || overlap(var_course_work, ['acct101', 'econ101'], 1)"
+
+all_variable_types_text:
+  design: all_variable_types
+  variable: text
+  # section:
+  position: 4
+  # required:
+  # branching_logic:
+
+all_variable_types_integer:
+  design: all_variable_types
+  variable: integer
+  # section:
+  position: 5
+  # required:
+  # branching_logic:
+
+all_variable_types_numeric:
+  design: all_variable_types
+  variable: numeric
+  # section:
+  position: 6
+  # required:
+  # branching_logic:
+
+all_variable_types_date:
+  design: all_variable_types
+  variable: date
+  # section:
+  position: 7
+  # required:
+  # branching_logic:
+
+all_variable_types_file:
+  design: all_variable_types
+  variable: file
+  # section:
+  position: 8
+  # required:
+  # branching_logic:
+
+all_variable_types_time:
+  design: all_variable_types
+  variable: time
+  # section:
+  position: 9
+  # required:
+  # branching_logic:
+
+all_variable_types_calculated:
+  design: all_variable_types
+  variable: calculated
+  # section:
+  position: 10
+  # required:
+  # branching_logic:
+
+## Design Has No Validations
+
+has_no_validations_integer_no_range:
+  design: has_no_validations
+  variable: integer_no_range
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+has_no_validations_date_no_range:
+  design: has_no_validations
+  variable: date_no_range
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+has_no_validations_time_of_day_no_range:
+  design: has_no_validations
+  variable: time_of_day_no_range
+  # section:
+  position: 2
+  # required:
+  # branching_logic:
+
+
+## Design with Sections and Variables
+
+sections_and_variables_date:
+  design: sections_and_variables
+  variable: date
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+sections_and_variables_sectiona:
+  design: sections_and_variables
+  # variable:
+  section: sectiona
+  position: 1
+  # required:
+  # branching_logic:
+
+sections_and_variables_dropdown:
+  design: sections_and_variables
+  variable: dropdown
+  # section:
+  position: 2
+  # required:
+  # branching_logic:
+
+sections_and_variables_checkbox:
+  design: sections_and_variables
+  variable: checkbox
+  # section:
+  position: 3
+  # required:
+  # branching_logic:
+
+sections_and_variables_radio:
+  design: sections_and_variables
+  variable: radio
+  # section:
+  position: 4
+  # required:
+  # branching_logic:
+
+sections_and_variables_sectionb:
+  design: sections_and_variables
+  # variable:
+  section: sectionb
+  position: 5
+  # required:
+  # branching_logic:
+
+sections_and_variables_string:
+  design: sections_and_variables
+  variable: string
+  # section:
+  position: 6
+  # required:
+  # branching_logic:
+
+sections_and_variables_text:
+  design: sections_and_variables
+  variable: text
+  # section:
+  position: 7
+  # required:
+  # branching_logic:
+
+sections_and_variables_integer:
+  design: sections_and_variables
+  variable: integer
+  # section:
+  position: 8
+  # required:
+  # branching_logic:
+
+sections_and_variables_numeric:
+  design: sections_and_variables
+  variable: numeric
+  # section:
+  position: 9
+  # required:
+  # branching_logic:
+
+sections_and_variables_file:
+  design: sections_and_variables
+  variable: file
+  # section:
+  position: 10
+  # required:
+  # branching_logic:
+
+## Design with Section and File
+
+section_and_file_sectiona:
+  design: section_and_file
+  # variable:
+  section: header_section_a
+  position: 0
+  # required:
+  # branching_logic:
+
+section_and_file_file:
+  design: section_and_file
+  variable: file
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+## Design with Grid
+
+has_grid_section:
+  design: has_grid
+  # variable:
+  section: grid_header
+  position: 0
+  # required:
+  # branching_logic:
+
+has_grid_grid:
+  design: has_grid
+  variable: grid
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+## No Sites Design
+
+no_sites_section:
+  design: no_sites
+  # variable:
+  section: no_sites_header
+  position: 0
+  # required:
+  # branching_logic:
+
+## Admin Design
+
+admin_design_section:
+  design: admin_design
+  # variable:
+  section: admin_design_header
+  position: 0
+  # required:
+  # branching_logic:
+
+## Admin Public Design
+admin_public_design_section:
+  design: admin_public_design
+  # variable:
+  section: public
+  position: 0
+  # required:
+  # branching_logic:
+
+admin_public_design_public_autocomplete:
+  design: admin_public_design
+  variable: public_autocomplete
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+## Admin Public Design with Required Fields
+
+admin_public_design_with_required_fields_section:
+  design: admin_public_design_with_required_fields
+  # variable:
+  section: public_with_required_fields_section
+  position: 0
+  # required:
+  # branching_logic:
+
+admin_public_design_with_required_fields_public_autocomplete:
+  design: admin_public_design_with_required_fields
+  variable: public_autocomplete
+  # section:
+  position: 1
+  required: required
+  # branching_logic:
+
+## Admin Public Design with Redirect
+
+admin_public_design_with_redirect_section:
+  design: admin_public_design_with_redirect
+  # variable:
+  section: public_with_required_fields_section
+  position: 0
+  # required:
+  # branching_logic:
+
+admin_public_design_with_redirect_public_autocomplete:
+  design: admin_public_design_with_redirect
+  variable: public_autocomplete
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+## Single Design Project
+
+single_design_section:
+  design: single_design
+  # variable:
+  section: single_design_section
+  position: 0
+  # required:
+  # branching_logic:
+
+## One Sheet Entered
+
+one_sheet_entered_data_captured:
+  design: one_sheet_entered
+  variable: public_autocomplete
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+## Weight and Gender Design
+
+weight_and_gender_weight:
+  design: weight_and_gender
+  variable: weight
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+weight_and_gender_gender:
+  design: weight_and_gender
+  variable: gender
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+## Two Scale Variables
+
+two_scale_variables_change_domain_options:
+  design: two_scale_variables
+  variable: change_domain_options
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+two_scale_variables_scale:
+  design: two_scale_variables
+  variable: scale
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+## Single Scale in Grid
+
+contains_single_scale_in_grid_grid_with_scale_variable:
+  design: contains_single_scale_in_grid
+  variable: grid_with_scale_variable
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+## Checkbox and Radio
+
+checkbox_and_radio_checkbox:
+  design: checkbox_and_radio
+  variable: checkbox
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+
+checkbox_and_radio_radio:
+  design: checkbox_and_radio
+  variable: radio
+  # section:
+  position: 1
+  # required:
+  # branching_logic:
+
+## On Slug Project
+
+on_slug_project_string_on_survey:
+  design: on_slug_project
+  variable: string_on_survey
+  # section:
+  position: 0
+  # required:
+  # branching_logic:

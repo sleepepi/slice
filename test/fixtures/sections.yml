@@ -41,3 +41,92 @@ private:
   user: valid
 
 
+sectiona:
+  name: Section A
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: sections_and_variables
+  user: valid
+
+sectionb:
+  name: Section B
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: sections_and_variables
+  user: valid
+
+header_section_a:
+  name: Section A
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: section_and_file
+  user: valid
+
+grid_header:
+  name: Grid to Follow
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: has_grid
+  user: valid
+
+no_sites_header:
+  name: No Sites Section
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: no_sites
+  user: valid
+
+admin_design_header:
+  name: Admin Design Section
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: admin_design
+  user: admin
+
+public_with_required_fields_section:
+  name: Public with Required Fields
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: admin_public_design_with_required_fields
+  user: admin
+
+public_with_required_fields_section:
+  name: Public with Redirect
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: one
+  design: admin_public_design_with_redirect
+  user: admin
+
+single_design_section:
+  name: Single Design Section
+  # description:
+  sub_section: false
+  # branching_logic:
+  # image:
+  project: single_design
+  design: single_design
+  user: valid

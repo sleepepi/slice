@@ -1,0 +1,52 @@
+- @title = @design.name
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to 'Designs', project_designs_path(@project)
+    &middot;
+    = @title
+  - if @design.editable_by?(current_user)
+    = link_to "Edit Design", edit_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+    = link_to "Delete Design", [@design.project, @design], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" }
+    = link_to "Reimport", reimport_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+    = link_to "Copy Design", copy_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+  = link_to "PDF", print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs'
+  = link_to "View Sheets", project_sheets_path(@project, design_id: @design.id), class: 'btn btn-default btn-xs'
+
+  = link_to "Report", report_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+  = link_to "Overview", overview_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+  - if @project.double_data_entry? and @design.sheets.double_data_entry_exists.count > 0
+    = link_to "Master Verification", master_verification_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+
+%dl.dl-horizontal
+  - if @design.publicly_available?
+    %dt Publicly Available
+    %dd
+      - if @design.slug.blank?
+        = link_to "#{ENV['website_url']}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{ENV['website_url']}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available?
+      - else
+        = link_to "#{ENV['website_url']}/survey/#{@design.slug}", "#{ENV['website_url']}/survey/#{@design.slug}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available?
+
+  - if @design.total_rows > 0
+    %dt Import Progress
+    %dd#progress{ data: { object: "#{'ajax-timer' if @design.total_rows != @design.rows_imported}", path: progress_project_design_path(@design.project, @design) } }
+      = render 'designs/progress'
+
+  %dt All Variables
+  %dd
+    %ul.list-unstyled
+      - @design.dbvariables.each do |variable|
+        %li
+          = link_to variable.name, [variable.project, variable]
+          - if variable.variable_type == 'grid'
+            %ul
+              - variable.grid_variable_ids.each do |grid_variable_id|
+                - if grid_variable = variable.project.variables.find_by_id(grid_variable_id)
+                  %li= link_to grid_variable.name, [grid_variable.project, grid_variable]
+
+= hidden_field_tag 'sheet[project_id]', @project.id
+%form.form-horizontal#design
+  = @sheet = @design.sheets.new; render "designs/selection"
+
+= form_tag selection_project_designs_path(@design.project, sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' }, id: 'new_sheet'

@@ -37,6 +37,21 @@ class DesignOptionsController < ApplicationController
 
   end
 
+  def update_section_order
+    section_order = params[:sections].to_s.split(',').collect{ |a| a.to_i }
+    @design.reorder_sections(section_order, current_user)
+    render 'update_order'
+  end
+
+  def update_option_order
+    row_order = params[:rows].to_s.split(',').collect{ |a| a.to_i }
+    @design.reorder_options(row_order, current_user)
+    render 'update_order'
+  end
+
+  def reorder
+  end
+
   private
 
     def set_editable_design

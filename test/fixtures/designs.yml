@@ -1,68 +1,35 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-# Load options to be accessible via symbol or string
---- !map:HashWithIndifferentAccess
-
 one:
   name: Design One
   description: MyText
-  options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:one) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:two) %>, branching_logic: "var_1 == 1" },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> }]
+  # options:
   user: valid
   project: one
 
 two:
   name: Design Two
   description: MyText
-  options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox_two) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric_two) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown_two) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:time_two) %> }]
+  # options:
   user: valid
   project: two
 
 all_variable_types:
   name: All Variable Types
   description: A Design with all types of variables used
-  options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:string) %>, branching_logic: "var_year == 1 || overlap(var_course_work, ['acct101', 'econ101'], 1)" },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:text) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:time) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:calculated) %> }]
+  # options:
   user: valid
   project: one
 
 has_no_validations:
   name: Design with no validations or ranges
   description: Design with no validations or ranges
-  options: [{ variable_id: <%= ActiveRecord::FixtureSet.identify(:integer_no_range) %> },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:date_no_range) %>},
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:time_of_day_no_range) %>}]
+  # options:
   user: valid
   project: one
 
 sections_and_variables:
   name: Sections and Variables
   description: Used to test section and variable reordering
-  options: [
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:date) %> },
-              { section_name: 'Section A', section_id: '_section_a' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:dropdown) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %> },
-              { section_name: 'Section B', section_id: '_section_b' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:string) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:text) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:numeric) %> },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> }
-           ]
+  # options:
   user: valid
   project: one
   slug: 'sections-and-variables'
@@ -70,29 +37,21 @@ sections_and_variables:
 section_and_file:
   name: Section and File Variable
   description: Test file upload and removal.
-  options: [
-              { section_name: 'Section A', section_id: '_section_a' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> }
-           ]
+  # options:
   user: valid
   project: one
 
 has_grid:
   name: Includes a Grid Variable
   description: Test for grid variable saving
-  options: [
-              { section_name: 'Grid to Follow', section_id: '_grid_to_follow' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:grid) %> }
-           ]
+  # options:
   user: valid
   project: one
 
 no_sites:
   name: This design is saved on a project with no sites
   description: Valid user should be able to view and edit this design
-  options: [
-              { section_name: 'Section A', section_id: '_section_a' }
-           ]
+  # options:
   user: valid
   project: no_sites
 
@@ -100,9 +59,7 @@ admin_design:
   name: On admin project
   slug: private-design
   # description:
-  options: [
-              { section_name: 'Section A Admin', section_id: '_section_a_admin' }
-           ]
+  # options:
   user: admin
   project: three
 
@@ -110,10 +67,7 @@ admin_public_design:
   name: On Public Admin Project
   slug: public-survey
   # description:
-  options: [
-              { section_name: 'Section A Admin', section_id: '_section_a_admin' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:public_autocomplete) %> }
-           ]
+  # options:
   user: admin
   project: three
   publicly_available: true
@@ -122,10 +76,7 @@ admin_public_design_with_required_fields:
   name: On Public Admin Project
   slug: public-survey-required-fields
   # description:
-  options: [
-              { section_name: 'Section A Admin', section_id: '_section_a_admin' },
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:public_autocomplete) %>, required: 'required' }
-           ]
+  # options:
   user: admin
   project: three
   publicly_available: true
@@ -133,10 +84,7 @@ admin_public_design_with_required_fields:
 admin_public_design_with_redirect:
   name: On Public Admin with Redirect
   slug: public-survey-redirect
-  options: [
-            { section_name: 'Section A Admin', section_id: '_section_a_admin' },
-            { variable_id: <%= ActiveRecord::FixtureSet.identify(:public_autocomplete) %> }
-           ]
+  # options:
   user: admin
   project: three
   publicly_available: true
@@ -145,49 +93,45 @@ admin_public_design_with_redirect:
 single_design:
   name: On single_design project
   # description:
-  options: [
-              { section_name: 'Section A', section_id: '_section_a' }
-           ]
+  # options:
   user: valid
   project: single_design
 
 one_sheet_entered:
   name: One Sheet of Existing Data
   # description:
-  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:data_captured) %> } ]
+  # options:
   user: valid
   project: one
 
 weight_and_gender:
   name: Weight and Gender Collected for Reports
   # description:
-  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:weight) %> }, { variable_id: <%= ActiveRecord::FixtureSet.identify(:gender) %> } ]
+  # options:
   user: valid
   project: one
 
 two_scale_variables:
   name: two_scale_variables
   # description:
-  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:change_domain_options) %> }, { variable_id: <%= ActiveRecord::FixtureSet.identify(:scale) %> } ]
+  # options:
   user: valid
   project: one
 
 contains_single_scale_in_grid:
   name: scale_in_grid
   # description:
-  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:grid_with_scale_variable) %> } ]
+  # options:
   user: valid
   project: one
 
 checkbox_and_radio:
   name: Checkbox and Radio for Export Test
-  options: [ { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %>}, { variable_id: <%= ActiveRecord::FixtureSet.identify(:radio) %>}]
+  # options:
 
 on_slug_project:
   name: On Project with Slug
-  options: [
-              { variable_id: <%= ActiveRecord::FixtureSet.identify(:string_on_survey) %> }
-           ]
+  # options:
   user: valid
   project: named_project
   publicly_available: true

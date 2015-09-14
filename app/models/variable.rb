@@ -51,6 +51,8 @@ class Variable < ActiveRecord::Base
   has_many :grids
   has_many :responses
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
+  has_many :design_options, -> { order :position }
+  has_many :designs, through: :design_options
 
   # Model Methods
 
@@ -94,7 +96,7 @@ class Variable < ActiveRecord::Base
   def inherited_designs
     @inherited_designs ||= begin
       variable_ids = Variable.current.where(project_id: self.project_id, variable_type: 'grid').select{|v| v.grid_variable_ids.include?(self.id)}.collect{|v| v.id} + [self.id]
-      Design.current.where(project_id: self.project_id).select{|d| (d.variable_ids & variable_ids).size > 0}.sort_by(&:name)
+      Design.current.where(project_id: self.project_id).select{|d| (d.dbvariables.pluck(:id) & variable_ids).size > 0}.sort_by(&:name)
     end
   end
 
@@ -189,9 +191,9 @@ class Variable < ActiveRecord::Base
   def first_scale_variable?(design)
     return true unless design
 
-    previous_variable = design.variables[design.variable_ids.index(self.id) - 1] if design.variable_ids.index(self.id).to_i > 0
+    previous_variable = design.dbvariables[design.dbvariables.pluck(:id).index(self.id) - 1] if design.dbvariables.pluck(:id).index(self.id).to_i > 0
 
-    position = design.options.index((design.options.select{|o| o[:variable_id].to_i == self.id}.first))
+    position = design.design_options.pluck(:variable_id).index(self.id)
     previous_variable = design.variable_at(position - 1) if position and position - 1 >= 0
     # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form
     if previous_variable and previous_variable.uses_scale? and previous_variable.shared_options == self.shared_options

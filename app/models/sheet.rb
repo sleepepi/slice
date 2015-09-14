@@ -409,7 +409,7 @@
   end
 
   def total_design_variables
-    self.design.variable_ids.count
+    self.design.dbvariables.count
   end
 
   def out_of
