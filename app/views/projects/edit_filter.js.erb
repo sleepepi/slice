@@ -1,2 +1,2 @@
-$("#filter-modal").html("<%= escape_javascript(render("filters/edit_filter")) %>");
+$("#filter-modal").html("<%=j render 'filters/edit_filter' %>");
 $('#new_filter_modal').modal('show');

@@ -1,4 +1,4 @@
-$("#progress").html("<%= escape_javascript(render("designs/progress")) %>");
+$("#progress").html("<%=j render 'designs/progress' %>");
 
 <% if @design.total_rows > 0 and @design.total_rows == @design.rows_imported %>
 clearInterval(<%= params[:interval] %>);

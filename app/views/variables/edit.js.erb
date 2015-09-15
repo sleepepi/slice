@@ -1,4 +1,4 @@
-$("#variable_popup_container").html("<%= escape_javascript(render("popup_form")) %>");
+$("#variable_popup_container").html("<%=j render 'popup_form' %>");
 $("#variable_edit_modal").modal({ dynamic: true });
 
 $("[rel~=popover]").popover({ offset: 10, trigger: 'focus' });

@@ -1,1 +1,1 @@
-$("#event_<%= @position %>_designs").append("<%= escape_javascript(render partial: 'schedules/design', locals: { design_hash: { design_id: nil } } ) %>");
+$("#event_<%= @position %>_designs").append("<%=j render 'schedules/design', design_hash: { design_id: nil } %>");

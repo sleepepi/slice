@@ -1,4 +1,4 @@
-$("#schedule_modal_content").html("<%= escape_javascript(render partial: 'subject_schedules/form') %>");
+$("#schedule_modal_content").html("<%=j render 'subject_schedules/form' %>");
 $("#schedule_modal").modal('show');
 
 <% @subject_schedule.errors.each do |key, value| %>

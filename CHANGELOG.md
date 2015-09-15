@@ -6,6 +6,9 @@
 - **Gem Changes**
   - Updated to pg 0.18.3
 
+### Refactoring
+- Updated syntax of JavaScript responses rendered by server
+
 ## 0.29.1 (September 10, 2015)
 
 ### Enhancements

@@ -1,1 +1,1 @@
-$("#questions").append("<%= escape_javascript(render partial: 'variables/question', locals: { question_hash: { question_id: nil } } ) %>");
+$("#questions").append("<%=j render 'variables/question', question_hash: { question_id: nil } %>");

@@ -12,17 +12,17 @@
   $('#variable_edit_modal').modal('hide');
 
 
-  $("#design_<%= params[:position] %>_variable_preview_name").html("<%= escape_javascript(@variable.display_name) %>");
-  $("#design_<%= params[:position] %>_variable_preview").html("<%= escape_javascript(render partial: "sheet_variables/form", locals: { disabled: 'disabled', variable: @variable, sheet_variables: [] } ) %>");
+  $("#design_<%= params[:position] %>_variable_preview_name").html("<%=j @variable.display_name %>");
+  $("#design_<%= params[:position] %>_variable_preview").html("<%=j render 'sheet_variables/form', disabled: 'disabled', variable: @variable, sheet_variables: [] %>");
 
   <% @position = params[:position] %>
-  $("#design_options_tokens_<%= params[:position] %>_variable_id_select_container").html("<%= escape_javascript(render partial: "designs/select_option_tokens_variable") %>")
+  $("#design_options_tokens_<%= params[:position] %>_variable_id_select_container").html("<%=j render 'designs/select_option_tokens_variable' %>")
 
   $('#design_option_tokens_<%= params[:position] %>_variable_id.chzn-select').chosen({ allow_single_deselect: true });
 
   $('#variable_<%= params[:position] %>_edit_link').html('Edit')
 
-  // $('#variable_<%= params[:position] %>').after("<%= escape_javascript(render("designs/edit_variable")) %>")
+  // $('#variable_<%= params[:position] %>').after("<%=j render 'designs/edit_variable' %>")
 
   // $('#variable_<%= params[:position] %>').remove()
 

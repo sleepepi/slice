@@ -1,1 +1,1 @@
-$("#designs").append("<%= escape_javascript(render partial: 'events/event_design', locals: { event_design: nil } ) %>");
+$("#designs").append("<%=j render 'events/event_design', event_design: nil %>");

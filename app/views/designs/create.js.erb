@@ -5,11 +5,11 @@ $("#design_id").val("<%= @design.id %>");
     $('input').tooltip('hide');
     element = $("#<%= element_id %>, #<%= element_id %>_display");
     element.closest('.form-group').addClass('has-error');
-    element.tooltip('destroy').tooltip({ "title": "<%= escape_javascript(message.html_safe) %>", "trigger": "manual" }).tooltip('show');
+    element.tooltip('destroy').tooltip({ "title": "<%=j message.html_safe %>", "trigger": "manual" }).tooltip('show');
   <% end %>
 <% else %>
   <% if params[:update] == 'design_name' %>
-    $("#design_name-container").html("<%= escape_javascript(render("designs/interactive/show/design_name")) %>");
+    $("#design_name-container").html("<%=j render 'designs/interactive/show/design_name' %>");
     hideInteractiveDesignModal();
   <% end %>
 <% end %>
