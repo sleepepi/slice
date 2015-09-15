@@ -4,7 +4,6 @@ class Design < ActiveRecord::Base
   serialize :options, Array
 
   # Callbacks
-  before_save :check_option_validations
   after_save :reset_sheet_total_response_count, :set_slug
 
   QUESTION_TYPES = [['free text', 'string'], ['select one answer', 'radio'], ['select multiple answers', 'checkbox'], ['date', 'date'], ['time', 'time'], ['number', 'numeric'], ['file upload', 'file']]
@@ -207,22 +206,22 @@ class Design < ActiveRecord::Base
     self.attributes.reject{|key, val| ['id', 'slug', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
 
-  # We want all validations to run so all errors will show up when submitting a form
-  def check_option_validations
-    result_a = check_variable_ids
-    result_b = check_section_names
+  # # We want all validations to run so all errors will show up when submitting a form
+  # def check_option_validations
+  #   result_a = check_variable_ids
+  #   result_b = check_section_names
 
-    result_a and result_b
-  end
+  #   result_a and result_b
+  # end
 
-  def check_variable_ids
-    result = true
-    if self.variable_ids.uniq.size < self.variable_ids.size
-      self.errors.add(:variables, "can only be added once")
-      result = false
-    end
-    result
-  end
+  # def check_variable_ids
+  #   result = true
+  #   if self.variable_ids.uniq.size < self.variable_ids.size
+  #     self.errors.add(:variables, "can only be added once")
+  #     result = false
+  #   end
+  #   result
+  # end
 
   # def check_section_names
   #   result = true
