@@ -37,7 +37,7 @@ class VariablesController < ApplicationController
   end
 
   def add_grid_row
-
+    @design_option = DesignOption.find_by_id(params[:design_option_id])
   end
 
   def add_grid_variable

@@ -131,9 +131,11 @@ $(document)
     false
   )
   .on('click', '[data-object~="grid-row-add"]', () ->
+    project_id = $("#sheet_project_id").val()
     variable_id = $(this).data('variable-id')
+    design_option_id = $(this).data('design-option-id')
     header = $(this).data('header')
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + variable_id + '/add_grid_row', 'sheet_authentication_token=' + ($('#sheet_authentication_token').val() || "") + '&header=' + header, null, "script")
+    $.post("#{root_url}projects/#{project_id}/variables/#{variable_id}/add_grid_row", "sheet_authentication_token=#{$('#sheet_authentication_token').val() || ""}&header=#{header}&design_option_id=#{design_option_id}", null, "script")
     false
   )
   .on('click', '[data-object~="set-current-time"]', () ->
