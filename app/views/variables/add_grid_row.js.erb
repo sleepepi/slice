@@ -1,4 +1,4 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
-$("#variable_<%= @variable.id %>_grid_container").append("<%=j render 'sheet_variables/form/grid_variables', design_option: design_option, disabled: false, sheet_variable: nil, position: position, variable: @variable, show_values: params[:header] != '0', all_grids: [] %>");
+$("#variable_<%= @variable.id %>_grid_container").append("<%=j render 'sheet_variables/form/grid_variables', design_option: @design_option, disabled: false, sheet_variable: nil, position: position, variable: @variable, show_values: params[:header] != '0', all_grids: [] %>");
 
 initializeSheet("#variable_<%= @variable.id %>_grid_container");
