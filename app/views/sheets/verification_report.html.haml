@@ -1,0 +1,31 @@
+- @title = "Sheet ##{@sheet.id} Verification Report"
+.page-header
+  %h1
+    = link_to @project.name, @project
+    &middot;
+    = link_to 'Sheets', project_sheets_path(@project)
+    &middot;
+    = link_to @sheet.name, [@project, @sheet]
+    Verification Report
+
+- all_sheets = [@sheet] + @sheet.verification_sheets
+
+.table-responsive
+  %table.table.table-bordered.table-striped
+    %thead
+      %tr
+        %th Variable
+        - all_sheets.each do |sheet|
+          %th{ class: "#{'warning' if sheet.double_data_entry?}" }
+            = link_to "Sheet ##{sheet.id} - #{sheet.subject.subject_code} (#{sheet.contributors})", [sheet.project, sheet]
+    - @sheet.design.design_options.includes(:variable, :section).each do |design_option|
+      - if section = design_option.section
+        %tr{ style: "font-weight: bold" }
+          %td{ colspan: all_sheets.count + 1 }
+            = section.name
+      - elsif variable = design_option.variable
+        - all_responses = all_sheets.collect{ |sheet| sheet.get_response(variable, :name) }
+        %tr{ class: "#{'danger' if all_responses.uniq.count > 1}" }
+          %td= variable.display_name
+          - all_responses.each do |response|
+            %td= response

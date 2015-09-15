@@ -1,0 +1,34 @@
+- filters = (params[:f] || []).uniq{ |f| f[:id] }
+- filter_ids = filters.reject{ |f| ['site', 'sheet_date'].include?(f[:id]) }.collect{ |f| f[:id] }
+- row_variable_groups = @design.grouped_reportable_variables(['dropdown', 'checkbox', 'radio', 'string', 'numeric', 'date', 'integer', 'calculated', 'text', 'time'], filter_ids)
+-# All ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid']
+-# Unused ['checkbox', 'file', 'grid', 'signature']
+- extra_variables = []
+- extra_variables << ['Site', 'site'] if filters.select{|f| f[:id] == 'site'}.size == 0
+- extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0
+
+.modal-header
+  %button.close{ type: "button", data:  { dismiss: "modal" }, aria: { hidden: "true" } } &times;
+  %h4.modal-title Add Filter
+.modal-body
+  .row
+    .col-md-6
+      .download-container
+        %h3 Select Variable
+        = form_tag cool_lookup_project_variables_path(@design.project), method: :post, remote: true, class: "form-inline", id: 'cool_lookup_form' do
+          - if row_variable_groups.blank?
+            No Variables available as Filters
+          - else
+            = select_tag :variable_id, options_for_select(extra_variables) + grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' }
+            %label.checkbox
+              = check_box_tag :missing, '1', false
+              Include Missing
+            = hidden_field_tag :axis, 'row'
+    .col-md-6
+      .download-container
+        %h3 Description
+        #cool-options
+          -#= render 'filters/cool_options'
+.modal-footer
+  = button_tag 'Add to Filters', data: { object: 'add-filter' }, disabled: row_variable_groups.blank?, class: 'btn btn-primary'
+  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel

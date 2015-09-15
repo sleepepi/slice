@@ -6,7 +6,7 @@
       - else
         %h2= section.name
       = simple_markdown section.description unless section.description.blank?
-      = render 'sections/image', section: section
+      = render 'sections/image', design_option: design_option, section: section
     .col-sm-6.design-preview-hide
       %h4{ style: "margin-top:0px" } Section
       .design-edit-box

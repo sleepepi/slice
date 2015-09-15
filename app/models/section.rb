@@ -11,4 +11,10 @@ class Section < ActiveRecord::Base
   validates_presence_of :name, :project_id, :design_id, :user_id
   validates_uniqueness_of :name, scope: :design_id
 
+  # Model Methods
+
+  def to_slug
+    self.name.parameterize
+  end
+
 end

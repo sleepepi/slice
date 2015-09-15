@@ -18,9 +18,21 @@ class DesignOptionsController < ApplicationController
   end
 
   def create
-    # Section
+    position = design_option_params[:position]
 
-    # Variable
+    @design_option = @design.design_options.new(design_option_params)
+
+    if @design_option.save
+      @design.design_options.where('position >= ?', @design_option.position).each{ |design_option| design_option.update(position: design_option.position + 1) }
+      @design_option.update position: design_option_params[:position]
+
+      # Section
+      # Variable
+
+    else
+
+    end
+
 
   end
 

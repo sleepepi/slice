@@ -1,0 +1,131 @@
+- @title = @variable.display_name
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to "Variables", project_variables_path(@project)
+    &middot;
+    = @title
+  - if @variable.editable_by?(current_user)
+    = link_to "Edit Variable", edit_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
+    = link_to "Delete Variable", [@project, @variable], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Variable #{@variable.name}?" }
+  = link_to "Copy Variable", copy_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
+
+%dl.dl-horizontal
+  %dt Header
+  %dd= simple_markdown @variable.header
+
+  %dt Name
+  %dd= @variable.name
+
+  %dt Display Name
+  %dd= @variable.display_name
+
+  %dt Display name visibility
+  %dd= @variable.display_name_visibility.capitalize
+
+  %dt Description
+  %dd= simple_format @variable.description
+
+  %dt Variable Type
+  %dd
+    %span.label{ class: "label-#{@variable.variable_type}" }
+      = @variable.variable_type
+
+  %dt Prepend
+  %dd= @variable.prepend
+
+  %dt Append
+  %dd= @variable.append
+
+  - if ['integer', 'numeric'].include?(@variable.variable_type)
+    %dt Hard Minimum
+    %dd= @variable.hard_minimum
+
+    %dt Hard Maximum
+    %dd= @variable.hard_maximum
+
+    %dt Soft Minimum
+    %dd= @variable.soft_minimum
+
+    %dt Soft Maximum
+    %dd= @variable.soft_maximum
+
+  - if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type)
+    %dt Units
+    %dd= @variable.units
+
+  - if ['date'].include?(@variable.variable_type)
+    %dt Date Hard Minimum
+    %dd= simple_date @variable.date_hard_minimum
+
+    %dt Date Hard Maximum
+    %dd= simple_date @variable.date_hard_maximum
+
+    %dt Date Soft Minimum
+    %dd= simple_date @variable.date_soft_minimum
+
+    %dt Date Soft Maximum
+    %dd= simple_date @variable.date_soft_maximum
+
+    %dt Show current date
+    %dd= simple_check @variable.show_current_button?
+
+  - if ['time'].include?(@variable.variable_type)
+    %dt Show current time
+    %dd= simple_check @variable.show_current_button?
+
+  - if ['calculated'].include?(@variable.variable_type)
+    %dt Calculation
+    %dd
+      %tt= @variable.calculation
+
+    %dt Format
+    %dd= @variable.format
+
+  - if ['string'].include?(@variable.variable_type)
+    %dt Autocomplete Values
+    %dd= @variable.autocomplete_values
+
+  - if ['radio', 'checkbox'].include?(@variable.variable_type)
+    %dt Alignment
+    %dd= @variable.alignment.capitalize
+
+  - if ['grid'].include?(@variable.variable_type)
+    %dt Multiple Rows
+    %dd= simple_check @variable.multiple_rows?
+
+    %dt Default Row Number
+    %dd= @variable.default_row_number
+
+    %dt Variables
+    %dd
+      %ul
+        - @variable.grid_variables.each do |variable_hash|
+          - v = current_user.all_viewable_variables.find_by_id(variable_hash[:variable_id])
+          - if v
+            %li= link_to v.display_name, [v.project, v]
+
+  %dt Creator
+  %dd= link_to @variable.user.name, @variable.user if @variable.user
+
+  %dt Project
+  %dd
+    = render 'projects/logo_small', project: @variable.project
+    = link_to @variable.project.name, @variable.project
+
+  %dt Designs
+  %dd
+    %ul
+      - @variable.inherited_designs.each do |design|
+        %li= link_to design.name, [design.project, design]
+
+  - if @variable.domain
+    %dt Domain
+    %dd= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
+
+- if @variable.shared_options.size > 0
+  = render 'variables/compact_options', variable: @variable
+
+%form.form-horizontal.well
+  = render 'sheet_variables/form', design_option: @variable.design_options.first, variable: @variable, sheet_variables: []

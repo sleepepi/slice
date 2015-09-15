@@ -466,17 +466,12 @@ class Variable < ActiveRecord::Base
   end
 
   def requirement_on_design(design)
-    if option = get_option_on_design(design)
-      option[:required].blank? ? 'optional' : option[:required]
+    if design_option = self.design_options.where(design_id: design.id).first
+      design_option.required.blank? ? 'optional' : design_option.required
     else
       'optional'
     end
   end
-
-  def get_option_on_design(design)
-    design.options.select{|o| o[:variable_id] == self.id}.first rescue nil
-  end
-
 
   def validate_value(design, value)
     validation_hash = self.value_in_range?(value)

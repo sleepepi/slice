@@ -234,47 +234,51 @@ class Design < ActiveRecord::Base
 
   def options_with_grid_sub_variables
     new_options = []
-    self.options.each do |option|
-      new_options << option
-      if v = Variable.current.where(variable_type: 'grid').find_by_id(option[:variable_id])
-        v.grid_variables.each do |grid_variable|
-          new_options << { variable_id: grid_variable[:variable_id], branching_logic: '' }
+    self.design_options.includes(:variable, :section).each do |design_option|
+      new_options << design_option
+      if variable = design_option.variable and variable.variable_type == 'grid'
+        variable.grid_variables.each do |grid_variable|
+          new_options << DesignOption.new(variable_id: grid_variable[:variable_id])
         end
       end
     end
     new_options
   end
 
-  def option_tokens=(tokens)
-    self.options = []
-    tokens.each do |option_hash|
-      if option_hash[:section_name].blank?
-        self.options << {
-                          variable_id: option_hash[:variable_id],
-                          branching_logic: option_hash[:branching_logic].to_s.strip
-                        } unless option_hash[:variable_id].blank?
-      else
-        self.options << {
-                          section_name: option_hash[:section_name].strip,
-                          section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
-                          section_description: option_hash[:section_description].to_s.strip,
-                          section_type: option_hash[:section_type].to_i,
-                          branching_logic: option_hash[:branching_logic].to_s.strip
-                        }
-      end
-    end
-  end
+  # def option_tokens=(tokens)
+  #   self.options = []
+  #   tokens.each do |option_hash|
+  #     if option_hash[:section_name].blank?
+  #       self.options << {
+  #                         variable_id: option_hash[:variable_id],
+  #                         branching_logic: option_hash[:branching_logic].to_s.strip
+  #                       } unless option_hash[:variable_id].blank?
+  #     else
+  #       self.options << {
+  #                         section_name: option_hash[:section_name].strip,
+  #                         section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
+  #                         section_description: option_hash[:section_description].to_s.strip,
+  #                         section_type: option_hash[:section_type].to_i,
+  #                         branching_logic: option_hash[:branching_logic].to_s.strip
+  #                       }
+  #     end
+  #   end
+  # end
 
-  def branching_logic_section(section)
-    if section
-      section.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
-    else
-      ''.to_json
-    end
-  end
+  # def branching_logic_section(section)
+  #   if section
+  #     section.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
+  #   else
+  #     ''.to_json
+  #   end
+  # end
 
-  def branching_logic(variable)
-    self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| item[:branching_logic].to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}}.join(' ').to_json
+  # def branching_logic(variable)
+  #   self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| item[:branching_logic].to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}}.join(' ').to_json
+  # end
+
+  def branching_logic(design_option)
+    design_option.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
   end
 
   def variable_replacement(variable_name)
@@ -334,17 +338,17 @@ class Design < ActiveRecord::Base
   #   pure_variables.sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
   # end
 
-  def reportable_variables(variable_types, except_variable_ids = [0])
-    self.pure_variables.where("variables.id NOT IN (?)", except_variable_ids).where(variable_type: variable_types).sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }.collect{|v| [self.containing_section(v.id), v.display_name, v.id]}
+  def reportable_variables(variable_types, except_variable_ids)
+    design_option_variables = self.design_options.includes(:variable).where.not(variable_id: nil).where.not(variable_id: except_variable_ids).where(variables: { variable_type: variable_types })
+    design_option_variables.collect{|design_option| [self.containing_section(design_option.position), design_option.variable.display_name, design_option.variable_id]}
   end
 
-  def grouped_reportable_variables(variable_types, except_variable_ids = [0])
+  def grouped_reportable_variables(variable_types, except_variable_ids)
     reportable_variables(variable_types, except_variable_ids).group_by{|a| a[0]}.collect{|section, values| [section, values.collect{|a| [a[1], a[2]]}]}
   end
 
-  def containing_section(variable_id)
-    location = self.options.collect{|h| h[:variable_id].to_i}.index(variable_id)
-    self.options[0..location].select{|option| not option[:section_name].blank?}.collect{|option| option[:section_name]}.last
+  def containing_section(position)
+    self.design_options.includes(:section).where.not(section_id: nil).where('position < ?', position).pluck("sections.name").last
   end
 
   def reorder_sections(section_order, current_user)

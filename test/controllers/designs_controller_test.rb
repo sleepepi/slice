@@ -46,7 +46,7 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     design = assigns(:project).designs.last
     assert_equal 'All Variables', design.name
-    assert_equal 35, design.options.count
+    assert_equal 35, design.design_options.count
     assert_redirected_to project_designs_path(assigns(:project))
   end
 
@@ -645,9 +645,9 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: @design, project_id: @project, section: { section_name: 'Section A', section_description: 'Section Description' }, position: 0, create: 'section', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 4, assigns(:design).options.size
-    assert_equal 'Section A', assigns(:design).options[0][:section_name]
-    assert_equal 'Section Description', assigns(:design).options[0][:section_description]
+    assert_equal 4, assigns(:design).design_options.size
+    assert_equal 'Section A', assigns(:design).design_options[0][:section_name]
+    assert_equal 'Section Description', assigns(:design).design_options[0][:section_description]
     assert_template 'update'
   end
 
@@ -655,9 +655,9 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: designs(:sections_and_variables), project_id: @project, section: { section_name: 'Section A Updated', section_description: 'Section Description' }, position: 1, update: 'section', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).options.size
-    assert_equal 'Section A Updated', assigns(:design).options[1][:section_name]
-    assert_equal 'Section Description', assigns(:design).options[1][:section_description]
+    assert_equal 11, assigns(:design).design_options.size
+    assert_equal 'Section A Updated', assigns(:design).design_options[1][:section_name]
+    assert_equal 'Section Description', assigns(:design).design_options[1][:section_description]
     assert_template 'update'
   end
 
@@ -667,7 +667,7 @@ class DesignsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 4, assigns(:design).options.size
+    assert_equal 4, assigns(:design).design_options.size
     assert_equal 'my_new_variable', assigns(:design).variable_at(0).name
     assert_equal 'My New Variable', assigns(:design).variable_at(0).display_name
     assert_equal 'string', assigns(:design).variable_at(0).variable_type
@@ -680,7 +680,7 @@ class DesignsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 4, assigns(:design).options.size
+    assert_equal 4, assigns(:design).design_options.size
     assert_equal 'my_new_variable', assigns(:design).variable_at(0).name
     assert_equal 'My New Variable', assigns(:design).variable_at(0).display_name
     assert_equal 'grid', assigns(:design).variable_at(0).variable_type
@@ -692,10 +692,10 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: designs(:sections_and_variables), project_id: @project, variable: { name: "var_date_updated", display_name: "Today's Date Updated", branching_logic: '1 = 1' }, position: 0, variable_id: variables(:date).id, update: 'variable', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).options.size
+    assert_equal 11, assigns(:design).design_options.size
     assert_equal 'var_date_updated', assigns(:design).variable_at(0).name
     assert_equal "Today's Date Updated", assigns(:design).variable_at(0).display_name
-    assert_equal '1 = 1', assigns(:design).options[0][:branching_logic]
+    assert_equal '1 = 1', assigns(:design).design_options[0][:branching_logic]
     assert_template 'update'
   end
 
@@ -703,7 +703,7 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: designs(:sections_and_variables), project_id: @project, variable: { name: "" }, position: 0, variable_id: variables(:date).id, update: 'variable', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).options.size
+    assert_equal 11, assigns(:design).design_options.size
     assert_equal 'var_date', assigns(:design).variable_at(0).name
     assert_equal 1, assigns(:errors).size
     assert_template 'update'
@@ -713,7 +713,7 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: @design, project_id: @project, position: 0, delete: 'variable', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 2, assigns(:design).options.size
+    assert_equal 2, assigns(:design).design_options.size
     assert_template 'update'
   end
 
@@ -723,7 +723,7 @@ class DesignsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 3, assigns(:design).options.size
+    assert_equal 3, assigns(:design).design_options.size
     assert_equal 'new_domain_for_variable', assigns(:design).variable_at(0).domain.name
     assert_template 'update'
   end
@@ -732,7 +732,7 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: designs(:sections_and_variables), project_id: @project, domain: { name: 'dropdown_options_new', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).options.size
+    assert_equal 11, assigns(:design).design_options.size
     assert_equal 'dropdown_options_new', assigns(:design).variable_at(2).domain.name
     assert_equal 'Easy', assigns(:design).variable_at(2).domain.options[0][:name]
     assert_equal '1', assigns(:design).variable_at(2).domain.options[0][:value]
@@ -747,7 +747,7 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: designs(:sections_and_variables), project_id: @project, domain: { name: 'dropdown_options_new', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '' }, { option_index: 'new', name: 'Medium', value: '' }, { option_index: 'new', name: 'Hard', value: '' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).options.size
+    assert_equal 11, assigns(:design).design_options.size
     assert_equal 'dropdown_options_new', assigns(:design).variable_at(2).domain.name
     assert_equal 'Easy', assigns(:design).variable_at(2).domain.options[0][:name]
     assert_equal '1', assigns(:design).variable_at(2).domain.options[0][:value]
@@ -762,7 +762,7 @@ class DesignsControllerTest < ActionController::TestCase
     put :update, id: designs(:sections_and_variables), project_id: @project, domain: { name: '', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).options.size
+    assert_equal 11, assigns(:design).design_options.size
     assert_equal 'dropdown_options', assigns(:design).variable_at(2).domain.name
     assert_equal 1, assigns(:errors).size
     assert_template 'update'

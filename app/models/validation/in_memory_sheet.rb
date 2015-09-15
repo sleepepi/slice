@@ -45,21 +45,18 @@ module Validation
     end
 
     def visible_on_sheet?(variable)
-      if option = variable.get_option_on_design(@design)
-        show_variable?(option[:branching_logic])
+      if design_option = variable.design_options.where(design_id: @design.id).first
+        show_variable?(design_option.branching_logic)
       else
         true
       end
     end
 
     def valid?
-      @variables = @project.variables.where(id: @design.options.collect{ |option| option[:variable_id] }).to_a
-      @variables.each do |variable|
+      @design.dbvariables.each do |variable|
         if visible_on_sheet?(variable)
           sheet_variable = @sheet_variables.select{|sv| sv.variable.id == variable.id}.first
-
           value = variable.response_to_value(sheet_variable ? sheet_variable.get_raw_response : nil)
-
           validation_hash = variable.value_in_range?(value)
           case validation_hash[:status] when 'blank' # AND REQUIRED
             @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'

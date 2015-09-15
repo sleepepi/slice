@@ -53,21 +53,18 @@
 
 
 
-<% @design.options.each_with_index do |option, index| %>
+<% @design.design_options.includes(:variable, :section).each_with_index do |design_option, index| %>
   \FloatBarrier
-  <% @option = option %>
-
-  <% if @option[:variable_id].blank? %>
-    <% section = @design.sections.find_by_name( @option[:section_name] ) %>
-    <% if @option[:section_type].to_i > 0 %>
-      \subsubsection*{<%= latex_safe (section ? section.name : @option[:section_name]) %>}
+  <% if section = design_option.section %>
+    <% if section.sub_section? %>
+      \subsubsection*{<%= latex_safe section.name %>}
     <% else %>
       <% unless index == 0 %>\pagebreak<% end %>
-      \subsection*{<%= latex_safe (section ? section.name : @option[:section_name]) %>}
+      \subsection*{<%= latex_safe section.name %>}
     <% end %>
 
-    <% unless @option[:section_name].blank? %>
-      <%= latex_safe (section ? section.description : @option[:section_description]) %>
+    <% unless section.name.blank? %>
+      <%= latex_safe section.description %>
     <% end %>
 
   <% if section and section.image.url %>
@@ -76,22 +73,22 @@
     \end{figure}
   <% end %>
 
-  <% elsif @variable = Variable.current.find_by_id(@option[:variable_id]) %>
-    <% if @variable.variable_type == 'grid' %> <%# sheet_variable = @sheet.sheet_variables.find_by_variable_id(@variable.id) %>
+  <% elsif variable = design_option.variable %>
+    <% if variable.variable_type == 'grid' %>
 
 \Needspace{7\baselineskip}
-\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
 
 \begin{table*}[!htbp]\centering
 
-\begin{tabularx}{\textwidth}{<%= 'X'*@variable.grid_variables.size %>}
-<% @variable.grid_variables.each do |grid_variable| %>
+\begin{tabularx}{\textwidth}{<%= 'X'*variable.grid_variables.size %>}
+<% variable.grid_variables.each do |grid_variable| %>
   <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
   <%= latex_safe v.display_name if v %> &
 <% end %>
 \midrule
-<% (0..([@variable.default_row_number.to_i - 1, 0]).max).each do |position| %>
-  <% @variable.grid_variables.each do |grid_variable| %>
+<% (0..([variable.default_row_number.to_i - 1, 0]).max).each do |position| %>
+  <% variable.grid_variables.each do |grid_variable| %>
     <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %> <%= latex_safe v.units if v %> &
   <% end %>
   \midrule
@@ -102,24 +99,24 @@
     <% else %>
 
 \Needspace{7\baselineskip}
-\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe @variable.display_name %>}\end{addmargin}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
 
 \vspace{1 mm}
-<% if @variable.variable_type == 'date' %>
+<% if variable.variable_type == 'date' %>
  \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~} \\
  \indent\textcolor[gray]{0.5}{MM / DD / YYYY}
 
-<% elsif ['checkbox'].include?(@variable.variable_type) %>
+<% elsif ['checkbox'].include?(variable.variable_type) %>
 
-  <% @variable.options_without_missing.each do |option| %>\ding{111} <%= latex_safe option[:name] %><% if @variable.alignment == 'horizontal' %>~~~~<% else %>\\\indent<% end %><% end %>
+  <% variable.options_without_missing.each do |option| %>\ding{111} <%= latex_safe option[:name] %><% if variable.alignment == 'horizontal' %>~~~~<% else %>\\\indent<% end %><% end %>
 
-<% elsif ['radio','dropdown'].include?(@variable.variable_type) %>
+<% elsif ['radio','dropdown'].include?(variable.variable_type) %>
 
-  <% @variable.options_without_missing.each do |option| %>\ding{109} <%= latex_safe option[:name] %><% if @variable.alignment == 'horizontal' %>~~~~<% else %>\\\indent<% end %><% end %>
+  <% variable.options_without_missing.each do |option| %>\ding{109} <%= latex_safe option[:name] %><% if variable.alignment == 'horizontal' %>~~~~<% else %>\\\indent<% end %><% end %>
 
-<% elsif @variable.variable_type == 'file' %>
+<% elsif variable.variable_type == 'file' %>
   \textcolor[gray]{0.5}{File Upload}
-<% elsif @variable.variable_type == 'text' %>
+<% elsif variable.variable_type == 'text' %>
 
   \line(1,0){400}\\
   \indent\line(1,0){400}\\
@@ -127,7 +124,7 @@
   \indent\line(1,0){400}
 
 <% else %>
-  <%= latex_safe @variable.prepend unless @variable.prepend.blank? %> \dotuline{~~~~~~~~~~~~~~~~~~~~~~~~} <%= latex_safe @variable.units unless @variable.units.blank? %> <%= latex_safe @variable.append unless @variable.append.blank? %>
+  <%= latex_safe variable.prepend unless variable.prepend.blank? %> \dotuline{~~~~~~~~~~~~~~~~~~~~~~~~} <%= latex_safe variable.units unless variable.units.blank? %> <%= latex_safe variable.append unless variable.append.blank? %>
 <% end %>
 \vspace{2 mm}
 

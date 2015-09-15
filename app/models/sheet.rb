@@ -213,14 +213,9 @@
     branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
   end
 
-  def design_pure_variables_cache
-    @design_pure_variables_cache ||= begin
-      self.design.pure_variables.to_a
-    end
-  end
-
+  # TODO Check speed of function using where vs select (caching and memory)
   def variable_javascript_value(variable_name)
-    variable = self.design_pure_variables_cache.select{|v| v.name == variable_name}.first
+    variable = self.design.dbvariables.select{|v| v.name == variable_name}.first
     result = if variable
       result = if sheet_variable = self.sheet_variables.select{|sv| sv.variable_id == variable.id}.first
         sheet_variable.get_response(:raw)
@@ -426,8 +421,8 @@
   def non_hidden_variable_ids
     @non_hidden_variable_ids ||= begin
       variable_ids = []
-      self.design.options.each do |option|
-        if variable = Variable.current.find_by_id(option[:variable_id]) and self.show_variable?(option[:branching_logic])
+      self.design.design_options.includes(:variable).each do |design_option|
+        if variable = design_option.variable and self.show_variable?(design_option.branching_logic)
           variable_ids << variable.id
         end
       end

@@ -1,0 +1,17 @@
+.modal-header
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: "true" } } &times;
+  %h4.modal-title
+    = link_to 'Add Section or Question', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: params[:position] }
+    &middot;
+    Existing Question
+.modal-body
+  %form#variable_form.form-horizontal
+    .form-group
+      %label.col-md-2.control-label Existing Variables
+      .col-md-10
+        - variables = @project.variables.where.not(id: @design.dbvariables.select(:id))
+        = select_tag 'variable[id]', grouped_options_for_select( variables.group_by(&:variable_type).collect{|group, group_variables| [group.titleize, group_variables.collect{|v| [v.name, v.id]}.sort{|a,b| a[0] <=> b[0]}]}.sort{|a,b| a[0] <=> b[0]} ), style: 'width:200px', class: 'form-control'
+.modal-footer
+  = button_tag 'Add Existing Variable', data: { object: 'push-partial-change', target: '#variable_form', create: 'variable', position: params[:position] }, class: 'btn btn-primary'
+  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+

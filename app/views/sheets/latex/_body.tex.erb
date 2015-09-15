@@ -9,20 +9,17 @@
 
 <%= latex_safe @sheet.design.description %> \\
 
-<% variables = @sheet.project.variables.where(id: @sheet.design.options.collect{ |option| option[:variable_id] }).to_a %>
 <% sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a %>
 
 
-<% @sheet.design.options.each_with_index do |option, index| %>
+<% @sheet.design.design_options.includes(:variable, :section).each do |design_option| %>
   \FloatBarrier
-  <% @option = option %>
 
-  <% if @option[:variable_id].blank? %>
-    <% section = @sheet.design.sections.find_by_name( @option[:section_name] ) %>
-    <% if @option[:section_type].to_i > 0 %>
-      \subsubsection*{<%= latex_safe (section ? section.name : @option[:section_name]) %>}
+  <% if section = design_option.section and @sheet.show_variable?(design_option.branching_logic) %>
+    <% if section.sub_section? %>
+      \subsubsection*{<%= latex_safe section.name %>}
     <% else %>
-      \subsection*{<%= latex_safe (section ? section.name : @option[:section_name]) %>}
+      \subsection*{<%= section.name %>}
     <% end %>
 
     <% if section and section.image.url %>
@@ -30,8 +27,7 @@
         \includegraphics[max width=7.5in]{<%= section.image.path %>}
       \end{figure}
     <% end %>
-
-  <% elsif variable = variables.select{ |v| v.id == @option[:variable_id].to_i }.first and @sheet.show_variable?(@option[:branching_logic]) %>
+  <% elsif variable = design_option.variable and @sheet.show_variable?(design_option.branching_logic) %>
     <% sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first %>
     <% if variable.variable_type == 'grid' and sheet_variable %>
       <% grid_variables = @sheet.project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a %>

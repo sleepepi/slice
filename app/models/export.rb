@@ -122,11 +122,11 @@ class Export < ActiveRecord::Base
         csv << ['Design Name', 'Name', 'Display Name', 'Branching Logic', 'Description']
 
         design_scope.each do |d|
-          d.options.each do |option|
-            if option[:variable_id].blank?
-              csv << [ d.name, option[:section_id], option[:section_name], option[:branching_logic], option[:section_description] ]
-            elsif variable = Variable.current.find_by_id(option[:variable_id])
-              csv << [ d.name, variable.name, variable.display_name, option[:branching_logic], variable.description ]
+          d.design_options.includes(:section, :variable).each do |design_option|
+            if section = design_option.section
+              csv << [ d.name, section.to_slug, section.name, design_option.branching_logic, section.description ]
+            elsif variable = design_option.variable
+              csv << [ d.name, variable.name, variable.display_name, design_option.branching_logi, variable.description ]
             end
           end
         end
@@ -140,13 +140,13 @@ class Export < ActiveRecord::Base
                   'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
                   'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name' ]
         design_scope.each do |d|
-          d.options_with_grid_sub_variables.each do |option|
-            if option[:variable_id].blank?
+          d.options_with_grid_sub_variables.each do |design_option|
+            if section = design_option.section
               csv << [ d.name,
-                option[:section_id],
-                option[:section_name],
-                option[:section_description], # Variable Description
-                (option[:section_type].to_i > 0 ? 'subsection' : 'section'),
+                section.to_slug,
+                section.name,
+                section.description, # Variable Description
+                (section.sub_section? ? 'subsection' : 'section'),
                 nil, # Hard Min
                 nil, # Soft Min
                 nil, # Soft Max
@@ -163,7 +163,7 @@ class Export < ActiveRecord::Base
                 nil, # Alignment
                 nil, # Default Row Number
                 nil ] # Domain Name
-            elsif variable = Variable.current.find_by_id(option[:variable_id])
+            elsif variable = design_option.variable
               csv << [ d.name,
                 variable.name,
                 variable.display_name,
@@ -198,9 +198,9 @@ class Export < ActiveRecord::Base
         objects = []
 
         design_scope.each do |d|
-          d.options_with_grid_sub_variables.each do |option|
-            if variable = Variable.current.find_by_id(option[:variable_id])
-              objects << variable.domain if variable.domain
+          d.options_with_grid_sub_variables.each do |design_option|
+            if variable = design_option.variable and variable.domain
+              objects << variable.domain
             end
           end
         end

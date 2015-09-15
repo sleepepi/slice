@@ -1,7 +1,7 @@
 json.extract! design, :name, :description
 
 json.options do
-  json.array!(design.options) do |option|
-    json.partial! 'designs/option', option: option
+  json.array!(design.design_options) do |design_option|
+    json.partial! 'designs/design_option', design_option: design_option
   end
 end
