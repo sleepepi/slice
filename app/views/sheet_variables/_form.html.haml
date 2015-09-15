@@ -13,19 +13,19 @@
 - else
   - 'blank'
 
-.form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'} #{'variable-errors' if validate_response == 'error'} #{'variable-warnings' if validate_response == 'warning'}", data: { object: "variable-container", required: design_option.required, required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type } }
+.form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'} #{'variable-errors' if validate_response == 'error'} #{'variable-warnings' if validate_response == 'warning'}", data: { object: "variable-container", required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type } }
   - if variable.uses_scale?
     -# Nothing
   - elsif ['invisible', 'gone'].include?(variable.display_name_visibility)
     .col-xs-12
       %label
         = variable.display_name
-        = render 'design_options/required', design_option: design_option
+        = render 'design_options/required', design_option: design_option if design_option
     %div{ style: "clear:both" }
   - else
     %label.col-md-3.control-label{ for: "variable_#{variable.id}" }
       = variable.display_name
-      = render 'design_options/required', design_option: design_option
+      = render 'design_options/required', design_option: design_option if design_option
 
   - col_class = 'col-xs-12'
   - col_class = 'col-md-9' if variable.display_name_visibility != 'gone' and not variable.uses_scale?

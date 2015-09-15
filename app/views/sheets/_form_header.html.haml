@@ -8,8 +8,7 @@
   .modal-dialog.modal-wide-width
     #interactive-design-container.modal-content
       .modal-header
-        %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: "true" } }
-          &times;
+        %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
         %h4.modal-title Site Ranges
       .modal-body
         - if @project.sites_with_range.size > 0

@@ -16,8 +16,10 @@ class ExportFormatter
     @variables = all_design_variables_without_grids
     @domains = Domain.where(id: @variables.collect{|v| v.domain_id}).order('name')
 
-    @variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variable_ids).flatten.uniq
-    @grid_group_variables = Variable.current.where(variable_type: 'grid', id: @variable_ids)
+
+    # @variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variable_ids).flatten.uniq
+    # @grid_group_variables = Variable.current.where(variable_type: 'grid', id: @variable_ids)
+    @grid_group_variables = Variable.current.joins(:design_options).where(design_options: { design_id: sheet_scope.pluck(:design_id) }).where(variable_type: 'grid').order("design_options.design_id", "design_options.position")
     @grid_variables = []
     @grid_group_variables.each do |variable|
       variable.grid_variables.each do |grid_variable_hash|
@@ -29,7 +31,8 @@ class ExportFormatter
   end
 
   def all_design_variables_without_grids
-    Design.where(id: @sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
+    Variable.current.joins(:design_options).where(design_options: { design_id: @sheet_scope.select(:design_id) }).where.not(variable_type: 'grid').order("design_options.design_id", "design_options.position")
+    # Design.where(id: @sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
   end
 
   def labels

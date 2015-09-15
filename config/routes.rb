@@ -99,6 +99,10 @@ Rails.application.routes.draw do
 
       resources :design_options do
         collection do
+          get :new_section
+          get :new_variable
+          post :create_section
+          post :create_variable
           post :update_section_order
           post :update_option_order
         end

@@ -8,7 +8,7 @@
 - extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0
 
 .modal-header
-  %button.close{ type: "button", data:  { dismiss: "modal" }, aria: { hidden: "true" } } &times;
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title Add Filter
 .modal-body
   .row

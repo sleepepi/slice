@@ -1,0 +1,50 @@
+- if section.errors.any?
+  .bs-callout.bs-callout-danger
+    %h4
+      = pluralize(section.errors.count, "error")
+      prohibited this section from being saved
+
+    %ul
+      - section.errors.full_messages.each do |msg|
+        %li= msg
+
+= hidden_field_tag "design_option[position]", design_option.position
+
+.form-group
+  %label.col-md-2.control-label Section Name
+  .col-md-10
+    = text_field_tag "section[name]", section.name, class: 'form-control'
+
+.form-group
+  %label.col-md-2.control-label Section Description
+  .col-md-10
+    = text_area_tag "section[description]", section.description, rows: 3, class: 'form-control'
+
+.form-group
+  %label.col-md-2.control-label Section Image
+  .col-md-10
+    .row
+      .col-md-6
+        = file_field_tag "section[image]", class: 'form-control', value: section.image
+      - if section.image and section.image.size > 0
+        .col-md-6
+          .sheet-container
+            %label.checkbox.checkbox-inline.negation
+              = check_box_tag "section[remove_image]", '1', false
+              Remove Image
+              %code= section.image.path.split('/').last
+              %tt= number_to_human_size(section.image.size)
+
+.form-group
+  %label.col-md-2.control-label Branching Logic
+  .col-md-10
+    = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
+    = render 'layouts/branching_logic_examples'
+
+.form-group
+  .col-md-10.col-md-offset-2
+    .checkbox
+      %label
+        = hidden_field_tag "section[sub_section]", "0"
+        = check_box_tag "section[sub_section]", "1", section.sub_section?
+        Subsection

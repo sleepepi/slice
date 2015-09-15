@@ -9,6 +9,6 @@ class DesignOption < ActiveRecord::Base
   # Model Relationships
   belongs_to :design
   belongs_to :variable
-  belongs_to :section
+  belongs_to :section, dependent: :destroy
 
 end

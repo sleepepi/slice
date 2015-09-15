@@ -78,7 +78,8 @@ module SheetExport
   end
 
   def all_design_variables_without_grids_using_design_ids(design_ids)
-    Design.where(id: design_ids).order(:id).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
+    Variable.current.joins(:design_options).where(design_options: { design_id: design_ids }).where.not(variable_type: 'grid').order("design_options.design_id", "design_options.position")
+    # Design.where(id: design_ids).order(:id).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
   end
 
 end

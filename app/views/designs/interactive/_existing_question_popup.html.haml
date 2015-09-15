@@ -1,5 +1,5 @@
 .modal-header
-  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: "true" } } &times;
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title
     = link_to 'Add Section or Question', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: params[:position] }
     &middot;

@@ -1,0 +1,66 @@
+- if variable.errors.any?
+  .bs-callout.bs-callout-danger
+    %h4
+      = pluralize(variable.errors.count, "error")
+      prohibited this variable from being saved
+
+    %ul
+      - variable.errors.full_messages.each do |msg|
+        %li= msg
+
+= hidden_field_tag "design_option[position]", design_option.position
+
+.form-group
+  %label.col-md-2.control-label Display Name
+  .col-md-10
+    = text_field_tag "variable[display_name]", variable.display_name, autocomplete: 'off', class: 'form-control'
+    .bs-callout.bs-callout-info
+      %h4 Heads up!
+
+      %p
+        The display name is the question as displayed to the user who is
+        filling out the form.
+      %p
+        Ex:
+        %span.text-muted What is your age?
+
+.form-group
+  %label.col-md-2.control-label Name
+  .col-md-10
+    = text_field_tag "variable[name]", variable.name, maxlength: 32, class: 'form-control'
+    .bs-callout.bs-callout-info
+      %h4 Naming convention
+
+      %ul
+        %li
+          Must be a letter
+          %code a-zA-Z
+          followed by letters
+          = succeed ',' do
+            %code a-zA-Z
+          numbers
+          = succeed ',' do
+            %code 0-9
+          or underscores
+          = succeed '.' do
+            %code _
+        %li
+          Max length
+          = succeed '.' do
+            %strong 32 characters
+      Ex:
+      %code var1_population
+
+.form-group
+  %label.col-md-2.control-label Branching Logic (Show If)
+  .col-md-10
+    = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
+    = render 'layouts/branching_logic_examples'
+
+- if ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'signature'].include?(variable.variable_type)
+  .form-group
+    %label.col-md-2.control-label Required on Form?
+    .col-md-10
+      = select_tag "design_option[required]", options_for_select([['Not Required', ''], ['Recommended', 'recommended'], ['Required', 'required']], design_option.required), class: 'form-control'
+- else
+  = hidden_field_tag "design_option[required]", ''

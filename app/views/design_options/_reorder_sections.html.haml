@@ -1,6 +1,6 @@
 = form_tag update_section_order_project_design_design_options_path(@design.project, @design), method: :post, remote: true, id: 'reorder_sections_design_form' do
   %ul#reorder_sections_design.design-list{ data: { object: "sortable" } }
     - @design.main_sections.each_with_index do |design_option, index|
-      %li.li-section{ id: "section_#{index}", data: { position: index } }
+      %li.li-section{ id: "section_#{index}", style: "white-space:nowrap;margin-bottom:5px", data: { position: index } }
         %div{ style: "display:inline-block" }
           %a{ href: "#" }= design_option.section.name

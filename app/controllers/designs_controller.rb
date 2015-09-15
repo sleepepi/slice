@@ -190,7 +190,7 @@ class DesignsController < ApplicationController
   def new
     @design = current_user.designs.new(design_params)
     respond_to do |format|
-      format.js { render 'edit' }
+      format.js { render :edit }
       format.html
     end
   end
@@ -207,7 +207,7 @@ class DesignsController < ApplicationController
       @design.create_variables_from_questions!
       redirect_to edit_project_design_path( @project, @design )
     else
-      render action: 'new'
+      render :new
     end
   end
 

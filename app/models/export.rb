@@ -126,7 +126,7 @@ class Export < ActiveRecord::Base
             if section = design_option.section
               csv << [ d.name, section.to_slug, section.name, design_option.branching_logic, section.description ]
             elsif variable = design_option.variable
-              csv << [ d.name, variable.name, variable.display_name, design_option.branching_logi, variable.description ]
+              csv << [ d.name, variable.name, variable.display_name, design_option.branching_logic, variable.description ]
             end
           end
         end
