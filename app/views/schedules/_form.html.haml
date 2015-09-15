@@ -36,7 +36,7 @@
       = link_to 'Add Event', add_event_project_schedules_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'
       #events
         - @schedule.items.each do |event_hash|
-          = render partial: 'schedules/event', locals: { event_hash: event_hash }
+          = render 'schedules/event', event_hash: event_hash
 
   .form-group
     .col-md-offset-2.col-md-10

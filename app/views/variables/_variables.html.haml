@@ -1,4 +1,4 @@
-= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @variables.total_count }
+= render 'contour/layouts/per_page', per_page: 40, object_count: @variables.total_count
 
 %table.table.table-striped
   %thead
@@ -20,7 +20,7 @@
       %td
         - if not variable.shared_options.blank?
           - variable.alignment = 'vertical'
-          = render partial: "sheet_variables/form/#{variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", locals: { response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]" }
+          = render "sheet_variables/form/#{variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]"
       %td{ style: "white-space:nowrap" }
         = link_to 'Copy', copy_project_variable_path(variable.project, variable), class: 'btn btn-default btn-xs'
         - if variable.editable_by?(current_user)

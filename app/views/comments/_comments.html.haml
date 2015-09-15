@@ -1,0 +1,22 @@
+= render 'contour/layouts/per_page', per_page: 20, object_count: @comments.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap= sort_field_helper(@order, 'comments.user_id', 'User')
+      %th.nowrap= sort_field_helper(@order, 'comments.sheet_id', 'Sheet')
+      %th.nowrap= sort_field_helper(@order, 'comments.description', 'Description')
+      %th.nowrap= sort_field_helper(@order, 'comments.created_at', 'Created at')
+      %th Actions
+
+  - @comments.each do |comment|
+    %tr
+      %td= link_to comment.user.name, comment.user if comment.user
+      %td= link_to comment.sheet.name, [comment.sheet.project, comment.sheet] if comment.sheet
+      %td= comment.description
+      %td= simple_time comment.created_at
+      %td
+        = link_to 'Edit', edit_comment_path(comment), class: 'btn btn-default btn-xs'
+        = link_to 'Delete', comment, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" }
+
+.center= paginate @comments, theme: 'contour'

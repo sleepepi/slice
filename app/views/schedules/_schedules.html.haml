@@ -1,4 +1,4 @@
-= render partial: 'contour/layouts/per_page', locals: { per_page: 20, object_count: @schedules.total_count }
+= render 'contour/layouts/per_page', per_page: 20, object_count: @schedules.total_count
 
 %table.table.table-striped
   %thead

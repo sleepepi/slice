@@ -41,7 +41,7 @@
           <div id="questions">
             <% questions = (params[:variable] && params[:variable][:questions] ? params[:variable][:questions] : [ { question_name: '', question_type: 'free text' } ]) %>
             <% questions.each do |question_hash| %>
-              <%= render partial: 'variables/question', locals: { question_hash: question_hash } %>
+              <%= render 'variables/question', question_hash: question_hash %>
             <% end %>
           </div>
           <%= link_to 'Add Question', add_question_project_variables_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px' %>

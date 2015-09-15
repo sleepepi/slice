@@ -8,6 +8,8 @@
 
 ### Refactoring
 - Updated syntax of JavaScript responses rendered by server
+- Updated syntax for calling partials and passing variables
+- Started rewriting most views using haml
 
 ## 0.29.1 (September 10, 2015)
 

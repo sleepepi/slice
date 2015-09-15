@@ -1,0 +1,13 @@
+- is_grid = defined?(grid)
+
+.time-input.form-inline
+  %span.hour-box
+    = text_field_tag "hour_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
+  &#58;
+  %span.min-box
+    = text_field_tag "min_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+  &#58;
+  %span.sec-box
+    = text_field_tag "sec_#{variable.name}", "", maxlength: 2, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
+
+  = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_input: variable.name }, class: 'btn btn-default btn-xs', tabindex: '-1', disabled: true if variable.show_current_button?

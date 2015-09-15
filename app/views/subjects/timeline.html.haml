@@ -110,7 +110,7 @@
 
             .post-body
               %div{ id: "comment_#{comment.id}_container", style: 'margin-bottom: -20px;' }
-                = render partial: 'comments/formatted', locals: { comment: comment }
+                = render 'comments/formatted', comment: comment
 
     - current_index = 1
     .post-container-skinny

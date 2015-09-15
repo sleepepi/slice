@@ -57,7 +57,7 @@
           = label :statuses, 'Status', class: 'col-md-3 control-label'
 
           .col-md-9
-            = render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#sheets_search' }
+            = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#sheets_search'
 
         - if @project.lockable?
           .col-md-4.form-group

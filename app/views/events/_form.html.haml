@@ -40,7 +40,7 @@
       #designs{ data: { object: 'sortable' } }
         = hidden_field_tag 'event[design_ids][]', nil
         - @event.event_designs.each do |event_design|
-          = render partial: 'events/event_design', locals: { event_design: event_design }
+          = render 'events/event_design', event_design: event_design
 
 
   .form-group

@@ -2,7 +2,7 @@
 
 .row
   .col-sm-2
-    = render partial: 'subjects/beta/event_navigation'
+    = render 'subjects/beta/event_navigation'
 
   .col-sm-10
     %h2.subject-header
@@ -45,4 +45,4 @@
 
           .post-body
             %div{ id: "comment_#{comment.id}_container", style: 'margin-bottom: -20px;' }
-              = render partial: 'comments/formatted', locals: { comment: comment }
+              = render 'comments/formatted', comment: comment

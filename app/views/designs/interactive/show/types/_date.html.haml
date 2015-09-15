@@ -1,0 +1,12 @@
+- is_grid = defined?(grid)
+
+.date-input.form-inline
+  - variable.date_order.each_with_index do |component, index|
+    - (formatting, string_format) = variable.date_formatting(component)
+    %span{ class: "#{component}-box" }
+      = text_field_tag "#{component}_#{variable.name}", "", maxlength: formatting.size, disabled: true, data: { target_input: variable.name }, autocomplete: 'off', placeholder: formatting, class: 'form-control', style: 'display: inline-block;'
+    = variable.date_separator unless index == variable.date_order.size - 1
+  - if variable.show_current_button?
+    = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_input: "##{variable.name.gsub('[', '_').gsub(']', '')}" }, class: 'btn btn-default btn-xs', tabindex: '-1', disabled: true if variable.show_current_button?
+
+= link_to 'Edit Ranges', '#', data: { object: 'pull-partial-edit', edit: 'variable_date', position: @position, variable_id: variable.id }, class: 'design-preview-hide btn btn-xs btn-success'

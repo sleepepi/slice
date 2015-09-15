@@ -1,0 +1,28 @@
+= render 'contour/layouts/per_page', per_page: 20, object_count: @contacts.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap= sort_field_helper(@order, 'contacts.title', 'Title')
+      %th.nowrap= sort_field_helper(@order, 'contacts.name', 'Name')
+      %th.nowrap= sort_field_helper(@order, 'contacts.phone', 'Phone')
+      %th.nowrap= sort_field_helper(@order, 'contacts.fax', 'Fax')
+      %th.nowrap= sort_field_helper(@order, 'contacts.email', 'Email')
+      %th.nowrap= sort_field_helper(@order, 'contacts.position', 'Position')
+      %th.nowrap= sort_field_helper(@order, 'contacts.archived', 'Archived')
+      %th Actions
+
+  - @contacts.each do |contact|
+    %tr
+      %td= link_to contact.title, [contact.project, contact]
+      %td= contact.name
+      %td= contact.phone
+      %td= contact.fax
+      %td= contact.email
+      %td= contact.position
+      %td= simple_check contact.archived
+      %td
+        = link_to 'Edit', edit_project_contact_path(contact.project, contact), class: 'btn btn-default btn-xs'
+        = link_to 'Delete', [contact.project, contact], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Contact #{contact.name}?" }
+
+.center= paginate @contacts, theme: "contour"

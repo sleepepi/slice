@@ -9,15 +9,15 @@
   = hidden_field_tag :page
 
   %label Subjects
-  = render partial: 'layouts/checkbox_button_group', locals: { name: 'statuses', options: Subject::STATUS, selected: @statuses }
+  = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses
 
   &middot;
   %label By
-  = render partial: 'layouts/radio_button_group', locals: { name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: @by }
+  = render 'layouts/radio_button_group', name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: @by
 
   &middot;
   %label Percent
-  = render partial: 'layouts/radio_button_group', locals: { name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent }
+  = render 'layouts/radio_button_group', name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent
 
   &middot;
   .btn-group

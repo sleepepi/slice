@@ -4,7 +4,7 @@
 
     %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'favored' } }
       - @favorited_projects.each do |project|
-        = render partial: 'projects/beta/splash_project_box', locals: { project: project, favorited: true, archived: false }
+        = render 'projects/beta/splash_project_box', project: project, favorited: true, archived: false
 
 - if @current_projects.count > 0
   %div{ style: 'margin-bottom:20px' }
@@ -12,7 +12,7 @@
 
     %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'unfavored' } }
       - @current_projects.each do |project|
-        = render partial: 'projects/beta/splash_project_box', locals: { project: project, favorited: false, archived: false }
+        = render 'projects/beta/splash_project_box', project: project, favorited: false, archived: false
 
 .projects-box
   = link_to new_project_path, class: 'btn btn-success-inverse' do

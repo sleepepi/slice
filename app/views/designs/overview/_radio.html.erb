@@ -2,7 +2,7 @@
 <% valid_responses = responses.select{|r| not r.blank?}.map(&:to_i) %>
 
 <% counts = [] %>
-<% @variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+<% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
   <% counts << responses.select{|r| r == value}.count %>
 <% end %>
 
@@ -12,7 +12,7 @@
     <tr>
       <th></th>
       <th>N</th>
-      <% @variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
+      <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value| %>
         <th><%= value %>: <%= name %></th>
       <% end %>
       <th class="text-muted">Unknown</th>
@@ -23,15 +23,15 @@
     <tr>
       <td><span data-object="sparkline" data-type="pie" data-values="<%= counts.to_json %>" style="display:none"></span></td>
       <td>
-        <%= filter_link(Sheet.array_count(valid_responses), @project, @design, @variable, ':any', @statuses) %>
+        <%= filter_link(Sheet.array_count(valid_responses), @project, @design, variable, ':any', @statuses) %>
       </td>
-      <% @variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each_with_index do |(name, value), count_index| %>
+      <% variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each_with_index do |(name, value), count_index| %>
         <td>
           <% unless responses.select{|r| r == value}.count == 0 %><span style="background-color: <%= @colors[count_index % @colors.size] %>">&nbsp;</span> <% end %>
-          <%= filter_link(responses.select{|r| r == value}.count == 0 ? nil : responses.select{|r| r == value}.count, @project, @design, @variable, value, @statuses) %>
+          <%= filter_link(responses.select{|r| r == value}.count == 0 ? nil : responses.select{|r| r == value}.count, @project, @design, variable, value, @statuses) %>
         </td>
       <% end %>
-      <td><%= filter_link(Sheet.array_count(missing_responses), @project, @design, @variable, ':missing', @statuses) %></td>
+      <td><%= filter_link(Sheet.array_count(missing_responses), @project, @design, variable, ':missing', @statuses) %></td>
       <td><%= filter_link(Sheet.array_count(responses), @project, @design, nil, nil, @statuses) %></td>
     </tr>
   </tbody>

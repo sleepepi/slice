@@ -1,0 +1,57 @@
+- @title = "#{@design.name} Report"
+.page-header
+  %h1
+    = link_to @project.name, @project
+    &middot;
+    = link_to "Summary Report", report_project_path(@project)
+    &middot;
+    = link_to @design.name, [@design.project, @design]
+    Report
+
+#new_filter_modal.modal
+  .modal-dialog.modal-wide-width
+    #filter-modal.modal-content
+
+= form_tag new_filter_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: 'new_filter_form', style: 'display:none'
+
+.row
+  .col-md-8
+    .download-container
+      .download-container-after Filters
+      = link_to 'Add Filter', '#', class: 'btn btn-default btn-xs pull-right', data: { object: 'open-new-filter-modal' }
+      = form_tag filters_project_path(@design.project), method: :post, remote: true, id: 'filters_form' do
+        #filters
+          = render 'filters/filters'
+
+  .col-md-4
+    .download-container
+      .download-container-after Format
+
+      = form_tag report_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load-with-filters' }, class: "form-vertical", id: 'report_form', style: 'margin-top:15px' do
+        = hidden_field_tag :page, params[:page]
+
+        .form-group
+          %label Subjects
+          = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses
+
+        .form-group
+          %label Sheets
+          = render 'layouts/radio_button_group', name: 'filter', options: [['All Sheets', 'all'], ['Last Sheet Entry', 'last'], ['First Sheet Entry', 'first']], selected: @filter
+
+        .form-group
+          %label Report
+          = render 'layouts/radio_button_group', name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent
+
+        .btn-group
+          = link_to '#', class: 'dropdown-toggle btn btn-default', data: { toggle: 'dropdown' } do
+            Export
+            %strong.caret
+
+          %ul.dropdown-menu
+            %li= link_to 'CSV', '#', data: { object: 'export-csv-with-filters', format: 'csv', target: '#report_form' }
+            %li= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf-with-filters', orientation: 'portrait', target: '#report_form' }
+            %li= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf-with-filters', orientation: 'landscape', target: '#report_form' }
+        = link_to 'Refresh', '#', class: 'btn btn-primary', data: { object: 'refresh-report' }
+
+#report
+  .center= image_tag 'try-slice-waiting.gif'

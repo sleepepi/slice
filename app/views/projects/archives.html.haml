@@ -8,7 +8,7 @@
     %p.lead{ style: 'margin-bottom:5px' } Project Archives
     .projects-hide-move
       - @projects.each do |project|
-        = render partial: 'projects/beta/splash_project_box', locals: { project: project, favorited: project.favorited_by?(current_user), archived: true }
+        = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true
 - else
   %p.lead
     You have 0 archived projects.
