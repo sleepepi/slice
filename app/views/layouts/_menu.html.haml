@@ -45,7 +45,7 @@
     %ul.nav.navbar-nav.navbar-right
       %li.hidden-xs.hidden-sm
         = link_to settings_path do
-          = image_tag(current_user.avatar_url(26, "identicon"), class: 'img-rounded', style: 'float:left;margin-right:5px;margin-top:-2px')
+          = image_tag(current_user.avatar_url(26, "identicon"), alt: '', class: 'img-rounded', style: 'float:left;margin-right:5px;margin-top:-2px')
           %span= current_user.first_name
           %span.hidden-sm= current_user.last_name
       %li

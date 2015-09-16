@@ -13,6 +13,7 @@
 
 ### Bug Fix
 - Fixed a bug that prevented new variables from being created on projects with slugs
+- Fixed a bug that would display alt image text for user gravatars that failed to load
 
 ## 0.29.1 (September 10, 2015)
 
