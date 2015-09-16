@@ -11,6 +11,9 @@
 - Updated syntax for calling partials and passing variables
 - Started rewriting most views using haml
 
+### Bug Fix
+- Fixed a bug that prevented new variables from being created on projects with slugs
+
 ## 0.29.1 (September 10, 2015)
 
 ### Enhancements

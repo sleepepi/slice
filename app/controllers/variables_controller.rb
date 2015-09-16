@@ -66,7 +66,7 @@ class VariablesController < ApplicationController
   # GET /variables/new
   # GET /variables/new.json
   def new
-    @variable = current_user.variables.new(project_id: params[:project_id])
+    @variable = current_user.variables.new(project_id: @project.id)
 
     respond_to do |format|
       format.html # new.html.erb
