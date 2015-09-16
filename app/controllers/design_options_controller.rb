@@ -70,25 +70,6 @@ class DesignOptionsController < ApplicationController
     end
   end
 
-  # def create
-  #   position = design_option_params[:position]
-
-  #   @design_option = @design.design_options.new(design_option_params)
-
-  #   if @design_option.save
-  #     @design.design_options.where('position >= ?', @design_option.position).each{ |design_option| design_option.update(position: design_option.position + 1) }
-  #     @design_option.update position: design_option_params[:position]
-
-  #     # Section
-  #     # Variable
-
-  #   else
-
-  #   end
-
-
-  # end
-
   def update
     if @design_option.update(design_option_params) and ((@design_option.section and @design_option.section.update(section_params)) or (@design_option.variable and @design_option.variable.update(variable_params)))
       render :show
@@ -96,7 +77,6 @@ class DesignOptionsController < ApplicationController
       render :edit
     end
   end
-
 
   def destroy
     @design_option.destroy

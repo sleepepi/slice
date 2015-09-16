@@ -64,6 +64,21 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should not create section with blank name on design" do
+    assert_difference('DesignOption.count', 0) do
+      assert_difference('Section.count', 0) do
+        post :create_section, project_id: @project, design_id: @design, design_option: { position: 0 }, section: { name: '', description: 'Section Description', sub_section: '1' }, format: 'js'
+      end
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:design_option)
+    assert_not_nil assigns(:section)
+    assert assigns(:section).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:section).errors[:name]
+    assert_template 'new_section'
+  end
+
   test "should create variable on design" do
     assert_difference('DesignOption.count') do
       assert_difference('Variable.current.count') do
@@ -78,6 +93,21 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_equal 'My New Variable', assigns(:design_option).variable.display_name
     assert_equal 'string', assigns(:design_option).variable.variable_type
     assert_template 'index'
+  end
+
+  test "should not create variable with blank name on design" do
+    assert_difference('DesignOption.count', 0) do
+      assert_difference('Variable.current.count', 0) do
+        post :create_variable, project_id: @project, design_id: @design, design_option: { position: 0 }, variable: { display_name: '', name: 'my_new_variable', variable_type: 'string' }, format: 'js'
+      end
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:design_option)
+    assert_not_nil assigns(:variable)
+    assert assigns(:variable).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
+    assert_template 'new_variable'
   end
 
   test "should create grid variable with questions on design" do
@@ -110,6 +140,18 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_equal 'Gender', assigns(:design_option).variable.display_name
     assert_equal 'radio', assigns(:design_option).variable.variable_type
     assert_template 'index'
+  end
+
+  test "should not create duplicate existing variable on design" do
+    assert_difference('DesignOption.count', 0) do
+      assert_difference('Variable.current.count', 0) do
+        post :create_existing_variable, project_id: @project, design_id: @design, design_option: { position: 0, variable_id: variables(:one).id }, format: 'js'
+      end
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:design_option)
+    assert_template 'new_existing_variable'
   end
 
   test "should update existing section on design" do
