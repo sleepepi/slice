@@ -1,5 +1,5 @@
 .row.design-preview-hide{ style: "padding-top:20px;padding-bottom:20px" }
   .col-sm-offset-6.col-sm-6
-    = link_to '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: position }, class: 'btn btn-xs btn-cutout pull-right' do
+    = link_to new_project_design_design_option_path(@project, @design, position: position), remote: true, class: 'btn btn-xs btn-cutout pull-right' do
       %span.glyphicon.glyphicon-plus{ aria: { hidden: true } }
       Add Question Here

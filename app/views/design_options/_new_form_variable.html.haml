@@ -1,7 +1,7 @@
 .modal-header
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title
-    = link_to 'Add Section or Question', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: @design_option.position }
+    = link_to 'Add Section or Question', new_project_design_design_option_path(@project, @design, position: @design_option.position), remote: true
     &middot;
     New
     = @variable.variable_type.titleize
@@ -22,7 +22,7 @@
     .form-group
       %label.col-md-2.control-label Display Name
       .col-md-10
-        = text_field_tag "variable[display_name]", @variable.display_name, class: 'form-control'
+        = text_field_tag "variable[display_name]", @variable.display_name, class: 'form-control', data: { object: 'create-variable-name' }
         = hidden_field_tag "variable[variable_type]", @variable.variable_type
         .bs-callout.bs-callout-info
           %h4 Heads up!

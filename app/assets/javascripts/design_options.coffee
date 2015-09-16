@@ -26,3 +26,11 @@ $(document)
     $.get("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/new_variable", changes, null, "script")
     false
   )
+  .on('click', '[data-object~="new-existing-variable-popup"]', () ->
+    project_id = $("#project_id").val()
+    design_id = $('#design_id').val()
+    changes = {}
+    changes.design_option = buildDesignOption($(this))
+    $.get("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/new_existing_variable", changes, null, "script")
+    false
+  )

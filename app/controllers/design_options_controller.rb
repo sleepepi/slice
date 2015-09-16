@@ -5,33 +5,31 @@ class DesignOptionsController < ApplicationController
   before_action :set_editable_design
   before_action :redirect_without_design
 
+  before_action :set_new_design_option,           only: [ :new_section, :new_variable, :new_existing_variable, :create_section, :create_variable, :create_existing_variable ]
   before_action :set_design_option,               only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_design_option,  only: [ :show, :edit, :update, :destroy ]
 
+  def new
+  end
 
   def new_section
-    @design_option = @design.design_options.new(design_option_params)
     @section = @design.sections.new
   end
 
   def new_variable
-    @design_option = @design.design_options.new(design_option_params)
     @variable = @project.variables.new(variable_params)
   end
 
-  # def new
-
-  # end
+  def new_existing_variable
+  end
 
   def edit
-
   end
 
   def create_section
     @section = @design.sections.new(section_params)
     @section.project_id = @project.id
     @section.user_id = current_user.id
-    @design_option = @design.design_options.new(design_option_params)
     if @section.save
       @design_option.section_id = @section.id
       @design_option.save
@@ -48,10 +46,9 @@ class DesignOptionsController < ApplicationController
     @variable = @design.dbvariables.new(variable_params)
     @variable.project_id = @project.id
     @variable.user_id = current_user.id
-    @design_option = @design.design_options.new(design_option_params)
     if @variable.save
-      if @variable.variable_type == 'grid' and not params[:questions].blank?
-        variable.create_variables_from_questions!(params[:questions])
+      if @variable.variable_type == 'grid' and not params[:variable][:questions].blank?
+        @variable.create_variables_from_questions!(params[:variable][:questions])
       end
       @design_option.variable_id = @variable.id
       @design_option.save
@@ -61,6 +58,15 @@ class DesignOptionsController < ApplicationController
       render :index
     else
       render :new_variable
+    end
+  end
+
+  def create_existing_variable
+    if @design_option.save
+      @design.insert_new_design_option!(@design_option)
+      render :index
+    else
+      render :new_existing_variable
     end
   end
 
@@ -95,7 +101,6 @@ class DesignOptionsController < ApplicationController
   def destroy
     @design_option.destroy
     @design.recalculate_design_option_positions!
-    @design.reload
     render :index
   end
 
@@ -122,6 +127,10 @@ class DesignOptionsController < ApplicationController
 
     def redirect_without_design
       empty_response_or_root_path(project_designs_path(@project)) unless @design
+    end
+
+    def set_new_design_option
+      @design_option = @design.design_options.new(design_option_params)
     end
 
     def set_design_option

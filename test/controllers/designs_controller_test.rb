@@ -573,26 +573,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should get add section or question popup" do
-    xhr :get, :edit, id: @design, project_id: @project, new: 'section_or_variable', position: '0', format: 'js'
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-
-    assert_template partial: 'designs/interactive/_section_or_variable_popup'
-    assert_response :success
-  end
-
-  test "should get add existing question popup" do
-    xhr :get, :edit, id: @design, project_id: @project, new: 'existing_question', position: '0', format: 'js'
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-
-    assert_template partial: 'designs/interactive/_existing_question_popup'
-    assert_response :success
-  end
-
   test "should update design" do
     put :update, id: @design, project_id: @project, design: { description: "Updated Description" }, format: 'js'
     assert_not_nil assigns(:project)
@@ -640,82 +620,6 @@ class DesignsControllerTest < ActionController::TestCase
   #   assert_nil assigns(:design)
   #   assert_redirected_to root_path
   # end
-
-  test "should create a section on a design" do
-    put :update, id: @design, project_id: @project, section: { section_name: 'Section A', section_description: 'Section Description' }, position: 0, create: 'section', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 4, assigns(:design).design_options.size
-    assert_equal 'Section A', assigns(:design).design_options[0][:section_name]
-    assert_equal 'Section Description', assigns(:design).design_options[0][:section_description]
-    assert_template 'update'
-  end
-
-  test "should update an existing section on a design" do
-    put :update, id: designs(:sections_and_variables), project_id: @project, section: { section_name: 'Section A Updated', section_description: 'Section Description' }, position: 1, update: 'section', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'Section A Updated', assigns(:design).design_options[1][:section_name]
-    assert_equal 'Section Description', assigns(:design).design_options[1][:section_description]
-    assert_template 'update'
-  end
-
-  test "should create a variable and add it to design" do
-    assert_difference('Variable.current.count') do
-      put :update, id: @design, project_id: @project, variable: { display_name: 'My New Variable', name: 'my_new_variable', variable_type: 'string' }, position: 0, create: 'variable', format: 'js'
-    end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 4, assigns(:design).design_options.size
-    assert_equal 'my_new_variable', assigns(:design).variable_at(0).name
-    assert_equal 'My New Variable', assigns(:design).variable_at(0).display_name
-    assert_equal 'string', assigns(:design).variable_at(0).variable_type
-    assert_template 'update'
-  end
-
-  test "should create a grid variable with questions and add it to design" do
-    assert_difference('Variable.current.count', 2) do
-      put :update, id: @design, project_id: @project, variable: { display_name: 'My New Variable', name: 'my_new_variable', variable_type: 'grid', questions: [ { "question_name" => 'Enter your address:', "question_type" => 'string' } ] }, position: 0, create: 'variable', format: 'js'
-    end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 4, assigns(:design).design_options.size
-    assert_equal 'my_new_variable', assigns(:design).variable_at(0).name
-    assert_equal 'My New Variable', assigns(:design).variable_at(0).display_name
-    assert_equal 'grid', assigns(:design).variable_at(0).variable_type
-    assert_equal 'enter_your_address', assigns(:project).variables.find(assigns(:design).variable_at(0).grid_variable_ids.first).name
-    assert_template 'update'
-  end
-
-  test "should update an existing variable on a design" do
-    put :update, id: designs(:sections_and_variables), project_id: @project, variable: { name: "var_date_updated", display_name: "Today's Date Updated", branching_logic: '1 = 1' }, position: 0, variable_id: variables(:date).id, update: 'variable', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'var_date_updated', assigns(:design).variable_at(0).name
-    assert_equal "Today's Date Updated", assigns(:design).variable_at(0).display_name
-    assert_equal '1 = 1', assigns(:design).design_options[0][:branching_logic]
-    assert_template 'update'
-  end
-
-  test "should not update an existing variable with a blank name on a design" do
-    put :update, id: designs(:sections_and_variables), project_id: @project, variable: { name: "" }, position: 0, variable_id: variables(:date).id, update: 'variable', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'var_date', assigns(:design).variable_at(0).name
-    assert_equal 1, assigns(:errors).size
-    assert_template 'update'
-  end
-
-  test "should remove a variable from a design" do
-    put :update, id: @design, project_id: @project, position: 0, delete: 'variable', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 2, assigns(:design).design_options.size
-    assert_template 'update'
-  end
 
   test "should create a domain and add it to the first variable on the design" do
     assert_difference('Domain.current.count') do

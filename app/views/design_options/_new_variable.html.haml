@@ -1,7 +1,7 @@
 .modal-header
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title
-    = link_to 'Add Section or Question', '#', data: { object: 'pull-partial-edit', new: 'section_or_variable', position: @design_option.position }
+    = link_to 'Add Section or Question', new_project_design_design_option_path(@project, @design, position: @design_option.position), remote: true
     &middot;
     = params[:variable_type].to_s.titleize
     Variable
@@ -9,5 +9,5 @@
   = form_tag create_variable_project_design_design_options_path(@project, @design), method: :post, remote: true, class: 'form-horizontal', id: 'design_option_form' do
     = render 'design_options/form_variable', design_option: @design_option, variable: @variable
 .modal-footer
-  = button_tag 'Add Section', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+  = button_tag 'Add Variable', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
   %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel

@@ -99,7 +99,7 @@
           - variables = @project.variables.where.not(id: @design.dbvariables.select(:id))
           - if variables.count > 0
             .col-md-4
-              .download-container.editable-design-element{ data: { object: "pull-partial-edit", new: "existing_question", position: params[:position] } }
+              .download-container.editable-design-element{ data: { object: "new-existing-variable-popup", position: params[:position] } }
                 .download-container-after Existing Question
                 .center{ style: "margin-top:12px" }
                   %strong Existing Question

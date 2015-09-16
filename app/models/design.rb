@@ -510,6 +510,10 @@ class Design < ActiveRecord::Base
 
   def insert_new_design_option!(design_option)
     self.design_options.where.not(id: design_option.id).where('position >= ?', design_option.position).each{ |design_option| design_option.update(position: design_option.position + 1) }
+    self.recalculate_design_option_positions!
+  end
+
+  def recalculate_design_option_positions!
     self.design_options.each_with_index{|design_option, index| design_option.update(position: index)}
     self.reload
   end
