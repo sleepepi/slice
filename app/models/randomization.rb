@@ -63,15 +63,13 @@ class Randomization < ActiveRecord::Base
   def notify_users!
     unless Rails.env.test?
       pid = Process.fork
-      if pid.nil? then
-        # In child
+      if pid.nil?
         all_users = self.project.users_to_email - [self.randomized_by]
         all_users.each do |user_to_email|
           UserMailer.subject_randomized(self, user_to_email).deliver_later if Rails.env.production?
         end
         Kernel.exit!
       else
-        # In parent
         Process.detach(pid)
       end
     end

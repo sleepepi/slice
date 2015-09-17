@@ -455,18 +455,24 @@ class Design < ActiveRecord::Base
   end
 
   def create_variables!(variable_hashes)
-    new_variable_ids = []
+    new_variables = []
     variable_hashes.each do |name, hash|
       v = self.project.variables.find_by_name(name.to_s)
       next if hash[:ignore] == '1' or (not v and not Variable::TYPE_IMPORTABLE.flatten.include?(hash[:variable_type]))
       v = self.project.variables.create( name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: self.id, user_id: self.user_id ) unless v
-      new_variable_ids << v.id if v
+      new_variables << v
     end
 
-    self.options = new_variable_ids.uniq.collect{ |vid| { variable_id: vid.to_s, branching_logic: "" } }
-    self.save
+    self.build_design_options_from_variable_array(new_variables.compact.uniq)
 
     self.set_total_rows
+  end
+
+  def build_design_options_from_variable_array(variables)
+    self.design_options.delete_all
+    variables.each_with_index do |variable, position|
+      self.design_options.create variable_id: variable.id, position: position
+    end
   end
 
   def set_total_rows
@@ -480,6 +486,13 @@ class Design < ActiveRecord::Base
       self.update( import_started_at: Time.now )
       self.set_total_rows
       counter = 0
+
+      variables_and_column_names = self.load_variables.collect do |hash|
+        variable = self.project.variables.find_by_name hash[:name]
+        column_name = hash[:column_name]
+        [variable, column_name]
+      end
+
       CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ) do |line|
         row = line.to_hash.with_indifferent_access
         subject = Subject.first_or_create_with_defaults(self.project, row['Subject'], row['Acrostic'].to_s, current_user, default_site, default_status)
@@ -487,12 +500,13 @@ class Design < ActiveRecord::Base
           sheet = self.sheets.where( subject_id: subject.id ).first_or_initialize( project_id: self.project_id, user_id: current_user.id, last_user_id: current_user.id )
           transaction_type = (sheet.new_record? ? 'sheet_create' : 'sheet_update')
           variables_params = {}
-          self.load_variables.each do |hash|
-            variable = self.project.variables.find_by_name(hash[:name])
+
+          variables_and_column_names.each do |variable, column_name|
             if variable and Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)
-              variables_params[variable.id.to_s] = row[hash[:column_name]].to_s
+              variables_params[variable.id.to_s] = row[column_name].to_s
             end
           end
+
           SheetTransaction.save_sheet!(sheet, {}, variables_params, current_user, remote_ip, transaction_type)
         end
         counter += 1
@@ -500,7 +514,7 @@ class Design < ActiveRecord::Base
       end
     end
 
-    self.update( import_ended_at: Time.now )
+    self.update import_ended_at: Time.now
     self.notify_user!(current_user)
   end
 
@@ -522,7 +536,7 @@ class Design < ActiveRecord::Base
 
     # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage
     def reset_sheet_total_response_count
-      self.sheets.update_all( total_response_count: 0 )
+      self.sheets.update_all total_response_count: 0
     end
 
     def set_slug

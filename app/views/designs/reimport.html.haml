@@ -1,0 +1,85 @@
+- @title = 'Design Reimport'
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to @design.name, [@project, @design]
+    &middot; Reimport
+
+- @file_uploaded = (@variables.size > 0 and not @design.csv_file_cache.blank? and @design.errors[:csv_file].blank?)
+
+= form_for @design, url: update_import_project_design_path(@project, @design), method: :patch, html: { class: 'form-horizontal', multipart: true } do |f|
+  - if @design.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize(@design.errors.count, "error")
+        prohibited this design from being saved
+
+      %ul
+        - @design.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :csv_file, 'Data Import (CSV)', class: 'col-md-2 control-label'
+    .col-md-10
+      - if @file_uploaded
+        %div{ style: "padding-top:5px;" }
+          %strong= @design.csv_file_cache.split('/').last
+          = f.hidden_field :csv_file_cache
+      - else
+        = f.file_field :csv_file, class: 'form-control'
+
+  - if @file_uploaded
+    .form-group
+      = label :subject_status, "Subject Status", class: 'col-md-2 control-label'
+      .col-md-10
+        = select_tag :subject_status, options_for_select(Subject::STATUS, 'pending'), class: 'form-control'
+
+    .form-group
+      = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+      #site.col-md-10
+        = select_tag :site_id, options_for_select(@project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'
+
+    %div{ style: "display:none" }
+      %hr.divider-sm
+
+      - @variables.each do |hash|
+        - variable = @project.variables.find_by_name hash[:name]
+
+        - if params[:variables] and params[:variables][hash[:name]]
+          - display_name = params[:variables][hash[:name]][:display_name]
+          - variable_type = params[:variables][hash[:name]][:variable_type]
+          - ignore = params[:variables][hash[:name]][:ignore]
+        - else
+          - display_name = hash[:display_name]
+          - variable_type = hash[:variable_type]
+          - ignore = (variable and not Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type))
+
+        .form-group
+          %label.col-md-2.control-label= hash[:name]
+          .col-md-10.sheet-container{ style: "padding-top:5px" }
+            .row
+              - if variable
+                .col-xs-6
+                  = link_to variable.display_name, [variable.project, variable], target: '_blank'
+                  of type
+                  %strong= variable.variable_type
+                  won't be recreated.
+                  = hidden_field_tag "variables[#{hash[:name]}][display_name]", display_name
+              - else
+                .col-xs-3
+                  = text_field_tag "variables[#{hash[:name]}][display_name]", display_name, class: 'form-control'
+                .col-xs-3
+                  = select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE_IMPORTABLE, variable_type), class: 'form-control'
+              .col-xs-6
+                %label.checkbox.checkbox-inline.nowrap{ class: "#{'selected' if ignore}" }
+                  = check_box_tag "variables[#{hash[:name]}][ignore]", '1', ignore
+                  do not add to design
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit @variables.size > 0 ? "Reimport Data" : "Proceed to Import Specification", class: 'btn btn-primary'
+      - if @file_uploaded
+        = link_to 'Previous Step', reimport_project_design_path(@project, @design), class: 'btn btn-default'
+      - else
+        = link_to 'Cancel', [@project, @design], class: 'btn btn-default'

@@ -97,7 +97,7 @@ class DesignsController < ApplicationController
       render "reimport"
     else
       @design.save
-      @design.update( rows_imported: 0 )
+      @design.update rows_imported: 0
       @design.set_total_rows
       generate_import
       redirect_to [@design.project, @design], notice: 'Design import initialized successfully. You will receive an email when the design import completes.'
@@ -326,19 +326,12 @@ class DesignsController < ApplicationController
     def generate_import
       unless Rails.env.test?
         pid = Process.fork
-        if pid.nil? then
-          # In child
-          Rails.logger.debug "Design Import Started"
-
+        if pid.nil?
           site = @design.project.sites.find_by_id(params[:site_id])
           subject_status = (Subject::STATUS.flatten.include?(params[:subject_status].to_s) ? params[:subject_status].to_s : 'pending')
           @design.create_sheets!(site, subject_status, current_user, request.remote_ip)
-
-          Rails.logger.debug "Design Import Complete"
-
           Kernel.exit!
         else
-          # In parent
           Process.detach(pid)
         end
       end

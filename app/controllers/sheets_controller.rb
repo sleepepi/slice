@@ -274,15 +274,10 @@ class SheetsController < ApplicationController
 
       unless Rails.env.test?
         pid = Process.fork
-        if pid.nil? then
-          # In child
-          Rails.logger.debug "Sheet Export Started"
+        if pid.nil?
           export.generate_export!(sheet_scope)
-          Rails.logger.debug "Sheet Export Complete"
-
           Kernel.exit!
         else
-          # In parent
           Process.detach(pid)
         end
       end

@@ -1,0 +1,32 @@
+hr.divider-sm, hr.divider-md {
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
+  background-image: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
+  background-image: -ms-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
+  background-image: -o-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
+  border: 0;
+}
+
+hr.divider-sm {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  hr.divider-sm {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+hr.divider-md {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  hr.divider-md {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
