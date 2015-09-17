@@ -402,6 +402,17 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 
+  test "should create design with questions" do
+    assert_difference('Variable.count', 3) do
+      assert_difference('Design.count') do
+        post :create, project_id: @project, design: { name: 'Design With Questions', questions: [ { question_name: 'String Question', question_type: 'string' }, { question_name: 'Integer Question', question_type: 'integer' }, { question_name: 'Gender', question_type: 'radio' } ] }
+      end
+    end
+
+    assert_not_nil assigns(:design)
+    assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
+  end
+
   test "should create design and save parseable redirect_url" do
     assert_difference('Design.count') do
       post :create, project_id: @project, design: { name: 'Public with Valid Redirect', redirect_url: 'http://example.com' }, format: 'js'
