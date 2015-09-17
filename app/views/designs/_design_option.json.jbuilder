@@ -11,3 +11,4 @@ elsif variable = design_option.variable
   end
 end
 json.branching_logic design_option.branching_logic
+json.required design_option.required
