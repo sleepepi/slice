@@ -12,7 +12,8 @@
   .modal-dialog.modal-wide-width
     #filter-modal.modal-content
 
-= form_tag new_filter_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: 'new_filter_form', style: 'display:none'
+= form_tag new_filter_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: 'new_filter_form', style: 'display:none' do
+  &nbsp;
 
 .row
   .col-md-8
