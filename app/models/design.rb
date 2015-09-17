@@ -475,6 +475,33 @@ class Design < ActiveRecord::Base
     end
   end
 
+  def build_design_options_from_json(options, current_user)
+    self.design_options.delete_all
+
+    options.each_with_index do |option, position|
+      if not option['variable'].blank?
+        variable = self.project.create_variable_from_json(option['variable'], current_user)
+      elsif not option['section'].blank?
+        section = self.sections.create(
+          project_id: self.project_id,
+          user_id: current_user.id,
+          name: option['section']['name'],
+          description: option['section']['description'],
+          sub_section: option['section']['sub_section']
+        )
+      end
+
+      self.design_options.create(
+        variable_id: (variable ? variable.id : nil),
+        section_id: (section ? section.id : nil),
+        position: position,
+        branching_logic: option['branching_logic'].to_s.strip,
+        required: option['required'].to_s.strip
+      )
+    end
+
+  end
+
   def set_total_rows
     counter = 0
     CSV.parse( File.open(self.csv_file.path, 'r:iso-8859-1:utf-8'){|f| f.read}, headers: true ){ counter += 1 } if self.csv_file.path

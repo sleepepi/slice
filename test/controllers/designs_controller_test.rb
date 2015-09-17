@@ -35,10 +35,12 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should create design from json template" do
-    assert_difference('Domain.count', 8) do
-      assert_difference('Variable.count', 27) do
-        assert_difference('Design.count') do
-          post :json_import_create, project_id: projects(:empty), json_file: fixture_file_upload('../../test/support/designs/all_variables.json')
+    assert_difference('Section.count', 10) do
+      assert_difference('Domain.count', 8) do
+        assert_difference('Variable.count', 27) do
+          assert_difference('Design.count') do
+            post :json_import_create, project_id: projects(:empty), json_file: fixture_file_upload('../../test/support/designs/all_variables.json')
+          end
         end
       end
     end

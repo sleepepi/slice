@@ -164,32 +164,10 @@ class Project < ActiveRecord::Base
   end
 
   def create_design_from_json(design_json, current_user)
-    options = self.create_options_from_json(design_json['options'], current_user)
     description = design_json['description'].to_s.strip
     name = design_json['name'].to_s.strip
-    self.designs.where( name: name ).first_or_create( description: description, user_id: current_user.id, options: options )
-  end
-
-  def create_options_from_json(options_json, current_user)
-    options = []
-    options_json.each do |option_json|
-      option = {}
-      if not option_json['variable'].blank?
-        variable = self.create_variable_from_json(option_json['variable'], current_user)
-        if variable
-          option[:variable_id] = variable.id
-          option[:branching_logic] = option_json['branching_logic'].to_s.strip
-        end
-      elsif not option_json['section_name'].blank?
-        option[:section_name] = option_json['section_name'].to_s.strip
-        option[:section_id] = option_json['section_id'].to_s.strip
-        option[:section_description] = option_json['section_description'].to_s.strip
-        option[:section_type] = option_json['section_type'].to_i
-        option[:branching_logic] = option_json['branching_logic'].to_s.strip
-      end
-      options << option unless option.blank?
-    end
-    options
+    design = self.designs.where( name: name ).first_or_create( description: description, user_id: current_user.id )
+    design.build_design_options_from_json design_json['options'], current_user
   end
 
   def create_variable_from_json(variable_json, current_user)
