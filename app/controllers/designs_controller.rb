@@ -214,20 +214,9 @@ class DesignsController < ApplicationController
   # PUT /designs/1.js
   def update
     @errors = []
-    unless params[:section].blank?
-      @errors += @design.create_section(params[:section], params[:position].to_i, current_user) if params[:create] == 'section'
-      @errors += @design.update_section(params[:section], params[:position].to_i, current_user) if params[:update] == 'section'
-    end
-    unless params[:variable].blank?
-      @errors += @design.create_variable(params[:variable], params[:position].to_i) if params[:create] == 'variable'
-      @errors += @design.update_variable(params[:variable], params[:position].to_i, params[:variable_id]) if params[:update] == 'variable'
-    end
     unless params[:domain].blank?
       @errors += @design.create_domain(params[:domain], params[:variable_id], current_user) if params[:create] == 'domain'
       @errors += @design.update_domain(params[:domain], params[:variable_id]) if params[:update] == 'domain'
-    end
-    if ['variable', 'section'].include?(params[:delete])
-      @design.remove_option(params[:position].to_i)
     end
     @design.update(design_params)
     if @design.errors.any?
@@ -318,7 +307,7 @@ class DesignsController < ApplicationController
       end
 
       params.require(:design).permit(
-        :name, :slug, :description, :project_id, { :option_tokens => [ :variable_id, :branching_logic, :section_name, :section_id, :section_description ] }, :updater_id, :csv_file, :csv_file_cache, :publicly_available, :show_site,
+        :name, :slug, :description, :project_id, :updater_id, :csv_file, :csv_file_cache, :publicly_available, :show_site,
         { :questions => [ :question_name, :question_type ] }, :redirect_url
       )
     end

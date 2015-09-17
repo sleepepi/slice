@@ -39,55 +39,9 @@ class Design < ActiveRecord::Base
 
   # Model Methods
 
-  # def options
-  #   []
-  # end
-
   def questions
     @questions || [ { question_name: '', question_type: 'free text' } ]
   end
-
-  # def create_section(params, position, current_user)
-  #   errors = []
-  #   section_params = params.permit(:section_name, :section_description, :section_branching_logic, :section_type, :section_image)
-  #   section_hash = { section_name: section_params[:section_name].to_s.strip, section_id: "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase, section_description: section_params[:section_description].to_s.strip, section_type: section_params[:section_type].to_i, branching_logic: section_params[:branching_logic].to_s.strip }
-  #   unless section_params[:section_name].to_s.strip.blank?
-  #     new_option_tokens = self.options
-  #     new_option_tokens.insert(position, section_hash)
-  #     self.options = new_option_tokens
-  #     if self.save
-  #       section = self.sections.where( name: section_hash[:section_name] ).first_or_create( project_id: self.project_id, user_id: current_user.id )
-  #       section.update( description: section_hash[:description], sub_section: section_hash[:section_type] == 1, image: section_params[:section_image], branching_logic: section_params[:section_branching_logic] )
-  #     else
-  #       errors += [['section_section_name', 'Section name must be unique!']]
-  #     end
-  #   else
-  #     errors += [['section_section_name', 'Section name can\'t be blank!']]
-  #   end
-  #   errors
-  # end
-
-  # def update_section(params, position, current_user)
-  #   errors = []
-  #   section_params = params.permit(:section_name, :section_description, :section_branching_logic, :section_type, :section_image)
-  #   unless section_params[:section_name].blank?
-  #     section_params[:section_id] = "_" + section_params[:section_name].to_s.strip.gsub(/[^\w]/,'_').downcase
-  #     new_option_tokens = self.options
-  #     section_params.each do |key, value|
-  #       new_option_tokens[position][key.to_sym] = value.to_s.strip
-  #     end
-  #     self.options = new_option_tokens
-  #     if self.save
-  #       section = self.sections.where( name: section_params[:section_name] ).first_or_create( project_id: self.project_id, user_id: current_user.id )
-  #       section.update( description: section_params[:section_description], sub_section: section_params[:section_type] == 1, image: section_params[:section_image], branching_logic: section_params[:section_branching_logic] )
-  #     else
-  #       errors += [['section_section_name', 'Section name must be unique!']]
-  #     end
-  #   else
-  #     errors += [['section_section_name', 'Section name can\'t be blank!']]
-  #   end
-  #   errors
-  # end
 
   def create_domain(params, variable_id, current_user)
     errors = []
@@ -128,55 +82,6 @@ class Design < ActiveRecord::Base
     errors
   end
 
-  # def create_variable(params, position)
-  #   errors = []
-  #   if params[:id].blank?
-  #     params[:display_name_visibility] = 'gone' if params[:variable_type].to_s == 'text'
-  #     variable_params = params.permit(:name, :display_name, :variable_type, :display_name_visibility)
-  #     variable = self.project.variables.create( variable_params )
-  #     if not variable.new_record? and variable.variable_type == 'grid' and not params[:questions].blank?
-  #       variable.create_variables_from_questions!(params[:questions])
-  #     end
-  #   else
-  #     variable = self.project.variables.find_by_id(params[:id])
-  #   end
-  #   if variable and not variable.new_record?
-  #     new_option_tokens = self.options
-  #     new_option_tokens.insert(position, { variable_id: variable.id, branching_logic: '', required: '' })
-  #     self.options = new_option_tokens
-  #     self.save
-  #   else
-  #     errors += variable.errors.messages.collect{|key, errors| ["variable_#{key.to_s}", "Variable #{key.to_s.humanize.downcase} #{errors.first}"]}
-  #   end
-  #   errors
-  # end
-
-  # def update_variable(params, position, variable_id)
-  #   errors = []
-  #   option_params = params.permit(:branching_logic, :required)
-  #   unless option_params.blank?
-  #     new_option_tokens = self.options
-  #     option_params.each do |key, value|
-  #       new_option_tokens[position][key.to_sym] = value.to_s.strip
-  #     end
-  #     self.options = new_option_tokens
-  #     self.save
-  #   end
-
-  #   [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
-  #     params[date] = parse_date(params[date]) if params[date]
-  #   end
-
-  #   variable_params = params.permit(:name, :display_name, :prepend, :append, :units, :variable_type, :display_name_visibility, :calculation, :format, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :alignment, :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :show_current_button, :autocomplete_values, :multiple_rows, :default_row_number, { :grid_tokens => [ :variable_id ] })
-  #   if v = self.project.variables.find_by_id(variable_id)
-  #     v.update(variable_params)
-  #     if v.errors.any?
-  #       errors += v.errors.messages.collect{|key, errors| ["variable_#{key.to_s}", "Variable #{key.to_s.humanize.downcase} #{errors.first}"]}
-  #     end
-  #   end
-  #   errors
-  # end
-
   def create_variables_from_questions!
     self.questions.select{|hash| not hash[:question_name].blank?}.each_with_index do |question_hash, position|
       name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, '_').gsub(/^[\d_]/, 'n').gsub(/_{2,}/, '_').gsub(/_$/, '')[0..31].strip
@@ -192,18 +97,6 @@ class Design < ActiveRecord::Base
     self.recalculate_design_option_positions!
   end
 
-  def remove_option(position)
-    new_option_tokens = self.options
-    new_option_tokens.delete_at(position)
-    self.options = new_option_tokens
-    self.save
-  end
-
-  def variable_at(position)
-    design_option = self.design_options[position]
-    design_option.variable if design_option
-  end
-
   def editable_by?(current_user)
     current_user.all_designs.where(id: self.id).count == 1
   end
@@ -211,32 +104,6 @@ class Design < ActiveRecord::Base
   def copyable_attributes
     self.attributes.reject{|key, val| ['id', 'slug', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
   end
-
-  # # We want all validations to run so all errors will show up when submitting a form
-  # def check_option_validations
-  #   result_a = check_variable_ids
-  #   result_b = check_section_names
-
-  #   result_a and result_b
-  # end
-
-  # def check_variable_ids
-  #   result = true
-  #   if self.variable_ids.uniq.size < self.variable_ids.size
-  #     self.errors.add(:variables, "can only be added once")
-  #     result = false
-  #   end
-  #   result
-  # end
-
-  # def check_section_names
-  #   result = true
-  #   if self.section_names.uniq.size < self.section_names.size
-  #     self.errors.add(:section_names, "must be unique")
-  #     result = false
-  #   end
-  #   result
-  # end
 
   def options_with_grid_sub_variables
     new_options = []
@@ -250,38 +117,6 @@ class Design < ActiveRecord::Base
     end
     new_options
   end
-
-  # def option_tokens=(tokens)
-  #   self.options = []
-  #   tokens.each do |option_hash|
-  #     if option_hash[:section_name].blank?
-  #       self.options << {
-  #                         variable_id: option_hash[:variable_id],
-  #                         branching_logic: option_hash[:branching_logic].to_s.strip
-  #                       } unless option_hash[:variable_id].blank?
-  #     else
-  #       self.options << {
-  #                         section_name: option_hash[:section_name].strip,
-  #                         section_id: "_" + option_hash[:section_name].strip.gsub(/[^\w]/,'_').downcase,
-  #                         section_description: option_hash[:section_description].to_s.strip,
-  #                         section_type: option_hash[:section_type].to_i,
-  #                         branching_logic: option_hash[:branching_logic].to_s.strip
-  #                       }
-  #     end
-  #   end
-  # end
-
-  # def branching_logic_section(section)
-  #   if section
-  #     section.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
-  #   else
-  #     ''.to_json
-  #   end
-  # end
-
-  # def branching_logic(variable)
-  #   self.options.select{|item| item[:variable_id].to_i == variable.id }.collect{|item| item[:branching_logic].to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}}.join(' ').to_json
-  # end
 
   def branching_logic(design_option)
     design_option.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
@@ -300,36 +135,12 @@ class Design < ActiveRecord::Base
     end
   end
 
-  # def variable_ids
-  #   @variable_ids ||= begin
-  #     self.options.select{|option| not option[:variable_id].blank?}.collect{|option| option[:variable_id].to_i}
-  #   end
-  # end
-
-  # def subsections(section_name)
-  #   section_index = (self.options.index{|opt| opt[:section_name] == section_name} + 1) rescue nil
-  #   section_subsections = []
-  #   if section_index >= 0
-  #     self.options[section_index..-1].select{|o| not o[:section_name].blank?}.each do |option|
-  #       break if option[:section_type].to_i == 0
-  #       section_subsections << option
-  #     end
-  #   end
-  #   section_subsections
-  # end
-
   def main_sections
     self.design_options.joins(:section).where(sections: { sub_section: false })
   end
 
   # def all_sections
   #   self.options.select{|option| not option[:section_name].blank?}
-  # end
-
-  # def section_names
-  #   @section_names ||= begin
-  #     self.all_sections.collect{|option| option[:section_name]}
-  #   end
   # end
 
   # # ActiveRecord...

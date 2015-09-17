@@ -86,13 +86,7 @@ class Variable < ActiveRecord::Base
     ['radio', 'checkbox'].include?(self.variable_type) and self.alignment == 'scale'
   end
 
-  # Designs isn't used, using inherited designs instead.
-  # def designs
-  #   @designs ||= begin
-  #     Design.current.select{|d| d.variable_ids.include?(self.id)}.sort_by(&:name)
-  #   end
-  # end
-
+  # Use inherited designs to include grid variables
   def inherited_designs
     @inherited_designs ||= begin
       variable_ids = Variable.current.where(project_id: self.project_id, variable_type: 'grid').select{|v| v.grid_variable_ids.include?(self.id)}.collect{|v| v.id} + [self.id]
@@ -176,10 +170,11 @@ class Variable < ActiveRecord::Base
   def first_scale_variable?(design)
     return true unless design
 
-    previous_variable = design.dbvariables[design.dbvariables.pluck(:id).index(self.id) - 1] if design.dbvariables.pluck(:id).index(self.id).to_i > 0
-
     position = design.design_options.pluck(:variable_id).index(self.id)
-    previous_variable = design.variable_at(position - 1) if position and position - 1 >= 0
+    if position and position > 0
+      design_option = design.design_options[position - 1]
+      previous_variable = design_option.variable
+    end
     # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form
     if previous_variable and previous_variable.uses_scale? and previous_variable.shared_options == self.shared_options
       return false

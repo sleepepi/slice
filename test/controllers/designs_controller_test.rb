@@ -641,7 +641,7 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 3, assigns(:design).design_options.size
-    assert_equal 'new_domain_for_variable', assigns(:design).variable_at(0).domain.name
+    assert_equal 'new_domain_for_variable', assigns(:design).design_options[0].variable.domain.name
     assert_template 'update'
   end
 
@@ -650,13 +650,13 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'dropdown_options_new', assigns(:design).variable_at(2).domain.name
-    assert_equal 'Easy', assigns(:design).variable_at(2).domain.options[0][:name]
-    assert_equal '1', assigns(:design).variable_at(2).domain.options[0][:value]
-    assert_equal 'Medium', assigns(:design).variable_at(2).domain.options[1][:name]
-    assert_equal '2', assigns(:design).variable_at(2).domain.options[1][:value]
-    assert_equal 'Hard', assigns(:design).variable_at(2).domain.options[2][:name]
-    assert_equal '3', assigns(:design).variable_at(2).domain.options[2][:value]
+    assert_equal 'dropdown_options_new', assigns(:design).design_options[2].variable.domain.name
+    assert_equal 'Easy', assigns(:design).design_options[2].variable.domain.options[0][:name]
+    assert_equal '1', assigns(:design).design_options[2].variable.domain.options[0][:value]
+    assert_equal 'Medium', assigns(:design).design_options[2].variable.domain.options[1][:name]
+    assert_equal '2', assigns(:design).design_options[2].variable.domain.options[1][:value]
+    assert_equal 'Hard', assigns(:design).design_options[2].variable.domain.options[2][:name]
+    assert_equal '3', assigns(:design).design_options[2].variable.domain.options[2][:value]
     assert_template 'update'
   end
 
@@ -665,13 +665,13 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'dropdown_options_new', assigns(:design).variable_at(2).domain.name
-    assert_equal 'Easy', assigns(:design).variable_at(2).domain.options[0][:name]
-    assert_equal '1', assigns(:design).variable_at(2).domain.options[0][:value]
-    assert_equal 'Medium', assigns(:design).variable_at(2).domain.options[1][:name]
-    assert_equal '2', assigns(:design).variable_at(2).domain.options[1][:value]
-    assert_equal 'Hard', assigns(:design).variable_at(2).domain.options[2][:name]
-    assert_equal '3', assigns(:design).variable_at(2).domain.options[2][:value]
+    assert_equal 'dropdown_options_new', assigns(:design).design_options[2].variable.domain.name
+    assert_equal 'Easy', assigns(:design).design_options[2].variable.domain.options[0][:name]
+    assert_equal '1', assigns(:design).design_options[2].variable.domain.options[0][:value]
+    assert_equal 'Medium', assigns(:design).design_options[2].variable.domain.options[1][:name]
+    assert_equal '2', assigns(:design).design_options[2].variable.domain.options[1][:value]
+    assert_equal 'Hard', assigns(:design).design_options[2].variable.domain.options[2][:name]
+    assert_equal '3', assigns(:design).design_options[2].variable.domain.options[2][:value]
     assert_template 'update'
   end
 
@@ -680,7 +680,7 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'dropdown_options', assigns(:design).variable_at(2).domain.name
+    assert_equal 'dropdown_options', assigns(:design).design_options[2].variable.domain.name
     assert_equal 1, assigns(:errors).size
     assert_template 'update'
   end
