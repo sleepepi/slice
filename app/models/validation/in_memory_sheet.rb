@@ -53,7 +53,7 @@ module Validation
     end
 
     def valid?
-      @design.dbvariables.each do |variable|
+      @design.variables.each do |variable|
         if visible_on_sheet?(variable)
           sheet_variable = @sheet_variables.select{|sv| sv.variable.id == variable.id}.first
           value = variable.response_to_value(sheet_variable ? sheet_variable.get_raw_response : nil)

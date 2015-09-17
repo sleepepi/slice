@@ -36,7 +36,7 @@
   %dt All Variables
   %dd
     %ul.list-unstyled
-      - @design.dbvariables.each do |variable|
+      - @design.variables.each do |variable|
         %li
           = link_to variable.name, [variable.project, variable]
           - if variable.variable_type == 'grid'

@@ -90,7 +90,7 @@ class Variable < ActiveRecord::Base
   def inherited_designs
     @inherited_designs ||= begin
       variable_ids = Variable.current.where(project_id: self.project_id, variable_type: 'grid').select{|v| v.grid_variable_ids.include?(self.id)}.collect{|v| v.id} + [self.id]
-      Design.current.where(project_id: self.project_id).select{|d| (d.dbvariables.pluck(:id) & variable_ids).size > 0}.sort_by(&:name)
+      Design.current.where(project_id: self.project_id).select{|d| (d.variables.pluck(:id) & variable_ids).size > 0}.sort_by(&:name)
     end
   end
 

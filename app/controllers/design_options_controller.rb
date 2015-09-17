@@ -43,7 +43,7 @@ class DesignOptionsController < ApplicationController
   end
 
   def create_variable
-    @variable = @design.dbvariables.new(variable_params)
+    @variable = @design.variables.new(variable_params)
     @variable.project_id = @project.id
     @variable.user_id = current_user.id
     if @variable.save

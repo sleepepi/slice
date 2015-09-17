@@ -215,7 +215,7 @@
 
   # TODO Check speed of function using where vs select (caching and memory)
   def variable_javascript_value(variable_name)
-    variable = self.design.dbvariables.select{|v| v.name == variable_name}.first
+    variable = self.design.variables.select{|v| v.name == variable_name}.first
     result = if variable
       result = if sheet_variable = self.sheet_variables.select{|sv| sv.variable_id == variable.id}.first
         sheet_variable.get_response(:raw)
@@ -404,7 +404,7 @@
   end
 
   def total_design_variables
-    self.design.dbvariables.count
+    self.design.variables.count
   end
 
   def out_of

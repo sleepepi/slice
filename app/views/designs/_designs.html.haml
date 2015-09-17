@@ -13,7 +13,7 @@
     %tr{ id: "design_#{design.id}" }
       %td= link_to design.name, [@project, design]
 
-      %td= design.dbvariables.count
+      %td= design.variables.count
       %td= link_to design.user.name, design.user if design.user
       %td
         = link_to 'Copy', copy_project_design_path(@project, design), class: 'btn btn-default btn-xs'

@@ -34,7 +34,7 @@ class Design < ActiveRecord::Base
   has_many :event_designs
 
   has_many :design_options, -> { order :position }
-  has_many :dbvariables, through: :design_options, source: :variable
+  has_many :variables, through: :design_options
 
 
   # Model Methods
@@ -123,7 +123,7 @@ class Design < ActiveRecord::Base
   end
 
   def variable_replacement(variable_name)
-    variable = self.dbvariables.find_by_name(variable_name)
+    variable = self.variables.find_by_name(variable_name)
     if variable and ['radio'].include?(variable.variable_type)
       "$(\"[name='variables[#{variable.id}]']:checked\").val()"
     elsif variable and ['checkbox'].include?(variable.variable_type)
@@ -141,18 +141,6 @@ class Design < ActiveRecord::Base
 
   # def all_sections
   #   self.options.select{|option| not option[:section_name].blank?}
-  # end
-
-  # # ActiveRecord...
-  # def pure_variables
-  #   @pure_variables ||= begin
-  #     Variable.current.where(id: variable_ids)
-  #   end
-  # end
-
-  # # Array...
-  # def variables
-  #   pure_variables.sort{ |a, b| variable_ids.index(a.id) <=> variable_ids.index(b.id) }
   # end
 
   def reportable_variables(variable_types, except_variable_ids)

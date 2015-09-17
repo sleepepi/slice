@@ -58,7 +58,7 @@
           = link_to 'Add Question', add_question_project_variables_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'
 .modal-footer
   = button_tag 'Add Variable', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
-  - variables = @project.variables.where(variable_type: params[:variable_type]).where.not(id: @design.dbvariables.select(:id))
+  - variables = @project.variables.where(variable_type: params[:variable_type]).where.not(id: @design.variables.select(:id))
   - if variables.count > 0
     or
     %span.form-inline
