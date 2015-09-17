@@ -245,7 +245,7 @@
   <div class="col-md-10">
     <div id="form_grid_variables" data-object="sortable">
       <% @variable.grid_variables.each do |grid_variable| %>
-        <%= @grid_variable = grid_variable; render partial: 'edit_grid_variable' %>
+        <%= render 'edit_grid_variable', grid_variable: grid_variable %>
       <% end %>
     </div>
     <div class="btn-toolbar">

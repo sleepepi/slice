@@ -1,0 +1,26 @@
+- @variable = @design.project.variables.find_by_id(params[:variable_id])
+
+.modal-header
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+  %h4.modal-title
+    Edit Variable Autocomplete Values &middot;
+    = @variable.name
+.modal-body
+  %form#variable_form.form-horizontal
+    .form-group
+      %label.col-md-2.control-label Autocomplete Values
+      .col-md-10
+        = text_area_tag "variable[autocomplete_values]", @variable.autocomplete_values, rows: 7, rel: "tooltip", title: "Line-separated Strings", class: "form-control"
+
+    - submitted_sheet_variables = @variable.user_submitted_sheet_variables
+
+    - if submitted_sheet_variables.size > 0
+      .form-group{ data: { object: "autocomplete" } }
+        %label.col-md-2.control-label User submitted
+        .col-md-10
+          %div{ style: "line-height:30px" }
+            = submitted_sheet_variables.collect{|sv| link_to( sv.response.to_s, [sv.sheet.project, sv.sheet], target: '_blank' ) }.join(', ').html_safe
+.modal-footer
+  = button_tag 'Update', data: { object: 'push-partial-change', target: '#variable_form', update: 'variable', position: params[:position], variable_id: @variable.id }, class: 'btn btn-primary'
+  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+
