@@ -154,21 +154,6 @@ class Variable < ActiveRecord::Base
     result
   end
 
-  def description_range
-    [self.description, self.range_table].select{|i| not i.blank?}.join('<br /><br />')
-  end
-
-  def range_table
-    result = ""
-    if self.hard_minimum or self.hard_maximum or self.soft_minimum or self.soft_maximum
-      result += "<table class='table table-bordered table-striped' style='margin-bottom:0px'>"
-      result += "<thead><tr><th>Hard Min</th><th>Soft Min</th><th>Soft Max</th><th>Hard Max</th></tr></thead>"
-      result += "<tbody><tr><td>#{self.hard_minimum}</td><td>#{self.soft_minimum}</td><td>#{self.soft_maximum}</td><td>#{self.hard_maximum}</td></tr></tbody>"
-      result += "</table>"
-    end
-    result
-  end
-
   def grid_tokens=(tokens)
     self.grid_variables = []
     tokens.each do |grid_hash|
@@ -369,14 +354,6 @@ class Variable < ActiveRecord::Base
       [self.name] + self.shared_options.collect{|option| option_variable_name(option[:value])}
     else
       self.name
-    end
-  end
-
-  def csv_column_ids
-    if self.variable_type == 'checkbox'
-      [self.id.to_s] + self.shared_options.collect{|option| "#{self.id.to_s}__#{option[:value]}"}
-    else
-      self.id.to_s
     end
   end
 
