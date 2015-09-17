@@ -1,6 +1,5 @@
 if section = design_option.section
   json.section do
-    json.id section.id
     json.name section.name
     json.description section.description
     json.sub_section section.sub_section?
