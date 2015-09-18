@@ -1,52 +1,55 @@
 class Comment < ActiveRecord::Base
-
   # Concerns
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| where('LOWER(description) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%')) }
-  scope :with_project, lambda { |arg| where('comments.sheet_id in (select sheets.id from sheets where sheets.deleted = ? and sheets.project_id IN (?))', false, arg) }
+  scope :search, -> (arg) { where('LOWER(description) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%')) }
+  scope :with_project, -> (arg) { where('comments.sheet_id in (select sheets.id from sheets where sheets.deleted = ? and sheets.project_id IN (?))', false, arg) }
 
   after_create :send_email
 
   # Model Validation
-  validates_presence_of :description, :sheet_id, :user_id
+  validates :description, :sheet_id, :user_id, presence: true
 
   # Model Relationships
   belongs_to :user
   belongs_to :sheet
 
+  delegate :project_id, to: :sheet
+
   def event_at
-    self.created_at
+    created_at
   end
 
   def name
-    "##{self.id}"
-  end
-
-  def project_id
-    self.sheet.project_id
+    "##{id}"
   end
 
   def users_to_email
-    result = (self.sheet.project.users + [self.sheet.project.user] + self.sheet.subject.site.users).uniq - [self.user]
-    result = result.select{|u| u.emails_enabled? and u.email_on?(:sheet_comment) and u.email_on?("project_#{self.sheet.project.id}_sheet_comment") }
+    (notifiable_users - [user]).select { |u| email_user?(u) }
   end
 
   def editable_by?(current_user)
-    self.sheet.project.editable_by?(current_user)
+    sheet.project.editable_by?(current_user)
   end
 
   def deletable_by?(current_user)
-    self.user == current_user or self.editable_by?(current_user)
+    user == current_user || editable_by?(current_user)
   end
 
   private
 
-    def send_email
-      self.users_to_email.each do |user_to_email|
-        UserMailer.comment_by_mail(self, user_to_email).deliver_later if Rails.env.production? and not self.sheet.project.disable_all_emails?
-      end
-    end
+  def email_user?(u)
+    u.emails_enabled? && u.email_on?(:sheet_comment) && u.email_on?("project_#{sheet.project.id}_sheet_comment")
+  end
 
+  def notifiable_users
+    (sheet.project.users + [sheet.project.user] + sheet.subject.site.users).uniq
+  end
+
+  def send_email
+    users_to_email.each do |user_to_email|
+      UserMailer.comment_by_mail(self, user_to_email).deliver_later if Rails.env.production? && !sheet.project.disable_all_emails?
+    end
+  end
 end

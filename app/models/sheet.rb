@@ -1,5 +1,4 @@
  class Sheet < ActiveRecord::Base
-
   # Concerns
   include Deletable, Latexable, DoubleDataEntry
 
@@ -501,5 +500,4 @@
       self.subject_event_id = nil if self.subject_event.subject != self.subject
     end
   end
-
 end

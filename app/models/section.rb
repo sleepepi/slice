@@ -1,5 +1,4 @@
 class Section < ActiveRecord::Base
-
   mount_uploader :image, ImageUploader
 
   # Model Relationships
@@ -8,13 +7,12 @@ class Section < ActiveRecord::Base
   belongs_to :user
 
   # Model Validation
-  validates_presence_of :name, :project_id, :design_id, :user_id
-  validates_uniqueness_of :name, scope: :design_id
+  validates :name, :project_id, :design_id, :user_id, presence: true
+  validates :name, uniqueness: { scope: :design_id }
 
   # Model Methods
 
   def to_slug
-    self.name.parameterize
+    name.parameterize
   end
-
 end

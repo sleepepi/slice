@@ -226,7 +226,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should not create grid variable with non-unique variables" do
+  test "should not create grid variable with nonunique variables" do
     assert_difference('Variable.count', 0) do
       post :create, project_id: @project, variable: { description: @variable.description, name: 'var_grid_tmp', display_name: 'Variable Grid', variable_type: 'grid',
                                 grid_tokens: [

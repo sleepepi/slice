@@ -1,7 +1,6 @@
 module Validation
   module Validators
     class Integer < Validation::Validators::Numeric
-
       MESSAGES = {
         blank: '',
         invalid: 'Not a Valid Integer',
@@ -14,16 +13,13 @@ module Validation
         MESSAGES
       end
 
-    private
+      private
 
       def get_number(value)
-        begin
-          Integer("%.0f" % value)
-        rescue
-          nil
-        end
+        Integer("%.0f" % value)
+      rescue
+        nil
       end
-
     end
   end
 end

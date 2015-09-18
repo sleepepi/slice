@@ -1,5 +1,4 @@
 class SheetTransaction < ActiveRecord::Base
-
   TRANSACTION_TYPE = ["sheet_create", "sheet_update", "public_sheet_create", "public_sheet_update", "domain_update", "sheet_rollback"]
 
   # Model Relationships
@@ -17,7 +16,6 @@ class SheetTransaction < ActiveRecord::Base
     in_memory_sheet = Validation::InMemorySheet.new(sheet)
 
     in_memory_sheet.merge_form_params!(variables_params)
-
 
     variables_params.each do |variable_id, value|
       variable = in_memory_sheet.variables.select{|v| v.id.to_s == variable_id.to_s}.first
@@ -41,7 +39,6 @@ class SheetTransaction < ActiveRecord::Base
 
   def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type)
     return false unless self.validate_variable_values(sheet, variables_params)
-
 
     sheet_save_result = case transaction_type when 'sheet_create', 'public_sheet_create'
       sheet.save
@@ -148,5 +145,4 @@ class SheetTransaction < ActiveRecord::Base
     end
 
   end
-
 end

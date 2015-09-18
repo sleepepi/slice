@@ -1,14 +1,13 @@
 class StratificationFactor < ActiveRecord::Base
-
   # Concerns
   include Deletable
 
   # Named Scopes
 
   # Model Validation
-  validates_presence_of :name, :user_id, :project_id, :randomization_scheme_id
-  validates_uniqueness_of :name, case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id]
-  validates_uniqueness_of :stratifies_by_site, scope: [:deleted, :project_id, :randomization_scheme_id], if: :stratifies_by_site
+  validates :name, uniqueness: { case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id] }, presence: true
+  validates :user_id, :project_id, :randomization_scheme_id, presence: true
+  validates :stratifies_by_site, uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, if: :stratifies_by_site
 
   # Model Relationships
   belongs_to :user
@@ -19,19 +18,18 @@ class StratificationFactor < ActiveRecord::Base
   # Model Methods
 
   def option_hashes
-    if self.stratifies_by_site?
-      self.project.sites.order(:name).collect{|s| { stratification_factor_id: self.id, site_id: s.id, extra: true } }
+    if stratifies_by_site?
+      project.sites.order(:name).collect { |s| { stratification_factor_id: id, site_id: s.id, extra: true } }
     else
-      self.stratification_factor_options.collect{|sfo| { stratification_factor_id: self.id, stratification_factor_option_id: sfo.id, extra: false } }
+      stratification_factor_options.collect { |sfo| { stratification_factor_id: id, stratification_factor_option_id: sfo.id, extra: false } }
     end
   end
 
   def valid_values
-    if self.stratifies_by_site?
-      self.project.sites.pluck(:id)
+    if stratifies_by_site?
+      project.sites.pluck(:id)
     else
-      self.stratification_factor_options.pluck(:id)
+      stratification_factor_options.pluck(:id)
     end
   end
-
 end

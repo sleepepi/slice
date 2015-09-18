@@ -1,7 +1,6 @@
 module Validation
   module Validators
     class Signature < Validation::Validators::Default
-
       MESSAGES = {
         blank: '',
         invalid: 'Not a Valid Signature'
@@ -15,12 +14,14 @@ module Validation
         get_signature(value) == []
       end
 
-      def formatted_value(value)
+      def formatted_value(_value)
         nil
       end
 
       def response_to_value(response)
-        JSON.parse(response) rescue nil
+        JSON.parse(response)
+      rescue
+        nil
       end
 
     private
@@ -36,7 +37,6 @@ module Validation
           end
         end
       end
-
     end
   end
 end

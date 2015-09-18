@@ -1,5 +1,4 @@
 class Report < ActiveRecord::Base
-
   serialize :options, Hash
 
   # Concerns
@@ -8,18 +7,17 @@ class Report < ActiveRecord::Base
   # Named Scopes
 
   # Model Validation
-  validates_presence_of :user_id, :name
+  validates :user_id, :name, presence: true
 
   # Model Relationships
   belongs_to :user
 
   # Model Methods
   def design
-    Design.current.find_by_id(self.options[:design_id])
+    Design.current.find_by_id options[:design_id]
   end
 
   def project
-    self.design ? self.design.project : nil
+    design ? design.project : nil
   end
-
 end

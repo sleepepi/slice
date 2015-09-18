@@ -70,45 +70,42 @@ module Validation
       @errors.count == 0
     end
 
-
     private
 
-      def load_variables(variables_params)
-        @variables = @project.variables.where(id: variables_params.keys).to_a
+    def load_variables(variables_params)
+      @variables = @project.variables.where(id: variables_params.keys).to_a
+    end
+
+    def store_temp_response(variable, sheet_variable, response)
+      variable.validator.store_temp_response(sheet_variable, response)
+    end
+
+    def exec_js_context
+      @exec_js_context ||= begin
+        # Compiled CoffeeScript from designs.coffee
+        index_of = 'var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };'
+        intersection_function = 'this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };'
+        overlap_function = 'this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };'
+        ExecJS.compile(index_of + intersection_function + overlap_function)
       end
+    end
 
-      def store_temp_response(variable, sheet_variable, response)
-        variable.validator.store_temp_response(sheet_variable, response)
+    def expanded_branching_logic(branching_logic)
+      branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/) { |m| variable_javascript_value($1) }
+    end
+
+    def variable_javascript_value(variable_name)
+      variable = @variables.select { |v| v.name == variable_name }.first
+      if variable
+        result = if sheet_variable = @sheet_variables.select { |sv| sv.variable.id == variable.id }.first
+                   sheet_variable.get_raw_response
+                 else
+                   variable.variable_type == 'checkbox' ? [] : ''
+                 end
+        result.to_json
+      else
+        variable_name
       end
-
-      def exec_js_context
-        @exec_js_context ||= begin
-          # Compiled CoffeeScript from designs.coffee
-          index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
-          intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
-          overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
-          ExecJS.compile(index_of + intersection_function + overlap_function)
-        end
-      end
-
-      def expanded_branching_logic(branching_logic)
-        branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
-      end
-
-
-      def variable_javascript_value(variable_name)
-        variable = @variables.select{|v| v.name == variable_name}.first
-        result = if variable
-          result = if sheet_variable = @sheet_variables.select{|sv| sv.variable.id == variable.id}.first
-            sheet_variable.get_raw_response
-          else
-            variable.variable_type == 'checkbox' ? [] : ''
-          end
-          result.to_json
-        else
-          variable_name
-        end
-      end
-
+    end
   end
 end

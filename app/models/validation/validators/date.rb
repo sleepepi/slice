@@ -1,7 +1,6 @@
 module Validation
   module Validators
     class Date < Validation::Validators::Default
-
       MESSAGES = {
         blank: '',
         invalid: 'Not a Valid Date',
@@ -15,11 +14,13 @@ module Validation
       end
 
       def blank_value?(value)
-        ((value[:month].blank? and value[:day].blank? and value[:year].blank?) rescue true)
+        value[:month].blank? && value[:day].blank? && value[:year].blank?
+      rescue
+        true
       end
 
       def invalid_format?(value)
-        (!blank_value?(value) and !get_date(value))
+        (!blank_value?(value) && !get_date(value))
       end
 
       def in_hard_range?(value)
@@ -31,10 +32,12 @@ module Validation
       end
 
       def formatted_value(value)
-        get_date(value).strftime("%B %-d, %Y") rescue nil
+        get_date(value).strftime('%B %-d, %Y')
+      rescue
+        nil
       end
 
-      def show_full_message?(value)
+      def show_full_message?(_value)
         true
       end
 
@@ -43,7 +46,11 @@ module Validation
           response
         else
           # This parses the date from "%Y-%m-%d" database format
-          date = (::Date.parse(response) rescue nil)
+          date = begin
+            ::Date.parse(response)
+          rescue
+            nil
+          end
           (date ? { month: date.month, day: date.day, year: date.year } : {})
         end
       end
@@ -57,28 +64,27 @@ module Validation
         { response: parse_date("#{month}/#{day}/#{year}") }
       end
 
-    private
+      private
 
       def get_date(value)
         parse_date_from_hash(value)
       end
 
       def date_in_hard_range?(date)
-        less_or_equal_to_date?(date, @variable.date_hard_maximum) and greater_than_or_equal_to_date?(date, @variable.date_hard_minimum)
+        less_or_equal_to_date?(date, @variable.date_hard_maximum) && greater_than_or_equal_to_date?(date, @variable.date_hard_minimum)
       end
 
       def date_in_soft_range?(date)
-        less_or_equal_to_date?(date, @variable.date_soft_maximum) and greater_than_or_equal_to_date?(date, @variable.date_soft_minimum)
+        less_or_equal_to_date?(date, @variable.date_soft_maximum) && greater_than_or_equal_to_date?(date, @variable.date_soft_minimum)
       end
 
       def less_or_equal_to_date?(date, date_max)
-        !date or !date_max or (date_max and date <= date_max)
+        !date || !date_max || (date_max && date <= date_max)
       end
 
       def greater_than_or_equal_to_date?(date, date_min)
-        !date or !date_min or (date_min and date >= date_min)
+        !date || !date_min || (date_min && date >= date_min)
       end
-
     end
   end
 end

@@ -1,5 +1,4 @@
 class ListOption < ActiveRecord::Base
-
   # Model Relationships
   belongs_to :project
   belongs_to :randomization_scheme
@@ -8,7 +7,6 @@ class ListOption < ActiveRecord::Base
 
   # Model Methods
   def name
-    self.option.label
+    option.label
   end
-
 end

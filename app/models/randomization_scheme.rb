@@ -1,5 +1,4 @@
 class RandomizationScheme < ActiveRecord::Base
-
   # Triggers
   after_create :create_default_block_size_multipliers
 
@@ -94,10 +93,9 @@ class RandomizationScheme < ActiveRecord::Base
 
   private
 
-    def create_default_block_size_multipliers
-      (1..4).each do |value|
-        self.block_size_multipliers.create(project_id: self.project_id, user_id: self.user_id, value: value)
-      end
+  def create_default_block_size_multipliers
+    (1..4).each do |value|
+      block_size_multipliers.create(project_id: project_id, user_id: user_id, value: value)
     end
-
+  end
 end

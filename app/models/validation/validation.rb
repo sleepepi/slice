@@ -1,5 +1,4 @@
 module Validation
-
   DEFAULT_CLASS = Validation::Validators::Default
   VALIDATOR_CLASSES = {
     'calculated' => Validation::Validators::Numeric,
@@ -21,5 +20,4 @@ module Validation
   def self.for(object)
     (VALIDATOR_CLASSES[object.variable_type] || DEFAULT_CLASS).new(object)
   end
-
 end

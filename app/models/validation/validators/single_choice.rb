@@ -14,10 +14,9 @@ module Validation
         value.blank?
       end
 
-      def formatted_value(value)
+      def formatted_value(_value)
         nil
       end
-
     end
   end
 end

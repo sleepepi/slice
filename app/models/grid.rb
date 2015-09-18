@@ -1,18 +1,13 @@
 class Grid < ActiveRecord::Base
-  # attr_accessible :response, :response_file, :response_file_cache, :sheet_variable_id, :user_id, :variable_id, :position, :remove_response_file
-
   # Concerns
   include Valuable
 
   # Model Validation
-  validates_presence_of :sheet_variable_id, :position
+  validates :sheet_variable_id, :position, presence: true
 
   # Model Relationships
   belongs_to :sheet_variable, touch: true
   belongs_to :user
 
-  def sheet_id
-    self.sheet_variable.sheet_id
-  end
-
+  delegate :sheet_id, to: :sheet_variable
 end

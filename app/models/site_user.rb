@@ -1,11 +1,10 @@
 class SiteUser < ActiveRecord::Base
-
   # Named Scopes
   scope :current, -> { all }
 
   # Model Validation
-  validates_presence_of :creator_id, :site_id, :project_id
-  validates_uniqueness_of :invite_token, allow_nil: true
+  validates :creator_id, :site_id, :project_id, presence: true
+  validates :invite_token, uniqueness: true, allow_nil: true
 
   # Model Relationships
   belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
@@ -16,12 +15,11 @@ class SiteUser < ActiveRecord::Base
   after_create :send_invitation
 
   def send_invitation
-    self.generate_invite_token!
+    generate_invite_token!
   end
 
-  def generate_invite_token!(invite_token = Digest::SHA1.hexdigest(Time.now.usec.to_s))
-    self.update( invite_token: invite_token ) if self.respond_to?('invite_token') and self.invite_token.blank? and SiteUser.where(invite_token: invite_token).count == 0
-    UserMailer.invite_user_to_site(self).deliver_later if Rails.env.production? and not self.invite_token.blank?
+  def generate_invite_token!(new_invite_token = Digest::SHA1.hexdigest(Time.zone.now.usec.to_s))
+    update(invite_token: new_invite_token) if respond_to?('invite_token') && invite_token.blank? && SiteUser.where(invite_token: new_invite_token).count == 0
+    UserMailer.invite_user_to_site(self).deliver_later if Rails.env.production? && !invite_token.blank?
   end
-
 end

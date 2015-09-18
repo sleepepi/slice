@@ -1,5 +1,4 @@
 class List < ActiveRecord::Base
-
   # Serialized
   serialize :extra_options, Array
 
@@ -9,7 +8,7 @@ class List < ActiveRecord::Base
   # Named Scopes
 
   # Model Validation
-  validates_presence_of :project_id, :randomization_scheme_id, :user_id
+  validates :project_id, :randomization_scheme_id, :user_id, presence: true
 
   # Model Relationships
   belongs_to :project
@@ -22,36 +21,36 @@ class List < ActiveRecord::Base
   # Model Methods
 
   def name
-    names = self.extra_option_names + self.option_names
-    names.count == 0 ? "List" : names.join(', ')
+    names = extra_option_names + option_names
+    names.count == 0 ? 'List' : names.join(', ')
   end
 
   def option_names
-    self.list_options.includes(:option).order("stratification_factor_options.stratification_factor_id").collect(&:name)
+    list_options.includes(:option).order('stratification_factor_options.stratification_factor_id').collect(&:name)
   end
 
   def extra_option_names
-    self.project.sites.where(id: self.extra_options.collect{|h| h[:site_id]}).order(:name).collect(&:name)
+    project.sites.where(id: extra_options.collect { |h| h[:site_id] }).order(:name).collect(&:name)
   end
 
   def subject_randomizations
-    self.randomizations.where.not(subject_id: nil)
+    randomizations.where.not(subject_id: nil)
   end
 
   def generate_all_block_groups_up_to!(current_user, max_block_group, multipliers, arms)
-    current_block_group = self.next_block_group
+    current_block_group = next_block_group
     (current_block_group..max_block_group).each do |block_group|
       self.generate_block_group!(current_user, block_group, multipliers, arms)
     end
   end
 
   def generate_block_group!(current_user, block_group, multipliers, arms)
-    list_position = self.next_list_position
+    list_position = next_list_position
     multipliers.shuffle.each do |multiplier|
       (arms * multiplier).shuffle.each do |treatment_arm_id|
-        self.randomizations.create(
-          project_id: self.project_id,
-          randomization_scheme_id: self.randomization_scheme_id,
+        randomizations.create(
+          project_id: project_id,
+          randomization_scheme_id: randomization_scheme_id,
           user_id: current_user.id,
           position: list_position,
           treatment_arm_id: treatment_arm_id,
@@ -72,22 +71,21 @@ class List < ActiveRecord::Base
   end
 
   def criteria_match?(selected_criteria)
-    selected_criteria.collect!{|sfid,oid| [sfid.to_i, oid.to_i]}.sort!
-    return (self.criteria == selected_criteria)
+    selected_criteria.collect! { |sfid, oid| [sfid.to_i, oid.to_i] }.sort!
+    criteria == selected_criteria
   end
 
   # Returns sorted list of criteria in key value pairs [stratification_factor_id and stratification_factor_value]
   # Stratification value can either be a stratification_factor_option_id or a site_id
   def criteria
-    (self.option_pairs + extra_option_pairs).sort
+    (option_pairs + extra_option_pairs).sort
   end
 
   def option_pairs
-    self.options.pluck(:stratification_factor_id, :id)
+    options.pluck(:stratification_factor_id, :id)
   end
 
   def extra_option_pairs
-    self.extra_options.collect{|h| [h[:stratification_factor_id].to_i, h[:site_id].to_i]}
+    extra_options.collect { |h| [h[:stratification_factor_id].to_i, h[:site_id].to_i] }
   end
-
 end

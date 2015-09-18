@@ -1,7 +1,6 @@
 module Validation
   module Validators
     class File < Validation::Validators::Numeric
-
       MESSAGES = {
         blank: '',
         invalid: 'Not a Valid File',
@@ -16,15 +15,15 @@ module Validation
         value.blank?
       end
 
-      def invalid_format?(value)
+      def invalid_format?(_value)
         false
       end
 
-      def out_of_range?(value)
+      def out_of_range?(_value)
         false
       end
 
-      def formatted_value(value)
+      def formatted_value(_value)
         nil
       end
 
@@ -35,7 +34,6 @@ module Validation
           {}
         end
       end
-
     end
   end
 end

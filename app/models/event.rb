@@ -1,8 +1,6 @@
 class Event < ActiveRecord::Base
-
   # Concerns
   include Searchable, Deletable
-
 
   attr_accessor :design_ids
   after_save :set_event_designs
@@ -10,10 +8,10 @@ class Event < ActiveRecord::Base
   # Named Scopes
 
   # Model Validation
-  validates_presence_of :name, :project_id, :user_id
-  validates_uniqueness_of :name, scope: [ :project_id, :deleted ]
-  validates_uniqueness_of :slug, scope: [ :project_id, :deleted ], allow_blank: true
-  validates_format_of :slug, with: /\A[a-z][a-z0-9\-]*\Z/, allow_blank: true
+  validates :name, :project_id, :user_id, presence: true
+  validates :name, uniqueness: { scope: [:project_id, :deleted] }
+  validates :slug, uniqueness: { scope: [:project_id, :deleted] }, allow_blank: true
+  validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ }, allow_blank: true
 
   # Model Relationships
   belongs_to :user
@@ -30,19 +28,17 @@ class Event < ActiveRecord::Base
   end
 
   def self.find_by_param(input)
-    self.where("slug = ? or id = ?", input.to_s, input.to_i).first
+    self.where('slug = ? or id = ?', input.to_s, input.to_i).first
   end
 
   private
 
   def set_event_designs
-    if self.design_ids and self.design_ids.kind_of?(Array)
-      self.event_designs.destroy_all
-      self.design_ids.collect(&:to_i).uniq.each_with_index do |design_id, index|
-        design = self.project.designs.find_by_id design_id
-        self.event_designs.create(design_id: design.id, position: index) if design
-      end
+    return unless design_ids && design_ids.is_a?(Array)
+    event_designs.destroy_all
+    design_ids.collect(&:to_i).uniq.each_with_index do |design_id, index|
+      design = project.designs.find_by_id design_id
+      event_designs.create(design_id: design.id, position: index) if design
     end
   end
-
 end

@@ -1,5 +1,4 @@
 class Project < ActiveRecord::Base
-
   PER_PAGE = 40
 
   mount_uploader :logo, ImageUploader
@@ -215,7 +214,7 @@ class Project < ActiveRecord::Base
   def create_grid_variables_from_json(grid_variables_json, current_user)
     grid_variables = []
     grid_variables_json.each do |grid_variable_json|
-      variable = self.create_variable_from_json(grid_variable_json, current_user)
+      variable = create_variable_from_json(grid_variable_json, current_user)
       grid_variables << { variable_id: variable.id } if variable
     end
     grid_variables
@@ -227,15 +226,13 @@ class Project < ActiveRecord::Base
 
   private
 
-    # Creates a default site if the project has no site associated with it
-    def create_default_site
-      if self.sites.count == 0
-        self.sites.create(
-          name: self.site_name.blank? ? "Default Site" : self.site_name,
-          user_id: self.user_id,
-          prefix: ''
-        )
-      end
-    end
-
+  # Creates a default site if the project has no site associated with it
+  def create_default_site
+    return if sites.count > 0
+    sites.create(
+      name: site_name.blank? ? 'Default Site' : site_name,
+      user_id: user_id,
+      prefix: ''
+    )
+  end
 end

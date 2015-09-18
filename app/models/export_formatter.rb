@@ -1,5 +1,4 @@
 class ExportFormatter
-
   attr_reader :sheet_scope, :filename
   attr_reader :design_scope, :variables, :domains, :variable_ids
   attr_reader :grid_group_variables, :grid_variables, :grid_domains
@@ -8,14 +7,13 @@ class ExportFormatter
     @sheet_scope = sheet_scope
     @filename = filename
 
-    setup_scoped_variables()
+    setup_scoped_variables
   end
 
   def setup_scoped_variables
     @design_scope = Design.where(id: sheet_scope.pluck(:design_id)).order(:id)
     @variables = all_design_variables_without_grids
     @domains = Domain.where(id: @variables.collect{|v| v.domain_id}).order('name')
-
 
     # @variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variable_ids).flatten.uniq
     # @grid_group_variables = Variable.current.where(variable_type: 'grid', id: @variable_ids)
@@ -81,5 +79,4 @@ class ExportFormatter
     end
     variable_factors
   end
-
 end

@@ -1,5 +1,4 @@
 class Randomization < ActiveRecord::Base
-
   # Serialized
   serialize :past_distributions, Hash
   serialize :weighted_eligible_arms, Array
@@ -88,5 +87,4 @@ class Randomization < ActiveRecord::Base
     )
     self.randomization_characteristics.destroy_all
   end
-
 end

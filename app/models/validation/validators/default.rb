@@ -25,11 +25,11 @@ module Validation
         value.blank?
       end
 
-      def invalid_format?(value)
+      def invalid_format?(_value)
         false
       end
 
-      def in_hard_range?(value)
+      def in_hard_range?(_value)
         true
       end
 
@@ -37,7 +37,7 @@ module Validation
         !in_hard_range?(value)
       end
 
-      def in_soft_range?(value)
+      def in_soft_range?(_value)
         true
       end
 
@@ -45,7 +45,7 @@ module Validation
         value.to_s
       end
 
-      def show_full_message?(value)
+      def show_full_message?(_value)
         false
       end
 
@@ -80,12 +80,11 @@ module Validation
       end
 
       def store_temp_response(in_memory_sheet_variable, response)
-        self.db_key_value_pairs(response).each do |key, db_formatted_value|
+        db_key_value_pairs(response).each do |key, db_formatted_value|
           in_memory_sheet_variable.send("#{key}=", db_formatted_value) if in_memory_sheet_variable.respond_to?("#{key}=")
         end
         in_memory_sheet_variable
       end
-
     end
   end
 end

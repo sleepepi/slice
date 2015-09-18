@@ -1,25 +1,25 @@
+# Variable Class attributes
+# :description, :name, :display_name, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
+# # Integer and Numeric
+# :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+# # Date
+# :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+# # Date and Time
+# :show_current_button,
+# # Calculated
+# :calculation, :format,
+# # Integer and Numeric and Calculated
+# :units,
+# # Grid
+# :grid_tokens, :grid_variables, :multiple_rows, :default_row_number,
+# # Autocomplete
+# :autocomplete_values,
+# # Radio and Checkbox
+# :alignment, :domain_id
 class Variable < ActiveRecord::Base
-  # attr_accessible :description, :name, :display_name, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
-  #                 # Integer and Numeric
-  #                 :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-  #                 # Date
-  #                 :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-  #                 # Date and Time
-  #                 :show_current_button,
-  #                 # Calculated
-  #                 :calculation, :format,
-  #                 # Integer and Numeric and Calculated
-  #                 :units,
-  #                 # Grid
-  #                 :grid_tokens, :grid_variables, :multiple_rows, :default_row_number,
-  #                 # Autocomplete
-  #                 :autocomplete_values,
-  #                 # Radio and Checkbox
-  #                 :alignment, :domain_id
-
-  TYPE = ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid', 'signature'].sort.collect{|i| [i,i]}
-  TYPE_IMPORTABLE = ['string', 'text', 'integer', 'numeric', 'date', 'time'].sort.collect{|i| [i,i]}
-  TYPE_DOMAIN = ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
+  TYPE = %w(dropdown checkbox radio string text integer numeric date time file calculated grid signature).sort.collect { |i| [i, i] }
+  TYPE_IMPORTABLE = %w(string text integer numeric date time).sort.collect { |i| [i, i] }
+  TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
   DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]
   ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical'], ['Scale', 'scale']]
 
@@ -31,17 +31,16 @@ class Variable < ActiveRecord::Base
   include Deletable, DateAndTimeParser
 
   # Named Scopes
-  scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
-  scope :with_user, lambda { |arg| where(user_id: arg) }
-  scope :with_project, lambda { |arg| where(project_id: arg) }
-  scope :with_variable_type, lambda { |arg| where(variable_type: arg) }
-  scope :without_variable_type, lambda { |arg| where('variables.variable_type NOT IN (?)', arg) }
+  scope :search, -> (arg) { where 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') }
+  scope :with_user, -> (arg) { where user_id: arg }
+  scope :with_project, -> (arg) { where project_id: arg }
+  scope :with_variable_type, -> (arg) { where variable_type: arg }
+  scope :without_variable_type, -> (arg) { where 'variables.variable_type NOT IN (?)', arg }
 
   # Model Validation
-  validates_presence_of :name, :display_name, :variable_type, :project_id
-  validates_format_of :name, with: /\A[a-z]\w*\Z/i
-  validates :name, length: { maximum: 32 }
-  validates_uniqueness_of :name, scope: [:deleted, :project_id]
+  validates :name, :display_name, :variable_type, :project_id, presence: true
+  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }
+  validates :name, uniqueness: { scope: [:deleted, :project_id] }
 
   # Model Relationships
   belongs_to :user
@@ -67,80 +66,80 @@ class Variable < ActiveRecord::Base
       new_grid_variables << { variable_id: variable.id } if variable and not variable.new_record?
     end
 
-    self.update grid_variables: new_grid_variables.uniq.compact
+    update grid_variables: new_grid_variables.uniq.compact
   end
 
   def shared_options
-    self.domain ? self.domain.options : []
+    domain ? domain.options : []
   end
 
   def shared_options_select_values(values)
-    self.shared_options.select{|option| values.include?(option[:value])}
+    shared_options.select { |option| values.include?(option[:value]) }
   end
 
   def autocomplete_array
-    self.autocomplete_values.to_s.split(/[\n\r]/).collect{|i| i.strip}.select{|i| not i.blank?}
+    autocomplete_values.to_s.split(/[\n\r]/).collect(&:strip).reject(&:blank?)
   end
 
   def uses_scale?
-    ['radio', 'checkbox'].include?(self.variable_type) and self.alignment == 'scale'
+    %w(radio checkbox).include?(variable_type) && alignment == 'scale'
   end
 
   # Use inherited designs to include grid variables
   def inherited_designs
-    variable_ids = Variable.current.where(project_id: self.project_id, variable_type: 'grid').select{|v| v.grid_variable_ids.include?(self.id)}.collect{|v| v.id} + [self.id]
-    Design.current.where(project_id: self.project_id).select{|d| (d.variables.pluck(:id) & variable_ids).size > 0}.sort_by(&:name)
+    variable_ids = Variable.current.where(project_id: project_id, variable_type: 'grid').select { |v| v.grid_variable_ids.include?(id) }.collect(&:id) + [id]
+    Design.current.where(project_id: project_id).select { |d| (d.variables.pluck(:id) & variable_ids).size > 0 }.sort_by(&:name)
   end
 
   def editable_by?(current_user)
-    current_user.all_variables.where(id: self.id).count == 1
+    current_user.all_variables.where(id: id).count == 1
   end
 
   def copyable_attributes
-    self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+    self.attributes.reject { |key, val| %w(id user_id deleted created_at updated_at).include?(key.to_s) }
   end
 
   # Includes responses, grids, and sheet_variables
   def captured_values
     @captured_values ||= begin
-      (sheet_variables.pluck(:response) + grids.pluck(:response) + responses.pluck(:value)).uniq.select{|r| not r.blank?}
+      (sheet_variables.pluck(:response) + grids.pluck(:response) + responses.pluck(:value)).uniq.reject(&:blank?)
     end
   end
 
   def check_for_valid_domain
     result = true
-    d = self.domain ? self.domain : Domain.new
-    if self.has_domain? and (captured_values | d.values).size > d.values.size and not ['integer', 'numeric'].include?(self.variable_type)
-      self.errors.add(:domain_id, "must include all previously captured values")
+    d = (domain ? domain : Domain.new)
+    if has_domain? and (captured_values | d.values).size > d.values.size and not ['integer', 'numeric'].include?(self.variable_type)
+      errors.add(:domain_id, 'must include all previously captured values')
       result = false
     end
     result
   end
 
   def values_cover_collected_values?(values)
-    (self.captured_values | values).size <= values.size
+    (captured_values | values).size <= values.size
   end
 
   def check_for_duplicate_variables
     result = true
-    variable_ids = self.grid_variables.collect{|grid_variable| grid_variable[:variable_id]}
+    variable_ids = grid_variables.collect { |grid_variable| grid_variable[:variable_id] }
     if variable_ids.uniq.size < variable_ids.size
-      self.errors.add(:grid, "variables must be unique" )
+      errors.add(:grid, 'variables must be unique')
       result = false
     end
     result
   end
 
   def range_tooltip
-    result = ""
-    minimum = self.hard_minimum || self.soft_minimum
-    maximum = self.hard_maximum || self.soft_maximum
-    with_units = (self.units.blank? ? "" : " #{self.units}")
-    if not minimum.blank? and not maximum.blank?
+    result = ''
+    minimum = hard_minimum || soft_minimum
+    maximum = hard_maximum || soft_maximum
+    with_units = (units.blank? ? '' : " #{units}")
+    if !minimum.blank? && !maximum.blank?
       result = "[#{minimum}, #{maximum}]" + with_units
-    elsif minimum.blank? and not maximum.blank?
+    elsif minimum.blank? && !maximum.blank?
       result = "<= #{maximum}" + with_units
-    elsif maximum.blank? and not minimum.blank?
+    elsif maximum.blank? && !minimum.blank?
       result = ">= #{minimum}" + with_units
     end
     result
@@ -154,27 +153,27 @@ class Variable < ActiveRecord::Base
   end
 
   def grid_variable_ids
-    self.grid_variables.collect{|gv| gv[:variable_id]}
+    grid_variables.collect { |gv| gv[:variable_id] }
   end
 
   def missing_codes
-    self.shared_options.select{|opt| opt[:missing_code] == '1'}.collect{|opt| opt[:value]}
+    shared_options.select { |opt| opt[:missing_code] == '1' }.collect { |opt| opt[:value] }
   end
 
   def all_codes
-    self.shared_options.collect{|opt| opt[:value]}
+    shared_options.collect { |opt| opt[:value] }
   end
 
   def first_scale_variable?(design)
     return true unless design
 
-    position = design.design_options.pluck(:variable_id).index(self.id)
-    if position and position > 0
+    position = design.design_options.pluck(:variable_id).index(id)
+    if position && position > 0
       design_option = design.design_options[position - 1]
       previous_variable = design_option.variable
     end
     # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form
-    if previous_variable and previous_variable.uses_scale? and previous_variable.shared_options == self.shared_options
+    if previous_variable && previous_variable.uses_scale? && previous_variable.shared_options == shared_options
       return false
     else
       return true
@@ -182,44 +181,44 @@ class Variable < ActiveRecord::Base
   end
 
   def options_missing_at_end
-    self.options_without_missing + self.options_only_missing
+    options_without_missing + options_only_missing
   end
 
   def options_without_missing
-    self.shared_options.select{|opt| opt[:missing_code] != '1'}
+    shared_options.select { |opt| opt[:missing_code] != '1' }
   end
 
   def options_only_missing
-    self.shared_options.select{|opt| opt[:missing_code] == '1'}
+    shared_options.select { |opt| opt[:missing_code] == '1' }
   end
 
   def grouped_by_missing(show_values)
-    [ ['', self.options_without_missing.collect{|opt| [[(show_values ? opt[:value] : nil),opt[:name]].compact.join(': '),opt[:value]]}], ['Missing', self.options_only_missing.collect{|opt| [[(show_values ? opt[:value] : nil),opt[:name]].compact.join(': '),opt[:value]]}] ]
+    [['', options_without_missing.collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }], ['Missing', options_only_missing.collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }]]
   end
 
   def options_or_autocomplete(include_missing)
-    if self.variable_type == 'string'
-      NaturalSort.sort(self.autocomplete_array.select{|val| not val.blank?}.collect{|val| { name: val, value: val }}) + NaturalSort.sort(self.user_submitted_sheet_variables.collect{|sv| { name: sv.response, value: sv.response, info: 'User Submitted' }}.uniq{|a| a[:value].downcase })
+    if variable_type == 'string'
+      NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.response, value: sv.response, info: 'User Submitted' } }.uniq { |a| a[:value].downcase })
     else
-      (include_missing ? self.shared_options : self.options_without_missing)
+      (include_missing ? shared_options : options_without_missing)
     end
   end
 
   # Responses that are user submitted and not on autocomplete list
   def user_submitted_sheet_variables
-    self.sheet_variables.select{|sv| not self.autocomplete_array.include?(sv.response.to_s.strip) and not sv.response.to_s.strip.blank?}
+    sheet_variables.reject { |sv| autocomplete_array.include?(sv.response.to_s.strip) || sv.response.to_s.strip.blank? }
   end
 
   def formatted_calculation
-    self.calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
+    calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
   end
 
   def has_statistics?
-    ['integer', 'numeric', 'calculated'].include?(self.variable_type)
+    %w(integer numeric calculated).include?(variable_type)
   end
 
   def has_domain?
-    ['dropdown', 'checkbox', 'radio', 'integer', 'numeric'].include?(self.variable_type)
+    %w(dropdown checkbox radio integer numeric).include?(variable_type)
   end
 
   def report_strata(include_missing, max_strata, hash, sheet_scope)
@@ -257,10 +256,10 @@ class Variable < ActiveRecord::Base
   end
 
   def edge_date(sheet_scope, method)
-    result = if self.variable_type == 'sheet_date'
+    if variable_type == 'sheet_date'
       sheet_scope.pluck(:created_at).send(method).to_date rescue Date.today
     else
-      Date.strptime(sheet_scope.sheet_responses(self).select{|response| not response.blank?}.send(method), "%Y-%m-%d") rescue Date.today
+      Date.strptime(sheet_scope.sheet_responses(self).reject(&:blank?).send(method), '%Y-%m-%d') rescue Date.today
     end
   end
 
@@ -274,33 +273,34 @@ class Variable < ActiveRecord::Base
 
   def generate_date_buckets(sheet_scope, by)
     max_length_of_time_in_years = 200
-    min = self.min_date(sheet_scope)
-    max = self.max_date(sheet_scope)
+    min = min_date(sheet_scope)
+    max = max_date(sheet_scope)
     date_buckets = []
     last_years = (min.year..max.year).last(max_length_of_time_in_years)
-    case by when "week"
+    case by
+    when 'week'
       current_cweek = min.cweek
       last_years.each do |year|
         (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
-          start_date = Date.commercial(year,cweek) - 1.day
-          end_date = Date.commercial(year,cweek) + 5.days
-          date_buckets << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime("%m/%d")}-#{end_date.strftime("%m/%d")} Week #{cweek}", start_date: start_date, end_date: end_date }
-          break if year == max.year and cweek == max.cweek
+          start_date = Date.commercial(year, cweek) - 1.day
+          end_date = Date.commercial(year, cweek) + 5.days
+          date_buckets << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime('%m/%d')}-#{end_date.strftime('%m/%d')} Week #{cweek}", start_date: start_date, end_date: end_date }
+          break if year == max.year && cweek == max.cweek
         end
         current_cweek = 1
       end
-    when "month"
+    when 'month'
       current_month = min.month
       last_years.each do |year|
         (current_month..12).each do |month|
           start_date = Date.parse("#{year}-#{month}-01")
           end_date = Date.parse("#{year}-#{month}-01").end_of_month
           date_buckets << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date }
-          break if year == max.year and month == max.month
+          break if year == max.year && month == max.month
         end
         current_month = 1
       end
-    when "year"
+    when 'year'
       last_years.each do |year|
         start_date = Date.parse("#{year}-01-01")
         end_date = Date.parse("#{year}-12-31")
@@ -311,77 +311,78 @@ class Variable < ActiveRecord::Base
   end
 
   def self.site(project_id)
-    self.new( project_id: project_id, name: 'site', display_name: 'Site', variable_type: 'site' )
+    new project_id: project_id, name: 'site', display_name: 'Site', variable_type: 'site'
   end
 
   def self.sheet_date(project_id)
-    self.new( project_id: project_id, name: 'sheet_date', display_name: 'Sheet Date', variable_type: 'sheet_date' )
+    new project_id: project_id, name: 'sheet_date', display_name: 'Sheet Date', variable_type: 'sheet_date'
   end
 
   def self.design(project_id)
-    self.new( project_id: project_id, name: 'design', display_name: 'Design', variable_type: 'design' )
+    new project_id: project_id, name: 'design', display_name: 'Design', variable_type: 'design'
   end
 
   def sas_informat
-    if ['string', 'file'].include?(self.variable_type)
+    if %w(string file).include?(variable_type)
       '$500'
-    elsif ['date'].include?(self.variable_type)
+    elsif %w(date).include?(variable_type)
       'yymmdd10'
-    elsif ['time'].include?(self.variable_type)
+    elsif %w(time).include?(variable_type)
       'time8'
-    elsif ['dropdown', 'radio'].include?(self.variable_type) and self.domain and not self.domain.all_numeric?
+    elsif %w(dropdown radio).include?(variable_type) && domain && !domain.all_numeric?
       '$500'
-    elsif ['numeric', 'integer', 'dropdown', 'radio'].include?(self.variable_type)
+    elsif %w(numeric integer dropdown radio).include?(variable_type)
       'best32'
-    else # elsif ['text'].include?(self.variable_type)
+    else # elsif %w(text).include?(variable_type)
       '$5000'
     end
   end
 
   def sas_format
-    self.sas_informat
+    sas_informat
   end
 
   def csv_column
-    if self.variable_type == 'checkbox'
-      [self.name] + self.shared_options.collect{|option| option_variable_name(option[:value])}
+    if variable_type == 'checkbox'
+      [name] + shared_options.collect { |option| option_variable_name(option[:value]) }
     else
-      self.name
+      name
     end
   end
 
   def sas_informat_definition
-    if self.variable_type == 'checkbox'
-      option_informat = (self.domain && !self.domain.all_numeric? ? '$500' : 'best32')
-      ["  informat #{self.name} #{self.sas_informat}. ;"] + self.shared_options.collect{|option| "  informat #{option_variable_name(option[:value])} #{option_informat}. ;"}
+    if variable_type == 'checkbox'
+      option_informat = (domain && !domain.all_numeric? ? '$500' : 'best32')
+      ["  informat #{name} #{sas_informat}. ;"] + shared_options.collect { |option| "  informat #{option_variable_name(option[:value])} #{option_informat}. ;" }
     else
-      "  informat #{self.name} #{self.sas_informat}. ;"
+      "  informat #{name} #{sas_informat}. ;"
     end
   end
 
   def sas_format_definition
-    if self.variable_type == 'checkbox'
-      option_format = (self.domain && !self.domain.all_numeric? ? '$500' : 'best32')
-      ["  format #{self.name} #{self.sas_format}. ;"] + self.shared_options.collect{|option| "  format #{option_variable_name(option[:value])} #{option_format}. ;"}
+    if variable_type == 'checkbox'
+      option_format = (domain && !domain.all_numeric? ? '$500' : 'best32')
+      ["  format #{name} #{sas_format}. ;"] + shared_options.collect { |option| "  format #{option_variable_name(option[:value])} #{option_format}. ;" }
     else
-      "  format #{self.name} #{self.sas_format}. ;"
+      "  format #{name} #{sas_format}. ;"
     end
   end
 
   def sas_format_label
-    if self.variable_type == 'checkbox'
-      ["  label #{self.name}='#{self.display_name.gsub("'", "''")}';"] + self.shared_options.collect{|option| "  label #{option_variable_name(option[:value])}='#{self.display_name.gsub("'", "''")} (#{option[:name].to_s.gsub("'", "''")})' ;"}
+    if variable_type == 'checkbox'
+      ["  label #{name}='#{display_name.gsub("'", "''")}';"] + shared_options.collect{|option| "  label #{option_variable_name(option[:value])}='#{display_name.gsub("'", "''")} (#{option[:name].to_s.gsub("'", "''")})' ;"}
     else
-      "  label #{self.name}='#{self.display_name.gsub("'", "''")}';"
+      "  label #{name}='#{display_name.gsub("'", "''")}';"
     end
   end
 
   def sas_format_domain
-    if self.domain
-      case self.variable_type when 'checkbox'
-        self.shared_options.collect{|option| "  format #{option_variable_name(option[:value])} #{self.domain.sas_domain_name}. ;"}
+    if domain
+      case variable_type
+      when 'checkbox'
+        shared_options.collect{|option| "  format #{option_variable_name(option[:value])} #{domain.sas_domain_name}. ;"}
       else
-        "  format #{self.name} #{self.domain.sas_domain_name}. ;"
+        "  format #{name} #{domain.sas_domain_name}. ;"
       end
     else
       nil
@@ -389,21 +390,23 @@ class Variable < ActiveRecord::Base
   end
 
   def option_variable_name(value)
-    "#{self.name}__#{value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
+    "#{name}__#{value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
   end
 
   def date_order
-    case self.format when '%Y-%m-%d'
-      ['year', 'month', 'day']
+    case format
+    when '%Y-%m-%d'
+      %w(year month day)
     when '%d/%m/%Y'
-      ['day', 'month', 'year']
+      %w(day month year)
     else
-      ['month', 'day', 'year']
+      %w(month day year)
     end
   end
 
   def date_formatting(component)
-    case component when 'month'
+    case component
+    when 'month'
       ['mm', '%m']
     when 'day'
       ['dd', '%d']
@@ -413,13 +416,13 @@ class Variable < ActiveRecord::Base
   end
 
   def date_separator
-    case self.format when '%m/%d/%Y', '%d/%m/%Y'
+    case format
+    when '%m/%d/%Y', '%d/%m/%Y'
       '/'
     else
       '-'
     end
   end
-
 
   # Validation Module
 
@@ -428,15 +431,16 @@ class Variable < ActiveRecord::Base
   end
 
   def value_in_range?(value)
-    self.validator.value_in_range?(value)
+    validator.value_in_range?(value)
   end
 
   def response_to_value(response)
-    self.validator.response_to_value(response)
+    validator.response_to_value(response)
   end
 
   def requirement_on_design(design)
-    if design_option = self.design_options.where(design_id: design.id).first
+    design_option = design_options.where(design_id: design.id).first
+    if design_option
       design_option.required.blank? ? 'optional' : design_option.required
     else
       'optional'
@@ -444,16 +448,15 @@ class Variable < ActiveRecord::Base
   end
 
   def validate_value(design, value)
-    validation_hash = self.value_in_range?(value)
-    requirement = self.requirement_on_design(design)
+    validation_hash = value_in_range?(value)
+    requirement = requirement_on_design(design)
 
-    if validation_hash[:status].in?(['invalid', 'out_of_range']) or (validation_hash[:status] == 'blank' and requirement == 'required')
+    if validation_hash[:status].in?(%w(invalid out_of_range)) || (validation_hash[:status] == 'blank' && requirement == 'required')
       'error'
-    elsif (validation_hash[:status] == 'blank' and requirement == 'recommended') or (validation_hash[:status] == 'in_hard_range')
+    elsif (validation_hash[:status] == 'blank' && requirement == 'recommended') || (validation_hash[:status] == 'in_hard_range')
       'warning'
     else
       'valid'
     end
   end
-
 end

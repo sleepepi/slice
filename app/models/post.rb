@@ -1,5 +1,4 @@
 class Post < ActiveRecord::Base
-
   after_create :send_email
 
   # Concerns
@@ -8,7 +7,7 @@ class Post < ActiveRecord::Base
   # Named Scopes
 
   # Model Validation
-  validates_presence_of :name, :description, :project_id, :user_id
+  validates :name, :description, :project_id, :user_id, presence: true
 
   # Model Relationships
   belongs_to :user
@@ -18,13 +17,11 @@ class Post < ActiveRecord::Base
 
   private
 
-    def send_email
-      unless self.archived?
-        all_users = self.project.users_to_email - [self.user]
-        all_users.each do |user_to_email|
-          UserMailer.project_news(self, user_to_email).deliver_later if Rails.env.production?
-        end
-      end
+  def send_email
+    return if archived?
+    all_users = project.users_to_email - [user]
+    all_users.each do |user_to_email|
+      UserMailer.project_news(self, user_to_email).deliver_later if Rails.env.production?
     end
-
+  end
 end
