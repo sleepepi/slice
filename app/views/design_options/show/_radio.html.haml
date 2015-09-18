@@ -20,23 +20,29 @@
           = render 'design_options/required', design_option: design_option
         - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing|
           %td.center.sheet-container
-            %label.checkbox.checkbox-inline{ class: "#{'negation' if missing == '1'}" }
-              = check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true, style: 'margin-left:-14px'
-      %tr.design-preview-hide
-        %td.center{ colspan: "#{variable.shared_options.size + 1}" }
-          = link_to 'Edit Answer Choices', '#', data: { object: 'pull-partial-edit', edit: 'variable_domain', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success'
+            %label.radio.radio-inline{ class: "#{'negation' if missing == '1'}" }
+              = radio_button_tag variable.name, "#{value}", false, disabled: true, style: 'margin-left:-14px'
+      - unless is_grid
+        %tr.design-preview-hide
+          %td.center{ colspan: "#{variable.shared_options.size + 1}" }
+            = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success' do
+              = variable.shared_options.size == 0 ? 'Add' : 'Edit'
+              Choices
 - else
   .sheet-container{ class: "#{'nowrap' if is_grid or variable.alignment == 'horizontal'}" }
     - variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
-      %label.checkbox{ class: "#{'checkbox-inline' if is_grid or variable.alignment == 'horizontal'}" }
-        = check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true
+      %label.radio{ class: "#{'radio-inline' if is_grid or variable.alignment == 'horizontal'}" }
+        = radio_button_tag variable.name, "#{value}", false, disabled: true
         = succeed ':' do
           = value
         = name
     - variable.options_only_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
-      %label.checkbox.negation{ class: "#{'checkbox-inline' if is_grid or variable.alignment == 'horizontal'}" }
-        = check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true
+      %label.radio.negation{ class: "#{'radio-inline' if is_grid or variable.alignment == 'horizontal'}" }
+        = radio_button_tag variable.name, "#{value}", false, disabled: true
         = succeed ':' do
           = value
         = name
-  = link_to 'Edit Answer Choices', '#', data: { object: 'pull-partial-edit', edit: 'variable_domain', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-success design-preview-hide'
+  - unless is_grid
+    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success' do
+      = variable.shared_options.size == 0 ? 'Add' : 'Edit'
+      Choices

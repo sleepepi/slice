@@ -127,7 +127,7 @@ class Domain < ActiveRecord::Base
                         value: option_hash[:value].strip,
                         description: option_hash[:description].to_s.strip,
                         missing_code: option_hash[:missing_code].to_s.strip
-                      } unless option_hash[:name].strip.blank? and option_hash[:value].strip.blank?
+                      } unless option_hash[:name].strip.blank? and ((option_hash[:option_index] != 'new' and option_hash[:value].strip.blank?) or option_hash[:option_index] == 'new')
     end
   end
 

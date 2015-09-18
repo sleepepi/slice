@@ -32,7 +32,7 @@
 .row
   .col-sm-6{ data: { object: "design-preview-expand" } }
     #design_name-container.page-header{ style: "margin-top:0px;padding-top:0px" }
-      = render 'designs/interactive/show/design_name'
+      = render 'designs/design_name'
   .col-sm-6.design-preview-hide
     %h4{ style: "margin-top:0px" } Design
     .design-edit-box
@@ -42,7 +42,7 @@
           %td{ style: "border-top-width:0px" }
             %strong Actions
           %td{ style: "border-top-width:0px" }
-            = link_to 'Edit Name and Description', '#', data: { object: 'pull-partial-edit', edit: 'design_name' }, class: 'btn btn-xs btn-default design-preview-hide'
+            = link_to 'Edit Name and Description', edit_project_design_path(@project, @design), method: :get, remote: true, class: 'btn btn-xs btn-default design-preview-hide'
 
 #design-options
   = render 'design_options/index'

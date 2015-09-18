@@ -81,6 +81,15 @@ radio:
   project: one
   domain: var_radio_options
 
+radio_no_domain:
+  name: radio_no_domain
+  display_name: Radio No Domain
+  # description:
+  variable_type: radio
+  user: valid
+  project: one
+  # domain:
+
 string:
   name: var_hobbies
   display_name: Hobbies

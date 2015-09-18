@@ -1,0 +1,4 @@
+.form-group
+  %label.col-md-2.control-label Variable Prefix
+  .col-md-10
+    = text_field_tag "variable[prepend]", @design_option.variable.prepend, autocomplete: 'off', class: "form-control"

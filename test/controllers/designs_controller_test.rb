@@ -387,12 +387,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get new with ajax" do
-    xhr :get, :new, project_id: @project, format: 'js'
-    assert_template 'edit'
-    assert_response :success
-  end
-
   test "should create design" do
     assert_difference('Design.count') do
       post :create, project_id: @project, design: { name: 'Design Three' }, format: 'js'
@@ -587,33 +581,33 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should update design" do
-    put :update, id: @design, project_id: @project, design: { description: "Updated Description" }, format: 'js'
+    patch :update, id: @design, project_id: @project, design: { description: "Updated Description" }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal "Updated Description", assigns(:design).description
-    assert_template 'update'
+    assert_template 'show'
   end
 
   test "should update design and make publicly available" do
-    put :update, id: @design, project_id: @project, design: { publicly_available: '1' }, format: 'js'
+    patch :update, id: @design, project_id: @project, design: { publicly_available: '1' }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'design-one', assigns(:design).slug
     assert_equal true, assigns(:design).publicly_available
-    assert_template 'update'
+    assert_template 'show'
   end
 
   test "should update design and make custom slug" do
-    put :update, id: @design, project_id: @project, design: { publicly_available: '1', slug: 'design-one-custom' }, format: 'js'
+    patch :update, id: @design, project_id: @project, design: { publicly_available: '1', slug: 'design-one-custom' }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'design-one-custom', assigns(:design).slug
     assert_equal true, assigns(:design).publicly_available
-    assert_template 'update'
+    assert_template 'show'
   end
 
   # test "should not update design with blank name" do
-  #   put :update, id: @design, project_id: @project, design: { description: @design.description, name: '' }
+  #   patch :update, id: @design, project_id: @project, design: { description: @design.description, name: '' }
   #   assert_not_nil assigns(:design)
   #   assert assigns(:design).errors.size > 0
   #   assert_equal ["can't be blank"], assigns(:design).errors[:name]
@@ -621,69 +615,18 @@ class DesignsControllerTest < ActionController::TestCase
   # end
 
   # test "should not update invalid design" do
-  #   put :update, id: -1, project_id: @project, design: { description: @design.description, name: @design.name }
+  #   patch :update, id: -1, project_id: @project, design: { description: @design.description, name: @design.name }
   #   assert_not_nil assigns(:project)
   #   assert_nil assigns(:design)
   #   assert_redirected_to project_designs_path(assigns(:project))
   # end
 
   # test "should not update design with invalid project" do
-  #   put :update, id: @design, project_id: -1, design: { description: @design.description, name: @design.name }
+  #   patch :update, id: @design, project_id: -1, design: { description: @design.description, name: @design.name }
   #   assert_nil assigns(:project)
   #   assert_nil assigns(:design)
   #   assert_redirected_to root_path
   # end
-
-  test "should create a domain and add it to the first variable on the design" do
-    assert_difference('Domain.current.count') do
-      put :update, id: @design, project_id: @project, domain: { name: 'new_domain_for_variable', display_name: 'New Domain For Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 0, variable_id: variables(:one).id, create: 'domain', format: 'js'
-    end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 3, assigns(:design).design_options.size
-    assert_equal 'new_domain_for_variable', assigns(:design).design_options[0].variable.domain.name
-    assert_template 'update'
-  end
-
-  test "should update an existing domain on a design" do
-    put :update, id: designs(:sections_and_variables), project_id: @project, domain: { name: 'dropdown_options_new', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'dropdown_options_new', assigns(:design).design_options[2].variable.domain.name
-    assert_equal 'Easy', assigns(:design).design_options[2].variable.domain.options[0][:name]
-    assert_equal '1', assigns(:design).design_options[2].variable.domain.options[0][:value]
-    assert_equal 'Medium', assigns(:design).design_options[2].variable.domain.options[1][:name]
-    assert_equal '2', assigns(:design).design_options[2].variable.domain.options[1][:value]
-    assert_equal 'Hard', assigns(:design).design_options[2].variable.domain.options[2][:name]
-    assert_equal '3', assigns(:design).design_options[2].variable.domain.options[2][:value]
-    assert_template 'update'
-  end
-
-  test "should update an existing domain on a design and fill in missing values" do
-    put :update, id: designs(:sections_and_variables), project_id: @project, domain: { name: 'dropdown_options_new', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '' }, { option_index: 'new', name: 'Medium', value: '' }, { option_index: 'new', name: 'Hard', value: '' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'dropdown_options_new', assigns(:design).design_options[2].variable.domain.name
-    assert_equal 'Easy', assigns(:design).design_options[2].variable.domain.options[0][:name]
-    assert_equal '1', assigns(:design).design_options[2].variable.domain.options[0][:value]
-    assert_equal 'Medium', assigns(:design).design_options[2].variable.domain.options[1][:name]
-    assert_equal '2', assigns(:design).design_options[2].variable.domain.options[1][:value]
-    assert_equal 'Hard', assigns(:design).design_options[2].variable.domain.options[2][:name]
-    assert_equal '3', assigns(:design).design_options[2].variable.domain.options[2][:value]
-    assert_template 'update'
-  end
-
-  test "should not update an existing domain with blank name on a design" do
-    put :update, id: designs(:sections_and_variables), project_id: @project, domain: { name: '', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_equal 11, assigns(:design).design_options.size
-    assert_equal 'dropdown_options', assigns(:design).design_options[2].variable.domain.name
-    assert_equal 1, assigns(:errors).size
-    assert_template 'update'
-  end
 
   test "should destroy design" do
     assert_difference('Design.current.count', -1) do

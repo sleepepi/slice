@@ -1,0 +1,44 @@
+- case params[:attribute]
+- when 'append'
+  - title = "Edit Variable Suffix &middot; #{@design_option.variable.name}"
+  - partial = 'append'
+- when 'prepend'
+  - title = "Edit Variable Prefix &middot; #{@design_option.variable.name}"
+  - partial = 'prepend'
+- when 'units'
+  - title = "Edit Variable Units &middot; #{@design_option.variable.name}"
+  - partial = 'units'
+- when 'calculation'
+  - title = "Edit Variable &middot; #{@design_option.variable.name}"
+  - partial = 'calculation'
+- when 'date'
+  - title = "Edit Variable Ranges &middot; #{@design_option.variable.name}"
+  - partial = 'date'
+- when 'ranges'
+  - title = "Edit Variable Ranges &middot; #{@design_option.variable.name}"
+  - partial = 'ranges'
+- when 'domain'
+  - title = "Edit Variable Domain &middot; #{@design_option.variable.name}"
+  - partial = 'domain'
+- when 'autocomplete'
+  - title = "Edit Variable Autocomplete Values &middot; #{@design_option.variable.name}"
+  - partial = 'autocomplete'
+- when 'grid_variables'
+  - title = "Edit Variable &middot; #{@design_option.variable.name}"
+  - partial = 'grid_variables'
+- when 'grid_rows'
+  - title = "Edit Variable &middot; #{@design_option.variable.name}"
+  - partial = 'grid_rows'
+
+
+.modal-header
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+  %h4.modal-title
+    = title.html_safe if title
+.modal-body
+  = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: 'form-horizontal', id: 'design_option_form' do
+    = render "design_options/form/#{partial}" if partial
+
+.modal-footer
+  = button_tag 'Update', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel

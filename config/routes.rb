@@ -108,6 +108,11 @@ Rails.application.routes.draw do
           post :update_section_order
           post :update_option_order
         end
+        member do
+          get :edit_variable
+          get :edit_domain
+          patch :update_domain
+        end
       end
 
     end

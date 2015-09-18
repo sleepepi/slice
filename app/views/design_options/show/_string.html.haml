@@ -1,0 +1,11 @@
+- is_grid = defined?(grid)
+
+.input-group
+  = render 'design_options/show/addon', method: 'prepend', variable: variable
+  = text_field_tag variable.name, '', class: 'form-control', disabled: true, placeholder: is_grid ? variable.display_name : nil
+  = render 'design_options/show/addon', method: 'append', variable: variable
+
+- unless is_grid
+  = link_to 'Edit Prefix', edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: 'prepend'), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success'
+  = link_to 'Edit Suffix', edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: 'append'), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success'
+  = link_to 'Edit Autocomplete Values', edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: 'autocomplete'), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success'

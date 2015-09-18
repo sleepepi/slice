@@ -189,10 +189,6 @@ class DesignsController < ApplicationController
   # GET /designs/new
   def new
     @design = current_user.designs.new(design_params)
-    respond_to do |format|
-      format.js { render :edit }
-      format.html
-    end
   end
 
   # GET /designs/1/edit
@@ -213,14 +209,10 @@ class DesignsController < ApplicationController
 
   # PUT /designs/1.js
   def update
-    @errors = []
-    unless params[:domain].blank?
-      @errors += @design.create_domain(params[:domain], params[:variable_id], current_user) if params[:create] == 'domain'
-      @errors += @design.update_domain(params[:domain], params[:variable_id]) if params[:update] == 'domain'
-    end
-    @design.update(design_params)
-    if @design.errors.any?
-      @errors += @design.errors.messages.collect{|key, errors| ["design_#{key.to_s}", "Design #{key.to_s.humanize.downcase} #{errors.first}"]}
+    if @design.update(design_params)
+      render :show
+    else
+      render :edit
     end
   end
 

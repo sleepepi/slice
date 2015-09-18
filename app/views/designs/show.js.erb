@@ -1,0 +1,7 @@
+$("#design_name-container").html("<%=j render 'designs/design_name' %>");
+hideInteractiveDesignModal();
+$(".chzn-select").chosen({ allow_single_deselect: true });
+$(".active[data-object~='edit-mode']").click();
+$(".active[data-object~='preview-mode']").click();
+
+resetPushPartialChangeButtons();

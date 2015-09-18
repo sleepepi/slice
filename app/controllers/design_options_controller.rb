@@ -6,8 +6,8 @@ class DesignOptionsController < ApplicationController
   before_action :redirect_without_design
 
   before_action :set_new_design_option,           only: [ :new_section, :new_variable, :new_existing_variable, :create_section, :create_variable, :create_existing_variable ]
-  before_action :set_design_option,               only: [ :show, :edit, :update, :destroy ]
-  before_action :redirect_without_design_option,  only: [ :show, :edit, :update, :destroy ]
+  before_action :set_design_option,               only: [ :show, :edit, :edit_variable, :edit_domain, :update, :update_domain, :destroy ]
+  before_action :redirect_without_design_option,  only: [ :show, :edit, :edit_variable, :edit_domain, :update, :update_domain, :destroy ]
 
   def new
   end
@@ -24,6 +24,13 @@ class DesignOptionsController < ApplicationController
   end
 
   def edit
+  end
+
+  def edit_variable
+  end
+
+  def edit_domain
+    @domain = @design_option.variable.domain || @project.domains.new
   end
 
   def create_section
@@ -71,10 +78,20 @@ class DesignOptionsController < ApplicationController
   end
 
   def update
-    if @design_option.update(design_option_params) and ((@design_option.section and @design_option.section.update(section_params)) or (@design_option.variable and @design_option.variable.update(variable_params)))
+    if ((design_option_params and @design_option.update(design_option_params)) or !design_option_params) and ((@design_option.section and @design_option.section.update(section_params)) or (@design_option.variable and @design_option.variable.update(variable_params)))
       render :show
     else
       render :edit
+    end
+  end
+
+  def update_domain
+    @domain = @design_option.variable.domain
+    @domain = @project.domains.new(domain_params) unless @domain
+    if @design_option.variable and ((@domain.new_record? and @domain.save and @design_option.variable.update domain_id: @domain.id) or (!@domain.new_record? and @domain.update(domain_params)))
+      render :show
+    else
+      render :edit_domain
     end
   end
 
@@ -122,6 +139,7 @@ class DesignOptionsController < ApplicationController
     end
 
     def design_option_params
+      return unless params[:design_option]
       params.require(:design_option).permit(
         :variable_id, :section_id, :position, :required, :branching_logic
       )
@@ -139,10 +157,39 @@ class DesignOptionsController < ApplicationController
       [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
         params[:variable][date] = parse_date(params[:variable][date]) if params[:variable].has_key?(date)
       end
+
       params.require(:variable).permit(
-        :name, :display_name, :variable_type,
-        :description, :display_name_visibility, :prepend, :append,
-        :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum
+        :name, :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
+        # For Integers and Numerics
+        :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+        # For Dates
+        :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+        # For Date, Time
+        :show_current_button,
+        # For Calculated Variables
+        :calculation, :format,
+        # For Integer, Numeric, and Calculated
+        :units,
+        # For Grid Variables
+        { :grid_tokens => [ :variable_id ] },
+        :multiple_rows, :default_row_number,
+        # For Autocomplete Strings
+        :autocomplete_values,
+        # Radio and Checkbox
+        :alignment, :domain_id
+      )
+    end
+
+    def domain_params
+      params[:domain] ||= {}
+
+      # Always update user_id to correctly track sheet transactions
+      params[:domain][:user_id] = current_user.id # unless @domain
+
+      params[:domain] = Domain.clean_option_tokens(params[:domain])
+
+      params.require(:domain).permit(
+        :name, :display_name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] }
       )
     end
 

@@ -61,7 +61,7 @@
           %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')} #{'col-md-offset-3' if variable.display_name_visibility == 'invisible' and not variable.uses_scale?}" }
             %div{ style: "line-height:30px" }
               - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
-                = render "designs/interactive/show/types/#{variable.variable_type}", variable: variable, design_option: design_option
+                = render "design_options/show/#{variable.variable_type}", design_option: design_option, variable: variable
     .col-sm-6.design-preview-hide
       %h4{ style: "margin-top:0px" } Variable
       .design-edit-box
@@ -88,78 +88,32 @@
             - else
               - [variable.variable_type]
             - if variable_types.size > 1
-              %tr
-                %td
-                  %strong Type
-                %td
-                  .btn-group{ data: { toggle: "buttons" } }
-                    - variable_types.collect{|v| [v,v]}.each do |label, value|
-                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.variable_type == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"variable_type\":\"#{value}\"}}", position: "#{@position}" } }
-                        = radio_button_tag "variable_type", value, variable.variable_type == value
-                        = label
+              = render 'design_options/set_design_option', design_option: design_option, title: 'Type', values: variable_types.collect{|v| [v,v]}, attribute: :variable_type
 
             - if ['radio', 'checkbox'].include?(variable.variable_type)
-              %tr
-                %td
-                  %strong Options Alignment
-                %td
-                  .btn-group{ data: { toggle: "buttons" } }
-                    - Variable::ALIGNMENT.each do |label, value|
-                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.alignment == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"alignment\":\"#{value}\"}}", position: "#{@position}" } }
-                        = radio_button_tag "alignment", value, variable.alignment == value
-                        = label
+              = render 'design_options/set_design_option', design_option: design_option, title: 'Options Alignment', values: Variable::ALIGNMENT, attribute: :alignment
 
             - unless ['radio', 'checkbox'].include?(variable.variable_type) and variable.alignment == 'scale'
-              %tr
-                %td
-                  %strong Display Name
-                %td
-                  .btn-group{ data: { toggle: "buttons" } }
-                    - Variable::DISPLAY_NAME_VISIBILITY.each do |label, value|
-                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.display_name_visibility == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"display_name_visibility\":\"#{value}\"}}", position: "#{@position}" } }
-                        = radio_button_tag "display_name_visibility", value, variable.display_name_visibility == value
-                        = label
+              = render 'design_options/set_design_option', design_option: design_option, title: 'Display Name', values: Variable::DISPLAY_NAME_VISIBILITY, attribute: :display_name_visibility
 
             - if ['time', 'date'].include?(variable.variable_type)
-              %tr
-                %td
-                  %strong
-                    Current
-                    = variable.variable_type.titleize
-                    Button
-                  %td
-                    .btn-group{ data: { toggle: "buttons" } }
-                      - [['show', true],['hide', false]].each do |label, value|
-                        %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.show_current_button == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"show_current_button\":\"#{value}\"}}", position: "#{@position}" } }
-                          = radio_button_tag "show_current_button", value, variable.show_current_button == value
-                          = label
+              - title = "Current #{variable.variable_type.titleize} Button"
+              - values = [['show', true],['hide', false]]
+              = render 'design_options/set_design_option', design_option: design_option, title: title, values: values, attribute: :show_current_button
 
             - if ['date'].include?(variable.variable_type)
-              %tr
-                %td
-                  %strong Date Format
-                %td
-                  .btn-group{ data: { toggle: "buttons" } }
-                    - [['MM/DD/YYYY', '%m/%d/%Y'],['DD/MM/YYYY', '%d/%m/%Y'],['YYYY-MM-DD', '%Y-%m-%d']].each do |label, value|
-                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.format == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"format\":\"#{value}\"}}", position: "#{@position}" } }
-                        = radio_button_tag "format", value, variable.format == value
-                        = label
+              - values = [['MM/DD/YYYY', '%m/%d/%Y'],['DD/MM/YYYY', '%d/%m/%Y'],['YYYY-MM-DD', '%Y-%m-%d']]
+              = render 'design_options/set_design_option', design_option: design_option, title: 'Date Format', values: values, attribute: :format
 
             - if ['grid'].include?(variable.variable_type)
-              %tr
-                %td
-                  %strong Allow Multiple Rows
-                %td
-                  .btn-group{ data: { toggle: "buttons" } }
-                    - [['enabled', true],['disabled', false]].each do |label, value|
-                      %label.btn.btn-xs.btn-default{ class: "#{'active' if variable.multiple_rows == value}", data: { object: "push-partial-change", update: "variable", variable_id: "#{variable.id}", changes: "{\"variable\":{\"multiple_rows\":\"#{value}\"}}", position: "#{@position}" } }
-                        = radio_button_tag "multiple_rows", value, variable.multiple_rows == value
-                        = label
+              - values = [['enabled', true],['disabled', false]]
+              = render 'design_options/set_design_option', design_option: design_option, title: 'Allow Multiple Rows', values: values, attribute: :multiple_rows
+
               %tr
                 %td
                   %strong Default Row Number
                 %td
-                  = link_to variable.default_row_number, '#', data: { object: 'pull-partial-edit', edit: 'variable_grid_rows', position: @position, variable_id: variable.id }, class: 'btn btn-xs btn-default'
+                  = link_to variable.default_row_number, edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: 'grid_rows'), method: :get, remote: true, class: 'btn btn-xs btn-default'
           %tr
             %td
               %strong Actions

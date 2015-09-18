@@ -2,7 +2,17 @@
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title Edit Design
 .modal-body
-  %form#design_form.form-horizontal
+  = form_tag project_design_path(@project, @design), method: :patch, remote: true, class: 'form-horizontal', id: 'design_form' do
+    - if @design.errors.any?
+      .bs-callout.bs-callout-danger
+        %h4
+          = pluralize(@design.errors.count, "error")
+          prohibited this design from being saved
+
+        %ul
+          - @design.errors.full_messages.each do |msg|
+            %li= msg
+
     .form-group
       %label.col-md-2.control-label Name
       .col-md-10
@@ -35,5 +45,5 @@
       .col-md-10
         = text_field_tag "design[redirect_url]", @design.redirect_url, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, placeholder: "#{ENV['website_url']}/about", class: 'form-control'
 .modal-footer
-  = button_tag 'Update', data: { object: 'push-partial-change', target: '#design_form', update: 'design_name' }, class: 'btn btn-primary'
+  = button_tag 'Update', data: { object: 'submit', target: '#design_form' }, class: 'btn btn-primary'
   %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel

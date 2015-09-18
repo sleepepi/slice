@@ -1,21 +1,2 @@
-<% if ['design_name', 'design_description', 'section', 'variable_name', 'variable_display_name', 'variable_prepend', 'variable_append', 'variable_units', 'variable_calculated', 'variable_ranges', 'variable_autocomplete', 'variable_date', 'variable_domain', 'variable_grid_rows', 'variable_grid_variables'].include?(params[:edit]) %>
-  $("#interactive-design-container").html("<%=j render "designs/interactive/form/#{params[:edit]}" %>");
-
-  showInteractiveDesignModal();
-
-<% elsif ['section_or_variable', 'new_variable', 'new_section', 'existing_question'].include?(params[:new]) %>
-  $("#interactive-design-container").html("<%=j render "designs/interactive/#{params[:new]}_popup" %>");
-  showInteractiveDesignModal();
-<% end %>
-
-$("#interactive-design-container").find('input, textarea').first().focus();
-
-$(".chzn-select").chosen({ allow_single_deselect: true });
-resetDatePickers();
-
-<% if ['variable_domain', 'variable_grid_variables'].include?(params[:edit]) %>
-  $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
-<% end %>
-<% if ['variable_domain'].include?(params[:edit]) %>
-  activateDomainOptions();
-<% end %>
+$("#interactive-design-container").html("<%=j render 'designs/popup_form' %>");
+showInteractiveDesignModal();

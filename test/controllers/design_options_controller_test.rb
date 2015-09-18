@@ -48,6 +48,124 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get edit variable append" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_string), attribute: 'append', format: 'js'
+    assert_template partial: '_append'
+    assert_response :success
+  end
+
+  test "should get edit variable autocomplete" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_string), attribute: 'autocomplete', format: 'js'
+    assert_template partial: '_autocomplete'
+    assert_response :success
+  end
+
+  test "should get edit variable calculation" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_calculated), attribute: 'calculation', format: 'js'
+    assert_template partial: '_calculation'
+    assert_response :success
+  end
+
+  test "should get edit variable date" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_string), attribute: 'date', format: 'js'
+    assert_template partial: '_date'
+    assert_response :success
+  end
+
+  test "should get edit variable grid rows" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:has_grid), id: design_options(:has_grid_grid), attribute: 'grid_rows', format: 'js'
+    assert_template partial: '_grid_rows'
+    assert_response :success
+  end
+
+  test "should get edit variable grid variables" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:has_grid), id: design_options(:has_grid_grid), attribute: 'grid_variables', format: 'js'
+    assert_template partial: '_grid_variables'
+    assert_response :success
+  end
+
+  test "should get edit variable prepend" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_string), attribute: 'prepend', format: 'js'
+    assert_template partial: '_prepend'
+    assert_response :success
+  end
+
+  test "should get edit variable ranges" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_calculated), attribute: 'ranges', format: 'js'
+    assert_template partial: '_ranges'
+    assert_response :success
+  end
+
+  test "should get edit variable units" do
+    xhr :get, :edit_variable, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_calculated), attribute: 'units', format: 'js'
+    assert_template partial: '_units'
+    assert_response :success
+  end
+
+  test "should get edit variable domain" do
+    xhr :get, :edit_domain, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_radio), format: 'js'
+    assert_template partial: '_domain'
+    assert_response :success
+  end
+
+  test "should create domain and add it to variable on design" do
+    assert_difference('Domain.current.count') do
+      patch :update_domain, project_id: @project, design_id: designs(:all_variable_types), id: design_options(:all_variable_types_radio_no_domain), domain: { name: 'new_domain_for_variable', display_name: 'New Domain For Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, format: 'js'
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:design_option)
+    assert_not_nil assigns(:domain)
+    assert_equal 'new_domain_for_variable', assigns(:domain).name
+    assert_equal 'New Domain For Variable', assigns(:domain).display_name
+    assert_equal 4, assigns(:domain).options.size
+    assert_equal assigns(:domain), assigns(:design_option).variable.domain
+    assert_template 'show'
+  end
+
+  test "should update an existing domain on a design" do
+    patch :update_domain, project_id: @project, design_id: designs(:sections_and_variables), id: design_options(:sections_and_variables_dropdown), domain: { name: 'dropdown_options_new', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:design_option)
+    assert_not_nil assigns(:domain)
+    assert_equal 'dropdown_options_new', assigns(:design_option).variable.domain.name
+    assert_equal 'Easy', assigns(:design_option).variable.domain.options[0][:name]
+    assert_equal '1', assigns(:design_option).variable.domain.options[0][:value]
+    assert_equal 'Medium', assigns(:design_option).variable.domain.options[1][:name]
+    assert_equal '2', assigns(:design_option).variable.domain.options[1][:value]
+    assert_equal 'Hard', assigns(:design_option).variable.domain.options[2][:name]
+    assert_equal '3', assigns(:design_option).variable.domain.options[2][:value]
+    assert_template 'show'
+  end
+
+  test "should update an existing domain on a design and fill in missing values" do
+    patch :update_domain, project_id: @project, design_id: designs(:sections_and_variables), id: design_options(:sections_and_variables_dropdown), domain: { name: 'dropdown_options_new', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '' }, { option_index: 'new', name: 'Medium', value: '' }, { option_index: 'new', name: 'Hard', value: '' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:design_option)
+    assert_not_nil assigns(:domain)
+    assert_equal 'dropdown_options_new', assigns(:design_option).variable.domain.name
+    assert_equal 'Easy', assigns(:design_option).variable.domain.options[0][:name]
+    assert_equal '1', assigns(:design_option).variable.domain.options[0][:value]
+    assert_equal 'Medium', assigns(:design_option).variable.domain.options[1][:name]
+    assert_equal '2', assigns(:design_option).variable.domain.options[1][:value]
+    assert_equal 'Hard', assigns(:design_option).variable.domain.options[2][:name]
+    assert_equal '3', assigns(:design_option).variable.domain.options[2][:value]
+    assert_template 'show'
+  end
+
+  test "should not update an existing domain with blank name on a design" do
+    patch :update_domain, project_id: @project, design_id: designs(:sections_and_variables), id: design_options(:sections_and_variables_dropdown), domain: { name: '', display_name: 'New Domain For Dropdown Variable', option_tokens: [ { option_index: 'new', name: 'Easy', value: '1' }, { option_index: 'new', name: 'Medium', value: '2' }, { option_index: 'new', name: 'Hard', value: '3' }, { option_index: 'new', name: 'Old Value', value: 'Value' } ] }, position: 3, variable_id: variables(:dropdown).id, update: 'domain', format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:design)
+    assert_not_nil assigns(:design_option)
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["can't be blank", "is invalid"], assigns(:domain).errors[:name]
+    assert_template 'edit_domain'
+  end
+
   test "should create section on design" do
     assert_difference('DesignOption.count') do
       assert_difference('Section.count') do

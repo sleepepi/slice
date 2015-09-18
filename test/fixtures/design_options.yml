@@ -81,6 +81,14 @@ all_variable_types_radio:
   # required:
   # branching_logic:
 
+all_variable_types_radio_no_domain:
+  design: all_variable_types
+  variable: radio_no_domain
+  # section:
+  position: 2
+  # required:
+  # branching_logic:
+
 all_variable_types_string:
   design: all_variable_types
   variable: string

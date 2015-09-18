@@ -34,3 +34,12 @@ $(document)
     $.get("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/new_existing_variable", changes, null, "script")
     false
   )
+  .on('click', '[data-object~="set-variable-domain"]', () ->
+    project_id = $("#project_id").val()
+    design_id = $('#design_id').val()
+    design_option_id = $(this).data('design-option-id')
+    changes = {}
+    changes['_method'] = 'patch' if changes != null
+    changes['variable'] = { domain_id: $($(this).data('target')).val() }
+    $.post("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/#{design_option_id}", changes, null, "script")
+  )

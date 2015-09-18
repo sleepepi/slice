@@ -22,7 +22,7 @@
     .form-group
       %label.col-md-2.control-label Display Name
       .col-md-10
-        = text_field_tag "variable[display_name]", @variable.display_name, class: 'form-control', data: { object: 'create-variable-name' }
+        = text_field_tag "variable[display_name]", @variable.display_name, class: 'form-control', data: { object: 'create-variable-name', variable_name_target: '#variable_name' }
         = hidden_field_tag "variable[variable_type]", @variable.variable_type
         .bs-callout.bs-callout-info
           %h4 Heads up!
