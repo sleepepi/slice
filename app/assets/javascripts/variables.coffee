@@ -91,7 +91,9 @@
 $(document)
   .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
   .on('change', '#variable_domain_id', () ->
-    $.post(root_url + 'projects/' + $("#variable_project_id").val() + '/domains/values', "domain_id=#{$(this).val()}", null, "script")
+    project_id = $(this).data('project-id')
+    domain_id = $(this).val()
+    $.post("#{root_url}projects/#{project_id}/domains/values", "domain_id=#{domain_id}", null, 'script')
     false
   )
   .on('click', '[data-object~="form-check-before-submit"]', () ->
@@ -127,7 +129,8 @@ $(document)
   )
   .on('click', '#add_grid_variable', () ->
     position = $(this).data('position')
-    $.post(root_url + 'projects/' + $("#variable_project_id").val() + '/variables/add_grid_variable', 'position=' + position, null, "script")
+    project_id = $(this).data('project-id')
+    $.post("#{root_url}projects/#{project_id}/variables/add_grid_variable", 'position=' + position, null, "script")
     false
   )
   .on('click', '[data-object~="grid-row-add"]', () ->
