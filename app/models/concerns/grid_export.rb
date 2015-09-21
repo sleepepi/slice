@@ -87,7 +87,7 @@ module GridExport
         variable.grid_variables.each do |grid_variable|
           if sheet_variable and all_grids and grid = all_grids.select{|g| g.variable_id == grid_variable[:variable_id].to_i and g.position == position}.first
             result = (raw_data ? grid.get_response(:raw) : grid.get_response(:name))
-            result = result.join(',') if result.kind_of?(Array)
+            result = result.join(',') if result.is_a?(Array)
           else
             result = nil
           end

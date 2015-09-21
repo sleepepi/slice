@@ -19,7 +19,7 @@
       <th></th>
       <% @table_header.each do |header| %>
         <th>
-          <% if header.kind_of?(Hash) %>
+          <% if header.is_a?(Hash) %>
             <span class="count-rot315 <%= 'text-muted' if header[:name].blank? %>" rel="tooltip" title="<%= header[:tooltip] %>"><%= header[:name].blank? ? 'Unknown' : header[:name].truncate(10) %></span>
           <% else %>
             <%= header %>

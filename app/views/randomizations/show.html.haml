@@ -100,28 +100,28 @@
         %p
           %strong Select Treatment Arm Based on Criteria Distributions
           %table.table.table-bordered
-            - if @randomization.past_distributions[:treatment_arms].kind_of?(Array)
+            - if @randomization.past_distributions[:treatment_arms].is_a?(Array)
               %thead
                 %tr
                   %th Stratification Factor
                   - @randomization.past_distributions[:treatment_arms].each do |arm_hash|
                     %th{ style: 'text-align:right' }= arm_hash[:name]
-            - if @randomization.past_distributions[:stratification_factors].kind_of?(Array)
+            - if @randomization.past_distributions[:stratification_factors].is_a?(Array)
               %tbody
                 - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
                   %tr
                     %td= sf_hash[:name]
-                    - if sf_hash[:treatment_arm_counts].kind_of?(Array)
+                    - if sf_hash[:treatment_arm_counts].is_a?(Array)
                       - sf_hash[:treatment_arm_counts].each do |ta_hash|
                         %td{ style: 'text-align:right' }= ta_hash[:count]
-            - if @randomization.past_distributions[:totals].kind_of?(Array) or (@randomization.past_distributions[:weighted_totals].kind_of?(Array) and @randomization.past_distributions[:treatment_arms].kind_of?(Array))
+            - if @randomization.past_distributions[:totals].is_a?(Array) or (@randomization.past_distributions[:weighted_totals].is_a?(Array) and @randomization.past_distributions[:treatment_arms].is_a?(Array))
               %tfoot
-                - if @randomization.past_distributions[:totals].kind_of?(Array)
+                - if @randomization.past_distributions[:totals].is_a?(Array)
                   %tr
                     %th Total
                     - @randomization.past_distributions[:totals].each do |total_hash|
                       %th{ style: 'text-align:right' }= total_hash[:count]
-                - if @randomization.past_distributions[:weighted_totals].kind_of?(Array)
+                - if @randomization.past_distributions[:weighted_totals].is_a?(Array)
                   %tr
                     %th Weighted Total
                     - @randomization.past_distributions[:weighted_totals].each do |total_hash|

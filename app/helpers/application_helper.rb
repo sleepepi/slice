@@ -4,7 +4,7 @@ module ApplicationHelper
 
   # Prints out '6 hours ago, Yesterday, 2 weeks ago, 5 months ago, 1 year ago'
   def recent_activity(past_time)
-    return '' unless past_time.kind_of?(Time)
+    return '' unless past_time.is_a?(Time)
     time_ago_in_words(past_time)
     seconds_ago = (Time.now - past_time)
     color = if seconds_ago < 60.minute then "#6DD1EC"

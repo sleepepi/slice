@@ -5,7 +5,7 @@ module DateAndTimeParser
   end
 
   def parse_date_from_hash(date_hash)
-    if date_hash.kind_of?(Hash)
+    if date_hash.is_a?(Hash)
       month = parse_integer(date_hash[:month])
       day = parse_integer(date_hash[:day])
       year = parse_integer(date_hash[:year])
@@ -24,7 +24,7 @@ module DateAndTimeParser
   end
 
   def parse_time_from_hash(time_hash)
-    if time_hash.kind_of?(Hash)
+    if time_hash.is_a?(Hash)
       hour = parse_integer(time_hash[:hour])
       minutes = parse_integer(time_hash[:minutes])
       seconds = parse_integer(time_hash[:seconds])

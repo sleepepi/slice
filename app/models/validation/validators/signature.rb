@@ -27,7 +27,7 @@ module Validation
     private
 
       def get_signature(value)
-        if value.kind_of?(Array)
+        if value.is_a?(Array)
           value
         else
           begin

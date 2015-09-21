@@ -91,13 +91,13 @@ class SheetTransaction < ActiveRecord::Base
     # {"13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
     #  "1346351022118849"=>{"123"=>"1", "494"=>[""], "493"=>""},
     #  "1346351034600475"=>{"494"=>["", "0"], "493"=>""}}
-    response.select!{|key, vhash| vhash.values.select{|v| (not v.kind_of?(Array) and not v.blank?) or (v.kind_of?(Array) and not v.join.blank?)}.size > 0}
+    response.select!{|key, vhash| vhash.values.select{|v| (not v.is_a?(Array) and not v.blank?) or (v.is_a?(Array) and not v.join.blank?)}.size > 0}
     response.each_with_index do |(key, variable_response_hash), position|
       variable_response_hash.each_pair do |variable_id, res|
         grid = sheet_variable.grids.where( variable_id: variable_id, position: position ).first_or_create( user_id: (current_user ? current_user.id : nil) )
         if grid.variable.variable_type == 'file'
           grid_old = sheet_variable.grids.find_by_variable_id_and_position(variable_id, key)
-          if not res[:response_file].kind_of?(Hash) or res[:remove_response_file] == '1' or (res[:response_file].kind_of?(Hash) and not res[:response_file][:cache].blank?)
+          if not res[:response_file].is_a?(Hash) or res[:remove_response_file] == '1' or (res[:response_file].is_a?(Hash) and not res[:response_file][:cache].blank?)
             # New file added, do nothing
           elsif grid_old
             # Found preexisting grid

@@ -78,8 +78,8 @@ module Buildable
 
 
     params[:column_variable_ids] = params[:column_variable_id].to_s.split(',')[0]
-    # params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].kind_of?(Array)
-    # params[:row_variable_ids] = params[:row_variable_ids][0..2] if params[:row_variable_ids].kind_of?(Array)
+    # params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].is_a?(Array)
+    # params[:row_variable_ids] = params[:row_variable_ids][0..2] if params[:row_variable_ids].is_a?(Array)
     params[:page] = (params[:page].to_i < 1 ? 1 : params[:page].to_i)
 
     set_sheet_scope
@@ -212,7 +212,7 @@ module Buildable
     table_row = []
 
     @table_header.each do |header|
-      if header.kind_of?(Hash)
+      if header.is_a?(Hash)
         cell = header.dup
         cell[:filters] = (cell[:filters] || []) + filters
         # This adds in row specific missing filters to accurately calculate the total row count
@@ -235,7 +235,7 @@ module Buildable
 
       row = []
       @table_header.each do |header|
-        if header.kind_of?(Hash)
+        if header.is_a?(Hash)
           row << (header[:name].blank? ? 'Unknown' : header[:name].to_s)
         else
           row << header

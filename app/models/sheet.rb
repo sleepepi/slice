@@ -280,7 +280,7 @@
     all_files = []
     (self.sheet_variables.with_variable_type(['file']) + self.grids.with_variable_type(['file'])).each do |object|
       if object.response_file.size > 0
-        all_files << ["FILES/sheet_#{self.id}#{"/#{object.sheet_variable.variable.name}" if object.kind_of?(Grid)}/#{object.variable.name}#{"/#{object.position}" if object.respond_to?('position')}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
+        all_files << ["FILES/sheet_#{self.id}#{"/#{object.sheet_variable.variable.name}" if object.is_a?(Grid)}/#{object.variable.name}#{"/#{object.position}" if object.respond_to?('position')}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
       end
     end
     all_files
@@ -360,10 +360,10 @@
 
   def self.filter_sheet_scope(sheet_scope, filters)
     (filters || []).each do |filter|
-      unless filter[:start_date].kind_of?(Date)
+      unless filter[:start_date].is_a?(Date)
         filter[:start_date] = Date.parse(filter[:start_date]) rescue filter[:start_date] = nil
       end
-      unless filter[:end_date].kind_of?(Date)
+      unless filter[:end_date].is_a?(Date)
         filter[:end_date] = Date.parse(filter[:end_date]) rescue filter[:start_date] = nil
       end
       sheet_scope = sheet_scope.with_stratum(filter[:variable_id], filter[:value], filter[:start_date], filter[:end_date])

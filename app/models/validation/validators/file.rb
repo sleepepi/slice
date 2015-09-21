@@ -28,7 +28,7 @@ module Validation
       end
 
       def db_key_value_pairs(response)
-        if response.kind_of?(Hash)
+        if response.is_a?(Hash)
           response
         else
           {}

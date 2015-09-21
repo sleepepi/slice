@@ -42,7 +42,7 @@ module Validation
       end
 
       def response_to_value(response)
-        if response.kind_of?(Hash)
+        if response.is_a?(Hash)
           response
         else
           # This parses the date from "%Y-%m-%d" database format

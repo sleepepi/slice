@@ -61,7 +61,7 @@ module SheetExport
         ''
       end
 
-      row << (response.kind_of?(Array) ? response.join(',') : response)
+      row << (response.is_a?(Array) ? response.join(',') : response)
       if variable.variable_type == 'checkbox'
         variable.shared_options.each_with_index do |option, index|
           search_string = (raw_data ? option[:value] : "#{option[:value]}: #{option[:name]}")

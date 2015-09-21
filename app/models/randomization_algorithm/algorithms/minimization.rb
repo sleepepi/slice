@@ -100,7 +100,7 @@ module RandomizationAlgorithm
 
           randomization = nil
 
-          if treatment_arm and weighted_eligible_arms.kind_of?(Array)
+          if treatment_arm and weighted_eligible_arms.is_a?(Array)
             randomization = list.randomizations.create(
               project_id: @randomization_scheme.project_id,
               randomization_scheme_id: @randomization_scheme.id,
