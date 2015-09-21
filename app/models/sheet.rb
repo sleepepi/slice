@@ -102,7 +102,7 @@
   end
 
   def self.latex_file_location(sheets, current_user)
-    jobname = (sheets.size == 1 ? "sheet_#{sheets.first.id}" : "sheets_#{Time.now.strftime("%Y%m%d_%H%M%S")}")
+    jobname = (sheets.size == 1 ? "sheet_#{sheets.first.id}" : "sheets_#{Time.zone.now.strftime("%Y%m%d_%H%M%S")}")
     output_folder = File.join('tmp', 'files', 'tex')
     file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
 

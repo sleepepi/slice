@@ -75,7 +75,7 @@ class Project < ActiveRecord::Base
   end
 
   def recent_sheets
-    self.sheets.with_subject_status('valid').where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+    self.sheets.with_subject_status('valid').where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end
 
   # Project Owners and Project Editors
@@ -135,7 +135,7 @@ class Project < ActiveRecord::Base
 
   def create_valid_subject(email, site_id)
     self.create_default_site if self.sites.count == 0
-    hexdigest = Digest::SHA1.hexdigest(Time.now.usec.to_s)
+    hexdigest = Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)
 
     site_id = self.sites.first.id unless site = self.sites.find_by_id(site_id)
 

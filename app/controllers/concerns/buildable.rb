@@ -268,7 +268,7 @@ module Buildable
     end
     file_name = @report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                           disposition: "attachment; filename=\"#{file_name} #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+                           disposition: "attachment; filename=\"#{file_name} #{Time.zone.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 
 end

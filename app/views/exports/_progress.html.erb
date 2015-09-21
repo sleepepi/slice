@@ -23,7 +23,7 @@
       <span class="text-muted">Export took <%= distance_of_time_in_words(@export.created_at, @export.updated_at, { include_seconds: true }) %>.</span>
       <%= @export.details %>
     <% else %>
-      <span class="text-muted">Export started <%= distance_of_time_in_words(@export.created_at, Time.now, { include_seconds: true }) %> ago...</span>
+      <span class="text-muted">Export started <%= distance_of_time_in_words(@export.created_at, Time.zone.now, { include_seconds: true }) %> ago...</span>
     <% end %>
   </dd>
 </dl>

@@ -1,7 +1,7 @@
 = hidden_field_tag 'is_new_domain', @domain.new_record? ? '1' : '0'
 - if @domain.options.size == 0
   - (0..4).each do |index|
-    - position = Time.now.to_i.to_s + Time.now.usec.to_s + index.to_s
+    - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s + index.to_s
     - @option = { name: '', value: '', description: '' }
     = render 'domains/edit_option', position: position, index: index
 - else

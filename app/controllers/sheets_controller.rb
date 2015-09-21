@@ -173,14 +173,14 @@ class SheetsController < ApplicationController
         "Successfully transferred sheet from subject <b>#{original_subject.subject_code}</b> to <b>#{subject.subject_code}</b>. #{view_context.link_to 'Undo', transfer_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch}"
       end
 
-      SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.now }, { }, current_user, request.remote_ip, 'sheet_update')
+      SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, { }, current_user, request.remote_ip, 'sheet_update')
       redirect_to [@project, @sheet], notice: notice
     end
   end
 
   def move_to_event
     if subject_event = @sheet.subject.subject_events.find_by_id(params[:subject_event_id])
-      SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.now }, { }, current_user, request.remote_ip, 'sheet_update')
+      SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, { }, current_user, request.remote_ip, 'sheet_update')
       @subject = @sheet.subject # For move_to_event.js.erb partial
     else
       render nothing: true
@@ -202,7 +202,7 @@ class SheetsController < ApplicationController
   def unlock
     if @project.lockable?
       flash[:notice] = 'Sheet was successfully unlocked.'
-      SheetTransaction.save_sheet!(@sheet, { locked: false, last_user_id: current_user.id, last_edited_at: Time.now }, { }, current_user, request.remote_ip, 'sheet_update')
+      SheetTransaction.save_sheet!(@sheet, { locked: false, last_user_id: current_user.id, last_edited_at: Time.zone.now }, { }, current_user, request.remote_ip, 'sheet_update')
     end
     respond_to do |format|
       format.html { redirect_to [@sheet.project, @sheet] }
@@ -229,7 +229,7 @@ class SheetsController < ApplicationController
     end
 
     def sheet_params
-      current_time = Time.now
+      current_time = Time.zone.now
 
       params[:sheet] ||= {}
 

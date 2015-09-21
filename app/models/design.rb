@@ -85,7 +85,7 @@ class Design < ActiveRecord::Base
   def create_variables_from_questions!
     self.questions.select{|hash| not hash[:question_name].blank?}.each_with_index do |question_hash, position|
       name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, '_').gsub(/^[\d_]/, 'n').gsub(/_{2,}/, '_').gsub(/_$/, '')[0..31].strip
-      name = "var_#{Digest::SHA1.hexdigest(Time.now.usec.to_s)[0..27]}" if self.project.variables.where( name: name ).size != 0
+      name = "var_#{Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)[0..27]}" if self.project.variables.where( name: name ).size != 0
       variable_type = (QUESTION_TYPES.collect{|name,value| value}.include?(question_hash[:question_type]) ? question_hash[:question_type] : 'string')
       variable = self.project.variables.create(
         name: name,
@@ -315,7 +315,7 @@ class Design < ActiveRecord::Base
 
   def create_sheets!(default_site, default_status, current_user, remote_ip)
     if self.csv_file.path and default_site
-      self.update( import_started_at: Time.now )
+      self.update( import_started_at: Time.zone.now )
       self.set_total_rows
       counter = 0
 
@@ -346,7 +346,7 @@ class Design < ActiveRecord::Base
       end
     end
 
-    self.update import_ended_at: Time.now
+    self.update import_ended_at: Time.zone.now
     self.notify_user!(current_user)
   end
 

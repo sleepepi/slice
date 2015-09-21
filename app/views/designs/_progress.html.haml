@@ -18,7 +18,7 @@
           = distance_of_time_in_words @design.import_started_at, @design.import_ended_at, { include_seconds: true }
       - else
         Import started
-        = distance_of_time_in_words @design.import_started_at, Time.now, { include_seconds: true }
+        = distance_of_time_in_words @design.import_started_at, Time.zone.now, { include_seconds: true }
         ago...
     - else
       Import starting...

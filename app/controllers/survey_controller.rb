@@ -31,7 +31,7 @@ class SurveyController < ApplicationController
     unless @subject = @project.subjects.find_by_id(params[:subject_id])
       @subject = @project.create_valid_subject(params[:email], params[:site_id])
     end
-    @sheet = @project.sheets.where(design_id: @design.id).new({ subject_id: @subject.id, authentication_token: Digest::SHA1.hexdigest(Time.now.usec.to_s) })
+    @sheet = @project.sheets.where(design_id: @design.id).new({ subject_id: @subject.id, authentication_token: Digest::SHA1.hexdigest(Time.zone.now.usec.to_s) })
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
       UserMailer.survey_completed(@sheet).deliver_later if Rails.env.production?
       UserMailer.survey_user_link(@sheet).deliver_later if Rails.env.production? and not @subject.email.blank?

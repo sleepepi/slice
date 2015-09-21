@@ -248,8 +248,8 @@ class User < ActiveRecord::Base
   end
 
   # All sheets created in the last day, or over the weekend if it's Monday
-  # Ex: On Monday, returns sheets created since Friday morning (Time.now - 3.day)
-  # Ex: On Tuesday, returns sheets created since Monday morning (Time.now - 1.day)
+  # Ex: On Monday, returns sheets created since Friday morning (Time.zone.now - 3.day)
+  # Ex: On Tuesday, returns sheets created since Monday morning (Time.zone.now - 1.day)
   def digest_sheets_created
     all_viewable_sheets.with_subject_status('valid').where(project_id: all_digest_projects.collect(&:id)).where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end

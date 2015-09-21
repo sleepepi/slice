@@ -1,4 +1,4 @@
-- position = Time.now.to_i.to_s + Time.now.usec.to_s unless position
+- position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s unless position
 - @position = position
 
 %div{ id: "design_#{@position}", style: "line-height:30px;padding-top:5px" }
