@@ -15,7 +15,7 @@
   %tbody
     %tr
       %td
-        %span{ style: "display:none", data: { object: "sparkline", type: "pie", values: "<%= counts.to_json %>" } }
+        %span{ style: "display:none", data: { object: "sparkline", type: "pie", values: counts } }
       - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each_with_index do |(name, value), count_index|
         - count = counts[count_index]
         %td

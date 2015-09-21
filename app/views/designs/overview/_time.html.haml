@@ -1,5 +1,5 @@
-- missing_responses = responses.select{|r| r.blank?}
-- valid_responses = responses.select{|r| not r.blank?}
+- missing_responses = responses.select(&:blank?)
+- valid_responses = responses.reject(&:blank?)
 
 %table.table
   %thead
@@ -9,10 +9,6 @@
       %th Total
   %tbody
     %tr
-      %td= filter_link(Sheet.array_count(valid_responses), @project, @design, variable, ':any', @statuses)
-      %td= filter_link(Sheet.array_count(missing_responses), @project, @design, variable, ':missing', @statuses)
-      %td= filter_link(Sheet.array_count(responses), @project, @design, nil, nil, @statuses)
-
-- if false
-  - valid_responses.each do |response|
-    %div= response
+      %td= filter_link Sheet.array_count(valid_responses), @project, @design, variable, ':any', @statuses
+      %td= filter_link Sheet.array_count(missing_responses), @project, @design, variable, ':missing', @statuses
+      %td= filter_link Sheet.array_count(responses), @project, @design, nil, nil, @statuses

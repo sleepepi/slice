@@ -1,0 +1,30 @@
+- missing_responses = responses.select(&:blank?)
+- valid_responses = responses.reject(&:blank?).map(&:to_i)
+- counts = []
+- variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value]] }.each do |name, value|
+  - counts << responses.select { |r| r == value }.count
+
+%table.table
+  %thead
+    %tr
+      %th
+      %th N
+      - variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value]] }.each do |name, value|
+        %th
+          = succeed ':' do
+            = value
+          = name
+      %th.text-muted Unknown
+      %th Total
+  %tbody
+    %tr
+      %td
+        %span{ style: 'display:none', data: { object: 'sparkline', type: 'pie', values: counts } }
+      %td= filter_link Sheet.array_count(valid_responses), @project, @design, variable, ':any', @statuses
+      - variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value]] }.each_with_index do |(name, value), count_index|
+        %td
+          - unless responses.select{|r| r == value}.count == 0
+            %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
+          = filter_link((responses.select{|r| r == value}.count == 0 ? nil : responses.select{|r| r == value}.count), @project, @design, variable, value, @statuses)
+      %td= filter_link Sheet.array_count(missing_responses), @project, @design, variable, ':missing', @statuses
+      %td= filter_link Sheet.array_count(responses), @project, @design, nil, nil, @statuses

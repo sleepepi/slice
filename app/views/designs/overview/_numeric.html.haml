@@ -1,0 +1,38 @@
+- missing_responses = responses.select(&:blank?)
+- valid_responses = responses.reject(&:blank?).map(&:to_f)
+- valid_sheets = sheet_scope.with_stratum(variable.id, ':any')
+
+%table.table
+  %thead
+    %tr
+      %th
+      %th N
+      %th Mean
+      %th StdDev
+      %th Median
+      %th Min
+      %th Max
+      %th.text-muted Unknown
+      %th Total
+  %tbody
+    %tr
+      %td
+        %span{ style: 'display:none', data: { object: 'sparkline', type: 'box', values: valid_responses, min: @overall_min, max: @overall_max } }
+      %td= filter_link Sheet.array_count(valid_responses), @project, @design, variable, ':any', @statuses
+      %td
+        - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
+        = mean ? mean : '-'
+      %td
+        - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
+        = stdev ? "&plusmn; #{stdev}".html_safe : '-'
+      %td
+        - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
+        = median ? filter_link(median, @project, @design, variable, "%g"%median, @statuses) : '-'
+      %td
+        - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
+        = min ? filter_link(min, @project, @design, variable, "%g"%min, @statuses) : '-'
+      %td
+        - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
+        = max ? filter_link(max, @project, @design, variable, "%g"%max, @statuses) : '-'
+      %td= filter_link Sheet.array_count(missing_responses), @project, @design, variable, ':missing', @statuses
+      %td= filter_link Sheet.array_count(responses), @project, @design, nil, nil, @statuses

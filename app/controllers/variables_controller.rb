@@ -1,19 +1,19 @@
 class VariablesController < ApplicationController
-  before_action :authenticate_user!, except: [ :add_grid_row, :format_number, :typeahead ]
-  before_action :set_viewable_project, only: [ :cool_lookup ]
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore, :cool_lookup ]
-  before_action :set_restorable_variable, only: [ :restore ]
-  before_action :set_editable_variable, only: [ :show, :edit, :update, :destroy ]
-  before_action :set_authenticatable_variable, only: [ :add_grid_row, :typeahead, :format_number ]
-  before_action :redirect_without_variable, only: [ :show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number, :restore ]
+  before_action :authenticate_user!, except: [:add_grid_row, :format_number, :typeahead]
+  before_action :set_viewable_project, only: [:cool_lookup]
+  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore]
+  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore, :cool_lookup]
+  before_action :set_restorable_variable, only: [:restore]
+  before_action :set_editable_variable, only: [:show, :edit, :update, :destroy]
+  before_action :set_authenticatable_variable, only: [:add_grid_row, :typeahead, :format_number]
+  before_action :redirect_without_variable, only: [:show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number, :restore]
 
   def cool_lookup
-    @variable = @project.variable_by_id(params[:variable_id])
+    @variable = @project.variable_by_id params[:variable_id]
   end
 
   def typeahead
-    render json: ( ['string'].include?(@variable.variable_type) ? @variable.autocomplete_array.select{|i| (i.to_s.downcase.include?(params[:query].to_s.downcase))} : [] )
+    render json: ( ['string'].include?(@variable.variable_type) ? @variable.autocomplete_array.select { |i| (i.to_s.downcase.include?(params[:query].to_s.downcase)) } : [] )
   end
 
   def format_number
@@ -67,12 +67,6 @@ class VariablesController < ApplicationController
   # GET /variables/new.json
   def new
     @variable = current_user.variables.new(project_id: @project.id)
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.js { render 'edit' }
-      format.json { render json: @variable }
-    end
   end
 
   # GET /variables/1/edit
@@ -94,12 +88,10 @@ class VariablesController < ApplicationController
         end
 
         format.html { redirect_to url, notice: 'Variable was successfully created.' }
-        format.js { render 'update' }
         format.json { render action: 'show', status: :created, location: @variable }
       else
         @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
         format.html { render action: 'new' }
-        format.js { render 'update' }
         format.json { render json: @variable.errors, status: :unprocessable_entity }
       end
     end
@@ -117,12 +109,10 @@ class VariablesController < ApplicationController
         end
 
         format.html { redirect_to url, notice: 'Variable was successfully updated.' }
-        format.js
         format.json { head :no_content }
       else
         @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
         format.html { render action: 'edit' }
-        format.js
         format.json { render json: @variable.errors, status: :unprocessable_entity }
       end
     end

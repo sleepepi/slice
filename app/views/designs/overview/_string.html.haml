@@ -12,3 +12,9 @@
       %td= filter_link Sheet.array_count(valid_responses), @project, @design, variable, ':any', @statuses
       %td= filter_link Sheet.array_count(missing_responses), @project, @design, variable, ':missing', @statuses
       %td= filter_link Sheet.array_count(responses), @project, @design, nil, nil, @statuses
+
+- if valid_responses.size <= 50
+  - valid_responses.each do |response|
+    %blockquote= response
+- else
+  .text-muted Individual responses suppressed since the total amount of responses exceeds 50.

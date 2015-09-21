@@ -1,0 +1,8 @@
+!!!
+%html
+  %head
+    %title= [Contour.application_name, @title].compact.join(' - ').html_safe
+    = stylesheet_link_tag 'application', media: 'all'
+  %body{ style: "padding-top:0px" }
+    = render 'designs/report'
+    = javascript_include_tag 'application'
