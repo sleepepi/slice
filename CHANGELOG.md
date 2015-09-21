@@ -1,6 +1,8 @@
 ## 0.30.0
 
 ### Enhancements
+- **General Changes**
+  - Updated the menu to make better use of space and added back global search bar
 - **Design Changes**
   - Improved the method in which variables and sections are linked to designs
 - **Gem Changes**

@@ -1,72 +1,51 @@
 .navbar-header
-  %button.navbar-toggle{ type: "button", data: { toggle: "collapse", target: ".navbar-ex1-collapse" } }
+  %button.navbar-toggle{ type: 'button', data: { toggle: 'collapse', target: '.navbar-ex1-collapse' } }
     %span.sr-only Toggle navigation
     %span.icon-bar
     %span.icon-bar
     %span.icon-bar
 
-  = link_to ENV['website_name'], root_path, class: "navbar-brand"
+  = link_to ENV['website_name'], root_path, class: 'navbar-brand'
 
 - if current_user
   .collapse.navbar-collapse.navbar-ex1-collapse
-    - if @project and !@project.new_record?
-      %ul.nav.navbar-nav
-        %li.hidden-xs.hidden-sm
-          = link_to @project.name, @project
-        - case params[:controller] when 'subjects'
-          %li.hidden-xs.hidden-sm
-            = link_to project_subjects_path(@project) do
-              Subjects
-              %span.badge= @project.subjects.where(status: 'valid').count
-          - if @subject and not @subject.new_record?
-            %li.hidden-xs.hidden-sm
-              = link_to project_subject_path(@project, @subject) do
-                = @subject.name
+    %form#global-search-form.navbar-form.navbar-left{ action: search_path }
+      %input#global-search.form-control{ name: 'q', type: 'text', autocomplete: 'off', value: params[:q], placeholder: 'Search' }
 
-        - when 'sites'
-          %li.hidden-xs.hidden-sm
-            = link_to project_sites_path(@project) do
-              Sites
-              %span.badge= @project.sites.count
-        - when 'designs'
-          %li.hidden-xs.hidden-sm
-            = link_to project_designs_path(@project) do
-              Designs
-              %span.badge= @project.designs.count
-        - if false
-          -# when 'projects'
-            %li.hidden-xs.hidden-sm
-              = link_to project_designs_path(@project) do
-                Find Subject
-            %form#global-search-form.navbar-form.navbar-right{ action: search_path }
-              %input#global-search.form-control{ name: "q", type: "text", autocomplete: "off", value: params[:q], placeholder: "Search" }
-
-
-    %ul.nav.navbar-nav.navbar-right
-      %li.hidden-xs.hidden-sm
-        = link_to settings_path do
-          = image_tag(current_user.avatar_url(26, "identicon"), alt: '', class: 'img-rounded', style: 'float:left;margin-right:5px;margin-top:-2px')
-          %span= current_user.first_name
-          %span.hidden-sm= current_user.last_name
-      %li
-        = link_to settings_path do
-          .visible-xs.visible-sm
-            %span
-              Settings
+    - if current_user
+      %ul.nav.navbar-nav.navbar-right
+        %li.dropdown.hidden-xs
+          = link_to '#', class: 'dropdown-toggle', data: { object: 'dropdown', toggle: 'dropdown' } do
+            = image_tag current_user.avatar_url(26, 'identicon'), class: 'img-rounded', style: 'float:left;margin-right:5px;margin-top:-2px'
+            %span= current_user.first_name
+            %span.hidden-sm= current_user.last_name
+            %span.caret
+          %ul.dropdown-menu{ role: "menu" }
+            %li
+              = link_to settings_path do
+                %span.glyphicon.glyphicon-cog
+                My Settings
+            - if current_user.system_admin?
+              %li.divider
+              %li
+                = link_to users_path do
+                  %span.glyphicon.glyphicon-wrench
+                  Admin Dashboard
+        %li.visible-xs
+          = link_to settings_path do
             %span.glyphicon.glyphicon-cog
-          .hidden-xs.hidden-sm
-            %span.glyphicon.glyphicon-cog
-      %li
-        = link_to destroy_user_session_path, class: 'logout-button' do
-          .visible-xs.visible-sm
-            %span
-              Sign Out
+            My Settings
+
+        - if current_user.system_admin?
+          %li.visible-xs
+            = link_to users_path do
+              %span.glyphicon.glyphicon-wrench
+              Admin Dashboard
+
+        %li
+          = link_to destroy_user_session_path, class: 'logout-button' do
+            %span.hidden-sm Sign Out
             %span.glyphicon.glyphicon-log-out
-          .hidden-xs.hidden-sm
-            %span.glyphicon.glyphicon-log-out
-  - if false
-    %form#global-search-form.navbar-form.navbar-right{ action: search_path }
-      %input#global-search.form-control{ name: "q", type: "text", autocomplete: "off", value: params[:q], placeholder: "Search" }
 - else
   .collapse.navbar-collapse.navbar-ex1-collapse
     %form.navbar-form.navbar-right
