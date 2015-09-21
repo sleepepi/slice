@@ -8,7 +8,7 @@
     %span.input-group-addon= variable.prepend
   = text_field_tag field_name, response, class: 'form-control',
     data: { content: variable.description, object: "condition variable-typeahead cursor-navigatable",
-      variable_id: variable.id, html: true },
+      variable_id: variable.id, html: 'true' },
       title: variable.description.blank? ? '' : variable.display_name,
       rel: "#{variable.description.blank? ? '' : 'popover'}",
       autocomplete: 'off',

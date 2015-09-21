@@ -1,0 +1,52 @@
+.page-header
+  %h1
+    = link_to @project.name, @project
+    &middot;
+    = @title
+
+= form_for [@site.project, @site], html: { class: 'form-horizontal' } do |f|
+  - if @site.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize @site.errors.count, 'error'
+        prohibited this site from being saved
+
+      %ul
+        - @site.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :prefix, 'Site Prefix', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :prefix, class: 'form-control'
+
+  .form-group
+    = f.label :code_minimum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Minimum', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :code_minimum, class: 'form-control'
+      .bs-callout.bs-callout-info
+        %h4 Heads up!
+        Do not include the site prefix.
+
+  .form-group
+    = f.label :code_maximum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Maximum', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :code_maximum, class: 'form-control'
+      .bs-callout.bs-callout-info
+        %h4 Heads up!
+        Do not include the site prefix.
+
+  .form-group
+    = f.label :description, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

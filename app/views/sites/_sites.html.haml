@@ -1,0 +1,23 @@
+= render 'contour/layouts/per_page', per_page: 40, object_count: @sites.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap= sort_field_helper @order, 'sites.name', 'Name'
+      %th.nowrap= sort_field_helper @order, 'sites.prefix', 'Prefix'
+      %th.nowrap= sort_field_helper @order, 'sites.description', 'Description'
+      %th.nowrap= sort_field_helper @order, 'sites.user_id', 'Creator'
+      %th Actions
+
+  - @sites.each do |site|
+    %tr{ id: "site_#{site.id}" }
+      %td= link_to site.name, [site.project, site]
+      %td= site.prefix
+      %td= site.description
+      %td= link_to site.user.name, site.user if site.user
+      %td
+        - if current_user.all_sites.pluck(:id).include?(site.id)
+          = link_to 'Edit', edit_project_site_path(site.project, site), class: 'btn btn-default btn-xs'
+          = link_to 'Delete', [site.project, site], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{site.name}?" }
+
+.center= paginate @sites, theme: 'contour'

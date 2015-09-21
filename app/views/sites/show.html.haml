@@ -1,0 +1,50 @@
+- @title = @site.name
+.page-header
+  %h1
+    = link_to @project.name, @project
+    &middot;
+    = link_to 'Sites', project_sites_path(@project)
+    &middot;
+    = @title
+  - if current_user.all_sites.pluck(:id).include?(@site.id)
+    = link_to "Edit Site", edit_project_site_path(@site.project, @site), class: 'btn btn-default btn-xs'
+    = link_to "Delete Site", [@site.project, @site], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" }
+  = link_to "View Subjects", project_subjects_path(@project, site_id: @site.id), class: 'btn btn-default btn-xs'
+
+%dl.dl-horizontal
+  %dt Name
+  %dd= @site.name
+
+  %dt Site Prefix
+  %dd= @site.prefix
+
+  %dt
+    = @site.project.subject_code_name_full
+    Minimum
+  %dd= @site.code_minimum
+
+  %dt
+    = @site.project.subject_code_name_full
+    Maximum
+  %dd= @site.code_maximum
+
+  %dt Description
+  %dd= simple_format @site.description
+
+  %dt Creator
+  %dd= link_to @site.user.name, @site.user if @site.user
+
+  %dt Site Members
+  %dd
+    - if @site.site_users.size == 0
+      %span.text-muted No Members on Site
+    - else
+      %table.table.table-fixed{ style: 'margin-top:-8px' }
+        %thead
+          %tr
+            %th= @site.name
+            %th Role
+            %th Invited By
+            %th Actions
+        - @site.site_users.order(editor: :desc, id: :asc).each do |member|
+          = render 'projects/member_row', member: member
