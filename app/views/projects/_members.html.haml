@@ -1,0 +1,32 @@
+%table.table.table-fixed{ style: 'margin-top:20px' }
+  %thead
+    %tr
+      %th All Sites
+      %th Role
+      %th Invited By
+      %th Actions
+  %tr
+    %td= @project.user.name
+    %td Project Owner
+    %td
+    %td
+  - @project.project_users.order(editor: :desc, id: :asc).each do |project_user|
+    = render 'projects/member_row', member: project_user
+
+%h3
+  Sites
+  = link_to "Create Site", new_project_site_path(@project), class: 'btn btn-xs btn-primary' if @project.editable_by?(current_user)
+
+- @project.sites.each do |site|
+  %table.table.table-fixed{ style: 'margin-top:20px' }
+    %thead
+      %tr
+        %th= link_to_if current_user.all_viewable_sites.pluck(:id).include?(site.id), site.name, [site.project, site]
+        %th Role
+        %th Invited By
+        %th Actions
+    - if site.site_users.size == 0
+      %tr.active
+        %td.center{ colspan: 4 } No Members on Site
+    - site.site_users.order(editor: :desc, id: :asc).each do |member|
+      = render 'projects/member_row', member: member

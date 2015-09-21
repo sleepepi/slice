@@ -1,0 +1,41 @@
+- title = 'Designs'
+- if @project.designs.size == 0
+  %h2.about-title= title
+  = link_to 'Create Design', new_project_design_path(@project), class: 'btn btn-block btn-lg btn-primary'
+- else
+
+  %h2.about-title= link_to title, project_designs_path(@project)
+
+  %hr.divider-md
+
+  %table.table.table-hover.table-condensed
+    %col{ width: '70px' }
+    %col
+    %col{ width: '120px' }
+    %thead
+      %tr
+        %th Sheets
+        %th Design
+        %th Actions
+    %tbody
+      %tr{ style: 'cursor:pointer', data: { link: new_project_design_path(@project) } }
+        %td.text-muted
+        %td{ colspan: 2 }
+          = link_to 'Create Design', new_project_design_path(@project)
+      - @project.designs.order('name').limit(10).each do |design|
+        %tr{ style: 'cursor:pointer', data: { link: project_design_path(design.project, design), object: 'hover-show', target: "#design_#{design.id}_edit_link" } }
+          %td
+            - if design.sheets.count > 0
+              %span.badge.badge-info= design.sheets.count
+          %td= design.name
+          %td
+            %div{ style: 'height:22px;' }
+              %span{ id: "design_#{design.id}_edit_link", style: 'display:none' }
+                = link_to 'Edit', edit_project_design_path(design.project, design), class: 'btn btn-default btn-xs'
+                = link_to 'PDF', print_project_design_path(design.project, design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs'
+      %tr{ style: 'cursor:pointer', data: { link: project_designs_path(@project) } }
+        %td.text-muted
+        %td{ colspan: 2 }
+          = link_to "View More", project_designs_path(@project)
+          - if @project.designs.count > 0
+            %span.badge.badge-info= @project.designs.count

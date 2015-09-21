@@ -1,0 +1,30 @@
+%h2.about-title
+  = link_to_if @project.editable_by?(current_user), 'Contacts', project_contacts_path(@project)
+
+%hr.divider-md
+
+- if @project.contacts.where(archived: false).size == 0
+  %ul
+    %li.text-muted No Contact Information
+- else
+  - @project.contacts.where(archived: false).order('position').each do |contact|
+    %address
+      %strong= contact.title
+      %br
+      %p{ style: 'margin-left:10px' }
+        = contact.name
+        %br
+        - unless contact.phone.blank?
+          %span{ rel: 'tooltip', data: { placement: 'left' }, title: 'Phone' }
+            P:
+            = contact.phone
+          %br
+        - unless contact.fax.blank?
+          %span{ rel: 'tooltip', data: { placement: 'left' }, title: 'Fax' }
+            F:
+            = contact.fax
+          %br
+        - unless contact.email.blank?
+          = mail_to contact.email
+          %br
+    %hr.divider-md
