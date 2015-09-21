@@ -1,0 +1,7 @@
+- position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s
+
+.row{ id: "event_#{@position}_design_#{position}", style: 'line-height:30px;padding-top:5px' }
+  .col-md-offset-2.col-xs-2
+    = select_tag "schedule[items][][design_ids][]", options_for_select([[nil, nil]] + @project.designs.order(:name).collect{|d| [d.name, d.id]}, design_hash[:design_id]), class: 'form-control'
+  .col-xs-3
+    = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#event_#{@position}_design_#{position}" }, tabindex: '-1'
