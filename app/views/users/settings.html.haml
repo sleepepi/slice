@@ -1,0 +1,75 @@
+- @title = "My Settings"
+
+.page-header
+  %h2 Gravatar Icon
+
+= image_tag current_user.avatar_url(80, 'identicon'), class: 'img-rounded'
+
+You can change your avatar at
+= link_to 'gravatar.com', 'http://gravatar.com', target: '_blank'
+
+.page-header
+  %h2 Settings
+
+= form_tag update_theme_user_path(current_user), method: :post, id: 'theme_settings', class: 'form-horizontal' do
+  .form-group
+    %label.col-md-2.control-label Theme
+    .col-md-10
+      = select_tag "user[theme]", options_for_select([['Minimalist', nil]] + Slice::THEMES, current_user.theme), class: 'form-control'
+
+  - if false
+    .form-group
+      .col-md-10.col-md-offset-2
+        .checkbox
+          %label
+            = hidden_field_tag "user[beta_enabled]", 0
+            = check_box_tag "user[beta_enabled]", '1', current_user.beta_enabled?
+            Enable Beta Preview
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "#theme_settings" }
+
+.page-header
+  %h2 Email Notifications
+
+= hidden_field_tag 'isdirty', '1'
+
+= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings', class: 'form-horizontal' do
+  .form-group
+    %label.col-md-2.control-label All Projects
+    .col-md-10.sheet-container
+      %label.checkbox{ class: "#{'selected' if current_user.emails_enabled?}" }
+        = check_box_tag :emails_enabled, '1', current_user.emails_enabled?
+        = 'Receive email'
+  - User::EMAILABLES.each do |notification, description|
+    .form-group{ style: 'margin-left:20px' }
+      %label.col-md-2.control-label
+        %strong= notification.to_s.titleize
+      .col-md-10.sheet-container
+        %label.checkbox{ class: "#{'selected' if current_user.email_on?(notification)}" }
+          = check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification)
+          = description
+
+  - current_user.all_viewable_projects.order('name').in_groups_of(3, false).each do |row_projects|
+    .row
+      - row_projects.each do |project|
+        .col-md-4{ style: 'margin-top:30px' }
+          .form-group
+            %label.col-md-2.control-label.nowrap
+              %strong= project.name
+            .col-md-10.sheet-container{ style: 'display:none' }
+              %label.checkbox{ class: "#{'selected' if current_user.email_on?("project_#{project.id}")}" }
+                = check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}")
+                Receive email
+          %div{ style: 'margin:0px 0px 20px 20px' }
+            - User::EMAILABLES.each do |notification, description|
+              .form-group
+                .col-md-10.col-md-offset-2.sheet-container
+                  %label.checkbox{ class: "#{'selected' if current_user.email_on?("project_#{project.id}_#{notification.to_s}")}" }
+                    = check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}")
+                    = notification.to_s.titleize
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "#email_settings" }

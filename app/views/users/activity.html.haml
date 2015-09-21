@@ -1,0 +1,20 @@
+- @title = 'Recent Activity'
+.page-header
+  %h1
+    Recent Activity
+
+- recent_sheets = current_user.all_viewable_sheets.where('created_at > ? or last_edited_at > ?', Time.zone.now - 7.day, Time.zone.now - 7.day).to_a
+- recent_comments = current_user.all_viewable_comments.where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 4.day : Time.zone.now - 2.day)).to_a
+
+- all_objects = (recent_sheets + recent_comments).sort { |o1, o2| ((o2.class.method_defined?(:last_edited_at) && o2.last_edited_at != nil) ? o2.last_edited_at : o2.created_at) <=> ((o1.class.method_defined?(:last_edited_at) && o1.last_edited_at != nil) ? o1.last_edited_at : o1.created_at) }
+
+- if all_objects.size == 0
+  .center.text-muted No recent activity in the past week.
+- else
+  %table
+    %col{ width: "50px" }
+    - all_objects.each do |object|
+      - if object.is_a? Sheet
+        = render 'activity/sheet', sheet: object
+      - elsif object.class == Comment
+        = render 'activity/comment', comment: object

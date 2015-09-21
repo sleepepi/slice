@@ -1,0 +1,11 @@
+- @title = 'Users'
+.page-header
+  %h1
+    = @title
+
+= form_tag users_path, method: :get, class: 'form-inline' do
+  = hidden_field_tag :order, params[:order]
+  = text_field_tag 'search', params[:search], class: 'form-control'
+  = submit_tag 'Search', class: 'btn btn-primary', name: nil
+
+= render 'users/users'
