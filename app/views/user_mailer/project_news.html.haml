@@ -1,0 +1,21 @@
+%b{ style: 'border-bottom: 1px solid black' }= @post.name
+
+%p
+  %b= @post.created_at.strftime('%A, %B %-d, %Y')
+  %span{ style: 'color:#777' }
+    &middot;
+    = @post.user.name
+%div{ style: 'margin-left:10px' }
+  = simple_markdown @post.description
+%br
+%br
+
+This post was
+%span{ style: 'padding:5px;background-color:#5cb85c;color:white' } added
+by
+= @post.user.name
+to
+= link_to @post.project.name, "#{ENV['website_url']}/projects/#{@post.project.id}", style: 'color: #428bca'
+on
+= succeed '.' do
+  = link_to ENV['website_name'], ENV['website_url'], style: 'color: #428bca'

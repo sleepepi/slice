@@ -1,0 +1,9 @@
+%table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-family:Arial;font-size:14px;' }
+  %tr
+    %td{ colspan: 5, style: 'padding-left:10px;text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold' }
+      = link_to sheet.subject.name, "#{ENV['website_url']}/projects/#{sheet.subject.site.project_id}/subjects/#{sheet.subject.id}", style: 'color: #428bca'
+  %tr
+    %td{ style: 'padding-left:10px;' }
+    = render 'digest_sheet', sheet: sheet
+  %tr
+    %td{ colspan: 5, style: 'padding-left:10px;padding-bottom:10px;padding-right:10px;' }

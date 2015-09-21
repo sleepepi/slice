@@ -10,6 +10,4 @@
 <% end %>
 
 
-<%= @sheet = @comment.sheet; render partial: 'sheet_note' %>
-
-<%= @footer_txt %>
+<%= render 'sheet_note', sheet: @comment.sheet %>

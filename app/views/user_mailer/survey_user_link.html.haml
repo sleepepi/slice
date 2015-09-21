@@ -1,15 +1,10 @@
-= render 'email_header'
-
 Thank you for submitting
 = succeed '.' do
-  %strong= @sheet.name
+  %b= @sheet.name
 %br
 %br
 You can make changes to your survey responses here:
 %br
 %br
 %center
-  = link_to @sheet.name, "#{ENV['website_url']}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}", style: "color: #428bca"
-%br
-
-= render 'email_footer'
+  = link_to @sheet.name, "#{ENV['website_url']}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}", style: 'color: #428bca'

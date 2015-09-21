@@ -1,0 +1,18 @@
+%b
+  Dear
+  = succeed ',' do
+    = @export.user.first_name
+%br
+%br
+The data export you requested for
+%b= @export.project.name
+is now
+%span{ style: 'padding:5px;background-color:#5cb85c;color:white' } ready
+for download.
+%br
+%br
+Click the following link to download your data export:
+%br
+%br
+%center
+  = link_to "#{ENV['website_url']}/projects/#{@export.project_id}/exports/#{@export.id}", "#{ENV['website_url']}/projects/#{@export.project_id}/exports/#{@export.id}", style: 'color: #428bca'

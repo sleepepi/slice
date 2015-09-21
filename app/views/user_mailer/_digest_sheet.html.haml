@@ -1,0 +1,14 @@
+%td{ style: 'padding-left:10px;' }
+  = link_to sheet.name, "#{ENV['website_url']}/projects/#{sheet.project.id}/sheets/#{sheet.id}", style: 'color: #428bca'
+  - if sheet.double_data_entry?
+    %span{ style: 'font-size:0.8em;padding:1px 3px;background-color: #777;color:#fff;' }
+      Verification Sheet
+
+%td{ style: 'padding-left:10px;' }
+  = sheet.user.name if sheet.user
+
+%td{ style: 'padding-left:10px;font-size:0.8em;' }
+  = sheet.out_of
+
+%td{ style: 'padding-left:10px;padding-right:10px;text-align:right' }
+  = render 'digest_sheet_percent', sheet: sheet

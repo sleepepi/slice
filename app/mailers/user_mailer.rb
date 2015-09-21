@@ -1,7 +1,4 @@
-class UserMailer < ActionMailer::Base
-  default from: "#{ENV['website_name']} <#{ActionMailer::Base.smtp_settings[:email]}>"
-  add_template_helper(ApplicationHelper)
-
+class UserMailer < ApplicationMailer
   def invite_user_to_site(site_user)
     setup_email
     @site_user = site_user
@@ -93,12 +90,5 @@ class UserMailer < ActionMailer::Base
     mail(to: user.email,
          subject: "#{randomization.randomized_by.name if randomization.randomized_by} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
          reply_to: (randomization.randomized_by ? randomization.randomized_by.email : nil))
-  end
-
-  protected
-
-  def setup_email
-    @footer_html = "<div style=\"color:#777\">Change #{ENV['website_name']} email settings here: <a href=\"#{ENV['website_url']}/settings\">#{ENV['website_url']}/settings</a></div><br /><br />".html_safe
-    @footer_txt = "Change #{ENV['website_name']} email settings here: #{ENV['website_url']}/settings"
   end
 end

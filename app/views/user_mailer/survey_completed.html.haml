@@ -1,0 +1,19 @@
+%b
+  Dear
+  = succeed ',' do
+    = @sheet.project.user.first_name
+%br
+%br
+= @sheet.subject.subject_code
+%span{ style: 'padding:5px;background-color:#428bca;color:white' } completed
+a survey that you requested for
+= succeed '.' do
+  %b= @sheet.name
+%br
+%br
+You can view the completed sheet here:
+%br
+%br
+
+%center
+  = link_to "#{ENV['website_url']}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}", "#{ENV['website_url']}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}", style: 'color: #428bca'

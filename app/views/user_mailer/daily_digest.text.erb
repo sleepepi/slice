@@ -10,7 +10,7 @@ ADDED Recently
     <%= pluralize(project_sheets.count, 'sheet') %> for <%= pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject' %> recently entered, <%= "#{ENV['website_url']}/projects/#{project.id}/sheets" %>
 <% else %>
 <% project_sheets.each do |sheet| %>
-    <%= @sheet = sheet; render partial: 'digest_sheet' %>
+    <%= render 'digest_sheet', sheet: sheet %>
 <% end %>
 <% end %>
 
@@ -27,12 +27,9 @@ COMMENTS
   <%= ((sheet = Sheet.find_by_id(sheet_id)) ? "#{sheet.name} #{ENV['website_url']}/projects/#{sheet.project.id}/sheets/#{sheet.id}" : 'No Sheet') %>
 
   <% comments.each do |comment| %>
-     <%= @comment = comment; render partial: 'digest_comment' %>
+     <%= render 'digest_comment', comment: comment %>
   <% end %>
 <% end %>
 
 <% end %>
 <% end %>
-
-
-<%= @footer_txt %>

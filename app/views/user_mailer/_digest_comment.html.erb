@@ -1,3 +1,0 @@
-<td><%= strip_tags(simple_markdown @comment.description).truncate(100, separator: ' ').html_safe %></td>
-<td><%= @comment.user.name %></td>
-<td style="text-align:right"><%= @comment.created_at.strftime('%l:%M %p') %></td>
