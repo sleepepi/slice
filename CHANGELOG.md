@@ -5,6 +5,7 @@
   - Improved the method in which variables and sections are linked to designs
 - **Gem Changes**
   - Updated to pg 0.18.3
+  - Removed minitest-reporters
 
 ### Refactoring
 - Updated syntax of JavaScript responses rendered by server
