@@ -8,7 +8,7 @@
 - extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0
 
 .modal-header
-  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
   %h4.modal-title Add Filter
 .modal-body
   .row
@@ -31,4 +31,4 @@
           -#= render 'filters/cool_options'
 .modal-footer
   = button_tag 'Add to Filters', data: { object: 'add-filter' }, disabled: row_variable_groups.blank?, class: 'btn btn-primary'
-  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+  %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

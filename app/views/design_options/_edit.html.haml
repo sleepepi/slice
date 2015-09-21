@@ -1,6 +1,6 @@
 - if section = @design_option.section
   .modal-header
-    %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+    %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
     %h4.modal-title
       Edit Section
   .modal-body
@@ -8,10 +8,10 @@
       = render 'design_options/form_section', design_option: @design_option, section: section
   .modal-footer
     = button_tag 'Update', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
-    %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+    %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
 - elsif variable = @design_option.variable
   .modal-header
-    %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+    %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
     %h4.modal-title
       Edit Variable
       &middot;
@@ -22,4 +22,4 @@
 
   .modal-footer
     = button_tag 'Update', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
-    %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+    %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

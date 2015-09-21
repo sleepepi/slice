@@ -1,5 +1,5 @@
 .modal-header
-  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
+  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
   %h4.modal-title Edit Design
 .modal-body
   = form_tag project_design_path(@project, @design), method: :patch, remote: true, class: 'form-horizontal', id: 'design_form' do
@@ -46,4 +46,4 @@
         = text_field_tag "design[redirect_url]", @design.redirect_url, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, placeholder: "#{ENV['website_url']}/about", class: 'form-control'
 .modal-footer
   = button_tag 'Update', data: { object: 'submit', target: '#design_form' }, class: 'btn btn-primary'
-  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+  %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
