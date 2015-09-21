@@ -1,0 +1,27 @@
+%tr
+  %td.center
+    %span.glyphicon.glyphicon-list-alt
+  %td
+    - recently_created = sheet.recently_created?
+    %div{ style: "border-left:2px solid #{recently_created ? '#93edc0' : '#9ccef0'};padding-left:5px" }
+      - user = (recently_created ? sheet.user : sheet.last_user)
+      - if user
+        = image_tag user.avatar_url(32, "identicon"), class: 'img-rounded', alt: ''
+        = user.name
+      %b
+        - if recently_created
+          created
+        - else
+          updated
+        sheet
+      = link_to sheet.name, [sheet.project, sheet]
+      for
+      = link_to sheet.subject.name, [sheet.subject.project, sheet.subject]
+      %span.text-muted
+        = distance_of_time_in_words_to_now(recently_created ? sheet.created_at : sheet.last_edited_at ).gsub('about ', '')
+        ago
+      - if sheet.double_data_entry?
+        %span.label.label-warning Double Data Entry
+%tr
+  %td{ colspan: 2 }
+    %hr.divider-xs
