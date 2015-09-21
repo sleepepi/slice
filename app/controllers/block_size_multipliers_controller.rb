@@ -96,8 +96,8 @@ class BlockSizeMultipliersController < ApplicationController
     def block_size_multiplier_params
       params[:block_size_multiplier] ||= { blank: '1' }
 
-      params[:block_size_multiplier][:value] = 0 if params[:block_size_multiplier].has_key?(:value) and params[:block_size_multiplier][:value].blank?
-      params[:block_size_multiplier][:allocation] = 0 if params[:block_size_multiplier].has_key?(:allocation) and params[:block_size_multiplier][:allocation].blank?
+      params[:block_size_multiplier][:value] = 0 if params[:block_size_multiplier].key?(:value) and params[:block_size_multiplier][:value].blank?
+      params[:block_size_multiplier][:allocation] = 0 if params[:block_size_multiplier].key?(:allocation) and params[:block_size_multiplier][:allocation].blank?
 
       params.require(:block_size_multiplier).permit(:value, :allocation)
     end

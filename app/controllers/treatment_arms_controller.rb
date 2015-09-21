@@ -96,7 +96,7 @@ class TreatmentArmsController < ApplicationController
     def treatment_arm_params
       params[:treatment_arm] ||= { blank: '1' }
 
-      params[:treatment_arm][:allocation] = 0 if params[:treatment_arm].has_key?(:allocation) and params[:treatment_arm][:allocation].blank?
+      params[:treatment_arm][:allocation] = 0 if params[:treatment_arm].key?(:allocation) and params[:treatment_arm][:allocation].blank?
 
       params.require(:treatment_arm).permit(:name, :allocation)
     end

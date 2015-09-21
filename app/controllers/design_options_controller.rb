@@ -155,7 +155,7 @@ class DesignOptionsController < ApplicationController
     def variable_params
       params[:variable] ||= { blank: '1' }
       [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
-        params[:variable][date] = parse_date(params[:variable][date]) if params[:variable].has_key?(date)
+        params[:variable][date] = parse_date(params[:variable][date]) if params[:variable].key?(date)
       end
 
       params.require(:variable).permit(
