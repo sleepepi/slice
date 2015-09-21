@@ -7,9 +7,3 @@
       engine: Hogan
     )
   )
-
-$(document)
-  .on('change', '#subject_project_id', () ->
-    $.post(root_url + 'projects/' + $("#subject_project_id").val() + '/sites/selection', 'subject_code=' + $("#subject_subject_code").val() + '&select=1', null, "script")
-    false
-  )
