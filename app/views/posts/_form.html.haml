@@ -1,0 +1,45 @@
+.page-header
+  %h1
+    = link_to @project.name, about_project_path(@project)
+    &middot;
+    = @title
+
+= form_for [@post.project, @post], html: { class: 'form-horizontal' } do |f|
+  - if @post.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize @post.errors.count, 'error'
+        prohibited this post from being saved
+
+      %ul
+        - @post.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :description, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :archived
+          Archived
+      .bs-callout.bs-callout-info
+        %h4 Heads up!
+        New posts will be
+        %strong emailed
+        to project and site members unless the post is created as an
+        = succeed '.' do
+          %strong archived post
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

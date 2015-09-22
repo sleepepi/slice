@@ -1,0 +1,54 @@
+.page-header
+  %h1
+    = link_to @project.name, about_project_path(@project)
+    &middot;
+    = @title
+
+= form_for [@document.project, @document], html: { class: 'form-horizontal' } do |f|
+  - if @document.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize @document.errors.count, 'error'
+        prohibited this document from being saved
+
+      %ul
+        - @document.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :category, nil, class: 'col-md-2 control-label'
+    .col-md-10.sheet-container
+      = f.text_field :category, autocomplete: "off", data: { object: 'typeahead', local: @document.project.documents.pluck(:category).uniq.to_json }, class: 'form-control'
+      - unless @document.new_record?
+        %label.checkbox.inline{ class: "#{'selected' if params[:rename_category] == '1'}" }
+          = check_box_tag :rename_category, '1', params[:rename_category] == '1'
+          Rename Category - select if you want rename this category for all
+          documents using it.
+
+  .form-group
+    = f.label :file, nil, class: 'col-md-2 control-label'
+    .col-md-10.sheet-container
+      = f.file_field :file, class: 'form-control'
+      = f.hidden_field :file_cache
+      - if @document.file? and @document.file.file
+        %span#existing-file.label{ style: 'padding-left: 10px;' }
+          = @document.file.file.filename
+          \-
+          = number_to_human_size @document.file.size
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :archived
+          Archived
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

@@ -1,0 +1,14 @@
+- @title = 'Documents'
+.page-header
+  %h1
+    = link_to @project.name, about_project_path(@project)
+    &middot;
+    = @title
+    = link_to "Create Document", new_project_document_path(@project), class: 'btn btn-xs btn-primary'
+
+= form_tag project_documents_path(@project), method: :get, class: 'form-inline' do
+  = hidden_field_tag :order, params[:order]
+  = text_field_tag 'search', params[:search], class: 'form-control'
+  = submit_tag 'Search', class: 'btn btn-primary', name: nil
+
+= render 'documents/documents'

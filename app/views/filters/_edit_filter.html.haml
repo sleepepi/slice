@@ -1,0 +1,23 @@
+.modal-header
+  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
+  %h4.modal-title
+    Edit Filter
+.modal-body
+  .row
+    .col-md-6
+      .download-container
+        %h3= @variable.display_name
+        - if ['site', 'sheet_date'].include?(params[:variable_id])
+          = hidden_field_tag :missing, '0'
+        - else
+          %label.checkbox{ class: "#{'selected' if params[:missing] == '1'}" }
+            = check_box_tag :missing, '1', params[:missing] == '1'
+            Include Missing
+
+    .col-md-6
+      #cool-options.download-container
+        = render 'filters/cool_options'
+.modal-footer
+  = button_tag 'Update Filter', data: { object: 'update-filter', variable_id: params[:variable_id] }, class: 'btn btn-primary'
+  = button_tag 'Remove', data: { object: 'remove-filter', target: "#variable_#{params[:variable_id]}" }, class: 'btn btn-danger-inverse'
+  %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

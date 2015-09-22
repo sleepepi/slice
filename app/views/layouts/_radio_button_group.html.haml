@@ -1,0 +1,5 @@
+.btn-group.nowrap{ data: { toggle: 'buttons' } }
+  - options.each do |label, value|
+    %label.btn.btn-xs.btn-default{ class: "#{'active' if selected == value}", data: { object: "set-#{name}", target: (defined?(target) && !target.blank? ? target : nil) } }
+      = radio_button_tag "#{name}", value, selected == value
+      = label

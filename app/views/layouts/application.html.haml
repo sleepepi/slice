@@ -1,0 +1,9 @@
+!!!
+%html
+  %head
+    %title Slice
+    = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
+    = javascript_include_tag 'application', data: { turbolinks_track: true }
+    = csrf_meta_tags
+  %body
+    = yield

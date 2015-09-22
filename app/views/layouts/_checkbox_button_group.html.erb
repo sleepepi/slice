@@ -1,9 +1,0 @@
-<%= hidden_field_tag "#{name}[]", '' %>
-<div class="btn-group" data-toggle="buttons" style="white-space:nowrap">
-  <% options.each do |label, value| %>
-    <label class="btn btn-xs btn-default <%= 'active' if selected.include?(value) %>" data-object="set-<%= name %>" <%= "data-target=#{target}" if defined?(target) and not target.blank? %>>
-      <%= check_box_tag "#{name}[]", value, selected.include?(value), id: "#{name}_#{value}" %>
-      <%= label %>
-    </label>
-  <% end %>
- </div>

@@ -1,0 +1,15 @@
+- v = @project.variable_by_id(filter[:id])
+- if v
+  .filter-bubble.nowrap{ id: "variable_#{filter[:id]}", style: 'overflow:hidden', data: { object: 'edit-filter', variable_id: filter[:id], project_id: v.project_id } }
+    = hidden_field_tag "f[][id]", filter[:id]
+    = hidden_field_tag "f[][missing]", filter[:missing], data: { name: 'missing' }
+    = hidden_field_tag "f[][axis]", filter[:axis], data: { name: 'axis' }
+    = hidden_field_tag "f[][by]", filter[:by], data: { name: 'by' }
+    %span.glyphicon.glyphicon-move
+    - if filter[:missing] == '1'
+      %span.label{ style: 'background-color:#ffc8ba;', title: 'Includes Missing' } m
+    - if ['sheet_date', 'date'].include?(v.variable_type)
+      %span.label{ style: 'background-color:#7aa6ff;', title: 'by' }
+        = filter[:by]
+    %span{ title: v.display_name, style: 'overflow:hidden;cursor:pointer;font-size:0.8em' }
+      = v.display_name

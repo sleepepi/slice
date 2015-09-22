@@ -1,0 +1,20 @@
+= render 'contour/layouts/per_page', per_page: 20, object_count: @posts.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap= sort_field_helper @order, 'posts.name', 'Name'
+      %th.nowrap= sort_field_helper @order, 'posts.description', 'Description'
+      %th.nowrap= sort_field_helper @order, 'posts.archived', 'Archived'
+      %th Actions
+
+  - @posts.each do |post|
+    %tr
+      %td= link_to post.name, [post.project, post]
+      %td= simple_markdown post.description
+      %td= simple_check post.archived
+      %td
+        = link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-default btn-xs'
+        = link_to 'Delete', [post.project, post], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Post #{post.name}?" }
+
+.center= paginate @posts, theme: 'contour'

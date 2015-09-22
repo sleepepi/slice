@@ -1,0 +1,58 @@
+.page-header
+  %h1
+    = link_to @project.name, about_project_path(@project)
+    &middot;
+    = @title
+
+= form_for [@contact.project, @contact], html: { class: 'form-horizontal' } do |f|
+  - if @contact.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize @contact.errors.count, 'error'
+        prohibited this contact from being saved
+
+      %ul
+        - @contact.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :title, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :title, class: 'form-control'
+
+  .form-group
+    = f.label :name, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :phone, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :phone, class: 'form-control'
+
+  .form-group
+    = f.label :fax, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :fax, class: 'form-control'
+
+  .form-group
+    = f.label :email, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :email, class: 'form-control'
+
+  .form-group
+    = f.label :position, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :position, class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :archived
+          Archived
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

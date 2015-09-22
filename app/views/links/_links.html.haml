@@ -1,0 +1,22 @@
+= render 'contour/layouts/per_page', per_page: 20, object_count: @links.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap= sort_field_helper @order, 'links.name', 'Name'
+      %th.nowrap= sort_field_helper @order, 'links.category', 'Category'
+      %th.nowrap= sort_field_helper @order, 'links.url', 'URL'
+      %th.nowrap= sort_field_helper @order, 'links.archived', 'Archived'
+      %th Actions
+
+  - @links.each do |link|
+    %tr
+      %td= link_to link.name, [link.project, link]
+      %td= link.category
+      %td= link.url.truncate(40)
+      %td= simple_check link.archived
+      %td
+        = link_to 'Edit', edit_project_link_path(link.project, link), class: 'btn btn-default btn-xs'
+        = link_to 'Delete', [link.project, link], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Link #{link.name}?" }
+
+.center= paginate @links, theme: 'contour'

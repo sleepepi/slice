@@ -1,0 +1,13 @@
+%table.table.table-striped.table-bordered.table-condensed
+  %thead
+    %tr
+      %th Value
+      %th Name
+      %th Description
+      %th Missing Code
+  - domain.options.each do |option|
+    %tr
+      %td= option[:value]
+      %td= option[:name]
+      %td= option[:description]
+      %td= simple_check option[:missing_code] == '1'

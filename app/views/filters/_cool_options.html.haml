@@ -1,0 +1,21 @@
+%h3{ style: 'margin-top:0px' }
+  = @variable.display_name
+
+- params[:by] = 'month' if params[:by].blank?
+
+%br
+
+- if ['sheet_date', 'date'].include?(@variable.variable_type)
+  .sheet-container
+    - [['Week', 'week'],['Month', 'month'],['Year', 'year']].each do |name, value|
+      %label.radio.inline{ class: "#{'selected' if params[:by] == value}" }
+        = radio_button_tag "by", value, params[:by] == value
+        = name
+- else
+  = hidden_field_tag 'by', ''
+
+%br
+
+- unless @variable.shared_options.blank?
+  - @variable.alignment = 'vertical'
+  = render "sheet_variables/form/#{@variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", response: nil, disabled: true, variable: @variable, field_name: "variables[#{@variable.id}]"

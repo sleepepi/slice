@@ -1,0 +1,29 @@
+.bs-callout.bs-callout-info
+  %h4 Branching Logic Examples
+
+  %table.table.table-bordered
+    %thead
+      %tr
+        %th
+        %th Show If
+    %tbody
+      %tr
+        %td{ style: 'font-weight:bold' }
+          General
+        %td
+          %code previous_variable == 5
+      %tr
+        %td{ style: 'font-weight:bold' }
+          OR
+        %td
+          %code a &gt; 5 || b &lt; 2
+      %tr
+        %td{ style: 'font-weight:bold' }
+          AND
+        %td
+          %code a &gt; 5 &amp;&amp; a &lt; 10
+      %tr
+        %td{ style: 'font-weight:bold' }
+          Checkbox
+        %td
+          %code overlap(previous_variable, ['5'])

@@ -1,0 +1,24 @@
+= render 'contour/layouts/per_page', per_page: 20, object_count: @domains.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th # Variables
+      %th.nowrap= sort_field_helper @order, 'domains.name', 'Name'
+      %th.nowrap Options
+      %th.nowrap= sort_field_helper @order, 'domains.user_id', ''
+      %th Actions
+
+  - @domains.each do |domain|
+    %tr
+      %td= domain.variables.count
+      %td= link_to domain.name, [domain.project, domain]
+      %td
+        - if domain.options.size > 0
+          = render 'compact_options', domain: domain
+      %td= link_to domain.user.name, domain.user if domain.user
+      %td
+        = link_to 'Edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-default btn-xs'
+        = link_to 'Delete', [domain.project, domain], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Domain #{domain.name}?" }
+
+.center= paginate @domains, theme: 'contour'

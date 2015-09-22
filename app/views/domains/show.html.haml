@@ -1,0 +1,32 @@
+- @title = @domain.name
+.page-header
+  %h1
+    = link_to @project.name, setup_project_path(@project)
+    &middot;
+    = link_to 'Domains', project_domains_path(@project)
+    &middot;
+    = @title
+  = link_to "Edit Domain", edit_project_domain_path(@domain.project, @domain), class: 'btn btn-default btn-xs'
+  = link_to "Delete Domain", [@domain.project, @domain], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Domain #{@domain.name}?" }
+
+%dl.dl-horizontal
+  %dt Name
+  %dd= @domain.name
+
+  %dt Description
+  %dd= simple_format @domain.description
+
+  %dt User
+  %dd= link_to @domain.user.name, @domain.user if @domain.user
+
+  %dt Variables
+  %dd
+    %ul
+      - @domain.variables.order('name').each do |variable|
+        %li
+          = link_to variable.name, [variable.project, variable]
+          \-
+          %span.text-muted= variable.display_name
+
+- if @domain.options.size > 0
+  = render 'compact_options', domain: @domain

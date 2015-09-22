@@ -1,0 +1,26 @@
+= render 'contour/layouts/per_page', per_page: 20, object_count: @documents.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.nowrap= sort_field_helper @order, 'documents.name', 'Name'
+      %th.nowrap= sort_field_helper @order, 'documents.category', 'Category'
+      %th.nowrap= sort_field_helper @order, 'documents.file', 'File'
+      %th.nowrap= sort_field_helper @order, 'documents.archived', 'Archived'
+      %th Actions
+
+  - @documents.each do |document|
+    %tr
+      %td= link_to document.name, [document.project, document]
+      %td= document.category
+      %td
+        - if document.file.size > 0
+          - full_url = file_project_document_path(@project, document)
+          = link_to document.name, full_url, target: '_blank', class: 'btn btn-default btn-xs'
+          %span.text-muted= number_to_human_size document.file.size
+      %td= simple_check document.archived
+      %td
+        = link_to 'Edit', edit_project_document_path(document.project, document), class: 'btn btn-default btn-xs'
+        = link_to 'Delete', [document.project, document], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Document #{document.name}?" }
+
+.center= paginate @documents, theme: 'contour'
