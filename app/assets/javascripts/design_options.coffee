@@ -7,6 +7,16 @@
   design_option.position = element.data('position')
   return design_option
 
+@buildSectionFormData = () ->
+  formData = new FormData()
+  formData.append("section[name]", $("#section_name").val())
+  formData.append("section[description]", $("#section_description").val())
+  formData.append("section[image]", $("#section_image").prop("files")[0])
+  formData.append("section[remove_image]", $("#section_remove_image").is(":checked"))
+  formData.append("section[sub_section]", $("#section_sub_section").is(":checked"))
+  formData.append("design_option[position]", $("#design_option_position").val())
+  formData.append("design_option[branching_logic]", $("#design_option_branching_logic").val()) unless $("#design_option_branching_logic").val() == undefined
+  return formData
 
 $(document)
   .on('click', '[data-object~="new-section-popup"]', () ->
@@ -42,4 +52,14 @@ $(document)
     changes['_method'] = 'patch' if changes != null
     changes['variable'] = { domain_id: $($(this).data('target')).val() }
     $.post("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/#{design_option_id}", changes, null, "script")
+  )
+  .on('click', '[data-object~="submit-section-form-with-file"]', () ->
+    $.ajax(
+      url: $($(this).data('target')).attr('action')
+      type: $(this).data('method')
+      data: buildSectionFormData()
+      cache: false
+      contentType: false
+      processData: false
+    )
   )

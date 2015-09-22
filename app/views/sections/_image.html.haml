@@ -1,7 +1,7 @@
 - if design = design_option.design and section
   - if section and section.image.url
     - if params[:header] == '0'
-      - full_url = survey_section_image_path(design.slug, section)
+      - full_url = survey_section_image_path(design.slug, section, ts: section.updated_at.usec)
     - else
-      - full_url = image_project_design_section_path(@project, design, section)
+      - full_url = image_project_design_section_path(@project, design, section, ts: section.updated_at.usec)
     = image_tag full_url, style: 'max-width:100%'

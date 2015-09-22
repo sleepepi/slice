@@ -36,15 +36,15 @@
               %tt= number_to_human_size(section.image.size)
 
 .form-group
+  .col-md-10.col-md-offset-2
+    .checkbox
+      %label
+        = check_box_tag "section[sub_section]", "1", section.sub_section?
+        Subsection
+
+.form-group
   %label.col-md-2.control-label Branching Logic
   .col-md-10
     = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
     = render 'layouts/branching_logic_examples'
 
-.form-group
-  .col-md-10.col-md-offset-2
-    .checkbox
-      %label
-        = hidden_field_tag "section[sub_section]", "0"
-        = check_box_tag "section[sub_section]", "1", section.sub_section?
-        Subsection

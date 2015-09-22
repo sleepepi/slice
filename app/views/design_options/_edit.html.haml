@@ -4,10 +4,10 @@
     %h4.modal-title
       Edit Section
   .modal-body
-    = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, enctype: "multipart/form-data", authenticity_token: true, class: 'form-horizontal', id: 'design_option_form' do
+    = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: 'form-horizontal', id: 'design_option_form' do
       = render 'design_options/form_section', design_option: @design_option, section: section
   .modal-footer
-    = button_tag 'Update', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+    = button_tag 'Update', data: { object: 'submit-section-form-with-file', target: '#design_option_form', method: :patch }, class: 'btn btn-primary'
     %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
 - elsif variable = @design_option.variable
   .modal-header
