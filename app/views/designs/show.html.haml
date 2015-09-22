@@ -47,6 +47,6 @@
 
 = hidden_field_tag 'sheet[project_id]', @project.id
 %form.form-horizontal#design
-  = @sheet = @design.sheets.new; render "designs/selection"
+  = @sheet = @design.sheets.new; render 'designs/selection'
 
 = form_tag selection_project_designs_path(@design.project, sheet: { design_id: @design.id }), remote: true, method: :post, data: { object: 'form-load' }, id: 'new_sheet'

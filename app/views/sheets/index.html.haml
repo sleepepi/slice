@@ -18,7 +18,7 @@
     = form_tag project_sheets_path(@project), method: :get, id: "sheets_search", class: 'form-vertical' do
       .contour-modal-wrapper{ style: "#{'display:none' unless params[:e].to_s == '1'}", data: { object: "contour_modal_wrapper" } }
         .contour-modal{ data: { object: "contour_modal_container" } }
-          = render partial: 'sheets/export_popup'
+          = render 'sheets/export_popup'
 
       = hidden_field_tag :order, params[:order]
 
@@ -108,5 +108,4 @@
 
           = link_to 'Reset', project_sheets_path(@project), class: 'btn btn-default'
 
-  #sheets
-    = render partial: 'sheets/sheets'
+  #sheets= render 'sheets/sheets'

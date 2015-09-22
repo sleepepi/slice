@@ -2,7 +2,7 @@
 
 .row
   .col-sm-2
-    = render partial: 'subjects/beta/event_navigation'
+    = render 'subjects/beta/event_navigation'
 
   .col-sm-10
     %h2.subject-header
@@ -25,7 +25,7 @@
           %tr
             %td= link_to sv.sheet.name, [@project, sv.sheet]
             %td= sv.variable.display_name
-            %td= @sheet = sv.sheet; render "sheet_variables/show/file", variable: sv.variable, object: sv
+            %td= @sheet = sv.sheet; render 'sheet_variables/show/file', variable: sv.variable, object: sv
 
     .center
       = paginate @uploaded_files, theme: "contour"
