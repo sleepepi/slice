@@ -4,11 +4,11 @@
   %col{ width: "30px" }
   %thead
     %tr
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'subjects.status', '')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'subjects.subject_code', @project.subject_code_name_full)
+      %th.nowrap= sort_field_helper @order, 'subjects.status', ''
+      %th.nowrap= sort_field_helper @order, 'subjects.subject_code', @project.subject_code_name_full
       - if @project.acrostic_enabled?
-        %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'subjects.acrostic', 'Acrostic')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'subjects.site_id', 'Site')
+        %th.nowrap= sort_field_helper @order, 'subjects.acrostic', 'Acrostic'
+      %th.nowrap= sort_field_helper @order, 'subjects.site_id', 'Site'
       - @events.each do |event|
         %th
           - if event.id.to_i == params[:event_id].to_i
@@ -29,7 +29,7 @@
         %td= subject.acrostic
       %td= link_to subject.site.name, [@project, subject.site]
       - @events.each do |event|
-        %td.center{ style: 'white-space:nowrap' }
+        %td.center.nowrap
           - subject_event_ids = subject.subject_events.where(event_id: event.id).pluck(:id)
           - if subject_event_ids.blank?
             = link_to '+', choose_date_project_subject_path(@project, subject, event_id: event.to_param), class: 'btn btn-xs btn-success-inverse'
@@ -37,7 +37,7 @@
             = @project.sheets.where(subject_event_id: subject_event_ids).pluck(:design_id).uniq.count
             \/
             = event.designs.count
-      %td{ style: 'white-space:nowrap' }
+      %td.nowrap
         - if current_user.all_subjects.pluck(:id).include?(subject.id)
           = link_to 'Edit', edit_project_subject_path(@project, subject), class: 'btn btn-default btn-xs'
           = link_to 'Delete', [@project, subject], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{subject.name}?" }

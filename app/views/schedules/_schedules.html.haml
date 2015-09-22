@@ -3,10 +3,8 @@
 %table.table.table-striped
   %thead
     %tr
-      %th{ style: "white-space:nowrap" }
-        = sort_field_helper(@order, 'schedules.position', 'Position')
-      %th{ style: "white-space:nowrap" }
-        = sort_field_helper(@order, 'schedules.name', 'Name')
+      %th.nowrap= sort_field_helper @order, 'schedules.position', 'Position'
+      %th.nowrap= sort_field_helper @order, 'schedules.name', 'Name'
       %th
         Events
 

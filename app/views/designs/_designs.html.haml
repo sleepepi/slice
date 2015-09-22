@@ -3,9 +3,9 @@
 %table.table.table-striped
   %thead
     %tr
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'designs.name', 'Name')
-      %th{ style: "white-space:nowrap" } Variables
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'designs.user_name', 'Creator')
+      %th.nowrap= sort_field_helper @order, 'designs.name', 'Name'
+      %th.nowrap Variables
+      %th.nowrap= sort_field_helper @order, 'designs.user_name', 'Creator'
       %th Actions
 
   - @designs.each do |design|

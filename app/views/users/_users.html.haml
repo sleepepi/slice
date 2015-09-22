@@ -3,11 +3,11 @@
 %table.table.table-striped
   %thead
     %tr
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'users.last_name', 'Name')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'users.email', 'Email')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'users.current_sign_in_at', 'Recent Activity')
+      %th.nowrap= sort_field_helper @order, 'users.last_name', 'Name'
+      %th.nowrap= sort_field_helper @order, 'users.email', 'Email'
+      %th.nowrap= sort_field_helper @order, 'users.current_sign_in_at', 'Recent Activity'
       - if current_user.system_admin?
-        %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'users.system_admin', 'System Admin')
+        %th.nowrap= sort_field_helper @order, 'users.system_admin', 'System Admin'
         %th
 
   - @users.each do |user|
@@ -18,7 +18,7 @@
       %td= user.email
       %td= recent_activity(user.current_sign_in_at)
       - if current_user.system_admin?
-        %td{ style: "text-align:center" }= simple_check user.system_admin?
+        %td.center= simple_check user.system_admin?
         %td
           = link_to 'Edit', edit_user_path(user), class: 'btn btn-default btn-xs'
           - unless current_user == user

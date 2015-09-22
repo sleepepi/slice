@@ -3,9 +3,9 @@
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper(@order, 'projects.name', 'Name')
-      %th.nowrap= sort_field_helper(@order, 'projects.description', 'Description')
-      %th.nowrap= sort_field_helper(@order, 'projects.user_id', 'Owner')
+      %th.nowrap= sort_field_helper @order, 'projects.name', 'Name'
+      %th.nowrap= sort_field_helper @order, 'projects.description', 'Description'
+      %th.nowrap= sort_field_helper @order, 'projects.user_id', 'Owner'
       %th Actions
 
   - @projects.each do |project|

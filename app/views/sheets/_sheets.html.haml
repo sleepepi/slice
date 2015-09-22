@@ -4,20 +4,20 @@
   %thead
     %tr
       %th Coverage
-      %th{ style: "white-space:nowrap" }
-        = sort_field_helper(@order, 'sheets.design_name', 'Sheet')
+      %th.nowrap
+        = sort_field_helper @order, 'sheets.design_name', 'Sheet'
         %span.badge.badge-info comments
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'sheets.subject_code', 'Subject')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'sheets.created_at', 'Created')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'sheets.last_edited_at', 'Updated')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'sheets.site_name', 'Site')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'sheets.user_name', 'Creator')
+      %th.nowrap= sort_field_helper @order, 'sheets.subject_code', 'Subject'
+      %th.nowrap= sort_field_helper @order, 'sheets.created_at', 'Created'
+      %th.nowrap= sort_field_helper @order, 'sheets.last_edited_at', 'Updated'
+      %th.nowrap= sort_field_helper @order, 'sheets.site_name', 'Site'
+      %th.nowrap= sort_field_helper @order, 'sheets.user_name', 'Creator'
       %th
 
   - @sheets.each do |sheet|
     %tr{ id: "sheet_#{sheet.id}" }
       %td= coverage_helper(sheet)
-      %td{ style: "white-space:nowrap" }
+      %td.nowrap
         - if sheet.locked?
           %span.glyphicon.glyphicon-lock{ style: "color:#5bc0de" }
         = link_to sheet.design.name, [@project, sheet]
@@ -27,7 +27,7 @@
         - if sheet.verification_sheets.count > 0
           %div
             %span.label.label-warning Double Data
-      %td{ style: "white-space:nowrap" }
+      %td.nowrap
         = status_helper(sheet.subject)
         = link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
       %td= simple_time sheet.created_at

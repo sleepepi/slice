@@ -17,10 +17,10 @@
       Archive a project by clicking
       %span.glyphicon.glyphicon-option-vertical
       and then clicking
-      %strong{ style: 'white-space:nowrap' }
-        %span.glyphicon.glyphicon-eye-close
-        Archive
-      \.
+      = succeed '.' do
+        %strong.nowrap
+          %span.glyphicon.glyphicon-eye-close
+          Archive
 
 .center
   = paginate @projects, theme: 'contour'

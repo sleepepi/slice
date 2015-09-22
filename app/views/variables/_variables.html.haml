@@ -3,11 +3,11 @@
 %table.table.table-striped
   %thead
     %tr
-      %th{ style: "white-space:nowrap" }# Designs
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.name', 'Name')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.display_name', 'Display Name')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.variable_type', 'Variable Type')
-      %th{ style: "white-space:nowrap" }= sort_field_helper(@order, 'variables.options', 'Options')
+      %th.nowrap # Designs
+      %th.nowrap= sort_field_helper @order, 'variables.name', 'Name'
+      %th.nowrap= sort_field_helper @order, 'variables.display_name', 'Display Name'
+      %th.nowrap= sort_field_helper @order, 'variables.variable_type', 'Variable Type'
+      %th.nowrap= sort_field_helper @order, 'variables.options', 'Options'
       %th Actions
 
   - @variables.each do |variable|
@@ -21,7 +21,7 @@
         - if not variable.shared_options.blank?
           - variable.alignment = 'vertical'
           = render "sheet_variables/form/#{variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]"
-      %td{ style: "white-space:nowrap" }
+      %td.nowrap
         = link_to 'Copy', copy_project_variable_path(variable.project, variable), class: 'btn btn-default btn-xs'
         - if variable.editable_by?(current_user)
           = link_to 'Edit', edit_project_variable_path(variable.project, variable), class: 'btn btn-default btn-xs'

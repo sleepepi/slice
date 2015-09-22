@@ -51,7 +51,7 @@
                   - t.sheet_transaction_audits.each do |a|
                     - if not variable or (variable and a.sheet_variable and a.sheet_variable.variable_id == variable.id)
                       %tr
-                        %td{ style: "white-space:nowrap" }
+                        %td.nowrap
                           = a.sheet_attribute_name
                           - if a.sheet_variable
                             = link_to a.sheet_variable.variable.name, [a.sheet_variable.variable.project, a.sheet_variable.variable]

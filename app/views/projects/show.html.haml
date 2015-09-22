@@ -30,7 +30,7 @@
         - current_user.all_viewable_subjects.where(project_id: @project.id).order(created_at: :desc).limit(10).each do |subject|
           - sheet = subject.sheets.order(:updated_at).last
           %tr
-            %td{ style: 'white-space:nowrap' }
+            %td.nowrap
               = status_helper(subject)
               = link_to subject.subject_code, [@project, subject]
             %td

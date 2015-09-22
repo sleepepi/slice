@@ -32,13 +32,13 @@
             Favorite
     - subject = project.subjects.where(status: 'valid').order(created_at: :desc).first
     %div{ style: "#{'margin-bottom:20px' if subject}" }
-      %span{ style: 'white-space:nowrap'}
+      %span.nowrap
         = project.sheets.count
         %strong= link_to('sheet'.pluralize(project.sheets.count), project_sheets_path(project), class: 'hover-link') + ','
-      %span{ style: 'white-space:nowrap'}
+      %span.nowrap
         = project.designs.count
         %strong= link_to('design'.pluralize(project.designs.count), project_designs_path(project), class: 'hover-link') + ','
-      %span{ style: 'white-space:nowrap'}
+      %span.nowrap
         = project.events.count
         %strong= link_to 'event'.pluralize(project.events.count), project_events_path(project), class: 'hover-link'
     - if subject
