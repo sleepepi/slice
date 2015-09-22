@@ -25,4 +25,4 @@
         = link_to 'Edit', edit_project_contact_path(contact.project, contact), class: 'btn btn-default btn-xs'
         = link_to 'Delete', [contact.project, contact], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Contact #{contact.name}?" }
 
-.center= paginate @contacts, theme: "contour"
+.center= paginate @contacts, theme: 'contour'
