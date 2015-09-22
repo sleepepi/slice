@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
-
   resources :lists
   resources :comments
 
-  get "survey", to: "survey#index", as: :about_survey
-  get "survey/:slug", to: "survey#new", as: :new_survey
-  get "survey/:slug/:sheet_authentication_token", to: "survey#edit", as: :edit_survey
-  post "survey/:slug", to: "survey#create"
-  patch "survey/:slug/:sheet_authentication_token", to: "survey#update"
-  get "survey/:slug/sections/:section_id/image", to: "survey#section_image", as: :survey_section_image
+  get 'survey', to: 'survey#index', as: :about_survey
+  get 'survey/:slug', to: 'survey#new', as: :new_survey
+  get 'survey/:slug/:sheet_authentication_token', to: 'survey#edit', as: :edit_survey
+  post 'survey/:slug', to: 'survey#create'
+  patch 'survey/:slug/:sheet_authentication_token', to: 'survey#update'
+  get 'survey/:slug/sections/:section_id/image', to: 'survey#section_image', as: :survey_section_image
 
-  get "check-date", to: "application#check_date"
+  get 'check-date', to: 'application#check_date'
 
   resources :projects, constraints: { format: /json|pdf|csv/ } do
     member do
@@ -134,7 +133,7 @@ Rails.application.routes.draw do
 
     resources :randomizations do
       collection do
-        get "choose-scheme", action: :choose_scheme, as: :choose_scheme
+        get 'choose-scheme', action: :choose_scheme, as: :choose_scheme
       end
       member do
         patch :undo
@@ -143,9 +142,9 @@ Rails.application.routes.draw do
 
     resources :randomization_schemes do
       member do
-        get "randomize-subject", action: :randomize_subject, as: :randomize_subject
+        get 'randomize-subject', action: :randomize_subject, as: :randomize_subject
         get :subject_search
-        post "randomize-subject", action: :randomize_subject_to_list, as: :randomize_subject_to_list
+        post 'randomize-subject', action: :randomize_subject_to_list, as: :randomize_subject_to_list
       end
       resources :block_size_multipliers
       resources :lists do
@@ -185,14 +184,14 @@ Rails.application.routes.draw do
     resources :subjects do
       resources :subject_schedules
       member do
-        get "choose-date/:event_id", action: :choose_date, as: :choose_date
+        get 'choose-date/:event_id', action: :choose_date, as: :choose_date
         post :launch_subject_event
         get :choose_an_event_for_subject
         get :events
-        get "events/:event_id/:subject_event_id/:event_date", action: :event, as: :event
-        get "events/:event_id/:subject_event_id/:event_date/edit", action: :edit_event, as: :edit_event
-        post "events/:event_id/:subject_event_id/:event_date", action: :update_event, as: :update_event
-        delete "events/:event_id/:subject_event_id/:event_date", action: :destroy_event, as: :destroy_event
+        get 'events/:event_id/:subject_event_id/:event_date', action: :event, as: :event
+        get 'events/:event_id/:subject_event_id/:event_date/edit', action: :edit_event, as: :edit_event
+        post 'events/:event_id/:subject_event_id/:event_date', action: :update_event, as: :update_event
+        delete 'events/:event_id/:subject_event_id/:event_date', action: :destroy_event, as: :destroy_event
         get :timeline
         get :comments
         get :settings
@@ -232,13 +231,12 @@ Rails.application.routes.draw do
     end
   end
 
-  get "invite/:invite_token" => "project_users#invite"
-  get "site-invite/:site_invite_token" => "site_users#invite"
+  get 'invite/:invite_token' => 'project_users#invite'
+  get 'site-invite/:site_invite_token' => 'site_users#invite'
 
   resources :reports
 
-
-  devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'join', sign_in: 'login' }, path: ""
+  devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'join', sign_in: 'login' }, path: ''
 
   resources :users do
     member do
@@ -267,10 +265,9 @@ Rails.application.routes.draw do
     post :variable
   end
 
-  get "/settings" => "users#settings", as: :settings
-  get "/search" => "projects#search", as: :search
-  get "/activity" => "users#activity", as: :activity
+  get '/settings' => 'users#settings', as: :settings
+  get '/search' => 'projects#search', as: :search
+  get '/activity' => 'users#activity', as: :activity
 
   root to: 'projects#splash'
-
 end
