@@ -16,7 +16,7 @@
     .form-group
       %label.col-md-2.control-label Name
       .col-md-10
-        = text_field_tag "design[name]", @design.name, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, class: 'form-control'
+        = text_field_tag "design[name]", @design.name, autocomplete: 'off', class: 'form-control'
     .form-group
       %label.col-md-2.control-label Description
       .col-md-10
@@ -39,11 +39,11 @@
     .form-group
       %label.col-md-2.control-label Slug
       .col-md-10
-        = text_field_tag "design[slug]", @design.slug, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, class: 'form-control'
+        = text_field_tag "design[slug]", @design.slug, autocomplete: 'off', class: 'form-control'
     .form-group
       %label.col-md-2.control-label Redirect URL
       .col-md-10
-        = text_field_tag "design[redirect_url]", @design.redirect_url, autocomplete: 'off', data: { object: 'push-partial-change-text-field', target: '#design_form', update: 'design_name' }, placeholder: "#{ENV['website_url']}/about", class: 'form-control'
+        = text_field_tag "design[redirect_url]", @design.redirect_url, autocomplete: 'off', placeholder: "#{ENV['website_url']}/about", class: 'form-control'
 .modal-footer
   = button_tag 'Update', data: { object: 'submit', target: '#design_form' }, class: 'btn btn-primary'
   %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

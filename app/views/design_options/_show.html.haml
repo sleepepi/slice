@@ -43,7 +43,7 @@
                 A new variable with the same name already exists.
                 %br
                 You can
-              = link_to 'remove', '#', data: { object: 'push-partial-change', delete: 'variable', position: @position, confirm: "Are you sure you want to remove '#{variable.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse'
+              = link_to 'remove', project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Are you sure you want to remove variable '#{variable.name}' from the design?" }, class: 'btn btn-xs btn-danger-inverse'
               this variable from the design.
               - variable.deleted = true
       - else

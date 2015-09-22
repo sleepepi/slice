@@ -58,10 +58,4 @@
           = link_to 'Add Question', add_question_project_variables_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'
 .modal-footer
   = button_tag 'Add Variable', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
-  - variables = @project.variables.where(variable_type: params[:variable_type]).where.not(id: @design.variables.select(:id))
-  - if variables.count > 0
-    or
-    %span.form-inline
-      = select_tag 'variable[id]', options_for_select( [['--Existing Variables--', nil]] + variables.order('display_name').collect{|v| [v.display_name, v.id]} ), style: 'width:200px', class: 'form-control'
-      = button_tag 'Use Existing Variable', data: { object: 'push-partial-change', target: '#variable_id', create: 'variable', position: params[:position] }, class: 'btn btn-primary'
   %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
