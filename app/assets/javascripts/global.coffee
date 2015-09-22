@@ -9,28 +9,12 @@
   $("input[name='" + group_name + "']:checked").parent().addClass("selected")
   $("input[name='" + group_name + "']:not(:checked)").parent().removeClass("selected")
 
-@browserSupportsPushState =
-  window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
-
 @initializeTypeahead = () ->
   $('[data-object~="typeahead"]').each( () ->
     $this = $(this)
     $this.typeahead(
       local: $this.data('local')
     )
-  )
-
-@setAllAuditActionsVisibility = () ->
-  $('[data-object~="audit-row"]').each( (index, element) ->
-    display = false
-
-    $.each($(element).data('all-audit-actions'), (aindex, action) ->
-      display = true if $("#audit-row_#{action}").is(':checked')
-    )
-    if display
-      $(element).show()
-    else
-      $(element).hide()
   )
 
 @setFocusToField = (element_id) ->
@@ -109,19 +93,6 @@ $(document)
   )
   .on('mouseleave', '[data-object~="hover-show"]', () ->
     $($(this).data('target')).hide()
-  )
-  .on('click', '[data-object~="set-audit-row"]', () ->
-    if $(this).find('input').is(':checked')
-      $(this).find('input').prop('checked', false)
-    else
-      $(this).find('input').prop('checked', true)
-
-    value = $(this).find('input').attr('value')
-    if $(this).hasClass("active")
-      $("[data-audit-row~='#{value}']").hide()
-    else
-      $("[data-audit-row~='#{value}']").show()
-    setAllAuditActionsVisibility()
   )
   .on('focus', "select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]", () ->
     $(this).tooltip( trigger: 'focus' )

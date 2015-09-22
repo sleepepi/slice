@@ -18,6 +18,12 @@
   formData.append("design_option[branching_logic]", $("#design_option_branching_logic").val()) unless $("#design_option_branching_logic").val() == undefined
   return formData
 
+@hideInteractiveDesignModal = () ->
+  $('#interactive_design_modal').modal('hide')
+
+@showInteractiveDesignModal = () ->
+  $('#interactive_design_modal').modal('show')
+
 $(document)
   .on('click', '[data-object~="new-section-popup"]', () ->
     project_id = $("#project_id").val()

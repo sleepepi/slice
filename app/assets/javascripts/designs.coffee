@@ -1,10 +1,3 @@
-@showInteractiveDesignModal = () ->
-  $('#interactive_design_modal').modal('show')
-
-@hideInteractiveDesignModal = () ->
-  $('#interactive_design_modal').modal('hide')
-
-
 # This function updates all variables starting with lowest one and progressing up in visibility.
 @updateAllVariables = () ->
   variableContainers = $('[data-object~="variable-container"]')

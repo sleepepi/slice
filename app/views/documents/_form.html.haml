@@ -35,8 +35,8 @@
     .col-md-10.sheet-container
       = f.file_field :file, class: 'form-control'
       = f.hidden_field :file_cache
-      - if @document.file? and @document.file.file
-        %span#existing-file.label{ style: 'padding-left: 10px;' }
+      - if @document.file.size > 0
+        %span#existing-file.label.label-default
           = @document.file.file.filename
           \-
           = number_to_human_size @document.file.size

@@ -1,4 +1,4 @@
-clearSelections = (member) ->
+@clearSelections = (member) ->
   $("input[name='" + $(member).attr("name") + "']")
     .prop('checked', false)
     .parent().removeClass("selected")
@@ -7,7 +7,7 @@ clearSelections = (member) ->
   updateCalculatedVariables()
 
 
-toggleGroupInput = (input, group_name, event) ->
+@toggleGroupInput = (input, group_name, event) ->
   if input.parent("label").hasClass("selected") and (input.attr('type') == "checkbox" or event.type == "click")
     input.prop("checked", false)
     input.parent("label").removeClass("selected")
@@ -18,10 +18,10 @@ toggleGroupInput = (input, group_name, event) ->
   input.focus()
   input.change()
 
-selectWithKeystroke = (event) ->
-  # input field has to be radio button or checkbox
-  #  96 = backtick (`)
-  # 126 = tilda    (~)
+# input field has to be radio button or checkbox
+#  96 = backtick (`)
+# 126 = tilda    (~)
+@selectWithKeystroke = (event) ->
   if event.which == 96 or event.which == 126
     clearSelections(event.target)
   else
