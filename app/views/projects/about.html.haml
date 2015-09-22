@@ -1,15 +1,15 @@
 - @title = "#{@project.name} - About"
 
-.project-title-container
-  = link_to @project.name, @project, class: 'project-title'
+= render 'projects/tabbed_menu', links: [['About', about_project_path(@project)]]
 
 .row
   .col-sm-2
     = render 'projects/beta/menu'
 
   .col-sm-10
-    %h2.project-header
-      About
+    - if false
+      %h2.project-header
+        About
 
     - unless @project.description.blank?
       %blockquote

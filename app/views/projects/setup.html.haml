@@ -1,7 +1,6 @@
 - @title = "#{@project.name} - Setup"
 
-.project-title-container
-  = link_to @project.name, @project, class: 'project-title'
+= render 'projects/tabbed_menu', links: [['Settings', setup_project_path(@project)]]
 
 .row
   .col-sm-2

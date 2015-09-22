@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'sandbox_menu', to: 'application#sandbox_menu'
-
   resources :lists
   resources :comments
 

@@ -1,2 +1,4 @@
-.subject-title-container
-  = link_to @subject.subject_code, [@project, @subject], class: 'subject-title'
+- links = []
+- links << [@subject.subject_code, [@project, @subject]]
+- links << [(@title || '&nbsp;'.html_safe), url_for(params)] unless current_page?([@project, @subject])
+= render 'projects/tabbed_menu', links: links

@@ -1,7 +1,10 @@
 - @title = 'Stratification Factor Options'
 
-.project-title-container
-  = link_to @project.name, @project, class: 'project-title'
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << [@stratification_factor.name, project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor)]
+- links << ['Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)]
+= render 'projects/tabbed_menu', links: links
 
 .row
   .col-sm-2

@@ -1,7 +1,6 @@
 - @title = 'Treatment Arms'
 
-.project-title-container
-  = link_to @project.name, @project, class: 'project-title'
+= render 'projects/tabbed_menu', links: [[@randomization_scheme.name, [@project, @randomization_scheme]], ['Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)]]
 
 .row
   .col-sm-2

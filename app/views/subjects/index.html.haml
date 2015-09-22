@@ -1,7 +1,6 @@
 - @title = 'Subjects'
 
-.project-title-container
-  = link_to @project.name, @project, class: 'project-title'
+= render 'projects/tabbed_menu', links: [['Subjects', project_subjects_path(@project)]]
 
 .row
   .col-sm-2

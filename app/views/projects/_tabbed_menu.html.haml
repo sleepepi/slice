@@ -1,0 +1,8 @@
+- unless defined?(links)
+  - links = []
+.tabbed-navigation-menu
+  .menu-tab-first
+    = link_to @project.name, @project, class: "menu-tab-link #{'current' if links.empty?}"
+  - links.each_with_index do |(name, url), index|
+    .menu-tab
+      = link_to name, url, class: "menu-tab-link #{'current' if index + 1 == links.count}"

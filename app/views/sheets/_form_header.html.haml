@@ -1,5 +1,6 @@
-%h2.subject-header
-  = @title
+- if false
+  %h2.subject-header
+    = @title
 
 = hidden_field_tag 'isdirty', '1'
 = hidden_field_tag "hidden_sheet_id", (@sheet ? @sheet.id : nil), name: "sheet_id"

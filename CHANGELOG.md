@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Updated the menu to make better use of space and added back global search bar
+  - Improved project and subject level navigation with better tabbed submenu
 - **Design Changes**
   - Improved the method in which variables and sections are linked to designs
 - **Gem Changes**
