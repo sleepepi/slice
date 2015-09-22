@@ -1,13 +1,13 @@
 - @title = @subject.name
 
-= render 'subjects/beta/header'
+= render 'subjects/header'
 
 .row
   .col-sm-2
-    = render 'subjects/beta/event_navigation'
+    = render 'subjects/event_navigation'
 
   .col-sm-10
     - if @project.events.where(archived: false).count > 0
-      = render 'subjects/beta/events'
+      = render 'subjects/events'
     - else
-      = render 'subjects/beta/sheets'
+      = render 'subjects/sheets'

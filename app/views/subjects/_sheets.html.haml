@@ -20,7 +20,7 @@
         %col
         %col{ width: '120px' }
         - uncategorized_sheets.each do |sheet|
-          = render 'subjects/beta/sheet', sheet: sheet
+          = render 'subjects/sheet', sheet: sheet
 
 - if categorized_sheets.count > 0
   .panel.panel-default
@@ -36,4 +36,4 @@
         %col
         %col{ width: '120px' }
         - categorized_sheets.includes(:subject_event).order("subject_events.event_date").each do |sheet|
-          = render 'subjects/beta/sheet', sheet: sheet
+          = render 'subjects/sheet', sheet: sheet
