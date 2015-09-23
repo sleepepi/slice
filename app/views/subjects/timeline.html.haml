@@ -7,7 +7,7 @@
     = render 'subjects/event_navigation'
 
   .col-sm-10
-    %h2.subject-header
+    %h2
       Timeline
 
     - events = (@subject.sheets.original_entry.order(created_at: :desc) + @subject.comments.to_a + @subject.subject_events.to_a + @subject.randomizations.to_a).sort_by(&:event_at).reverse

@@ -7,7 +7,7 @@
     = render 'projects/beta/menu'
 
   .col-sm-10
-    %h2.project-header
+    %h2
       Recent Activity
 
     - recent_sheets = current_user.all_viewable_sheets.where( project_id: @project.id ).where("created_at > ? or last_edited_at > ?", Time.zone.now - 7.day, Time.zone.now - 7.day).to_a

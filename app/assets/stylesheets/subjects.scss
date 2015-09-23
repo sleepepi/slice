@@ -1,25 +1,3 @@
-.project-header, .subject-header {
-  background-image: -webkit-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
-  background-image:    -moz-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
-  background-image:     -ms-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
-  background-image:      -o-linear-gradient(right, $body-bg, rgba(0,255,0,.1), $btn-success-bg);
-  background-color: $btn-success-bg;
-  color: $btn-success-color;
-  margin: 0px -15px 20px -15px;
-  padding: 5px 15px;
-}
-
-@media screen and (min-width: $screen-sm-min) {
-  .project-header, .subject-header {
-    border-bottom: 1px solid $btn-success-bg;
-    background-image: none;
-    background-color: transparent;
-    color: $text-color;
-    margin: -10px 0px 20px 0px;
-    padding: 0px;
-  }
-}
-
 ul.left-navigation {
   list-style: none;
   padding-left: 0px;
@@ -122,7 +100,7 @@ ul.left-navigation {
 
 @media screen and (min-width: $screen-sm-min) {
   ul.left-navigation {
-    margin: 0px;
+    margin-top: 25px;
     margin-left: -50px;
   }
 }
