@@ -42,31 +42,16 @@
 
 @evaluateBranchingLogic = () ->
   $('[data-object~="evaluate-branching-logic"]').each( (index, element) ->
-    if $(element).data('branching-logic') == ""
-      branching_logic_result = true
-    else
-      try
-        branching_logic_result = eval($(element).data('branching-logic'))
-      catch error
-        branching_logic_result = true
-
-    if branching_logic_result
-      # $(element).css('background', "#ccc")
+    visible = elementVisible(element)
+    if visible
+      $(element).show()
     else
       $(element).hide()
-      # $(element).css('background', "#0f0")
   )
 
 @sheetsReady = () ->
-  $('#sheet_subject_id').each( () ->
-    $this = $(this)
-    $this.typeahead(
-      local: $("#sheet_subject_id").data('local')
-      template: '<p><span class="label label-{{status_class}}">{{status}}</span> <strong>{{subject_code}}</strong> {{acrostic}}</p>'
-      engine: Hogan
-    )
-  )
-  # initializeSheet() # TODO, revisit, this may be needed again in the future if the second AJAX request for sheets is removed
+  initializeSheet()
+  evaluateBranchingLogic()
   activateSheetDraggables()
   activateEventDroppables()
 
@@ -93,10 +78,6 @@ $(document)
     form = $(this).data('target')
     $.get($(form).attr("action"), $(form).serialize() + '&export=1', null, "script")
     $(this).attr('disabled', 'disabled')
-    false
-  )
-  .on('change', '#sheet_design_id', () ->
-    $.post(root_url + 'projects/' + $("#sheet_project_id").val() + '/designs/selection', $(this).serialize() + '&' + $("#sheet_subject_id").serialize(), null, "script")
     false
   )
   .on('typeahead:selected', "#sheet_subject_id", (event, datum) ->

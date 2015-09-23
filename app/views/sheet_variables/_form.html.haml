@@ -9,23 +9,23 @@
 - value = variable.response_to_value(response)
 
 - validate_response = if @sheet and (@sheet.errors.count > 0 or !@sheet.new_record?)
-  - variable.validate_value(@design, value)
+  - variable.validate_value(design, value)
 - else
   - 'blank'
 
-.form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'} #{'variable-errors' if validate_response == 'error'} #{'variable-warnings' if validate_response == 'warning'}", data: { object: "variable-container", required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type } }
+.form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'} #{'variable-errors' if validate_response == 'error'} #{'variable-warnings' if validate_response == 'warning'}", data: { object: "variable-container", required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
   - elsif ['invisible', 'gone'].include?(variable.display_name_visibility)
     .col-xs-12
       %label
         = variable.display_name
-        = render 'design_options/required', design_option: design_option if design_option
+        = render 'design_options/required', design_option: design_option
     %div{ style: "clear:both" }
   - else
     %label.col-md-3.control-label{ for: "variable_#{variable.id}" }
       = variable.display_name
-      = render 'design_options/required', design_option: design_option if design_option
+      = render 'design_options/required', design_option: design_option
 
   - col_class = 'col-xs-12'
   - col_class = 'col-md-9' if variable.display_name_visibility != 'gone' and not variable.uses_scale?
@@ -33,7 +33,7 @@
   %div{ class: "#{col_class} #{'col-md-offset-3' if variable.display_name_visibility == 'invisible' and not variable.uses_scale?}" }
     %div{ style: "line-height:30px" }
       - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
-        = render "sheet_variables/form/#{variable.variable_type}", design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: "variables[#{variable.id}]", show_values: show_values, object: sheet_variable, validate_response: validate_response
+        = render "sheet_variables/form/#{variable.variable_type}", design: design, design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: "variables[#{variable.id}]", show_values: show_values, object: sheet_variable, validate_response: validate_response
       - else
         = hidden_field_tag "variables[#{variable.id}]", nil, disabled: disabled
         Unsupported Variable Type

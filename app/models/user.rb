@@ -4,10 +4,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # # Setup accessible (or protected) attributes for your model
-  # attr_accessible :email, :password, :password_confirmation, :remember_me
-  # attr_accessible :first_name, :last_name, :pagination
-
   serialize :pagination, Hash
   serialize :email_notifications, Hash
 
@@ -170,23 +166,6 @@ class User < ActiveRecord::Base
   # Project Editors and Viewers and Site Members can view subjects
   def all_viewable_subjects
     Subject.current.where(site_id: all_viewable_sites.select(:id))
-  end
-
-  # Editors can only create subject if they can edit the specific site
-  def create_subject(project, subject_code, site_id, acrostic)
-    return if all_editable_sites.where(id: site_id, project_id: project.id).count != 1
-    return if subject_code.blank? || site_id.blank?
-    subject_code.strip!
-    subject = project.subjects.where('LOWER(subjects.subject_code) = ?', subject_code.downcase).first
-    if subject && all_editable_sites.where(id: subject.site_id, project_id: project.id).count == 1
-      # subject exists, and is on another "editable" site for user
-      # Change subject to new "accepted site"
-      subject.update acrostic: acrostic, site_id: site_id
-    else
-      # subject does not exist, attempt to create new subject
-      subject = project.subjects.where(subject_code: subject_code, site_id: site_id).first_or_create(user_id: id, acrostic: acrostic)
-    end
-    subject
   end
 
   def all_exports

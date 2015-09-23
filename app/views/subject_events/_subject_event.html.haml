@@ -42,7 +42,7 @@
             %td
               = design.name
             %td
-              = link_to 'Create Sheet', new_project_sheet_path(@project, sheet: { design_id: design.id, subject_event_id: subject_event.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'btn btn-primary btn-xs btn-block'
+              = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs btn-block'
     - if non_design_sheets = subject_event.sheets.where.not(design_id: subject_event.event.designs.select(:id)) and non_design_sheets.count > 0
       %div{ style: 'margin-top: 20px' }
         .bs-callout.bs-callout-warning

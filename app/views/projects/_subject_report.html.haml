@@ -43,7 +43,7 @@
         - @designs.each do |design|
           - count = design.sheets.original_entry.where(subject_id: subject.id).count
           %td{ class: "#{'text-muted' if count == 0}", style: 'line-height:30px', data: { object: 'hover-show', target: "#subject_#{subject.id}_design_#{design.id}_add_link" } }
-            - add_url = new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: subject.subject_code, subject_acrostic: subject.acrostic, site_id: subject.site_id)
+            - add_url = new_data_entry_project_subject_path(@project, subject, design)
             - show_url = project_sheets_path(@project, design_id: design.id, search: subject.subject_code)
             - if count == 0
               = link_to '+', add_url, class: 'btn btn-default btn-xs' if @project.editable_by?(current_user)

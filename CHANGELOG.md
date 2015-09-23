@@ -4,6 +4,8 @@
 - **General Changes**
   - Updated the menu to make better use of space and added back global search bar
   - Improved project and subject level navigation with better tabbed submenu
+- **Sheet Changes**
+  - Sheet creation workflow now requires selecting an existing subject and design
 - **Design Changes**
   - Improved the method in which variables and sections are linked to designs
 - **Gem Changes**

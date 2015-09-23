@@ -14,7 +14,7 @@
       - response = ((not params[:variables].blank? and not params[:variables][variable.id.to_s].blank? and not params[:variables][variable.id.to_s][position.to_s].blank?) ? params[:variables][variable.id.to_s][position.to_s][grid_variable[:variable_id].to_s] : (grid ? grid.get_response(:raw) : nil))
 
       - if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) and grid.variable.variable_type != 'grid'
-        = render "sheet_variables/form/#{grid.variable.variable_type}", design_option: design_option, response: response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, object: grid, show_values: show_values
+        = render "sheet_variables/form/#{grid.variable.variable_type}", design: design, design_option: design_option, response: response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, object: grid, show_values: show_values
   - if variable.multiple_rows?
     %td
       = link_to 'Remove', '#', data: { object: 'remove', target: "#variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-xs btn-danger-inverse', tabindex: "-1"

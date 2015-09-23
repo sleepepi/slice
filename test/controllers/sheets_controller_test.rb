@@ -7,114 +7,113 @@ class SheetsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
-  test "should get raw csv" do
+  test 'should get raw csv' do
     assert_difference('Export.count') do
       xhr :get, :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'
     end
     assert_response :success
   end
 
-  test "should get labeled csv" do
+  test 'should get labeled csv' do
     assert_difference('Export.count') do
       xhr :get, :index, project_id: @project, export: '1', csv_labeled: '1', format: 'js'
     end
     assert_response :success
   end
 
-  test "should get pdf collation" do
+  test 'should get pdf collation' do
     assert_difference('Export.count') do
       xhr :get, :index, project_id: @project, export: '1', pdf: '1', format: 'js'
     end
     assert_response :success
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:sheets)
   end
 
-  test "should get index and filter by locked sheets" do
+  test 'should get index and filter by locked sheets' do
     get :index, project_id: @project, locked: '1'
     assert_not_nil assigns(:sheets)
     assert_equal 1, assigns(:sheets).count
     assert_response :success
   end
 
-  test "should get index with invalid project" do
+  test 'should get index with invalid project' do
     get :index, project_id: -1
     assert_nil assigns(:sheets)
     assert_redirected_to root_path
   end
 
-  test "should get paginated index" do
+  test 'should get paginated index' do
     get :index, project_id: @project, page: 2
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index order by site" do
+  test 'should get paginated index order by site' do
     get :index, project_id: @project, order: 'sheets.site_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get paginated index order by site descending" do
+  test 'should get paginated index order by site descending' do
     get :index, project_id: @project, order: 'sheets.site_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-
-  test "should get index by design_name" do
+  test 'should get index by design_name' do
     get :index, project_id: @project, order: 'sheets.design_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get index by design_name desc" do
+  test 'should get index by design_name desc' do
     get :index, project_id: @project, order: 'sheets.design_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get index by subject_code" do
+  test 'should get index by subject_code' do
     get :index, project_id: @project, order: 'sheets.subject_code'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get index by subject_code desc" do
+  test 'should get index by subject_code desc' do
     get :index, project_id: @project, order: 'sheets.subject_code DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get index by project_name" do
+  test 'should get index by project_name' do
     get :index, project_id: @project, order: 'sheets.project_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get index by project_name desc" do
+  test 'should get index by project_name desc' do
     get :index, project_id: @project, order: 'sheets.project_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get index by user_name" do
+  test 'should get index by user_name' do
     get :index, project_id: @project, order: 'sheets.user_name'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get index by user_name desc" do
+  test 'should get index by user_name desc' do
     get :index, project_id: @project, order: 'sheets.user_name DESC'
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test "should get attached file" do
+  test 'should get attached file' do
     assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
     get :file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil
 
@@ -128,7 +127,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:object).response_file.url) ), response.body
   end
 
-  test "should get attached file in grid" do
+  test 'should get attached file in grid' do
     assert_not_equal 0, grids(:has_grid_row_one_attached_file).response_file.size
     get :file, id: sheets(:has_grid_with_file), project_id: @project, sheet_variable_id: sheet_variables(:has_grid_with_file), variable_id: variables(:file), position: 0
 
@@ -142,7 +141,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:object).response_file.url) ), response.body
   end
 
-  test "should not get non-existent file in grid" do
+  test 'should not get non-existent file in grid' do
     assert_equal 0, grids(:has_grid_row_two_no_attached_file).response_file.size
     get :file, id: sheets(:has_grid_with_file), project_id: @project, sheet_variable_id: sheet_variables(:has_grid_with_file), variable_id: variables(:file), position: 1
 
@@ -156,7 +155,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not get attached file for viewer on different site" do
+  test 'should not get attached file for viewer on different site' do
     login(users(:site_one_viewer))
     assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
     get :file, id: sheets(:file_attached), project_id: @project, sheet_variable_id: sheet_variables(:file_attachment), variable_id: variables(:file), position: nil
@@ -169,44 +168,48 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to project_sheets_path(assigns(:project))
   end
 
-  test "should get new" do
+  test 'should get new' do
     get :new, project_id: @project
-    assert_response :success
+    assert_redirected_to assigns(:project)
   end
 
-  test "should get new as site editor" do
+  test 'should get new as site editor' do
+    skip
     login(users(:site_one_editor))
     get :new, project_id: @project
     assert_response :success
   end
 
-  test "should not get new as site viewer" do
+  test 'should not get new as site viewer' do
+    skip
     login(users(:site_one_viewer))
     get :new, project_id: @project
     assert_redirected_to root_path
   end
 
-  test "should get new and select the single design" do
+  test 'should get new and select the single design' do
+    skip
     get :new, project_id: projects(:single_design)
     assert_not_nil assigns(:sheet)
     assert_equal designs(:single_design), assigns(:sheet).design
     assert_response :success
   end
 
-  test "should not get new with invalid project" do
+  test 'should not get new with invalid project' do
+    skip
     get :new, project_id: -1
     assert_redirected_to root_path
   end
 
-  test "should create sheet" do
+  test 'should create sheet' do
     assert_difference('SheetTransaction.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
-                      subject_code: @sheet.subject.subject_code,
-                      site_id: @sheet.subject.site_id,
+        post :create, project_id: @project,
+                      subject_id: @sheet.subject,
+                      sheet: { design_id: designs(:all_variable_types) },
                       variables: {
                         "#{variables(:dropdown).id}" => 'm',
-                        "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
+                        "#{variables(:checkbox).id}" => %w(acct101 econ101),
                         "#{variables(:radio).id}" => '2',
                         "#{variables(:string).id}" => 'This is a string',
                         "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -226,70 +229,68 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should create sheet with large integer" do
+  test 'should create sheet with large integer' do
     assert_difference('SheetTransaction.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:has_no_validations) },
-                      subject_code: @sheet.subject.subject_code,
-                      site_id: @sheet.subject.site_id,
+        post :create, project_id: @project,
+                      subject_id: @sheet.subject,
+                      sheet: { design_id: designs(:has_no_validations) },
                       variables: {
-                        "#{variables(:integer_no_range).id}" => 127858751212122128384
+                        "#{variables(:integer_no_range).id}" => 127_858_751_212_122_128_384
                       }
       end
     end
 
     assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
-    assert_equal 127858751212122128384, assigns(:sheet).sheet_variables.first.get_response(:raw)
+    assert_equal 127_858_751_212_122_128_384, assigns(:sheet).sheet_variables.first.get_response(:raw)
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should create sheet and save date to correct database format" do
+  test 'should create sheet and save date to correct database format' do
     assert_difference('SheetTransaction.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:has_no_validations) },
-                      subject_code: @sheet.subject.subject_code,
-                      site_id: @sheet.subject.site_id,
+        post :create, project_id: @project,
+                      subject_id: @sheet.subject,
+                      sheet: { design_id: designs(:has_no_validations) },
                       variables: {
                         "#{variables(:date_no_range).id}" => { month: '5', day: '2', year: '1992' }
                       }
       end
-
     end
 
     assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
-    assert_equal "1992-05-02", assigns(:sheet).sheet_variables.first.get_response(:raw)
+    assert_equal '1992-05-02', assigns(:sheet).sheet_variables.first.get_response(:raw)
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should create sheet and save time of day to correct database format" do
+  test 'should create sheet and save time of day to correct database format' do
     assert_difference('SheetTransaction.count') do
       assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:has_no_validations) },
-                      subject_code: @sheet.subject.subject_code,
-                      site_id: @sheet.subject.site_id,
+        post :create, project_id: @project,
+                      subject_id: @sheet.subject,
+                      sheet: { design_id: designs(:has_no_validations) },
                       variables: {
                         "#{variables(:time_of_day_no_range).id}" => { hour: '13', minutes: '2', seconds: '' }
                       }
       end
-
     end
 
     assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
-    assert_equal "13:02:00", assigns(:sheet).sheet_variables.first.get_response(:raw)
+    assert_equal '13:02:00', assigns(:sheet).sheet_variables.first.get_response(:raw)
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should create sheet and lock sheet" do
+  test 'should create sheet and lock sheet' do
     assert_difference('Sheet.count') do
-      post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' },
-                    subject_code: @sheet.subject.subject_code,
-                    site_id: @sheet.subject.site_id,
+      post :create, project_id: @project,
+                    subject_id: @sheet.subject,
+                    sheet: { design_id: designs(:all_variable_types), locked: '1' },
                     variables: {
                       "#{variables(:dropdown).id}" => 'm',
                       "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
@@ -315,7 +316,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   # TODO, rewrite these for subject_events
-  # test "should create sheet with subject schedule and event" do
+  # test 'should create sheet with subject schedule and event' do
   #   assert_difference('Sheet.count') do
   #     post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), subject_schedule_id: subject_schedules(:one).id, event_id: events(:one).id },
   #                   subject_code: subjects(:two).subject_code,
@@ -331,7 +332,7 @@ class SheetsControllerTest < ActionController::TestCase
   # end
 
   # TODO, rewrite these for subject_events
-  # test "should create sheet with and remove subject schedule and event if the subject is changed" do
+  # test 'should create sheet with and remove subject schedule and event if the subject is changed' do
   #   assert_difference('Sheet.count') do
   #     post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types), subject_schedule_id: subject_schedules(:one).id, event_id: events(:one).id },
   #                   subject_code: subjects(:one).subject_code,
@@ -346,14 +347,14 @@ class SheetsControllerTest < ActionController::TestCase
   #   assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   # end
 
-  test "should create sheet with grid" do
-    post :create, project_id: @project, sheet: { design_id: designs(:has_grid) },
-                  subject_code: sheets(:has_grid).subject.subject_code,
-                  site_id: sheets(:has_grid).subject.site_id,
+  test 'should create sheet with grid' do
+    post :create, project_id: @project,
+                  subject_id: sheets(:has_grid).subject,
+                  sheet: { design_id: designs(:has_grid) },
                   variables: {
-                    "#{variables(:grid).id}" => { "13463487147483201" => { "#{variables(:change_options).id}" => "1" },
-                                                  "1346351022118849"  => { "#{variables(:change_options).id}" => "2" },
-                                                  "1346351034600475"  => { "#{variables(:change_options).id}" => "3" }}
+                    "#{variables(:grid).id}" => { '13463487147483201' => { "#{variables(:change_options).id}" => '1' },
+                                                  '1346351022118849'  => { "#{variables(:change_options).id}" => '2' },
+                                                  '1346351034600475'  => { "#{variables(:change_options).id}" => '3' }}
                   }
 
     assert_not_nil assigns(:sheet)
@@ -361,67 +362,9 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should create new subject for different project" do
-    assert_difference('Subject.count') do
-      assert_difference('Sheet.count') do
-        post :create, project_id: sheets(:two).project_id, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'Code01', site_id: sites(:two).id
-      end
-    end
-
-    assert_not_nil assigns(:sheet)
-    assert_equal Subject.last, assigns(:sheet).subject
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test "should create new validated subject" do
-    assert_difference('Subject.count') do
-      assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A400', site_id: sites(:valid_range).id
-      end
-    end
-
-    assert_not_nil assigns(:sheet)
-    assert_equal Subject.last, assigns(:sheet).subject
-    assert_equal 'valid', assigns(:sheet).subject.status
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test "should create new validated subject and strip whitespace" do
-    assert_difference('Subject.count') do
-      assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: ' A600 ', site_id: sites(:valid_range).id
-      end
-    end
-
-    assert_not_nil assigns(:sheet)
-    assert_equal Subject.last, assigns(:sheet).subject
-    assert_equal 'valid', assigns(:sheet).subject.status
-    assert_equal 'A600', assigns(:sheet).subject.subject_code
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test "should create sheet and not alter status of existing subject" do
-    assert_difference('Subject.count', 0) do
-      assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: 'A500', site_id: sites(:valid_range).id
-      end
-    end
-
-    assert_not_nil assigns(:sheet)
-    assert_equal subjects(:test_one).id, assigns(:sheet).subject.id
-    assert_equal 'test', assigns(:sheet).subject.status
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test "should not create sheet on invalid project" do
+  test 'should not create sheet on invalid project' do
     assert_difference('Sheet.count', 0) do
-      post :create, project_id: projects(:four), sheet: { design_id: @sheet.design_id },
-                    subject_code: 'Code01',
-                    site_id: @sheet.subject.site_id
+      post :create, project_id: projects(:four), subject_id: subjects(:one), sheet: { design_id: @sheet.design_id }
     end
 
     assert_nil assigns(:project)
@@ -429,12 +372,10 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should not create sheet for site viewer" do
+  test 'should not create sheet for site viewer' do
     login(users(:site_one_viewer))
     assert_difference('Sheet.count', 0) do
-      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-                    subject_code: 'Code01',
-                    site_id: sites(:one).id
+      post :create, project_id: @project, subject_id: subjects(:one), sheet: { design_id: @sheet.design_id }
     end
 
     assert_nil assigns(:project)
@@ -442,12 +383,10 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should create sheet for site editor" do
+  test 'should create sheet for site editor' do
     login(users(:site_one_editor))
     assert_difference('Sheet.count') do
-      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-                    subject_code: 'Code01',
-                    site_id: sites(:one).id
+      post :create, project_id: @project, subject_id: subjects(:one), sheet: { design_id: @sheet.design_id }
     end
 
     assert_not_nil assigns(:project)
@@ -455,75 +394,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should not create sheet for site editor for another site" do
-    login(users(:site_one_editor))
-    assert_difference('Sheet.count', 0) do
-      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-                    subject_code: 'S2Code001',
-                    site_id: sites(:two).id
-    end
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
-    assert_template 'new'
-    assert_response :success
-  end
-
-  test "should create sheet and reassign subject to another site on the project" do
-    assert_difference('Subject.count', 0) do
-      assert_difference('Sheet.count') do
-        post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-                      subject_code: 'Code01',
-                      site_id: sites(:three).id
-      end
-    end
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert_equal sites(:three).id, assigns(:sheet).subject.site_id
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test "should not create sheet for site editor for subject that already exists on another site" do
-    login(users(:site_one_editor))
-    assert_difference('Sheet.count', 0) do
-      post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-                    subject_code: 'S2001',
-                    site_id: sites(:one).id
-    end
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
-    assert_template 'new'
-    assert_response :success
-  end
-
-  test "should not create sheet or subject if site_id is missing" do
-    assert_difference('Sheet.count', 0) do
-      assert_difference('Subject.count', 0) do
-        post :create, project_id: @project, sheet: { design_id: @sheet.design_id },
-                      subject_code: 'Code01'
-      end
-    end
-
-    assert_not_nil assigns(:sheet)
-    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
-    assert_template 'new'
-    assert_response :success
-  end
-
-  test "should show sheet" do
+  test 'should show sheet' do
     get :show, id: @sheet, project_id: @project
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
-  test "should show sheet to site viewer" do
+  test 'should show sheet to site viewer' do
     login(users(:site_one_viewer))
     get :show, id: @sheet, project_id: @project
     assert_not_nil assigns(:sheet)
@@ -531,7 +409,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should show sheet with ajax" do
+  test 'should show sheet with ajax' do
     xhr :get, :show, id: @sheet, project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
@@ -539,7 +417,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should show sheet with ajax with all variables" do
+  test 'should show sheet with ajax with all variables' do
     xhr :get, :show, id: sheets(:all_variables), project_id: sheets(:all_variables).project_id, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
@@ -547,7 +425,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should show sheet with grid responses" do
+  test 'should show sheet with grid responses' do
     xhr :get, :show, id: sheets(:has_grid), project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
@@ -555,7 +433,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should show sheet with attached file" do
+  test 'should show sheet with attached file' do
     xhr :get, :show, id: sheets(:file_attached), project_id: @project, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
@@ -563,42 +441,42 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should show sheet transactions" do
+  test 'should show sheet transactions' do
     get :transactions, id: @sheet, project_id: @project
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
-  test "should not show invalid sheet" do
+  test 'should not show invalid sheet' do
     get :show, id: -1, project_id: @project
     assert_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_redirected_to project_sheets_path(@project)
   end
 
-  test "should not show sheet with invalid project" do
+  test 'should not show sheet with invalid project' do
     get :show, id: @sheet, project_id: -1
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
-  test "should not show transactions for invalid sheet" do
+  test 'should not show transactions for invalid sheet' do
     get :transactions, id: -1, project_id: @project
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(@project)
   end
 
-  test "should not show transactions for invalid project" do
+  test 'should not show transactions for invalid project' do
     get :transactions, id: @sheet, project_id: -1
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
-  test "should not show sheet for user from different site" do
+  test 'should not show sheet for user from different site' do
     login(users(:site_one_viewer))
     get :show, id: sheets(:three), project_id: @project
     assert_not_nil assigns(:project)
@@ -606,66 +484,65 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to project_sheets_path(assigns(:project))
   end
 
-  test "should print sheet" do
+  test 'should print sheet' do
     get :print, id: @sheet, project_id: @project
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
-  test "should print sheet on project that hides values" do
+  test 'should print sheet on project that hides values' do
     get :print, id: sheets(:two), project_id: projects(:two)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
-  test "should not print invalid sheet" do
+  test 'should not print invalid sheet' do
     get :print, id: -1, project_id: @project
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(assigns(:project))
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get :edit, id: @sheet, project_id: @project
     assert_response :success
   end
 
-  test "should get edit for site editor" do
+  test 'should get edit for site editor' do
     login(users(:site_one_editor))
     get :edit, id: @sheet, project_id: @project
     assert_response :success
   end
 
-  test "should not get edit for site viewer" do
+  test 'should not get edit for site viewer' do
     login(users(:site_one_viewer))
     get :edit, id: @sheet, project_id: @project
     assert_redirected_to root_path
   end
 
-  test "should not get edit for locked sheet" do
+  test 'should not get edit for locked sheet' do
     get :edit, id: sheets(:locked), project_id: @project
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should update sheet" do
+  test 'should update sheet' do
     assert_difference('SheetTransaction.count') do
-      put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) },
-                    subject_code: @sheet.subject.subject_code,
-                    site_id: @sheet.subject.site_id,
-                    variables: {
-                      "#{variables(:dropdown).id}" => 'f',
-                      "#{variables(:checkbox).id}" => nil,
-                      "#{variables(:radio).id}" => '1',
-                      "#{variables(:string).id}" => 'This is an updated string',
-                      "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet',
-                      "#{variables(:integer).id}" => 31,
-                      "#{variables(:numeric).id}" => 190.5,
-                      "#{variables(:date).id}" => { month: '05', day: '29', year: '2012' },
-                      "#{variables(:file).id}" => { response_file: '' }
-                    }
+      patch :update, id: @sheet, project_id: @project,
+                     sheet: { design_id: designs(:all_variable_types) },
+                     variables: {
+                       "#{variables(:dropdown).id}" => 'f',
+                       "#{variables(:checkbox).id}" => nil,
+                       "#{variables(:radio).id}" => '1',
+                       "#{variables(:string).id}" => 'This is an updated string',
+                       "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet',
+                       "#{variables(:integer).id}" => 31,
+                       "#{variables(:numeric).id}" => 190.5,
+                       "#{variables(:date).id}" => { month: '05', day: '29', year: '2012' },
+                       "#{variables(:file).id}" => { response_file: '' }
+                     }
     end
 
     assert_not_nil assigns(:sheet)
@@ -673,12 +550,10 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should update sheet with grid" do
-    put :update, id: sheets(:has_grid), project_id: sheets(:has_grid).project_id, sheet: { design_id: designs(:has_grid) },
-                  subject_code: sheets(:has_grid).subject.subject_code,
-                  site_id: sheets(:has_grid).subject.site_id,
-                  variables: {
-                    "#{variables(:grid).id}" => { "0" => {  "#{variables(:change_options).id}" => "1",
+  test 'should update sheet with grid' do
+    patch :update, id: sheets(:has_grid), project_id: sheets(:has_grid).project_id, sheet: { design_id: designs(:has_grid) },
+                   variables: {
+                    "#{variables(:grid).id}" => { '0' => {  "#{variables(:change_options).id}" => '1',
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
                                                             "#{variables(:height).id}" => '1.5',
@@ -687,7 +562,7 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:integer).id}" => '25',
                                                             "#{variables(:time).id}" => { hour: '11', minutes: '30', seconds: '59' }
                                                           },
-                                                  "1" => {  "#{variables(:change_options).id}" => "2",
+                                                  '1' => {  "#{variables(:change_options).id}" => '2',
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => ['econ101'],
                                                             "#{variables(:height).id}" => '1.5',
@@ -696,7 +571,7 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:integer).id}" => '25',
                                                             "#{variables(:time).id}" => { hour: '13', minutes: '20', seconds: '01' }
                                                           },
-                                                  "2" => {  "#{variables(:change_options).id}" => "3",
+                                                  '2' => {  "#{variables(:change_options).id}" => '3',
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => [],
                                                             "#{variables(:height).id}" => '1.5',
@@ -713,12 +588,10 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should update sheet with grid and remove top grid row" do
-    put :update, id: sheets(:has_grid), project_id: sheets(:has_grid).project_id, sheet: { design_id: designs(:has_grid) },
-                  subject_code: sheets(:has_grid).subject.subject_code,
-                  site_id: sheets(:has_grid).subject.site_id,
+  test 'should update sheet with grid and remove top grid row' do
+    patch :update, id: sheets(:has_grid), project_id: sheets(:has_grid).project_id, sheet: { design_id: designs(:has_grid) },
                   variables: {
-                    "#{variables(:grid).id}" => { "1" => {  "#{variables(:change_options).id}" => "2",
+                    "#{variables(:grid).id}" => { '1' => {  "#{variables(:change_options).id}" => '2',
                                                             "#{variables(:file).id}" => { response_file: { cache: '' } },
                                                             "#{variables(:checkbox).id}" => ['econ101'],
                                                             "#{variables(:height).id}" => '1.5',
@@ -727,7 +600,7 @@ class SheetsControllerTest < ActionController::TestCase
                                                             "#{variables(:integer).id}" => '25',
                                                             "#{variables(:time).id}" => { hour: '13', minutes: '20', seconds: '01' }
                                                           },
-                                                  "2" => {  "#{variables(:change_options).id}" => "3",
+                                                  '2' => {  "#{variables(:change_options).id}" => '3',
                                                             "#{variables(:file).id}" => { response_file: fixture_file_upload('../../test/support/projects/rails.png') },
                                                             "#{variables(:checkbox).id}" => [],
                                                             "#{variables(:height).id}" => '1.5',
@@ -744,33 +617,22 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should not update sheet with blank subject code" do
-    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: '', site_id: @sheet.subject.site_id, variables: { }
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert assigns(:sheet).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:sheet).errors[:subject_id]
-    assert_template 'edit'
-  end
-
-  test "should not update invalid sheet" do
-    put :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+  test 'should not update invalid sheet' do
+    patch :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, variables: {}
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(@project)
   end
 
-  test "should not update sheet with invalid project" do
-    put :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types) }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+  test 'should not update sheet with invalid project' do
+    patch :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types) }, variables: {}
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
-  test "should update and lock sheet" do
-    put :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+  test 'should update and lock sheet' do
+    patch :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' }, variables: {}
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
 
@@ -781,8 +643,8 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should not update locked sheet" do
-    put :update, id: sheets(:locked), project_id: @project, sheet: { locked: '0' }, subject_code: @sheet.subject.subject_code, site_id: @sheet.subject.site_id, variables: { }
+  test 'should not update locked sheet' do
+    patch :update, id: sheets(:locked), project_id: @project, sheet: { locked: '0' }, variables: {}
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
 
@@ -791,7 +653,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should get transfer sheet for editor" do
+  test 'should get transfer sheet for editor' do
     get :transfer, project_id: @project, id: @sheet
 
     assert_not_nil assigns(:project)
@@ -800,7 +662,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not get transfer sheet for viewer" do
+  test 'should not get transfer sheet for viewer' do
     login(users(:site_one_viewer))
     get :transfer, project_id: @project, id: @sheet
     assert_nil assigns(:project)
@@ -808,14 +670,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should not get transfer sheet for locked sheet" do
+  test 'should not get transfer sheet for locked sheet' do
     get :transfer, project_id: @project, id: sheets(:locked)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
-  test "should transfer sheet to new subject for editor" do
+  test 'should transfer sheet to new subject for editor' do
     patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:two)
 
     assert_not_nil assigns(:project)
@@ -829,7 +691,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
-  test "should undo transfer for subject for editor" do
+  test 'should undo transfer for subject for editor' do
     patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:two), undo: '1'
 
     assert_not_nil assigns(:project)
@@ -843,7 +705,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
-  test "should not make changes if transfer does not provide a new subject" do
+  test 'should not make changes if transfer does not provide a new subject' do
     patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:one)
 
     assert_not_nil assigns(:project)
@@ -852,7 +714,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
-  test "should not transfer sheet to new subject for viewer" do
+  test 'should not transfer sheet to new subject for viewer' do
     login(users(:site_one_viewer))
     patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:two)
 
@@ -862,7 +724,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should move sheet to subject event for editor" do
+  test 'should move sheet to subject event for editor' do
     patch :move_to_event, project_id: @project, id: @sheet, subject_event_id: subject_events(:one), format: 'js'
 
     assert_not_nil assigns(:project)
@@ -871,12 +733,12 @@ class SheetsControllerTest < ActionController::TestCase
     assert_equal subject_events(:one).id, assigns(:sheet).subject_event_id
     assert_equal users(:valid).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
-    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:sheet).subject
 
     assert_template 'move_to_event'
   end
 
-  test "should not make changes if move_to_event does not provide a new subject" do
+  test 'should not make changes if move_to_event does not provide a new subject' do
     patch :move_to_event, project_id: @project, id: @sheet, format: 'js'
 
     assert_not_nil assigns(:project)
@@ -885,7 +747,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not move sheet to subject event for viewer" do
+  test 'should not move sheet to subject event for viewer' do
     login(users(:site_one_viewer))
     patch :move_to_event, project_id: @project, id: @sheet, subject_event_id: subject_events(:one), format: 'js'
 
@@ -895,7 +757,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should destroy sheet" do
+  test 'should destroy sheet' do
     assert_difference('Sheet.current.count', -1) do
       delete :destroy, id: @sheet, project_id: @project
     end
@@ -906,7 +768,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to project_subject_path(@project, @sheet.subject)
   end
 
-  test "should not destroy sheet with invalid project" do
+  test 'should not destroy sheet with invalid project' do
     assert_difference('Sheet.current.count', 0) do
       delete :destroy, id: @sheet, project_id: -1
     end
@@ -917,7 +779,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should not destroy locked sheet" do
+  test 'should not destroy locked sheet' do
     assert_difference('Sheet.current.count', 0) do
       delete :destroy, id: sheets(:locked), project_id: @project
     end
@@ -928,7 +790,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should unlock sheet" do
+  test 'should unlock sheet' do
     assert_difference('SheetTransaction.count') do
       post :unlock, id: sheets(:locked), project_id: @project
     end
@@ -943,9 +805,9 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should not lock sheet on project that does not have lockable and unlockable enabled" do
+  test 'should not lock sheet on project that does not have lockable and unlockable enabled' do
     login(users(:admin))
-    put :update, id: sheets(:external), project_id: projects(:three), sheet: { locked: '1' }, subject_code: sheets(:external).subject.subject_code, site_id: sheets(:external).subject.site_id, variables: { }
+    patch :update, id: sheets(:external), project_id: projects(:three), sheet: { locked: '1' }, subject_code: sheets(:external).subject.subject_code, site_id: sheets(:external).subject.site_id, variables: {}
 
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
@@ -955,7 +817,7 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test "should not unlock sheet on project that does not have lockable and unlockable enabled" do
+  test 'should not unlock sheet on project that does not have lockable and unlockable enabled' do
     login(users(:admin))
     post :unlock, id: sheets(:locked_on_non_lockable_project), project_id: projects(:three)
     assert_not_nil assigns(:project)

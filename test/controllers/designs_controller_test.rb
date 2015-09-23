@@ -526,6 +526,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get selection" do
+    skip
     post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
@@ -535,6 +536,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get selection as site editor" do
+    skip
     login(users(:site_one_editor))
     post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
     assert_not_nil assigns(:sheet)
@@ -544,6 +546,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should not get selection as site viewer" do
+    skip
     login(users(:site_one_viewer))
     post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
     assert_nil assigns(:project)
@@ -552,6 +555,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test "should get selection for design with two scale variables" do
+    skip
     post :selection, project_id: @project, sheet: { design_id: designs(:two_scale_variables).id }, format: 'js'
     assert_not_nil assigns(:sheet)
     assert_equal assigns(:design), designs(:two_scale_variables)

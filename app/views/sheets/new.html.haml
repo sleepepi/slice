@@ -1,11 +1,7 @@
 - @title = 'New Sheet'
 
-- if @subject = @sheet.subject
-  = render 'subjects/header'
+= render 'subjects/header'
 
-  = render 'sheets/form_header'
-  .markdown-container
-    = render 'sheets/form'
-
-- else
+= render 'sheets/form_header'
+.markdown-container
   = render 'sheets/form'

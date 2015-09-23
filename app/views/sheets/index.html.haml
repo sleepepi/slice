@@ -9,8 +9,6 @@
   .col-sm-10
     %h2
       = @title
-    %div{ style: 'margin-bottom: 20px' }
-      = link_to "Create Sheet", new_project_sheet_path(@project), class: 'btn btn-xs btn-primary' if @project.can_edit_sheets_and_subjects?(current_user)
 
     #contour-backdrop{ style: "#{'display:none' unless params[:e].to_s == '1'}" }
 

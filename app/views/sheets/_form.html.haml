@@ -1,64 +1,24 @@
 - if @sheet.double_data_entry?
   .progress
-    .progress-bar.progress-bar-warning.progress-bar-striped.active{ style: "width: 100%", role: "progressbar", aria: { valuenow: "100", valuemin: "0", valuemax: "100" } }
+    .progress-bar.progress-bar-warning.progress-bar-striped.active{ style: 'width: 100%', role: 'progressbar', aria: { valuenow: '100', valuemin: '0', valuemax: '100' } }
       %span Double Data Entry
 
-= form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: "multipart/form-data" }) do |f|
+= form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: 'multipart/form-data' }) do |f|
   - if @sheet.errors.any?
     .bs-callout.bs-callout-danger
       %h4
-        = pluralize(@sheet.errors.count, "error")
+        = pluralize @sheet.errors.count, 'error'
         prohibited this sheet from being saved
 
-      - if false
-        %ul
-          - @sheet.errors.full_messages.each do |msg|
-            %li= msg
-
-  = f.hidden_field :project_id
+  - # TODO DESIGN SHOULD ONLY BE NEEDED ON NEW SHEETS
+  = f.hidden_field :design_id
   = f.hidden_field :verifying_sheet_id if @sheet.double_data_entry?
 
-  .form-group
-    = label 'sheet', 'subject_id', @sheet.project ? @sheet.project.subject_code_name_full : 'Subject Code', class: 'col-md-3 control-label', id: 'subject_code_name_full'
-    .col-md-9
-      - if @sheet.not_double_data_entry?
-        %div{ class: "#{'input-group' if @project.sites_with_range.size > 0}" }
-          = text_field_tag 'sheet_subject_id', @sheet.subject ? @sheet.subject.subject_code : params[:subject_code], name: 'subject_code', autocomplete: "off", data: { object: "typeahead-subjects", local: @project.subjects.where( site_id: current_user.all_editable_sites ).collect{|s| { subject_code: s.subject_code, status_class: (s.status == 'valid' ? 'success' : 'info'), status: s.status.first, value: s.subject_code, acrostic: s.acrostic, site_id: s.site_id, tokens: [s.subject_code, s.acrostic, s.email] }}.to_json }, class: 'form-control'
-          - if @project.sites_with_range.size > 0
-            %span.input-group-btn
-              = link_to 'Site Ranges', '#', class: 'btn btn-default', data: { toggle: 'modal', target: '#site_ranges' }, tabindex: '-1'
-      - else
-        = hidden_field_tag :subject_code, @sheet.subject.subject_code
-        %div{ style: "line-height:34px;" }= @sheet.subject.subject_code
+  -# TODO REMOVE PROJECT_ID IF NOT USED
+  = f.hidden_field :project_id
+  -# TODO REMOVE SUBJECT_ID IF NOT USED
+  = hidden_field_tag :subject_id
 
-  #acrostic-container.form-group{ style: "#{'display:none' unless @sheet.project and @sheet.project.acrostic_enabled?}" }
-    = label 'sheet', 'subject_acrostic', 'Subject acrostic', class: 'col-md-3 control-label'
-    .col-md-9
-      - if @sheet.not_double_data_entry?
-        = text_field_tag 'sheet_subject_acrostic', @sheet.subject ? @sheet.subject.acrostic : params[:subject_acrostic], name: 'subject_acrostic', class: 'form-control'
-      - else
-        = hidden_field_tag :subject_acrostic, @sheet.subject.acrostic
-        %div{ style: "line-height:34px;" }= @sheet.subject.acrostic
-
-  .form-group
-    = label_tag 'site_id', 'Site', class: 'col-md-3 control-label'
-    .col-md-9
-      - if @sheet.not_double_data_entry?
-        = @subject = @sheet.subject; render 'sites/selection'
-      - else
-        = hidden_field_tag :site_id, @sheet.subject.site_id
-        %div{ style: "line-height:34px;" }= @sheet.subject.site.name
-
-  - if @sheet.new_record?
-    .form-group
-      = f.label :design_id, nil, class: 'col-md-3 control-label'
-      .col-md-9
-        - if @sheet.not_double_data_entry?
-          - designs = current_user.all_viewable_designs.with_project(@project.id)
-          = select :sheet, :design_id, options_for_select([['---', nil]] + designs.order('name').collect{|d| [d.name, d.id]}, (params[:sheet] ? params[:sheet][:design_id] : nil)), {}, class: 'form-control'
-        - else
-          = f.hidden_field :design_id
-          %div{ style: "line-height:34px;" }= @sheet.design.name
 
   - if @sheet.new_record? and @sheet.not_double_data_entry?
     - if @sheet.subject_event
@@ -66,12 +26,12 @@
         = label_tag :subject_event_id, 'Subject Event', class: 'col-md-3 control-label'
         .col-md-9
           = f.hidden_field :subject_event_id
-          %div{ style: "line-height:34px;" }= @sheet.subject_event.event.name
+          %div{ style: 'line-height:34px' }= @sheet.subject_event.event.name
   - elsif @sheet.subject and @sheet.subject.subject_events.size > 0
     .form-group
       = label_tag 'sheet[subject_event_id]', 'Event', class: 'col-md-3 control-label'
       .col-md-9
-        = f.select :subject_event_id, [['---', nil]] + @sheet.subject.subject_events.joins(:event).pluck("events.name", :event_date, :id).collect{|name,event_date,id| ["#{name} - #{event_date ? event_date.strftime("%a, %B %-d, %Y") : 'No Date'}", id]}, {}, class: 'form-control'
+        = f.select :subject_event_id, [['---', nil]] + @sheet.subject.subject_events.joins(:event).pluck('events.name', :event_date, :id).collect{|name,event_date,id| ["#{name} - #{event_date ? event_date.strftime('%a, %B %-d, %Y') : 'No Date'}", id]}, {}, class: 'form-control'
 
   - if false
     - unless @sheet.new_record?
@@ -79,20 +39,17 @@
         .form-group
           = label_tag :subject_event_id, 'Event', class: 'col-md-3 control-label'
           .col-md-9
-            %div{ style: "line-height:34px;" }= @sheet.subject_event.event.name
+            %div{ style: 'line-height:34px' }= @sheet.subject_event.event.name
         .form-group
           = label_tag :subject_event_event_date, 'Event Date', class: 'col-md-3 control-label'
           .col-md-9
-            %div{ style: "line-height:34px;" }= @sheet.subject_event.event_date
+            %div{ style: 'line-height:34px' }= @sheet.subject_event.event_date
 
-  #design
-    = @design = @sheet.design; render 'designs/selection'
+  = render 'designs/show', design: @sheet.design
 
   .form-group
     .col-md-9.col-md-offset-3
       - form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}"
-      = f.submit nil, class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn'
+      = f.submit nil, class: 'btn btn-primary btn-large', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, id: 'sheet_submit_btn'
       = cancel
       %span#validation-messages.text-danger
-
-= form_tag selection_project_designs_path(@sheet.project, sheet_id: @sheet.id, sheet: { design_id: @sheet.design_id }, subject_code: (@sheet.subject ? @sheet.subject.subject_code : params[:subject_code])), remote: true, method: :post, data: { object: 'form-load' }

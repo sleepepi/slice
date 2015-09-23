@@ -28,11 +28,6 @@
           %th Event
         %th Updated
     %tbody
-      - if @project.can_edit_sheets_and_subjects?(current_user)
-        %tr{ style: 'cursor:pointer', data: { link: new_project_sheet_path(@project) } }
-          %td
-          %td{ colspan: (show_schedules ? 5 : 3) }
-            = link_to 'Create Sheet', new_project_sheet_path(@project)
       - viewable_sheets.each do |sheet|
         %tr{ style: 'cursor:pointer', data: { link: project_sheet_path(sheet.project, sheet) } }
           %td

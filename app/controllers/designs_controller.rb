@@ -1,9 +1,8 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project_or_editable_site, only: [:selection]
   before_action :set_viewable_project,                  only: [:print, :report_print, :report, :overview, :master_verification]
   before_action :set_editable_project,                  only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create]
-  before_action :redirect_without_project,              only: [:index, :show, :master_verification, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create, :selection]
+  before_action :redirect_without_project,              only: [:index, :show, :master_verification, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create]
   before_action :set_viewable_design,                   only: [:print, :report_print, :report, :overview, :master_verification]
   before_action :set_editable_design,                   only: [:show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import]
   before_action :redirect_without_design,               only: [:show, :master_verification, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :reimport, :update_import, :overview]
@@ -134,12 +133,6 @@ class DesignsController < ApplicationController
     else
       redirect_to project_designs_path
     end
-  end
-
-  def selection
-    @sheet = current_user.all_sheets.find_by_id(params[:sheet_id])
-    @sheet = Sheet.new(design_id: (params[:sheet] || {})[:design_id]) unless @sheet
-    @design = @project.designs.find_by_id(params[:sheet][:design_id]) unless params[:sheet].blank?
   end
 
   # GET /designs

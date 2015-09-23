@@ -28,7 +28,6 @@
   scope :without_variable_response, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
   scope :without_checkbox_variable_response, lambda { |*args| where("sheets.id NOT IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '')", args.first) }
 
-
   # # Includes entered values, or entered missing values
   # scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
   # Includes only entered values (that are not marked as missing)
@@ -45,8 +44,8 @@
 
   # Model Relationships
   belongs_to :user
-  belongs_to :last_user, class_name: "User"
-  belongs_to :first_locked_by, class_name: "User"
+  belongs_to :last_user, class_name: 'User'
+  belongs_to :first_locked_by, class_name: 'User'
   belongs_to :design
   belongs_to :project
   belongs_to :subject
@@ -57,7 +56,7 @@
   has_many :responses
   has_many :variables, -> { where deleted: false }, through: :sheet_variables
   has_many :sheet_emails, -> { where deleted: false }
-  has_many :comments, -> { where( deleted: false ).order( 'created_at desc' ) }
+  has_many :comments, -> { where(deleted: false).order(created_at: :desc) }
   has_many :sheet_transactions, -> { order(id: :desc) }
   has_many :sheet_transaction_audits
 

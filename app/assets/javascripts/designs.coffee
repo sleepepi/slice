@@ -9,26 +9,10 @@
 # This function updates an individual variables container to show or be hidden based on what variable keys it depends on.
 # Show if none of the values evaluate to false [1,1,1,1] or [], but not [1,0,1,1] or [0]
 @updateVariableContainer = (element) ->
-  truth_table = []
-
-  branching_logic = $(element).data('branching-logic') || ''
-
-  if branching_logic != ''
-    try
-      branching_logic_result = eval(branching_logic)
-    catch error
-      alert('Error in branching logic syntax.' + error)
-      branching_logic_result = true
-    if branching_logic_result
-      truth_table.push(1)
-    else
-      truth_table.push(0)
-
-  if 0 in truth_table
-    $(element).hide()
-  else
+  if elementVisible(element)
     $(element).show()
-  true
+  else
+    $(element).hide()
 
 @retrieveVariable = (position) ->
   variable_id = $('#design_option_tokens_' + position + '_variable_id').val()

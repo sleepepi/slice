@@ -6,5 +6,5 @@
     .col-sm-4
       - designs.each do |design|
         - if design
-          %div{ style: 'margin-bottom:10px;' }
-            = link_to design.name, new_project_sheet_path(@project, sheet: { design_id: design.id }, subject_code: @subject.subject_code, subject_acrostic: @subject.acrostic, site_id: @subject.site_id), class: 'btn btn-default btn-block', style: 'white-space: normal;'
+          %div{ style: 'margin-bottom:10px' }
+            = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design), class: 'btn btn-default btn-block', style: 'white-space: normal'

@@ -1,19 +1,19 @@
 - unless params[:header] == '0'
   .page-header
-    %h1= @design.name
+    %h1= design.name
 
-- unless @design.description.blank?
+- unless design.description.blank?
   .bs-callout.bs-callout-info
-    = simple_markdown @design.description
+    = simple_markdown design.description
 
 
 - sheet_variables = @sheet ? @sheet.sheet_variables.includes(variable: [:domain]).to_a : []
 
-- @design.design_options.includes(:variable, :section).each do |design_option|
+- design.design_options.includes(:variable, :section).each do |design_option|
   - if section = design_option.section
-    = render 'sections/show', design_option: design_option, section: section
+    = render 'sections/show', design: design, design_option: design_option, section: section
   - elsif variable = design_option.variable
-    = render 'sheet_variables/form', design_option: design_option, show_values: params[:header] != '0', variable: variable, sheet_variables: sheet_variables
+    = render 'sheet_variables/form', design: design, design_option: design_option, show_values: params[:header] != '0', variable: variable, sheet_variables: sheet_variables
 
 - unless params[:header] == '0'
   - if @project.lockable?

@@ -1,13 +1,22 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index, :show, :timeline, :comments, :settings, :files, :events, :sheets, :event, :report ]
-  before_action :set_editable_project_or_editable_site, only: [ :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event ]
-  before_action :redirect_without_project, only: [ :index, :show, :timeline, :comments, :settings, :files, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event ]
-  before_action :set_viewable_subject, only: [ :show, :timeline, :comments, :settings, :files, :sheets, :event ]
-  before_action :set_editable_subject, only: [ :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event ]
-  before_action :redirect_without_subject, only: [ :show, :timeline, :comments, :settings, :files, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event ]
+  before_action :set_viewable_project,                  only: [:index, :show, :timeline, :comments, :settings, :files, :events, :sheets, :event, :report]
+  before_action :set_editable_project_or_editable_site, only: [:new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :redirect_without_project,              only: [:index, :show, :timeline, :comments, :settings, :files, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :set_viewable_subject,                  only: [:show, :timeline, :comments, :settings, :files, :sheets, :event]
+  before_action :set_editable_subject,                  only: [:edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :redirect_without_subject,              only: [:show, :timeline, :comments, :settings, :files, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :set_design,                            only: [:new_data_entry]
+  before_action :redirect_without_design,               only: [:new_data_entry]
 
   def data_entry
+  end
+
+  def new_data_entry
+    # subject_event_id = params[:sheet][:subject_event_id] if params[:sheet] && params[:sheet].key?(:subject_event_id)
+    # @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: subject_event_id)
+    @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id)
+    render 'sheets/new'
   end
 
   def choose_event
@@ -200,29 +209,36 @@ class SubjectsController < ApplicationController
 
   private
 
-    def set_viewable_subject
-      @subject = current_user.all_viewable_subjects.find_by_id(params[:id])
-    end
+  def set_viewable_subject
+    @subject = current_user.all_viewable_subjects.find_by_id(params[:id])
+  end
 
-    def set_editable_subject
-      @subject = current_user.all_subjects.find_by_id(params[:id])
-    end
+  def set_editable_subject
+    @subject = current_user.all_subjects.find_by_id(params[:id])
+  end
 
-    def redirect_without_subject
-      empty_response_or_root_path(project_subjects_path(@project)) unless @subject
-    end
+  def redirect_without_subject
+    empty_response_or_root_path(project_subjects_path(@project)) unless @subject
+  end
 
-    def subject_params
-      params[:subject] ||= {}
+  def set_design
+    @design = @project.designs.find_by_id params[:design_id]
+  end
 
-      params[:subject][:subject_code] = params[:subject][:subject_code].strip unless params[:subject][:subject_code].blank?
+  def redirect_without_design
+    empty_response_or_root_path(project_subject_data_entry_path(@project, @subject)) unless @subject
+  end
 
-      params[:subject][:site_id] = (current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i) ? params[:site_id].to_i : nil)
-      params[:subject][:project_id] = @project.id
+  def subject_params
+    params[:subject] ||= {}
 
-      params.require(:subject).permit(
-        :project_id, :subject_code, :site_id, :acrostic, :email, :status
-      )
-    end
+    params[:subject][:subject_code] = params[:subject][:subject_code].strip unless params[:subject][:subject_code].blank?
 
+    params[:subject][:site_id] = (current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i) ? params[:site_id].to_i : nil)
+    params[:subject][:project_id] = @project.id
+
+    params.require(:subject).permit(
+      :project_id, :subject_code, :site_id, :acrostic, :email, :status
+    )
+  end
 end

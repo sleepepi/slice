@@ -2,14 +2,9 @@
 
 - @subject = @sheet.subject
 = render 'subjects/header'
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
-
-  .col-sm-10
-    = render 'sheets/header_info_limited'
+= render 'sheets/header_info_limited'
 
 .markdown-container
-  = render 'sheets/body_info'
+  = render 'sheets/show'
 
 = render 'sheets/body_after'

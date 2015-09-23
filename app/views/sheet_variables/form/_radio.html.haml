@@ -10,7 +10,7 @@
     %table.table.table-borderless
       %col{ width: "300px" }
       = ("<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>" * variable.options_missing_at_end.size).html_safe
-      - if variable.first_scale_variable?(@design)
+      - if variable.first_scale_variable?(design)
         %thead
           %tr
             %th

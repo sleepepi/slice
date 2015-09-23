@@ -343,6 +343,14 @@ admin_public_design_public_autocomplete:
   # required:
   # branching_logic:
 
+admin_public_design_external_grid:
+  design: admin_public_design
+  variable: external_grid
+  # section:
+  position: 2
+  # required:
+  # branching_logic:
+
 ## Admin Public Design with Required Fields
 
 admin_public_design_with_required_fields_section:

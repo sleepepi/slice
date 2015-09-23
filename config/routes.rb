@@ -113,7 +113,6 @@ Rails.application.routes.draw do
           patch :update_domain
         end
       end
-
     end
 
     resources :domains do
@@ -198,6 +197,7 @@ Rails.application.routes.draw do
         get :files
         get :sheets
         get :data_entry, path: 'data-entry'
+        get 'data-entry/:design_id', action: :new_data_entry, as: :new_data_entry
         get :choose_event, path: 'choose-event'
       end
       collection do

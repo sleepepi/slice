@@ -1,6 +1,6 @@
 - is_grid = defined?(grid)
 
 - if is_grid
-  = render 'sheet_variables/form/numeric', design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: field_name, grid: grid, position: defined?(position) ? position : nil
+  = render 'sheet_variables/form/numeric', design: design, design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: field_name, grid: grid, position: defined?(position) ? position : nil
 - else
-  = render 'sheet_variables/form/numeric', design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: field_name, validate_response: validate_response
+  = render 'sheet_variables/form/numeric', design: design, design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: field_name, validate_response: validate_response
