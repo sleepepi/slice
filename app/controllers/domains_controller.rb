@@ -13,7 +13,6 @@ class DomainsController < ApplicationController
   end
 
   # GET /domains
-  # GET /domains.json
   def index
     @order = scrub_order(Domain, params[:order], 'domains.name')
     @domains = @project.domains.search(params[:search]).order(@order).page(params[:page]).per(20)
@@ -34,54 +33,39 @@ class DomainsController < ApplicationController
   end
 
   # POST /domains
-  # POST /domains.json
   def create
     @domain = @project.domains.new(domain_params)
-
-    respond_to do |format|
-      if @domain.save
-        url = if params[:continue].to_s == '1'
-                new_project_domain_path(@domain.project)
-              else
-                [@domain.project, @domain]
-              end
-        format.html { redirect_to url, notice: 'Domain was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @domain }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @domain.errors, status: :unprocessable_entity }
-      end
+    if @domain.save
+      url = if params[:continue].to_s == '1'
+              new_project_domain_path(@domain.project)
+            else
+              [@domain.project, @domain]
+            end
+      redirect_to url, notice: 'Domain was successfully created.'
+    else
+      render :new
     end
   end
 
   # PUT /domains/1
   # PUT /domains/1.json
   def update
-    respond_to do |format|
-      if @domain.update(domain_params)
-        url = if params[:continue].to_s == '1'
-                new_project_domain_path(@domain.project)
-              else
-                [@domain.project, @domain]
-              end
-        format.html { redirect_to url, notice: 'Domain was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @domain.errors, status: :unprocessable_entity }
-      end
+    if @domain.update(domain_params)
+      url = if params[:continue].to_s == '1'
+              new_project_domain_path(@domain.project)
+            else
+              [@domain.project, @domain]
+            end
+      redirect_to url, notice: 'Domain was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /domains/1
-  # DELETE /domains/1.json
   def destroy
     @domain.destroy
-
-    respond_to do |format|
-      format.html { redirect_to project_domains_path(@project) }
-      format.json { head :no_content }
-    end
+    redirect_to project_domains_path(@project)
   end
 
   private

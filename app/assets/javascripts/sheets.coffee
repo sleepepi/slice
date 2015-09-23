@@ -20,7 +20,6 @@
       $(this).data('subject-event-id') != draggable.data('subject-event-id')
   )
 
-
 @initializeSheet = (filter_element = '') ->
   timeInMs = Date.now()
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
