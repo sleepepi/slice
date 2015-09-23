@@ -17,7 +17,7 @@
   -# TODO REMOVE PROJECT_ID IF NOT USED
   = f.hidden_field :project_id
   -# TODO REMOVE SUBJECT_ID IF NOT USED
-  = hidden_field_tag :subject_id
+  = hidden_field_tag :subject_id, @sheet.subject_id
 
 
   - if @sheet.new_record? and @sheet.not_double_data_entry?
