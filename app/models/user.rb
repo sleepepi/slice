@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
 
   # Model Relationships
+  has_many :adverse_events, -> { where deleted: false }
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
   has_many :events, -> { where deleted: false }
@@ -135,9 +136,19 @@ class User < ActiveRecord::Base
     Randomization.current.where(project_id: all_projects.select(:id))
   end
 
-  # Project Editors and Viewers and Site Members can view sheets
+  # Project Editors and Viewers and Site Members can view randomization
   def all_viewable_randomizations
     Randomization.current.with_site(all_viewable_sites.select(:id))
+  end
+
+  # Only Project Editors or Project Owner can modify adverse event
+  def all_adverse_events
+    AdverseEvent.current.where(project_id: all_projects.select(:id))
+  end
+
+  # Project Editors and Viewers and Site Members can view adverse event
+  def all_viewable_adverse_events
+    AdverseEvent.current.with_site(all_viewable_sites.select(:id))
   end
 
   # Project Editors

@@ -47,15 +47,16 @@ class RandomizationsController < ApplicationController
   # end
 
   private
-    def set_viewable_randomization
-      @randomization = current_user.all_viewable_randomizations.find_by_id(params[:id])
-    end
 
-    def set_editable_randomization
-      @randomization = current_user.all_randomizations.find_by_id(params[:id])
-    end
+  def set_viewable_randomization
+    @randomization = current_user.all_viewable_randomizations.find_by_id(params[:id])
+  end
 
-    def redirect_without_randomization
-      empty_response_or_root_path(project_randomizations_path(@project)) unless @randomization
-    end
+  def set_editable_randomization
+    @randomization = current_user.all_randomizations.find_by_id(params[:id])
+  end
+
+  def redirect_without_randomization
+    empty_response_or_root_path(project_randomizations_path(@project)) unless @randomization
+  end
 end

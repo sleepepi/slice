@@ -8,7 +8,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @order = scrub_order(Contact, params[:order], "contacts.name")
+    @order = scrub_order(Contact, params[:order], 'contacts.name')
     @contacts = @project.contacts.search(params[:search]).order(@order).page(params[:page]).per( 20 )
   end
 

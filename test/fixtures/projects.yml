@@ -7,6 +7,7 @@ one:
   lockable: true
   logo: rails.png
   randomizations_enabled: true
+  adverse_events_enabled: true
   slug: project-one
 
 two:
@@ -15,6 +16,7 @@ two:
   user: valid
   hide_values_on_pdfs: true
   randomizations_enabled: true
+  adverse_events_enabled: true
 
 three:
   name: Project Three

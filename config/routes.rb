@@ -12,6 +12,12 @@ Rails.application.routes.draw do
   get 'check-date', to: 'application#check_date'
 
   resources :projects, constraints: { format: /json|pdf|csv/ } do
+    collection do
+      get :splash
+      get :search
+      post :save_project_order
+    end
+
     member do
       get :report
       post :report
@@ -31,11 +37,7 @@ Rails.application.routes.draw do
       post :archive
     end
 
-    collection do
-      get :splash
-      get :search
-      post :save_project_order
-    end
+    resources :adverse_events, path: 'adverse-events'
 
     resources :contacts
     resources :documents do

@@ -181,6 +181,15 @@
           Checking This Will Enable Subjects to Be Randomized
 
   .form-group
+    .col-md-2
+      %label Adverse Events
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :adverse_events_enabled
+          Checking This Will Enable Adverse Event Reporting
+
+  .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
       = cancel

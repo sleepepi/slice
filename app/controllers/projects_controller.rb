@@ -240,37 +240,34 @@ class ProjectsController < ApplicationController
 
   private
 
-    # Overwriting application_controller
-    def set_viewable_project
-      super(:id)
-      # @project = current_user.all_viewable_and_site_projects.find_by_id(params[:id])
-    end
+  # Overwriting application_controller
+  def set_viewable_project
+    super(:id)
+  end
 
-    # Overwriting application_controller
-    def set_editable_project
-      super(:id)
-      # @project = current_user.all_projects.find_by_id(params[:id])
-    end
+  # Overwriting application_controller
+  def set_editable_project
+    super(:id)
+  end
 
-    def set_owner_project
-      @project = current_user.projects.find_by_param(params[:id])
-    end
+  def set_owner_project
+    @project = current_user.projects.find_by_param(params[:id])
+  end
 
-    def redirect_without_project
-      super(projects_path)
-    end
+  def redirect_without_project
+    super(projects_path)
+  end
 
-    def project_params
-      params.require(:project).permit(
-        :name, :slug, :description, :acrostic_enabled, :subject_code_name,
-        :show_contacts, :show_documents, :show_posts, :disable_all_emails,
-        :collect_email_on_surveys, :lockable, :hide_values_on_pdfs,
-        :double_data_entry, :randomizations_enabled,
-        # Uploaded Logo
-        :logo, :logo_uploaded_at, :logo_cache, :remove_logo,
-        # Will automatically generate a site if the project has no site
-        :site_name
-      )
-    end
-
+  def project_params
+    params.require(:project).permit(
+      :name, :slug, :description, :acrostic_enabled, :subject_code_name,
+      :show_contacts, :show_documents, :show_posts, :disable_all_emails,
+      :collect_email_on_surveys, :lockable, :hide_values_on_pdfs,
+      :double_data_entry, :randomizations_enabled, :adverse_events_enabled,
+      # Uploaded Logo
+      :logo, :logo_uploaded_at, :logo_cache, :remove_logo,
+      # Will automatically generate a site if the project has no site
+      :site_name
+    )
+  end
 end

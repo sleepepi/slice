@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  user: site_one_editor
+  subject: one
+  description: Adverse Event Text and how it occurred
+  adverse_event_date: 2015-09-20
+  serious: false
+  closed: false
+
+two:
+  project: one
+  user: admin
+  subject: two
+  description: MyText
+  adverse_event_date: 2015-09-24
+  serious: false
+  closed: false

@@ -1,0 +1,40 @@
+%h2= @title
+= form_for [@project, @adverse_event], html: { class: 'form-horizontal' } do |f|
+  - if @adverse_event.errors.any?
+    #error_explanation.bs-callout.bs-callout-danger
+      %h4
+        = pluralize @adverse_event.errors.count, 'error'
+        prohibited this adverse event from being reported
+
+      %ul
+        - @adverse_event.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :subject_id, 'Subject Code', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :subject_id, autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, name: 'adverse_event[subject_code]', value: @adverse_event.subject_code
+
+  .form-group
+    = f.label :description, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    = f.label :adverse_event_date, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :adverse_event_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', name: 'adverse_event[event_date]', value: @adverse_event.event_date
+
+  .form-group
+    .col-md-2
+      %label Serious Adverse Event?
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :serious
+          Check this if this is a Serious Adverse Event
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

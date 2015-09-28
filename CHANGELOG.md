@@ -8,6 +8,8 @@
   - Sheet creation workflow now requires selecting an existing subject and design
 - **Design Changes**
   - Improved the method in which variables and sections are linked to designs
+- **Adverse Events Added**
+  - Added a project-level adverse events reporting module
 - **Gem Changes**
   - Updated to pg 0.18.3
   - Removed minitest-reporters

@@ -1,0 +1,33 @@
+= render 'contour/layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Adverse Event
+      %th Subject
+      %th Adverse Event Date
+      %th Serious
+      %th Closed
+      %th Reported By
+      %th Actions
+  %tbody
+    - @adverse_events.each do |adverse_event|
+      %tr
+        %td= link_to adverse_event.name, [@project, adverse_event]
+        %td= link_to adverse_event.subject.subject_code, [@project, adverse_event.subject]
+        %td= adverse_event.adverse_event_date
+        %td
+          - if adverse_event.serious?
+            Serious
+          - else
+            Non-serious
+        %td
+          - if adverse_event.closed?
+            Closed
+          - else
+            Opened
+        %td= adverse_event.user.name
+        %td
+          - if adverse_event.editable_by?(current_user)
+            = link_to 'Edit', edit_project_adverse_event_path(@project, adverse_event), class: 'btn btn-default btn-xs'
+            = link_to 'Delete', [@project, adverse_event], method: :delete, data: { confirm: "Are you sure you want to delete Adverse Event #{adverse_event.name}?" }, class: 'btn btn-danger-inverse btn-xs'

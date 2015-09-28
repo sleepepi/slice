@@ -8,7 +8,7 @@
   - if @randomization_scheme.errors.any?
     #error_explanation.bs-callout.bs-callout-danger
       %h4
-        = pluralize(@randomization_scheme.errors.count, "error")
+        = pluralize @randomization_scheme.errors.count, 'error'
         prohibited this randomization scheme from being saved
 
       %ul
