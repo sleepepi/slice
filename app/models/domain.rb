@@ -4,10 +4,7 @@ class Domain < ActiveRecord::Base
   before_save :check_option_validations
 
   # Concerns
-  include Deletable
-
-  # Named Scopes
-  scope :search, lambda { |arg| where("LOWER(domains.name) LIKE ? or LOWER(domains.description) LIKE ? or LOWER(domains.options) LIKE ?", arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
+  include Searchable, Deletable
 
   # Model Validation
   validates_presence_of :name, :display_name, :project_id, :user_id
@@ -21,6 +18,10 @@ class Domain < ActiveRecord::Base
   has_many :variables, -> { where deleted: false }
 
   # Model Methods
+
+  def self.searchable_attributes
+    %w(name description options)
+  end
 
   # Returns an array of the domains values
   def values
@@ -166,5 +167,4 @@ class Domain < ActiveRecord::Base
     end
     params
   end
-
 end

@@ -1,9 +1,8 @@
 class Comment < ActiveRecord::Base
   # Concerns
-  include Deletable
+  include Searchable, Deletable
 
   # Named Scopes
-  scope :search, -> (arg) { where('LOWER(description) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%')) }
   scope :with_project, -> (arg) { where('comments.sheet_id in (select sheets.id from sheets where sheets.deleted = ? and sheets.project_id IN (?))', false, arg) }
 
   after_create :send_email
@@ -35,6 +34,10 @@ class Comment < ActiveRecord::Base
 
   def deletable_by?(current_user)
     user == current_user || editable_by?(current_user)
+  end
+
+  def self.searchable_attributes
+    %w(description)
   end
 
   private

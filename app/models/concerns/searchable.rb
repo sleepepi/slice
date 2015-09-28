@@ -2,7 +2,21 @@ module Searchable
   extend ActiveSupport::Concern
 
   included do
-    scope :search, lambda { |arg| where("LOWER(#{self.table_name}.name) LIKE ? or LOWER(#{self.table_name}.description) LIKE ?", arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
-  end
+    # Search Scope
+    def self.search(arg)
+      term = arg.to_s.downcase.gsub(/^| |$/, '%')
+      terms = [term] * search_queries.count
+      where search_queries.join(' or '), *terms
+    end
 
+    def self.search_queries
+      searchable_attributes.collect do |searchable_attribute|
+        "LOWER(#{table_name}.#{searchable_attribute}) LIKE ?"
+      end
+    end
+
+    def self.searchable_attributes
+      %w(name description)
+    end
+  end
 end

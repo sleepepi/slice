@@ -1,6 +1,6 @@
 class Contact < ActiveRecord::Base
   # Concerns
-  include Deletable
+  include Searchable, Deletable
 
   # Model Validation
   validates :title, :name, :project_id, :user_id, presence: true
@@ -11,10 +11,7 @@ class Contact < ActiveRecord::Base
 
   # Model Methods
 
-  # Search Scope
-  def self.search(arg)
-    term = arg.to_s.downcase.gsub(/^| |$/, '%')
-    query = 'LOWER(contacts.name) LIKE ? or LOWER(contacts.title) LIKE ?'
-    where query, term, term
+  def self.searchable_attributes
+    %w(name title)
   end
 end

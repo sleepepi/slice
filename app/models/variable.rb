@@ -28,10 +28,9 @@ class Variable < ActiveRecord::Base
   before_save :check_for_duplicate_variables, :check_for_valid_domain
 
   # Concerns
-  include Deletable, DateAndTimeParser
+  include Searchable, Deletable, DateAndTimeParser
 
   # Named Scopes
-  scope :search, -> (arg) { where 'LOWER(name) LIKE ? or LOWER(description) LIKE ? or LOWER(display_name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') }
   scope :with_user, -> (arg) { where user_id: arg }
   scope :with_project, -> (arg) { where project_id: arg }
   scope :with_variable_type, -> (arg) { where variable_type: arg }
@@ -54,6 +53,10 @@ class Variable < ActiveRecord::Base
   has_many :designs, through: :design_options
 
   # Model Methods
+
+  def self.searchable_attributes
+    %w(name description display_name)
+  end
 
   def create_variables_from_questions!(questions)
     new_grid_variables = []

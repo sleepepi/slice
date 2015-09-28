@@ -6,10 +6,7 @@ class Export < ActiveRecord::Base
   STATUS = %w(ready pending failed).collect { |i| [i, i] }
 
   # Concerns
-  include Deletable, GridExport, SheetExport
-
-  # Named Scopes
-  scope :search, -> (arg) { where('LOWER(exports.name) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%')) }
+  include Searchable, Deletable, GridExport, SheetExport
 
   # Model Validation
   validates :name, :user_id, :project_id, presence: true
@@ -19,6 +16,11 @@ class Export < ActiveRecord::Base
   belongs_to :project
 
   # Model Methods
+
+  def self.searchable_attributes
+    %w(name)
+  end
+
   def notify_user!
     UserMailer.export_ready(self).deliver_later if Rails.env.production?
   end

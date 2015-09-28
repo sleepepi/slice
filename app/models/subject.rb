@@ -2,10 +2,9 @@ class Subject < ActiveRecord::Base
   STATUS = %w(valid test).collect { |i| [i, i] }
 
   # Concerns
-  include Deletable
+  include Searchable, Deletable
 
   # Named Scopes
-  scope :search, -> (arg) { where('LOWER(subject_code) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%')) }
   scope :with_project, -> (arg) { where(project_id: arg) }
   scope :without_design, -> (arg) { where('subjects.id NOT IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))', false, arg) }
   scope :with_design, -> (arg) { where('subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))', false, arg) }
@@ -34,6 +33,10 @@ class Subject < ActiveRecord::Base
   has_many :subject_events, -> { order :event_date }
 
   # Model Methods
+
+  def self.searchable_attributes
+    %w(subject_code)
+  end
 
   def comments
     Comment.current.where(sheet_id: sheets.select(:id))
