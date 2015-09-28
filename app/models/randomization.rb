@@ -4,10 +4,7 @@ class Randomization < ActiveRecord::Base
   serialize :weighted_eligible_arms, Array
 
   # Concerns
-  include Deletable
-
-  # Named Scopes
-  scope :with_site, lambda { |arg| where("randomizations.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, arg).references(:subjects) }
+  include Deletable, Siteable
 
   # Model Validation
   validates_presence_of :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group, :multiplier, :position, :treatment_arm_id

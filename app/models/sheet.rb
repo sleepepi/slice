@@ -1,6 +1,6 @@
- class Sheet < ActiveRecord::Base
+class Sheet < ActiveRecord::Base
   # Concerns
-  include Deletable, Latexable, DoubleDataEntry
+  include Deletable, Latexable, DoubleDataEntry, Siteable
 
   before_save :check_subject_event_subject_match
 
@@ -11,7 +11,6 @@
   scope :with_user, lambda { |*args| where("sheets.user_id in (?)", args.first) }
   scope :with_project, lambda { |*args| where("sheets.project_id IN (?)", args.first) }
   scope :with_design, lambda { |*args| where("sheets.design_id IN (?)", args.first) }
-  scope :with_site, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.site_id IN (?))", false, args.first).references(:subjects) }
 
   scope :with_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)", args.first, args[1]) }
   scope :with_checkbox_variable_response, lambda { |*args| where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value = ? )", args.first, args[1]) }
@@ -67,13 +66,13 @@
   end
 
   def self.last_entry
-    sheet_ids = self.order('subject_id, created_at DESC').pluck("DISTINCT ON (subject_id) sheets.id")
-    self.where(id: sheet_ids)
+    sheet_ids = order(:subject_id, created_at: :desc).pluck('DISTINCT ON (sheets.subject_id) sheets.id')
+    where id: sheet_ids
   end
 
   def self.first_entry
-    sheet_ids = self.order('subject_id, created_at ASC').pluck("DISTINCT ON (subject_id) sheets.id")
-    self.where(id: sheet_ids)
+    sheet_ids = order(:subject_id, :created_at).pluck('DISTINCT ON (sheets.subject_id) sheets.id')
+    where id: sheet_ids
   end
 
   def contributors
@@ -414,7 +413,6 @@
     check_response_count_change
     (self.response_count * 100.0 / self.total_response_count).to_i rescue 0
   end
-
 
   def non_hidden_variable_ids
     @non_hidden_variable_ids ||= begin

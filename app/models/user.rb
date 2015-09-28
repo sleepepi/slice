@@ -240,11 +240,11 @@ class User < ActiveRecord::Base
   # Ex: On Monday, returns sheets created since Friday morning (Time.zone.now - 3.day)
   # Ex: On Tuesday, returns sheets created since Monday morning (Time.zone.now - 1.day)
   def digest_sheets_created
-    all_viewable_sheets.with_subject_status('valid').where(project_id: all_digest_projects.collect(&:id)).where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
+    all_viewable_sheets.with_subject_status('valid').where(project_id: all_digest_projects.collect(&:id)).where('sheets.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end
 
   def digest_comments
-    all_viewable_comments.with_project(all_digest_projects.collect(&:id)).where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day)).order('created_at ASC')
+    all_viewable_comments.with_project(all_digest_projects.collect(&:id)).where('comments.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day)).order(:created_at)
   end
 
   def email_on?(value)
