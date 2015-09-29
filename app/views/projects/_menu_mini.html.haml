@@ -10,7 +10,7 @@
       %span.glyphicon.glyphicon-duplicate
   - if @project.randomizations_enabled? and @project.randomization_schemes.count > 0
     %li
-      = link_to project_randomizations_path(@project), class: (params[:controller] == 'randomizations' ? 'active' : nil), rel: 'tooltip', data: { title: 'Randomizations', container: 'body', placement: 'right' } do
+      = link_to project_randomizations_path(@project), class: (params[:controller] == 'randomizations' || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? 'active' : nil), rel: 'tooltip', data: { title: 'Randomizations', container: 'body', placement: 'right' } do
         %span.glyphicon.glyphicon-random
   - if @project.adverse_events_enabled?
     %li

@@ -154,7 +154,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
   end
 
   test "should not randomize subject to list if subject code is blank" do
-    post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
+    post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: '', stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: '1'
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert assigns(:randomization).errors.size > 0

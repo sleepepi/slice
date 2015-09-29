@@ -30,7 +30,7 @@ class RandomizationSchemesController < ApplicationController
         status_class = 'primary'
       end
 
-      { value: s.subject_code, subject_code: s.subject_code, status_class: status_class, status: status, site_id: s.site_id  }
+      { value: s.subject_code, subject_code: s.subject_code, status_class: status_class, status: status, site_id: s.site_id }
     end
 
     render json: result
@@ -39,10 +39,10 @@ class RandomizationSchemesController < ApplicationController
   def randomize_subject_to_list
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
 
-    subject = current_user.all_subjects.where(project_id: @project.id).where("LOWER(subjects.subject_code) = ?", params[:subject_code].to_s.downcase).first
+    subject = current_user.all_subjects.where(project_id: @project.id).where('LOWER(subjects.subject_code) = ?', params[:subject_code].to_s.downcase).first
 
     if @randomization_scheme.lists.count == 0
-      @randomization.errors.add(:lists, "need to be generated before a subject can be randomized")
+      @randomization.errors.add(:lists, 'need to be generated before a subject can be randomized')
       render 'randomize_subject'
       return
     end
@@ -53,15 +53,15 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
-    if @randomization_scheme.variable and not subject.has_value?(@randomization_scheme.variable, @randomization_scheme.variable_value)
+    if @randomization_scheme.variable && !subject.has_value?(@randomization_scheme.variable, @randomization_scheme.variable_value)
       variable_message = "#{@randomization_scheme.variable.display_name} is not equal to #{@randomization_scheme.variable_value}"
-      @randomization.errors.add(:subject_id, "is ineligible for randomization due to variable criteria")
+      @randomization.errors.add(:subject_id, 'is ineligible for randomization due to variable criteria')
       @randomization.errors.add(:subject_id, variable_message)
       render 'randomize_subject'
       return
     end
 
-    criteria_pairs = (params[:stratification_factors] || []).collect{ |stratification_factor_id, option_id| [stratification_factor_id, option_id] }
+    criteria_pairs = (params[:stratification_factors] || []).collect { |stratification_factor_id, option_id| [stratification_factor_id, option_id] }
     list = @randomization_scheme.find_list_by_criteria_pairs(criteria_pairs)
 
     unless list
@@ -76,27 +76,29 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
-    if stratification_factor = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
+    stratification_factor = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
+
+    if stratification_factor
       if subject.site_id.to_i != (params[:stratification_factors] || {})[stratification_factor.id.to_s.to_sym].to_i
-        @randomization.errors.add(:subject_id, "must be randomized to their site")
+        @randomization.errors.add(:subject_id, 'must be randomized to their site')
         render 'randomize_subject'
         return
       end
     end
 
     if params[:attested] != '1'
-      @randomization.errors.add(:attested, "must be checked")
+      @randomization.errors.add(:attested, 'must be checked')
       render 'randomize_subject'
       return
     end
 
     @randomization = @randomization_scheme.randomize_subject_to_list!(subject, list, current_user, criteria_pairs)
 
-    if @randomization and @randomization.errors.full_messages == []
+    if @randomization && @randomization.errors.full_messages == []
       redirect_to [@project, @randomization], notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
     elsif @randomization
       @randomization.errors.delete(:subject_id)
-      @randomization.errors.add(:subject_id, "has already been randomized")
+      @randomization.errors.add(:subject_id, 'has already been randomized')
       render 'randomize_subject'
     else
       redirect_to choose_scheme_project_randomizations_path(@project), alert: "Subject was NOT successfully randomized. #{@randomization_scheme.randomization_error_message}"
@@ -167,28 +169,29 @@ class RandomizationSchemesController < ApplicationController
   end
 
   private
-    def set_randomization_scheme
-      @randomization_scheme = @project.randomization_schemes.find_by_id(params[:id])
+
+  def set_randomization_scheme
+    @randomization_scheme = @project.randomization_schemes.find_by_id(params[:id])
+  end
+
+  def set_published_randomization_scheme
+    @randomization_scheme = @project.randomization_schemes.published.find_by_id(params[:id])
+  end
+
+  def redirect_without_randomization_scheme
+    empty_response_or_root_path(project_randomization_schemes_path(@project)) unless @randomization_scheme
+  end
+
+  def randomization_scheme_params
+    params[:randomization_scheme] ||= { blank: '1' }
+
+    params[:randomization_scheme][:randomization_goal] = 0 if params[:randomization_scheme].key?(:randomization_goal) && params[:randomization_scheme][:randomization_goal].blank?
+    params[:randomization_scheme][:chance_of_random_treatment_arm_selection] = 30 if params[:randomization_scheme].key?(:chance_of_random_treatment_arm_selection) && params[:randomization_scheme][:chance_of_random_treatment_arm_selection].blank?
+
+    if @randomization_scheme && @randomization_scheme.has_randomized_subjects?
+      params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
+    else
+      params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)
     end
-
-    def set_published_randomization_scheme
-      @randomization_scheme = @project.randomization_schemes.published.find_by_id(params[:id])
-    end
-
-    def redirect_without_randomization_scheme
-      empty_response_or_root_path(project_randomization_schemes_path(@project)) unless @randomization_scheme
-    end
-
-    def randomization_scheme_params
-      params[:randomization_scheme] ||= { blank: '1' }
-
-      params[:randomization_scheme][:randomization_goal] = 0 if params[:randomization_scheme].key?(:randomization_goal) and params[:randomization_scheme][:randomization_goal].blank?
-      params[:randomization_scheme][:chance_of_random_treatment_arm_selection] = 30 if params[:randomization_scheme].key?(:chance_of_random_treatment_arm_selection) and params[:randomization_scheme][:chance_of_random_treatment_arm_selection].blank?
-
-      if @randomization_scheme and @randomization_scheme.has_randomized_subjects?
-        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
-      else
-        params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)
-      end
-    end
+  end
 end

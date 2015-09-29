@@ -16,34 +16,29 @@ class RandomizationsController < ApplicationController
   end
 
   # GET /randomizations
-  # GET /randomizations.json
   def index
-    @randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).includes(:subject).order("randomized_at DESC NULLS LAST").page(params[:page]).per(40)
+    @randomizations = current_user.all_viewable_randomizations
+                      .where(project_id: @project.id)
+                      .includes(:subject)
+                      .order('randomized_at DESC NULLS LAST')
+                      .page(params[:page])
+                      .per(40)
   end
 
   # GET /randomizations/1
-  # GET /randomizations/1.json
   def show
   end
 
   # PATCH /randomizations/1/undo
-  # PATCH /randomizations/1/undo.json
   def undo
     @randomization.undo!
-    respond_to do |format|
-      format.html { redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully removed.' }
-      format.json { render :show, status: :ok, location: @randomization }
-    end
+    redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully removed.'
   end
 
   # # DELETE /randomizations/1
-  # # DELETE /randomizations/1.json
   # def destroy
   #   @randomization.destroy
-  #   respond_to do |format|
-  #     format.html { redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully destroyed.' }
-  #     format.json { head :no_content }
-  #   end
+  #   redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully destroyed.'
   # end
 
   private

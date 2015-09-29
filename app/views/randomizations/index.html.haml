@@ -2,11 +2,10 @@
 
 = render 'projects/tabbed_menu', links: [['Randomizations', project_randomizations_path(@project)]]
 
-.row
-  .col-sm-2
-    = render 'projects/menu'
-
-  .col-sm-10
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
     %h2
       = @title
     %div{ style: 'margin-bottom: 20px' }
@@ -29,4 +28,4 @@
           = submit_tag 'Search', class: 'btn btn-primary', name: nil
           = link_to 'Reset', project_randomizations_path(@project), class: 'btn btn-default'
 
-= render 'randomizations/randomizations'
+    = render 'randomizations/randomizations'

@@ -1,140 +1,143 @@
-- @title = @randomization.name
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to 'Randomizations', project_randomizations_path(@project)
-    &middot;
-    = @title
-  - if @randomization.editable_by?(current_user)
-    - if @randomization.randomized?
-      = link_to 'Undo', undo_project_randomization_path(@project, @randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{@randomization.list.name}" if @randomization.list}?" }
-    - if false
-      = link_to "Delete Randomization", [@project, @randomization], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization #{@randomization.name}?" }
+- @title = "Randomization ##{@randomization.name}"
 
-- if @randomization.subject and @randomization.randomized_by and @randomization.treatment_arm
-  .jumbotron
-    .container
-      %h1
-        = @randomization.treatment_arm.name
-        %small
-          = @randomization.randomization_number
-          of
-          = @randomization.randomization_scheme.randomization_goal
-      %p
-        %strong
-          = @randomization.subject.name
-        randomized
-        = simple_time @randomization.randomized_at
-        by
-        = @randomization.randomized_by.name
+- links = []
+- links << ['Randomizations', project_randomizations_path(@project)]
+- links << [@randomization.name, project_randomization_path(@project, @randomization)]
+= render 'projects/tabbed_menu', links: links
 
-%dl.dl-horizontal
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    - if @randomization.subject and @randomization.randomized_by and @randomization.treatment_arm
+      .jumbotron
+        .container
+          %h1
+            = @randomization.treatment_arm.name
+            %small
+              = @randomization.randomization_number
+              of
+              = @randomization.randomization_scheme.randomization_goal
+            - if @randomization.editable_by?(current_user)
+              - if @randomization.randomized?
+                = link_to 'Undo', undo_project_randomization_path(@project, @randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{@randomization.list.name}" if @randomization.list}?" }
+              - if false
+                = link_to "Delete Randomization", [@project, @randomization], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization #{@randomization.name}?" }
 
-  %dt Subject
-  %dd= link_to @randomization.subject.name, [@project, @randomization.subject] if @randomization.subject
+          %p
+            %strong
+              = @randomization.subject.name
+            randomized
+            = simple_time @randomization.randomized_at
+            by
+            = @randomization.randomized_by.name
 
-  %dt Randomized by
-  %dd= @randomization.randomized_by.name if @randomization.randomized_by
+    %dl.dl-horizontal
 
-  %dt Randomized at
-  %dd= simple_time @randomization.randomized_at
+      %dt Subject
+      %dd= link_to @randomization.subject.name, [@project, @randomization.subject] if @randomization.subject
 
-  %dt Treatment arm
-  %dd= @randomization.treatment_arm.name if @randomization.treatment_arm
+      %dt Randomized by
+      %dd= @randomization.randomized_by.name if @randomization.randomized_by
 
-  %dt Randomization Scheme
-  %dd= @randomization.randomization_scheme.name if @randomization.randomization_scheme
+      %dt Randomized at
+      %dd= simple_time @randomization.randomized_at
 
-  %dt List
-  %dd= @randomization.list.name if @randomization.list
+      %dt Treatment arm
+      %dd= @randomization.treatment_arm.name if @randomization.treatment_arm
 
-  - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization?
-    %dt Randomization Characteristics
-    %dd
-      %table.table.table-bordered
-        %thead
-          %tr
-            %th Stratification Factor
-            %th Option
-        - @randomization.randomization_characteristics.each do |randomization_characteristic|
-          %tr
-            %td= randomization_characteristic.stratification_factor.name
-            %td
-              - if sfo = randomization_characteristic.stratification_factor_option
-                = sfo.label
-              - elsif site = randomization_characteristic.site
-                = site.name
+      %dt Randomization Scheme
+      %dd= @randomization.randomization_scheme.name if @randomization.randomization_scheme
 
-  %dt List Position
-  - if @randomization.randomization_scheme and @randomization.randomization_scheme.permuted_block?
-    %dd= @randomization.position
-  - else
-    %dd= @randomization.list_position
+      %dt List
+      %dd= @randomization.list.name if @randomization.list
 
-  - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization? and @randomization.dice_roll and @randomization.dice_roll_cutoff and @project.editable_by?(current_user)
-    %dt Notes
-    %dd
-      %p
-        %strong Is treatment arm selection random?
-      - if @randomization.dice_roll < @randomization.dice_roll_cutoff
-        %p
-          Yes,
-          %mark= @randomization.dice_roll
-          is less than
-          = succeed '.' do
-            = @randomization.dice_roll_cutoff
-      - else
-        %p
-          No,
-          %span{ rel: 'tooltip', title: 'Random Roll Between 0 and 99', data: { placement: 'right', container: 'body' } }
-            %mark= @randomization.dice_roll
-          is greater than or equal to
-          = succeed '.' do
-            %span{ rel: 'tooltip', title: 'Set by Scheme: Can be between 0 (Never Random) and 100 (Always Random)', data: { placement: 'right', container: 'body' } }= @randomization.dice_roll_cutoff
-
-      - if @randomization.dice_roll < @randomization.dice_roll_cutoff
-        %p
-          %strong Randomly Select Treatment Arm
-      - else
-        %p
-          %strong Select Treatment Arm Based on Criteria Distributions
+      - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization?
+        %dt Randomization Characteristics
+        %dd
           %table.table.table-bordered
-            - if @randomization.past_distributions[:treatment_arms].is_a?(Array)
-              %thead
-                %tr
-                  %th Stratification Factor
-                  - @randomization.past_distributions[:treatment_arms].each do |arm_hash|
-                    %th{ style: 'text-align:right' }= arm_hash[:name]
-            - if @randomization.past_distributions[:stratification_factors].is_a?(Array)
-              %tbody
-                - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
-                  %tr
-                    %td= sf_hash[:name]
-                    - if sf_hash[:treatment_arm_counts].is_a?(Array)
-                      - sf_hash[:treatment_arm_counts].each do |ta_hash|
-                        %td{ style: 'text-align:right' }= ta_hash[:count]
-            - if @randomization.past_distributions[:totals].is_a?(Array) or (@randomization.past_distributions[:weighted_totals].is_a?(Array) and @randomization.past_distributions[:treatment_arms].is_a?(Array))
-              %tfoot
-                - if @randomization.past_distributions[:totals].is_a?(Array)
-                  %tr
-                    %th Total
-                    - @randomization.past_distributions[:totals].each do |total_hash|
-                      %th{ style: 'text-align:right' }= total_hash[:count]
-                - if @randomization.past_distributions[:weighted_totals].is_a?(Array)
-                  %tr
-                    %th Weighted Total
-                    - @randomization.past_distributions[:weighted_totals].each do |total_hash|
-                      %th{ style: 'text-align:right', class: "#{'success' if total_hash[:treatment_arm_id].in?(@randomization.weighted_eligible_arms.collect{|h| h[:id]})}" }= total_hash[:count]
-        %p
-          %strong Treatment Arms with Lowest Weighted Score and Treatment Arm Allocations
+            %thead
+              %tr
+                %th Stratification Factor
+                %th Option
+            - @randomization.randomization_characteristics.each do |randomization_characteristic|
+              %tr
+                %td= randomization_characteristic.stratification_factor.name
+                %td
+                  - if sfo = randomization_characteristic.stratification_factor_option
+                    = sfo.label
+                  - elsif site = randomization_characteristic.site
+                    = site.name
 
-      %p
-        = "Weighted Eligible Arms: [#{@randomization.weighted_eligible_arms.collect{|h| h[:name]}.join(', ')}]"
+      %dt List Position
+      - if @randomization.randomization_scheme and @randomization.randomization_scheme.permuted_block?
+        %dd= @randomization.position
+      - else
+        %dd= @randomization.list_position
 
-      %p
-        %strong Treatment Arm Chosen from Eligible Treatment Arms
-      - if @randomization.treatment_arm
-        %p
-          %mark= @randomization.treatment_arm.name
-          selected.
+      - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization? and @randomization.dice_roll and @randomization.dice_roll_cutoff and @project.editable_by?(current_user)
+        %dt Notes
+        %dd
+          %p
+            %strong Is treatment arm selection random?
+          - if @randomization.dice_roll < @randomization.dice_roll_cutoff
+            %p
+              Yes,
+              %mark= @randomization.dice_roll
+              is less than
+              = succeed '.' do
+                = @randomization.dice_roll_cutoff
+          - else
+            %p
+              No,
+              %span{ rel: 'tooltip', title: 'Random Roll Between 0 and 99', data: { placement: 'right', container: 'body' } }
+                %mark= @randomization.dice_roll
+              is greater than or equal to
+              = succeed '.' do
+                %span{ rel: 'tooltip', title: 'Set by Scheme: Can be between 0 (Never Random) and 100 (Always Random)', data: { placement: 'right', container: 'body' } }= @randomization.dice_roll_cutoff
+
+          - if @randomization.dice_roll < @randomization.dice_roll_cutoff
+            %p
+              %strong Randomly Select Treatment Arm
+          - else
+            %p
+              %strong Select Treatment Arm Based on Criteria Distributions
+              %table.table.table-bordered
+                - if @randomization.past_distributions[:treatment_arms].is_a?(Array)
+                  %thead
+                    %tr
+                      %th Stratification Factor
+                      - @randomization.past_distributions[:treatment_arms].each do |arm_hash|
+                        %th{ style: 'text-align:right' }= arm_hash[:name]
+                - if @randomization.past_distributions[:stratification_factors].is_a?(Array)
+                  %tbody
+                    - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
+                      %tr
+                        %td= sf_hash[:name]
+                        - if sf_hash[:treatment_arm_counts].is_a?(Array)
+                          - sf_hash[:treatment_arm_counts].each do |ta_hash|
+                            %td{ style: 'text-align:right' }= ta_hash[:count]
+                - if @randomization.past_distributions[:totals].is_a?(Array) or (@randomization.past_distributions[:weighted_totals].is_a?(Array) and @randomization.past_distributions[:treatment_arms].is_a?(Array))
+                  %tfoot
+                    - if @randomization.past_distributions[:totals].is_a?(Array)
+                      %tr
+                        %th Total
+                        - @randomization.past_distributions[:totals].each do |total_hash|
+                          %th{ style: 'text-align:right' }= total_hash[:count]
+                    - if @randomization.past_distributions[:weighted_totals].is_a?(Array)
+                      %tr
+                        %th Weighted Total
+                        - @randomization.past_distributions[:weighted_totals].each do |total_hash|
+                          %th{ style: 'text-align:right', class: "#{'success' if total_hash[:treatment_arm_id].in?(@randomization.weighted_eligible_arms.collect{|h| h[:id]})}" }= total_hash[:count]
+            %p
+              %strong Treatment Arms with Lowest Weighted Score and Treatment Arm Allocations
+
+          %p
+            = "Weighted Eligible Arms: [#{@randomization.weighted_eligible_arms.collect{|h| h[:name]}.join(', ')}]"
+
+          %p
+            %strong Treatment Arm Chosen from Eligible Treatment Arms
+          - if @randomization.treatment_arm
+            %p
+              %mark= @randomization.treatment_arm.name
+              selected.
