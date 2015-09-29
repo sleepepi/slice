@@ -1,0 +1,1 @@
+$("#adverse_event_comment_<%= @adverse_event_comment.new_record? ? 'new' : @adverse_event_comment.id %>").html("<%=j render 'adverse_event_comments/form' %>");

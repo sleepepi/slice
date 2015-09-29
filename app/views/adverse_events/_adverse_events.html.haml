@@ -23,9 +23,9 @@
             Non-serious
         %td
           - if adverse_event.closed?
-            Closed
+            %span.label.label-danger Closed
           - else
-            Open
+            %span.label.label-success Open
         %td= adverse_event.user.name
         %td
           - if adverse_event.editable_by?(current_user)

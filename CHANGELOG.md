@@ -10,6 +10,7 @@
   - Improved the method in which variables and sections are linked to designs
 - **Adverse Events Added**
   - Added a project-level adverse events reporting module
+  - Project editors can add comments and open and close AEs
 - **Gem Changes**
   - Updated to pg 0.18.3
   - Removed minitest-reporters

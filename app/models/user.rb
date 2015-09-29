@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :adverse_events, -> { where deleted: false }
+  has_many :adverse_event_comments, -> { where deleted: false }
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
   has_many :events, -> { where deleted: false }
@@ -149,6 +150,15 @@ class User < ActiveRecord::Base
   # Project Editors and Viewers and Site Members can view adverse event
   def all_viewable_adverse_events
     AdverseEvent.current.with_site(all_viewable_sites.select(:id))
+  end
+
+  def all_viewable_adverse_event_comments
+    AdverseEventComment.current.where(adverse_event_id: all_viewable_adverse_events.select(:id))
+  end
+
+  # Comment creator can edit, or project editors and owners
+  def all_adverse_event_comments
+    AdverseEventComment.current.where('user_id = ? or project_id in (?)', id, all_projects.select(:id))
   end
 
   # Project Editors

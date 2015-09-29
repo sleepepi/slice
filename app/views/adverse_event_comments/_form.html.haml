@@ -1,0 +1,27 @@
+.aecomment-outer
+  .aecomment-left-fixed
+    = image_tag current_user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+
+  .aecomment-right-fluid
+    = form_for [@project, @adverse_event, @adverse_event_comment], remote: true, html: { class: 'form-vertical' } do |f|
+      - if @adverse_event_comment.errors.any?
+        .alert.alert-danger.alert-dismissible{ role: 'alert' }
+          %button.close{ type: 'button', data: { dismiss: 'alert' }, aria: { label: 'Close' } }
+            %span{ aria: { hidden: 'true' } } &times;
+          %strong Error
+          Please make sure your comment is not blank.
+
+      .form-group
+        = f.text_area :description, rows: 7, class: 'form-control', placeholder: 'Type comment here', data: { object: @adverse_event_comment.new_record? ? 'ae-comment-comment-field' : nil }
+
+      - if @adverse_event_comment.new_record?
+        = f.hidden_field :comment_type, value: @adverse_event_comment.comment_type.blank? ? 'commented' : @adverse_event_comment.comment_type
+
+      = f.submit 'Comment', class: 'btn btn-primary', data: { disable_with: 'Comment' }
+      - if @adverse_event_comment.new_record?
+        - if @adverse_event.closed?
+          = link_to 'Reopen AE Report', '#', data: { object: 'submit-ae-comment', target: '#new_adverse_event_comment', comment_type: 'reopened' }, id: 'reopen-ae-button', class: 'btn btn-default'
+        - else
+          = link_to 'Close AE Report', '#', data: { object: 'submit-ae-comment', target: '#new_adverse_event_comment', comment_type: 'closed' }, id: 'close-ae-button', class: 'btn btn-default'
+      - else
+        = link_to 'Cancel', project_adverse_event_adverse_event_comment_path(@project, @adverse_event, @adverse_event_comment), remote: true, class: 'btn btn-default'

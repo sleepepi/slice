@@ -10,6 +10,7 @@ class AdverseEvent < ActiveRecord::Base
   belongs_to :project
   belongs_to :subject
   belongs_to :user
+  has_many :adverse_event_comments, -> { order :created_at }
 
   # Model Methods
 

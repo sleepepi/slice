@@ -1,0 +1,2 @@
+module AdverseEventCommentsHelper
+end

@@ -35,9 +35,12 @@
       %dt Status
       %dd
         - if @adverse_event.closed?
-          Closed
+          %span.label.label-danger Closed
         - else
-          Open
+          %span.label.label-success Open
 
       %dt Reported By
       %dd= link_to @adverse_event.user.name, @adverse_event.user
+
+    #adverse_event_comments
+      = render 'adverse_event_comments/adverse_event_comments', adverse_event_comments: @adverse_event.adverse_event_comments

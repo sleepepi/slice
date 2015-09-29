@@ -1,0 +1,63 @@
+- if adverse_event_comment.deleted?
+  .aecomment-outer
+    .aecomment-left-fixed
+    .aecomment-right-fluid
+      .aecomment-action
+        .pull-right
+          %span.label.label-default deleted
+        &nbsp;
+- else
+  - if adverse_event_comment.opened?
+    .aecomment-outer
+      .aecomment-left-fixed
+      .aecomment-right-fluid
+        .aecomment-action
+          %strong= adverse_event_comment.user.name
+          %span.label.label-success opened
+          adverse event report.
+  - if adverse_event_comment.description.present?
+    %a.anchor-top{ name: "comment-#{adverse_event_comment.number}" }
+    .aecomment-outer
+      .aecomment-left-fixed
+        - if adverse_event_comment.user
+          = image_tag adverse_event_comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+      .aecomment-right-fluid
+        - if adverse_event_comment.opened?
+          .aecomment-action
+
+        - unless adverse_event_comment.description.blank?
+          .aecomment-comment
+            .aecomment-comment-header
+              %strong= adverse_event_comment.user.name
+              commented
+              %abbr{ rel: 'tooltip', data: { title: adverse_event_comment.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
+                = time_ago_in_words(adverse_event_comment.created_at)
+                ago
+              =# adverse_event_comment.created_at.strftime('%A, %B %-d, %Y')
+              - if adverse_event_comment.editable_by? current_user
+                .pull-right
+                  = succeed ' ' do
+                    = link_to edit_project_adverse_event_adverse_event_comment_path(@project, @adverse_event, adverse_event_comment), remote: true, class: 'btn btn-xs btn-default' do
+                      %span.glyphicon.glyphicon-pencil
+                  = succeed ' ' do
+                    = link_to [@project, @adverse_event, adverse_event_comment], method: :delete, remote: true, data: { confirm: 'Are you sure you want to delete this comment?' }, class: 'btn btn-xs btn-danger-inverse' do
+                      %span.glyphicon.glyphicon-trash
+                  = link_to "##{adverse_event_comment.number}", "#comment-#{adverse_event_comment.number}", class: 'btn btn-link btn-xs'
+            .aecomment-comment-body
+              = simple_markdown adverse_event_comment.description, 'table table-bordered table-striped'
+  - if adverse_event_comment.reopened?
+    .aecomment-outer
+      .aecomment-left-fixed
+      .aecomment-right-fluid
+        .aecomment-action
+          %strong= adverse_event_comment.user.name
+          %span.label.label-success reopened
+          adverse event report.
+  - if adverse_event_comment.closed?
+    .aecomment-outer
+      .aecomment-left-fixed
+      .aecomment-right-fluid
+        .aecomment-action
+          %strong= adverse_event_comment.user.name
+          %span.label.label-danger closed
+          adverse event report.

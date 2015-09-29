@@ -37,7 +37,9 @@ Rails.application.routes.draw do
       post :archive
     end
 
-    resources :adverse_events, path: 'adverse-events'
+    resources :adverse_events, path: 'adverse-events' do
+      resources :adverse_event_comments
+    end
 
     resources :contacts
     resources :documents do

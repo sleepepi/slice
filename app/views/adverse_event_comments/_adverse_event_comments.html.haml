@@ -1,0 +1,7 @@
+- adverse_event_comments.each do |adverse_event_comment|
+  %div{ id: "adverse_event_comment_#{adverse_event_comment.id}" }
+    = render 'adverse_event_comments/show', adverse_event_comment: adverse_event_comment
+
+#adverse_event_comment_new
+  - @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new
+  = render 'adverse_event_comments/form'
