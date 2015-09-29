@@ -15,12 +15,7 @@
 
 .tabbed-navigation-menu {
   margin-top: -13px;
-}
-
-@media screen and (min-width: $screen-sm-min) {
-  .tabbed-navigation-menu {
-    // margin-bottom: 20px;
-  }
+  margin-bottom: 20px;
 }
 
 .menu-tab-first, .menu-tab {
