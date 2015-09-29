@@ -5,8 +5,8 @@
 - links << [@title, new_project_adverse_event_path(@project)]
 = render 'projects/tabbed_menu', links: links
 
-.row
-  .col-sm-2
-    = render 'projects/beta/menu'
-  .col-sm-10
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
     = render 'form'

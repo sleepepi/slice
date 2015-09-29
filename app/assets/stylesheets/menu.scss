@@ -1,19 +1,17 @@
-.navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-brand.active {
-  color: $state-success-text !important;
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-brand.active {
   background-color: $state-success-bg !important;
+  color: $state-success-text !important;
 }
 
-a.logout-button {
+.logout-button {
   color: lighten($brand-danger, 15%) !important;
 }
 
-a.logout-button:hover {
+.logout-button:hover {
   color: $brand-danger !important;
 }
-
-// .navbar-form.navbar-right:last-child {
-//   margin-right: 0px;
-// }
 
 .tabbed-navigation-menu {
   margin-top: -13px;
@@ -21,7 +19,7 @@ a.logout-button:hover {
 
 @media screen and (min-width: $screen-sm-min) {
   .tabbed-navigation-menu {
-    margin-bottom: -20px;
+    // margin-bottom: 20px;
   }
 }
 
@@ -37,7 +35,7 @@ $tab-default-bg: $navbar-default-bg;
 $current-tab-link-bg: $btn-success-bg;
 $current-tab-color: $btn-success-color;
 
-a.menu-tab-link {
+.menu-tab-link {
   margin-top: -20px;
   font-size: 18px;
   padding-bottom: 5px;
@@ -45,15 +43,14 @@ a.menu-tab-link {
   padding-left: 15px;
   padding-right: 15px;
   color: $text-color;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   margin-left: -15px;
   margin-right: -15px;
   display: inline-block;
   position: relative;
   background-color: $tab-default-bg;
-  text-decoration: none;
-  -webkit-transition: all .2s ease; /* Fade to color for Chrome and Safari */
-  -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+  transition: all .2s ease;
+  backface-visibility: hidden; // Fix for transition flickering
 }
 
 .menu-tab .menu-tab-link::before {
@@ -66,12 +63,12 @@ a.menu-tab-link {
   border-style: solid;
   border-width: 32px 32px 0px 0px;
   border-color: transparent $tab-default-bg transparent transparent;
-  -webkit-transition: all .2s ease; /* Fade to color for Chrome and Safari */
-  -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+  transition: all .2s ease;
+  backface-visibility: hidden; // Fix for transition flickering
 }
 
 .menu-tab-first .menu-tab-link::before {
-  content: "";
+  content: '';
   position: absolute;
   left: -32px;
   top: 0px;
@@ -80,12 +77,12 @@ a.menu-tab-link {
   border-style: solid;
   border-width: 0px 32px 32px 0px;
   border-color: transparent $tab-default-bg transparent transparent;
-  -webkit-transition: all .2s ease; /* Fade to color for Chrome and Safari */
-  -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+  transition: all .2s ease;
+  backface-visibility: hidden; // Fix for transition flickering
 }
 
 .menu-tab-link::after {
-  content: "";
+  content: '';
   position: absolute;
   right: -32px;
   top: 0px;
@@ -94,11 +91,11 @@ a.menu-tab-link {
   border-style: solid;
   border-width: 32px 32px 0 0;
   border-color: $tab-default-bg transparent transparent transparent;
-  -webkit-transition: all .2s ease; /* Fade to color for Chrome and Safari */
-  -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+  transition: all .2s ease;
+  backface-visibility: hidden; // Fix for transition flickering
 }
 
-a.menu-tab-link.current {
+.menu-tab-link.current {
   background-color: $current-tab-link-bg;
   color: $current-tab-color;
 }
@@ -111,16 +108,68 @@ a.menu-tab-link.current {
   border-color: $current-tab-link-bg transparent transparent transparent;
 }
 
-a.menu-tab-link:hover {
+.menu-tab-link:hover {
   color: $btn-success-color;
   background-color: $btn-success-bg;
+  text-decoration: none;
 }
 
-a.menu-tab-link:hover::before {
-  border-color: transparent $btn-success-bg transparent transparent
+.menu-tab-link:hover::before {
+  border-color: transparent $btn-success-bg transparent transparent;
 }
 
-a.menu-tab-link:hover::after {
-  border-color: $btn-success-bg transparent transparent transparent
+.menu-tab-link:hover::after {
+  border-color: $btn-success-bg transparent transparent transparent;
 }
 
+.mini-menu-outer {
+  position: relative;
+}
+
+.mini-menu-left-fixed {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: -15px;
+  width: 50px;
+}
+
+.mini-menu-right-fluid {
+  position: relative;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .mini-menu-left-fixed {
+    display: block;
+  }
+  .mini-menu-right-fluid {
+    margin-left: 50px;
+  }
+}
+
+.mini-left-navigation {
+  list-style: none;
+  padding-left: 0px;
+  margin-left: 0px;
+  li {
+    font-size: 14px;
+    border-bottom: 1px solid $tab-default-bg;
+
+    a {
+      text-decoration: none;
+      text-align: center;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      display: block;
+      background-color: $btn-success-color;
+      color: $text-color;
+      border-left: 2px solid transparent;
+    }
+
+    a:hover,
+    a.active {
+      text-decoration: none;
+      border-left: 2px solid $btn-success-bg;
+    }
+  }
+}
