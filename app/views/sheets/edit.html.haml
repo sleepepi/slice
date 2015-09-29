@@ -1,7 +1,12 @@
 - @title = "Edit Sheet: #{@sheet.name}"
 
 - if @subject = @sheet.subject
-  = render 'subjects/header'
+  - links = []
+  - links << [@subject.subject_code, [@project, @subject]]
+  - links << [@sheet.name, [@project, @sheet]]
+  - links << ['Edit', edit_project_sheet_path(@project, @sheet)]
+  = render 'projects/tabbed_menu', links: links
+
 
   = render 'sheets/form_header'
   .markdown-container

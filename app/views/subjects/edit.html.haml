@@ -1,3 +1,13 @@
 - @title = "Edit Subject: #{@subject.name}"
 
-= render 'form'
+- links = []
+- links << ['Subjects', project_subjects_path(@project)]
+- links << [@subject.name, [@project, @subject]]
+- links << ['Edit', edit_project_subject_path(@project, @subject)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

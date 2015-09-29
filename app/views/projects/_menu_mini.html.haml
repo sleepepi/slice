@@ -3,10 +3,10 @@
     = link_to @project, class: (current_page?(@project) ? 'active' : nil), rel: 'tooltip', data: { title: 'Overview', container: 'body', placement: 'right' } do
       %span.glyphicon.glyphicon-home
   %li
-    = link_to project_subjects_path(@project), class: (current_page?(project_subjects_path(@project)) ? 'active' : nil), rel: 'tooltip', data: { title: 'Subjects', container: 'body', placement: 'right' } do
+    = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' || params[:action] == 'subject_report' ? 'active' : nil), rel: 'tooltip', data: { title: 'Subjects', container: 'body', placement: 'right' } do
       %span.glyphicon.glyphicon-bed
   %li
-    = link_to root_path, class: (current_page?(root_path) ? 'active' : nil), rel: 'tooltip', data: { title: 'Sheets', container: 'body', placement: 'right' } do
+    = link_to project_sheets_path(@project), class: (params[:controller] == 'sheets' ? 'active' : nil), rel: 'tooltip', data: { title: 'Sheets', container: 'body', placement: 'right' } do
       %span.glyphicon.glyphicon-duplicate
   - if @project.randomizations_enabled? and @project.randomization_schemes.count > 0
     %li

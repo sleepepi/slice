@@ -1,16 +1,20 @@
 - @title = 'Subject Report'
-.page-header
-  %h1
-    = link_to @project.name, @project
-    &middot;
-    = link_to 'Subjects', project_subjects_path(@project)
-    &middot;
-    = @title
 
-= form_tag subject_report_project_path(@project), method: :get, class: "form-inline", id: 'report_form' do
-  .row
-    .col-md-4
-      Subjects
-      = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#report_form'
+- links = []
+- links << ['Subjects', project_subjects_path(@project)]
+- links << ['Subject Report', subject_report_project_path(@project)]
+= render 'projects/tabbed_menu', links: links
 
-= render 'projects/subject_report'
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2= @title
+
+    = form_tag subject_report_project_path(@project), method: :get, class: 'form-inline', id: 'report_form' do
+      .row
+        .col-md-4
+          Subjects
+          = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#report_form'
+
+    = render 'projects/subject_report'

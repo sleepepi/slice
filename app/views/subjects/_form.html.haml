@@ -1,8 +1,4 @@
-.page-header
-  %h1
-    = link_to @project.name, @project
-    &middot;
-    = @title
+%h2= @title
 
 = form_for [@subject.project, @subject], html: { class: 'form-horizontal' } do |f|
   - if @subject.errors.any?

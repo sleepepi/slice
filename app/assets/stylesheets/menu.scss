@@ -35,7 +35,8 @@ $tab-default-bg: $navbar-default-bg;
 $current-tab-link-bg: $btn-success-bg;
 $current-tab-color: $btn-success-color;
 
-.menu-tab-link {
+.menu-tab-link,
+.menu-tab-link:focus {
   margin-top: -20px;
   font-size: 18px;
   padding-bottom: 5px;
@@ -51,6 +52,7 @@ $current-tab-color: $btn-success-color;
   background-color: $tab-default-bg;
   transition: all .2s ease;
   backface-visibility: hidden; // Fix for transition flickering
+  text-decoration: none;
 }
 
 .menu-tab .menu-tab-link::before {
