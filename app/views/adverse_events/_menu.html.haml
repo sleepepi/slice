@@ -1,0 +1,18 @@
+%ul.nav.nav-tabs{ style: 'margin-bottom: 20px' }
+  %li{ class: (current_page?([@project, @adverse_event]) ? 'active' : nil), role: 'presentation' }
+    = link_to [@project, @adverse_event] do
+      Discussion
+  %li{ class: (current_page?(forms_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
+    = link_to forms_project_adverse_event_path(@project, @adverse_event) do
+      Forms
+      %span.label.label-default= @adverse_event.sheets.count if @adverse_event.sheets.present?
+  %li{ class: (current_page?(files_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
+    = link_to files_project_adverse_event_path(@project, @adverse_event) do
+      Files
+      %span.label.label-default= @adverse_event.files.count if @adverse_event.files.present?
+  %li.disabled{ role: 'presentation' }
+    = link_to '#', data: { object: 'suppress-click' } do
+      - if @adverse_event.closed?
+        %span.label.label-danger Closed
+      - else
+        %span.label.label-success Open

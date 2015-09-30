@@ -1,7 +1,13 @@
 - @title = @sheet.name
 
 - @subject = @sheet.subject
-= render 'subjects/header'
+
+- links = []
+- links << [@subject.subject_code, [@project, @subject]]
+- links << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
+- links << [@sheet.name, [@project, @sheet]]
+= render 'projects/tabbed_menu', links: links
+
 = render 'sheets/header_info_limited'
 
 .markdown-container

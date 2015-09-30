@@ -1,11 +1,11 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,                  only: [:index, :show, :timeline, :comments, :settings, :files, :events, :sheets, :event, :report]
+  before_action :set_viewable_project,                  only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event, :report]
   before_action :set_editable_project_or_editable_site, only: [:new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :redirect_without_project,              only: [:index, :show, :timeline, :comments, :settings, :files, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :set_viewable_subject,                  only: [:show, :timeline, :comments, :settings, :files, :sheets, :event]
+  before_action :redirect_without_project,              only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :sheets, :event, :report, :new, :edit, :create, :update, :destroy, :search, :choose_site, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :set_viewable_subject,                  only: [:show, :timeline, :comments, :settings, :files, :adverse_events, :sheets, :event]
   before_action :set_editable_subject,                  only: [:edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :redirect_without_subject,              only: [:show, :timeline, :comments, :settings, :files, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :redirect_without_subject,              only: [:show, :timeline, :comments, :settings, :files, :adverse_events, :sheets, :event, :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :new_data_entry, :choose_event, :events, :launch_subject_event, :edit_event, :update_event, :destroy_event]
   before_action :set_design,                            only: [:new_data_entry]
   before_action :redirect_without_design,               only: [:new_data_entry]
 
@@ -15,7 +15,7 @@ class SubjectsController < ApplicationController
   def new_data_entry
     # subject_event_id = params[:sheet][:subject_event_id] if params[:sheet] && params[:sheet].key?(:subject_event_id)
     # @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: subject_event_id)
-    @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id)
+    @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, adverse_event_id: params[:adverse_event_id])
     render 'sheets/new'
   end
 

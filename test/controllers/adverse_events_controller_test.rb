@@ -31,6 +31,16 @@ class AdverseEventsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get adverse event files' do
+    get :files, project_id: @project, id: @adverse_event
+    assert_response :success
+  end
+
+  test 'should get adverse event forms' do
+    get :forms, project_id: @project, id: @adverse_event
+    assert_response :success
+  end
+
   test 'should get edit' do
     get :edit, project_id: @project, id: @adverse_event
     assert_response :success

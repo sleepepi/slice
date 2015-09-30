@@ -1,3 +1,4 @@
+# Designs can be created and updated by project editors and owners
 class DesignsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,                  only: [:print, :report_print, :report, :overview, :master_verification]

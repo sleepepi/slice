@@ -1,13 +1,13 @@
 class AdverseEventsController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_viewable_project,                  only: [:index, :show]
+  before_action :set_viewable_project,                  only: [:index, :show, :forms, :files]
   before_action :set_editable_project_or_editable_site, only: [:new, :create, :edit, :update, :destroy]
   before_action :redirect_without_project
 
-  before_action :set_viewable_adverse_event,            only: [:show]
+  before_action :set_viewable_adverse_event,            only: [:show, :forms, :files]
   before_action :set_editable_adverse_event,            only: [:edit, :update, :destroy]
-  before_action :redirect_without_adverse_event,        only: [:show, :edit, :update, :destroy]
+  before_action :redirect_without_adverse_event,        only: [:show, :forms, :files, :edit, :update, :destroy]
 
   # GET /adverse_events
   def index

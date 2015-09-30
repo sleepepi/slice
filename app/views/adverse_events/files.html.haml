@@ -4,6 +4,7 @@
 - links << ['Adverse Events', project_adverse_events_path(@project)]
 - links << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 - links << [@adverse_event.name, [@project, @adverse_event]]
+- links << ['Files', files_project_adverse_event_path(@project, @adverse_event)]
 = render 'projects/tabbed_menu', links: links
 
 .mini-menu-outer
@@ -14,6 +15,9 @@
 
     = render 'adverse_events/menu'
 
-    %div
-      #adverse_event_comments
-        = render 'adverse_event_comments/adverse_event_comments', adverse_event_comments: @adverse_event.adverse_event_comments
+    - files = @adverse_event.files
+
+    - if files.count == 0
+      .center
+        %p.lead No files have been uploaded to this adverse event.
+

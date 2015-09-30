@@ -27,6 +27,7 @@ class Subject < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :site
+  has_many :adverse_events, -> { where deleted: false }
   has_many :randomizations, -> { where deleted: false }
   has_many :sheets, -> { where deleted: false }
   has_many :subject_schedules

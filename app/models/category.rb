@@ -9,9 +9,11 @@ class Category < ActiveRecord::Base
 
   # Model Validation
   validates :name, :user_id, :project_id, presence: true
-  validates :slug, uniqueness: { scope: [:project_id, :deleted] }, allow_blank: true
-  validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ }, allow_blank: true
-  validates :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :slug, uniqueness: { scope: [:project_id, :deleted] },
+                   format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
+                   allow_blank: true
+  validates :position, numericality: { greater_than_or_equal_to: 0,
+                                       only_integer: true }
 
   # Model Relationships
   belongs_to :project

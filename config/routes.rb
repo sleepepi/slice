@@ -38,6 +38,10 @@ Rails.application.routes.draw do
     end
 
     resources :adverse_events, path: 'adverse-events' do
+      member do
+        get :forms
+        get :files
+      end
       resources :adverse_event_comments
     end
 
@@ -201,6 +205,7 @@ Rails.application.routes.draw do
         get :comments
         get :settings
         get :files
+        get :adverse_events, path: 'adverse-events'
         get :sheets
         get :data_entry, path: 'data-entry'
         get 'data-entry/:design_id', action: :new_data_entry, as: :new_data_entry

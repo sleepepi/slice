@@ -19,6 +19,7 @@
   -# TODO REMOVE SUBJECT_ID IF NOT USED
   = hidden_field_tag :subject_id, @sheet.subject_id
 
+  = f.hidden_field :adverse_event_id
 
   - if @sheet.new_record? and @sheet.not_double_data_entry?
     - if @sheet.subject_event

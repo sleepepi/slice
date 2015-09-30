@@ -1,0 +1,4 @@
+%h2.underline-header
+  = @title
+  = link_to 'Edit Adverse Event', edit_project_adverse_event_path(@project, @adverse_event), class: 'btn btn-default btn-xs'
+  = link_to 'Delete Adverse Event', [@project, @adverse_event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Adverse Event #{@adverse_event.name}?" }

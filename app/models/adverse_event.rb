@@ -1,3 +1,5 @@
+# Adverse events track the initial report and discussion of an adverse event,
+# along with associated designs and files uploaded to the adverse event report.
 class AdverseEvent < ActiveRecord::Base
   # Concerns
   include DateAndTimeParser, Deletable, Searchable, Siteable
@@ -11,11 +13,16 @@ class AdverseEvent < ActiveRecord::Base
   belongs_to :subject
   belongs_to :user
   has_many :adverse_event_comments, -> { order :created_at }
+  has_many :sheets, -> { where deleted: false }
 
   # Model Methods
 
   def name
     "AE##{id}"
+  end
+
+  def files
+    []
   end
 
   def editable_by?(current_user)

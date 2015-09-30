@@ -38,8 +38,8 @@ class Sheet < ActiveRecord::Base
   scope :with_subject_status, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first).references(:subjects) }
 
   # Model Validation
-  validates_presence_of :design_id, :project_id, :subject_id
-  validates_uniqueness_of :authentication_token, allow_nil: true
+  validates :design_id, :project_id, :subject_id, presence: true
+  validates :authentication_token, uniqueness: true, allow_nil: true
 
   # Model Relationships
   belongs_to :user
@@ -51,6 +51,7 @@ class Sheet < ActiveRecord::Base
   belongs_to :event
   belongs_to :subject_schedule
   belongs_to :subject_event
+  belongs_to :adverse_event, -> { where deleted: false }
   has_many :sheet_variables
   has_many :responses
   has_many :variables, -> { where deleted: false }, through: :sheet_variables
