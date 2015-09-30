@@ -14,14 +14,18 @@ class AdverseEventFile < ActiveRecord::Base
   # Model Methods
 
   def name
-    attachment.path.split('/').last
+    attachment_identifier
   end
 
   def pdf?
-    name.last(4).to_s.downcase == '.pdf'
+    extension == 'pdf'
   end
 
   def image?
-    %w(.png .jpg .gif).include?(name.last(4).to_s.downcase)
+    %w(png jpg jpeg gif).include?(extension)
+  end
+
+  def extension
+    attachment.file.extension.to_s.downcase
   end
 end

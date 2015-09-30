@@ -73,6 +73,10 @@
                 = link_to file.name, [@project, @adverse_event, file]
               - else
                 = link_to file.name, download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), data: { no_turbolink: true }
+            - if file.image? and false
+              .center{ style: 'margin-top:5px' }
+                = link_to [@project, @adverse_event, file] do
+                  = image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), style: 'height: 64px', class: 'img-thumbnail'
 
 #adverse_event_comment_new
   - @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new
