@@ -8,6 +8,9 @@
   - Sheet creation workflow now requires selecting an existing subject and design
 - **Design Changes**
   - Improved the method in which variables and sections are linked to designs
+  - Designs can now be categorized
+    - Categorized designs will be grouped together on the subject data entry page
+    - Categories can be linked to the Adverse Event module
 - **Adverse Events Added**
   - Added a project-level adverse events reporting module
   - Project editors can add comments and open and close AEs

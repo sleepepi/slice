@@ -1,16 +1,15 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_action :set_editable_post, only: [ :show, :edit, :update, :destroy ]
-  before_action :redirect_without_post, only: [ :show, :edit, :update, :destroy ]
-
+  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :set_editable_post, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_without_post, only: [:show, :edit, :update, :destroy]
 
   # GET /posts
   # GET /posts.json
   def index
     @order = scrub_order(Post, params[:order], "posts.name")
-    @posts = @project.posts.search(params[:search]).order(@order).page(params[:page]).per( 20 )
+    @posts = @project.posts.search(params[:search]).order(@order).page(params[:page]).per(20)
   end
 
   # GET /posts/1
@@ -70,22 +69,19 @@ class PostsController < ApplicationController
 
   private
 
-    def set_editable_post
-      @post = @project.posts.find_by_id(params[:id])
-    end
+  def set_editable_post
+    @post = @project.posts.find_by_id(params[:id])
+  end
 
-    def redirect_without_post
-      empty_response_or_root_path(project_posts_path(@project)) unless @post
-    end
+  def redirect_without_post
+    empty_response_or_root_path(project_posts_path(@project)) unless @post
+  end
 
-    def post_params
-      params[:post] ||= {}
+  def post_params
+    params[:post] ||= {}
 
-      params[:post][:user_id] = current_user.id unless @post
+    params[:post][:user_id] = current_user.id unless @post
 
-      params.require(:post).permit(
-        :name, :description, :archived, :user_id
-      )
-    end
-
+    params.require(:post).permit(:name, :description, :archived, :user_id)
+  end
 end

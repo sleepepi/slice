@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
 
   attr_accessor :site_name
 
-  after_save :create_default_site
+  after_save :create_default_site, :create_default_categories
 
   # Named Scopes
   scope :with_user, lambda { |arg| where(user_id: arg) }
@@ -16,29 +16,30 @@ class Project < ActiveRecord::Base
   scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}").references(:project_favorites) }
   scope :archived, -> { where(project_favorites: { archived: true }) }
   scope :unarchived, -> { where(project_favorites: { archived: [nil, false] }) }
-  scope :viewable_by_user, lambda { |arg| where("projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+  scope :viewable_by_user, lambda { |arg| where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ?)
-    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)", arg, arg, arg) }
+    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)', arg, arg, arg) }
 
-  scope :editable_by_user, lambda { |arg| where("projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+  scope :editable_by_user, lambda { |arg| where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ? and project_users.editor = ?)
-    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ? and site_users.editor = ?)", arg, arg, true, arg, true) }
+    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ? and site_users.editor = ?)', arg, arg, true, arg, true) }
 
   # Model Validation
-  validates_presence_of :name, :user_id
-  validates_uniqueness_of :slug, scope: [ :deleted ], allow_blank: true
-  validates_format_of :slug, with: /\A[a-z][a-z0-9\-]*\Z/, allow_blank: true
+  validates :name, :user_id, presence: true
+  validates :slug, uniqueness: { scope: :deleted }, allow_blank: true
+  validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ }, allow_blank: true
 
   # Model Relationships
   belongs_to :user
 
   has_many :project_users
-  has_many :users, -> { where( deleted: false ).order( 'last_name, first_name' ) }, through: :project_users
+  has_many :users, -> { where(deleted: false).order('last_name, first_name') }, through: :project_users
   has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
 
   has_many :project_favorites
 
+  has_many :categories, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
   has_many :variables, -> { where deleted: false }
   has_many :sections
@@ -70,7 +71,7 @@ class Project < ActiveRecord::Base
     if input.class == Project
       input
     else
-      self.where("projects.slug = ? or projects.id = ?", input.to_s, input.to_i).first
+      find_by 'projects.slug = ? or projects.id = ?', input.to_s, input.to_i
     end
   end
 
@@ -233,6 +234,17 @@ class Project < ActiveRecord::Base
       name: site_name.blank? ? 'Default Site' : site_name,
       user_id: user_id,
       prefix: ''
+    )
+  end
+
+  def create_default_categories
+    return if categories.count > 0
+    categories.create(
+      name: 'Adverse Events',
+      slug: 'adverse-events',
+      user_id: user_id,
+      position: 1,
+      use_for_adverse_events: true
     )
   end
 end

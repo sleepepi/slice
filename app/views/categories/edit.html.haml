@@ -1,0 +1,14 @@
+- @title = "Edit Category: #{@category.name}"
+
+- links = []
+- links << ['Categories', project_categories_path(@project)]
+- links << [@category.name, [@project, @category]]
+- links << ['Edit', edit_project_category_path(@project, @category)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.find_by_param(input)
-    self.where('slug = ? or id = ?', input.to_s, input.to_i).first
+    find_by 'events.slug = ? or events.id = ?', input.to_s, input.to_i
   end
 
   private

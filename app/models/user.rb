@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   # Model Relationships
   has_many :adverse_events, -> { where deleted: false }
   has_many :adverse_event_comments, -> { where deleted: false }
+  has_many :categories, -> { where deleted: false }
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
   has_many :events, -> { where deleted: false }

@@ -21,9 +21,9 @@ class Design < ActiveRecord::Base
   scope :order_by_user_name_desc, lambda { joins("LEFT JOIN users ON users.id = designs.user_id").order('users.last_name DESC, users.first_name DESC') }
 
   # Model Validation
-  validates_presence_of :name, :user_id, :project_id
-  validates_uniqueness_of :name, scope: [:deleted, :project_id]
-  validates_uniqueness_of :slug, allow_blank: true, scope: :deleted
+  validates :name, :user_id, :project_id, presence: true
+  validates :name, uniqueness: { scope: [:deleted, :project_id] }
+  validates :slug, uniqueness: { scope: :deleted }, allow_blank: true
 
   # Model Relationships
   belongs_to :user

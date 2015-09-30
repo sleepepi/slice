@@ -1,0 +1,60 @@
+%h2= @title
+= form_for [@project, @category], html: { class: 'form-horizontal' } do |f|
+  - if @category.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize @category.errors.count, 'error'
+        prohibited this category from being saved
+
+      %ul
+        - @category.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control', data: { object: 'create-category-slug', target: '#category_slug' }
+
+  .form-group
+    = f.label :slug, 'URL Slug', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :slug, class: 'form-control'
+      .bs-callout.bs-callout-info
+        %h4 Naming convention
+        %ul
+          %li
+            Must be a lowercase letter
+            %code a-z
+            followed by lowercase letters
+            = succeed ',' do
+              %code a-z
+            numbers
+            = succeed ',' do
+              %code 0-9
+            or dashes
+            = succeed '.' do
+              %code -
+        %p
+          Ex:
+          %code baseline-forms
+
+  .form-group
+    = f.label :description, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :use_for_adverse_events
+          Check this if designs in this category should be used with adverse events.
+
+  .form-group
+    = f.label :position, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :position, class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'

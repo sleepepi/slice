@@ -1,11 +1,11 @@
 class DocumentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :file ]
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy, :file ]
-  before_action :set_viewable_document, only: [ :file ]
-  before_action :set_editable_document, only: [ :show, :edit, :update, :destroy ]
-  before_action :redirect_without_document, only: [ :show, :edit, :update, :destroy, :file ]
+  before_action :set_viewable_project, only: [:file]
+  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :file]
+  before_action :set_viewable_document, only: [:file]
+  before_action :set_editable_document, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_without_document, only: [:show, :edit, :update, :destroy, :file]
 
   def file
     if @document.file.size > 0

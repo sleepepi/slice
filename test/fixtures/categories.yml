@@ -1,0 +1,17 @@
+one:
+  project: one
+  user: valid
+  use_for_adverse_events: true
+  name: Adverse Events
+  slug: adverse-events
+  position: 1
+  description: Designs in this categories are used exclusively for Adverse Events
+
+two:
+  project: one
+  user: valid
+  use_for_adverse_events: false
+  name: General
+  slug: general
+  position: 2
+  description: A generic container for designs

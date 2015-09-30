@@ -1,0 +1,33 @@
+- @title = 'Categories'
+
+= render 'projects/tabbed_menu', links: [['Categories', project_categories_path(@project)]]
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2
+      = @title
+      = link_to 'Create Category', new_project_category_path(@project), class: 'btn btn-xs btn-primary'
+
+    = render 'contour/layouts/per_page', per_page: 40, object_count: @categories.total_count
+
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Position
+          %th Name
+          %th Use for adverse events
+          %th Creator
+          %th{ colspan: 2 } Actions
+
+      %tbody
+        - @categories.each do |category|
+          %tr
+            %td= category.position
+            %td= link_to category.name, [@project, category]
+            %td= simple_check category.use_for_adverse_events
+            %td= category.user.name
+            %td
+              = link_to 'Edit', edit_project_category_path(@project, category), class: 'btn btn-xs btn-default'
+              = link_to 'Destroy', [@project, category], method: :delete, :data => { :confirm => "Are you sure you want to delete category #{category.name}?" }, class: 'btn btn-xs btn-danger-inverse'
