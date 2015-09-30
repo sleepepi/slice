@@ -28,6 +28,7 @@ class Design < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
+  belongs_to :category, -> { where deleted: false }
   has_many :sheets, -> { where deleted: false }
   has_many :sections
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
@@ -35,7 +36,6 @@ class Design < ActiveRecord::Base
 
   has_many :design_options, -> { order :position }
   has_many :variables, through: :design_options
-
 
   # Model Methods
 
@@ -102,14 +102,15 @@ class Design < ActiveRecord::Base
   end
 
   def copyable_attributes
-    self.attributes.reject{|key, val| ['id', 'slug', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+    attributes.reject { |key, _val| %w(id slug user_id deleted created_at updated_at).include?(key.to_s) }
   end
 
   def options_with_grid_sub_variables
     new_options = []
-    self.design_options.includes(:variable, :section).each do |design_option|
+    design_options.includes(:variable, :section).each do |design_option|
       new_options << design_option
-      if variable = design_option.variable and variable.variable_type == 'grid'
+      variable = design_option.variable
+      if variable && variable.variable_type == 'grid'
         variable.grid_variables.each do |grid_variable|
           new_options << DesignOption.new(variable_id: grid_variable[:variable_id])
         end
@@ -119,14 +120,14 @@ class Design < ActiveRecord::Base
   end
 
   def branching_logic(design_option)
-    design_option.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_replacement($1)}.to_json
+    design_option.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/) { |m| variable_replacement($1) }.to_json
   end
 
   def variable_replacement(variable_name)
-    variable = self.variables.find_by_name(variable_name)
-    if variable and ['radio'].include?(variable.variable_type)
+    variable = variables.find_by name: variable_name
+    if variable && ['radio'].include?(variable.variable_type)
       "$(\"[name='variables[#{variable.id}]']:checked\").val()"
-    elsif variable and ['checkbox'].include?(variable.variable_type)
+    elsif variable && ['checkbox'].include?(variable.variable_type)
       "$.map($(\"[name='variables[#{variable.id}][]']:checked\"),function(el){return $(el).val();})"
     elsif variable
       "$(\"#variables_#{variable.id}\").val()"
@@ -136,7 +137,7 @@ class Design < ActiveRecord::Base
   end
 
   def main_sections
-    self.design_options.joins(:section).where(sections: { sub_section: false })
+    design_options.joins(:section).where(sections: { sub_section: false })
   end
 
   # def all_sections
@@ -144,16 +145,16 @@ class Design < ActiveRecord::Base
   # end
 
   def reportable_variables(variable_types, except_variable_ids)
-    design_option_variables = self.design_options.includes(:variable).where.not(variable_id: nil).where.not(variable_id: except_variable_ids).where(variables: { variable_type: variable_types })
-    design_option_variables.collect{|design_option| [self.containing_section(design_option.position), design_option.variable.display_name, design_option.variable_id]}
+    design_option_variables = design_options.includes(:variable).where.not(variable_id: nil).where.not(variable_id: except_variable_ids).where(variables: { variable_type: variable_types })
+    design_option_variables.collect { |design_option| [containing_section(design_option.position), design_option.variable.display_name, design_option.variable_id] }
   end
 
   def grouped_reportable_variables(variable_types, except_variable_ids)
-    reportable_variables(variable_types, except_variable_ids).group_by{|a| a[0]}.collect{|section, values| [section, values.collect{|a| [a[1], a[2]]}]}
+    reportable_variables(variable_types, except_variable_ids).group_by { |a| a[0] }.collect { |section, values| [section, values.collect { |a| [a[1], a[2]] }] }
   end
 
   def containing_section(position)
-    self.design_options.includes(:section).where.not(section_id: nil).where('position < ?', position).pluck("sections.name").last
+    design_options.includes(:section).where.not(section_id: nil).where('position < ?', position).pluck('sections.name').last
   end
 
   def reorder_sections(section_order, current_user)
@@ -163,7 +164,7 @@ class Design < ActiveRecord::Base
     current_section = nil
     range_start = 0
     section_count = 0
-    self.design_options.each_with_index do |design_option, index|
+    design_options.each_with_index do |design_option, index|
       if design_option.variable or (section = design_option.section and section.sub_section?)
         original_sections[current_section] = [range_start, index]
       else

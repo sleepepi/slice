@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
 
   has_many :project_favorites
 
-  has_many :categories, -> { where deleted: false }
+  has_many :categories, -> { where(deleted: false).order(:position) }
   has_many :designs, -> { where deleted: false }
   has_many :variables, -> { where deleted: false }
   has_many :sections

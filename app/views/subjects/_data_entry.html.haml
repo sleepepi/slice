@@ -1,10 +1,21 @@
 %h2
   Data Entry Selection
 
-.row
-  - @project.designs.order(:name).in_groups(3, nil).each do |designs|
-    .col-sm-4
-      - designs.each do |design|
-        - if design
-          %div{ style: 'margin-bottom:10px' }
-            = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design), class: 'btn btn-default btn-block', style: 'white-space: normal'
+- designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
+
+- if designs.count == 0
+  .center
+    %p.lead No designs currently exist on the project.
+- else
+  - designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
+    %h3
+      - if category
+        = category.name
+      - else
+        Uncategorized
+    %div{ style: 'padding:25px 25px 15px;margin-bottom: 20px' }
+      - designs.in_groups_of(3, false).each do |designs|
+        .row
+          - designs.each do |design|
+            .col-sm-4{ style: 'margin-bottom:10px' }
+              = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design), class: 'btn btn-default btn-block', style: 'white-space: normal'

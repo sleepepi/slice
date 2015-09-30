@@ -2,7 +2,7 @@
   %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
   %h4.modal-title Edit Design
 .modal-body
-  = form_tag project_design_path(@project, @design), method: :patch, remote: true, class: 'form-horizontal', id: 'design_form' do
+  = form_for [@project, @design], remote: true, html: { class: 'form-horizontal', id: 'design_form' } do |f|
     - if @design.errors.any?
       .bs-callout.bs-callout-danger
         %h4
@@ -16,34 +16,36 @@
     .form-group
       %label.col-md-2.control-label Name
       .col-md-10
-        = text_field_tag "design[name]", @design.name, autocomplete: 'off', class: 'form-control'
+        = f.text_field :name, autocomplete: 'off', class: 'form-control'
     .form-group
       %label.col-md-2.control-label Description
       .col-md-10
-        = text_area_tag "design[description]", @design.description, rows: 7, class: 'form-control'
+        = f.text_area :description, rows: 7, class: 'form-control'
     .form-group
       .col-md-10.col-md-offset-2
         .row
           .col-xs-6
             .checkbox
               %label
-                = hidden_field_tag "design[publicly_available]", '0'
-                = check_box_tag "design[publicly_available]", '1', @design.publicly_available?
+                = f.check_box :publicly_available
                 Publicly Available
           .col-xs-6
             .checkbox
               %label
-                = hidden_field_tag "design[show_site]", '0'
-                = check_box_tag "design[show_site]", '1', @design.show_site?
+                = f.check_box :show_site
                 Show Site Selection on Survey
     .form-group
       %label.col-md-2.control-label Slug
       .col-md-10
-        = text_field_tag "design[slug]", @design.slug, autocomplete: 'off', class: 'form-control'
+        = f.text_field :slug, autocomplete: 'off', class: 'form-control'
     .form-group
       %label.col-md-2.control-label Redirect URL
       .col-md-10
-        = text_field_tag "design[redirect_url]", @design.redirect_url, autocomplete: 'off', placeholder: "#{ENV['website_url']}/about", class: 'form-control'
+        = f.text_field :redirect_url, autocomplete: 'off', placeholder: "#{ENV['website_url']}/about", class: 'form-control'
+    .form-group
+      %label.col-md-2.control-label Category
+      .col-md-10
+        = f.select :category_id, @project.categories.pluck(:name, :id), { include_blank: true }, class: 'form-control'
 .modal-footer
   = button_tag 'Update', data: { object: 'submit', target: '#design_form' }, class: 'btn btn-primary'
   %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

@@ -46,7 +46,7 @@ class DesignsController < ApplicationController
   end
 
   def create_import
-    @design = current_user.designs.new(design_params)
+    @design = current_user.designs.where(project_id: @project.id).new(design_params)
     if params[:variables].blank?
       @variables = @design.load_variables
       if @design.csv_file.blank?
@@ -175,7 +175,7 @@ class DesignsController < ApplicationController
 
   # GET /designs/new
   def new
-    @design = current_user.designs.new(design_params)
+    @design = @project.designs.new(design_params)
   end
 
   # GET /designs/1/edit
@@ -184,7 +184,7 @@ class DesignsController < ApplicationController
 
   # POST /designs.js
   def create
-    @design = current_user.designs.create(design_params)
+    @design = current_user.designs.where(project_id: @project.id).create(design_params)
 
     if @design.save
       @design.create_variables_from_questions!
@@ -274,7 +274,6 @@ class DesignsController < ApplicationController
     params[:design][:slug] = params[:design][:slug].parameterize unless params[:design][:slug].blank?
 
     params[:design][:updater_id] = current_user.id
-    params[:design][:project_id] = @project.id
 
     if params[:design].key?(:redirect_url)
       begin
@@ -287,7 +286,7 @@ class DesignsController < ApplicationController
 
     params.require(:design).permit(
       :name, :slug, :description, :project_id, :updater_id, :csv_file, :csv_file_cache, :publicly_available, :show_site,
-      { questions: [:question_name, :question_type] }, :redirect_url
+      { questions: [:question_name, :question_type] }, :redirect_url, :category_id
     )
   end
 

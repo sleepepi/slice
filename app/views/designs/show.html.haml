@@ -20,6 +20,9 @@
     = link_to "Master Verification", master_verification_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
 
 %dl.dl-horizontal
+  - if @design.category
+    %dt Category
+    %dd= link_to @design.category.name, [@project, @design.category]
   - if @design.publicly_available?
     %dt Publicly Available
     %dd

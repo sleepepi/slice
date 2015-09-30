@@ -22,27 +22,19 @@
         = succeed 'ode' do
           %u M
   = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
-
-%hr.soften{ style: "margin-top:20px;" }
+  = link_to edit_project_design_path(@project, @design), method: :get, remote: true, class: 'btn btn-xs btn-default design-preview-hide' do
+    %span.glyphicon.glyphicon-cog
+    Edit Design Settings
 
 = hidden_field_tag :project_id, @project.id
 = hidden_field_tag :design_id, @design.id
 
-
 .row
   .col-sm-6{ data: { object: "design-preview-expand" } }
-    #design_name-container.page-header{ style: "margin-top:0px;padding-top:0px" }
+    #design_name-container.page-header
       = render 'designs/design_name'
   .col-sm-6.design-preview-hide
-    %h4{ style: "margin-top:0px" } Design
-    .design-edit-box
-      %table.table{ style: "margin-bottom:0px;table-layout:fixed" }
-        %col{ width: "30%" }
-        %tr
-          %td{ style: "border-top-width:0px" }
-            %strong Actions
-          %td{ style: "border-top-width:0px" }
-            = link_to 'Edit Name and Description', edit_project_design_path(@project, @design), method: :get, remote: true, class: 'btn btn-xs btn-default design-preview-hide'
+
 
 #design-options
   = render 'design_options/index'
