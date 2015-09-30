@@ -487,6 +487,12 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should show design as json' do
+    get :show, id: @design, project_id: @project, format: 'json'
+    assert_not_nil assigns(:design)
+    assert_response :success
+  end
+
   test 'should show design for project with no sites' do
     get :show, id: designs(:no_sites), project_id: projects(:no_sites)
     assert_not_nil assigns(:design)
