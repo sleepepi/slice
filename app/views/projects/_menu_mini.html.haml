@@ -14,7 +14,7 @@
         %span.glyphicon.glyphicon-random
   - if @project.adverse_events_enabled?
     %li
-      = link_to project_adverse_events_path(@project), class: (params[:controller] == 'adverse_events' ? 'active' : nil), rel: 'tooltip', data: { title: 'Adverse Events', container: 'body', placement: 'right' } do
+      = link_to project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? 'active' : nil), rel: 'tooltip', data: { title: 'Adverse Events', container: 'body', placement: 'right' } do
         %span.glyphicon.glyphicon-warning-sign
   %li
     - if current_page?(project_sheets_path(@project))

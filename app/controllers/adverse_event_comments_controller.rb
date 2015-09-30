@@ -1,3 +1,4 @@
+# Project editors and owners can discuss an adverse event
 class AdverseEventCommentsController < ApplicationController
   before_action :authenticate_user!
 

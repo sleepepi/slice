@@ -1,0 +1,17 @@
+#filedrag {
+  display: none;
+  // font-weight: bold;
+  text-align: center;
+  padding: 60px 0;
+  margin: 1em 0;
+  background-color: $navbar-default-bg;
+  border: 1px dashed $navbar-default-border;
+  border-radius: 4px;
+  cursor: default;
+  height: 200px;
+}
+
+#filedrag:hover {
+  border-color: $navbar-default-border;
+  border: 1px dashed $navbar-default-border;
+}

@@ -1,0 +1,21 @@
+.ae-file {
+  height: 115px;
+  width: 115px;
+  background-color: $navbar-default-bg;
+  border: 1px solid $navbar-default-border;
+  overflow: hidden;
+  padding: 20px;
+  display: block;
+  position: relative;
+}
+
+.ae-file:hover {
+  background-color: $navbar-default-toggle-hover-bg;
+  border-color: $navbar-default-toggle-border-color;
+}
+
+.ae-file-destroy {
+  position: absolute;
+  left: 103px;
+  top: 1px;
+}

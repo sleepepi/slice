@@ -1,0 +1,18 @@
+- @adverse_event.adverse_event_files.in_groups_of(6, false).each do |files|
+  .row
+    - files.each do |file|
+      .col-xs-4.col-sm-2{ style: 'margin-bottom:10px' }
+        - if file.image?
+          - url = [@project, @adverse_event, file]
+        - else
+          - url = download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file)
+        = link_to url, class: 'ae-file', data: { no_turbolink: true } do
+          - if file.image?
+            %span.glyphicon.glyphicon-picture
+          - else
+            %span.glyphicon.glyphicon-paperclip
+          .nowrap= file.name
+          .nowrap= number_to_human_size file.attachment.size
+        .ae-file-destroy
+          = link_to [@project, @adverse_event, file], method: :delete, data: { confirm: "Are you sure you want to delete #{file.name}?" }, class: 'btn btn-danger-inverse btn-xs' do
+            %span.glyphicon.glyphicon-trash

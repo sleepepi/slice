@@ -3,8 +3,8 @@ require 'test_helper'
 class AdverseEventsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
-    @adverse_event = adverse_events(:one)
     @project = projects(:one)
+    @adverse_event = adverse_events(:one)
   end
 
   test 'should get index' do
@@ -28,11 +28,6 @@ class AdverseEventsControllerTest < ActionController::TestCase
 
   test 'should show adverse event' do
     get :show, project_id: @project, id: @adverse_event
-    assert_response :success
-  end
-
-  test 'should get adverse event files' do
-    get :files, project_id: @project, id: @adverse_event
     assert_response :success
   end
 

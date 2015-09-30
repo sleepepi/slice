@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get 'check-date', to: 'application#check_date'
 
-  resources :projects, constraints: { format: /json|pdf|csv/ } do
+  resources :projects, constraints: { format: /json|pdf|csv|js/ } do
     collection do
       get :splash
       get :search
@@ -40,9 +40,16 @@ Rails.application.routes.draw do
     resources :adverse_events, path: 'adverse-events' do
       member do
         get :forms
-        get :files
       end
       resources :adverse_event_comments
+      resources :adverse_event_files, path: 'files' do
+        collection do
+          post :upload, action: :create_multiple
+        end
+        member do
+          get :download
+        end
+      end
     end
 
     resources :categories

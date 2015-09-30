@@ -13,16 +13,13 @@ class AdverseEvent < ActiveRecord::Base
   belongs_to :subject
   belongs_to :user
   has_many :adverse_event_comments, -> { order :created_at }
+  has_many :adverse_event_files
   has_many :sheets, -> { where deleted: false }
 
   # Model Methods
 
   def name
     "AE##{id}"
-  end
-
-  def files
-    []
   end
 
   def editable_by?(current_user)

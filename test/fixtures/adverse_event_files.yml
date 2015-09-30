@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  adverse_event: one
+  user_id: valid
+  attachment: rails.png
+
+two:
+  project: one
+  adverse_event: one
+  user: valid
+  attachment: rails.png

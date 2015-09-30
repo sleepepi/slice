@@ -1,0 +1,29 @@
+- @title = @adverse_event.name
+
+- links = []
+- links << ['Adverse Events', project_adverse_events_path(@project)]
+- links << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
+- links << [@adverse_event.name, [@project, @adverse_event]]
+- links << ['Files', project_adverse_event_adverse_event_files_path(@project, @adverse_event)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'adverse_events/header'
+
+    = render 'adverse_events/menu'
+
+    - files = @adverse_event.adverse_event_files
+
+    - if files.count == 0
+      .center
+        %p.lead No files have been uploaded to this adverse event.
+
+    #attachments
+      = render 'adverse_event_files/attachments'
+
+    = link_to 'Upload New File', new_project_adverse_event_adverse_event_file_path(@project, @adverse_event), class: 'btn btn-default'
+    #filedrag.text-muted{ data: { object: 'dropfile', project: @project.to_param, adverse_event: @adverse_event.to_param } }
+      Drag files here to attach to adverse event.

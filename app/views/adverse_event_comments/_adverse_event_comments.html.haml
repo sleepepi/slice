@@ -35,13 +35,13 @@
       .aecomment-comment-body
         = simple_markdown @adverse_event.description, 'table table-bordered table-striped'
 
-- all_events = (@adverse_event.sheets + adverse_event_comments).sort_by(&:created_at)
+- all_events = (@adverse_event.sheets + @adverse_event.adverse_event_files + adverse_event_comments).sort_by(&:created_at)
 
 - all_events.each do |event|
-  - if event.is_a?(AdverseEventComment)
+  - if event.is_a? AdverseEventComment
     %div{ id: "adverse_event_comment_#{event.id}" }
       = render 'adverse_event_comments/show', adverse_event_comment: event
-  - elsif event.is_a?(Sheet)
+  - elsif event.is_a? Sheet
     - sheet = event
     %div
       .aecomment-outer
@@ -54,19 +54,25 @@
             added
             = succeed '.' do
               = link_to sheet.name, [@project, sheet]
-  - elsif false
+  - elsif event.is_a? AdverseEventFile
     - file = event
     %div
       .aecomment-outer
         .aecomment-left-fixed
         .aecomment-right-fluid
           .aecomment-icon
-            %span.glyphicon.glyphicon-paperclip
+            - if file.image?
+              %span.glyphicon.glyphicon-picture
+            - else
+              %span.glyphicon.glyphicon-paperclip
           .aecomment-action
             %strong= file.user.name if file.user
             attached
             = succeed '.' do
-              = link_to file.name, '#'
+              - if file.image?
+                = link_to file.name, [@project, @adverse_event, file]
+              - else
+                = link_to file.name, download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), data: { no_turbolink: true }
 
 #adverse_event_comment_new
   - @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new

@@ -14,6 +14,8 @@
 - **Adverse Events Added**
   - Added a project-level adverse events reporting module
   - Project editors can add comments and open and close AEs
+  - Files can be attached to an adverse event
+  - Sheets can be filled out and added to an adverse event
 - **Gem Changes**
   - Updated to pg 0.18.3
   - Removed minitest-reporters

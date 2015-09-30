@@ -7,7 +7,7 @@
       - if @project.randomizations_enabled? and @project.randomization_schemes.count > 0
         %li= link_to 'Randomizations', project_randomizations_path(@project), class: "#{'active' if current_page?(project_randomizations_path(@project))}"
       - if @project.adverse_events_enabled?
-        %li= link_to 'Adverse Events', project_adverse_events_path(@project), class: "#{'active' if params[:controller] == 'adverse_events'}"
+        %li= link_to 'Adverse Events', project_adverse_events_path(@project), class: "#{'active' if %w(adverse_events adverse_event_files).include?(params[:controller])}"
       - if current_page?(project_sheets_path(@project))
         %li= link_to 'Export Data', '#', data: { object: 'show-contour-modal' }
       - else

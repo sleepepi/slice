@@ -6,10 +6,10 @@
     = link_to forms_project_adverse_event_path(@project, @adverse_event) do
       Forms
       %span.label.label-default= @adverse_event.sheets.count if @adverse_event.sheets.present?
-  %li{ class: (current_page?(files_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
-    = link_to files_project_adverse_event_path(@project, @adverse_event) do
+  %li{ class: (params[:controller] == 'adverse_event_files' ? 'active' : nil), role: 'presentation' }
+    = link_to project_adverse_event_adverse_event_files_path(@project, @adverse_event) do
       Files
-      %span.label.label-default= @adverse_event.files.count if @adverse_event.files.present?
+      %span.label.label-default= @adverse_event.adverse_event_files.count if @adverse_event.adverse_event_files.present?
   %li.disabled{ role: 'presentation' }
     = link_to '#', data: { object: 'suppress-click' } do
       - if @adverse_event.closed?

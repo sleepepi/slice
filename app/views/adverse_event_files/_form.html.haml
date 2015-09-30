@@ -1,0 +1,22 @@
+= form_for [@project, @adverse_event, @adverse_event_file], html: { class: 'form-horizontal' } do |f|
+  - if @adverse_event_file.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize @adverse_event_file.errors.count, 'error'
+        prohibited this file from being attached
+
+      %ul
+        - @adverse_event_file.errors.full_messages.each do |msg|
+          %li= msg
+
+  = hidden_field_tag 'adverse_event_file[blank]', '1'
+
+  .form-group
+    = f.label :attachment, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.file_field :attachment, class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit 'Upload File', class: 'btn btn-primary'
+      = link_to 'Cancel', project_adverse_event_adverse_event_files_path(@project, @adverse_event), class: 'btn btn-default'

@@ -1,5 +1,4 @@
 class GenericUploader < CarrierWave::Uploader::Base
-
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :s3
@@ -16,13 +15,12 @@ class GenericUploader < CarrierWave::Uploader::Base
   # end
 
   # Add a white list of extensions which are allowed to be uploaded.
-  # def extension_white_list
+  def extension_white_list
     %w(jpg jpeg gif png doc docx pdf xls xlsx)
-  # end
+  end
 
   # Override the filename of the uploaded files:
   # def filename
   #   "something.jpg" if original_filename
   # end
-
 end
