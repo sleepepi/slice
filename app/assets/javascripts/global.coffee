@@ -28,7 +28,7 @@
   $("#global-search").typeahead(
     remote: root_url + 'search?q=%QUERY'
   )
-  setFocusToField("#search")
+  # setFocusToField("#search")
   Turbolinks.enableProgressBar()
 
 @ready = () ->
