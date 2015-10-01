@@ -1,0 +1,22 @@
+@keyframes wiggle {
+  25% {
+    transform: rotate(7deg); // scaleX(2) scaleY(2)
+  }
+  75% {
+    transform: rotate(-7deg); // scaleX(5) scaleY(5)
+  }
+}
+
+@keyframes colorchange {
+  0% {
+    color: $link-color;
+  }
+
+  50% {
+    color: $brand-danger;
+  }
+
+  100% {
+    color: $link-color;
+  }
+}

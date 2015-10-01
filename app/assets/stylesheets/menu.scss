@@ -21,6 +21,10 @@
   color: $link-hover-color !important;
 }
 
+.notifications-link {
+  animation: wiggle 250ms linear 4;
+}
+
 .tabbed-navigation-menu {
   margin-top: -13px;
   margin-bottom: 20px;

@@ -12,10 +12,11 @@ class AdverseEventsController < ApplicationController
 
   # GET /adverse_events
   def index
+    @order = scrub_order(AdverseEvent, params[:order], 'adverse_events.created_at DESC')
     @adverse_events = current_user.all_viewable_adverse_events
                       .where(project_id: @project.id)
                       .search(params[:search])
-                      .order(created_at: :desc)
+                      .order(@order)
                       .page(params[:page])
                       .per(40)
   end

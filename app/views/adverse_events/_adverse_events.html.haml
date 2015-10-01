@@ -3,11 +3,11 @@
 %table.table.table-striped
   %thead
     %tr
-      %th Adverse Event
+      = th_sort_field @order, 'adverse_events.created_at', 'Adverse Event'
       %th Subject
-      %th Adverse Event Date
-      %th AE Type
-      %th Status
+      = th_sort_field @order, 'adverse_events.adverse_event_date', 'Adverse Event Date'
+      = th_sort_field @order, 'adverse_events.serious', 'AE Type'
+      = th_sort_field @order, 'adverse_events.closed', 'Status'
       %th Reported By
       %th Actions
   %tbody

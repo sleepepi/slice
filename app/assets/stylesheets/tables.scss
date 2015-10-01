@@ -13,3 +13,28 @@
 %td.text-center, %th.text-center {
   text-align: center;
 }
+
+.sort-up:after,
+.sort-down:after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  content: "";
+  margin-right: -10px;
+  margin-bottom: 2px;
+  margin-left: 5px;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.sort-up:after {
+  border-bottom: 4px solid;
+}
+
+.sort-down:after {
+  border-top: 4px solid;
+}
+
+.sort-selected {
+  border-bottom-color: $link-color !important;
+}
