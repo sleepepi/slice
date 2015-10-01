@@ -6,28 +6,27 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2
+    %h2.underline-header
       Collaborators
 
     - if @project.editable_by?(current_user)
-      %h2 Share with...
+      .jumbotron
+        %h2 Share with...
 
-      = form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do
-        .form-group
-          = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address'
+        = form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do
+          .form-group
+            = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address'
 
-        .form-group
-          = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
+          .form-group
+            = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
 
-        .form-group
-          %label.btn.btn-default
-            = check_box_tag 'editor', '1', true
-            Editor
+          .form-group
+            %label.btn.btn-default
+              = check_box_tag 'editor', '1', true
+              Editor
 
-        .form-group
-          = submit_tag 'Invite By Email', class: 'btn btn-primary'
-
-      %hr.soften{ style: "margin: 54px 0px" }
+          .form-group
+            = submit_tag 'Invite By Email', class: 'btn btn-primary'
 
     #project-members
       = render 'projects/members'

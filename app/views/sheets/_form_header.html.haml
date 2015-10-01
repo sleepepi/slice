@@ -1,26 +1,2 @@
-- if false
-  %h2
-    = @title
-
 = hidden_field_tag 'isdirty', '1'
 = hidden_field_tag "hidden_sheet_id", (@sheet ? @sheet.id : nil), name: "sheet_id"
-
-#site_ranges.modal
-  .modal-dialog.modal-wide-width
-    #interactive-design-container.modal-content
-      .modal-header
-        %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
-        %h4.modal-title Site Ranges
-      .modal-body
-        - if @project.sites_with_range.size > 0
-          .bs-callout
-            - @project.sites_with_range.each do |site|
-              %p
-                %b= site.name
-                %div{ style: "margin-left:5px" }
-                  = "#{site.prefix}#{site.code_minimum}"
-                  to
-                  = "#{site.prefix}#{site.code_maximum}"
-      .modal-footer
-        %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } }
-          Close

@@ -1,14 +1,12 @@
-= render 'contour/layouts/per_page', per_page: 40, object_count: @subjects.total_count
-
 %table.table.table-striped
   %col{ width: "30px" }
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'subjects.status', ''
-      %th.nowrap= sort_field_helper @order, 'subjects.subject_code', @project.subject_code_name_full
+      = th_sort_field @order, 'subjects.status', ''
+      = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
       - if @project.acrostic_enabled?
-        %th.nowrap= sort_field_helper @order, 'subjects.acrostic', 'Acrostic'
-      %th.nowrap= sort_field_helper @order, 'subjects.site_id', 'Site'
+        = th_sort_field @order, 'subjects.acrostic', 'Acrostic'
+      = th_sort_field @order, 'subjects.site_id', 'Site'
       - @events.each do |event|
         %th
           - if event.id.to_i == params[:event_id].to_i

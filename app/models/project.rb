@@ -76,61 +76,59 @@ class Project < ActiveRecord::Base
   end
 
   def recent_sheets
-    self.sheets.with_subject_status('valid').where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
+    sheets.with_subject_status('valid').where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end
 
   # Project Owners and Project Editors
   def editable_by?(current_user)
-    @editable_by ||= begin
-      current_user.all_projects.where(id: self.id).count == 1
-    end
+    current_user.all_projects.where(id: id).count == 1
+  end
+
+  def site_or_project_editor?(current_user)
+    current_user.all_sheet_editable_projects.where(id: id).count == 1
   end
 
   # Project Owners
   def deletable_by?(current_user)
-    current_user.projects.where( id: self.id ).count == 1
+    current_user.projects.where(id: id).count == 1
   end
 
   def designs_with_event
-    self.designs.joins(:event_designs)
+    designs.joins(:event_designs)
   end
 
   def designs_without_event
-    self.designs.where.not(id: self.designs.joins(:event_designs).select(:id))
+    designs.where.not(id: designs_with_event.select(:id))
   end
 
   def can_edit_sheets_and_subjects?(current_user)
-    current_user.all_sheet_editable_projects.where( id: self.id ).count == 1
-  end
-
-  def sites_with_range
-    self.sites.where("sites.code_minimum IS NOT NULL and sites.code_minimum != '' and sites.code_maximum IS NOT NULL and sites.code_maximum != ''").order('name')
+    current_user.all_sheet_editable_projects.where(id: id).count == 1
   end
 
   def site_id_with_prefix(prefix)
-    prefix_sites = self.sites.select{|s| not s.prefix.blank? and prefix.start_with?(s.prefix) }
+    prefix_sites = sites.select { |s| !s.prefix.blank? && prefix.start_with?(s.prefix) }
     prefix_sites.size == 1 ? prefix_sites.first.id : nil
   end
 
   def subject_code_name_full
-    self.subject_code_name.to_s.strip.blank? ? 'Subject Code' : self.subject_code_name.to_s.strip
+    subject_code_name.to_s.strip.blank? ? 'Subject Code' : subject_code_name.to_s.strip
   end
 
   def users_to_email
-    result = (self.users + [self.user] + self.sites.collect{|s| s.users}.flatten).uniq
-    result = result.select{ |u| u.emails_enabled? }
+    result = (users + [user] + sites.collect(&:users).flatten).uniq
+    result.select(&:emails_enabled?)
   end
 
   # Returns "fake" constructed variables like 'site' and 'sheet_date'
   def variable_by_id(variable_id)
     if variable_id == 'design'
-      Variable.design(self.id)
+      Variable.design(id)
     elsif variable_id == 'site'
-      Variable.site(self.id)
+      Variable.site(id)
     elsif variable_id == 'sheet_date'
-      Variable.sheet_date(self.id)
+      Variable.sheet_date(id)
     else
-      self.variables.find_by_id(variable_id)
+      variables.find_by_id(variable_id)
     end
   end
 

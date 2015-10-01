@@ -6,7 +6,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2 Recent Activity
+    %h2.underline-header Recent Activity
 
     - recent_sheets = current_user.all_viewable_sheets.where(project_id: @project.id).where('sheets.created_at > ? or sheets.last_edited_at > ?', Time.zone.now - 7.day, Time.zone.now - 7.day).to_a
     - recent_comments = current_user.all_viewable_comments.with_project(@project.id).where('comments.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 4.day : Time.zone.now - 2.day)).to_a

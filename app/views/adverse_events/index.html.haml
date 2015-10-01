@@ -8,11 +8,10 @@
   .mini-menu-right-fluid
     %h2.underline-header
       = @title
+      - if @project.site_or_project_editor? current_user
+        = link_to "Report Adverse Event", new_project_adverse_event_path(@project), class: 'btn btn-xs btn-primary'
       .per-page
         = render 'contour/layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
-
-      - if current_user.all_sheet_editable_projects.where(id: @project.id).count == 1
-        = link_to "Report Adverse Event", new_project_adverse_event_path(@project), class: 'btn btn-xs btn-primary'
 
     - if false
       = form_tag project_adverse_events_path(@project), method: :get, class: 'form-vertical' do
