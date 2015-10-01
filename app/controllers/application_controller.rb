@@ -1,10 +1,12 @@
+# Main web application controller for Slice website
+# Other controllers inherit from this as a base class
+# This controller also handles several static pages in views/application
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  # layout "contour/layouts/application"
-  layout "layouts/application_custom"
+  layout 'layouts/application_custom'
 
   include DateAndTimeParser
 
@@ -13,19 +15,19 @@ class ApplicationController < ActionController::Base
     day = parse_integer(params[:day])
     year = parse_integer(params[:year])
     @date = parse_date("#{month}/#{day}/#{year}")
-    @message = ""
+    @message = ''
 
     if @date.class == Date
       if @date.year > Date.today.year
         @status = 'warning'
-        @message = "Far out date! Are you from the future?"
+        @message = 'Far out date! Are you from the future?'
       elsif @date.year < Date.today.year - 50
         @status = 'warning'
-        @message = "Ancient digs! Did you enter the correct year?"
+        @message = 'Ancient digs! Did you enter the correct year?'
       else
         @status = 'success'
       end
-    elsif month.blank? and day.blank? and year.blank?
+    elsif month.blank? && day.blank? && year.blank?
       @status = 'empty'
     else
       @status = 'error'
@@ -35,13 +37,13 @@ class ApplicationController < ActionController::Base
   protected
 
   def check_system_admin
-    redirect_to root_path, alert: "You do not have sufficient privileges to access that page." unless current_user.system_admin?
+    redirect_to root_path, alert: 'You do not have sufficient privileges to access that page.' unless current_user.system_admin?
   end
 
   def scrub_order(model, params_order, default_order)
     (params_column, params_direction) = params_order.to_s.strip.downcase.split(' ')
     direction = (params_direction == 'desc' ? 'DESC' : nil)
-    column_name = (model.column_names.collect{|c| model.table_name + "." + c}.select{|c| c == params_column}.first)
+    column_name = (model.column_names.collect { |c| model.table_name + '.' + c }.select { |c| c == params_column }.first)
     order = column_name.blank? ? default_order : [column_name, direction].compact.join(' ')
     order
   end
@@ -71,5 +73,4 @@ class ApplicationController < ActionController::Base
       format.json { head :no_content }
     end
   end
-
 end

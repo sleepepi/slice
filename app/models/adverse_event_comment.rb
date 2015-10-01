@@ -15,7 +15,7 @@ class AdverseEventComment < ActiveRecord::Base
   # Model Relationships
   belongs_to :project
   belongs_to :user
-  belongs_to :adverse_event
+  belongs_to :adverse_event, touch: true
 
   # Model Methods
 

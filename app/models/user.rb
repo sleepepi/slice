@@ -1,3 +1,5 @@
+# The user class provides methods to scope resources in system that the user is
+# allowed to view and edit.
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable and :omniauthable
@@ -30,6 +32,7 @@ class User < ActiveRecord::Base
   has_many :adverse_events, -> { where deleted: false }
   has_many :adverse_event_comments, -> { where deleted: false }
   has_many :adverse_event_files
+  has_many :adverse_event_users
   has_many :categories, -> { where deleted: false }
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
@@ -246,6 +249,17 @@ class User < ActiveRecord::Base
     @all_digest_projects ||= begin
       all_viewable_and_site_projects.where(disable_all_emails: false).select { |p| self.emails_enabled? && self.email_on?(:daily_digest) && self.email_on?("project_#{p.id}_daily_digest") }
     end
+  end
+
+  def unseen_notifications?
+    unseen_adverse_events.present?
+  end
+
+  def unseen_adverse_events
+    all_viewable_adverse_events
+      .joins("LEFT JOIN adverse_event_users ON adverse_event_users.user_id = #{id} and adverse_event_users.adverse_event_id = adverse_events.id")
+      .where('adverse_event_users.last_viewed_at < adverse_events.updated_at or adverse_event_users.last_viewed_at IS NULL')
+      .distinct(:id)
   end
 
   # All sheets created in the last day, or over the weekend if it's Monday

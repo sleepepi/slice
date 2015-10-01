@@ -8,7 +8,7 @@ class AdverseEventFile < ActiveRecord::Base
 
   # Model Relationships
   belongs_to :project
-  belongs_to :adverse_event
+  belongs_to :adverse_event, touch: true
   belongs_to :user
 
   # Model Methods

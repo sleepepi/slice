@@ -14,6 +14,7 @@ class AdverseEvent < ActiveRecord::Base
   belongs_to :user
   has_many :adverse_event_comments, -> { order :created_at }
   has_many :adverse_event_files
+  has_many :adverse_event_users
   has_many :sheets, -> { where deleted: false }
 
   # Model Methods
@@ -24,6 +25,18 @@ class AdverseEvent < ActiveRecord::Base
 
   def editable_by?(current_user)
     current_user.all_adverse_events.where(id: id).count == 1
+  end
+
+  def mark_as_viewed_by_user(current_user)
+    adverse_event_user = adverse_event_users.find_or_create_by user_id: current_user.id
+    adverse_event_user.update last_viewed_at: Time.zone.now
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
+    retry
+  end
+
+  def last_seen_at(current_user)
+    adverse_event_user = adverse_event_users.find_by user_id: current_user.id
+    adverse_event_user.last_viewed_at if adverse_event_user
   end
 
   def subject_code
@@ -46,5 +59,23 @@ class AdverseEvent < ActiveRecord::Base
 
   def self.searchable_attributes
     %w(description)
+  end
+
+  # This function takes a series of sorted events and groups together adverse
+  # event users to group users together who have seen the recent updates
+  def compress_events(events)
+    b = []
+    events.each do |e|
+      if e.is_a? AdverseEventUser
+        if b.last.is_a? Array
+          b.last << e
+        else
+          b << [e]
+        end
+      else
+        b << e
+      end
+    end
+    b
   end
 end

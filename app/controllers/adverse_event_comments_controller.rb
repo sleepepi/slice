@@ -36,6 +36,7 @@ class AdverseEventCommentsController < ApplicationController
     if @adverse_event_comment.save
       # redirect_to [@project, @adverse_event, @adverse_event_comment], notice: 'Adverse event comment was successfully created.'
       @adverse_event.reload
+      @last_seen_at = @adverse_event.last_seen_at current_user
       render :index
     else
       render :edit

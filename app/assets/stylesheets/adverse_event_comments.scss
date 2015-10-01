@@ -72,6 +72,22 @@
 }
 
 .aecomment-icon {
+  display: none;
   left: -$font-size-base;
   position: absolute;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .aecomment-icon {
+    display: block;
+  }
+}
+
+.aecomment-unread {
+  background-color: $alert-warning-bg;
+  color: $alert-warning-text;
+}
+
+.aecomment-comment-header.aecomment-unread::after {
+  border-right-color: $alert-warning-bg;
 }

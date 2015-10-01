@@ -1,0 +1,9 @@
+one:
+  adverse_event: one
+  user: valid
+  last_viewed_at: 2015-10-01 09:42:30
+
+two:
+  adverse_event: one
+  user: admin
+  last_viewed_at: 2015-10-01 09:42:30

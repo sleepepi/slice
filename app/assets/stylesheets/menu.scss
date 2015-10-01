@@ -13,6 +13,14 @@
   color: $brand-danger !important;
 }
 
+.notifications-link {
+  color: $link-color !important;
+}
+
+.notifications-link:hover {
+  color: $link-hover-color !important;
+}
+
 .tabbed-navigation-menu {
   margin-top: -13px;
   margin-bottom: 20px;

@@ -286,6 +286,9 @@ Rails.application.routes.draw do
   get '/settings' => 'users#settings', as: :settings
   get '/search' => 'projects#search', as: :search
   get '/activity' => 'users#activity', as: :activity
+  scope module: 'users' do
+    get :notifications
+  end
 
   root to: 'projects#splash'
 end

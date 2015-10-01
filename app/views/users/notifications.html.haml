@@ -1,0 +1,15 @@
+%h1 Notifications
+
+%p.lead You have unseen notifications
+
+
+%h2.underline-header Adverse Events
+
+- current_user.unseen_adverse_events.includes(:project).order('projects.name', 'adverse_events.id').group_by(&:project).each do |project, adverse_events|
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title= link_to project.name, project
+    .panel-body
+      %ul
+        - adverse_events.each do |adverse_event|
+          %li= link_to adverse_event.name, [adverse_event.project, adverse_event]

@@ -51,7 +51,7 @@ class Sheet < ActiveRecord::Base
   belongs_to :event
   belongs_to :subject_schedule
   belongs_to :subject_event
-  belongs_to :adverse_event, -> { where deleted: false }
+  belongs_to :adverse_event, -> { where deleted: false }, touch: true
   has_many :sheet_variables
   has_many :responses
   has_many :variables, -> { where deleted: false }, through: :sheet_variables

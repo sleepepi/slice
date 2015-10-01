@@ -17,8 +17,8 @@ class Design < ActiveRecord::Base
   scope :with_user, lambda { |arg| where(user_id: arg) }
   scope :with_project, lambda { |arg| where(project_id: arg) }
 
-  scope :order_by_user_name, lambda { joins("LEFT JOIN users ON users.id = designs.user_id").order('users.last_name, users.first_name') }
-  scope :order_by_user_name_desc, lambda { joins("LEFT JOIN users ON users.id = designs.user_id").order('users.last_name DESC, users.first_name DESC') }
+  scope :order_by_user_name, lambda { joins('LEFT JOIN users ON users.id = designs.user_id').order('users.last_name, users.first_name') }
+  scope :order_by_user_name_desc, lambda { joins('LEFT JOIN users ON users.id = designs.user_id').order('users.last_name DESC, users.first_name DESC') }
 
   # Model Validation
   validates :name, :user_id, :project_id, presence: true
