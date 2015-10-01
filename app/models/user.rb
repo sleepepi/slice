@@ -147,9 +147,9 @@ class User < ActiveRecord::Base
     Randomization.current.with_site(all_viewable_sites.select(:id))
   end
 
-  # Only Project Editors or Project Owner can modify adverse event
+  # Only Project Editors and Site Editors can modify adverse event
   def all_adverse_events
-    AdverseEvent.current.where(project_id: all_projects.select(:id))
+    AdverseEvent.current.with_site(all_editable_sites.select(:id))
   end
 
   # Project Editors and Viewers and Site Members can view adverse event

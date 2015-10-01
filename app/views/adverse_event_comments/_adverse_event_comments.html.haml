@@ -19,7 +19,7 @@
       = succeed '.' do
         = link_to @adverse_event.subject.name, [@project, @adverse_event.subject]
 
-
+%a.anchor-top{ name: 'comment-1' }
 .aecomment-outer
   .aecomment-left-fixed
     = image_tag @adverse_event.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
@@ -31,11 +31,12 @@
         %abbr{ rel: 'tooltip', data: { title: @adverse_event.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
           = time_ago_in_words @adverse_event.created_at
           ago
-        - if @adverse_event.editable_by? current_user
-          .pull-right
+        .pull-right
+          - if @adverse_event.editable_by? current_user
             = succeed ' ' do
               = link_to edit_project_adverse_event_path(@project, @adverse_event), class: 'btn btn-xs btn-default' do
                 %span.glyphicon.glyphicon-pencil
+          = link_to '#1', '#comment-1', class: 'btn btn-link btn-xs'
       .aecomment-comment-body
         = simple_markdown @adverse_event.description, 'table table-bordered table-striped'
 
@@ -98,6 +99,7 @@
                 = link_to [@project, @adverse_event, file] do
                   = image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), style: 'height: 64px', class: 'img-thumbnail'
 
-#adverse_event_comment_new
-  - @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new
-  = render 'adverse_event_comments/form'
+- if @adverse_event.editable_by? current_user
+  #adverse_event_comment_new
+    - @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new
+    = render 'adverse_event_comments/form'

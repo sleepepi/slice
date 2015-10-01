@@ -2,7 +2,8 @@
 class AdverseEventFilesController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_viewable_project
+  before_action :set_viewable_project,                  only: [:index, :show, :download]
+  before_action :set_editable_project_or_editable_site, only: [:new, :create, :create_multiple, :destroy]
   before_action :redirect_without_project
 
   before_action :set_viewable_adverse_event

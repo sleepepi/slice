@@ -1,3 +1,5 @@
+# Captures discussion on an adverse event along with closing and reopening of
+# the adverse event.
 class AdverseEventComment < ActiveRecord::Base
   # Constants
   COMMENT_TYPE = %w(commented opened closed reopened)
@@ -20,13 +22,13 @@ class AdverseEventComment < ActiveRecord::Base
   # Model Methods
 
   def number
-    adverse_event.adverse_event_comments.where.not(description: ['', nil]).pluck(:id).index(id) + 1
+    adverse_event.adverse_event_comments.where.not(description: ['', nil]).pluck(:id).index(id) + 2
   rescue
     0
   end
 
   def editable_by?(current_user)
-    current_user.all_adverse_event_comments.where(id: id).count == 1
+    adverse_event.editable_by?(current_user) && current_user.all_adverse_event_comments.where(id: id).count == 1
   end
 
   def comment?

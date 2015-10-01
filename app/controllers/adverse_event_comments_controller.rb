@@ -2,7 +2,7 @@
 class AdverseEventCommentsController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_viewable_project
+  before_action :set_editable_project_or_editable_site
   before_action :redirect_without_project
 
   before_action :set_viewable_adverse_event
