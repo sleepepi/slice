@@ -1,0 +1,14 @@
+.per-page {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: -20px;
+  font-size: initial;
+  font-weight: initial;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .per-page {
+    display: block;
+  }
+}

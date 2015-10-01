@@ -6,21 +6,25 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2
+    %h2.underline-header
       = @title
-    %div{ style: 'margin-bottom: 20px' }
-      = link_to "Report Adverse Event", new_project_adverse_event_path(@project), class: 'btn btn-xs btn-primary'
+      .per-page
+        = render 'contour/layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
 
-    = form_tag project_adverse_events_path(@project), method: :get, class: 'form-vertical' do
-      = hidden_field_tag :order, params[:order]
-      .row
-        .col-md-4.form-group
-          = label :search, 'Search', class: 'col-md-3 control-label'
-          .col-md-9
-            = text_field_tag 'search', params[:search], class: 'form-control'
+      - if current_user.all_sheet_editable_projects.where(id: @project.id).count == 1
+        = link_to "Report Adverse Event", new_project_adverse_event_path(@project), class: 'btn btn-xs btn-primary'
 
-        .col-md-4.form-group
-          = submit_tag 'Search', class: 'btn btn-primary', name: nil
-          = link_to 'Reset', project_adverse_events_path(@project), class: 'btn btn-default'
+    - if false
+      = form_tag project_adverse_events_path(@project), method: :get, class: 'form-vertical' do
+        = hidden_field_tag :order, params[:order]
+        .row
+          .col-md-4.form-group
+            = label :search, 'Search', class: 'col-md-3 control-label'
+            .col-md-9
+              = text_field_tag 'search', params[:search], class: 'form-control'
+
+          .col-md-4.form-group
+            = submit_tag 'Search', class: 'btn btn-primary', name: nil
+            = link_to 'Reset', project_adverse_events_path(@project), class: 'btn btn-default'
 
     = render 'adverse_events/adverse_events'
