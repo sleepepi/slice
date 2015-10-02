@@ -62,7 +62,7 @@ class Randomization < ActiveRecord::Base
       if pid.nil?
         all_users = self.project.users_to_email - [self.randomized_by]
         all_users.each do |user_to_email|
-          UserMailer.subject_randomized(self, user_to_email).deliver_later if Rails.env.production?
+          UserMailer.subject_randomized(self, user_to_email).deliver_later if ENV['emails_enabled'] == 'true'
         end
         Kernel.exit!
       else

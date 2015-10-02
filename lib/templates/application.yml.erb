@@ -2,8 +2,7 @@ website_url:          "<%= print "Enter Website URL: "; gets.chomp.gsub(/(\/)*$/
 website_name:         "<%= print "Enter Website Name: "; gets.chomp %>"
 support_email:        "<%= print "Enter support email address: "; ga = gets.chomp; ga %>"
 
-# database_url:         "<%#= print "Enter Database URL: "; gets.chomp %>"
-
+emails_enabled:       "true"
 smtp_address:         "<%= print "Enter SMTP Address [localhost]: "; s = gets.chomp; s == '' ? 'localhost' : s %>"
 smtp_port:            "<%= print "Enter SMTP Port [25]: "; s = gets.chomp; s == '' ? '25' : s %>"
 smtp_authentication:  "<%= print "Enter SMTP Authentication [plain]: "; s = gets.chomp; s == '' ? 'plain' : s %>"

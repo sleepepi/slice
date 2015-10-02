@@ -223,6 +223,11 @@ class Project < ActiveRecord::Base
     self.hide_values_on_pdfs? ? :display_name : :name
   end
 
+  # Returns project editors and project owner
+  def unblinded_project_editors
+    User.current.where('id in (?) or id = ?', editors.select(:id), user_id)
+  end
+
   private
 
   # Creates a default site if the project has no site associated with it

@@ -1,3 +1,4 @@
+# Sends out application emails to users
 class UserMailer < ApplicationMailer
   def invite_user_to_site(site_user)
     setup_email
@@ -90,5 +91,15 @@ class UserMailer < ApplicationMailer
     mail(to: user.email,
          subject: "#{randomization.randomized_by.name if randomization.randomized_by} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
          reply_to: (randomization.randomized_by ? randomization.randomized_by.email : nil))
+  end
+
+  def adverse_event_reported(adverse_event, recipient)
+    setup_email
+    @adverse_event = adverse_event
+    @recipient = recipient
+    @email_to = recipient.email
+    mail(to: recipient.email,
+         subject: "#{adverse_event.user.name} Reported a #{adverse_event.serious? ? 'Serious' : 'Non-Serious'} Adverse Event on #{adverse_event.project.name}",
+         reply_to: adverse_event.user.email)
   end
 end

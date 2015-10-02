@@ -29,17 +29,19 @@ class SurveyController < ApplicationController
   def create
     @subject = @project.subjects.find_by_id(params[:subject_id])
     @subject = @project.create_valid_subject(params[:email], params[:site_id]) unless @subject
-    @sheet = @project.sheets.where(design_id: @design.id).new({ subject_id: @subject.id, authentication_token: Digest::SHA1.hexdigest(Time.zone.now.usec.to_s) })
+    @sheet = @project.sheets.where(design_id: @design.id).new(subject_id: @subject.id, authentication_token: Digest::SHA1.hexdigest(Time.zone.now.usec.to_s))
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
-      UserMailer.survey_completed(@sheet).deliver_later if Rails.env.production?
-      UserMailer.survey_user_link(@sheet).deliver_later if Rails.env.production? and not @subject.email.blank?
+      if ENV['emails_enabled'] == 'true'
+        UserMailer.survey_completed(@sheet).deliver_later
+        UserMailer.survey_user_link(@sheet).deliver_later unless @subject.email.blank?
+      end
       if @design.redirect_url.blank?
         redirect_to about_survey_path(survey: @design.slug, a: @sheet.authentication_token)
       else
         redirect_to @design.redirect_url
       end
     else
-      render 'new'
+      render :new
     end
   end
 
@@ -47,7 +49,7 @@ class SurveyController < ApplicationController
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_update')
       redirect_to about_survey_path(survey: @design.slug, a: @sheet.authentication_token)
     else
-      render 'edit'
+      render :edit
     end
   end
 

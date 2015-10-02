@@ -2,7 +2,10 @@
 # along with associated designs and files uploaded to the adverse event report.
 class AdverseEvent < ActiveRecord::Base
   # Concerns
-  include DateAndTimeParser, Deletable, Searchable, Siteable
+  include DateAndTimeParser, Deletable, Searchable, Siteable, Forkable
+
+  # Model Alerts
+  after_create :send_email_in_background
 
   # Model Validation
   validates :adverse_event_date, :description, presence: true
@@ -77,5 +80,23 @@ class AdverseEvent < ActiveRecord::Base
       end
     end
     b
+  end
+
+  private
+
+  # Adverse Events reports are sent to unblinded project editors
+  def users_to_email
+    project.unblinded_project_editors
+  end
+
+  def send_email_in_background
+    fork_process(:send_email)
+  end
+
+  def send_email
+    return if project.disable_all_emails? || ENV['emails_enabled'] != 'true'
+    users_to_email.each do |user_to_email|
+      UserMailer.adverse_event_reported(self, user_to_email).deliver_later
+    end
   end
 end

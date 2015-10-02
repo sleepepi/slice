@@ -17,6 +17,7 @@
   - Files can be attached to an adverse event
   - Sheets can be filled out and added to an adverse event
   - Users receive a notification if they have viewable adverse events that have new updates, comments, files, or forms
+  - Unblinded project editors and project owner are notified when an adverse event is reported
 - **Gem Changes**
   - Updated to pg 0.18.3
   - Removed minitest-reporters

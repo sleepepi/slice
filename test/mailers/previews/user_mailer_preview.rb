@@ -1,17 +1,17 @@
+# Allows emails to be viewed at /rails/mailers
 class UserMailerPreview < ActionMailer::Preview
-
   def user_added_to_project
-    project_user = ProjectUser.where.not( invite_email: nil ).first
+    project_user = ProjectUser.where.not(invite_email: nil).first
     UserMailer.user_added_to_project(project_user)
   end
 
   def invite_user_to_project
-    project_user = ProjectUser.where.not( invite_email: nil ).first
+    project_user = ProjectUser.where.not(invite_email: nil).first
     UserMailer.invite_user_to_project(project_user)
   end
 
   def invite_user_to_site
-    site_user = SiteUser.where.not( invite_email: nil ).first
+    site_user = SiteUser.where.not(invite_email: nil).first
     UserMailer.invite_user_to_site(site_user)
   end
 
@@ -21,7 +21,7 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def survey_user_link
-    sheet = Sheet.current.where.not( authentication_token: nil ).first
+    sheet = Sheet.current.where.not(authentication_token: nil).first
     UserMailer.survey_user_link(sheet)
   end
 
@@ -60,4 +60,9 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.subject_randomized(randomization, user)
   end
 
+  def adverse_event_reported
+    adverse_event = AdverseEvent.current.first
+    recipient = User.current.first
+    UserMailer.adverse_event_reported(adverse_event, recipient)
+  end
 end

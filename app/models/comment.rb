@@ -52,7 +52,7 @@ class Comment < ActiveRecord::Base
 
   def send_email
     users_to_email.each do |user_to_email|
-      UserMailer.comment_by_mail(self, user_to_email).deliver_later if Rails.env.production? && !sheet.project.disable_all_emails?
+      UserMailer.comment_by_mail(self, user_to_email).deliver_later if ENV['emails_enabled'] == 'true' && !sheet.project.disable_all_emails?
     end
   end
 end
