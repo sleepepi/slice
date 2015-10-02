@@ -20,3 +20,21 @@
     color: $link-color;
   }
 }
+
+@keyframes wiggle-goofy {
+  25% {
+    transform: rotate(7deg) scaleX(2) scaleY(5);
+  }
+  75% {
+    transform: rotate(-7deg) scaleX(5) scaleY(2);
+  }
+}
+
+@keyframes wiggle-hello-hello {
+  25% {
+    transform: rotate(7deg) scaleX(2) scaleY(2);
+  }
+  75% {
+    transform: rotate(-7deg) scaleX(5) scaleY(5);
+  }
+}
