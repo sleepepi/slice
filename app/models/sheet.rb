@@ -5,37 +5,37 @@ class Sheet < ActiveRecord::Base
   before_save :check_subject_event_subject_match
 
   # Named Scopes
-  scope :search, lambda { |arg| where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%') ).references(:designs) }
-  scope :sheet_before, lambda { |*args| where("sheets.created_at < ?", (args.first+1.day).at_midnight) }
-  scope :sheet_after, lambda { |*args| where("sheets.created_at >= ?", args.first.at_midnight) }
-  scope :with_user, lambda { |*args| where("sheets.user_id in (?)", args.first) }
-  scope :with_project, lambda { |*args| where("sheets.project_id IN (?)", args.first) }
-  scope :with_design, lambda { |*args| where("sheets.design_id IN (?)", args.first) }
+  scope :search, -> (arg) { where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%')).references(:designs) }
+  scope :sheet_before, -> (*args) { where('sheets.created_at < ?', (args.first + 1.day).at_midnight) }
+  scope :sheet_after, -> (*args) { where('sheets.created_at >= ?', args.first.at_midnight) }
+  scope :with_user, -> (*args) { where('sheets.user_id in (?)', args.first) }
+  scope :with_project, -> (*args) { where('sheets.project_id IN (?)', args.first) }
+  scope :with_design, -> (*args) { where('sheets.design_id IN (?)', args.first) }
 
-  scope :with_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)", args.first, args[1]) }
-  scope :with_checkbox_variable_response, lambda { |*args| where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value = ? )", args.first, args[1]) }
+  scope :with_variable_response, -> (*args) { where('sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)', args.first, args[1]) }
+  scope :with_checkbox_variable_response, -> (*args) { where('sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value = ? )', args.first, args[1]) }
 
   # These don't include blank codes
-  scope :with_variable_response_after, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response >= ? and sheet_variables.response != '')", args.first, args[1]) }
-  scope :with_variable_response_before, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response <= ? and sheet_variables.response != '')", args.first, args[1]) }
+  scope :with_variable_response_after, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response >= ? and sheet_variables.response != '')", args.first, args[1]) }
+  scope :with_variable_response_before, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response <= ? and sheet_variables.response != '')", args.first, args[1]) }
 
   # These include blank or missing responses
-  scope :with_variable_response_after_with_blank, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response < ? and sheet_variables.response != '')", args.first, args[1]) }
-  scope :with_variable_response_before_with_blank, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response > ? and sheet_variables.response != '')", args.first, args[1]) }
+  scope :with_variable_response_after_with_blank, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response < ? and sheet_variables.response != '')", args.first, args[1]) }
+  scope :with_variable_response_before_with_blank, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response > ? and sheet_variables.response != '')", args.first, args[1]) }
 
   # Only includes blank or unknown values
-  scope :without_variable_response, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
-  scope :without_checkbox_variable_response, lambda { |*args| where("sheets.id NOT IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '')", args.first) }
+  scope :without_variable_response, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
+  scope :without_checkbox_variable_response, -> (*args) { where("sheets.id NOT IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '')", args.first) }
 
   # # Includes entered values, or entered missing values
   # scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
   # Includes only entered values (that are not marked as missing)
-  scope :with_any_variable_response_not_missing_code, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
-  scope :with_checkbox_any_variable_response_not_missing_code, lambda { |*args| where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '' and responses.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
+  scope :with_any_variable_response_not_missing_code, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
+  scope :with_checkbox_any_variable_response_not_missing_code, -> (*args) { where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '' and responses.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
   # Include blank, unknown, or values entered as missing
-  scope :with_response_unknown_or_missing, lambda { |*args| where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
+  scope :with_response_unknown_or_missing, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
 
-  scope :with_subject_status, lambda { |*args| where("sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )", false, args.first).references(:subjects) }
+  scope :with_subject_status, -> (*args) { where('sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )', false, args.first).references(:subjects) }
 
   # Model Validation
   validates :design_id, :project_id, :subject_id, presence: true
@@ -62,8 +62,11 @@ class Sheet < ActiveRecord::Base
 
   # Model Methods
 
+  delegate :name, to: :design
+  delegate :description, to: :design
+
   def event_at
-    self.created_at
+    created_at
   end
 
   def self.last_entry
@@ -77,23 +80,15 @@ class Sheet < ActiveRecord::Base
   end
 
   def contributors
-    self.sheet_transactions.select{|st| st.user}.collect{|st| st.user.name}.uniq.join(', ')
-  end
-
-  def name
-    self.design.name
-  end
-
-  def description
-    self.design.description
+    sheet_transactions.select(&:user).collect { |st| st.user.name }.uniq.join(', ')
   end
 
   def editable_by?(current_user)
-    current_user.all_sheets.where(id: self.id).count == 1
+    current_user.all_sheets.where(id: id).count == 1
   end
 
   def recently_created?
-    (self.last_edited_at == nil or ((self.last_edited_at - self.created_at) / 1.minute).to_i == 0)
+    (last_edited_at.nil? || ((last_edited_at - created_at) / 1.minute).to_i == 0)
   end
 
   def self.latex_partial(partial)
@@ -101,7 +96,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.latex_file_location(sheets, current_user)
-    jobname = (sheets.size == 1 ? "sheet_#{sheets.first.id}" : "sheets_#{Time.zone.now.strftime("%Y%m%d_%H%M%S")}")
+    jobname = (sheets.size == 1 ? "sheet_#{sheets.first.id}" : "sheets_#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}")
     output_folder = File.join('tmp', 'files', 'tex')
     file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
 
@@ -123,61 +118,61 @@ class Sheet < ActiveRecord::Base
   #     This function would return 2 (position is zero-indexed, so [0,1,2]). This
   #     number is used to combine grids on similar rows in the sheet grids export
   def max_grids_position
-    Grid.where(sheet_variable_id: self.sheet_variables.select(:id)).pluck(:position).max || -1
+    Grid.where(sheet_variable_id: sheet_variables.select(:id)).pluck(:position).max || -1
   end
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
   def self.with_stratum(stratum_id, stratum_value, stratum_start_date = nil, stratum_end_date = nil)
     stratum_variable = if stratum_id == 'design'
-      Variable.design(0) # 0 project?...
-    elsif stratum_id == 'site' or stratum_id == nil
-      Variable.site(0) # 0 project?...
-    elsif stratum_id == 'sheet_date'
-      Variable.sheet_date(0) # 0 project?...
-    else
-      Variable.find_by_id(stratum_id)
-    end
+                         Variable.design(0) # 0 project?...
+                       elsif stratum_id == 'site' || stratum_id.nil?
+                         Variable.site(0) # 0 project?...
+                       elsif stratum_id == 'sheet_date'
+                         Variable.sheet_date(0) # 0 project?...
+                       else
+                         Variable.find_by_id(stratum_id)
+                       end
 
-    if stratum_variable and stratum_value == ':any' and not ['site', 'sheet_date', 'subject_status', 'design'].include?(stratum_variable.variable_type)
+    if stratum_variable and stratum_value == ':any' and not %w(site sheet_date subject_status design).include?(stratum_variable.variable_type)
       if stratum_variable.variable_type == 'checkbox'
-        self.with_checkbox_any_variable_response_not_missing_code(stratum_variable)
+        with_checkbox_any_variable_response_not_missing_code(stratum_variable)
       else
-        self.with_any_variable_response_not_missing_code(stratum_variable)
+        with_any_variable_response_not_missing_code(stratum_variable)
       end
-    elsif stratum_variable and stratum_variable.variable_type == 'design'
-      self.with_design(stratum_value)
-    elsif stratum_variable and stratum_variable.variable_type == 'site'
-      self.with_site(stratum_value)
-    elsif stratum_variable and ['sheet_date', 'date'].include?(stratum_variable.variable_type) and stratum_value != ':missing'
-      self.sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
+    elsif stratum_variable && stratum_variable.variable_type == 'design'
+      with_design(stratum_value)
+    elsif stratum_variable && stratum_variable.variable_type == 'site'
+      with_site(stratum_value)
+    elsif stratum_variable && %w(sheet_date date).include?(stratum_variable.variable_type) && stratum_value != ':missing'
+      sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
     elsif not stratum_value.blank? and stratum_value != ':missing' # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       if stratum_variable.variable_type == 'checkbox'
-        self.with_checkbox_variable_response(stratum_id, stratum_value)
+        with_checkbox_variable_response(stratum_id, stratum_value)
       else
-        self.with_variable_response(stratum_id, stratum_value)
+        with_variable_response(stratum_id, stratum_value)
       end
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
       if stratum_variable.variable_type == 'checkbox'
-        self.without_checkbox_variable_response(stratum_id)
+        without_checkbox_variable_response(stratum_id)
       else
-        self.without_variable_response(stratum_id)
+        without_variable_response(stratum_id)
       end
     end
   end
 
   def self.sheet_after_variable(variable, date)
-    if variable and variable.variable_type == 'date'
-      self.with_variable_response_after(variable, date)
+    if variable && variable.variable_type == 'date'
+      with_variable_response_after(variable, date)
     else
-      self.sheet_after(date)
+      sheet_after(date)
     end
   end
 
   def self.sheet_before_variable(variable, date)
-    if variable and variable.variable_type == 'date'
-      self.with_variable_response_before(variable, date)
+    if variable && variable.variable_type == 'date'
+      with_variable_response_before(variable, date)
     else
-      self.sheet_before(date)
+      sheet_before(date)
     end
   end
 
@@ -234,22 +229,19 @@ class Sheet < ActiveRecord::Base
   def exec_js_context
     @exec_js_context ||= begin
       # Compiled CoffeeScript from designs.js.coffee
-      index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
-      intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
-      overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
+      index_of = 'var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };'
+      intersection_function = 'this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };'
+      overlap_function = 'this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };'
       ExecJS.compile(index_of + intersection_function + overlap_function)
     end
   end
 
   def show_variable?(branching_logic)
     return true if branching_logic.to_s.strip.blank?
-
-    begin
-      result = exec_js_context.eval(expanded_branching_logic(branching_logic))
-      result == false ? false : true
-    rescue => e
-      true
-    end
+    result = exec_js_context.eval(expanded_branching_logic(branching_logic))
+    result == false ? false : true
+  rescue
+    true
   end
 
   # def show_variable?(branching_logic)
@@ -269,20 +261,17 @@ class Sheet < ActiveRecord::Base
   # end
 
   def grids
-    Grid.where(sheet_variable_id: self.sheet_variables.with_variable_type(['grid']).select(:id))
+    Grid.where(sheet_variable_id: sheet_variables.with_variable_type(['grid']).select(:id))
   end
 
   # Returns the file path with the relative location
   # - The name of the file as it will appear in the archive
   # - The original file, including the path to find it
   def files
-    all_files = []
-    (self.sheet_variables.with_variable_type(['file']) + self.grids.with_variable_type(['file'])).each do |object|
-      if object.response_file.size > 0
-        all_files << ["FILES/sheet_#{self.id}#{"/#{object.sheet_variable.variable.name}" if object.is_a?(Grid)}/#{object.variable.name}#{"/#{object.position}" if object.respond_to?('position')}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
-      end
+    objects = sheet_variables.with_variable_type(['file']) + grids.with_variable_type(['file'])
+    objects.select { |o| o.response_file.size > 0 }.collect do |object|
+      ["FILES/sheet_#{id}#{"/#{object.sheet_variable.variable.name}" if object.is_a?(Grid)}/#{object.variable.name}#{"/#{object.position}" if object.respond_to?('position')}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
     end
-    all_files
   end
 
   def self.array_mean(array)
@@ -291,29 +280,33 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_sample_variance(array)
-    m = self.array_mean(array)
-    sum = array.inject(0){|accum, i| accum +(i-m)**2 }
+    m = array_mean(array)
+    sum = array.inject(0) { |a, e| a + (e - m)**2 }
     sum / (array.length - 1).to_f
   end
 
   def self.array_standard_deviation(array)
     return nil if array.size < 2
-    return Math.sqrt(self.array_sample_variance(array))
+    Math.sqrt(array_sample_variance(array))
   end
 
   def self.array_median(array)
     return nil if array.size == 0
     array = array.sort
     len = array.size
-    len % 2 == 1 ? array[len/2] : (array[len/2 - 1] + array[len/2]).to_f / 2
+    if len.odd?
+      array[len / 2]
+    else
+      (array[len / 2 - 1] + array[len / 2]).to_f / 2
+    end
   end
 
   def self.array_max(array)
-    array.max #|| 0
+    array.max
   end
 
   def self.array_min(array)
-    array.min #|| 0
+    array.min
   end
 
   def self.array_count(array)
@@ -324,10 +317,10 @@ class Sheet < ActiveRecord::Base
 
   def self.array_responses(sheet_scope, variable)
     responses = []
-    if variable and ['site', 'sheet_date', 'subject_status'].include?(variable.variable_type)
-      responses = sheet_scope.includes(:subject).collect{|s| s.subject.site_id } if variable.variable_type == 'site'
+    if variable && %w(site sheet_date subject_status).include?(variable.variable_type)
+      responses = sheet_scope.includes(:subject).collect { |s| s.subject.site_id } if variable.variable_type == 'site'
       responses = sheet_scope.pluck(:created_at) if variable.variable_type == 'sheet_date'
-      responses = sheet_scope.includes(:subject).collect{|s| s.subject.status } if variable.variable_type == 'subject_status'
+      responses = sheet_scope.includes(:subject).collect { |s| s.subject.status } if variable.variable_type == 'subject_status'
     else
       responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id).pluck(:response) : [])
     end
@@ -341,13 +334,13 @@ class Sheet < ActiveRecord::Base
   def self.array_calculation(sheet_scope, variable, calculation)
     calculation = 'array_count' if calculation.blank?
     number = if calculation == 'array_count'
-      # New, to account for sheets that are scoped based on a missing/non-entered value, should be counted as the count of sheets, not the count of responses.
-      self.send(calculation, sheet_scope.pluck(:id))
-    else
-      self.send(calculation, self.array_responses(sheet_scope, variable))
-    end
+               # New, to account for sheets that are scoped based on a missing/non-entered value, should be counted as the count of sheets, not the count of responses.
+               send(calculation, sheet_scope.pluck(:id))
+             else
+               send(calculation, array_responses(sheet_scope, variable))
+             end
 
-    if calculation != 'array_count' and number != nil
+    if calculation != 'array_count' && !number.nil?
       if variable.variable_type == 'calculated' and not variable.format.blank?
         number = variable.format % number rescue number
       else
@@ -376,16 +369,16 @@ class Sheet < ActiveRecord::Base
   end
 
   def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters)
-    if calculator and calculator.has_statistics? and calculation.blank?
+    if calculator && calculator.has_statistics? && calculation.blank?
       # Filtering against "Unknown BMI for example, include only missing codes and unknown"
       sheet_scope = sheet_scope.with_response_unknown_or_missing(calculator)
-    elsif calculator and calculator.has_statistics?
+    elsif calculator && calculator.has_statistics?
       # Filtering against "BMI for example, only include known responses"
       sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(calculator)
     end
 
     sheet_scope = filter_sheet_scope(sheet_scope, filters)
-    number = (calculator ? self.array_calculation(sheet_scope, calculator, calculation) : self.array_count(sheet_scope.pluck(:id)))
+    number = (calculator ? array_calculation(sheet_scope, calculator, calculation) : array_count(sheet_scope.pluck(:id)))
 
     name = (number == nil ? '-' : number)
     number = 0 unless number
@@ -402,24 +395,29 @@ class Sheet < ActiveRecord::Base
   end
 
   def total_design_variables
-    self.design.variables.count
+    design.variables.count
   end
 
   def out_of
     check_response_count_change
-    "#{self.response_count} of #{self.total_response_count} #{self.total_response_count == 1 ? 'question' : 'questions' }"
+    "#{response_count} of #{total_response_count} #{total_response_count == 1 ? 'question' : 'questions'}"
   end
 
   def percent
     check_response_count_change
-    (self.response_count * 100.0 / self.total_response_count).to_i rescue 0
+    begin
+      (response_count * 100.0 / total_response_count).to_i
+    rescue
+      0
+    end
   end
 
   def non_hidden_variable_ids
     @non_hidden_variable_ids ||= begin
       variable_ids = []
-      self.design.design_options.includes(:variable).each do |design_option|
-        if variable = design_option.variable and self.show_variable?(design_option.branching_logic)
+      design.design_options.includes(:variable).each do |design_option|
+        variable = design_option.variable
+        if variable && show_variable?(design_option.branching_logic)
           variable_ids << variable.id
         end
       end
@@ -428,23 +426,21 @@ class Sheet < ActiveRecord::Base
   end
 
   def non_hidden_responses
-    non_blank_sheet_variable_ids = self.sheet_variables.collect{|sv| sv.empty_or_not}.compact
-    sheet_variables = SheetVariable.where( variable_id: self.non_hidden_variable_ids ).where( id: non_blank_sheet_variable_ids ).count
+    non_blank_sheet_variable_ids = sheet_variables.collect{|sv| sv.empty_or_not}.compact
+    sheet_variables = SheetVariable.where(variable_id: non_hidden_variable_ids).where(id: non_blank_sheet_variable_ids).count
   end
 
   def non_hidden_total_responses
-    self.non_hidden_variable_ids.count
+    non_hidden_variable_ids.count
   end
 
   def check_response_count_change
-    if self.total_response_count.to_i == 0
-      self.update_response_count!
-    end
+    update_response_count! if total_response_count.to_i == 0
   end
 
   def update_response_count!
-    self.update_column :response_count, self.non_hidden_responses
-    self.update_column :total_response_count, self.non_hidden_total_responses
+    update_column :response_count, non_hidden_responses
+    update_column :total_response_count, non_hidden_total_responses
   end
 
   def coverage
@@ -480,7 +476,7 @@ class Sheet < ActiveRecord::Base
   end
 
   def get_response(variable, raw_format = :raw)
-    sheet_variable = self.sheet_variables.find_by_variable_id(variable.id)
+    sheet_variable = sheet_variables.find_by_variable_id(variable.id)
     unless sheet_variable
       return (variable.variable_type == 'checkbox' ? [''] : '')
     end
@@ -490,12 +486,10 @@ class Sheet < ActiveRecord::Base
   protected
 
   def self.latex_safe(mystring)
-    self.new.latex_safe(mystring)
+    new.latex_safe(mystring)
   end
 
   def check_subject_event_subject_match
-    if self.subject_event
-      self.subject_event_id = nil if self.subject_event.subject != self.subject
-    end
+    self.subject_event_id = nil if subject_event && subject_event.subject != subject
   end
 end
