@@ -6,6 +6,7 @@ one:
   user: valid
   creator: valid
   invite_token: validintwo
+  invite_email: one@example.com
   editor: false
 
 two:
