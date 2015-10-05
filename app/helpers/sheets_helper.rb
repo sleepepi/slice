@@ -4,7 +4,7 @@ module SheetsHelper
     content_tag(:span, "#{sheet.percent}%",
                 class: "label label-coverage #{sheet.coverage}",
                 rel: 'tooltip',
-                data: { placement: placement },
+                data: { container: 'body', placement: placement },
                 title: sheet.out_of)
   end
 
