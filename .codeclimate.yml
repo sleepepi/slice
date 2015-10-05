@@ -42,6 +42,11 @@ ratings:
 # You can globally exclude files from being analyzed by any engine using the
 # exclude_paths key.
 
-#exclude_paths:
-#- spec/**/*
-#- vendor/**/*
+exclude_paths:
+- app/assets/images/**/*
+- app/assets/javascripts/external/**/*
+- Gemfile
+- LICENSE
+- Rakefile
+- test/**/*
+- vendor/**/*
