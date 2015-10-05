@@ -36,10 +36,6 @@
           = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses
 
         .form-group
-          %label Sheets
-          = render 'layouts/radio_button_group', name: 'filter', options: [['All Sheets', 'all'], ['Last Sheet Entry', 'last'], ['First Sheet Entry', 'first']], selected: @filter
-
-        .form-group
           %label Report
           = render 'layouts/radio_button_group', name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent
 

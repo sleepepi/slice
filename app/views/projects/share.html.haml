@@ -25,6 +25,11 @@
               = check_box_tag 'editor', '1', true
               Editor
 
+          .form-group{ style: "#{'display:none' unless @project.blinding_enabled?}" }
+            %label.btn.btn-default
+              = check_box_tag 'unblinded', '1', true
+              Unblinded
+
           .form-group
             = submit_tag 'Invite By Email', class: 'btn btn-primary'
 

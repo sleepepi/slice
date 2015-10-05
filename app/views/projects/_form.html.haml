@@ -190,6 +190,15 @@
           Checking This Will Enable Adverse Event Reporting
 
   .form-group
+    .col-md-2
+      %label Blinded and Unblinded
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :blinding_enabled
+          Checking This Will Enable Blinding of Project and Site Members
+
+  .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
       = cancel

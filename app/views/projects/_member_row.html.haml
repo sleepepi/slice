@@ -5,13 +5,15 @@
     %td
       %span.text-muted= member.invite_email
       - if member.is_a? ProjectUser
-        = text_field_tag "member_invite", "#{ENV['website_url']}/invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator
+        = text_field_tag 'member_invite', "#{ENV['website_url']}/invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator
       - else
-        = text_field_tag "member_invite", "#{ENV['website_url']}/site-invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator
+        = text_field_tag 'member_invite', "#{ENV['website_url']}/site-invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator
   %td
     = member.is_a?(ProjectUser) ? 'Project' : 'Site'
     = member.editor? ? 'Editor' : 'Viewer'
-
+  - if @project.blinding_enabled?
+    %td
+      = member.unblinded? ? 'Unblinded' : 'Blinded'
   %td.text-muted
     - if member.creator
       = link_to member.creator.name, member.creator

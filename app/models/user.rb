@@ -129,12 +129,12 @@ class User < ActiveRecord::Base
 
   # Project Editors and Site Editors on that site can modify sheet
   def all_sheets
-    Sheet.current.with_site(all_editable_sites.select(:id))
+    Sheet.current.with_site(all_editable_sites.select(:id)).blinding_scope(self)
   end
 
   # Project Editors and Viewers and Site Members can view sheets
   def all_viewable_sheets
-    Sheet.current.with_site(all_viewable_sites.select(:id))
+    Sheet.current.with_site(all_viewable_sites.select(:id)).blinding_scope(self)
   end
 
   # Only Project Editors or Project Owner can modify randomization

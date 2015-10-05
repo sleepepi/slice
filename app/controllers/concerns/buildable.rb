@@ -114,14 +114,10 @@ module Buildable
 
     @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
     @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
-    @filter = ['all', 'first', 'last'].include?(params[:filter]) ? params[:filter] : 'all'
     @statuses = params[:statuses] || ['valid']
 
     sheet_scope = current_user.all_viewable_sheets
     sheet_scope = sheet_scope.where(design_id: @design ? @design.id : @project.designs.pluck(:id))
-
-    sheet_scope = sheet_scope.last_entry if @filter == 'last'
-    sheet_scope = sheet_scope.first_entry if @filter == 'first'
 
     # Should be handled elsewhere...
     # sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?

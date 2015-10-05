@@ -31,8 +31,8 @@
             %li= link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'choose_event' or params[:action] == 'choose_date'}"
   %li
     = link_to sheets_project_subject_path(@project, @subject), class: "#{'active' if sheets_highlighted}" do
-      .emphasis= @subject.sheets.count
-      = 'Sheet'.pluralize(@subject.sheets.count)
+      .emphasis= @subject.sheets.blinding_scope(current_user).count
+      = 'Sheet'.pluralize(@subject.sheets.blinding_scope(current_user).count)
     - if show_all_sheets && @subject.editable_by?(current_user)
       %ul
         %li= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'data_entry'}"

@@ -36,6 +36,8 @@ class Project < ActiveRecord::Base
   has_many :users, -> { where(deleted: false).order('last_name, first_name') }, through: :project_users
   has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
+  has_many :site_users
+
 
   has_many :project_favorites
 

@@ -44,11 +44,6 @@
           = label :user_id, 'Creator', class: 'control-label'
           = select_tag 'user_id', options_for_select([['---', nil]] + User.where( id: @project.sheets.select(:user_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control'
 
-        .form-group
-          = hidden_field_tag :filter, @filter
-          = label :statuses, 'Status', class: 'control-label'
-          = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#sheets_search'
-
         - if @project.lockable?
           .form-group
             = label :locked, 'Locked', class: 'control-label'

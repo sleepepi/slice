@@ -26,6 +26,8 @@ class ProjectsController < ApplicationController
     invite_email = params[:invite_email].to_s.strip
     @user = current_user.associated_users.find_by_email(invite_email.split('[').last.to_s.split(']').first)
     @site = @project.sites.find_by_id(params[:site_id])
+    editor = (params[:editor] == '1')
+    unblinded = (params[:unblinded] == '1')
 
     if @site
       member_scope = @site.site_users.where(project_id: @project)
@@ -34,11 +36,11 @@ class ProjectsController < ApplicationController
     end
 
     if @user
-      @member = member_scope.where(user_id: @user.id).first_or_create( creator_id: current_user.id )
-      @member.update( editor: (params[:editor] == '1') )
-    elsif not invite_email.blank?
-      @member = member_scope.where(invite_email: invite_email).first_or_create( creator_id: current_user.id )
-      @member.update( editor: (params[:editor] == '1') )
+      @member = member_scope.where(user_id: @user.id).first_or_create(creator_id: current_user.id)
+      @member.update editor: editor, unblinded: unblinded
+    elsif invite_email.present?
+      @member = member_scope.where(invite_email: invite_email).first_or_create(creator_id: current_user.id)
+      @member.update editor: editor, unblinded: unblinded
       @member.generate_invite_token!
     end
 
@@ -264,6 +266,7 @@ class ProjectsController < ApplicationController
       :show_contacts, :show_documents, :show_posts, :disable_all_emails,
       :collect_email_on_surveys, :lockable, :hide_values_on_pdfs,
       :double_data_entry, :randomizations_enabled, :adverse_events_enabled,
+      :blinding_enabled,
       # Uploaded Logo
       :logo, :logo_uploaded_at, :logo_cache, :remove_logo,
       # Will automatically generate a site if the project has no site

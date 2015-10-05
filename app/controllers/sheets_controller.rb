@@ -12,11 +12,8 @@ class SheetsController < ApplicationController
 
   # GET /sheets
   def index
-    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: :site).search(params[:search])
-
-    @filter = %w(all first last).include?(params[:filter]) ? params[:filter] : 'all'
-    sheet_scope = sheet_scope.last_entry if @filter == 'last'
-    sheet_scope = sheet_scope.first_entry if @filter == 'first'
+    # sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: :site).search(params[:search])
+    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, subject: :site).search(params[:search])
 
     @statuses = params[:statuses] || ['valid']
     sheet_scope = sheet_scope.with_subject_status(@statuses)
@@ -47,13 +44,13 @@ class SheetsController < ApplicationController
     when 'sheets.site_name DESC'
       sheet_scope = sheet_scope.order('sites.name desc')
     when 'sheets.design_name'
-      sheet_scope = sheet_scope.order('designs.name')
+      sheet_scope = sheet_scope.order('designs.name').select('sheets.*, designs.name')
     when 'sheets.design_name DESC'
-      sheet_scope = sheet_scope.order('designs.name desc')
+      sheet_scope = sheet_scope.order('designs.name desc').select('sheets.*, designs.name')
     when 'sheets.subject_code'
-      sheet_scope = sheet_scope.order('subjects.subject_code')
+      sheet_scope = sheet_scope.order('subjects.subject_code').select('sheets.*, subjects.subject_code')
     when 'sheets.subject_code DESC'
-      sheet_scope = sheet_scope.order('subjects.subject_code desc')
+      sheet_scope = sheet_scope.order('subjects.subject_code desc').select('sheets.*, subjects.subject_code')
     when 'sheets.user_name'
       sheet_scope = sheet_scope.order('users.last_name, users.first_name')
     when 'sheets.user_name DESC'

@@ -268,18 +268,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should get report with column variable (numeric) and first sheet only' do
-    get :report, id: designs(:all_variable_types), project_id: @project, f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }], filter: 'first'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report with column variable (numeric) and last sheet only' do
-    get :report, id: designs(:all_variable_types), project_id: @project, f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }], filter: 'last'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
   test 'should get report gender (row) by weight (column)' do
     get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:gender).id, axis: 'row', missing: '0' }, { id: variables(:weight).id, axis: 'col', missing: '0' }], statuses: [ 'valid', 'test' ]
     assert_not_nil assigns(:design)

@@ -69,14 +69,19 @@ class Sheet < ActiveRecord::Base
     created_at
   end
 
-  def self.last_entry
-    sheet_ids = order(:subject_id, created_at: :desc).pluck('DISTINCT ON (sheets.subject_id) sheets.id')
-    where id: sheet_ids
-  end
-
-  def self.first_entry
-    sheet_ids = order(:subject_id, :created_at).pluck('DISTINCT ON (sheets.subject_id) sheets.id')
-    where id: sheet_ids
+  # Shows designs IF
+  # Project has Blind module disabled
+  # OR Design not set as Only Blinded
+  # OR User is Project Owner
+  # OR User is Unblinded Project Member
+  # OR User is Unblinded Site Member
+  def self.blinding_scope(user)
+    joins('LEFT OUTER JOIN designs ON designs.id = sheets.design_id')
+      .joins('LEFT OUTER JOIN projects ON projects.id = sheets.project_id')
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
+      .where('projects.blinding_enabled = ? or designs.only_unblinded = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, false, user.id, true, true)
+      .distinct
   end
 
   def contributors
@@ -426,8 +431,8 @@ class Sheet < ActiveRecord::Base
   end
 
   def non_hidden_responses
-    non_blank_sheet_variable_ids = sheet_variables.collect{|sv| sv.empty_or_not}.compact
-    sheet_variables = SheetVariable.where(variable_id: non_hidden_variable_ids).where(id: non_blank_sheet_variable_ids).count
+    non_blank_sheet_variable_ids = sheet_variables.collect(&:empty_or_not).compact
+    SheetVariable.where(variable_id: non_hidden_variable_ids).where(id: non_blank_sheet_variable_ids).count
   end
 
   def non_hidden_total_responses

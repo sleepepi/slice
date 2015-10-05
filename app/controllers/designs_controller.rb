@@ -287,7 +287,7 @@ class DesignsController < ApplicationController
 
     params.require(:design).permit(
       :name, :slug, :description, :project_id, :updater_id, :csv_file, :csv_file_cache, :publicly_available, :show_site,
-      { questions: [:question_name, :question_type] }, :redirect_url, :category_id
+      { questions: [:question_name, :question_type] }, :redirect_url, :category_id, :only_unblinded
     )
   end
 
