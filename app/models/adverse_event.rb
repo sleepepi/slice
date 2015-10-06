@@ -82,6 +82,14 @@ class AdverseEvent < ActiveRecord::Base
     b
   end
 
+  def self.blinding_scope(user)
+    joins(:project)
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
+      .where('projects.blinding_enabled = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, user.id, true, true)
+      .distinct
+  end
+
   private
 
   # Adverse Events reports are sent to unblinded project editors

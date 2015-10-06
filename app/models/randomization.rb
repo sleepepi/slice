@@ -4,7 +4,7 @@ class Randomization < ActiveRecord::Base
   serialize :weighted_eligible_arms, Array
 
   # Concerns
-  include Deletable, Siteable
+  include Deletable, Siteable, Forkable
 
   # Model Validation
   validates_presence_of :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group, :multiplier, :position, :treatment_arm_id
@@ -24,55 +24,62 @@ class Randomization < ActiveRecord::Base
   belongs_to :randomized_by, class_name: 'User', foreign_key: 'randomized_by_id'
   has_many :randomization_characteristics
 
+  # Named Scopes
+  def self.blinding_scope(user)
+    joins(:project)
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
+      .where('projects.blinding_enabled = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, user.id, true, true)
+      .distinct
+  end
+
   # Model Methods
 
   def editable_by?(current_user)
-    current_user.all_randomizations.where(id: self.id).count == 1
+    current_user.all_randomizations.where(id: id).count == 1
   end
 
   def event_at
-    self.randomized_at
+    randomized_at
   end
 
   def name
-    self.randomization_number || ""
+    randomization_number || ''
   end
 
   def add_subject!(subject, current_user)
-    if self.update subject: subject, randomized_by: current_user, randomized_at: Time.zone.now, attested: true
-      self.notify_users!
-    end
+    notify_users_in_background! if update subject: subject, randomized_by: current_user, randomized_at: Time.zone.now, attested: true
   end
 
   def randomized?
-    self.subject_id != nil
+    subject_id != nil
   end
 
   def randomization_number
-    self.randomization_scheme.randomizations.where.not(subject_id: nil).order(:randomized_at).pluck(:id).index(self.id) + 1 rescue nil
+    randomization_scheme.randomizations.where.not(subject_id: nil).order(:randomized_at).pluck(:id).index(id) + 1
+  rescue
+    nil
   end
 
   def list_position
-    self.list.randomizations.order(:created_at).pluck(:id).index(self.id) + 1 rescue nil
+    list.randomizations.order(:created_at).pluck(:id).index(id) + 1
+  rescue
+    nil
+  end
+
+  def notify_users_in_background!
+    fork_process(:notify_users!)
   end
 
   def notify_users!
-    unless Rails.env.test?
-      pid = Process.fork
-      if pid.nil?
-        all_users = self.project.users_to_email - [self.randomized_by]
-        all_users.each do |user_to_email|
-          UserMailer.subject_randomized(self, user_to_email).deliver_later if ENV['emails_enabled'] == 'true'
-        end
-        Kernel.exit!
-      else
-        Process.detach(pid)
-      end
+    all_users = project.unblinded_members.where(emails_enabled: true) - [randomized_by]
+    all_users.each do |user_to_email|
+      UserMailer.subject_randomized(self, user_to_email).deliver_later if ENV['emails_enabled'] == 'true'
     end
   end
 
   def undo!
-    self.update(
+    update(
       subject_id: nil,
       randomized_at: nil,
       randomized_by_id: nil,
@@ -82,6 +89,6 @@ class Randomization < ActiveRecord::Base
       past_distributions: nil,
       weighted_eligible_arms: nil
     )
-    self.randomization_characteristics.destroy_all
+    randomization_characteristics.destroy_all
   end
 end

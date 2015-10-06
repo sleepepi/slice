@@ -66,6 +66,10 @@ class ApplicationController < ActionController::Base
     empty_response_or_root_path(path) unless @project
   end
 
+  def redirect_blinded_users
+    empty_response_or_root_path(@project) unless @project.unblinded?(current_user)
+  end
+
   def empty_response_or_root_path(path = root_path)
     respond_to do |format|
       format.html { redirect_to path }

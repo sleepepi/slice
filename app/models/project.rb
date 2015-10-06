@@ -154,9 +154,9 @@ class Project < ActiveRecord::Base
     project_favorite.present? && project_favorite.favorite?
   end
 
-  # def unblinded?(current_user)
-  #   user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 1 || site_users.where(user_id: current_user.id, unblinded: true).count > 1
-  # end
+  def unblinded?(current_user)
+    user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 0 || site_users.where(user_id: current_user.id, unblinded: true).count > 0
+  end
 
   def archived_by?(current_user)
     if project_favorite = self.project_favorites.find_by_user_id(current_user.id)
@@ -230,7 +230,16 @@ class Project < ActiveRecord::Base
 
   # Returns project editors and project owner
   def unblinded_project_editors
-    User.current.where('id in (?) or id = ?', editors.select(:id), user_id)
+    User.current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
+      .where('(project_users.editor = ? and project_users.unblinded = ?) or users.id = ?', true, true, user_id)
+  end
+
+  def unblinded_members
+    User.current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id")
+      .where('users.id = ? or project_users.unblinded = ? or site_users.unblinded = ?', user_id, true, true)
   end
 
   private

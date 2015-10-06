@@ -142,22 +142,22 @@ class User < ActiveRecord::Base
 
   # Only Project Editors or Project Owner can modify randomization
   def all_randomizations
-    Randomization.current.where(project_id: all_projects.select(:id))
+    Randomization.current.where(project_id: all_projects.select(:id)).blinding_scope(self)
   end
 
   # Project Editors and Viewers and Site Members can view randomization
   def all_viewable_randomizations
-    Randomization.current.with_site(all_viewable_sites.select(:id))
+    Randomization.current.with_site(all_viewable_sites.select(:id)).blinding_scope(self)
   end
 
   # Only Project Editors and Site Editors can modify adverse event
   def all_adverse_events
-    AdverseEvent.current.with_site(all_editable_sites.select(:id))
+    AdverseEvent.current.with_site(all_editable_sites.select(:id)).blinding_scope(self)
   end
 
   # Project Editors and Viewers and Site Members can view adverse event
   def all_viewable_adverse_events
-    AdverseEvent.current.with_site(all_viewable_sites.select(:id))
+    AdverseEvent.current.with_site(all_viewable_sites.select(:id)).blinding_scope(self)
   end
 
   def all_viewable_adverse_event_comments

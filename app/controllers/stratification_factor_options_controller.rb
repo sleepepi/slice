@@ -2,11 +2,11 @@ class StratificationFactorOptionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project
   before_action :redirect_without_project
+  before_action :redirect_blinded_users
   before_action :set_randomization_scheme
   before_action :redirect_without_randomization_scheme
   before_action :set_stratification_factor
   before_action :redirect_without_stratification_factor
-
   before_action :set_stratification_factor_option,                only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_stratification_factor_option,   only: [:show, :edit, :update, :destroy]
   before_action :redirect_with_published_scheme,                  only: [:destroy]

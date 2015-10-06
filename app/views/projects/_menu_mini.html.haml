@@ -8,11 +8,11 @@
   %li
     = link_to project_sheets_path(@project), class: (params[:controller] == 'sheets' ? 'active' : nil), rel: 'tooltip', data: { title: 'Sheets', container: 'body', placement: 'right' } do
       %span.glyphicon.glyphicon-duplicate
-  - if @project.randomizations_enabled? and @project.randomization_schemes.count > 0
+  - if @project.randomizations_enabled? && @project.randomization_schemes.count > 0 && @project.unblinded?(current_user)
     %li
       = link_to project_randomizations_path(@project), class: (params[:controller] == 'randomizations' || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? 'active' : nil), rel: 'tooltip', data: { title: 'Randomizations', container: 'body', placement: 'right' } do
         %span.glyphicon.glyphicon-random
-  - if @project.adverse_events_enabled?
+  - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
     %li
       = link_to project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? 'active' : nil), rel: 'tooltip', data: { title: 'Adverse Events', container: 'body', placement: 'right' } do
         %span.glyphicon.glyphicon-warning-sign{ class: current_user.unseen_adverse_events.present? ? 'text-danger' : nil }

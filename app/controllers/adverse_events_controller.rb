@@ -6,6 +6,8 @@ class AdverseEventsController < ApplicationController
   before_action :set_editable_project_or_editable_site, only: [:new, :create, :edit, :update, :destroy]
   before_action :redirect_without_project
 
+  before_action :redirect_blinded_users
+
   before_action :set_viewable_adverse_event,            only: [:show, :forms]
   before_action :set_editable_adverse_event,            only: [:edit, :update, :destroy]
   before_action :redirect_without_adverse_event,        only: [:show, :forms, :edit, :update, :destroy]

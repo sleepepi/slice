@@ -3,6 +3,7 @@ class RandomizationSchemesController < ApplicationController
   before_action :set_editable_project_or_editable_site,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
   before_action :set_editable_project,                    only: [:index, :show, :new, :edit, :create, :update, :destroy]
   before_action :redirect_without_project
+  before_action :redirect_blinded_users
   before_action :set_randomization_scheme,                only: [:show, :edit, :update, :destroy]
   before_action :set_published_randomization_scheme,      only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
   before_action :redirect_without_randomization_scheme,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list, :show, :edit, :update, :destroy]
