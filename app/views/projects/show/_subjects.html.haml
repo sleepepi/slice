@@ -17,8 +17,8 @@
     - subject_scope.order(:subject_code).limit(10).each do |subject|
       %tr{ style: 'cursor:pointer', data: { link: project_subject_path(subject.project, subject), object: 'hover-show', target: "#subject_#{subject.id}_edit_link" } }
         %td
-          - if subject.sheets.count > 0
-            %span.badge.badge-info= subject.sheets.count
+          - if subject.blinded_sheets(current_user).count > 0
+            %span.badge.badge-info= subject.blinded_sheets(current_user).count
         %td
           .nowrap{ style: 'overflow: hidden; overflow-x: hidden' }
             = status_helper(subject)
@@ -26,6 +26,6 @@
     %tr{ style: 'cursor:pointer', data: { link: project_subjects_path(@project) } }
       %td.text-muted
       %td
-        = link_to "View More", project_subjects_path(@project)
+        = link_to 'View More', project_subjects_path(@project)
         - if subject_scope.count > 0
           %span.badge.badge-info= subject_scope.count

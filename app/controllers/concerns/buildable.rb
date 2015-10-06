@@ -1,3 +1,4 @@
+# Builds report tables for projects and designs
 module Buildable
   extend ActiveSupport::Concern
 
@@ -60,23 +61,16 @@ module Buildable
   # x3 =                     race: w, calculator: race, calculation: count
   # x4 =                              calculator: race, calculation: count
 
-
   def setup_report_new
     filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0', by: 'month' }]).uniq {|f| f[:id] }
     # filters = (params[:f] || []).uniq {|f| f[:id] }
 
-    filters.collect!{|h| h.merge(variable: @project.variable_by_id(h[:id]))}.select!{|h| not h[:variable].blank?}
+    filters.collect! { |h| h.merge(variable: @project.variable_by_id(h[:id])) }.select! { |h| h[:variable].present? }
 
-    @column_filters = filters.select{|f| f[:axis] == 'col' }[0..0]
-    @row_filters = filters.select{|f| f[:axis] != 'col' }[0..2]
-
-
-
-
+    @column_filters = filters.select { |f| f[:axis] == 'col' }[0..0]
+    @row_filters = filters.select { |f| f[:axis] != 'col' }[0..2]
 
     # params[:row_variable_ids] = 'site' if params[:row_variable_ids].blank?
-
-
     params[:column_variable_ids] = params[:column_variable_id].to_s.split(',')[0]
     # params[:row_variable_ids] = params[:row_variable_ids].to_s.split(',') unless params[:row_variable_ids].is_a?(Array)
     # params[:row_variable_ids] = params[:row_variable_ids][0..2] if params[:row_variable_ids].is_a?(Array)
@@ -90,7 +84,7 @@ module Buildable
     build_table_footer
     build_table_body
 
-    @report_caption = "All Sheets"
+    @report_caption = 'All Sheets'
     # date_description = ((@column_variable and @column_variable.variable_type.include?('date')) ? @column_variable.display_name : 'Sheet Creation Date')
 
     # @report_caption = if @sheet_after.blank? and @sheet_before.blank?
@@ -103,9 +97,9 @@ module Buildable
     #   "#{date_description} between #{@sheet_after.strftime("%b %d, %Y")} and #{@sheet_before.strftime("%b %d, %Y")}"
     # end
 
-    @report_title = [@row_filters.collect{|i| i[:variable].display_name}.join(' & '), @column_filters.collect{|h| h[:variable].display_name}.join(' & ')].select{ |i| not i.blank? }.join(' vs. ')
+    @report_title = [@row_filters.collect { |i| i[:variable].display_name }.join(' & '), @column_filters.collect { |h| h[:variable].display_name }.join(' & ')].select { |i| not i.blank? }.join(' vs. ')
 
-    @report_subtitle = (@design ? @design.name + " &middot; " + @design.project.name : @project.name)
+    @report_subtitle = (@design ? @design.name + ' &middot; ' + @design.project.name : @project.name)
   end
 
   def set_sheet_scope
@@ -208,15 +202,14 @@ module Buildable
     table_row = []
 
     @table_header.each do |header|
-      if header.is_a?(Hash)
-        cell = header.dup
-        cell[:filters] = (cell[:filters] || []) + filters
-        # This adds in row specific missing filters to accurately calculate the total row count
-        cell[:filters] = cell[:filters] + @column_filters.select{|f| f[:missing] != '1'}.select{|f| f[:id].to_i > 0}.collect{|f| { variable_id: f[:id], value: ':any' }} if header[:column_type] == 'total'
-        (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters])
-        # cell[:debug] = '1'
-        table_row << cell
-      end
+      next unless header.is_a? Hash
+      cell = header.dup
+      cell[:filters] = (cell[:filters] || []) + filters
+      # This adds in row specific missing filters to accurately calculate the total row count
+      cell[:filters] += @column_filters.select { |f| f[:missing] != '1' }.select { |f| f[:id].to_i > 0 }.collect { |f| { variable_id: f[:id], value: ':any' } } if header[:column_type] == 'total'
+      (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters])
+      # cell[:debug] = '1'
+      table_row << cell
     end
 
     table_row
@@ -225,7 +218,7 @@ module Buildable
   def generate_table_csv_new
     @csv_string = CSV.generate do |csv|
       csv << [@report_title]
-      csv << [@report_subtitle.gsub("&middot;", " - ")]
+      csv << [@report_subtitle.gsub('&middot;', ' - ')]
       csv << [@report_caption]
       csv << []
 
@@ -259,12 +252,9 @@ module Buildable
         end
       end
       csv << row
-
-
     end
     file_name = @report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                            disposition: "attachment; filename=\"#{file_name} #{Time.zone.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
-
 end

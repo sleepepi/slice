@@ -1,3 +1,4 @@
+# Stores custom reports for users
 class ReportsController < ApplicationController
   before_action :authenticate_user!
 
@@ -12,10 +13,10 @@ class ReportsController < ApplicationController
 
   # GET /reports
   def show
-    @report = current_user.all_viewable_reports.find_by_id(params[:id])
+    @report = current_user.all_viewable_reports.find_by_id params[:id]
     @design = current_user.all_viewable_designs.find_by_id(@report.options[:design_id]) if @report
 
-    if @report and @design
+    if @report && @design
       redirect_to report_project_design_path(@design.project, @design, @report.options.except(:design_id))
     else
       redirect_to reports_path
@@ -24,20 +25,19 @@ class ReportsController < ApplicationController
 
   # DELETE /reports/1.js
   def destroy
-    @report = current_user.all_reports.find_by_id(params[:id])
+    @report = current_user.all_reports.find_by_id params[:id]
     @report.destroy if @report
   end
 
   private
 
-    def report_params
-      params[:report] ||= {}
+  def report_params
+    params[:report] ||= {}
 
-      params.require(:report).permit!
-      # TODO: Permit Hash (options)
-      #(
-      #  :name, :options
-      #)
-    end
-
+    params.require(:report).permit!
+    # TODO: Permit Hash (options)
+    #(
+    #  :name, :options
+    #)
+  end
 end

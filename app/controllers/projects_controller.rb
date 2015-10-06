@@ -146,7 +146,7 @@ class ProjectsController < ApplicationController
   end
 
   def archives
-    @projects = current_user.all_archived_projects.order(:name).page(params[:page]).per( Project::PER_PAGE )
+    @projects = current_user.all_archived_projects.order(:name).page(params[:page]).per(Project::PER_PAGE)
   end
 
   def report
@@ -158,17 +158,15 @@ class ProjectsController < ApplicationController
   def report_print
     params[:f] = [{ id: 'design', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0', by: params[:by] || 'month' }]
     setup_report_new
-    orientation = ['portrait', 'landscape'].include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
-
-    @design = @project.designs.new( name: 'Summary Report' )
-
+    orientation = %w(portrait landscape).include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
+    @design = @project.designs.new(name: 'Summary Report')
     file_pdf_location = @design.latex_report_new_file_location(current_user, orientation, @report_title, @report_subtitle, @report_caption, @percent, @table_header, @table_body, @table_footer)
 
-    if File.exists?(file_pdf_location)
+    if File.exist? file_pdf_location
       file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
-      send_file file_pdf_location, filename: "#{file_name} #{Time.zone.now.strftime("%Y.%m.%d %Ih%M %p")}.pdf", type: "application/pdf", disposition: "inline"
+      send_file file_pdf_location, filename: "#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.pdf", type: 'application/pdf', disposition: 'inline'
     else
-      render text: "PDF did not render in time. Please refresh the page."
+      render text: 'PDF did not render in time. Please refresh the page.'
     end
   end
 

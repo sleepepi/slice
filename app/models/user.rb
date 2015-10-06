@@ -17,14 +17,6 @@ class User < ActiveRecord::Base
   # Concerns
   include Deletable
 
-  # Named Scopes
-  scope :search, -> (arg) { where 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ? or ((LOWER(first_name) || LOWER(last_name)) LIKE ? ) or ((LOWER(last_name) || LOWER(first_name)) LIKE ? )', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') }
-  scope :system_admins, -> { where system_admin: true }
-  scope :with_sheet, -> { where 'users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)', false }
-  scope :with_design, -> { where 'users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)', false }
-  scope :with_variable_on_project, -> (arg) { where 'users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)', arg, false }
-  scope :with_project, -> (*args) { where 'users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.editor IN (?))', args.first, false, args.first, args[1] }
-
   # Model Validation
   validates :first_name, :last_name, presence: true
 
@@ -46,6 +38,25 @@ class User < ActiveRecord::Base
   has_many :sites, -> { where deleted: false }
   has_many :subjects, -> { where deleted: false }
   has_many :variables, -> { where deleted: false }
+
+  # Named Scopes
+  scope :with_sheet, -> { where 'users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)', false }
+  scope :with_design, -> { where 'users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)', false }
+  scope :with_variable_on_project, -> (arg) { where 'users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)', arg, false }
+  scope :with_project, -> (*args) { where 'users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.editor IN (?))', args.first, false, args.first, args[1] }
+
+  def self.search(arg)
+    term = arg.to_s.downcase.gsub(/^| |$/, '%')
+    conditions = [
+      'LOWER(first_name) LIKE ?',
+      'LOWER(last_name) LIKE ?',
+      'LOWER(email) LIKE ?',
+      '((LOWER(first_name) || LOWER(last_name)) LIKE ?)',
+      '((LOWER(last_name) || LOWER(first_name)) LIKE ?)'
+    ]
+    terms = [term] * conditions.count
+    where conditions.join(' or '), *terms
+  end
 
   # User Methods
 
@@ -96,15 +107,11 @@ class User < ActiveRecord::Base
   end
 
   def all_reports
-    @all_reports ||= begin
-      Report.current.where(user_id: id)
-    end
+    Report.current.where(user_id: id)
   end
 
   def all_viewable_reports
-    @all_viewable_reports ||= begin
-       Report.current.where(user_id: id)
-    end
+    Report.current.where(user_id: id)
   end
 
   def all_designs
@@ -116,15 +123,11 @@ class User < ActiveRecord::Base
   end
 
   def all_variables
-    @all_variables ||= begin
-      Variable.current.with_project(all_projects.pluck(:id))
-    end
+    Variable.current.with_project(all_projects.pluck(:id))
   end
 
   def all_viewable_variables
-    @all_viewable_variables ||= begin
-      Variable.current.with_project(all_viewable_and_site_projects.pluck(:id))
-    end
+    Variable.current.with_project(all_viewable_and_site_projects.pluck(:id))
   end
 
   # Project Editors and Site Editors on that site can modify sheet

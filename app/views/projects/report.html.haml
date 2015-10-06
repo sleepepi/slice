@@ -21,16 +21,16 @@
 
   &middot;
   .btn-group
-    = link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn btn-default btn-xs', data: { toggle: 'dropdown' }
+    = link_to '#', class: 'dropdown-toggle btn btn-default btn-xs', data: { toggle: 'dropdown' } do
+      Export
+      %b.caret
     %ul.dropdown-menu
       %li= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' }
       %li= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' }
       %li= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' }
-  %button.btn.btn-primary.btn-xs{ type: "submit"  } Refresh
+  %button.btn.btn-primary.btn-xs{ type: 'submit' } Refresh
 
-
-%hr.soften{ style: "margin-top:20px;margin-bottom:54px" }
+%hr.divider-md
 
 #report
-  .center
-    = image_tag 'try-slice-waiting.gif'
+  .center= image_tag 'try-slice-waiting.gif'
