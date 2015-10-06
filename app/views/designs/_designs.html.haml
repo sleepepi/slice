@@ -1,11 +1,9 @@
-= render 'contour/layouts/per_page', per_page: 40, object_count: @designs.total_count
-
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'designs.name', 'Name'
-      %th.nowrap Variables
-      %th.nowrap= sort_field_helper @order, 'designs.user_name', 'Creator'
+      = th_sort_field @order, 'designs.name', 'Name'
+      %th Variables
+      = th_sort_field @order, 'designs.user_name', 'Creator'
       %th Actions
 
   - @designs.each do |design|

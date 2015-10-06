@@ -2,12 +2,11 @@
 
 = render 'projects/tabbed_menu', links: [['Settings', setup_project_path(@project)]]
 
-.row
-  .col-sm-2
-    = render 'projects/menu'
-
-  .col-sm-10
-    %h2
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
       Setup
 
     .panel.panel-default

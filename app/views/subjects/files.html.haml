@@ -20,7 +20,7 @@
         %tr
           %th Total Files
           %th
-          %th=@subject.uploaded_files.count
+          %th=@uploaded_files.total_count
       %tbody
         - @uploaded_files.each do |sv|
           %tr

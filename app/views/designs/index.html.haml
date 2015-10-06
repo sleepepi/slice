@@ -2,34 +2,35 @@
 
 = render 'projects/tabbed_menu', links: [['Designs', project_designs_path(@project)]]
 
-.row
-  .col-sm-2
-    = render 'projects/menu'
 
-  .col-sm-10
-    %h2
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
       = @title
-    %div{ style: 'margin-bottom: 20px' }
-      = link_to "Create Design", new_project_design_path(@project), class: 'btn btn-xs btn-primary'
-      = link_to "Create Design from Import", import_project_designs_path(@project), class: 'btn btn-xs btn-primary'
-      = link_to "Create Design[s] from JSON Import", json_import_project_designs_path(@project), class: 'btn btn-xs btn-primary'
+      = link_to 'Create Design', new_project_design_path(@project), class: 'btn btn-xs btn-primary'
+      = link_to 'Create Design from Import', import_project_designs_path(@project), class: 'btn btn-xs btn-primary'
+      = link_to 'Create Design[s] from JSON Import', json_import_project_designs_path(@project), class: 'btn btn-xs btn-primary'
       = link_to 'View Categories', project_categories_path(@project), class: 'btn btn-xs btn-default'
+      .per-page
+        = render 'contour/layouts/per_page', per_page: 40, object_count: @designs.total_count
 
-    = form_tag project_designs_path(@project), method: :get, class: 'form-vertical' do
-      = hidden_field_tag :order, params[:order]
-      .row
-        .col-md-4.form-group
-          = label :search, 'Search', class: 'col-md-3 control-label'
-          .col-md-9
-            = text_field_tag 'search', params[:search], class: 'form-control'
-
-        .col-md-4.form-group
-          = label :user_id, 'Creator', class: 'col-md-3 control-label'
-          .col-md-9
-            = select_tag 'user_id', options_for_select([['---', nil]] + User.where( id: @project.designs.select(:user_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control'
-
-        .col-md-4.form-group
-          = submit_tag 'Search', class: 'btn btn-primary', name: nil
-          = link_to 'Reset', project_designs_path(@project), class: 'btn btn-default'
 
     = render 'designs/designs'
+
+    .jumbotron
+      = form_tag project_designs_path(@project), method: :get, class: 'form-vertical' do
+        = hidden_field_tag :order, params[:order]
+
+        .form-group
+          = label :search, 'Search', class: 'control-label'
+          = text_field_tag 'search', params[:search], class: 'form-control'
+
+        .form-group
+          = label :user_id, 'Creator', class: 'control-label'
+          = select_tag 'user_id', options_for_select([['---', nil]] + User.where( id: @project.designs.select(:user_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:user_id]), class: 'form-control'
+
+        .form-group
+          = submit_tag 'Search', class: 'btn btn-primary', name: nil
+          = link_to 'Reset', project_designs_path(@project), class: 'btn btn-default'

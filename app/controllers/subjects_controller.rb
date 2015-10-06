@@ -73,13 +73,12 @@ class SubjectsController < ApplicationController
   end
 
   def comments
-    @comments = @subject.comments.includes(:user, :sheet).order(created_at: :desc).page(params[:page]).per(20)
+    @comments = @subject.blinded_comments(current_user).includes(:user, :sheet).order(created_at: :desc).page(params[:page]).per(20)
   end
 
   def files
-    @uploaded_files = @subject.uploaded_files.includes(:variable, :sheet).page(params[:page]).per(40)
+    @uploaded_files = @subject.uploaded_files(current_user).includes(:variable, :sheet).page(params[:page]).per(40)
   end
-
 
   def launch_subject_event
     @event = @project.events.find_by_param(params[:event_id])
@@ -222,11 +221,11 @@ class SubjectsController < ApplicationController
   end
 
   def set_design
-    @design = @project.designs.find_by_id params[:design_id]
+    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_id params[:design_id]
   end
 
   def redirect_without_design
-    empty_response_or_root_path(project_subject_data_entry_path(@project, @subject)) unless @subject
+    empty_response_or_root_path(data_entry_project_subject_path(@project, @subject)) unless @design
   end
 
   def subject_params

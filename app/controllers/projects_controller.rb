@@ -113,8 +113,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1/subject_report.js
   def subject_report
     @statuses = params[:statuses] || ['valid']
-    @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order('subject_code').page(params[:page]).per( 40 )
-    @designs = @project.designs.order('name')
+    @subjects = @project.subjects.where(site_id: current_user.all_viewable_sites.pluck(:id), status: @statuses).order(:subject_code).page(params[:page]).per(40)
+    @designs = current_user.all_viewable_designs.where(project_id: @project.id).order(:name)
     render layout: 'layouts/application_custom_full'
   end
 

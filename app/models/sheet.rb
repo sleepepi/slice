@@ -69,21 +69,6 @@ class Sheet < ActiveRecord::Base
     created_at
   end
 
-  # Shows designs IF
-  # Project has Blind module disabled
-  # OR Design not set as Only Blinded
-  # OR User is Project Owner
-  # OR User is Unblinded Project Member
-  # OR User is Unblinded Site Member
-  def self.blinding_scope(user)
-    joins('LEFT OUTER JOIN designs ON designs.id = sheets.design_id')
-      .joins('LEFT OUTER JOIN projects ON projects.id = sheets.project_id')
-      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
-      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
-      .where('projects.blinding_enabled = ? or designs.only_unblinded = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, false, user.id, true, true)
-      .distinct
-  end
-
   def contributors
     sheet_transactions.select(&:user).collect { |st| st.user.name }.uniq.join(', ')
   end

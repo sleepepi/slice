@@ -352,22 +352,16 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should get paginated index' do
-    get :index, project_id: @project, format: 'js'
+  test 'should get index by user_name' do
+    get :index, project_id: @project, order: 'designs.user_name'
     assert_not_nil assigns(:designs)
-    assert_template 'index'
-  end
-
-  test 'should get paginated index by user_name' do
-    get :index, project_id: @project, format: 'js', order: 'designs.user_name'
-    assert_not_nil assigns(:designs)
-    assert_template 'index'
+    assert_response :success
   end
 
   test 'should get paginated index by user_name desc' do
-    get :index, project_id: @project, format: 'js', order: 'designs.user_name DESC'
+    get :index, project_id: @project, order: 'designs.user_name DESC'
     assert_not_nil assigns(:designs)
-    assert_template 'index'
+    assert_response :success
   end
 
   test 'should get new' do

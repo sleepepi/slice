@@ -17,9 +17,6 @@ class Design < ActiveRecord::Base
   scope :with_user, -> (arg) { where user_id: arg }
   scope :with_project, -> (arg) { where project_id: arg }
 
-  scope :order_by_user_name, -> { joins('LEFT JOIN users ON users.id = designs.user_id').order('users.last_name, users.first_name') }
-  scope :order_by_user_name_desc, -> { joins('LEFT JOIN users ON users.id = designs.user_id').order('users.last_name DESC, users.first_name DESC') }
-
   # Model Validation
   validates :name, :user_id, :project_id, presence: true
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
@@ -39,8 +36,34 @@ class Design < ActiveRecord::Base
 
   # Model Methods
 
+  # Shows designs IF
+  # Project has Blind module disabled
+  # OR Design not set as Only Blinded
+  # OR User is Project Owner
+  # OR User is Unblinded Project Member
+  # OR User is Unblinded Site Member
+  def self.blinding_scope(user)
+    joins(:project)
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
+      .where('projects.blinding_enabled = ? or designs.only_unblinded = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, false, user.id, true, true)
+      .distinct
+  end
+
+  def self.order_by_user_name
+    joins('LEFT JOIN users ON users.id = designs.user_id')
+      .order('users.last_name, users.first_name')
+      .select('designs.*, users.last_name, users.first_name')
+  end
+
+  def self.order_by_user_name_desc
+    joins('LEFT JOIN users ON users.id = designs.user_id')
+      .order('users.last_name DESC, users.first_name DESC')
+      .select('designs.*, users.last_name, users.first_name')
+  end
+
   def questions
-    @questions || [ { question_name: '', question_type: 'free text' } ]
+    @questions || [{ question_name: '', question_type: 'free text' }]
   end
 
   def create_domain(params, variable_id, current_user)

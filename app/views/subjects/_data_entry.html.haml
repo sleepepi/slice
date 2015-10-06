@@ -1,7 +1,7 @@
 %h2
   Data Entry Selection
 
-- designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
+- designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
 
 - if designs.count == 0
   .center

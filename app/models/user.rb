@@ -108,11 +108,11 @@ class User < ActiveRecord::Base
   end
 
   def all_designs
-    Design.current.with_project(all_projects.select(:id))
+    Design.current.with_project(all_projects.select(:id)).blinding_scope(self)
   end
 
   def all_viewable_designs
-    Design.current.with_project(all_viewable_and_site_projects.select(:project_id))
+    Design.current.with_project(all_viewable_and_site_projects.select(:id)).blinding_scope(self)
   end
 
   def all_variables
@@ -129,12 +129,12 @@ class User < ActiveRecord::Base
 
   # Project Editors and Site Editors on that site can modify sheet
   def all_sheets
-    Sheet.current.with_site(all_editable_sites.select(:id)).blinding_scope(self)
+    Sheet.current.with_site(all_editable_sites.select(:id)).where(design_id: all_viewable_designs.select(:id))
   end
 
   # Project Editors and Viewers and Site Members can view sheets
   def all_viewable_sheets
-    Sheet.current.with_site(all_viewable_sites.select(:id)).blinding_scope(self)
+    Sheet.current.with_site(all_viewable_sites.select(:id)).where(design_id: all_viewable_designs.select(:id))
   end
 
   # Only Project Editors or Project Owner can modify randomization
@@ -218,15 +218,11 @@ class User < ActiveRecord::Base
   end
 
   def all_comments
-    @all_comments ||= begin
-      comments
-    end
+    comments
   end
 
   def all_viewable_comments
-    @all_viewable_comments ||= begin
-      Comment.current.where(sheet_id: all_viewable_sheets.select(:id))
-    end
+    Comment.current.where(sheet_id: all_viewable_sheets.select(:id))
   end
 
   def all_deletable_comments

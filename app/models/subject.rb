@@ -39,8 +39,8 @@ class Subject < ActiveRecord::Base
     %w(subject_code)
   end
 
-  def comments
-    Comment.current.where(sheet_id: sheets.select(:id))
+  def blinded_comments(current_user)
+    Comment.current.where(sheet_id: blinded_sheets(current_user).select(:id))
   end
 
   def editable_by?(current_user)
@@ -79,11 +79,15 @@ class Subject < ActiveRecord::Base
     result
   end
 
-  def uploaded_files
-    SheetVariable.where(sheet_id: sheets.select(:id)).includes(:variable).where(variables: { variable_type: 'file' }).order(created_at: :desc)
+  def uploaded_files(current_user)
+    SheetVariable.where(sheet_id: blinded_sheets(current_user).select(:id)).includes(:variable).where(variables: { variable_type: 'file' }).order(created_at: :desc)
   end
 
   def has_value?(variable, value)
     sheets.joins(:sheet_variables).where(sheet_variables: { variable_id: variable.id, response: value }).count >= 1
+  end
+
+  def blinded_sheets(current_user)
+    current_user.all_viewable_sheets.where(subject_id: id)
   end
 end

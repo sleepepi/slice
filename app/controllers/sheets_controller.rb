@@ -12,8 +12,7 @@ class SheetsController < ApplicationController
 
   # GET /sheets
   def index
-    # sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: :site).search(params[:search])
-    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, subject: :site).search(params[:search])
+    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: :site).search(params[:search])
 
     @statuses = params[:statuses] || ['valid']
     sheet_scope = sheet_scope.with_subject_status(@statuses)
