@@ -30,7 +30,8 @@
   )
   # setFocusToField("#search")
   Turbolinks.enableProgressBar()
-  Turbolinks.disableRequestCaching()
+  # disableRequestCaching will be available with Turbolinks 3.0+
+  Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
 
 @ready = () ->
   contourReady()
