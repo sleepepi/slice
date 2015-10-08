@@ -155,11 +155,12 @@ class Project < ActiveRecord::Base
   end
 
   def unblinded?(current_user)
-    user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 0 || site_users.where(user_id: current_user.id, unblinded: true).count > 0
+    !blinding_enabled? || user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 0 || site_users.where(user_id: current_user.id, unblinded: true).count > 0
   end
 
   def archived_by?(current_user)
-    if project_favorite = self.project_favorites.find_by_user_id(current_user.id)
+    project_favorite = project_favorites.find_by user_id: current_user.id
+    if project_favorite
       project_favorite.archived?
     else
       false

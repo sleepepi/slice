@@ -1,3 +1,4 @@
+%h3 Project Members
 %table.table.table-fixed{ style: 'margin-top:20px' }
   %thead
     %tr
@@ -18,7 +19,7 @@
     = render 'projects/member_row', member: project_user
 
 %h3
-  Sites
+  Site Members
   = link_to 'Create Site', new_project_site_path(@project), class: 'btn btn-xs btn-primary' if @project.editable_by?(current_user)
 
 - @project.sites.each do |site|

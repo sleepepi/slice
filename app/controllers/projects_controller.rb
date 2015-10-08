@@ -10,16 +10,16 @@ class ProjectsController < ApplicationController
 
   # POST /projects/save_project_order.js
   def save_project_order
-    page = [params[:page].to_i,1].max
+    page = [params[:page].to_i, 1].max
     params[:project_ids].each_with_index do |project_id, index|
       project_favorite = current_user.project_favorites.where(project_id: project_id).first_or_create
-      project_favorite.update( position: ((page - 1) * Project::PER_PAGE) + index )
+      project_favorite.update position: ((page - 1) * Project::PER_PAGE) + index
     end
     render nothing: true
   end
 
   def logo
-    send_file File.join( CarrierWave::Uploader::Base.root, @project.logo.url )
+    send_file File.join(CarrierWave::Uploader::Base.root, @project.logo.url)
   end
 
   def invite_user
@@ -27,7 +27,11 @@ class ProjectsController < ApplicationController
     @user = current_user.associated_users.find_by_email(invite_email.split('[').last.to_s.split(']').first)
     @site = @project.sites.find_by_id(params[:site_id])
     editor = (params[:editor] == '1')
-    unblinded = (params[:unblinded] == '1')
+    if @project.unblinded?(current_user)
+      unblinded = (params[:unblinded] == '1')
+    else
+      unblinded = false
+    end
 
     if @site
       member_scope = @site.site_users.where(project_id: @project)

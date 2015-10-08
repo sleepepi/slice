@@ -9,11 +9,12 @@
     %h2.underline-header
       Collaborators
 
-    - if @project.editable_by?(current_user)
-      .jumbotron
-        %h2 Share with...
+    - if @project.editable_by? current_user
+      %div{ style: 'margin-bottom:20px' }
+        %h2
 
         = form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do
+          %strong Invite User
           .form-group
             = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address'
 
@@ -25,10 +26,11 @@
               = check_box_tag 'editor', '1', true
               Editor
 
-          .form-group{ style: "#{'display:none' unless @project.blinding_enabled?}" }
-            %label.btn.btn-default
-              = check_box_tag 'unblinded', '1', true
-              Unblinded
+          - if @project.unblinded? current_user
+            .form-group{ style: "#{'display:none' unless @project.blinding_enabled?}" }
+              %label.btn.btn-default
+                = check_box_tag 'unblinded', '1', true
+                Unblinded
 
           .form-group
             = submit_tag 'Invite By Email', class: 'btn btn-primary'
