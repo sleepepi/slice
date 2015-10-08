@@ -4,6 +4,7 @@
 - **General Changes**
   - Updated the menu to make better use of space and added back global search bar
   - Improved project and subject level navigation with better tabbed submenu
+  - Disabled request caching to prevent Internet Explorer from displaying outdated pages
 - **Sheet Changes**
   - Sheet creation workflow now requires selecting an existing subject and design
 - **Design Changes**
