@@ -3,9 +3,6 @@ class Comment < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
 
-  # Named Scopes
-  scope :with_project, -> (arg) { where('comments.sheet_id in (select sheets.id from sheets where sheets.deleted = ? and sheets.project_id IN (?))', false, arg) }
-
   after_create :send_email
 
   # Model Validation
@@ -15,8 +12,18 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :sheet
 
+  delegate :project, to: :sheet
   delegate :project_id, to: :sheet
   delegate :users, to: :sheet
+  delegate :editable_by?, to: :sheet
+
+  # Named Scopes
+
+  def self.with_project(arg)
+    joins(:sheet).merge(Sheet.current.where(project_id: arg))
+  end
+
+  # Model Methods
 
   def event_at
     created_at
@@ -24,10 +31,6 @@ class Comment < ActiveRecord::Base
 
   def name
     "##{id}"
-  end
-
-  def editable_by?(current_user)
-    sheet.project.editable_by?(current_user)
   end
 
   def deletable_by?(current_user)
@@ -45,7 +48,7 @@ class Comment < ActiveRecord::Base
   end
 
   def send_email
-    return if ENV['emails_enabled'] != 'true' || sheet.project.disable_all_emails?
+    return if ENV['emails_enabled'] != 'true' || project.disable_all_emails?
     users_to_email.each do |user_to_email|
       UserMailer.comment_by_mail(self, user_to_email).deliver_later
     end
