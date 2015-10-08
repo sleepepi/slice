@@ -1,3 +1,4 @@
+# Allows editors and viewers to comment on sheets
 class Comment < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
@@ -15,6 +16,7 @@ class Comment < ActiveRecord::Base
   belongs_to :sheet
 
   delegate :project_id, to: :sheet
+  delegate :users, to: :sheet
 
   def event_at
     created_at
@@ -22,10 +24,6 @@ class Comment < ActiveRecord::Base
 
   def name
     "##{id}"
-  end
-
-  def users_to_email
-    (notifiable_users - [user]).select { |u| email_user?(u) }
   end
 
   def editable_by?(current_user)
@@ -42,17 +40,14 @@ class Comment < ActiveRecord::Base
 
   private
 
-  def email_user?(u)
-    u.emails_enabled? && u.email_on?(:sheet_comment) && u.email_on?("project_#{sheet.project.id}_sheet_comment")
-  end
-
-  def notifiable_users
-    (sheet.project.users + [sheet.project.user] + sheet.subject.site.users).uniq
+  def users_to_email
+    users.where.not(id: user.id).where(emails_enabled: true)
   end
 
   def send_email
+    return if ENV['emails_enabled'] != 'true' || sheet.project.disable_all_emails?
     users_to_email.each do |user_to_email|
-      UserMailer.comment_by_mail(self, user_to_email).deliver_later if ENV['emails_enabled'] == 'true' && !sheet.project.disable_all_emails?
+      UserMailer.comment_by_mail(self, user_to_email).deliver_later
     end
   end
 end

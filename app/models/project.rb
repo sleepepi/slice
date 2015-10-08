@@ -232,14 +232,39 @@ class Project < ActiveRecord::Base
   def unblinded_project_editors
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
-      .where('(project_users.editor = ? and project_users.unblinded = ?) or users.id = ?', true, true, user_id)
+      .where('(project_users.editor = ? and (project_users.unblinded = ? or projects.blinding_enabled = ?)) or users.id = ?', true, true, false, user_id)
   end
 
   def unblinded_members
+    return members unless blinding_enabled
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
       .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id")
       .where('users.id = ? or project_users.unblinded = ? or site_users.unblinded = ?', user_id, true, true)
+  end
+
+  def members
+    User.current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id")
+      .where('users.id = ? or project_users.unblinded IS NOT NULL or site_users.unblinded IS NOT NULL', user_id)
+  end
+
+  # Included unblinded project members and unblinded members for specified site
+  def unblinded_members_for_site(site)
+    return members_for_site(site) unless blinding_enabled
+    User.current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id and site_users.site_id = #{site.id}")
+      .where('users.id = ? or project_users.unblinded = ? or site_users.unblinded = ?', user_id, true, true)
+  end
+
+  # Includes project members and site members for specified site
+  def members_for_site(site)
+    User.current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
+      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id and site_users.site_id = #{site.id}")
+      .where('users.id = ? or project_users.unblinded IS NOT NULL or site_users.unblinded IS NOT NULL', user_id)
   end
 
   private

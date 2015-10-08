@@ -473,6 +473,15 @@ class Sheet < ActiveRecord::Base
     sheet_variable.get_response(raw_format)
   end
 
+  # Who can view/access the design
+  def users
+    if design.only_unblinded
+      project.unblinded_members_for_site(subject.site)
+    else
+      project.members_for_site(subject.site)
+    end
+  end
+
   protected
 
   def self.latex_safe(mystring)

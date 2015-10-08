@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
   serialize :email_notifications, Hash
 
   EMAILABLES = [
-    [:daily_digest, 'Receive daily digest emails of sheets that have been created the previous day'],
-    [:sheet_comment, 'Receive email when a comment is added to a sheet']
+    [:daily_digest, 'Receive daily digest emails of sheets that have been created the previous day']
   ]
 
   # Concerns
