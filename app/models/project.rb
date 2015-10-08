@@ -231,9 +231,16 @@ class Project < ActiveRecord::Base
 
   # Returns project editors and project owner
   def unblinded_project_editors
+    return project_editors unless blinding_enabled
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
-      .where('(project_users.editor = ? and (project_users.unblinded = ? or projects.blinding_enabled = ?)) or users.id = ?', true, true, false, user_id)
+      .where('(project_users.editor = ? and project_users.unblinded = ?) or users.id = ?', true, true, user_id)
+  end
+
+  def project_editors
+    User.current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
+      .where('project_users.editor = ? or users.id = ?', true, user_id)
   end
 
   def unblinded_members
