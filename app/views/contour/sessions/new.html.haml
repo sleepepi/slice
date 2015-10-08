@@ -10,7 +10,7 @@
 
     .form-group
       = f.label :password, class: 'control-label'
-      = link_to "(Forgot password?)", new_password_path(resource_name), tabindex: '-1'
+      = link_to '(Forgot password?)', new_password_path(resource_name), tabindex: '-1'
       = f.password_field :password, class: 'form-control', autocomplete: 'off'
 
     .form-group
@@ -18,7 +18,7 @@
 
 
 - if devise_mapping.confirmable?
-  .center{ style: "margin-bottom:20px" }
+  .center{ style: 'margin-bottom:20px' }
     = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
 
 %hr.soften
@@ -50,5 +50,5 @@
 
 %hr.soften
 
-.center{ style: "margin-top:40px" }
-  = image_tag 'try-slice-logo.png', style: "max-width:100%"
+.center{ style: 'margin-top:40px' }
+  = image_tag 'try-slice-logo.png', style: "max-width:100%", alt: 'Slice - Data Collection for Clinical Research'

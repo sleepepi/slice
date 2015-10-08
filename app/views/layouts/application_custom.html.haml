@@ -5,6 +5,10 @@
     %meta{ content: 'IE=Edge,chrome=1', http: { equiv: 'X-UA-Compatible' } }
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     %title= [@title, Contour.application_name].compact.join(' - ').html_safe
+    %meta{ itemprop: 'name', content: 'Slice Data Collection Management System' }
+    %meta{ itemprop: 'description', content: 'Simplifying clinical trial and research data collection' }
+    %meta{ name: 'description', content: 'Simple Data Collection and Reporting for Clinical Research' }
+
     = favicon_link_tag
     = csrf_meta_tags
 
