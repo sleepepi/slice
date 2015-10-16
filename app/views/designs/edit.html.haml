@@ -1,3 +1,13 @@
 - @title = "Edit Design: #{@design.name}"
 
-= render 'interactive'
+- links = []
+- links << ['Designs', project_designs_path(@project)]
+- links << [@design.name, [@project, @design]]
+- links << ['Edit', edit_project_design_path(@project, @design)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'interactive'

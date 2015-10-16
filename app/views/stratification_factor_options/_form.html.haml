@@ -1,16 +1,8 @@
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to @randomization_scheme.name, [@project, @randomization_scheme]
-    &middot;
-    = link_to @stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]
-    &middot;
-    = @title
+%h2.underline-header= @title
 
 = form_for [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], html: { class: 'form-horizontal' } do |f|
   - if @stratification_factor_option.errors.any?
-    #error_explanation.bs-callout.bs-callout-danger
+    .bs-callout.bs-callout-danger
       %h4
         = pluralize(@stratification_factor_option.errors.count, "error")
         prohibited this stratification factor option from being saved

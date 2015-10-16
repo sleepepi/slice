@@ -1,12 +1,10 @@
-= render 'contour/layouts/per_page', per_page: 40, object_count: @sites.total_count
-
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'sites.name', 'Name'
-      %th.nowrap= sort_field_helper @order, 'sites.prefix', 'Prefix'
-      %th.nowrap= sort_field_helper @order, 'sites.description', 'Description'
-      %th.nowrap= sort_field_helper @order, 'sites.user_id', 'Creator'
+      = th_sort_field @order, 'sites.name', 'Name'
+      = th_sort_field @order, 'sites.prefix', 'Prefix'
+      = th_sort_field @order, 'sites.description', 'Description'
+      = th_sort_field @order, 'sites.user_id', 'Creator'
       %th Actions
 
   - @sites.each do |site|

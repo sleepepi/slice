@@ -1,3 +1,14 @@
-- @title = "New Treatment Arm"
+- @title = 'New Treatment Arm'
 
-= render 'form'
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)]
+- links << ['New', new_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

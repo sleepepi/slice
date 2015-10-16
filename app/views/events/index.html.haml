@@ -2,20 +2,20 @@
 
 = render 'projects/tabbed_menu', links: [['Events', project_events_path(@project)]]
 
-.row
-  .col-sm-2
-    = render 'projects/menu'
-
-  .col-sm-10
-    %h2
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
       = @title
-    %div{ style: 'margin-bottom: 20px' }
-
-      = link_to "Create Event", new_project_event_path(@project), class: 'btn btn-xs btn-primary'
-
-    = form_tag project_events_path(@project), method: :get, class: 'form-inline' do
-      = hidden_field_tag :order, params[:order]
-      = text_field_tag 'search', params[:search], class: 'form-control'
-      = submit_tag 'Search', class: 'btn btn-primary', name: nil
+      = link_to 'Create Event', new_project_event_path(@project), class: 'btn btn-xs btn-primary'
+      .per-page
+        = render 'contour/layouts/per_page', per_page: 40, object_count: @events.total_count
 
     = render 'events/events'
+
+    .jumbotron
+      = form_tag project_events_path(@project), method: :get, class: 'form-inline' do
+        = hidden_field_tag :order, params[:order]
+        = text_field_tag 'search', params[:search], class: 'form-control'
+        = submit_tag 'Search', class: 'btn btn-primary', name: nil

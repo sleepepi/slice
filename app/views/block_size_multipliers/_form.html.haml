@@ -1,10 +1,4 @@
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to @randomization_scheme.name, [@project, @randomization_scheme]
-    &middot;
-    = @title
+%h2.underline-header= @title
 
 = form_for [@project, @randomization_scheme, @block_size_multiplier], html: { class: 'form-horizontal' } do |f|
   - if @block_size_multiplier.errors.any?

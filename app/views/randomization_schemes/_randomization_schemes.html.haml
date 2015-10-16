@@ -1,30 +1,18 @@
-= render 'contour/layouts/per_page', per_page: 40, object_count: @randomization_schemes.total_count
-
 %table.table.table-striped
   %thead
     %tr
       %th
-      %th.nowrap= sort_field_helper @order, 'randomization_schemes.name', 'Name'
-      - if false
-        %th.nowrap Description
+      = th_sort_field @order, 'randomization_schemes.name', 'Name'
       %th.nowrap Published
       %th.nowrap Goal
-      - if false
-        %th Actions
 
   %tbody
     - @randomization_schemes.each do |randomization_scheme|
       %tr
         %td= render 'randomization_schemes/progress', randomization_scheme: randomization_scheme
         %td= link_to randomization_scheme.name, [@project, randomization_scheme]
-        - if false
-          %td= randomization_scheme.description
         %td= simple_check randomization_scheme.published
         %td
           = randomization_scheme.randomizations.where.not(subject_id: nil).count
           of
           = randomization_scheme.randomization_goal
-        - if false
-          %td
-            = link_to 'Edit', edit_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-default btn-xs'
-            = link_to 'Delete', [@project, randomization_scheme], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{randomization_scheme.name}?" }

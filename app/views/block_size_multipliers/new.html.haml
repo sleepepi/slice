@@ -1,3 +1,14 @@
-- @title = "New Block Size Multiplier"
+- @title = 'New Block Size Multiplier'
 
-= render 'form'
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)]
+- links << ['New', new_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

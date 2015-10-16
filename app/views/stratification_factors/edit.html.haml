@@ -1,3 +1,15 @@
-- @title = "Edit Stratification Factor: #{@stratification_factor.name}"
+- @title = "Edit Stratification Factor: #{@stratification_factor.name_was}"
 
-= render 'form'
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)]
+- links << [@stratification_factor.name_was, [@project, @randomization_scheme, @stratification_factor]]
+- links << ['Edit', edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

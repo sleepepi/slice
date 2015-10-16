@@ -2,7 +2,7 @@
 
 - links = []
 - links << ['Categories', project_categories_path(@project)]
-- links << [@category.name, [@project, @category]]
+- links << [@category.name_was, [@project, @category]]
 - links << ['Edit', edit_project_category_path(@project, @category)]
 
 = render 'projects/tabbed_menu', links: links

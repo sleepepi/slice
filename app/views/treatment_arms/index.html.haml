@@ -1,23 +1,21 @@
 - @title = 'Treatment Arms'
 
-= render 'projects/tabbed_menu', links: [[@randomization_scheme.name, [@project, @randomization_scheme]], ['Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)]]
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)]
+= render 'projects/tabbed_menu', links: links
 
-.row
-  .col-sm-2
-    = render 'projects/menu'
-
-  .col-sm-10
-    %h2
-      = link_to @randomization_scheme.name, [@project, @randomization_scheme]
-      &middot;
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
       = @title
-    %div{ style: 'margin-bottom: 20px' }
       - if @randomization_scheme.published?
         = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
       - else
-        = link_to "Create Treatment Arm", new_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme), class: 'btn btn-xs btn-primary'
-
-    = form_tag project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme), method: :get, class: 'form-vertical' do
-      = hidden_field_tag :order, params[:order]
+        = link_to 'Create Treatment Arm', new_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme), class: 'btn btn-xs btn-primary'
+      .per-page
+        = render 'contour/layouts/per_page', per_page: 40, object_count: @treatment_arms.total_count
 
     = render 'treatment_arms/treatment_arms'

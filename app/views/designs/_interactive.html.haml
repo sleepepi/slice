@@ -1,9 +1,4 @@
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to @design.name, [@design.project, @design]
-    &middot; Edit
+%h2.underline-header= @title
 
 #interactive_design_modal.modal
   .modal-dialog.modal-wide-width

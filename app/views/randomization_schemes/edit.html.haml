@@ -1,3 +1,14 @@
-- @title = "Edit Randomization Scheme: #{@randomization_scheme.name}"
+- @title = "Edit Randomization Scheme: #{@randomization_scheme.name_was}"
 
-= render 'form'
+- links = []
+- links << ['Randomization Schemes', project_randomization_schemes_path(@project)]
+- links << [@randomization_scheme.name_was, [@project, @randomization_scheme]]
+- links << ['Edit', edit_project_randomization_scheme_path(@project, @randomization_scheme)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

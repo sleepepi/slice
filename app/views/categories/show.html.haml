@@ -10,7 +10,7 @@
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
 
-    %h2
+    %h2.underline-header
       = @title
       = link_to 'Edit Category', edit_project_category_path(@project, @category), class: 'btn btn-default btn-xs'
       = link_to 'Delete Category', [@project, @category], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Category #{@category.name}?" }

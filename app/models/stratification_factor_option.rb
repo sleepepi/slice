@@ -20,4 +20,8 @@ class StratificationFactorOption < ActiveRecord::Base
   def name
     "#{value}: #{label}"
   end
+
+  def name_was
+    "#{value_was}: #{label_was}"
+  end
 end

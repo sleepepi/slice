@@ -20,4 +20,8 @@ class BlockSizeMultiplier < ActiveRecord::Base
   def name
     "x#{value}"
   end
+
+  def name_was
+    "x#{value_was}"
+  end
 end

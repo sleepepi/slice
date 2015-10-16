@@ -1,13 +1,11 @@
-= render 'contour/layouts/per_page', per_page: 40, object_count: @variables.total_count
-
 %table.table.table-striped
   %thead
     %tr
       %th.nowrap # Designs
-      %th.nowrap= sort_field_helper @order, 'variables.name', 'Name'
-      %th.nowrap= sort_field_helper @order, 'variables.display_name', 'Display Name'
-      %th.nowrap= sort_field_helper @order, 'variables.variable_type', 'Variable Type'
-      %th.nowrap= sort_field_helper @order, 'variables.options', 'Options'
+      = th_sort_field @order, 'variables.name', 'Name'
+      = th_sort_field @order, 'variables.display_name', 'Display Name'
+      = th_sort_field @order, 'variables.variable_type', 'Variable Type'
+      = th_sort_field @order, 'variables.options', 'Options'
       %th Actions
 
   - @variables.each do |variable|

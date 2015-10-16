@@ -1,26 +1,31 @@
 - @title = @block_size_multiplier.name
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to @randomization_scheme.name, [@project, @randomization_scheme]
-    &middot;
-    = link_to 'Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
-    &middot;
-    = @title
-  - if @randomization_scheme.published?
-    = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
-  - else
-    = link_to "Edit Block Size Multiplier", edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier), class: 'btn btn-default btn-xs'
-    = link_to "Delete Block Size Multiplier", [@project, @randomization_scheme, @block_size_multiplier], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Block Size Multiplier #{@block_size_multiplier.name}?" }
 
-%dl.dl-horizontal
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)]
+- links << [@block_size_multiplier.name, [@project, @randomization_scheme, @block_size_multiplier]]
+= render 'projects/tabbed_menu', links: links
 
-  %dt Creator
-  %dd= link_to @block_size_multiplier.user.name, @block_size_multiplier.user if @block_size_multiplier.user
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
 
-  %dt Value
-  %dd= @block_size_multiplier.value
+    %h2.underline-header
+      = @title
+      - if @randomization_scheme.published?
+        = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+      - else
+        = link_to 'Edit Block Size Multiplier', edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier), class: 'btn btn-default btn-xs'
+        = link_to 'Delete Block Size Multiplier', [@project, @randomization_scheme, @block_size_multiplier], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Block Size Multiplier #{@block_size_multiplier.name}?" }
 
-  %dt Allocation
-  %dd= @block_size_multiplier.allocation
+    %dl.dl-horizontal
+
+      %dt Creator
+      %dd= link_to @block_size_multiplier.user.name, @block_size_multiplier.user if @block_size_multiplier.user
+
+      %dt Value
+      %dd= @block_size_multiplier.value
+
+      %dt Allocation
+      %dd= @block_size_multiplier.allocation

@@ -1,133 +1,139 @@
 - @title = @variable.display_name
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to "Variables", project_variables_path(@project)
-    &middot;
-    = @title
-  - if @variable.editable_by?(current_user)
-    = link_to "Edit Variable", edit_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
-    = link_to "Delete Variable", [@project, @variable], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Variable #{@variable.name}?" }
-  = link_to "Copy Variable", copy_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
 
-%dl.dl-horizontal
-  %dt Header
-  %dd= simple_markdown @variable.header
+- links = []
+- links << ['Variables', project_variables_path(@project)]
+- links << [@variable.name, [@project, @variable]]
+= render 'projects/tabbed_menu', links: links
 
-  %dt Name
-  %dd= @variable.name
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
 
-  %dt Display Name
-  %dd= @variable.display_name
+    %h2.underline-header
+      = @title
+      - if @variable.editable_by?(current_user)
+        = link_to 'Edit Variable', edit_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
+        = link_to 'Copy Variable', copy_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
+        = link_to 'Delete Variable', [@project, @variable], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Variable #{@variable.name}?" }
 
-  %dt Display name visibility
-  %dd= @variable.display_name_visibility.capitalize
+    %dl.dl-horizontal
+      %dt Header
+      %dd= simple_markdown @variable.header
 
-  %dt Description
-  %dd= simple_format @variable.description
+      %dt Name
+      %dd= @variable.name
 
-  %dt Variable Type
-  %dd
-    %span.label{ class: "label-#{@variable.variable_type}" }
-      = @variable.variable_type
+      %dt Display Name
+      %dd= @variable.display_name
 
-  %dt Prepend
-  %dd= @variable.prepend
+      %dt Display name visibility
+      %dd= @variable.display_name_visibility.capitalize
 
-  %dt Append
-  %dd= @variable.append
+      %dt Description
+      %dd= simple_format @variable.description
 
-  - if ['integer', 'numeric'].include?(@variable.variable_type)
-    %dt Hard Minimum
-    %dd= @variable.hard_minimum
+      %dt Variable Type
+      %dd
+        %span.label{ class: "label-#{@variable.variable_type}" }
+          = @variable.variable_type
 
-    %dt Hard Maximum
-    %dd= @variable.hard_maximum
+      %dt Prepend
+      %dd= @variable.prepend
 
-    %dt Soft Minimum
-    %dd= @variable.soft_minimum
+      %dt Append
+      %dd= @variable.append
 
-    %dt Soft Maximum
-    %dd= @variable.soft_maximum
+      - if ['integer', 'numeric'].include?(@variable.variable_type)
+        %dt Hard Minimum
+        %dd= @variable.hard_minimum
 
-  - if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type)
-    %dt Units
-    %dd= @variable.units
+        %dt Hard Maximum
+        %dd= @variable.hard_maximum
 
-  - if ['date'].include?(@variable.variable_type)
-    %dt Date Hard Minimum
-    %dd= simple_date @variable.date_hard_minimum
+        %dt Soft Minimum
+        %dd= @variable.soft_minimum
 
-    %dt Date Hard Maximum
-    %dd= simple_date @variable.date_hard_maximum
+        %dt Soft Maximum
+        %dd= @variable.soft_maximum
 
-    %dt Date Soft Minimum
-    %dd= simple_date @variable.date_soft_minimum
+      - if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type)
+        %dt Units
+        %dd= @variable.units
 
-    %dt Date Soft Maximum
-    %dd= simple_date @variable.date_soft_maximum
+      - if ['date'].include?(@variable.variable_type)
+        %dt Date Hard Minimum
+        %dd= simple_date @variable.date_hard_minimum
 
-    %dt Show current date
-    %dd= simple_check @variable.show_current_button?
+        %dt Date Hard Maximum
+        %dd= simple_date @variable.date_hard_maximum
 
-  - if ['time'].include?(@variable.variable_type)
-    %dt Show current time
-    %dd= simple_check @variable.show_current_button?
+        %dt Date Soft Minimum
+        %dd= simple_date @variable.date_soft_minimum
 
-  - if ['calculated'].include?(@variable.variable_type)
-    %dt Calculation
-    %dd
-      %tt= @variable.calculation
+        %dt Date Soft Maximum
+        %dd= simple_date @variable.date_soft_maximum
 
-    %dt Format
-    %dd= @variable.format
+        %dt Show current date
+        %dd= simple_check @variable.show_current_button?
 
-  - if ['string'].include?(@variable.variable_type)
-    %dt Autocomplete Values
-    %dd= @variable.autocomplete_values
+      - if ['time'].include?(@variable.variable_type)
+        %dt Show current time
+        %dd= simple_check @variable.show_current_button?
 
-  - if ['radio', 'checkbox'].include?(@variable.variable_type)
-    %dt Alignment
-    %dd= @variable.alignment.capitalize
+      - if ['calculated'].include?(@variable.variable_type)
+        %dt Calculation
+        %dd
+          %tt= @variable.calculation
 
-  - if ['grid'].include?(@variable.variable_type)
-    %dt Multiple Rows
-    %dd= simple_check @variable.multiple_rows?
+        %dt Format
+        %dd= @variable.format
 
-    %dt Default Row Number
-    %dd= @variable.default_row_number
+      - if ['string'].include?(@variable.variable_type)
+        %dt Autocomplete Values
+        %dd= @variable.autocomplete_values
 
-    %dt Variables
-    %dd
-      %ul
-        - @variable.grid_variables.each do |variable_hash|
-          - v = current_user.all_viewable_variables.find_by_id(variable_hash[:variable_id])
-          - if v
-            %li= link_to v.display_name, [v.project, v]
+      - if ['radio', 'checkbox'].include?(@variable.variable_type)
+        %dt Alignment
+        %dd= @variable.alignment.capitalize
 
-  %dt Creator
-  %dd= link_to @variable.user.name, @variable.user if @variable.user
+      - if ['grid'].include?(@variable.variable_type)
+        %dt Multiple Rows
+        %dd= simple_check @variable.multiple_rows?
 
-  %dt Project
-  %dd
-    = render 'projects/logo_small', project: @variable.project
-    = link_to @variable.project.name, @variable.project
+        %dt Default Row Number
+        %dd= @variable.default_row_number
 
-  %dt Designs
-  %dd
-    %ul
-      - @variable.inherited_designs.each do |design|
-        %li= link_to design.name, [design.project, design]
+        %dt Variables
+        %dd
+          %ul
+            - @variable.grid_variables.each do |variable_hash|
+              - v = current_user.all_viewable_variables.find_by_id(variable_hash[:variable_id])
+              - if v
+                %li= link_to v.display_name, [v.project, v]
 
-  - if @variable.domain
-    %dt Domain
-    %dd= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
+      %dt Creator
+      %dd= link_to @variable.user.name, @variable.user if @variable.user
 
-- if @variable.shared_options.size > 0
-  = render 'variables/compact_options', variable: @variable
+      %dt Project
+      %dd
+        = render 'projects/logo_small', project: @variable.project
+        = link_to @variable.project.name, @variable.project
 
-- design_option = @variable.design_options.first
-- if design_option
-  %form.form-horizontal
-    = render 'sheet_variables/form', design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []
+      %dt Designs
+      %dd
+        %ul
+          - @variable.inherited_designs.each do |design|
+            %li= link_to design.name, [design.project, design]
+
+      - if @variable.domain
+        %dt Domain
+        %dd= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
+
+    - if @variable.shared_options.size > 0
+      = render 'variables/compact_options', variable: @variable
+
+    - design_option = @variable.design_options.first
+    - if design_option
+      %form.form-horizontal
+        = render 'sheet_variables/form', design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []

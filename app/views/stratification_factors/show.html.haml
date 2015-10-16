@@ -1,34 +1,38 @@
 - @title = @stratification_factor.name
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to @randomization_scheme.name, [@project, @randomization_scheme]
-    &middot;
-    = link_to 'Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)
-    &middot;
-    = @title
-  - if @randomization_scheme.published?
-    = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
-  - else
-    = link_to "Edit Stratification Factor", edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-default btn-xs'
-    = link_to "Delete Stratification Factor", [@project, @randomization_scheme, @stratification_factor], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor #{@stratification_factor.name}?" }
 
-%dl.dl-horizontal
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)]
+- links << [@stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]]
+= render 'projects/tabbed_menu', links: links
 
-  %dt Creator
-  %dd= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
+      = @title
+      - if @randomization_scheme.published?
+        = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+      - else
+        = link_to 'Edit Stratification Factor', edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-default btn-xs'
+        = link_to 'Delete Stratification Factor', [@project, @randomization_scheme, @stratification_factor], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor #{@stratification_factor.name}?" }
 
-  - if @stratification_factor.stratifies_by_site?
-    %dt Sites
-    %dd
-      %ul.list-unstyled
-        - @project.sites.order(:name).each do |site|
-          %li= site.name
-  - else
-    %dt= link_to 'Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
-    %dd
-      %ul.list-unstyled
-        - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
-          %li
-            = link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]
+    %dl.dl-horizontal
+
+      %dt Creator
+      %dd= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
+
+      - if @stratification_factor.stratifies_by_site?
+        %dt Sites
+        %dd
+          %ul.list-unstyled
+            - @project.sites.order(:name).each do |site|
+              %li= site.name
+      - else
+        %dt= link_to 'Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
+        %dd
+          %ul.list-unstyled
+            - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
+              %li
+                = link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]

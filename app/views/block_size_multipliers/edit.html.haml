@@ -1,3 +1,15 @@
-- @title = "Edit Block Size Multiplier: #{@block_size_multiplier.name}"
+- @title = "Edit Block Size Multiplier: #{@block_size_multiplier.name_was}"
 
-= render 'form'
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)]
+- links << [@block_size_multiplier.name_was, [@project, @randomization_scheme, @block_size_multiplier]]
+- links << ['Edit', edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

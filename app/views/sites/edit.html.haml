@@ -1,3 +1,14 @@
 - @title = "Edit Site: #{@site.name}"
 
-= render 'form'
+- links = []
+- links << ['Sites', project_sites_path(@project)]
+- links << [@site.name_was, [@project, @site]]
+- links << ['Edit', edit_project_site_path(@project, @site)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

@@ -1,19 +1,24 @@
 - @title = @list.name
-.page-header
-  %h1
-    = link_to @project.name, setup_project_path(@project)
-    &middot;
-    = link_to @randomization_scheme.name, [@project, @randomization_scheme]
-    &middot;
-    = link_to 'Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)
-    &middot;
-    = @title
 
-%dl.dl-horizontal
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)]
+- links << [@list.name, [@project, @randomization_scheme, @list]]
+= render 'projects/tabbed_menu', links: links
 
-  %dt Creator
-  %dd= link_to @list.user.name, @list.user if @list.user
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
 
-.row
-  .col-md-offset-2.col-md-8
-    = render 'lists/block_groups', list: @list
+    %h2.underline-header
+      = @title
+
+    %dl.dl-horizontal
+
+      %dt Creator
+      %dd= link_to @list.user.name, @list.user if @list.user
+
+    .row
+      .col-md-offset-2.col-md-8
+        = render 'lists/block_groups', list: @list

@@ -1,20 +1,17 @@
 - @title = 'Lists'
 
-= render 'projects/tabbed_menu', links: [[@randomization_scheme.name, [@project, @randomization_scheme]], ['Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)]]
+- links = []
+- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- links << ['Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)]
+= render 'projects/tabbed_menu', links: links
 
-.row
-  .col-sm-2
-    = render 'projects/menu'
-
-  .col-sm-10
-    %h2
-      = link_to @randomization_scheme.name, [@project, @randomization_scheme]
-      &middot;
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
       = @title
-
-    = form_tag project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :get, class: 'form-vertical' do
-      = hidden_field_tag :order, params[:order]
+      .per-page
+        = render 'contour/layouts/per_page', per_page: 40, object_count: @lists.total_count
 
     = render 'lists/lists'
-
-
