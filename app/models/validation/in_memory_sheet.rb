@@ -34,7 +34,7 @@ module Validation
       end
     end
 
-    def show_variable?(branching_logic)
+    def show_design_option?(branching_logic)
       return true if branching_logic.to_s.strip.blank?
       begin
         result = exec_js_context.eval(expanded_branching_logic(branching_logic))
@@ -46,7 +46,7 @@ module Validation
 
     def visible_on_sheet?(variable)
       if design_option = variable.design_options.where(design_id: @design.id).first
-        show_variable?(design_option.branching_logic)
+        show_design_option?(design_option.branching_logic)
       else
         true
       end

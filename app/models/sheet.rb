@@ -226,29 +226,13 @@ class Sheet < ActiveRecord::Base
     end
   end
 
-  def show_variable?(branching_logic)
+  def show_design_option?(branching_logic)
     return true if branching_logic.to_s.strip.blank?
     result = exec_js_context.eval(expanded_branching_logic(branching_logic))
     result == false ? false : true
   rescue
     true
   end
-
-  # def show_variable?(branching_logic)
-  #   return true if branching_logic.to_s.strip.blank?
-
-  #   # Compiled CoffeeScript from designs.js.coffee
-  #   index_of = "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
-  #   intersection_function = "this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };"
-  #   overlap_function = "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };"
-
-  #   begin
-  #     context = ExecJS.compile(index_of + intersection_function + overlap_function)
-  #     context.eval expanded_branching_logic(branching_logic)
-  #   rescue => e
-  #     true
-  #   end
-  # end
 
   def grids
     Grid.where(sheet_variable_id: sheet_variables.with_variable_type(['grid']).select(:id))
@@ -407,7 +391,7 @@ class Sheet < ActiveRecord::Base
       variable_ids = []
       design.design_options.includes(:variable).each do |design_option|
         variable = design_option.variable
-        if variable && show_variable?(design_option.branching_logic)
+        if variable && show_design_option?(design_option.branching_logic)
           variable_ids << variable.id
         end
       end

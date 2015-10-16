@@ -2,12 +2,12 @@ require 'test_helper'
 
 class SheetTest < ActiveSupport::TestCase
   test 'should hide variable only if branching logic evaluates to false' do
-    assert_equal false, sheets(:one).show_variable?('1 == 0')
+    assert_equal false, sheets(:one).show_design_option?('1 == 0')
   end
 
   test 'should show variable if branching logic is invalid' do
-    assert_equal true, sheets(:one).show_variable?('abc')
-    assert_equal true, sheets(:one).show_variable?('1/0')
+    assert_equal true, sheets(:one).show_design_option?('abc')
+    assert_equal true, sheets(:one).show_design_option?('1/0')
   end
 
   test 'should get sheet coverage' do

@@ -15,7 +15,7 @@
 <% @sheet.design.design_options.includes(:variable, :section).each do |design_option| %>
   \FloatBarrier
 
-  <% if section = design_option.section and @sheet.show_variable?(design_option.branching_logic) %>
+  <% if section = design_option.section and @sheet.show_design_option?(design_option.branching_logic) %>
     <% if section.sub_section? %>
       \subsubsection*{<%= latex_safe section.name %>}
     <% else %>
@@ -27,7 +27,7 @@
         \includegraphics[max width=7.5in]{<%= section.image.path %>}
       \end{figure}
     <% end %>
-  <% elsif variable = design_option.variable and @sheet.show_variable?(design_option.branching_logic) %>
+  <% elsif variable = design_option.variable and @sheet.show_design_option?(design_option.branching_logic) %>
     <% sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first %>
     <% if variable.variable_type == 'grid' and sheet_variable %>
       <% grid_variables = @sheet.project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a %>
