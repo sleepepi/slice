@@ -513,44 +513,6 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should get selection' do
-    skip
-    post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal assigns(:design), designs(:all_variable_types)
-    assert_template 'selection'
-    assert_response :success
-  end
-
-  test 'should get selection as site editor' do
-    skip
-    login(users(:site_one_editor))
-    post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
-    assert_not_nil assigns(:sheet)
-    assert_equal assigns(:design), designs(:all_variable_types)
-    assert_template 'selection'
-    assert_response :success
-  end
-
-  test 'should not get selection as site viewer' do
-    skip
-    login(users(:site_one_viewer))
-    post :selection, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, format: 'js'
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get selection for design with two scale variables' do
-    skip
-    post :selection, project_id: @project, sheet: { design_id: designs(:two_scale_variables).id }, format: 'js'
-    assert_not_nil assigns(:sheet)
-    assert_equal assigns(:design), designs(:two_scale_variables)
-    assert_template 'selection'
-    assert_response :success
-  end
-
   test 'should get edit' do
     get :edit, id: @design, project_id: @project
     assert_not_nil assigns(:project)

@@ -168,37 +168,9 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to project_sheets_path(assigns(:project))
   end
 
-  test 'should get new' do
+  test 'should get new and redirect' do
     get :new, project_id: @project
     assert_redirected_to assigns(:project)
-  end
-
-  test 'should get new as site editor' do
-    skip
-    login(users(:site_one_editor))
-    get :new, project_id: @project
-    assert_response :success
-  end
-
-  test 'should not get new as site viewer' do
-    skip
-    login(users(:site_one_viewer))
-    get :new, project_id: @project
-    assert_redirected_to root_path
-  end
-
-  test 'should get new and select the single design' do
-    skip
-    get :new, project_id: projects(:single_design)
-    assert_not_nil assigns(:sheet)
-    assert_equal designs(:single_design), assigns(:sheet).design
-    assert_response :success
-  end
-
-  test 'should not get new with invalid project' do
-    skip
-    get :new, project_id: -1
-    assert_redirected_to root_path
   end
 
   test 'should create sheet' do

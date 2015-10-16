@@ -7,6 +7,38 @@ class SubjectsControllerTest < ActionController::TestCase
     @subject = subjects(:one)
   end
 
+  test 'should get data entry as site editor' do
+    login(users(:site_one_editor))
+    get :data_entry, id: @subject, project_id: @project
+    assert_response :success
+  end
+
+  test 'should not get data entry as site viewer' do
+    login(users(:site_one_viewer))
+    get :data_entry, id: @subject, project_id: @project
+    assert_redirected_to root_path
+  end
+
+  test 'should get new data entry as site editor' do
+    login(users(:site_one_editor))
+    get :new_data_entry, id: @subject, project_id: @project, design_id: designs(:all_variable_types)
+    assert_not_nil assigns(:sheet)
+    assert_equal designs(:all_variable_types), assigns(:sheet).design
+    assert_response :success
+  end
+
+  test 'should not get new data entry as site viewer' do
+    login(users(:site_one_viewer))
+    get :new_data_entry, id: @subject, project_id: @project, design_id: designs(:all_variable_types)
+    assert_redirected_to root_path
+  end
+
+  test 'should not get data entry new with invalid design' do
+    login(users(:site_one_editor))
+    get :new_data_entry, id: @subject, project_id: @project, design_id: -1
+    assert_redirected_to data_entry_project_subject_path(assigns(:project), assigns(:subject))
+  end
+
   test 'should get search for regular user' do
     get :search, project_id: @project, q: 'Code01'
     subjects_json = JSON.parse(response.body)
