@@ -1,3 +1,14 @@
-- @title = "Edit Contact: #{@contact.name}"
+- @title = "Edit Contact: #{@contact.name_was}"
 
-= render 'form'
+- links = []
+- links << ['Contacts', project_contacts_path(@project)]
+- links << [@contact.name_was, [@project, @contact]]
+- links << ['Edit', edit_project_contact_path(@project, @contact)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

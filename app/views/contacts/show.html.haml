@@ -1,35 +1,41 @@
 - @title = @contact.name
-.page-header
-  %h1
-    = link_to @project.name, about_project_path(@project)
-    &middot;
-    = link_to 'Contacts', project_contacts_path(@project)
-    &middot;
-    = @title
-  = link_to "Edit Contact", edit_project_contact_path(@contact.project, @contact), class: 'btn btn-default btn-xs'
-  = link_to "Delete Contact", [@contact.project, @contact], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Contact #{@contact.name}?" }
 
-%dl.dl-horizontal
-  %dt Title
-  %dd= @contact.title
+- links = []
+- links << ['Contacts', project_contacts_path(@project)]
+- links << [@contact.name, [@project, @contact]]
+= render 'projects/tabbed_menu', links: links
 
-  %dt Name
-  %dd= @contact.name
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
 
-  %dt Phone
-  %dd= @contact.phone
+    %h2.underline-header
+      = @title
+      = link_to 'Edit Contact', edit_project_contact_path(@contact.project, @contact), class: 'btn btn-default btn-xs'
+      = link_to 'Delete Contact', [@contact.project, @contact], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Contact #{@contact.name}?" }
 
-  %dt Fax
-  %dd= @contact.fax
+    %dl.dl-horizontal
+      %dt Title
+      %dd= @contact.title
 
-  %dt Email
-  %dd= @contact.email
+      %dt Name
+      %dd= @contact.name
 
-  %dt Position
-  %dd= @contact.position
+      %dt Phone
+      %dd= @contact.phone
 
-  %dt Project
-  %dd= link_to @contact.project.name, @contact.project if @contact.project
+      %dt Fax
+      %dd= @contact.fax
 
-  %dt Archived
-  %dd= simple_check @contact.archived
+      %dt Email
+      %dd= @contact.email
+
+      %dt Position
+      %dd= @contact.position
+
+      %dt Project
+      %dd= link_to @contact.project.name, @contact.project if @contact.project
+
+      %dt Archived
+      %dd= simple_check @contact.archived

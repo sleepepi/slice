@@ -1,12 +1,10 @@
-= render 'contour/layouts/per_page', per_page: 20, object_count: @links.total_count
-
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'links.name', 'Name'
-      %th.nowrap= sort_field_helper @order, 'links.category', 'Category'
-      %th.nowrap= sort_field_helper @order, 'links.url', 'URL'
-      %th.nowrap= sort_field_helper @order, 'links.archived', 'Archived'
+      = th_sort_field @order, 'links.name', 'Name'
+      = th_sort_field @order, 'links.category', 'Category'
+      = th_sort_field @order, 'links.url', 'URL'
+      = th_sort_field @order, 'links.archived', 'Archived'
       %th Actions
 
   - @links.each do |link|

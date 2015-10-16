@@ -58,3 +58,15 @@
         %li
           = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) ? 'active' : nil), rel: 'tooltip', data: { title: 'Randomization Schemes', container: 'body', placement: 'right' } do
             %span.glyphicon.glyphicon-random
+      %li
+        = link_to project_documents_path(@project), class: (params[:controller] == 'documents' ? 'active' : nil), rel: 'tooltip', data: { title: 'Documents', container: 'body', placement: 'right' } do
+          %span.glyphicon.glyphicon-book
+      %li
+        = link_to project_posts_path(@project), class: (params[:controller] == 'posts' ? 'active' : nil), rel: 'tooltip', data: { title: 'News', container: 'body', placement: 'right' } do
+          %span.glyphicon.glyphicon-comment
+      %li
+        = link_to project_links_path(@project), class: (params[:controller] == 'links' ? 'active' : nil), rel: 'tooltip', data: { title: 'Links', container: 'body', placement: 'right' } do
+          %span.glyphicon.glyphicon-link
+      %li
+        = link_to project_contacts_path(@project), class: (params[:controller] == 'contacts' ? 'active' : nil), rel: 'tooltip', data: { title: 'Contacts', container: 'body', placement: 'right' } do
+          %span.glyphicon.glyphicon-send

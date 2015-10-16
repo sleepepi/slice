@@ -1,3 +1,12 @@
 - @title = 'New Post'
 
-= render 'form'
+- links = []
+- links << ['Posts', project_posts_path(@project)]
+- links << ['New', new_project_post_path(@project)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

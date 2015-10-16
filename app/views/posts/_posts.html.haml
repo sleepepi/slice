@@ -1,11 +1,9 @@
-= render 'contour/layouts/per_page', per_page: 20, object_count: @posts.total_count
-
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'posts.name', 'Name'
-      %th.nowrap= sort_field_helper @order, 'posts.description', 'Description'
-      %th.nowrap= sort_field_helper @order, 'posts.archived', 'Archived'
+      = th_sort_field @order, 'posts.name', 'Name'
+      = th_sort_field @order, 'posts.description', 'Description'
+      = th_sort_field @order, 'posts.archived', 'Archived'
       %th Actions
 
   - @posts.each do |post|

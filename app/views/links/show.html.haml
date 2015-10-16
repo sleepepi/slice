@@ -1,24 +1,30 @@
 - @title = @link.name
-.page-header
-  %h1
-    = link_to @project.name, about_project_path(@project)
-    &middot;
-    = link_to 'Links', project_links_path(@project)
-    &middot;
-    = @title
-  = link_to "Edit Link", edit_project_link_path(@link.project, @link), class: 'btn btn-default btn-xs'
-  = link_to "Delete Link", [@link.project, @link], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Link #{@link.name}?" }
 
-%dl.dl-horizontal
-  %dt Name
-  %dd= @link.name
+- links = []
+- links << ['Links', project_links_path(@project)]
+- links << [@link.name, [@project, @link]]
+= render 'projects/tabbed_menu', links: links
 
-  %dt Category
-  %dd= @link.category
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
 
-  %dt URL
-  %dd{ style: 'word-wrap: break-word;' }
-    = link_to_if safe_url?(@link.url), @link.url, @link.url, target: '_blank'
+    %h2.underline-header
+      = @title
+      = link_to 'Edit Link', edit_project_link_path(@link.project, @link), class: 'btn btn-default btn-xs'
+      = link_to 'Delete Link', [@link.project, @link], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Link #{@link.name}?" }
 
-  %dt Archived
-  %dd= simple_check @link.archived
+    %dl.dl-horizontal
+      %dt Name
+      %dd= @link.name
+
+      %dt Category
+      %dd= @link.category
+
+      %dt URL
+      %dd{ style: 'word-wrap: break-word;' }
+        = link_to_if safe_url?(@link.url), @link.url, @link.url, target: '_blank'
+
+      %dt Archived
+      %dd= simple_check @link.archived

@@ -1,3 +1,14 @@
-- @title = "Edit Document: #{@document.name}"
+- @title = "Edit Document: #{@document.name_was}"
 
-= render 'form'
+- links = []
+- links << ['Documents', project_documents_path(@project)]
+- links << [@document.name_was, [@project, @document]]
+- links << ['Edit', edit_project_document_path(@project, @document)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'
