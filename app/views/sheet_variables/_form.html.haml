@@ -13,7 +13,7 @@
 - else
   - 'blank'
 
-.form-group{ id: "varvar_#{variable.id}", class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'} #{'variable-errors' if validate_response == 'error'} #{'variable-warnings' if validate_response == 'warning'}", data: { object: "variable-container", required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
+.form-group{ class: "#{cycle('variable-shade', 'variable-blind')} #{"variable-grid" if variable.variable_type == 'grid'} #{'variable-errors' if validate_response == 'error'} #{'variable-warnings' if validate_response == 'warning'}", data: { object: "variable-container", required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
   - elsif ['invisible', 'gone'].include?(variable.display_name_visibility)
