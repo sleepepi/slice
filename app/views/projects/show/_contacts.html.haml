@@ -1,7 +1,6 @@
-%h2.about-title
-  = link_to_if @project.editable_by?(current_user), 'Contacts', project_contacts_path(@project)
-
-%hr.divider-md
+%h3{ style: 'margin-bottom: 20px' }
+  Contacts
+  = link_to 'edit', project_contacts_path(@project), class: 'btn btn-xs btn-default' if @project.editable_by?(current_user)
 
 - if @project.contacts.where(archived: false).size == 0
   %ul
@@ -27,4 +26,3 @@
         - unless contact.email.blank?
           = mail_to contact.email
           %br
-    %hr.divider-md

@@ -2,18 +2,14 @@
 
 = render 'projects/tabbed_menu', links: [['About', about_project_path(@project)]]
 
-.row
-  .col-sm-2
-    = render 'projects/menu'
-
-  .col-sm-10
-    - if false
-      %h2
-        About
-
-    - unless @project.description.blank?
-      %blockquote
-        = simple_markdown @project.description
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
+      About
+      = @project.name
+    = simple_markdown @project.description unless @project.description.blank?
 
     - if @project.show_posts? or @project.show_documents? or @project.show_contacts?
       - extra_col_width = "col-sm-#{12 / [@project.show_posts?, @project.show_documents?, @project.show_contacts?].select{|t| t}.size}"
