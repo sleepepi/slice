@@ -33,6 +33,7 @@
 - Updated syntax of JavaScript responses rendered by server
 - Updated syntax for calling partials and passing variables
 - Started rewriting most views using haml
+- Fixed an issue with SAS export where project variables could have the same name as sheet meta variables
 
 ### Bug Fix
 - Fixed a bug that prevented new variables from being created on projects with slugs
