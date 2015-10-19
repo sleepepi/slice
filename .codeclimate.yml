@@ -45,8 +45,17 @@ ratings:
 exclude_paths:
 - app/assets/images/**/*
 - app/assets/javascripts/external/**/*
-- Gemfile
-- LICENSE
-- Rakefile
+- bin/**/*
+- config/**/*
+- db/**/*
+- lib/**/*
+- public/**/*
 - test/**/*
 - vendor/**/*
+- "CHANGELOG.md"
+- "config.ru"
+- Gemfile
+- LICENSE
+- "MIGRATING_TO_POSTGRESQL.md"
+- Rakefile
+- "README.md"
