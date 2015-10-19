@@ -26,7 +26,7 @@
 }
 
 .tabbed-navigation-menu {
-  margin-top: -13px;
+  margin-top: -20px;
   margin-bottom: 20px;
 }
 
@@ -44,14 +44,13 @@ $current-tab-color: $btn-success-color;
 
 .menu-tab-link,
 .menu-tab-link:focus {
-  margin-top: -20px;
+  margin-top: 0px;
   font-size: 18px;
   padding-bottom: 5px;
   padding-top: 5px;
   padding-left: 15px;
   padding-right: 15px;
   color: $text-color;
-  // margin-bottom: 10px;
   margin-left: -15px;
   margin-right: -15px;
   display: inline-block;
