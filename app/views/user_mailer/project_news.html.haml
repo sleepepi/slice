@@ -15,7 +15,7 @@ This post was
 by
 = @post.user.name
 to
-= link_to @post.project.name, "#{ENV['website_url']}/projects/#{@post.project.id}", style: 'color: #428bca'
+= link_to @post.project.name, "#{ENV['website_url']}/projects/#{@post.project.to_param}", style: 'color: #428bca'
 on
 = succeed '.' do
   = link_to ENV['website_name'], ENV['website_url'], style: 'color: #428bca'

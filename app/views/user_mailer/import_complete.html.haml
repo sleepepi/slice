@@ -15,4 +15,4 @@ Click the following link to see newly imported data:
 %br
 %br
 %center
-  = link_to "#{ENV['website_url']}/projects/#{@design.project_id}/sheets?design_id=#{@design.id}", "#{ENV['website_url']}/projects/#{@design.project_id}/sheets?design_id=#{@design.id}", style: 'color: #428bca'
+  = link_to "#{ENV['website_url']}/projects/#{@design.project.to_param}/sheets?design_id=#{@design.id}", "#{ENV['website_url']}/projects/#{@design.project.to_param}/sheets?design_id=#{@design.id}", style: 'color: #428bca'

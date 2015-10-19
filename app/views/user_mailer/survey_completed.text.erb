@@ -3,7 +3,7 @@ Hello <%= @sheet.project.user.name %>,
 <%= @sheet.subject.subject_code %> completed a survey that you requested for <%= @sheet.name %>. You can view the completed sheet here:
 
 
-  <%= "#{ENV['website_url']}/projects/#{@sheet.project.id}/sheets/#{@sheet.id}" %>
+  <%= "#{ENV['website_url']}/projects/#{@sheet.project.to_param}/sheets/#{@sheet.id}" %>
 
 
 Thank you!

@@ -5,7 +5,7 @@ The design data import for <%= @design.project.name %> is now complete.
 Click the following link to see newly imported data:
 
 
-    <%= "#{ENV['website_url']}/projects/#{@design.project_id}/sheets?design_id=#{@design.id}" %>
+    <%= "#{ENV['website_url']}/projects/#{@design.project.to_param}/sheets?design_id=#{@design.id}" %>
 
 
 Thank you!

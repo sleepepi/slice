@@ -5,7 +5,7 @@ The data export you requested for <%= @export.project.name %> is now ready for d
 Click the following link to download your data export:
 
 
-    <%= "#{ENV['website_url']}/projects/#{@export.project_id}/exports/#{@export.id}" %>
+    <%= "#{ENV['website_url']}/projects/#{@export.project.to_param}/exports/#{@export.id}" %>
 
 
 Thank you!
