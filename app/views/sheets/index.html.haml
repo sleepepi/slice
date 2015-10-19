@@ -11,16 +11,10 @@
       .per-page
         = render 'contour/layouts/per_page', per_page: 40, object_count: @sheets.total_count
 
-    #contour-backdrop{ style: "#{'display:none' unless params[:e].to_s == '1'}" }
-
     #sheets= render 'sheets/sheets'
 
     .jumbotron
       = form_tag project_sheets_path(@project), method: :get, id: 'sheets_search', class: 'form-vertical' do
-        .contour-modal-wrapper{ style: "#{'display:none' unless params[:e].to_s == '1'}", data: { object: 'contour_modal_wrapper' } }
-          .contour-modal{ data: { object: "contour_modal_container" } }
-            = render 'sheets/export_popup'
-
         = hidden_field_tag :order, params[:order]
 
         .form-group
@@ -81,7 +75,4 @@
 
         .form-group{ style: 'margin-top: 20px' }
           = submit_tag 'Search', class: 'btn btn-primary', name: nil
-
-          = link_to 'Export', '#', class: 'btn btn-default', data: { object: 'show-contour-modal' }
-
           = link_to 'Reset', project_sheets_path(@project), class: 'btn btn-default'

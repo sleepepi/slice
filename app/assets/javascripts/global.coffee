@@ -6,8 +6,8 @@
   $("#contour-backdrop, .contour-modal-wrapper").hide()
 
 @color_group = (group_name) ->
-  $("input[name='" + group_name + "']:checked").parent().addClass("selected")
-  $("input[name='" + group_name + "']:not(:checked)").parent().removeClass("selected")
+  $("input[name='" + group_name + "']:not(:checked)").parent().removeClass('selected')
+  $("input[name='" + group_name + "']:checked").parent().addClass('selected')
 
 @initializeTypeahead = () ->
   $('[data-object~="typeahead"]').each( () ->

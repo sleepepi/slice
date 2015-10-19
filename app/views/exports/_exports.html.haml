@@ -1,20 +1,17 @@
-= render 'contour/layouts/per_page', per_page: 20, object_count: @exports.total_count
-
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'exports.status', ''
-      %th.nowrap= sort_field_helper @order, 'exports.created_at', 'Exported'
-      %th.nowrap= sort_field_helper @order, 'exports.include_xls', 'XLS'
-      %th.nowrap= sort_field_helper @order, 'exports.include_csv_labeled', 'CSV Labeled'
-      %th.nowrap= sort_field_helper @order, 'exports.include_csv_raw', 'CSV Raw'
-      %th.nowrap= sort_field_helper @order, 'exports.include_pdf', 'PDF'
-      %th.nowrap= sort_field_helper @order, 'exports.include_files', 'Files'
-      %th.nowrap= sort_field_helper @order, 'exports.include_data_dictionary', 'Data Dictionary'
-      %th.nowrap= sort_field_helper @order, 'exports.include_sas', 'SAS'
-      %th.nowrap= sort_field_helper @order, 'exports.include_r', 'R'
-      %th.nowrap= sort_field_helper @order, 'exports.file', 'File'
-      %th.nowrap Size
+      = th_sort_field @order, 'exports.status', ''
+      = th_sort_field @order, 'exports.created_at', 'Exported'
+      = th_sort_field @order, 'exports.include_csv_labeled', 'CSV Labeled'
+      = th_sort_field @order, 'exports.include_csv_raw', 'CSV Raw'
+      = th_sort_field @order, 'exports.include_pdf', 'PDF'
+      = th_sort_field @order, 'exports.include_files', 'Files'
+      = th_sort_field @order, 'exports.include_data_dictionary', 'Data Dictionary'
+      = th_sort_field @order, 'exports.include_sas', 'SAS'
+      = th_sort_field @order, 'exports.include_r', 'R'
+      = th_sort_field @order, 'exports.file', 'File'
+      %th Size
       %th Actions
 
   - @exports.each do |export|
@@ -23,7 +20,6 @@
         %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }
           = export.status
       %td= link_to simple_time(export.created_at).gsub('on ', '').html_safe, [export.project, export]
-      %td= simple_check export.include_xls
       %td= simple_check export.include_csv_labeled
       %td= simple_check export.include_csv_raw
       %td= simple_check export.include_pdf

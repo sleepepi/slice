@@ -1,0 +1,13 @@
+- @title = 'New Export'
+
+
+- links = []
+- links << ['Exports', project_exports_path(@project)]
+- links << ['New', new_project_export_path(@project)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

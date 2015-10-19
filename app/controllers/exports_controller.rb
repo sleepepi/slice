@@ -1,16 +1,16 @@
 class ExportsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index, :show, :file, :progress, :mark_unread, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :file, :progress, :mark_unread, :destroy ]
-  before_action :set_viewable_export, only: [ :show, :file, :mark_unread, :progress ]
-  before_action :set_editable_export, only: [ :destroy ]
-  before_action :redirect_without_export, only: [ :show, :file, :mark_unread, :progress, :destroy ]
+  before_action :set_viewable_project,      only: [:index, :show, :new, :create, :file, :progress, :mark_unread, :destroy]
+  before_action :redirect_without_project,  only: [:index, :show, :new, :create, :file, :progress, :mark_unread, :destroy]
+  before_action :set_viewable_export,       only: [:show, :file, :mark_unread, :progress]
+  before_action :set_editable_export,       only: [:destroy]
+  before_action :redirect_without_export,   only: [:show, :file, :mark_unread, :progress, :destroy]
 
   def file
     if @export.file.size > 0
       send_file File.join( CarrierWave::Uploader::Base.root, @export.file.url )
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -19,56 +19,72 @@ class ExportsController < ApplicationController
   end
 
   # GET /exports
-  # GET /exports.json
   def index
     @order = scrub_order(Export, params[:order], "exports.created_at DESC")
     @exports = current_user.all_viewable_exports.where(project_id: @project.id).search(params[:search]).order(@order).page(params[:page]).per( 20 )
   end
 
   # GET /exports/1
-  # GET /exports/1.json
   def show
     @export.update viewed: true if @export.status == 'ready'
   end
 
+  def new
+    @export = current_user.exports.where(project_id: @project.id).new
+  end
+
   def mark_unread
     @export.update viewed: false
+    redirect_to project_exports_path(@project)
+  end
 
-    respond_to do |format|
-      format.html { redirect_to project_exports_path(@project) }
-      format.json { render json: @export }
+  def create
+    name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}"
+    sheet_scope = @project.sheets
+
+    @export = current_user.exports.where(project_id: @project.id, name: name, sheet_ids_count: sheet_scope.count).create(export_params)
+
+    unless Rails.env.test?
+      pid = Process.fork
+      if pid.nil?
+        @export.generate_export!(sheet_scope)
+        Kernel.exit!
+      else
+        Process.detach(pid)
+      end
+    end
+
+    if @export.new_record?
+      redirect_to project_exports_path(@project)
+    else
+      redirect_to [@project, @export]
     end
   end
 
   # DELETE /exports/1
-  # DELETE /exports/1.json
   def destroy
     @export.destroy
-
-    respond_to do |format|
-      format.html { redirect_to project_exports_path(@project) }
-      format.json { head :no_content }
-    end
+    redirect_to project_exports_path(@project)
   end
 
   private
 
-    def set_viewable_export
-      @export = current_user.all_viewable_exports.find_by_id(params[:id])
-    end
+  def set_viewable_export
+    @export = current_user.all_viewable_exports.find_by_id(params[:id])
+  end
 
-    def set_editable_export
-      @export = current_user.all_exports.find_by_id(params[:id])
-    end
+  def set_editable_export
+    @export = current_user.all_exports.find_by_id(params[:id])
+  end
 
-    def redirect_without_export
-      empty_response_or_root_path(project_exports_path(@project)) unless @export
-    end
+  def redirect_without_export
+    empty_response_or_root_path(project_exports_path(@project)) unless @export
+  end
 
-    # def export_params
-    #   params.require(:export).permit(
-    #     :name, :include_files, :status, :file, :project_id, :viewed
-    #   )
-    # end
-
+  def export_params
+    params.require(:export).permit(:include_csv_labeled, :include_csv_raw,
+                                   :include_pdf, :include_files,
+                                   :include_data_dictionary,
+                                   :include_sas, :include_r)
+  end
 end

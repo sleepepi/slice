@@ -22,6 +22,10 @@
         %span.glyphicon.glyphicon-warning-sign{ class: current_user.unseen_adverse_events.present? ? 'text-danger' : nil }
         Adverse Events
   %li
+    = link_to project_exports_path(@project), class: (params[:controller] == 'exports' ? 'active' : nil) do
+      %span.glyphicon.glyphicon-export
+      Exports
+  %li
     = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
       %span.glyphicon.glyphicon-list
       Recent Activity

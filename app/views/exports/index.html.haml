@@ -1,14 +1,23 @@
 - @title = 'Exports'
-.page-header
-  %h1
-    = link_to @project.name, @project
-    &middot;
-    = @title
-    = link_to "Create Export", project_sheets_path(@project, e: '1'), class: 'btn btn-xs btn-primary'
 
-= form_tag project_exports_path(@project), method: :get, class: 'form-inline' do
-  = hidden_field_tag :order, params[:order]
-  = text_field_tag 'search', params[:search], class: 'form-control'
-  = submit_tag 'Search', class: 'btn btn-primary', name: nil
+- links = []
+- links << ['Exports', project_exports_path(@project)]
+= render 'projects/tabbed_menu', links: links
 
-= render 'exports/exports'
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
+      = @title
+      = link_to 'Create Export', new_project_export_path(@project), class: 'btn btn-xs btn-primary'
+      .per-page
+        = render 'contour/layouts/per_page', per_page: 20, object_count: @exports.total_count
+
+    = render 'exports/exports'
+
+    .jumbotron
+      = form_tag project_exports_path(@project), method: :get, class: 'form-inline' do
+        = hidden_field_tag :order, params[:order]
+        = text_field_tag 'search', params[:search], class: 'form-control'
+        = submit_tag 'Search', class: 'btn btn-primary', name: nil

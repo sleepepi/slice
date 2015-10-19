@@ -17,13 +17,7 @@
       = link_to project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? 'active' : nil), rel: 'tooltip', data: { title: 'Adverse Events', container: 'body', placement: 'right' } do
         %span.glyphicon.glyphicon-warning-sign{ class: current_user.unseen_adverse_events.present? ? 'text-danger' : nil }
   %li
-    - if current_page?(project_sheets_path(@project))
-      - url = '#'
-      - object = 'show-contour-modal'
-    - else
-      - url = project_sheets_path(@project, e: '1')
-      - object = nil
-    = link_to url, rel: 'tooltip', data: { object: object, title: 'Export Data', container: 'body', placement: 'right' } do
+    = link_to project_exports_path(@project), class: (params[:controller] == 'exports' ? 'active' : nil), rel: 'tooltip', data: { title: 'Exports', container: 'body', placement: 'right' } do
       %span.glyphicon.glyphicon-export
   %li
     = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil), rel: 'tooltip', data: { title: 'Recent Activity', container: 'body', placement: 'right' } do

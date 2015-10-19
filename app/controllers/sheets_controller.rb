@@ -59,10 +59,6 @@ class SheetsController < ApplicationController
       sheet_scope = sheet_scope.order(@order)
     end
 
-    @raw_data = (params[:format] == 'raw_csv')
-
-    generate_export(sheet_scope, (params[:csv_labeled].to_s == '1'), (params[:csv_raw].to_s == '1'), (params[:pdf].to_s == '1'), (params[:files].to_s == '1'), (params[:data_dictionary].to_s == '1'), (params[:sas].to_s == '1'), (params[:r].to_s == '1')) if params[:export].to_s == '1'
-
     @sheets = sheet_scope.page(params[:page]).per(40)
   end
 
@@ -229,33 +225,6 @@ class SheetsController < ApplicationController
       :locked, :first_locked_at, :first_locked_by_id,
       :verifying_sheet_id, :subject_event_id, :adverse_event_id
     )
-  end
-
-  def generate_export(sheet_scope, csv_labeled, csv_raw, pdf, files, data_dictionary, sas, r)
-    export = current_user.exports.create(
-                name: "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}",
-                project_id: @project.id,
-                include_csv_labeled: csv_labeled,
-                include_csv_raw: csv_raw,
-                include_pdf: pdf,
-                include_files: files,
-                include_data_dictionary: data_dictionary,
-                include_sas: sas,
-                include_r: r,
-                sheet_ids_count: sheet_scope.count )
-
-    unless Rails.env.test?
-      pid = Process.fork
-      if pid.nil?
-        export.generate_export!(sheet_scope)
-        Kernel.exit!
-      else
-        Process.detach(pid)
-      end
-    end
-
-    # flash[:notice] = 'You will be emailed when the export is ready for download.'
-    render text: "window.location.href = '#{project_export_path(export.project, export)}';"
   end
 
   def variables_params

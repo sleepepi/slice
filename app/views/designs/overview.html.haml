@@ -1,20 +1,25 @@
 - @title = "#{@design.name} Overview"
-.page-header
-  = form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-inline', data: { object: 'form-load' } do
-    .form-group.pull-right
-      Status
-      = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#design_overview_form'
 
-  %h1
-    = link_to @project.name, @project
-    &middot;
-    = link_to @design.name, [@design.project, @design]
-    Overview
+- links = []
+- links << [@design.name, [@project, @design]]
+= render 'projects/tabbed_menu', links: links
 
-- unless @design.description.blank?
-  .bs-callout.bs-callout-info
-    = simple_markdown @design.description
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
+      = @title
+    = form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-inline', data: { object: 'form-load' } do
+      .form-group.pull-right
+        Status
+        = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#design_overview_form'
 
-#design_overview
-  .center= image_tag 'try-slice-waiting.gif'
+
+    - unless @design.description.blank?
+      .bs-callout.bs-callout-info
+        = simple_markdown @design.description
+
+    #design_overview
+      .center= image_tag 'try-slice-waiting.gif'
 

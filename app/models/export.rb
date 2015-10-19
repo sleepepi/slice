@@ -1,7 +1,7 @@
 class Export < ActiveRecord::Base
   after_create :calculate_total_steps
 
-  mount_uploader :file, GenericUploader
+  mount_uploader :file, ZipUploader
 
   STATUS = %w(ready pending failed).collect { |i| [i, i] }
 
@@ -100,7 +100,7 @@ class Export < ActiveRecord::Base
         # Two arguments:
         # - The name of the file as it will appear in the archive
         # - The original file, including the path to find it
-        zipfile.add(location, input_file) if File.exist?(input_file) and File.size(input_file) > 0
+        zipfile.add(location, input_file) if File.exist?(input_file) && File.size(input_file) > 0
       end
     end
     zipfile_name

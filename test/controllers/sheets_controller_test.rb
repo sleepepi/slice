@@ -7,27 +7,6 @@ class SheetsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
-  test 'should get raw csv' do
-    assert_difference('Export.count') do
-      xhr :get, :index, project_id: @project, export: '1', csv_raw: '1', format: 'js'
-    end
-    assert_response :success
-  end
-
-  test 'should get labeled csv' do
-    assert_difference('Export.count') do
-      xhr :get, :index, project_id: @project, export: '1', csv_labeled: '1', format: 'js'
-    end
-    assert_response :success
-  end
-
-  test 'should get pdf collation' do
-    assert_difference('Export.count') do
-      xhr :get, :index, project_id: @project, export: '1', pdf: '1', format: 'js'
-    end
-    assert_response :success
-  end
-
   test 'should get index' do
     get :index, project_id: @project
     assert_response :success
