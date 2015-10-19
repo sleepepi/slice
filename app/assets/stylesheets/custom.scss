@@ -637,6 +637,19 @@ label.checkbox, label.radio {
   border-left: 2px solid $table-border-color;
 }
 
+.blind-background,
+.shade-background {
+  display: table;
+}
+
+.blind-background {
+  background-color: $body-bg;
+}
+
+.shade-background {
+  background-color: $table-bg-accent;
+}
+
 .design-edit-box {
   background-color: $table-bg-accent;
   border-left: 2px solid $table-border-color;
