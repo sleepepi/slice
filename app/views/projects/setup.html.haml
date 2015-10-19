@@ -76,3 +76,5 @@
             link instead.
           %div
             = link_to "Delete Project", @project, method: :delete, class: 'btn btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" }
+
+= render 'projects/mobile_menu'

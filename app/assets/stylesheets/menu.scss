@@ -131,6 +131,28 @@ $current-tab-color: $btn-success-color;
   border-color: $btn-success-bg transparent transparent transparent;
 }
 
+.mobile-menu {
+  margin: 20px 0px;
+  display: block;
+  list-style: none;
+  padding-left: 0px;
+  li {
+    margin-bottom: 5px;
+    a {
+      text-decoration: none;
+      padding: 5px;
+      display: block;
+      color: $text-color;
+      border-left: 2px solid #333;
+    }
+    a:hover,
+    a.active {
+      text-decoration: none;
+      border-left: 2px solid $btn-success-bg;
+    }
+  }
+}
+
 .mini-menu-outer {
   position: relative;
   min-height: 485px;
@@ -149,6 +171,9 @@ $current-tab-color: $btn-success-color;
 }
 
 @media screen and (min-width: $screen-sm-min) {
+  .mobile-menu {
+    display: none;
+  }
   .mini-menu-left-fixed {
     display: block;
   }
