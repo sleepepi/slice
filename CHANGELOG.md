@@ -1,5 +1,8 @@
 ## 0.30.2
 
+### Bug Fix
+- Fixed an issue where the generic uploader wasn't allowing RTF files from being attached to sheets
+
 ## 0.30.1 (October 20, 2015)
 
 ### Bug Fix
