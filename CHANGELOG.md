@@ -32,12 +32,12 @@
 ### Refactoring
 - Updated syntax of JavaScript responses rendered by server
 - Updated syntax for calling partials and passing variables
-- Started rewriting most views using haml
-- Fixed an issue with SAS export where project variables could have the same name as sheet meta variables
+- Rewrote views using haml
 
 ### Bug Fix
 - Fixed a bug that prevented new variables from being created on projects with slugs
 - Fixed a bug that would display alt image text for user gravatars that failed to load
+- Fixed an issue with SAS export where project variables could have the same name as sheet meta variables
 
 ## 0.29.1 (September 10, 2015)
 
