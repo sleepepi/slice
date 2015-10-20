@@ -3,7 +3,7 @@
 %form.form-horizontal
   - @design.design_options.includes(:variable, :section).each do |design_option|
     - if section = design_option.section
-      = render 'sections/show', design: design, design_option: design_option, section: section
+      = render 'sections/show', design: @design, design_option: design_option, section: section
     - elsif variable = design_option.variable
       - if ['invisible', 'gone'].include?(variable.display_name_visibility)
         .col-xs-12

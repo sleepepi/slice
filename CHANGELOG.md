@@ -1,5 +1,8 @@
 ## 0.30.1
 
+### Bug Fix
+- Fixed an issue displaying design overviews for designs with sections (reported by ekaplan)
+
 ## 0.30.0 (October 20, 2015)
 
 ### Enhancements
