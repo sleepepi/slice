@@ -1,4 +1,4 @@
-## 0.30.3
+## 0.30.3 (October 22, 2015)
 
 ### Bug Fix
 - Text areas and scale variables now use full width of window again
