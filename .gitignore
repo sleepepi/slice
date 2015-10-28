@@ -33,6 +33,7 @@
 # Other Files
 
 /Gemfile.lock
+/config/initializers/quiet_assets.rb
 /db/schema.rb
 /doc/app/*
 
