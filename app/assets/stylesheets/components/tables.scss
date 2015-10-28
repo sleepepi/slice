@@ -1,0 +1,36 @@
+.table-fixed {
+  table-layout: fixed;
+}
+
+.table {
+  .sort-selected {
+    border-bottom-color: $link-color;
+  }
+
+  .sort-up:after,
+  .sort-down:after {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    content: '';
+    display: inline-block;
+    height: 0;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    margin-right: -10px;
+    width: 0;
+  }
+
+  .sort-up:after {
+    border-bottom: 4px solid;
+  }
+
+  .sort-down:after {
+    border-top: 4px solid;
+  }
+
+  &.table-borderless {
+    td {
+      border-width: 0;
+    }
+  }
+}

@@ -1,5 +1,8 @@
 ## 0.31.0
 
+### Refactoring
+- Started cleanup and reorganization of SCSS stylesheets
+
 ## 0.30.3 (October 22, 2015)
 
 ### Bug Fix
