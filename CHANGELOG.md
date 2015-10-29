@@ -2,6 +2,7 @@
 
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets
+- Adjusted line-height on form controls and input boxes
 
 ## 0.30.3 (October 22, 2015)
 

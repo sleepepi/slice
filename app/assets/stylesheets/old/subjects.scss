@@ -26,26 +26,26 @@ ul.left-navigation {
       }
     }
     a::before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0px;
       top: 0px;
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 0px 28px 28px 0px;
+      border-width: 0px 31px 31px 0px;
       border-color: transparent transparent $btn-success-border transparent;
     }
 
     a::after {
-      content: "";
+      content: '';
       position: absolute;
       left: -1px;
       top: 0px;
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 0px 29px 29px 0px;
+      border-width: 0px 32px 32px 0px;
       border-color: transparent transparent $body-bg transparent;
     }
 
@@ -59,7 +59,7 @@ ul.left-navigation {
   }
 
   li::before {
-    content: "";
+    content: '';
     position: absolute;
     left: 40px;
     top: 9px;
@@ -76,7 +76,7 @@ ul.left-navigation {
 
   ul {
     list-style: none;
-    padding-left: 27px;
+    padding-left: 30px;
     li {
       margin-bottom: 0px;
       a::before {

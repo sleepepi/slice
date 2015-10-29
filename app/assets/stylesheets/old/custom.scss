@@ -531,6 +531,7 @@ label.checkbox, label.radio {
   color: $gray !important;
   background-color: $input-bg !important;
   display: block !important;
+  height: initial; // TODO REMOVE original overwrite
 }
 
 .tt-dropdown-menu {

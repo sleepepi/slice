@@ -64,12 +64,12 @@ $current-tab-color: $btn-success-color;
 .menu-tab .menu-tab-link::before {
   content: "";
   position: absolute;
-  left: -32px;
+  left: -35px;
   top: 0px;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 32px 32px 0px 0px;
+  border-width: 35px 35px 0px 0px;
   border-color: transparent $tab-default-bg transparent transparent;
   transition: all .2s ease;
   backface-visibility: hidden; // Fix for transition flickering
@@ -78,12 +78,12 @@ $current-tab-color: $btn-success-color;
 .menu-tab-first .menu-tab-link::before {
   content: '';
   position: absolute;
-  left: -32px;
+  left: -35px;
   top: 0px;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 0px 32px 32px 0px;
+  border-width: 0px 35px 35px 0px;
   border-color: transparent $tab-default-bg transparent transparent;
   transition: all .2s ease;
   backface-visibility: hidden; // Fix for transition flickering
@@ -92,12 +92,12 @@ $current-tab-color: $btn-success-color;
 .menu-tab-link::after {
   content: '';
   position: absolute;
-  right: -32px;
+  right: -35px;
   top: 0px;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 32px 32px 0 0;
+  border-width: 35px 35px 0 0;
   border-color: $tab-default-bg transparent transparent transparent;
   transition: all .2s ease;
   backface-visibility: hidden; // Fix for transition flickering
