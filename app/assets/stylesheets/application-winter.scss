@@ -5,39 +5,18 @@
 
 @import 'tree';
 
-@-webkit-keyframes snow {
-    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
-    100% {
-      background-position: 500px 1000px, 400px 400px, 300px 300px;
-    }
-}
-@-moz-keyframes snow {
-    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
-    100% {
-        background-position: 500px 1000px, 400px 400px, 300px 300px;
-    }
-}
-@-ms-keyframes snow {
-    0% {
-      background-position: 0px 0px, 0px 0px, 0px 0px
-    }
-    100% {
-      background-position: 500px 1000px, 400px 400px, 300px 300px;
-    }
-}
-@keyframes snow {
-    0% {
-      background-position: 0px 0px, 0px 0px, 0px 0px }
-    100% {
-      background-position: 500px 1000px, 400px 400px, 300px 300px;
-    }
+@keyframes snow-flakes {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+
+  100% {
+    background-position: 500px 1000px, 400px 400px, 300px 300px;
+  }
 }
 
 body {
-    background-color: #DAF1FF;
-    background-image: asset-url('themes/winter/snow1.png'), asset-url('themes/winter/snow2.png'), asset-url('themes/winter/snow3.png');
-    -webkit-animation: snow 20s linear infinite;
-    -moz-animation: snow 20s linear infinite;
-    -ms-animation: snow 20s linear infinite;
-    animation: snow 20s linear infinite;
+  animation: snow-flakes 20s linear infinite;
+  background-color: $body-bg;
+  background-image: asset-url('themes/winter/snow1.png'), asset-url('themes/winter/snow2.png'), asset-url('themes/winter/snow3.png');
 }

@@ -7,17 +7,19 @@
 //
 //## Gray and brand colors for use across Bootstrap.
 
+$theme-white: #dedede;
+
 $gray-darker:            #222 !default; // #222
 $gray-dark:              #282828 !default;   // #333
 $gray:                   #555 !default; // #555
 $gray-light:             #888 !default;   // #999
-$gray-lighter:           #ADAFAE !default; // #eee
+$gray-lighter:           #adafae !default; // #eee
 
-$brand-primary:         #2A9FD6 !default;
-$brand-success:         #77B300 !default;
-$brand-info:            #9933CC !default;
-$brand-warning:         #FF8800 !default;
-$brand-danger:          #CC0000 !default;
+$brand-primary:         #2a9fd6 !default;
+$brand-success:         #77b300 !default;
+$brand-info:            #93c !default;
+$brand-warning:         #f80 !default;
+$brand-danger:          #c00 !default;
 
 
 //== Scaffolding
@@ -217,11 +219,11 @@ $input-group-addon-border-color: $input-border !default;
 //** Background for the dropdown menu.
 $dropdown-bg:                    $gray-darker !default;
 //** Dropdown menu `border-color`.
-$dropdown-border:                rgba(255,255,255,0.1) !default;
+$dropdown-border:                rgba(255, 255, 255, .1) !default;
 //** Dropdown menu `border-color` **for IE8**.
 $dropdown-fallback-border:       #444 !default;
 //** Divider color for between dropdown items.
-$dropdown-divider-bg:            rgba(255,255,255,0.1) !default;
+$dropdown-divider-bg:            rgba(255, 255, 255, .1) !default;
 
 //** Dropdown link text color.
 $dropdown-link-color:            #dedede !default;
@@ -410,7 +412,7 @@ $tooltip-max-width:           200px !default;
 //** Tooltip text color
 $tooltip-color:               #000 !default;
 //** Tooltip background color
-$tooltip-bg:                  rgba(255,255,255,.9) !default;
+$tooltip-bg:                  rgba(255, 255, 255, .9) !default;
 $tooltip-opacity:             .9 !default;
 
 //** Tooltip arrow width
@@ -428,7 +430,7 @@ $popover-bg:                          lighten($body-bg, 10%) !default;
 //** Popover maximum width
 $popover-max-width:                   276px !default;
 //** Popover border color
-$popover-border-color:                rgba(0,0,0,.2) !default;
+$popover-border-color:                rgba(0, 0, 0, .2) !default;
 //** Popover fallback border color
 $popover-fallback-border-color:       #999 !default;
 
@@ -486,7 +488,7 @@ $modal-title-padding:         15px !default;
 //** Background color of modal content area
 $modal-content-bg:                             lighten($body-bg, 10%) !default;
 //** Modal content border color
-$modal-content-border-color:                   rgba(0,0,0,.2) !default;
+$modal-content-border-color:                   rgba(0, 0, 0, .2) !default;
 //** Modal content border color **for IE8**
 $modal-content-fallback-border-color:          #999 !default;
 
@@ -673,24 +675,25 @@ $breadcrumb-color:              #dedede !default;
 //** Text color of current page in the breadcrumb
 $breadcrumb-active-color:       $text-color !default;
 //** Textual separator for between breadcrumb elements
-$breadcrumb-separator:          "/" !default;
+$breadcrumb-separator:          '/' !default;
 
 
 //== Carousel
 //
 //##
+$carousel-text-shadow-color:      rgba(0, 0, 0, .6);
 
-$carousel-text-shadow:                        0 1px 2px rgba(0,0,0,.6) !default;
+$carousel-text-shadow:            0 1px 2px $carousel-text-shadow-color !default;
 
-$carousel-control-color:                      #dedede !default;
-$carousel-control-width:                      15% !default;
-$carousel-control-opacity:                    .5 !default;
-$carousel-control-font-size:                  20px !default;
+$carousel-control-color:          #dedede !default;
+$carousel-control-width:          15% !default;
+$carousel-control-opacity:        .5 !default;
+$carousel-control-font-size:      20px !default;
 
-$carousel-indicator-active-bg:                #dedede !default;
-$carousel-indicator-border-color:             #dedede !default;
+$carousel-indicator-active-bg:    #dedede !default;
+$carousel-indicator-border-color: #dedede !default;
 
-$carousel-caption-color:                      #dedede !default;
+$carousel-caption-color:          #dedede !default;
 
 
 //== Close
@@ -699,7 +702,7 @@ $carousel-caption-color:                      #dedede !default;
 
 $close-font-weight:           bold !default;
 $close-color:                 #000 !default;
-$close-text-shadow:           0 1px 0 #dedede !default;
+$close-text-shadow:           0 1px 0 $theme-white !default;
 
 
 //== Code

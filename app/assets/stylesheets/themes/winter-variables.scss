@@ -7,17 +7,20 @@
 //
 //## Gray and brand colors for use across Bootstrap.
 
-$gray:                   lighten(#000, 33.5%) !default; // #555
-$gray-darker:            lighten(#000, 13.5%) !default; // #222
-$gray-dark:              lighten(#000, 20%) !default;   // #333
-$gray-light:             lighten(#000, 60%) !default;   // #999
-$gray-lighter:           lighten(#000, 93.5%) !default; // #eee
+$black: #000;
+$white: #fff;
 
-$brand-primary:         #2FA4E7 !default;
-$brand-success:         #6BA848 !default; // #A8DBDF !default;
-$brand-info:            #43C3F5 !default;
-$brand-warning:         #8EB0D0 !default; // #033C73 !default;
-$brand-danger:          #D11111 !default; // #B14BFF !default;
+$gray:                   lighten($black, 33.5%) !default; // #555
+$gray-darker:            lighten($black, 13.5%) !default; // #222
+$gray-dark:              lighten($black, 20%) !default;   // #333
+$gray-light:             lighten($black, 60%) !default;   // #999
+$gray-lighter:           lighten($black, 93.5%) !default; // #eee
+
+$brand-primary:         #2fa4e7 !default;
+$brand-success:         #6ba848 !default;
+$brand-info:            #43c3f5 !default;
+$brand-warning:         #8eb0d0 !default;
+$brand-danger:          #d11111 !default;
 
 
 //== Scaffolding
@@ -25,7 +28,7 @@ $brand-danger:          #D11111 !default; // #B14BFF !default;
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-$body-bg:               #DAF1FF !default;
+$body-bg:               #daf1ff !default;
 //** Global text color on `<body>`.
 $text-color:            $gray !default;
 
@@ -65,7 +68,7 @@ $link-hover-color:      darken($link-color, 15%) !default;
 // $headings-font-family:    $font-family-base !default;
 // $headings-font-weight:    500 !default;
 // $headings-line-height:    1.1 !default;
-$headings-color:          #317EAC !default;
+$headings-color:          #317eac !default;
 
 
 //== Iconography
@@ -112,7 +115,7 @@ $btn-font-weight:                normal !default;
 
 $btn-default-color:              $text-color !default;
 $btn-default-bg:                 #fff !default;
-$btn-default-border:             rgba(0, 0, 0, 0.1) !default;
+$btn-default-border:             rgba(0, 0, 0, .1) !default;
 
 $btn-primary-color:              #fff !default;
 $btn-primary-bg:                 $brand-primary !default;
@@ -190,7 +193,7 @@ $hr-border:                   $gray-lighter !default;
 //** Background for the dropdown menu.
 $dropdown-bg:                    #fff !default;
 //** Dropdown menu `border-color`.
-$dropdown-border:                rgba(0,0,0,.15) !default;
+$dropdown-border:                rgba(0, 0, 0, .15) !default;
 //** Dropdown menu `border-color` **for IE8**.
 $dropdown-fallback-border:       #ccc !default;
 //** Divider color for between dropdown items.
@@ -378,7 +381,7 @@ $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !
 //** Tooltip text color
 $tooltip-color:               #fff !default;
 //** Tooltip background color
-$tooltip-bg:                  rgba(0,0,0,.9) !default;
+$tooltip-bg:                  rgba(0, 0, 0, .9) !default;
 $tooltip-opacity:             .9 !default;
 
 //** Tooltip arrow color
@@ -392,7 +395,7 @@ $tooltip-arrow-color:         $tooltip-bg !default;
 //** Popover body background color
 $popover-bg:                          #fff !default;
 //** Popover border color
-$popover-border-color:                rgba(0,0,0,.2) !default;
+$popover-border-color:                rgba(0, 0, 0, .2) !default;
 //** Popover fallback border color
 $popover-fallback-border-color:       #ccc !default;
 
@@ -437,7 +440,7 @@ $label-link-hover-color:      #fff !default;
 //** Background color of modal content area
 $modal-content-bg:                             #fff !default;
 //** Modal content border color
-$modal-content-border-color:                   rgba(0,0,0,.2) !default;
+$modal-content-border-color:                   rgba(0, 0, 0, .2) !default;
 //** Modal content border color **for IE8**
 $modal-content-fallback-border-color:          #999 !default;
 
@@ -611,17 +614,18 @@ $breadcrumb-active-color:       $gray-light !default;
 //== Carousel
 //
 //##
+$carousel-text-shadow-color:      rgba(0, 0, 0, .6);
 
-$carousel-text-shadow:                        0 1px 2px rgba(0,0,0,.6) !default;
+$carousel-text-shadow:            0 1px 2px $carousel-text-shadow-color !default;
 
-$carousel-control-color:                      #fff !default;
-$carousel-control-width:                      15% !default;
-$carousel-control-opacity:                    .5 !default;
+$carousel-control-color:          #fff !default;
+$carousel-control-width:          15% !default;
+$carousel-control-opacity:        .5 !default;
 
-$carousel-indicator-active-bg:                #fff !default;
-$carousel-indicator-border-color:             #fff !default;
+$carousel-indicator-active-bg:    #fff !default;
+$carousel-indicator-border-color: #fff !default;
 
-$carousel-caption-color:                      #fff !default;
+$carousel-caption-color:          #fff !default;
 
 
 //== Close
@@ -630,7 +634,7 @@ $carousel-caption-color:                      #fff !default;
 
 $close-font-weight:           bold !default;
 $close-color:                 #000 !default;
-$close-text-shadow:           0 1px 0 #fff !default;
+$close-text-shadow:           0 1px 0 $white !default;
 
 
 //== Code
