@@ -219,13 +219,10 @@
   }
 
   .chzn-single-with-drop {
-    background-color: $gray-lighter;
-    background-image: linear-gradient($dropdown-bg 20%, $dropdown-bg 80%);
     border: 1px solid $dropdown-fallback-border;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     box-shadow: 0 1px 0 $dropdown-bg inset;
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$dropdown-bg}', endColorstr='#{$dropdown-bg}', GradientType=0 );
 
     div {
       background: transparent;
