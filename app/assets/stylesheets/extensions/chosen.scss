@@ -68,7 +68,6 @@
     }
 
     .group-result {
-      color: #999;
       cursor: default;
       font-weight: bold;
     }
@@ -85,6 +84,7 @@
     text-align: center;
     width: 321px; // This should by dynamic with js
     z-index: 1;
+
     span {
       display: inline-block;
       height: 17px;
@@ -95,12 +95,13 @@
 
   .chzn-results-scroll-down {
     bottom: 0;
+
     span {
       background: asset-url('chosen-sprite.png') no-repeat -4px -3px;
     }
   }
 
-  .chzn-results-scroll-up{
+  .chzn-results-scroll-up {
     span {
       background: asset-url('chosen-sprite.png') no-repeat -22px -3px;
     }
@@ -212,23 +213,24 @@
 // Active
 .chzn-container-active {
   .chzn-single {
-    border-color: rgba(82, 168, 236, 0.8);
-    box-shadow: inset 0 1px 1px $dropdown-border, 0 0 8px rgba(82, 168, 236, 0.6);
+    border-color: $input-border-focus;
+    box-shadow: $input-shadow, 0 0 6px $input-border-focus;
     outline: 0;
   }
 
   .chzn-single-with-drop {
-    border: 1px solid $dropdown-fallback-border;
-    box-shadow: 0 1px 0 $dropdown-bg inset;
-    background-color: #eee;
+    background-color: $gray-lighter;
     background-image: linear-gradient($dropdown-bg 20%, $dropdown-bg 80%);
-    border-bottom-left-radius : 0;
+    border: 1px solid $dropdown-fallback-border;
+    border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    box-shadow: 0 1px 0 $dropdown-bg inset;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$dropdown-bg}', endColorstr='#{$dropdown-bg}', GradientType=0 );
 
     div {
       background: transparent;
-      border-left: none;
+      border-left: 0;
+
       b {
         background-position: -18px 9px;
       }
@@ -236,26 +238,27 @@
   }
 
   .chzn-choices {
-    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
-    border: 1px solid #5897fb;
-    .search-field{
-      input {
-        color: #111 !important;
-      }
-    }
+    border: 1px solid $component-active-bg;
+    box-shadow: $input-shadow;
   }
 }
 
 // Disabled Support
 .chzn-disabled {
   cursor: default;
-  opacity:0.5 !important;
-}
-.chzn-disabled .chzn-single {
-  cursor: default;
-}
-.chzn-disabled .chzn-choices .search-choice .search-choice-close {
-  cursor: default;
+  opacity: .5;
+
+  .chzn-single {
+    cursor: default;
+  }
+
+  .chzn-choices {
+    .search-choice {
+      .search-choice-close {
+        cursor: default;
+      }
+    }
+  }
 }
 
 // Retina compatibility
@@ -266,8 +269,8 @@
   .chzn-container-multi .chzn-choices .search-choice .search-choice-close,
   .chzn-container .chzn-results-scroll-down span,
   .chzn-container .chzn-results-scroll-up span {
-      background-image: url('chosen-sprite.png') !important;
-      background-repeat: no-repeat !important;
-      background-size: 52px 37px !important;
+    background-image: url('chosen-sprite.png');
+    background-repeat: no-repeat;
+    background-size: 52px 37px;
   }
 }
