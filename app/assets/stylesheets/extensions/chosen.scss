@@ -1,0 +1,273 @@
+// scss-lint:disable NestingDepth, SelectorDepth
+// Since this CSS was developed externally, NestingDepth and SelectorDepth will
+// be ignored as fixing these would require major restructuring of the extension
+// JavaScript as well.
+
+
+// Base
+.chzn-container {
+  display: inline-block;
+  min-width: 150px;
+  position: relative;
+  width: 100%;
+  zoom: 1;
+
+  .chzn-drop {
+    background: $dropdown-bg;
+    border: 1px solid $dropdown-fallback-border;
+    border-top: 0;
+    box-shadow: 0 4px 5px $dropdown-border;
+    left: 0;
+    position: absolute;
+    top: 29px;
+    width: 100%;
+    z-index: 1085;
+  }
+
+  // Results
+  .chzn-results {
+    margin: 0 4px 4px 0;
+    max-height: 240px;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0 0 0 4px;
+    position: relative;
+
+    li {
+      display: none;
+      line-height: 15px;
+      list-style: none;
+      margin: 0;
+      padding: 5px 6px;
+
+      em {
+        background: $state-warning-bg;
+        font-style: normal;
+      }
+    }
+
+    .active-result {
+      cursor: pointer;
+      display: list-item;
+    }
+
+    .highlighted {
+      background-color: $btn-primary-border;
+      border-radius: 3px;
+      color: $btn-primary-color;
+
+      em {
+        background: transparent;
+      }
+    }
+
+    .no-results {
+      background: $table-bg-accent;
+      display: list-item;
+    }
+
+    .group-result {
+      color: #999;
+      cursor: default;
+      font-weight: bold;
+    }
+
+    .group-option {
+      padding-left: 15px;
+    }
+  }
+
+  .chzn-results-scroll {
+    background: $body-bg;
+    margin: 0 4px;
+    position: absolute;
+    text-align: center;
+    width: 321px; // This should by dynamic with js
+    z-index: 1;
+    span {
+      display: inline-block;
+      height: 17px;
+      text-indent: -5000px;
+      width: 9px;
+    }
+  }
+
+  .chzn-results-scroll-down {
+    bottom: 0;
+    span {
+      background: asset-url('chosen-sprite.png') no-repeat -4px -3px;
+    }
+  }
+
+  .chzn-results-scroll-up{
+    span {
+      background: asset-url('chosen-sprite.png') no-repeat -22px -3px;
+    }
+  }
+}
+
+// Single Chosen
+.chzn-container-single {
+  .chzn-single {
+    background-color: $input-bg;
+    border: 1px solid $input-border;
+    border-radius: 4px;
+    box-shadow: $input-shadow;
+    color: $input-color;
+    display: inline-block;
+    font-size: 16px;
+    height: 34px;
+    line-height: 20px;
+    padding: 6px 12px;
+    text-decoration: none;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    vertical-align: middle;
+    width: 100%;
+
+    span {
+      display: block;
+      margin-right: 26px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    abbr {
+      background: asset-url('chosen-sprite.png') -42px 1px no-repeat;
+      display: block;
+      font-size: 1px;
+      height: 12px;
+      position: absolute;
+      right: 26px;
+      top: 14px;
+      width: 12px;
+    }
+
+    abbr:hover {
+      background-position: -42px -10px;
+    }
+
+    div {
+      display: block;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 18px;
+
+      b {
+        background: asset-url('chosen-sprite.png') no-repeat 0 10px;
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  .chzn-default {
+    color: $input-color-placeholder;
+  }
+
+  &.chzn-disabled {
+    .chzn-single {
+      abbr:hover {
+        background-position: -42px -10px;
+      }
+    }
+  }
+
+  .chzn-search {
+    margin: 0;
+    padding: 3px 4px;
+    position: relative;
+    white-space: nowrap;
+    z-index: 1010;
+
+    input {
+      border: 1px solid $input-border;
+      border-radius: 4px;
+      font-family: sans-serif;
+      font-size: 1em;
+      margin: 1px 0;
+      outline: 0;
+      padding: 4px 20px 4px 5px;
+      width: 100%;
+    }
+  }
+
+  .chzn-drop {
+    background-clip: padding-box;
+    border-radius: 0 0 4px 4px;
+  }
+}
+
+.chzn-container-single-nosearch {
+  .chzn-search input {
+    left: -9000px;
+    position: absolute;
+  }
+}
+
+// Active
+.chzn-container-active {
+  .chzn-single {
+    border-color: rgba(82, 168, 236, 0.8);
+    box-shadow: inset 0 1px 1px $dropdown-border, 0 0 8px rgba(82, 168, 236, 0.6);
+    outline: 0;
+  }
+
+  .chzn-single-with-drop {
+    border: 1px solid $dropdown-fallback-border;
+    box-shadow: 0 1px 0 $dropdown-bg inset;
+    background-color: #eee;
+    background-image: linear-gradient($dropdown-bg 20%, $dropdown-bg 80%);
+    border-bottom-left-radius : 0;
+    border-bottom-right-radius: 0;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$dropdown-bg}', endColorstr='#{$dropdown-bg}', GradientType=0 );
+
+    div {
+      background: transparent;
+      border-left: none;
+      b {
+        background-position: -18px 9px;
+      }
+    }
+  }
+
+  .chzn-choices {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    border: 1px solid #5897fb;
+    .search-field{
+      input {
+        color: #111 !important;
+      }
+    }
+  }
+}
+
+// Disabled Support
+.chzn-disabled {
+  cursor: default;
+  opacity:0.5 !important;
+}
+.chzn-disabled .chzn-single {
+  cursor: default;
+}
+.chzn-disabled .chzn-choices .search-choice .search-choice-close {
+  cursor: default;
+}
+
+// Retina compatibility
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 144dpi)  {
+  .chzn-container-single .chzn-single abbr,
+  .chzn-container-single .chzn-single div b,
+  .chzn-container-single .chzn-search input,
+  .chzn-container-multi .chzn-choices .search-choice .search-choice-close,
+  .chzn-container .chzn-results-scroll-down span,
+  .chzn-container .chzn-results-scroll-up span {
+      background-image: url('chosen-sprite.png') !important;
+      background-repeat: no-repeat !important;
+      background-size: 52px 37px !important;
+  }
+}

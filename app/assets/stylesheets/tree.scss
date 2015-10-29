@@ -7,8 +7,8 @@
 @import 'components/tables';
 
 // Extensions
-// 'extensions/chosen'
-// 'extensions/jquery.signaturepad'
+@import 'extensions/chosen';
+// @import 'extensions/jquery.signaturepad';
 
 // Objects
 
@@ -25,7 +25,6 @@
 
 
 // Old Includes, to be refactored and removed
-@import 'old/chosen';
 @import 'old/custom';
 @import 'old/group_inputs';
 @import 'old/time_inputs';

@@ -326,13 +326,13 @@ textarea:focus.warning-input  {
 }
 
 .checkbox.selected, .checkbox.selected:hover, .radio.selected, .radio.selected:hover {
-  background-color: darken($brand-primary, 15%);
-  color: #fff;
+  background-color: $btn-primary-border;
+  color: $btn-primary-color;
 }
 
 .checkbox.selected.negation, .checkbox.selected.negation:hover, .radio.selected.negation, .radio.selected.negation:hover {
-  background-color: darken($brand-danger, 15%);
-  color: #fff;
+  background-color: $btn-danger-border;
+  color: $btn-danger-color;
 }
 
 .label-coverage {

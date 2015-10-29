@@ -345,7 +345,7 @@ Copyright (c) 2011 by Harvest
     };
 
     Chosen.prototype.set_up_html = function() {
-      var container_classes, container_div, container_props, dd_top, dd_width, sf_width;
+      var container_classes, container_div, container_props, dd_top, sf_width;
       this.container_id = this.form_field.id.length ? this.form_field.id.replace(/[^\w]/g, '_') : this.generate_field_id();
       this.container_id += "_chzn";
       container_classes = ["chzn-container"];
@@ -360,7 +360,6 @@ Copyright (c) 2011 by Harvest
       container_props = {
         id: this.container_id,
         "class": container_classes.join(' '),
-        style: 'width: ' + this.f_width + 'px;',
         title: this.form_field.title
       };
       container_div = $("<div />", container_props);
@@ -373,9 +372,7 @@ Copyright (c) 2011 by Harvest
       this.container = $('#' + this.container_id);
       this.dropdown = this.container.find('div.chzn-drop').first();
       dd_top = this.container.height();
-      dd_width = this.f_width - get_side_border_padding(this.dropdown);
       this.dropdown.css({
-        "width": dd_width + "px",
         "top": dd_top + "px"
       });
       this.search_field = this.container.find('input').first();
@@ -388,10 +385,6 @@ Copyright (c) 2011 by Harvest
       } else {
         this.search_container = this.container.find('div.chzn-search').first();
         this.selected_item = this.container.find('.chzn-single').first();
-        sf_width = dd_width - get_side_border_padding(this.search_container) - get_side_border_padding(this.search_field);
-        this.search_field.css({
-          "width": sf_width + "px"
-        });
       }
       this.results_build();
       this.set_tab_index();
