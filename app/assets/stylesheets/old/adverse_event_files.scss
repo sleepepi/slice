@@ -1,12 +1,12 @@
 .ae-file {
-  height: 115px;
-  width: 115px;
   background-color: $navbar-default-bg;
   border: 1px solid $navbar-default-border;
+  display: block;
+  height: 115px;
   overflow: hidden;
   padding: 20px;
-  display: block;
   position: relative;
+  width: 115px;
 }
 
 .ae-file:hover {
@@ -15,7 +15,7 @@
 }
 
 .ae-file-destroy {
-  position: absolute;
   left: 103px;
+  position: absolute;
   top: 1px;
 }

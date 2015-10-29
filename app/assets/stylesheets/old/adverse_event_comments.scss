@@ -1,13 +1,13 @@
 .aecomment-outer {
-  position: relative;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .aecomment-left-fixed {
   display: none;
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
   width: 64px;
 }
 
@@ -19,15 +19,15 @@
   .aecomment-left-fixed {
     display: block;
   }
+
   .aecomment-right-fluid {
     margin-left: 64px;
   }
 }
 
 .aecomment-comment {
-  border-radius: 2px;
   border: 1px solid $navbar-default-border;
-  // padding: 5px;
+  border-radius: 2px;
 }
 
 .aecomment-action {
@@ -35,10 +35,13 @@
 }
 
 .aecomment-comment-header {
-  // border-radius: 2px 2px 0 0;
   background-color: $navbar-default-bg;
   padding: 10px;
   position: relative;
+
+  &.aecomment-unread::after {
+    border-right-color: $alert-warning-bg;
+  }
 }
 
 .aecomment-comment-body {
@@ -46,29 +49,27 @@
 }
 
 .aecomment-comment-header::before {
-  content: '';
-  position: absolute;
-  width: 0px;
-  height: 0px;
-  top: 14px;
-  left: -7px;
-  border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
   border-right: 7px solid $navbar-default-border;
+  border-top: 7px solid transparent;
+  content: '';
+  height: 0;
+  left: -7px;
   position: absolute;
+  top: 14px;
+  width: 0;
 }
 
 .aecomment-comment-header::after {
-  content: '';
-  position: absolute;
-  width: 0px;
-  height: 0px;
-  top: 14px;
-  left: -6px;
-  border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
   border-right: 7px solid $navbar-default-bg;
+  border-top: 7px solid transparent;
+  content: '';
+  height: 0;
+  left: -6px;
   position: absolute;
+  top: 14px;
+  width: 0;
 }
 
 .aecomment-icon {
@@ -86,8 +87,4 @@
 .aecomment-unread {
   background-color: $alert-warning-bg;
   color: $alert-warning-text;
-}
-
-.aecomment-comment-header.aecomment-unread::after {
-  border-right-color: $alert-warning-bg;
 }

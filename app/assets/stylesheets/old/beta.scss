@@ -1,7 +1,7 @@
 .beta-text {
-  position: relative;
   background-color: #4cae4c;
   padding: 20px;
+  position: relative;
 }
 
 .beta-text a {
@@ -20,7 +20,7 @@
 .beta-text a:active {
   text-decoration: none;
   color: #fff !important;
-  background-color: rgb(255, 157, 107) !important; // #337ab7 !important; // #47a447 !important;
+  background-color: $success-emphasis-color !important; // #337ab7 !important; // #47a447 !important;
   border-color: rgb(255, 133, 71) !important; // #398439 !important;
 }
 

@@ -1,10 +1,9 @@
 .btn-success-inverse {
-  color: $btn-default-color;
+  backface-visibility: hidden; // Fix for transition flickering
   background-color: $btn-default-bg;
   border-color: $btn-default-border;
-
-  -webkit-transition: all .4s ease; /* Fade to color for Chrome and Safari */
-  -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+  color: $btn-default-color;
+  transition: all .4s ease; // Fade to color for Chrome and Safari
 
   &:hover,
   &:focus,
@@ -12,19 +11,18 @@
   &:active,
   &.active,
   .open > &.dropdown-toggle {
-    color: $btn-success-color;
     background-color: darken($btn-success-bg, 10%);
-        border-color: darken($btn-success-border, 12%);
+    border-color: darken($btn-success-border, 12%);
+    color: $btn-success-color;
 
     .btn-text-emphasis {
-      color: rgb(255, 157, 107);
+      color: $success-emphasis-color;
     }
   }
 
   .btn-text-emphasis {
+    backface-visibility: hidden; // Fix for transition flickering
     color: $btn-success-bg;
-    -webkit-transition: all .4s ease; /* Fade to color for Chrome and Safari */
-    -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+    transition: all .4s ease; // Fade to color for Chrome and Safari
   }
-
 }
