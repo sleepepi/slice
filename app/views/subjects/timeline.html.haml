@@ -18,116 +18,94 @@
       - if event.class == Sheet
         - sheet = event
         %a.anchor-top{ name: "c#{current_index}" }
-        .post-container-skinny
-          .post-header-skinny
-            .pull-right
-              %a{ href: "#c#{current_index}" }= "##{current_index}"
-            - if sheet.user
-              = image_tag sheet.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
-            = link_to sheet.name, [@project, sheet]
-            %span.label.label-success added
-            - if sheet.user
-              by
-              = sheet.user.name
-            - else
-              from public survey
-            %abbr{ rel: "tooltip", data: { title: sheet.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
-              = time_ago_in_words(sheet.created_at)
-              ago
+        .comment-outer
+          .comment-left-fixed
+          .comment-right-fluid
+            .comment-icon
+            .comment-action
+              %strong
+                - if sheet.user
+                  = sheet.user.name
+                - else
+                  Public user
+              added
+              = link_to sheet.name, [@project, sheet]
+              %abbr{ rel: 'tooltip', data: { title: sheet.created_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+                = time_ago_in_words(sheet.created_at)
+                ago
       - elsif event.class == SubjectEvent
         - subject_event = event
         %a.anchor-top{ name: "c#{current_index}" }
-        .post-type
-          %strong Event
-        .post-container-skinny
-          .post-header-skinny
-            .pull-right
-              %a{ href: "#c#{current_index}" }= "##{current_index}"
-            - if subject_event.user
-              = image_tag subject_event.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
-            = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
-            %span.label.label-success added
-            - if subject_event.user
-              by
-              = subject_event.user.name
-            %abbr{ rel: "tooltip", data: { title: subject_event.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
-              = time_ago_in_words(subject_event.created_at)
-              ago
+        .comment-outer
+          .comment-left-fixed
+          .comment-right-fluid
+            .comment-icon
+              %span.glyphicon.glyphicon-calendar
+            .comment-action
+              %strong
+                - if subject_event.user
+                  = subject_event.user.name
+                - else
+                  Public user
+              added
+              = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
+              %abbr{ rel: 'tooltip', data: { title: subject_event.created_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+                = time_ago_in_words(subject_event.created_at)
+                ago
       - elsif event.class == Randomization
         - randomization = event
         %a.anchor-top{ name: "c#{current_index}" }
-        .post-container-skinny
-          .post-header-skinny
-            .pull-right
-              %a{ href: "#c#{current_index}" }= "##{current_index}"
-            - if randomization.randomized_by
-              = image_tag randomization.randomized_by.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
-            %span.label.label-primary Randomized
-            - if randomization.treatment_arm
-              to
+        .comment-outer
+          .comment-left-fixed
+          .comment-right-fluid
+            .comment-icon
+            .comment-action
               %strong
-                = link_to randomization.treatment_arm.name, [@project, randomization]
-            - if randomization.randomized_by
-              by
-              = randomization.randomized_by.name
-            - else
-              from public survey
-            - if randomization.randomized_at
-              %abbr{ rel: "tooltip", data: { title: randomization.randomized_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
+                - if randomization.randomized_by
+                  = randomization.randomized_by.name
+                - else
+                  Public user
+              randomized subject to
+              = link_to randomization.treatment_arm.name, [@project, randomization]
+              %abbr{ rel: 'tooltip', data: { title: randomization.randomized_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
                 = time_ago_in_words(randomization.randomized_at)
                 ago
       - elsif event.class == Comment
         - comment = event
         %a.anchor-top{ name: "c#{current_index}" }
-        - if comment.deleted?
-          .post-avatar
-          .post-container
-            .post-header
-              .pull-right
-                %a{ href: "#c#{current_index}" }= "##{current_index}"
-              %i.text-muted Comment Deleted
-        - else
-          .post-avatar
-            = image_tag comment.user.avatar_url(50, "identicon"), size: '50x50', class: 'img-thumbnail', style: "min-height:55px;min-width:55px;border-radius:0px;"
-          .post-container
-            .post-header
-              .pull-right{ style: 'font-weight:200' }
-                - if current_user and comment.editable_by?(current_user)
-                  = link_to edit_comment_path(comment), class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Edit Comment' do
-                    %span.glyphicon.glyphicon-edit
-                  &nbsp;
-                - if current_user and comment.deletable_by?(current_user)
-                  = link_to comment, method: :delete, data: { confirm: "Are you sure you want to delete Comment ##{current_index}"}, class: 'btn btn-xs btn-danger-inverse' do
-                    %span.glyphicon.glyphicon-trash
-                  &nbsp;
-                %a{ href: "#c#{current_index}" }= "##{current_index}"
-
-              = comment.user.name
-              %span.small.text-muted
-                %abbr{ rel: "tooltip", data: { title: comment.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
-                  = time_ago_in_words(comment.created_at)
-                  ago
-                on
-                = link_to comment.sheet.name, [@project, comment.sheet]
-
-            .post-body
-              %div{ id: "comment_#{comment.id}_container", style: 'margin-bottom: -20px;' }
-                = render 'comments/formatted', comment: comment
-
-    - current_index = 1
-    .post-container-skinny
-      .post-header-skinny
-        .pull-right
-          %a{ href: "#c#{current_index}" }= "##{current_index}"
-        - if @subject.user
-          = image_tag @subject.user.avatar_url(18, 'identicon'), size: '18x18', style: 'vertical-align:text-middle;width:18px'
-        = link_to @subject.name, [@project, @subject]
-        %span.label.label-success created
-        - if @subject.user
-          by
-          = @subject.user.name
-        - else
-          from public survey
-        %abbr{ rel: "tooltip", data: { title: @subject.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
-          = time_ago_in_words(@subject.created_at)
-          ago
+        - unless comment.deleted?
+          .comment-outer
+            .comment-left-fixed
+              = image_tag comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+            .comment-right-fluid
+              .comment-comment
+                .comment-comment-header
+                  %strong= comment.user.name
+                  commented
+                  on
+                  = link_to comment.sheet.name, [@project, comment.sheet]
+                  %abbr{ rel: 'tooltip', data: { title: comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+                    = time_ago_in_words comment.created_at
+                    ago
+                  .pull-right
+                    - if comment.editable_by? current_user
+                      = succeed ' ' do
+                        = link_to edit_comment_path(comment), class: 'btn btn-xs btn-default' do
+                          %span.glyphicon.glyphicon-pencil
+                    = link_to "##{current_index}", "#c#{current_index}", class: 'btn btn-link btn-xs'
+                .comment-comment-body
+                  = render 'comments/formatted', comment: comment
+    .comment-outer
+      .comment-left-fixed
+      .comment-right-fluid
+        .jumbotron
+          %strong
+            - if @subject.user
+              = @subject.user.name
+            - else
+              Public user
+          %span.label.label-success created
+          subject
+          = link_to @subject.name, [@project, @subject]
+          on
+          = @subject.created_at.strftime('%a, %B %-d, %Y at %-l:%M %p.')

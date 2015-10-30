@@ -1,5 +1,9 @@
 ## 0.31.0
 
+### Enhancements
+- **Comment Changes**
+  - Styling of comments is now consistent across sheets, adverse events, and subject timeline
+
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets
 - Adjusted line-height on form controls and input boxes

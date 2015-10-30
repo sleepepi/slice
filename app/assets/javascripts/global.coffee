@@ -176,3 +176,8 @@ $(document)
     if $("#isdirty").val() == '1'
       window.$isDirty = true
   )
+  .on('click', '[data-object~="toggle-delete-buttons"]', () ->
+    $($(this).data('target-show')).show()
+    $($(this).data('target-hide')).hide()
+    false
+  )

@@ -1,28 +1,41 @@
 .page-header
   %h2 Comments
 
-= form_tag comments_path(sheet_id: @sheet.id), method: :post, remote: true, id: "sheet_#{@sheet.id}_comment_form" do
-  = text_area_tag "sheet[#{@sheet.id}][comment]", '', name: 'comment[description]', rows: 2, class: 'form-control'
-  = submit_tag 'Add Comment', class: 'btn btn-primary', style: 'margin:5px 0 0 5px', data: { object: 'comment-submit', target: "#sheet_#{@sheet.id}_comment_form" }
+- @sheet.comments.reorder(:created_at).each_with_index do |comment, index|
+  - current_index = index + 1
+  .comment-outer{ data: { comment_id: comment.id } }
+    .comment-left-fixed
+      = image_tag comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+    .comment-right-fluid
+      .comment-comment
+        .comment-comment-header
+          %strong= comment.user.name
+          commented
+          %abbr{ rel: 'tooltip', data: { title: comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+            = time_ago_in_words comment.created_at
+            ago
+          .pull-right
+            - if comment.editable_by? current_user
+              = succeed ' ' do
+                = link_to edit_comment_path(comment), class: 'btn btn-xs btn-default' do
+                  %span.glyphicon.glyphicon-pencil
+            - if comment.deletable_by? current_user
+              %span{ id: "comment-#{comment.id}-request-delete" }
+                = link_to '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'toggle-delete-buttons', target_show: "#comment-#{comment.id}-confirm-delete", target_hide: "#comment-#{comment.id}-request-delete" } do
+                  %span.glyphicon.glyphicon-trash
+              %span{ id: "comment-#{comment.id}-confirm-delete", style: 'display:none' }
+                = link_to 'Cancel', '#', class: 'btn btn-xs btn-default', data: { object: 'toggle-delete-buttons', target_show: "#comment-#{comment.id}-request-delete", target_hide: "#comment-#{comment.id}-confirm-delete" }
+                = link_to 'Confirm Delete', comment, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse'
+            = link_to "##{current_index}", "#c#{current_index}", class: 'btn btn-link btn-xs'
+        .comment-comment-body
+          = render 'comments/formatted', comment: comment
 
-- @sheet.comments.order('created_at DESC').each do |comment|
-  %div{ style: 'padding: 5px;', data: { comment_id: comment.id } }
-    %hr.divider-xs
-    %table
-      %col{ width: '50px' }
-      %tr
-        %td{ style: 'vertical-align:top' }
-          = image_tag comment.user.avatar_url(50, "identicon"), alt: '', class: 'img-rounded'
-        %td{ style: 'vertical-align:top;padding-left:10px' }
-          %blockquote{ style: 'margin:0px' }
-            = simple_markdown comment.description
-            %small
-              = link_to comment.user.name, comment.user
-              &middot;
-              = simple_time comment.created_at
-              - if comment.editable_by?(current_user)
-                = link_to 'Edit', edit_comment_path(comment), class: 'btn btn-xs btn-default'
-              - if comment.deletable_by?(current_user)
-                = link_to 'Delete', comment, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" }
+.comment-outer
+  .comment-left-fixed
+    = image_tag current_user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
 
-%center=# paginate @sheet.comments, theme: 'contour'
+  .comment-right-fluid
+    = form_tag comments_path(sheet_id: @sheet.id), method: :post, remote: true, id: "sheet_#{@sheet.id}_comment_form", class: 'form-vertical' do
+      .form-group
+        = text_area_tag "sheet[#{@sheet.id}][comment]", '', name: 'comment[description]', rows: 7, class: 'form-control'
+      = submit_tag 'Comment', class: 'btn btn-primary', data: { disable_with: 'Comment' }

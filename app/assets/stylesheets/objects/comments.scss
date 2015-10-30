@@ -1,11 +1,11 @@
-// Styles for discussion and comments on adverse events
+// Styles for discussion and comments on adverse events and sheets
 
-.aecomment-outer {
+.comment-outer {
   margin-bottom: 20px;
   position: relative;
 }
 
-.aecomment-left-fixed {
+.comment-left-fixed {
   display: none;
   left: 0;
   position: absolute;
@@ -13,44 +13,44 @@
   width: 64px;
 }
 
-.aecomment-right-fluid {
+.comment-right-fluid {
   position: relative;
 }
 
 @media screen and (min-width: $screen-sm-min) {
-  .aecomment-left-fixed {
+  .comment-left-fixed {
     display: block;
   }
 
-  .aecomment-right-fluid {
+  .comment-right-fluid {
     margin-left: 64px;
   }
 }
 
-.aecomment-comment {
+.comment-comment {
   border: 1px solid $navbar-default-border;
   border-radius: 2px;
 }
 
-.aecomment-action {
+.comment-action {
   margin: 15px 10px;
 }
 
-.aecomment-comment-header {
+.comment-comment-header {
   background-color: $navbar-default-bg;
   padding: 10px;
   position: relative;
 
-  &.aecomment-unread::after {
+  &.comment-unread::after {
     border-right-color: $alert-warning-bg;
   }
 }
 
-.aecomment-comment-body {
+.comment-comment-body {
   padding: 10px;
 }
 
-.aecomment-comment-header::before {
+.comment-comment-header::before {
   border-bottom: 7px solid transparent;
   border-right: 7px solid $navbar-default-border;
   border-top: 7px solid transparent;
@@ -62,7 +62,7 @@
   width: 0;
 }
 
-.aecomment-comment-header::after {
+.comment-comment-header::after {
   border-bottom: 7px solid transparent;
   border-right: 7px solid $navbar-default-bg;
   border-top: 7px solid transparent;
@@ -74,19 +74,19 @@
   width: 0;
 }
 
-.aecomment-icon {
+.comment-icon {
   display: none;
   left: -$font-size-base;
   position: absolute;
 }
 
 @media screen and (min-width: $screen-sm-min) {
-  .aecomment-icon {
+  .comment-icon {
     display: block;
   }
 }
 
-.aecomment-unread {
+.comment-unread {
   background-color: $alert-warning-bg;
   color: $alert-warning-text;
 }
