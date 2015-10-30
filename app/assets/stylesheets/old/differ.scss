@@ -1,0 +1,14 @@
+$add-bg: #dfd;
+$subtract-bg: #fdd;
+
+ins {
+  &.differ {
+    background-color: $add-bg;
+  }
+}
+
+del {
+  &.differ {
+    background-color: $subtract-bg;
+  }
+}
