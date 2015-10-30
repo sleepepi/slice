@@ -229,8 +229,8 @@ $dropdown-caret-color:           #000 !default;
 //
 //##
 
-$navbar-default-color:             #ddd !default;
-$navbar-default-bg:                $brand-primary !default;
+$navbar-default-color:             #ddd;
+$navbar-default-bg:                $brand-primary;
 $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // Navbar links
@@ -641,8 +641,8 @@ $close-text-shadow:           0 1px 0 $white !default;
 //
 //##
 
-$code-color:                  #c7254e !default;
-$code-bg:                     #f9f2f4 !default;
+$code-color:                  $navbar-default-color;
+$code-bg:                     $navbar-default-bg;
 
 $kbd-color:                   #fff !default;
 $kbd-bg:                      #333 !default;

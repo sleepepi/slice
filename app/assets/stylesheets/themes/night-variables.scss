@@ -253,9 +253,9 @@ $dropdown-caret-color:           #000 !default;
 //##
 
 // Basics of a navbar
-$navbar-default-color:             $text-color !default;
+$navbar-default-color:             $text-color;
 // $navbar-default-bg:                $body-bg !default;
-$navbar-default-bg:                lighten($body-bg, 10%) !default;
+$navbar-default-bg:                lighten($body-bg, 10%);
 $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // Navbar links
@@ -709,8 +709,8 @@ $close-text-shadow:           0 1px 0 $theme-white !default;
 //
 //##
 
-$code-color:                  #c7254e !default;
-$code-bg:                     #f9f2f4 !default;
+$code-color:                  $navbar-default-color;
+$code-bg:                     $navbar-default-bg;
 
 $kbd-color:                   #dedede !default;
 $kbd-bg:                      #333 !default;

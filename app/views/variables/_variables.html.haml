@@ -14,7 +14,7 @@
       %td= link_to variable.name, [variable.project, variable]
       %td= link_to variable.display_name, [variable.project, variable]
       %td
-        %span.label{ class: "label-#{variable.variable_type}" }= variable.variable_type
+        %code= variable.variable_type
       %td
         - if not variable.shared_options.blank?
           - variable.alignment = 'vertical'

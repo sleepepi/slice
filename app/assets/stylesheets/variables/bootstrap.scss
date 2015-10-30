@@ -350,8 +350,8 @@ $font-size-base:          16px; // 14px !default;
 // $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
 // $navbar-collapse-max-height:       340px !default;
 
-// $navbar-default-color:             #777 !default;
-// $navbar-default-bg:                #f8f8f8 !default;
+$navbar-default-color:             #777;
+$navbar-default-bg:                #f8f8f8;
 // $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // // Navbar links
@@ -814,8 +814,8 @@ $font-size-base:          16px; // 14px !default;
 // //
 // //##
 
-// $code-color:                  #c7254e !default;
-// $code-bg:                     #f9f2f4 !default;
+$code-color:                  $navbar-default-color;
+$code-bg:                     $navbar-default-bg;
 
 // $kbd-color:                   #fff !default;
 // $kbd-bg:                      #333 !default;

@@ -12,8 +12,6 @@
           .nowrap{ style: "display:inline-block;overflow:hidden;width:70%;#{'text-decoration: line-through;' if variable.deleted?}" }
             %span.glyphicon.glyphicon-move{ style: "#{'color:#D14' if variable.deleted?}" }
             = variable.display_name
-          .nowrap{ style: 'display:inline-block; width:65px;overflow:hidden' }
-            %span.label{ class: "label-#{variable.deleted? ? 'important' : variable.variable_type}" }= variable.deleted? ? 'deleted' : variable.variable_type
           .nowrap{ style: 'width:20%;display:inline-block;overflow:hidden' }
             - if variable.deleted?
               %code{ style: 'color:#D14;text-decoration:line-through' }= variable.name
