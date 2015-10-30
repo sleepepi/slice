@@ -10,9 +10,9 @@
     %h2
       Comments
 
-    - @comments.each do |comment|
+    - @comments.each_with_index do |comment, index|
       - current_page = (params[:page].to_i > 1 ? params[:page].to_i : 1)
-      - current_index = 1
+      - current_index = @comments.count - index
       %a.anchor-top{ name: "c#{current_index}" }
       - unless comment.deleted?
         .comment-outer
