@@ -1,0 +1,15 @@
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  margin-bottom: $footer-height;
+  padding-top: $header-height + 1px; // Includes 1px border bottom of menu
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  body {
+    margin-bottom: $footer-height-sm;
+  }
+}

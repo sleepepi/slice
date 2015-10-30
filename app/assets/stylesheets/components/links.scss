@@ -1,0 +1,11 @@
+.anchor-top {
+  display: block;
+  height: 0;
+  position: relative;
+  top: -($header-height);
+  width: 0;
+}
+
+.hover-link {
+  color: inherit;
+}

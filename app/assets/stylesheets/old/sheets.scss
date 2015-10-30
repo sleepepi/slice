@@ -1,5 +1,4 @@
-// sheets.scss
-// This file is used to give sheets a more physical feel.
+// Styles sheets to resemble paper collection forms
 
 .markdown-container {
   background-color: $body-bg;
@@ -31,12 +30,6 @@
   .markdown-container {
     padding: 60px;
   }
-}
-
-
-.little-container {
-  padding: 5px;
-  margin-bottom: 10px;
 }
 
 .sheet-drag-helper {

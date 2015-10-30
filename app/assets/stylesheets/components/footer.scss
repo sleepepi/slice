@@ -1,0 +1,37 @@
+footer {
+  background-color: $navbar-default-bg;
+  bottom: 0;
+  color: $navbar-default-color;
+  height: $footer-height;
+  padding: 50px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+
+  a {
+    color: $btn-success-bg;
+    font-weight: 300;
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    color: $btn-success-border;
+  }
+
+  h4 {
+    margin-top: 20px;
+    padding-top: 0;
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  footer {
+    height: $footer-height-sm;
+    text-align: left;
+
+    h4 {
+      margin-top: 0;
+    }
+  }
+}

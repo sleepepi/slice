@@ -4,6 +4,9 @@
 // Components
 @import 'components/alignment';
 @import 'components/animations';
+@import 'components/body';
+@import 'components/footer';
+@import 'components/links';
 @import 'components/tables';
 
 // Extensions
@@ -11,6 +14,8 @@
 // @import 'extensions/jquery.signaturepad';
 
 // Objects
+@import 'objects/adverse_event_comments';
+@import 'objects/adverse_event_files';
 
 
 
@@ -31,10 +36,8 @@
 @import 'old/menu';
 @import 'old/jquery.signaturepad';
 @import 'old/forms';
-@import 'old/footer';
 @import 'old/textures';
 @import 'old/beta';
-@import 'old/links';
 @import 'old/buttons';
 @import 'old/sheets';
 @import 'old/flash-containers';
@@ -47,8 +50,6 @@
 @import 'old/randomization_schemes';
 @import 'old/validate';
 @import 'old/dividers';
-@import 'old/adverse_event_comments';
-@import 'old/adverse_event_files';
 @import 'old/headings';
 @import 'old/filedrag';
 @import 'old/pagination';
