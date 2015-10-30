@@ -19,35 +19,32 @@
       the date of data entry.
 
 
-    %hr.soften
-
     = form_tag launch_subject_event_project_subject_path(@project, @subject, event_id: @event.to_param), method: :post, class: 'form-horizontal' do
-      .form-group
-        = label_tag "event_date", nil, class: 'col-md-2 control-label'
-        .col-md-10
-          .date-input.form-inline
-            - target_name = "event_date"
-            %span.month-box
-              = text_field_tag "event_date[month]", (params[:event_date] ? params[:event_date][:month] : nil), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
-            \-
-            %span.day-box
-              = text_field_tag "event_date[day]", (params[:event_date] ? params[:event_date][:day] : nil), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
-            \-
-            %span.year-box
-              = text_field_tag "event_date[year]", (params[:event_date] ? params[:event_date][:year] : nil), maxlength: 4, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
+      .markdown-container
+        .form-group
+          = label_tag "event_date", nil, class: 'col-md-2 control-label'
+          .col-md-10
+            .date-input.form-inline
+              - target_name = "event_date"
+              %span.month-box
+                = text_field_tag "event_date[month]", (params[:event_date] ? params[:event_date][:month] : nil), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+              \-
+              %span.day-box
+                = text_field_tag "event_date[day]", (params[:event_date] ? params[:event_date][:day] : nil), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+              \-
+              %span.year-box
+                = text_field_tag "event_date[year]", (params[:event_date] ? params[:event_date][:year] : nil), maxlength: 4, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
 
-            = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
-            = link_to 'Clear', '#', data: { object: 'clear-date-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+              = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+              = link_to 'Clear', '#', data: { object: 'clear-date-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
 
-      .form-group
-        = label_tag "designs", nil, class: 'col-md-2 control-label'
-        .col-md-10
-          %ul.list-unstyled{ style: 'margin-top:10px' }
-            - @event.event_designs.each do |event_design|
-              %li
-                = event_design.design.name
-
-      %hr.soften
+        .form-group
+          = label_tag "designs", nil, class: 'col-md-2 control-label'
+          .col-md-10
+            %ul.list-unstyled{ style: 'margin-top:10px' }
+              - @event.event_designs.each do |event_design|
+                %li
+                  = event_design.design.name
 
       .row
         .col-xs-6

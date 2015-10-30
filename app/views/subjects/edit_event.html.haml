@@ -11,21 +11,20 @@
       = @subject_event.event.name
 
     = form_tag update_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :post, class: 'form-horizontal' do
-      .form-group
-        = label_tag "new_event_date", nil, class: 'col-md-2 control-label'
-        .col-md-10
-          .date-input.form-inline
-            - target_name = "new_event_date"
-            %span.month-box
-              = text_field_tag "new_event_date[month]", (params[:new_event_date] ? params[:new_event_date][:month] : (@subject_event.event_date.strftime('%m') rescue '')), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
-            \-
-            %span.day-box
-              = text_field_tag "new_event_date[day]", (params[:new_event_date] ? params[:new_event_date][:day] : (@subject_event.event_date.strftime('%d') rescue '')), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
-            \-
-            %span.year-box
-              = text_field_tag "new_event_date[year]", (params[:new_event_date] ? params[:new_event_date][:year] : (@subject_event.event_date.strftime('%Y') rescue '')), maxlength: 4, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
-
-      %hr.soften
+      .markdown-container
+        .form-group
+          = label_tag "new_event_date", nil, class: 'col-md-2 control-label'
+          .col-md-10
+            .date-input.form-inline
+              - target_name = "new_event_date"
+              %span.month-box
+                = text_field_tag "new_event_date[month]", (params[:new_event_date] ? params[:new_event_date][:month] : (@subject_event.event_date.strftime('%m') rescue '')), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+              \-
+              %span.day-box
+                = text_field_tag "new_event_date[day]", (params[:new_event_date] ? params[:new_event_date][:day] : (@subject_event.event_date.strftime('%d') rescue '')), maxlength: 2, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+              \-
+              %span.year-box
+                = text_field_tag "new_event_date[year]", (params[:new_event_date] ? params[:new_event_date][:year] : (@subject_event.event_date.strftime('%Y') rescue '')), maxlength: 4, data: { target_name: target_name, object: 'date-field cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
 
       .row
         .col-xs-6

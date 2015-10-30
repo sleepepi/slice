@@ -3,17 +3,6 @@
   margin-bottom: 20px;
 }
 
-/* Faded out hr */
-hr.soften {
-  height: 1px;
-  margin: 54px 0 20px 0;
-  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
-  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
-  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
-  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
-  border: 0;
-}
-
 h1.about-title {
   font-size:40px;
   font-weight:300;

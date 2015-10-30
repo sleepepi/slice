@@ -21,7 +21,7 @@
   .center{ style: 'margin-bottom:20px' }
     = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
 
-%hr.soften
+%hr.divider-md
 
 %p.about-description
   = ENV['website_name']
@@ -48,7 +48,7 @@
     %ul
       %li Email PDF receipts to sites when a subject form is completed.
 
-%hr.soften
+%hr.divider-md
 
 .center{ style: 'margin-top:40px' }
   = image_tag 'try-slice-logo.png', style: "max-width:100%", alt: 'Slice - Data Collection for Clinical Research'
