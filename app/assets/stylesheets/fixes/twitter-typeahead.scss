@@ -1,0 +1,27 @@
+// Fix for typeahead boxes jumping downwards when typing first letter.
+// This fix should moved to contour, and removed from slice
+.twitter-typeahead .tt-query {
+  display: inline-block;
+}
+
+.input-group .twitter-typeahead:not(:first-child) > .form-control {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+/* Contour Overrides */
+.twitter-typeahead {
+  color: $gray !important;
+  background-color: $input-bg !important;
+  display: block !important;
+  height: initial; // TODO REMOVE original overwrite
+}
+
+.tt-dropdown-menu {
+  background-color: $dropdown-bg;
+  border: 1px solid $dropdown-fallback-border;
+  border: 1px solid $dropdown-border;
+  -webkit-box-shadow: 0 5px 10px $dropdown-border;
+     -moz-box-shadow: 0 5px 10px $dropdown-border;
+          box-shadow: 0 5px 10px $dropdown-border;
+}

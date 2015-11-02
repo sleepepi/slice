@@ -38,3 +38,81 @@
   padding: 2px 4px;
   background-color: $body-bg;
 }
+
+.variable-shade, .variable-blind {
+  padding: 10px;
+  background-color: $body-bg;
+  border-left: 2px solid transparent;
+}
+
+.variable-shade {
+  background-color: $table-bg-accent;
+  border-left: 2px solid $table-border-color;
+}
+
+.blind-background,
+.shade-background {
+  display: table;
+  width: 100%;
+}
+
+.blind-background {
+  background-color: $body-bg;
+}
+
+.shade-background {
+  background-color: $table-bg-accent;
+}
+
+.radio.inline + .radio.inline, .checkbox.inline + .checkbox.inline {
+  /*margin-left: 10px;*/
+  margin-right: 10px;
+}
+
+
+.checkbox.selected, .checkbox.selected:hover, .radio.selected, .radio.selected:hover {
+  background-color: $btn-primary-border;
+  color: $btn-primary-color;
+}
+
+.checkbox.selected.negation, .checkbox.selected.negation:hover, .radio.selected.negation, .radio.selected.negation:hover {
+  background-color: $btn-danger-border;
+  color: $btn-danger-color;
+}
+
+.file-input {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-input input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+
+label.checkbox, label.radio {
+  font-weight: normal;
+}
+
+.form-horizontal .radio,
+.form-horizontal .checkbox {
+  min-height: 31px;
+}
+
+.form-group .control-label {
+  text-align: left;
+}
+
+select.form-control {
+  text-indent: 4px;
+  padding-left: 0px;
+  padding-top: 4px;
+}

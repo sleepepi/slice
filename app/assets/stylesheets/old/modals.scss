@@ -1,0 +1,49 @@
+#contour-backdrop {
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: $dropdown-border;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1020;
+}
+
+.contour-modal-wrapper {
+  position:relative;
+}
+
+.contour-modal {
+  position:absolute;
+  padding: 10px;
+  top: 0;
+  margin-top: 0px; /* 38px; */
+  left: 0;
+  right: 0;
+  z-index: 1025;
+  background-color: $body-bg;
+  border: 1px solid $dropdown-fallback-border; // #999;
+  border: 1px solid $dropdown-border; // rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  outline: none;
+  -webkit-box-shadow: 0 3px 7px $dropdown-border; // rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px $dropdown-border; // rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px $dropdown-border; // rgba(0, 0, 0, 0.3);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.modal-dialog {
+  margin: 60px 10px;
+}
+
+/* Should be moved to Contour */
+@media (min-width: 768px) {
+  .modal-dialog {
+    margin: 80px auto !important;
+  }
+}
