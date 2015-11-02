@@ -6,7 +6,8 @@
 @import 'components/animations';
 @import 'components/beta';
 @import 'components/body';
-@import 'components/buttons';
+@import 'components/callouts'; // TODO MOVE TO Contour
+@import 'components/buttons'; // Move part to Contour
 @import 'components/dividers';
 @import 'components/footer';
 @import 'components/links';
@@ -27,7 +28,6 @@
 @import 'objects/comments';
 
 // Old Includes, to be refactored and removed
-@import 'old/callout';
 @import 'old/containers';
 @import 'old/coverage';
 @import 'old/designs';

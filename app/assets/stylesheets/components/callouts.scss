@@ -1,20 +1,24 @@
+// TODO: These should be moved back up into contour
+
 .bs-callout code,
 .bs-callout .highlight {
   background-color: $gray-lighter; // #fff;
 }
 
-/* Themes for different contexts */
+// Themes for different contexts
 
 .bs-callout-danger {
   background-color: $panel-danger-heading-bg;// #fcf2f2;
   border-color: $panel-danger-border; // #dfb5b4;
   color: $panel-danger-text;
 }
+
 .bs-callout-warning {
   background-color: $panel-warning-heading-bg;// #fefbed;
   border-color: $panel-warning-border; // #f1e7bc;
   color: $panel-warning-text;
 }
+
 .bs-callout-info {
   background-color: $panel-info-heading-bg;// #f0f7fd;
   border-color: $panel-info-border; // #d0e3f0;
