@@ -1,14 +1,16 @@
 // Fixes for bootstrap to make sure popups and tooltips display over modals
 
-.popover, .tooltip {
+.popover,
+.tooltip {
   z-index: 2000;
 }
 
-.navbar-fixed-top, .navbar-fixed-bottom {
-  z-index: 1080 !important;
+.navbar-fixed-bottom,
+.navbar-fixed-top {
+  z-index: 1080;
 }
 
-.jumbotron{
+.jumbotron {
   padding-left: 15px;
   padding-right: 15px;
 }

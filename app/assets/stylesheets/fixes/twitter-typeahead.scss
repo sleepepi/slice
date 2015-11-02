@@ -1,27 +1,34 @@
-// Fix for typeahead boxes jumping downwards when typing first letter.
-// This fix should moved to contour, and removed from slice
-.twitter-typeahead .tt-query {
-  display: inline-block;
-}
-
+// TODO: The !important needs to be removed in contour for this to be
+// rewritten without !important.
 .input-group .twitter-typeahead:not(:first-child) > .form-control {
   border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;
 }
 
-/* Contour Overrides */
+// Contour Overrides
+// Height needs to be set to make sure the autocomplete dropdown displays
+// properly below the input text box, since the now floating element
+// takes up zero height.
 .twitter-typeahead {
-  color: $gray !important;
-  background-color: $input-bg !important;
-  display: block !important;
-  height: initial; // TODO REMOVE original overwrite
+  background-color: $input-bg;
+  color: $input-color;
+  display: block;
+  height: 36px;
+
+  input {
+    background-color: $input-bg;
+  }
+
+  // Fix for typeahead boxes jumping downwards when typing first letter.
+  // This fix should moved to contour, and removed from slice
+  .tt-query {
+    display: inline-block;
+  }
 }
 
 .tt-dropdown-menu {
   background-color: $dropdown-bg;
   border: 1px solid $dropdown-fallback-border;
-  border: 1px solid $dropdown-border;
-  -webkit-box-shadow: 0 5px 10px $dropdown-border;
-     -moz-box-shadow: 0 5px 10px $dropdown-border;
-          box-shadow: 0 5px 10px $dropdown-border;
+  border-color: $dropdown-border;
+  box-shadow: 0 5px 10px $dropdown-border;
 }

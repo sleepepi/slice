@@ -1,5 +1,6 @@
+// Should be lower than chzn-drop in extensions/chosen.scss (z-index: 1085)
 
-/* Should be lower than chzn-drop */
+// TODO: Remove the 10,000 z-index in contour
 .datepicker {
   z-index: 1075 !important;
 }
