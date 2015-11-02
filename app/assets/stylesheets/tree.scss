@@ -16,6 +16,7 @@
 
 // Extensions
 @import 'extensions/chosen';
+@import 'extensions/differ';
 // @import 'extensions/jquery.signaturepad';
 
 // Fixes
@@ -33,7 +34,6 @@
 // Old Includes, to be refactored and removed
 
 
-@import 'old/differ';
 @import 'old/errors';
 @import 'old/filters';
 @import 'old/group_inputs';
