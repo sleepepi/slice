@@ -116,3 +116,33 @@ select.form-control {
   padding-left: 0px;
   padding-top: 4px;
 }
+
+
+.radio.focus, .checkbox.focus {
+  border-color: $brand-primary;
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px $brand-primary;
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px $brand-primary;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px $brand-primary;
+
+}
+.radio.focus.negation, .checkbox.focus.negation {
+  border-color: $brand-danger;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px $brand-danger;
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px $brand-danger;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 12px $brand-danger;
+}
+
+.radio, .checkbox {
+  input[type="radio"], input[type="checkbox"] {
+    outline: none;
+    -moz-appearance: none !important;
+    -moz-border-bottom-colors: transparent !important;
+    -moz-border-left-colors: transparent !important;
+    -moz-border-right-colors: transparent !important;
+    -moz-border-top-colors: transparent !important;
+  }
+}
