@@ -26,3 +26,48 @@
     transition: all .4s ease; // Fade to color for Chrome and Safari
   }
 }
+
+// TODO: These styles should be available directly in bootstrap without
+// !important listed. Contour should be updated to use bootstrap variables
+.btn-danger-inverse {
+  background-color: $body-bg;
+  border: 1px solid $btn-danger-border !important;
+  color: $btn-danger-bg;
+}
+
+.btn-danger-inverse:hover,
+.btn-danger-inverse:focus,
+.btn-danger-inverse:active,
+.btn-danger-inverse.active,
+.btn-danger-inverse.disabled,
+.btn-danger-inverse[disabled] {
+  background-color: $btn-danger-bg;
+  border: 1px solid $btn-danger-border !important;
+  color: $body-bg !important;
+}
+
+.btn-cutout {
+  background-color: $gray-lighter;
+  border: 1px dashed $gray;
+  color: $gray;
+}
+
+.btn-cutout:hover,
+.btn-cutout:focus,
+.btn-cutout:active,
+.btn-cutout.active,
+.btn-cutout.disabled,
+.btn-cutout[disabled] {
+  background-color: $gray-light;
+  border-color: $gray-dark;
+  color: $gray-dark;
+}
+
+// TODO: Move to fixes/buttons, or remove?
+.btn-group > .btn:hover,
+.btn-group > .btn:focus,
+.btn-group > .btn:active,
+.btn-group > .btn.active {
+  z-index: 1;
+}
+// END TODO
