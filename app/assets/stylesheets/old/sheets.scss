@@ -146,3 +146,25 @@ select.form-control {
     -moz-border-top-colors: transparent !important;
   }
 }
+
+.time-input {
+  white-space: nowrap;
+
+  input[type="text"] {
+    min-width: 55px;
+    width: 55px;
+  }
+}
+
+.date-input {
+  white-space: nowrap;
+
+  .month-box input[type="text"], .day-box input[type="text"] {
+    min-width: 55px;
+    width: 55px;
+  }
+  .year-box input[type="text"] {
+    min-width: 63px;
+    width: 63px;
+  }
+}
