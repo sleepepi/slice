@@ -1,0 +1,16 @@
+.filedrag {
+  background-color: $navbar-default-bg;
+  border: 1px dashed $navbar-default-border;
+  border-radius: 4px;
+  cursor: default;
+  display: none;
+  height: 200px;
+  margin: 1em 0;
+  padding: 60px 0;
+  text-align: center;
+
+  &.hover,
+  &:hover {
+    border-style: solid;
+  }
+}

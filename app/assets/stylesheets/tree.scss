@@ -17,6 +17,7 @@
 // Extensions
 @import 'extensions/chosen';
 @import 'extensions/differ';
+@import 'extensions/filedrag';
 // @import 'extensions/jquery.signaturepad';
 
 // Fixes
@@ -37,21 +38,20 @@
 
 // Old Includes, to be refactored and removed
 
+@import 'old/flash-containers';
+@import 'old/forms';
+@import 'old/grids';
 @import 'old/group_inputs';
+@import 'old/headings';
 @import 'old/highlights';
-@import 'old/time_inputs';
+@import 'old/jquery.signaturepad';
 @import 'old/menu';
 @import 'old/modals';
-@import 'old/jquery.signaturepad';
-@import 'old/forms';
-@import 'old/sheets';
-@import 'old/flash-containers';
-@import 'old/projects';
-@import 'old/tips';
-@import 'old/subjects';
-@import 'old/grids';
-@import 'old/randomization_schemes';
-@import 'old/headings';
-@import 'old/filedrag';
 @import 'old/pagination';
+@import 'old/projects';
+@import 'old/randomization_schemes';
 @import 'old/reports';
+@import 'old/sheets';
+@import 'old/subjects';
+@import 'old/time_inputs';
+@import 'old/tips';
