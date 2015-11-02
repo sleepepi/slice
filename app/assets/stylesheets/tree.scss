@@ -28,10 +28,11 @@
 @import 'objects/adverse_event_files';
 @import 'objects/comments';
 @import 'objects/coverage';
+@import 'objects/designs';
 
 // Old Includes, to be refactored and removed
 
-@import 'old/designs';
+
 @import 'old/differ';
 @import 'old/errors';
 @import 'old/filters';

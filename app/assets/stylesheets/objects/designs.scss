@@ -1,0 +1,56 @@
+.design-list {
+  list-style: none;
+  margin-bottom: 18px;
+  margin-left: 0;
+  margin-top: 18px;
+
+  li {
+    float: none;
+    height: 32px;
+  }
+
+  .li-section a {
+    background-color: $btn-primary-bg;
+    border-radius: 5px;
+    color: $btn-primary-color;
+    cursor: move;
+    display: inline;
+    margin: 0;
+    padding: 5px 12px;
+  }
+
+  .li-section a:hover {
+    background-color: darken($btn-primary-bg, 10%);
+    text-decoration: none;
+  }
+}
+
+.li-placeholder {
+  background-color: $btn-primary-bg;
+  border-radius: 5px;
+  float: none;
+  height: 32px;
+  margin-bottom: 5px;
+  margin-right: 0;
+  margin-top: 0;
+  opacity: .65;
+}
+
+.design-edit-box {
+  background-color: $table-bg-accent;
+  border-left: 2px solid $table-border-color;
+}
+
+.editable-design-element,
+.editable-design-element input {
+  cursor: pointer;
+}
+
+.editable-design-element:hover {
+  border-radius: 4px;
+}
+
+.editable-design-element:hover,
+.editable-design-element input:hover {
+  background-color: $alert-success-bg;
+}
