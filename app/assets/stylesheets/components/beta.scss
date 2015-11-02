@@ -1,0 +1,55 @@
+.beta-text {
+  background-color: $brand-success;
+  padding: 20px;
+  position: relative;
+
+  a {
+    backface-visibility: hidden; // Fix for transition flickering
+    background-color: $btn-success-color;
+    border-radius: 40px;
+    color: $brand-success;
+    padding: 3px 5px;
+    position: relative;
+    transition: all .4s ease; // Fade to color for Chrome and Safari
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    background-color: $success-emphasis-color;
+    color: $btn-success-color;
+    text-decoration: none;
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .beta-corner {
+    border-color: transparent $brand-success transparent transparent;
+    border-style: solid;
+    border-width: 0 200px 200px 0;
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: rotate(360deg);
+    width: 0;
+    z-index: -5;
+  }
+
+  .beta-text {
+    background-color: transparent;
+    padding: 0;
+    position: absolute;
+    right: -5px;
+    top: 93px;
+    transform: rotate(45deg);
+    z-index: 0;
+
+    a {
+      margin-top: 20px;
+      max-width: 500px;
+      min-width: 200px;
+      width: 100%;
+    }
+  }
+}
