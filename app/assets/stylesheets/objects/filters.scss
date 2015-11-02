@@ -1,0 +1,25 @@
+.filter-bubble,
+.filter-bubble-faded {
+  background-color: $input-bg;
+  border: 1px solid $input-border;
+  border-radius: 4px;
+  cursor: move;
+  margin: 2px;
+  padding: 5px;
+}
+
+.filter-bubble-faded {
+  background-color: $input-bg-disabled;
+  border: 1px dotted $input-border;
+  height: 34px;
+}
+
+.filter-sort-container {
+  border-radius: 4px;
+  min-height: 38px;
+  padding: 2px;
+}
+
+.droppable-hover {
+  background-color: $state-warning-bg;
+}
