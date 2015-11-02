@@ -3,6 +3,8 @@
 ### Enhancements
 - **Comment Changes**
   - Styling of comments is now consistent across sheets, adverse events, and subject timeline
+- **Sheet Changes**
+  - Simplified colors for sheet coverage
 
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets

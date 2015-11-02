@@ -1,0 +1,28 @@
+.label-coverage {
+  background-color: $label-default-bg;
+  font-weight: 200;
+
+  &.complete {
+    background-color: $label-primary-bg;
+  }
+
+  &.green {
+    background-color: $label-success-bg;
+  }
+
+  &.yellow {
+    background-color: $label-warning-bg;
+  }
+
+  &.orange {
+    background-color: $label-warning-bg;
+  }
+
+  &.red {
+    background-color: $label-danger-bg;
+  }
+
+  &.blank {
+    background-color: $label-default-bg;
+  }
+}
