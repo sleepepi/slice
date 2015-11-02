@@ -30,12 +30,12 @@
 @import 'objects/comments';
 @import 'objects/coverage';
 @import 'objects/designs';
+@import 'objects/events';
 @import 'objects/filters';
 
 @import 'objects/validations';
 
 // Old Includes, to be refactored and removed
-
 
 @import 'old/group_inputs';
 @import 'old/highlights';
@@ -48,7 +48,6 @@
 @import 'old/flash-containers';
 @import 'old/projects';
 @import 'old/tips';
-@import 'old/events';
 @import 'old/subjects';
 @import 'old/grids';
 @import 'old/randomization_schemes';
