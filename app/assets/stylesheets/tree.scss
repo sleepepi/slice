@@ -14,6 +14,7 @@
 @import 'components/footer';
 @import 'components/forms';
 @import 'components/headings';
+@import 'components/highlights';
 @import 'components/links';
 @import 'components/tables';
 
@@ -43,7 +44,7 @@
 // Old Includes, to be refactored and removed
 
 
-@import 'old/highlights';
+
 @import 'old/menu';
 @import 'old/modals';
 @import 'old/pagination';
