@@ -1,0 +1,48 @@
+// scss-lint:disable DuplicateProperty, VendorPrefix, SelectorFormat
+// DuplicateProperty and VendorPrefix are ignored for compatibility with IE in
+// reading the cursor image
+// SelectorFormat is ignored as it would require changing the associated JS
+
+.sig {
+  display: none;
+}
+
+.pad,
+.pad-display {
+  background-color: $input-bg;
+  border: 1px solid $dropdown-fallback-border;
+  border-radius: $input-border-radius;
+  box-shadow: inset 0 1px 1px $dropdown-border;
+
+  // For cross browser compatibility, this should be an absolute URL
+  // In IE the cursor is relative to the HTML document
+  // In all other browsers the cursor is relative to the CSS file
+  // http://www.useragentman.com/blog/2011/12/21/cross-browser-css-cursor-images-in-depth/
+  cursor: asset-url('pen.cur'), crosshair;
+  // IE will ignore this line because of the hotspot position
+  // Unfortunately we need this twice, because some browsers ignore the hotspot inside the .cur
+  cursor: asset-url('pen.cur') 16 16, crosshair;
+  position: relative;
+  -ms-touch-action: none;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.pad-display {
+  border: 0 solid transparent;
+  cursor: default;
+}
+
+.typeItDesc,
+.drawItDesc {
+  border-top: 3px solid $input-border;
+  color: $text-color;
+  display: none;
+  font: italic normal 1em/1.375 Georgia,Times,serif;
+  margin: .75em 0 .515em;
+  padding: .515em 0 0;
+}
