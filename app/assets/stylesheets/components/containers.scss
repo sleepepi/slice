@@ -1,0 +1,54 @@
+// Defines containers that specify margin and padding for layout elements
+
+.content-margin {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.wide-container {
+  width: 100%;
+}
+
+.download-container {
+  background-color: $body-bg;
+  border: 1px solid $gray-lighter;
+  border-radius: 4px;
+  margin: 0 0 20px;
+  padding: 19px;
+  position: relative;
+
+  h3 {
+    margin-top: 0;
+  }
+}
+
+.download-container-after {
+  background-color: $body-bg;
+  border: 1px solid $dropdown-fallback-border;
+  border-radius: 4px 0;
+  font-size: 12px;
+  font-weight: 300;
+  left: -1px;
+  padding: 3px 7px;
+  position: absolute;
+  top: -1px;
+}
+
+.download-container .checkbox,
+.sheet-container .checkbox,
+.sheet-container .radio {
+  background-color: $table-bg-accent;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 4px;
+  margin-top: 0;
+  padding: 6px 10px 6px 25px;
+}
+
+.download-container .checkbox:hover,
+.sheet-container .checkbox:hover,
+.sheet-container .radio:hover {
+  background-color: $table-bg-hover;
+}
