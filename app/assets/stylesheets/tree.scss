@@ -18,6 +18,7 @@
 @import 'components/links';
 @import 'components/menu';
 @import 'components/modals'; // Move part to Contour
+@import 'components/pagination';
 @import 'components/tables';
 @import 'components/tips';
 
@@ -47,7 +48,3 @@
 @import 'objects/sheets';
 @import 'objects/subjects';
 @import 'objects/validations';
-
-// Old Includes, to be refactored and removed
-
-@import 'old/pagination';

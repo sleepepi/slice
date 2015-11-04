@@ -1,10 +1,10 @@
 .per-page {
   display: none;
+  font-size: initial;
+  font-weight: initial;
   position: absolute;
   right: 0;
   top: -20px;
-  font-size: initial;
-  font-weight: initial;
 }
 
 @media screen and (min-width: $screen-sm-min) {
