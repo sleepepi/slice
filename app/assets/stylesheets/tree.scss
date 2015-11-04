@@ -16,6 +16,7 @@
 @import 'components/headings';
 @import 'components/highlights';
 @import 'components/links';
+@import 'components/menu';
 @import 'components/tables';
 
 // Extensions
@@ -45,9 +46,6 @@
 
 // Old Includes, to be refactored and removed
 
-
-
-@import 'old/menu';
 @import 'old/modals';
 @import 'old/pagination';
 @import 'old/randomization_schemes';
