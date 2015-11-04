@@ -1,0 +1,10 @@
+.modal-dialog {
+  margin: 60px 10px;
+}
+
+// Should be moved to Contour
+@media (min-width: 768px) {
+  .modal-dialog {
+    margin: 80px auto;
+  }
+}

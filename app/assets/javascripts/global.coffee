@@ -1,10 +1,3 @@
-@showContourModal = () ->
-  $("#contour-backdrop, .contour-modal-wrapper").show()
-  # $('html, body').animate({ scrollTop: $(".contour-modal-wrapper").offset().top - 80 }, 'fast');
-
-@hideContourModal = () ->
-  $("#contour-backdrop, .contour-modal-wrapper").hide()
-
 @color_group = (group_name) ->
   $("input[name='" + group_name + "']:not(:checked)").parent().removeClass('selected')
   $("input[name='" + group_name + "']:checked").parent().addClass('selected')
@@ -72,17 +65,6 @@ $(document)
     $($(this).data('target')).modal('hide')
     false
   )
-  .on('click', "#contour-backdrop", (e) ->
-    hideContourModal() if e.target.id = "contour-backdrop"
-  )
-  .on('click', '[data-object~="show-contour-modal"]', () ->
-    showContourModal()
-    false
-  )
-  .on('click', '[data-object~="hide-contour-modal"]', () ->
-    hideContourModal()
-    false
-  )
   .on('click', '[data-object~="submit"]', () ->
     $($(this).data('target')).submit()
     false
@@ -128,8 +110,6 @@ $(document)
       e.preventDefault()
       return
     $("#global-search").blur() if $("#global-search").is(':focus') and e.which == 27
-    if $("#contour-backdrop").is(':visible')
-      hideContourModal()               if e.which == 27
     if $("#interactive_design_modal").is(':visible')
       hideInteractiveDesignModal()     if e.which == 27
     if e.which == 77 and not $("input, textarea, select, a").is(":focus")

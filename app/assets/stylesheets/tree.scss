@@ -17,6 +17,7 @@
 @import 'components/highlights';
 @import 'components/links';
 @import 'components/menu';
+@import 'components/modals'; // Move part to Contour
 @import 'components/tables';
 
 // Extensions
@@ -47,7 +48,6 @@
 
 // Old Includes, to be refactored and removed
 
-@import 'old/modals';
 @import 'old/pagination';
 @import 'old/randomization_schemes';
 
