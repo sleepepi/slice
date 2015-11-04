@@ -39,6 +39,7 @@
 @import 'objects/filters';
 @import 'objects/grids';
 @import 'objects/reports';
+@import 'objects/sheets';
 @import 'objects/validations';
 
 // Old Includes, to be refactored and removed
@@ -50,7 +51,5 @@
 @import 'old/pagination';
 @import 'old/projects';
 @import 'old/randomization_schemes';
-
-@import 'old/sheets';
 @import 'old/subjects';
 @import 'old/tips';
