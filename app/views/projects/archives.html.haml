@@ -6,9 +6,8 @@
 - if @projects.count > 0
   %div{ style: 'margin-bottom:20px' }
     %p.lead{ style: 'margin-bottom:5px' } Project Archives
-    .projects-hide-move
-      - @projects.each do |project|
-        = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true
+    - @projects.each do |project|
+      = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true
 - else
   %p.lead
     You have 0 archived projects.

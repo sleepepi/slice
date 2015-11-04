@@ -1,6 +1,7 @@
 .projects-box.project-gradient{ data: { project_id: project.id } }
   .pull-right
-    %span.glyphicon.glyphicon-move.handle
+    - unless archived
+      %span.glyphicon.glyphicon-move.handle
     = link_to project_subjects_path(project), class: 'hover-link' do
       - number_with_delimiter project.subjects.where(status: 'valid').count
     = link_to '#', data: { object: 'toggle-visibility', target: "#project_#{project.id}_details" } do
