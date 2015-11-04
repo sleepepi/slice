@@ -1,37 +1,32 @@
-// Place all the styles related to the RandomizationSchemes controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-
 .block-group {
   margin-bottom: 10px;
 }
 
 .multiplier {
+  border-left: 5px solid lighten($panel-default-border, 7.5%);
   padding: 15px 30px 15px 15px;
-  border-left: 5px solid #eee;
 }
 
-/* Green */
-.multiplier_1 {
+// Green
+.multiplier-1 {
   background-color: lighten($state-success-bg, 7.5%);
   border-color: lighten($state-success-border, 7.5%);
 }
 
-/* Red */
-.multiplier_2 {
+// Red
+.multiplier-2 {
   background-color: lighten($state-danger-bg, 7.5%);
   border-color: lighten($state-danger-border, 7.5%);
 }
 
-/* Blue */
-.multiplier_3 {
+// Blue
+.multiplier-3 {
   background-color: lighten($state-info-bg, 7.5%);
   border-color: lighten($state-info-border, 7.5%);
 }
 
-/* Yellow */
-.multiplier_4 {
+// Yellow
+.multiplier-4 {
   background-color: lighten($state-warning-bg, 7.5%);
   border-color: lighten($state-warning-border, 7.5%);
 }

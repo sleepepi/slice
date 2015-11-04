@@ -3,14 +3,14 @@
     .block-group
       - assignment_block_position = 1
       - current_multiplier = randomizations.first.multiplier
-      .multiplier{ class: "multiplier_#{current_multiplier}" }
+      .multiplier{ class: "multiplier-#{current_multiplier}" }
         - randomizations.each do |randomization|
           - # The HTML end and start DIVs below are intentional
           - if current_multiplier != randomization.multiplier or (assignment_block_position - 1 != 0 and (assignment_block_position - 1) % (randomization.multiplier * @randomization_scheme.minimum_block_size) == 0)
             - current_multiplier = randomization.multiplier
             - assignment_block_position = 2
             </div>
-            <div class="multiplier multiplier_#{current_multiplier}">
+            <div class="multiplier multiplier-#{current_multiplier}">
           - else
             - assignment_block_position += 1
 
