@@ -42,6 +42,7 @@
 @import 'objects/projects';
 @import 'objects/reports';
 @import 'objects/sheets';
+@import 'objects/subjects';
 @import 'objects/validations';
 
 // Old Includes, to be refactored and removed
@@ -49,5 +50,5 @@
 @import 'old/modals';
 @import 'old/pagination';
 @import 'old/randomization_schemes';
-@import 'old/subjects';
+
 @import 'old/tips';

@@ -1,0 +1,97 @@
+.left-navigation {
+  list-style: none;
+  margin-left: 0;
+  margin-right: -15px;
+  padding-left: 0;
+  position: relative;
+
+  li {
+    font-size: 14px;
+    margin-bottom: 5px;
+    position: relative;
+  }
+
+  a {
+    border-bottom: 1px solid $btn-success-border;
+    border-left: 1px solid $btn-success-border;
+    color: $text-color;
+    display: block;
+    padding: 5px 0 5px 50px;
+    // position: relative;
+    text-decoration: none;
+
+    .emphasis {
+      color: $btn-success-bg;
+      display: inline-block;
+      font-weight: 600;
+    }
+
+    &:hover,
+    &.active {
+      background-color: $btn-success-bg;
+      color: $btn-success-color;
+    }
+
+    &:hover .emphasis,
+    &.active .emphasis {
+      color: $text-color;
+    }
+  }
+
+  a::before {
+    border-color: transparent transparent $btn-success-border;
+    border-style: solid;
+    border-width: 0 31px 31px 0;
+    content: '';
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+  }
+
+  a::after {
+    border-color: transparent transparent $body-bg;
+    border-style: solid;
+    border-width: 0 32px 32px 0;
+    content: '';
+    height: 0;
+    left: -1px;
+    position: absolute;
+    top: 0;
+    width: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 30px;
+
+    li {
+      margin-bottom: 0;
+    }
+
+    a::before {
+      bottom: 1px;
+      top: inherit;
+    }
+
+    a::after {
+      bottom: 0;
+      top: inherit;
+    }
+
+    li:not(:last-child) a::before {
+      border-color: transparent;
+    }
+
+    li:not(:last-child) a::after {
+      border-color: transparent;
+    }
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .left-navigation {
+    margin-left: -50px;
+  }
+}
