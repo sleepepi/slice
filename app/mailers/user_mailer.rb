@@ -102,4 +102,12 @@ class UserMailer < ApplicationMailer
          subject: "#{adverse_event.user.name} Reported a #{adverse_event.serious? ? 'Serious' : 'Non-Serious'} Adverse Event on #{adverse_event.project.name}",
          reply_to: adverse_event.user.email)
   end
+
+  def password_expires_soon(recipient)
+    setup_email
+    @recipient = recipient
+    @email_to = recipient.email
+    mail(to: recipient.email,
+         subject: 'Your password will expire soon')
+  end
 end

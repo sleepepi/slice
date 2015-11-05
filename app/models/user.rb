@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   ]
 
   # Concerns
-  include Deletable
+  include Deletable, Expirable
 
   # Model Validation
   validates :first_name, :last_name, presence: true

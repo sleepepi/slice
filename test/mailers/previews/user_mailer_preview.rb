@@ -65,4 +65,9 @@ class UserMailerPreview < ActionMailer::Preview
     recipient = User.current.first
     UserMailer.adverse_event_reported(adverse_event, recipient)
   end
+
+  def password_expires_soon
+    recipient = User.current.first
+    UserMailer.password_expires_soon(recipient)
+  end
 end

@@ -139,4 +139,15 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal "#{adverse_event.user.name} Reported a Non-Serious Adverse Event on #{adverse_event.project.name}", email.subject
     assert_match(%r{#{adverse_event.user.name} reported a non-serious adverse event on #{adverse_event.project.name} located here: #{ENV['website_url']}/projects/#{adverse_event.project.to_param}}, email.encoded)
   end
+
+  test 'password expires soon email' do
+    valid = users(:valid)
+
+    email = UserMailer.password_expires_soon(valid).deliver_now
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [valid.email], email.to
+    assert_equal 'Your password will expire soon', email.subject
+    assert_match(/Your #{ENV['website_name']} password will expire in [\d]+ day[s]? on #{valid.password_expires_on.strftime('%-m-%-d-%Y.')} Click the link below to reset your password now:/, email.encoded)
+  end
 end
