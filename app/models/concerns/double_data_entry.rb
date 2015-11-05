@@ -11,7 +11,7 @@ module DoubleDataEntry
   end
 
   def shared_verification_params
-    attributes.select { |key, val| ['design_id', 'project_id', 'subject_id', 'user_id', 'event_id', 'subject_schedule_id', 'verifying_sheet_id'].include?(key.to_s) }.merge({ verifying_sheet_id: id })
+    attributes.select { |key, val| %w(design_id project_id subject_id user_id subject_event_id verifying_sheet_id).include?(key.to_s) }.merge({ verifying_sheet_id: id })
   end
 
   def not_double_data_entry?

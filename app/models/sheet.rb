@@ -48,8 +48,6 @@ class Sheet < ActiveRecord::Base
   belongs_to :design
   belongs_to :project
   belongs_to :subject
-  belongs_to :event
-  belongs_to :subject_schedule
   belongs_to :subject_event
   belongs_to :adverse_event, -> { where deleted: false }, touch: true
   has_many :sheet_variables

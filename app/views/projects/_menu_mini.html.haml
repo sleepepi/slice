@@ -40,6 +40,9 @@
         = link_to project_designs_path(@project), class: (params[:controller] == 'designs' ? 'active' : nil), rel: 'tooltip', data: { title: 'Designs', container: 'body', placement: 'right' } do
           %span.glyphicon.glyphicon-list-alt
       %li
+        = link_to project_events_path(@project), class: (params[:controller] == 'events' ? 'active' : nil), rel: 'tooltip', data: { title: 'Events', container: 'body', placement: 'right' } do
+          %span.glyphicon.glyphicon-calendar
+      %li
         = link_to project_variables_path(@project), class: (params[:controller] == 'variables' ? 'active' : nil), rel: 'tooltip', data: { title: 'Variables', container: 'body', placement: 'right' } do
           %span.glyphicon.glyphicon-stats
       %li

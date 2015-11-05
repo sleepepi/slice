@@ -39,7 +39,7 @@ module GridExport
 
     csv << row
 
-    row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Schedule Name", "Event Name"]
+    row = ["Sheet ID", "Name", "Description", "Sheet Creation Date", "Project", "Site", "Subject", "Acrostic", "Status", "Creator", "Event Name"]
 
     grid_group_variables.each do |variable|
       variable.grid_variables.each do |grid_variable|
@@ -54,7 +54,7 @@ module GridExport
 
   def write_grid_csv_body(sheet_ids, csv, raw_data, grid_group_variables)
     sheet_ids.sort.reverse.each do |sheet_id|
-      sheet = Sheet.includes(:project, :user, :subject_schedule, :event, subject: [:site]).find_by_id sheet_id
+      sheet = Sheet.includes(:project, :user, :subject_event, subject: [:site]).find_by_id sheet_id
       write_grid_sheet_to_csv(csv, sheet, grid_group_variables, raw_data) if sheet
       sheet = nil # Freeing Memory
       update_steps(1)
@@ -72,8 +72,7 @@ module GridExport
             sheet.project.acrostic_enabled? ? sheet.subject.acrostic : nil,
             sheet.subject.status,
             sheet.user ? sheet.user.name : nil,
-            sheet.subject_schedule ? sheet.subject_schedule.name : nil,
-            sheet.event ? sheet.event.name : nil ]
+            sheet.subject_event ? sheet.subject_event.name : nil ]
 
     position = 1
 

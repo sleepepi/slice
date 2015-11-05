@@ -49,6 +49,10 @@
           %span.glyphicon.glyphicon-list-alt
           Designs
       %li
+        = link_to project_events_path(@project), class: (params[:controller] == 'events' ? 'active' : nil) do
+          %span.glyphicon.glyphicon-calendar
+          Events
+      %li
         = link_to project_variables_path(@project), class: (params[:controller] == 'variables' ? 'active' : nil) do
           %span.glyphicon.glyphicon-stats
           Variables

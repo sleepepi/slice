@@ -33,7 +33,6 @@
   domainsReady()
   filtersReady()
   reportsReady()
-  schedulesReady()
   sheetsReady()
   variablesReady()
   signaturesReady()

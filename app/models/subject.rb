@@ -30,7 +30,6 @@ class Subject < ActiveRecord::Base
   has_many :adverse_events, -> { where deleted: false }
   has_many :randomizations, -> { where deleted: false }
   has_many :sheets, -> { where deleted: false }
-  has_many :subject_schedules
   has_many :subject_events, -> { order :event_date }
 
   # Model Methods
@@ -64,19 +63,6 @@ class Subject < ActiveRecord::Base
 
   def new_digest_subject?(sheet_ids)
     sheets.where.not(id: sheet_ids).count == 0
-  end
-
-  def subject_schedule_events(design_id)
-    result = []
-    subject_schedules.each do |subject_schedule|
-      subject_schedule.schedule.items.each do |item|
-        item_design_ids = (item[:design_ids] || [])
-        event = project.events.find_by_id item[:event_id]
-        event_date = subject_schedule.initial_due_date.strftime(' &middot; %a, %B %d, %Y').html_safe unless subject_schedule.initial_due_date.blank?
-        result << ["#{subject_schedule.name} &middot; #{event.name}#{event_date}".html_safe, "#{subject_schedule.id}-#{event.id}"] if event && item_design_ids.include?(design_id.to_s)
-      end
-    end
-    result
   end
 
   def uploaded_files(current_user)

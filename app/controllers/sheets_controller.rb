@@ -221,7 +221,6 @@ class SheetsController < ApplicationController
 
     params.require(:sheet).permit(
       :design_id, :variable_ids, :last_user_id, :last_edited_at,
-      # :event_id, :subject_schedule_id,
       :locked, :first_locked_at, :first_locked_by_id,
       :verifying_sheet_id, :subject_event_id, :adverse_event_id
     )

@@ -193,15 +193,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :schedules do
-      collection do
-        post :add_event
-        post :add_design
-      end
-    end
-
     resources :subjects do
-      resources :subject_schedules
       member do
         get 'choose-date/:event_id', action: :choose_date, as: :choose_date
         post :launch_subject_event

@@ -11,6 +11,10 @@ class SubjectEvent < ActiveRecord::Base
 
   # Model Methods
 
+  def name
+    event.name if event
+  end
+
   def event_at
     created_at
   end

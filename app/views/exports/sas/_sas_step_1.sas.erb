@@ -31,7 +31,6 @@ data slice<%= '_grids' if use_grids %>;
   informat _acrostic             $100.     ;   * Subject acrostic ;
   informat _status               $10.      ;   * Subject status ;
   informat _creator              $100.     ;   * Sheet creator ;
-  informat _schedule_name        $500.     ;   * Schedule name ;
   informat _event_name           $500.     ;   * Event name ;
 
   /* Sheet Variables */
@@ -48,7 +47,6 @@ data slice<%= '_grids' if use_grids %>;
   format _acrostic               $100.     ;
   format _status                 $10.      ;
   format _creator                $100.     ;
-  format _schedule_name          $500.     ;
   format _event_name             $500.     ;
 
   /* Sheet Variables */
@@ -67,7 +65,6 @@ data slice<%= '_grids' if use_grids %>;
     _acrostic
     _status
     _creator
-    _schedule_name
     _event_name
 <%= column_headers.collect{ |c| "    #{c}" }.join("\n") %>
   ;

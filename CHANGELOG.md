@@ -11,6 +11,7 @@
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets
 - Adjusted line-height on form controls and input boxes
+- Removed schedules and subject schedules, these have been replaced by events and subject events
 
 ## 0.30.3 (October 22, 2015)
 
