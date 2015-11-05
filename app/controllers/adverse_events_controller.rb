@@ -3,6 +3,7 @@ class AdverseEventsController < ApplicationController
   before_action :authenticate_user!
 
   before_action :set_viewable_project,                  only: [:index, :show, :forms]
+  before_action :set_editable_project,                  only: [:export]
   before_action :set_editable_project_or_editable_site, only: [:new, :create, :edit, :update, :destroy]
   before_action :redirect_without_project
 
@@ -11,6 +12,11 @@ class AdverseEventsController < ApplicationController
   before_action :set_viewable_adverse_event,            only: [:show, :forms]
   before_action :set_editable_adverse_event,            only: [:edit, :update, :destroy]
   before_action :redirect_without_adverse_event,        only: [:show, :forms, :edit, :update, :destroy]
+
+  def export
+    send_data AdverseEvent.generate_csv(@project), type: 'text/csv; charset=iso-8859-1; header=present',
+      disposition: "attachment; filename=\"#{@project.name.gsub(/[^a-zA-Z0-9_-]/, '_')}_#{Time.now.strftime('%Y.%m.%d %Ih%M %p')}.csv\""
+  end
 
   # GET /adverse_events
   def index

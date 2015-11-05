@@ -38,6 +38,9 @@ Rails.application.routes.draw do
     end
 
     resources :adverse_events, path: 'adverse-events' do
+      collection do
+        get :export
+      end
       member do
         get :forms
       end

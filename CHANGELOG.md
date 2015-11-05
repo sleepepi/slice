@@ -5,6 +5,8 @@
   - Styling of comments is now consistent across sheets, adverse events, and subject timeline
 - **Sheet Changes**
   - Simplified colors for sheet coverage
+- **Adverse Event Changes**
+  - Adverse events can now be exported in CSV format by unblinded project owners and editors
 
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets
