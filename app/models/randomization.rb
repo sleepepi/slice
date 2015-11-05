@@ -74,7 +74,7 @@ class Randomization < ActiveRecord::Base
   def notify_users!
     all_users = project.unblinded_members.where(emails_enabled: true) - [randomized_by]
     all_users.each do |user_to_email|
-      UserMailer.subject_randomized(self, user_to_email).deliver_later if ENV['emails_enabled'] == 'true'
+      UserMailer.subject_randomized(self, user_to_email).deliver_later if EMAILS_ENABLED
     end
   end
 

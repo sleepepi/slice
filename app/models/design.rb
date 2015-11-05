@@ -373,7 +373,7 @@ class Design < ActiveRecord::Base
   end
 
   def notify_user!(current_user)
-    UserMailer.import_complete(self, current_user).deliver_later if ENV['emails_enabled'] == 'true'
+    UserMailer.import_complete(self, current_user).deliver_later if EMAILS_ENABLED
   end
 
   def insert_new_design_option!(design_option)

@@ -21,7 +21,7 @@ class Post < ActiveRecord::Base
     return if archived?
     all_users = project.users_to_email - [user]
     all_users.each do |user_to_email|
-      UserMailer.project_news(self, user_to_email).deliver_later if ENV['emails_enabled'] == 'true'
+      UserMailer.project_news(self, user_to_email).deliver_later if EMAILS_ENABLED
     end
   end
 end

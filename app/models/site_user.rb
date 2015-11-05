@@ -20,6 +20,6 @@ class SiteUser < ActiveRecord::Base
 
   def generate_invite_token!(new_invite_token = Digest::SHA1.hexdigest(Time.zone.now.usec.to_s))
     update(invite_token: new_invite_token) if respond_to?('invite_token') && invite_token.blank? && SiteUser.where(invite_token: new_invite_token).count == 0
-    UserMailer.invite_user_to_site(self).deliver_later if ENV['emails_enabled'] == 'true' && !invite_token.blank?
+    UserMailer.invite_user_to_site(self).deliver_later if EMAILS_ENABLED && !invite_token.blank?
   end
 end

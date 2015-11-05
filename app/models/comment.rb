@@ -48,7 +48,7 @@ class Comment < ActiveRecord::Base
   end
 
   def send_email
-    return if ENV['emails_enabled'] != 'true' || project.disable_all_emails?
+    return if !EMAILS_ENABLED || project.disable_all_emails?
     users_to_email.each do |user_to_email|
       UserMailer.comment_by_mail(self, user_to_email).deliver_later
     end

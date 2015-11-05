@@ -22,7 +22,7 @@ class Export < ActiveRecord::Base
   end
 
   def notify_user!
-    UserMailer.export_ready(self).deliver_later if ENV['emails_enabled'] == 'true'
+    UserMailer.export_ready(self).deliver_later if EMAILS_ENABLED
   end
 
   def generate_export!(sheet_scope)

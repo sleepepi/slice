@@ -113,7 +113,7 @@ class AdverseEvent < ActiveRecord::Base
   end
 
   def send_email
-    return if project.disable_all_emails? || ENV['emails_enabled'] != 'true'
+    return if !EMAILS_ENABLED || project.disable_all_emails?
     users_to_email.each do |user_to_email|
       UserMailer.adverse_event_reported(self, user_to_email).deliver_later
     end
