@@ -1,0 +1,11 @@
+%b
+  Dear
+  = succeed ',' do
+    = @resource.first_name
+%br
+%br
+Your account has been locked due to an excessive number of unsuccessful sign in attempts. Click the link below to unlock your account:
+%br
+%br
+%center
+  = link_to 'Unlock my account', "#{ENV['website_url']}/unlock?unlock_token=#{@token}", style: 'color: #428bca'

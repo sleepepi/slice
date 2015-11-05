@@ -2,9 +2,9 @@
 # allowed to view and edit.
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable and :omniauthable
+  # :confirmable and :omniauthable
   devise :database_authenticatable, :registerable, :timeoutable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :lockable
 
   serialize :pagination, Hash
   serialize :email_notifications, Hash

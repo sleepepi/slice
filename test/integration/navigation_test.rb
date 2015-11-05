@@ -14,7 +14,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
     get '/projects'
     assert_redirected_to new_user_session_path
 
-    sign_in_as @deleted, '123456'
+    sign_in_as @deleted, '12345678'
     assert_equal new_user_session_path, path
     assert_equal I18n.t('devise.failure.inactive'), flash[:alert]
   end
@@ -29,7 +29,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
     get '/projects'
     assert_redirected_to new_user_session_path
 
-    sign_in_as @valid, '123456'
+    sign_in_as @valid, '12345678'
     assert_equal '/projects', path
     assert_equal I18n.t('devise.sessions.signed_in'), flash[:notice]
   end

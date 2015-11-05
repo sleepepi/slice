@@ -7,6 +7,8 @@
   - Simplified colors for sheet coverage
 - **Adverse Event Changes**
   - Adverse events can now be exported in CSV format by unblinded project owners and editors
+- **Account Changes**
+  - Enabled account locking and changed policy on account timeouts
 
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets
