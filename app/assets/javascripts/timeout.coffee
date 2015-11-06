@@ -1,0 +1,9 @@
+@timeoutReady = () ->
+  if $('[data-object~="current-user"]').length > 0
+    interval = setInterval( () ->
+      $.get("#{root_url}timeout/check", "interval=#{interval}", null, "script")
+    , 1000 * 60 * 5) # Once every 5 minutes ((1000 ms * 60) * 5)
+
+@sessionTimedOut = () ->
+  location.reload true
+  # $('.flash-alert div').html("Your session expired, please sign in again to continue.")

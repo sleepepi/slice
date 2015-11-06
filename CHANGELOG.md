@@ -8,8 +8,9 @@
 - **Adverse Event Changes**
   - Adverse events can now be exported in CSV format by unblinded project owners and editors
 - **Account Changes**
-  - Enabled account locking and changed policy on account timeouts
+  - Accounts now lock after failed password attempts
   - Implemented a new password policy
+  - Session timeouts now navigate back to the login page
 
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets

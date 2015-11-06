@@ -274,6 +274,10 @@ Rails.application.routes.draw do
     get :archives
   end
 
+  namespace :timeout do
+    get :check
+  end
+
   namespace :validate do
     post :variable
   end

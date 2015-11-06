@@ -26,7 +26,8 @@
   # disableRequestCaching will be available with Turbolinks 3.0+
   Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
 
-@ready = () ->
+# These functions get called on initial page visit and on turbolink page changes
+@turbolinksReady = () ->
   contourReady()
   globalReady()
   designsReady()
@@ -43,10 +44,15 @@
   usersReady()
   fileDragReady()
 
+# These functions only get called on the initial page visit (no turbolinks)
+@initialLoadReady = () ->
+  turbolinksReady()
+  timeoutReady()
+
 $(window).onbeforeunload = () -> return "You haven't saved your changes." if window.$isDirty
-$(document).ready(ready)
+$(document).ready(initialLoadReady)
 $(document)
-  .on('page:load', ready)
+  .on('page:load', turbolinksReady)
   .on('page:before-change', -> confirm("You haven't saved your changes.") if window.$isDirty)
   .on('click', '[data-object~="remove"]', () ->
     plural = if $(this).data('count') == 1 then '' else 's'
