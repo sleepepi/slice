@@ -10,9 +10,9 @@
       = form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-inline', id: 'subject-search-form' do
         Enter Subject Code
         .form-group
-          .input-group
+          .input-group{ style: 'width: 1px' }
             = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }
-            %span.input-group-btn
+            %span.input-group-btn{ style: 'vertical-align: bottom;' }
               = submit_tag 'Find or Create Subject', class: 'btn btn-default'
 
     %table.table.table-striped
