@@ -50,6 +50,23 @@
   padding: 10px;
 }
 
+.comment-control {
+  background-color: $input-bg;
+  background-image: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: $input-color;
+  display: block;
+  font-size: $font-size-base;
+  height: auto;
+  line-height: $line-height-base;
+  outline: none;
+  padding: 0;
+  resize: none;
+  width: 100%;
+}
+
 .comment-comment-header::before {
   border-bottom: 7px solid transparent;
   border-right: 7px solid $navbar-default-border;

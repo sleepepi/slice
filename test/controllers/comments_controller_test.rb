@@ -6,18 +6,7 @@ class CommentsControllerTest < ActionController::TestCase
     @comment = comments(:one)
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:comments)
-  end
-
-  # test "should get new" do
-  #   get :new, sheet_id: @comment.sheet_id
-  #   assert_response :success
-  # end
-
-  test "should create comment" do
+  test 'should create comment' do
     assert_difference('Comment.count') do
       post :create, sheet_id: @comment.sheet_id, comment: { description: @comment.description }, format: 'js'
     end
@@ -26,11 +15,11 @@ class CommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:comment)
     assert_equal users(:valid).id, assigns(:comment).user_id
 
-    assert_template 'create'
+    assert_template 'index'
     assert_response :success
   end
 
-  test "should not create comment with blank description" do
+  test 'should not create comment with blank description' do
     assert_difference('Comment.count', 0) do
       post :create, sheet_id: @comment.sheet_id, comment: { description: '' }, format: 'js'
     end
@@ -40,26 +29,29 @@ class CommentsControllerTest < ActionController::TestCase
 
     assert assigns(:comment).errors.size > 0
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
-    assert_template 'create'
-  end
-
-  test "should show comment" do
-    get :show, id: @comment
+    assert_template 'edit'
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @comment
+  test 'should show comment' do
+    xhr :get, :show, id: @comment, format: 'js'
     assert_response :success
   end
 
-  test "should update comment" do
-    patch :update, id: @comment, comment: { description: @comment.description }
-    assert_redirected_to project_sheet_path(assigns(:comment).sheet.project, assigns(:comment).sheet)
+  test 'should get edit' do
+    xhr :get, :edit, id: @comment, format: 'js'
+    assert_response :success
   end
 
-  test "should not update comment with blank description" do
-    patch :update, id: @comment, comment: { description: '' }
+  test 'should update comment' do
+    patch :update, id: @comment, comment: { description: @comment.description }, format: 'js'
+    assert_not_nil assigns(:comment)
+    assert_template 'show'
+    assert_response :success
+  end
+
+  test 'should not update comment with blank description' do
+    patch :update, id: @comment, comment: { description: '' }, format: 'js'
 
     assert_not_nil assigns(:comment)
 
@@ -68,7 +60,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
-  test "should destroy comment" do
+  test 'should destroy comment' do
     assert_difference('Comment.current.count', -1) do
       delete :destroy, id: @comment, format: 'js'
     end

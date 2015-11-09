@@ -16,7 +16,7 @@
               Please make sure your comment is not blank.
 
           .form-group
-            = f.text_area :description, rows: 7, class: 'form-control', placeholder: 'Type comment here', data: { object: @adverse_event_comment.new_record? ? 'ae-comment-comment-field' : nil }, style: 'box-shadow: none;border: 0;padding: 0;resize: none;border-radius: 0'
+            = f.text_area :description, rows: 7, class: 'comment-control', placeholder: 'Type comment here', data: { object: @adverse_event_comment.new_record? ? 'ae-comment-comment-field' : nil }
 
           - if @adverse_event_comment.new_record?
             = f.hidden_field :comment_type, value: @adverse_event_comment.comment_type.blank? ? 'commented' : @adverse_event_comment.comment_type

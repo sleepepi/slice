@@ -1,0 +1,26 @@
+.comment-outer{ data: { comment_id: comment.id } }
+  .comment-left-fixed
+    = image_tag comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+  .comment-right-fluid
+    .comment-comment
+      .comment-comment-header
+        %strong= comment.user.name
+        commented
+        %abbr{ rel: 'tooltip', data: { title: comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+          = time_ago_in_words comment.created_at
+          ago
+        .pull-right
+          - if comment.editable_by? current_user
+            = succeed ' ' do
+              = link_to edit_comment_path(comment), remote: true, class: 'btn btn-xs btn-default' do
+                %span.glyphicon.glyphicon-pencil
+          - if comment.deletable_by? current_user
+            %span{ id: "comment-#{comment.id}-request-delete" }
+              = link_to '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'toggle-delete-buttons', target_show: "#comment-#{comment.id}-confirm-delete", target_hide: "#comment-#{comment.id}-request-delete" } do
+                %span.glyphicon.glyphicon-trash
+            %span{ id: "comment-#{comment.id}-confirm-delete", style: 'display:none' }
+              = link_to 'Cancel', '#', class: 'btn btn-xs btn-default', data: { object: 'toggle-delete-buttons', target_show: "#comment-#{comment.id}-request-delete", target_hide: "#comment-#{comment.id}-confirm-delete" }
+              = link_to 'Confirm Delete', comment, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse'
+          = link_to "##{comment.number}", "#c#{comment.number}", class: 'btn btn-link btn-xs'
+      .comment-comment-body
+        = render 'comments/formatted', comment: comment

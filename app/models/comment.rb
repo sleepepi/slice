@@ -33,6 +33,12 @@ class Comment < ActiveRecord::Base
     "##{id}"
   end
 
+  def number
+    sheet.comments.reorder(:id).pluck(:id).index(id) + 1
+  rescue
+    0
+  end
+
   def deletable_by?(current_user)
     user == current_user || editable_by?(current_user)
   end
