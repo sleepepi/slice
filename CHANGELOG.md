@@ -12,6 +12,9 @@
   - Implemented a new password policy
   - Session timeouts now navigate back to the login page
 
+### Bug Fix
+- Fixed an issue where test subjects were being counted in event reports
+
 ### Refactoring
 - Started cleanup and reorganization of SCSS stylesheets
 - Adjusted line-height on form controls and input boxes

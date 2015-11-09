@@ -61,7 +61,7 @@
               %td
                 = link_to design.name, [@project, design]
               %td.center
-                - entered_count = @project.subjects.with_entered_design_on_event(design, @event).count
+                - entered_count = @project.subjects.where(status: 'valid').with_entered_design_on_event(design, @event).count
                 - if entered_count > 0
                   = link_to entered_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
                   - if subject_count > 0
@@ -77,7 +77,7 @@
                 - else
                   %span.text-muted -
               %td.center
-                - unassigned_count = @project.subjects.without_event(@event).count
+                - unassigned_count = @project.subjects.where(status: 'valid').without_event(@event).count
                 - if unassigned_count > 0
                   = link_to unassigned_count, project_subjects_path(@project, without_event_id: @event.id)
                   - if subject_count > 0
