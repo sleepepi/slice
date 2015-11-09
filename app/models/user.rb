@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   has_many :designs, -> { where deleted: false }
   has_many :events, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
+  has_many :handoffs
   has_many :projects, -> { where deleted: false }
   has_many :project_favorites
   has_many :randomization_schemes, -> { where deleted: false }

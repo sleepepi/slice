@@ -212,6 +212,8 @@ Rails.application.routes.draw do
         get :data_entry, path: 'data-entry'
         get 'data-entry/:design_id', action: :new_data_entry, as: :new_data_entry
         get :choose_event, path: 'choose-event'
+        get 'handoff/:subject_event_id', controller: :handoffs, action: :new, as: :new_handoff
+        post 'handoff/:subject_event_id', controller: :handoffs, action: :create, as: :create_handoff
       end
       collection do
         get :choose_site, path: 'choose-site'
@@ -268,6 +270,13 @@ Rails.application.routes.draw do
     get :use, path: '/about/use', as: :about_use
     get :theme
     get :version
+  end
+
+  namespace :handoff do
+    get ':project/:handoff_id/:handoff_token', action: :start, as: :start
+    get ':project/:handoff_id/:handoff_token/:design_id', action: :design, as: :design
+    get 'complete', action: :complete, as: :complete
+    get 'completed', action: :completed, as: :completed
   end
 
   scope module: 'projects' do

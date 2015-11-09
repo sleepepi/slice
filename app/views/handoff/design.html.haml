@@ -1,0 +1,48 @@
+- @title = @design.name
+
+= hidden_field_tag 'isdirty', '1'
+
+- if false
+  - if @sheet.new_record?
+    - submit_url = new_survey_path(@design.slug)
+    - submit_method = :post
+    - submit_button = 'Submit Survey'
+  - else
+    - submit_url = edit_survey_path(@design.slug, @sheet.authentication_token)
+    - submit_method = :patch
+    - submit_button = 'Resubmit Survey'
+- else
+  - if design = @handoff.next_design(@design)
+    - submit_url = handoff_design_path(@project.to_param, @handoff.id, @handoff.token, design.id)
+    - submit_button = 'SAVE & CONTINUE'
+    - submit_method = :get
+  - else
+    - submit_url = handoff_complete_path
+    - submit_button = 'COMPLETE'
+    - submit_method = :get
+
+- form_name = "survey_#{@design.id}_form"
+= form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |f|
+  - if @sheet.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize(@sheet.errors.count, "error")
+        prohibited this survey from being submitted
+
+  - if @sheet.new_record?
+    = hidden_field_tag :subject_id, @sheet.subject_id
+
+  - if @design.show_site?
+    .form-group
+      = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+      .col-md-10
+        = select_tag :site_id, options_for_select([['---', nil]] + @design.project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'
+
+  #design{ style: "min-height:200px" }
+    - params[:header] = '0'
+    = render 'designs/show', design: @design
+
+  .form-signin
+    %p.lead Continue to next survey...
+
+    = submit_tag submit_button, data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large'

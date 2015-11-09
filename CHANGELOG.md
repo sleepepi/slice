@@ -1,6 +1,9 @@
 ## 0.32.0
 
 ### Enhancements
+- **Project Changes**
+  - Projects can now enable a new "Tablet Handoff" module
+  - The "Tablet Handoff" module allows a staff member to handoff a tablet and have a subject fill out a series of forums
 - **Gem Changes**
   - Updated to rails 4.2.5.rc2
 

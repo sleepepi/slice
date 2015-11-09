@@ -198,6 +198,15 @@
           Checking This Will Enable Blinding of Project and Site Members
 
   .form-group
+    .col-md-2
+      %label Tablet Handoffs
+    .col-md-10
+      .checkbox
+        %label
+          = f.check_box :handoffs_enabled
+          Checking this will enable staff members to launch a flow of surveys that participants can complete on a tablet
+
+  .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
       = cancel
