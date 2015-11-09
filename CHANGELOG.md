@@ -1,4 +1,4 @@
-## 0.31.0
+## 0.31.0 (November 9, 2015)
 
 ### Enhancements
 - **Comment Changes**
