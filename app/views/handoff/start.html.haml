@@ -20,5 +20,5 @@
 
 %ul.list-unstyled
   - @handoff.subject_event.event.designs.each do |design|
-    %li= link_to design.name, handoff_design_path(@project, @handoff, design.to_param)
+    %li= link_to design.name, handoff_design_path(@project, @handoff, design)
 

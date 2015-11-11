@@ -15,7 +15,7 @@
   - if @sheet.errors.any?
     .bs-callout.bs-callout-danger
       %h4
-        = pluralize(@sheet.errors.count, "error")
+        = pluralize @sheet.errors.count, 'error'
         prohibited this survey from being submitted
 
   - if @sheet.new_record?

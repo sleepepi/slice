@@ -15,12 +15,13 @@ class HandoffController < ApplicationController
   end
 
   def save
-    @sheet = @project.sheets.where(design_id: @design.id).new(subject_id: @handoff.subject_event.subject_id)
+    @sheet = @project.sheets.where(design_id: @design.id).new(subject_id: @handoff.subject_event.subject_id, subject_event_id: @handoff.subject_event_id)
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
       design = @handoff.next_design(@design)
       if design
-        redirect_to handoff_design_path(@project, @handoff, design.to_param)
+        redirect_to handoff_design_path(@project, @handoff, design)
       else
+        @handoff.update token: nil
         redirect_to handoff_complete_path
       end
     else
@@ -39,17 +40,17 @@ class HandoffController < ApplicationController
 
   def set_project
     @project = Project.current.find_by_param params[:project]
-    redirect_to root_path unless @project
+    redirect_to handoff_complete_path unless @project
   end
 
   def set_handoff
     @handoff = @project.handoffs.find_by_param params[:handoff]
-    redirect_to root_path unless @handoff
+    redirect_to handoff_complete_path unless @handoff
   end
 
   def set_design
     @design = @project.designs.find_by_param params[:design]
-    redirect_to root_path unless @design
+    redirect_to handoff_complete_path unless @design
     @sheet = @project.sheets.where(design_id: @design.id).new
   end
 

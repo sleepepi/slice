@@ -4,15 +4,16 @@
 
 = hidden_field_tag 'isdirty', '1'
 
-- if design = @handoff.next_design(@design)
+- if @handoff.next_design(@design)
   - submit_button = 'SAVE and CONTINUE'
 - else
   - submit_button = 'COMPLETE'
-- submit_url = handoff_save_path(@project, @handoff, design.to_param)
+- submit_url = handoff_save_path(@project, @handoff, @design)
 - submit_method = :post
 
 - form_name = "survey_#{@design.id}_form"
-= form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |f|
+
+= form_for @sheet, url: submit_url, method: submit_method, html: { class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false } do |f|
   - if @sheet.errors.any?
     .bs-callout.bs-callout-danger
       %h4

@@ -18,13 +18,14 @@ class SheetTransaction < ActiveRecord::Base
     in_memory_sheet.merge_form_params!(variables_params)
 
     variables_params.each do |variable_id, value|
-      variable = in_memory_sheet.variables.select{|v| v.id.to_s == variable_id.to_s}.first
+      variable = in_memory_sheet.variables.find { |v| v.id.to_s == variable_id.to_s }
       # Skip if hidden, visible_on_sheet?
       # to work to correctly merge new values and existing sheet_variable responses
       # before checking if the variable is visible
-      if variable and in_memory_sheet.visible_on_sheet?(variable)
+      if variable && in_memory_sheet.visible_on_sheet?(variable)
         validation_hash = variable.value_in_range?(value)
-        case validation_hash[:status] when 'blank' # AND REQUIRED
+        case validation_hash[:status]
+        when 'blank' # AND REQUIRED
           sheet.errors.add(:base, "#{variable.name} can't be blank") if variable.requirement_on_design(sheet.design) == 'required'
         when 'invalid'
           sheet.errors.add(:base, "#{variable.name} is invalid")
@@ -38,7 +39,7 @@ class SheetTransaction < ActiveRecord::Base
   end
 
   def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type)
-    return false unless self.validate_variable_values(sheet, variables_params)
+    return false unless validate_variable_values(sheet, variables_params)
 
     sheet_save_result = case transaction_type
                         when 'sheet_create', 'public_sheet_create'
@@ -52,7 +53,7 @@ class SheetTransaction < ActiveRecord::Base
     original_attributes = sheet.previous_changes.collect { |k, v| [k, v[0]] }.reject { |k, _v| ignore_attributes.include?(k.to_s) }
 
     if sheet_save_result
-      sheet_transaction = self.create(transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip)
+      sheet_transaction = create(transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip)
       sheet_transaction.generate_audits!(original_attributes)
       sheet_transaction.update_variables!(variables_params, current_user)
     end

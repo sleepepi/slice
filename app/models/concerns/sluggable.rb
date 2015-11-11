@@ -10,6 +10,6 @@ module Sluggable
   end
 
   def to_param
-    slug.blank? ? id : slug
+    slug.blank? ? id.to_s : slug
   end
 end
