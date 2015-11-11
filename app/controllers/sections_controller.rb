@@ -1,15 +1,11 @@
 class SectionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,      only: [ :image ]
-  before_action :redirect_without_project,  only: [ :image ]
-  before_action :set_viewable_design,       only: [ :image ]
-  before_action :redirect_without_design,   only: [ :image ]
-  before_action :set_section,               only: [ :image ]
-  before_action :redirect_without_section,  only: [ :image ]
-
-  def image
-    send_file File.join( CarrierWave::Uploader::Base.root, @section.image.url )
-  end
+  # before_action :set_viewable_project,      only: [ :image ]
+  # before_action :redirect_without_project,  only: [ :image ]
+  # before_action :set_viewable_design,       only: [ :image ]
+  # before_action :redirect_without_design,   only: [ :image ]
+  # before_action :set_section,               only: [ :image ]
+  # before_action :redirect_without_section,  only: [ :image ]
 
   # # GET /sections
   # # GET /sections.json
@@ -73,23 +69,21 @@ class SectionsController < ApplicationController
 
   private
 
-    def set_section
-      @section = @design.sections.find_by_id(params[:id])
-    end
+  def set_section
+    @section = @design.sections.find_by_id(params[:id])
+  end
 
-    def redirect_without_section
-      empty_response_or_root_path(project_design_path(@project, @design)) unless @section
-    end
+  def redirect_without_section
+    empty_response_or_root_path(project_design_path(@project, @design)) unless @section
+  end
 
-    def set_viewable_design
-      @design = current_user.all_viewable_designs.find_by_id(params[:design_id])
-    end
+  def set_viewable_design
+    @design = current_user.all_viewable_designs.find_by_param(params[:design_id])
+  end
 
-    def redirect_without_design
-      empty_response_or_root_path(project_designs_path(@project)) unless @design
-    end
-
-
+  def redirect_without_design
+    empty_response_or_root_path(project_designs_path(@project)) unless @design
+  end
   #   # Use callbacks to share common setup or constraints between actions.
   #   def set_section
   #     @section = Section.find(params[:id])

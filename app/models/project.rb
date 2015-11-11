@@ -4,7 +4,7 @@ class Project < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
 
   # Concerns
-  include Searchable, Deletable
+  include Searchable, Deletable, Sluggable
 
   attr_accessor :site_name
 
@@ -64,18 +64,6 @@ class Project < ActiveRecord::Base
   has_many :randomization_schemes, -> { where deleted: false }
 
   # Model Methods
-
-  def to_param
-    slug.blank? ? id : slug
-  end
-
-  def self.find_by_param(input)
-    if input.class == Project
-      input
-    else
-      find_by 'projects.slug = ? or projects.id = ?', input.to_s, input.to_i
-    end
-  end
 
   def recent_sheets
     sheets.with_subject_status('valid').where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))

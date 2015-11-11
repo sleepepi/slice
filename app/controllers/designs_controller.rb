@@ -258,11 +258,11 @@ class DesignsController < ApplicationController
   private
 
   def set_viewable_design
-    @design = current_user.all_viewable_designs.find_by_id params[:id]
+    @design = current_user.all_viewable_designs.find_by_param params[:id]
   end
 
   def set_editable_design
-    @design = current_user.all_designs.where(project_id: @project.id).find_by_id params[:id]
+    @design = current_user.all_designs.where(project_id: @project.id).find_by_param params[:id]
   end
 
   def redirect_without_design

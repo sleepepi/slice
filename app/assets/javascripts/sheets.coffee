@@ -27,7 +27,7 @@
   $("#{filter_element} [data-object~='variable-typeahead']").each( () ->
     $this = $(this)
     $this.typeahead(
-      remote: root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $this.data('variable-id') + '/typeahead' + '?query=%QUERY' + "&sheet_authentication_token=#{($('#sheet_authentication_token').val() || '')}"
+      remote: "#{root_url}external/typeahead?query=%QUERY&design=#{$this.data('design')}&variable_id=#{$this.data('variable-id')}&handoff=#{$this.data('handoff')}"
     )
   )
   updateAllVariables()

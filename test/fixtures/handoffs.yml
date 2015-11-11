@@ -1,13 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  token: MyString
+  token: one
   user: valid
   project: one
   subject_event: one
 
 two:
-  token:
+  token: two
   user: valid
   project: one
   subject_event: two
+
+grid:
+  token: three
+  user: valid
+  project: one
+  subject_event: grid
+
+calculated:
+  token: calculated
+  user: valid
+  project: one
+  subject_event: calculated
+
+typeahead:
+  token: typeahead
+  user: valid
+  project: one
+  subject_event: typeahead

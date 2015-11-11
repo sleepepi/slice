@@ -221,7 +221,7 @@ class SubjectsController < ApplicationController
   end
 
   def set_design
-    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_id params[:design_id]
+    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_param params[:design_id]
   end
 
   def redirect_without_design

@@ -9,7 +9,7 @@ class Design < ActiveRecord::Base
   QUESTION_TYPES = [['free text', 'string'], ['select one answer', 'radio'], ['select multiple answers', 'checkbox'], ['date', 'date'], ['time', 'time'], ['number', 'numeric'], ['file upload', 'file']]
 
   # Concerns
-  include Searchable, Deletable, Latexable, DateAndTimeParser
+  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable
 
   attr_writer :questions
 

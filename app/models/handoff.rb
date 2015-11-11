@@ -15,6 +15,19 @@ class Handoff < ActiveRecord::Base
 
   # Model Methods
 
+  def to_param
+    "#{id}-#{token}"
+  end
+
+  def self.find_by_param(input)
+    clean_input = input.to_param.to_s
+    handoff_id = clean_input.split('-').first
+    handoff_token = clean_input.gsub(/^#{handoff_id}-/, '')
+    handoff = Handoff.find_by_id handoff_id
+    # Use Devise.secure_compare to mitigate timing attacks
+    handoff if handoff && Devise.secure_compare(handoff.token, handoff_token)
+  end
+
   def next_design(design)
     number = subject_event.event.designs.pluck(:id).index(design.id)
     subject_event.event.designs[number + 1] if number

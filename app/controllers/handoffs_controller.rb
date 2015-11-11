@@ -31,14 +31,7 @@ class HandoffsController < ApplicationController
   def create
     @handoff = @project.handoffs.where(user_id: current_user.id, subject_event_id: params[:subject_event_id]).first_or_create
     sign_out @user
-    redirect_to handoff_start_path(@project.to_param, @handoff.id, @handoff.token)
-    #
-
-    # if @handoff.save
-    #   redirect_to @handoff, notice: 'Handoff was successfully created.'
-    # else
-    #   render :new
-    # end
+    redirect_to handoff_start_path(@project, @handoff)
   end
 
   # # PATCH /handoffs/1

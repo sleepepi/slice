@@ -118,79 +118,78 @@ class DesignOptionsController < ApplicationController
 
   private
 
-    def set_editable_design
-      @design = @project.designs.find_by_id(params[:design_id])
+  def set_editable_design
+    @design = @project.designs.find_by_param params[:design_id]
+  end
+
+  def redirect_without_design
+    empty_response_or_root_path(project_designs_path(@project)) unless @design
+  end
+
+  def set_new_design_option
+    @design_option = @design.design_options.new(design_option_params)
+  end
+
+  def set_design_option
+    @design_option = @design.design_options.find_by_id params[:id]
+  end
+
+  def redirect_without_design_option
+    empty_response_or_root_path(project_design_path(@project, @design)) unless @design_option
+  end
+
+  def design_option_params
+    return unless params[:design_option]
+    params.require(:design_option).permit(
+      :variable_id, :section_id, :position, :required, :branching_logic
+    )
+  end
+
+  def section_params
+    params.require(:section).permit(
+      :name, :description, :sub_section,
+      :image, :image_cache, :remove_image
+    )
+  end
+
+  def variable_params
+    params[:variable] ||= { blank: '1' }
+    [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
+      params[:variable][date] = parse_date(params[:variable][date]) if params[:variable].key?(date)
     end
 
-    def redirect_without_design
-      empty_response_or_root_path(project_designs_path(@project)) unless @design
-    end
+    params.require(:variable).permit(
+      :name, :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
+      # For Integers and Numerics
+      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+      # For Dates
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+      # For Date, Time
+      :show_current_button,
+      # For Calculated Variables
+      :calculation, :format,
+      # For Integer, Numeric, and Calculated
+      :units,
+      # For Grid Variables
+      { :grid_tokens => [ :variable_id ] },
+      :multiple_rows, :default_row_number,
+      # For Autocomplete Strings
+      :autocomplete_values,
+      # Radio and Checkbox
+      :alignment, :domain_id
+    )
+  end
 
-    def set_new_design_option
-      @design_option = @design.design_options.new(design_option_params)
-    end
+  def domain_params
+    params[:domain] ||= {}
 
-    def set_design_option
-      @design_option = @design.design_options.find_by_id params[:id]
-    end
+    # Always update user_id to correctly track sheet transactions
+    params[:domain][:user_id] = current_user.id # unless @domain
 
-    def redirect_without_design_option
-      empty_response_or_root_path(project_design_path(@project, @design)) unless @design_option
-    end
+    params[:domain] = Domain.clean_option_tokens(params[:domain])
 
-    def design_option_params
-      return unless params[:design_option]
-      params.require(:design_option).permit(
-        :variable_id, :section_id, :position, :required, :branching_logic
-      )
-    end
-
-    def section_params
-      params.require(:section).permit(
-        :name, :description, :sub_section,
-        :image, :image_cache, :remove_image
-      )
-    end
-
-    def variable_params
-      params[:variable] ||= { blank: '1' }
-      [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
-        params[:variable][date] = parse_date(params[:variable][date]) if params[:variable].key?(date)
-      end
-
-      params.require(:variable).permit(
-        :name, :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
-        # For Integers and Numerics
-        :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-        # For Dates
-        :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-        # For Date, Time
-        :show_current_button,
-        # For Calculated Variables
-        :calculation, :format,
-        # For Integer, Numeric, and Calculated
-        :units,
-        # For Grid Variables
-        { :grid_tokens => [ :variable_id ] },
-        :multiple_rows, :default_row_number,
-        # For Autocomplete Strings
-        :autocomplete_values,
-        # Radio and Checkbox
-        :alignment, :domain_id
-      )
-    end
-
-    def domain_params
-      params[:domain] ||= {}
-
-      # Always update user_id to correctly track sheet transactions
-      params[:domain][:user_id] = current_user.id # unless @domain
-
-      params[:domain] = Domain.clean_option_tokens(params[:domain])
-
-      params.require(:domain).permit(
-        :name, :display_name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] }
-      )
-    end
-
+    params.require(:domain).permit(
+      :name, :display_name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] }
+    )
+  end
 end

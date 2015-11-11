@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   get 'survey/:slug/:sheet_authentication_token', to: 'survey#edit', as: :edit_survey
   post 'survey/:slug', to: 'survey#create'
   patch 'survey/:slug/:sheet_authentication_token', to: 'survey#update'
-  get 'survey/:slug/sections/:section_id/image', to: 'survey#section_image', as: :survey_section_image
 
   get 'check-date', to: 'application#check_date'
 
@@ -110,11 +109,7 @@ Rails.application.routes.draw do
         post :json_import_create
       end
 
-      resources :sections do
-        member do
-          get :image
-        end
-      end
+      resources :sections
 
       resources :design_options do
         collection do
@@ -224,9 +219,6 @@ Rails.application.routes.draw do
     resources :variables do
       member do
         get :copy
-        get :format_number
-        post :add_grid_row
-        get :typeahead
         post :restore
       end
       collection do
@@ -272,9 +264,17 @@ Rails.application.routes.draw do
     get :version
   end
 
+  namespace :external do
+    post :add_grid_row
+    get :typeahead
+    get :format_number
+    get :section_image
+  end
+
   namespace :handoff do
-    get ':project/:handoff_id/:handoff_token', action: :start, as: :start
-    get ':project/:handoff_id/:handoff_token/:design_id', action: :design, as: :design
+    get ':project/:handoff', action: :start, as: :start
+    get ':project/:handoff/:design', action: :design, as: :design
+    post ':project/:handoff/:design', action: :save, as: :save
     get 'complete', action: :complete, as: :complete
     get 'completed', action: :completed, as: :completed
   end

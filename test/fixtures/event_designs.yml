@@ -1,11 +1,26 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  event_id: 1
-  design_id: 1
+  event: one
+  design: one
   position: 1
 
 two:
-  event_id: 1
-  design_id: 1
+  event: one
+  design: sections_and_variables
+  position: 2
+
+grid_one:
+  event: grid
+  design: has_grid
+  position: 1
+
+calculated_one:
+  event: calculated
+  design: all_variable_types
+  position: 1
+
+typeahead_one:
+  event: typeahead
+  design: all_variable_types
   position: 1

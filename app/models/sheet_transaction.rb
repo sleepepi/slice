@@ -40,18 +40,19 @@ class SheetTransaction < ActiveRecord::Base
   def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type)
     return false unless self.validate_variable_values(sheet, variables_params)
 
-    sheet_save_result = case transaction_type when 'sheet_create', 'public_sheet_create'
-      sheet.save
-    else
-      sheet.update(sheet_params)
-    end
+    sheet_save_result = case transaction_type
+                        when 'sheet_create', 'public_sheet_create'
+                          sheet.save
+                        else
+                          sheet.update(sheet_params)
+                        end
 
     ignore_attributes = %w(created_at updated_at authentication_token deleted successfully_validated)
 
-    original_attributes = sheet.previous_changes.collect{|k,v| [k,v[0]]}.reject{|k,v| ignore_attributes.include?(k.to_s)}
+    original_attributes = sheet.previous_changes.collect { |k, v| [k, v[0]] }.reject { |k, _v| ignore_attributes.include?(k.to_s) }
 
     if sheet_save_result
-      sheet_transaction = self.create( transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip )
+      sheet_transaction = self.create(transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip)
       sheet_transaction.generate_audits!(original_attributes)
       sheet_transaction.update_variables!(variables_params, current_user)
     end

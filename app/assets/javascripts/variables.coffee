@@ -70,6 +70,13 @@
   else
     $(element).val()
 
+@getDesignVariableAuthenticationParams = (element) ->
+  changes = {}
+  changes.design = $(element).data('design')
+  changes.variable_id = $(element).data('variable-id')
+  changes.handoff = $(element).data('handoff')
+  return changes
+
 @updateCalculatedVariables = () ->
   $.each($('[data-object~="calculated"]'), () ->
     calculation = $(this).data('calculation')
@@ -81,7 +88,10 @@
       calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseValue('\$1', 'float', '#{grid_string}')")
       calculation_result = eval(calculation)
       calculation_result = '' unless isNumber(calculation_result)
-      $.get(root_url + 'projects/' + $("#sheet_project_id").val() + '/variables/' + $(this).data('variable-id') + '/format_number', 'calculated_number=' + calculation_result + '&target_name=' + $(this).data('target-name') + '&sheet_authentication_token=' + ($('#sheet_authentication_token').val() || ""), null, "script")
+      changes = getDesignVariableAuthenticationParams(this)
+      changes.calculated_number = calculation_result
+      changes.target_name = $(this).data('target-name')
+      $.get("#{root_url}external/format_number", changes, null, "script")
   )
 
 @variablesReady = () ->
@@ -134,11 +144,10 @@ $(document)
     false
   )
   .on('click', '[data-object~="grid-row-add"]', () ->
-    project_id = $("#sheet_project_id").val()
-    variable_id = $(this).data('variable-id')
-    design_option_id = $(this).data('design-option-id')
-    header = $(this).data('header')
-    $.post("#{root_url}projects/#{project_id}/variables/#{variable_id}/add_grid_row", "sheet_authentication_token=#{$('#sheet_authentication_token').val() || ""}&header=#{header}&design_option_id=#{design_option_id}", null, "script")
+    changes = getDesignVariableAuthenticationParams(this)
+    changes.design_option_id = $(this).data('design-option-id')
+    changes.header = $(this).data('header')
+    $.post("#{root_url}external/add_grid_row", changes, null, "script")
     false
   )
   .on('click', '[data-object~="set-current-time"]', () ->

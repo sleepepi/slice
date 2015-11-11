@@ -7,6 +7,9 @@
 - **Gem Changes**
   - Updated to rails 4.2.5.rc2
 
+### Refactoring
+- Simplified how surveys, public sheets, handoffs, and internal sheets handle autocomplete fields, formatting numbers, adding rows to grids, and displaying images
+
 ## 0.31.0 (November 9, 2015)
 
 ### Enhancements

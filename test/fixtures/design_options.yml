@@ -153,6 +153,22 @@ all_variable_types_calculated:
   # required:
   # branching_logic:
 
+all_variable_types_calculated_without_format:
+  design: all_variable_types
+  variable: calculated_without_format
+  # section:
+  position: 11
+  # required:
+  # branching_logic:
+
+all_variable_types_autocomplete:
+  design: all_variable_types
+  variable: autocomplete
+  # section:
+  position: 12
+  # required:
+  # branching_logic:
+
 ## Design Has No Validations
 
 has_no_validations_integer_no_range:
@@ -348,6 +364,14 @@ admin_public_design_external_grid:
   variable: external_grid
   # section:
   position: 2
+  # required:
+  # branching_logic:
+
+admin_public_design_external_calculated:
+  design: admin_public_design
+  variable: external_calculated
+  # section:
+  position: 3
   # required:
   # branching_logic:
 

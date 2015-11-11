@@ -36,7 +36,7 @@ private:
   sub_section: false
   # branching_logic:
   image: rails.png
-  project: three
+  project: one
   design: sections_and_variables
   user: valid
 

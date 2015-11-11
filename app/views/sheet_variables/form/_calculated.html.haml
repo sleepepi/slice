@@ -7,7 +7,7 @@
   - unless variable.prepend.blank?
     %span.input-group-addon= variable.prepend
   = text_field_tag "#{target_name}_calculation_result", response, class: 'form-control', disabled: 'disabled'
-  = hidden_field_tag field_name, response, disabled: disabled, data: { object: 'calculated', calculation: variable.calculation, variable_id: variable.id, target: "##{target_name}_calculation_result", name: variable.name, grid_position: defined?(position) ? position : "", target_name: target_name }
+  = hidden_field_tag field_name, response, disabled: disabled, data: { object: 'calculated', design: design.to_param, calculation: variable.calculation, variable_id: variable.id, target: "##{target_name}_calculation_result", name: variable.name, grid_position: defined?(position) ? position : "", target_name: target_name, handoff: @handoff.to_param }
   - unless variable.units.blank?
     %span.input-group-addon= variable.units
   - unless variable.append.blank?

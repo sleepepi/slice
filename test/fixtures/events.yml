@@ -13,3 +13,24 @@ two:
   description: MyText
   project: one
   user: valid
+
+grid:
+  name: Event with Grid
+  slug: event-with-grid
+  description: Testing Grids for Handoff
+  project: one
+  user: valid
+
+calculated:
+  name: Event with Calculated Field
+  slug: event-with-calculated-field
+  description: Testing Format Number for Calculated Variables
+  project: one
+  user: valid
+
+typeahead:
+  name: Event with String Autocomplete Field
+  slug: event-with-typeahead-field
+  description: Testing Format Number for String Autocomplete Variables
+  project: one
+  user: valid

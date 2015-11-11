@@ -11,3 +11,21 @@ two:
   event: one
   # status: MyString
   event_date: 2015-03-31
+
+grid:
+  subject: one
+  event: grid
+  # status: MyString
+  event_date: 2015-03-31
+
+calculated:
+  subject: one
+  event: calculated
+  # status: MyString
+  event_date: 2015-03-31
+
+typeahead:
+  subject: one
+  event: typeahead
+  # status: MyString
+  event_date: 2015-03-31

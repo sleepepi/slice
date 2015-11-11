@@ -1,27 +1,14 @@
 class VariablesController < ApplicationController
-  before_action :authenticate_user!, except: [:add_grid_row, :format_number, :typeahead]
+  before_action :authenticate_user!
   before_action :set_viewable_project, only: [:cool_lookup]
   before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore]
   before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :add_grid_variable, :restore, :cool_lookup]
   before_action :set_restorable_variable, only: [:restore]
   before_action :set_editable_variable, only: [:show, :edit, :update, :destroy]
-  before_action :set_authenticatable_variable, only: [:add_grid_row, :typeahead, :format_number]
-  before_action :redirect_without_variable, only: [:show, :edit, :update, :destroy, :add_grid_row, :typeahead, :format_number, :restore]
+  before_action :redirect_without_variable, only: [:show, :edit, :update, :destroy, :restore]
 
   def cool_lookup
     @variable = @project.variable_by_id params[:variable_id]
-  end
-
-  def typeahead
-    render json: ( ['string'].include?(@variable.variable_type) ? @variable.autocomplete_array.select { |i| (i.to_s.downcase.include?(params[:query].to_s.downcase)) } : [] )
-  end
-
-  def format_number
-    @result = if @variable.format.blank?
-      params[:calculated_number]
-    else
-      @variable.format % params[:calculated_number] rescue params[:calculated_number]
-    end
   end
 
   def copy
@@ -34,10 +21,6 @@ class VariablesController < ApplicationController
     else
       redirect_to project_variables_path(@project)
     end
-  end
-
-  def add_grid_row
-    @design_option = DesignOption.find_by_id(params[:design_option_id])
   end
 
   def add_grid_variable
@@ -137,70 +120,52 @@ class VariablesController < ApplicationController
 
   private
 
-    def set_editable_variable
-      @variable = @project.variables.find_by_id(params[:id])
+  def set_editable_variable
+    @variable = @project.variables.find_by_id(params[:id])
+  end
+
+  def set_restorable_variable
+    @variable = Variable.where(project_id: @project.id, deleted: true).find_by_id(params[:id])
+  end
+
+  def redirect_without_variable
+    empty_response_or_root_path(project_variables_path(@project)) unless @variable
+  end
+
+  def variable_params
+    params[:variable] ||= {}
+
+    params[:variable][:updater_id] = current_user.id
+
+    # params[:variable][:option_tokens] ||= {}
+
+    params[:variable][:project_id] = @project.id
+
+    params[:variable][:domain_id] = nil if params[:variable][:variable_type] and not Variable::TYPE_DOMAIN.include?(params[:variable][:variable_type])
+
+    [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
+      params[:variable][date] = parse_date(params[:variable][date])
     end
 
-    def set_restorable_variable
-      @variable = Variable.where( project_id: @project.id, deleted: true ).find_by_id(params[:id])
-    end
-
-    def set_authenticatable_variable
-      if params[:sheet_authentication_token].blank? and @variable = Variable.current.find_by_id(params[:id]) and @variable.inherited_designs.select{|d| d.publicly_available}.count > 0
-        @project = @variable.project
-        return
-      end
-
-      if params[:sheet_authentication_token].blank? and current_user
-        @project = current_user.all_viewable_and_site_projects.find_by_param(params[:project_id])
-        @variable = current_user.all_viewable_variables.find_by_id(params[:id])
-        empty_response_or_root_path unless @project
-      else
-        @project = Project.current.find_by_param(params[:project_id])
-        @sheet = @project.sheets.find_by_authentication_token(params[:sheet_authentication_token]) if @project and not params[:sheet_authentication_token].blank?
-        @variable = @project.variables.find_by_id(params[:id]) if @project and @sheet
-      end
-    end
-
-    def redirect_without_variable
-      empty_response_or_root_path(project_variables_path(@project)) unless @variable
-    end
-
-    def variable_params
-      params[:variable] ||= {}
-
-      params[:variable][:updater_id] = current_user.id
-
-      # params[:variable][:option_tokens] ||= {}
-
-      params[:variable][:project_id] = @project.id
-
-      params[:variable][:domain_id] = nil if params[:variable][:variable_type] and not Variable::TYPE_DOMAIN.include?(params[:variable][:variable_type])
-
-      [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
-        params[:variable][date] = parse_date(params[:variable][date])
-      end
-
-      params.require(:variable).permit(
-        :name, :display_name, :description, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
-        # For Integers and Numerics
-        :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-        # For Dates
-        :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-        # For Date, Time
-        :show_current_button,
-        # For Calculated Variables
-        :calculation, :format,
-        # For Integer, Numeric, and Calculated
-        :units,
-        # For Grid Variables
-        { :grid_tokens => [ :variable_id ] },
-        :multiple_rows, :default_row_number,
-        # For Autocomplete Strings
-        :autocomplete_values,
-        # Radio and Checkbox
-        :alignment, :domain_id
-      )
-    end
-
+    params.require(:variable).permit(
+      :name, :display_name, :description, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
+      # For Integers and Numerics
+      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+      # For Dates
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+      # For Date, Time
+      :show_current_button,
+      # For Calculated Variables
+      :calculation, :format,
+      # For Integer, Numeric, and Calculated
+      :units,
+      # For Grid Variables
+      { :grid_tokens => [ :variable_id ] },
+      :multiple_rows, :default_row_number,
+      # For Autocomplete Strings
+      :autocomplete_values,
+      # Radio and Checkbox
+      :alignment, :domain_id
+    )
+  end
 end
