@@ -2,7 +2,7 @@ class Event < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
 
-  attr_accessor :design_ids
+  attr_accessor :design_hashes
   after_save :set_event_designs
 
   # Named Scopes
@@ -34,11 +34,14 @@ class Event < ActiveRecord::Base
   private
 
   def set_event_designs
-    return unless design_ids && design_ids.is_a?(Array)
+    return unless design_hashes && design_hashes.is_a?(Array)
     event_designs.destroy_all
-    design_ids.collect(&:to_i).uniq.each_with_index do |design_id, index|
-      design = project.designs.find_by_id design_id
-      event_designs.create(design_id: design.id, position: index) if design
+    design_ids = []
+    design_hashes.each_with_index do |hash, index|
+      next if design_ids.include? hash[:design_id].to_i
+      design_ids << hash[:design_id].to_i
+      design = project.designs.find_by_id hash[:design_id]
+      event_designs.create(design_id: design.id, position: index, handoff_enabled: hash[:handoff_enabled]) if design
     end
   end
 end

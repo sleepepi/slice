@@ -1,24 +1,27 @@
-%h1 START HANDOFF
+- percent = [1 * 100 / (@handoff.handoff_enabled_event_designs.count + 2), 100].min
+.progress.progress-striped
+  .progress-bar{ class: "progress-bar-primary", style: "width: #{percent}%;" }
+    Getting Started
 
-%p
-  %strong Token
-  = @handoff.token
+%h2 Survey Forms
+.jumbotron
+  %p
+    Dear Participant,
+  %p
+    You will be presented with a series of forms across the next couple of pages.
+  %p
+    Please complete each form carefully and accurately.
+  %p
+    If you have any questions,
+    you may ask for further clarification from our staff.
 
-%p
-  %strong User
-  = @handoff.user_id
-
-%p
-  %strong Project
-  = @handoff.project_id
-
-%p
-  %strong Subject Event
-  = @handoff.subject_event_id
-
-
-
-%ul.list-unstyled
-  - @handoff.subject_event.event.designs.each do |design|
-    %li= link_to design.name, handoff_design_path(@project, @handoff, design)
-
+- if @handoff.remaining_handoff_event_designs.count > 0
+  - event_design = @handoff.remaining_handoff_event_designs.first
+  - design = event_design.design
+  = link_to handoff_design_path(@project, @handoff, design), class: 'btn btn-lg btn-block btn-success' do
+    Get Started
+    %span.glyphicon.glyphicon-arrow-right
+- else
+  = link_to handoff_complete_path, class: 'btn btn-lg btn-block btn-success' do
+    Get Started
+    %span.glyphicon.glyphicon-arrow-right

@@ -3,8 +3,13 @@
 
 %div{ id: "design_#{@position}", style: "line-height:30px;padding-top:5px" }
   .row
-    .col-xs-2
-      = select_tag "event[design_ids][]", options_for_select([[nil, nil]] + @project.designs.order(:name).collect{|d| [d.name, d.id]}, (event_design ? event_design.design_id : nil)), class: 'form-control'
+    .col-xs-3
+      = select_tag "event[design_hashes][][design_id]", options_for_select([[nil, nil]] + @project.designs.order(:name).collect{|d| [d.name, d.id]}, (event_design ? event_design.design_id : nil)), class: 'form-control'
+    - if @project.handoffs_enabled?
+      .col-xs-3
+        = select_tag "event[design_hashes][][handoff_enabled]", options_for_select([['No Handoff', false], ['Handoff Enabled', true]], (event_design ? event_design.handoff_enabled : false)), class: 'form-control'
+    - else
+      = hidden_field_tag "event[design_hashes][][handoff_enabled]", (event_design ? event_design.handoff_enabled : false)
     .col-xs-3
       %span.glyphicon.glyphicon-move.design-handle
       = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#design_#{@position}" }, tabindex: '-1'

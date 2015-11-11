@@ -49,17 +49,24 @@
           %thead
             %tr
               %th
+              - if @project.handoffs_enabled?
+                %th
               %th.center{ colspan: 2 } Assigned  (# of Subjects)
               %th.center Unassigned  (# of Subjects)
             %tr
               %th Design
+              - if @project.handoffs_enabled?
+                %th Handoff Enabled
               %th.center Entered
               %th.center Unentered
               %th
-          - @event.designs.each do |design|
+          - @event.event_designs.includes(:design).each do |event_design|
+            - design = event_design.design
             %tr
               %td
                 = link_to design.name, [@project, design]
+              - if @project.handoffs_enabled?
+                %td= simple_check_new event_design.handoff_enabled?
               %td.center
                 - entered_count = @project.subjects.where(status: 'valid').with_entered_design_on_event(design, @event).count
                 - if entered_count > 0
@@ -83,17 +90,3 @@
                   - if subject_count > 0
                     %span.text-muted{ style: "font-size:0.7em" }
                       = "#{(unassigned_count * 100.0 / subject_count).round}%"
-
-
-
-
-
-
-
-
-
-
-
-
-
-

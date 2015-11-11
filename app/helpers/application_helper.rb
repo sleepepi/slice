@@ -63,6 +63,14 @@ module ApplicationHelper
     checked ? '<span class="glyphicon glyphicon-ok"></span>'.html_safe : ''
   end
 
+  def simple_check_new(checked)
+    if checked
+      content_tag :span, nil, class: %w(glyphicon glyphicon-ok text-success)
+    else
+      content_tag :span, nil, class: %w(glyphicon glyphicon-minus text-danger)
+    end
+  end
+
   def safe_url?(url)
     ['http', 'https', 'ftp', 'mailto'].include?(URI.parse(url).scheme) rescue false
   end
@@ -83,20 +91,19 @@ module ApplicationHelper
 
   private
 
-    def target_link_as_blank(text)
-      text.to_s.gsub(/<a(.*?)>/m, '<a\1 target="_blank">').html_safe
-    end
+  def target_link_as_blank(text)
+    text.to_s.gsub(/<a(.*?)>/m, '<a\1 target="_blank">').html_safe
+  end
 
-    def replace_numbers_with_ascii(text)
-      text.gsub(/^[ \t]*(\d)/){|m| ascii_number($1)}
-    end
+  def replace_numbers_with_ascii(text)
+    text.gsub(/^[ \t]*(\d)/){|m| ascii_number($1)}
+  end
 
-    def ascii_number(number)
-      "&##{(number.to_i + 48).to_s};"
-    end
+  def ascii_number(number)
+    "&##{(number.to_i + 48).to_s};"
+  end
 
-    def add_table_class(text, table_class)
-      text.to_s.gsub(/<table>/m, "<table class=\"#{table_class}\">").html_safe
-    end
-
+  def add_table_class(text, table_class)
+    text.to_s.gsub(/<table>/m, "<table class=\"#{table_class}\">").html_safe
+  end
 end

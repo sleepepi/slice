@@ -1,26 +1,29 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   event: one
   design: one
   position: 1
+  handoff_enabled: true
 
 two:
   event: one
   design: sections_and_variables
   position: 2
+  handoff_enabled: true
 
 grid_one:
   event: grid
   design: has_grid
   position: 1
+  handoff_enabled: true
 
 calculated_one:
   event: calculated
   design: all_variable_types
   position: 1
+  handoff_enabled: true
 
 typeahead_one:
   event: typeahead
   design: all_variable_types
   position: 1
+  handoff_enabled: true

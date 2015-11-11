@@ -4,6 +4,7 @@
 - **Project Changes**
   - Projects can now enable a new "Tablet Handoff" module
   - The "Tablet Handoff" module allows a staff member to handoff a tablet and have a subject fill out a series of forums
+  - Designs must be set as `Handoff Enabled` when assigning designs to events in order for them to be filled out during a "Tablet Handoff"
 - **Gem Changes**
   - Updated to rails 4.2.5.rc2
 

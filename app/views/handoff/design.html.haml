@@ -1,15 +1,24 @@
 - @title = @design.name
 
+- if @handoff.next_design(@design)
+  - submit_description = 'You have reached the end of this form. Please review your answers to make sure they are accurate. Once you are ready, proceed to the next form by clicking "Save and Continue" below.'
+  - submit_button = 'Save and Continue'
+- else
+  - submit_description = 'Almost done! Click "Save and Continue" to submit your answers.'
+  - submit_button = 'Save and Continue'
+- submit_url = handoff_save_path(@project, @handoff, @design)
+- submit_method = :post
+
+- number = @handoff.handoff_enabled_event_designs.pluck(:design_id).index(@design.id) + 2
+- if number > 0 and @handoff.handoff_enabled_event_designs.count + 2 > 0
+  - percent = [number * 100 / (@handoff.handoff_enabled_event_designs.count + 2), 100].min
+  .progress.progress-striped
+    .progress-bar{ class: "progress-bar-primary", style: "width: #{percent}%;" }
+      Filling Out Forms
+
 %h2.underline-header= @title
 
 = hidden_field_tag 'isdirty', '1'
-
-- if @handoff.next_design(@design)
-  - submit_button = 'SAVE and CONTINUE'
-- else
-  - submit_button = 'COMPLETE'
-- submit_url = handoff_save_path(@project, @handoff, @design)
-- submit_method = :post
 
 - form_name = "survey_#{@design.id}_form"
 
@@ -33,7 +42,6 @@
     - params[:header] = '0'
     = render 'designs/show', design: @design
 
-  .form-signin
-    %p.lead Continue to next survey...
-
-    = submit_tag submit_button, data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large'
+  .jumbotron
+    %p= submit_description
+  = submit_tag submit_button, data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-lg'

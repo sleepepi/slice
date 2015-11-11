@@ -29,8 +29,17 @@ class Handoff < ActiveRecord::Base
   end
 
   def next_design(design)
-    number = subject_event.event.designs.pluck(:id).index(design.id)
-    subject_event.event.designs[number + 1] if number
+    number = handoff_enabled_event_designs.pluck(:design_id).index(design.id)
+    event_design = handoff_enabled_event_designs[number + 1] if number
+    event_design.design if event_design
+  end
+
+  def handoff_enabled_event_designs
+    subject_event.event.event_designs.where(handoff_enabled: true)
+  end
+
+  def remaining_handoff_event_designs
+    handoff_enabled_event_designs
   end
 
   def set_token
