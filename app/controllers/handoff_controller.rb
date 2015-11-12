@@ -3,10 +3,10 @@ class HandoffController < ApplicationController
   prepend_before_action { request.env['devise.skip_timeout'] = true }
   skip_before_action :verify_authenticity_token
 
+  before_action :clean_layout
   before_action :set_project, except: [:complete, :completed]
   before_action :set_handoff, except: [:complete, :completed]
   before_action :set_design, only: [:design, :save]
-  # before_action :set_cache_buster
 
   def start
   end
@@ -38,6 +38,11 @@ class HandoffController < ApplicationController
 
   private
 
+  def clean_layout
+    @no_footer = true
+    @no_login = true
+  end
+
   def set_project
     @project = Project.current.find_by_param params[:project]
     redirect_to handoff_complete_path unless @project
@@ -53,12 +58,6 @@ class HandoffController < ApplicationController
     redirect_to handoff_complete_path unless @design
     @sheet = @project.sheets.where(design_id: @design.id).new
   end
-
-  # def set_cache_buster
-  #   response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
-  #   response.headers['Pragma'] = 'no-cache'
-  #   response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
-  # end
 
   def variables_params
     (params[:variables].blank? ? {} : params.require(:variables).permit!)

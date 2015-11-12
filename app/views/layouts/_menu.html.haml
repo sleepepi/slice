@@ -51,7 +51,8 @@
             %span.hidden-sm Sign Out
             %span.glyphicon.glyphicon-log-out
 - else
-  .collapse.navbar-collapse.navbar-ex1-collapse
-    %form.navbar-form.navbar-right
-      = link_to 'Sign up', new_user_registration_path, class: 'btn btn-success' unless current_page?(new_user_registration_path)
-      = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'
+  - unless @no_login
+    .collapse.navbar-collapse.navbar-ex1-collapse
+      %form.navbar-form.navbar-right
+        = link_to 'Sign up', new_user_registration_path, class: 'btn btn-success' unless current_page?(new_user_registration_path)
+        = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'

@@ -42,6 +42,7 @@
     %div{ style: 'clear:both;height:0px' }
       &nbsp;
 
-    %footer
-      .container
-        = render 'layouts/full_footer'
+    - unless @no_footer
+      %footer
+        .container
+          = render 'layouts/full_footer'

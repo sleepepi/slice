@@ -38,6 +38,7 @@
     %div{ style: 'clear:both;height:0px' }
       &nbsp;
 
-    %footer
-      .container-fluid
-        = render 'layouts/full_footer'
+    - unless @no_footer
+      %footer
+        .container-fluid
+          = render 'layouts/full_footer'
