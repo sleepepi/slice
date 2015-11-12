@@ -11,6 +11,11 @@
 ### Refactoring
 - Simplified how surveys, public sheets, handoffs, and internal sheets handle autocomplete fields, formatting numbers, adding rows to grids, and displaying images
 
+## 0.31.1 (November 12, 2015)
+
+### Enhancement
+- Temporarily removing whitelist of file uploads to accomodate .ABP files
+
 ## 0.31.0 (November 9, 2015)
 
 ### Enhancements
