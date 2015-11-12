@@ -1,4 +1,4 @@
-## 0.31.1
+## 0.31.1 (November 12, 2015)
 
 ### Enhancement
 - Temporarily removing whitelist of file uploads to accomodate .ABP files
