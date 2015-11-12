@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
 
   layout 'layouts/application_custom'
 
+  before_action :set_cache_buster
+
   include DateAndTimeParser
 
   def check_date
@@ -76,5 +78,11 @@ class ApplicationController < ActionController::Base
       format.js { head :ok }
       format.json { head :no_content }
     end
+  end
+
+  def set_cache_buster
+    response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
   end
 end

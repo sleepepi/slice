@@ -18,6 +18,14 @@
   return unless document.documentElement.ontouchstart == undefined
   $("[rel~=tooltip]").tooltip(trigger: 'hover')
 
+@initializeTurbolinks = () ->
+  # Don't cache pages with Turbolinks
+  Turbolinks.pagesCached(0)
+  Turbolinks.enableProgressBar()
+  # disableRequestCaching will be available with Turbolinks 3.0+
+  Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
+
+
 @globalReady = () ->
   initializeTypeahead()
   initializeTooltip()
@@ -26,9 +34,7 @@
     remote: root_url + 'search?q=%QUERY'
   )
   # setFocusToField("#search")
-  Turbolinks.enableProgressBar()
-  # disableRequestCaching will be available with Turbolinks 3.0+
-  Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
+  initializeTurbolinks()
 
 # These functions get called on initial page visit and on turbolink page changes
 @turbolinksReady = () ->
