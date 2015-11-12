@@ -95,18 +95,6 @@ $(document)
   .on('mouseleave', '[data-object~="hover-show"]', () ->
     $($(this).data('target')).hide()
   )
-  .ready( () ->
-    if $("#sheet_design_id").val() == ''
-      $("#sheet_design_id").focus()
-    else
-      $("#sheet_subject_id").focus()
-    if $("#global-search").val() != ''
-      $("#global-search").focus()
-  )
-  .on('click', '#global-search', (e) ->
-    e.stopPropagation()
-    false
-  )
   .on('change', '.checkbox input:checkbox', () ->
     color_group($(this).attr('name'))
   )

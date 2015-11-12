@@ -55,9 +55,6 @@ $(document)
     else
       submitReportWithFilters()
   )
-  .on('change', '[data-object~="form-reload"]', () ->
-    $($(this).data('target')).submit()
-  )
   .on('click', '[data-object~="export-report-pdf"]', () ->
     window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
     false
@@ -74,6 +71,7 @@ $(document)
       window.location = url
     false
   )
+  # Todo: Check for reference to function and then remove #row_variable_temp_ids
   .on('change', '#row_variable_temp_ids', (event, value) ->
     values = if $('#row_variable_ids').val() == '' then [] else $('#row_variable_ids').val().split(',')
     if value['selected']
@@ -84,6 +82,7 @@ $(document)
     $('#row_variable_ids').val(values.join(','))
     $('#report_form').submit()
   )
+  # End TODO
   .on('click', '[data-object~="set-value"]', () ->
     $($(this).data('target')).val($(this).data('value'))
     submitReportWithFilters()
@@ -93,9 +92,11 @@ $(document)
     submitReportWithFilters()
     false
   )
+  # TODO: Check for reference to #variable_id, and possibly remove
   .on('change', '#variable_id', () ->
     if $(this).val() == '' or $(this).val() == null
       $('#row-include-blank').hide()
     else
       $('#row-include-blank').show()
   )
+  # End TODO
