@@ -14,10 +14,10 @@ class GenericUploader < CarrierWave::Uploader::Base
   #   "/assets/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
 
-  # Add a white list of extensions which are allowed to be uploaded.
-  def extension_white_list
-    %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
-  end
+  # # Add a white list of extensions which are allowed to be uploaded.
+  # def extension_white_list
+  #   %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
+  # end
 
   # Override the filename of the uploaded files:
   # def filename
