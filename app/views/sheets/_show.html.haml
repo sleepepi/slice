@@ -1,10 +1,11 @@
 %form.form-horizontal
   - sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a
   - @sheet.design.design_options.includes(:variable, :section).each do |design_option|
+    - next unless @sheet.show_design_option?(design_option.branching_logic)
     - if section = design_option.section
       = render 'sections/show', design: @sheet.design, design_option: design_option, section: section
     - elsif variable = design_option.variable
-      %div{ class: cycle('variable-shade', 'variable-blind'), data: { object: 'evaluate-branching-logic', branching_logic: @sheet.expanded_branching_logic(design_option.branching_logic) } }
+      %div{ class: cycle('variable-shade', 'variable-blind') }
         - sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
         - if not variable.uses_scale? and ['invisible', 'gone'].include?(variable.display_name_visibility)
           %label= variable.display_name

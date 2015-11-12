@@ -30,27 +30,17 @@
       remote: "#{root_url}external/typeahead?query=%QUERY&design=#{$this.data('design')}&variable_id=#{$this.data('variable-id')}&handoff=#{$this.data('handoff')}"
     )
   )
-  updateAllVariables()
+  updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
   $( ".grid_sortable" ).sortable(
     axis: "y"
     handle: ".grid-handle"
   )
   signaturesReady()
-  console.log "Sheet initialized in #{Date.now() - timeInMs} ms"
-
-@evaluateBranchingLogic = () ->
-  $('[data-object~="evaluate-branching-logic"]').each( (index, element) ->
-    visible = elementVisible(element)
-    if visible
-      $(element).show()
-    else
-      $(element).hide()
-  )
+  # console.log "Sheet initialized in #{Date.now() - timeInMs} ms"
 
 @sheetsReady = () ->
   initializeSheet()
-  evaluateBranchingLogic()
   activateSheetDraggables()
   activateEventDroppables()
 

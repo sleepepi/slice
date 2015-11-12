@@ -22,7 +22,7 @@
 - else
   - validation_class = ''
 
-.form-group{ class: "#{form_class} #{validation_class}", data: { object: 'variable-container', required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
+.form-group{ class: "#{form_class} #{validation_class}", data: { object: 'design-option-container', required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
   - elsif ['invisible', 'gone'].include?(variable.display_name_visibility)

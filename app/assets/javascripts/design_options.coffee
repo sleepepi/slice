@@ -1,6 +1,18 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+# This function updates all variables starting with lowest one and progressing
+# up in visibility.
+@updateAllDesignOptionsVisibility = () ->
+  $('[data-object~="design-option-container"]').each( (index, variableContainer) ->
+    updateDesignOptionContainer(variableContainer)
+  )
+  false
+
+# This function updates an individual variables container to show or be hidden
+# based on what variable it depends on.
+@updateDesignOptionContainer = (element) ->
+  if elementVisible(element)
+    $(element).show()
+  else
+    $(element).hide()
 
 @buildDesignOption = (element) ->
   design_option = {}

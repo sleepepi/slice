@@ -10,7 +10,7 @@
 
 - design.design_options.includes(:variable, :section).each do |design_option|
   - if section = design_option.section
-    = render 'sections/show', design: design, design_option: design_option, section: section
+    = render 'sections/form', design: design, design_option: design_option, section: section
   - elsif variable = design_option.variable
     = render 'sheet_variables/form', design: design, design_option: design_option, show_values: params[:header] != '0', variable: variable, sheet_variables: sheet_variables
 

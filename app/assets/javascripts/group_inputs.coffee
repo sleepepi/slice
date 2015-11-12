@@ -3,7 +3,7 @@
     .prop('checked', false)
     .parent().removeClass("selected")
   $("input[name='" + $(member).attr("name") + "']").data('previous', 'unchecked')
-  updateAllVariables()
+  updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
 
 

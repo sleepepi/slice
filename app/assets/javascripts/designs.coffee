@@ -1,19 +1,3 @@
-# This function updates all variables starting with lowest one and progressing up in visibility.
-@updateAllVariables = () ->
-  variableContainers = $('[data-object~="variable-container"]')
-  variableContainers.each( (index, variableContainer) ->
-    updateVariableContainer(variableContainer)
-  )
-  false
-
-# This function updates an individual variables container to show or be hidden based on what variable keys it depends on.
-# Show if none of the values evaluate to false [1,1,1,1] or [], but not [1,0,1,1] or [0]
-@updateVariableContainer = (element) ->
-  if elementVisible(element)
-    $(element).show()
-  else
-    $(element).hide()
-
 @retrieveVariable = (position) ->
   variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
   if variable_id
@@ -77,7 +61,7 @@
 
 $(document)
   .on('change', '[data-object~="condition"]', () ->
-    updateAllVariables()
+    updateAllDesignOptionsVisibility()
     updateCalculatedVariables()
   )
   .on('click', '[data-object~="design-stop-edit"]', (e) ->

@@ -1,20 +1,20 @@
 @clearErrorAndWarning = (parent, data) ->
-  container = $(parent).closest('[data-object~="variable-container"]')
+  container = $(parent).closest('[data-object~="design-option-container"]')
   container.removeClass('variable-errors variable-warnings')
 
 @setError = (parent, data) ->
   clearErrorAndWarning(parent, data)
-  container = $(parent).closest('[data-object~="variable-container"]')
+  container = $(parent).closest('[data-object~="design-option-container"]')
   container.addClass('variable-errors')
 
 @setWarning = (parent, data) ->
   clearErrorAndWarning(parent, data)
-  container = $(parent).closest('[data-object~="variable-container"]')
+  container = $(parent).closest('[data-object~="design-option-container"]')
   container.addClass('variable-warnings')
 
 @setSuccess = (parent, data) ->
   clearErrorAndWarning(parent, data)
-  # container = $(parent).closest('[data-object~="variable-container"]')
+  # container = $(parent).closest('[data-object~="design-option-container"]')
 
 @clearClassStyles = (target_name) ->
   $("##{target_name}_month").parent().removeClass('has-warning has-error')
@@ -34,7 +34,7 @@
 
 @setValidationProperty = (parent, data) ->
   $(parent).data('status', data['status'])
-  container = $(parent).closest('[data-object~="variable-container"]')
+  container = $(parent).closest('[data-object~="design-option-container"]')
   if data['status'] in ['invalid', 'out_of_range']
     setError(parent, data)
   else if data['status'] == 'blank' and container.data('required') == 'required'
