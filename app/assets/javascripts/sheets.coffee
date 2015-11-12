@@ -72,18 +72,6 @@ $(document)
     else
       Turbolinks.visit($(this).data("link"))
   )
-  .on('click', '[data-object~="export-data"]', () ->
-    $('[data-dismiss~=alert]').click()
-    form = $(this).data('target')
-    $.get($(form).attr("action"), $(form).serialize() + '&export=1', null, "script")
-    $(this).attr('disabled', 'disabled')
-    false
-  )
-  .on('typeahead:selected', "#sheet_subject_id", (event, datum) ->
-    $(this).val(datum['value'])
-    $('#sheet_subject_acrostic').val(datum['acrostic'])
-    $('#site_id').val(datum['site_id'])
-  )
   .on('change', '#locked', () ->
     $('#sheets_search').submit()
   )

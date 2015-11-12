@@ -137,10 +137,6 @@ $(document)
     $($(this).data('target')).submit()
     false
   )
-  .on('click', '[data-object~="kill-event"]', (e) ->
-    e.stopPropagation()
-    false
-  )
   .on('click', '[data-object~="toggle-visibility"]', () ->
     $($(this).data('target')).toggle()
     false
