@@ -1,4 +1,23 @@
-%h1 LAUNCH HANDOFF - YOU WILL BE LOGGED OUT
+%h2 Setup Guided Access
 
+.jumbotron.bs-callout-danger
+  %h4 IMPORTANT
 
-= link_to 'Launch Tablet Handoff', create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-block btn-primary'
+  %p
+    Before handing off the table to the participant, make sure that you have
+    setup and started
+    %strong Guided Access
+    on the tablet.
+    You can access this feature quickly by triple-clicking the home button and
+    then launching it by clicking start.
+  %p
+    You may also wish to make the URL bar inaccessible in this mode by circling
+    the area above.
+  %p
+    Once you have started
+    %strong Guided Access
+    mode, click "Launch Tablet Handoff" below.
+
+= link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-block btn-success' do
+  Launch Tablet Handoff
+  %span.glyphicon.glyphicon-send
