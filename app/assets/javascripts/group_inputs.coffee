@@ -49,8 +49,3 @@ $(document)
   .on("focusout", ".radio input:radio, .checkbox input:checkbox", () ->
     $(this).parent().removeClass("focus")
   )
-
-
-
-
-

@@ -3,8 +3,7 @@ $("#page").val("<%= params[:page] %>");
 
 loadPeity();
 
-$(".tooltip").remove();
-$("[rel~=tooltip]").tooltip({ trigger: 'hover' });
+initializeTooltip();
 
 $('.table-responsive-always').scroll( function(){
   setScrollShadow(this)

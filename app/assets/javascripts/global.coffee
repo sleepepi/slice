@@ -15,6 +15,7 @@
   $(element_id).focus().val('').val(val)
 
 @initializeTooltip = () ->
+  $(".tooltip").remove()
   return unless document.documentElement.ontouchstart == undefined
   $("[rel~=tooltip]").tooltip(trigger: 'hover')
 
@@ -93,15 +94,6 @@ $(document)
   )
   .on('mouseleave', '[data-object~="hover-show"]', () ->
     $($(this).data('target')).hide()
-  )
-  .on('focus', "select[rel~=tooltip], input[rel~=tooltip], textarea[rel~=tooltip]", () ->
-    $(this).tooltip( trigger: 'focus' )
-  )
-  .on('focus', "[rel~=tooltip]", () ->
-    $(this).tooltip( trigger: 'hover' )
-  )
-  .on('focus', "[rel~=popover]", () ->
-    $(this).popover( offset: 10, trigger: 'focus' )
   )
   .ready( () ->
     if $("#sheet_design_id").val() == ''

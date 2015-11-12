@@ -1,5 +1,5 @@
 $("#filters").html("<%=j render 'filters/filters' %>");
 activateFilterSortable();
-$("span[rel~=tooltip], button[rel~=tooltip]").tooltip({ trigger: 'hover' });
+initializeTooltip();
 
 submitReportWithFilters();
