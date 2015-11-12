@@ -14,9 +14,13 @@
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
+@initializeTooltip = () ->
+  return unless document.documentElement.ontouchstart == undefined
+  $("[rel~=tooltip]").tooltip(trigger: 'hover')
+
 @globalReady = () ->
   initializeTypeahead()
-  $("[rel~=tooltip]").tooltip( trigger: 'hover' )
+  initializeTooltip()
   window.$isDirty = false
   $("#global-search").typeahead(
     remote: root_url + 'search?q=%QUERY'
