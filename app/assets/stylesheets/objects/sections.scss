@@ -3,3 +3,39 @@
 .section-image {
   max-width: 100%;
 }
+
+.design-header {
+  border-bottom: 1px solid $text-color;
+  color: $text-color;
+  display: block;
+  font-size: 41px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 30px;
+  margin-top: 50px;
+  padding-bottom: 9.5px;
+}
+
+.section-header {
+  border-bottom: 1px solid $text-color;
+  color: $text-color;
+  display: block;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 30px;
+  margin-top: 50px;
+  padding-bottom: 9.5px;
+}
+
+.sub-section-header {
+  border-bottom: 1px solid $text-color;
+  color: $text-color;
+  display: block;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 11px;
+  margin-top: 50px;
+  padding-bottom: 9.5px;
+}

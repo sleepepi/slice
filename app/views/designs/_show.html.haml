@@ -1,5 +1,5 @@
 - unless params[:header] == '0'
-  %h1.underline-header{ style: 'margin-top: 0px' }= design.name
+  .design-header= design.name
 
 - unless design.description.blank?
   .bs-callout.bs-callout-info

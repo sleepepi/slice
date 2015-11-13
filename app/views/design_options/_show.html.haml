@@ -1,12 +1,7 @@
 - if section = design_option.section
   .row
     .col-sm-6{ data: { object: "design-preview-expand" } }
-      - if section.sub_section?
-        %h3= section.name
-      - else
-        %h2= section.name
-      = simple_markdown section.description unless section.description.blank?
-      = render 'sections/image', design_option: design_option, section: section
+      = render 'sections/header', design_option: design_option, section: section
     .col-sm-6.design-preview-hide
       %h4{ style: "margin-top:0px" } Section
       .design-edit-box
