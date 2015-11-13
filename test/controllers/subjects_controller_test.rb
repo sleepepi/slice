@@ -39,7 +39,18 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to data_entry_project_subject_path(assigns(:project), assigns(:subject))
   end
 
-  test 'should get search for regular user' do
+  test 'should get search as project editor' do
+    get :search, project_id: @project, q: 'Code01'
+    subjects_json = JSON.parse(response.body)
+    assert_equal 'Code01', subjects_json.first['value']
+    assert_equal 'Code01', subjects_json.first['subject_code']
+    assert_equal 'success', subjects_json.first['status_class']
+    assert_equal 'v', subjects_json.first['status']
+    assert_response :success
+  end
+
+  test 'should get search as project viewer' do
+    login(users(:associated))
     get :search, project_id: @project, q: 'Code01'
     subjects_json = JSON.parse(response.body)
     assert_equal 'Code01', subjects_json.first['value']
@@ -61,31 +72,82 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:event)
     assert_not_nil assigns(:subject_event)
-
     assert_redirected_to [assigns(:project), assigns(:subject)]
   end
 
-  test 'should get timeline' do
+  test 'should get events as project editor' do
+    get :events, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get events as project viewer' do
+    login(users(:associated))
+    get :events, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get sheets as project editor' do
+    get :sheets, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get sheets as project viewer' do
+    login(users(:associated))
+    get :sheets, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get timeline as project editor' do
     get :timeline, project_id: @project, id: @subject
     assert_response :success
   end
 
-  test 'should get comments' do
+  test 'should get timeline as project viewer' do
+    login(users(:associated))
+    get :timeline, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get comments as project editor' do
     get :comments, project_id: @project, id: @subject
     assert_response :success
   end
 
-  test 'should get settings' do
+  test 'should get comments as project viewer' do
+    login(users(:associated))
+    get :comments, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get settings as project editor' do
     get :settings, project_id: @project, id: @subject
     assert_response :success
   end
 
-  test 'should get files' do
+  test 'should get settings as project viewer' do
+    login(users(:associated))
+    get :settings, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get files as project editor' do
     get :files, project_id: @project, id: @subject
     assert_response :success
   end
 
-  test 'should get adverse events' do
+  test 'should get files as project viewer' do
+    login(users(:associated))
+    get :files, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get adverse events as project editor' do
+    get :adverse_events, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should get adverse events as project viewer' do
+    login(users(:associated))
     get :adverse_events, project_id: @project, id: @subject
     assert_response :success
   end
@@ -169,18 +231,34 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to edit_event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), subject_event_id: assigns(:subject_event), event_date: assigns(:subject_event).event_date_to_param, new_event_date: { month: 12, day: 0, year: 2015 })
   end
 
-  test 'should get choose site for new subject' do
+  test 'should get choose site for new subject as project editor' do
     get :choose_site, project_id: @project, subject_code: 'CodeNew'
     assert_not_nil assigns(:project)
     assert_nil assigns(:subject)
     assert_response :success
   end
 
-  test 'should redirect to subject when choosing site for existing subject' do
+  test 'should redirect to subject when choosing site for existing subject as project editor' do
     get :choose_site, project_id: @project, subject_code: 'Code01'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_redirected_to [assigns(:project), assigns(:subject)]
+  end
+
+  test 'should redirect to subject when choosing site for existing subject as project viewer' do
+    login(users(:associated))
+    get :choose_site, project_id: @project, subject_code: 'Code01'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_redirected_to [assigns(:project), assigns(:subject)]
+  end
+
+  test 'should redirect to project when choosing site for non-existent subject as project viewer' do
+    login(users(:associated))
+    get :choose_site, project_id: @project, subject_code: 'CodeNew'
+    assert_not_nil assigns(:project)
+    assert_nil assigns(:subject)
+    assert_redirected_to assigns(:project)
   end
 
   test 'should get index' do

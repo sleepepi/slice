@@ -13,7 +13,11 @@
           .input-group{ style: 'width: 1px' }
             = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }
             %span.input-group-btn{ style: 'vertical-align: bottom;' }
-              = submit_tag 'Find or Create Subject', class: 'btn btn-default'
+              - if @project.site_or_project_editor? current_user
+                - submit_text = 'Find or Create Subject'
+              - else
+                - submit_text = 'Find Subject'
+              = submit_tag submit_text, class: 'btn btn-default'
 
     %table.table.table-striped
       %thead

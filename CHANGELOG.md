@@ -11,6 +11,9 @@
 ### Refactoring
 - Simplified how surveys, public sheets, handoffs, and internal sheets handle autocomplete fields, formatting numbers, adding rows to grids, and displaying images
 
+### Bug Fix
+- Fixed a bug that prevented project viewers from searching for subjects and viewing subject events
+
 ## 0.31.1 (November 12, 2015)
 
 ### Enhancement

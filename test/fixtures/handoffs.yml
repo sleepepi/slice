@@ -6,9 +6,10 @@ one:
   project: one
   subject_event: one
 
+# Created by project editor ("admin"), and relaunched by valid user
 two:
   token: two
-  user: valid
+  user: admin
   project: one
   subject_event: two
 

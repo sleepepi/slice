@@ -15,7 +15,7 @@
         %span.glyphicon.glyphicon-tasks
     = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
       = subject_event.event.name
-    - if @project.handoffs_enabled?
+    - if @project.handoffs_enabled? && @subject.editable_by?(current_user)
       = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-xs btn-success'
   .panel-body
     %table.table.table-striped{ style: 'table-layout:fixed;margin-bottom:0px' }
@@ -44,7 +44,8 @@
             %td
               = design.name
             %td
-              = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs btn-block'
+              - if @subject.editable_by? current_user
+                = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs btn-block'
     - if non_design_sheets = subject_event.sheets.where.not(design_id: subject_event.event.designs.select(:id)) and non_design_sheets.count > 0
       %div{ style: 'margin-top: 20px' }
         .bs-callout.bs-callout-warning
