@@ -28,18 +28,28 @@ class Handoff < ActiveRecord::Base
     handoff if handoff && Devise.secure_compare(handoff.token, handoff_token)
   end
 
+  def handoff_enabled_event_designs
+    subject_event.event.event_designs.where(handoff_enabled: true)
+  end
+
+  def first_design
+    event_design = handoff_enabled_event_designs.first
+    event_design.design if event_design
+  end
+
   def next_design(design)
     number = handoff_enabled_event_designs.pluck(:design_id).index(design.id)
     event_design = handoff_enabled_event_designs[number + 1] if number
     event_design.design if event_design
   end
 
-  def handoff_enabled_event_designs
-    subject_event.event.event_designs.where(handoff_enabled: true)
+  def resume_design
+    event_design = handoff_enabled_event_designs.where.not(design_id: select_design_ids).first
+    event_design.design if event_design
   end
 
-  def remaining_handoff_event_designs
-    handoff_enabled_event_designs
+  def select_design_ids
+    subject_event.sheets.select(:design_id)
   end
 
   def set_token

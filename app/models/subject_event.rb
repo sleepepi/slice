@@ -5,7 +5,7 @@ class SubjectEvent < ActiveRecord::Base
   belongs_to :subject
   belongs_to :event
   belongs_to :user
-  has_many :sheets
+  has_many :sheets, -> { current }
 
   scope :with_valid_subjects, -> { joins(:subject).where(subjects: { status: 'valid', deleted: false }) }
 

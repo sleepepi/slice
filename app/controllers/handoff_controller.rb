@@ -7,6 +7,7 @@ class HandoffController < ApplicationController
   before_action :set_project, except: [:complete, :completed]
   before_action :set_handoff, except: [:complete, :completed]
   before_action :set_design, only: [:design, :save]
+  before_action :set_sheet, only: [:design, :save]
 
   def start
   end
@@ -15,8 +16,8 @@ class HandoffController < ApplicationController
   end
 
   def save
-    @sheet = @project.sheets.where(design_id: @design.id).new(subject_id: @handoff.subject_event.subject_id, subject_event_id: @handoff.subject_event_id)
-    if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
+    update_type = (@sheet.new_record? ? 'public_sheet_create' : 'public_sheet_update')
+    if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, update_type)
       design = @handoff.next_design(@design)
       if design
         redirect_to handoff_design_path(@project, @handoff, design)
@@ -56,7 +57,15 @@ class HandoffController < ApplicationController
   def set_design
     @design = @project.designs.find_by_param params[:design]
     redirect_to handoff_complete_path unless @design
-    @sheet = @project.sheets.where(design_id: @design.id).new
+  end
+
+  def set_sheet
+    @sheet = @project.sheets.find_by(design_id: @design.id, subject_event_id: @handoff.subject_event_id)
+    @sheet = @project.sheets.where(design_id: @design.id).new(sheet_params) unless @sheet
+  end
+
+  def sheet_params
+    { subject_id: @handoff.subject_event.subject_id, subject_event_id: @handoff.subject_event_id }
   end
 
   def variables_params

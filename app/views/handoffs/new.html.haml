@@ -1,26 +1,39 @@
 %h2 Setup Guided Access
 
-.jumbotron.bs-callout-danger
-  %h4 IMPORTANT
+- if @handoff.handoff_enabled_event_designs.present?
+  .jumbotron.bs-callout-danger
+    %h4 IMPORTANT
 
-  %p
-    Before handing off the table to the participant, make sure that you have
-    setup and started
-    %strong Guided Access
-    on the tablet.
-    You can access this feature quickly by triple-clicking the home button and
-    then launching it by clicking start.
-  %p
-    Also mark the
-    %em URL bar
-    and the
-    %em left and right edges
-    as untouchable to prevent unintended navigation.
-  %p
-    Once you have started
-    %strong Guided Access
-    mode, click "Launch Tablet Handoff" below.
+    %p
+      Before handing off the table to the participant, make sure that you have
+      setup and started
+      %strong Guided Access
+      on the tablet.
+      You can access this feature quickly by triple-clicking the home button and
+      then launching it by clicking start.
+    %p
+      Also mark the
+      %em URL bar
+      and the
+      %em left and right edges
+      as untouchable to prevent unintended navigation.
+    %p
+      Once you have started
+      %strong Guided Access
+      mode, click "Launch Tablet Handoff" below.
 
-= link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-block btn-success' do
-  Launch Tablet Handoff
-  %span.glyphicon.glyphicon-send
+  %div{ style: 'margin-bottom: 20px' }
+    = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-block btn-success' do
+      Launch Tablet Handoff
+      %span.glyphicon.glyphicon-send
+
+  %hr.divider-md
+
+  %h3 Handoff URL
+  %p
+    You may also choose to copy the following URL to access the handoff on a
+    different device.
+  %code
+    = "#{ENV['website_url']}/handoff/#{@project.to_param}/#{@handoff.to_param}"
+- else
+  = render 'handoffs/no_handoff_enabled_designs_on_event'

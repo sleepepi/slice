@@ -6,6 +6,7 @@ class HandoffsController < ApplicationController
   before_action :redirect_without_project
   before_action :set_editable_subject
   before_action :redirect_without_subject
+  before_action :set_handoff
 
   # GET /handoffs/new
   def new
@@ -13,8 +14,6 @@ class HandoffsController < ApplicationController
 
   # POST /handoffs
   def create
-    @handoff = @project.handoffs.where(handoff_params).first_or_create(user_id: current_user.id)
-    @handoff.set_token
     sign_out @user
     redirect_to handoff_start_path(@project, @handoff)
   end
@@ -27,6 +26,11 @@ class HandoffsController < ApplicationController
 
   def redirect_without_subject
     empty_response_or_root_path(project_subjects_path(@project)) unless @subject
+  end
+
+  def set_handoff
+    @handoff = @project.handoffs.where(handoff_params).first_or_create(user_id: current_user.id)
+    @handoff.set_token
   end
 
   def handoff_params
