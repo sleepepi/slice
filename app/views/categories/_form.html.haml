@@ -14,7 +14,7 @@
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :name, class: 'form-control', data: { object: 'create-category-slug', target: '#category_slug' }
+      = f.text_field :name, class: 'form-control', data: { object: (@category.new_record? ? 'create-slug' : ''), target: '#category_slug' }
 
   .form-group
     = f.label :slug, 'URL Slug', class: 'col-md-2 control-label'
