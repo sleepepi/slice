@@ -1,11 +1,12 @@
 ## 0.32.0
 
 ### Enhancements
+- **Tablet Handoff Module Added**
+  - Projects can now enable a new tablet handoff module
+  - The tablet handoff module allows a staff member to handoff a tablet and have a subject fill out a series of forums
+  - A tablet handoff can be resumed if an interruption occurs while completing the assigned forms
+  - Designs must be set as `Handoff Enabled` when assigning designs to events in order for them to be filled out during a tablet handoff
 - **Project Changes**
-  - Projects can now enable a new "Tablet Handoff" module
-  - The "Tablet Handoff" module allows a staff member to handoff a tablet and have a subject fill out a series of forums
-  - A "Tablet Handoff" can be resumed if an interruption occurs while completing the assigned forms
-  - Designs must be set as `Handoff Enabled` when assigning designs to events in order for them to be filled out during a "Tablet Handoff"
   - Project slugs are now auto-generated when creating new projects
 - **Sheet Changes**
   - Improved the styling of section and subsection headers on sheets
