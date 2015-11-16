@@ -7,6 +7,6 @@ module ProjectsHelper
   )
 
   def setup_path?
-    SETUP_CONTROLLERS.include?(params[:controller]) || (params[:controller] == 'projects' && %w(edit setup).include?(params[:action]))
+    (SETUP_CONTROLLERS.include?(params[:controller]) && %w(randomize_subject randomize_subject_to_list).exclude?(params[:action])) || (params[:controller] == 'projects' && %w(edit setup).include?(params[:action]))
   end
 end
