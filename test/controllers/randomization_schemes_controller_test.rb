@@ -72,7 +72,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
       post :randomize_subject_to_list, project_id: @project, id: @randomization_scheme, subject_code: "S2001", stratification_factors: { "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}", "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}" }, attested: "1"
     end
     assert assigns(:randomization).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:randomization).errors[:subject_code]
+    assert_equal ['does not match an existing subject'], assigns(:randomization).errors[:subject_code]
     assert_response :success
   end
 
@@ -158,7 +158,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert assigns(:randomization).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:randomization).errors[:subject_code]
+    assert_equal ['does not match an existing subject'], assigns(:randomization).errors[:subject_code]
     assert_response :success
   end
 

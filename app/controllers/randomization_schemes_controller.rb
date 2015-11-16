@@ -49,7 +49,7 @@ class RandomizationSchemesController < ApplicationController
     end
 
     unless subject
-      @randomization.errors.add(:subject_code, "can't be blank")
+      @randomization.errors.add(:subject_code, 'does not match an existing subject')
       render 'randomize_subject'
       return
     end
