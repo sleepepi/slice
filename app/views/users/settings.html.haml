@@ -11,11 +11,11 @@ You can change your avatar at
 .page-header
   %h2 Settings
 
-= form_tag update_theme_user_path(current_user), method: :post, id: 'theme_settings', class: 'form-horizontal' do
+= form_for current_user, url: update_theme_path, method: :post, html: { id: 'theme_settings', class: 'form-horizontal' } do |f|
   .form-group
     %label.col-md-2.control-label Theme
     .col-md-10
-      = select_tag "user[theme]", options_for_select([['Minimalist', nil]] + Slice::THEMES, current_user.theme), class: 'form-control'
+      = f.select :theme, [['Minimalist', nil]] + Slice::THEMES, {}, class: 'form-control'
 
   - if false
     .form-group
@@ -35,12 +35,12 @@ You can change your avatar at
 
 = hidden_field_tag 'isdirty', '1'
 
-= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings', class: 'form-horizontal' do
+= form_for current_user, url: settings_path, method: :post, html: { id: 'email_settings', class: 'form-horizontal' } do |f|
   .form-group
     %label.col-md-2.control-label All Projects
     .col-md-10.sheet-container
       %label.checkbox{ class: "#{'selected' if current_user.emails_enabled?}" }
-        = check_box_tag :emails_enabled, '1', current_user.emails_enabled?
+        = f.check_box :emails_enabled
         = 'Receive email'
   - User::EMAILABLES.each do |notification, description|
     .form-group{ style: 'margin-left:20px' }

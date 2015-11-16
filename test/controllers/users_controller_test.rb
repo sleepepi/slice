@@ -9,7 +9,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test 'should update settings and enable email' do
-    post :update_settings, id: users(:admin), emails_enabled: '1', email: {}
+    post :update_settings, emails_enabled: '1', email: {}
     users(:admin).reload # Needs reload to avoid stale object
     assert_equal true, users(:admin).emails_enabled?
     assert_equal 'Email settings saved.', flash[:notice]
@@ -17,10 +17,26 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test 'should update settings and disable email' do
-    post :update_settings, id: users(:admin), emails_enabled: '0', email: {}
+    post :update_settings, emails_enabled: '0', email: {}
     users(:admin).reload # Needs reload to avoid stale object
     assert_equal false, users(:admin).emails_enabled?
     assert_equal 'Email settings saved.', flash[:notice]
+    assert_redirected_to settings_path
+  end
+
+  test 'should update theme for user' do
+    post :update_theme, user: { theme: 'winter' }
+    users(:admin).reload
+    assert_equal 'winter', users(:admin).theme
+    assert_equal 'Settings were successfully updated.', flash[:notice]
+    assert_redirected_to settings_path
+  end
+
+  test 'should not update for user with blank name' do
+    post :update_theme, user: { first_name: '' }
+    users(:admin).reload
+    assert_equal 'System', users(:admin).first_name
+    assert_equal 'Settings were not successfully updated.', flash[:alert]
     assert_redirected_to settings_path
   end
 

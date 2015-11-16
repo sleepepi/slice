@@ -10,11 +10,13 @@
 }
 
 .flash-alert {
+  color: $alert-warning-text;
   background-color: $alert-warning-bg;
   background-image: none;
 }
 
 .flash-notice {
+  color: $alert-success-text;
   background-color: $alert-success-bg;
   background-image: none;
 }

@@ -247,13 +247,17 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'join', sign_in: 'login' }, path: ''
 
   resources :users do
-    member do
-      post :update_settings
-      post :update_theme
-    end
     collection do
       get :invite
     end
+  end
+
+  scope module: :users do
+    get :settings
+    post :settings, action: :update_settings
+    get :update_settings, to: redirect('settings')
+    post :update_theme
+    get :update_theme, to: redirect('settings')
   end
 
   scope module: 'application' do
@@ -292,7 +296,6 @@ Rails.application.routes.draw do
     post :variable
   end
 
-  get '/settings' => 'users#settings', as: :settings
   get '/search' => 'projects#search', as: :search
   get '/activity' => 'users#activity', as: :activity
   scope module: 'users' do
