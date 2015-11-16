@@ -1,4 +1,11 @@
 %form.form-horizontal
+  .pull-right
+    = link_to print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' do
+      %span.glyphicon.glyphicon-print
+      PDF
+
+  .design-header= @sheet.design.name
+
   - sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a
   - @sheet.design.design_options.includes(:variable, :section).each do |design_option|
     - next unless @sheet.show_design_option?(design_option.branching_logic)
@@ -17,4 +24,3 @@
               = render "sheet_variables/show/#{variable.variable_type}", variable: variable, sheet_variable: sheet_variable
             - elsif Variable::TYPE.flatten.uniq.include?(variable.variable_type)
               = render "sheet_variables/show/#{variable.variable_type}", variable: variable, object: sheet_variable
-

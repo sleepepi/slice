@@ -1,6 +1,3 @@
-%h2
-  = @title
-
 - if @sheet.editable_by?(current_user)
   - unless @sheet.locked?
     = link_to 'Edit Sheet', edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs'
@@ -9,10 +6,6 @@
         %span.glyphicon.glyphicon-transfer
         Transfer Sheet
     = link_to 'Delete Sheet', [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" }
-= succeed ' ' do
-  = link_to print_project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' do
-    %span.glyphicon.glyphicon-print
-    PDF
 - if @sheet.locked? and @project.lockable?
   = link_to "Unlock Sheet", unlock_project_sheet_path(@sheet.project, @sheet), method: :post, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to unlock this Sheet #{@sheet.name}?" }
 
@@ -72,12 +65,12 @@
           = link_to_if (@sheet.sheet_transactions.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.created_at), transactions_project_sheet_path(@sheet.project, @sheet)
           - if @sheet.user
             by
-            = link_to @sheet.user.name, @sheet.user
+            = @sheet.user.name
         - else
           = link_to_if (@sheet.sheet_transactions.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.last_edited_at), transactions_project_sheet_path(@sheet.project, @sheet)
           - if @sheet.last_user
             by
-            = link_to @sheet.last_user.name, @sheet.last_user
+            = @sheet.last_user.name
 
 - if @sheet.locked?
   .well
