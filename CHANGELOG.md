@@ -9,7 +9,7 @@
 - **Sheet Changes**
   - Improved the styling of section and subsection headers on sheets
 - **Gem Changes**
-  - Updated to rails 4.2.5.rc2
+  - Updated to rails 4.2.5
   - Updated to pg 0.18.4
 
 ### Refactoring
