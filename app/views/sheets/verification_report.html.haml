@@ -1,12 +1,16 @@
 - @title = "Sheet ##{@sheet.id} Verification Report"
-.page-header
-  %h1
-    = link_to @project.name, @project
-    &middot;
-    = link_to 'Sheets', project_sheets_path(@project)
-    &middot;
-    = link_to @sheet.name, [@project, @sheet]
-    Verification Report
+
+- @subject = @sheet.subject
+
+- links = []
+- links << [@subject.subject_code, [@project, @subject]]
+- links << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
+- links << [@sheet.name, [@project, @sheet]]
+- links << ['Verification Report', verification_report_project_sheet_path(@project, @sheet)]
+= render 'projects/tabbed_menu', links: links
+
+%h2.underline-header
+  Verification Report
 
 - all_sheets = [@sheet] + @sheet.verification_sheets
 

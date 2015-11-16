@@ -1,34 +1,3 @@
-- if @sheet.editable_by?(current_user)
-  - unless @sheet.locked?
-    = link_to 'Edit Sheet', edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs'
-    = succeed ' ' do
-      = link_to transfer_project_sheet_path(@project, @sheet), class: 'btn btn-default btn-xs' do
-        %span.glyphicon.glyphicon-transfer
-        Transfer Sheet
-    = link_to 'Delete Sheet', [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" }
-- if @sheet.locked? and @project.lockable?
-  = link_to "Unlock Sheet", unlock_project_sheet_path(@sheet.project, @sheet), method: :post, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to unlock this Sheet #{@sheet.name}?" }
-
-- if @project.double_data_entry?
-  - if @sheet.not_double_data_entry?
-    = link_to "New Double Data Entry", double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' if @sheet.verification_sheets.count == 0
-  - else
-    = link_to "Original Sheet ##{@sheet.verifying_sheet.id}", [@sheet.verifying_sheet.project, @sheet.verifying_sheet], class: 'btn btn-warning btn-xs'
-
-- if @project.double_data_entry? and @sheet.not_double_data_entry? and @sheet.verification_sheets.count > 0
-  .panel.panel-warning
-    .panel-heading
-      %h3.panel-title Double Data Entry
-    .panel-body
-      %ul.list-unstyled{ style: "line-height:34px" }
-        %li= link_to 'Verification Report', verification_report_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-xs btn-default'
-        - @sheet.verification_sheets.each do |sheet|
-          %li
-            = link_to "Verification Sheet ##{sheet.id}", [sheet.project, sheet], class: 'btn btn-warning btn-xs'
-            - if sheet.contributors.present?
-              by
-              = sheet.contributors
-
 %table.table.table-striped
   %thead
     %tr
@@ -44,6 +13,7 @@
           Created
         - else
           Updated
+      %th Actions
   %tbody
     %tr
       %td= coverage_helper(@sheet)
@@ -71,27 +41,47 @@
           - if @sheet.last_user
             by
             = @sheet.last_user.name
+      %td
+        - if @sheet.editable_by?(current_user)
+          - unless @sheet.locked?
+            = succeed ' ' do
+              = link_to edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' do
+                %span.glyphicon.glyphicon-edit
+                Edit
+            = succeed ' ' do
+              = link_to transfer_project_sheet_path(@project, @sheet), class: 'btn btn-default btn-xs' do
+                %span.glyphicon.glyphicon-transfer
+                Transfer
+            = succeed ' ' do
+              = link_to [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } do
+                %span.glyphicon.glyphicon-trash
+                Delete
+        - if @sheet.locked? and @project.lockable?
+          = link_to unlock_project_sheet_path(@sheet.project, @sheet), method: :post, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to unlock this Sheet #{@sheet.name}?" } do
+            %span.glyphicon.glyphicon-lock
+            Unlock
 
-- if @sheet.locked?
-  .well
-    This sheet was
-    %span.glyphicon.glyphicon-lock{ style: "color:#5bc0de" }
-    %strong locked
-    and
-    %span.glyphicon.glyphicon-leaf{ style: "color:#5cb85c" }
-    %strong electronically signed
-    by
-    %strong{ style: "color:#428BCC" }= @sheet.last_user.name
-    - if @sheet.last_edited_at
-      on
-      %strong= @sheet.last_edited_at.strftime("%b %d, %Y")
-      at
-      %strong= @sheet.last_edited_at.strftime("%I:%M %p.")
-    %div{ style: "margin-top:1em" }
-      Contributors:
-      = @sheet.contributors
+- if @project.double_data_entry?
+  - if @sheet.not_double_data_entry?
+    = link_to "New Double Data Entry", double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' if @sheet.verification_sheets.count == 0
+  - else
+    = link_to "Original Sheet ##{@sheet.verifying_sheet.id}", [@sheet.verifying_sheet.project, @sheet.verifying_sheet], class: 'btn btn-warning btn-xs'
+
+- if @project.double_data_entry? && @sheet.not_double_data_entry? && @sheet.verification_sheets.count > 0
+  .panel.panel-warning
+    .panel-heading
+      %h3.panel-title Double Data Entry
+    .panel-body
+      %ul.list-unstyled{ style: "line-height:34px" }
+        %li= link_to 'Verification Report', verification_report_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-xs btn-default'
+        - @sheet.verification_sheets.each do |sheet|
+          %li
+            = link_to "Verification Sheet ##{sheet.id}", [sheet.project, sheet], class: 'btn btn-warning btn-xs'
+            - if sheet.contributors.present?
+              by
+              = sheet.contributors
 
 - if @sheet.double_data_entry?
-  .progress
+  .progress{ style: 'margin-top: 20px' }
     .progress-bar.progress-bar-warning.progress-bar-striped.active{ role: "progressbar", style: "width: 100%", aria: { valuenow: "100", valuemin: "0", valuemax: "100" } }
       Double Data Entry
