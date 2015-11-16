@@ -8,6 +8,8 @@
         %strong= current_user.name
       .comment-comment-body
         = form_for @comment, remote: true, html: { class: 'form-vertical' } do |f|
+          = hidden_field_tag :number, params[:number]
+          = hidden_field_tag :include_name, params[:include_name]
           - if @comment.errors.any?
             .alert.alert-danger.alert-dismissible{ role: 'alert' }
               %button.close{ type: 'button', data: { dismiss: 'alert' }, aria: { label: 'Close' } }
@@ -20,4 +22,4 @@
 
           = f.submit 'Comment', class: 'btn btn-primary', data: { disable_with: 'Comment' }
           - unless @comment.new_record?
-            = link_to 'Cancel', @comment, remote: true, class: 'btn btn-default'
+            = link_to 'Cancel', comment_path(@comment, number: params[:number], include_name: params[:include_name]), remote: true, class: 'btn btn-default'

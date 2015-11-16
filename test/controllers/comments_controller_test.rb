@@ -34,12 +34,12 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test 'should show comment' do
-    xhr :get, :show, id: @comment, format: 'js'
+    xhr :get, :show, id: @comment, include_name: '0', number: @comment.number, format: 'js'
     assert_response :success
   end
 
   test 'should get edit' do
-    xhr :get, :edit, id: @comment, format: 'js'
+    xhr :get, :edit, id: @comment, include_name: '0', number: @comment.number, format: 'js'
     assert_response :success
   end
 

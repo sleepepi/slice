@@ -9,6 +9,8 @@
   - Project slugs are now auto-generated when creating new projects
 - **Sheet Changes**
   - Improved the styling of section and subsection headers on sheets
+- **Comment Changes**
+  - Comments can now be edited from sheet page, subject timeline, subject comments index, and recent activity pages
 - **Gem Changes**
   - Updated to rails 4.2.5
   - Updated to pg 0.18.4

@@ -1,1 +1,1 @@
-$("#comment_<%= @comment.id %>").html("<%=j render 'comments/show', comment: @comment %>");
+$("#comment_<%= @comment.id %>").html("<%=j render 'comments/show', comment: @comment, number: params[:number], include_name: params[:include_name] %>");

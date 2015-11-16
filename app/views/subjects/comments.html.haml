@@ -15,24 +15,5 @@
       - current_index = @comments.count - index
       %a.anchor-top{ name: "c#{current_index}" }
       - unless comment.deleted?
-        .comment-outer
-          .comment-left-fixed
-            = image_tag comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
-          .comment-right-fluid
-            .comment-comment
-              .comment-comment-header
-                %strong= comment.user.name
-                commented
-                on
-                = link_to comment.sheet.name, [@project, comment.sheet]
-                %abbr{ rel: 'tooltip', data: { title: comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
-                  = time_ago_in_words comment.created_at
-                  ago
-                .pull-right
-                  - if comment.editable_by? current_user
-                    = succeed ' ' do
-                      = link_to edit_comment_path(comment), class: 'btn btn-xs btn-default' do
-                        %span.glyphicon.glyphicon-pencil
-                  = link_to "##{current_index}", "#c#{current_index}", class: 'btn btn-link btn-xs'
-              .comment-comment-body
-                = render 'comments/formatted', comment: comment
+        %div{ id: "comment_#{comment.id}" }
+          = render 'comments/show', comment: comment, include_name: '1', number: current_index

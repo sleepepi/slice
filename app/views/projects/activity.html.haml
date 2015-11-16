@@ -16,10 +16,13 @@
     - if all_objects.size == 0
       .center.text-muted No recent activity in the past week.
     - else
-      %table
-        %col{ width: '50px' }
-        - all_objects.each do |object|
-          - if object.class == Sheet
-            = render 'activity/sheet', sheet: object
-          - elsif object.class == Comment
-            = render 'activity/comment',  comment: object
+      - all_objects.each_with_index do |object, index|
+        - current_index = all_objects.count - index
+        - if object.class == Sheet
+          = render 'activity/sheet', sheet: object
+        - elsif object.class == Comment
+          - comment = object
+          %a.anchor-top{ name: "c#{current_index}" }
+          - unless comment.deleted?
+            %div{ id: "comment_#{comment.id}" }
+              = render 'comments/show', comment: comment, include_name: '1', number: current_index
