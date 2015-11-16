@@ -11,6 +11,7 @@
 - **Gem Changes**
   - Updated to rails 4.2.5
   - Updated to pg 0.18.4
+  - Started testing of Ruby 2.3.0-preview1
 
 ### Refactoring
 - Simplified how surveys, public sheets, handoffs, and internal sheets handle autocomplete fields, formatting numbers, adding rows to grids, and displaying images
