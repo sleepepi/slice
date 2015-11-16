@@ -1,16 +1,46 @@
-%h1
-  Choose a Randomization Scheme
+- @title = 'Choose Randomization Scheme'
 
-%p.lead
-  This project has multiple randomization schemes.
-  Please choose the scheme you would like to use below.
+- links = []
+- links << ['Randomizations', project_randomizations_path(@project)]
+- links << [@title, choose_scheme_project_randomizations_path(@project)]
+= render 'projects/tabbed_menu', links: links
 
-%hr
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    - if @project.randomization_schemes.published.count == 0
+      %h2.underline-header
+        No Published Randomization Schemes
+      .comment-outer{ style: 'margin-top: 40px' }
+        .comment-left-fixed
+          = image_tag 'try-slice-logo-no-text.png', size: '48x48', alt: ''
+        .comment-right-fluid
+          .comment-comment
+            .comment-comment-header
+              %strong Slice
+              says...
+            .comment-comment-body
+              %p
+                Woops! This project does not have any
+                %strong published
+                randomization schemes. A project editor must set at least one
+                = link_to 'randomization scheme', project_randomization_schemes_path(@project)
+                as published in order for subjects to be randomized.
+    - else
+      %h2.underline-header
+        = @title
 
-- @project.randomization_schemes.published.in_groups_of(3, false).each do |randomization_schemes_row|
-  .row
-    - randomization_schemes_row.each do |randomization_scheme|
-      .col-sm-6{ style: 'margin-bottom:20px' }
-        = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-success-inverse btn-block btn-lg' do
-          Choose
-          %strong.btn-text-emphasis= randomization_scheme.name
+      %p.lead
+        This project has multiple randomization schemes.
+        Please choose the scheme you would like to use below.
+
+      %hr
+
+      - @project.randomization_schemes.published.in_groups_of(3, false).each do |randomization_schemes_row|
+        .row
+          - randomization_schemes_row.each do |randomization_scheme|
+            .col-sm-6{ style: 'margin-bottom:20px' }
+              = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-success-inverse btn-block btn-lg' do
+                Choose
+                %strong.btn-text-emphasis= randomization_scheme.name

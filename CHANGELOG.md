@@ -12,6 +12,8 @@
   - Improved the styling of section and subsection headers on sheets
 - **Comment Changes**
   - Comments can now be edited from sheet page, subject timeline, subject comments index, and recent activity pages
+- **General Changes**
+  - Improved several error messages to better inform the users on the intent of certain features
 - **Gem Changes**
   - Updated to rails 4.2.5
   - Updated to pg 0.18.4
