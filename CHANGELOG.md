@@ -20,6 +20,7 @@
 ### Bug Fix
 - Fixed a bug that prevented project viewers from searching for subjects and viewing subject events
 - Fixed an issue saving email preferences on user settings page
+- Fixed a bug that included test subjects and sheets for deleted subjects when doing an export
 
 ## 0.31.1 (November 12, 2015)
 

@@ -40,7 +40,7 @@ class ExportsController < ApplicationController
 
   def create
     name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}"
-    sheet_scope = @project.sheets
+    sheet_scope = @project.sheets.with_subject_status('valid')
 
     @export = current_user.exports.where(project_id: @project.id, name: name, sheet_ids_count: sheet_scope.count).create(export_params)
 
