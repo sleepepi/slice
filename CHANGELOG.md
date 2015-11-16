@@ -1,4 +1,4 @@
-## 0.32.0
+## 0.32.0 (November 16, 2015)
 
 ### Enhancements
 - **Tablet Handoff Module Added**
