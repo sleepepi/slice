@@ -14,19 +14,18 @@ class AdverseEventsController < ApplicationController
   before_action :redirect_without_adverse_event,        only: [:show, :forms, :edit, :update, :destroy]
 
   def export
+    filename = "#{@project.name.gsub(/[^a-zA-Z0-9_-]/, '_')}_#{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.csv"
     send_data AdverseEvent.generate_csv(@project), type: 'text/csv; charset=iso-8859-1; header=present',
-      disposition: "attachment; filename=\"#{@project.name.gsub(/[^a-zA-Z0-9_-]/, '_')}_#{Time.now.strftime('%Y.%m.%d %Ih%M %p')}.csv\""
+                                                   disposition: "attachment; filename=\"#{filename}\""
   end
 
   # GET /adverse_events
   def index
     @order = scrub_order(AdverseEvent, params[:order], 'adverse_events.created_at DESC')
     @adverse_events = current_user.all_viewable_adverse_events
-                      .where(project_id: @project.id)
-                      .search(params[:search])
-                      .order(@order)
-                      .page(params[:page])
-                      .per(40)
+                                  .where(project_id: @project.id)
+                                  .search(params[:search]).order(@order)
+                                  .page(params[:page]).per(40)
   end
 
   # GET /adverse_events/1
@@ -35,9 +34,7 @@ class AdverseEventsController < ApplicationController
 
   # GET /adverse_events/new
   def new
-    @adverse_event = current_user.adverse_events
-                     .where(project_id: @project.id)
-                     .new
+    @adverse_event = current_user.adverse_events.where(project_id: @project.id).new
   end
 
   # GET /adverse_events/1/edit
@@ -46,9 +43,7 @@ class AdverseEventsController < ApplicationController
 
   # POST /adverse_events
   def create
-    @adverse_event = current_user.adverse_events
-                     .where(project_id: @project.id)
-                     .new(adverse_event_params)
+    @adverse_event = current_user.adverse_events.where(project_id: @project.id).new(adverse_event_params)
     if @adverse_event.save
       redirect_to [@project, @adverse_event], notice: 'Adverse event was successfully created.'
     else
@@ -87,7 +82,7 @@ class AdverseEventsController < ApplicationController
 
   def adverse_event_params
     params.require(:adverse_event).permit(
-      :description, :serious, :closed,
+      :description, :closed,
       # Attribute Accessor
       :subject_code, :event_date
     )

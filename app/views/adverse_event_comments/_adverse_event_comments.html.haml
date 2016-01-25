@@ -8,12 +8,7 @@
     .jumbotron
       %strong= @adverse_event.user.name
       %span.label.label-success reported
-      a
-      - if @adverse_event.serious?
-        %strong serious
-      - else
-        non-serious
-      adverse event that occurred on
+      an adverse event that occurred on
       = @adverse_event.adverse_event_date.strftime('%a, %-d %b %Y')
       for subject
       = succeed '.' do

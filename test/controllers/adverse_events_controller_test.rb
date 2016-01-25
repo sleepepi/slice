@@ -52,7 +52,7 @@ class AdverseEventsControllerTest < ActionController::TestCase
   test 'should create adverse event as project editor' do
     login(users(:valid))
     assert_difference('AdverseEvent.count') do
-      post :create, project_id: @project, adverse_event: { subject_code: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, serious: @adverse_event.serious, closed: @adverse_event.closed }
+      post :create, project_id: @project, adverse_event: { subject_code: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, closed: @adverse_event.closed }
     end
 
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
@@ -61,7 +61,7 @@ class AdverseEventsControllerTest < ActionController::TestCase
   test 'should create adverse event as site editor' do
     login(users(:site_one_editor))
     assert_difference('AdverseEvent.count') do
-      post :create, project_id: @project, adverse_event: { subject_code: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, serious: @adverse_event.serious, closed: @adverse_event.closed }
+      post :create, project_id: @project, adverse_event: { subject_code: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, closed: @adverse_event.closed }
     end
 
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
@@ -70,7 +70,7 @@ class AdverseEventsControllerTest < ActionController::TestCase
   test 'should not create adverse event as site viewer' do
     login(users(:site_one_viewer))
     assert_difference('AdverseEvent.count', 0) do
-      post :create, project_id: @project, adverse_event: { subject_code: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, serious: @adverse_event.serious, closed: @adverse_event.closed }
+      post :create, project_id: @project, adverse_event: { subject_code: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, closed: @adverse_event.closed }
     end
 
     assert_redirected_to root_path
@@ -132,19 +132,19 @@ class AdverseEventsControllerTest < ActionController::TestCase
 
   test 'should update adverse event as project editor' do
     login(users(:valid))
-    patch :update, project_id: @project, id: @adverse_event, adverse_event: { subject_id: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, serious: @adverse_event.serious, closed: @adverse_event.closed }
+    patch :update, project_id: @project, id: @adverse_event, adverse_event: { subject_id: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, closed: @adverse_event.closed }
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
   end
 
   test 'should update adverse event as site editor' do
     login(users(:site_one_editor))
-    patch :update, project_id: @project, id: @adverse_event, adverse_event: { subject_id: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, serious: @adverse_event.serious, closed: @adverse_event.closed }
+    patch :update, project_id: @project, id: @adverse_event, adverse_event: { subject_id: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, closed: @adverse_event.closed }
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
   end
 
   test 'should not update adverse event as site viewer' do
     login(users(:site_one_viewer))
-    patch :update, project_id: @project, id: @adverse_event, adverse_event: { subject_id: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, serious: @adverse_event.serious, closed: @adverse_event.closed }
+    patch :update, project_id: @project, id: @adverse_event, adverse_event: { subject_id: @adverse_event.subject_code, event_date: @adverse_event.event_date, description: @adverse_event.description, closed: @adverse_event.closed }
     assert_redirected_to root_path
   end
 

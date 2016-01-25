@@ -136,8 +136,8 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "#{adverse_event.user.name} Reported a Non-Serious Adverse Event on #{adverse_event.project.name}", email.subject
-    assert_match(%r{#{adverse_event.user.name} reported a non-serious adverse event on #{adverse_event.project.name} located here: #{ENV['website_url']}/projects/#{adverse_event.project.to_param}}, email.encoded)
+    assert_equal "#{adverse_event.user.name} Reported an Adverse Event on #{adverse_event.project.name}", email.subject
+    assert_match(%r{#{adverse_event.user.name} reported an adverse event on #{adverse_event.project.name} located here: #{ENV['website_url']}/projects/#{adverse_event.project.to_param}}, email.encoded)
   end
 
   test 'password expires soon email' do

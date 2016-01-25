@@ -1,11 +1,6 @@
 = @adverse_event.user.name
 %span{ style: 'padding:5px;background-color:#428bca;color:white' } reported
-a
-- if @adverse_event.serious?
-  %strong serious
-- else
-  non-serious
-adverse event on
+an adverse event on
 = succeed '.' do
   = link_to @adverse_event.project.name, "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}", style: 'color: #428bca'
 %br

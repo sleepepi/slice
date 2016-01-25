@@ -6,7 +6,6 @@ one:
   subject: one
   description: Adverse Event Text and how it occurred
   adverse_event_date: 2015-09-20
-  serious: false
   closed: false
 
 two:
@@ -15,5 +14,4 @@ two:
   subject: two
   description: MyText
   adverse_event_date: 2015-09-24
-  serious: false
   closed: false

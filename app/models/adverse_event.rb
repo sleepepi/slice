@@ -120,8 +120,7 @@ class AdverseEvent < ActiveRecord::Base
   end
 
   def self.csv_attributes
-    [:name, :reported_by, :subject_code, :reported_on, :description,
-     :serious, :closed]
+    [:name, :reported_by, :subject_code, :reported_on, :description, :closed]
   end
 
   def reported_by

@@ -26,15 +26,6 @@
       = f.text_field :adverse_event_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', name: 'adverse_event[event_date]', value: @adverse_event.event_date
 
   .form-group
-    .col-md-2
-      %label Serious Adverse Event?
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :serious
-          Check this if this is a Serious Adverse Event
-
-  .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
       = cancel

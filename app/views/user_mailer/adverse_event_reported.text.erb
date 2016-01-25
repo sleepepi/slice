@@ -1,4 +1,4 @@
-<%= @adverse_event.user.name %> reported a <%= @adverse_event.serious? ? 'serious' : 'non-serious' %> adverse event on <%= @adverse_event.project.name %> located here: <%= "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}" %>
+<%= @adverse_event.user.name %> reported an adverse event on <%= @adverse_event.project.name %> located here: <%= "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}" %>
 
 Click the following link to view the adverse event report:
 

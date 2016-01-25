@@ -1,6 +1,8 @@
 ## 0.32.1
 
 ### Enhancements
+- **Adverse Event Changes**
+  - Removed "Serious"/"Non-Serious" indicator for adverse events
 - **Sheet Changes**
   - Simplified sheets UI and removed drop shadow
 - **Gem Changes**
