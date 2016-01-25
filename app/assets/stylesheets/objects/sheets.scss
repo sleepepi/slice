@@ -1,33 +1,8 @@
 // Styles sheets to resemble paper collection forms
 
 .markdown-container {
-  background-color: $body-bg;
-  border: 1px solid $gray-lighter;
-  box-shadow: 5px 5px 15px $gray-light;
-  margin: 20px;
-  padding: 20px;
-
-  img {
-    max-width: 100%;
-  }
-}
-
-@media screen and (min-width: $screen-sm-min) {
-  .markdown-container {
-    padding: 30px;
-  }
-}
-
-@media screen and (min-width: $screen-md-min) {
-  .markdown-container {
-    padding: 40px;
-  }
-}
-
-@media screen and (min-width: $screen-lg-min) {
-  .markdown-container {
-    padding: 60px;
-  }
+  @include scale-images;
+  margin: 20px 0;
 }
 
 .sheet-drag-helper {
@@ -39,7 +14,6 @@
 
 .variable-blind,
 .variable-shade {
-  background-color: $body-bg;
   border-left: 2px solid transparent;
   padding: 10px;
 }

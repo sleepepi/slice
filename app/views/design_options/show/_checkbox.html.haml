@@ -29,7 +29,7 @@
               = variable.shared_options.size == 0 ? 'Add' : 'Edit'
               Choices
 - else
-  .sheet-container{ class: "#{'nowrap' if is_grid or variable.alignment == 'horizontal'}" }
+  .sheet-container
     - variable.options_without_missing.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
       %label.checkbox{ class: "#{'checkbox-inline' if is_grid or variable.alignment == 'horizontal'}" }
         = check_box_tag "#{variable.name}[]", "#{value}", false, disabled: true

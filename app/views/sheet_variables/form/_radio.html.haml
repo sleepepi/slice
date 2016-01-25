@@ -31,7 +31,7 @@
               %label.radio.radio-inline{ class: "#{'selected' if selected} #{'negation' if missing == '1'}", rel: (description.blank? ? 'tooltip' : 'popover'), data: { content: description, title: "#{value}: #{name}", placement: "bottom", html: "true" } }
                 = radio_button_tag field_name, "#{value}", selected, data: { object: "condition", name: variable.name, variable_type: variable.variable_type }, disabled: disabled, style: 'margin-left:-14px'
   - else
-    .sheet-container{ class: "#{'nowrap' if is_grid or variable.alignment == 'horizontal' }" }
+    .sheet-container
       - variable.shared_options.collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, value, missing_code|
         %label.radio{ class: "#{'radio-inline' if is_grid or variable.alignment == 'horizontal'} #{'selected' if value == response} #{'negation' if missing_code == '1' }" }
           = radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.variable_type, previous: (value == response ? "checked" : "unchecked") }, disabled: disabled

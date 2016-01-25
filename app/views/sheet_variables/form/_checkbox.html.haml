@@ -33,7 +33,7 @@
               %label.checkbox.checkbox-inline{ class: "#{'selected' if selected} #{'negation' if missing == '1'}", rel: "#{description.blank? ? 'tooltip' : 'popover'}", data: { content: description, title: "#{v}: #{name}", placement: "bottom", html: "true" } }
                 = check_box_tag "#{field_name}[]", "#{v}", selected, data: { object: "condition", name: variable.name, variable_type: variable.variable_type }, disabled: disabled, style: 'margin-left:-14px'
   - else
-    .sheet-container{ class: "#{'nowrap' if is_grid or variable.alignment == 'horizontal'}" }
+    .sheet-container
       - variable.shared_options.collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, v, missing_code|
         %label.checkbox{ class: "#{'checkbox-inline' if is_grid or variable.alignment == 'horizontal'} #{'selected' if values.include?(v)} #{'negation' if missing_code == '1'}" }
           = check_box_tag "#{field_name}[]", "#{v}", values.include?(v), data: { object: "condition" }, disabled: disabled
