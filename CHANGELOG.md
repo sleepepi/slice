@@ -6,6 +6,7 @@
 - **Design Changes**
   - Editing calculation has been removed from numeric and integer variables
   - List of variables is no longer displayed on design show page
+  - Ranges can now be edited for numeric and integer variables
 - **Sheet Changes**
   - Simplified sheets UI and removed drop shadow
 - **Gem Changes**
