@@ -12,6 +12,7 @@
 ### Bug Fixes
 - Fixed a small issue that caused the menu bar to be misaligned in Firefox
 - Fixed a minor UI issue with the comment edit and delete buttons
+- Fixed font size of page counter and pagination in Internet Explorer
 
 ## 0.32.0 (November 16, 2015)
 
