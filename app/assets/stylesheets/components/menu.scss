@@ -193,21 +193,24 @@ $current-tab-color: $btn-success-color;
 
   li {
     border-bottom: 1px solid $tab-default-bg;
+    direction: rtl;
     font-size: 14px;
+    white-space: nowrap;
   }
 
   a {
-    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
     color: $text-color;
     display: block;
     padding-bottom: 5px;
+    padding-right: 5px;
     padding-top: 5px;
     text-align: center;
     text-decoration: none;
 
     &:hover,
     &.active {
-      border-left: 2px solid $btn-success-bg;
+      border-right: 2px solid $btn-success-bg;
       text-decoration: none;
     }
   }

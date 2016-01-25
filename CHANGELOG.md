@@ -17,6 +17,8 @@
 - Fixed a small issue that caused the menu bar to be misaligned in Firefox
 - Fixed a minor UI issue with the comment edit and delete buttons
 - Fixed font size of page counter and pagination in Internet Explorer
+- Project menu is no longer represented by icons
+  - This fixes an issue in Internet Explorer that occassionally prevented font downloads in restrictive security states
 
 ## 0.32.0 (November 16, 2015)
 
