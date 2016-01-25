@@ -4,6 +4,9 @@
 - **Gem Changes**
   - Updated to Ruby 2.3.0
 
+### Bug Fixes
+- Fixed a small issue that caused the menu bar to be misaligned in Firefox
+
 ## 0.32.0 (November 16, 2015)
 
 ### Enhancements

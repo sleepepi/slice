@@ -45,7 +45,7 @@ $current-tab-color: $btn-success-color;
     backface-visibility: hidden; // Fix for transition flickering
     border-color: transparent $tab-default-bg transparent transparent;
     border-style: solid;
-    border-width: 35.5px 35.5px 0 0;
+    border-width: 35px 35px 0 0;
     content: '';
     height: 0;
     left: -35px;
@@ -69,7 +69,7 @@ $current-tab-color: $btn-success-color;
   padding-bottom: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  padding-top: 5px;
+  padding-top: 4.5px;
   position: relative;
   text-decoration: none;
   transition: all .2s ease;
@@ -79,7 +79,7 @@ $current-tab-color: $btn-success-color;
   backface-visibility: hidden; // Fix for transition flickering
   border-color: transparent $tab-default-bg transparent transparent;
   border-style: solid;
-  border-width: 0 35.5px 35.5px 0;
+  border-width: 0 35px 35px 0;
   content: '';
   height: 0;
   left: -35px;
@@ -93,7 +93,7 @@ $current-tab-color: $btn-success-color;
   backface-visibility: hidden; // Fix for transition flickering
   border-color: $tab-default-bg transparent transparent;
   border-style: solid;
-  border-width: 35.5px 35.5px 0 0;
+  border-width: 35px 35px 0 0;
   content: '';
   height: 0;
   position: absolute;
