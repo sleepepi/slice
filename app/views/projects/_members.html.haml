@@ -22,7 +22,7 @@
   Site Members
   = link_to 'Create Site', new_project_site_path(@project), class: 'btn btn-xs btn-primary' if @project.editable_by?(current_user)
 
-- @project.sites.each do |site|
+- @project.sites.order(:name).each do |site|
   %table.table.table-fixed{ style: 'margin-top:20px' }
     %thead
       %tr

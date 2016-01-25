@@ -9,6 +9,8 @@
   - Ranges can now be edited for numeric and integer variables
 - **Randomization Changes**
   - Stratification factors are now ordered by name, and options by value
+- **Sharing Changes**
+  - List of sites on project share page is now alphabetized
 - **Sheet Changes**
   - Simplified sheets UI and removed drop shadow
 - **Gem Changes**

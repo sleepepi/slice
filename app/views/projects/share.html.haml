@@ -19,7 +19,7 @@
             = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address'
 
           .form-group
-            = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
+            = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
 
           .form-group
             %label.btn.btn-default
