@@ -11,17 +11,17 @@
     %h2.underline-header
       = @title
       - if @design.editable_by?(current_user)
-        = link_to "Edit Design", edit_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
-        = link_to "Delete Design", [@design.project, @design], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" }
-        = link_to "Reimport", reimport_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
-        = link_to "Copy Design", copy_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
-      = link_to "PDF", print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs'
-      = link_to "View Sheets", project_sheets_path(@project, design_id: @design.id), class: 'btn btn-default btn-xs'
+        = link_to 'Edit Design', edit_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+        = link_to 'Delete Design', [@design.project, @design], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" }
+        = link_to 'Reimport', reimport_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+        = link_to 'Copy Design', copy_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+      = link_to 'PDF', print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs'
+      = link_to 'View Sheets', project_sheets_path(@project, design_id: @design.id), class: 'btn btn-default btn-xs'
 
-      = link_to "Report", report_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
-      = link_to "Overview", overview_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
-      - if @project.double_data_entry? and @design.sheets.double_data_entry_exists.count > 0
-        = link_to "Master Verification", master_verification_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+      = link_to 'Report', report_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+      = link_to 'Overview', overview_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+      - if @project.double_data_entry? && @design.sheets.double_data_entry_exists.count > 0
+        = link_to 'Master Verification', master_verification_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
 
     %dl.dl-horizontal
       - if @design.category
@@ -39,18 +39,6 @@
         %dt Import Progress
         %dd#progress{ data: { object: "#{'ajax-timer' if @design.total_rows != @design.rows_imported}", path: progress_project_design_path(@design.project, @design) } }
           = render 'designs/progress'
-
-      %dt All Variables
-      %dd
-        %ul.list-unstyled
-          - @design.variables.each do |variable|
-            %li
-              = link_to variable.name, [variable.project, variable]
-              - if variable.variable_type == 'grid'
-                %ul
-                  - variable.grid_variable_ids.each do |grid_variable_id|
-                    - if grid_variable = variable.project.variables.find_by_id(grid_variable_id)
-                      %li= link_to grid_variable.name, [grid_variable.project, grid_variable]
 
     = hidden_field_tag 'sheet[project_id]', @project.id
     %form.form-horizontal#design

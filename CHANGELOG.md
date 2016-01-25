@@ -5,6 +5,7 @@
   - Removed "Serious"/"Non-Serious" indicator for adverse events
 - **Design Changes**
   - Editing calculation has been removed from numeric and integer variables
+  - List of variables is no longer displayed on design show page
 - **Sheet Changes**
   - Simplified sheets UI and removed drop shadow
 - **Gem Changes**
