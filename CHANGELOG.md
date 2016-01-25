@@ -3,6 +3,8 @@
 ### Enhancements
 - **Adverse Event Changes**
   - Removed "Serious"/"Non-Serious" indicator for adverse events
+- **Design Changes**
+  - Editing calculation has been removed from numeric and integer variables
 - **Sheet Changes**
   - Simplified sheets UI and removed drop shadow
 - **Gem Changes**
