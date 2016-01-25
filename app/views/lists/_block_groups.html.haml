@@ -28,11 +28,11 @@
     .multiplier
       - list.randomizations.order(:created_at).each_with_index do |randomization, index|
         - if randomization.subject
-          .nowrap
+          .overflow-hidden.nowrap
             = link_to [@project, randomization], rel: 'tooltip', title: randomization.subject.subject_code do
               = index + 1
               = randomization.treatment_arm.name
         - else
-          .nowrap.text-muted
+          .overflow-hidden.nowrap.text-muted
             = index + 1
             = randomization.treatment_arm.name

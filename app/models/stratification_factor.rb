@@ -21,7 +21,7 @@ class StratificationFactor < ActiveRecord::Base
     if stratifies_by_site?
       project.sites.order(:name).collect { |s| { stratification_factor_id: id, site_id: s.id, extra: true } }
     else
-      stratification_factor_options.collect { |sfo| { stratification_factor_id: id, stratification_factor_option_id: sfo.id, extra: false } }
+      stratification_factor_options.order(:value).collect { |sfo| { stratification_factor_id: id, stratification_factor_option_id: sfo.id, extra: false } }
     end
   end
 

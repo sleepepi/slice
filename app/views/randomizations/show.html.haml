@@ -60,7 +60,7 @@
               %tr
                 %th Stratification Factor
                 %th Option
-            - @randomization.randomization_characteristics.each do |randomization_characteristic|
+            - @randomization.randomization_characteristics.joins(:stratification_factor).order('stratification_factors.name').each do |randomization_characteristic|
               %tr
                 %td= randomization_characteristic.stratification_factor.name
                 %td

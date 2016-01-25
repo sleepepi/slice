@@ -40,7 +40,7 @@
             - sfo = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
             = text_field_tag :subject_code, params[:subject_code], autocomplete: 'off', class: 'form-control', data: { object: "randomization_subject_search",  project_slug: @project.to_param, randomization_scheme_id: @randomization_scheme.id, sfo_id: (sfo ? sfo.id : nil) }
 
-        - @randomization_scheme.stratification_factors.each do |stratification_factor|
+        - @randomization_scheme.stratification_factors.order(:name).each do |stratification_factor|
           .form-group
             %label.col-md-2.control-label
               = stratification_factor.name
