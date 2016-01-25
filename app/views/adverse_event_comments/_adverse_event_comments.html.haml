@@ -26,17 +26,17 @@
   .comment-right-fluid
     .comment-comment
       .comment-comment-header{ class: (@last_seen_at == nil || @last_seen_at < @adverse_event.created_at ? 'comment-unread' : nil) }
-        %strong= @adverse_event.user.name
-        commented
-        %abbr{ rel: 'tooltip', data: { title: @adverse_event.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
-          = time_ago_in_words @adverse_event.created_at
-          ago
         .pull-right
           - if @adverse_event.editable_by? current_user
             = succeed ' ' do
               = link_to edit_project_adverse_event_path(@project, @adverse_event), class: 'btn btn-xs btn-default' do
                 %span.glyphicon.glyphicon-pencil
           = link_to '#1', '#comment-1', class: 'btn btn-link btn-xs'
+        %strong= @adverse_event.user.name
+        commented
+        %abbr{ rel: 'tooltip', data: { title: @adverse_event.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
+          = time_ago_in_words @adverse_event.created_at
+          ago
       .comment-comment-body
         = simple_markdown @adverse_event.description, 'table table-bordered table-striped'
 
