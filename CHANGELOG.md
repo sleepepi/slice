@@ -1,5 +1,9 @@
 ## 0.32.1
 
+### Enhancements
+- **Gem Changes**
+  - Updated to Ruby 2.3.0
+
 ## 0.32.0 (November 16, 2015)
 
 ### Enhancements
