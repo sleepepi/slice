@@ -1,0 +1,19 @@
+// Mixins that modifiy margins
+
+// For elements displayed as blocks, remove the last margin for child block
+// elements to maintain consistent padding for the parent block.
+@mixin remove-last-child-bottom-margin {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  pre,
+  ul {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

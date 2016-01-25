@@ -1,0 +1,7 @@
+// Make sure images scale down their width to match the surrounding container
+@mixin scale-images {
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+}
