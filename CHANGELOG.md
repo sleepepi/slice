@@ -14,6 +14,7 @@
 - **Sheet Changes**
   - Simplified sheets UI and removed drop shadow
 - **Gem Changes**
+  - Updated to rails 4.2.5.1
   - Updated to Ruby 2.3.0
   - Updated to jquery-rails 4.1.0
 
