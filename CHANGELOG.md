@@ -18,6 +18,7 @@
   - Updated to Ruby 2.3.0
   - Updated to jquery-rails 4.1.0
   - Updated to simplecov 0.11.1
+  - Updated to web-console 3.0.0
 
 ### Bug Fixes
 - Fixed a small issue that caused the menu bar to be misaligned in Firefox
