@@ -18,7 +18,7 @@
       - if editable_sites.count > 1
         = th_sort_field @order, 'subjects.site_id', 'Site'
       %th.nowrap Recent Activity
-      - if @project.adverse_events_enabled?
+      - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
         %th AEs
 
   - @subjects.each do |subject|
