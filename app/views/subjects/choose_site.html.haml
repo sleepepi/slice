@@ -18,6 +18,10 @@
         = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code], acrostic: '' }, site_id: site.id), method: :post, class: 'btn btn-success-inverse' do
           %strong.btn-text-emphasis= site.name
 
+  %div{ style: 'margin-bottom: 20px; margin-left: 20px;' }
+    = link_to @project, class: 'btn btn-default' do
+      Cancel
+
 - elsif editable_sites.count == 1
   %h1 Subject Code Not Found
 
@@ -29,6 +33,10 @@
   = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code], acrostic: '' }, site_id: editable_sites.first.id), method: :post, class: 'btn btn-success-inverse' do
     Create Subject
     %strong.btn-text-emphasis= params[:subject_code]
+
+  &nbsp;
+  = link_to @project, class: 'btn btn-default' do
+    Cancel
 
 - else
   %h1 No Sites on Project
