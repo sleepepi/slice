@@ -1,3 +1,5 @@
+## 0.32.2
+
 ## 0.32.1 (January 26, 2016)
 
 ### Enhancements
