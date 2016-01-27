@@ -19,8 +19,10 @@
       %dt Status
       %dd= status_helper(@subject, true)
 
-      %dt Site
-      %dd= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site
+      - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
+      - if editable_sites.count > 1
+        %dt Site
+        %dd= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site
 
       - if @subject.project.acrostic_enabled?
         %dt Acrostic

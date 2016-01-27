@@ -1,5 +1,7 @@
 %h2
-  Data Entry Selection
+  Data Entry
+
+%p.lead Which design would you like to add?
 
 - designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
 
@@ -7,15 +9,14 @@
   .center
     %p.lead No designs currently exist on the project.
 - else
+  - category_count = designs.pluck(:category_id).uniq.count
   - designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
-    %h3
-      - if category
-        = category.name
-      - else
-        Uncategorized
-    %div{ style: 'padding:25px 25px 15px;margin-bottom: 20px' }
-      - designs.in_groups_of(3, false).each do |designs|
-        .row
-          - designs.each do |design|
-            .col-sm-4{ style: 'margin-bottom:10px' }
-              = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design), class: 'btn btn-default btn-block', style: 'white-space: normal'
+    - if category_count > 1
+      %h3
+        - if category
+          = category.name
+        - else
+          Uncategorized
+    %ul
+      - designs.each do |design|
+        %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)

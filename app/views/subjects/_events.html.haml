@@ -1,5 +1,11 @@
 %h2
-  All Events
+  Events
 
-- @subject.subject_events.each do |subject_event|
-  = render subject_event
+- if @subject.subject_events.count == 0
+  .center
+    %p.lead No events have been added for this subject.
+
+    = image_tag 'sad-slice.png'
+- else
+  - @subject.subject_events.each do |subject_event|
+    = render subject_event

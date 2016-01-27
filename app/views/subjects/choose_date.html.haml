@@ -8,15 +8,9 @@
   .col-sm-10
     %h2
       = @event.name
-      &middot;
-      %strong Choose Date
-
-
 
     %p.lead
-      Please enter the date of the event. Please note that this is
-      %strong NOT
-      the date of data entry.
+      Please enter the date of the event.
 
 
     = form_tag launch_subject_event_project_subject_path(@project, @subject, event_id: @event.to_param), method: :post, class: 'form-horizontal' do

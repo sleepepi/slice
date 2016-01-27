@@ -6,6 +6,8 @@
 - **Event Changes**
   - Launch Tablet Handoff is now only displayed for events that have a design that is marked for handoff
   - Simplified user interface when launching a new event for a subject
+- **Subject Changes**
+  - Simplified creation of subjects, and defaulted to "Add Event" or "Data Entry" views for subjects with no data
 - **Registration Changes**
   - Minor grammar fix on sign up page
 

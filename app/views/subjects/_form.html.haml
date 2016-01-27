@@ -1,5 +1,7 @@
 %h2.underline-header= @title
 
+- editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
+
 = form_for [@subject.project, @subject], html: { class: 'form-horizontal' } do |f|
   - if @subject.errors.any?
     .bs-callout.bs-callout-danger
@@ -11,10 +13,22 @@
         - @subject.errors.full_messages.each do |msg|
           %li= msg
 
-  .form-group
-    = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
-    .col-md-10
-      = render 'sites/selection'
+  - if editable_sites.count > 1
+    .form-group
+      = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+      .col-md-10
+        - prefix_site_id = @project.site_id_with_prefix(params[:subject_code] || (@subject ? @subject.subject_code.to_s : ''))
+        = select_tag :site_id, options_for_select([['---', nil]] + editable_sites.order(:name).pluck(:name, :id), (params[:site_id] || (@subject ? @subject.site_id : prefix_site_id))), class: 'form-control'
+  - elsif editable_sites.count == 1
+    = hidden_field_tag :site_id, editable_sites.first.id
+  - else
+    .form-group
+      = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+      .col-md-10
+        %span.help-block{ style: 'margin-top:8px' }
+          You need to
+          = link_to 'add', new_project_site_path(@project)
+          at least one site to this project.
 
   .form-group
     = f.label :subject_code, @project.subject_code_name_full, class: 'col-md-2 control-label'

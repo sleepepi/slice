@@ -2,42 +2,47 @@
 - categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil)
 
 %h2
-  All Sheets
+  Sheets
 
-- if uncategorized_sheets.count > 0
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        %span.badge= uncategorized_sheets.count
-      - if categorized_sheets.count == 0
-        Sheets
-      - else
-        No Event
-        - if @subject.editable_by? current_user
-          %small.text-muted Assign to event by dragging sheet to event.
-    .panel-body
-      %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
-        - if @subject.editable_by? current_user
-          %col{ width: '33px' }
-        %col{ width: '60px' }
-        %col
-        %col{ width: '120px' }
-        - uncategorized_sheets.each do |sheet|
-          = render 'subjects/sheet', sheet: sheet
+- if @subject.blinded_sheets(current_user).count == 0
+  .center
+    %p.lead No data have been entered for this subject.
+    = image_tag 'sad-slice.png'
+- else
+  - if uncategorized_sheets.count > 0
+    .panel.panel-default
+      .panel-heading
+        .pull-right
+          %span.badge= uncategorized_sheets.count
+        - if categorized_sheets.count == 0
+          Sheets
+        - else
+          No Event
+          - if @subject.editable_by? current_user
+            %small.text-muted Assign to event by dragging sheet to event.
+      .panel-body
+        %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+          - if @subject.editable_by? current_user
+            %col{ width: '33px' }
+          %col{ width: '60px' }
+          %col
+          %col{ width: '120px' }
+          - uncategorized_sheets.each do |sheet|
+            = render 'subjects/sheet', sheet: sheet
 
-- if categorized_sheets.count > 0
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        %span.badge= categorized_sheets.count
-      On an Event
-    .panel-body
-      %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
-        - if @subject.editable_by? current_user
-          %col{ width: '33px' }
-        %col{ width: '60px' }
-        %col
-        %col
-        %col{ width: '120px' }
-        - categorized_sheets.includes(:subject_event).order("subject_events.event_date").each do |sheet|
-          = render 'subjects/sheet', sheet: sheet
+  - if categorized_sheets.count > 0
+    .panel.panel-default
+      .panel-heading
+        .pull-right
+          %span.badge= categorized_sheets.count
+        On an Event
+      .panel-body
+        %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+          - if @subject.editable_by? current_user
+            %col{ width: '33px' }
+          %col{ width: '60px' }
+          %col
+          %col
+          %col{ width: '120px' }
+          - categorized_sheets.includes(:subject_event).order("subject_events.event_date").each do |sheet|
+            = render 'subjects/sheet', sheet: sheet

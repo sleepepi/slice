@@ -8,6 +8,12 @@
 
   .col-sm-10
     - if @project.events.where(archived: false).count > 0
-      = render 'subjects/events'
+      - if @subject.subject_events.count == 0
+        = render 'subjects/choose_event'
+      - else
+        = render 'subjects/events'
     - else
-      = render 'subjects/sheets'
+      - if @subject.sheets.count == 0
+        = render 'subjects/data_entry'
+      - else
+        = render 'subjects/sheets'

@@ -1,22 +1,40 @@
-%h1
-  Create New Subject on Site
+- editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
 
-%p.lead
-  %span.glyphicon.glyphicon-user
-  A new subject will be created on one of the following sites.
-%p.lead
-  Please choose
-  a site to proceed to the data entry for the new subject.
+- if editable_sites.count > 1
+  %h1
+    Create New Subject on Site
 
-%hr
+  %p.lead
+    A new subject will be created on one of the following sites.
 
-- current_user.all_editable_sites.order(:name).where(project_id: @project.id).in_groups_of(3, false).each do |sites_row|
-  .row
+  %p.lead
+    Add
+    %strong= params[:subject_code]
+    to:
+
+  - editable_sites.order(:name).in_groups_of(3, false).each do |sites_row|
     - sites_row.each do |site|
-      .col-sm-6{ style: 'margin-bottom:20px' }
-        = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code], acrostic: '' }, site_id: site.id), method: :post, class: 'btn btn-success-inverse btn-block btn-lg' do
-          %span.glyphicon.glyphicon-plus
-          Create
-          %strong.btn-text-emphasis= params[:subject_code]
-          on
+      %div{ style: 'margin-bottom: 20px; margin-left: 20px;' }
+        = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code], acrostic: '' }, site_id: site.id), method: :post, class: 'btn btn-success-inverse' do
           %strong.btn-text-emphasis= site.name
+
+- elsif editable_sites.count == 1
+  %h1 Subject Code Not Found
+
+  %p.lead
+    Would you like to add
+    %strong= params[:subject_code]
+    as a new subject?
+
+  = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code], acrostic: '' }, site_id: editable_sites.first.id), method: :post, class: 'btn btn-success-inverse' do
+    Create Subject
+    %strong.btn-text-emphasis= params[:subject_code]
+
+- else
+  %h1 No Sites on Project
+
+  %p.lead
+    You will need to
+    = link_to 'add a site', new_project_site_path(@project)
+    before creating subjects.
+
