@@ -4,6 +4,7 @@
 - **General Changes**
   - Made use of Ruby's new Frozen String Literal pragma to reduce string memory allocation
   - Adjusted text for better consistency when deleting items
+  - Adjusted width of project left-hand menu to better fit the menu items on smaller screens
 - **Event Changes**
   - Launch Tablet Handoff is now only displayed for events that have a design that is marked for handoff
   - Simplified user interface when launching a new event for a subject

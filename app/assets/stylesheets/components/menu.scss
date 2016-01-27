@@ -155,6 +155,8 @@ $current-tab-color: $btn-success-color;
   }
 }
 
+$left-menu-width: 100px;
+
 .mini-menu-outer {
   min-height: 485px;
   position: relative;
@@ -165,7 +167,7 @@ $current-tab-color: $btn-success-color;
   left: -15px;
   position: absolute;
   top: 0;
-  width: 50px;
+  width: $left-menu-width;
 }
 
 .mini-menu-right-fluid {
@@ -182,7 +184,7 @@ $current-tab-color: $btn-success-color;
   }
 
   .mini-menu-right-fluid {
-    margin-left: 50px;
+    margin-left: $left-menu-width;
   }
 }
 
@@ -205,7 +207,7 @@ $current-tab-color: $btn-success-color;
     padding-bottom: 5px;
     padding-right: 5px;
     padding-top: 5px;
-    text-align: center;
+    text-align: right;
     text-decoration: none;
 
     &:hover,
