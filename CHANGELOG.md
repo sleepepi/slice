@@ -6,6 +6,8 @@
 - **Event Changes**
   - Launch Tablet Handoff is now only displayed for events that have a design that is marked for handoff
   - Simplified user interface when launching a new event for a subject
+- **Registration Changes**
+  - Minor grammar fix on sign up page
 
 ## 0.32.1 (January 26, 2016)
 
