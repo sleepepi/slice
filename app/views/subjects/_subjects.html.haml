@@ -7,6 +7,8 @@
   - if editable_sites.count > 1
     %col
   %col
+  - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+    %col{ width: '115px' }
   - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
     %col{ width: '154px' }
   %thead
@@ -18,6 +20,8 @@
       - if editable_sites.count > 1
         = th_sort_field @order, 'subjects.site_id', 'Site'
       %th.nowrap Recent Activity
+      - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+        %th Randomized
       - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
         %th AEs
 
@@ -45,6 +49,12 @@
             = subject_event.name
         - else
           %span.text-muted Subject Created
+      - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+        %td.center
+          - if subject.randomizations.count > 0
+            = simple_check true
+          - else
+            %span.text-muted -
       - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
         %td.nowrap
           - open_ae_count = subject.adverse_events.where(closed: false).count
