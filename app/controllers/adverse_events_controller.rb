@@ -36,7 +36,7 @@ class AdverseEventsController < ApplicationController
 
   # GET /adverse_events/new
   def new
-    @adverse_event = current_user.adverse_events.where(project_id: @project.id).new
+    @adverse_event = current_user.adverse_events.where(project_id: @project.id).new(subject_code: params[:subject_code])
   end
 
   # GET /adverse_events/1/edit
