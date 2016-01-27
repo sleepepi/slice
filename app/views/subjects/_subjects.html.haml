@@ -1,23 +1,25 @@
-%table.table.table-striped
-  %col{ width: "30px" }
+- editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
+%table.table.table-striped.table-fixed
+  %col{ width: '30px' }
+  %col
+  - if @project.acrostic_enabled?
+    %col
+  - if editable_sites.count > 1
+    %col
+  %col
+  - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+    %col{ width: '154px' }
   %thead
     %tr
       = th_sort_field @order, 'subjects.status', ''
       = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
       - if @project.acrostic_enabled?
         = th_sort_field @order, 'subjects.acrostic', 'Acrostic'
-      = th_sort_field @order, 'subjects.site_id', 'Site'
-      - @events.each do |event|
-        %th
-          - if event.id.to_i == params[:event_id].to_i
-            = link_to event.name, project_subjects_path(without_event_id: event.id)
-          - else
-            = link_to event.name, project_subjects_path(event_id: event.id)
-          - if event.id.in?([params[:event_id].to_i, params[:without_event_id].to_i])
-            = link_to project_subjects_path, class: 'text-danger', rel: 'tooltip', data: { title: 'Remove Filter', container: 'body', placement: 'right' } do
-              %span.glyphicon.glyphicon-filter
-
-      %th Actions
+      - if editable_sites.count > 1
+        = th_sort_field @order, 'subjects.site_id', 'Site'
+      %th.nowrap Recent Activity
+      - if @project.adverse_events_enabled?
+        %th AEs
 
   - @subjects.each do |subject|
     %tr{ id: "subject_#{subject.id}" }
@@ -25,20 +27,40 @@
       %td= link_to subject.subject_code, [@project, subject]
       - if @project.acrostic_enabled?
         %td= subject.acrostic
-      %td= link_to subject.site.name, [@project, subject.site]
-      - @events.each do |event|
-        %td.center.nowrap
-          - subject_event_ids = subject.subject_events.where(event_id: event.id).pluck(:id)
-          - if subject_event_ids.blank?
-            = link_to '+', choose_date_project_subject_path(@project, subject, event_id: event.to_param), class: 'btn btn-xs btn-success-inverse'
+      - if editable_sites.count > 1
+        %td= link_to subject.site.name, [@project, subject.site]
+      %td
+        - sheet = subject.blinded_sheets(current_user).order(updated_at: :desc).first
+        - subject_event = subject.subject_events.order(updated_at: :desc).first
+        - if sheet && subject_event
+          - if sheet.updated_at > subject_event.updated_at
+            = link_to sheet.name, [@project, sheet]
           - else
-            = @project.sheets.where(subject_event_id: subject_event_ids).pluck(:design_id).uniq.count
-            \/
-            = event.designs.count
-      %td.nowrap
-        - if current_user.all_subjects.pluck(:id).include?(subject.id)
-          = link_to 'Edit', edit_project_subject_path(@project, subject), class: 'btn btn-default btn-xs'
-          = link_to 'Delete', [@project, subject], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{subject.name}?" }
+            = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
+              = subject_event.name
+        - elsif sheet
+          = link_to sheet.name, [@project, sheet]
+        - elsif subject_event
+          = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
+            = subject_event.name
+        - else
+          %span.text-muted Subject Created
+      - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+        %td.nowrap
+          - open_ae_count = subject.adverse_events.where(closed: false).count
+          - closed_ae_count = subject.adverse_events.where(closed: true).count
+          - if open_ae_count + closed_ae_count > 0
+            - if open_ae_count > 0
+              = link_to adverse_events_project_subject_path(@project, subject), class: 'btn btn-success btn-xs' do
+                = open_ae_count
+                Open
+              &nbsp;
+            - if closed_ae_count > 0
+              = link_to adverse_events_project_subject_path(@project, subject), class: 'btn btn-danger btn-xs' do
+                = closed_ae_count
+                Closed
+          - else
+            %span.text-muted -
 
 .center
   = paginate @subjects, theme: 'contour'

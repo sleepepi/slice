@@ -8,6 +8,7 @@
   - Simplified user interface when launching a new event for a subject
 - **Subject Changes**
   - Simplified creation of subjects, and defaulted to "Add Event" or "Data Entry" views for subjects with no data
+  - Subjects index has been redesigned, events have been removed, and recent activity and AEs have been added
 - **Registration Changes**
   - Minor grammar fix on sign up page
 

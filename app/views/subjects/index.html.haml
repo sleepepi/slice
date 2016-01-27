@@ -23,10 +23,12 @@
             .col-md-9
               = text_field_tag 'search', params[:search], class: 'form-control'
 
-          .col-md-4.form-group
-            = label :site_id, 'Site', class: 'col-md-3 control-label'
-            .col-md-9
-              = select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where( project_id: @project.id ).order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), class: 'form-control'
+          - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
+          - if editable_sites.count > 1
+            .col-md-4.form-group
+              = label :site_id, 'Site', class: 'col-md-3 control-label'
+              .col-md-9
+                = select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where( project_id: @project.id ).order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), class: 'form-control'
 
           .col-md-4.form-group
             %label.col-md-3.control-label Subjects
