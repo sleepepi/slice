@@ -23,10 +23,11 @@
   = link_to 'Create Site', new_project_site_path(@project), class: 'btn btn-xs btn-primary' if @project.editable_by?(current_user)
 
 - @project.sites.order(:name).each do |site|
-  %table.table.table-fixed{ style: 'margin-top:20px' }
+  %h4{ style: 'margin-top:40px' }= link_to_if current_user.all_viewable_sites.pluck(:id).include?(site.id), site.name, [site.project, site]
+  %table.table.table-fixed
     %thead
       %tr
-        %th= link_to_if current_user.all_viewable_sites.pluck(:id).include?(site.id), site.name, [site.project, site]
+        %th Name
         %th Role
         - if @project.blinding_enabled?
           %th Unblinded
