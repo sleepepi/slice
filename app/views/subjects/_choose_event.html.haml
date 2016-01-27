@@ -1,21 +1,10 @@
-%h2
-  Available Events
+%h2 New Event
+
+%p.lead Which event would you like to add?
 
 - if @project.events.where(archived: false).count > 0
-  .row
-    - @project.events.where(archived: false).order(:position).in_groups(2, nil).each do |events|
-      .col-md-6
-        - events.each do |event|
-          - if event and event.designs.count > 0
-            .panel.panel-default
-              .panel-heading
-                = event.name
-              .panel-body
-                - if event.designs.count > 0
-                  %ul.list-unstyled
-                    - event.designs.each do |design|
-                      %li= design.name
-              .panel-footer
-                = link_to choose_date_project_subject_path(@project, @subject, event_id: event.to_param), class: 'btn btn-xs btn-block btn-success-inverse' do
-                  Select
-                  %strong.btn-text-emphasis=event.name
+  %ul
+    - @project.events.where(archived: false).order(:position).each do |event|
+      - if event.designs.count > 0
+        %li
+          = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
