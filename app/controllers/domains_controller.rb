@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DomainsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :values]

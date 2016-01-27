@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class List < ActiveRecord::Base
   # Serialized
   serialize :extra_options, Array

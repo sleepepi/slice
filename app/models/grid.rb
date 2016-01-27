@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Grid < ActiveRecord::Base
   # Concerns
   include Valuable

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RandomizationAlgorithm
 
   DEFAULT_CLASS = RandomizationAlgorithm::Algorithms::Default

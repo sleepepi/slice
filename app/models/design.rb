@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Design < ActiveRecord::Base
   mount_uploader :csv_file, SpreadsheetUploader
 

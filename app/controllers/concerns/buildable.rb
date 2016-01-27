@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Builds report tables for projects and designs
 module Buildable
   extend ActiveSupport::Concern

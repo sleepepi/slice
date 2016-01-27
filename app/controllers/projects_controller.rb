@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,      only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :logo ]

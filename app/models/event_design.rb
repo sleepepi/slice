@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventDesign < ActiveRecord::Base
   # Model Validation
   validates :position, uniqueness: { scope: [:event_id, :design_id] }

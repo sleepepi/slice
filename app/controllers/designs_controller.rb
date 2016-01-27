@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Designs can be created and updated by project editors and owners
 class DesignsController < ApplicationController
   before_action :authenticate_user!

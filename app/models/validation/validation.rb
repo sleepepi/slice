@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Validation
   DEFAULT_CLASS = Validation::Validators::Default
   VALIDATOR_CLASSES = {

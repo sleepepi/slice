@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows project owners, editors, and viewers to leave comments on a sheet
 class CommentsController < ApplicationController
   before_action :authenticate_user!

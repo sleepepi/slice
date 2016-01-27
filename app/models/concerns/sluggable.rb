@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows models with an id:integer and a slug:string to be found by either using
 # find_by_param, and by overriding to_param for URL generation.
 module Sluggable

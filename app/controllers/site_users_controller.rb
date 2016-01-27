@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows members to invite others to collaborate on a project as a site member.
 class SiteUsersController < ApplicationController
   before_action :authenticate_user!, except: [:invite]

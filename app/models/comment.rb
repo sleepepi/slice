@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows editors and viewers to comment on sheets
 class Comment < ActiveRecord::Base
   # Concerns

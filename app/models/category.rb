@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Categories allow designs on a project to be grouped together. A design can
 # only belong to a single category. Additionally a category can be marked to
 # only show designs for use with the adverse events module. These designs will

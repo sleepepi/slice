@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SurveyController < ApplicationController
   prepend_before_action { request.env['devise.skip_timeout'] = true }
   skip_before_action :verify_authenticity_token

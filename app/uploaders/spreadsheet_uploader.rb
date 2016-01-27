@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpreadsheetUploader < CarrierWave::Uploader::Base
 
   # Choose what kind of storage to use for this uploader:

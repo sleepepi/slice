@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Project < ActiveRecord::Base
   PER_PAGE = 40
 

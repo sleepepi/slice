@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Categories can only be created and updated by project owners and editors
 class CategoriesController < ApplicationController
   before_action :authenticate_user!

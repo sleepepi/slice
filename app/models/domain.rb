@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Domain < ActiveRecord::Base
   serialize :options, Array
 

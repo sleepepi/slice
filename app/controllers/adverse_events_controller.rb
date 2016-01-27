@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Tracks updates to adverse events
 class AdverseEventsController < ApplicationController
   before_action :authenticate_user!

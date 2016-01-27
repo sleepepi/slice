@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Validation
   class InMemorySheetVariable
     attr_accessor :variable, :response, :response_file, :responses

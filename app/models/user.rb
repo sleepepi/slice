@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The user class provides methods to scope resources in system that the user is
 # allowed to view and edit.
 class User < ActiveRecord::Base

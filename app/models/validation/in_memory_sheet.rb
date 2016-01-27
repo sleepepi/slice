@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This class is used to merge stored database responses with newly entered
 # responses in order to validate a sheet, sheet_variables, responses, and grids
 # before saving back to database

@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 require 'valuables/default'
 
 module Valuables
-
   class DomainResponse < Default
-
     protected
 
     def hash
@@ -17,7 +17,5 @@ module Valuables
     def hash_display_name
       hash[:name].to_s
     end
-
   end
-
 end

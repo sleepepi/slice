@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Overwrite the warden error that is currently in Devise
 
 Warden::Manager.after_set_user do |record, warden, options|

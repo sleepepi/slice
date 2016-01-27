@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SheetTransactionAudit < ActiveRecord::Base
   # Model Relationships
   belongs_to :sheet_transaction

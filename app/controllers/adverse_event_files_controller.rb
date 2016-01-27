@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows files to be attached and removed from adverse events
 class AdverseEventFilesController < ApplicationController
   before_action :authenticate_user!

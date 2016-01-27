@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Captures discussion on an adverse event along with closing and reopening of
 # the adverse event.
 class AdverseEventComment < ActiveRecord::Base

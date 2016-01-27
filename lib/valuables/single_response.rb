@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'valuables/domain_response'
 
 module Valuables
-
   class SingleResponse < DomainResponse
 
     def name
@@ -11,7 +12,5 @@ module Valuables
     def display_name
       hash_display_name
     end
-
   end
-
 end

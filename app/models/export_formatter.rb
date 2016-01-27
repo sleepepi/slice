@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExportFormatter
   attr_reader :sheet_scope, :filename
   attr_reader :design_scope, :variables, :domains, :variable_ids

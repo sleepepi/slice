@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 require 'valuables/default'
 require 'chunky_png'
 require 'tempfile'
 
 module Valuables
-
   class SignatureResponse < Default
-
     def raw_file
       file = Tempfile.new('signature.png')
       begin
@@ -33,7 +33,5 @@ module Valuables
       png = canvas.to_image
       png.save(filename)
     end
-
   end
-
 end

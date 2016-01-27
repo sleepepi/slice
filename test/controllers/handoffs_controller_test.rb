@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 # Project editors should be able to launch handoffs for subjects with existing

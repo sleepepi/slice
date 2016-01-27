@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Handles tablet handoff after control has been passed to the subject
 class HandoffController < ApplicationController
   prepend_before_action { request.env['devise.skip_timeout'] = true }

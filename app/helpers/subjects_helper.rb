@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SubjectsHelper
   def status_helper(subject, long = false)
     content_tag(  :span, (long ? subject.status : subject.status[0]),

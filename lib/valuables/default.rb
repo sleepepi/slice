@@ -1,7 +1,7 @@
+# frozen_string_literal: true
+
 module Valuables
-
   class Default
-
     attr_reader :object
 
     def initialize(object)
@@ -19,7 +19,5 @@ module Valuables
     def display_name
       self.name
     end
-
   end
-
 end

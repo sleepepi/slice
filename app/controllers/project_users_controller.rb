@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows project members to invite others to collaborate on project.
 # Others can accept invite tokens to be added to projects
 class ProjectUsersController < ApplicationController

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SheetVariable < ActiveRecord::Base
   # Concerns
   include Valuable

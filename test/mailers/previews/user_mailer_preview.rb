@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows emails to be viewed at /rails/mailers
 class UserMailerPreview < ActionMailer::Preview
   def user_added_to_project

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RandomizationScheme < ActiveRecord::Base
   # Triggers
   after_create :create_default_block_size_multipliers

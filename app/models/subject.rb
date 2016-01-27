@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Subject < ActiveRecord::Base
   STATUS = %w(valid test).collect { |i| [i, i] }
 

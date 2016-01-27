@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DateAndTimeParser
 
   def parse_date(date_string, default_date = nil)

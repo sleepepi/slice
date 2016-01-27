@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Generates sheet coverage tag, and also links back to sheet index
 module SheetsHelper
   def coverage_helper(sheet, placement = 'right')

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,                  only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event, :report, :search, :choose_site]

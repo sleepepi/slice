@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RandomizationCharacteristic < ActiveRecord::Base
   # Model Relationships
   belongs_to :project

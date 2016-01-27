@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DesignOption < ActiveRecord::Base
   # Model Validation
   validates :design_id, presence: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Grants access to public surveys for images, adding grid rows, variable
 # typeahead, and formatting variable numbers.
 class ExternalController < ApplicationController

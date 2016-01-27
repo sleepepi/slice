@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Provides methods to invite a new member to an existing project
 class ProjectUser < ActiveRecord::Base
   # Model Validation

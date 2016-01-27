@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TreatmentArm < ActiveRecord::Base
   # Concerns
   include Deletable

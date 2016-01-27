@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 require 'valuables/default'
 
 module Valuables
-
   class GridResponse < Default
-
     def name
       is_grid? ? grid_responses(:name) : super
     end
@@ -31,7 +31,5 @@ module Valuables
       end
       grid_responses.to_json
     end
-
   end
-
 end

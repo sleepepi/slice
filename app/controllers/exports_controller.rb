@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExportsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,      only: [:index, :show, :new, :create, :file, :progress, :mark_unread, :destroy]

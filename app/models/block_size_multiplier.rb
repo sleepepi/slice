@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BlockSizeMultiplier < ActiveRecord::Base
   # Concerns
   include Deletable

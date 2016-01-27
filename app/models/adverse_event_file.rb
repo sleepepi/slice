@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Files can be uploaded and attached to adverse events
 class AdverseEventFile < ActiveRecord::Base
   # Uploaders

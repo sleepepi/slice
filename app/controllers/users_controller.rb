@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows users to set settings, search for other users
 # Allows admins to review existing accounts
 class UsersController < ApplicationController

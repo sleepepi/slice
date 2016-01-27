@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Site < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows variables on project to be validated
 class ValidateController < ApplicationController
   before_action :set_project

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Tracks password expiration
 module Expirable
   extend ActiveSupport::Concern

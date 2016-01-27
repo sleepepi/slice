@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Adverse events track the initial report and discussion of an adverse event,
 # along with associated designs and files uploaded to the adverse event report.
 class AdverseEvent < ActiveRecord::Base

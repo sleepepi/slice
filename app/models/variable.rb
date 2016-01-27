@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Variable Class attributes
 # :description, :name, :display_name, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
 # # Integer and Numeric

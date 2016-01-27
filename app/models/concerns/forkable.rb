@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows long running methods to be forked easily
 module Forkable
   extend ActiveSupport::Concern

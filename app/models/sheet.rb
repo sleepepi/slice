@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Sheet < ActiveRecord::Base
   # Concerns
   include Deletable, Latexable, DoubleDataEntry, Siteable

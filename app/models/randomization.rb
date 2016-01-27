@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Randomization < ActiveRecord::Base
   # Serialized
   serialize :past_distributions, Hash

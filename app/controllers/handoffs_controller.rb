@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allows project members to launch a tablet handoff that encapsulates a series
 # of designs that can be filled out by a subject
 class HandoffsController < ApplicationController

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Helps render the project menu
 module ProjectsHelper
   SETUP_CONTROLLERS = %w(

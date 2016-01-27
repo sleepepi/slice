@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 # Tests that mail views are rendered corretly, sent to correct user, and have a

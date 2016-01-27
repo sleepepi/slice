@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActionMailer::Base.default_url_options[:host] = ENV['website_url'].to_s.gsub(%r{^https?://}, '')
 if Rails.env.test?
   ActionMailer::Base.delivery_method = :test

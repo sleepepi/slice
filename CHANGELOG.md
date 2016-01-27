@@ -1,5 +1,9 @@
 ## 0.32.2
 
+### Enhancements
+- **General Changes**
+  - Made use of Ruby's new Frozen String Literal pragma to reduce string memory allocation
+
 ## 0.32.1 (January 26, 2016)
 
 ### Enhancements

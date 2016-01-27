@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'valuables/default'
 require 'valuables/domain_response'
 require 'valuables/date_response'
@@ -10,9 +12,7 @@ require 'valuables/single_response'
 require 'valuables/time_response'
 require 'valuables/signature_response'
 
-
 module Valuables
-
   DEFAULT_CLASS = Valuables::Default
   VALUABLE_CLASSES = {
     'calculated' => NumericResponse,
@@ -33,5 +33,4 @@ module Valuables
   def self.for(object)
     (VALUABLE_CLASSES[object.variable.variable_type] || DEFAULT_CLASS).new(object)
   end
-
 end

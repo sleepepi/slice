@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Keeps track of when the user last viewed an adverse event to provide better
 # notifications to user of updates to the AE.
 class AdverseEventUser < ActiveRecord::Base

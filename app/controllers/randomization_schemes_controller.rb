@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project_or_editable_site,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list]

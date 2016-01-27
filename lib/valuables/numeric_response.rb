@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 require 'valuables/domain_response'
 
 module Valuables
-
   class NumericResponse < DomainResponse
-
     def name
       hash_name_or_response
     end
@@ -33,7 +33,5 @@ module Valuables
     def hash_display_name_or_response
       hash_display_name.blank? ? response_with_add_on : hash_display_name
     end
-
   end
-
 end

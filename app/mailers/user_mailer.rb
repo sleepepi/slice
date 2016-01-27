@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Sends out application emails to users
 class UserMailer < ApplicationMailer
   def invite_user_to_site(site_user)

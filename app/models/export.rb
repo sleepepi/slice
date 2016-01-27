@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Export < ActiveRecord::Base
   after_create :calculate_total_steps
 

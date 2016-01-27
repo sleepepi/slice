@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [:index, :show, :print, :file, :verification_report]

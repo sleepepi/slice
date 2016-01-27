@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Stores custom reports for users
 class ReportsController < ApplicationController
   before_action :authenticate_user!

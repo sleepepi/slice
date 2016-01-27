@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Main web application controller for Slice website
 # Other controllers inherit from this as a base class
 # This controller also handles several static pages in views/application

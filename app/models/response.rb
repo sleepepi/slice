@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Response < ActiveRecord::Base
   # Model Validation
   validates :variable_id, :value, presence: true

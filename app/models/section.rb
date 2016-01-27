@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Section < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 

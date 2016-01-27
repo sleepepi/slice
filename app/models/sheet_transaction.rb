@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SheetTransaction < ActiveRecord::Base
   TRANSACTION_TYPE = ["sheet_create", "sheet_update", "public_sheet_create", "public_sheet_update", "domain_update", "sheet_rollback"]
 

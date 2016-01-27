@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # See: http://chriseppstein.github.io/blog/2010/02/08/haml-sucks-for-content/
 
 # Performance
