@@ -53,7 +53,7 @@ class AdverseEventFilesController < ApplicationController
   # DELETE /adverse-events/:adverse_event_id/files/1
   def destroy
     @adverse_event_file.destroy
-    redirect_to project_adverse_event_adverse_event_files_path(@project, @adverse_event), notice: 'File was successfully destroyed.'
+    redirect_to project_adverse_event_adverse_event_files_path(@project, @adverse_event), notice: 'File was successfully deleted.'
   end
 
   private

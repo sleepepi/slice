@@ -41,7 +41,7 @@ class RandomizationsController < ApplicationController
   # # DELETE /randomizations/1
   # def destroy
   #   @randomization.destroy
-  #   redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully destroyed.'
+  #   redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully deleted.'
   # end
 
   private

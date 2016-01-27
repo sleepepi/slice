@@ -65,7 +65,7 @@ class AdverseEventsController < ApplicationController
   # DELETE /adverse_events/1
   def destroy
     @adverse_event.destroy
-    redirect_to project_adverse_events_path(@project), notice: 'Adverse event was successfully destroyed.'
+    redirect_to project_adverse_events_path(@project), notice: 'Adverse event was successfully deleted.'
   end
 
   private

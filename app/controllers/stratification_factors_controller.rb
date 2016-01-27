@@ -66,7 +66,7 @@ class StratificationFactorsController < ApplicationController
   def destroy
     @stratification_factor.destroy
     respond_to do |format|
-      format.html { redirect_to project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme), notice: 'Stratification factor was successfully destroyed.' }
+      format.html { redirect_to project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme), notice: 'Stratification factor was successfully deleted.' }
       format.json { head :no_content }
     end
   end

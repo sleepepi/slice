@@ -166,7 +166,7 @@ class RandomizationSchemesController < ApplicationController
   def destroy
     @randomization_scheme.destroy
     respond_to do |format|
-      format.html { redirect_to project_randomization_schemes_path(@project), notice: 'Randomization scheme was successfully destroyed.' }
+      format.html { redirect_to project_randomization_schemes_path(@project), notice: 'Randomization scheme was successfully deleted.' }
       format.json { head :no_content }
     end
   end

@@ -48,7 +48,7 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1
   def destroy
     @category.destroy
-    redirect_to project_categories_path(@project), notice: 'Category was successfully destroyed.'
+    redirect_to project_categories_path(@project), notice: 'Category was successfully deleted.'
   end
 
   private

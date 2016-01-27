@@ -66,7 +66,7 @@ class TreatmentArmsController < ApplicationController
   def destroy
     @treatment_arm.destroy
     respond_to do |format|
-      format.html { redirect_to project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme), notice: 'Treatment arm was successfully destroyed.' }
+      format.html { redirect_to project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme), notice: 'Treatment arm was successfully deleted.' }
       format.json { head :no_content }
     end
   end

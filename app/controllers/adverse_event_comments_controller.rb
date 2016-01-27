@@ -58,7 +58,7 @@ class AdverseEventCommentsController < ApplicationController
   # DELETE /adverse_event_comments/1
   def destroy
     @adverse_event_comment.destroy
-    # redirect_to [@project, @adverse_event], notice: 'Adverse event comment was successfully destroyed.'
+    # redirect_to [@project, @adverse_event], notice: 'Adverse event comment was successfully deleted.'
     render :index
   end
 

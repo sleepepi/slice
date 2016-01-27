@@ -66,7 +66,7 @@ class BlockSizeMultipliersController < ApplicationController
   def destroy
     @block_size_multiplier.destroy
     respond_to do |format|
-      format.html { redirect_to project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme), notice: 'Block size multiplier was successfully destroyed.' }
+      format.html { redirect_to project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme), notice: 'Block size multiplier was successfully deleted.' }
       format.json { head :no_content }
     end
   end
