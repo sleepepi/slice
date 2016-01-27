@@ -243,7 +243,7 @@ class SubjectsController < ApplicationController
     params[:subject][:site_id] = (current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i) ? params[:site_id].to_i : nil)
     params[:subject][:project_id] = @project.id
     params.require(:subject).permit(
-      :project_id, :subject_code, :site_id, :acrostic, :email, :status
+      :project_id, :subject_code, :site_id, :acrostic
     )
   end
 

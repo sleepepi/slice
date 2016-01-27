@@ -41,16 +41,6 @@
       = f.text_field :acrostic, class: 'form-control', autocomplete: 'off'
 
   .form-group
-    = f.label :email, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :email, class: 'form-control', autocomplete: 'off'
-
-  .form-group
-    = label_tag :status, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.select :status, Subject::STATUS, {}, class: 'form-control'
-
-  .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
       = cancel

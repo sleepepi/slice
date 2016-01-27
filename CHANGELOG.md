@@ -12,6 +12,7 @@
   - Simplified creation of subjects, and defaulted to "Add Event" or "Data Entry" views for subjects with no data
   - Subjects index has been redesigned, events have been removed, and recent activity, adverse events, and randomizations have been added
   - Adverse Events can now be reported directly from subject pages
+  - Started work on removing subject status
 - **Registration Changes**
   - Minor grammar fix on sign up page
 
