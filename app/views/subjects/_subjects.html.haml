@@ -1,5 +1,5 @@
 - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
-%table.table.table-striped.table-fixed
+%table.table.table-striped
   %col{ width: '30px' }
   %col
   - if @project.acrostic_enabled?
@@ -8,9 +8,9 @@
     %col
   %col
   - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-    %col{ width: '115px' }
+    %col
   - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-    %col{ width: '154px' }
+    %col
   %thead
     %tr
       = th_sort_field @order, 'subjects.status', ''
@@ -21,7 +21,7 @@
         = th_sort_field @order, 'subjects.site_id', 'Site'
       %th.nowrap Recent Activity
       - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-        %th Randomized
+        %th.center Randomized
       - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
         %th AEs
 
