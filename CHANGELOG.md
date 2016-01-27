@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Made use of Ruby's new Frozen String Literal pragma to reduce string memory allocation
+- **Event Changes**
+  - Launch Tablet Handoff is now only displayed for events that have a design that is marked for handoff
 
 ## 0.32.1 (January 26, 2016)
 

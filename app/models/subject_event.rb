@@ -34,4 +34,8 @@ class SubjectEvent < ActiveRecord::Base
       SheetTransaction.save_sheet!(sheet, { subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, remote_ip, 'sheet_update')
     end
   end
+
+  def handoffs?
+    event.event_designs.where(handoff_enabled: true).count > 0
+  end
 end

@@ -13,16 +13,16 @@
     - else
       %span.text-highlight
         %span.glyphicon.glyphicon-tasks
-    = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
-      = subject_event.event.name
-    - if @project.handoffs_enabled? && @subject.editable_by?(current_user)
-      = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-xs btn-success'
+    = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
+    - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
+      = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-xs btn-primary'
   .panel-body
-    %table.table.table-striped{ style: 'table-layout:fixed;margin-bottom:0px' }
+    %table.table.table-striped{ style: 'table-layout:fixed; margin-bottom:0' }
       %col{ width: '60px' }
       %col
       %col{ width: '120px' }
-      - subject_event.event.designs.each do |design|
+      - subject_event.event.event_designs.includes(:design).each do |event_design|
+        - design = event_design.design
         - sheets = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id)
         - if sheets.count > 0
           - sheets.each do |sheet|
@@ -31,7 +31,9 @@
                 = coverage_helper(sheet)
               %td
                 = link_to sheet.name, project_sheet_path(@project, sheet)
-              %td{ style: 'text-align:right' }
+                - if event_design.handoff_enabled?
+                  %span.label.label-success Handoff
+              %td.text-right
                 - if sheet.comments.count > 0
                   = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
                     = sheet.comments.count
@@ -43,10 +45,13 @@
             %td
             %td
               = design.name
+              - if event_design.handoff_enabled?
+                %span.label.label-success Handoff
             %td
               - if @subject.editable_by? current_user
                 = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs btn-block'
-    - if non_design_sheets = subject_event.sheets.where.not(design_id: subject_event.event.designs.select(:id)) and non_design_sheets.count > 0
+    - non_design_sheets = subject_event.sheets.where.not(design_id: subject_event.event.designs.select(:id))
+    - if non_design_sheets && non_design_sheets.count > 0
       %div{ style: 'margin-top: 20px' }
         .bs-callout.bs-callout-warning
           %h4 Extra Sheets
@@ -63,6 +68,6 @@
               = link_to sheet.name, project_sheet_path(@project, sheet)
             %td{ style: 'text-align:right' }
               - if sheet.comments.count > 0
-                = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
+                = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
                   = sheet.comments.count
                   %span.glyphicon.glyphicon-comment
