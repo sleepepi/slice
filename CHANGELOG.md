@@ -13,6 +13,9 @@
 - **Registration Changes**
   - Minor grammar fix on sign up page
 
+### Bug Fixes
+- Fixed a bug that prevented autocompletes in grids from displaying search results
+
 ## 0.32.1 (January 26, 2016)
 
 ### Enhancements

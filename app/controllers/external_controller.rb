@@ -70,7 +70,12 @@ class ExternalController < ApplicationController
   end
 
   def set_variable
-    @variable = @design.variables.find_by_id(params[:variable_id]) if @design
+    if @design
+      variable = @design.project.variables.find_by_id(params[:variable_id])
+      if variable && variable.inherited_designs.collect(&:id).include?(@design.id)
+        @variable = variable
+      end
+    end
     empty_response_or_root_path unless @variable
   end
 end
