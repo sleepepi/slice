@@ -5,7 +5,9 @@ require 'valuables/numeric_response'
 module Valuables
   class IntegerResponse < NumericResponse
     def raw
-      begin Integer('%.0f' % @object.response) end rescue @object.response
+      Integer(format('%.0f', @object.response))
+    rescue
+      @object.response
     end
   end
 end

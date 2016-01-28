@@ -1,5 +1,9 @@
 ## 0.33.0
 
+### Enhancements
+- **Export Changes**
+  - Rewrote the data exporter to more efficiently export large amounts of data
+
 ## 0.32.2 (January 27, 2016)
 
 ### Enhancements

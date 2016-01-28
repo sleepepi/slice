@@ -9,11 +9,9 @@ module Valuables
     end
 
     def raw
-      begin
-        Float(@object.response)
-      rescue
-        @object.response
-      end
+      Float(@object.response)
+    rescue
+      @object.response
     end
 
     def display_name
@@ -23,7 +21,15 @@ module Valuables
     private
 
     def response_with_add_on
-      @object.response.blank? ? "" : [@object.variable.prepend, @object.response, @object.variable.units, @object.variable.append].compact.join(' ').squish
+      if @object.response.blank?
+        ''
+      else
+        components.compact.join(' ').squish
+      end
+    end
+
+    def components
+      [@object.variable.prepend, @object.response, @object.variable.units, @object.variable.append]
     end
 
     def hash_name_or_response

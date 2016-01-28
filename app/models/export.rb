@@ -61,17 +61,19 @@ class Export < ActiveRecord::Base
   end
 
   def generate_all_files(sheet_scope, filename)
+    enable_grids = false # TODO Remove
+
     all_files = [] # If numerous files are created then they need to be zipped!
     all_files << generate_csv_sheets(sheet_scope, filename, false, 'csv') if include_csv_labeled?
-    all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if include_csv_labeled?
+    all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if include_csv_labeled? && enable_grids
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'csv')  if include_csv_raw?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw? && enable_grids
     all_files << generate_readme('csv')                                   if include_csv_labeled? || include_csv_raw?
     all_files += generate_pdf(sheet_scope)                                if include_pdf?
     all_files += generate_data_dictionary(sheet_scope)                    if include_data_dictionary?
     all_files += generate_sas(sheet_scope, filename)                      if include_sas?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if include_sas?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas? && enable_grids
     all_files += generate_r(sheet_scope, filename)                      if include_r?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')  if include_r?
     all_files << generate_csv_grids(sheet_scope, filename, true, 'r')   if include_r?

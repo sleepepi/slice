@@ -17,7 +17,7 @@ module Valuables
     end
 
     def display_name
-      self.name
+      name
     end
   end
 end

@@ -38,5 +38,8 @@ module Slice
     # Add Validation Module to autoload path
     config.autoload_paths << Rails.root.join('app', 'models', 'validation')
     config.autoload_paths << Rails.root.join('app', 'models', 'validation', 'validators')
+
+    # Add Formatters Module to autoload path
+    config.autoload_paths << Rails.root.join('app', 'models', 'formatters')
   end
 end
