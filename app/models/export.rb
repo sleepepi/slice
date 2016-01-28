@@ -62,19 +62,19 @@ class Export < ActiveRecord::Base
 
   def generate_all_files(sheet_scope, filename)
     all_files = [] # If numerous files are created then they need to be zipped!
-    all_files << generate_csv_sheets(sheet_scope, filename, false, 'csv') if self.include_csv_labeled?
-    all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if self.include_csv_labeled?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, 'csv')  if self.include_csv_raw?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if self.include_csv_raw?
-    all_files << generate_readme('csv')                                   if self.include_csv_labeled? or self.include_csv_raw?
-    all_files += generate_pdf(sheet_scope)                                if self.include_pdf?
-    all_files += generate_data_dictionary(sheet_scope)                    if self.include_data_dictionary?
-    all_files += generate_sas(sheet_scope, filename)                      if self.include_sas?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if self.include_sas?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if self.include_sas?
-    all_files += generate_r(sheet_scope, filename)                      if self.include_r?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')  if self.include_r?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'r')   if self.include_r?
+    all_files << generate_csv_sheets(sheet_scope, filename, false, 'csv') if include_csv_labeled?
+    all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if include_csv_labeled?
+    all_files << generate_csv_sheets(sheet_scope, filename, true, 'csv')  if include_csv_raw?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw?
+    all_files << generate_readme('csv')                                   if include_csv_labeled? || include_csv_raw?
+    all_files += generate_pdf(sheet_scope)                                if include_pdf?
+    all_files += generate_data_dictionary(sheet_scope)                    if include_data_dictionary?
+    all_files += generate_sas(sheet_scope, filename)                      if include_sas?
+    all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if include_sas?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas?
+    all_files += generate_r(sheet_scope, filename)                      if include_r?
+    all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')  if include_r?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'r')   if include_r?
 
     if include_files?
       sheet_scope.each do |sheet|
@@ -165,7 +165,9 @@ class Export < ActiveRecord::Base
               'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name']
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
-          if section = design_option.section
+          section = design_option.section
+          variable = design_option.variable
+          if section
             csv << [d.name,
                     section.to_slug,
                     section.name,
@@ -187,7 +189,7 @@ class Export < ActiveRecord::Base
                     nil, # Alignment
                     nil, # Default Row Number
                     nil] # Domain Name
-          elsif variable = design_option.variable
+          elsif variable
             csv << [d.name,
                     variable.name,
                     variable.display_name,
@@ -214,7 +216,8 @@ class Export < ActiveRecord::Base
       end
     end
 
-    domains_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_domains.csv")
+    csv_name = "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_domains.csv"
+    domains_csv = File.join('tmp', 'files', 'exports', csv_name)
 
     CSV.open(domains_csv, 'wb') do |csv|
       csv << ['Domain Name', 'Description', 'Option Name', 'Option Value', 'Missing Code', 'Option Description']
