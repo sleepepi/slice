@@ -66,10 +66,11 @@ module GridExport
   end
 
   def grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, variable, sheet_scope, sheet_ids, value)
-    responses = Response.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, value: value)
+    responses = Response.joins(:grid)
+                        .where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, value: value)
                         .where.not(grid_id: nil)
-                        .order(sheet_id: :desc).pluck(:value, :sheet_id, :grid_id).uniq
-    grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope)
+                        .order(sheet_id: :desc).pluck(:value, :position, :sheet_id).uniq
+    grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
   end
 
   def grid_sort_responses_by_sheet_id_generic(grid_group_variable, variable, sheet_scope, sheet_ids)
