@@ -349,7 +349,7 @@ class Variable < ActiveRecord::Base
 
   def csv_column
     if variable_type == 'checkbox'
-      [name] + shared_options.collect { |option| option_variable_name(option[:value]) }
+      shared_options.collect { |option| option_variable_name(option[:value]) }
     else
       name
     end
@@ -358,7 +358,7 @@ class Variable < ActiveRecord::Base
   def sas_informat_definition
     if variable_type == 'checkbox'
       option_informat = (domain && !domain.all_numeric? ? '$500' : 'best32')
-      ["  informat #{name} #{sas_informat}. ;"] + shared_options.collect { |option| "  informat #{option_variable_name(option[:value])} #{option_informat}. ;" }
+      shared_options.collect { |option| "  informat #{option_variable_name(option[:value])} #{option_informat}. ;" }
     else
       "  informat #{name} #{sas_informat}. ;"
     end
@@ -367,7 +367,7 @@ class Variable < ActiveRecord::Base
   def sas_format_definition
     if variable_type == 'checkbox'
       option_format = (domain && !domain.all_numeric? ? '$500' : 'best32')
-      ["  format #{name} #{sas_format}. ;"] + shared_options.collect { |option| "  format #{option_variable_name(option[:value])} #{option_format}. ;" }
+      shared_options.collect { |option| "  format #{option_variable_name(option[:value])} #{option_format}. ;" }
     else
       "  format #{name} #{sas_format}. ;"
     end
@@ -375,7 +375,7 @@ class Variable < ActiveRecord::Base
 
   def sas_format_label
     if variable_type == 'checkbox'
-      ["  label #{name}='#{display_name.gsub("'", "''")}';"] + shared_options.collect{|option| "  label #{option_variable_name(option[:value])}='#{display_name.gsub("'", "''")} (#{option[:name].to_s.gsub("'", "''")})' ;"}
+      shared_options.collect { |option| "  label #{option_variable_name(option[:value])}='#{display_name.gsub("'", "''")} (#{option[:name].to_s.gsub("'", "''")})' ;" }
     else
       "  label #{name}='#{display_name.gsub("'", "''")}';"
     end
@@ -385,7 +385,7 @@ class Variable < ActiveRecord::Base
     if domain
       case variable_type
       when 'checkbox'
-        shared_options.collect{|option| "  format #{option_variable_name(option[:value])} #{domain.sas_domain_name}. ;"}
+        shared_options.collect { |option| "  format #{option_variable_name(option[:value])} #{domain.sas_domain_name}. ;" }
       else
         "  format #{name} #{domain.sas_domain_name}. ;"
       end

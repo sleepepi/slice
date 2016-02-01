@@ -5,8 +5,8 @@ module GridExport
 
   def generate_csv_grids(sheet_scope, filename, raw_data, folder)
     sheet_scope = sheet_scope.order(id: :desc)
-    tmp_export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids__#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
-    export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids__#{raw_data ? 'raw' : 'labeled'}.csv")
+    tmp_export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
+    export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
 
     t = Time.zone.now
     design_ids = sheet_scope.select(:design_id)
