@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
+# Generates a full export of sheets to a chosen format for a project
 class Export < ActiveRecord::Base
-  after_create :calculate_total_steps
-
   mount_uploader :file, ZipUploader
 
   STATUS = %w(ready pending failed).collect { |i| [i, i] }
 
   # Concerns
-  include Searchable, Deletable, GridExport, SheetExport
+  include Searchable, Deletable, GridExport, SheetExport, Forkable
 
   # Model Validation
   validates :name, :user_id, :project_id, presence: true
@@ -23,11 +22,23 @@ class Export < ActiveRecord::Base
     %w(name)
   end
 
+  def zip_file_path
+    File.join(CarrierWave::Uploader::Base.root, file.url)
+  end
+
   def notify_user!
     UserMailer.export_ready(self).deliver_later if EMAILS_ENABLED
   end
 
-  def generate_export!(sheet_scope)
+  def generate_export_in_background!
+    fork_process(:generate_export!)
+  end
+
+  def generate_export!
+    sheet_scope = project.sheets
+    variables_count = all_design_variables_using_design_ids(sheet_scope.select(:design_id)).count
+    update sheet_ids_count: sheet_scope.count, variables_count: variables_count
+    calculate_total_steps
     finalize_export!(generate_zip_file(sheet_scope))
   rescue => e
     export_failed(e.message.to_s + e.backtrace.to_s)
@@ -117,7 +128,7 @@ class Export < ActiveRecord::Base
   def steps_for(attribute)
     double_step_attributes = [:include_csv_labeled, :include_csv_raw, :include_sas]
     if double_step_attributes.include?(attribute)
-      2 * steps_for_one_run(send(attribute))
+      steps_for_variables_and_grids(send(attribute))
     else
       steps_for_one_run(send(attribute))
     end
@@ -125,6 +136,10 @@ class Export < ActiveRecord::Base
 
   def steps_for_one_run(included)
     included ? sheet_ids_count : 0
+  end
+
+  def steps_for_variables_and_grids(included)
+    included ? variables_count : 0
   end
 
   def update_steps(amount)
@@ -277,5 +292,11 @@ class Export < ActiveRecord::Base
 
   def all_design_variables_without_grids(sheet_scope)
     Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select { |v| v.variable_type != 'grid' }
+  end
+
+  def all_design_variables_using_design_ids(design_ids)
+    Variable.current.joins(:design_options)
+            .where(design_options: { design_id: design_ids })
+            .order('design_options.design_id', 'design_options.position')
   end
 end

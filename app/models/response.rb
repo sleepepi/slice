@@ -2,7 +2,7 @@
 
 class Response < ActiveRecord::Base
   # Model Validation
-  validates :variable_id, :value, presence: true
+  validates :variable_id, :value, :sheet_id, presence: true
 
   # Model Relationships
   belongs_to :variable

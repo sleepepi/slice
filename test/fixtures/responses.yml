@@ -8,6 +8,7 @@
 
 one:
   variable: checkbox
+  sheet: all_variables
   sheet_variable: course_work
   # grid_id: # NULL
   user: valid
@@ -15,6 +16,7 @@ one:
 
 two:
   variable: checkbox
+  sheet: all_variables
   sheet_variable: course_work
   # grid_id: # NULL
   user: valid
@@ -22,32 +24,36 @@ two:
 
 has_grid_row_one_var_c:
   variable: checkbox
+  sheet: has_grid
   # sheet_variable:
   grid: has_grid_row_one_var_c
   user: valid
   value: econ101
 
-
 pdf_variable_one:
   variable: checkbox_two
+  sheet: two
   sheet_variable: checkbox_two
   user: valid
   value: 1
 
 pdf_variable_one:
   variable: checkbox_two
+  sheet: two
   sheet_variable: checkbox_two
   user: valid
   value: 2
 
 export_me_one:
   variable: checkbox
+  sheet: checkbox_example_one
   sheet_variable: exportable_one
   user: valid
   value: econ101
 
 export_me_two:
   variable: checkbox
+  sheet: checkbox_example_one
   sheet_variable: exportable_one
   user: valid
   value: math123

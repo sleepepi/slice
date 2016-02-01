@@ -4,20 +4,20 @@
 module Forkable
   extend ActiveSupport::Concern
 
-  def fork_process(method)
+  def fork_process(method, *args)
     if Rails.env.test?
-      send method
+      send method, *args
     else
-      create_fork method
+      create_fork method, *args
     end
   end
 
   private
 
-  def create_fork(method)
+  def create_fork(method, *args)
     pid = Process.fork
     if pid.nil?
-      send method
+      send method, *args
       Kernel.exit!
     else
       Process.detach pid

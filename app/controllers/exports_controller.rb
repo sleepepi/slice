@@ -10,7 +10,7 @@ class ExportsController < ApplicationController
 
   def file
     if @export.file.size > 0
-      send_file File.join( CarrierWave::Uploader::Base.root, @export.file.url )
+      send_file @export.zip_file_path
     else
       head :ok
     end
@@ -22,8 +22,10 @@ class ExportsController < ApplicationController
 
   # GET /exports
   def index
-    @order = scrub_order(Export, params[:order], "exports.created_at DESC")
-    @exports = current_user.all_viewable_exports.where(project_id: @project.id).search(params[:search]).order(@order).page(params[:page]).per( 20 )
+    @order = scrub_order(Export, params[:order], 'exports.created_at DESC')
+    @exports = current_user.all_viewable_exports.where(project_id: @project.id)
+                           .search(params[:search]).order(@order)
+                           .page(params[:page]).per(20)
   end
 
   # GET /exports/1
@@ -41,21 +43,9 @@ class ExportsController < ApplicationController
   end
 
   def create
-    name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}"
-    sheet_scope = @project.sheets.with_subject_status('valid')
-
-    @export = current_user.exports.where(project_id: @project.id, name: name, sheet_ids_count: sheet_scope.count).create(export_params)
-
-    # TODO Use Forkable instead
-    unless Rails.env.test?
-      pid = Process.fork
-      if pid.nil?
-        @export.generate_export!(sheet_scope)
-        Kernel.exit!
-      else
-        Process.detach(pid)
-      end
-    end
+    name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}"
+    @export = current_user.exports.where(project_id: @project.id, name: name).create(export_params)
+    @export.generate_export_in_background!
 
     if @export.new_record?
       redirect_to project_exports_path(@project)
