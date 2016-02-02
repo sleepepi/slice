@@ -20,6 +20,8 @@ class Subject < ActiveRecord::Base
   # Model Validation
   validates :project_id, :subject_code, :site_id, presence: true
   validates :subject_code, uniqueness: { case_sensitive: false, scope: [:deleted, :project_id] }
+  # validates :subject_code, validate_subject_format: { with: -> (s) { s.site.subject_regex }, message: -> (s,value) { "#{self.name} #{value} must be in valid format" } }, if: :site_regex_code?
+  validate :validate_subject_format
 
   def name
     subject_code
@@ -77,5 +79,11 @@ class Subject < ActiveRecord::Base
 
   def blinded_sheets(current_user)
     current_user.all_viewable_sheets.where(subject_id: id)
+  end
+
+  def validate_subject_format
+    if user && site && site.subject_regex.present? && site.subject_regex !~ subject_code
+      errors[:base] << "#{project.subject_code_name_full} must be in the following format: #{site.regex_string}"
+    end
   end
 end

@@ -33,6 +33,12 @@
         Maximum
       %dd= @site.code_maximum
 
+      %dt
+        = @site.project.subject_code_name_full
+        Format
+      %dd
+        %code=@site.subject_code_format
+
       %dt Description
       %dd= simple_format @site.description
 

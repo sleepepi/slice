@@ -13,6 +13,7 @@ class Site < ActiveRecord::Base
   validates :name, :project_id, :user_id, presence: true
   validates :name, uniqueness: { scope: [:project_id, :deleted] }
   validates :prefix, uniqueness: { scope: [:project_id, :deleted] }, allow_blank: true
+  validates :subject_code_format, format: { with: /\A((\\d)|(\\l)|(\\L)|[a-zA-Z0-9])*\Z/ }, allow_blank: true
 
   # Model Relationships
   belongs_to :user
@@ -20,4 +21,12 @@ class Site < ActiveRecord::Base
   has_many :subjects, -> { where deleted: false }
   has_many :site_users
   has_many :users, -> { where(deleted: false).order('last_name, first_name') }, through: :site_users
+
+  def regex_string
+    subject_code_format.to_s.gsub('\d', '[0-9]').gsub('\l', '[a-z]').gsub('\L', '[A-Z]')
+  end
+
+  def subject_regex
+    Regexp.new("\\A#{regex_string}\\Z") if regex_string.present?
+  end
 end

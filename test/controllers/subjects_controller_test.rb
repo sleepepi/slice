@@ -313,6 +313,25 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
   end
 
+  test 'should create subject with valid subject code' do
+    assert_difference('Subject.count') do
+      post :create, project_id: @project, subject: { subject_code: 'S100', acrostic: '', status: @subject.status }, site_id: sites(:site_with_subject_regex)
+    end
+
+    assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
+  end
+
+  test 'should not create subject with invalid subject code format' do
+    assert_difference('Subject.count', 0) do
+      post :create, project_id: @project, subject: { subject_code: 'S100a', acrostic: '', status: @subject.status }, site_id: sites(:site_with_subject_regex)
+    end
+
+    assert_not_nil assigns(:subject)
+    assert assigns(:subject).errors.size > 0
+    assert_equal ["Subject Code must be in the following format: S1[0-9][0-9]"], assigns(:subject).errors[:base]
+    assert_template 'new'
+  end
+
   test 'should not create subject with blank subject code' do
     assert_difference('Subject.count', 0) do
       post :create, project_id: @project, subject: { subject_code: '', acrostic: '', status: @subject.status }, site_id: @subject.site_id

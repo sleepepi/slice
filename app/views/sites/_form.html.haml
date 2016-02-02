@@ -38,6 +38,24 @@
         Do not include the site prefix.
 
   .form-group
+    = f.label :subject_code_format, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Format', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :subject_code_format, class: 'form-control'
+      .bs-callout.bs-callout-info
+        %h4 Format
+        You may format in the following manner, in addition to letters, a-z A-Z, or numbers, 0-9.
+        %ul
+          %li
+            %code \d
+            Represent a single digit, 0-9
+          %li
+            %code \l
+            Represent a single lowercase letter, a-z
+          %li
+            %code \L
+            Represent a single uppercase letter, A-Z
+
+  .form-group
     = f.label :description, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_area :description, rows: 7, class: 'form-control'
