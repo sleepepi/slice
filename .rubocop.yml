@@ -19,3 +19,7 @@ Style/ClassAndModuleChildren:
 # default, Added `frozen_string_literal: true` to use this new default
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
+# Strings assigned to constants will no longer be considered mutable in Ruby 3+
+# This can be removed after Ruby 3 is released.
+Style/MutableConstant:
+  Enabled: false
