@@ -3,6 +3,8 @@
 ### Enhancements
 - **Export Changes**
   - Rewrote the data exporter to more efficiently export large amounts of data
+- **Adverse Event Changes**
+  - Adverse event notifications are no longer sent out if a user has emails disabled
 
 ## 0.32.2 (January 27, 2016)
 

@@ -107,7 +107,7 @@ class AdverseEvent < ActiveRecord::Base
 
   # Adverse Events reports are sent to unblinded project editors
   def users_to_email
-    project.unblinded_project_editors
+    project.unblinded_project_editors.where(emails_enabled: true)
   end
 
   def send_email_in_background
