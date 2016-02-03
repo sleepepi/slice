@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Formatters
   class DomainFormatter < DefaultFormatter
     def name_responses

@@ -33,6 +33,7 @@ module DateAndTimeParser
     default_time
   end
 
+  # String is returned in database format '%H:%M:%S'
   def parse_time_to_s(time_string, default_time = '')
     parse_time(time_string, default_time).strftime('%H:%M:%S')
   rescue
@@ -42,12 +43,26 @@ module DateAndTimeParser
   def parse_time_from_hash(time_hash)
     if time_hash.is_a?(Hash)
       hour = parse_integer(time_hash[:hour])
+      if %w(am pm).include?(time_hash[:period]) && hour
+        hour = nil if hour < 1 || hour > 12
+        if hour
+          hour += 12 if time_hash[:period] == 'pm' && hour != 12
+          hour = 0 if time_hash[:period] == 'am' && hour == 12
+        end
+      end
       minutes = parse_integer(time_hash[:minutes])
       seconds = parse_integer(time_hash[:seconds])
       parse_time("#{hour}:#{minutes}:#{seconds}")
     else
       parse_time('')
     end
+  end
+
+  # String is returned in database format '%H:%M:%S'
+  def parse_time_from_hash_to_s(time_hash, default_time = '')
+    parse_time_from_hash(time_hash).strftime('%H:%M:%S')
+  rescue
+    default_time
   end
 
   def parse_integer(string)

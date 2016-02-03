@@ -24,7 +24,9 @@ module Valuable
   def update_responses!(values, current_user, sheet)
     class_foreign_key = "#{self.class.name.underscore}_id".to_sym
 
-    old_response_ids = self.responses.collect{|r| r.id} # Could use pluck, but pluck has issues with scopes and unsaved objects
+    # Could use pluck, but pluck has issues with scopes and unsaved objects
+    old_response_ids = self.responses.collect { |r| r.id }
+
     new_responses = []
     values.select{|v| not v.blank?}.each do |value|
       new_responses << Response.where(class_foreign_key => self.id, sheet_id: sheet.id, variable_id: self.variable_id, value: value).first_or_create( user_id: (current_user ? current_user.id : nil) )
@@ -49,15 +51,11 @@ module Valuable
       # Save valuable to string in "%Y-%m-%d" db format, passing in a date
       response = { response: parse_date("#{month}/#{day}/#{year}") }
     when 'time'
-      hour = parse_integer(response[:hour])
-      minutes = parse_integer(response[:minutes])
-      seconds = parse_integer(response[:seconds])
-
-      response = { response: parse_time_to_s("#{hour}:#{minutes}:#{seconds}", "") }
+      # Save valuable to string in "%H:%M:%S" db format
+      response = { response: parse_time_from_hash_to_s(response) }
     else
       response = { response: response }
     end
     response
   end
-
 end

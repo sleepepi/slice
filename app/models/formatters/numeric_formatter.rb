@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Formatters
   # Used to help format arrays of database responses for integer variables
   class NumericFormatter < DomainFormatter

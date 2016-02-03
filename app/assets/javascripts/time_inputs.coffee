@@ -56,6 +56,7 @@
   $("##{target_name}_hour").val("")
   $("##{target_name}_minutes").val("")
   $("##{target_name}_seconds").val("")
+  $("##{target_name}_period").val("am")
   $("##{target_name}_hour").change()
   $("##{target_name}_hour").blur()
 
@@ -83,9 +84,30 @@
   $("##{target_name}_hour").change()
   $("##{target_name}_hour").blur()
 
+@setCurrentTime12Hour = (element) ->
+  currentTime = new Date()
+  time =
+    hour: pad(String(currentTime.getHours() % 12), 2)
+    min: pad(String(currentTime.getMinutes()), 2)
+    sec: pad(String(currentTime.getSeconds()), 2)
+    period: if currentTime.getHours() < 12 then 'am' else 'pm'
+
+  target_name = element.data("target-name")
+  date = new Date()
+  $("##{target_name}_hour").val(time["hour"])
+  $("##{target_name}_minutes").val(time["min"])
+  $("##{target_name}_seconds").val(time["sec"])
+  $("##{target_name}_period").val(time["period"])
+  $("##{target_name}_hour").change()
+  $("##{target_name}_hour").blur()
+
 $(document)
   .on('click', '[data-object~="set-time-input-to-current-time"]', () ->
     setCurrentTime($(this))
+    false
+  )
+  .on('click', '[data-object~="set-time-input-to-current-time-12hour"]', () ->
+    setCurrentTime12Hour($(this))
     false
   )
   .on("click", '[data-object~="clear-time-input"]', (event) ->
@@ -106,4 +128,3 @@ $(document)
     setCurrentDate($(this))
     false
   )
-

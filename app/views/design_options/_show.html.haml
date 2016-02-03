@@ -91,14 +91,18 @@
             - unless ['radio', 'checkbox'].include?(variable.variable_type) and variable.alignment == 'scale'
               = render 'design_options/set_design_option', design_option: design_option, title: 'Display Name', values: Variable::DISPLAY_NAME_VISIBILITY, attribute: :display_name_visibility
 
-            - if ['time', 'date'].include?(variable.variable_type)
+            - if %w(time date).include?(variable.variable_type)
               - title = "Current #{variable.variable_type.titleize} Button"
               - values = [['show', true],['hide', false]]
               = render 'design_options/set_design_option', design_option: design_option, title: title, values: values, attribute: :show_current_button
 
-            - if ['date'].include?(variable.variable_type)
-              - values = [['MM/DD/YYYY', '%m/%d/%Y'],['DD/MM/YYYY', '%d/%m/%Y'],['YYYY-MM-DD', '%Y-%m-%d']]
+            - if %w(date).include?(variable.variable_type)
+              - values = [['MM/DD/YYYY', '%m/%d/%Y'], ['DD/MM/YYYY', '%d/%m/%Y'], ['YYYY-MM-DD', '%Y-%m-%d']]
               = render 'design_options/set_design_option', design_option: design_option, title: 'Date Format', values: values, attribute: :format
+
+            - if %w(time).include?(variable.variable_type)
+              - values = [['24-Hour', '24hour'], ['12-Hour (AM/PM)', '12hour']]
+              = render 'design_options/set_design_option', design_option: design_option, title: 'Time Format', values: values, attribute: :format
 
             - if ['grid'].include?(variable.variable_type)
               - values = [['enabled', true],['disabled', false]]

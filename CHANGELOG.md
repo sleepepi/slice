@@ -5,6 +5,8 @@
   - Rewrote the data exporter to more efficiently export large amounts of data
 - **Adverse Event Changes**
   - Adverse event notifications are no longer sent out if a user has emails disabled
+- **Variable Changes**
+  - Time variables can now be set as 24-hour (default) or 12-hour for data entry and display
 
 ## 0.32.3 (February 3, 2016)
 

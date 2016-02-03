@@ -135,6 +135,11 @@ select {
       width: 55px;
     }
   }
+
+  select {
+    min-width: 65px;
+    width: 65px;
+  }
 }
 
 .date-input {

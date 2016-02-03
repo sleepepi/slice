@@ -60,16 +60,16 @@ module Validation
           response
         else
           time = parse_time(response)
-          (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
+          if @variable.format == '12hour'
+            (time ? { hour: time.strftime('%I'), minutes: time.min, seconds: time.sec, period: time.strftime('%P') } : {})
+          else
+            (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
+          end
         end
       end
 
       def db_key_value_pairs(response)
-        hour = parse_integer(response[:hour])
-        minutes = parse_integer(response[:minutes])
-        seconds = parse_integer(response[:seconds])
-
-        { response: parse_time_to_s("#{hour}:#{minutes}:#{seconds}", '') }
+        { response: parse_time_from_hash_to_s(response) }
       end
 
       private
