@@ -9,7 +9,8 @@
   - The menu on the design edit page has been removed to provide more room while editing
 - **Variable Changes**
   - Time variables can now be set as 24-hour (default) or 12-hour for data entry and display
-
+- **Project Changes**
+  - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
 
 ## 0.32.3 (February 3, 2016)
 

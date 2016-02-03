@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :sheets do
 
   desc 'Check validity of all sheets'

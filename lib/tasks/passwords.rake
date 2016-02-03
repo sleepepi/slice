@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :passwords do
   desc 'Launched by crontab -e, send a password expire email to users.'
   task expire: :environment do

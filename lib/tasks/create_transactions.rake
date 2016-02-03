@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'Reset transactions from original audits'
 task :create_transactions => :environment do
   puts "Sheet Transactions: #{SheetTransaction.count}"

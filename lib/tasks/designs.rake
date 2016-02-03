@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :designs do
 
   desc 'Migrate options to new database relationships'

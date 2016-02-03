@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :users do
 
   desc "Migrate email settings"
