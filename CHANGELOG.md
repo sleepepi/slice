@@ -6,6 +6,12 @@
 - **Adverse Event Changes**
   - Adverse event notifications are no longer sent out if a user has emails disabled
 
+## 0.32.3 (February 3, 2016)
+
+### Enhancements
+- **Site Changes**
+  - Project editors can now enforce subject code formats by site for subjects
+
 ## 0.32.2 (January 27, 2016)
 
 ### Enhancements

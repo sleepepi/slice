@@ -111,12 +111,13 @@ class SubjectsController < ApplicationController
   ## Find or create subject for the purpose of filling out a sheet for the subject.
   def choose_site
     redirect_to @project if params[:subject_code].blank?
-    @subject = current_user.all_viewable_subjects.where(project_id: @project.id).where("LOWER(subjects.subject_code) = ?", params[:subject_code].to_s.downcase).first
+    @subject = current_user.all_viewable_subjects.where(project_id: @project.id)
+                           .where('LOWER(subjects.subject_code) = ?', params[:subject_code].to_s.downcase).first
     if !@project.site_or_project_editor?(current_user) && !@subject
       alert_text = params[:subject_code].blank? ? nil : "Subject <code>#{params[:subject_code]}</code> was not found."
       redirect_to @project, alert: alert_text
-    else
-      redirect_to [@project, @subject] if @subject
+    elsif @subject
+      redirect_to [@project, @subject]
     end
   end
 
