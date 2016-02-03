@@ -422,10 +422,10 @@ class Variable < ActiveRecord::Base
 
   def date_separator
     case format
-    when '%m/%d/%Y', '%d/%m/%Y'
-      '/'
-    else
+    when '%Y-%m-%d'
       '-'
+    else
+      '/'
     end
   end
 
