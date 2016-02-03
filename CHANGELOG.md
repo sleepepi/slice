@@ -1,4 +1,4 @@
-## 0.32.3
+## 0.32.3 (February 3, 2016)
 
 ### Enhancements
 - **Site Changes**
