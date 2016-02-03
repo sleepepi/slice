@@ -1,12 +1,15 @@
 ## 0.33.0
 
 ### Enhancements
-- **Export Changes**
-  - Rewrote the data exporter to more efficiently export large amounts of data
 - **Adverse Event Changes**
   - Adverse event notifications are no longer sent out if a user has emails disabled
+- **Export Changes**
+  - Rewrote the data exporter to more efficiently export large amounts of data
+- **Design Changes**
+  - The menu on the design edit page has been removed to provide more room while editing
 - **Variable Changes**
   - Time variables can now be set as 24-hour (default) or 12-hour for data entry and display
+
 
 ## 0.32.3 (February 3, 2016)
 

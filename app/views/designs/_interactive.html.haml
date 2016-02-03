@@ -1,10 +1,8 @@
-%h2.underline-header= @title
-
 #interactive_design_modal.modal
   .modal-dialog.modal-wide-width
     #interactive-design-container.modal-content
 
-.btn-toolbar
+.btn-toolbar{ style: 'margin-bottom: 20px' }
   .btn-group{ data: { toggle: "buttons" } }
     .btn.btn-xs.btn-default{ class: "#{'active' if params[:mode] != 'preview'}", data: { object: "edit-mode" } }
       %input#edit-mode{ type: "radio", name: "preview_modes" }
@@ -20,6 +18,8 @@
   = link_to edit_project_design_path(@project, @design), method: :get, remote: true, class: 'btn btn-xs btn-default design-preview-hide' do
     %span.glyphicon.glyphicon-cog
     Edit Design Settings
+
+
 
 = hidden_field_tag :project_id, @project.id
 = hidden_field_tag :design_id, @design.id
