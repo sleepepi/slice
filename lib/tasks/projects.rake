@@ -7,9 +7,12 @@ namespace :projects do
     original = Project.current.find_by_param project_id
     if original
       copy = copy_project(original)
+      copy_project_sites(original, copy)
       copy_project_users(original, copy)
-      copy_designs(original, copy)
-
+      variable_map = copy_variables(original, copy)
+      copy_designs(original, copy, variable_map)
+      copy_schemes(original, copy, variable_map)
+      puts "Project ID: #{copy.id}"
     else
       puts 'Project Not Found'
     end
@@ -37,6 +40,23 @@ def copy_project(original)
     blinding_enabled: original.blinding_enabled,
     handoffs_enabled: original.handoffs_enabled
   )
+end
+
+def copy_project_sites(original, copy)
+  copy.sites.destroy_all
+  puts "Sites: #{original.sites.count}"
+  original.sites.each do |s|
+    sc = copy.sites.create(
+      name: s.name,
+      description: s.description,
+      user_id: s.user_id,
+      prefix: s.prefix,
+      code_minimum: s.code_minimum,
+      code_maximum: s.code_maximum,
+      subject_code_format: s.subject_code_format
+    )
+    puts "Added #{sc.name.colorize(:white)} site"
+  end
 end
 
 def copy_project_users(original, copy)
@@ -177,9 +197,8 @@ def copy_categories(original, copy)
   category_map
 end
 
-def copy_designs(original, copy)
+def copy_designs(original, copy, variable_map)
   category_map = copy_categories(original, copy)
-  variable_map = copy_variables(original, copy)
   puts "Designs: #{original.designs.count}"
   original.designs.each do |d|
     dc = copy.designs.create(
@@ -207,3 +226,94 @@ def copy_designs(original, copy)
     puts "Added #{dc.name.colorize(:white)} design"
   end
 end
+
+def copy_schemes(original, copy, variable_map)
+  puts "Schemes: #{original.randomization_schemes.count}"
+  original.randomization_schemes.each do |rs|
+    rsc = copy.randomization_schemes.create(
+      name: rs.name,
+      description: rs.description,
+      user_id: rs.user_id,
+      published: rs.published,
+      randomization_goal: rs.randomization_goal,
+      algorithm: rs.algorithm,
+      chance_of_random_treatment_arm_selection: rs.chance_of_random_treatment_arm_selection,
+      variable_id: variable_map[rs.variable_id.to_s],
+      variable_value: rs.variable_value
+    )
+    copy_block_size_multipliers(rs, rsc)
+    copy_stratification_factors(rs, rsc)
+    copy_treatment_arms(rs, rsc)
+    rsc.generate_lists!(rsc.user)
+    puts "Added #{rsc.name.colorize(:white)} randomization scheme"
+  end
+end
+
+def copy_block_size_multipliers(rs, rsc)
+  puts "Block Size Multipliers: #{rs.block_size_multipliers.count}"
+  rs.block_size_multipliers.each do |bsm|
+    bsmc = rsc.block_size_multipliers.create(
+      project_id: rsc.project_id,
+      user_id: bsm.user_id,
+      value: bsm.value,
+      allocation: bsm.allocation
+    )
+    puts "Added #{bsmc.name.colorize(:white)} block size multiplier"
+  end
+end
+
+def copy_stratification_factors(rs, rsc)
+  puts "Stratification Factors: #{rs.stratification_factors.count}"
+  rs.stratification_factors.each do |sf|
+    sfc = rsc.stratification_factors.create(
+      project_id: rsc.project_id,
+      user_id: sf.user_id,
+      name: sf.name,
+      stratifies_by_site: sf.stratifies_by_site
+    )
+    copy_stratification_factor_options(sf, sfc)
+    puts "Added #{sfc.name.colorize(:white)} list"
+  end
+end
+
+def copy_stratification_factor_options(sf, sfc)
+  puts "Stratification Factor Options: #{sf.stratification_factor_options.count}"
+  sf.stratification_factor_options.each do |sfo|
+    sfoc = sfc.stratification_factor_options.create(
+      project_id: sfc.project_id,
+      randomization_scheme_id: sfc.randomization_scheme_id,
+      user_id: sfo.user_id,
+      label: sfo.label,
+      value: sfo.value
+    )
+    puts "Added #{sfoc.name.colorize(:white)} list"
+  end
+end
+
+def copy_treatment_arms(rs, rsc)
+  puts "Treatment Arms: #{rs.treatment_arms.count}"
+  rs.treatment_arms.each do |ta|
+    tac = rsc.treatment_arms.create(
+      project_id: rsc.project_id,
+      name: ta.name,
+      allocation: ta.allocation,
+      user_id: ta.user_id
+    )
+    puts "Added #{tac.name.colorize(:white)} list"
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
