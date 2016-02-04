@@ -6,7 +6,7 @@ namespace :projects do
     project_id = ARGV[1].to_s.gsub('PROJECT=', '')
     original = Project.current.find_by_param project_id
     if original
-      copy = Project.create(name: "#{original.name} COPY", user_id: original.user_id)
+      copy = copy_project(original)
       copy_project_users(original, copy)
       copy_designs(original, copy)
 
@@ -14,6 +14,29 @@ namespace :projects do
       puts 'Project Not Found'
     end
   end
+end
+
+def copy_project(original)
+  Project.create(
+    name: "#{original.name} COPY",
+    user_id: original.user_id,
+    description: original.description,
+    acrostic_enabled: original.acrostic_enabled,
+    logo: original.logo,
+    subject_code_name: original.subject_code_name,
+    show_posts: original.show_posts,
+    show_documents: original.show_documents,
+    show_contacts: original.show_contacts,
+    disable_all_emails: original.disable_all_emails,
+    collect_email_on_surveys: original.collect_email_on_surveys,
+    lockable: original.lockable,
+    hide_values_on_pdfs: original.hide_values_on_pdfs,
+    double_data_entry: original.double_data_entry,
+    randomizations_enabled: original.randomizations_enabled,
+    adverse_events_enabled: original.adverse_events_enabled,
+    blinding_enabled: original.blinding_enabled,
+    handoffs_enabled: original.handoffs_enabled
+  )
 end
 
 def copy_project_users(original, copy)
