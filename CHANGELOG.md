@@ -12,6 +12,9 @@
 - **Project Changes**
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
 
+### Bug Fix
+- Fixed an issue that prevented the R script from reading grids correctly
+
 ## 0.32.3 (February 3, 2016)
 
 ### Enhancements

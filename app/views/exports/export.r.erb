@@ -57,7 +57,7 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2
   names(slice_grids)[8]  <- "Acrostic"
   names(slice_grids)[9]  <- "Status"
   names(slice_grids)[10] <- "Creator"
-  names(slice_grids)[12] <- "Event.Name"
+  names(slice_grids)[11] <- "Event.Name"
 
   # Design and Subject Variables
   label(slice_grids$Sheet.ID)            <- "Sheet ID"
