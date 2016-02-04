@@ -10,8 +10,9 @@ namespace :projects do
       copy_project_sites(original, copy)
       copy_project_users(original, copy)
       variable_map = copy_variables(original, copy)
-      copy_designs(original, copy, variable_map)
+      design_map = copy_designs(original, copy, variable_map)
       copy_schemes(original, copy, variable_map)
+      copy_events(original, copy, design_map)
       puts "Project ID: #{copy.id}"
     else
       puts 'Project Not Found'
@@ -198,6 +199,7 @@ def copy_categories(original, copy)
 end
 
 def copy_designs(original, copy, variable_map)
+  design_map = {}
   category_map = copy_categories(original, copy)
   puts "Designs: #{original.designs.count}"
   original.designs.each do |d|
@@ -222,9 +224,10 @@ def copy_designs(original, copy, variable_map)
         branching_logic: design_option.branching_logic
       )
     end
-
+    design_map[d.id.to_s] = dc.id
     puts "Added #{dc.name.colorize(:white)} design"
   end
+  design_map
 end
 
 def copy_schemes(original, copy, variable_map)
@@ -272,7 +275,7 @@ def copy_stratification_factors(rs, rsc)
       stratifies_by_site: sf.stratifies_by_site
     )
     copy_stratification_factor_options(sf, sfc)
-    puts "Added #{sfc.name.colorize(:white)} list"
+    puts "Added #{sfc.name.colorize(:white)} stratification factor"
   end
 end
 
@@ -286,7 +289,7 @@ def copy_stratification_factor_options(sf, sfc)
       label: sfo.label,
       value: sfo.value
     )
-    puts "Added #{sfoc.name.colorize(:white)} list"
+    puts "Added #{sfoc.name.colorize(:white)} stratification factor option"
   end
 end
 
@@ -299,21 +302,35 @@ def copy_treatment_arms(rs, rsc)
       allocation: ta.allocation,
       user_id: ta.user_id
     )
-    puts "Added #{tac.name.colorize(:white)} list"
+    puts "Added #{tac.name.colorize(:white)} treatment arms"
   end
 end
 
+def copy_events(original, copy, design_map)
+  puts "Events: #{original.events.count}"
+  original.events.each do |e|
+    ec = copy.events.create(
+      name: e.name,
+      description: e.description,
+      user_id: e.user_id,
+      archived: e.archived,
+      position: e.position,
+      scheduled: e.scheduled,
+      slug: e.slug
+    )
+    copy_event_designs(e, ec, design_map)
+    puts "Added #{ec.name.colorize(:white)} event"
+  end
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+def copy_event_designs(e, ec, design_map)
+  puts "Event Designs: #{e.event_designs.count}"
+  e.event_designs.each do |ed|
+    edc = ec.event_designs.create(
+      design_id: design_map[ed.design_id.to_s],
+      position: ed.position,
+      handoff_enabled: ed.handoff_enabled
+    )
+    puts "Added #{edc.design.name.colorize(:white)} event design"
+  end
+end
