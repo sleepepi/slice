@@ -12,12 +12,12 @@
   &nbsp;
   %span.min-box
     = text_field_tag "#{field_name}[minutes]", (value[:minutes] ? format('%02d', value[:minutes]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-  &prime;
+  m
   &nbsp;
   - if variable.show_seconds?
     %span.sec-box
       = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-    &#8243;
+    s
     &nbsp;
   - unless is_grid
     = link_to 'Clear', '#', data: { object: 'clear-time-duration-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'

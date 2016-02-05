@@ -5,10 +5,10 @@
   &nbsp;
   %span.min-box
     = text_field_tag "#minutes_#{variable.name}", '', maxlength: 2, disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
-  &prime;
+  m
   &nbsp;
   - if variable.show_seconds?
     %span.sec-box
       = text_field_tag "#seconds_#{variable.name}", '', maxlength: 2, disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
-    &#8243;
+    s
     &nbsp;
