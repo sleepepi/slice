@@ -9,9 +9,9 @@ module Formatters
 
     def name_response(response)
       format = if @variable.format == '12hour'
-                 '%-l:%M:%S %P'
+                 @variable.show_seconds? ? '%-l:%M:%S %P' : '%-l:%M %P'
                else
-                 '%H:%M:%S'
+                 @variable.show_seconds? ? '%H:%M:%S' : '%H:%M'
                end
       Time.strptime(response, '%H:%M:%S').strftime(format)
     rescue

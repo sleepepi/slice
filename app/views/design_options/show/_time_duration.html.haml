@@ -1,1 +1,14 @@
-= text_field_tag variable.name, '', class: 'form-control', disabled: true, placeholder: '__h   __\'   __"'
+.time-input.form-inline
+  %span.hour-box
+    = text_field_tag "#hours_#{variable.name}", '', maxlength: 2, disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
+  h
+  &nbsp;
+  %span.min-box
+    = text_field_tag "#minutes_#{variable.name}", '', maxlength: 2, disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
+  &prime;
+  &nbsp;
+  - if variable.show_seconds?
+    %span.sec-box
+      = text_field_tag "#seconds_#{variable.name}", '', maxlength: 2, disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
+    &#8243;
+    &nbsp;

@@ -157,6 +157,8 @@ class VariablesController < ApplicationController
       :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
       # For Date, Time
       :show_current_button,
+      # For Time and Time Duration
+      :show_seconds,
       # For Calculated Variables
       :calculation, :format,
       # For Integer, Numeric, and Calculated

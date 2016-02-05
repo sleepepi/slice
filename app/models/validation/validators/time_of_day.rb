@@ -46,7 +46,11 @@ module Validation
       end
 
       def formatted_value(value)
-        get_time(value).strftime('%-l:%M:%S %P')
+        if @variable.show_seconds?
+          get_time(value).strftime('%-l:%M:%S %P')
+        else
+          get_time(value).strftime('%-l:%M %P')
+        end
       rescue
         nil
       end
@@ -61,7 +65,7 @@ module Validation
         else
           time = parse_time(response)
           if @variable.format == '12hour'
-            (time ? { hour: time.strftime('%I'), minutes: time.min, seconds: time.sec, period: time.strftime('%P') } : {})
+            (time ? { hour: time.strftime('%I').to_i, minutes: time.min, seconds: time.sec, period: time.strftime('%P') } : {})
           else
             (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
           end

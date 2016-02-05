@@ -10,7 +10,11 @@ module Formatters
 
     def name_response(response)
       hash = parse_time_duration(response)
-      "#{hash[:hours]}h #{hash[:minutes]}' #{hash[:seconds]}\""
+      if @variable.show_seconds?
+        "#{hash[:hours]}h #{hash[:minutes]}' #{hash[:seconds]}\""
+      else
+        "#{hash[:hours]}h #{hash[:minutes]}'"
+      end
     rescue
       response
     end

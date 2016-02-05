@@ -100,6 +100,13 @@
           = f.check_box :show_current_button
           Show Current Date/Time
 
+  .form-group{ data: { object: 'time-or-time-duration' } }
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :show_seconds
+          Show Seconds
+
   .form-group{ data: { object: 'date' } }
     = f.label :date_hard_minimum, nil, class: 'col-md-2 control-label'
     .col-md-10

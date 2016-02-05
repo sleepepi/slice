@@ -6,6 +6,8 @@ json.array!(@variables) do |variable|
                   :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
                   # Date and Time
                   :show_current_button,
+                  # Time and Time Duration
+                  :show_seconds,
                   # Calculated
                   :calculation, :format,
                   # Integer and Numeric and Calculated

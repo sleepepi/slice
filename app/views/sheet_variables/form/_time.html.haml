@@ -12,9 +12,10 @@
     &#58;
     %span.min-box
       = text_field_tag "#{field_name}[minutes]", (value[:minutes] ? format('%02d', value[:minutes]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
-    &#58;
-    %span.sec-box
-      = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
+    - if variable.show_seconds?
+      &#58;
+      %span.sec-box
+        = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
     %span.period-box
       = select_tag "#{field_name}[period]", options_for_select([['AM', 'am'], ['PM', 'pm']], value[:period]), disabled: disabled, data: { target_name: variable.name, object: 'cursor-navigatable' }, class: 'form-control', style: 'display: inline-block;'
     - if variable.show_current_button?
@@ -26,9 +27,10 @@
     &#58;
     %span.min-box
       = text_field_tag "#{field_name}[minutes]", (value[:minutes] ? format('%02d', value[:minutes]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
-    &#58;
-    %span.sec-box
-      = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
+    - if variable.show_seconds?
+      &#58;
+      %span.sec-box
+        = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
 
     - if variable.show_current_button?
       = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'

@@ -161,31 +161,33 @@ class Project < ActiveRecord::Base
   def create_design_from_json(design_json, current_user)
     description = design_json['description'].to_s.strip
     name = design_json['name'].to_s.strip
-    design = self.designs.where( name: name ).first_or_create( description: description, user_id: current_user.id )
+    design = designs.where(name: name).first_or_create(description: description, user_id: current_user.id)
     design.build_design_options_from_json design_json['options'], current_user
   end
 
   def create_variable_from_json(variable_json, current_user)
-    domain = self.create_domain_from_json(variable_json['domain'], current_user) unless variable_json['domain'].blank?
-    grid_variables = self.create_grid_variables_from_json(variable_json['grid_variables'], current_user) unless variable_json['grid_variables'].blank?
+    domain = create_domain_from_json(variable_json['domain'], current_user) unless variable_json['domain'].blank?
+    grid_variables = create_grid_variables_from_json(variable_json['grid_variables'], current_user) unless variable_json['grid_variables'].blank?
     name = variable_json['name']
-    keys = [ :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
-      # For Integers and Numerics
-      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-      # For Dates
-      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-      # For Date, Time
-      :show_current_button,
-      # For Calculated Variables
-      :calculation, :format,
-      # For Integer, Numeric, and Calculated
-      :units,
-      # For Grid Variables
-      :multiple_rows, :default_row_number,
-      # For Autocomplete Strings
-      :autocomplete_values,
-      # Radio and Checkbox
-      :alignment
+    keys = [:display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
+            # For Integers and Numerics
+            :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+            # For Dates
+            :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+            # For Date, Time
+            :show_current_button,
+            # For Time and Time Duration
+            :show_seconds,
+            # For Calculated Variables
+            :calculation, :format,
+            # For Integer, Numeric, and Calculated
+            :units,
+            # For Grid Variables
+            :multiple_rows, :default_row_number,
+            # For Autocomplete Strings
+            :autocomplete_values,
+            # Radio and Checkbox
+            :alignment
     ]
     hash = {}
     keys.each do |key|
@@ -194,7 +196,7 @@ class Project < ActiveRecord::Base
     hash[:domain_id] = domain.id if domain
     hash[:grid_variables] = grid_variables if grid_variables
     hash[:user_id] = current_user.id
-    variable = self.variables.where( name: name ).first_or_create( hash )
+    variable = variables.where(name: name).first_or_create(hash)
   end
 
   def create_domain_from_json(domain_json, current_user)

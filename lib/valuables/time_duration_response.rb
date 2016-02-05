@@ -8,7 +8,11 @@ module Valuables
 
     def name
       hash = parse_time_duration(@object.response)
-      "#{hash[:hours]}h #{hash[:minutes]}' #{hash[:seconds]}\""
+      if @object.variable.show_seconds?
+        "#{hash[:hours]}h #{hash[:minutes]}' #{hash[:seconds]}\""
+      else
+        "#{hash[:hours]}h #{hash[:minutes]}'"
+      end
     rescue
       @object.response
     end
