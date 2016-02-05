@@ -3,6 +3,7 @@
 ### Enhancements
 - **Adverse Event Changes**
   - Adverse event notifications are no longer sent out if a user has emails disabled
+  - Adverse events now prompt the user to fill out additional forms if one or more exists
 - **Export Changes**
   - Rewrote the data exporter to more efficiently export large amounts of data
 - **Design Changes**
