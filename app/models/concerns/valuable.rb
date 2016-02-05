@@ -53,6 +53,9 @@ module Valuable
     when 'time'
       # Save valuable to string in "%H:%M:%S" db format
       response = { response: parse_time_from_hash_to_s(response) }
+    when 'time_duration'
+      # Save valuable to string in "%H:%M:%S" db format
+      response = { response: parse_time_duration_from_hash_to_s(response) }
     else
       response = { response: response }
     end

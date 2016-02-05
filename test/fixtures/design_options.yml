@@ -169,6 +169,14 @@ all_variable_types_autocomplete:
   # required:
   # branching_logic:
 
+all_variable_types_time_duration:
+  design: all_variable_types
+  variable: time_duration
+  # section:
+  position: 13
+  # required:
+  # branching_logic:
+
 ## Design Has No Validations
 
 has_no_validations_integer_no_range:

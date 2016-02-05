@@ -8,6 +8,7 @@
 - **Design Changes**
   - The menu on the design edit page has been removed to provide more room while editing
 - **Variable Changes**
+  - A new variable type, Time Duration, has been added that allows data entry for a duration of hours, minutes, and seconds
   - Time variables can now be set as 24-hour (default) or 12-hour for data entry and display
 - **Project Changes**
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry

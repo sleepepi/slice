@@ -97,6 +97,8 @@ module SheetExport
                             Formatters::DateFormatter.format_array(responses, variable, raw_data)
                           when 'time'
                             Formatters::TimeFormatter.format_array(responses, variable, raw_data)
+                          when 'time_duration'
+                            Formatters::TimeDurationFormatter.format_array(responses, variable, raw_data)
                           # when 'file'
                           #   responses
                           else # 'string', 'text', 'signature'

@@ -128,6 +128,12 @@ calculated:
   response: 24.36
   user: valid
 
+time_duration:
+  variable: time_duration
+  sheet: all_variables
+  response: "57:2:3"
+  user: valid
+
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
 # Updating the "change_options" domain should also change the associated sheet variable and grid values to '1'
 domain_value_to_update_a:

@@ -1,0 +1,14 @@
+- missing_responses = responses.select(&:blank?)
+- valid_responses = responses.reject(&:blank?)
+
+%table.table
+  %thead
+    %tr
+      %th N
+      %th.text-muted Unknown
+      %th Total
+  %tbody
+    %tr
+      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', @statuses
+      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', @statuses
+      %td= filter_link Sheet.array_count(responses), @design, nil, nil, @statuses

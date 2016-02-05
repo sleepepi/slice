@@ -10,6 +10,7 @@ require 'valuables/numeric_response'
 require 'valuables/multiple_response'
 require 'valuables/single_response'
 require 'valuables/time_response'
+require 'valuables/time_duration_response'
 require 'valuables/signature_response'
 
 module Valuables
@@ -27,6 +28,7 @@ module Valuables
     'string' => Default,
     'text' => Default,
     'time' => TimeResponse,
+    'time_duration' => TimeDurationResponse,
     'signature' => SignatureResponse
   }
 

@@ -3,7 +3,7 @@
   %h4.modal-title
     Add Section or Question
 .modal-body
-  - ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'file', 'signature', 'existing_question', 'grid'].in_groups_of(3).each do |row_items|
+  - ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'time_duration', 'file', 'signature', 'existing_question', 'grid'].in_groups_of(3).each do |row_items|
     .row
       - row_items.each do |variable_type|
         - if variable_type and not ['section', 'existing_question'].include?(variable_type)
@@ -66,6 +66,8 @@
                     &#58;
                     %span.sec-box
                       = text_field_tag "sec_time", '', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
+                - when 'time_duration'
+                  = text_field_tag 'duration', '26h 34\' 56"', disabled: true, class: 'form-control'
                 - when 'file'
                   = button_tag 'Choose File', disabled: true
                 - when 'signature'
@@ -105,6 +107,7 @@
                   %strong Existing Question
                   %br
                   Add an existing variable from this project.
+
 .modal-footer
   %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
 

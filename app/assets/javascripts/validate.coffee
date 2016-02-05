@@ -21,6 +21,7 @@
   $("##{target_name}_day").parent().removeClass('has-warning has-error')
   $("##{target_name}_year").parent().removeClass('has-warning has-error')
   $("##{target_name}_hour").parent().removeClass('has-warning has-error')
+  $("##{target_name}_hours").parent().removeClass('has-warning has-error')
   $("##{target_name}_minutes").parent().removeClass('has-warning has-error')
   $("##{target_name}_seconds").parent().removeClass('has-warning has-error')
   $("##{target_name}_period").parent().removeClass('has-warning has-error')
@@ -91,11 +92,13 @@
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
     $("##{target_name}_alert_box").addClass('bs-callout-danger')
     $("##{target_name}_hour").parent().addClass('has-error')
+    $("##{target_name}_hours").parent().addClass('has-error')
     $("##{target_name}_minutes").parent().addClass('has-error')
     $("##{target_name}_seconds").parent().addClass('has-error')
     $("##{target_name}_period").parent().addClass('has-error')
   if data['status'] == 'in_hard_range'
     $("##{target_name}_hour").parent().addClass('has-warning')
+    $("##{target_name}_hours").parent().addClass('has-warning')
     $("##{target_name}_minutes").parent().addClass('has-warning')
     $("##{target_name}_seconds").parent().addClass('has-warning')
     $("##{target_name}_period").parent().addClass('has-warning')
@@ -107,6 +110,8 @@
   if $(parent).data('components') == 'date'
     setDateValidityClass(parent, data)
   else if $(parent).data('components') == 'time'
+    setTimeValidityClass(parent, data)
+  else if $(parent).data('components') == 'time_duration'
     setTimeValidityClass(parent, data)
   else
     setGenericValidityClass(parent, data)
@@ -125,6 +130,11 @@
       value["minutes"] = $("##{$(parent).data('target-name')}_minutes").val()
       value["seconds"] = $("##{$(parent).data('target-name')}_seconds").val()
       value["period"]  = $("##{$(parent).data('target-name')}_period").val()
+    when 'time_duration'
+      value = {}
+      value["hours"]    = $("##{$(parent).data('target-name')}_hours").val()
+      value["minutes"] = $("##{$(parent).data('target-name')}_minutes").val()
+      value["seconds"] = $("##{$(parent).data('target-name')}_seconds").val()
     when 'checkbox'
       value = []
       children = $(parent).find('input:checked')

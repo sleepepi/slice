@@ -179,6 +179,14 @@ time_of_day_no_range:
   user: valid
   project: one
 
+time_duration:
+  name: var_time_duration
+  display_name: Best 1 Mile Run Time
+  description: How long did your run take?
+  variable_type: time_duration
+  user: valid
+  project: one
+
 file:
   name: var_file
   display_name: Upload a Picture

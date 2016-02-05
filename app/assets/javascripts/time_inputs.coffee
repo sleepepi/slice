@@ -60,6 +60,15 @@
   $("##{target_name}_hour").change()
   $("##{target_name}_hour").blur()
 
+@clearTimeDurationFields = (element) ->
+  target_name = element.data("target-name")
+  clearClassStyles(target_name)
+  $("##{target_name}_hours").val("")
+  $("##{target_name}_minutes").val("")
+  $("##{target_name}_seconds").val("")
+  $("##{target_name}_hours").change()
+  $("##{target_name}_hours").blur()
+
 @setCurrentDate = (element) ->
   target_name = element.data("target-name")
   date = new Date()
@@ -112,6 +121,10 @@ $(document)
   )
   .on("click", '[data-object~="clear-time-input"]', (event) ->
     clearTimeFields($(this))
+    event.preventDefault()
+  )
+  .on("click", '[data-object~="clear-time-duration-input"]', (event) ->
+    clearTimeDurationFields($(this))
     event.preventDefault()
   )
   .on("click", '[data-object~="clear-date-input"]', () ->

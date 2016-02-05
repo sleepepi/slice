@@ -1,25 +1,7 @@
 # frozen_string_literal: true
 
-# Variable Class attributes
-# :description, :name, :display_name, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
-# # Integer and Numeric
-# :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-# # Date
-# :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-# # Date and Time
-# :show_current_button,
-# # Calculated
-# :calculation, :format,
-# # Integer and Numeric and Calculated
-# :units,
-# # Grid
-# :grid_tokens, :grid_variables, :multiple_rows, :default_row_number,
-# # Autocomplete
-# :autocomplete_values,
-# # Radio and Checkbox
-# :alignment, :domain_id
 class Variable < ActiveRecord::Base
-  TYPE = %w(dropdown checkbox radio string text integer numeric date time file calculated grid signature).sort.collect { |i| [i, i] }
+  TYPE = %w(dropdown checkbox radio string text integer numeric date time time_duration file calculated grid signature).sort.collect { |i| [i, i] }
   TYPE_IMPORTABLE = %w(string text integer numeric date time).sort.collect { |i| [i, i] }
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
   DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]
@@ -334,6 +316,8 @@ class Variable < ActiveRecord::Base
       'yymmdd10'
     elsif %w(time).include?(variable_type)
       'time8'
+    elsif %w(time_duration).include?(variable_type)
+      'time20'
     elsif %w(dropdown radio).include?(variable_type) && domain && !domain.all_numeric?
       '$500'
     elsif %w(numeric integer dropdown radio).include?(variable_type)
