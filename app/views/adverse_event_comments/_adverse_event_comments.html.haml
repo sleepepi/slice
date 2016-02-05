@@ -112,7 +112,7 @@
           one of the following forms
         to provide more information about the Adverse Event?
         - ae_designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
-          %div{ style: 'padding:25px 25px 15px;margin-bottom: 20px' }
+          %div{ style: 'padding:25px 25px 15px;' }
             - designs.in_groups_of(2, false).each do |designs|
               .row
                 - designs.each do |design|
