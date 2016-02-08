@@ -95,29 +95,36 @@
                   = image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), style: 'height: 64px', class: 'img-thumbnail'
 
 - ae_designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: true })
-- if @adverse_event.sheets.count == 0 && ae_designs.count > 0
+- if ae_designs.count > 0
   .comment-outer
     .comment-left-fixed
     .comment-right-fluid
-      .jumbotron
-        %strong
-          Additional
-          = 'Form'.pluralize(ae_designs.count)
-          Available
-        %br
-        Would you like to start
-        - if ae_designs.count == 1
-          the following form
-        - else
-          one of the following forms
-        to provide more information about the adverse event?
-        - ae_designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
-          %div{ style: 'padding:25px 25px 15px;' }
-            - designs.in_groups_of(2, false).each do |designs|
-              .row
-                - designs.each do |design|
-                  .col-sm-6{ style: 'margin-bottom:10px' }
-                    = link_to design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, design, adverse_event_id: @adverse_event.id), class: 'btn btn-default btn-block', style: 'white-space: normal'
+      - unless @adverse_event.sheets.count == 0
+        #additional-forms-icon.comment-icon
+          %span.glyphicon.glyphicon-file
+        #additional-forms-action.comment-action
+          = link_to '#', data: { object: 'toggle-visibility', target: '#additional-forms, #additional-forms-icon, #additional-forms-action' } do
+            Add Another Form
+      #additional-forms{ style: "#{'display:none' unless @adverse_event.sheets.count == 0}" }
+        .jumbotron
+          %strong
+            Additional
+            = 'Form'.pluralize(ae_designs.count)
+            Available
+          %br
+          Would you like to start
+          - if ae_designs.count == 1
+            the following form
+          - else
+            one of the following forms
+          to provide more information about the adverse event?
+          - ae_designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
+            %div{ style: 'padding:25px 25px 15px;' }
+              - designs.in_groups_of(2, false).each do |designs|
+                .row
+                  - designs.each do |design|
+                    .col-sm-6{ style: 'margin-bottom:10px' }
+                      = link_to design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, design, adverse_event_id: @adverse_event.id), class: 'btn btn-default btn-block', style: 'white-space: normal'
 
 - if @adverse_event.editable_by? current_user
   #adverse_event_comment_new

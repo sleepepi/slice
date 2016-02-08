@@ -2,10 +2,11 @@
   %li{ class: (current_page?([@project, @adverse_event]) ? 'active' : nil), role: 'presentation' }
     = link_to [@project, @adverse_event] do
       Discussion
-  %li{ class: (current_page?(forms_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
-    = link_to forms_project_adverse_event_path(@project, @adverse_event) do
-      Forms
-      %span.label.label-default= @adverse_event.sheets.count if @adverse_event.sheets.present?
+  - if false
+    %li{ class: (current_page?(forms_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
+      = link_to forms_project_adverse_event_path(@project, @adverse_event) do
+        Forms
+        %span.label.label-default= @adverse_event.sheets.count if @adverse_event.sheets.present?
   %li{ class: (params[:controller] == 'adverse_event_files' ? 'active' : nil), role: 'presentation' }
     = link_to project_adverse_event_adverse_event_files_path(@project, @adverse_event) do
       Files
