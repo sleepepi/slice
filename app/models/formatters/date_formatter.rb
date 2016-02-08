@@ -7,7 +7,16 @@ module Formatters
     # end
 
     def name_response(response)
-      format = (@variable.format.blank? ? '%m/%d/%Y' : @variable.format)
+      format = case @variable.format
+               when '%d/%m/%Y'
+                 '%d/%m/%Y'
+               when '%Y-%m-%d'
+                 '%Y-%m-%d'
+               when 'dd-mmm-yyyy'
+                 '%d-%^b-%Y'
+               else
+                 '%m/%d/%Y'
+               end
       Date.parse(response).strftime(format)
     rescue
       response

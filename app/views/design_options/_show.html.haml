@@ -97,7 +97,7 @@
               = render 'design_options/set_design_option', design_option: design_option, title: title, values: values, attribute: :show_current_button
 
             - if %w(date).include?(variable.variable_type)
-              - values = [['MM/DD/YYYY', '%m/%d/%Y'], ['DD/MM/YYYY', '%d/%m/%Y'], ['YYYY-MM-DD', '%Y-%m-%d']]
+              - values = [['MM/DD/YYYY', '%m/%d/%Y'], ['DD/MM/YYYY', '%d/%m/%Y'], ['YYYY-MM-DD', '%Y-%m-%d'], ['DD-MMM-YYYY', 'dd-mmm-yyyy']]
               = render 'design_options/set_design_option', design_option: design_option, title: 'Date Format', values: values, attribute: :format
 
             - if %w(time).include?(variable.variable_type)

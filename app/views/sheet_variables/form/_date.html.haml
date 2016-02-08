@@ -5,11 +5,21 @@
 - value = variable.response_to_value(response)
 
 .date-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'date', status: variable.validator.status(value) } }
-  - variable.date_order.each_with_index do |component, index|
-    - (formatting, string_format) = variable.date_formatting(component)
-    %span{ class: "#{component}-box" }
-      = text_field_tag "#{field_name}[#{component}]", value[component.to_sym], maxlength: formatting.size, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: formatting, class: 'form-control', style: 'display: inline-block;'
-    = variable.date_separator unless index == variable.date_order.size - 1
+  - if variable.format == 'dd-mmm-yyyy'
+    %span.day-box
+      = text_field_tag "#{field_name}[day]", value[:day], maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+    \-
+    %span.month-box
+      = select_tag "#{field_name}[month]", options_for_select(Date::ABBR_MONTHNAMES[1..12].collect.with_index { |m, i| [m.to_s.upcase, i+1] }, value[:month]), include_blank: 'mmm', disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, class: 'form-control', style: 'display: inline-block;'
+    \-
+    %span.year-box
+      = text_field_tag "#{field_name}[year]", value[:year], maxlength: 4, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
+  - else
+    - variable.date_order.each_with_index do |component, index|
+      - (formatting, string_format) = variable.date_formatting(component)
+      %span{ class: "#{component}-box" }
+        = text_field_tag "#{field_name}[#{component}]", value[component.to_sym], maxlength: formatting.size, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: formatting, class: 'form-control', style: 'display: inline-block;'
+      = variable.date_separator unless index == variable.date_order.size - 1
   - if variable.show_current_button?
     = link_to 'Today', '#', data: { object: 'set-date-input-to-current-date', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
   - unless is_grid

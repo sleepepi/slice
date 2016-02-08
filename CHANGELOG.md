@@ -12,6 +12,7 @@
   - A new variable type, Time Duration, has been added that allows data entry for a duration of hours, minutes, and seconds
   - Time variables can now be set as 24-hour (default) or 12-hour for data entry and display
   - Display of seconds on time and time duration variables can now be toggled on and off
+  - Date variables can now be additionally formatted in dd-MMM-yyyy format, ex: 08-FEB-2016
 - **Project Changes**
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
 
