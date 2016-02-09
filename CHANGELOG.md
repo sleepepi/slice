@@ -16,6 +16,8 @@
   - Date variables can now be additionally formatted in dd-MMM-yyyy format, ex: 08-FEB-2016
 - **Project Changes**
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
+  - The main project page now displays an improved subjects index
+  - Project reports have been moved to a new menu tab
 
 ### Bug Fix
 - Fixed an issue that prevented the R script from reading grids correctly

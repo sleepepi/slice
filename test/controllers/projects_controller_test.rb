@@ -8,6 +8,17 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test 'should get reports as project editor' do
+    get :reports, id: @project
+    assert_response :success
+  end
+
+  test 'should get reports as project viewer' do
+    login(users(:associated))
+    get :reports, id: @project
+    assert_response :success
+  end
+
   test "should get logo as project editor" do
     get :logo, id: @project
 
@@ -341,20 +352,20 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should show project" do
     get :show, id: @project
     assert_not_nil assigns(:project)
-    assert_response :success
+    assert_redirected_to project_subjects_path(assigns(:project))
   end
 
   test "should show project using slug" do
     get :show, id: projects(:named_project)
     assert_not_nil assigns(:project)
-    assert_response :success
+    assert_redirected_to project_subjects_path(assigns(:project))
   end
 
   test "should show project to site user" do
     login(users(:site_one_viewer))
     get :show, id: @project
     assert_not_nil assigns(:project)
-    assert_response :success
+    assert_redirected_to project_subjects_path(assigns(:project))
   end
 
   test "should not show invalid project" do

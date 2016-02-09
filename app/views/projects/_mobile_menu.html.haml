@@ -20,6 +20,9 @@
     = link_to project_exports_path(@project), class: (params[:controller] == 'exports' ? 'active' : nil) do
       Exports
   %li
+    = link_to reports_project_path(@project), class: (current_page?(reports_project_path(@project)) ? 'active' : nil) do
+      Reports
+  %li
     = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
       Recent Activity
   %li

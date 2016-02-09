@@ -1,0 +1,14 @@
+- @title = "#{@project.name} Reports"
+
+= render 'projects/tabbed_menu', links: [['Reports', reports_project_path(@project)]]
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
+      Reports
+
+    = render 'projects/show/reports'
+
+= render 'projects/mobile_menu'

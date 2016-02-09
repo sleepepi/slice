@@ -2,13 +2,16 @@
 
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,      only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :logo ]
-  before_action :set_editable_project,      only: [ :setup, :edit, :update, :invite_user ]
-  before_action :set_owner_project,         only: [ :transfer, :destroy ]
-  before_action :redirect_without_project,  only: [ :settings, :show, :collect, :share, :about, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo ]
+  before_action :set_viewable_project,      only: [:settings, :show, :collect, :share, :about, :reports, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :logo]
+  before_action :set_editable_project,      only: [:setup, :edit, :update, :invite_user]
+  before_action :set_owner_project,         only: [:transfer, :destroy]
+  before_action :redirect_without_project,  only: [:settings, :show, :collect, :share, :about, :reports, :subject_report, :report, :report_print, :filters, :new_filter, :edit_filter, :favorite, :archive, :activity, :setup, :edit, :update, :invite_user, :transfer, :destroy, :logo]
 
   # Concerns
   include Buildable
+
+  def reports
+  end
 
   # POST /projects/save_project_order.js
   def save_project_order
@@ -186,7 +189,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @events = @project.events.where(archived: false)
+    redirect_to project_subjects_path(@project)
   end
 
   # GET /projects/1/settings

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       post :report
       get :report_print
       get :subject_report
+      get :reports
       post :filters
       post :new_filter
       post :edit_filter
