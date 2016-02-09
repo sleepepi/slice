@@ -18,6 +18,8 @@
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
   - The main project page now displays an improved subjects index
   - Project reports have been moved to a new menu tab
+- **Category Changes**
+  - Designs associated to categories are now listed on the category page
 
 ### Bug Fix
 - Fixed an issue that prevented the R script from reading grids correctly

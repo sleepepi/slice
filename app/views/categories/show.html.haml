@@ -28,3 +28,9 @@
 
       %dt Creator
       %dd= @category.user.name
+
+      %dt Designs
+      %dd
+        %ul.list-unstyled
+          - @category.designs.order(:name).each do |design|
+            %li= link_to design.name, [@project, design]
