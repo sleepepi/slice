@@ -34,7 +34,7 @@
       - if editable_sites.count > 1
         %td= link_to subject.site.name, [@project, subject.site]
       %td
-        - sheet = subject.blinded_sheets(current_user).order(last_edited_at: :desc).first
+        - sheet = subject.blinded_sheets(current_user).where.not(last_edited_at: nil).order(last_edited_at: :desc).first
         - subject_event = subject.subject_events.order(updated_at: :desc).first
         - if sheet && subject_event
           - if sheet.last_edited_at > subject_event.updated_at
