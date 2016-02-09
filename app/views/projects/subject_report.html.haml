@@ -10,11 +10,4 @@
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
     %h2.underline-header= @title
-
-    = form_tag subject_report_project_path(@project), method: :get, class: 'form-inline', id: 'report_form' do
-      .row
-        .col-md-4
-          Subjects
-          = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses, target: '#report_form'
-
     = render 'projects/subject_report'

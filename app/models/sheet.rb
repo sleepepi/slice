@@ -37,8 +37,6 @@ class Sheet < ActiveRecord::Base
   # Include blank, unknown, or values entered as missing
   scope :with_response_unknown_or_missing, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
 
-  scope :with_subject_status, -> (*args) { where('sheets.subject_id IN (select subjects.id from subjects where subjects.deleted = ? and subjects.status IN (?) )', false, args.first).references(:subjects) }
-
   # Model Validation
   validates :design_id, :project_id, :subject_id, presence: true
   validates :authentication_token, uniqueness: true, allow_nil: true
@@ -123,7 +121,7 @@ class Sheet < ActiveRecord::Base
                          Variable.find_by_id(stratum_id)
                        end
 
-    if stratum_variable and stratum_value == ':any' and not %w(site sheet_date subject_status design).include?(stratum_variable.variable_type)
+    if stratum_variable and stratum_value == ':any' and not %w(site sheet_date design).include?(stratum_variable.variable_type)
       if stratum_variable.variable_type == 'checkbox'
         with_checkbox_any_variable_response_not_missing_code(stratum_variable)
       else
@@ -291,10 +289,9 @@ class Sheet < ActiveRecord::Base
 
   def self.array_responses(sheet_scope, variable)
     responses = []
-    if variable && %w(site sheet_date subject_status).include?(variable.variable_type)
+    if variable && %w(site sheet_date).include?(variable.variable_type)
       responses = sheet_scope.includes(:subject).collect { |s| s.subject.site_id } if variable.variable_type == 'site'
       responses = sheet_scope.pluck(:created_at) if variable.variable_type == 'sheet_date'
-      responses = sheet_scope.includes(:subject).collect { |s| s.subject.status } if variable.variable_type == 'subject_status'
     else
       responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id).pluck(:response) : [])
     end

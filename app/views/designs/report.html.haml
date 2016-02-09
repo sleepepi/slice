@@ -35,10 +35,6 @@
             = hidden_field_tag :page, params[:page]
 
             .form-group
-              %label Subjects
-              = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses
-
-            .form-group
               %label Report
               = render 'layouts/radio_button_group', name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent
 

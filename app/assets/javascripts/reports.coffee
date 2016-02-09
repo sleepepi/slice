@@ -45,16 +45,6 @@ $(document)
     submitReportWithFilters()
     e.preventDefault()
   )
-  .on('click', '[data-object~="set-statuses"]', () ->
-    if $(this).find('input').is(':checked')
-      $(this).find('input').prop('checked', false)
-    else
-      $(this).find('input').prop('checked', true)
-    if $($(this).data('target')).length > 0
-      $($(this).data('target')).submit()
-    else
-      submitReportWithFilters()
-  )
   .on('click', '[data-object~="export-report-pdf"]', () ->
     window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
     false

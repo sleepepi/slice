@@ -16,9 +16,6 @@ class SheetsController < ApplicationController
   def index
     sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: :site).search(params[:search])
 
-    @statuses = params[:statuses] || ['valid']
-    sheet_scope = sheet_scope.with_subject_status(@statuses)
-
     @sheet_after = parse_date(params[:sheet_after])
     @sheet_before = parse_date(params[:sheet_before])
 

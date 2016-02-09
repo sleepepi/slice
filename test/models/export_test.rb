@@ -14,8 +14,8 @@ class ExportTest < ActiveSupport::TestCase
 
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, 'test-export.csv', true, '')
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal 'Sheet ID,Name,Description,Sheet Creation Date,Project,Site,Subject,Acrostic,Status,Creator,Event Name,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
-    assert_equal "#{sheets(:checkbox_example_one).id},Checkbox and Radio for Export Test,,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",valid,FirstName LastName,,,econ101,math123,,,1", rows[1]
+    assert_equal 'Sheet ID,Name,Description,Sheet Creation Date,Project,Site,Subject,Acrostic,Creator,Event Name,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
+    assert_equal "#{sheets(:checkbox_example_one).id},Checkbox and Radio for Export Test,,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",FirstName LastName,,,econ101,math123,,,1", rows[1]
   end
 
   test 'generate an export with checkbox labeled values split across columns' do
@@ -23,18 +23,18 @@ class ExportTest < ActiveSupport::TestCase
 
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, 'test-export-labeled.csv', false, '')
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal 'Sheet ID,Name,Description,Sheet Creation Date,Project,Site,Subject,Acrostic,Status,Creator,Event Name,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
-    assert_equal "#{sheets(:checkbox_example_one).id},Checkbox and Radio for Export Test,,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",valid,FirstName LastName,,,econ101: ECON 101,math123: MATH 123,,,1: Freshman", rows[1]
+    assert_equal 'Sheet ID,Name,Description,Sheet Creation Date,Project,Site,Subject,Acrostic,Creator,Event Name,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
+    assert_equal "#{sheets(:checkbox_example_one).id},Checkbox and Radio for Export Test,,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",FirstName LastName,,,econ101: ECON 101,math123: MATH 123,,,1: Freshman", rows[1]
   end
 
   test 'generate a grid export with rows for each grid row' do
     sheets_with_grids = projects(:one).sheets.where(id: sheets(:has_grid))
     (_, export_file) = exports(:four).send(:generate_csv_grids, sheets_with_grids, 'test-export-grids.csv', true, '')
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal '"","","","","","","","","","","",grid,grid,grid,grid,grid,grid,grid,grid,grid,grid,grid,grid', rows[0]
-    assert_equal 'Sheet ID,Name,Description,Sheet Creation Date,Project,Site,Subject,Acrostic,Status,Creator,Event Name,change_options,var_file,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,height,weight,var_bmi,var_age,var_time', rows[1]
-    assert_equal "863765097,Includes a Grid Variable,Test for grid variable saving,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",valid,FirstName LastName,,1,,,econ101,,,,1.5,70.0,31.11,25,43199", rows[2]
-    assert_equal "863765097,Includes a Grid Variable,Test for grid variable saving,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",valid,FirstName LastName,,2,,,,,,,2.6,80.0,11.83,36,43200", rows[3]
+    assert_equal '"","","","","","","","","","",grid,grid,grid,grid,grid,grid,grid,grid,grid,grid,grid,grid', rows[0]
+    assert_equal 'Sheet ID,Name,Description,Sheet Creation Date,Project,Site,Subject,Acrostic,Creator,Event Name,change_options,var_file,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,height,weight,var_bmi,var_age,var_time', rows[1]
+    assert_equal "863765097,Includes a Grid Variable,Test for grid variable saving,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",FirstName LastName,,1,,,econ101,,,,1.5,70.0,31.11,25,43199", rows[2]
+    assert_equal "863765097,Includes a Grid Variable,Test for grid variable saving,#{Time.zone.today.strftime('%Y-%m-%d')},Project One,Site One,Code01,\"\",FirstName LastName,,2,,,,,,,2.6,80.0,11.83,36,43200", rows[3]
     assert_equal 4, rows.size
   end
 end

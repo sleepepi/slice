@@ -68,7 +68,7 @@ class Project < ActiveRecord::Base
   # Model Methods
 
   def recent_sheets
-    sheets.with_subject_status('valid').where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
+    sheets.where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end
 
   # Project Owners and Project Editors

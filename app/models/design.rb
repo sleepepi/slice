@@ -338,7 +338,7 @@ class Design < ActiveRecord::Base
     update total_rows: counter
   end
 
-  def create_sheets!(default_site, default_status, current_user, remote_ip)
+  def create_sheets!(default_site, current_user, remote_ip)
     return unless csv_file.path && default_site
     update import_started_at: Time.zone.now
     set_total_rows
@@ -352,7 +352,7 @@ class Design < ActiveRecord::Base
 
     CSV.parse(File.open(csv_file.path, 'r:iso-8859-1:utf-8') { |f| f.read }, headers: true) do |line|
       row = line.to_hash.with_indifferent_access
-      subject = Subject.first_or_create_with_defaults(project, row['Subject'], row['Acrostic'].to_s, current_user, default_site, default_status)
+      subject = Subject.first_or_create_with_defaults(project, row['Subject'], row['Acrostic'].to_s, current_user, default_site)
       if subject
         sheet = sheets.where(subject_id: subject.id).first_or_initialize(project_id: project_id, user_id: current_user.id, last_user_id: current_user.id)
         transaction_type = (sheet.new_record? ? 'sheet_create' : 'sheet_update')

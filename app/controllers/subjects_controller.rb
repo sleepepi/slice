@@ -131,7 +131,7 @@ class SubjectsController < ApplicationController
         render json: []
       end
     else
-      render json: @subjects.collect{ |s| { value: s.subject_code, subject_code: s.subject_code, status_class: (s.status == 'valid' ? 'success' : 'info'), status: s.status.first  } }
+      render json: @subjects.collect{ |s| { value: s.subject_code, subject_code: s.subject_code, status_class: 'success', status: 'v'  } }
     end
   end
 
@@ -139,8 +139,7 @@ class SubjectsController < ApplicationController
   # GET /subjects.json
   def index
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
-    @statuses = params[:statuses] || ['valid']
-    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).where(status: @statuses).search(params[:search]).order(@order)
+    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:search]).order(@order)
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
 
     if params[:on_event_design_id].present? and params[:event_id].present?

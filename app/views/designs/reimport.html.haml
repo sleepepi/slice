@@ -31,11 +31,6 @@
 
   - if @file_uploaded
     .form-group
-      = label :subject_status, "Subject Status", class: 'col-md-2 control-label'
-      .col-md-10
-        = select_tag :subject_status, options_for_select(Subject::STATUS, 'pending'), class: 'form-control'
-
-    .form-group
       = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
       #site.col-md-10
         = select_tag :site_id, options_for_select(@project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'

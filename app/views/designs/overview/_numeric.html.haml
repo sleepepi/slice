@@ -18,7 +18,7 @@
     %tr
       %td
         %span{ style: 'display:none', data: { object: 'sparkline', type: 'box', values: valid_responses, min: @overall_min, max: @overall_max } }
-      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', @statuses
+      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
       %td
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         = mean ? mean : '-'
@@ -27,12 +27,12 @@
         = stdev ? "&plusmn; #{stdev}".html_safe : '-'
       %td
         - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
-        = median ? filter_link(median, @design, variable, "%g"%median, @statuses) : '-'
+        = median ? filter_link(median, @design, variable, "%g"%median) : '-'
       %td
         - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
-        = min ? filter_link(min, @design, variable, "%g"%min, @statuses) : '-'
+        = min ? filter_link(min, @design, variable, "%g"%min) : '-'
       %td
         - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
-        = max ? filter_link(max, @design, variable, "%g"%max, @statuses) : '-'
-      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', @statuses
-      %td= filter_link Sheet.array_count(responses), @design, nil, nil, @statuses
+        = max ? filter_link(max, @design, variable, "%g"%max) : '-'
+      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing'
+      %td= filter_link Sheet.array_count(responses), @design, nil, nil

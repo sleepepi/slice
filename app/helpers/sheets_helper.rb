@@ -10,8 +10,8 @@ module SheetsHelper
                 title: sheet.out_of)
   end
 
-  def filter_link(count, design, variable, value, statuses)
-    params = { design_id: design.id, statuses: statuses }
+  def filter_link(count, design, variable, value)
+    params = { design_id: design.id }
     params[:f] = [{ variable_id: variable.id, value: value }] if variable
     url = project_sheets_path design.project, params
     link_to_if count.present?, count || '-', url, target: '_blank'

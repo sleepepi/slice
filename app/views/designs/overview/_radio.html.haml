@@ -20,11 +20,11 @@
     %tr
       %td
         %span{ style: 'display:none', data: { object: 'sparkline', type: 'pie', values: counts } }
-      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', @statuses
+      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
       - variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value]] }.each_with_index do |(name, value), count_index|
         %td
           - unless responses.select{|r| r == value}.count == 0
             %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
-          = filter_link((responses.select{|r| r == value}.count == 0 ? nil : responses.select{|r| r == value}.count), @design, variable, value, @statuses)
-      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', @statuses
-      %td= filter_link Sheet.array_count(responses), @design, nil, nil, @statuses
+          = filter_link((responses.select{|r| r == value}.count == 0 ? nil : responses.select{|r| r == value}.count), @design, variable, value)
+      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing'
+      %td= filter_link Sheet.array_count(responses), @design, nil, nil

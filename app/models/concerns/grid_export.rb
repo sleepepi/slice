@@ -23,7 +23,6 @@ module GridExport
       csv << ['', 'Site'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.name : nil] })
       csv << ['', 'Subject'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :subject_code))
       csv << ['', 'Acrostic'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :acrostic))
-      csv << ['', 'Status'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :status))
       csv << ['', 'Creator'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(:user).collect { |s| [s.id, s.user ? "#{s.user.first_name} #{s.user.last_name}" : nil] })
       csv << ['', 'Event Name'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject_event: :event).collect { |s| [s.id, s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil] })
 

@@ -20,8 +20,7 @@ class DesignsController < ApplicationController
   # GET /designs/1/overview
   # GET /designs/1/overview.js
   def overview
-    @statuses = params[:statuses] || ['valid']
-    @sheets = current_user.all_viewable_sheets.original_entry.where(project_id: @project.id, design_id: @design.id).with_subject_status(@statuses)
+    @sheets = current_user.all_viewable_sheets.original_entry.where(project_id: @project.id, design_id: @design.id)
   end
 
   def json_import
@@ -298,8 +297,7 @@ class DesignsController < ApplicationController
     pid = Process.fork
     if pid.nil?
       site = @design.project.sites.find_by_id(params[:site_id])
-      subject_status = (Subject::STATUS.flatten.include?(params[:subject_status].to_s) ? params[:subject_status].to_s : 'pending')
-      @design.create_sheets!(site, subject_status, current_user, request.remote_ip)
+      @design.create_sheets!(site, current_user, request.remote_ip)
       Kernel.exit!
     else
       Process.detach(pid)

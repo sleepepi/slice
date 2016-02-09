@@ -9,6 +9,6 @@
       %th Total
   %tbody
     %tr
-      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', @statuses
-      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', @statuses
-      %td= filter_link Sheet.array_count(responses), @design, nil, nil, @statuses
+      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
+      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing'
+      %td= filter_link Sheet.array_count(responses), @design, nil, nil

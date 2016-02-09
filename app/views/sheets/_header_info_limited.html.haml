@@ -18,7 +18,6 @@
     %tr
       %td= coverage_helper(@sheet)
       %td
-        = status_helper(@sheet.subject) if @sheet.subject
         = link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject
       - if @sheet.subject_event
         %td

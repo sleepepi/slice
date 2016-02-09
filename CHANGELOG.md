@@ -18,6 +18,8 @@
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
   - The main project page now displays an improved subjects index
   - Project reports have been moved to a new menu tab
+- **Subject Changes**
+  - Subject statuses have been removed
 - **Category Changes**
   - Designs associated to categories are now listed on the category page
 

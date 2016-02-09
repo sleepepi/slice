@@ -39,7 +39,7 @@
             %td
               %span{ class: "#{'text-muted' if hash[:count] == nil}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
                 %span.rounded-borders{ style: 'background-color: transparent' }
-                  - link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], statuses: @statuses)
+                  - link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters]) : project_sheets_path(@project, f: hash[:filters])
                   = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
                   = link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank')
                 - unless hash[:debug].blank?
@@ -64,7 +64,7 @@
               - column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index]
               %span{ class: "#{'text-muted' if hash[:count] == nil}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
                 %span.rounded-borders{ class: "#{'text-muted' if hash[:name].blank?}", style: 'background-color: transparent' }
-                  - link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters], statuses: @statuses) : project_sheets_path(@project, f: hash[:filters], statuses: @statuses)
+                  - link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters]) : project_sheets_path(@project, f: hash[:filters])
                   = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
                   - if hash[:name].blank?
                     Unknown
@@ -88,5 +88,5 @@
 
 .center.text-muted= @report_caption
 
-- link_name = @design ? report_project_design_path(@design.project, @design, percent: @percent, f: params[:f], statuses: @statuses) : report_project_path(@project, f: params[:f], statuses: @statuses)
+- link_name = @design ? report_project_design_path(@design.project, @design, percent: @percent, f: params[:f]) : report_project_path(@project, f: params[:f])
 = link_to '#permalink', link_name, class: 'pull-right', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print'

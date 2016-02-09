@@ -1,7 +1,6 @@
-- @title = "Summary Report"
+- @title = 'Summary Report'
 
-- links = []
-- links << ['Summary Report', report_project_path(@project)]
+- links = [['Summary Report', report_project_path(@project)]]
 = render 'projects/tabbed_menu', links: links
 
 .mini-menu-outer
@@ -13,10 +12,6 @@
     = form_tag report_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do
       = hidden_field_tag :page
 
-      %label Subjects
-      = render 'layouts/checkbox_button_group', name: 'statuses', options: Subject::STATUS, selected: @statuses
-
-      &middot;
       %label By
       = render 'layouts/radio_button_group', name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: @by
 

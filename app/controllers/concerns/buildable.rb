@@ -110,7 +110,6 @@ module Buildable
 
     @by = ["week", "month", "year"].include?(params[:by]) ? params[:by] : "month" # "month" or "year"
     @percent = ['none', 'row', 'column'].include?(params[:percent]) ? params[:percent] : 'none'
-    @statuses = params[:statuses] || ['valid']
 
     sheet_scope = current_user.all_viewable_sheets
     sheet_scope = sheet_scope.where(design_id: @design ? @design.id : @project.designs.pluck(:id))
@@ -123,7 +122,6 @@ module Buildable
     # sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@variable) if @variable and params[:include_missing] != '1'
     # sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(@column_variable) if @column_variable and params[:column_include_missing] != '1'
 
-    sheet_scope = sheet_scope.with_subject_status(@statuses)
     sheet_scope = sheet_scope.original_entry
 
     @sheets = sheet_scope

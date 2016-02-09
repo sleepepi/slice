@@ -31,7 +31,6 @@ graphics.off
   label(slice$Site)                <- "Site"
   label(slice$Subject)             <- "Subject ID"
   label(slice$Acrostic)            <- "Subject Acrostic"
-  label(slice$Status)              <- "Subject Status"
   label(slice$Creator)             <- "Sheet Creator"
   label(slice$Event.Name)          <- "Event Name"
 
@@ -55,9 +54,8 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2
   names(slice_grids)[6]  <- "Site"
   names(slice_grids)[7]  <- "Subject"
   names(slice_grids)[8]  <- "Acrostic"
-  names(slice_grids)[9]  <- "Status"
-  names(slice_grids)[10] <- "Creator"
-  names(slice_grids)[11] <- "Event.Name"
+  names(slice_grids)[9] <- "Creator"
+  names(slice_grids)[10] <- "Event.Name"
 
   # Design and Subject Variables
   label(slice_grids$Sheet.ID)            <- "Sheet ID"
@@ -68,7 +66,6 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2
   label(slice_grids$Site)                <- "Site"
   label(slice_grids$Subject)             <- "Subject ID"
   label(slice_grids$Acrostic)            <- "Subject Acrostic"
-  label(slice_grids$Status)              <- "Subject Status"
   label(slice_grids$Creator)             <- "Sheet Creator"
   label(slice_grids$Event.Name)          <- "Event Name"
 

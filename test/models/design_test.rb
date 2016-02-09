@@ -21,11 +21,10 @@ class DesignTest < ActiveSupport::TestCase
                               } )
     assert_equal 5, design.design_options.size
     assert_difference('Sheet.count', 20) do
-      design.create_sheets!(projects(:one).sites.first, 'pending', valid, "127.0.0.1")
+      design.create_sheets!(projects(:one).sites.first, valid, "127.0.0.1")
     end
 
-    assert_equal 2, design.sheets.with_subject_status('valid').count
-    assert_equal 18, design.sheets.with_subject_status('pending').count
+    assert_equal 20, design.sheets.count
 
     assert_equal 2, design.sheets.with_site(sites(:valid_range)).count
     assert_equal 18, design.sheets.with_site(projects(:one).sites.first).count

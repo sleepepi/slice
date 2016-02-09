@@ -23,7 +23,6 @@ module SheetExport
       csv << ['Site'] + sheet_scope.includes(subject: :site).collect { |s| s.subject && s.subject.site ? s.subject.site.name : nil }
       csv << ['Subject'] + sheet_scope.joins(:subject).pluck(:subject_code)
       csv << ['Acrostic'] + sheet_scope.joins(:subject).pluck(:acrostic)
-      csv << ['Status'] + sheet_scope.joins(:subject).pluck(:status)
       csv << ['Creator'] + sheet_scope.includes(:user).collect { |s| s.user ? "#{s.user.first_name} #{s.user.last_name}" : nil }
       csv << ['Event Name'] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil }
 
