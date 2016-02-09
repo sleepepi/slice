@@ -23,7 +23,7 @@
         - if sheet.verification_sheets.count > 0
           %div
             %span.label.label-warning Double Data
-      %td= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
+      %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
       %td= simple_time sheet.created_at
       %td= simple_time sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at
       %td= link_to sheet.subject.site.name, [@project, sheet.subject.site] if sheet.subject and sheet.subject.site
