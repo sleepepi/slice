@@ -8,6 +8,8 @@ json.array!(@variables) do |variable|
                   :show_current_button,
                   # Time and Time Duration
                   :show_seconds,
+                  # Time Duration
+                  :time_duration_format,
                   # Calculated
                   :calculation, :format,
                   # Integer and Numeric and Calculated

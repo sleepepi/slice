@@ -5,16 +5,16 @@
 - value = variable.response_to_value(response)
 
 .time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time_duration', status: variable.validator.status(value) } }
-
-  %span.hour-box
-    = text_field_tag "#{field_name}[hours]", (value[:hours] ? format('%02d', value[:hours]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-  h
-  &nbsp;
+  - if ['hh:mm:ss', 'hh:mm', '', nil].include?(variable.time_duration_format)
+    %span.hour-box
+      = text_field_tag "#{field_name}[hours]", (value[:hours] ? format('%02d', value[:hours]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
+    h
+    &nbsp;
   %span.min-box
     = text_field_tag "#{field_name}[minutes]", (value[:minutes] ? format('%02d', value[:minutes]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
   m
   &nbsp;
-  - if variable.show_seconds?
+  - if ['hh:mm:ss', 'mm:ss', '', nil].include?(variable.time_duration_format)
     %span.sec-box
       = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
     s

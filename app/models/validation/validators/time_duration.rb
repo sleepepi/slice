@@ -27,10 +27,13 @@ module Validation
 
       def formatted_value(value)
         hash = get_time_duration(value)
-        if @variable.show_seconds?
-          "#{hash[:hours]}h #{hash[:minutes]}m #{hash[:seconds]}s"
-        else
+        case @variable.time_duration_format
+        when 'mm:ss'
+          "#{hash[:minutes]}m #{hash[:seconds]}s"
+        when 'hh:mm'
           "#{hash[:hours]}h #{hash[:minutes]}m"
+        else
+          "#{hash[:hours]}h #{hash[:minutes]}m #{hash[:seconds]}s"
         end
       rescue
         nil

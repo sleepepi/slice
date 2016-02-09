@@ -67,7 +67,16 @@
                     %span.sec-box
                       = text_field_tag "sec_time", '', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
                 - when 'time_duration'
-                  = text_field_tag 'duration', '26h 34\' 56"', disabled: true, class: 'form-control'
+                  .time-input.form-inline
+                    %span.hour-box
+                      = text_field_tag 'hour_time_duration', '', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
+                    h
+                    %span.min-box
+                      = text_field_tag 'min_time_duration', '', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
+                    m
+                    %span.sec-box
+                      = text_field_tag 'sec_time_duration', '', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
+                    s
                 - when 'file'
                   = button_tag 'Choose File', disabled: true
                 - when 'signature'

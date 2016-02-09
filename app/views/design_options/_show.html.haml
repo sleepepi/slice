@@ -104,9 +104,13 @@
               - values = [['24-Hour', '24hour'], ['12-Hour (AM/PM)', '12hour']]
               = render 'design_options/set_design_option', design_option: design_option, title: 'Time Format', values: values, attribute: :format
 
-            - if %w(time time_duration).include?(variable.variable_type)
+            - if %w(time).include?(variable.variable_type)
               - values = [['show', true],['hide', false]]
               = render 'design_options/set_design_option', design_option: design_option, title: 'Seconds Display', values: values, attribute: :show_seconds
+
+            - if %w(time_duration).include?(variable.variable_type)
+              - values = [['HH:MM:SS', 'hh:mm:ss'], ['HH:MM','hh:mm'],['MM:SS', 'mm:ss']]
+              = render 'design_options/set_design_option', design_option: design_option, title: 'Time Duration Format', values: values, attribute: :time_duration_format
 
             - if ['grid'].include?(variable.variable_type)
               - values = [['enabled', true],['disabled', false]]
