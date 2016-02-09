@@ -18,6 +18,7 @@
 
 ### Bug Fix
 - Fixed an issue that prevented the R script from reading grids correctly
+- Fixed an issue retrieving the last updated sheet on the subjects index
 
 ## 0.32.3 (February 3, 2016)
 
