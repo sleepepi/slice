@@ -112,6 +112,11 @@
               - values = [['HH:MM:SS', 'hh:mm:ss'], ['HH:MM','hh:mm'],['MM:SS', 'mm:ss']]
               = render 'design_options/set_design_option', design_option: design_option, title: 'Time Duration Format', values: values, attribute: :time_duration_format
 
+            - if %w(calculated).include?(variable.variable_type)
+              - title = "Visibility During Data Entry"
+              - values = [['show', false],['hide', true]]
+              = render 'design_options/set_design_option', design_option: design_option, title: title, values: values, attribute: :hide_calculation
+
             - if ['grid'].include?(variable.variable_type)
               - values = [['enabled', true],['disabled', false]]
               = render 'design_options/set_design_option', design_option: design_option, title: 'Allow Multiple Rows', values: values, attribute: :multiple_rows

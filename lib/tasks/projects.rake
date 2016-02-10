@@ -119,7 +119,8 @@ def copy_variables(original, copy)
       scale_type: v.scale_type,
       domain_id: domain_map[v.domain_id.to_s],
       show_seconds: v.show_seconds,
-      time_duration_format: v.time_duration_format
+      time_duration_format: v.time_duration_format,
+      hide_calculation: v.hide_calculation
     )
     variable_map[v.id.to_s] = vc.id
     puts "Added #{vc.name.colorize(:white)} variable"
@@ -155,7 +156,8 @@ def copy_variables(original, copy)
       scale_type: v.scale_type,
       domain_id: domain_map[v.domain_id.to_s],
       show_seconds: v.show_seconds,
-      time_duration_format: v.time_duration_format
+      time_duration_format: v.time_duration_format,
+      hide_calculation: v.hide_calculation
     )
     variable_map[v.id.to_s] = vc.id
     puts "Added #{vc.name.colorize(:white)} variable"

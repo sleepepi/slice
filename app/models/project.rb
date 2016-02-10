@@ -181,7 +181,7 @@ class Project < ActiveRecord::Base
             # For Time Duration
             :time_duration_format,
             # For Calculated Variables
-            :calculation, :format,
+            :calculation, :format, :hide_calculation,
             # For Integer, Numeric, and Calculated
             :units,
             # For Grid Variables

@@ -14,6 +14,7 @@
   - Display of seconds on time variables can now be toggled on and off
   - Display format of time durations can be `hh:mm:ss`, `hh:mm`, and `mm:ss`
   - Date variables can now be additionally formatted in dd-MMM-yyyy format, ex: 08-FEB-2016
+  - Calculation fields can now be set as hidden during data entry
 - **Project Changes**
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
   - The main project page now displays an improved subjects index

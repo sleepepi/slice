@@ -10,7 +10,7 @@ json.extract! variable, :name, :display_name, :description, :variable_type, :dis
                   # Time Duration
                   :time_duration_format,
                   # Calculated
-                  :calculation, :format,
+                  :calculation, :format, :hide_calculation,
                   # Integer and Numeric and Calculated
                   :units,
                   # Grid

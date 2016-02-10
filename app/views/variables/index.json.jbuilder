@@ -11,7 +11,7 @@ json.array!(@variables) do |variable|
                   # Time Duration
                   :time_duration_format,
                   # Calculated
-                  :calculation, :format,
+                  :calculation, :format, :hide_calculation,
                   # Integer and Numeric and Calculated
                   :units,
                   # Grid
