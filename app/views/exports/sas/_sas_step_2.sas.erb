@@ -7,16 +7,11 @@ data slice<%= '_grids' if use_grids %>;
   set slice<%= '_grids' if use_grids %>;
 
   /* Design and Subject Variables */
-  label _sheet_id='Sheet ID';
-  label _name='Design Name';
-  label _description='Design Description';
-  label _sheet_creation_date='Sheet Creation Date';
-  label _project='Project';
-  label _site='Site';
   label _subject='Subject ID';
-  label _acrostic='Subject Acrostic';
-  label _creator='Sheet Creator';
+  label _site='Site';
   label _event_name='Event Name';
+  label _design_name='Design Name';
+  label _sheet_id='Sheet ID';
 
   /* Sheet Variables */
 <%= format_labels.join("\n") %>

@@ -6,6 +6,7 @@
   - Adverse events now prompt the user to fill out additional forms if one or more exists
 - **Export Changes**
   - Rewrote the data exporter to more efficiently export large amounts of data
+  - Default exported columns have been simplified to: `Subject`, `Site`, `Event Name`, `Design Name`, `Sheet ID`
 - **Design Changes**
   - The menu on the design edit page has been removed to provide more room while editing
 - **Variable Changes**

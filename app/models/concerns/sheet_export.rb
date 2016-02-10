@@ -15,16 +15,11 @@ module SheetExport
     sheet_ids = sheet_scope.pluck(:id)
 
     CSV.open(tmp_export_file, 'wb') do |csv|
-      csv << ['Sheet ID'] + sheet_ids
-      csv << ['Name'] + sheet_scope.joins(:design).pluck(:name)
-      csv << ['Description'] + sheet_scope.joins(:design).pluck(:description)
-      csv << ['Sheet Creation Date'] + sheet_scope.pluck(:created_at).collect { |s| s.strftime('%Y-%m-%d') }
-      csv << ['Project'] + sheet_scope.joins(:project).pluck(:name)
-      csv << ['Site'] + sheet_scope.includes(subject: :site).collect { |s| s.subject && s.subject.site ? s.subject.site.name : nil }
       csv << ['Subject'] + sheet_scope.joins(:subject).pluck(:subject_code)
-      csv << ['Acrostic'] + sheet_scope.joins(:subject).pluck(:acrostic)
-      csv << ['Creator'] + sheet_scope.includes(:user).collect { |s| s.user ? "#{s.user.first_name} #{s.user.last_name}" : nil }
+      csv << ['Site'] + sheet_scope.includes(subject: :site).collect { |s| s.subject && s.subject.site ? s.subject.site.name : nil }
       csv << ['Event Name'] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil }
+      csv << ['Design Name'] + sheet_scope.joins(:design).pluck(:name)
+      csv << ['Sheet ID'] + sheet_ids
 
       variables.each do |v|
         if v.variable_type == 'checkbox'
@@ -39,7 +34,7 @@ module SheetExport
           formatted_responses = format_responses(v, raw_data, sorted_responses)
           csv << [v.name] + formatted_responses
         end
-        update_steps(1) unless new_record? # TODO: Remove unless conditional
+        update_steps(1)
       end
     end
     transpose_tmp_csv(tmp_export_file, export_file)

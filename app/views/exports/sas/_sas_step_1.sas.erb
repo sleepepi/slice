@@ -21,31 +21,21 @@ data slice<%= '_grids' if use_grids %>;
   infile "&path_file<%= '_grids' if use_grids %>._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=<%= use_grids ? 3 : 2 %> ;
 
   /* Design and Subject Variables */
-  informat _sheet_id             best32.   ;   * Sheet ID ;
-  informat _name                 $500.     ;   * Design name ;
-  informat _description          $5000.    ;   * Design description ;
-  informat _sheet_creation_date  yymmdd10. ;   * Sheet creation date ;
-  informat _project              $500.     ;   * Project name ;
-  informat _site                 $500.     ;   * Subject site name ;
   informat _subject              $100.     ;   * Subject code ;
-  informat _acrostic             $100.     ;   * Subject acrostic ;
-  informat _creator              $100.     ;   * Sheet creator ;
+  informat _site                 $500.     ;   * Subject site name ;
   informat _event_name           $500.     ;   * Event name ;
+  informat _design_name          $500.     ;   * Design name ;
+  informat _sheet_id             best32.   ;   * Sheet ID ;
 
   /* Sheet Variables */
 <%= column_informats.join("\n") %>
 
   /* Design and Subject Variables */
-  format _sheet_id               best32.   ;
-  format _name                   $500.     ;
-  format _description            $500.     ;
-  format _sheet_creation_date    yymmdd10. ;
-  format _project                $500.     ;
-  format _site                   $500.     ;
   format _subject                $100.     ;
-  format _acrostic               $100.     ;
-  format _creator                $100.     ;
+  format _site                   $500.     ;
   format _event_name             $500.     ;
+  format _design_name            $500.     ;
+  format _sheet_id               best32.   ;
 
   /* Sheet Variables */
 <%= column_formats.join("\n") %>
@@ -53,16 +43,11 @@ data slice<%= '_grids' if use_grids %>;
   /* Define Column Names */
 
   input
-    _sheet_id
-    _name
-    _description
-    _sheet_creation_date
-    _project
-    _site
     _subject
-    _acrostic
-    _creator
+    _site
     _event_name
+    _design_name
+    _sheet_id
 <%= column_headers.collect{ |c| "    #{c}" }.join("\n") %>
   ;
 run;

@@ -15,16 +15,11 @@ module GridExport
     sheet_ids = compute_sheet_ids_with_max_position(sheet_scope)
 
     CSV.open(tmp_export_file, 'wb') do |csv|
-      csv << ['', 'Sheet ID'] + sheet_ids
-      csv << ['', 'Name'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:design).pluck(:id, :name))
-      csv << ['', 'Description'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:design).pluck(:id, :description))
-      csv << ['', 'Sheet Creation Date'] + grid_get_corresponding_names(sheet_ids, sheet_scope.pluck(:id, :created_at).collect{ |id, s| [id, s.strftime('%Y-%m-%d')]})
-      csv << ['', 'Project'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:project).pluck(:id, :name))
-      csv << ['', 'Site'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.name : nil] })
       csv << ['', 'Subject'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :subject_code))
-      csv << ['', 'Acrostic'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :acrostic))
-      csv << ['', 'Creator'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(:user).collect { |s| [s.id, s.user ? "#{s.user.first_name} #{s.user.last_name}" : nil] })
+      csv << ['', 'Site'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.name : nil] })
       csv << ['', 'Event Name'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject_event: :event).collect { |s| [s.id, s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil] })
+      csv << ['', 'Design Name'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:design).pluck(:id, :name))
+      csv << ['', 'Sheet ID'] + sheet_ids
 
       grid_group_variables.each do |grid_group_variable|
         grid_variables = grid_group_variable.project.variables.where(id: grid_group_variable.grid_variables.collect { |gv| gv[:variable_id] }).to_a
@@ -44,7 +39,7 @@ module GridExport
             csv << [grid_group_variable.name, v.name] + formatted_responses
           end
         end
-        update_steps(1) unless new_record? # TODO: Remove unless conditional
+        update_steps(1)
       end
     end
     transpose_tmp_csv(tmp_export_file, export_file)
