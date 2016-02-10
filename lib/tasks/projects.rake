@@ -51,9 +51,6 @@ def copy_project_sites(original, copy)
       name: s.name,
       description: s.description,
       user_id: s.user_id,
-      prefix: s.prefix,
-      code_minimum: s.code_minimum,
-      code_maximum: s.code_maximum,
       subject_code_format: s.subject_code_format
     )
     puts "Added #{sc.name.colorize(:white)} site"

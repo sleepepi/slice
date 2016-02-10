@@ -12,7 +12,6 @@ class Site < ActiveRecord::Base
   # Model Validation
   validates :name, :project_id, :user_id, presence: true
   validates :name, uniqueness: { scope: [:project_id, :deleted] }
-  validates :prefix, uniqueness: { scope: [:project_id, :deleted] }, allow_blank: true
   validates :subject_code_format, format: { with: /\A((\\d)|(\\l)|(\\L)|[a-zA-Z0-9])*\Z/ }, allow_blank: true
 
   # Model Relationships

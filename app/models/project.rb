@@ -97,11 +97,6 @@ class Project < ActiveRecord::Base
     current_user.all_sheet_editable_projects.where(id: id).count == 1
   end
 
-  def site_id_with_prefix(prefix)
-    prefix_sites = sites.select { |s| !s.prefix.blank? && prefix.start_with?(s.prefix) }
-    prefix_sites.size == 1 ? prefix_sites.first.id : nil
-  end
-
   def subject_code_name_full
     subject_code_name.to_s.strip.blank? ? 'Subject Code' : subject_code_name.to_s.strip
   end
@@ -277,8 +272,7 @@ class Project < ActiveRecord::Base
     return if sites.count > 0
     sites.create(
       name: site_name.blank? ? 'Default Site' : site_name,
-      user_id: user_id,
-      prefix: ''
+      user_id: user_id
     )
   end
 

@@ -43,7 +43,7 @@ class SitesControllerTest < ActionController::TestCase
 
   test 'should create site' do
     assert_difference('Site.count') do
-      post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One', emails: 'email@example.com', prefix: 'Prefix' }
+      post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One' }
     end
 
     assert_redirected_to project_site_path(assigns(:site).project, assigns(:site))
@@ -51,7 +51,7 @@ class SitesControllerTest < ActionController::TestCase
 
   test 'should not create site with blank name' do
     assert_difference('Site.count', 0) do
-      post :create, project_id: @project, site: { name: '', description: 'New Site on Project One', emails: 'email@example.com', prefix: 'Prefix' }
+      post :create, project_id: @project, site: { name: '', description: 'New Site on Project One' }
     end
 
     assert_not_nil assigns(:site)
@@ -62,7 +62,7 @@ class SitesControllerTest < ActionController::TestCase
 
   test 'should not create site for invalid project' do
     assert_difference('Site.count', 0) do
-      post :create, project_id: -1, site: { name: 'Site New', description: 'New Site on Project One', emails: 'email@example.com', prefix: 'Prefix' }
+      post :create, project_id: -1, site: { name: 'Site New', description: 'New Site on Project One' }
     end
 
     assert_nil assigns(:project)
@@ -74,7 +74,7 @@ class SitesControllerTest < ActionController::TestCase
   test 'should not create site for site user' do
     login(users(:site_one_viewer))
     assert_difference('Site.count', 0) do
-      post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One', emails: 'email@example.com', prefix: 'Prefix' }
+      post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One' }
     end
 
     assert_nil assigns(:project)
@@ -135,25 +135,25 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test 'should update site' do
-    put :update, id: @site, project_id: @project, site: { description: 'First Site on Project One', emails: 'email@example.com, email2@example.com', name: 'Site One', prefix: 'Prefix' }
+    put :update, id: @site, project_id: @project, site: { name: 'Site One', description: 'First Site on Project One' }
     assert_redirected_to project_site_path(assigns(:site).project, assigns(:site))
   end
 
   test 'should not update site with blank name' do
-    put :update, id: @site, project_id: @project, site: { description: 'First Site on Project One', emails: 'email@example.com, email2@example.com', name: '', prefix: 'Prefix' }
+    put :update, id: @site, project_id: @project, site: { name: '', description: 'First Site on Project One' }
     assert_not_nil assigns(:site)
     assert_equal ["can't be blank"], assigns(:site).errors[:name]
     assert_template 'edit'
   end
 
   test 'should not update invalid site' do
-    put :update, id: -1, project_id: @project, site: { description: 'First Site on Project One', emails: 'email@example.com, email2@example.com', name: 'Site One', prefix: 'Prefix' }
+    put :update, id: -1, project_id: @project, site: { name: 'Site One', description: 'First Site on Project One' }
     assert_nil assigns(:site)
     assert_redirected_to project_sites_path
   end
 
   test 'should not update with invalid project' do
-    put :update, id: @site, project_id: -1, site: { description: 'First Site on Project One', emails: 'email@example.com, email2@example.com', name: 'Site One', prefix: 'Prefix' }
+    put :update, id: @site, project_id: -1, site: { name: 'Site One', description: 'First Site on Project One' }
 
     assert_nil assigns(:project)
     assert_nil assigns(:site)

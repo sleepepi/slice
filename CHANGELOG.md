@@ -19,6 +19,8 @@
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
   - The main project page now displays an improved subjects index
   - Project reports have been moved to a new menu tab
+- **Site Changes**
+  - Site `prefix`, `code_minimum`, and `code_maximum` have been removed in favor of `subject_code_format`
 - **Subject Changes**
   - Subject statuses have been removed
 - **Category Changes**

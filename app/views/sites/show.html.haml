@@ -12,32 +12,20 @@
     %h2.underline-header
       = @title
       - if current_user.all_sites.pluck(:id).include?(@site.id)
-        = link_to "Edit Site", edit_project_site_path(@site.project, @site), class: 'btn btn-default btn-xs'
-        = link_to "Delete Site", [@site.project, @site], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" }
-      = link_to "View Subjects", project_subjects_path(@project, site_id: @site.id), class: 'btn btn-default btn-xs'
+        = link_to 'Edit Site', edit_project_site_path(@site.project, @site), class: 'btn btn-default btn-xs'
+        = link_to 'Delete Site', [@site.project, @site], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" }
+      = link_to 'View Subjects', project_subjects_path(@project, site_id: @site.id), class: 'btn btn-default btn-xs'
 
     %dl.dl-horizontal
       %dt Name
       %dd= @site.name
 
-      %dt Site Prefix
-      %dd= @site.prefix
-
-      %dt
-        = @site.project.subject_code_name_full
-        Minimum
-      %dd= @site.code_minimum
-
-      %dt
-        = @site.project.subject_code_name_full
-        Maximum
-      %dd= @site.code_maximum
-
       %dt
         = @site.project.subject_code_name_full
         Format
       %dd
-        %code=@site.subject_code_format
+        - if @site.subject_code_format.present?
+          %code=@site.subject_code_format
 
       %dt Description
       %dd= simple_format @site.description

@@ -17,8 +17,7 @@
     .form-group
       = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
       .col-md-10
-        - prefix_site_id = @project.site_id_with_prefix(params[:subject_code] || (@subject ? @subject.subject_code.to_s : ''))
-        = select_tag :site_id, options_for_select([['---', nil]] + editable_sites.order(:name).pluck(:name, :id), (params[:site_id] || (@subject ? @subject.site_id : prefix_site_id))), class: 'form-control'
+        = select_tag :site_id, options_for_select([['---', nil]] + editable_sites.order(:name).pluck(:name, :id), (params[:site_id] || (@subject ? @subject.site_id : nil))), class: 'form-control'
   - elsif editable_sites.count == 1
     = hidden_field_tag :site_id, editable_sites.first.id
   - else

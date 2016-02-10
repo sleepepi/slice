@@ -17,27 +17,6 @@
       = f.text_field :name, class: 'form-control'
 
   .form-group
-    = f.label :prefix, 'Site Prefix', class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :prefix, class: 'form-control'
-
-  .form-group
-    = f.label :code_minimum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Minimum', class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :code_minimum, class: 'form-control'
-      .bs-callout.bs-callout-info
-        %h4 Heads up!
-        Do not include the site prefix.
-
-  .form-group
-    = f.label :code_maximum, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Maximum', class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :code_maximum, class: 'form-control'
-      .bs-callout.bs-callout-info
-        %h4 Heads up!
-        Do not include the site prefix.
-
-  .form-group
     = f.label :subject_code_format, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Format', class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :subject_code_format, class: 'form-control'

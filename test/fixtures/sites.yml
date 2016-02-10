@@ -5,43 +5,31 @@ one:
   description: MyText
   project: one
   user: valid
-  deleted: false
-  prefix: S1
 
 two:
   name: Site One on Project Two
   description: MyText
   project: two
   user: valid
-  deleted: false
-  prefix: MyString
 
 three:
   name: Site Two
   description: Second project one site
   project: one
   user: valid
-  deleted: false
-  prefix: S2
 
 valid_range:
   name: Site Three
-  description: Valid Codes A100 to A500
+  description: Valid Codes A000 to A999
   project: one
   user: valid
-  deleted: false
-  prefix: A
-  code_minimum: 100
-  code_maximum: 500
+  subject_code_format: A\d\d\d
 
 site_with_subject_regex:
   name: Site with Subject Regex Code
   description: Valid codes are S100 to S199
   project: one
   user: valid
-  prefix: ''
-  # code_minimum:
-  # code_maximum:
   subject_code_format: S1\d\d
 
 site_on_project_two:
@@ -49,25 +37,21 @@ site_on_project_two:
   # description:
   project: two
   user: valid
-  prefix: ''
 
 admin_site:
   name: Admin Only Site
   description: One admin's project
   project: three
   user: admin
-  prefix: ""
 
 admin_site_two:
   name: Admin Only Site Two
   description: Second site on admin's project
   project: three
   user: admin
-  prefix: ""
 
 single_design_site:
   name: On single_design project
   # description:
   project: single_design
   user: valid
-  prefix: ""
