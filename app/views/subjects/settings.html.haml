@@ -23,7 +23,3 @@
 
       %dt=@project.subject_code_name_full
       %dd=@subject.subject_code
-
-      - if @subject.project.acrostic_enabled?
-        %dt Acrostic
-        %dd= @subject.acrostic

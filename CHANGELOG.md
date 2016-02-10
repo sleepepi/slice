@@ -20,10 +20,14 @@
   - Added script to copy projects as templates to allow user testing of subject creation and sheet entry
   - The main project page now displays an improved subjects index
   - Project reports have been moved to a new menu tab
+  - Acrostics enabled setting has been removed
+    - For projects that require acrostics, these can be added with the subject_code
+    - Subject Code can be renamed at the project-level to indicate that they include acrostics as well
 - **Site Changes**
   - Site `prefix`, `code_minimum`, and `code_maximum` have been removed in favor of `subject_code_format`
 - **Subject Changes**
   - Subject statuses have been removed
+  - Subject acrostics have been removed
 - **Category Changes**
   - Designs associated to categories are now listed on the category page
 

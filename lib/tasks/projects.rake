@@ -25,7 +25,6 @@ def copy_project(original)
     name: "#{original.name} COPY",
     user_id: original.user_id,
     description: original.description,
-    acrostic_enabled: original.acrostic_enabled,
     logo: original.logo,
     subject_code_name: original.subject_code_name,
     show_posts: original.show_posts,

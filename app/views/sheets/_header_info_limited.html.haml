@@ -5,8 +5,6 @@
       %th= @sheet.project.subject_code_name_full
       - if @sheet.subject_event
         %th Subject Event
-      - if @sheet.project.acrostic_enabled?
-        %th Acrostic
       %th Site
       %th
         - if @sheet.recently_created?
@@ -25,9 +23,6 @@
             = @sheet.subject_event.event.name
             \-
             = @sheet.subject_event.event_date_to_s
-      - if @sheet.project.acrostic_enabled?
-        %td= @sheet.subject.acrostic
-
       %td= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site
       %td
         - if @sheet.recently_created?
@@ -62,7 +57,7 @@
 
 - if @project.double_data_entry?
   - if @sheet.not_double_data_entry?
-    = link_to "New Double Data Entry", double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' if @sheet.verification_sheets.count == 0
+    = link_to 'New Double Data Entry', double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' if @sheet.verification_sheets.count == 0
   - else
     = link_to "Original Sheet ##{@sheet.verifying_sheet.id}", [@sheet.verifying_sheet.project, @sheet.verifying_sheet], class: 'btn btn-warning btn-xs'
 
@@ -82,5 +77,5 @@
 
 - if @sheet.double_data_entry?
   .progress{ style: 'margin-top: 20px' }
-    .progress-bar.progress-bar-warning.progress-bar-striped.active{ role: "progressbar", style: "width: 100%", aria: { valuenow: "100", valuemin: "0", valuemax: "100" } }
+    .progress-bar.progress-bar-warning.progress-bar-striped.active{ role: 'progressbar', style: 'width: 100%', aria: { valuenow: '100', valuemin: '0', valuemax: '100' } }
       Double Data Entry

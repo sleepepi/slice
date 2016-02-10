@@ -1,8 +1,6 @@
 - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
 %table.table.table-striped
   %col
-  - if @project.acrostic_enabled?
-    %col
   - if editable_sites.count > 1
     %col
   %col
@@ -13,8 +11,6 @@
   %thead
     %tr
       = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
-      - if @project.acrostic_enabled?
-        = th_sort_field @order, 'subjects.acrostic', 'Acrostic'
       - if editable_sites.count > 1
         = th_sort_field @order, 'subjects.site_id', 'Site'
       %th.nowrap Recent Activity
@@ -26,8 +22,6 @@
   - @subjects.each do |subject|
     %tr{ id: "subject_#{subject.id}" }
       %td= link_to subject.subject_code, [@project, subject]
-      - if @project.acrostic_enabled?
-        %td= subject.acrostic
       - if editable_sites.count > 1
         %td= link_to subject.site.name, [@project, subject.site]
       %td

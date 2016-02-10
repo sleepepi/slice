@@ -259,7 +259,7 @@ class Design < ActiveRecord::Base
   def load_variables
     @load_variables ||= begin
       raw_variables = header_row
-      raw_variables.reject! { |i| %w(Subject Acrostic Site).include?(i) }
+      raw_variables.reject! { |i| %w(Subject Site).include?(i) }
       variables = []
       raw_variables.each do |variable_token|
         (variable_name, variable_type) = variable_token.to_s.split(':')
@@ -352,7 +352,7 @@ class Design < ActiveRecord::Base
 
     CSV.parse(File.open(csv_file.path, 'r:iso-8859-1:utf-8') { |f| f.read }, headers: true) do |line|
       row = line.to_hash.with_indifferent_access
-      subject = Subject.first_or_create_with_defaults(project, row['Subject'], row['Acrostic'].to_s, row['Site'].to_s, current_user, default_site)
+      subject = Subject.first_or_create_with_defaults(project, row['Subject'], row['Site'].to_s, current_user, default_site)
       if subject
         sheet = sheets.where(subject_id: subject.id).first_or_initialize(project_id: project_id, user_id: current_user.id, last_user_id: current_user.id)
         transaction_type = (sheet.new_record? ? 'sheet_create' : 'sheet_update')
