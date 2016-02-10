@@ -35,7 +35,11 @@ class Export < ActiveRecord::Base
   end
 
   def generate_export!
-    sheet_scope = project.sheets
+    sheet_scope = if include_adverse_events?
+                    project.sheets.where.not(adverse_event_id: nil)
+                  else
+                    project.sheets
+                  end
     variables_count = all_design_variables_using_design_ids(sheet_scope.select(:design_id)).count
     update sheet_ids_count: sheet_scope.count, variables_count: variables_count
     calculate_total_steps
@@ -86,6 +90,7 @@ class Export < ActiveRecord::Base
     all_files += generate_r(sheet_scope, filename)                      if include_r?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')  if include_r?
     all_files << generate_csv_grids(sheet_scope, filename, true, 'r')   if include_r?
+    all_files << generate_csv_adverse_events(filename)                  if include_adverse_events?
 
     if include_files?
       sheet_scope.each do |sheet|
@@ -288,6 +293,26 @@ class Export < ActiveRecord::Base
     end
 
     ["#{language.upcase}/README.txt", readme]
+  end
+
+  def generate_csv_adverse_events(filename)
+    export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_aes.csv")
+
+    CSV.open(export_file, 'wb') do |csv|
+      csv << ['Adverse Event ID', 'Reported By', 'Subject', 'Reported On', 'Description', 'Status']
+      project.adverse_events.find_each do |ae|
+        csv << [
+          ae.name,
+          ae.reported_by,
+          ae.subject_code,
+          ae.reported_on,
+          ae.description,
+          ae.closed? ? 'Closed' : 'Open'
+        ]
+      end
+    end
+
+    ["csv/#{filename}_aes.csv", export_file]
   end
 
   def all_design_variables_without_grids(sheet_scope)

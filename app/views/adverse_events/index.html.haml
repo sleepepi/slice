@@ -11,7 +11,7 @@
       - if @project.site_or_project_editor? current_user
         = link_to 'Report Adverse Event', new_project_adverse_event_path(@project), class: 'btn btn-xs btn-primary'
       - if @project.editable_by? current_user
-        = link_to export_project_adverse_events_path(format: 'csv'), class: 'btn btn-xs btn-default', data: { no_turbolink: true } do
+        = link_to export_project_adverse_events_path, class: 'btn btn-xs btn-default' do
           %span.glyphicon.glyphicon-download-alt
           Export CSV
       .per-page

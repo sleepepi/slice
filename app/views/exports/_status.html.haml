@@ -1,0 +1,2 @@
+%span.label{ class: "label-#{@export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'danger')}" }
+  = @export.status

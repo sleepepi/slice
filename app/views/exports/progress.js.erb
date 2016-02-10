@@ -1,6 +1,6 @@
 $("#progress").html("<%=j render 'exports/progress' %>");
 
-<% if @export.total_steps > 0 and @export.total_steps == @export.steps_completed %>
+<% if @export.total_steps > 0 && @export.total_steps == @export.steps_completed %>
 clearInterval(<%= params[:interval] %>);
-flashMessage("Export completed successfully.");
+$('#export_status').html("<%=j render 'exports/status' %>");
 <% end %>

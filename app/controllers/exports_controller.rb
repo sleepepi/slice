@@ -44,7 +44,7 @@ class ExportsController < ApplicationController
 
   def create
     name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}"
-    @export = current_user.exports.where(project_id: @project.id, name: name).create(export_params)
+    @export = current_user.exports.where(project_id: @project.id, name: name, total_steps: 1).create(export_params)
     @export.generate_export_in_background!
 
     if @export.new_record?

@@ -4,6 +4,7 @@
 - **Adverse Event Changes**
   - Adverse event notifications are no longer sent out if a user has emails disabled
   - Adverse events now prompt the user to fill out additional forms if one or more exists
+  - Adverse Event exports are now bundled with a labeled CSV export of all sheets related to adverse events
 - **Export Changes**
   - Rewrote the data exporter to more efficiently export large amounts of data
   - Default exported columns have been simplified to: `Subject`, `Site`, `Event Name`, `Design Name`, `Sheet ID`
@@ -34,6 +35,7 @@
 ### Bug Fix
 - Fixed an issue that prevented the R script from reading grids correctly
 - Fixed an issue retrieving the last updated sheet on the subjects index
+- Fixed a visual bug that prevented export progress bar from advancing when starting an export
 
 ## 0.32.3 (February 3, 2016)
 

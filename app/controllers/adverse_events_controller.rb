@@ -16,9 +16,15 @@ class AdverseEventsController < ApplicationController
   before_action :redirect_without_adverse_event,        only: [:show, :forms, :edit, :update, :destroy]
 
   def export
-    filename = "#{@project.name.gsub(/[^a-zA-Z0-9_-]/, '_')}_#{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.csv"
-    send_data AdverseEvent.generate_csv(@project), type: 'text/csv; charset=iso-8859-1; header=present',
-                                                   disposition: "attachment; filename=\"#{filename}\""
+    name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}"
+    @export = current_user.exports.where(project_id: @project.id, name: name, total_steps: 1).create(include_csv_labeled: true, include_adverse_events: true)
+    @export.generate_export_in_background!
+
+    if @export.new_record?
+      redirect_to project_adverse_events_path(@project)
+    else
+      redirect_to [@project, @export]
+    end
   end
 
   # GET /adverse_events

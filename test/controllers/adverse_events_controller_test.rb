@@ -11,7 +11,7 @@ class AdverseEventsControllerTest < ActionController::TestCase
   test 'should get export as project editor' do
     login(users(:valid))
     get :export, project_id: @project
-    assert_response :success
+    assert_redirected_to [assigns(:project), assigns(:export)]
   end
 
   test 'should not get export as site editor' do

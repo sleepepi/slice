@@ -92,15 +92,12 @@ class AdverseEvent < ActiveRecord::Base
       .distinct
   end
 
-  def self.generate_csv(project)
-    CSV.generate do |csv|
-      csv << csv_attributes
-      project.adverse_events.find_each { |ae| csv << ae.to_csv_array }
-    end
+  def reported_by
+    user.name
   end
 
-  def to_csv_array
-    AdverseEvent.csv_attributes.collect { |csv_attr| send(csv_attr) }
+  def reported_on
+    adverse_event_date
   end
 
   private
@@ -119,17 +116,5 @@ class AdverseEvent < ActiveRecord::Base
     users_to_email.each do |user_to_email|
       UserMailer.adverse_event_reported(self, user_to_email).deliver_later
     end
-  end
-
-  def self.csv_attributes
-    [:name, :reported_by, :subject_code, :reported_on, :description, :closed]
-  end
-
-  def reported_by
-    user.name
-  end
-
-  def reported_on
-    adverse_event_date
   end
 end

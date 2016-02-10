@@ -12,17 +12,16 @@
   .mini-menu-right-fluid
     %h2.underline-header
       = @title
-      = link_to "Mark Unread", mark_unread_project_export_path(@project, @export), method: :post, class: 'btn btn-xs btn-default' if @export.status == 'ready'
-      = link_to "Delete Export", [@export.project, @export], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" }
+      = link_to 'Mark Unread', mark_unread_project_export_path(@project, @export), method: :post, class: 'btn btn-xs btn-default' if @export.status == 'ready'
+      = link_to 'Delete Export', [@export.project, @export], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" }
 
     #progress{ data: { object: "#{'ajax-timer' if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
       = render 'exports/progress'
 
     %dl.dl-horizontal{ style: 'margin-top: 0px' }
       %dt Status
-      %dd
-        %span.label{ class: "label-#{@export.status == 'ready' ? 'success' : (@export.status == 'pending' ? 'warning' : 'danger')}" }
-          = @export.status
+      %dd#export_status
+        = render 'exports/status'
 
       %dt XLS
       %dd= simple_check @export.include_xls
@@ -47,3 +46,6 @@
 
       %dt R
       %dd= simple_check @export.include_r
+
+      %dt Adverse Events
+      %dd= simple_check @export.include_adverse_events

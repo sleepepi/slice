@@ -1,5 +1,5 @@
 - percent = @export.total_steps > 0 ? @export.steps_completed * 100 / @export.total_steps : 100
-- percent = 0 if @export.total_steps == 0 and ['pending', 'failed'].include?(@export.status)
+- percent = 0 if @export.total_steps == 0 && %w(pending failed).include?(@export.status)
 - status = 'danger'
 - status = 'warning' if percent >= 33
 - status = 'success' if percent == 100
