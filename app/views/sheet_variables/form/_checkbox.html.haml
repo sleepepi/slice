@@ -36,7 +36,7 @@
     .sheet-container
       - variable.shared_options.collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, v, missing_code|
         %label.checkbox{ class: "#{'checkbox-inline' if is_grid or variable.alignment == 'horizontal'} #{'selected' if values.include?(v)} #{'negation' if missing_code == '1'}" }
-          = check_box_tag "#{field_name}[]", "#{v}", values.include?(v), data: { object: "condition" }, disabled: disabled
+          = check_box_tag "#{field_name}[]", "#{v}", values.include?(v), data: { object: "condition", name: variable.name }, disabled: disabled
           - if show_values
             = succeed ':' do
               = v

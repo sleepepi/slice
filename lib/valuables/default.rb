@@ -13,7 +13,11 @@ module Valuables
     end
 
     def raw
-      @object.response
+      if @object.response.blank?
+        nil
+      else
+        @object.response
+      end
     end
 
     def display_name

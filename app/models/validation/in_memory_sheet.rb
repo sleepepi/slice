@@ -20,9 +20,9 @@ module Validation
     def merge_form_params!(variables_params)
       load_variables(variables_params)
       variables_params.each do |variable_id, response|
-        variable = @variables.select{|v| v.id.to_s == variable_id.to_s}.first
+        variable = @variables.find { |v| v.id.to_s == variable_id.to_s }
         if variable
-          sheet_variable = @sheet_variables.select{|sv| sv.variable.id == variable.id}.first
+          sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
           unless sheet_variable
             sheet_variable = InMemorySheetVariable.new(variable)
             @sheet_variables << sheet_variable
@@ -30,7 +30,7 @@ module Validation
 
           sheet_variable = store_temp_response(variable, sheet_variable, response)
 
-          @sheet_variables.reject!{|sv| sv.variable.id == variable.id}
+          @sheet_variables.reject! { |sv| sv.variable.id == variable.id }
           @sheet_variables << sheet_variable
         end
       end
@@ -41,13 +41,14 @@ module Validation
       begin
         result = exec_js_context.eval(expanded_branching_logic(branching_logic))
         result == false ? false : true
-      rescue => e
+      rescue
         true
       end
     end
 
     def visible_on_sheet?(variable)
-      if design_option = variable.design_options.where(design_id: @design.id).first
+      design_option = variable.design_options.find_by design_id: @design.id
+      if design_option
         show_design_option?(design_option.branching_logic)
       else
         true
@@ -57,10 +58,11 @@ module Validation
     def valid?
       @design.variables.each do |variable|
         if visible_on_sheet?(variable)
-          sheet_variable = @sheet_variables.select{|sv| sv.variable.id == variable.id}.first
+          sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
           value = variable.response_to_value(sheet_variable ? sheet_variable.get_raw_response : nil)
           validation_hash = variable.value_in_range?(value)
-          case validation_hash[:status] when 'blank' # AND REQUIRED
+          case validation_hash[:status]
+          when 'blank' # AND REQUIRED
             @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
           when 'invalid'
             @errors << "#{variable.name} is invalid"
@@ -97,9 +99,10 @@ module Validation
     end
 
     def variable_javascript_value(variable_name)
-      variable = @variables.select { |v| v.name == variable_name }.first
+      variable = @variables.find { |v| v.name == variable_name }
       if variable
-        result = if sheet_variable = @sheet_variables.select { |sv| sv.variable.id == variable.id }.first
+        sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
+        result = if sheet_variable
                    sheet_variable.get_raw_response
                  else
                    variable.variable_type == 'checkbox' ? [] : ''

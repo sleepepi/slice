@@ -38,6 +38,7 @@
 - Fixed an issue that prevented the R script from reading grids correctly
 - Fixed an issue retrieving the last updated sheet on the subjects index
 - Fixed a visual bug that prevented export progress bar from advancing when starting an export
+- Fixed a bug that could cause incorrect validation of required fields hidden by branching logic
 
 ## 0.32.3 (February 3, 2016)
 

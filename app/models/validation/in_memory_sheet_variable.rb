@@ -12,10 +12,15 @@ module Validation
     end
 
     def get_raw_response
-      case @variable.variable_type when 'checkbox'
+      case @variable.variable_type
+      when 'checkbox'
         @responses.collect(&:value)
       else
-        @response
+        if @response.blank?
+          nil
+        else
+          @response
+        end
       end
     end
   end
