@@ -54,12 +54,12 @@
             %strong= sheet.user.name if sheet.user
             added
             = link_to sheet.name, [@project, sheet]
-            %abbr{ rel: 'tooltip', data: { title: sheet.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
+            %abbr{ rel: 'tooltip', data: { title: sheet.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
               = time_ago_in_words sheet.created_at
               ago
             - if sheet.created_at != sheet.updated_at
               and updated
-              %abbr{ rel: 'tooltip', data: { title: sheet.updated_at.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
+              %abbr{ rel: 'tooltip', data: { title: sheet.updated_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
                 = time_ago_in_words sheet.updated_at
                 ago
   - elsif event.is_a? AdverseEventFile
