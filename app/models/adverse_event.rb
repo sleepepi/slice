@@ -7,7 +7,7 @@ class AdverseEvent < ActiveRecord::Base
   include DateAndTimeParser, Deletable, Searchable, Siteable, Forkable
 
   # Model Alerts
-  after_create :send_email_in_background
+  after_create :send_email_in_background, :create_notifications
   after_touch :create_notifications
 
   # Model Validation

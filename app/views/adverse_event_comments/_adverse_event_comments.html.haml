@@ -14,10 +14,10 @@
       = succeed '.' do
         = link_to @adverse_event.subject.name, [@project, @adverse_event.subject]
 
+      %blockquote{ style: 'margin-bottom: 0' }= @adverse_event.description
+
       - ae_sheets_count = @adverse_event.sheets.count
       - if ae_sheets_count > 0
-        %br
-        %br
         Attachments:
         - @adverse_event.sheets.order(:created_at).each_with_index do |sheet, index|
           - if ae_sheets_count == index + 1
@@ -26,27 +26,6 @@
             = succeed ',' do
               = link_to sheet.name, [sheet.project, sheet]
 
-
-%a.anchor-top{ name: 'comment-1' }
-.comment-outer
-  .comment-left-fixed
-    = image_tag @adverse_event.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
-  .comment-right-fluid
-    .comment-comment
-      .comment-comment-header{ class: (@last_seen_at == nil || @last_seen_at < @adverse_event.created_at ? 'comment-unread' : nil) }
-        .pull-right
-          - if @adverse_event.editable_by? current_user
-            = succeed ' ' do
-              = link_to edit_project_adverse_event_path(@project, @adverse_event), class: 'btn btn-xs btn-default' do
-                %span.glyphicon.glyphicon-pencil
-          = link_to '#1', '#comment-1', class: 'btn btn-link btn-xs'
-        %strong= @adverse_event.user.name
-        commented
-        %abbr{ rel: 'tooltip', data: { title: @adverse_event.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
-          = time_ago_in_words @adverse_event.created_at
-          ago
-      .comment-comment-body
-        = simple_markdown @adverse_event.description, 'table table-bordered table-striped'
 
 - @adverse_event.compress_events(all_events).each do |event|
   - if event.is_a? Array

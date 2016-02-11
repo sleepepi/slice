@@ -24,7 +24,7 @@ class AdverseEventComment < ActiveRecord::Base
   # Model Methods
 
   def number
-    adverse_event.adverse_event_comments.where.not(description: ['', nil]).pluck(:id).index(id) + 2
+    adverse_event.adverse_event_comments.where.not(description: ['', nil]).pluck(:id).index(id) + 1
   rescue
     0
   end

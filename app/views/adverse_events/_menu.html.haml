@@ -11,6 +11,10 @@
     = link_to project_adverse_event_adverse_event_files_path(@project, @adverse_event) do
       Files
       %span.label.label-default= @adverse_event.adverse_event_files.count if @adverse_event.adverse_event_files.present?
+  - if @adverse_event.editable_by? current_user
+    %li{ class: (current_page?(edit_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
+      = link_to edit_project_adverse_event_path(@project, @adverse_event) do
+        %span.glyphicon.glyphicon-pencil
   %li.disabled{ role: 'presentation' }
     = link_to '#', data: { object: 'suppress-click' } do
       - if @adverse_event.closed?
