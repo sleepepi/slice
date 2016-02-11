@@ -8,7 +8,7 @@
 
   .col-sm-10
     %h2
-      = @subject_event.event.name
+      = @subject_event.name
 
     %div{ style: 'margin-bottom: 20px' }
       - if @subject.editable_by? current_user

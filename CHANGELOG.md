@@ -28,6 +28,8 @@
     - Subject Code can be renamed at the project-level to indicate that they include acrostics as well
 - **Site Changes**
   - Site `prefix`, `code_minimum`, and `code_maximum` have been removed in favor of `subject_code_format`
+- **Sheet Changes**
+  - Sheets now display the event in the breadcrumbs if the sheet is on an event
 - **Subject Changes**
   - Subject statuses have been removed
   - Subject acrostics have been removed

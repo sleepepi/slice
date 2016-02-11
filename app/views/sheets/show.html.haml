@@ -5,6 +5,8 @@
 - links = []
 - links << [@subject.subject_code, [@project, @subject]]
 - links << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
+- if @sheet.subject_event
+  - links << [@sheet.subject_event.name, event_project_subject_path(@project, @subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)]
 - links << [@sheet.name, [@project, @sheet]]
 = render 'projects/tabbed_menu', links: links
 
