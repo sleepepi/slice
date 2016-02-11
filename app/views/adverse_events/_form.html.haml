@@ -16,9 +16,9 @@
       = f.text_field :subject_id, autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, name: 'adverse_event[subject_code]', value: @adverse_event.subject_code
 
   .form-group
-    = f.label :description, nil, class: 'col-md-2 control-label'
+    = f.label :description, 'Short Description', class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_area :description, rows: 7, class: 'form-control'
+      = f.text_field :description, class: 'form-control'
 
   .form-group
     = f.label :adverse_event_date, nil, class: 'col-md-2 control-label'
