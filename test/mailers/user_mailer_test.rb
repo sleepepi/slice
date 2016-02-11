@@ -94,18 +94,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/Dear #{valid.first_name},/, email.encoded)
   end
 
-  test 'comment by mail email' do
-    comment = comments(:one)
-    valid = users(:valid)
-
-    email = UserMailer.comment_by_mail(comment, valid).deliver_now
-    assert !ActionMailer::Base.deliveries.empty?
-
-    assert_equal [valid.email], email.to
-    assert_equal "#{comment.user.name} Commented on #{comment.sheet.name} on #{comment.sheet.project.name}", email.subject
-    assert_match(%r{#{comment.user.name} COMMENTED on #{comment.sheet.name} on #{comment.sheet.project.name} located at #{ENV['website_url']}/projects/#{comment.sheet.project.to_param}/sheets/#{comment.sheet.id}\.}, email.encoded)
-  end
-
   test 'project news post email' do
     post = posts(:one)
     valid = users(:valid)

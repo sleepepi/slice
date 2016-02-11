@@ -8,6 +8,7 @@ class AdverseEvent < ActiveRecord::Base
 
   # Model Alerts
   after_create :send_email_in_background
+  after_touch :create_notifications
 
   # Model Validation
   validates :adverse_event_date, :description, presence: true
@@ -115,6 +116,13 @@ class AdverseEvent < ActiveRecord::Base
     return if !EMAILS_ENABLED || project.disable_all_emails?
     users_to_email.each do |user_to_email|
       UserMailer.adverse_event_reported(self, user_to_email).deliver_later
+    end
+  end
+
+  def create_notifications
+    project.unblinded_project_editors.each do |u|
+      notification = u.notifications.where(project_id: project_id, adverse_event_id: id).first_or_create
+      notification.update(read: false)
     end
   end
 end

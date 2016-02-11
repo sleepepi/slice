@@ -198,12 +198,10 @@ class Project < ActiveRecord::Base
 
   def create_domain_from_json(domain_json, current_user)
     name = domain_json['name'].to_s.strip
-
     display_name = domain_json['display_name'].to_s.strip
     description = domain_json['description'].to_s.strip
-    options = domain_json['options'].collect{|hash| hash.symbolize_keys }
-
-    self.domains.where( name: name ).first_or_create( display_name: display_name, description: description, options: options, user_id: current_user.id )
+    options = domain_json['options'].collect { |hash| hash.symbolize_keys }
+    domains.where(name: name).first_or_create(display_name: display_name, description: description, options: options, user_id: current_user.id)
   end
 
   def create_grid_variables_from_json(grid_variables_json, current_user)
@@ -216,7 +214,7 @@ class Project < ActiveRecord::Base
   end
 
   def show_type
-    self.hide_values_on_pdfs? ? :display_name : :name
+    hide_values_on_pdfs? ? :display_name : :name
   end
 
   # Returns project editors and project owner

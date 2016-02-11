@@ -1,0 +1,3 @@
+<% @notifications.each do |notification| %>
+  $("#notification_<%= notification.id %>").html("<%=j render 'notifications/show', notification: notification %>");
+<% end %>

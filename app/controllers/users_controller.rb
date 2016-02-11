@@ -23,13 +23,13 @@ class UsersController < ApplicationController
   end
 
   def index
-    unless current_user.system_admin? or params[:format] == 'json'
-      redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
+    unless current_user.system_admin? || params[:format] == 'json'
+      redirect_to root_path, alert: 'You do not have sufficient privileges to access that page.'
       return
     end
 
     @order = scrub_order(User, params[:order], 'users.current_sign_in_at DESC')
-    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per( 40 )
+    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per(40)
 
     respond_to do |format|
       format.html
@@ -83,18 +83,17 @@ class UsersController < ApplicationController
 
   private
 
-    def set_user
-      @user = User.current.find_by_id(params[:id])
-    end
+  def set_user
+    @user = User.current.find_by_id(params[:id])
+  end
 
-    def redirect_without_user
-      empty_response_or_root_path(users_path) unless @user
-    end
+  def redirect_without_user
+    empty_response_or_root_path(users_path) unless @user
+  end
 
-    def user_params
-      params.require(:user).permit(
-        :first_name, :last_name, :email, :theme, :beta_enabled, :emails_enabled
-      )
-    end
-
+  def user_params
+    params.require(:user).permit(
+      :first_name, :last_name, :email, :theme, :beta_enabled, :emails_enabled
+    )
+  end
 end

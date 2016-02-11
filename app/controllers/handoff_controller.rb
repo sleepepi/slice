@@ -25,6 +25,7 @@ class HandoffController < ApplicationController
         redirect_to handoff_design_path(@project, @handoff, design)
       else
         @handoff.update token: nil
+        @handoff.create_notification
         redirect_to handoff_complete_path
       end
     else

@@ -12,8 +12,7 @@
   - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
     %li
       = link_to project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? 'active' : nil) do
-        %span{ class: current_user.unseen_adverse_events.present? ? 'text-danger' : nil }
-          Adverse Events
+        Adverse Events
   %li
     = link_to project_exports_path(@project), class: (params[:controller] == 'exports' ? 'active' : nil) do
       Exports

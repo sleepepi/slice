@@ -4,7 +4,7 @@
   - if @project.errors.any?
     .bs-callout.bs-callout-danger
       %h4
-        = pluralize(@project.errors.count, "error")
+        = pluralize @project.errors.count, 'error'
         prohibited this project from being saved
 
       %ul

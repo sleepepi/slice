@@ -66,16 +66,6 @@ class UserMailer < ApplicationMailer
     mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
   end
 
-  def comment_by_mail(comment, recipient)
-    setup_email
-    @comment = comment
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: "#{comment.user.name} Commented on #{comment.sheet.name} on #{comment.sheet.project.name}",
-         reply_to: comment.user.email)
-  end
-
   def project_news(post, recipient)
     @post = post
     @recipient = recipient

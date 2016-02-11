@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
 
-  after_create :send_email
+  after_create :create_notifications
 
   # Model Validation
   validates :description, :sheet_id, :user_id, presence: true
@@ -51,14 +51,9 @@ class Comment < ActiveRecord::Base
 
   private
 
-  def users_to_email
-    users.where.not(id: user.id).where(emails_enabled: true)
-  end
-
-  def send_email
-    return if !EMAILS_ENABLED || project.disable_all_emails?
-    users_to_email.each do |user_to_email|
-      UserMailer.comment_by_mail(self, user_to_email).deliver_later
+  def create_notifications
+    users.where.not(id: user.id).each do |u|
+      u.notifications.create(project_id: project_id, comment_id: id)
     end
   end
 end

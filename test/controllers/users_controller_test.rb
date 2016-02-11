@@ -53,11 +53,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should get notifications' do
-    get :notifications
-    assert_response :success
-  end
-
   test 'should get index for autocomplete' do
     login(users(:valid))
     get :index, format: 'json'

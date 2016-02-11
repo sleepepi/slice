@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :lists
-  resources :comments
-
   get 'survey', to: 'survey#index', as: :about_survey
   get 'survey/:slug', to: 'survey#new', as: :new_survey
   get 'survey/:slug/:sheet_authentication_token', to: 'survey#edit', as: :edit_survey
@@ -11,6 +8,15 @@ Rails.application.routes.draw do
   patch 'survey/:slug/:sheet_authentication_token', to: 'survey#update'
 
   get 'check-date', to: 'application#check_date'
+
+  resources :comments
+  resources :lists
+
+  resources :notifications do
+    collection do
+      patch :mark_all_as_read
+    end
+  end
 
   resources :projects, constraints: { format: /json|pdf|csv|js/ } do
     collection do
@@ -247,7 +253,19 @@ Rails.application.routes.draw do
 
   resources :reports
 
-  devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'join', sign_in: 'login' }, path: ''
+  devise_for :users,
+             controllers: {
+               registrations: 'contour/registrations',
+               sessions:      'contour/sessions',
+               passwords:     'contour/passwords',
+               confirmations: 'contour/confirmations',
+               unlocks:       'contour/unlocks'
+             },
+             path_names: {
+               sign_up: 'join',
+               sign_in: 'login'
+             },
+             path: ''
 
   resources :users do
     collection do
@@ -301,9 +319,6 @@ Rails.application.routes.draw do
 
   get '/search' => 'projects#search', as: :search
   get '/activity' => 'users#activity', as: :activity
-  scope module: 'users' do
-    get :notifications
-  end
 
   root to: 'projects#splash'
 end

@@ -35,9 +35,14 @@ class CommentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should show comment' do
+  test 'should show comment as ajax' do
     xhr :get, :show, id: @comment, include_name: '0', number: @comment.number, format: 'js'
     assert_response :success
+  end
+
+  test 'should redirect to comment on sheet' do
+    get :show, id: @comment, include_name: '0', number: @comment.number
+    assert_redirected_to project_sheet_path(assigns(:comment).project, assigns(:comment).sheet, anchor: "comment-#{assigns(:comment).number}")
   end
 
   test 'should get edit' do

@@ -60,4 +60,9 @@ class Handoff < ActiveRecord::Base
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
     retry
   end
+
+  def create_notification
+    notification = user.notifications.where(project_id: project_id, handoff_id: id).first_or_create
+    notification.update(read: false)
+  end
 end

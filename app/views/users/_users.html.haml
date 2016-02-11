@@ -13,7 +13,7 @@
   - @users.each do |user|
     %tr
       %td
-        = image_tag user.avatar_url(18), style: 'vertical-align:text-bottom'
+        = image_tag user.avatar_url(18), style: 'vertical-align:text-bottom', alt: ''
         = link_to user.name, user
       %td= user.email
       %td= recent_activity(user.current_sign_in_at)

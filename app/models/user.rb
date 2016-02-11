@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   has_many :events, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
   has_many :handoffs
+  has_many :notifications, -> { joins(:project).merge(Project.current) }
   has_many :projects, -> { where deleted: false }
   has_many :project_favorites
   has_many :randomization_schemes, -> { where deleted: false }
@@ -173,9 +174,7 @@ class User < ActiveRecord::Base
 
   # Project Editors
   def all_sites
-    @all_sites ||= begin
-      Site.current.where(project_id: all_projects.select(:id))
-    end
+    Site.current.where(project_id: all_projects.select(:id))
   end
 
   # Project Editors and Viewers and Site Members
@@ -199,27 +198,11 @@ class User < ActiveRecord::Base
   end
 
   def all_exports
-    @all_exports ||= begin
-      Export.current.where(user_id: id)
-    end
+    exports
   end
 
   def all_viewable_exports
-    @all_viewable_exports ||= begin
-      Export.current.where(user_id: id)
-    end
-  end
-
-  def unviewed_active_exports
-    @unviewed_active_exports ||= begin
-      all_viewable_exports.where(status: 'ready', viewed: false)
-    end
-  end
-
-  def unviewed_pending_exports
-    @unviewed_pending_exports ||= begin
-      all_viewable_exports.where(status: 'pending', viewed: false)
-    end
+    exports
   end
 
   def all_comments
@@ -231,9 +214,7 @@ class User < ActiveRecord::Base
   end
 
   def all_deletable_comments
-    @all_deletable_comments ||= begin
-      Comment.current.where('sheet_id IN (?) or user_id = ?', all_sheets.select(:id), id)
-    end
+    Comment.current.where('sheet_id IN (?) or user_id = ?', all_sheets.select(:id), id)
   end
 
   # Overriding Devise built-in active_for_authentication? method
@@ -248,30 +229,30 @@ class User < ActiveRecord::Base
 
   def all_digest_projects
     @all_digest_projects ||= begin
-      all_viewable_and_site_projects.where(disable_all_emails: false).select { |p| self.emails_enabled? && self.email_on?(:daily_digest) && self.email_on?("project_#{p.id}_daily_digest") }
+      all_viewable_and_site_projects.where(disable_all_emails: false).select do |p|
+        emails_enabled? && email_on?(:daily_digest) && email_on?("project_#{p.id}_daily_digest")
+      end
     end
   end
 
-  def unseen_notifications?
-    unseen_adverse_events.present?
-  end
-
-  def unseen_adverse_events
-    all_viewable_adverse_events
-      .joins("LEFT JOIN adverse_event_users ON adverse_event_users.user_id = #{id} and adverse_event_users.adverse_event_id = adverse_events.id")
-      .where('adverse_event_users.last_viewed_at < adverse_events.updated_at or adverse_event_users.last_viewed_at IS NULL')
-      .distinct(:id)
+  def unread_notifications?
+    notifications.where(read: false).present?
   end
 
   # All sheets created in the last day, or over the weekend if it's Monday
   # Ex: On Monday, returns sheets created since Friday morning (Time.zone.now - 3.day)
   # Ex: On Tuesday, returns sheets created since Monday morning (Time.zone.now - 1.day)
   def digest_sheets_created
-    all_viewable_sheets.where(project_id: all_digest_projects.collect(&:id)).where('sheets.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
+    project_ids = all_digest_projects.collect(&:id)
+    all_viewable_sheets.where(project_id: project_ids)
+                       .where('sheets.created_at > ?', last_business_day)
   end
 
   def digest_comments
-    all_viewable_comments.with_project(all_digest_projects.collect(&:id)).where('comments.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day)).order(:created_at)
+    project_ids = all_digest_projects.collect(&:id)
+    all_viewable_comments.with_project(project_ids)
+                         .where('comments.created_at > ?', last_business_day)
+                         .order(:created_at)
   end
 
   def email_on?(value)
@@ -284,5 +265,13 @@ class User < ActiveRecord::Base
 
   def reverse_name
     "#{last_name}, #{first_name}"
+  end
+
+  def last_business_day
+    if Time.zone.now.monday?
+      Time.zone.now - 3.days
+    else
+      Time.zone.now - 1.day
+    end
   end
 end

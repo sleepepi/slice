@@ -11,7 +11,12 @@ class CommentsController < ApplicationController
   before_action :redirect_without_comment, only: [:show, :edit, :update, :destroy]
 
   # GET /comments/1
+  # GET /comments/1.js
   def show
+    respond_to do |format|
+      format.html { redirect_to project_sheet_path(@comment.project, @comment.sheet, anchor: "comment-#{@comment.number}") }
+      format.js
+    end
   end
 
   # GET /comments/1/edit

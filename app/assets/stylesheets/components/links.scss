@@ -9,3 +9,27 @@
 .hover-link {
   color: inherit;
 }
+
+.link-muted {
+  color: $text-muted;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    color: $text-muted;
+    text-decoration: none;
+  }
+}
+
+.link-unstyled {
+  color: $text-color;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    color: $text-color;
+    text-decoration: none;
+  }
+}

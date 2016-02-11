@@ -44,12 +44,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.daily_digest(recipient)
   end
 
-  def comment_by_mail
-    comment = Comment.current.first
-    recipient = User.current.first
-    UserMailer.comment_by_mail(comment, recipient)
-  end
-
   def project_news
     post = Post.current.first
     recipient = User.current.first
