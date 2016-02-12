@@ -60,15 +60,23 @@
 
 @parseValue = (variable_name, format_type, grid_string) ->
   elements = $("[data-name='#{variable_name}']#{grid_string}")
+  variable_type = elements.data('variable-type')
   checked = ''
-  checked = ':checked' if elements.data('variable-type') == 'radio'
-  element = $("[data-name='#{variable_name}']#{grid_string}#{checked}")
-  if format_type == 'integer'
-    parseInt($(element).val())
-  else if format_type == 'float'
-    parseFloat($(element).val())
+  checked = ':checked' if variable_type in ['radio', 'checkbox']
+  elements = $("[data-name='#{variable_name}']#{grid_string}#{checked}")
+  vals = []
+  $.each(elements, () ->
+    if format_type == 'integer'
+      vals.push parseInt($(this).val())
+    else if format_type == 'float'
+      vals.push parseFloat($(this).val())
+    else
+      vals.push $(this).val()
+  )
+  if variable_type == 'checkbox'
+    vals
   else
-    $(element).val()
+    vals[0]
 
 @getDesignVariableAuthenticationParams = (element) ->
   changes = {}
@@ -85,7 +93,13 @@
       grid_string = ''
       if grid_position != '' and grid_position != null and grid_position != undefined
         grid_string = '[data-grid-position="' + grid_position + '"]'
-      calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, "parseValue('\$1', 'float', '#{grid_string}')")
+      calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, ($1) ->
+        if $1 == 'overlap'
+          'overlap'
+        else
+          "parseValue('#{$1}', 'float', '#{grid_string}')"
+      )
+      console.log calculation
       calculation_result = eval(calculation)
       calculation_result = '' unless isNumber(calculation_result)
       changes = getDesignVariableAuthenticationParams(this)

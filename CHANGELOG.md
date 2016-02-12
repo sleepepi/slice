@@ -43,6 +43,7 @@
 - Fixed an issue retrieving the last updated sheet on the subjects index
 - Fixed a visual bug that prevented export progress bar from advancing when starting an export
 - Fixed a bug that could cause incorrect validation of required fields hidden by branching logic
+- Fixed a bug that prevented overlap from working for calculations on calculated variables
 
 ## 0.32.3 (February 3, 2016)
 
