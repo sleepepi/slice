@@ -28,7 +28,7 @@
 
   .form-group
     .col-md-10.col-md-offset-2
-      - if @randomization_scheme.has_randomized_subjects?
+      - if @randomization_scheme.randomized_subjects?
         %div.alert.alert-info
           %p
             %strong Published
@@ -43,7 +43,7 @@
             = f.check_box :published
             Published
 
-  - if @randomization_scheme.has_randomized_subjects?
+  - if @randomization_scheme.randomized_subjects?
     .form-group
       .col-md-10.col-md-offset-2
         %div.alert.alert-info

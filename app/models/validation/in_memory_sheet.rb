@@ -6,6 +6,9 @@
 
 module Validation
   class InMemorySheet
+    # Concerns
+    include Evaluatable
+
     attr_accessor :sheet_variables, :project, :variables, :design
     attr_accessor :errors
 
@@ -82,16 +85,6 @@ module Validation
 
     def store_temp_response(variable, sheet_variable, response)
       variable.validator.store_temp_response(sheet_variable, response)
-    end
-
-    def exec_js_context
-      @exec_js_context ||= begin
-        # Compiled CoffeeScript from designs.coffee
-        index_of = 'var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };'
-        intersection_function = 'this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };'
-        overlap_function = 'this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };'
-        ExecJS.compile(index_of + intersection_function + overlap_function)
-      end
     end
 
     def expanded_branching_logic(branching_logic)

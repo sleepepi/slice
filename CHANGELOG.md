@@ -26,6 +26,8 @@
   - Acrostics enabled setting has been removed
     - For projects that require acrostics, these can be added with the subject_code
     - Subject Code can be renamed at the project-level to indicate that they include acrostics as well
+- **Randomization Changes**
+  - Stratification factors can now have a calculation set that enforces that randomization criteria be selected that match data entered for the subject
 - **Site Changes**
   - Site `prefix`, `code_minimum`, and `code_maximum` have been removed in favor of `subject_code_format`
 - **Sheet Changes**

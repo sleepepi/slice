@@ -8,9 +8,16 @@
     )
   )
 
+@checkRandomizationOption = (element) ->
+  $(element).prop('checked', true)
+  $(element).closest('.sheet-container').find('.radio').removeClass('selected')
+  $(element).closest('.radio').addClass('selected')
+
 $(document)
   .on('typeahead:selected', "[data-object~='randomization_subject_search']", (event, datum) ->
-    $("#stratification_factors_#{$(this).data('sfo-id')}_#{datum['site_id']}").prop('checked', true)
-    $("#stratification_factors_#{$(this).data('sfo-id')}_#{datum['site_id']}").closest('.sheet-container').find('.radio').removeClass('selected')
-    $("#stratification_factors_#{$(this).data('sfo-id')}_#{datum['site_id']}").closest('.radio').addClass('selected')
+    checkRandomizationOption("#stratification_factors_#{$(this).data('sfo-id')}_#{datum['site_id']}")
+    $.each(datum['stratification_factors'], (key, value) ->
+      radio_input = "[data-stratification-factor-id=#{key}][data-value=#{value}]"
+      checkRandomizationOption(radio_input)
+    )
   )

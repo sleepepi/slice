@@ -2,7 +2,7 @@
 
 class Sheet < ActiveRecord::Base
   # Concerns
-  include Deletable, Latexable, DoubleDataEntry, Siteable
+  include Deletable, Latexable, DoubleDataEntry, Siteable, Evaluatable
 
   before_save :check_subject_event_subject_match
 
@@ -194,33 +194,19 @@ class Sheet < ActiveRecord::Base
     branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
   end
 
-  # TODO Check speed of function using where vs select (caching and memory)
+  # TODO: Check speed of function using where vs find (caching and memory)
   def variable_javascript_value(variable_name)
-    variable = self.design.variables.select{|v| v.name == variable_name}.first
-    result = if variable
-      result = if sheet_variable = self.sheet_variables.select{|sv| sv.variable_id == variable.id}.first
-        sheet_variable.get_response(:raw)
-      else
-        variable.variable_type == 'checkbox' ? [''] : ''
-      end
+    variable = design.variables.find { |v| v.name == variable_name }
+    if variable
+      sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
+      result = if sheet_variable
+                 sheet_variable.get_response(:raw)
+               else
+                 variable.variable_type == 'checkbox' ? [''] : ''
+               end
       result.to_json
     else
       variable_name
-    end
-  end
-
-  # Since showing and hiding variables is done client side by JavaScript,
-  # the corresponding action should also apply when printing out the variable
-  # in a PDF document. Since PDF documents don't run JavaScript, the solution
-  # presented uses a JavaScript evaluator to evaluate the branching logic.
-
-  def exec_js_context
-    @exec_js_context ||= begin
-      # Compiled CoffeeScript from designs.js.coffee
-      index_of = 'var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };'
-      intersection_function = 'this.intersection = function(a, b) { var value, _i, _len, _ref, _results; if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _results = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return _results; };'
-      overlap_function = 'this.overlap = function(a, b, c) { if (c == null) { c = 1; } return intersection(a, b).length >= c; };'
-      ExecJS.compile(index_of + intersection_function + overlap_function)
     end
   end
 

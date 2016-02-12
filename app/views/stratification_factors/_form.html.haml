@@ -16,6 +16,34 @@
     .col-md-10
       = f.text_field :name, class: 'form-control'
 
+  .form-group
+    = f.label :calculation, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :calculation, class: 'form-control'
+      .bs-callout.bs-callout-danger
+        %p
+          %strong NOTE:
+          Setting the calculation will automatically set the randomization
+          criteria for the selected subject and will prevent randomization if
+          other criteria are selected, or if the criteria is blank.
+
+      .bs-callout.bs-callout-info
+        %h4 Calculation Examples
+
+        %dl.dl-horizontal
+          %dt General
+          %dd
+            %code var1 + var2
+
+          %dt Missing Values
+          %dd
+            %code var1 == -9 ? -9 : var1 + var2
+
+          %dt Parentheses
+          %dd
+            %code (var1 + var2) / var3
+
+
   - if @randomization_scheme.stratification_factors.where(stratifies_by_site: true).count == 0 or @stratification_factor.stratifies_by_site?
     .form-group
       .col-md-10.col-md-offset-2

@@ -80,25 +80,7 @@ module SheetExport
   end
 
   def format_responses(variable, raw_data, responses)
-    formatted_responses = case variable.variable_type
-                          when 'integer'
-                            Formatters::IntegerFormatter.format_array(responses, variable, raw_data)
-                          when 'numeric', 'calculated'
-                            Formatters::NumericFormatter.format_array(responses, variable, raw_data)
-                          when 'dropdown', 'radio', 'checkbox'
-                            Formatters::DomainFormatter.format_array(responses, variable, raw_data)
-                          when 'date'
-                            Formatters::DateFormatter.format_array(responses, variable, raw_data)
-                          when 'time'
-                            Formatters::TimeFormatter.format_array(responses, variable, raw_data)
-                          when 'time_duration'
-                            Formatters::TimeDurationFormatter.format_array(responses, variable, raw_data)
-                          # when 'file'
-                          #   responses
-                          else # 'string', 'text', 'signature'
-                            Formatters::DefaultFormatter.format_array(responses, variable, raw_data)
-                          end
-
-    formatted_responses
+    formatter = Formatters.for(variable)
+    formatter.format_array(responses, raw_data)
   end
 end

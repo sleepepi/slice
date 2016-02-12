@@ -2,7 +2,7 @@
 
 class Subject < ActiveRecord::Base
   # Concerns
-  include Searchable, Deletable
+  include Searchable, Deletable, Evaluatable
 
   # Named Scopes
   scope :with_project, -> (arg) { where(project_id: arg) }
@@ -80,5 +80,35 @@ class Subject < ActiveRecord::Base
     if user && site && site.subject_regex.present? && site.subject_regex !~ subject_code
       errors[:base] << "#{project.subject_code_name_full} must be in the following format: #{site.regex_string}"
     end
+  end
+
+  def stratification_factors(randomization_scheme)
+    result = {}
+    randomization_scheme.stratification_factors_with_calculation.each do |sf|
+      calculation = expand_calculation(sf.calculation)
+      result[sf.id.to_s] = exec_js_context.eval(calculation)
+    end
+    result
+  end
+
+  def expand_calculation(calculation)
+    calculation.to_s.gsub(/([a-zA-Z]+[\w]*)/) { |v| variable_javascript_value(v) }
+  end
+
+  def variable_javascript_value(variable_name)
+    variable = project.variables.find_by_name variable_name
+    if variable
+      response_for_variable(variable)
+    else
+      variable_name
+    end
+  end
+
+  def response_for_variable(variable)
+    responses = variable.sheet_variables.joins(:sheet).merge(sheets).pluck(:response)
+    formatter = Formatters.for(variable)
+    formatted_responses = formatter.format_array(responses, true).uniq.compact
+    result = (formatted_responses.size == 1 ? formatted_responses.first : nil)
+    result.to_json
   end
 end

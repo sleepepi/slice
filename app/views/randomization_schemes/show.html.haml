@@ -93,9 +93,9 @@
           - @randomization_scheme.lists.each do |list|
             %li
               = link_to list.name, [@project, @randomization_scheme, list]
-        - if @randomization_scheme.has_randomized_subjects? and @randomization_scheme.lists.count < @randomization_scheme.number_of_lists
+        - if @randomization_scheme.randomized_subjects? and @randomization_scheme.lists.count < @randomization_scheme.number_of_lists
           = link_to 'Add Additional Lists', expand_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, class: 'btn btn-default btn-xs'
-        - elsif !@randomization_scheme.has_randomized_subjects?
+        - elsif !@randomization_scheme.randomized_subjects?
           - if @randomization_scheme.randomizations.size > 0
             = link_to 'Regenerate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, data: { confirm: 'Are you sure you want to irreversibly destroy the existing lists?' }, class: 'btn btn-danger-inverse btn-xs'
           - else

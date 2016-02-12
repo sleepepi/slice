@@ -5,18 +5,18 @@ module Formatters
   class DefaultFormatter
     class << self
       def format_array(responses, variable, raw_data)
-        new(responses, variable, raw_data).format_array
+        new(variable)
+        format_array(responses, raw_data)
       end
     end
 
-    def initialize(responses, variable, raw_data)
-      @responses = responses
+    def initialize(variable)
       @variable = variable
-      @raw_data = raw_data
     end
 
-    def format_array
-      if @raw_data
+    def format_array(responses, raw_data)
+      @responses = responses
+      if raw_data
         raw_responses
       else
         name_responses

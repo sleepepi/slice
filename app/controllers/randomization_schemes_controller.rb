@@ -15,7 +15,7 @@ class RandomizationSchemesController < ApplicationController
   end
 
   def subject_search
-    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:q]).order('subject_code').limit(10)
+    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:q]).order('subject_code').limit(5)
 
     result = @subjects.collect do |s|
       status = 'E'
@@ -33,7 +33,10 @@ class RandomizationSchemesController < ApplicationController
         status_class = 'primary'
       end
 
-      { value: s.subject_code, subject_code: s.subject_code, status_class: status_class, status: status, site_id: s.site_id }
+      stratification_factors = s.stratification_factors(@randomization_scheme)
+
+      { value: s.subject_code, subject_code: s.subject_code, status_class: status_class,
+        status: status, site_id: s.site_id, stratification_factors: stratification_factors }
     end
 
     render json: result
@@ -73,8 +76,25 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
+    invalid_criteria_found = false
+
     unless @randomization_scheme.all_criteria_selected?(criteria_pairs)
       @randomization.errors.add(:stratification_factors, "can't be blank")
+      invalid_criteria_found = true
+    end
+
+    expected_stratification_factors = subject.stratification_factors(@randomization_scheme)
+
+    @randomization_scheme.stratification_factors_with_calculation.each do |sf|
+      criteria_pair = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
+      sfo = sf.stratification_factor_options.find_by_id criteria_pair.last if criteria_pair
+      unless sfo && sfo.value.to_s == expected_stratification_factors[sf.id.to_s].to_s
+        @randomization.errors.add(sf.name, 'does not match value on specified on subject sheet')
+        invalid_criteria_found = true
+      end
+    end
+
+    if invalid_criteria_found
       render 'randomize_subject'
       return
     end
@@ -191,7 +211,7 @@ class RandomizationSchemesController < ApplicationController
     params[:randomization_scheme][:randomization_goal] = 0 if params[:randomization_scheme].key?(:randomization_goal) && params[:randomization_scheme][:randomization_goal].blank?
     params[:randomization_scheme][:chance_of_random_treatment_arm_selection] = 30 if params[:randomization_scheme].key?(:chance_of_random_treatment_arm_selection) && params[:randomization_scheme][:chance_of_random_treatment_arm_selection].blank?
 
-    if @randomization_scheme && @randomization_scheme.has_randomized_subjects?
+    if @randomization_scheme && @randomization_scheme.randomized_subjects?
       params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
     else
       params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)

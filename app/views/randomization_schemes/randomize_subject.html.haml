@@ -55,7 +55,7 @@
                   - elsif option = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
                     - selected = (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
                     %label.radio.radio-inline{ class: "#{'selected' if selected}" }
-                      = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected
+                      = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, data: { stratification_factor_id: stratification_factor.id, value: option.value }
                       = option.label
 
         .well

@@ -36,3 +36,7 @@
             - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
               %li
                 = link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]
+        - if @stratification_factor.calculation.present?
+          %dt Calculation
+          %dd
+            %tt= @stratification_factor.calculation

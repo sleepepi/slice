@@ -274,7 +274,8 @@ def copy_stratification_factors(rs, rsc)
       project_id: rsc.project_id,
       user_id: sf.user_id,
       name: sf.name,
-      stratifies_by_site: sf.stratifies_by_site
+      stratifies_by_site: sf.stratifies_by_site,
+      calculation: sf.calculation
     )
     copy_stratification_factor_options(sf, sfc)
     puts "Added #{sfc.name.colorize(:white)} stratification factor"

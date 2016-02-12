@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Provides options used to determine the list to which a subject is randomized
 class StratificationFactor < ActiveRecord::Base
   # Concerns
   include Deletable
@@ -7,9 +8,13 @@ class StratificationFactor < ActiveRecord::Base
   # Named Scopes
 
   # Model Validation
-  validates :name, uniqueness: { case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id] }, presence: true
-  validates :user_id, :project_id, :randomization_scheme_id, presence: true
-  validates :stratifies_by_site, uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, if: :stratifies_by_site
+  validates :name,
+            presence: true,
+            uniqueness: { case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id] }
+  validates :user_id, :project_id, :randomization_scheme_id,
+            presence: true
+  validates :stratifies_by_site,
+            uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, if: :stratifies_by_site
 
   # Model Relationships
   belongs_to :user
@@ -23,7 +28,9 @@ class StratificationFactor < ActiveRecord::Base
     if stratifies_by_site?
       project.sites.order(:name).collect { |s| { stratification_factor_id: id, site_id: s.id, extra: true } }
     else
-      stratification_factor_options.order(:value).collect { |sfo| { stratification_factor_id: id, stratification_factor_option_id: sfo.id, extra: false } }
+      stratification_factor_options.order(:value).collect do |sfo|
+        { stratification_factor_id: id, stratification_factor_option_id: sfo.id, extra: false }
+      end
     end
   end
 

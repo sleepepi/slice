@@ -14,18 +14,20 @@ class RandomizationsController < ApplicationController
   before_action :redirect_without_randomization,        only: [:show, :undo] # , :destroy
 
   def choose_scheme
-    redirect_to randomize_subject_to_list_project_randomization_scheme_path(@project, @project.randomization_schemes.published.first) if @project.randomization_schemes.published.count == 1
+    if @project.randomization_schemes.published.count == 1
+      redirect_to randomize_subject_to_list_project_randomization_scheme_path(@project, @project.randomization_schemes.published.first)
+    end
   end
 
   # GET /randomizations
   def index
     @randomizations = current_user.all_viewable_randomizations
-                      .where(project_id: @project.id)
-                      .includes(:subject)
-                      .order('randomized_at DESC NULLS LAST')
-                      .select('randomizations.*')
-                      .page(params[:page])
-                      .per(40)
+                                  .where(project_id: @project.id)
+                                  .includes(:subject)
+                                  .order('randomized_at DESC NULLS LAST')
+                                  .select('randomizations.*')
+                                  .page(params[:page])
+                                  .per(40)
   end
 
   # GET /randomizations/1
