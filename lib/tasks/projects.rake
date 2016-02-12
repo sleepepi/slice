@@ -209,7 +209,6 @@ def copy_designs(original, copy, variable_map)
       name: d.name,
       description: d.description,
       publicly_available: d.publicly_available,
-      slug: d.slug,
       redirect_url: d.redirect_url,
       show_site: d.show_site,
       category_id: category_map[d.category_id.to_s],
