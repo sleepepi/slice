@@ -87,10 +87,11 @@ class Export < ActiveRecord::Base
     all_files += generate_sas(sheet_scope, filename)                      if include_sas?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if include_sas?
     all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas?
-    all_files += generate_r(sheet_scope, filename)                      if include_r?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')  if include_r?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'r')   if include_r?
-    all_files << generate_csv_adverse_events(filename)                  if include_adverse_events?
+    all_files += generate_r(sheet_scope, filename)                        if include_r?
+    all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')    if include_r?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'r')     if include_r?
+    all_files << generate_csv_adverse_events(filename)                    if include_adverse_events?
+    all_files << generate_csv_adverse_events_master_list(filename)        if include_adverse_events?
 
     if include_files?
       sheet_scope.each do |sheet|
@@ -300,7 +301,7 @@ class Export < ActiveRecord::Base
 
     CSV.open(export_file, 'wb') do |csv|
       csv << ['Adverse Event ID', 'Reported By', 'Subject', 'Reported On', 'Description', 'Status']
-      project.adverse_events.find_each do |ae|
+      project.adverse_events.order(id: :desc).each do |ae|
         csv << [
           ae.name,
           ae.reported_by,
@@ -313,6 +314,21 @@ class Export < ActiveRecord::Base
     end
 
     ["csv/#{filename}_aes.csv", export_file]
+  end
+
+  def generate_csv_adverse_events_master_list(filename)
+    export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_aes_master_list.csv")
+
+    CSV.open(export_file, 'wb') do |csv|
+      csv << ['Adverse Event ID', 'Sheet ID']
+      project.adverse_events.order(id: :desc).each do |ae|
+        ae.sheets.order(id: :desc).each do |sheet|
+          csv << [ae.name, sheet.id]
+        end
+      end
+    end
+
+    ["csv/#{filename}_aes_master_list.csv", export_file]
   end
 
   def all_design_variables_without_grids(sheet_scope)

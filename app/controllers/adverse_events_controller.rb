@@ -17,7 +17,8 @@ class AdverseEventsController < ApplicationController
 
   def export
     name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}"
-    @export = current_user.exports.where(project_id: @project.id, name: name, total_steps: 1).create(include_csv_labeled: true, include_adverse_events: true)
+    @export = current_user.exports.where(project_id: @project.id, name: name, total_steps: 1)
+                          .create(include_csv_labeled: true, include_adverse_events: true)
     @export.generate_export_in_background!
 
     if @export.new_record?

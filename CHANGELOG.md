@@ -1,6 +1,8 @@
 ## 0.33.1
 
 ### Enhancements
+- **Adverse Event Changes**
+  - A master list of adverse events and their corresponding sheets is now included in the adverse event export
 - **Notification Changes**
   - Notifications that overwrite an existing notification update the time created for better sorting
 - **Variable Changes**
