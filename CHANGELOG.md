@@ -1,4 +1,4 @@
-## 0.33.1
+## 0.33.1 (February 15, 2016)
 
 ### New Feature
 - **Tasks Added**
