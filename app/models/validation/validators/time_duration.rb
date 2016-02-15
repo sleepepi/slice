@@ -22,18 +22,21 @@ module Validation
       end
 
       def invalid_format?(value)
-        !blank_value?(value) && !get_time_duration(value)
+        !blank_value?(value) && !parse_time_duration_from_hash(value)
       end
 
       def formatted_value(value)
-        hash = get_time_duration(value)
+        hash = parse_time_duration_from_hash(value)
+        h = (hash[:hours] == 1 ? 'hour' : 'hours')
+        m = (hash[:minutes] == 1 ? 'minute' : 'minutes')
+        s = (hash[:seconds] == 1 ? 'second' : 'seconds')
         case @variable.time_duration_format
         when 'mm:ss'
-          "#{hash[:minutes]}m #{hash[:seconds]}s"
+          "#{hash[:minutes]} #{m} #{hash[:seconds]} #{s}"
         when 'hh:mm'
-          "#{hash[:hours]}h #{hash[:minutes]}m"
+          "#{hash[:hours]} #{h} #{hash[:minutes]} #{m}"
         else
-          "#{hash[:hours]}h #{hash[:minutes]}m #{hash[:seconds]}s"
+          "#{hash[:hours]} #{h} #{hash[:minutes]} #{m} #{hash[:seconds]} #{s}"
         end
       rescue
         nil
@@ -57,12 +60,6 @@ module Validation
 
       def db_key_value_pairs(response)
         { response: parse_time_duration_from_hash_to_s(response) }
-      end
-
-      private
-
-      def get_time_duration(value)
-        parse_time_duration_from_hash(value)
       end
     end
   end

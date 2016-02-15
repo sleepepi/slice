@@ -66,31 +66,19 @@ module DateAndTimeParser
   end
 
   def parse_time_duration(time_duration_string)
-    hash = nil
     sections = time_duration_string.to_s.split(':')
     hours = parse_integer(sections[0])
     minutes = parse_integer(sections[1])
     seconds = parse_integer(sections[2])
-    if hours || minutes || seconds
-      hash = {}
-      hash[:hours]   = hours   || 0
-      hash[:minutes] = minutes || 0
-      hash[:seconds] = seconds || 0
-    end
-    hash
+    hms_hash(hours, minutes, seconds)
   end
 
   def parse_time_duration_from_hash(time_duration_hash)
-    if time_duration_hash.is_a? Hash
-      Rails.logger.debug time_duration_hash.inspect
-      hours = parse_integer(time_duration_hash[:hours])
-      minutes = parse_integer(time_duration_hash[:minutes])
-      seconds = parse_integer(time_duration_hash[:seconds])
-      Rails.logger.debug "#{hours}:#{minutes}:#{seconds}"
-      parse_time_duration("#{hours}:#{minutes}:#{seconds}")
-    else
-      parse_time_duration('')
-    end
+    return unless time_duration_hash.is_a? Hash
+    hours = parse_integer(time_duration_hash[:hours])
+    minutes = parse_integer(time_duration_hash[:minutes])
+    seconds = parse_integer(time_duration_hash[:seconds])
+    hms_hash(hours, minutes, seconds)
   end
 
   def parse_time_duration_from_hash_to_s(time_duration_hash, default_time_duration: '')
@@ -104,5 +92,16 @@ module DateAndTimeParser
     Integer(format('%g', string))
   rescue
     nil
+  end
+
+  private
+
+  def hms_hash(hours, minutes, seconds)
+    return unless hours || minutes || seconds
+    hash = {}
+    hash[:hours]   = hours   || 0
+    hash[:minutes] = minutes || 0
+    hash[:seconds] = seconds || 0
+    hash
   end
 end

@@ -80,7 +80,7 @@ class SheetVariableTest < ActiveSupport::TestCase
 
   test 'get time duration' do
     assert_equal Valuables::TimeDurationResponse, Valuables.for(sheet_variables(:time_duration)).class
-    assert_equal '57h 2m 3s', sheet_variables(:time_duration).get_response(:name)
+    assert_equal '57 hours 2 minutes 3 seconds', sheet_variables(:time_duration).get_response(:name)
     assert_equal '57:2:3', sheet_variables(:time_duration).get_response(:raw)
   end
 end
