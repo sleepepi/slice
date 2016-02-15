@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
   has_many :sites, -> { where deleted: false }
   has_many :subjects, -> { where deleted: false }
+  has_many :tasks, -> { current }
   has_many :variables, -> { where deleted: false }
 
   # Named Scopes
@@ -161,6 +162,14 @@ class User < ActiveRecord::Base
   # Project Editors and Viewers and Site Members can view adverse event
   def all_viewable_adverse_events
     AdverseEvent.current.with_site(all_viewable_sites.select(:id)).blinding_scope(self)
+  end
+
+  def all_tasks
+    Task.current.where(project_id: all_projects.select(:id)).blinding_scope(self)
+  end
+
+  def all_viewable_tasks
+    Task.current.where(project_id: all_viewable_and_site_projects.select(:id)).blinding_scope(self)
   end
 
   def all_viewable_adverse_event_comments

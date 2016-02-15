@@ -1,0 +1,38 @@
+- @title = @task.name
+
+- links = []
+- links << ['Tasks', project_tasks_path(@project)]
+- links << [@task.name, [@project, @task]]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
+      = @title
+      - if @task.editable_by? current_user
+        = link_to 'Edit Task', edit_project_task_path(@project, @task), class: 'btn btn-default btn-xs'
+        = link_to 'Delete Task', [@project, @task], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Task #{@task.name}?" }
+
+    %dl.dl-horizontal
+      %dt Creator
+      %dd= @task.user.name
+
+      %dt Description
+      %dd= simple_markdown @task.description
+
+      %dt Due date
+      %dd= @task.due_date
+
+      %dt Window start date
+      %dd= @task.window_start_date
+
+      %dt Window end date
+      %dd= @task.window_end_date
+
+      %dt Completed
+      %dd= simple_check @task.completed
+
+      %dt Only unblinded
+      %dd= simple_check @task.only_unblinded

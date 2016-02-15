@@ -64,6 +64,7 @@ class Project < ActiveRecord::Base
 
   has_many :randomizations, -> { where deleted: false }
   has_many :randomization_schemes, -> { where deleted: false }
+  has_many :tasks, -> { current }
 
   # Model Methods
 

@@ -1,0 +1,31 @@
+%table.table.table-striped
+  %thead
+    %tr
+      = th_sort_field @order, 'tasks.created_at', 'Task'
+      %th User
+      %th Description
+      = th_sort_field @order, 'tasks.due_date', 'Task Date'
+      %th Window Start Date
+      %th Window End Date
+      %th Completed
+      %th Only Unblinded
+      - if @project.site_or_project_editor? current_user
+        %th Actions
+  %tbody
+    - @tasks.each do |task|
+      %tr
+        %td= link_to task.name, [@project, task]
+        %td= task.user.name
+        %td= task.description
+        %td= task.due_date
+        %td= task.window_start_date
+        %td= task.window_end_date
+        %td= simple_check task.completed
+        %td= simple_check task.only_unblinded
+        - if @project.site_or_project_editor? current_user
+          %td
+            - if task.editable_by?(current_user)
+              = link_to 'Edit', edit_project_task_path(@project, task), class: 'btn btn-default btn-xs'
+              = link_to 'Delete', [@project, task], method: :delete, data: { confirm: "Are you sure you want to delete Task #{task.name}?" }, class: 'btn btn-danger-inverse btn-xs'
+
+.center= paginate @tasks, theme: 'contour'

@@ -1,5 +1,9 @@
 ## 0.33.1
 
+### New Feature
+- **Tasks Added**
+  - Project tasks have been added to track upcoming todos given a due date and a window
+
 ### Enhancements
 - **Adverse Event Changes**
   - A master list of adverse events and their corresponding sheets is now included in the adverse event export

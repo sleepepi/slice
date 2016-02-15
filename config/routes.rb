@@ -226,6 +226,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :tasks
+
     resources :variables do
       member do
         get :copy

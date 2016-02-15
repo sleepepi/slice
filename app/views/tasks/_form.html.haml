@@ -1,0 +1,49 @@
+= form_for [@project, @task], html: { class: 'form-horizontal' } do |f|
+  - if @task.errors.any?
+    .bs-callout.bs-callout-danger
+      %h4
+        = pluralize @task.errors.count, 'error'
+        prohibited this task from being saved
+
+      %ul
+        - @task.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :description, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    = f.label :due_date, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :due_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', value: @task.due_date ? @task.due_date.strftime('%m/%d/%Y') : nil
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :completed
+          Completed
+
+  .form-group
+    = f.label :window_start_date, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :window_start_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', value: @task.window_start_date ? @task.window_start_date.strftime('%m/%d/%Y') : nil
+
+  .form-group
+    = f.label :window_end_date, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :window_end_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', value: @task.window_end_date ? @task.window_end_date.strftime('%m/%d/%Y') : nil
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
+          = f.check_box :only_unblinded
+          Only Unblinded
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel
