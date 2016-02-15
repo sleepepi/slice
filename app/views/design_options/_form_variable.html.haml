@@ -57,7 +57,7 @@
     = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
     = render 'layouts/branching_logic_examples'
 
-- if %w(dropdown checkbox radio string text integer numeric date time signature).include?(variable.variable_type)
+- if %w(dropdown checkbox radio string text integer numeric date time time_duration signature).include?(variable.variable_type)
   .form-group
     %label.col-md-2.control-label Required on Form?
     .col-md-10

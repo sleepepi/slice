@@ -5,6 +5,7 @@
   - Notifications that overwrite an existing notification update the time created for better sorting
 - **Variable Changes**
   - Time durations now fully spell out hours, minutes, and seconds
+  - Time durations can now be set as required or recommended on designs
 
 ### Bug Fixes
 - Fixed a display bug that incorrectly showed the algorithm used for randomization schemes
