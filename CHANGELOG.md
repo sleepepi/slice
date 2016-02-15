@@ -1,5 +1,8 @@
 ## 0.33.1
 
+### Bug Fixes
+- Fixed a display bug that incorrectly showed the algorithm used for randomization schemes
+
 ## 0.33.0 (February 12, 2016)
 
 ### Enhancements

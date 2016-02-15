@@ -79,9 +79,9 @@ class RandomizationScheme < ActiveRecord::Base
   end
 
   def algorithm_name
-    algorithm = ALGORITHMS.find { |_name, value| value == algorithm }
-    if algorithm
-      algorithm[0]
+    name_value = ALGORITHMS.find { |_name, value| value == algorithm }
+    if name_value
+      name_value[0]
     else
       'No Algorithm Selected'
     end
