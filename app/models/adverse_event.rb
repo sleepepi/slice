@@ -122,7 +122,7 @@ class AdverseEvent < ActiveRecord::Base
   def create_notifications
     project.unblinded_project_editors.each do |u|
       notification = u.notifications.where(project_id: project_id, adverse_event_id: id).first_or_create
-      notification.update(read: false)
+      notification.mark_as_unread!
     end
   end
 end

@@ -12,4 +12,10 @@ class Notification < ActiveRecord::Base
   belongs_to :adverse_event
   belongs_to :comment
   belongs_to :handoff
+
+  # Notification Methods
+
+  def mark_as_unread!
+    update created_at: Time.zone.now, read: false
+  end
 end

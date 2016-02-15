@@ -63,6 +63,6 @@ class Handoff < ActiveRecord::Base
 
   def create_notification
     notification = user.notifications.where(project_id: project_id, handoff_id: id).first_or_create
-    notification.update(read: false)
+    notification.mark_as_unread!
   end
 end

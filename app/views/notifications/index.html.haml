@@ -9,12 +9,12 @@
       %li= link_to 'All', notifications_path(all: '1'), class: "#{'active' if current_page?(notifications_path) && params[:all] == '1'}"
   .mini-menu-right-fluid
     - if @notifications.count > 0
-      - @notifications.order(:project_id, updated_at: :desc).includes(:project, :adverse_event, :comment, :handoff).group_by(&:project).each do |project, notifications|
+      - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff).group_by(&:project).each do |project, notifications|
         %table.table.table-fixed
           %col{ width: '32px' }
           %col{ }
           %col.hidden-xs{ width: '32px' }
-          %col.hidden-xs{ width: '150px' }
+          %col.hidden-xs{ width: '165px' }
           %col{ width: '32px' }
           %thead
             %tr

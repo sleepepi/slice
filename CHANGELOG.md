@@ -1,5 +1,9 @@
 ## 0.33.1
 
+### Enhancements
+- **Notification Changes**
+  - Notifications that overwrite an existing notification update the time created for better sorting
+
 ### Bug Fixes
 - Fixed a display bug that incorrectly showed the algorithm used for randomization schemes
 
