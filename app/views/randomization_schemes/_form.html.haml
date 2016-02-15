@@ -97,6 +97,15 @@
         .bs-callout.bs-callout-info
           Can be between 0 (Never Random) and 100 (Always Random)
 
+  .form-group
+    %label.col-md-2.control-label Tasks
+    .col-md-10
+      = link_to 'Add Item', add_task_project_randomization_schemes_path, method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top: 6px'
+      #tasks{ data: { object: 'sortable' } }
+        = hidden_field_tag 'randomization_scheme[task_hashes][]', nil
+        - @randomization_scheme.randomization_scheme_tasks.each do |randomization_scheme_task|
+          = render 'randomization_schemes/task_form', randomization_scheme_task: randomization_scheme_task
+
 
   .form-group
     .col-md-offset-2.col-md-10

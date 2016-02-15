@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  randomization_scheme: one
+  description: Make Phone Calls
+  offset: 1
+  offset_units: weeks
+  window: 2
+  window_units: days
+
+two:
+  randomization_scheme: one
+  description: Schedule Visit
+  offset: 3
+  offset_units: weeks
+  window: 4
+  window_units: days

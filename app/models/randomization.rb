@@ -9,12 +9,12 @@ class Randomization < ActiveRecord::Base
   include Deletable, Siteable, Forkable
 
   # Model Validation
-  validates_presence_of :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group, :multiplier, :position, :treatment_arm_id
-
-  validates_uniqueness_of :subject_id, allow_nil: true, scope: [:deleted, :project_id, :randomization_scheme_id]
-  validates_numericality_of :block_group, greater_than_or_equal_to: 0, only_integer: true
-  validates_numericality_of :multiplier, greater_than_or_equal_to: 0, only_integer: true
-  validates_numericality_of :position, greater_than_or_equal_to: 0, only_integer: true
+  validates :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group,
+            :multiplier, :position, :treatment_arm_id, presence: true
+  validates :subject_id, uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, allow_nil: true
+  validates :block_group, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :multiplier, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   # Model Relationships
   belongs_to :project
@@ -25,6 +25,8 @@ class Randomization < ActiveRecord::Base
   belongs_to :subject
   belongs_to :randomized_by, class_name: 'User', foreign_key: 'randomized_by_id'
   has_many :randomization_characteristics
+  has_many :randomization_tasks
+  has_many :tasks, -> { current.order(:due_date) }, through: :randomization_tasks
 
   # Named Scopes
   def self.blinding_scope(user)
@@ -92,5 +94,27 @@ class Randomization < ActiveRecord::Base
       weighted_eligible_arms: nil
     )
     randomization_characteristics.destroy_all
+    randomization_tasks.destroy_all
+  end
+
+  def launch_tasks!
+    randomization_scheme.randomization_scheme_tasks.each do |rst|
+      offset_units = %w(days weeks months years).include?(rst.offset_units) ? rst.offset_units : 'days'
+      window_units = %w(days weeks).include?(rst.window_units) ? rst.window_units : 'days'
+      due_date = created_at + rst.offset.send(offset_units)
+      window_start_date = due_date - rst.window.send(window_units)
+      window_end_date = due_date + rst.window.send(window_units)
+
+      task = project.tasks.create(
+        user_id: user_id,
+        description: rst.description,
+        due_date: due_date,
+        window_start_date: window_start_date,
+        window_end_date: window_end_date,
+        only_unblinded: true
+      )
+
+      randomization_tasks.create(task_id: task.id) unless task.new_record?
+    end
   end
 end

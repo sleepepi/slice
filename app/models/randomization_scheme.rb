@@ -4,6 +4,8 @@
 class RandomizationScheme < ActiveRecord::Base
   # Triggers
   after_create :create_default_block_size_multipliers
+  attr_accessor :task_hashes
+  after_save :set_tasks
 
   # Constants
   MAX_LISTS = 128
@@ -30,6 +32,7 @@ class RandomizationScheme < ActiveRecord::Base
   has_many :block_size_multipliers,        -> { where(deleted: false).order(:value) }
   has_many :lists,                         -> { where deleted: false }
   has_many :randomizations,                -> { where deleted: false }
+  has_many :randomization_scheme_tasks,    -> { order :position }
   has_many :stratification_factors,        -> { where deleted: false }
   has_many :stratification_factor_options, -> { where deleted: false }
   has_many :treatment_arms,                -> { where(deleted: false).order(:name) }
@@ -110,6 +113,19 @@ class RandomizationScheme < ActiveRecord::Base
   def create_default_block_size_multipliers
     (1..4).each do |value|
       block_size_multipliers.create(project_id: project_id, user_id: user_id, value: value)
+    end
+  end
+
+  def set_tasks
+    return unless task_hashes && task_hashes.is_a?(Array)
+    randomization_scheme_tasks.destroy_all
+    task_hashes.each_with_index do |hash, index|
+      randomization_scheme_tasks.create(
+        description: hash[:description].to_s.strip,
+        offset: hash[:offset].to_i, offset_units: hash[:offset_units],
+        window: hash[:window].to_i, window_units: hash[:window_units],
+        position: index
+      ) unless hash[:description].to_s.strip.blank?
     end
   end
 end

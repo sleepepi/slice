@@ -1,3 +1,6 @@
+@randomizationSchemesReady = () ->
+  $('#tasks[data-object~="sortable"]').sortable(handle: '.item-handle')
+
 $(document)
   .on('change', '#randomization_scheme_algorithm', () ->
     if $(this).val() == 'minimization'

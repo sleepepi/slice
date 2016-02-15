@@ -101,6 +101,25 @@
           - else
             = link_to 'Generate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, class: 'btn btn-default btn-xs'
 
+      - if @randomization_scheme.randomization_scheme_tasks.count > 0
+        %dt Tasks
+        %dd
+          %table.table
+            %thead
+              %th Description
+              %th Offset
+              %th Window
+            %tbody
+              - @randomization_scheme.randomization_scheme_tasks.each do |rst|
+                %tr
+                  %td= simple_markdown rst.description
+                  %td
+                    = rst.offset
+                    = rst.offset_units
+                  %td
+                    = rst.window
+                    = rst.window_units
+
     = render 'randomization_schemes/existing_lists'
 
     = render 'randomization_schemes/distributions'

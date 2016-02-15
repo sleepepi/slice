@@ -54,6 +54,7 @@
   randomizationsReady()
   usersReady()
   fileDragReady()
+  randomizationSchemesReady()
 
 # These functions only get called on the initial page visit (no turbolinks)
 @initialLoadReady = () ->

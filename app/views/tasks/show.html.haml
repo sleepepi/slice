@@ -36,3 +36,22 @@
 
       %dt Only unblinded
       %dd= simple_check @task.only_unblinded
+
+      - if @task.randomization
+        %dt Randomization
+        %dd
+          = link_to [@task.randomization.project, @task.randomization] do
+            = @task.randomization.treatment_arm.name
+
+          %small
+            = @task.randomization.randomization_number
+            of
+            = @task.randomization.randomization_scheme.randomization_goal
+
+          %p
+            %strong
+              = @task.randomization.subject.name
+            randomized
+            = simple_time @task.randomization.randomized_at
+            by
+            = @task.randomization.randomized_by.name

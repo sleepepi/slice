@@ -32,20 +32,41 @@
             by
             = @randomization.randomized_by.name
 
+    .row
+      .col-sm-6
+        %dl.dl-horizontal
+
+          %dt Subject
+          %dd= link_to @randomization.subject.name, [@project, @randomization.subject] if @randomization.subject
+
+          %dt Randomized by
+          %dd= @randomization.randomized_by.name if @randomization.randomized_by
+
+          %dt Randomized at
+          %dd= simple_time @randomization.randomized_at
+
+          %dt Treatment arm
+          %dd= @randomization.treatment_arm.name if @randomization.treatment_arm
+
+      - if @randomization.tasks.count > 0
+        .col-sm-6
+          %dl
+            %dt Tasks
+            %dd
+              %ul.list-unstyled
+                - @randomization.tasks.each do |task|
+                  %li
+                    - if task.completed?
+                      %span.glyphicon.glyphicon-check
+                    - else
+                      %span.glyphicon.glyphicon-unchecked
+                    = link_to task.name, [task.project, task]
+                    = task.due_date.strftime('%a, %B %-d, %Y')
+                    %div{ class: "#{'text-muted' if task.completed?}", style: "#{'text-decoration:line-through' if task.completed?}" }
+                      = simple_markdown task.description
+
+
     %dl.dl-horizontal
-
-      %dt Subject
-      %dd= link_to @randomization.subject.name, [@project, @randomization.subject] if @randomization.subject
-
-      %dt Randomized by
-      %dd= @randomization.randomized_by.name if @randomization.randomized_by
-
-      %dt Randomized at
-      %dd= simple_time @randomization.randomized_at
-
-      %dt Treatment arm
-      %dd= @randomization.treatment_arm.name if @randomization.treatment_arm
-
       %dt Randomization Scheme
       %dd= @randomization.randomization_scheme.name if @randomization.randomization_scheme
 

@@ -164,6 +164,9 @@ Rails.application.routes.draw do
     end
 
     resources :randomization_schemes do
+      collection do
+        post :add_task
+      end
       member do
         get 'randomize-subject', action: :randomize_subject, as: :randomize_subject
         get :subject_search

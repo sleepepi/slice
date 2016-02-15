@@ -11,6 +11,8 @@ class Task < ActiveRecord::Base
   # Model Relationships
   belongs_to :project
   belongs_to :user
+  has_one :randomization_task
+  has_one :randomization, through: :randomization_task
 
   # Model Methods
 

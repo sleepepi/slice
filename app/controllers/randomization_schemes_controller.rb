@@ -3,12 +3,16 @@
 class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project_or_editable_site,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
-  before_action :set_editable_project,                    only: [:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :set_editable_project,                    only: [:add_task, :index, :show, :new, :edit, :create, :update, :destroy]
   before_action :redirect_without_project
   before_action :redirect_blinded_users
   before_action :set_randomization_scheme,                only: [:show, :edit, :update, :destroy]
   before_action :set_published_randomization_scheme,      only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
   before_action :redirect_without_randomization_scheme,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list, :show, :edit, :update, :destroy]
+
+  # POST /template/add_task.js
+  def add_task
+  end
 
   def randomize_subject
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
@@ -118,6 +122,7 @@ class RandomizationSchemesController < ApplicationController
     @randomization = @randomization_scheme.randomize_subject_to_list!(subject, list, current_user, criteria_pairs)
 
     if @randomization && @randomization.errors.full_messages == []
+      @randomization.launch_tasks!
       redirect_to [@project, @randomization], notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
     elsif @randomization
       @randomization.errors.delete(:subject_id)
@@ -212,9 +217,15 @@ class RandomizationSchemesController < ApplicationController
     params[:randomization_scheme][:chance_of_random_treatment_arm_selection] = 30 if params[:randomization_scheme].key?(:chance_of_random_treatment_arm_selection) && params[:randomization_scheme][:chance_of_random_treatment_arm_selection].blank?
 
     if @randomization_scheme && @randomization_scheme.randomized_subjects?
-      params.require(:randomization_scheme).permit(:name, :description, :randomization_goal)
+      params.require(:randomization_scheme).permit(
+        :name, :description, :randomization_goal,
+        { task_hashes: [:description, :offset, :offset_units, :window, :window_units] }
+      )
     else
-      params.require(:randomization_scheme).permit(:name, :description, :randomization_goal, :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)
+      params.require(:randomization_scheme).permit(
+        :name, :description, :randomization_goal,
+        { task_hashes: [:description, :offset, :offset_units, :window, :window_units] },
+        :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)
     end
   end
 end

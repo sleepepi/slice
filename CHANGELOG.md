@@ -3,6 +3,8 @@
 ### New Feature
 - **Tasks Added**
   - Project tasks have been added to track upcoming todos given a due date and a window
+- **Randomization Changes**
+  - A series of tasks can be launched when a subject is randomized
 
 ### Enhancements
 - **Adverse Event Changes**
