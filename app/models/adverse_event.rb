@@ -50,8 +50,7 @@ class AdverseEvent < ActiveRecord::Base
   end
 
   def subject_code=(code)
-    subjects = project.subjects.where 'LOWER(subject_code) = ?', code.to_s.downcase
-    s = subjects.first
+    s = project.subjects.find_by 'LOWER(subject_code) = ?', code.to_s.downcase
     self.subject_id = (s ? s.id : nil)
   end
 
@@ -110,6 +109,7 @@ class AdverseEvent < ActiveRecord::Base
 
   def send_email_in_background
     fork_process(:send_email)
+    true
   end
 
   def send_email
@@ -124,5 +124,6 @@ class AdverseEvent < ActiveRecord::Base
       notification = u.notifications.where(project_id: project_id, adverse_event_id: id).first_or_create
       notification.mark_as_unread!
     end
+    true
   end
 end

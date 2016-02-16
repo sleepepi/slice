@@ -55,8 +55,9 @@ class Handoff < ActiveRecord::Base
   end
 
   def set_token
-    return unless token.blank?
+    return true unless token.blank?
     update token: SecureRandom.hex(8)
+    true
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
     retry
   end

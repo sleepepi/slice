@@ -55,5 +55,6 @@ class Comment < ActiveRecord::Base
     users.where.not(id: user.id).each do |u|
       u.notifications.create(project_id: project_id, comment_id: id)
     end
+    true
   end
 end

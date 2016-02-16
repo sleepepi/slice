@@ -6,12 +6,14 @@ valid:
   last_name: LastName
   email: valid@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 two:
   first_name: Two
   last_name: Deux
   email: EmailTwo
   encrypted_password: ""
+  emails_enabled: true
 
 admin:
   first_name: System
@@ -19,18 +21,21 @@ admin:
   email: admin@example.com
   encrypted_password: ""
   system_admin: true
+  emails_enabled: true
 
 associated:
   first_name: Associated
   last_name: User
   email: associated@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 deleted:
   first_name: Deleted
   last_name: Deleted
   email: deleted@example.com
   encrypted_password: ""
+  emails_enabled: true
   deleted: true
 
 site_one_viewer:
@@ -38,21 +43,25 @@ site_one_viewer:
   last_name: Viewer
   email: site_one_viewer@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 site_one_editor:
   first_name: SiteOne
   last_name: Editor
   email: site_one_editor@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 site_two_viewer:
   first_name: SiteTwo
   last_name: Viewer
   email: site_two_viewer@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 site_two_editor:
   first_name: SiteTwo
   last_name: Editor
   email: site_two_editor@example.com
   encrypted_password: ""
+  emails_enabled: true
