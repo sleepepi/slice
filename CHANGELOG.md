@@ -1,4 +1,4 @@
-## 0.33.3
+## 0.33.3 (February 16, 2016)
 
 ### Bug Fix
 - Fixed a bug that prevented adverse events from being created
