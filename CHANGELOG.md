@@ -1,4 +1,4 @@
-## 0.33.2
+## 0.33.2 (February 16, 2016)
 
 ### Bug Fix
 - Fixed a bug that prevented adverse event emails from being sent
