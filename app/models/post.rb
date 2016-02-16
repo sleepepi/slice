@@ -20,11 +20,10 @@ class Post < ActiveRecord::Base
   private
 
   def send_email
-    return true if archived?
+    return if archived?
     all_users = project.users_to_email - [user]
     all_users.each do |user_to_email|
       UserMailer.project_news(self, user_to_email).deliver_later if EMAILS_ENABLED
     end
-    true
   end
 end

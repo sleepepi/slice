@@ -7,7 +7,6 @@ class AdverseEvent < ActiveRecord::Base
   include DateAndTimeParser, Deletable, Searchable, Siteable, Forkable
 
   # Model Alerts
-  after_create :send_email_in_background, :create_notifications
   after_touch :create_notifications
 
   # Model Validation
@@ -100,8 +99,6 @@ class AdverseEvent < ActiveRecord::Base
     adverse_event_date
   end
 
-  private
-
   # Adverse Events reports are sent to unblinded project editors
   def users_to_email
     project.unblinded_project_editors.where(emails_enabled: true)
@@ -109,7 +106,6 @@ class AdverseEvent < ActiveRecord::Base
 
   def send_email_in_background
     fork_process(:send_email)
-    true
   end
 
   def send_email
@@ -124,6 +120,5 @@ class AdverseEvent < ActiveRecord::Base
       notification = u.notifications.where(project_id: project_id, adverse_event_id: id).first_or_create
       notification.mark_as_unread!
     end
-    true
   end
 end

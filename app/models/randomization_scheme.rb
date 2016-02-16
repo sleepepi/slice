@@ -114,7 +114,6 @@ class RandomizationScheme < ActiveRecord::Base
     (1..4).each do |value|
       block_size_multipliers.create(project_id: project_id, user_id: user_id, value: value)
     end
-    true
   end
 
   def set_tasks

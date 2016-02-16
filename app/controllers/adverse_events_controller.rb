@@ -54,6 +54,8 @@ class AdverseEventsController < ApplicationController
   def create
     @adverse_event = current_user.adverse_events.where(project_id: @project.id).new(adverse_event_params)
     if @adverse_event.save
+      @adverse_event.create_notifications
+      @adverse_event.send_email_in_background
       redirect_to [@project, @adverse_event], notice: 'Adverse event was successfully created.'
     else
       render :new
