@@ -131,7 +131,7 @@ class SubjectsController < ApplicationController
         render json: []
       end
     else
-      render json: @subjects.collect{ |s| { value: s.subject_code, subject_code: s.subject_code, status_class: 'success', status: 'v'  } }
+      render json: @subjects.collect{ |s| { value: s.subject_code, subject_code: s.subject_code, status_class: 'success', status: ''  } }
     end
   end
 

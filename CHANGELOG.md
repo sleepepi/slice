@@ -1,5 +1,9 @@
 ## 0.34.0
 
+### Enhancements
+- **Subject Changes**
+  - Searching for subjects no longer displays a 'v' for existing subjects
+
 ### Bug Fix
 - Fixed a bug that prevented email settings from being saved
 

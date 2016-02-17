@@ -46,8 +46,6 @@ class SubjectsControllerTest < ActionController::TestCase
     subjects_json = JSON.parse(response.body)
     assert_equal 'Code01', subjects_json.first['value']
     assert_equal 'Code01', subjects_json.first['subject_code']
-    assert_equal 'success', subjects_json.first['status_class']
-    assert_equal 'v', subjects_json.first['status']
     assert_response :success
   end
 
@@ -57,8 +55,6 @@ class SubjectsControllerTest < ActionController::TestCase
     subjects_json = JSON.parse(response.body)
     assert_equal 'Code01', subjects_json.first['value']
     assert_equal 'Code01', subjects_json.first['subject_code']
-    assert_equal 'success', subjects_json.first['status_class']
-    assert_equal 'v', subjects_json.first['status']
     assert_response :success
   end
 
