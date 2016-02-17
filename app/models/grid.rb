@@ -2,7 +2,7 @@
 
 class Grid < ActiveRecord::Base
   # Concerns
-  include Valuable
+  include Formattable, Valuable
 
   # Model Validation
   validates :sheet_variable_id, :position, presence: true

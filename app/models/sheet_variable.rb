@@ -2,7 +2,7 @@
 
 class SheetVariable < ActiveRecord::Base
   # Concerns
-  include Valuable
+  include Formattable, Valuable
 
   # Model Validation
   validates :sheet_id, presence: true

@@ -1,5 +1,8 @@
 ## 0.34.0
 
+### Refactoring
+- Variable valuables have been replaced by variable formatters
+
 ## 0.33.3 (February 16, 2016)
 
 ### Bug Fix

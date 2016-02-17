@@ -62,10 +62,14 @@ module GridExport
   end
 
   def grid_sort_responses_by_sheet_id_generic(grid_group_variable, variable, sheet_scope, sheet_ids)
-    responses = Grid.joins(:sheet_variable).merge(SheetVariable.where(sheet_id: sheet_scope.select(:id)))
+    response_scope = Grid.joins(:sheet_variable).merge(SheetVariable.where(sheet_id: sheet_scope.select(:id)))
                     .where(variable_id: variable.id)
                     .order('sheet_id desc', :position)
-                    .pluck(:response, :position, :sheet_id).uniq
+    responses = if variable.variable_type == 'file'
+                  response_scope.pluck(:response_file, :position, :sheet_id).uniq
+                else
+                  response_scope.pluck(:response, :position, :sheet_id).uniq
+                end
     grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
   end
 

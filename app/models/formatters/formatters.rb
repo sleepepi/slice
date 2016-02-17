@@ -8,6 +8,7 @@ module Formatters
     'checkbox' => Formatters::DomainFormatter,
     'dropdown' => Formatters::DomainFormatter,
     'radio' => Formatters::DomainFormatter,
+    'file' => Formatters::FileFormatter,
     'integer' => Formatters::IntegerFormatter,
     'calculated' => Formatters::NumericFormatter,
     'numeric' => Formatters::NumericFormatter,

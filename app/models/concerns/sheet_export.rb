@@ -60,8 +60,13 @@ module SheetExport
   end
 
   def sort_responses_by_sheet_id_generic(variable, sheet_scope)
-    responses = SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
-                             .order(sheet_id: :desc).pluck(:response, :sheet_id).uniq
+    response_scope = SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
+                                  .order(sheet_id: :desc)
+    responses = if variable.variable_type == 'file'
+                  response_scope.pluck(:response_file, :sheet_id).uniq
+                else
+                  response_scope.pluck(:response, :sheet_id).uniq
+                end
     sort_responses_by_sheet_id(responses, sheet_scope)
   end
 

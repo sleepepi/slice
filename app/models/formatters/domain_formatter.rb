@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Formatters
+  # Used to help format arrays of database responses for variables with domains
   class DomainFormatter < DefaultFormatter
     def name_responses
       shared_responses = shared_options
@@ -11,7 +12,7 @@ module Formatters
       @variable.shared_options
     end
 
-    def name_response(response, shared_responses)
+    def name_response(response, shared_responses = shared_options)
       domain_string = hash_value_and_name(response, shared_responses)
       if domain_string.blank?
         components(response).compact.join(' ').squish if response.present?
