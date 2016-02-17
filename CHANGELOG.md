@@ -1,5 +1,8 @@
 ## 0.34.0
 
+### Bug Fix
+- Fixed a bug that prevented email settings from being saved
+
 ### Refactoring
 - Variable valuables have been replaced by variable formatters
 
