@@ -3,9 +3,9 @@
 module Slice
   module VERSION #:nodoc:
     MAJOR = 0
-    MINOR = 33
-    TINY = 3
-    BUILD = nil # 'pre', 'beta1', 'beta2', 'rc', 'rc2', nil
+    MINOR = 34
+    TINY = 0
+    BUILD = 'pre' # 'pre', 'beta1', 'beta2', 'rc', 'rc2', nil
 
     STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.').freeze
   end
