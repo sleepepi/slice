@@ -3,6 +3,7 @@
 ### Enhancements
 - **Adverse Event Changes**
   - Comments are no longer displayed on sheets attached to adverse events
+  - Adverse event dates can no longer be set in the future
 - **Dashboard Changes**
   - Only favorited projects are now sortable on the dashboard, current projects are listed alphabetically
 - **Site Changes**

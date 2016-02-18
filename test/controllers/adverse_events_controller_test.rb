@@ -2,6 +2,8 @@
 
 require 'test_helper'
 
+# Tests the creation, modification, and visibility of adverse events by project
+# and site staff
 class AdverseEventsControllerTest < ActionController::TestCase
   setup do
     @project = projects(:one)
@@ -67,6 +69,19 @@ class AdverseEventsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
+  end
+
+  test 'should not create adverse event with event date in the future' do
+    login(users(:valid))
+    assert_difference('AdverseEvent.count', 0) do
+      post :create, project_id: @project, adverse_event: { subject_code: @adverse_event.subject_code, event_date: (Time.zone.today + 1.day).strftime('%m/%d/%Y'), description: @adverse_event.description, closed: @adverse_event.closed }
+    end
+
+    assert_not_nil assigns(:adverse_event)
+    assert assigns(:adverse_event).errors.size > 0
+    assert_equal ["can't be in the future"], assigns(:adverse_event).errors[:adverse_event_date]
+    assert_template 'new'
+    assert_response :success
   end
 
   test 'should not create adverse event as site viewer' do

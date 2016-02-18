@@ -10,7 +10,9 @@ class AdverseEvent < ActiveRecord::Base
   after_touch :create_notifications
 
   # Model Validation
-  validates :adverse_event_date, :description, presence: true
+  validates :adverse_event_date, presence: true
+  validate :ae_date_cannot_be_in_future
+  validates :description, presence: true
   validates :project_id, :subject_id, :user_id, presence: true
 
   # Model Relationships
@@ -59,6 +61,11 @@ class AdverseEvent < ActiveRecord::Base
 
   def event_date=(date)
     self.adverse_event_date = parse_date(date)
+  end
+
+  def ae_date_cannot_be_in_future
+    return unless adverse_event_date && adverse_event_date > Time.zone.today
+    errors.add(:adverse_event_date, "can't be in the future")
   end
 
   def self.searchable_attributes
