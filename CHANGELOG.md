@@ -10,6 +10,7 @@
 
 ### Bug Fix
 - Fixed a bug that prevented email settings from being saved
+- Fixed a bug that inserted placeholder text into textarea elements when using Internet Explorer in combination with Turbolinks
 
 ### Refactoring
 - Variable valuables have been replaced by variable formatters

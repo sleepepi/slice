@@ -39,10 +39,18 @@
   signaturesReady()
   # console.log "Sheet initialized in #{Date.now() - timeInMs} ms"
 
+# TODO: Might be able to remove this in the future with Turbolinks 5
+# https://github.com/turbolinks/turbolinks-classic/issues/455
+@fix_ie10_placeholder = ->
+  $('textarea').each ->
+    if $(@).val() == $(@).attr('placeholder')
+      $(@).val ''
+
 @sheetsReady = () ->
   initializeSheet()
   activateSheetDraggables()
   activateEventDroppables()
+  fix_ie10_placeholder()
 
 $(document)
   .on('click', '[data-object~="export"]', () ->
