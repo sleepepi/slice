@@ -7,14 +7,15 @@
   = hidden_field_tag "#{field_name}", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.variable_type }
 
   - if variable.alignment == 'scale'
+    - options_missing_at_end = variable.options_missing_at_end(current_user)
     %table.table.table-borderless
       %col{ width: "300px" }
-      = ("<col width='#{100/(variable.options_missing_at_end.size+2)}%'/>" * variable.options_missing_at_end.size).html_safe
+      = ("<col width='#{100/(options_missing_at_end.size+2)}%'/>" * options_missing_at_end.size).html_safe
       - if variable.first_scale_variable?(design)
         %thead
           %tr
             %th
-            - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
+            - options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
               %th.text-center
                 - if show_values
                   = succeed ':' do
@@ -25,14 +26,14 @@
           %td{ style: "font-weight:bold" }
             = variable.display_name
             = render 'design_options/required', design_option: design_option if design_option
-          - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing|
+          - options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing|
             %td.text-center.sheet-container
               - selected = (value == response)
               %label.radio.radio-inline{ class: "#{'selected' if selected} #{'negation' if missing == '1'}", rel: (description.blank? ? 'tooltip' : 'popover'), data: { content: description, title: "#{value}: #{name}", placement: "bottom", html: "true" } }
                 = radio_button_tag field_name, "#{value}", selected, data: { object: "condition", name: variable.name, variable_type: variable.variable_type }, disabled: disabled, style: 'margin-left:-14px'
   - else
     .sheet-container
-      - variable.shared_options.collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, value, missing_code|
+      - variable.shared_options_with_user(current_user).collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, value, missing_code|
         %label.radio{ class: "#{'radio-inline' if is_grid or variable.alignment == 'horizontal'} #{'selected' if value == response} #{'negation' if missing_code == '1' }" }
           = radio_button_tag field_name, "#{value}", value == response, data: { object: "condition", name: variable.name, variable_type: variable.variable_type, previous: (value == response ? "checked" : "unchecked") }, disabled: disabled
           - if show_values

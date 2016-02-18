@@ -16,7 +16,7 @@
       = hidden_field_tag "domain[option_tokens][][option_index]", option_index
     .col-xs-2
       = text_field_tag "domain[option_tokens][][value]", @option[:value], autocomplete: 'off', rel: 'tooltip', title: 'Value', class: 'form-control'
-    .col-xs-4
+    .col-xs-2
       = text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control'
     - if false
       .col-xs-2{ style: "display:none" }
@@ -26,6 +26,8 @@
       %label.checkbox.checkbox-inline{ class: "#{'selected' if @option[:missing_code] == '1'}" }
         = check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1"
         Missing Code
+    .col-xs-2
+      = select_tag 'domain[option_tokens][][site_id]', options_for_select([['--All Sites--', nil]] + @project.sites.order(:name).pluck(:name, :id), @option[:site_id]), class: 'form-control'
     .col-xs-3
       = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#option_#{@position}", count: total_count }, id: "option_#{@position}_delete_link", tabindex: "-1"
       - if total_count > 0

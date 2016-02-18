@@ -2,8 +2,8 @@
 
 class DomainsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :values]
-  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :values]
+  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :values, :add_option]
+  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :values, :add_option]
   before_action :set_editable_domain, only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_domain, only: [:show, :edit, :update, :destroy]
 
@@ -89,7 +89,8 @@ class DomainsController < ApplicationController
     params[:domain] = Domain.clean_option_tokens(params[:domain])
 
     params.require(:domain).permit(
-      :name, :display_name, :description, :user_id, { option_tokens: [:name, :value, :description, :missing_code, :option_index] }
+      :name, :display_name, :description, :user_id,
+      option_tokens: [:name, :value, :description, :missing_code, :option_index, :site_id]
     )
   end
 end

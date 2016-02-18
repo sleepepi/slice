@@ -6,6 +6,8 @@
   - Adverse event dates can no longer be set in the future
 - **Dashboard Changes**
   - Only favorited projects are now sortable on the dashboard, current projects are listed alphabetically
+- **Domain Changes**
+  - Domain options can be set to be only visible by a certain site editor to limit the number of options for dropdowns, radio inputs, and checkboxes
 - **Site Changes**
   - Subjects on a site are now deleted when the site is deleted
 - **Subject Changes**

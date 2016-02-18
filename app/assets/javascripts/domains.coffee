@@ -25,7 +25,7 @@
 
 $(document)
   .on('click', '#add_more_domain_options', () ->
-    $.post(root_url + 'projects/' + $("#domain_project_id").val() + '/domains/add_option', $("form").serialize() + "&_method=post", null, "script")
+    $.post("#{root_url}projects/#{$(@).data('project-id')}/domains/add_option", null, null, "script")
     false
   )
   .on('keyup', '[data-object~="create-domain-name"]', () ->

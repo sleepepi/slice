@@ -5,9 +5,18 @@
       %th Name
       %th Description
       %th Missing Code
+      - if domain.options_by_site?
+        %th Selectable by Site
   - domain.options.each do |option|
     %tr
       %td= option[:value]
       %td= option[:name]
       %td= option[:description]
       %td= simple_check option[:missing_code] == '1'
+      - if domain.options_by_site?
+        - site = domain.project.sites.find_by_id option[:site_id]
+        %td
+          - if site
+            = site.name
+          - else
+            %span.text-muted All Sites

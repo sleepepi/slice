@@ -195,7 +195,8 @@ class DesignOptionsController < ApplicationController
     params[:domain] = Domain.clean_option_tokens(params[:domain])
 
     params.require(:domain).permit(
-      :name, :display_name, :description, :user_id, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] }
+      :name, :display_name, :description, :user_id,
+      option_tokens: [:name, :value, :description, :missing_code, :option_index, :site_id]
     )
   end
 end

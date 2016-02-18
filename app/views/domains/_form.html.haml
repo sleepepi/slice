@@ -57,7 +57,7 @@
   .form-group
     .col-md-10.col-md-offset-2
       .btn-toolbar
-        = link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs'
+        = link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs', data: { project_id: @project.to_param }
 
   = hidden_field_tag :continue, '0'
 

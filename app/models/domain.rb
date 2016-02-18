@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Represents a finite set of options for a given variable
 class Domain < ActiveRecord::Base
   serialize :options, Array
 
@@ -9,10 +10,10 @@ class Domain < ActiveRecord::Base
   include Searchable, Deletable
 
   # Model Validation
-  validates_presence_of :name, :display_name, :project_id, :user_id
-  validates_format_of :name, with: /\A[a-z]\w*\Z/i
-  validates :name, length: { maximum: 30 }
-  validates_uniqueness_of :name, scope: [:deleted, :project_id]
+  validates :name, :display_name, :project_id, :user_id, presence: true
+  validates :name, format: { with: /\A[a-z]\w*\Z/i },
+                   length: { maximum: 30 },
+                   uniqueness: { scope: [:deleted, :project_id] }
 
   # Model Relationships
   belongs_to :user
@@ -42,6 +43,10 @@ class Domain < ActiveRecord::Base
 
   def grids
     Grid.where(variable_id: self.variables.collect{|v| v.id})
+  end
+
+  def options_by_site?
+    options.count { |o| o[:site_id].present? } > 0
   end
 
   # We want all validations to run so all errors will show up when submitting a form
@@ -97,7 +102,7 @@ class Domain < ActiveRecord::Base
   # All of these changes are rolled back if the domain is not saved successfully
   # Wrapped in single transaction
   def option_tokens=(tokens)
-    unless self.new_record?
+    unless new_record?
       original_options = self.options
       existing_options = tokens.reject{|hash| ['new', nil].include?(hash[:option_index]) }
 
@@ -129,7 +134,8 @@ class Domain < ActiveRecord::Base
       self.options << { name: option_hash[:name].strip,
                         value: option_hash[:value].strip,
                         description: option_hash[:description].to_s.strip,
-                        missing_code: option_hash[:missing_code].to_s.strip
+                        missing_code: option_hash[:missing_code].to_s.strip,
+                        site_id: option_hash[:site_id].to_s.strip
                       } unless option_hash[:name].strip.blank? and ((option_hash[:option_index] != 'new' and option_hash[:value].strip.blank?) or option_hash[:option_index] == 'new')
     end
   end
@@ -150,7 +156,7 @@ class Domain < ActiveRecord::Base
 
   # Returns true if all options are integers
   def all_numeric?
-    self.options.select{|o| !(o[:value] =~ /^[-+]?[0-9]+$/)}.size == 0
+    options.count { |o| !(o[:value] =~ /^[-+]?[0-9]+$/) } == 0
   end
 
   def sas_value_domain
@@ -158,14 +164,12 @@ class Domain < ActiveRecord::Base
   end
 
   def sas_domain_name
-    "#{ '$' unless self.all_numeric? }#{self.name}f"
+    "#{ '$' unless all_numeric? }#{name}f"
   end
 
   def self.clean_option_tokens(params)
     (params[:option_tokens] || []).each_with_index do |option, index|
-      if not option[:name].blank? and option[:value].blank?
-        params[:option_tokens][index][:value] = "#{index+1}"
-      end
+      params[:option_tokens][index][:value] = (index + 1).to_s if option[:name].present? && option[:value].blank?
     end
     params
   end

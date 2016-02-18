@@ -60,6 +60,12 @@ class Variable < ActiveRecord::Base
     domain ? domain.options : []
   end
 
+  def shared_options_with_user(current_user)
+    return shared_options unless current_user
+    site_ids = current_user.all_editable_sites.where(project_id: project_id).pluck(:id)
+    shared_options.select { |opt| opt[:site_id].blank? || site_ids.include?(opt[:site_id].to_i) }
+  end
+
   def shared_options_select_values(values)
     shared_options.select { |option| values.include?(option[:value]) }
   end
@@ -167,20 +173,20 @@ class Variable < ActiveRecord::Base
     end
   end
 
-  def options_missing_at_end
-    options_without_missing + options_only_missing
+  def options_missing_at_end(current_user = nil)
+    options_without_missing(current_user) + options_only_missing(current_user)
   end
 
-  def options_without_missing
-    shared_options.select { |opt| opt[:missing_code] != '1' }
+  def options_without_missing(current_user = nil)
+    shared_options_with_user(current_user).select { |opt| opt[:missing_code] != '1' }
   end
 
-  def options_only_missing
-    shared_options.select { |opt| opt[:missing_code] == '1' }
+  def options_only_missing(current_user = nil)
+    shared_options_with_user(current_user).select { |opt| opt[:missing_code] == '1' }
   end
 
-  def grouped_by_missing(show_values)
-    [['', options_without_missing.collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }], ['Missing', options_only_missing.collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }]]
+  def grouped_by_missing(show_values, current_user = nil)
+    [['', options_without_missing(current_user).collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }], ['Missing', options_only_missing(current_user).collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }]]
   end
 
   def options_or_autocomplete(include_missing)
