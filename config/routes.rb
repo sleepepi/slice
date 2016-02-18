@@ -284,6 +284,8 @@ Rails.application.routes.draw do
     get :update_settings, to: redirect('settings')
     post :update_theme
     get :update_theme, to: redirect('settings')
+    patch :change_password
+    get :change_password, to: redirect('settings')
   end
 
   scope module: 'application' do

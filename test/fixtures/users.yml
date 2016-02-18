@@ -19,7 +19,7 @@ admin:
   first_name: System
   last_name: Admin
   email: admin@example.com
-  encrypted_password: ""
+  encrypted_password: <%= User.new(password: 'password').encrypted_password %>
   system_admin: true
   emails_enabled: true
 

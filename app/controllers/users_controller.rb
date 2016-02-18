@@ -23,6 +23,20 @@ class UsersController < ApplicationController
     redirect_to settings_path, notice: 'Email settings saved.'
   end
 
+  def change_password
+    if current_user.valid_password?(params[:user][:current_password])
+      if current_user.reset_password(params[:user][:password], params[:user][:password_confirmation])
+        sign_in current_user, bypass: true
+        redirect_to settings_path, notice: 'Your password has been changed.'
+      else
+        render :settings
+      end
+    else
+      current_user.errors.add :current_password, 'is invalid'
+      render :settings
+    end
+  end
+
   def index
     unless current_user.system_admin? || params[:format] == 'json'
       redirect_to root_path, alert: 'You do not have sufficient privileges to access that page.'

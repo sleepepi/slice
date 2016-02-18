@@ -42,6 +42,18 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to settings_path
   end
 
+  test 'should change password as user' do
+    patch :change_password, user: { current_password: 'password', password: 'newpassword', password_confirmation: 'newpassword' }
+    assert_equal 'Your password has been changed.', flash[:notice]
+    assert_redirected_to settings_path
+  end
+
+  test 'should not change password as user with invalid current password' do
+    patch :change_password, user: { current_password: 'invalid', password: 'newpassword', password_confirmation: 'newpassword' }
+    assert_template 'settings'
+    assert_response :success
+  end
+
   test 'should get settings' do
     get :settings
     assert_response :success

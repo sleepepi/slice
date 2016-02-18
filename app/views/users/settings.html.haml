@@ -9,26 +9,72 @@ You can change your avatar at
 = link_to 'gravatar.com', 'http://gravatar.com', target: '_blank'
 
 .page-header
-  %h2 Settings
+  %h2 My Settings
 
-= form_for current_user, url: update_theme_path, method: :post, html: { id: 'theme_settings', class: 'form-horizontal' } do |f|
-  .form-group
-    %label.col-md-2.control-label Theme
-    .col-md-10
-      = f.select :theme, [['Minimalist', nil]] + Slice::THEMES, {}, class: 'form-control'
+.row
+  .col-md-6
+    .panel.panel-info
+      .panel-heading
+        %span.glyphicon.glyphicon-cog
+        My Settings
+      .panel-body
+        = form_for current_user, url: update_theme_path, method: :post, html: { id: 'theme_settings', class: 'form-horizontal' } do |f|
+          .form-group
+            %label.col-md-2.control-label Theme
+            .col-md-10
+              = f.select :theme, [['Minimalist', nil]] + Slice::THEMES, {}, class: 'form-control'
 
-  - if false
-    .form-group
-      .col-md-10.col-md-offset-2
-        .checkbox
-          %label
-            = hidden_field_tag "user[beta_enabled]", 0
-            = check_box_tag "user[beta_enabled]", '1', current_user.beta_enabled?
-            Enable Beta Preview
+          - if false
+            .form-group
+              .col-md-10.col-md-offset-2
+                .checkbox
+                  %label
+                    = hidden_field_tag "user[beta_enabled]", 0
+                    = check_box_tag "user[beta_enabled]", '1', current_user.beta_enabled?
+                    Enable Beta Preview
 
-  .form-group
-    .col-md-10.col-md-offset-2
-      = link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "#theme_settings" }
+          .form-group
+            .col-md-10.col-md-offset-2
+              = link_to 'Save Settings', '#', class: 'btn btn-primary', data: { object: 'settings-save', target: '#theme_settings' }
+
+  .col-md-6
+    .panel.panel-info
+      .panel-heading
+        %span.glyphicon.glyphicon-lock
+        Change Password
+      .panel-body
+        = form_for current_user, url: change_password_path, method: :patch, html: { id: 'reset_password', class: 'form-vertical' } do |f|
+          - if current_user.errors.any?
+            .bs-callout.bs-callout-danger
+              %h4
+                = pluralize current_user.errors.count, 'error'
+                prohibited this password from being saved
+
+              %ul
+                - current_user.errors.full_messages.each do |msg|
+                  %li= msg
+
+          .form-group
+            = f.label :current_password, 'Current Password', class: 'control-label'
+            = f.password_field :current_password, class: 'form-control', autocomplete: 'off'
+          .form-group
+            = f.label :password, 'New Password', class: 'control-label'
+            = f.password_field :password, class: 'form-control', autocomplete: 'off'
+
+          .form-group
+            = f.label :password, 'Password Confirmation', class: 'control-label'
+            = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
+
+          .form-group
+            = link_to 'Update Password', '#', class: 'btn btn-primary', data: { object: 'settings-save', target: '#reset_password' }
+      .panel-footer
+        - if current_user.password_expires_in > 0
+          Your password will expire in
+          = pluralize current_user.password_expires_in, 'day'
+          on
+          = current_user.password_expires_on.strftime('%a, %B %-d, %Y.')
+        - else
+          Your password has expired.
 
 .page-header
   %h2 Email Notifications
