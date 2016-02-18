@@ -147,7 +147,7 @@ class ProjectsController < ApplicationController
     @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).unarchived.order("(favorite IS NULL or favorite = 'f') ASC, position, name").page(params[:page]).per( Project::PER_PAGE )
 
     @favorited_projects = @projects.where(project_favorites: { favorite: true })
-    @current_projects = @projects.where(project_favorites: { favorite: [false, nil] })
+    @current_projects = @projects.where(project_favorites: { favorite: [false, nil] }).reorder(:name)
 
     redirect_to @projects.first if current_user.all_viewable_and_site_projects.count == 1
   end

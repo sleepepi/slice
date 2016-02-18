@@ -7,7 +7,7 @@
   %div{ style: 'margin-bottom:20px' }
     %p.lead{ style: 'margin-bottom:5px' } Project Archives
     - @projects.each do |project|
-      = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true
+      = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true, sortable: false
 - else
   %p.lead
     You have 0 archived projects.

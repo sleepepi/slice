@@ -3,6 +3,8 @@
 ### Enhancements
 - **Adverse Event Changes**
   - Comments are no longer displayed on sheets attached to adverse events
+- **Dashboard Changes**
+  - Only favorited projects are now sortable on the dashboard, current projects are listed alphabetically
 - **Site Changes**
   - Subjects on a site are now deleted when the site is deleted
 - **Subject Changes**
