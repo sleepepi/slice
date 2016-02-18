@@ -3,6 +3,8 @@
 ### Enhancements
 - **Adverse Event Changes**
   - Comments are no longer displayed on sheets attached to adverse events
+- **Site Changes**
+  - Subjects on a site are now deleted when the site is deleted
 - **Subject Changes**
   - Searching for subjects no longer displays a 'v' for existing subjects
 

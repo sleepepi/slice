@@ -162,13 +162,14 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test 'should destroy site' do
-    assert_difference('Site.current.count', -1) do
-      delete :destroy, id: @site, project_id: @project
+    assert_difference('Subject.current.count', -2) do
+      assert_difference('Site.current.count', -1) do
+        delete :destroy, id: @site, project_id: @project
+      end
     end
 
     assert_not_nil assigns(:site)
     assert_not_nil assigns(:project)
-
     assert_redirected_to project_sites_path
   end
 
