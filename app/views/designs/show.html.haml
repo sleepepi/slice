@@ -17,11 +17,8 @@
         = link_to 'Copy Design', copy_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
       = link_to 'PDF', print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs'
       = link_to 'View Sheets', project_sheets_path(@project, design_id: @design.id), class: 'btn btn-default btn-xs'
-
       = link_to 'Report', report_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
       = link_to 'Overview', overview_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
-      - if @project.double_data_entry? && @design.sheets.double_data_entry_exists.count > 0
-        = link_to 'Master Verification', master_verification_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
 
     %dl.dl-horizontal
       - if @design.category

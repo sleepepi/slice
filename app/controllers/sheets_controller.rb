@@ -2,33 +2,24 @@
 
 class SheetsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [:index, :show, :print, :file, :verification_report]
-  before_action :set_editable_project_or_editable_site, only: [:edit, :transfer, :move_to_event, :double_data_entry, :transactions, :new, :create, :update, :destroy, :unlock]
-  before_action :redirect_without_project, only: [:index, :show, :print, :edit, :transfer, :move_to_event, :double_data_entry, :verification_report, :transactions, :new, :create, :update, :destroy, :unlock, :file]
+  before_action :set_viewable_project, only: [:index, :show, :print, :file]
+  before_action :set_editable_project_or_editable_site, only: [:edit, :transfer, :move_to_event, :transactions, :new, :create, :update, :destroy, :unlock]
+  before_action :redirect_without_project, only: [:index, :show, :print, :edit, :transfer, :move_to_event, :transactions, :new, :create, :update, :destroy, :unlock, :file]
   before_action :set_subject,              only: [:create]
   before_action :redirect_without_subject, only: [:create]
-  before_action :set_viewable_sheet, only: [:show, :print, :file, :verification_report]
-  before_action :set_editable_sheet, only: [:edit, :transfer, :move_to_event, :double_data_entry, :transactions, :update, :destroy, :unlock]
-  before_action :redirect_without_sheet, only: [:show, :print, :edit, :transfer, :move_to_event, :double_data_entry, :verification_report, :transactions, :update, :destroy, :unlock, :file]
-  before_action :redirect_with_locked_sheet, only: [:edit, :transfer, :move_to_event, :double_data_entry, :verification_report, :update, :destroy]
+  before_action :set_viewable_sheet, only: [:show, :print, :file]
+  before_action :set_editable_sheet, only: [:edit, :transfer, :move_to_event, :transactions, :update, :destroy, :unlock]
+  before_action :redirect_without_sheet, only: [:show, :print, :edit, :transfer, :move_to_event, :transactions, :update, :destroy, :unlock, :file]
+  before_action :redirect_with_locked_sheet, only: [:edit, :transfer, :move_to_event, :update, :destroy]
 
   # GET /sheets
   def index
     sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: :site).search(params[:search])
-
     @sheet_after = parse_date(params[:sheet_after])
     @sheet_before = parse_date(params[:sheet_before])
-
     sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
     sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
-
     sheet_scope = sheet_scope.where(locked: true) if params[:locked].to_s == '1'
-
-    # We don't want to include sheets that are used for double data entry and sheet verification.
-    sheet_scope = sheet_scope.original_entry
-    sheet_scope = sheet_scope.double_data_entry_exists if params[:double_data_entry] == 'with'
-    sheet_scope = sheet_scope.double_data_entry_does_not_exist if params[:double_data_entry] == 'without'
-
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
 
     %w(design site user).each do |filter|
@@ -87,12 +78,6 @@ class SheetsController < ApplicationController
 
   # GET /sheets/1/edit
   def edit
-  end
-
-  # GET /sheets/1/double_data_entry
-  def double_data_entry
-    redirect_to [@sheet.project, @sheet] if @sheet.verification_sheets.count > 0
-    @double_data_entry_sheet = current_user.sheets.new(@sheet.shared_verification_params)
   end
 
   def file
@@ -221,7 +206,7 @@ class SheetsController < ApplicationController
     params.require(:sheet).permit(
       :design_id, :variable_ids, :last_user_id, :last_edited_at,
       :locked, :first_locked_at, :first_locked_by_id,
-      :verifying_sheet_id, :subject_event_id, :adverse_event_id
+      :subject_event_id, :adverse_event_id
     )
   end
 

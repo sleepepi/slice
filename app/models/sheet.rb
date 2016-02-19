@@ -2,7 +2,7 @@
 
 class Sheet < ActiveRecord::Base
   # Concerns
-  include Deletable, Latexable, DoubleDataEntry, Siteable, Evaluatable
+  include Deletable, Latexable, Siteable, Evaluatable
 
   before_save :check_subject_event_subject_match
 
@@ -430,14 +430,6 @@ class Sheet < ActiveRecord::Base
     else
       '#999999' # '#6F6F6F'
     end
-  end
-
-  def get_response(variable, raw_format = :raw)
-    sheet_variable = sheet_variables.find_by_variable_id(variable.id)
-    unless sheet_variable
-      return (variable.variable_type == 'checkbox' ? [''] : '')
-    end
-    sheet_variable.get_response(raw_format)
   end
 
   # Who can view/access the design

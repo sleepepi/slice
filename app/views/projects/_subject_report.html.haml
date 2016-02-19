@@ -25,10 +25,10 @@
           %td
           %td Total
         - @designs.each do |design|
-          - count = design.sheets.original_entry.where(subject_id: @subjects.select(:id)).count
+          - count = design.sheets.where(subject_id: @subjects.select(:id)).count
           %td{ class: "#{'text-muted' if count == 0}" }
             = link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, design_id: design.id)
-        %td= link_to @designs.sum{|d| d.sheets.original_entry.where(subject_id: @subjects.select(:id)).count}, project_sheets_path(@project)
+        %td= link_to @designs.sum { |d| d.sheets.where(subject_id: @subjects.select(:id)).count }, project_sheets_path(@project)
   %tbody
     - @subjects.each do |subject|
       %tr
@@ -41,7 +41,7 @@
           %td.nowrap{ style: 'line-height:30px' }
             = link_to subject.subject_code, [subject.project, subject]
         - @designs.each do |design|
-          - count = design.sheets.original_entry.where(subject_id: subject.id).count
+          - count = design.sheets.where(subject_id: subject.id).count
           %td{ class: "#{'text-muted' if count == 0}", style: 'line-height:30px', data: { object: 'hover-show', target: "#subject_#{subject.id}_design_#{design.id}_add_link" } }
             - add_url = new_data_entry_project_subject_path(@project, subject, design)
             - show_url = project_sheets_path(@project, design_id: design.id, search: subject.subject_code)
@@ -53,7 +53,7 @@
               - else
                 = link_to count, show_url
               = link_to '+', add_url, class: 'btn btn-default btn-xs', id: "subject_#{subject.id}_design_#{design.id}_add_link", style: 'display:none' if @project.editable_by?(current_user)
-        - count = @designs.collect{ |d| d.sheets.original_entry.where(subject_id: subject.id).count }.sum
+        - count = @designs.collect{ |d| d.sheets.where(subject_id: subject.id).count }.sum
         %td{ class: "#{'text-muted' if count == 0}", style: 'line-height:30px' }
           = link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, search: subject.subject_code)
 

@@ -8,6 +8,8 @@
   - Only favorited projects are now sortable on the dashboard, current projects are listed alphabetically
 - **Domain Changes**
   - Domain options can be set to be only visible by a certain site editor to limit the number of options for dropdowns, radio inputs, and checkboxes
+- **Project Changes**
+  - Unused double data entry module has been removed
 - **Settings Changes**
   - Users can now change their password on the settings page
 - **Site Changes**

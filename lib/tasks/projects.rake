@@ -34,7 +34,6 @@ def copy_project(original)
     collect_email_on_surveys: original.collect_email_on_surveys,
     lockable: original.lockable,
     hide_values_on_pdfs: original.hide_values_on_pdfs,
-    double_data_entry: original.double_data_entry,
     randomizations_enabled: original.randomizations_enabled,
     adverse_events_enabled: original.adverse_events_enabled,
     blinding_enabled: original.blinding_enabled,

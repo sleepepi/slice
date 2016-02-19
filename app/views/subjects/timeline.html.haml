@@ -10,7 +10,7 @@
     %h2
       Timeline
 
-    - events = (@subject.blinded_sheets(current_user).original_entry.order(created_at: :desc) + @subject.blinded_comments(current_user).to_a + @subject.subject_events.to_a + @subject.randomizations.to_a).sort_by(&:event_at).reverse
+    - events = (@subject.blinded_sheets(current_user).order(created_at: :desc) + @subject.blinded_comments(current_user).to_a + @subject.subject_events.to_a + @subject.randomizations.to_a).sort_by(&:event_at).reverse
 
     - events.each_with_index do |event, index|
       - current_index = events.count - index + 1

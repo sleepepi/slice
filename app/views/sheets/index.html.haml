@@ -46,11 +46,6 @@
                 = check_box_tag 'locked', '1', params[:locked].to_s == '1', id: 'locked'
                 Filter Locked
 
-        - if @project.double_data_entry?
-          .form-group
-            = label :double_data_entry, 'Double Data Entry', class: 'control-label'
-            = select_tag 'double_data_entry', options_for_select([['---', nil], ['All With Double Data Entry', 'with'], ['All Without Double Data Entry', 'without']], params[:double_data_entry]), class: 'form-control'
-
         - (params[:f] || []).each do |filter|
           .form-group
             - if v = @project.variable_by_id(filter[:variable_id])

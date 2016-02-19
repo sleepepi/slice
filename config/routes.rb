@@ -87,8 +87,6 @@ Rails.application.routes.draw do
         get :file
         get :transactions
         post :unlock
-        get :double_data_entry
-        get :verification_report
         get :transfer
         patch :transfer
         patch :move_to_event
@@ -107,7 +105,6 @@ Rails.application.routes.draw do
         get :reimport
         patch :update_import
         get :overview
-        get :master_verification
       end
       collection do
         post :selection

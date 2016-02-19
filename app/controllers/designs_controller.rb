@@ -3,12 +3,12 @@
 # Designs can be created and updated by project editors and owners
 class DesignsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,                  only: [:print, :report_print, :report, :overview, :master_verification]
+  before_action :set_viewable_project,                  only: [:print, :report_print, :report, :overview]
   before_action :set_editable_project,                  only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create]
-  before_action :redirect_without_project,              only: [:index, :show, :master_verification, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create]
-  before_action :set_viewable_design,                   only: [:print, :report_print, :report, :overview, :master_verification]
+  before_action :redirect_without_project,              only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create]
+  before_action :set_viewable_design,                   only: [:print, :report_print, :report, :overview]
   before_action :set_editable_design,                   only: [:show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import]
-  before_action :redirect_without_design,               only: [:show, :master_verification, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :reimport, :update_import, :overview]
+  before_action :redirect_without_design,               only: [:show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :reimport, :update_import, :overview]
 
   # Concerns
   include Buildable
@@ -20,7 +20,7 @@ class DesignsController < ApplicationController
   # GET /designs/1/overview
   # GET /designs/1/overview.js
   def overview
-    @sheets = current_user.all_viewable_sheets.original_entry.where(project_id: @project.id, design_id: @design.id)
+    @sheets = current_user.all_viewable_sheets.where(project_id: @project.id, design_id: @design.id)
   end
 
   def json_import

@@ -15,25 +15,22 @@
       %td= coverage_helper(sheet)
       %td.nowrap
         - if sheet.locked?
-          %span.glyphicon.glyphicon-lock{ style: "color:#5bc0de" }
+          %span.glyphicon.glyphicon-lock{ style: 'color:#5bc0de' }
         = link_to sheet.design.name, [@project, sheet]
         - if sheet.comments.size > 0
           %span.glyphicon.glyphicon-comment
           = sheet.comments.size
-        - if sheet.verification_sheets.count > 0
-          %div
-            %span.label.label-warning Double Data
       %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
       %td= simple_time sheet.created_at
       %td= simple_time sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at
-      %td= link_to sheet.subject.site.name, [@project, sheet.subject.site] if sheet.subject and sheet.subject.site
+      %td= link_to sheet.subject.site.name, [@project, sheet.subject.site] if sheet.subject && sheet.subject.site
       %td
         - if sheet.user
           = link_to sheet.user.name, sheet.user
       %td
         - if sheet.locked?
-          %span.glyphicon.glyphicon-lock{ style: "color:#5bc0de" }
-          %span.glyphicon.glyphicon-leaf{ style: "color:#5cb85c" }
+          %span.glyphicon.glyphicon-lock{ style: 'color:#5bc0de' }
+          %span.glyphicon.glyphicon-leaf{ style: 'color:#5cb85c' }
 
 .center
   = paginate @sheets, theme: 'contour'

@@ -30,6 +30,3 @@
           %abbr{ rel: 'tooltip', data: { title: time.strftime("%-d %b %Y, %-l:%M %p"), container: 'body', placement: 'right' } }
             = time_ago_in_words time
             ago
-
-          - if sheet.double_data_entry?
-            %span.label.label-warning Double Data Entry

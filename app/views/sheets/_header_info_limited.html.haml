@@ -23,15 +23,15 @@
             = @sheet.subject_event.event.name
             \-
             = @sheet.subject_event.event_date_to_s
-      %td= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject and @sheet.subject.site
+      %td= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject && @sheet.subject.site
       %td
         - if @sheet.recently_created?
-          = link_to_if (@sheet.sheet_transactions.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.created_at), transactions_project_sheet_path(@sheet.project, @sheet)
+          = link_to_if (@sheet.sheet_transactions.size > 0 && current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.created_at), transactions_project_sheet_path(@sheet.project, @sheet)
           - if @sheet.user
             by
             = @sheet.user.name
         - else
-          = link_to_if (@sheet.sheet_transactions.size > 0 and current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.last_edited_at), transactions_project_sheet_path(@sheet.project, @sheet)
+          = link_to_if (@sheet.sheet_transactions.size > 0 && current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.last_edited_at), transactions_project_sheet_path(@sheet.project, @sheet)
           - if @sheet.last_user
             by
             = @sheet.last_user.name
@@ -50,32 +50,7 @@
               = link_to [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } do
                 %span.glyphicon.glyphicon-trash
                 Delete
-        - if @sheet.locked? and @project.lockable?
+        - if @sheet.locked? && @project.lockable?
           = link_to unlock_project_sheet_path(@sheet.project, @sheet), method: :post, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to unlock this Sheet #{@sheet.name}?" } do
             %span.glyphicon.glyphicon-lock
             Unlock
-
-- if @project.double_data_entry?
-  - if @sheet.not_double_data_entry?
-    = link_to 'New Double Data Entry', double_data_entry_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-warning btn-xs' if @sheet.verification_sheets.count == 0
-  - else
-    = link_to "Original Sheet ##{@sheet.verifying_sheet.id}", [@sheet.verifying_sheet.project, @sheet.verifying_sheet], class: 'btn btn-warning btn-xs'
-
-- if @project.double_data_entry? && @sheet.not_double_data_entry? && @sheet.verification_sheets.count > 0
-  .panel.panel-warning
-    .panel-heading
-      %h3.panel-title Double Data Entry
-    .panel-body
-      %ul.list-unstyled{ style: "line-height:34px" }
-        %li= link_to 'Verification Report', verification_report_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-xs btn-default'
-        - @sheet.verification_sheets.each do |sheet|
-          %li
-            = link_to "Verification Sheet ##{sheet.id}", [sheet.project, sheet], class: 'btn btn-warning btn-xs'
-            - if sheet.contributors.present?
-              by
-              = sheet.contributors
-
-- if @sheet.double_data_entry?
-  .progress{ style: 'margin-top: 20px' }
-    .progress-bar.progress-bar-warning.progress-bar-striped.active{ role: 'progressbar', style: 'width: 100%', aria: { valuenow: '100', valuemin: '0', valuemax: '100' } }
-      Double Data Entry

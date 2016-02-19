@@ -1,8 +1,3 @@
-- if @sheet.double_data_entry?
-  .progress
-    .progress-bar.progress-bar-warning.progress-bar-striped.active{ style: 'width: 100%', role: 'progressbar', aria: { valuenow: '100', valuemin: '0', valuemax: '100' } }
-      %span Double Data Entry
-
 = form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: 'multipart/form-data' }) do |f|
   - if @sheet.errors.any?
     .bs-callout.bs-callout-danger
@@ -10,18 +5,17 @@
         = pluralize @sheet.errors.count, 'error'
         prohibited this sheet from being saved
 
-  - # TODO DESIGN SHOULD ONLY BE NEEDED ON NEW SHEETS
+  - # TODO: DESIGN SHOULD ONLY BE NEEDED ON NEW SHEETS
   = f.hidden_field :design_id
-  = f.hidden_field :verifying_sheet_id if @sheet.double_data_entry?
 
-  -# TODO REMOVE PROJECT_ID IF NOT USED
+  -# TODO: REMOVE PROJECT_ID IF NOT USED
   = f.hidden_field :project_id
-  -# TODO REMOVE SUBJECT_ID IF NOT USED
+  -# TODO: REMOVE SUBJECT_ID IF NOT USED
   = hidden_field_tag :subject_id, @sheet.subject_id
 
   = f.hidden_field :adverse_event_id
 
-  - if @sheet.new_record? && @sheet.not_double_data_entry?
+  - if @sheet.new_record?
     - if @sheet.subject_event
       .form-group
         = label_tag :subject_event_id, 'Subject Event', class: 'col-md-3 control-label'
