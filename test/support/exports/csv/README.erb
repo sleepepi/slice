@@ -1,19 +1,19 @@
 Created
 =======
 
-    <%= Time.zone.now.strftime("%a, %b %d, %Y at %I:%M %p") %>
+    <%= Time.zone.now.strftime '%a, %b %d, %Y at %I:%M %p' %>
 
 
 Project
 =======
 
-    <%= self.project.name %>
+    <%= project.name %>
 
 
 Sheets Exported
 ===============
 
-    <%= self.sheet_ids_count %>
+    <%= sheet_ids_count %>
 
 
 Included Files
@@ -22,10 +22,10 @@ Included Files
 `-- CSV
     |-- README.txt
     |-- dataset_raw.csv
-    |-- dataset_grids_raw.csv
+<% if include_grids? %>    |-- dataset_grids_raw.csv
     |-- dataset_labeled.csv
     `-- dataset_grids_labeled.csv
-
+<% else %>    `-- dataset_labeled.csv<% end %>
 
 Variables and Grids
 ===================
@@ -33,10 +33,10 @@ Variables and Grids
     Slice collects data for all subjects on the sheet level.
     A single variable can only be collected once per sheet,
     per subject, unless the variable is included in a grid.
-    Since variables in grids can be collected more than once
+<% if include_grids? %>    Since variables in grids can be collected more than once
     for an individual sheet (such as medications), these data
     are stored in a separate CSV file with the name `_grids`
-    included in the file name.
+    included in the file name.<% end %>
 
 
 RAW and Labeled

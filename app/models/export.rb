@@ -41,8 +41,10 @@ class Export < ActiveRecord::Base
                     project.sheets
                   end
     sheet_scope = sheet_scope.where(missing: false)
-    variables_count = all_design_variables_using_design_ids(sheet_scope.select(:design_id)).count
-    update sheet_ids_count: sheet_scope.count, variables_count: variables_count
+    all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
+    variables_count = all_variables.count
+    grid_variables_count = all_variables.where(variable_type: 'grid').count
+    update sheet_ids_count: sheet_scope.count, variables_count: variables_count, grid_variables_count: grid_variables_count
     calculate_total_steps
     finalize_export!(generate_zip_file(sheet_scope))
   rescue => e
@@ -79,18 +81,18 @@ class Export < ActiveRecord::Base
   def generate_all_files(sheet_scope, filename)
     all_files = [] # If numerous files are created then they need to be zipped!
     all_files << generate_csv_sheets(sheet_scope, filename, false, 'csv') if include_csv_labeled?
-    all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if include_csv_labeled?
+    all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if include_csv_labeled? && include_grids?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'csv')  if include_csv_raw?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw? && include_grids?
     all_files << generate_readme('csv')                                   if include_csv_labeled? || include_csv_raw?
     all_files += generate_pdf(sheet_scope)                                if include_pdf?
     all_files += generate_data_dictionary(sheet_scope)                    if include_data_dictionary?
     all_files += generate_sas(sheet_scope, filename)                      if include_sas?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if include_sas?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas? && include_grids?
     all_files += generate_r(sheet_scope, filename)                        if include_r?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')    if include_r?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'r')     if include_r?
+    all_files << generate_csv_grids(sheet_scope, filename, true, 'r')     if include_r? && include_grids?
     all_files << generate_csv_adverse_events(filename)                    if include_adverse_events?
     all_files << generate_csv_adverse_events_master_list(filename)        if include_adverse_events?
 
@@ -151,6 +153,10 @@ class Export < ActiveRecord::Base
 
   def update_steps(amount)
     update_column :steps_completed, steps_completed + amount
+  end
+
+  def include_grids?
+    grid_variables_count > 0
   end
 
   def generate_pdf(sheet_scope)

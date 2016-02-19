@@ -38,6 +38,7 @@ graphics.off
   slice$<%= name %> <- factor(slice$<%= name %>, levels <- c(<%= options.collect{|o| "\"#{o[:value]}\""}.join(',') %>))
   levels(slice$<%= name %>) <- c(<%= options.collect{|o| "\"#{o[:name].gsub('"', '\"')}\""}.join(',') %>)<% end %>
 
+<% if include_grids? %>
 slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2, header = FALSE)
 # Apply labels to grid variables
   names(slice_grids)[1] <- "Subject"
@@ -63,3 +64,4 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2
 <% @export_formatter.grid_factors.each do |name, options| %>
   slice_grids$<%= name %> <- factor(slice_grids$<%= name %>, levels <- c(<%= options.collect{|o| "\"#{o[:value]}\""}.join(',') %>))
   levels(slice_grids$<%= name %>) <- c(<%= options.collect{|o| "\"#{o[:name].gsub('"', '\"')}\""}.join(',') %>)<% end %>
+<% end %>

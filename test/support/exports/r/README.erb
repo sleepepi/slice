@@ -1,19 +1,19 @@
 Created
 =======
 
-    <%= Time.zone.now.strftime("%a, %b %d, %Y at %I:%M %p") %>
+    <%= Time.zone.now.strftime '%a, %b %d, %Y at %I:%M %p' %>
 
 
 Project
 =======
 
-    <%= self.project.name %>
+    <%= project.name %>
 
 
 Sheets Exported
 ===============
 
-    <%= self.sheet_ids_count %>
+    <%= sheet_ids_count %>
 
 
 Included Files
@@ -22,8 +22,8 @@ Included Files
 `-- R
     |-- README.txt
     |-- dataset_raw.csv
-    |-- dataset_grids_raw.csv
-    `-- dataset_r.r
+<% if include_grids? %>    |-- dataset_grids_raw.csv
+    `-- dataset_r.r<% else %>    `-- dataset_r.r<% end %>
 
 
 R IMPORT FILES

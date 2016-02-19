@@ -5,4 +5,4 @@
 %let b=%sysget(SAS_EXECFILENAME);
 
 %let path_file= %sysfunc(tranwrd(&a,&b,<%= @export_formatter.filename %>_raw));
-%let path_file_grids= %sysfunc(tranwrd(&a,&b,<%= @export_formatter.filename %>_grids_raw));
+<% if include_grids? %>%let path_file_grids= %sysfunc(tranwrd(&a,&b,<%= @export_formatter.filename %>_grids_raw));<% end %>
