@@ -16,6 +16,7 @@
   - Subjects on a site are now deleted when the site is deleted
 - **Subject Changes**
   - Searching for subjects no longer displays a 'v' for existing subjects
+  - Sheets on events can now be marked as missing
 
 ### Bug Fix
 - Fixed a bug that prevented email settings from being saved

@@ -30,8 +30,8 @@
           %li= link_to '+ New Event', choose_event_project_subject_path(@project, @subject), class: "#{'active' if new_event_highlighted}"
   %li
     = link_to sheets_project_subject_path(@project, @subject), class: "#{'active' if sheets_highlighted}" do
-      .emphasis= current_user.all_viewable_sheets.where(subject_id: @subject.id).count
-      = 'Sheet'.pluralize(current_user.all_viewable_sheets.where(subject_id: @subject.id).count)
+      .emphasis= @subject.blinded_sheets(current_user).count
+      = 'Sheet'.pluralize(@subject.blinded_sheets(current_user).count)
     - if @subject.editable_by? current_user
       %ul
         %li= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "#{'active' if new_sheet_highlighted}"

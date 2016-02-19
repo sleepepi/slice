@@ -41,6 +41,14 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to data_entry_project_subject_path(assigns(:project), assigns(:subject))
   end
 
+  test 'should set sheet as missing on subject event as site editor' do
+    login(users(:site_one_editor))
+    assert_difference('Sheet.current.where(missing: true).count', 1) do
+      post :set_sheet_as_missing, id: @subject, project_id: @project, design_id: designs(:all_variable_types), subject_event_id: subject_events(:one)
+    end
+    assert_redirected_to event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:sheet).subject_event.event, subject_event_id: assigns(:sheet).subject_event, event_date: assigns(:sheet).subject_event.event_date_to_param)
+  end
+
   test 'should get search as project editor' do
     get :search, project_id: @project, q: 'Code01'
     subjects_json = JSON.parse(response.body)

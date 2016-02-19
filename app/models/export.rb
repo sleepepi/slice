@@ -40,6 +40,7 @@ class Export < ActiveRecord::Base
                   else
                     project.sheets
                   end
+    sheet_scope = sheet_scope.where(missing: false)
     variables_count = all_design_variables_using_design_ids(sheet_scope.select(:design_id)).count
     update sheet_ids_count: sheet_scope.count, variables_count: variables_count
     calculate_total_steps

@@ -20,7 +20,7 @@ class SheetsController < ApplicationController
     sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
     sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
     sheet_scope = sheet_scope.where(locked: true) if params[:locked].to_s == '1'
-    sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f])
+    sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f]).where(missing: false)
 
     %w(design site user).each do |filter|
       sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
@@ -105,7 +105,7 @@ class SheetsController < ApplicationController
     end
   end
 
-  # PUT /sheets/1
+  # PATCH /sheets/1
   def update
     if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_update')
       redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully updated.'
@@ -206,7 +206,7 @@ class SheetsController < ApplicationController
     params.require(:sheet).permit(
       :design_id, :variable_ids, :last_user_id, :last_edited_at,
       :locked, :first_locked_at, :first_locked_by_id,
-      :subject_event_id, :adverse_event_id
+      :subject_event_id, :adverse_event_id, :missing
     )
   end
 

@@ -20,7 +20,7 @@ class DesignsController < ApplicationController
   # GET /designs/1/overview
   # GET /designs/1/overview.js
   def overview
-    @sheets = current_user.all_viewable_sheets.where(project_id: @project.id, design_id: @design.id)
+    @sheets = current_user.all_viewable_sheets.where(project_id: @project.id, design_id: @design.id).where(missing: false)
   end
 
   def json_import

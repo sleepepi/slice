@@ -20,7 +20,7 @@
     %table.table.table-striped{ style: 'table-layout:fixed; margin-bottom:0' }
       %col{ width: '60px' }
       %col
-      %col{ width: '120px' }
+      %col{ width: '220px' }
       - subject_event.event.event_designs.includes(:design).each do |event_design|
         - design = event_design.design
         - sheets = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id)
@@ -28,16 +28,22 @@
           - sheets.each do |sheet|
             %tr{ class: "#{'warning' if sheets.count > 1}"}
               %td
-                = coverage_helper(sheet)
+                - if sheet.missing?
+                  %span.label.label-default{ rel: 'tooltip', title: 'Marked as Missing', data: { container: 'body', placement: 'right' } } -
+                - else
+                  = coverage_helper(sheet)
               %td
-                = link_to sheet.name, project_sheet_path(@project, sheet)
+                = link_to_if !sheet.missing?, sheet.name, project_sheet_path(@project, sheet)
                 - if event_design.handoff_enabled?
                   %span.label.label-success Handoff
               %td.text-right
-                - if sheet.comments.count > 0
-                  = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
-                    = sheet.comments.count
-                    %span.glyphicon.glyphicon-comment
+                - if sheet.missing?
+                  = link_to 'Set as Not Missing', project_sheet_path(@project, sheet, sheet: { missing: false }), method: :patch, class: 'btn btn-xs btn-default'
+                - else
+                  - if sheet.comments.count > 0
+                    = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
+                      = sheet.comments.count
+                      %span.glyphicon.glyphicon-comment
                 - if sheets.count > 1
                   %span.glyphicon.glyphicon-warning-sign.text-warning{ rel: 'tooltip', title: 'Duplicate Entry', data: { placement: 'left', container: 'body' } }
         - else
@@ -49,7 +55,8 @@
                 %span.label.label-success Handoff
             %td
               - if @subject.editable_by? current_user
-                = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs btn-block'
+                = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs'
+                = link_to 'Set as Missing', set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, class: 'btn btn-xs btn-default'
     - non_design_sheets = subject_event.sheets.where.not(design_id: subject_event.event.designs.select(:id))
     - if non_design_sheets && non_design_sheets.count > 0
       %div{ style: 'margin-top: 20px' }

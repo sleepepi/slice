@@ -113,6 +113,7 @@ module Buildable
 
     sheet_scope = current_user.all_viewable_sheets
     sheet_scope = sheet_scope.where(design_id: @design ? @design.id : @project.designs.pluck(:id))
+    sheet_scope = sheet_scope.where(missing: false)
 
     # Should be handled elsewhere...
     # sheet_scope = sheet_scope.sheet_after_variable_with_blank(@column_variable, @sheet_after) unless @sheet_after.blank?

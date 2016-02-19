@@ -73,7 +73,7 @@ class Subject < ActiveRecord::Base
   end
 
   def blinded_sheets(current_user)
-    current_user.all_viewable_sheets.where(subject_id: id)
+    current_user.all_viewable_sheets.where(subject_id: id).where(missing: false)
   end
 
   def validate_subject_format
