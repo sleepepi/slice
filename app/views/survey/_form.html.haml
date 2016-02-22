@@ -8,7 +8,7 @@
 - else
   - submit_url = edit_survey_path(@design.slug, @sheet.authentication_token)
   - submit_method = :patch
-  - submit_button = 'Resubmit Survey'
+  - submit_button = 'Submit Survey'
 
 - form_name = "survey_#{@design.id}_form"
 = form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |f|

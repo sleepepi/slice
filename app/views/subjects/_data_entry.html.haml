@@ -1,9 +1,16 @@
+- designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
+
 %h2
   Data Entry
 
-%p.lead Which design would you like to add?
+%p.lead
+  Which design would you like to add?
 
-- designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
+  - if designs.where(publicly_available: true).count > 0
+    %span.text-muted
+      You can also generate a link to a
+      = succeed '.' do
+        = link_to 'fillable sheet', send_url_project_subject_path(@project, @subject)
 
 - if designs.count == 0
   .center

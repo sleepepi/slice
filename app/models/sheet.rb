@@ -441,6 +441,13 @@ class Sheet < ActiveRecord::Base
     end
   end
 
+  def set_token
+    return if authentication_token.present?
+    update authentication_token: SecureRandom.hex(12)
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
+    retry
+  end
+
   protected
 
   def self.latex_safe(mystring)

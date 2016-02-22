@@ -3,13 +3,13 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [:index, :show, :print, :file]
-  before_action :set_editable_project_or_editable_site, only: [:edit, :transfer, :move_to_event, :transactions, :new, :create, :update, :destroy, :unlock]
-  before_action :redirect_without_project, only: [:index, :show, :print, :edit, :transfer, :move_to_event, :transactions, :new, :create, :update, :destroy, :unlock, :file]
+  before_action :set_editable_project_or_editable_site, only: [:edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :new, :create, :update, :destroy, :unlock]
+  before_action :redirect_without_project, only: [:index, :show, :print, :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :new, :create, :update, :destroy, :unlock, :file]
   before_action :set_subject,              only: [:create]
   before_action :redirect_without_subject, only: [:create]
   before_action :set_viewable_sheet, only: [:show, :print, :file]
-  before_action :set_editable_sheet, only: [:edit, :transfer, :move_to_event, :transactions, :update, :destroy, :unlock]
-  before_action :redirect_without_sheet, only: [:show, :print, :edit, :transfer, :move_to_event, :transactions, :update, :destroy, :unlock, :file]
+  before_action :set_editable_sheet, only: [:edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :update, :destroy, :unlock]
+  before_action :redirect_without_sheet, only: [:show, :print, :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :update, :destroy, :unlock, :file]
   before_action :redirect_with_locked_sheet, only: [:edit, :transfer, :move_to_event, :update, :destroy]
 
   # GET /sheets
@@ -140,6 +140,11 @@ class SheetsController < ApplicationController
     else
       render nothing: true
     end
+  end
+
+  def remove_shareable_link
+    @sheet.update authentication_token: nil
+    redirect_to [@project, @sheet]
   end
 
   # DELETE /sheets/1

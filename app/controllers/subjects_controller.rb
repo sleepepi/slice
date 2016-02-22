@@ -3,11 +3,11 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,                  only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event, :report, :search, :choose_site]
-  before_action :set_editable_project_or_editable_site, only: [:new, :edit, :create, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :set_sheet_as_missing, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :redirect_without_project,              only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event, :report, :search, :choose_site, :new, :edit, :create, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :set_sheet_as_missing, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :set_editable_project_or_editable_site, only: [:new, :edit, :create, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :redirect_without_project,              only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event, :report, :search, :choose_site, :new, :edit, :create, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
   before_action :set_viewable_subject,                  only: [:show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event]
-  before_action :set_editable_subject,                  only: [:edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :set_sheet_as_missing, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :set_design,                            only: [:new_data_entry, :set_sheet_as_missing]
+  before_action :set_editable_subject,                  only: [:edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
+  before_action :set_design,                            only: [:new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable]
 
   def data_entry
   end
@@ -23,6 +23,16 @@ class SubjectsController < ApplicationController
     @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id], missing: true)
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
     redirect_to event_project_subject_path(@project, @subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)
+  end
+
+  def send_url
+  end
+
+  def set_sheet_as_shareable
+    @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id])
+    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
+    @sheet.set_token
+    redirect_to [@project, @sheet]
   end
 
   def choose_event

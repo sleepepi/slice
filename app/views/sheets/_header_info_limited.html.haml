@@ -1,3 +1,9 @@
+- if @sheet.authentication_token.present?
+  %strong Share via this Link
+  %code= "#{ENV['website_url']}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}"
+
+  = link_to 'Remove Shareable Link', remove_shareable_link_project_sheet_path(@project, @sheet), method: :post, class: 'btn btn-xs btn-default'
+
 %table.table.table-striped
   %thead
     %tr

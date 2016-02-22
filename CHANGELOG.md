@@ -14,6 +14,9 @@
   - Unused double data entry module has been removed
 - **Settings Changes**
   - Users can now change their password on the settings page
+- **Sheet Changes**
+  - Sheets can now be sent to subjects via a shareable link
+    - Only design marked as publicly available can be shared in this manner
 - **Site Changes**
   - Subjects on a site are now deleted when the site is deleted
 - **Subject Changes**
