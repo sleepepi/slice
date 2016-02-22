@@ -76,6 +76,10 @@ class Subject < ActiveRecord::Base
     current_user.all_viewable_sheets.where(subject_id: id).where(missing: false)
   end
 
+  def blinded_subject_events(current_user)
+    subject_events.where(event_id: current_user.all_viewable_events.select(:id))
+  end
+
   def validate_subject_format
     if user && site && site.subject_regex.present? && site.subject_regex !~ subject_code
       errors[:base] << "#{project.subject_code_name_full} must be in the following format: #{site.regex_string}"

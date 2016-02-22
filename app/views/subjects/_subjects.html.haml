@@ -26,7 +26,7 @@
         %td= link_to subject.site.name, [@project, subject.site]
       %td
         - sheet = subject.blinded_sheets(current_user).where.not(last_edited_at: nil).order(last_edited_at: :desc).first
-        - subject_event = subject.subject_events.order(updated_at: :desc).first
+        - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
         - if sheet && subject_event
           - if sheet.last_edited_at > subject_event.updated_at
             = link_to sheet.name, [@project, sheet]

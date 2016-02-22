@@ -40,7 +40,7 @@ class SubjectsController < ApplicationController
 
   def event
     @event = @project.events.find_by_param(params[:event_id])
-    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    @subject_event = @subject.blinded_subject_events(current_user).where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
     redirect_to [@project, @subject] unless @subject_event
   end
 

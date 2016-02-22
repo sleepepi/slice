@@ -7,7 +7,7 @@ class Sheet < ActiveRecord::Base
   before_save :check_subject_event_subject_match
 
   # Named Scopes
-  scope :search, -> (arg) { where('subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%')).references(:designs) }
+  scope :search, -> (arg) { where('sheets.subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%')).references(:designs) }
   scope :sheet_before, -> (*args) { where('sheets.created_at < ?', (args.first + 1.day).at_midnight) }
   scope :sheet_after, -> (*args) { where('sheets.created_at >= ?', args.first.at_midnight) }
   scope :with_user, -> (*args) { where('sheets.user_id in (?)', args.first) }

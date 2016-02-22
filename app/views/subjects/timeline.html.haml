@@ -10,7 +10,7 @@
     %h2
       Timeline
 
-    - events = (@subject.blinded_sheets(current_user).order(created_at: :desc) + @subject.blinded_comments(current_user).to_a + @subject.subject_events.to_a + @subject.randomizations.to_a).sort_by(&:event_at).reverse
+    - events = (@subject.blinded_sheets(current_user).order(created_at: :desc) + @subject.blinded_comments(current_user).to_a + @subject.blinded_subject_events(current_user).to_a + @subject.randomizations.to_a).sort_by(&:event_at).reverse
 
     - events.each_with_index do |event, index|
       - current_index = events.count - index + 1
@@ -52,7 +52,7 @@
               %abbr{ rel: 'tooltip', data: { title: subject_event.created_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
                 = time_ago_in_words(subject_event.created_at)
                 ago
-      - elsif event.class == Randomization
+      - elsif event.class == Randomization && @project.unblinded?(current_user)
         - randomization = event
         %a.anchor-top{ name: "c#{current_index}" }
         .comment-outer

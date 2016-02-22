@@ -8,6 +8,8 @@
   - Only favorited projects are now sortable on the dashboard, current projects are listed alphabetically
 - **Domain Changes**
   - Domain options can be set to be only visible by a certain site editor to limit the number of options for dropdowns, radio inputs, and checkboxes
+- **Event Changes**
+  - Events can now be set to be only visible by unblinded project and site members
 - **Export Changes**
   - Grids are no longer exported if the project does not include grid variables
 - **Project Changes**

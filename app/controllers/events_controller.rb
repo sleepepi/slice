@@ -14,7 +14,7 @@ class EventsController < ApplicationController
   # GET /events
   def index
     @order = scrub_order(Event, params[:order], 'events.position')
-    @events = @project.events.search(params[:search]).order(@order).page(params[:page]).per(40)
+    @events = @project.events.blinding_scope(current_user).search(params[:search]).order(@order).page(params[:page]).per(40)
   end
 
   # GET /events/1
@@ -58,7 +58,7 @@ class EventsController < ApplicationController
   private
 
   def set_editable_event
-    @event = @project.events.find_by_param(params[:id])
+    @event = @project.events.blinding_scope(current_user).find_by_param(params[:id])
   end
 
   def redirect_without_event
@@ -68,7 +68,7 @@ class EventsController < ApplicationController
   def event_params
     params.require(:event).permit(
       :name, :slug, :description, :position, :scheduled, :archived,
-      { design_hashes: [:design_id, :handoff_enabled] }
+      :only_unblinded, design_hashes: [:design_id, :handoff_enabled]
     )
   end
 end

@@ -44,5 +44,5 @@
           %col
           %col
           %col{ width: '120px' }
-          - categorized_sheets.includes(:subject_event).order("subject_events.event_date").each do |sheet|
+          - categorized_sheets.select('sheets.*, subject_events.event_date').order('subject_events.event_date').each do |sheet|
             = render 'subjects/sheet', sheet: sheet
