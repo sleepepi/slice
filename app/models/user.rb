@@ -148,7 +148,7 @@ class User < ActiveRecord::Base
          .with_site(all_editable_sites.select(:id))
          .where(design_id: all_viewable_designs.select(:id))
          .joins('LEFT OUTER JOIN subject_events ON subject_events.id = sheets.subject_event_id').distinct
-         .where('sheets.subject_event_id IS NULL or (sheets.subject_event_id = subject_events.id and (subject_events.event_id IN (?) or subject_events.event_id IS NULL))', all_viewable_events.select(:id))
+         .where('sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)', all_viewable_events.select(:id))
   end
 
   # Project Editors and Viewers and Site Members can view sheets
@@ -157,7 +157,7 @@ class User < ActiveRecord::Base
          .with_site(all_viewable_sites.select(:id))
          .where(design_id: all_viewable_designs.select(:id))
          .joins('LEFT OUTER JOIN subject_events ON subject_events.id = sheets.subject_event_id').distinct
-         .where('sheets.subject_event_id IS NULL or (sheets.subject_event_id = subject_events.id and (subject_events.event_id IN (?) or subject_events.event_id IS NULL))', all_viewable_events.select(:id))
+         .where('sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)', all_viewable_events.select(:id))
   end
 
   # Only Project Editors or Project Owner can modify randomization
