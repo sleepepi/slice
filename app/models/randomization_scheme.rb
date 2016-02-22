@@ -78,7 +78,11 @@ class RandomizationScheme < ActiveRecord::Base
   end
 
   def randomized_subjects?
-    randomizations.where.not(subject_id: nil).count > 0
+    active_randomizations.count > 0
+  end
+
+  def active_randomizations
+    randomizations.where.not(subject_id: nil)
   end
 
   def algorithm_name

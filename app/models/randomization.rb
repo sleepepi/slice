@@ -37,6 +37,14 @@ class Randomization < ActiveRecord::Base
       .distinct
   end
 
+  def self.year(year)
+    where 'extract(year from randomizations.randomized_at) = ?', year
+  end
+
+  def self.month(month)
+    where 'extract(month from randomizations.randomized_at) = ?', month
+  end
+
   # Model Methods
 
   def editable_by?(current_user)

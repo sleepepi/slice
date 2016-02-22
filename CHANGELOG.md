@@ -14,6 +14,8 @@
   - Grids are no longer exported if the project does not include grid variables
 - **Project Changes**
   - Unused double data entry module has been removed
+  - General statistics have been added to the project's reports index
+  - Recruitment graph for cumulative randomizations has been added to the project's report index
 - **Settings Changes**
   - Users can now change their password on the settings page
 - **Sheet Changes**

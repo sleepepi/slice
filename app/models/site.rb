@@ -46,6 +46,11 @@ class Site < ActiveRecord::Base
     Regexp.new("\\A#{regex_string}\\Z") if regex_string.present?
   end
 
+  def short_name
+    s = name.gsub(/(\b\w)([\w']*)/) { $1 }
+    s.to_s.gsub(/\s/, '')
+  end
+
   def destroy
     subjects.destroy_all
     super

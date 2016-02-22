@@ -9,6 +9,91 @@
     %h2.underline-header
       Reports
 
+    .row
+      .col-sm-6.col-md-4
+        .jumbotron.center
+          %h4.text-muted Number of Subjects
+          %h1= number_with_delimiter @project.subjects.count
+      .col-md-4.hidden-xs.hidden-sm
+      .col-sm-6.col-md-4
+        .jumbotron.center
+          %h4.text-muted Subjects Randomized
+          %h1= number_with_delimiter @project.subjects.count / 3
+
+    - randomization_schemes = @project.randomization_schemes.where(published: true)
+
+    - if randomization_schemes.count > 0
+      Number of Subjects Randomized
+      - if randomization_schemes.count == 1
+        = @project.randomizations.where(randomization_scheme_id: randomization_schemes.first.id).count
+      - else
+        - randomization_schemes.each do |scheme|
+          = scheme.name
+          = @project.randomizations.where(randomization_scheme_id: scheme.id).count
+
+
+    - series = []
+    - scheme = randomization_schemes.first
+    - first_randomization = scheme.active_randomizations.where.not(randomized_at: nil).order(:randomized_at).first
+    - last_randomization = scheme.active_randomizations.where.not(randomized_at: nil).order(:randomized_at).last
+    - if first_randomization && last_randomization
+      - first_month = first_randomization.randomized_at.beginning_of_month
+      - last_month = last_randomization.randomized_at.beginning_of_month
+      - if first_month - last_month < 5.months
+        - last_month = first_month + 5.months
+
+      - months = []
+      - current_month = first_month
+      - while current_month <= last_month
+        - months << current_month.strftime("%b '%y")
+        - current_month = current_month + 1.month
+
+      - sites = @project.sites
+
+      - overall_count = []
+      - overall_expected = []
+      - colors =['#7cb5ec', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+
+      - sites.each_with_index do |site, index|
+        - current_month = first_month
+        - expected = if rand(2) == 0
+          - '5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0'
+        - else
+          - '2,2,4,0'
+        - expected_array = expected.split(',').reject(&:blank?).collect(&:to_i)
+
+        - site_counts = []
+        - site_expected = []
+        - current_index = 0
+        - last_expected_number = 0
+        - total_expected_number = 0
+        - total_site_count = 0
+        - while current_month <= last_month
+          - year = current_month.year
+          - month = current_month.month
+          - last_expected_number = expected_array[current_index] if expected_array[current_index]
+          - total_expected_number += last_expected_number
+          - site_count = scheme.active_randomizations.with_site(site.id).year(year).month(month).count
+          - total_site_count += site_count
+          - site_counts << total_site_count
+          - overall_count[current_index] ||= 0
+          - overall_count[current_index] += total_site_count
+          - site_expected << total_expected_number
+          - overall_expected[current_index] ||= 0
+          - overall_expected[current_index] += total_expected_number
+          - current_index += 1
+          - current_month = current_month + 1.month
+        - series << { name: site.short_name, data: site_counts }
+        - series << { name: "#{site.short_name} Expected", data: site_expected, type: 'line', lineColor: colors[index % colors.size] }
+        %br
+      - series << { name: 'Overall', data: overall_count }
+      - series << { name: 'Overall Expected', data: overall_expected, type: 'line' }
+
+      %div{ data: { object: 'draw-chart', series: series.to_json, categories: months.to_json, title: 'Cumulative Recruitment', subtitle: 'By Site', yaxis: '# Randomized' } }
+    - else
+      Subject randomization has not started.
+    %hr
+
     = render 'projects/show/reports'
 
 = render 'projects/mobile_menu'
