@@ -23,6 +23,7 @@
 ### Bug Fix
 - Fixed a bug that prevented email settings from being saved
 - Fixed a bug that inserted placeholder text into textarea elements when using Internet Explorer in combination with Turbolinks
+- Fixed a bug that caused scroll bars to jump erratically in dropdown variables
 
 ### Refactoring
 - Variable valuables have been replaced by variable formatters

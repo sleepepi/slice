@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gem 'rails',                '4.2.5.1'
@@ -24,14 +26,14 @@ gem 'sass-rails',           '~> 5.0'
 gem 'uglifier',             '>= 1.3.0'
 
 gem 'jbuilder',             '~> 2.0'
-gem 'jquery-rails',         '~> 4.1.0'
+gem 'jquery-rails',         '4.1.0' # 'TODO: Change back to ~> 4.1.0'
 gem 'turbolinks'
 
 # Testing
 group :test do
   # Pretty printed test output
   gem 'minitest'
-  gem 'simplecov',          '~> 0.11.1',           require: false
+  gem 'simplecov',          '~> 0.11.1', require: false
 end
 
 group :development do
