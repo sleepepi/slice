@@ -26,7 +26,7 @@
         - if last_randomization
           = (Time.zone.today - last_randomization.randomized_at.to_date).floor
         - else
-          %span.text-muted &infin;
+          %span.text-muted -
     - @project.sites.each do |site|
       - site_randomizations = scheme.active_randomizations.with_site(site.id).where.not(randomized_at: nil).order(:randomized_at)
       - first = site_randomizations.first
