@@ -33,6 +33,8 @@
 - **Subject Changes**
   - Searching for subjects no longer displays a 'v' for existing subjects
   - Sheets on events can now be marked as missing
+- **Gem Changes**
+  - Updated rubyzip to 1.2.0
 
 ### Bug Fix
 - Fixed a bug that prevented email settings from being saved
