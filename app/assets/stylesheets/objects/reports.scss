@@ -24,3 +24,15 @@
 .shadow-inset-right {
   box-shadow: inset -10px 0 10px -10px $report-shadow-color;
 }
+
+
+.report-number {
+  font-weight: 300;
+  font-size: 41px;
+}
+
+@media screen and (min-width: $screen-lg-min) {
+  .report-number {
+    font-size: 72px;
+  }
+}

@@ -1,0 +1,57 @@
+- series = []
+- series_expected = []
+- first_randomization = scheme.active_randomizations.where.not(randomized_at: nil).order(:randomized_at).first
+- last_randomization = scheme.active_randomizations.where.not(randomized_at: nil).order(:randomized_at).last
+- if first_randomization && last_randomization
+  - first_month = first_randomization.randomized_at.beginning_of_month
+  - last_month = last_randomization.randomized_at.beginning_of_month
+  - if (last_month - first_month).days < 5.months
+    - last_month = first_month + 5.months
+
+  - months = []
+  - current_month = first_month
+  - while current_month <= last_month
+    - months << current_month.strftime("%b '%y")
+    - current_month = current_month + 1.month
+
+  - sites = @project.sites
+
+  - overall_count = []
+  - overall_expected = []
+
+  - colors = %w(#7cb5ec #90ed7d #f7a35c #8085e9 #f15c80 #e4d354 #2b908f #f45b5b #91e8e1)
+  - light_colors = %w(#bfdbf6 #c9f6c0 #fbcca5 #c1c4f4 #f7a2b7 #eee496 #41c6c5 #f9a3a3 #d0f5f2)
+
+  - sites.each_with_index do |site, index|
+    - current_month = first_month
+    - expected_array = scheme.expected_recruitment_by_month(site)
+    - site_counts = []
+    - site_expected = []
+    - current_index = 0
+    - last_expected_number = 0
+    - total_expected_number = 0
+    - total_site_count = 0
+    - while current_month <= last_month
+      - year = current_month.year
+      - month = current_month.month
+      - if expected_array.present?
+        - last_expected_number = expected_array[current_index] if expected_array[current_index]
+        - total_expected_number += last_expected_number
+      - site_count = scheme.active_randomizations.with_site(site.id).year(year).month(month).count
+      - total_site_count += site_count
+      - site_counts << total_site_count
+      - overall_count[current_index] ||= 0
+      - overall_count[current_index] += total_site_count
+      - site_expected << total_expected_number
+      - overall_expected[current_index] ||= 0
+      - overall_expected[current_index] += total_expected_number
+      - current_index += 1
+      - current_month = current_month + 1.month
+    - series << { name: site.short_name, data: site_counts }
+    - if expected_array.present?
+      - series_expected << { name: "#{site.short_name} Expected", data: site_expected, type: 'line', color: light_colors[index % colors.size], marker: { fillColor: colors[index % colors.size] }, visible: false }
+  - series << { name: 'Overall', data: overall_count }
+  - series_expected << { name: 'Overall Expected', data: overall_expected, type: 'line', color: light_colors[sites.count % colors.size], marker: { fillColor: colors[sites.count % colors.size] }, visible: false }
+
+  - series += series_expected
+  %div{ style: 'margin-bottom: 20px', data: { object: 'draw-chart', series: series.to_json, categories: months.to_json, title: 'Cumulative Recruitment', yaxis: '# Randomized' } }

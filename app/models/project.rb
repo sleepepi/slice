@@ -48,7 +48,7 @@ class Project < ActiveRecord::Base
   has_many :variables, -> { where deleted: false }
   has_many :sections
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
-  has_many :sites, -> { where deleted: false }
+  has_many :sites, -> { where(deleted: false).order(:name) }
   has_many :subjects, -> { where deleted: false }
 
   has_many :exports, -> { where deleted: false }

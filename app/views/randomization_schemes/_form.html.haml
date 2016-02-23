@@ -27,6 +27,34 @@
       = f.text_field :randomization_goal, class: 'form-control'
 
   .form-group
+    %label.col-md-2.control-label Expected Randomizations By Month
+    .col-md-10
+      - @project.sites.each do |site|
+        = site.name
+        - expected_randomization = @randomization_scheme.expected_randomizations.find_by(site_id: site.id)
+        - if expected_randomization
+          - value = expected_randomization.expected
+        - else
+          - if params[:randomization_scheme] && params[:randomization_scheme][:expected_randomizations_hashes]
+            - hash = params[:randomization_scheme][:expected_randomizations_hashes].find { |h| h[:site_id].to_s == site.id.to_s }
+            - value = (hash ? hash[:expected] : '')
+          - else
+            - value = ''
+        = hidden_field_tag "randomization_scheme[expected_randomizations_hashes][][site_id]", site.id
+        = text_field_tag "randomization_scheme[expected_randomizations_hashes][][expected]", value, autocomplete: 'off', class: 'form-control'
+      %div.alert.alert-info
+        %p
+          %strong Expected Recruitment Examples:
+        %p
+          %code 1,1,2
+          1 randomization first month, 1 randomization second month, and 2 randomizations third month and beyond.
+        %p
+          %code 1,2,0
+          1 randomization first month, 2 randomizations second month, and 0 randomizations third month and beyond.
+        %p
+          %code 0,1,2
+          0 randomizations first month, 1 randomization second month, and 2 randomizations third month and beyond.
+  .form-group
     .col-md-10.col-md-offset-2
       - if @randomization_scheme.randomized_subjects?
         %div.alert.alert-info

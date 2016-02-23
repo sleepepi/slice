@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  randomization_scheme: one
+  site: one
+  expected: 1
+
+two:
+  randomization_scheme: one
+  site: three
+  expected: "0,1"

@@ -219,12 +219,14 @@ class RandomizationSchemesController < ApplicationController
     if @randomization_scheme && @randomization_scheme.randomized_subjects?
       params.require(:randomization_scheme).permit(
         :name, :description, :randomization_goal,
-        { task_hashes: [:description, :offset, :offset_units, :window, :window_units] }
+        { task_hashes: [:description, :offset, :offset_units, :window, :window_units] },
+        { expected_randomizations_hashes: [:site_id, :expected] }
       )
     else
       params.require(:randomization_scheme).permit(
         :name, :description, :randomization_goal,
         { task_hashes: [:description, :offset, :offset_units, :window, :window_units] },
+        { expected_randomizations_hashes: [:site_id, :expected] },
         :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)
     end
   end

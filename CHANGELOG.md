@@ -16,6 +16,9 @@
   - Unused double data entry module has been removed
   - General statistics have been added to the project's reports index
   - Recruitment graph for cumulative randomizations has been added to the project's report index
+- **Randomization Scheme Changes**
+  - Expected recruitment by month and by site numbers can now be added to a randomization scheme
+    - These expected numbers are displayed on the cumulative randomizations and recruitment chart
 - **Settings Changes**
   - Users can now change their password on the settings page
 - **Sheet Changes**

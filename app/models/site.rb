@@ -30,6 +30,7 @@ class Site < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project
+  has_many :expected_randomizations
   has_many :subjects, -> { where deleted: false }
   has_many :site_users
   has_many :users, -> { current.order(:last_name, :first_name) }, through: :site_users
@@ -47,7 +48,8 @@ class Site < ActiveRecord::Base
   end
 
   def short_name
-    s = name.gsub(/(\b\w)([\w']*)/) { $1 }
+    return name if name.split(/\s/).count <= 1
+    s = name.gsub(/(\b\w)([\w']*)/) { Regexp.last_match[1] }
     s.to_s.gsub(/\s/, '')
   end
 

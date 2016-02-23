@@ -4,8 +4,8 @@
 class RandomizationScheme < ActiveRecord::Base
   # Triggers
   after_create :create_default_block_size_multipliers
-  attr_accessor :task_hashes
-  after_save :set_tasks
+  attr_accessor :task_hashes, :expected_randomizations_hashes
+  after_save :set_tasks, :set_expected_randomizations
 
   # Constants
   MAX_LISTS = 128
@@ -29,6 +29,7 @@ class RandomizationScheme < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :variable
+  has_many :expected_randomizations
   has_many :block_size_multipliers,        -> { where(deleted: false).order(:value) }
   has_many :lists,                         -> { where deleted: false }
   has_many :randomizations,                -> { where deleted: false }
@@ -112,6 +113,11 @@ class RandomizationScheme < ActiveRecord::Base
       .where.not(calculation: ['', nil])
   end
 
+  def expected_recruitment_by_month(site)
+    expected_randomization = expected_randomizations.where(site_id: site.id).first_or_create
+    expected_randomization.expected.to_s.split(',').reject(&:blank?).collect(&:to_i)
+  end
+
   private
 
   def create_default_block_size_multipliers
@@ -130,6 +136,17 @@ class RandomizationScheme < ActiveRecord::Base
         window: hash[:window].to_i, window_units: hash[:window_units],
         position: index
       ) unless hash[:description].to_s.strip.blank?
+    end
+  end
+
+  def set_expected_randomizations
+    return unless expected_randomizations_hashes && expected_randomizations_hashes.is_a?(Array)
+    expected_randomizations_hashes.each do |hash|
+      site = project.sites.find_by_id(hash[:site_id])
+      next unless site
+      expected = hash[:expected].to_s.gsub(/[^\d,]/, '').split(',').reject(&:blank?).join(',')
+      expected_randomization = expected_randomizations.where(site_id: site.id).first_or_create
+      expected_randomization.update expected: expected
     end
   end
 end
