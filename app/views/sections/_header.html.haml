@@ -1,6 +1,16 @@
-- if section.sub_section?
-  .sub-section-header= section.name
+- if section.level < 2
+  - case section.level
+  - when 0
+    .section-header= section.name
+  - when 1
+    .sub-section-header= section.name
+  - else
+    = section.name
+
+  = simple_markdown section.description unless section.description.blank?
+  = render 'sections/image', design_option: design_option, section: section
 - else
-  .section-header= section.name
-= simple_markdown section.description unless section.description.blank?
-= render 'sections/image', design_option: design_option, section: section
+  .alert.alert-info
+    %strong= section.name
+    = simple_markdown section.description unless section.description.blank?
+    = render 'sections/image', design_option: design_option, section: section

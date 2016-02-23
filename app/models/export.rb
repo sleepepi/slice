@@ -200,7 +200,7 @@ class Export < ActiveRecord::Base
                     section.to_slug,
                     section.name,
                     section.description, # Variable Description
-                    (section.sub_section? ? 'subsection' : 'section'),
+                    section.level_name,
                     nil, # Hard Min
                     nil, # Soft Min
                     nil, # Soft Max

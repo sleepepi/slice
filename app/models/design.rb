@@ -161,7 +161,7 @@ class Design < ActiveRecord::Base
   end
 
   def main_sections
-    design_options.joins(:section).where(sections: { sub_section: false })
+    design_options.joins(:section).where(sections: { level: 0 })
   end
 
   # def all_sections
@@ -190,7 +190,7 @@ class Design < ActiveRecord::Base
     section_count = 0
     design_options.each_with_index do |design_option, index|
       section = design_option.section
-      if design_option.variable || (section && section.sub_section?)
+      if design_option.variable || (section && section.level != 0)
         original_sections[current_section] = [range_start, index]
       else
         current_section = section_count
@@ -318,7 +318,7 @@ class Design < ActiveRecord::Base
           user_id: current_user.id,
           name: option['section']['name'],
           description: option['section']['description'],
-          sub_section: option['section']['sub_section']
+          level: option['section']['level']
         )
       end
 

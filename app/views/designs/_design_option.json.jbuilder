@@ -2,7 +2,7 @@ if section = design_option.section
   json.section do
     json.name section.name
     json.description section.description
-    json.sub_section section.sub_section?
+    json.level section.level
   end
 elsif variable = design_option.variable
   json.variable do

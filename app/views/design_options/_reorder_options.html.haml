@@ -3,7 +3,7 @@
     - @design.design_options.each_with_index do |design_option, position|
       - if section = design_option.section
         %li.li-section.nowrap{ id: "option_#{position}", style: 'margin-bottom:5px', data: { position: position } }
-          - if section.sub_section?
+          - if section.level != 0
             %div{ style: "width:6px;display:inline-block" } &nbsp;
           %div{ style: "display:inline-block" }
             %a{ href: "#" }= section.name

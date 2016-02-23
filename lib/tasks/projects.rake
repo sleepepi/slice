@@ -169,7 +169,7 @@ def copy_sections(d, dc)
       project_id: dc.project_id,
       name: s.name,
       description: s.description,
-      sub_section: s.sub_section,
+      level: s.level,
       branching_logic: s.branching_logic,
       image: s.image,
       user_id: s.user_id

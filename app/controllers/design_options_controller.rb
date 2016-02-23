@@ -149,7 +149,7 @@ class DesignOptionsController < ApplicationController
 
   def section_params
     params.require(:section).permit(
-      :name, :description, :sub_section,
+      :name, :description, :level,
       :image, :image_cache, :remove_image
     )
   end

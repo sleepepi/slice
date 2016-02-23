@@ -6,7 +6,7 @@
       "section": {
         "name": "Date",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -79,7 +79,7 @@
       "section": {
         "name": "Dropdown",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -201,7 +201,7 @@
       "section": {
         "name": "Radio Buttons",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -327,7 +327,7 @@
       "section": {
         "name": "Checkbox",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -456,7 +456,7 @@
       "section": {
         "name": "Text",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -529,7 +529,7 @@
       "section": {
         "name": "File",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -570,7 +570,7 @@
       "section": {
         "name": "Time",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -643,7 +643,7 @@
       "section": {
         "name": "Ranges",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -826,7 +826,7 @@
       "section": {
         "name": "Calculated",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null
@@ -963,7 +963,7 @@
       "section": {
         "name": "Grid",
         "description": null,
-        "sub_section": false
+        "level": 0
       },
       "branching_logic": "",
       "required": null

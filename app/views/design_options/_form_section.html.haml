@@ -26,7 +26,7 @@
     .row
       .col-md-6
         = file_field_tag "section[image]", class: 'form-control', value: section.image
-      - if section.image and section.image.size > 0
+      - if section.image && section.image.size > 0
         .col-md-6
           .sheet-container
             %label.checkbox.checkbox-inline.negation
@@ -36,11 +36,9 @@
               %tt= number_to_human_size(section.image.size)
 
 .form-group
-  .col-md-10.col-md-offset-2
-    .checkbox
-      %label
-        = check_box_tag "section[sub_section]", "1", section.sub_section?
-        Subsection
+  %label.col-md-2.control-label Section Type
+  .col-md-10
+    = select_tag 'section[level]', options_for_select( [['Main Section', 0], ['Subsection', '1'], ['Warning', '2']], section.level), style: 'width:200px', class: 'form-control'
 
 .form-group
   %label.col-md-2.control-label Branching Logic

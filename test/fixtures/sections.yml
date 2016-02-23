@@ -3,130 +3,130 @@
 one:
   name: MyString
   description: MyText
-  sub_section: false
   branching_logic: MyText
   image: MyString
   project_id: 1
   design_id: 1
   user_id: 1
+  level: 0
 
 two:
   name: MyString
   description: MyText
-  sub_section: false
   branching_logic: MyText
   image: MyString
   project_id: 1
   design_id: 1
   user_id: 1
+  level: 0
 
 public:
   name: Public Section
   # description:
-  sub_section: false
   # branching_logic:
   image: rails.png
   project: three
   design: admin_public_design
   user: admin
+  level: 0
 
 private:
   name: Private Section
   # description:
-  sub_section: false
   # branching_logic:
   image: rails.png
   project: one
   design: sections_and_variables
   user: valid
-
+  level: 0
 
 sectiona:
   name: Section A
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: sections_and_variables
   user: valid
+  level: 0
 
 sectionb:
   name: Section B
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: sections_and_variables
   user: valid
+  level: 0
 
 header_section_a:
   name: Section A
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: section_and_file
   user: valid
+  level: 0
 
 grid_header:
   name: Grid to Follow
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: has_grid
   user: valid
+  level: 0
 
 no_sites_header:
   name: No Sites Section
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: no_sites
   user: valid
+  level: 0
 
 admin_design_header:
   name: Admin Design Section
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: admin_design
   user: admin
+  level: 0
 
 public_with_required_fields_section:
   name: Public with Required Fields
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: admin_public_design_with_required_fields
   user: admin
+  level: 0
 
 public_with_required_fields_section:
   name: Public with Redirect
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: one
   design: admin_public_design_with_redirect
   user: admin
+  level: 0
 
 single_design_section:
   name: Single Design Section
   # description:
-  sub_section: false
   # branching_logic:
   # image:
   project: single_design
   design: single_design
   user: valid
+  level: 0
+

@@ -56,18 +56,18 @@
 <% @design.design_options.includes(:variable, :section).each_with_index do |design_option, index| %>
   \FloatBarrier
   <% if section = design_option.section %>
-    <% if section.sub_section? %>
-      \subsubsection*{<%= latex_safe section.name %>}
-    <% else %>
+    <% case section.level when 0 %>
       <% unless index == 0 %>\pagebreak<% end %>
       \subsection*{<%= latex_safe section.name %>}
+    <% when 1 %>
+      \subsubsection*{<%= latex_safe section.name %>}
     <% end %>
 
-    <% unless section.name.blank? %>
+    <% if section.level < 2 && section.name.present? %>
       <%= latex_safe section.description %>
     <% end %>
 
-  <% if section and section.image.url %>
+  <% if section && section.image.url %>
     \begin{figure}[!htpb]
       \includegraphics[max width=7.5in]{<%= section.image.path %>}
     \end{figure}

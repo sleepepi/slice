@@ -17,4 +17,15 @@ class Section < ActiveRecord::Base
   def to_slug
     name.parameterize
   end
+
+  def level_name
+    case level
+    when 0
+      'section'
+    when 1
+      'subsection'
+    when 2
+      'warning'
+    end
+  end
 end

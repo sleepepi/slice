@@ -171,7 +171,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
   test "should create section on design" do
     assert_difference('DesignOption.count') do
       assert_difference('Section.count') do
-        post :create_section, project_id: @project, design_id: @design, design_option: { position: 0 }, section: { name: 'Section A', description: 'Section Description', sub_section: '1' }, format: 'js'
+        post :create_section, project_id: @project, design_id: @design, design_option: { position: 0 }, section: { name: 'Section A', description: 'Section Description', level: '1' }, format: 'js'
       end
     end
     assert_not_nil assigns(:project)
@@ -180,14 +180,14 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:section)
     assert_equal 'Section A', assigns(:design_option).section.name
     assert_equal 'Section Description', assigns(:design_option).section.description
-    assert_equal true, assigns(:design_option).section.sub_section?
+    assert_equal 1, assigns(:design_option).section.level
     assert_template 'index'
   end
 
   test "should not create section with blank name on design" do
     assert_difference('DesignOption.count', 0) do
       assert_difference('Section.count', 0) do
-        post :create_section, project_id: @project, design_id: @design, design_option: { position: 0 }, section: { name: '', description: 'Section Description', sub_section: '1' }, format: 'js'
+        post :create_section, project_id: @project, design_id: @design, design_option: { position: 0 }, section: { name: '', description: 'Section Description', level: '1' }, format: 'js'
       end
     end
     assert_not_nil assigns(:project)
@@ -275,7 +275,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
   end
 
   test "should update existing section on design" do
-    patch :update, project_id: @project, design_id: designs(:sections_and_variables), id: design_options(:sections_and_variables_sectiona), design_option: { branching_logic: '1 = 1', required: 'required' }, section: { name: 'Section A Updated', description: 'Section Description', sub_section: '1' }, format: 'js'
+    patch :update, project_id: @project, design_id: designs(:sections_and_variables), id: design_options(:sections_and_variables_sectiona), design_option: { branching_logic: '1 = 1', required: 'required' }, section: { name: 'Section A Updated', description: 'Section Description', level: '1' }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:design_option)
@@ -283,7 +283,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_equal 'required', assigns(:design_option).required
     assert_equal 'Section A Updated', assigns(:design_option).section.name
     assert_equal 'Section Description', assigns(:design_option).section.description
-    assert_equal true, assigns(:design_option).section.sub_section?
+    assert_equal 1, assigns(:design_option).section.level
     assert_template 'show'
   end
 

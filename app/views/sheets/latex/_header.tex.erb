@@ -20,6 +20,13 @@
 
 \usepackage{fancybox}
 
+\usepackage{mdframed}
+\newenvironment{warning}
+  {\par\begin{mdframed}[linewidth=1pt,linecolor=blue]%
+    \begin{list}{}{\leftmargin=0cm
+                   \labelwidth=\leftmargin}\item}
+  {\end{list}\end{mdframed}\par}
+
 \subsectionfont{\normalfont\Large\underline}
 \subsubsectionfont{\normalfont\large\underline}
 

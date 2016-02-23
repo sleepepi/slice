@@ -25,7 +25,7 @@
   formData.append("section[description]", $("#section_description").val())
   formData.append("section[image]", $("#section_image").prop("files")[0])
   formData.append("section[remove_image]", $("#section_remove_image").is(":checked"))
-  formData.append("section[sub_section]", $("#section_sub_section").is(":checked"))
+  formData.append("section[level]", $("#section_level").val())
   formData.append("design_option[position]", $("#design_option_position").val())
   formData.append("design_option[branching_logic]", $("#design_option_branching_logic").val()) unless $("#design_option_branching_logic").val() == undefined
   return formData

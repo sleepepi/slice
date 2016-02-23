@@ -14,21 +14,26 @@
 
 <% @sheet.design.design_options.includes(:variable, :section).each do |design_option| %>
   \FloatBarrier
-
-  <% if section = design_option.section and @sheet.show_design_option?(design_option.branching_logic) %>
-    <% if section.sub_section? %>
+  <% section = design_option.section %>
+  <% variable = design_option.variable %>
+  <% if section && @sheet.show_design_option?(design_option.branching_logic) %>
+    <% case section.level when 0 %>
+      \subsection*{<%= latex_safe section.name %>}
+    <% when 1 %>
       \subsubsection*{<%= latex_safe section.name %>}
     <% else %>
-      \subsection*{<%= section.name %>}
+      \begin{warning}
+        <%= latex_safe section.name %>
+      \end{warning}
     <% end %>
 
-    <% if section and section.image.url %>
+    <% if section && section.image.url %>
       \begin{figure}[!htpb]
         \includegraphics[max width=7.5in]{<%= section.image.path %>}
       \end{figure}
     <% end %>
-  <% elsif variable = design_option.variable and @sheet.show_design_option?(design_option.branching_logic) %>
-    <% sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first %>
+  <% elsif variable && @sheet.show_design_option?(design_option.branching_logic) %>
+    <% sheet_variable = sheet_variables.select { |sv| sv.variable_id == variable.id }.first %>
     <% if variable.variable_type == 'grid' and sheet_variable %>
       <% grid_variables = @sheet.project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a %>
       \Needspace{7\baselineskip}
