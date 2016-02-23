@@ -1,3 +1,4 @@
+- viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
 %table.table.table-striped
   %thead
     %tr
@@ -6,7 +7,8 @@
       = th_sort_field @order, 'sheets.subject_code', 'Subject'
       = th_sort_field @order, 'sheets.created_at', 'Created'
       = th_sort_field @order, 'sheets.last_edited_at', 'Updated'
-      = th_sort_field @order, 'sheets.site_name', 'Site'
+      - if viewable_sites.count > 1
+        = th_sort_field @order, 'sheets.site_name', 'Site'
       = th_sort_field @order, 'sheets.user_name', 'Creator'
       %th
 
@@ -23,7 +25,8 @@
       %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
       %td= simple_time sheet.created_at
       %td= simple_time sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at
-      %td= link_to sheet.subject.site.name, [@project, sheet.subject.site] if sheet.subject && sheet.subject.site
+      - if viewable_sites.count > 1
+        %td= link_to sheet.subject.site.name, [@project, sheet.subject.site] if sheet.subject && sheet.subject.site
       %td
         - if sheet.user
           = link_to sheet.user.name, sheet.user

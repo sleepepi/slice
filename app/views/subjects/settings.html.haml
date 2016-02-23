@@ -16,8 +16,8 @@
         = link_to 'Delete Subject', [@subject.project, @subject], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Subject #{@subject.name}?" }
 
     %dl.dl-horizontal
-      - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
-      - if editable_sites.count > 1
+      - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
+      - if viewable_sites.count > 1
         %dt Site
         %dd= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site
 

@@ -28,6 +28,7 @@
 - **Sheet Changes**
   - Sheets can now be sent to subjects via a shareable link
     - Only design marked as publicly available can be shared in this manner
+  - Site column is no longer displayed on sheets index to site members on a single site
 - **Site Changes**
   - Subjects on a site are now deleted when the site is deleted
 - **Subject Changes**
