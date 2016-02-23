@@ -19,6 +19,8 @@
 - **Randomization Scheme Changes**
   - Expected recruitment by month and by site numbers can now be added to a randomization scheme
     - These expected numbers are displayed on the cumulative randomizations and recruitment chart
+- **Report Changes**
+  - Statistics for uploaded files have been improved in design overview reports
 - **Settings Changes**
   - Users can now change their password on the settings page
 - **Sheet Changes**
