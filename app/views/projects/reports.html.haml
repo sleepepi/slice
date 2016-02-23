@@ -15,24 +15,15 @@
       .col-md-4
         .jumbotron.center
           %h4.text-muted Number of Subjects
-          .report-number= number_with_delimiter @project.subjects.count
+          .report-number= number_to_human @project.subjects.count
       .col-md-4
         .jumbotron.center
           %h4.text-muted Number of Events
-          .report-number= number_with_delimiter SubjectEvent.where(subject_id: @project.subjects.select(:id)).count
+          .report-number= number_to_human SubjectEvent.where(subject_id: @project.subjects.select(:id)).count
       .col-md-4
         .jumbotron.center
           %h4.text-muted Number of Data Points
-          .report-number= number_with_delimiter SheetVariable.where(sheet_id: @project.sheets.select(:id)).count
-
-      - if false
-        .col-md-4.hidden-xs.hidden-sm
-
-        - if randomization_schemes.count == 1
-          .col-sm-6.col-md-4
-            .jumbotron.center
-              %h4.text-muted Subjects Randomized
-              %h1= number_with_delimiter randomization_schemes.first.active_randomizations.count
+          .report-number= number_to_human SheetVariable.where(sheet_id: @project.sheets.select(:id)).count
 
     - if randomization_schemes.count > 0
       - randomization_schemes.each do |scheme|
@@ -46,12 +37,8 @@
           - randomization_count = scheme.active_randomizations.count
           - if randomization_count > 0 && scheme.randomization_goal > 0
             - percent = [randomization_count * 100 / scheme.randomization_goal, 100].min
-            - percent = 1 if percent == 0 && randomization_count > 0
-            - status = "danger"
-            - status = "warning" if percent >= 33
-            - status = "success" if percent == 100
             .progress.progress-striped{ style: 'margin-top: 20px;margin-bottom: 0' }
-              .progress-bar{ class: "progress-bar-#{status}", style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
+              .progress-bar.progress-bar-success{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
 
         = render 'randomization_schemes/recruitment_chart', scheme: scheme
         = render 'randomization_schemes/recruitment_tables', scheme: scheme
