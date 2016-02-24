@@ -8,76 +8,90 @@ class RandomizationsControllerTest < ActionController::TestCase
     @randomization = randomizations(:one)
   end
 
-  test "should get choose scheme and choose single published randomization scheme" do
+  test 'should get choose scheme and choose single published randomization scheme' do
     login(users(:valid))
     get :choose_scheme, project_id: @project
     assert_redirected_to randomize_subject_project_randomization_scheme_path(assigns(:project), randomization_schemes(:one))
   end
 
-  test "should get choose scheme and give options to multiple published randomization schemes" do
+  test 'should get choose scheme and give options to multiple published randomization schemes' do
     login(users(:valid))
     get :choose_scheme, project_id: projects(:two)
     assert_response :success
   end
 
-  test "should get choose scheme for site editor" do
+  test 'should get choose scheme for site editor' do
     login(users(:site_two_editor))
     get :choose_scheme, project_id: projects(:two)
     assert_response :success
   end
 
-  test "should not get choose scheme for site viewer" do
+  test 'should not get choose scheme for site viewer' do
     login(users(:site_two_viewer))
     get :choose_scheme, project_id: projects(:two)
     assert_redirected_to root_path
   end
 
-  test "should get index" do
+  test 'should get index' do
     login(users(:valid))
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:randomizations)
   end
 
-  test "should get index for site editor" do
+  test 'should get index for site editor' do
     login(users(:site_one_editor))
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:randomizations)
   end
 
-  test "should get index for site viewer" do
+  test 'should get index for site viewer' do
     login(users(:site_one_viewer))
     get :index, project_id: @project
     assert_response :success
     assert_not_nil assigns(:randomizations)
   end
 
-  test "should show randomization" do
+  test 'should show randomization' do
     login(users(:valid))
     get :show, project_id: @project, id: @randomization
     assert_response :success
   end
 
-  test "should show randomization for site editor" do
+  test 'should show randomization for site editor' do
     login(users(:site_one_editor))
     get :show, project_id: @project, id: @randomization
     assert_response :success
   end
 
-  test "should show randomization for site viewer" do
+  test 'should show randomization for site viewer' do
     login(users(:site_one_viewer))
     get :show, project_id: @project, id: @randomization
     assert_response :success
   end
 
-  test "should show randomization for minimization scheme" do
+  test 'should show randomization for minimization scheme' do
     login(users(:valid))
     get :show, project_id: projects(:two), id: randomizations(:min_one)
     assert_response :success
   end
 
-  test "should undo randomization" do
+  test 'should print randomization schedule for site editor' do
+    login(users(:site_one_editor))
+    get :schedule, project_id: @project, id: @randomization, format: 'pdf'
+    assert_not_nil assigns(:randomization)
+    assert_response :success
+  end
+
+  test 'should print randomization schedule for site viewer' do
+    login(users(:site_one_viewer))
+    get :schedule, project_id: @project, id: @randomization, format: 'pdf'
+    assert_not_nil assigns(:randomization)
+    assert_response :success
+  end
+
+  test 'should undo randomization' do
     login(users(:valid))
     patch :undo, project_id: @project, id: @randomization
     assert_not_nil assigns(:project)
@@ -88,7 +102,7 @@ class RandomizationsControllerTest < ActionController::TestCase
     assert_redirected_to project_randomizations_path(assigns(:project))
   end
 
-  test "should not undo randomization as site editor" do
+  test 'should not undo randomization as site editor' do
     login(users(:site_one_editor))
     patch :undo, project_id: @project, id: @randomization
     assert_not_nil assigns(:project)
@@ -96,7 +110,7 @@ class RandomizationsControllerTest < ActionController::TestCase
     assert_redirected_to project_randomizations_path(assigns(:project))
   end
 
-  # test "should destroy randomization" do
+  # test 'should destroy randomization' do
   #   assert_difference('Randomization.current.count', -1) do
   #     delete :destroy, project_id: @project, id: @randomization
   #   end

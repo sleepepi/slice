@@ -157,6 +157,7 @@ Rails.application.routes.draw do
         get 'choose-scheme', action: :choose_scheme, as: :choose_scheme
       end
       member do
+        get :schedule
         patch :undo
       end
     end

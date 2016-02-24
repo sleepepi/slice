@@ -6,7 +6,7 @@ class Randomization < ActiveRecord::Base
   serialize :weighted_eligible_arms, Array
 
   # Concerns
-  include Deletable, Siteable, Forkable
+  include Deletable, Siteable, Forkable, Latexable
 
   # Model Validation
   validates :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group,
@@ -124,5 +124,21 @@ class Randomization < ActiveRecord::Base
 
       randomization_tasks.create(task_id: task.id) unless task.new_record?
     end
+  end
+
+  def latex_partial(partial)
+    File.read(File.join('app', 'views', 'randomizations', 'latex', "_#{partial}.tex.erb"))
+  end
+
+  def latex_file_location(current_user)
+    jobname = "randomization_#{id}"
+    output_folder = File.join('tmp', 'files', 'tex')
+    file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
+
+    File.open(file_tex, 'w') do |file|
+      file.syswrite(ERB.new(latex_partial('schedule')).result(binding))
+    end
+
+    Design.generate_pdf(jobname, output_folder, file_tex)
   end
 end

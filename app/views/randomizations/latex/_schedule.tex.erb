@@ -1,0 +1,70 @@
+<% @randomization = self %>
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{fancyhdr}
+\usepackage[margin=0.5in]{geometry}
+\geometry{top=1.0in, bottom=1.0in}
+\usepackage{lastpage}
+\usepackage{wrapfig}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\usepackage{indentfirst}
+\usepackage{longtable,tabu}
+\usepackage{scrextend}
+
+\usepackage{needspace}
+\usepackage{color}
+
+\usepackage{fancybox}
+
+
+\fancyhf{}
+
+\lhead{}
+\chead{\textbf{<%= latex_safe @randomization.project.name %>\\Schedule of Events}}
+\rhead{}
+\lfoot{}
+\cfoot{Printed on <%= latex_safe Time.zone.today.strftime '%B %-d, %Y' %>}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
+
+
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \setlength\headheight{22pt}
+
+\pagestyle{fancyplain}
+
+
+
+\begin{document}
+
+\begin{center}
+\subsection*{Your projected schedule is below.}
+\end{center}
+
+\begin{longtabu} to \textwidth {X[3,l]X[1,r]}
+ & \textbf{Projected Date} \\ &  \\
+
+\endhead
+\hline \multicolumn{2}{r}{\textit{Continued on next page}} \\
+\endfoot
+\endlastfoot
+<% @randomization.tasks.each do |task| %>
+  \textbf{<%= latex_safe task.description %>} &
+  <%= latex_safe task.due_date.strftime('%a, %B %-d, %Y') %> &
+  \midrule
+  \\
+<% end %>
+\end{longtabu}
+
+\begin{center}
+The above dates are projected based on your recent visit and may change in the future. \\
+Please contact us if you have any questions.
+\end{center}
+
+\end{document}
+

@@ -3,15 +3,14 @@
 class RandomizationsController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_viewable_project,                  only: [:index, :show]
+  before_action :set_viewable_project,                  only: [:index, :show, :schedule]
   before_action :set_editable_project_or_editable_site, only: [:choose_scheme, :undo]
   before_action :redirect_without_project
 
   before_action :redirect_blinded_users
 
-  before_action :set_viewable_randomization,            only: [:show]
-  before_action :set_editable_randomization,            only: [:undo] # , :destroy
-  before_action :redirect_without_randomization,        only: [:show, :undo] # , :destroy
+  before_action :set_viewable_randomization,            only: [:show, :schedule]
+  before_action :set_editable_randomization,            only: [:undo]
 
   def choose_scheme
     if @project.randomization_schemes.published.count == 1
@@ -34,6 +33,16 @@ class RandomizationsController < ApplicationController
   def show
   end
 
+  # GET /randomizations/1/schedule.pdf
+  def schedule
+    file_pdf_location = @randomization.latex_file_location(current_user)
+    if File.exist?(file_pdf_location)
+      send_file file_pdf_location, filename: 'schedule.pdf', type: 'application/pdf', disposition: 'inline'
+    else
+      render text: 'PDF did not render in time. Please refresh the page.'
+    end
+  end
+
   # PATCH /randomizations/1/undo
   def undo
     @randomization.undo!
@@ -50,10 +59,12 @@ class RandomizationsController < ApplicationController
 
   def set_viewable_randomization
     @randomization = current_user.all_viewable_randomizations.find_by_id(params[:id])
+    redirect_without_randomization
   end
 
   def set_editable_randomization
     @randomization = current_user.all_randomizations.find_by_id(params[:id])
+    redirect_without_randomization
   end
 
   def redirect_without_randomization

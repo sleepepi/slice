@@ -45,7 +45,11 @@
       - if @randomization.tasks.count > 0
         .col-sm-6
           %dl
-            %dt Tasks
+            %dt
+              Tasks
+              = link_to schedule_project_randomization_path(@project, @randomization, format: 'pdf'), class: 'btn btn-xs btn-default' do
+                %span.glyphicon.glyphicon-print
+                Print Schedule
             %dd
               %ul.list-unstyled
                 - @randomization.tasks.each do |task|
