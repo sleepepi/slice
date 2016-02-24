@@ -3,6 +3,7 @@
 ### Enhancements
 - **Randomization Changes**
   - Removed "x of y" information from randomization page to keep the page cleaner
+  - `Tab` now also prefills stratification factors when entering subject code during randomization
 
 ### Refactoring
 - Removed deprecated `sub_section` attribute from `Section`s
