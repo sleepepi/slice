@@ -24,6 +24,8 @@ class AdverseEvent < ActiveRecord::Base
   has_many :adverse_event_users
   has_many :sheets, -> { where deleted: false }
 
+  delegate :site, to: :subject
+
   # Model Methods
 
   def name
@@ -108,7 +110,7 @@ class AdverseEvent < ActiveRecord::Base
 
   # Adverse Events reports are sent to unblinded project editors
   def users_to_email
-    project.unblinded_project_editors.where(emails_enabled: true)
+    project.unblinded_members_for_site(site).where.not(id: user_id).where(emails_enabled: true)
   end
 
   def send_email_in_background
@@ -123,7 +125,7 @@ class AdverseEvent < ActiveRecord::Base
   end
 
   def create_notifications
-    project.unblinded_project_editors.each do |u|
+    project.unblinded_members_for_site(site).each do |u|
       notification = u.notifications.where(project_id: project_id, adverse_event_id: id).first_or_create
       notification.mark_as_unread!
     end

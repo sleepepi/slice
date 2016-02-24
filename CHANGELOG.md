@@ -4,6 +4,7 @@
 - **Adverse Event Changes**
   - Comments are no longer displayed on sheets attached to adverse events
   - Adverse event dates can no longer be set in the future
+  - Unblinded project and site members are now notified of changes to adverse events
 - **Dashboard Changes**
   - Only favorited projects are now sortable on the dashboard, current projects are listed alphabetically
 - **Design Changes**
