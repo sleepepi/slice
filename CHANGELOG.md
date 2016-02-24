@@ -1,4 +1,4 @@
-## 0.34.0
+## 0.34.0 (February 24, 2016)
 
 ### Enhancements
 - **Adverse Event Changes**
