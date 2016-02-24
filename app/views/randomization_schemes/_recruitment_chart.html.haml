@@ -3,7 +3,7 @@
 - first_randomization = scheme.active_randomizations.where.not(randomized_at: nil).order(:randomized_at).first
 - last_randomization = scheme.active_randomizations.where.not(randomized_at: nil).order(:randomized_at).last
 - if first_randomization && last_randomization
-  - first_month = first_randomization.randomized_at.beginning_of_month
+  - first_month = first_randomization.randomized_at.beginning_of_month - 1.month
   - last_month = last_randomization.randomized_at.beginning_of_month
   - if (last_month - first_month).days < 5.months
     - last_month = first_month + 5.months
