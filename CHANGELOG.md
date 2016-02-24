@@ -1,5 +1,9 @@
 ## 0.35.0
 
+### Enhancements
+- **Randomization Changes**
+  - Removed "x of y" information from randomization page to keep the page cleaner
+
 ## 0.34.1 (February 24, 2016)
 
 ### Bug Fix

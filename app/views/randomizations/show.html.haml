@@ -9,20 +9,14 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    - if @randomization.subject and @randomization.randomized_by and @randomization.treatment_arm
+    - if @randomization.subject && @randomization.randomized_by && @randomization.treatment_arm
       .jumbotron
         .container
           %h1
             = @randomization.treatment_arm.name
-            %small
-              = @randomization.randomization_number
-              of
-              = @randomization.randomization_scheme.randomization_goal
             - if @randomization.editable_by?(current_user)
               - if @randomization.randomized?
                 = link_to 'Undo', undo_project_randomization_path(@project, @randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{@randomization.list.name}" if @randomization.list}?" }
-              - if false
-                = link_to "Delete Randomization", [@project, @randomization], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization #{@randomization.name}?" }
 
           %p
             %strong
@@ -73,7 +67,7 @@
       %dt List
       %dd= @randomization.list.name if @randomization.list
 
-      - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization?
+      - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization?
         %dt Randomization Characteristics
         %dd
           %table.table.table-bordered
@@ -91,12 +85,12 @@
                     = site.name
 
       %dt List Position
-      - if @randomization.randomization_scheme and @randomization.randomization_scheme.permuted_block?
+      - if @randomization.randomization_scheme && @randomization.randomization_scheme.permuted_block?
         %dd= @randomization.position
       - else
         %dd= @randomization.list_position
 
-      - if @randomization.randomization_scheme and @randomization.randomization_scheme.minimization? and @randomization.dice_roll and @randomization.dice_roll_cutoff and @project.editable_by?(current_user)
+      - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization? && @randomization.dice_roll && @randomization.dice_roll_cutoff && @project.editable_by?(current_user)
         %dt Notes
         %dd
           %p
@@ -138,7 +132,7 @@
                         - if sf_hash[:treatment_arm_counts].is_a?(Array)
                           - sf_hash[:treatment_arm_counts].each do |ta_hash|
                             %td{ style: 'text-align:right' }= ta_hash[:count]
-                - if @randomization.past_distributions[:totals].is_a?(Array) or (@randomization.past_distributions[:weighted_totals].is_a?(Array) and @randomization.past_distributions[:treatment_arms].is_a?(Array))
+                - if @randomization.past_distributions[:totals].is_a?(Array) || (@randomization.past_distributions[:weighted_totals].is_a?(Array) && @randomization.past_distributions[:treatment_arms].is_a?(Array))
                   %tfoot
                     - if @randomization.past_distributions[:totals].is_a?(Array)
                       %tr
