@@ -5,8 +5,6 @@
       %th.nowrap Subject
       %th.nowrap Treatment Arm
       %th.nowrap List
-      - if false
-        %th.nowrap List Position
       %th.nowrap Randomized At
       %th.nowrap Randomized By
       - if @project.randomization_schemes.count > 1
@@ -19,21 +17,13 @@
       %tr
         %td= link_to randomization.name, [@project, randomization]
         %td= link_to randomization.subject.name, [@project, randomization.subject] if randomization.subject
-        %td= link_to randomization.treatment_arm.name, [@project, randomization.randomization_scheme, randomization.treatment_arm] if randomization.randomization_scheme and randomization.treatment_arm
+        %td= link_to_if @project.editable_by?(current_user), randomization.treatment_arm.name, [@project, randomization.randomization_scheme, randomization.treatment_arm] if randomization.randomization_scheme && randomization.treatment_arm
         %td= randomization.list.name if randomization.list
-        - if false
-          - if randomization.randomization_scheme and randomization.randomization_scheme.permuted_block?
-            %td= randomization.position
-          - else
-            %td= randomization.list_position
         %td= simple_time randomization.randomized_at
         %td= randomization.randomized_by.name if randomization.randomized_by
         - if @project.randomization_schemes.count > 1
-          %td= link_to randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
+          %td= link_to_if @project.editable_by?(current_user), randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
         - if @project.site_or_project_editor? current_user
           %td
-            - if randomization.editable_by?(current_user)
-              - if randomization.randomized?
-                = link_to 'Undo', undo_project_randomization_path(@project, randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{randomization.list.name}" if randomization.list}?" }
-              - if false
-                = link_to "Delete Randomization", [@project, randomization], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization #{randomization.name}?" }
+            - if randomization.editable_by?(current_user) && randomization.randomized?
+              = link_to 'Undo', undo_project_randomization_path(@project, randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{randomization.list.name}" if randomization.list}?" }

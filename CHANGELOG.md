@@ -4,6 +4,7 @@
 - **Randomization Changes**
   - Removed "x of y" information from randomization page to keep the page cleaner
   - `Tab` now also prefills stratification factors when entering subject code during randomization
+  - On randomization index, the link to treatment arm is now only shown for project editors
 - **Report Changes**
   - Cumulative Recruitment chart now starts one month before first randomization
 
