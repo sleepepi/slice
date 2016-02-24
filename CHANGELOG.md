@@ -9,6 +9,7 @@
   - Only favorited projects are now sortable on the dashboard, current projects are listed alphabetically
 - **Design Changes**
   - Sections can now be specified as "Main Section", "Subsection", and "Warning"
+  - Section names no longer need to be unique on a design
 - **Domain Changes**
   - Domain options can be set to be only visible by a certain site editor to limit the number of options for dropdowns, radio inputs, and checkboxes
 - **Event Changes**

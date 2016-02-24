@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows main sections, subsections, and warnings to be added to designs
 class Section < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
@@ -10,7 +11,6 @@ class Section < ActiveRecord::Base
 
   # Model Validation
   validates :name, :project_id, :design_id, :user_id, presence: true
-  validates :name, uniqueness: { scope: :design_id }
 
   # Model Methods
 
