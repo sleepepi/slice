@@ -1,4 +1,4 @@
-## 0.34.1
+## 0.34.1 (February 24, 2016)
 
 ### Bug Fix
 - Fixed a bug that prevented site editors from seeing a list of events
