@@ -4,6 +4,9 @@
 - **Randomization Changes**
   - Removed "x of y" information from randomization page to keep the page cleaner
 
+### Refactoring
+- Removed deprecated `sub_section` attribute from `Section`s
+
 ## 0.34.1 (February 24, 2016)
 
 ### Bug Fix
