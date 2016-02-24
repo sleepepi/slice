@@ -11,6 +11,9 @@
 ### Refactoring
 - Removed deprecated `sub_section` attribute from `Section`s
 
+### Bug Fix
+- Fixed a bug that launched tasks based on incorrect randomization date
+
 ## 0.34.1 (February 24, 2016)
 
 ### Bug Fix

@@ -109,7 +109,7 @@ class Randomization < ActiveRecord::Base
     randomization_scheme.randomization_scheme_tasks.each do |rst|
       offset_units = %w(days weeks months years).include?(rst.offset_units) ? rst.offset_units : 'days'
       window_units = %w(days weeks).include?(rst.window_units) ? rst.window_units : 'days'
-      due_date = created_at + rst.offset.send(offset_units)
+      due_date = randomized_at + rst.offset.send(offset_units)
       window_start_date = due_date - rst.window.send(window_units)
       window_end_date = due_date + rst.window.send(window_units)
 
