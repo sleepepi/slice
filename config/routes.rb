@@ -52,7 +52,7 @@ Rails.application.routes.draw do
       member do
         get :forms
       end
-      resources :adverse_event_comments
+      resources :adverse_event_comments, path: 'comments'
       resources :adverse_event_files, path: 'files' do
         collection do
           post :upload, action: :create_multiple

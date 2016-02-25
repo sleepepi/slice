@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Allows users to collaborate together to enter data across a series of
+# subjects, events, and sites. Provides a method to share access with other
+# users at varying degrees of control.
 class Project < ActiveRecord::Base
   PER_PAGE = 40
 

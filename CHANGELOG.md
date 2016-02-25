@@ -15,6 +15,7 @@
 
 ### Refactoring
 - Removed deprecated `sub_section` attribute from `Section`s
+- Started cleanup and refactoring, and additional testing of controllers
 
 ### Bug Fix
 - Fixed a bug that launched tasks based on incorrect randomization date

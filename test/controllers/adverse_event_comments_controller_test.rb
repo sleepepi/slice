@@ -2,6 +2,7 @@
 
 require 'test_helper'
 
+# Tests the creation and modification of comments added to adverse events
 class AdverseEventCommentsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
@@ -40,6 +41,24 @@ class AdverseEventCommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
     assert_template 'index'
+    assert_response :success
+  end
+
+  test 'should create adverse event comment with blank comment' do
+    assert_difference('AdverseEventComment.count', 0) do
+      post :create, project_id: @project, adverse_event_id: @adverse_event,
+                    adverse_event_comment: {
+                      comment_type: 'commented',
+                      description: ''
+                    },
+                    format: 'js'
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:adverse_event)
+    assert_not_nil assigns(:adverse_event_comment)
+    assert assigns(:adverse_event_comment).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
+    assert_template 'edit'
     assert_response :success
   end
 
@@ -137,6 +156,18 @@ class AdverseEventCommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
     assert_template 'show'
+    assert_response :success
+  end
+
+  test 'should not update adverse event comment with blank description' do
+    patch :update, project_id: @project, adverse_event_id: @adverse_event, id: adverse_event_comments(:two),
+                   adverse_event_comment: { description: '' }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:adverse_event)
+    assert_not_nil assigns(:adverse_event_comment)
+    assert assigns(:adverse_event_comment).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
+    assert_template 'edit'
     assert_response :success
   end
 

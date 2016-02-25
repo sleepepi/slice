@@ -1,42 +1,30 @@
 # frozen_string_literal: true
 
-# Project editors and owners can discuss an adverse event
+# Allows project editors and owners to discuss adverse events. Comments are
+# disabled for sheets associated with an adverse event to centralize discussion.
+# Comments can be made by unblinded project and site members.
 class AdverseEventCommentsController < ApplicationController
   before_action :authenticate_user!
-
   before_action :set_editable_project_or_editable_site
   before_action :redirect_without_project
-
-  before_action :set_viewable_adverse_event
-  before_action :redirect_without_adverse_event
-
+  before_action :set_adverse_event
   before_action :set_viewable_adverse_event_comment,     only: [:show]
   before_action :set_editable_adverse_event_comment,     only: [:edit, :update, :destroy]
-  before_action :redirect_without_adverse_event_comment, only: [:show, :edit, :update, :destroy]
 
-  # # GET /adverse_event_comments
-  # def index
-  #   @adverse_event_comments = AdverseEventComment.all
-  # end
-
-  # GET /adverse_event_comments/1
+  # GET /adverse_event/:adverse_event_id/comments/1.js
   def show
   end
 
-  # # GET /adverse_event_comments/new
-  # def new
-  #   @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new
-  # end
-
-  # GET /adverse_event_comments/1/edit
+  # GET /adverse_event/:adverse_event_id/comments/1/edit.js
   def edit
   end
 
-  # POST /adverse_event_comments.js
+  # POST /adverse_event/:adverse_event_id/comments.js
   def create
-    @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new(adverse_event_comment_params)
+    @adverse_event_comment = current_user.adverse_event_comments
+                                         .where(project_id: @project.id, adverse_event_id: @adverse_event.id)
+                                         .new(adverse_event_comment_params)
     if @adverse_event_comment.save
-      # redirect_to [@project, @adverse_event, @adverse_event_comment], notice: 'Adverse event comment was successfully created.'
       @adverse_event.reload
       @last_seen_at = @adverse_event.last_seen_at current_user
       render :index
@@ -45,31 +33,26 @@ class AdverseEventCommentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /adverse_event_comments/1
+  # PATCH /adverse_event/:adverse_event_id/comments/1.js
   def update
     if @adverse_event_comment.update(adverse_event_comment_params)
-      # redirect_to [@project, @adverse_event, @adverse_event_comment], notice: 'Adverse event comment was successfully updated.'
       render :show
     else
       render :edit
     end
   end
 
-  # DELETE /adverse_event_comments/1
+  # DELETE /adverse_event/:adverse_event_id/comments/1.js
   def destroy
     @adverse_event_comment.destroy
-    # redirect_to [@project, @adverse_event], notice: 'Adverse event comment was successfully deleted.'
     render :index
   end
 
   private
 
-  def set_viewable_adverse_event
+  def set_adverse_event
     @adverse_event = current_user.all_viewable_adverse_events.find_by_id params[:adverse_event_id]
-  end
-
-  def set_editable_adverse_event
-    @adverse_event = current_user.all_adverse_events.find_by_id params[:adverse_event_id]
+    redirect_without_adverse_event
   end
 
   def redirect_without_adverse_event
@@ -78,10 +61,12 @@ class AdverseEventCommentsController < ApplicationController
 
   def set_viewable_adverse_event_comment
     @adverse_event_comment = current_user.all_viewable_adverse_event_comments.find_by_id params[:id]
+    redirect_without_adverse_event_comment
   end
 
   def set_editable_adverse_event_comment
     @adverse_event_comment = current_user.all_adverse_event_comments.find_by_id params[:id]
+    redirect_without_adverse_event_comment
   end
 
   def redirect_without_adverse_event_comment
