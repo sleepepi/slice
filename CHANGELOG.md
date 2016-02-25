@@ -1,4 +1,4 @@
-## 0.35.0
+## 0.35.0 (February 25, 2016)
 
 ### Enhancements
 - **Randomization Changes**
