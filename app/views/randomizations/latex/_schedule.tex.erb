@@ -21,11 +21,14 @@
 
 \usepackage{fancybox}
 
-
 \fancyhf{}
 
-\lhead{}
-\chead{\textbf{<%= latex_safe @randomization.project.name %>\\Schedule of Events}}
+\lhead{<% if @randomization.project.logo.size > 0 %>
+\raisebox{-0.5\height}{
+\includegraphics[max width=2.0in]{<%= @randomization.project.logo.path %>}
+}
+<% end %>}
+\chead{\textbf{<%= latex_safe @randomization.project.name %>\\Schedule of Events\\\\}}
 \rhead{}
 \lfoot{}
 \cfoot{Printed on <%= latex_safe Time.zone.today.strftime '%B %-d, %Y' %>}
@@ -55,7 +58,9 @@
 \endlastfoot
 <% @randomization.tasks.each do |task| %>
   \textbf{<%= latex_safe task.description %>} &
-  <%= latex_safe task.due_date.strftime('%a, %B %-d, %Y') %> &
+  <%= latex_safe task.due_date.strftime('%a, %B %-d, %Y') %> \\
+  &
+  \textcolor[gray]{0.5}{<%= latex_safe task.window_start_date.strftime('%-m/%-d/%y') %> to <%= latex_safe task.window_end_date.strftime('%-m/%-d/%y') %>} &
   \midrule
   \\
 <% end %>

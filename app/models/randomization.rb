@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# Tracks a position, list, and characteristics of a randomization.
+# Randomizations can exist without having a subject as placeholders for the
+# permuted-block algorithm, and are generated dynamically by the minimization
+# algorithm.
 class Randomization < ActiveRecord::Base
   # Serialized
   serialize :past_distributions, Hash
@@ -60,7 +64,12 @@ class Randomization < ActiveRecord::Base
   end
 
   def add_subject!(subject, current_user)
-    notify_users_in_background! if update subject: subject, randomized_by: current_user, randomized_at: Time.zone.now, attested: true
+    params = { subject: subject,
+               randomized_by: current_user,
+               randomized_at: Time.zone.now,
+               attested: true }
+    return unless update(params)
+    notify_users_in_background!
   end
 
   def randomized?
@@ -91,37 +100,16 @@ class Randomization < ActiveRecord::Base
   end
 
   def undo!
-    update(
-      subject_id: nil,
-      randomized_at: nil,
-      randomized_by_id: nil,
-      attested: false,
-      dice_roll: nil,
-      dice_roll_cutoff: nil,
-      past_distributions: nil,
-      weighted_eligible_arms: nil
-    )
+    update(subject_id: nil, randomized_at: nil, randomized_by_id: nil,
+           attested: false, dice_roll: nil, dice_roll_cutoff: nil,
+           past_distributions: nil, weighted_eligible_arms: nil)
     randomization_characteristics.destroy_all
     randomization_tasks.destroy_all
   end
 
   def launch_tasks!
     randomization_scheme.randomization_scheme_tasks.each do |rst|
-      offset_units = %w(days weeks months years).include?(rst.offset_units) ? rst.offset_units : 'days'
-      window_units = %w(days weeks).include?(rst.window_units) ? rst.window_units : 'days'
-      due_date = randomized_at + rst.offset.send(offset_units)
-      window_start_date = due_date - rst.window.send(window_units)
-      window_end_date = due_date + rst.window.send(window_units)
-
-      task = project.tasks.create(
-        user_id: user_id,
-        description: rst.description,
-        due_date: due_date,
-        window_start_date: window_start_date,
-        window_end_date: window_end_date,
-        only_unblinded: true
-      )
-
+      task = rst.create_task(randomized_at.to_date, user_id)
       randomization_tasks.create(task_id: task.id) unless task.new_record?
     end
   end
