@@ -44,7 +44,7 @@ class AdverseEventCommentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should create adverse event comment with blank comment' do
+  test 'should not create adverse event comment with blank comment' do
     assert_difference('AdverseEventComment.count', 0) do
       post :create, project_id: @project, adverse_event_id: @adverse_event,
                     adverse_event_comment: {

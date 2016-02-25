@@ -11,15 +11,15 @@ class AdverseEventCommentsController < ApplicationController
   before_action :set_viewable_adverse_event_comment,     only: [:show]
   before_action :set_editable_adverse_event_comment,     only: [:edit, :update, :destroy]
 
-  # GET /adverse_event/:adverse_event_id/comments/1.js
+  # GET /adverse-events/:adverse_event_id/comments/1.js
   def show
   end
 
-  # GET /adverse_event/:adverse_event_id/comments/1/edit.js
+  # GET /adverse-events/:adverse_event_id/comments/1/edit.js
   def edit
   end
 
-  # POST /adverse_event/:adverse_event_id/comments.js
+  # POST /adverse-events/:adverse_event_id/comments.js
   def create
     @adverse_event_comment = current_user.adverse_event_comments
                                          .where(project_id: @project.id, adverse_event_id: @adverse_event.id)
@@ -33,7 +33,7 @@ class AdverseEventCommentsController < ApplicationController
     end
   end
 
-  # PATCH /adverse_event/:adverse_event_id/comments/1.js
+  # PATCH /adverse-events/:adverse_event_id/comments/1.js
   def update
     if @adverse_event_comment.update(adverse_event_comment_params)
       render :show
@@ -42,7 +42,7 @@ class AdverseEventCommentsController < ApplicationController
     end
   end
 
-  # DELETE /adverse_event/:adverse_event_id/comments/1.js
+  # DELETE /adverse-events/:adverse_event_id/comments/1.js
   def destroy
     @adverse_event_comment.destroy
     render :index

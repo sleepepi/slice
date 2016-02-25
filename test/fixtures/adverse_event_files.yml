@@ -10,4 +10,4 @@ two:
   project: one
   adverse_event: one
   user: valid
-  attachment: rails.png
+  attachment: test_01.pdf
