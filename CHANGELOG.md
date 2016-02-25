@@ -2,10 +2,14 @@
 
 ### Enhancements
 - **Randomization Changes**
-  - Removed "x of y" information from randomization page to keep the page cleaner
-  - `Tab` now also prefills stratification factors when entering subject code during randomization
-  - On randomization index, the link to treatment arm is now only shown for project editors
+  - Removed "x of y" information from randomization page to keep the page
+    cleaner
+  - `Tab` now also prefills stratification factors when entering subject code
+    during randomization
+  - On randomization index, the link to treatment arm is now only shown for
+    project editors
   - Schedule of upcoming tasks can be printed out when a subject is randomized
+  - Randomization notifications are now limited to project and site members
 - **Report Changes**
   - Cumulative Recruitment chart now starts one month before first randomization
 

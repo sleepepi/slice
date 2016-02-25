@@ -32,6 +32,8 @@ class Randomization < ActiveRecord::Base
   has_many :randomization_tasks
   has_many :tasks, -> { current.order(:due_date) }, through: :randomization_tasks
 
+  delegate :site, to: :subject
+
   # Named Scopes
   def self.blinding_scope(user)
     joins(:project)
@@ -92,10 +94,14 @@ class Randomization < ActiveRecord::Base
     fork_process(:notify_users!)
   end
 
+  def users_to_email
+    project.unblinded_members_for_site(site).where.not(id: randomized_by_id).where(emails_enabled: true)
+  end
+
   def notify_users!
-    all_users = project.unblinded_members.where(emails_enabled: true) - [randomized_by]
-    all_users.each do |user_to_email|
-      UserMailer.subject_randomized(self, user_to_email).deliver_later if EMAILS_ENABLED
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+    users_to_email.each do |user_to_email|
+      UserMailer.subject_randomized(self, user_to_email).deliver_later
     end
   end
 
