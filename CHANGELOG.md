@@ -1,5 +1,8 @@
 ## 0.36.0
 
+### Refactoring
+- Enabled reek engine for CodeClimate
+
 ## 0.35.0 (February 25, 2016)
 
 ### Enhancements
