@@ -1,5 +1,9 @@
 ## 0.36.0
 
+### Bug Fixes
+- Fixed a bug that prevented the recruitment chart from displaying at minimum
+  six months
+
 ### Refactoring
 - Enabled reek engine for CodeClimate
 - Added coffeelint configuration file for CodeClimate
