@@ -2,6 +2,7 @@
 
 ### Refactoring
 - Enabled reek engine for CodeClimate
+- Added coffeelint configuration file for CodeClimate
 
 ## 0.35.0 (February 25, 2016)
 
