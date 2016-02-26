@@ -3,54 +3,45 @@
 # Tracks updates to adverse events
 class AdverseEventsController < ApplicationController
   before_action :authenticate_user!
-
   before_action :set_viewable_project,                  only: [:index, :show, :forms]
   before_action :set_editable_project,                  only: [:export]
   before_action :set_editable_project_or_editable_site, only: [:new, :create, :edit, :update, :destroy]
   before_action :redirect_without_project
-
   before_action :redirect_blinded_users
-
   before_action :set_viewable_adverse_event,            only: [:show, :forms]
   before_action :set_editable_adverse_event,            only: [:edit, :update, :destroy]
-  before_action :redirect_without_adverse_event,        only: [:show, :forms, :edit, :update, :destroy]
 
+  # GET /adverse-events/export
   def export
-    name = "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}"
-    @export = current_user.exports.where(project_id: @project.id, name: name, total_steps: 1)
+    @export = current_user.exports
+                          .where(project_id: @project.id, name: @project.name_with_date_for_file, total_steps: 1)
                           .create(include_csv_labeled: true, include_adverse_events: true)
     @export.generate_export_in_background!
-
-    if @export.new_record?
-      redirect_to project_adverse_events_path(@project)
-    else
-      redirect_to [@project, @export]
-    end
+    redirect_to [@project, @export]
   end
 
-  # GET /adverse_events
+  # GET /adverse-events
   def index
     @order = scrub_order(AdverseEvent, params[:order], 'adverse_events.created_at DESC')
-    @adverse_events = current_user.all_viewable_adverse_events
-                                  .where(project_id: @project.id)
-                                  .search(params[:search]).order(@order)
-                                  .page(params[:page]).per(40)
+    @adverse_events = viewable_adverse_events.search(params[:search])
+                                             .order(@order)
+                                             .page(params[:page]).per(40)
   end
 
-  # GET /adverse_events/1
+  # GET /adverse-events/1
   def show
   end
 
-  # GET /adverse_events/new
+  # GET /adverse-events/new
   def new
-    @adverse_event = current_user.adverse_events.where(project_id: @project.id).new(subject_code: params[:subject_code])
+    @adverse_event = viewable_adverse_events.new(subject_code: params[:subject_code])
   end
 
-  # GET /adverse_events/1/edit
+  # GET /adverse-events/1/edit
   def edit
   end
 
-  # POST /adverse_events
+  # POST /adverse-events
   def create
     @adverse_event = current_user.adverse_events.where(project_id: @project.id).new(adverse_event_params)
     if @adverse_event.save
@@ -62,7 +53,7 @@ class AdverseEventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /adverse_events/1
+  # PATCH /adverse-events/1
   def update
     if @adverse_event.update(adverse_event_params)
       redirect_to [@project, @adverse_event], notice: 'Adverse event was successfully updated.'
@@ -71,7 +62,7 @@ class AdverseEventsController < ApplicationController
     end
   end
 
-  # DELETE /adverse_events/1
+  # DELETE /adverse-events/1
   def destroy
     @adverse_event.destroy
     redirect_to project_adverse_events_path(@project), notice: 'Adverse event was successfully deleted.'
@@ -79,12 +70,18 @@ class AdverseEventsController < ApplicationController
 
   private
 
+  def viewable_adverse_events
+    current_user.all_viewable_adverse_events.where(project_id: @project.id)
+  end
+
   def set_viewable_adverse_event
-    @adverse_event = current_user.all_viewable_adverse_events.find_by_id params[:id]
+    @adverse_event = viewable_adverse_events.find_by_id params[:id]
+    redirect_without_adverse_event
   end
 
   def set_editable_adverse_event
     @adverse_event = current_user.all_adverse_events.find_by_id params[:id]
+    redirect_without_adverse_event
   end
 
   def redirect_without_adverse_event

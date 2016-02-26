@@ -71,6 +71,14 @@ class Project < ActiveRecord::Base
 
   # Model Methods
 
+  def name_with_date_for_file
+    "#{name_for_file}_#{Time.zone.today.strftime('%Y%m%d')}"
+  end
+
+  def name_for_file
+    name.gsub(/[^a-zA-Z0-9_]/, '_')
+  end
+
   def recent_sheets
     sheets.where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end
