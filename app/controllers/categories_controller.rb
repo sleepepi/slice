@@ -19,7 +19,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/new
   def new
-    @category = @project.categories.new(position: @project.categories.count + 1)
+    @category = categories.new(position: @project.categories.count + 1)
   end
 
   # GET /categories/1/edit
@@ -28,7 +28,7 @@ class CategoriesController < ApplicationController
 
   # POST /categories
   def create
-    @category = current_user.categories.where(project_id: @project.id).new(category_params)
+    @category = categories.new(category_params)
     if @category.save
       redirect_to [@project, @category], notice: 'Category was successfully created.'
     else
@@ -36,7 +36,7 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /categories/1
+  # PATCH /categories/1
   def update
     if @category.update(category_params)
       redirect_to [@project, @category], notice: 'Category was successfully updated.'
@@ -52,6 +52,10 @@ class CategoriesController < ApplicationController
   end
 
   private
+
+  def categories
+    current_user.categories.where(project_id: @project.id)
+  end
 
   def set_category
     @category = @project.categories.find_by_param(params[:id])

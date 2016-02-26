@@ -15,7 +15,7 @@ class BlockSizeMultipliersController < ApplicationController
 
   # GET /block_size_multipliers
   def index
-    @block_size_multipliers = block_size_multipliers.order(:value).page(params[:page]).per(40)
+    @block_size_multipliers = @randomization_scheme.block_size_multipliers.order(:value).page(params[:page]).per(40)
   end
 
   # GET /block_size_multipliers/1

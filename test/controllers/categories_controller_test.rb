@@ -2,6 +2,7 @@
 
 require 'test_helper'
 
+# Tests creation of categories used to group designs on a project
 class CategoriesControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
@@ -28,7 +29,14 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test 'should create category' do
     assert_difference('Category.count') do
-      post :create, project_id: @project, category: { name: 'New Category', slug: 'new-category', description: @category.description, position: @category.position, use_for_adverse_events: @category.use_for_adverse_events }
+      post :create, project_id: @project,
+                    category: {
+                      name: 'New Category',
+                      slug: 'new-category',
+                      description: @category.description,
+                      position: @category.position,
+                      use_for_adverse_events: @category.use_for_adverse_events
+                    }
     end
 
     assert_redirected_to project_category_path(assigns(:project), assigns(:category))
@@ -36,7 +44,14 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test 'should not create category with blank name' do
     assert_difference('Category.count', 0) do
-      post :create, project_id: @project, category: { name: '', slug: '', description: @category.description, position: @category.position, use_for_adverse_events: @category.use_for_adverse_events }
+      post :create, project_id: @project,
+                    category: {
+                      name: '',
+                      slug: '',
+                      description: @category.description,
+                      position: @category.position,
+                      use_for_adverse_events: @category.use_for_adverse_events
+                    }
     end
 
     assert_not_nil assigns(:category)
@@ -47,7 +62,14 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test 'should not create category with invalid project' do
     assert_difference('Category.count', 0) do
-      post :create, project_id: -1, category: { name: 'New Category', slug: 'new-category', description: @category.description, position: @category.position, use_for_adverse_events: @category.use_for_adverse_events }
+      post :create, project_id: -1,
+                    category: {
+                      name: 'New Category',
+                      slug: 'new-category',
+                      description: @category.description,
+                      position: @category.position,
+                      use_for_adverse_events: @category.use_for_adverse_events
+                    }
     end
 
     assert_nil assigns(:category)
@@ -80,12 +102,26 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test 'should update category' do
-    patch :update, project_id: @project, id: @category, category: { name: 'Updated Category', slug: 'updated-category', description: @category.description, position: @category.position, use_for_adverse_events: @category.use_for_adverse_events }
+    patch :update, project_id: @project, id: @category,
+                   category: {
+                     name: 'Updated Category',
+                     slug: 'updated-category',
+                     description: @category.description,
+                     position: @category.position,
+                     use_for_adverse_events: @category.use_for_adverse_events
+                   }
     assert_redirected_to project_category_path(assigns(:project), assigns(:category))
   end
 
   test 'should not update category with blank name' do
-    patch :update, project_id: @project, id: @category, category: { name: '', slug: @category.slug, description: @category.description, position: @category.position, use_for_adverse_events: @category.use_for_adverse_events }
+    patch :update, project_id: @project, id: @category,
+                   category: {
+                     name: '',
+                     slug: @category.slug,
+                     description: @category.description,
+                     position: @category.position,
+                     use_for_adverse_events: @category.use_for_adverse_events
+                   }
 
     assert_not_nil assigns(:category)
     assert assigns(:category).errors.size > 0
@@ -94,7 +130,14 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test 'should not update category with invalid project' do
-    patch :update, project_id: -1, id: @category, category: { name: 'Updated Category', slug: 'updated-category', description: @category.description, position: @category.position, use_for_adverse_events: @category.use_for_adverse_events }
+    patch :update, project_id: -1, id: @category,
+                   category: {
+                     name: 'Updated Category',
+                     slug: 'updated-category',
+                     description: @category.description,
+                     position: @category.position,
+                     use_for_adverse_events: @category.use_for_adverse_events
+                   }
 
     assert_nil assigns(:category)
     assert_nil assigns(:project)
