@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Specifies the value and allocation of blocks for randomization schemes using
+# the permuted-block algorithm.
 class BlockSizeMultiplier < ActiveRecord::Base
   # Concerns
   include Deletable
