@@ -1,7 +1,7 @@
 - if variable.errors.any?
   .bs-callout.bs-callout-danger
     %h4
-      = pluralize(variable.errors.count, "error")
+      = pluralize variable.errors.count, 'error'
       prohibited this variable from being saved
 
     %ul

@@ -5,7 +5,7 @@
     &middot;
     New Section
 .modal-body
-  = form_tag create_section_project_design_design_options_path(@project, @design), method: :post, remote: true, enctype: "multipart/form-data", authenticity_token: true, class: 'form-horizontal', id: 'design_option_form' do
+  = form_tag create_section_project_design_design_options_path(@project, @design), method: :post, remote: true, enctype: 'multipart/form-data', authenticity_token: true, class: 'form-horizontal', id: 'design_option_form' do
     = render 'design_options/form_section', design_option: @design_option, section: @section
 .modal-footer
   = button_tag 'Add Section', data: { object: 'submit-section-form-with-file', target: '#design_option_form', method: :post }, class: 'btn btn-primary'

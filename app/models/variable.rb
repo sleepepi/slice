@@ -9,7 +9,10 @@ class Variable < ActiveRecord::Base
 
   serialize :grid_variables, Array
 
+  # Triggers
   before_save :check_for_duplicate_variables, :check_for_valid_domain
+  attr_accessor :questions
+  after_save :create_variables_from_questions
 
   # Concerns
   include Searchable, Deletable, DateAndTimeParser
@@ -42,17 +45,32 @@ class Variable < ActiveRecord::Base
     %w(name description display_name)
   end
 
-  def create_variables_from_questions!(questions)
+  def create_variables_from_questions
+    return unless variable_type == 'grid' && questions.present?
     new_grid_variables = []
-    questions.select{|hash| not hash[:question_name].blank?}.each_with_index do |question_hash, position|
+    questions.select { |hash| hash[:question_name].present? }.each do |question_hash|
       question_hash = question_hash.symbolize_keys
-      name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, '_').gsub(/^[\d_]/, 'n').gsub(/_{2,}/, '_').gsub(/_$/, '')[0..31].strip
-      name = "var_#{Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)[0..27]}" if self.project.variables.where( name: name ).size != 0
-      params = { variable_type: Design::QUESTION_TYPES.collect{|name,value| value}.include?(question_hash[:question_type]) ? question_hash[:question_type] : 'string', name: name, display_name: question_hash[:question_name] }
-      variable = self.project.variables.create(params)
-      new_grid_variables << { variable_id: variable.id } if variable and not variable.new_record?
+      name = question_hash[:question_name].to_s.downcase
+                                          .gsub(/[^a-zA-Z0-9]/, '_')
+                                          .gsub(/^[\d_]/, 'n')
+                                          .gsub(/_{2,}/, '_')
+                                          .gsub(/_$/, '')[0..31].strip
+      name = "var_#{SecureRandom.hex(12)}" if project.variables.where(name: name).size != 0
+      new_variable_type = if Design::QUESTION_TYPES.collect(&:second).include?(question_hash[:question_type])
+                            question_hash[:question_type]
+                          else
+                            'string'
+                          end
+      params = {
+        variable_type: new_variable_type,
+        name: name,
+        display_name: question_hash[:question_name]
+      }
+      variable = project.variables.create(params)
+      new_grid_variables << { variable_id: variable.id } if variable && !variable.new_record?
     end
 
+    self.questions = nil
     update grid_variables: new_grid_variables.uniq.compact
   end
 

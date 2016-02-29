@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows project editors to add sections and questions to designs
 class DesignOptionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project
@@ -7,9 +8,16 @@ class DesignOptionsController < ApplicationController
   before_action :set_editable_design
   before_action :redirect_without_design
 
-  before_action :set_new_design_option,           only: [ :new_section, :new_variable, :new_existing_variable, :create_section, :create_variable, :create_existing_variable ]
-  before_action :set_design_option,               only: [ :show, :edit, :edit_variable, :edit_domain, :update, :update_domain, :destroy ]
-  before_action :redirect_without_design_option,  only: [ :show, :edit, :edit_variable, :edit_domain, :update, :update_domain, :destroy ]
+  before_action :set_new_design_option,
+                only: [
+                  :new_section, :new_variable, :new_existing_variable,
+                  :create_section, :create_variable, :create_existing_variable
+                ]
+  before_action :set_design_option,
+                only: [
+                  :show, :edit, :edit_variable, :edit_domain, :update,
+                  :update_domain, :destroy
+                ]
 
   def new
   end
@@ -36,14 +44,12 @@ class DesignOptionsController < ApplicationController
   end
 
   def create_section
-    @section = @design.sections.new(section_params)
-    @section.project_id = @project.id
-    @section.user_id = current_user.id
+    @section = current_user.sections.where(project_id: @project.id, design_id: @design.id).new(section_params)
     if @section.save
       @design_option.section_id = @section.id
       @design_option.save
     end
-    if !@section.new_record? and !@design_option.new_record?
+    if !@section.new_record? && !@design_option.new_record?
       @design.insert_new_design_option!(@design_option)
       render :index
     else
@@ -52,17 +58,15 @@ class DesignOptionsController < ApplicationController
   end
 
   def create_variable
-    @variable = @design.variables.new(variable_params)
-    @variable.project_id = @project.id
-    @variable.user_id = current_user.id
+    @variable = current_user.variables.where(project_id: @project.id).new(variable_params)
     if @variable.save
-      if @variable.variable_type == 'grid' and not params[:variable][:questions].blank?
-        @variable.create_variables_from_questions!(params[:variable][:questions])
-      end
+      # if @variable.variable_type == 'grid' && params[:variable][:questions].present?
+      #   @variable.create_variables_from_questions!(params[:variable][:questions])
+      # end
       @design_option.variable_id = @variable.id
       @design_option.save
     end
-    if !@variable.new_record? and !@design_option.new_record?
+    if !@variable.new_record? && !@design_option.new_record?
       @design.insert_new_design_option!(@design_option)
       render :index
     else
@@ -80,7 +84,10 @@ class DesignOptionsController < ApplicationController
   end
 
   def update
-    if ((design_option_params and @design_option.update(design_option_params)) or !design_option_params) and ((@design_option.section and @design_option.section.update(section_params)) or (@design_option.variable and @design_option.variable.update(variable_params)))
+    @design_option.update(design_option_params)
+    if @design_option.section && @design_option.section.update(section_params)
+      render :show
+    elsif @design_option.variable && @design_option.variable.update(variable_params)
       render :show
     else
       render :edit
@@ -88,9 +95,10 @@ class DesignOptionsController < ApplicationController
   end
 
   def update_domain
-    @domain = @design_option.variable.domain
-    @domain = @project.domains.new(domain_params) unless @domain
-    if @design_option.variable and ((@domain.new_record? and @domain.save and @design_option.variable.update domain_id: @domain.id) or (!@domain.new_record? and @domain.update(domain_params)))
+    @domain = @design_option.variable.domain || @project.domains.new(domain_params)
+    if @domain.new_record? && @domain.save && @design_option.variable.update(domain_id: @domain.id)
+      render :show
+    elsif !@domain.new_record? && @domain.update(domain_params)
       render :show
     else
       render :edit_domain
@@ -104,13 +112,13 @@ class DesignOptionsController < ApplicationController
   end
 
   def update_section_order
-    section_order = params[:sections].to_s.split(',').collect{ |a| a.to_i }
+    section_order = params[:sections].to_s.split(',').collect(&:to_i)
     @design.reorder_sections(section_order, current_user)
     render 'update_order'
   end
 
   def update_option_order
-    row_order = params[:rows].to_s.split(',').collect{ |a| a.to_i }
+    row_order = params[:rows].to_s.split(',').collect(&:to_i)
     @design.reorder_options(row_order, current_user)
     render 'update_order'
   end
@@ -129,61 +137,51 @@ class DesignOptionsController < ApplicationController
   end
 
   def set_new_design_option
-    @design_option = @design.design_options.new(design_option_params)
+    @design_option = @design.design_options.new(design_option_params_new)
   end
 
   def set_design_option
     @design_option = @design.design_options.find_by_id params[:id]
+    redirect_without_design_option
   end
 
   def redirect_without_design_option
     empty_response_or_root_path(project_design_path(@project, @design)) unless @design_option
   end
 
+  def design_option_params_new
+    params.require(:design_option).permit(:variable_id, :position)
+  end
+
   def design_option_params
-    return unless params[:design_option]
     params.require(:design_option).permit(
-      :variable_id, :section_id, :position, :required, :branching_logic
+      :branching_logic, :position, :required
     )
   end
 
   def section_params
     params.require(:section).permit(
-      :name, :description, :level,
-      :image, :image_cache, :remove_image
+      :name, :description, :level, :image, :image_cache, :remove_image
     )
   end
 
   def variable_params
     params[:variable] ||= { blank: '1' }
-    [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
-      params[:variable][date] = parse_date(params[:variable][date]) if params[:variable].key?(date)
-    end
-
+    parse_variable_dates
     params.require(:variable).permit(
-      :name, :display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
-      # For Integers and Numerics
-      :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-      # For Dates
-      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-      # For Date, Time
-      :show_current_button,
-      # For Time
-      :show_seconds,
-      # For Time Duration
-      :time_duration_format,
-      # For Calculated Variables
-      :calculation, :format, :hide_calculation,
-      # For Integer, Numeric, and Calculated
-      :units,
-      # For Grid Variables
-      { :grid_tokens => [ :variable_id ] },
-      :multiple_rows, :default_row_number,
-      # For Autocomplete Strings
-      :autocomplete_values,
-      # Radio and Checkbox
-      :alignment, :domain_id
+      :name, :display_name, :description, :variable_type, :prepend, :append, :display_name_visibility,
+      :show_current_button, :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :time_duration_format,
+      :calculation, :format, :hide_calculation, :units, { grid_tokens: [:variable_id] }, :multiple_rows,
+      { questions: [:question_name, :question_type] }, :default_row_number, :autocomplete_values, :alignment, :domain_id
     )
+  end
+
+  def parse_variable_dates
+    parse_date_if_key_present(:variable, :date_hard_maximum)
+    parse_date_if_key_present(:variable, :date_hard_minimum)
+    parse_date_if_key_present(:variable, :date_soft_maximum)
+    parse_date_if_key_present(:variable, :date_soft_minimum)
   end
 
   def domain_params

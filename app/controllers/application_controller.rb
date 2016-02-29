@@ -92,4 +92,9 @@ class ApplicationController < ActionController::Base
     return unless params[object].key?(key) && params[object][key].blank?
     params[object][key] = default_value
   end
+
+  def parse_date_if_key_present(object, key)
+    return unless params[object].key?(key)
+    params[object][key] = parse_date(params[object][key]) if params[object].key?(key)
+  end
 end
