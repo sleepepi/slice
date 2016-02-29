@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
+# Allows project editors to create a list of contacts for the project
 class ContactsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_action :redirect_without_project, only: [ :index, :show, :new, :edit, :create, :update, :destroy ]
-  before_action :set_editable_contact, only: [ :show, :edit, :update, :destroy ]
-  before_action :redirect_without_contact, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :set_editable_contact, only: [:show, :edit, :update, :destroy]
 
   # GET /contacts
-  # GET /contacts.json
   def index
     @order = scrub_order(Contact, params[:order], 'contacts.name')
-    @contacts = @project.contacts.search(params[:search]).order(@order).page(params[:page]).per( 20 )
+    @contacts = @project.contacts
+                        .search(params[:search]).order(@order)
+                        .page(params[:page]).per(20)
   end
 
   # GET /contacts/1
-  # GET /contacts/1.json
   def show
   end
 
   # GET /contacts/new
   def new
-    @contact = @project.contacts.new
+    @contact = current_user.contacts.where(project_id: @project.id).new
   end
 
   # GET /contacts/1/edit
@@ -29,65 +29,47 @@ class ContactsController < ApplicationController
   end
 
   # POST /contacts
-  # POST /contacts.json
   def create
-    @contact = @project.contacts.new(contact_params)
+    @contact = current_user.contacts.where(project_id: @project.id).new(contact_params)
 
-    respond_to do |format|
-      if @contact.save
-        format.html { redirect_to [@contact.project, @contact], notice: 'Contact was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @contact }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
-      end
+    if @contact.save
+      redirect_to [@contact.project, @contact], notice: 'Contact was successfully created.'
+    else
+      render action: :new
     end
   end
 
-  # PUT /contacts/1
-  # PUT /contacts/1.json
+  # PATCH /contacts/1
   def update
-    respond_to do |format|
-      if @contact.update(contact_params)
-        format.html { redirect_to [@contact.project, @contact], notice: 'Contact was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
-      end
+    if @contact.update(contact_params)
+      redirect_to [@contact.project, @contact], notice: 'Contact was successfully updated.'
+    else
+      render action: :edit
     end
   end
 
   # DELETE /contacts/1
-  # DELETE /contacts/1.json
   def destroy
     @contact.destroy
-
-    respond_to do |format|
-      format.html { redirect_to project_contacts_path(@project) }
-      format.json { head :no_content }
-    end
+    redirect_to project_contacts_path(@project)
   end
 
   private
 
-    def set_editable_contact
-      @contact = @project.contacts.find_by_id(params[:id])
-    end
+  def set_editable_contact
+    @contact = @project.contacts.find_by_id params[:id]
+    redirect_without_contact
+  end
 
-    def redirect_without_contact
-      empty_response_or_root_path(project_contacts_path(@project)) unless @contact
-    end
+  def redirect_without_contact
+    empty_response_or_root_path(project_contacts_path(@project)) unless @contact
+  end
 
-    def contact_params
-      params[:contact] ||= {}
-
-      params[:contact][:user_id] = current_user.id unless @contact
-      params[:contact][:position] = 0 if params[:contact][:position].blank?
-
-      params.require(:contact).permit(
-        :title, :name, :phone, :fax, :email, :position, :user_id, :archived
-      )
-    end
-
+  def contact_params
+    params[:contact] ||= { blank: '1' }
+    check_key_and_set_default_value(:contact, :position, 0)
+    params.require(:contact).permit(
+      :title, :name, :phone, :fax, :email, :position, :archived
+    )
+  end
 end

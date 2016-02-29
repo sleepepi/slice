@@ -87,4 +87,9 @@ class ApplicationController < ActionController::Base
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
   end
+
+  def check_key_and_set_default_value(object, key, default_value)
+    return unless params[object].key?(key) && params[object][key].blank?
+    params[object][key] = default_value
+  end
 end

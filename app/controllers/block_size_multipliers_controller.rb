@@ -101,9 +101,4 @@ class BlockSizeMultipliersController < ApplicationController
     check_key_and_set_default_value(:block_size_multiplier, :allocation, 0)
     params.require(:block_size_multiplier).permit(:value, :allocation)
   end
-
-  def check_key_and_set_default_value(object, key, default_value)
-    return unless params[object].key?(key) && params[object][key].blank?
-    params[object][key] = default_value
-  end
 end
