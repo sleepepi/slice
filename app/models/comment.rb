@@ -41,6 +41,10 @@ class Comment < ActiveRecord::Base
     0
   end
 
+  def anchor
+    "comment-#{number}"
+  end
+
   def deletable_by?(current_user)
     user == current_user || editable_by?(current_user)
   end

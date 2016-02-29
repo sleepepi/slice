@@ -2,6 +2,8 @@
 
 require 'test_helper'
 
+# Tests to make sure project owners, editors, and viewers can leave comments on
+# sheets.
 class CommentsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
@@ -42,7 +44,11 @@ class CommentsControllerTest < ActionController::TestCase
 
   test 'should redirect to comment on sheet' do
     get :show, id: @comment, include_name: '0', number: @comment.number
-    assert_redirected_to project_sheet_path(assigns(:comment).project, assigns(:comment).sheet, anchor: "comment-#{assigns(:comment).number}")
+    assert_redirected_to project_sheet_path(
+      assigns(:comment).project,
+      assigns(:comment).sheet,
+      anchor: "comment-#{assigns(:comment).number}"
+    )
   end
 
   test 'should get edit' do

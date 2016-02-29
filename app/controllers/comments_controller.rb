@@ -4,17 +4,15 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_sheet, only: [:new, :create]
-  before_action :redirect_without_sheet, only: [:new, :create]
   before_action :set_viewable_comment, only: [:show]
   before_action :set_editable_comment, only: [:edit, :update]
   before_action :set_deletable_comment, only: [:destroy]
-  before_action :redirect_without_comment, only: [:show, :edit, :update, :destroy]
 
   # GET /comments/1
   # GET /comments/1.js
   def show
     respond_to do |format|
-      format.html { redirect_to project_sheet_path(@comment.project, @comment.sheet, anchor: "comment-#{@comment.number}") }
+      format.html { redirect_to project_sheet_path(@comment.project, @comment.sheet, anchor: @comment.anchor) }
       format.js
     end
   end
@@ -33,7 +31,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /comments/1
+  # PATCH /comments/1
   def update
     if @comment.update(comment_params)
       render :show
@@ -50,7 +48,8 @@ class CommentsController < ApplicationController
   private
 
   def set_viewable_sheet
-    @sheet = current_user.all_viewable_sheets.find_by_id(params[:sheet_id])
+    @sheet = current_user.all_viewable_sheets.find_by_id params[:sheet_id]
+    redirect_without_sheet
   end
 
   def redirect_without_sheet
@@ -58,15 +57,18 @@ class CommentsController < ApplicationController
   end
 
   def set_viewable_comment
-    @comment = current_user.all_viewable_comments.find_by_id(params[:id])
+    @comment = current_user.all_viewable_comments.find_by_id params[:id]
+    redirect_without_comment
   end
 
   def set_editable_comment
-    @comment = current_user.all_comments.find_by_id(params[:id])
+    @comment = current_user.all_comments.find_by_id params[:id]
+    redirect_without_comment
   end
 
   def set_deletable_comment
-    @comment = current_user.all_deletable_comments.find_by_id(params[:id])
+    @comment = current_user.all_deletable_comments.find_by_id params[:id]
+    redirect_without_comment
   end
 
   def redirect_without_comment
