@@ -17,14 +17,14 @@ engines:
 # to turn off an engine, set enabled to `false` or remove it
   rubocop:
     enabled: true
-  coffeelint:
-    enabled: true
+  # coffeelint:
+  #   enabled: true
   scss-lint:
     enabled: true
   fixme:
     enabled: true
-  reek:
-    enabled: true
+  # reek:
+  #   enabled: true
 
 # Engines can analyze files and report issues on them, but you can separately
 # decide which files will receive ratings based on those issues. This is
