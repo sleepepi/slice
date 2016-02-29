@@ -3,12 +3,12 @@
 # Designs can be created and updated by project editors and owners
 class DesignsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,                  only: [:print, :report_print, :report, :overview]
-  before_action :set_editable_project,                  only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create]
-  before_action :redirect_without_project,              only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create]
-  before_action :set_viewable_design,                   only: [:print, :report_print, :report, :overview]
-  before_action :set_editable_design,                   only: [:show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import]
-  before_action :redirect_without_design,               only: [:show, :edit, :update, :destroy, :reorder, :print, :report_print, :report, :progress, :reimport, :update_import, :overview]
+  before_action :set_viewable_project,     only: [:print, :report_print, :report, :overview]
+  before_action :set_editable_project,     only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create]
+  before_action :redirect_without_project, only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :print, :report_print, :report, :overview, :json_import, :json_import_create]
+  before_action :set_viewable_design,      only: [:print, :report_print, :report, :overview]
+  before_action :set_editable_design,      only: [:show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import]
+  before_action :redirect_without_design,  only: [:show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import, :print, :report_print, :report, :overview]
 
   # Concerns
   include Buildable
@@ -20,7 +20,9 @@ class DesignsController < ApplicationController
   # GET /designs/1/overview
   # GET /designs/1/overview.js
   def overview
-    @sheets = current_user.all_viewable_sheets.where(project_id: @project.id, design_id: @design.id).where(missing: false)
+    @sheets = current_user.all_viewable_sheets
+                          .where(project_id: @project.id, design_id: @design.id)
+                          .where(missing: false)
   end
 
   def json_import
@@ -59,10 +61,9 @@ class DesignsController < ApplicationController
     else
       if @design.save
         @design.create_variables!(params[:variables])
-
         generate_import
-
-        redirect_to [@design.project, @design], notice: 'Design import initialized successfully. You will receive an email when the design import completes.'
+        message = 'Design import initialized successfully. You will receive an email when the design import completes.'
+        redirect_to [@design.project, @design], notice: message
       else
         @variables = @design.load_variables
         @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize.capitalize if @design.name.blank? && @design.csv_file.path && @design.csv_file.path.split('/').last
@@ -97,20 +98,31 @@ class DesignsController < ApplicationController
       @design.update rows_imported: 0
       @design.set_total_rows
       generate_import
-      redirect_to [@design.project, @design], notice: 'Design import initialized successfully. You will receive an email when the design import completes.'
+      message = 'Design import initialized successfully. You will receive an email when the design import completes.'
+      redirect_to [@design.project, @design], notice: message
     end
   end
 
   def report_print
     setup_report_new
-
     orientation = %w(portrait landscape).include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
-
-    file_pdf_location = @design.latex_report_new_file_location(current_user, orientation, @report_title, @report_subtitle, @report_caption, @percent, @table_header, @table_body, @table_footer)
-
+    file_pdf_location = @design.latex_report_new_file_location(
+      current_user,
+      orientation,
+      @report_title,
+      @report_subtitle,
+      @report_caption,
+      @percent,
+      @table_header,
+      @table_body,
+      @table_footer
+    )
     if File.exist?(file_pdf_location)
       file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
-      send_file file_pdf_location, filename: "#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.pdf", type: 'application/pdf', disposition: 'inline'
+      send_file file_pdf_location,
+                filename: "#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.pdf",
+                type: 'application/pdf',
+                disposition: 'inline'
     else
       render text: 'PDF did not render in time. Please refresh the page.'
     end
@@ -130,7 +142,8 @@ class DesignsController < ApplicationController
       if @design.save
         redirect_to edit_project_design_path(@design.project, @design), notice: 'Design was successfully copied.'
       else
-        redirect_to project_designs_path(design.project, search: design.name), alert: "Unable to copy design since another design named <b>#{@design.name}</b> already exists.".html_safe
+        message = "Unable to copy design since another design named <b>#{@design.name}</b> already exists.".html_safe
+        redirect_to project_designs_path(design.project, search: design.name), alert: message
       end
     else
       redirect_to project_designs_path
@@ -140,8 +153,9 @@ class DesignsController < ApplicationController
   # GET /designs
   # GET /designs.json
   def index
-    design_scope = current_user.all_viewable_designs.where(project_id: @project.id).includes(:user).search(params[:search])
-
+    design_scope = current_user.all_viewable_designs
+                               .where(project_id: @project.id).includes(:user)
+                               .search(params[:search])
     @order = params[:order]
     case params[:order]
     when 'designs.user_name'
@@ -162,7 +176,6 @@ class DesignsController < ApplicationController
   # This is the latex view
   def print
     file_pdf_location = @design.latex_file_location(current_user)
-
     if File.exist?(file_pdf_location)
       send_file file_pdf_location, filename: "design_#{@design.id}.pdf", type: 'application/pdf', disposition: 'inline'
     else
@@ -196,7 +209,7 @@ class DesignsController < ApplicationController
     end
   end
 
-  # PUT /designs/1.js
+  # PATCH /designs/1.js
   def update
     if @design.update(design_params)
       render :show
@@ -204,45 +217,6 @@ class DesignsController < ApplicationController
       render :edit
     end
   end
-
-  # # GET /designs/new
-  # def new
-  #   @design = current_user.designs.new(updater_id: current_user.id, project_id: params[:project_id])
-  # end
-
-  # # GET /designs/1/edit
-  # def edit
-  # end
-
-  # # POST /designs
-  # # POST /designs.json
-  # def create
-  #   @design = current_user.designs.new(design_params)
-
-  #   respond_to do |format|
-  #     if @design.save
-  #       format.html { redirect_to [@design.project, @design], notice: 'Design was successfully created.' }
-  #       format.json { render action: 'show', status: :created, location: @design }
-  #     else
-  #       format.html { render action: 'new' }
-  #       format.json { render json: @design.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
-
-  # # PUT /designs/1
-  # # PUT /designs/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @design.update(design_params)
-  #       format.html { redirect_to [@design.project, @design], notice: 'Design was successfully updated.' }
-  #       format.json { head :no_content }
-  #     else
-  #       format.html { render action: 'edit' }
-  #       format.json { render json: @design.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # DELETE /designs/1
   # DELETE /designs/1.json
@@ -260,10 +234,12 @@ class DesignsController < ApplicationController
 
   def set_viewable_design
     @design = current_user.all_viewable_designs.find_by_param params[:id]
+    redirect_without_design
   end
 
   def set_editable_design
     @design = current_user.all_designs.where(project_id: @project.id).find_by_param params[:id]
+    redirect_without_design
   end
 
   def redirect_without_design
@@ -272,24 +248,21 @@ class DesignsController < ApplicationController
 
   def design_params
     params[:design] ||= {}
-
     params[:design][:slug] = params[:design][:slug].parameterize unless params[:design][:slug].blank?
-
     params[:design][:updater_id] = current_user.id
-
-    if params[:design].key?(:redirect_url)
-      begin
-        uri = URI.parse(params[:design][:redirect_url])
-        params[:design][:redirect_url] = uri.is_a?(URI::HTTP) ? uri.to_s : ''
-      rescue
-        params[:design][:redirect_url] = ''
-      end
-    end
-
+    parse_redirect_url
     params.require(:design).permit(
       :name, :slug, :description, :project_id, :updater_id, :csv_file, :csv_file_cache, :publicly_available, :show_site,
       { questions: [:question_name, :question_type] }, :redirect_url, :category_id, :only_unblinded
     )
+  end
+
+  def parse_redirect_url
+    return unless params[:design].key?(:redirect_url)
+    uri = URI.parse(params[:design][:redirect_url])
+    params[:design][:redirect_url] = uri.is_a?(URI::HTTP) ? uri.to_s : ''
+  rescue
+    params[:design][:redirect_url] = ''
   end
 
   def generate_import

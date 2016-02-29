@@ -2,6 +2,7 @@
 
 require 'test_helper'
 
+# Tests to assure that designs can be created and updated by project editors
 class DesignsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
@@ -48,7 +49,8 @@ class DesignsControllerTest < ActionController::TestCase
       assert_difference('Domain.count', 8) do
         assert_difference('Variable.count', 27) do
           assert_difference('Design.count') do
-            post :json_import_create, project_id: projects(:empty), json_file: fixture_file_upload('../../test/support/designs/all_variables.json')
+            post :json_import_create, project_id: projects(:empty),
+                                      json_file: fixture_file_upload('../../test/support/designs/all_variables.json')
           end
         end
       end
@@ -63,7 +65,8 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should not create design from invalid json template' do
     assert_difference('Design.count', 0) do
-      post :json_import_create, project_id: projects(:empty), json_file: fixture_file_upload('../../test/support/design_import.csv')
+      post :json_import_create, project_id: projects(:empty),
+                                json_file: fixture_file_upload('../../test/support/design_import.csv')
     end
 
     assert_not_nil assigns(:project)
@@ -104,7 +107,10 @@ class DesignsControllerTest < ActionController::TestCase
     assert_difference('Design.count', 1) do
       assert_difference('Variable.count', 5) do
         post :create_import, project_id: @project,
-                             design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), name: 'Design Import' },
+                             design: {
+                               csv_file: fixture_file_upload('../../test/support/design_import.csv'),
+                               name: 'Design Import'
+                             },
                              variables: { 'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
                                           'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
                                           'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
@@ -112,7 +118,8 @@ class DesignsControllerTest < ActionController::TestCase
                                           'gender' => { display_name: 'Gender', variable_type: 'string' } }
       end
     end
-    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.', flash[:notice]
+    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.',
+                 flash[:notice]
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
@@ -120,7 +127,10 @@ class DesignsControllerTest < ActionController::TestCase
     assert_difference('Design.count', 0) do
       assert_difference('Variable.count', 0) do
         post :create_import, project_id: @project,
-                             design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), name: '' },
+                             design: {
+                               csv_file: fixture_file_upload('../../test/support/design_import.csv'),
+                               name: ''
+                             },
                              variables: { 'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
                                           'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
                                           'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
@@ -135,7 +145,9 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should load file and present importable columns for new design with blank header columns (columns with blank headers are ignored)' do
     post :create_import, project_id: @project,
-                         design: { csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv') }
+                         design: {
+                           csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv')
+                         }
 
     assert_equal 4, assigns(:variables).size
 
@@ -147,14 +159,18 @@ class DesignsControllerTest < ActionController::TestCase
     assert_difference('Design.count', 1) do
       assert_difference('Variable.count', 4) do
         post :create_import, project_id: @project,
-                             design: { csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv'), name: 'Design Import' },
+                             design: {
+                               csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv'),
+                               name: 'Design Import'
+                             },
                              variables: { 'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
                                           'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
                                           'name' => { display_name: 'First Name', variable_type: 'string' },
                                           'gender' => { display_name: 'Gender', variable_type: 'string' } }
       end
     end
-    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.', flash[:notice]
+    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.',
+                 flash[:notice]
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
@@ -188,7 +204,8 @@ class DesignsControllerTest < ActionController::TestCase
                                           'gender' => { display_name: 'Gender', variable_type: 'string' } }
       end
     end
-    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.', flash[:notice]
+    assert_equal 'Design import initialized successfully. You will receive an email when the design import completes.',
+                 flash[:notice]
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
@@ -260,37 +277,56 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should get report string (row) by sheet date (col)' do
-    get :report, id: @design, project_id: @project, f: [{ id: variables(:string).id, axis: 'row', missing: '1' }, { id: 'sheet_date', axis: 'col', missing: '0' }]
+    get :report, id: @design, project_id: @project,
+                 f: [
+                   { id: variables(:string).id, axis: 'row', missing: '1' },
+                   { id: 'sheet_date', axis: 'col', missing: '0' }
+                 ]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should get report with column variable (date)' do
-    get :report, id: @design, project_id: @project, f: [{ id: variables(:date).id, axis: 'col', missing: '1' }]
+    get :report, id: @design, project_id: @project,
+                 f: [{ id: variables(:date).id, axis: 'col', missing: '1' }]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should get report with column variable (numeric)' do
-    get :report, id: designs(:all_variable_types), project_id: @project, f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }]
+    get :report, id: designs(:all_variable_types), project_id: @project,
+                 f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should get report gender (row) by weight (column)' do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:gender).id, axis: 'row', missing: '0' }, { id: variables(:weight).id, axis: 'col', missing: '0' }]
+    get :report, id: designs(:weight_and_gender), project_id: @project,
+                 f: [
+                   { id: variables(:gender).id, axis: 'row', missing: '0' },
+                   { id: variables(:weight).id, axis: 'col', missing: '0' }
+                 ]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should get report weight (row) by site (column)' do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: variables(:weight).id, axis: 'row', missing: '0' }, { id: 'site', axis: 'col', missing: '0' }]
+    get :report, id: designs(:weight_and_gender), project_id: @project,
+                 f: [
+                   { id: variables(:weight).id, axis: 'row', missing: '0' },
+                   { id: 'site', axis: 'col', missing: '0' }
+                 ]
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should get report site and gender (row) by weight (column)' do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }]
+    get :report, id: designs(:weight_and_gender), project_id: @project,
+                 f: [
+                   { id: 'site', axis: 'row', missing: '0' },
+                   { id: variables(:gender).id, axis: 'row', missing: '1' },
+                   { id: variables(:weight).id, axis: 'col', missing: '1' }
+                 ]
     assert_not_nil assigns(:design)
     assert_response :success
   end
@@ -302,7 +338,13 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should get report site and gender (row) by weight (column) as CSV' do
-    get :report, id: designs(:weight_and_gender), project_id: @project, f: [{ id: 'site', axis: 'row', missing: '0' }, { id: variables(:gender).id, axis: 'row', missing: '1' }, { id: variables(:weight).id, axis: 'col', missing: '1' }], format: 'csv'
+    get :report, id: designs(:weight_and_gender), project_id: @project,
+                 f: [
+                   { id: 'site', axis: 'row', missing: '0' },
+                   { id: variables(:gender).id, axis: 'row', missing: '1' },
+                   { id: variables(:weight).id, axis: 'col', missing: '1' }
+                 ],
+                 format: 'csv'
     assert_not_nil assigns(:design)
     assert_response :success
   end
@@ -390,7 +432,15 @@ class DesignsControllerTest < ActionController::TestCase
   test 'should create design with questions' do
     assert_difference('Variable.count', 3) do
       assert_difference('Design.count') do
-        post :create, project_id: @project, design: { name: 'Design With Questions', questions: [ { question_name: 'String Question', question_type: 'string' }, { question_name: 'Integer Question', question_type: 'integer' }, { question_name: 'Gender', question_type: 'radio' } ] }
+        post :create, project_id: @project,
+                      design: {
+                        name: 'Design With Questions',
+                        questions: [
+                          { question_name: 'String Question', question_type: 'string' },
+                          { question_name: 'Integer Question', question_type: 'integer' },
+                          { question_name: 'Gender', question_type: 'radio' }
+                        ]
+                      }
       end
     end
 
@@ -400,7 +450,12 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should create design and save parseable redirect_url' do
     assert_difference('Design.count') do
-      post :create, project_id: @project, design: { name: 'Public with Valid Redirect', redirect_url: 'http://example.com' }, format: 'js'
+      post :create, project_id: @project,
+                    design: {
+                      name: 'Public with Valid Redirect',
+                      redirect_url: 'http://example.com'
+                    },
+                    format: 'js'
     end
 
     assert_not_nil assigns(:design)
@@ -412,7 +467,12 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should create design but not save non http redirect_url' do
     assert_difference('Design.count') do
-      post :create, project_id: @project, design: { name: 'Public with Invalid Redirect', redirect_url: 'fake123' }, format: 'js'
+      post :create, project_id: @project,
+                    design: {
+                      name: 'Public with Invalid Redirect',
+                      redirect_url: 'fake123'
+                    },
+                    format: 'js'
     end
 
     assert_not_nil assigns(:design)
@@ -424,7 +484,12 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should create design but not save nonparseable redirect_url' do
     assert_difference('Design.count') do
-      post :create, project_id: @project, design: { name: 'Public with Invalid Redirect', redirect_url: 'fa\\ke' }, format: 'js'
+      post :create, project_id: @project,
+                    design: {
+                      name: 'Public with Invalid Redirect',
+                      redirect_url: 'fa\\ke'
+                    },
+                    format: 'js'
     end
 
     assert_not_nil assigns(:design)
@@ -544,7 +609,9 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should update design' do
-    patch :update, id: @design, project_id: @project, design: { description: 'Updated Description' }, format: 'js'
+    patch :update, id: @design, project_id: @project,
+                   design: { description: 'Updated Description' },
+                   format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'Updated Description', assigns(:design).description
@@ -552,7 +619,9 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should update design and make publicly available' do
-    patch :update, id: @design, project_id: @project, design: { publicly_available: '1' }, format: 'js'
+    patch :update, id: @design, project_id: @project,
+                   design: { publicly_available: '1' },
+                   format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'design-one', assigns(:design).slug
@@ -561,7 +630,9 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should update design and make custom slug' do
-    patch :update, id: @design, project_id: @project, design: { publicly_available: '1', slug: 'design-one-custom' }, format: 'js'
+    patch :update, id: @design, project_id: @project,
+                   design: { publicly_available: '1', slug: 'design-one-custom' },
+                   format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'design-one-custom', assigns(:design).slug
