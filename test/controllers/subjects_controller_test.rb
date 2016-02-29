@@ -44,9 +44,16 @@ class SubjectsControllerTest < ActionController::TestCase
   test 'should set sheet as missing on subject event as site editor' do
     login(users(:site_one_editor))
     assert_difference('Sheet.current.where(missing: true).count', 1) do
-      post :set_sheet_as_missing, id: @subject, project_id: @project, design_id: designs(:all_variable_types), subject_event_id: subject_events(:one)
+      post :set_sheet_as_missing, id: @subject, project_id: @project, design_id: designs(:all_variable_types),
+                                  subject_event_id: subject_events(:one)
     end
-    assert_redirected_to event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:sheet).subject_event.event, subject_event_id: assigns(:sheet).subject_event, event_date: assigns(:sheet).subject_event.event_date_to_param)
+    assert_redirected_to event_project_subject_path(
+      assigns(:project),
+      assigns(:subject),
+      event_id: assigns(:sheet).subject_event.event,
+      subject_event_id: assigns(:sheet).subject_event,
+      event_date: assigns(:sheet).subject_event.event_date_to_param
+    )
   end
 
   test 'should get search as project editor' do
@@ -70,7 +77,8 @@ class SubjectsControllerTest < ActionController::TestCase
     @subject_event = subject_events(:one)
     assert_difference('SubjectEvent.count', -1) do
       assert_difference('Sheet.current.count', 0) do
-        delete :destroy_event, project_id: @project, id: @subject, event_id: @subject_event.event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param
+        delete :destroy_event, project_id: @project, id: @subject, event_id: @subject_event.event,
+                               subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param
       end
     end
 
@@ -182,25 +190,35 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should launch subject event for subject' do
-    post :launch_subject_event, project_id: @project, id: @subject, event_id: events(:one), event_date: { month: '2', day: '14', year: '2015' }
+    post :launch_subject_event, project_id: @project, id: @subject, event_id: events(:one),
+                                subject_event: { event_date: '02/14/2015' }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:event)
     assert_equal Date.parse('2015-02-14'), assigns(:subject_event).event_date
-    assert_redirected_to event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), subject_event_id: assigns(:subject_event), event_date: assigns(:subject_event).event_date_to_param)
+    assert_redirected_to event_project_subject_path(
+      assigns(:project),
+      assigns(:subject),
+      event_id: assigns(:event),
+      subject_event_id: assigns(:subject_event),
+      event_date: assigns(:subject_event).event_date_to_param
+    )
   end
 
   test 'should not launch subject event for subject with invalid date' do
-    post :launch_subject_event, project_id: @project, id: @subject, event_id: events(:one), event_date: { month: '2', day: '30', year: '2015' }
+    post :launch_subject_event, project_id: @project, id: @subject, event_id: events(:one),
+                                subject_event: { event_date: '02/30/2015' }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:event)
-    assert_nil assigns(:subject_event)
-    assert_redirected_to choose_date_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), event_date: { month: 2, day: 30, year: 2015 })
+    assert_not_nil assigns(:subject_event)
+    assert_template 'choose_date'
+    assert_response :success
   end
 
   test 'should get subject event for subject' do
-    get :event, project_id: @project, id: @subject, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param
+    get :event, project_id: @project, id: @subject, event_id: events(:one),
+                subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:event)
@@ -209,7 +227,8 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should get edit subject event for subject' do
-    get :edit_event, project_id: @project, id: @subject, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param
+    get :edit_event, project_id: @project, id: @subject, event_id: events(:one),
+                     subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:event)
@@ -218,23 +237,31 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should update subject event for subject' do
-    post :update_event, project_id: @project, id: @subject, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param, new_event_date: { month: '12', day: '4', year: '2015' }
+    post :update_event, project_id: @project, id: @subject, event_id: events(:one),
+                        subject_event_id: subject_events(:one), subject_event: { event_date: '12/4/2015' }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:event)
     assert_not_nil assigns(:subject_event)
     assert_equal Date.parse('2015-12-04'), assigns(:subject_event).event_date
-    assert_redirected_to event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), subject_event_id: assigns(:subject_event), event_date: assigns(:subject_event).event_date_to_param)
+    assert_redirected_to event_project_subject_path(
+      assigns(:project),
+      assigns(:subject),
+      event_id: assigns(:event),
+      subject_event_id: assigns(:subject_event),
+      event_date: assigns(:subject_event).event_date_to_param
+    )
   end
 
-  test 'should update subject event for subject with invalid date' do
-    post :update_event, project_id: @project, id: @subject, event_id: events(:one), subject_event_id: subject_events(:one), event_date: subject_events(:one).event_date_to_param, new_event_date: { month: '12', day: '0', year: '2015' }
+  test 'should not update subject event for subject with invalid date' do
+    post :update_event, project_id: @project, id: @subject, event_id: events(:one),
+                        subject_event_id: subject_events(:one), subject_event: { event_date: '12/0/2015' }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:event)
     assert_not_nil assigns(:subject_event)
-    assert_equal Date.parse('2015-03-31'), assigns(:subject_event).event_date
-    assert_redirected_to edit_event_project_subject_path(assigns(:project), assigns(:subject), event_id: assigns(:event), subject_event_id: assigns(:subject_event), event_date: assigns(:subject_event).event_date_to_param, new_event_date: { month: 12, day: 0, year: 2015 })
+    assert_template 'edit_event'
+    assert_response :success
   end
 
   test 'should get choose site for new subject as project editor' do
@@ -332,7 +359,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:subject)
     assert assigns(:subject).errors.size > 0
-    assert_equal ["Subject Code must be in the following format: S1[0-9][0-9]"], assigns(:subject).errors[:base]
+    assert_equal ['Subject Code must be in the following format: S1[0-9][0-9]'], assigns(:subject).errors[:base]
     assert_template 'new'
   end
 
@@ -347,7 +374,7 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  test 'should not create subject with a subject code that differs only in upper or lower case to an existing subject code' do
+  test 'should not create subject with a subject code that differs in case to an existing subject code' do
     assert_difference('Subject.count', 0) do
       post :create, project_id: @project, subject: { subject_code: 'code01' }, site_id: @subject.site_id
     end
@@ -485,7 +512,9 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should update subject' do
-    put :update, project_id: @project, id: @subject, subject: { subject_code: @subject.subject_code }, site_id: @subject.site_id
+    put :update, project_id: @project, id: @subject,
+                 subject: { subject_code: @subject.subject_code },
+                 site_id: @subject.site_id
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
   end
 
@@ -498,27 +527,29 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should not update invalid subject' do
-    put :update, id: -1, project_id: @project, subject: { subject_code: @subject.subject_code }, site_id: @subject.site_id
+    put :update, id: -1, project_id: @project,
+                 subject: { subject_code: @subject.subject_code },
+                 site_id: @subject.site_id
     assert_nil assigns(:subject)
     assert_redirected_to project_subjects_path
   end
 
   test 'should not update subject with invalid project' do
-    put :update, id: @subject, project_id: -1, subject: { subject_code: @subject.subject_code }, site_id: @subject.site_id
-
+    put :update, id: @subject, project_id: -1,
+                 subject: { subject_code: @subject.subject_code },
+                 site_id: @subject.site_id
     assert_nil assigns(:subject)
     assert_nil assigns(:project)
-
     assert_redirected_to root_path
   end
 
   test 'should not update subject for site editor for another site' do
     login(users(:site_one_editor))
-    put :update, id: subjects(:three), project_id: @project, subject: { subject_code: 'New Subject Code' }, site_id: sites(:one)
-
+    put :update, id: subjects(:three), project_id: @project,
+                 subject: { subject_code: 'New Subject Code' },
+                 site_id: sites(:one)
     assert_not_nil assigns(:project)
     assert_nil assigns(:subject)
-
     assert_redirected_to project_subjects_path
   end
 

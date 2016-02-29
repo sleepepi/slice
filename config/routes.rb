@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   post 'survey/:slug', to: 'survey#create'
   patch 'survey/:slug/:sheet_authentication_token', to: 'survey#update'
 
-  get 'check-date', to: 'application#check_date'
-
   resources :comments
   resources :lists
 
@@ -207,7 +205,7 @@ Rails.application.routes.draw do
         get :events
         get 'events/:event_id/:subject_event_id/:event_date', action: :event, as: :event
         get 'events/:event_id/:subject_event_id/:event_date/edit', action: :edit_event, as: :edit_event
-        post 'events/:event_id/:subject_event_id/:event_date', action: :update_event, as: :update_event
+        post 'events/:event_id/:subject_event_id', action: :update_event, as: :update_event
         delete 'events/:event_id/:subject_event_id/:event_date', action: :destroy_event, as: :destroy_event
         get :timeline
         get :comments

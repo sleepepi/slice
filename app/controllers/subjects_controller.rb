@@ -40,7 +40,8 @@ class SubjectsController < ApplicationController
 
   def event
     @event = @project.events.find_by_param(params[:event_id])
-    @subject_event = @subject.blinded_subject_events(current_user).where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    @subject_event = @subject.blinded_subject_events(current_user)
+                             .where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
     redirect_to [@project, @subject] unless @subject_event
   end
 
@@ -53,19 +54,15 @@ class SubjectsController < ApplicationController
   def update_event
     @event = @project.events.find_by_param(params[:event_id])
     @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    parse_date_if_key_present(:subject_event, :event_date)
 
-    month = parse_integer(params[:new_event_date] ? params[:new_event_date][:month] : nil)
-    day = parse_integer(params[:new_event_date] ? params[:new_event_date][:day] : nil)
-    year = parse_integer(params[:new_event_date] ? params[:new_event_date][:year] : nil)
-    date = parse_date("#{month}/#{day}/#{year}")
-
-    if @subject_event and date
-      @subject_event.update event_date: date
-      redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), notice: 'Subject event updated successfully.'
-    elsif @subject_event and date == nil
-      redirect_to edit_event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param, new_event_date: { month: month, day: day, year: year }), alert: 'Please enter a valid date.'
+    if @subject_event.update(subject_event_params)
+      redirect_to event_project_subject_path(@project, @subject, event_id: @event,
+                                                                 subject_event_id: @subject_event.id,
+                                                                 event_date: @subject_event.event_date_to_param),
+                  notice: 'Subject event updated successfully.'
     else
-      redirect_to [@project, @subject], alert: "#{date.inspect}"
+      render :edit_event
     end
   end
 
@@ -89,7 +86,8 @@ class SubjectsController < ApplicationController
   end
 
   def comments
-    @comments = @subject.blinded_comments(current_user).includes(:user, :sheet).order(created_at: :desc).page(params[:page]).per(20)
+    @comments = @subject.blinded_comments(current_user).includes(:user, :sheet)
+                        .order(created_at: :desc).page(params[:page]).per(20)
   end
 
   def files
@@ -99,15 +97,19 @@ class SubjectsController < ApplicationController
   def launch_subject_event
     @event = @project.events.find_by_param(params[:event_id])
     if @event
-      month = parse_integer(params[:event_date] ? params[:event_date][:month] : nil)
-      day = parse_integer(params[:event_date] ? params[:event_date][:day] : nil)
-      year = parse_integer(params[:event_date] ? params[:event_date][:year] : nil)
-      date = parse_date("#{month}/#{day}/#{year}")
+      parse_date_if_key_present(:subject_event, :event_date)
 
-      if date and @subject_event = @subject.subject_events.create(event_id: @event.id, event_date: date, user_id: current_user.id)
-        redirect_to event_project_subject_path(@project, @subject, event_id: @event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), notice: 'Subject event created successfully.'
+      @subject_event = @subject.subject_events
+                               .where(event_id: @event.id, user_id: current_user.id)
+                               .new(subject_event_params)
+
+      if @subject_event.save
+        redirect_to event_project_subject_path(@project, @subject, event_id: @event,
+                                                                   subject_event_id: @subject_event.id,
+                                                                   event_date: @subject_event.event_date_to_param),
+                    notice: 'Subject event created successfully.'
       else
-        redirect_to choose_date_project_subject_path(@project, @subject, event_id: @event.to_param, event_date: { month: month, day: day, year: year }), alert: 'Please enter a valid date.'
+        render :choose_date
       end
     else
       redirect_to [@project, @subject], alert: "Event #{params[:event_id]} not found on project." unless @event
@@ -117,7 +119,11 @@ class SubjectsController < ApplicationController
   # Event chosen! Choose a design time.
   def choose_date
     @event = @project.events.find_by_param(params[:event_id])
-    redirect_to [@project, @subject], alert: "Event #{params[:event_id]} not found on project." unless @event
+    if @event
+      @subject_event = @subject.subject_events.where(event_id: @event.id).new
+    else
+      redirect_to [@project, @subject], alert: "Event #{params[:event_id]} not found on project."
+    end
   end
 
   # So many events, so little time
@@ -264,5 +270,10 @@ class SubjectsController < ApplicationController
   def sheet_params
     params[:sheet] ||= { blank: '1' }
     params.require(:sheet).permit(:subject_event_id) # :adverse_event_id
+  end
+
+  def subject_event_params
+    params[:subject_event] ||= { blank: '1' }
+    params.require(:subject_event).permit(:event_date)
   end
 end

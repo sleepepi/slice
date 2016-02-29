@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+# Tracks a series of designs filled out on an event date for a subject
 class SubjectEvent < ActiveRecord::Base
   # Model Validation
+  validates :event_date, presence: true
 
   # Model Relationships
   belongs_to :subject
