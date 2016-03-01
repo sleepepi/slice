@@ -9,6 +9,11 @@
 - Added coffeelint configuration file for CodeClimate
 - Continued cleanup and refactoring, and additional testing of controllers
 
+## 0.35.1 (March 1, 2016)
+
+### Enhancements
+- Updated rails to 4.2.5.2
+
 ## 0.35.0 (February 25, 2016)
 
 ### Enhancements
