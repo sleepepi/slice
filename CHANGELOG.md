@@ -1,4 +1,4 @@
-## 0.35.1
+## 0.35.1 (March 1, 2016)
 
 ### Enhancements
 - Updated rails to 4.2.5.2
