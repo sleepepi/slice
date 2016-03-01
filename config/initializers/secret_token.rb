@@ -11,4 +11,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Slice::Application.config.secret_key_base = ENV['website_secret']
+Rails.application.config.secret_key_base = ENV['website_secret']
