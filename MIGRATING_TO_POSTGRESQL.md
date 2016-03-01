@@ -33,7 +33,6 @@ test:
   pool: 5
   timeout: 5000
   database: slice_test
-  pool: 5
   username: username
   password: password
   # socket:
@@ -45,7 +44,6 @@ production:
   pool: 5
   timeout: 5000
   database: slice_production
-  pool: 5
   username: username
   password: password
   # socket:
