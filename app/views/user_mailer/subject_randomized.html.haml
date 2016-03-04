@@ -1,21 +1,21 @@
-%b
+%p{ style: p_style }
   Dear
   = succeed ',' do
     = @user.first_name
-%br
-%br
-%b= @randomization.subject.name
-was
-%span{ style: "padding:5px;background-color:#5cb85c;color:white" } randomized
-to
-= @randomization.treatment_arm.name
-on
-= link_to @randomization.project.name, "#{ENV['website_url']}/projects/#{@randomization.project.to_param}", style: 'color: #428bca'
-- if @randomization.randomized_by
-  by
-  = succeed '.' do
-    = @randomization.randomized_by.name
-%br
-%br
-%center
-  = link_to "View Randomization ##{@randomization.randomization_number} of #{@randomization.randomization_scheme.randomization_goal}", "#{ENV['website_url']}/projects/#{@randomization.project.to_param}/randomizations/#{@randomization.id}", style: 'color: #428bca'
+
+%p{ style: p_style }
+  %strong= @randomization.subject.name
+  was
+  %span{ style: emphasis_style }
+    randomized
+  to
+  %strong= @randomization.treatment_arm.name
+  on
+  = @randomization.project.name
+  - if @randomization.randomized_by
+    by
+    = succeed '.' do
+      = @randomization.randomized_by.name
+
+%p{ style: center_style }
+  = link_to "View Randomization ##{@randomization.randomization_number} of #{@randomization.randomization_scheme.randomization_goal}", "#{ENV['website_url']}/projects/#{@randomization.project.to_param}/randomizations/#{@randomization.id}", style: link_style

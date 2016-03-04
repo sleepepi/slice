@@ -1,15 +1,12 @@
-= @site_user.creator.name
-%span{ style: "padding:5px;background-color:#428bca;color:white" } invited
-you to
-= link_to @site_user.site.project.name, "#{ENV['website_url']}/site-invite/#{@site_user.invite_token}", style: 'color: #428bca'
-as part of the
-%b
+%p{ style: p_style }
+  = @site_user.creator.name
+  %span{ style: emphasis_style } invited
+  you to
+  = link_to @site_user.site.project.name, "#{ENV['website_url']}/site-invite/#{@site_user.invite_token}", style: link_style
+  as part of the
   = @site_user.site.name
-site.
-%br
-%br
-Click the following link to accept the invitation:
-%br
-%br
-%center
-  = link_to 'Accept Invitation', "#{ENV['website_url']}/site-invite/#{@site_user.invite_token}", style: 'color: #428bca'
+  site.
+  Click the following link to accept the invitation:
+
+%p{ style: center_style }
+  = link_to 'Accept Invitation', "#{ENV['website_url']}/site-invite/#{@site_user.invite_token}", style: link_style

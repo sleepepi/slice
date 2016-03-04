@@ -1,12 +1,12 @@
-= @adverse_event.user.name
-%span{ style: 'padding:5px;background-color:#428bca;color:white' } reported
-an adverse event on
-= succeed '.' do
-  = link_to @adverse_event.project.name, "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}", style: 'color: #428bca'
-%br
-%br
-Click the following link to view the adverse event report:
-%br
-%br
-%center
-  = link_to "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}/adverse-events/#{@adverse_event.id}", "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}/adverse-events/#{@adverse_event.id}", style: 'color: #428bca'
+%p{ style: p_style }
+  = @adverse_event.user.name
+  %span{ style: emphasis_style } reported
+  an adverse event on
+  = succeed '.' do
+    = link_to @adverse_event.project.name, "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}", style: link_style
+
+%p{ style: p_style }
+  Click the following link to view the adverse event report:
+
+%p{ style: center_style }
+  = link_to "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}/adverse-events/#{@adverse_event.id}", "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}/adverse-events/#{@adverse_event.id}", style: link_style

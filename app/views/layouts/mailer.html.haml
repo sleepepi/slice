@@ -1,49 +1,52 @@
 !!!
 %html
   %body
-    %div{ marginwidth: 0, marginheight: 0, style: 'margin:0;padding:0;width:100%!important' }
-      %center
-        %table{ border: 0, cellpadding: 0, cellspacing: 0, width: '100%', style: 'margin:0;padding:0;background-color:#eff8ff;width:100%!important' }
-          %tbody
-            %tr
-              %td{ align: 'center', valign: 'top', style: 'border-collapse:collapse' }
-                %table{ border: 0, cellpadding: 10, cellspacing: 0, width: 600, style: 'background-color:#eff8ff' }
-                  %tbody
-                    %tr
-                      %td{ valign: 'top', style: 'border-collapse:collapse;background-color:#eff8ff' }
-                        %div{ style: 'color:#505050;font-family:Arial;font-size:14px;line-height:150%;text-align:left' }
-                          %p{ style: 'margin-right:0px;margin-bottom:15px;margin-left:0px;padding:0px;margin-top:0px!important' }
-                            %h3{ style: 'margin:15px 0px;padding:0px;line-height:1.4em;color:#333;font-family:helvetica,arial,freesans,clean,sans-serif;text-align:center;display:block;font-size:22px;font-weight:bold;margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0' }
-                              %font{ size: 5 }= ENV['website_name']
-                %table{ border: 0, cellpadding: 0, cellspacing: 0, width: 600, style: 'border:1px solid #dddddd;background-color:#ffffff' }
-                  %tbody
-                    %tr
-                      %td{ align: 'center', valign: 'top', style: 'border-collapse:collapse' }
-                        %table{ border: 0, cellpadding: 20, cellspacing: 0, width: '100%' }
-                          %tbody
-                            %tr
-                              %td
-                                %div{ style: 'color:#505050;font-family:Arial;font-size:14px;line-height:150%;text-align:left' }
-                                  %p{ style: 'margin-right:0px;margin-bottom:15px;margin-left:0px;padding:0px;margin-top:0px!important' }
-                                    = yield
-                %table{ border: 0, cellpadding: 10, cellspacing: 0, width: 600, style: 'background-color:#eff8ff' }
-                  %tbody
-                    %tr
-                      %td{ align: 'center', valign: 'top', style: 'border-collapse:collapse; background-color:#eff8ff' }
-                        %div{ style: 'color:#505050;font-family:Arial;font-size:14px;line-height:150%;text-align:left' }
-                          %p{ style: 'margin-right:0px;margin-bottom:15px;margin-left:0px;padding:0px;margin-top:0px!important' }
-                            %center= image_tag attachments.inline['slice-logo.png'].url, alt: 'Slice', border: 0, width: 64, height: 64 if attachments.inline['slice-logo.png']
-      %center
-        %table{ border: 0, cellpadding: 0, cellspacing: 0, width: '100%', style: 'background-color:#ffffff;border-top:1px solid #e5e5e5' }
-          %tbody
-            %tr
-              %td{ align: 'center', valign: 'top', style: 'padding-top:20px;padding-bottom:20px' }
-                %table{ border: 0, cellpadding: 10, cellspacing: 0, width: 600 }
-                  %tbody
-                    %tr
-                      %td{ align: 'center', valign: 'top', style: 'color:#606060;font-family:Helvetica,Arial,sans-serif;font-size:11px;line-height:150%;padding-right:20px;padding-bottom:5px;padding-left:20px;text-align:center' }
-                        This email was sent to
-                        %a{ href: "http://#{@email_to}", style: 'color:#404040!important', target: '_blank' }= @email_to
-                        %br
-                        = link_to 'change email notifications', "#{ENV['website_url']}/settings", style: 'color: #404040!important'
-                        %br
+    %div{ style: "background:#{background_color};color:#373737;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;line-height:24px;max-width:100%;width:100%!important;margin:0 auto;padding:0" }
+      %table{ border: '0', cellpadding: '0', cellspacing: '0', style: "border-collapse:collapse;line-height:24px;margin:0;padding:0;width:100%;font-size:17px;color:#373737;background:#{background_color}", width: '100%' }
+        %tbody
+          %tr
+            %td{ style: 'border-collapse:collapse', valign: 'top' }
+              %table{ border: '0', cellpadding: '0', cellspacing: '0', style: 'border-collapse:collapse', width: '100%' }
+                %tbody
+                  %tr
+                    %td{ style: 'border-collapse:collapse;padding:20px 16px 12px', valign: 'bottom' }
+                      %div{ style: 'text-align:center;color:white;word-break:break-word;line-height:28px;font-size:24px;' }
+                        = ENV['website_name']
+          %tr
+            %td{ style: 'border-collapse:collapse', valign: 'top' }
+              -# Table can be repeated for multiple sections
+              %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;margin-bottom:16px' }
+                %tbody
+                  %tr
+                    %td{ style: 'border-collapse:collapse', valign: 'top', width: '546' }
+                      %div{ style: 'max-width:600px;margin:0 auto;' }
+                        = yield
+              = yield :extra_blocks
+          %tr
+            %td{ style: 'border-collapse:collapse' }
+              %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'border-collapse:collapse;margin-top:16px;background:white;color:#989ea6', width: '100%' }
+                %tbody
+                  %tr
+                    %td{ style: "border-collapse:collapse;background-color:#{banner_color};height:5px;line-height:5px;font-size:5px" } &nbsp;
+                  %tr
+                    %td{ align: 'center', style: 'border-collapse:collapse;padding:16px 8px 24px', valign: 'top' }
+                      %div{ style: 'max-width:600px;margin:0 auto' }
+                        %p{ style: 'font-size:12px;line-height:20px;margin:0 0 16px;margin-top:16px' }
+                          %span{ style: 'max-width:380px;display:block' }
+                            This email was sent to
+                            = succeed '.' do
+                              %a{ href: "http://#{@email_to}", style: link_style, target: '_blank' }= @email_to
+                            %br
+                            You may
+                            = succeed '.' do
+                              %a{ href: "#{ENV['website_url']}/settings", style: link_style, target: '_blank' } change your email preferences here
+                        %div{ style: image_style }
+                          = image_tag attachments.inline['slice-logo.png'].url, alt: ENV['website_name'], border: 0, width: 64, height: 64, style: 'outline:none;text-decoration:none;border:none;width:64px;min-height:32px;max-width:100%' if attachments.inline['slice-logo.png']
+                        %p{ style: 'font-size:12px;line-height:20px;margin:0 0 16px;margin-top:16px' }
+                          %a{ href: ENV['website_url'], style: link_style, target: '_blank' }= ENV['website_name']
+                          \&nbsp;&bull;&nbsp;
+                          %a{ href: "#{ENV['website_url']}/contact", style: link_style, target: '_blank' } Sleep and Circadian Disorders
+                          %br
+                            %a{ href: ENV['website_url'], style: 'color:#989ea6;font-weight:normal;text-decoration:none;word-break:break-word' }
+                              221 Longwood Avenue, BLI 225 &nbsp;&bull;&nbsp; Boston, MA
+                              \&nbsp;&bull;&nbsp; 02115

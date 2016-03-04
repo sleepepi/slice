@@ -1,0 +1,23 @@
+%table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-size:14px;line-height:18px' }
+  %thead
+    %tr{ style: 'text-align:left' }
+      %th{ colspan: 3, style: 'padding-bottom:10px;font-weight:normal' }
+        %span{ style: emphasis_style } Comments
+  - digest_comments.group_by{|s| s.project_id}.each do |project_id, comments|
+    %tr
+      %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
+    %tr
+      %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;' }
+        = ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{ENV['website_url']}/projects/#{project.to_param}", style: link_style) : 'No Project')
+    - comments.group_by{|s| s.sheet_id}.each do |sheet_id, comments|
+      - sheet = Sheet.find_by_id(sheet_id)
+      %tr
+        %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;' }
+          = link_to sheet.subject.name, "#{ENV['website_url']}/projects/#{sheet.project.to_param}/subjects/#{sheet.subject.id}", style: digest_link_style
+          = render 'digest_sheet_percent', sheet: sheet
+          = sheet ? link_to(sheet.name, "#{ENV['website_url']}/projects/#{sheet.project.to_param}/sheets/#{sheet.id}", style: digest_link_style) : 'No Sheet'
+
+      - comments.each do |comment|
+        %tr= render 'digest_comment', comment: comment
+    %tr
+      %td{ colspan: 3, style: 'padding-bottom:10px' }

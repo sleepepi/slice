@@ -30,6 +30,7 @@ class UserMailer < ApplicationMailer
   end
 
   def survey_completed(sheet)
+    setup_email
     @sheet = sheet
     @email_to = sheet.project.user.email
     mail(to: "#{sheet.project.user.name} <#{sheet.project.user.email}>",
@@ -37,6 +38,7 @@ class UserMailer < ApplicationMailer
   end
 
   def survey_user_link(sheet)
+    setup_email
     @sheet = sheet
     @email_to = sheet.subject.email
     mail(to: sheet.subject.email,
@@ -44,6 +46,7 @@ class UserMailer < ApplicationMailer
   end
 
   def export_ready(export)
+    setup_email
     @export = export
     @email_to = export.user.email
     mail(to: "#{export.user.name} <#{export.user.email}>",
@@ -51,6 +54,7 @@ class UserMailer < ApplicationMailer
   end
 
   def import_complete(design, recipient)
+    setup_email
     @design = design
     @recipient = recipient
     @email_to = recipient.email
@@ -62,11 +66,13 @@ class UserMailer < ApplicationMailer
     setup_email
     @recipient = recipient
     @email_to = recipient.email
-
-    mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
+    @digest_sheets = @recipient.digest_sheets_created
+    @digest_comments = @recipient.digest_comments
+    mail(to: recipient.email, subject: "Daily Digest for #{Time.zone.today.strftime('%a %d %b %Y')}")
   end
 
   def project_news(post, recipient)
+    setup_email
     @post = post
     @recipient = recipient
     @email_to = recipient.email

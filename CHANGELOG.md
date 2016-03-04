@@ -1,5 +1,9 @@
 ## 0.36.0
 
+### Enhancements
+- **Email Changes**
+  - Improved the responsiveness and display of emails on smaller devices
+
 ### Bug Fixes
 - Fixed a bug that prevented the recruitment chart from displaying at minimum
   six months

@@ -1,18 +1,16 @@
-%b
+%p{ style: p_style }
   Dear
   = succeed ',' do
     = @recipient.first_name
-%br
-%br
-The design data import for
-%b= @design.project.name
-is now
-= succeed '.' do
-  %span{ style: 'padding:5px;background-color:#428bca;color:white' } complete
-%br
-%br
-Click the following link to see newly imported data:
-%br
-%br
-%center
-  = link_to "#{ENV['website_url']}/projects/#{@design.project.to_param}/sheets?design_id=#{@design.id}", "#{ENV['website_url']}/projects/#{@design.project.to_param}/sheets?design_id=#{@design.id}", style: 'color: #428bca'
+
+%p{ style: p_style }
+  The design data import for
+  %strong= @design.project.name
+  is now
+  = succeed '.' do
+    %span{ style: emphasis_style } complete
+
+  Click the following link to see newly imported data:
+
+%p{ style: center_style }
+  = link_to "#{ENV['website_url']}/projects/#{@design.project.to_param}/sheets?design_id=#{@design.id}", "#{ENV['website_url']}/projects/#{@design.project.to_param}/sheets?design_id=#{@design.id}", style: link_style

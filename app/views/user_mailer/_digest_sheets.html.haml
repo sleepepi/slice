@@ -1,0 +1,36 @@
+%table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-size:14px;line-height:18px' }
+  %thead
+    %tr{ style: 'text-align:left' }
+      %th{ colspan: 3, style: 'padding-bottom:10px;font-weight:normal' }
+        %span{ style: emphasis_style } Added Recently
+
+  - digest_sheets.group_by{|s| s.project_id}.each do |project_id, project_sheets|
+    %tr
+      %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
+    %tr
+      %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;' }
+        - project = Project.find_by_id(project_id)
+        = project ? link_to(project.name, "#{ENV['website_url']}/projects/#{project.to_param}", style: link_style) : 'No Project'
+    - if project_sheets.size > 15
+      %tr
+        %td{ colspan: 3, style: 'padding-left:20px;' }
+          = link_to pluralize(project_sheets.count, 'sheet'), "#{ENV['website_url']}/projects/#{project.to_param}/sheets", style: digest_link_style
+          for
+          = pluralize project_sheets.collect{|ps| ps.subject_id}.uniq.count, 'unique subject'
+          recently entered
+    - else
+      - project_sheets.group_by{|s| s.subject_id}.each do |subject_id, subject_sheets|
+        - subject = Subject.find_by_id(subject_id)
+        %tr
+          %td{ colspan: 3, style: 'padding-left:10px;text-align:left;padding-top:10px;padding-right:20px;' }
+            - if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id})
+              %span{ style: "#{emphasis_style};font-size:10px" } NEW
+            = subject ? link_to(subject.name, "#{ENV['website_url']}/projects/#{subject.project.to_param}/subjects/#{subject.id}", style: digest_link_style) : 'No Subject'
+        - subject_sheets.each do |sheet|
+          %tr
+            %td{ style: 'padding-left:10px;' }
+            = render 'digest_sheet', sheet: sheet
+        %tr
+          %td{ colspan: 3, style: 'padding-left:10px;padding-bottom:10px;padding-right:10px;' }
+    %tr
+      %td{ colspan: 3, style: 'padding-bottom:10px' }

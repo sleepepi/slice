@@ -1,17 +1,21 @@
-%b
+%p{ style: p_style }
   Dear
   = succeed ',' do
     = @project_user.user.first_name
-%br
-%br
-= @project_user.creator.name
-%span{ style: 'padding:5px;background-color:#5cb85c;color:white' } added
-you to
-= succeed '.' do
-  = link_to @project_user.project.name, "#{ENV['website_url']}/projects/#{@project_user.project.to_param}", style: 'color: #428bca'
-%br
-%br
-- if @project_user.editor?
-  You may edit the project and add new designs, variables, and sheets to the project.
-- else
-  You may view the project and sheets.
+
+%p{ style: p_style }
+  = @project_user.creator.name
+  %span{ style: emphasis_style }
+    added you as
+    - if @project_user.editor?
+      an editor
+    - else
+      a viewer
+  on
+  = succeed '.' do
+    = link_to @project_user.project.name, "#{ENV['website_url']}/projects/#{@project_user.project.to_param}", style: link_style
+
+  - if @project_user.editor?
+    You may edit the project and add new designs, variables, and sheets to the project.
+  - else
+    You may view the project and sheets.
