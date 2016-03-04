@@ -36,8 +36,16 @@
             - if @digest_sheets.count > 0
               %p{ style: center_style }
                 %span{ style: emphasis_style }= pluralize @digest_sheets.size, 'sheet'
-                were added.
+                - if @digest_sheets.size == 1
+                  was
+                - else
+                  were
+                added.
             - if @digest_comments.count > 0
               %p{ style: center_style }
                 %span{ style: emphasis_style }= pluralize @digest_comments.size, 'comment'
-                were made.
+                - if @digest_comments.size == 1
+                  was
+                - else
+                  were
+                made.
