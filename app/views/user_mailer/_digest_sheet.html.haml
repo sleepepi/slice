@@ -2,5 +2,5 @@
   = render 'digest_sheet_percent', sheet: sheet
   = link_to sheet.name, "#{ENV['website_url']}/projects/#{sheet.project.to_param}/sheets/#{sheet.id}", style: digest_link_style
 
-%td{ style: 'padding-left:10px;padding-right:10px;text-align:right' }
+%td{ style: 'padding-left:10px;padding-right:10px;text-align:right;white-space:nowrap' }
   = sheet.user.nickname if sheet.user
