@@ -11,7 +11,7 @@ class Design < ActiveRecord::Base
   QUESTION_TYPES = [['free text', 'string'], ['select one answer', 'radio'], ['select multiple answers', 'checkbox'], ['date', 'date'], ['time', 'time'], ['number', 'numeric'], ['file upload', 'file']]
 
   # Concerns
-  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable
+  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable
 
   attr_writer :questions
 
@@ -392,6 +392,20 @@ class Design < ActiveRecord::Base
     reload
   end
 
+  def name_from_csv!
+    return unless name.blank? && csv_file.path && csv_file.path.split('/').last
+    self.name = csv_file.path.split('/').last.gsub(/csv|\./, '').humanize.capitalize
+  end
+
+  def generate_import_in_background(site_id, current_user, remote_ip)
+    fork_process(:generate_import, site_id, current_user, remote_ip)
+  end
+
+  def generate_import(site_id, current_user, remote_ip)
+    site = project.sites.find_by_id(site_id)
+    create_sheets!(site, current_user, remote_ip)
+  end
+
   private
 
   # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage
@@ -402,7 +416,7 @@ class Design < ActiveRecord::Base
   def set_slug
     return unless slug.blank? && publicly_available?
     self.slug = name.parameterize
-    self.slug += "-#{SecureRandom.hex(8)}" unless self.valid?
+    self.slug += "-#{SecureRandom.hex(8)}" unless valid?
     save
   end
 end

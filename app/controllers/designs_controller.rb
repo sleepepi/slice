@@ -4,11 +4,10 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,     only: [:print, :report_print, :report, :overview]
-  before_action :set_editable_project,     only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create]
-  before_action :redirect_without_project, only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :import, :create_import, :progress, :reimport, :update_import, :add_question, :json_import, :json_import_create, :print, :report_print, :report, :overview]
+  before_action :set_editable_project,     only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :add_question]
+  before_action :redirect_without_project, only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :add_question, :print, :report_print, :report, :overview]
   before_action :set_viewable_design,      only: [:print, :report_print, :report, :overview]
-  before_action :set_editable_design,      only: [:show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import]
-  before_action :redirect_without_design,  only: [:show, :edit, :update, :destroy, :reorder, :progress, :reimport, :update_import, :print, :report_print, :report, :overview]
+  before_action :set_editable_design,      only: [:show, :edit, :update, :destroy, :reorder]
 
   # Concerns
   include Buildable
@@ -23,84 +22,6 @@ class DesignsController < ApplicationController
     @sheets = current_user.all_viewable_sheets
                           .where(project_id: @project.id, design_id: @design.id)
                           .where(missing: false)
-  end
-
-  def json_import
-  end
-
-  def json_import_create
-    json = JSON.parse(params[:json_file].read)
-    [json].flatten.each do |design_json|
-      @project.create_design_from_json(design_json, current_user)
-    end
-
-    redirect_to project_designs_path(@project)
-  rescue
-    @error = 'JSON File can\'t be blank.'
-    render 'json_import'
-  end
-
-  def import
-    @design = current_user.designs.new(project_id: params[:project_id])
-    @variables = []
-  end
-
-  # POST /designs/1.js
-  def progress
-  end
-
-  def create_import
-    @design = current_user.designs.where(project_id: @project.id).new(design_params)
-    if params[:variables].blank?
-      @variables = @design.load_variables
-      if @design.csv_file.blank?
-        @design.errors.add(:csv_file, 'must be selected')
-      end
-      @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize if @design.name.blank? && @design.csv_file.path && @design.csv_file.path.split('/').last
-      render :import
-    else
-      if @design.save
-        @design.create_variables!(params[:variables])
-        generate_import
-        message = 'Design import initialized successfully. You will receive an email when the design import completes.'
-        redirect_to [@design.project, @design], notice: message
-      else
-        @variables = @design.load_variables
-        @design.name = @design.csv_file.path.split('/').last.gsub(/csv|\./, '').humanize.capitalize if @design.name.blank? && @design.csv_file.path && @design.csv_file.path.split('/').last
-        render :import
-      end
-    end
-  end
-
-  # GET /designs/1/reimport
-  def reimport
-    @design.remove_csv_file!
-    @variables = []
-  end
-
-  # PATCH /designs/1/update_import
-  def update_import
-    @design.csv_file = params[:design][:csv_file] if params[:design] && !params[:design][:csv_file].blank?
-    @design.csv_file_cache = params[:design][:csv_file_cache] if params[:design] && !params[:design][:csv_file_cache].blank?
-
-    if params[:design].blank? || (params[:design][:csv_file].blank? && params[:design][:csv_file_cache].blank?) || !@design.valid?
-      @variables = []
-      @design.errors.add :csv_file, 'must be selected'
-      render :reimport
-      return
-    end
-
-    if params[:variables].blank?
-      @variables = @design.load_variables
-      render :reimport
-    else
-      @design.save
-      @design.update rows_imported: 0
-      @design.set_total_rows
-      generate_import
-      message = 'Design import initialized successfully. You will receive an email when the design import completes.'
-      redirect_to [@design.project, @design], notice: message
-    end
   end
 
   def report_print
@@ -252,7 +173,7 @@ class DesignsController < ApplicationController
     params[:design][:updater_id] = current_user.id
     parse_redirect_url
     params.require(:design).permit(
-      :name, :slug, :description, :project_id, :updater_id, :csv_file, :csv_file_cache, :publicly_available, :show_site,
+      :name, :slug, :description, :project_id, :updater_id, :publicly_available, :show_site,
       { questions: [:question_name, :question_type] }, :redirect_url, :category_id, :only_unblinded
     )
   end
@@ -263,17 +184,5 @@ class DesignsController < ApplicationController
     params[:design][:redirect_url] = uri.is_a?(URI::HTTP) ? uri.to_s : ''
   rescue
     params[:design][:redirect_url] = ''
-  end
-
-  def generate_import
-    return if Rails.env.test?
-    pid = Process.fork
-    if pid.nil?
-      site = @design.project.sites.find_by_id(params[:site_id])
-      @design.create_sheets!(site, current_user, request.remote_ip)
-      Kernel.exit!
-    else
-      Process.detach(pid)
-    end
   end
 end

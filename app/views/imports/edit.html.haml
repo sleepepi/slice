@@ -6,13 +6,13 @@
     = link_to @design.name, [@project, @design]
     &middot; Reimport
 
-- @file_uploaded = (@variables.size > 0 and not @design.csv_file_cache.blank? and @design.errors[:csv_file].blank?)
+- @file_uploaded = (@variables.size > 0 && @design.csv_file_cache.present? && @design.errors[:csv_file].blank?)
 
-= form_for @design, url: update_import_project_design_path(@project, @design), method: :patch, html: { class: 'form-horizontal', multipart: true } do |f|
+= form_for @design, url: imports_project_design_path(@project, @design), method: :patch, html: { class: 'form-horizontal', multipart: true } do |f|
   - if @design.errors.any?
     .bs-callout.bs-callout-danger
       %h4
-        = pluralize(@design.errors.count, "error")
+        = pluralize @design.errors.count, 'error'
         prohibited this design from being saved
 
       %ul
@@ -41,14 +41,14 @@
       - @variables.each do |hash|
         - variable = @project.variables.find_by_name hash[:name]
 
-        - if params[:variables] and params[:variables][hash[:name]]
+        - if params[:variables] && params[:variables][hash[:name]]
           - display_name = params[:variables][hash[:name]][:display_name]
           - variable_type = params[:variables][hash[:name]][:variable_type]
           - ignore = params[:variables][hash[:name]][:ignore]
         - else
           - display_name = hash[:display_name]
           - variable_type = hash[:variable_type]
-          - ignore = (variable and not Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type))
+          - ignore = (variable && !Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type))
 
         .form-group
           %label.col-md-2.control-label= hash[:name]
@@ -73,8 +73,8 @@
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit @variables.size > 0 ? "Reimport Data" : "Proceed to Import Specification", class: 'btn btn-primary'
+      = f.submit @variables.size > 0 ? 'Reimport Data' : 'Proceed to Import Specification', class: 'btn btn-primary'
       - if @file_uploaded
-        = link_to 'Previous Step', reimport_project_design_path(@project, @design), class: 'btn btn-default'
+        = link_to 'Previous Step', imports_edit_project_design_path(@project, @design), class: 'btn btn-default'
       - else
         = link_to 'Cancel', [@project, @design], class: 'btn btn-default'

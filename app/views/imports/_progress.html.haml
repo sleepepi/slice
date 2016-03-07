@@ -1,8 +1,8 @@
 - if @design.total_rows > 0
   - percent = @design.rows_imported * 100 / @design.total_rows
-  - status = "danger"
-  - status = "warning" if percent >= 33
-  - status = "success" if percent == 100
+  - status = 'danger'
+  - status = 'warning' if percent >= 33
+  - status = 'success' if percent == 100
   .progress.progress-striped
     .progress-bar{ class: "progress-bar-#{status}", style: "width: #{percent}%;" }
       = @design.rows_imported

@@ -100,18 +100,19 @@ Rails.application.routes.draw do
         get :report
         post :report
         get :report_print
-        post :progress
-        get :reimport
-        patch :update_import
         get :overview
+        post 'imports/progress' => 'imports/progress'
+        get 'imports/edit' => 'imports#edit'
+        patch 'imports' => 'imports#update'
       end
+
       collection do
         post :selection
-        get :import
-        post :create_import
         post :add_question
-        get :json_import
-        post :json_import_create
+        get 'imports/new' => 'imports#new'
+        post 'imports' => 'imports#create'
+        get 'imports/json/new' => 'imports#json_new'
+        post 'imports/json' => 'imports#json_create'
       end
 
       resources :sections

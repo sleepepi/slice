@@ -1,5 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+project_one_editor:
+  project: one
+  user: project_one_editor
+  editor: true
+  creator: valid
+  invite_token: project_one_editor
+
+project_empty_editor:
+  project: empty
+  user: project_one_editor
+  editor: true
+  creator: valid
+  invite_token: project_empty_editor
+
 pending_editor_invite:
   project: one
   creator: valid

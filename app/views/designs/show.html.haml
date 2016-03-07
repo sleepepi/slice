@@ -13,7 +13,7 @@
       - if @design.editable_by?(current_user)
         = link_to 'Edit Design', edit_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
         = link_to 'Delete Design', [@design.project, @design], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Design #{@design.name}?" }
-        = link_to 'Reimport', reimport_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+        = link_to 'Reimport', imports_edit_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
         = link_to 'Copy Design', copy_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
       = link_to 'PDF', print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs'
       = link_to 'View Sheets', project_sheets_path(@project, design_id: @design.id), class: 'btn btn-default btn-xs'
@@ -34,8 +34,8 @@
 
       - if @design.total_rows > 0
         %dt Import Progress
-        %dd#progress{ data: { object: "#{'ajax-timer' if @design.total_rows != @design.rows_imported}", path: progress_project_design_path(@design.project, @design) } }
-          = render 'designs/progress'
+        %dd#progress{ data: { object: "#{'ajax-timer' if @design.total_rows != @design.rows_imported}", path: imports_progress_project_design_path(@design.project, @design) } }
+          = render 'imports/progress'
 
     = hidden_field_tag 'sheet[project_id]', @project.id
     %form.form-horizontal#design
