@@ -25,45 +25,31 @@ class ImportsController < ApplicationController
   # GET /designs/1/imports/edit
   def edit
     @design.remove_csv_file!
-    @variables = []
+    @design.update csv_file: nil
   end
 
+  # POST /designs/1/imports
   def create
-    @design = current_user.designs.where(project_id: @project.id, total_rows: 1).new(design_params)
+    @design = current_user.designs.where(project_id: @project.id).new(design_params)
     if params[:variables].blank?
-      @variables = @design.load_variables
       @design.errors.add(:csv_file, 'must be selected') if @design.csv_file.blank?
-      @design.name_from_csv!
-      render :new
     elsif @design.save
       @design.create_variables!(params[:variables])
       @design.generate_import_in_background(params[:site_id], current_user, request.remote_ip)
       redirect_to [@design.project, @design]
-    else
-      @variables = @design.load_variables
-      @design.name_from_csv!
-      render :new
+      return
     end
+    @variables = @design.load_variables
+    @design.name_from_csv!
+    render :new
   end
 
   # PATCH /designs/1/imports
   def update
-    @design.csv_file = params[:design][:csv_file] if params[:design] && !params[:design][:csv_file].blank?
-    @design.csv_file_cache = params[:design][:csv_file_cache] if params[:design] && !params[:design][:csv_file_cache].blank?
-
-    if params[:design].blank? || (params[:design][:csv_file].blank? && params[:design][:csv_file_cache].blank?) || !@design.valid?
-      @variables = []
-      @design.errors.add :csv_file, 'must be selected'
-      render :edit
-      return
-    end
-
+    @design.update(design_params)
     if params[:variables].blank?
-      @variables = @design.load_variables
       render :edit
     else
-      @design.save
-      @design.update rows_imported: 0, import_started_at: Time.zone.now, import_ended_at: nil
       @design.generate_import_in_background(params[:site_id], current_user, request.remote_ip)
       redirect_to [@design.project, @design]
     end
@@ -97,6 +83,6 @@ class ImportsController < ApplicationController
 
   def design_params
     params[:design] ||= { blank: '1' }
-    params.require(:design).permit(:name, :csv_file, :csv_file_cache)
+    params.require(:design).permit(:name, :csv_file, :csv_file_cache, :reimport)
   end
 end

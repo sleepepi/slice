@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Provides a framework to layout a series of sections and variables that make
+# up a data collection form.
 class Design < ActiveRecord::Base
   mount_uploader :csv_file, SpreadsheetUploader
 
@@ -8,12 +10,21 @@ class Design < ActiveRecord::Base
   # Callbacks
   after_save :reset_sheet_total_response_count, :set_slug
 
-  QUESTION_TYPES = [['free text', 'string'], ['select one answer', 'radio'], ['select multiple answers', 'checkbox'], ['date', 'date'], ['time', 'time'], ['number', 'numeric'], ['file upload', 'file']]
+  QUESTION_TYPES = [
+    ['free text', 'string'],
+    ['select one answer', 'radio'],
+    ['select multiple answers', 'checkbox'],
+    ['date', 'date'],
+    ['time', 'time'],
+    ['number', 'numeric'],
+    ['file upload', 'file']
+  ]
 
   # Concerns
   include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable
 
   attr_writer :questions
+  attr_accessor :reimport
 
   # Named Scopes
   scope :with_user, -> (arg) { where user_id: arg }
@@ -23,6 +34,7 @@ class Design < ActiveRecord::Base
   validates :name, :user_id, :project_id, presence: true
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
   validates :slug, uniqueness: { scope: :deleted }, allow_blank: true
+  validates :csv_file, presence: true, if: :reimport?
 
   # Model Relationships
   belongs_to :user
@@ -398,12 +410,17 @@ class Design < ActiveRecord::Base
   end
 
   def generate_import_in_background(site_id, current_user, remote_ip)
+    update rows_imported: 0, total_rows: 1, import_started_at: Time.zone.now, import_ended_at: nil
     fork_process(:generate_import, site_id, current_user, remote_ip)
   end
 
   def generate_import(site_id, current_user, remote_ip)
     site = project.sites.find_by_id(site_id)
     create_sheets!(site, current_user, remote_ip)
+  end
+
+  def reimport?
+    reimport == '1'
   end
 
   private

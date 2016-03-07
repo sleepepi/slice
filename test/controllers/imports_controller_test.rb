@@ -117,18 +117,14 @@ class ImportsControllerTest < ActionController::TestCase
     login(@editor)
     get :edit, id: @design, project_id: @project
     assert_not_nil assigns(:design)
-    assert_not_nil assigns(:variables)
     assert_response :success
   end
 
   test 'should require file before proceeding to column specification for updating design imports as editor' do
     login(@editor)
-    patch :update, id: @design, project_id: @project, design: { csv_file: '' }
-
-    assert_equal 0, assigns(:variables).size
+    patch :update, id: @design, project_id: @project, design: { csv_file: '', reimport: '1' }
     assert assigns(:design).errors.size > 0
-    assert_equal ['must be selected'], assigns(:design).errors[:csv_file]
-
+    assert_equal ["can't be blank"], assigns(:design).errors[:csv_file]
     assert_template 'edit'
     assert_response :success
   end
@@ -138,7 +134,7 @@ class ImportsControllerTest < ActionController::TestCase
     assert_difference('Design.count', 0) do
       assert_difference('Variable.count', 0) do
         patch :update, id: @design, project_id: @project,
-                       design: { csv_file: fixture_file_upload('../../test/support/design_import.csv') },
+                       design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), reimport: '1' },
                        variables: {
                          'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
                          'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
@@ -156,7 +152,7 @@ class ImportsControllerTest < ActionController::TestCase
     assert_difference('Design.count', 0) do
       assert_difference('Variable.count', 0) do
         patch :update, id: @design, project_id: @project,
-                       design: { csv_file: fixture_file_upload('../../test/support/design_import.csv') },
+                       design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), reimport: '1' },
                        variables: {}
       end
     end
