@@ -231,6 +231,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should show design if PDF fails to render' do
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
     begin
       original_latex = ENV['latex_location']
       ENV['latex_location'] = "echo #{original_latex}"
