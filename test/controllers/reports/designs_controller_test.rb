@@ -193,6 +193,7 @@ class Reports::DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should print advanced report as viewer' do
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
     login(@viewer)
     get :advanced, project_id: @project, id: @design, format: 'pdf'
     assert_not_nil assigns(:design)
@@ -200,6 +201,7 @@ class Reports::DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should not print invalid advanced report as viewer' do
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
     login(@viewer)
     get :advanced, project_id: @project, id: -1, format: 'pdf'
     assert_not_nil assigns(:project)
