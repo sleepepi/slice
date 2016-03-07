@@ -151,6 +151,19 @@ class ImportsControllerTest < ActionController::TestCase
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
   end
 
+  test 'should not reimport data for existing design without variables as editor' do
+    login(@editor)
+    assert_difference('Design.count', 0) do
+      assert_difference('Variable.count', 0) do
+        patch :update, id: @design, project_id: @project,
+                       design: { csv_file: fixture_file_upload('../../test/support/design_import.csv') },
+                       variables: {}
+      end
+    end
+    assert_template 'edit'
+    assert_response :success
+  end
+
   test 'should get new json import as editor' do
     login(@editor)
     get :json_new, project_id: @project
