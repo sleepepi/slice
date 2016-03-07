@@ -3,6 +3,8 @@
 ### Enhancements
 - **Email Changes**
   - Improved the responsiveness and display of emails on smaller devices
+- **Gem Changes**
+  - Updated simplecov 0.11.2
 
 ### Bug Fixes
 - Fixed a bug that prevented the recruitment chart from displaying at minimum
@@ -16,7 +18,8 @@
 ## 0.35.1 (March 1, 2016)
 
 ### Enhancements
-- Updated rails to 4.2.5.2
+- **Gem Changes**
+  - Updated rails to 4.2.5.2
 
 ## 0.35.0 (February 25, 2016)
 
