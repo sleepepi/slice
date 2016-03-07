@@ -118,8 +118,6 @@ Rails.application.routes.draw do
         post 'imports/json' => 'imports#json_create'
       end
 
-      resources :sections
-
       resources :design_options do
         collection do
           get :new_section
