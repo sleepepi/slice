@@ -31,7 +31,7 @@
         .download-container
           .download-container-after Format
 
-          = form_tag report_project_design_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load-with-filters' }, class: "form-vertical", id: 'report_form', style: 'margin-top:15px' do
+          = form_tag project_reports_design_advanced_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load-with-filters' }, class: "form-vertical", id: 'report_form', style: 'margin-top:15px' do
             = hidden_field_tag :page, params[:page]
 
             .form-group

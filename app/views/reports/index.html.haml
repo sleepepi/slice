@@ -17,7 +17,7 @@
       %ul
         - designs.sort_by{|d| d.name}.each do |design|
           %li{ style: 'line-height:30px' }
-            = link_to design.name, report_project_design_path(design.project, design)
+            = link_to design.name, project_reports_design_advanced_path(design.project, design)
   .col-md-4
     %h2.about-title Custom Reports
     - if current_user.reports.size > 0

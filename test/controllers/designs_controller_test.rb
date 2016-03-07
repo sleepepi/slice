@@ -10,180 +10,6 @@ class DesignsControllerTest < ActionController::TestCase
     @design = designs(:one)
   end
 
-  test 'should show design overview' do
-    get :overview, id: designs(:all_variable_types), project_id: @project
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should show design overview for design with variables using ajax' do
-    xhr :get, :overview, id: designs(:all_variable_types), project_id: @project, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_template 'overview'
-  end
-
-  test 'should show design overview for design with sections using ajax' do
-    xhr :get, :overview, id: designs(:sections_and_variables), project_id: @project, format: 'js'
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_template 'overview'
-  end
-
-  test 'should print report' do
-    get :report_print, id: @design, project_id: @project
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should not print invalid report' do
-    get :report_print, id: -1, project_id: @project
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:design)
-    assert_redirected_to project_designs_path(assigns(:project))
-  end
-
-  test 'should get report' do
-    get :report, id: @design, project_id: @project
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report before sheet date' do
-    get :report, id: @design, project_id: @project, sheet_before: '10/18/2012'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report after sheet date' do
-    get :report, id: @design, project_id: @project, sheet_after: '10/01/2012'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report between sheet date' do
-    get :report, id: @design, project_id: @project, sheet_after: '10/01/2012', sheet_before: '10/18/2012'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report by week' do
-    get :report, id: @design, project_id: @project, by: 'week'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report by year' do
-    get :report, id: @design, project_id: @project, by: 'year'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report with row variable (dropdown)' do
-    get :report, id: @design, project_id: @project, f: [{ id: variables(:one).id, axis: 'row', missing: '1' }]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report with row variable (dropdown) and exclude missing' do
-    get :report, id: @design, project_id: @project, f: [{ id: variables(:one).id, axis: 'row', missing: '0' }]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report with column variable (dropdown)' do
-    get :report, id: @design, project_id: @project, f: [{ id: variables(:one).id, axis: 'col', missing: '1' }]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report string (row) by sheet date (col)' do
-    get :report, id: @design, project_id: @project,
-                 f: [
-                   { id: variables(:string).id, axis: 'row', missing: '1' },
-                   { id: 'sheet_date', axis: 'col', missing: '0' }
-                 ]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report with column variable (date)' do
-    get :report, id: @design, project_id: @project,
-                 f: [{ id: variables(:date).id, axis: 'col', missing: '1' }]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report with column variable (numeric)' do
-    get :report, id: designs(:all_variable_types), project_id: @project,
-                 f: [{ id: variables(:numeric).id, axis: 'col', missing: '1' }]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report gender (row) by weight (column)' do
-    get :report, id: designs(:weight_and_gender), project_id: @project,
-                 f: [
-                   { id: variables(:gender).id, axis: 'row', missing: '0' },
-                   { id: variables(:weight).id, axis: 'col', missing: '0' }
-                 ]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report weight (row) by site (column)' do
-    get :report, id: designs(:weight_and_gender), project_id: @project,
-                 f: [
-                   { id: variables(:weight).id, axis: 'row', missing: '0' },
-                   { id: 'site', axis: 'col', missing: '0' }
-                 ]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report site and gender (row) by weight (column)' do
-    get :report, id: designs(:weight_and_gender), project_id: @project,
-                 f: [
-                   { id: 'site', axis: 'row', missing: '0' },
-                   { id: variables(:gender).id, axis: 'row', missing: '1' },
-                   { id: variables(:weight).id, axis: 'col', missing: '1' }
-                 ]
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report as a CSV' do
-    get :report, id: @design, project_id: @project, format: 'csv'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should get report site and gender (row) by weight (column) as CSV' do
-    get :report, id: designs(:weight_and_gender), project_id: @project,
-                 f: [
-                   { id: 'site', axis: 'row', missing: '0' },
-                   { id: variables(:gender).id, axis: 'row', missing: '1' },
-                   { id: variables(:weight).id, axis: 'col', missing: '1' }
-                 ],
-                 format: 'csv'
-    assert_not_nil assigns(:design)
-    assert_response :success
-  end
-
-  test 'should not get report for invalid design' do
-    get :report, id: -1, project_id: @project
-    assert_nil assigns(:design)
-    assert_redirected_to project_designs_path(assigns(:project))
-  end
-
-  test 'should not get report with invalid project' do
-    get :report, id: @design, project_id: -1
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
-    assert_redirected_to root_path
-  end
-
   test 'should get copy' do
     assert_difference('Design.count') do
       get :copy, id: @design, project_id: @project
@@ -402,6 +228,17 @@ class DesignsControllerTest < ActionController::TestCase
     get :print, id: -1, project_id: @project
     assert_nil assigns(:design)
     assert_redirected_to project_designs_path(assigns(:project))
+  end
+
+  test 'should show design if PDF fails to render' do
+    begin
+      original_latex = ENV['latex_location']
+      ENV['latex_location'] = "echo #{original_latex}"
+      get :print, project_id: @project, id: designs(:has_no_validations)
+      assert_redirected_to project_design_path(@project, designs(:has_no_validations))
+    ensure
+      ENV['latex_location'] = original_latex
+    end
   end
 
   test 'should show design with all variable types' do

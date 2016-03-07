@@ -1,7 +1,7 @@
 - responses = @sheets.sheet_responses_for_checkboxes(variable)
 - counts = []
-- variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
-  - counts << responses.select{|r| r == value}.count
+- variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value]] }.each do |name, value|
+  - counts << responses.select { |r| r == value }.count
 
 %table.table
   %thead

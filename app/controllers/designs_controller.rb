@@ -3,55 +3,15 @@
 # Designs can be created and updated by project editors and owners
 class DesignsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,     only: [:print, :report_print, :report, :overview]
-  before_action :set_editable_project,     only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :reorder, :add_question]
-  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :reorder, :add_question, :print, :report_print, :report, :overview]
+  before_action :find_viewable_project_or_redirect, only: [:print]
+  before_action :find_editable_project_or_redirect, only: [
+    :index, :show, :new, :edit, :create, :update, :destroy, :copy, :reorder, :add_question
+  ]
   before_action :set_viewable_design,      only: [:print, :report_print, :report, :overview]
   before_action :set_editable_design,      only: [:show, :edit, :update, :destroy, :reorder]
 
-  # Concerns
-  include Buildable
-
   # POST /designs/add_question.js
   def add_question
-  end
-
-  # GET /designs/1/overview
-  # GET /designs/1/overview.js
-  def overview
-    @sheets = current_user.all_viewable_sheets
-                          .where(project_id: @project.id, design_id: @design.id)
-                          .where(missing: false)
-  end
-
-  def report_print
-    setup_report_new
-    orientation = %w(portrait landscape).include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
-    file_pdf_location = @design.latex_report_new_file_location(
-      current_user,
-      orientation,
-      @report_title,
-      @report_subtitle,
-      @report_caption,
-      @percent,
-      @table_header,
-      @table_body,
-      @table_footer
-    )
-    if File.exist?(file_pdf_location)
-      file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
-      send_file file_pdf_location,
-                filename: "#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.pdf",
-                type: 'application/pdf',
-                disposition: 'inline'
-    else
-      render text: 'PDF did not render in time. Please refresh the page.'
-    end
-  end
-
-  def report
-    setup_report_new
-    generate_table_csv_new if params[:format] == 'csv'
   end
 
   def copy
@@ -100,7 +60,9 @@ class DesignsController < ApplicationController
     if File.exist?(file_pdf_location)
       send_file file_pdf_location, filename: "design_#{@design.id}.pdf", type: 'application/pdf', disposition: 'inline'
     else
-      render text: 'PDF did not render in time. Please refresh the page.'
+      # TODO: Redirect to a location that a viewer could see as well, perhaps
+      # the basic design report project_reports_basic(@project, @design)
+      redirect_to [@project, @design]
     end
   end
 
@@ -140,14 +102,13 @@ class DesignsController < ApplicationController
   end
 
   # DELETE /designs/1
-  # DELETE /designs/1.json
+  # DELETE /designs/1.js
   def destroy
     @design.destroy
 
     respond_to do |format|
       format.html { redirect_to project_designs_path(@project) }
       format.js
-      format.json { head :no_content }
     end
   end
 

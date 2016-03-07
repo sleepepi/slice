@@ -3,6 +3,7 @@
 # Stores custom reports for users
 class ReportsController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_viewable_report_or_redirect, only: [:show]
 
   def index
   end
@@ -13,13 +14,11 @@ class ReportsController < ApplicationController
     @report.save
   end
 
-  # GET /reports
+  # GET /reports/1
   def show
-    @report = current_user.all_viewable_reports.find_by_id params[:id]
-    @design = current_user.all_viewable_designs.find_by_param(@report.options[:design_id]) if @report
-
-    if @report && @design
-      redirect_to report_project_design_path(@design.project, @design, @report.options.except(:design_id))
+    @design = current_user.all_viewable_designs.find_by_param(@report.options[:design_id])
+    if @design
+      redirect_to project_reports_design_advanced_path(@design.project, @design, @report.options.except(:design_id))
     else
       redirect_to reports_path
     end
@@ -33,13 +32,20 @@ class ReportsController < ApplicationController
 
   private
 
+  def find_viewable_report_or_redirect
+    @report = current_user.all_viewable_reports.find_by_id params[:id]
+    redirect_without_report
+  end
+
+  def redirect_without_report
+    redirect_to reports_path unless @report
+  end
+
   def report_params
     params[:report] ||= {}
 
     params.require(:report).permit!
     # TODO: Permit Hash (options)
-    #(
-    #  :name, :options
-    #)
+    # (:name, :options)
   end
 end

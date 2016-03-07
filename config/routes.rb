@@ -43,6 +43,13 @@ Rails.application.routes.draw do
       post :archive
     end
 
+    namespace :reports do
+      get 'designs/:id/basic', controller: :designs, action: :basic, as: :design_basic
+      get 'designs/:id/overview', controller: :designs, action: :overview, as: :design_overview
+      get 'designs/:id/advanced', controller: :designs, action: :advanced, as: :design_advanced
+      post 'designs/:id/advanced', controller: :designs, action: :advanced
+    end
+
     resources :adverse_events, path: 'adverse-events' do
       collection do
         get :export
@@ -97,10 +104,6 @@ Rails.application.routes.draw do
         get :copy
         get :print
         get :reorder
-        get :report
-        post :report
-        get :report_print
-        get :overview
         post 'imports/progress' => 'imports/progress'
         get 'imports/edit' => 'imports#edit'
         patch 'imports' => 'imports#update'

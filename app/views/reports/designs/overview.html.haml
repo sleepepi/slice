@@ -10,14 +10,9 @@
   .mini-menu-right-fluid
     %h2.underline-header
       = @title
-    = form_tag overview_project_design_path(@design.project, @design), method: :get, remote: true, id: "design_overview_form", class: 'form-inline', data: { object: 'form-load' } do
-      &nbsp;
-
 
     - unless @design.description.blank?
       .bs-callout.bs-callout-info
         = simple_markdown @design.description
 
-    #design_overview
-      .center= image_tag 'try-slice-waiting.gif'
-
+    = render 'reports/designs/overview'

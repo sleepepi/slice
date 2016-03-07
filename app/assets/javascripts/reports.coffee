@@ -50,7 +50,7 @@ $(document)
     false
   )
   .on('click', '[data-object~="export-report-pdf-with-filters"]', () ->
-    window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize())
+    window.open($($(this).data('target')).attr('action') + '.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize())
     false
   )
   .on('click', '[data-object~="export-csv-with-filters"]', () ->

@@ -17,8 +17,8 @@
         = link_to 'Copy Design', copy_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
       = link_to 'PDF', print_project_design_path(@design.project, @design, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs'
       = link_to 'View Sheets', project_sheets_path(@project, design_id: @design.id), class: 'btn btn-default btn-xs'
-      = link_to 'Report', report_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
-      = link_to 'Overview', overview_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
+      = link_to 'Report', project_reports_design_advanced_path(@design.project, @design), class: 'btn btn-default btn-xs'
+      = link_to 'Overview', project_reports_design_overview_path(@design.project, @design), class: 'btn btn-default btn-xs'
 
     %dl.dl-horizontal
       - if @design.category

@@ -30,12 +30,26 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # TODO: Will be deprecated
   def set_viewable_project(id = :project_id)
     @project = current_user.all_viewable_and_site_projects.find_by_param(params[id])
   end
 
+  # TODO: Will replace original set_viewable_project
+  def find_viewable_project_or_redirect(id = :project_id)
+    @project = current_user.all_viewable_and_site_projects.find_by_param(params[id])
+    redirect_without_project
+  end
+
+  # TODO: Will be deprecated
   def set_editable_project(id = :project_id)
     @project = current_user.all_projects.find_by_param(params[id])
+  end
+
+  # TODO: Will replace original set_editable_project
+  def find_editable_project_or_redirect(id = :project_id)
+    @project = current_user.all_projects.find_by_param(params[id])
+    redirect_without_project
   end
 
   def set_editable_project_or_editable_site
@@ -55,6 +69,7 @@ class ApplicationController < ActionController::Base
       format.html { redirect_to path }
       format.js { head :ok }
       format.json { head :no_content }
+      format.pdf { redirect_to path }
     end
   end
 

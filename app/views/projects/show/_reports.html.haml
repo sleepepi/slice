@@ -6,6 +6,6 @@
     = link_to 'Subject Report', subject_report_project_path(@project)
   - @project.designs.blinding_scope(current_user).order(:name).each do |design|
     %li{ style: 'line-height:30px' }
-      = link_to design.name, report_project_design_path(design.project, design)
+      = link_to design.name, project_reports_design_advanced_path(design.project, design)
       &middot;
-      = link_to 'Overview', overview_project_design_path(design.project, design)
+      = link_to 'Overview', project_reports_design_overview_path(design.project, design)

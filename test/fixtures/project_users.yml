@@ -14,6 +14,13 @@ project_empty_editor:
   creator: valid
   invite_token: project_empty_editor
 
+project_one_viewer:
+  project: one
+  user: project_one_viewer
+  editor: false
+  creator: valid
+  invite_token: project_one_viewer
+
 pending_editor_invite:
   project: one
   creator: valid
