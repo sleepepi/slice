@@ -4,8 +4,8 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,     only: [:print, :report_print, :report, :overview]
-  before_action :set_editable_project,     only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :add_question]
-  before_action :redirect_without_project, only: [:index, :show, :new, :interactive, :interactive_popup, :edit, :create, :update, :destroy, :copy, :reorder, :add_question, :print, :report_print, :report, :overview]
+  before_action :set_editable_project,     only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :reorder, :add_question]
+  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :copy, :reorder, :add_question, :print, :report_print, :report, :overview]
   before_action :set_viewable_design,      only: [:print, :report_print, :report, :overview]
   before_action :set_editable_design,      only: [:show, :edit, :update, :destroy, :reorder]
 
