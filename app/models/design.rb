@@ -339,7 +339,11 @@ class Design < ActiveRecord::Base
   end
 
   def create_sheets!(default_site, current_user, remote_ip)
-    return unless csv_file.path && default_site
+    unless csv_file.path && default_site
+      update total_rows: 0
+      return
+    end
+
     update import_started_at: Time.zone.now
     set_total_rows
     counter = 0
@@ -360,7 +364,7 @@ class Design < ActiveRecord::Base
 
         variables_and_column_names.each do |variable, column_name|
           if variable && Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)
-            variables_params[variable.id.to_s] = row[column_name].to_s
+            variables_params[variable.id.to_s] = variable.response_to_value(row[column_name].to_s)
           end
         end
 

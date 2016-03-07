@@ -9,6 +9,7 @@
 ### Bug Fixes
 - Fixed a bug that prevented the recruitment chart from displaying at minimum
   six months
+- Fixed a bug that prevented designs from being imported correctly
 
 ### Refactoring
 - Enabled reek engine for CodeClimate
