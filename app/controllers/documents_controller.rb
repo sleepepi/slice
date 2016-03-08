@@ -44,7 +44,7 @@ class DocumentsController < ApplicationController
     end
   end
 
-  # PUT /documents/1
+  # PATCH /documents/1
   def update
     original_category = @document.category
     if @document.update(document_params)
