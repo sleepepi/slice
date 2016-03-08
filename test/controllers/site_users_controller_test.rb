@@ -2,14 +2,15 @@
 
 require 'test_helper'
 
+# Tests to make sure users can be successfully invited to project sites
 class SiteUsersControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
     @project = projects(:one)
     @site_user = site_users(:one)
   end
 
   test 'should resend site invitation' do
+    login(users(:valid))
     post :resend, id: @site_user, project_id: @project, format: 'js'
 
     assert_not_nil assigns(:site_user)
@@ -18,11 +19,32 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should not resend site invitation with invalid id' do
+    login(users(:valid))
     post :resend, id: -1, project_id: @project, format: 'js'
 
     assert_nil assigns(:site_user)
     assert_nil assigns(:site)
     assert_response :success
+  end
+
+  test 'should get invite for logged in site user' do
+    login(users(:two))
+    get :invite, site_invite_token: site_users(:invited).invite_token
+    assert_equal session[:site_invite_token], site_users(:invited).invite_token
+    assert_redirected_to accept_project_site_users_path(assigns(:site_user).project)
+  end
+
+  test 'should get invite for public site user' do
+    get :invite, site_invite_token: site_users(:invited).invite_token
+    assert_equal session[:site_invite_token], site_users(:invited).invite_token
+    assert_redirected_to new_user_session_path
+  end
+
+  test 'should not get invite for logged in site user with invalid token' do
+    login(users(:two))
+    get :invite, site_invite_token: 'INVALID'
+    assert_nil session[:site_invite_token]
+    assert_redirected_to root_path
   end
 
   test 'should accept site user' do
@@ -37,6 +59,7 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should accept existing site user' do
+    login(users(:valid))
     session[:site_invite_token] = site_users(:two).invite_token
     get :accept, project_id: @project
 
@@ -47,6 +70,7 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should not accept invalid token for site user' do
+    login(users(:valid))
     session[:site_invite_token] = 'imaninvalidtoken'
     get :accept, project_id: @project
 
@@ -67,6 +91,7 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should destroy site_user' do
+    login(users(:valid))
     assert_difference('SiteUser.count', -1) do
       delete :destroy, id: @site_user, project_id: @project, format: 'js'
     end
