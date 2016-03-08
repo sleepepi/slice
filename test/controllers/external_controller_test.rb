@@ -55,6 +55,14 @@ class ExternalControllerTest < ActionController::TestCase
     assert_template 'format_number'
   end
 
+  test 'should format number if missing as valid user' do
+    login(users(:valid))
+    xhr :get, :format_number, design: designs(:all_variable_types), variable_id: variables(:calculated), format: 'js'
+    assert_not_nil assigns(:variable)
+    assert_equal nil, assigns(:result)
+    assert_template 'format_number'
+  end
+
   test 'should format number on variable with blank format' do
     login(users(:valid))
     xhr :get, :format_number, design: designs(:all_variable_types), variable_id: variables(:calculated_without_format), calculated_number: '25.359', format: 'js'

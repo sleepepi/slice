@@ -10,24 +10,23 @@ class ExternalController < ApplicationController
   before_action :set_section, only: [:section_image]
   before_action :set_variable, only: [:add_grid_row, :format_number, :typeahead]
 
-  # POST /external/add_grid_row.js?design=REQUIRED&variable_id=REQUIRED&design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
+  # POST /external/add_grid_row.js?design=REQUIRED&variable_id=REQUIRED
+  #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row
     @design_option = @design.design_options.find_by_id params[:design_option_id] if @design
   end
 
   # GET /external/format_number.json
   def format_number
-    @result = if @variable.format.blank?
-                params[:calculated_number]
-              else
-                @variable.format % params[:calculated_number] rescue params[:calculated_number]
-              end
+    @result = format_calculated_number_params
   end
 
   # GET /external/typeahead.js
   def typeahead
     array = if ['string'].include?(@variable.variable_type)
-              @variable.autocomplete_array.select { |i| (i.to_s.downcase.include?(params[:query].to_s.downcase)) }
+              @variable.autocomplete_array.select do |i|
+                i.to_s.downcase.include?(params[:query].to_s.downcase)
+              end
             else
               []
             end
@@ -77,5 +76,15 @@ class ExternalController < ApplicationController
       end
     end
     empty_response_or_root_path unless @variable
+  end
+
+  def format_calculated_number_params
+    if @variable.format.blank?
+      params[:calculated_number]
+    else
+      @variable.format % params[:calculated_number]
+    end
+  rescue
+    params[:calculated_number]
   end
 end
