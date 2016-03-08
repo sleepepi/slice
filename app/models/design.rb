@@ -80,45 +80,6 @@ class Design < ActiveRecord::Base
     @questions || [{ question_name: '', question_type: 'free text' }]
   end
 
-  def create_domain(params, variable_id, current_user)
-    errors = []
-    variable = project.variables.find_by_id variable_id
-    if params[:id].blank?
-      params = Domain.clean_option_tokens(params)
-      domain_params = params.permit(:name, :display_name, :description, { option_tokens: [:name, :value, :description, :missing_code, :option_index] })
-      domain_params[:user_id] = current_user.id
-      domain = project.domains.new(domain_params)
-      if variable && variable.values_cover_collected_values?(domain.values)
-        domain.save
-      else
-        errors = [['domain_name', 'Domain options do not cover collected values!']]
-      end
-    else
-      domain = project.domains.find_by_id params[:id]
-    end
-    if domain && !domain.new_record? && variable
-      variable.update domain_id: domain.id
-      errors += [['domain_name', 'Domain options do not cover collected values!']] if variable.errors.any?
-    else
-      errors += domain.errors.messages.collect { |key, err| ["domain_#{key}", "Domain #{key.to_s.humanize.downcase} #{err.first}"] }
-    end
-    errors
-  end
-
-  # def update_domain(params, variable_id)
-  #   errors = []
-  #   variable = self.project.variables.find_by_id(variable_id)
-  #   if variable and variable.domain
-  #     params = Domain.clean_option_tokens(params)
-  #     domain_params = params.permit(:name, :display_name, :description, { :option_tokens => [ :name, :value, :description, :missing_code, :option_index ] })
-  #     variable.domain.update( domain_params )
-  #     if variable.domain.errors.any?
-  #       errors += variable.domain.errors.messages.collect{|key, errors| ["domain_#{key.to_s}", "Domain #{key.to_s.humanize.downcase} #{errors.first}"]}
-  #     end
-  #   end
-  #   errors
-  # end
-
   def create_variables_from_questions!
     questions.reject { |hash| hash[:question_name].blank? }.each_with_index do |question_hash, position|
       name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, '_').gsub(/^[\d_]/, 'n').gsub(/_{2,}/, '_').gsub(/_$/, '')[0..31].strip
@@ -315,32 +276,6 @@ class Design < ActiveRecord::Base
     design_options.delete_all
     variables.each_with_index do |variable, position|
       design_options.create variable_id: variable.id, position: position
-    end
-  end
-
-  def build_design_options_from_json(options, current_user)
-    design_options.delete_all
-
-    options.each_with_index do |option, position|
-      if option['variable'].present?
-        variable = project.create_variable_from_json(option['variable'], current_user)
-      elsif option['section'].present?
-        section = sections.create(
-          project_id: project_id,
-          user_id: current_user.id,
-          name: option['section']['name'],
-          description: option['section']['description'],
-          level: option['section']['level']
-        )
-      end
-
-      design_options.create(
-        variable_id: (variable ? variable.id : nil),
-        section_id: (section ? section.id : nil),
-        position: position,
-        branching_logic: option['branching_logic'].to_s.strip,
-        required: option['required'].to_s.strip
-      )
     end
   end
 

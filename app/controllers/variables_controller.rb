@@ -31,87 +31,67 @@ class VariablesController < ApplicationController
   end
 
   # GET /variables
-  # GET /variables.json
   def index
     @order = scrub_order(Variable, params[:order], 'variables.name')
     variable_scope = current_user.all_viewable_variables.search(params[:search]).order(@order)
-
     variable_scope = variable_scope.where(project_id: @project.id)
     variable_scope = variable_scope.where(user_id: params[:user_id]) unless params[:user_id].blank?
     variable_scope = variable_scope.with_variable_type(params[:variable_type]) unless params[:variable_type].blank? or params[:variable_type] == 'on'
-
     @variables = variable_scope.page(params[:page]).per( 40 )
   end
 
   # GET /variables/1
-  # GET /variables/1.json
   def show
   end
 
   # GET /variables/new
-  # GET /variables/new.json
   def new
     @variable = current_user.variables.new(project_id: @project.id)
   end
 
   # GET /variables/1/edit
   def edit
-    @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:project_id, :name).collect{|v| [v.name, v.id]}
+    @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:project_id, :name).collect { |v| [v.name, v.id] }
   end
 
   # POST /variables
-  # POST /variables.json
   def create
     @variable = current_user.variables.new(variable_params)
-
-    respond_to do |format|
-      if @variable.save
-        url = if params[:continue].to_s == '1'
-          new_project_variable_path(@variable.project)
-        else
-          [@variable.project, @variable]
-        end
-
-        format.html { redirect_to url, notice: 'Variable was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @variable }
-      else
-        @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
-        format.html { render action: 'new' }
-        format.json { render json: @variable.errors, status: :unprocessable_entity }
-      end
+    if @variable.save
+      url = if params[:continue].to_s == '1'
+              new_project_variable_path(@variable.project)
+            else
+              [@variable.project, @variable]
+            end
+      redirect_to url, notice: 'Variable was successfully created.'
+    else
+      @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect { |v| [v.name, v.id] }
+      render :new
     end
   end
 
   # PUT /variables/1
-  # PUT /variables/1.json
   def update
-    respond_to do |format|
-      if @variable.update(variable_params)
-        url = if params[:continue].to_s == '1'
-          new_project_variable_path(@variable.project)
-        else
-          [@variable.project, @variable]
-        end
-
-        format.html { redirect_to url, notice: 'Variable was successfully updated.' }
-        format.json { head :no_content }
-      else
-        @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect{|v| [v.name, v.id]}
-        format.html { render action: 'edit' }
-        format.json { render json: @variable.errors, status: :unprocessable_entity }
-      end
+    if @variable.update(variable_params)
+      url = if params[:continue].to_s == '1'
+              new_project_variable_path(@variable.project)
+            else
+              [@variable.project, @variable]
+            end
+      redirect_to url, notice: 'Variable was successfully updated.'
+    else
+      @select_variables = current_user.all_viewable_variables.without_variable_type('grid').where(project_id: @project.id).order(:name).collect { |v| [v.name, v.id] }
+      render :edit
     end
   end
 
   # DELETE /variables/1
-  # DELETE /variables/1.json
   def destroy
     @variable.destroy
 
     respond_to do |format|
       format.html { redirect_to project_variables_path(@project) }
       format.js
-      format.json { head :no_content }
     end
   end
 
@@ -143,18 +123,20 @@ class VariablesController < ApplicationController
 
     params[:variable][:project_id] = @project.id
 
-    params[:variable][:domain_id] = nil if params[:variable][:variable_type] and not Variable::TYPE_DOMAIN.include?(params[:variable][:variable_type])
+    params[:variable][:domain_id] = nil if params[:variable][:variable_type] && !Variable::TYPE_DOMAIN.include?(params[:variable][:variable_type])
 
     [:date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum].each do |date|
       params[:variable][date] = parse_date(params[:variable][date])
     end
 
     params.require(:variable).permit(
-      :name, :display_name, :description, :variable_type, :project_id, :updater_id, :display_name_visibility, :prepend, :append,
+      :name, :display_name, :description, :variable_type, :project_id,
+      :updater_id, :display_name_visibility, :prepend, :append,
       # For Integers and Numerics
       :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
       # For Dates
-      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum,
+      :date_soft_minimum,
       # For Date, Time
       :show_current_button,
       # For Time

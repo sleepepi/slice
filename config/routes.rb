@@ -114,8 +114,6 @@ Rails.application.routes.draw do
         post :add_question
         get 'imports/new' => 'imports#new'
         post 'imports' => 'imports#create'
-        get 'imports/json/new' => 'imports#json_new'
-        post 'imports/json' => 'imports#json_create'
       end
 
       resources :design_options do

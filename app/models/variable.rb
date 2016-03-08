@@ -84,10 +84,6 @@ class Variable < ActiveRecord::Base
     shared_options.select { |opt| opt[:site_id].blank? || site_ids.include?(opt[:site_id].to_i) }
   end
 
-  def shared_options_select_values(values)
-    shared_options.select { |option| values.include?(option[:value]) }
-  end
-
   def autocomplete_array
     autocomplete_values.to_s.split(/[\n\r]/).collect(&:strip).reject(&:blank?)
   end
@@ -125,10 +121,6 @@ class Variable < ActiveRecord::Base
       result = false
     end
     result
-  end
-
-  def values_cover_collected_values?(values)
-    (captured_values | values).size <= values.size
   end
 
   def check_for_duplicate_variables
@@ -169,10 +161,6 @@ class Variable < ActiveRecord::Base
 
   def missing_codes
     shared_options.select { |opt| opt[:missing_code] == '1' }.collect { |opt| opt[:value] }
-  end
-
-  def all_codes
-    shared_options.collect { |opt| opt[:value] }
   end
 
   def first_scale_variable?(design)

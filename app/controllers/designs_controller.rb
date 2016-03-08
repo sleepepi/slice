@@ -32,7 +32,6 @@ class DesignsController < ApplicationController
   end
 
   # GET /designs
-  # GET /designs.json
   def index
     design_scope = current_user.all_viewable_designs
                                .where(project_id: @project.id).includes(:user)
@@ -47,10 +46,8 @@ class DesignsController < ApplicationController
       @order = scrub_order(Design, params[:order], 'designs.name')
       design_scope = design_scope.order(@order)
     end
-
     design_scope = design_scope.where(id: params[:design_ids]) unless params[:design_ids].blank?
     design_scope = design_scope.with_user(params[:user_id]) unless params[:user_id].blank?
-
     @designs = design_scope.page(params[:page]).per(40)
   end
 
@@ -67,7 +64,6 @@ class DesignsController < ApplicationController
   end
 
   # GET /designs/1
-  # GET /designs/1.json
   def show
   end
 

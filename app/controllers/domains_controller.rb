@@ -21,7 +21,6 @@ class DomainsController < ApplicationController
   end
 
   # GET /domains/1
-  # GET /domains/1.json
   def show
   end
 
@@ -50,7 +49,6 @@ class DomainsController < ApplicationController
   end
 
   # PUT /domains/1
-  # PUT /domains/1.json
   def update
     if @domain.update(domain_params)
       url = if params[:continue].to_s == '1'

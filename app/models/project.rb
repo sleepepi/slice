@@ -165,66 +165,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def create_design_from_json(design_json, current_user)
-    description = design_json['description'].to_s.strip
-    name = design_json['name'].to_s.strip
-    design = designs.where(name: name).first_or_create(description: description, user_id: current_user.id)
-    design.build_design_options_from_json design_json['options'], current_user
-  end
-
-  def create_variable_from_json(variable_json, current_user)
-    domain = create_domain_from_json(variable_json['domain'], current_user) unless variable_json['domain'].blank?
-    grid_variables = create_grid_variables_from_json(variable_json['grid_variables'], current_user) unless variable_json['grid_variables'].blank?
-    name = variable_json['name']
-    keys = [:display_name, :description, :variable_type, :display_name_visibility, :prepend, :append,
-            # For Integers and Numerics
-            :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-            # For Dates
-            :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum,
-            # For Date, Time
-            :show_current_button,
-            # For Time
-            :show_seconds,
-            # For Time Duration
-            :time_duration_format,
-            # For Calculated Variables
-            :calculation, :format, :hide_calculation,
-            # For Integer, Numeric, and Calculated
-            :units,
-            # For Grid Variables
-            :multiple_rows, :default_row_number,
-            # For Autocomplete Strings
-            :autocomplete_values,
-            # Radio and Checkbox
-            :alignment
-    ]
-    hash = {}
-    keys.each do |key|
-      hash[key] = variable_json[key.to_s].to_s.strip
-    end
-    hash[:domain_id] = domain.id if domain
-    hash[:grid_variables] = grid_variables if grid_variables
-    hash[:user_id] = current_user.id
-    variable = variables.where(name: name).first_or_create(hash)
-  end
-
-  def create_domain_from_json(domain_json, current_user)
-    name = domain_json['name'].to_s.strip
-    display_name = domain_json['display_name'].to_s.strip
-    description = domain_json['description'].to_s.strip
-    options = domain_json['options'].collect { |hash| hash.symbolize_keys }
-    domains.where(name: name).first_or_create(display_name: display_name, description: description, options: options, user_id: current_user.id)
-  end
-
-  def create_grid_variables_from_json(grid_variables_json, current_user)
-    grid_variables = []
-    grid_variables_json.each do |grid_variable_json|
-      variable = create_variable_from_json(grid_variable_json, current_user)
-      grid_variables << { variable_id: variable.id } if variable
-    end
-    grid_variables
-  end
-
   def show_type
     hide_values_on_pdfs? ? :display_name : :name
   end

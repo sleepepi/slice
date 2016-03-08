@@ -55,21 +55,6 @@ class ImportsController < ApplicationController
     end
   end
 
-  def json_new
-  end
-
-  def json_create
-    json = JSON.parse(params[:json_file].read)
-    [json].flatten.each do |design_json|
-      @project.create_design_from_json(design_json, current_user)
-    end
-
-    redirect_to project_designs_path(@project)
-  rescue
-    @error = 'JSON File can\'t be blank.'
-    render 'json_new'
-  end
-
   private
 
   def set_editable_design
