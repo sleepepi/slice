@@ -4,9 +4,8 @@
 # associated to the designs to create and update existing sheets.
 class ImportsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project
-  before_action :redirect_without_project
-  before_action :set_editable_design, only: [:progress, :edit, :update]
+  before_action :find_editable_project_or_redirect
+  before_action :find_design_or_redirect, only: [:progress, :edit, :update]
 
   # def index
   # end
@@ -57,7 +56,7 @@ class ImportsController < ApplicationController
 
   private
 
-  def set_editable_design
+  def find_design_or_redirect
     @design = current_user.all_designs.where(project_id: @project.id).find_by_param params[:id]
     redirect_without_design
   end
