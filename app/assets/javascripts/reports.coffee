@@ -61,18 +61,6 @@ $(document)
       window.location = url
     false
   )
-  # Todo: Check for reference to function and then remove #row_variable_temp_ids
-  .on('change', '#row_variable_temp_ids', (event, value) ->
-    values = if $('#row_variable_ids').val() == '' then [] else $('#row_variable_ids').val().split(',')
-    if value['selected']
-      values.push(value['selected']) if $.inArray(value['selected'], values) == -1
-    if value['deselected']
-      position = $.inArray(value['deselected'], values)
-      values.splice(position,1).pop(value['deselected']) if position >= 0
-    $('#row_variable_ids').val(values.join(','))
-    $('#report_form').submit()
-  )
-  # End TODO
   .on('click', '[data-object~="set-value"]', () ->
     $($(this).data('target')).val($(this).data('value'))
     submitReportWithFilters()
@@ -82,11 +70,3 @@ $(document)
     submitReportWithFilters()
     false
   )
-  # TODO: Check for reference to #variable_id, and possibly remove
-  .on('change', '#variable_id', () ->
-    if $(this).val() == '' or $(this).val() == null
-      $('#row-include-blank').hide()
-    else
-      $('#row-include-blank').show()
-  )
-  # End TODO
