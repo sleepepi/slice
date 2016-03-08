@@ -100,7 +100,6 @@ module Buildable
     @row_strata = []
     @row_filters.each do |hash|
       strata = hash[:variable].report_strata(hash[:missing] == '1', max_strata, hash, @sheets)
-      next if strata.blank?
 
       @row_strata = if @row_strata.blank?
                       strata.collect { |i| [i] }
