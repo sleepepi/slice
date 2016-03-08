@@ -34,3 +34,10 @@ typeahead:
   description: Testing Format Number for String Autocomplete Variables
   project: one
   user: valid
+
+required_forms:
+  name: Has required values on forms
+  slug: required-forms
+  description: Required fields on forms
+  project: three
+  user: admin

@@ -27,3 +27,9 @@ typeahead_one:
   design: all_variable_types
   position: 1
   handoff_enabled: true
+
+required_one:
+  event: required_forms
+  design: admin_public_design_with_required_fields
+  position: 1
+  handoff_enabled: true

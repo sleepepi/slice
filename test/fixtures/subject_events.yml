@@ -18,6 +18,12 @@ three:
   # status: MyString
   event_date: 2015-11-13
 
+four:
+  subject: four
+  event: one
+  # status: MyString
+  event_date: 2016-03-08
+
 grid:
   subject: one
   event: grid
@@ -35,3 +41,9 @@ typeahead:
   event: typeahead
   # status: MyString
   event_date: 2015-03-31
+
+required_forms:
+  subject: external
+  event: required_forms
+  # status: MyString
+  event_date: 2016-03-08

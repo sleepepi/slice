@@ -21,6 +21,13 @@ three:
   site: three
   status: valid
 
+four:
+  project: one
+  subject_code: S2002
+  user: valid
+  site: three
+  status: valid
+
 randomized:
   project: two
   subject_code: alreadyRandomized01

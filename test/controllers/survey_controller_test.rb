@@ -48,8 +48,9 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count', 0) do
       assert_difference('Subject.count', 0) do
         assert_difference('Sheet.count', 0) do
-          post :create, slug: designs(:admin_public_design_with_required_fields).slug, subject_id: subjects(:external).id,
-                        variables: { "#{variables(:public_autocomplete).id}" => '' }
+          post :create, slug: designs(:admin_public_design_with_required_fields).slug,
+                        subject_id: subjects(:external).id,
+                        variables: { variables(:public_autocomplete).id.to_s => '' }
         end
       end
     end

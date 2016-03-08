@@ -310,7 +310,6 @@ Rails.application.routes.draw do
     get ':project/:handoff', action: :start, as: :start
     get ':project/:handoff/:design', action: :design, as: :design
     post ':project/:handoff/:design', action: :save, as: :save
-    get 'complete', action: :complete, as: :complete
     get 'completed', action: :completed, as: :completed
   end
 

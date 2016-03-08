@@ -30,3 +30,15 @@ typeahead:
   user: valid
   project: one
   subject_event: typeahead
+
+completed:
+  # token:
+  user: valid
+  project: one
+  subject_event: four
+
+required_forms:
+  token: required_forms
+  user: admin
+  project: three
+  subject_event: required_forms

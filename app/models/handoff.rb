@@ -62,6 +62,11 @@ class Handoff < ActiveRecord::Base
     retry
   end
 
+  def completed!
+    update token: nil
+    create_notification
+  end
+
   def create_notification
     notification = user.notifications.where(project_id: project_id, handoff_id: id).first_or_create
     notification.mark_as_unread!

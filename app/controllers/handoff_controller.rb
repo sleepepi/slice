@@ -6,8 +6,8 @@ class HandoffController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   before_action :clean_layout
-  before_action :set_project, except: [:complete, :completed]
-  before_action :set_handoff, except: [:complete, :completed]
+  before_action :set_project, except: [:completed]
+  before_action :set_handoff, except: [:completed]
   before_action :set_design, only: [:design, :save]
   before_action :set_sheet, only: [:design, :save]
 
@@ -20,21 +20,10 @@ class HandoffController < ApplicationController
   def save
     update_type = (@sheet.new_record? ? 'public_sheet_create' : 'public_sheet_update')
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, update_type)
-      design = @handoff.next_design(@design)
-      if design
-        redirect_to handoff_design_path(@project, @handoff, design)
-      else
-        @handoff.update token: nil
-        @handoff.create_notification
-        redirect_to handoff_complete_path
-      end
+      progress_to_next_design
     else
       render :design
     end
-  end
-
-  def complete
-    redirect_to handoff_completed_path
   end
 
   def completed
@@ -49,17 +38,17 @@ class HandoffController < ApplicationController
 
   def set_project
     @project = Project.current.find_by_param params[:project]
-    redirect_to handoff_complete_path unless @project
+    redirect_to handoff_completed_path unless @project
   end
 
   def set_handoff
     @handoff = @project.handoffs.find_by_param params[:handoff]
-    redirect_to handoff_complete_path unless @handoff
+    redirect_to handoff_completed_path unless @handoff
   end
 
   def set_design
     @design = @project.designs.find_by_param params[:design]
-    redirect_to handoff_complete_path unless @design
+    redirect_to handoff_completed_path unless @design
   end
 
   def set_sheet
@@ -73,5 +62,15 @@ class HandoffController < ApplicationController
 
   def variables_params
     (params[:variables].blank? ? {} : params.require(:variables).permit!)
+  end
+
+  def progress_to_next_design
+    design = @handoff.next_design(@design)
+    if design
+      redirect_to handoff_design_path(@project, @handoff, design)
+    else
+      @handoff.completed!
+      redirect_to handoff_completed_path
+    end
   end
 end
