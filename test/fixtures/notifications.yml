@@ -18,3 +18,7 @@ handoff:
   project: one
   handoff: one
 
+blank:
+  user: valid
+  read: false
+  project: one

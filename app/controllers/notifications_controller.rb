@@ -4,7 +4,7 @@
 # adverse events, new comments on sheets, and completed tablet handoffs
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_notification, only: [:show, :update]
+  before_action :find_notification_or_redirect, only: [:show, :update]
   before_action :set_viewable_project, only: [:mark_all_as_read]
 
   # GET /notifications
@@ -19,15 +19,7 @@ class NotificationsController < ApplicationController
   # GET /notifications/1
   def show
     @notification.update read: true
-    if @notification.adverse_event
-      redirect_to [@notification.project, @notification.adverse_event]
-    elsif @notification.comment
-      redirect_to @notification.comment
-    elsif @notification.handoff
-      redirect_to event_project_subject_path(@notification.project, @notification.handoff.subject_event.subject, event_id: @notification.handoff.subject_event.event, subject_event_id: @notification.handoff.subject_event.id, event_date: @notification.handoff.subject_event.event_date_to_param)
-    else
-      redirect_to notifications_path
-    end
+    redirect_to notification_redirect_path
   end
 
   # PATCH /notifications/1.js
@@ -48,12 +40,28 @@ class NotificationsController < ApplicationController
 
   private
 
-  def set_notification
+  def find_notification_or_redirect
     @notification = current_user.notifications.find_by_id params[:id]
     redirect_to notifications_path unless @notification
   end
 
   def notification_params
     params.require(:notification).permit(:read)
+  end
+
+  def notification_redirect_path
+    return [@notification.project, @notification.adverse_event] if @notification.adverse_event
+    return @notification.comment if @notification.comment
+    return subject_event_redirect_path if @notification.handoff
+    notifications_path
+  end
+
+  def subject_event_redirect_path
+    event_project_subject_path(
+      @notification.project, @notification.handoff.subject_event.subject,
+      event_id: @notification.handoff.subject_event.event,
+      subject_event_id: @notification.handoff.subject_event.id,
+      event_date: @notification.handoff.subject_event.event_date_to_param
+    )
   end
 end
