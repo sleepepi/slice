@@ -137,7 +137,7 @@ module Buildable
     table_row += build_row(filters)
 
     calculator = @column_filters.first[:variable] if @column_filters.first
-    (values, chart_type) = if calculator && calculator.has_statistics?
+    (values, chart_type) = if calculator && calculator.statistics?
                              [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
                            else
                              [table_row.select { |cell| cell[:column_type] != 'total' }
@@ -155,7 +155,7 @@ module Buildable
       table_row += row_stratum.collect { |info| { name: info[:name], link: info[:link] } }
       filters = row_stratum.collect { |info| info[:filters] }.flatten
       table_row += build_row(filters)
-      (values, chart_type) = if calculator && calculator.has_statistics?
+      (values, chart_type) = if calculator && calculator.statistics?
                                [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
                              else
                                [table_row.select { |cell| cell[:column_type] != 'total' }

@@ -224,7 +224,7 @@ class Variable < ActiveRecord::Base
     calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
   end
 
-  def has_statistics?
+  def statistics?
     %w(integer numeric calculated).include?(variable_type)
   end
 
@@ -233,45 +233,111 @@ class Variable < ActiveRecord::Base
   end
 
   def report_strata(include_missing, max_strata, hash, sheet_scope)
-    @report_strata = if self.has_statistics? and hash[:axis] == 'col'
-      [ { filters: [], name: 'N',      tooltip: 'N',      calculation: 'array_count'                            },
-        { filters: [], name: 'Mean',   tooltip: 'Mean',   calculation: 'array_mean'                             },
-        { filters: [], name: 'StdDev', tooltip: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
-        { filters: [], name: 'Median', tooltip: 'Median', calculation: 'array_median'                           },
-        { filters: [], name: 'Min',    tooltip: 'Min',    calculation: 'array_min'                              },
-        { filters: [], name: 'Max',    tooltip: 'Max',    calculation: 'array_max'                              }]
-    elsif ['dropdown', 'radio', 'string', 'checkbox'].include?(self.variable_type)
-      unique_responses = if self.variable_type == 'checkbox'
-        sheet_scope.sheet_responses_for_checkboxes(self).uniq
-      else
-        sheet_scope.sheet_responses(self).uniq
-      end
-      options_or_autocomplete(include_missing).select{|h| unique_responses.include?(h[:value])}.collect{ |h| h.merge({ filters: [{ variable_id: self.id, value: h[:value] }], tooltip: h[:name] }) }
-    elsif self.variable_type == 'design'
-      self.project.designs.order(:name).collect{|design| { filters: [{ variable_id: 'design', value: design.id.to_s }], name: design.name, tooltip: design.name, link: "projects/#{self.project_id}/designs/#{design.id}/report", value: design.id.to_s, calculation: 'array_count' } }
-    elsif self.variable_type == 'site'
-      self.project.sites.order(:name).collect{|site| { filters: [{ variable_id: 'site', value: site.id.to_s }], name: site.name, tooltip: site.name, value: site.id.to_s, calculation: 'array_count' } }
-    elsif ['sheet_date', 'date'].include?(self.variable_type)
-      date_buckets = self.generate_date_buckets(sheet_scope, hash[:by] || 'month')
-      date_buckets.reverse! unless hash[:axis] == 'col'
-      date_buckets.collect do |date_bucket|
-        { filters: [{ variable_id: (self.id ? self.id : self.name), start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }], name: date_bucket[:name], tooltip: date_bucket[:tooltip], calculation: 'array_count', start_date: date_bucket[:start_date], end_date: date_bucket[:end_date] }
-      end
+    strata = base_strata(sheet_scope, include_missing, hash)
+    strata << unknown_filter if include_missing && !%w(site sheet_date).include?(variable_type)
+    strata.collect! { |s| s.merge(calculator: self, variable_id: id ? id : name) }
+    strata.last(max_strata)
+  end
+
+  def base_strata(sheet_scope, include_missing, hash)
+    if statistics? && hash[:axis] == 'col'
+      statistic_filters
+    elsif %w(dropdown radio string checkbox).include?(variable_type)
+      domain_filters(sheet_scope, include_missing)
+    elsif variable_type == 'design'
+      design_filters
+    elsif variable_type == 'site'
+      site_filters
+    elsif %w(sheet_date date).include?(variable_type)
+      date_filters(sheet_scope, hash)
     else # Create a Filter that shows if the variable is present.
-      display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Collected"
-      [ { filters: [{ variable_id: self.id, value: ':any' }], name: display_name, tooltip: display_name } ]
+      presence_filters(hash)
     end
-    @report_strata << { filters: [{ variable_id: self.id, value: ':missing' }], name: '', tooltip: 'Unknown', value: nil } if include_missing and not ['site', 'sheet_date'].include?(self.variable_type)
-    @report_strata.collect!{|s| s.merge({ calculator: self, variable_id: self.id ? self.id : self.name })}
-    @report_strata.last(max_strata)
+  end
+
+  def statistic_filters
+    [
+      { filters: [], name: 'N',      tooltip: 'N',      calculation: 'array_count'                            },
+      { filters: [], name: 'Mean',   tooltip: 'Mean',   calculation: 'array_mean'                             },
+      { filters: [], name: 'StdDev', tooltip: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
+      { filters: [], name: 'Median', tooltip: 'Median', calculation: 'array_median'                           },
+      { filters: [], name: 'Min',    tooltip: 'Min',    calculation: 'array_min'                              },
+      { filters: [], name: 'Max',    tooltip: 'Max',    calculation: 'array_max'                              }
+    ]
+  end
+
+  def domain_filters(sheet_scope, include_missing)
+    unique_responses = unique_responses_for_sheets(sheet_scope)
+    options_or_autocomplete(include_missing)
+      .select { |h| unique_responses.include?(h[:value]) }
+      .collect { |h| h.merge(filters: [{ variable_id: id, value: h[:value] }], tooltip: h[:name]) }
+  end
+
+  def design_filters
+    project.designs.order(:name).collect do |design|
+      {
+        filters: [{ variable_id: 'design', value: design.id.to_s }],
+        name: design.name,
+        tooltip: design.name,
+        link: "projects/#{project_id}/reports/designs/#{design.id}/advanced",
+        value: design.id.to_s,
+        calculation: 'array_count'
+      }
+    end
+  end
+
+  def site_filters
+    project.sites.order(:name).collect do |site|
+      {
+        filters: [{ variable_id: 'site', value: site.id.to_s }],
+        name: site.name,
+        tooltip: site.name,
+        value: site.id.to_s,
+        calculation: 'array_count'
+      }
+    end
+  end
+
+  def date_filters(sheet_scope, hash)
+    date_buckets = generate_date_buckets(sheet_scope, hash[:by] || 'month')
+    date_buckets.reverse! unless hash[:axis] == 'col'
+    date_buckets.collect do |date_bucket|
+      {
+        filters: [{ variable_id: (id ? id : name),
+                    start_date: date_bucket[:start_date],
+                    end_date: date_bucket[:end_date] }],
+        name: date_bucket[:name], tooltip: date_bucket[:tooltip],
+        calculation: 'array_count',
+        start_date: date_bucket[:start_date], end_date: date_bucket[:end_date]
+      }
+    end
+  end
+
+  def presence_filters(hash)
+    display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Collected"
+    [{ filters: [{ variable_id: id, value: ':any' }], name: display_name, tooltip: display_name }]
+  end
+
+  def unknown_filter
+    { filters: [{ variable_id: id, value: ':missing' }], name: '', tooltip: 'Unknown', value: nil }
+  end
+
+  def unique_responses_for_sheets(sheet_scope)
+    if variable_type == 'checkbox'
+      sheet_scope.sheet_responses_for_checkboxes(self).uniq
+    else
+      sheet_scope.sheet_responses(self).uniq
+    end
   end
 
   def edge_date(sheet_scope, method)
     if variable_type == 'sheet_date'
-      sheet_scope.pluck(:created_at).send(method).to_date rescue Date.today
+      sheet_scope.pluck(:created_at).send(method).to_date
     else
-      Date.strptime(sheet_scope.sheet_responses(self).reject(&:blank?).send(method), '%Y-%m-%d') rescue Date.today
+      Date.strptime(sheet_scope.sheet_responses(self).reject(&:blank?).send(method), '%Y-%m-%d')
     end
+  rescue
+    Time.zone.today
   end
 
   def min_date(sheet_scope)

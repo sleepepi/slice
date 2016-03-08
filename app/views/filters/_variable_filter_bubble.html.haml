@@ -9,7 +9,6 @@
     - if filter[:missing] == '1'
       %span.label{ style: 'background-color:#ffc8ba;', title: 'Includes Missing' } m
     - if ['sheet_date', 'date'].include?(v.variable_type)
-      %span.label{ style: 'background-color:#7aa6ff;', title: 'by' }
-        = filter[:by]
+      %span.label{ style: 'background-color:#7aa6ff;', title: 'by' }= filter[:by]
     %span{ title: v.display_name, style: 'overflow:hidden;cursor:pointer;font-size:0.8em' }
       = v.display_name
