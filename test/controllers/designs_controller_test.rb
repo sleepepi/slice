@@ -10,31 +10,8 @@ class DesignsControllerTest < ActionController::TestCase
     @design = designs(:one)
   end
 
-  test 'should get copy' do
-    assert_difference('Design.count') do
-      get :copy, id: @design, project_id: @project
-    end
-
-    assert_not_nil assigns(:design)
-    assert_equal @design.name + ' Copy', assigns(:design).name
-    assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
-  end
-
-  test 'should not get copy for invalid design' do
-    get :copy, id: -1, project_id: @project
-    assert_nil assigns(:design)
-    assert_redirected_to project_designs_path(assigns(:project))
-  end
-
-  test 'should not get copy for invalid project' do
-    get :copy, id: @design, project_id: -1
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
-    assert_redirected_to root_path
-  end
-
   test 'should show design reorder mode' do
-    get :reorder, id: @design, project_id: @project
+    get :reorder, project_id: @project, id: @design
     assert_template 'reorder'
     assert_response :success
   end
@@ -70,11 +47,19 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should create design' do
     assert_difference('Design.count') do
-      post :create, project_id: @project, design: { name: 'Design Three' }, format: 'js'
+      post :create, project_id: @project, design: { name: 'Design Three' }
     end
 
     assert_not_nil assigns(:design)
     assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
+  end
+
+  test 'should not create design with blank name' do
+    assert_difference('Design.count', 0) do
+      post :create, project_id: @project, design: { name: '' }
+    end
+    assert_template 'new'
+    assert_response :success
   end
 
   test 'should create design with questions' do
@@ -102,14 +87,10 @@ class DesignsControllerTest < ActionController::TestCase
                     design: {
                       name: 'Public with Valid Redirect',
                       redirect_url: 'http://example.com'
-                    },
-                    format: 'js'
+                    }
     end
-
     assert_not_nil assigns(:design)
-
     assert_equal 'http://example.com', assigns(:design).redirect_url
-
     assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 
@@ -119,14 +100,10 @@ class DesignsControllerTest < ActionController::TestCase
                     design: {
                       name: 'Public with Invalid Redirect',
                       redirect_url: 'fake123'
-                    },
-                    format: 'js'
+                    }
     end
-
     assert_not_nil assigns(:design)
-
     assert_equal '', assigns(:design).redirect_url
-
     assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 
@@ -136,25 +113,18 @@ class DesignsControllerTest < ActionController::TestCase
                     design: {
                       name: 'Public with Invalid Redirect',
                       redirect_url: 'fa\\ke'
-                    },
-                    format: 'js'
+                    }
     end
-
     assert_not_nil assigns(:design)
     assert_equal '', assigns(:design).redirect_url
-
     assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 
   test 'should not create design with invalid project' do
     assert_difference('Design.count', 0) do
-      post :create, project_id: -1, design: { name: 'Design Three' }, format: 'js'
+      post :create, project_id: -1, design: { name: 'Design Three' }
     end
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
-
-    assert_response :success
+    assert_redirected_to root_path
   end
 
   # test 'should not create design with a duplicated variable' do
@@ -272,6 +242,14 @@ class DesignsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design)
     assert_equal 'Updated Description', assigns(:design).description
     assert_template 'show'
+  end
+
+  test 'should not update design with blank name' do
+    patch :update, id: @design, project_id: @project,
+                   design: { name: '' },
+                   format: 'js'
+    assert_template 'edit'
+    assert_response :success
   end
 
   test 'should update design and make publicly available' do

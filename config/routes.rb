@@ -101,7 +101,6 @@ Rails.application.routes.draw do
 
     resources :designs do
       member do
-        get :copy
         get :print
         get :reorder
         post 'imports/progress' => 'imports/progress'

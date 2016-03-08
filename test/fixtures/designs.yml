@@ -12,6 +12,13 @@ two:
   user: valid
   project: two
 
+two_copy:
+  name: Design Two Copy
+  description: This is a blank design.
+  # options:
+  user: valid
+  project: two
+
 all_variable_types:
   name: All Variable Types
   description: A Design with all types of variables used

@@ -4,49 +4,18 @@
 class DesignsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [:print]
-  before_action :find_editable_project_or_redirect, only: [
-    :index, :show, :new, :edit, :create, :update, :destroy, :copy, :reorder, :add_question
-  ]
-  before_action :set_viewable_design,      only: [:print, :report_print, :report, :overview]
-  before_action :set_editable_design,      only: [:show, :edit, :update, :destroy, :reorder]
+  before_action :find_editable_project_or_redirect, except: [:print]
+  before_action :find_viewable_design_or_redirect, only: [:print]
+  before_action :find_editable_design_or_redirect, only: [:show, :edit, :update, :destroy, :reorder]
 
   # POST /designs/add_question.js
   def add_question
   end
 
-  def copy
-    design = current_user.all_viewable_designs.find_by_id(params[:id])
-    @design = current_user.designs.new(design.copyable_attributes) if design
-
-    if @design
-      @design.name += ' Copy'
-      if @design.save
-        redirect_to edit_project_design_path(@design.project, @design), notice: 'Design was successfully copied.'
-      else
-        message = "Unable to copy design since another design named <b>#{@design.name}</b> already exists.".html_safe
-        redirect_to project_designs_path(design.project, search: design.name), alert: message
-      end
-    else
-      redirect_to project_designs_path
-    end
-  end
-
   # GET /designs
   def index
-    design_scope = current_user.all_viewable_designs
-                               .where(project_id: @project.id).includes(:user)
-                               .search(params[:search])
-    @order = params[:order]
-    case params[:order]
-    when 'designs.user_name'
-      design_scope = design_scope.order_by_user_name
-    when 'designs.user_name DESC'
-      design_scope = design_scope.order_by_user_name_desc
-    else
-      @order = scrub_order(Design, params[:order], 'designs.name')
-      design_scope = design_scope.order(@order)
-    end
-    design_scope = design_scope.where(id: params[:design_ids]) unless params[:design_ids].blank?
+    design_scope = editable_designs.includes(:user).search(params[:search])
+    design_scope = sort_order(design_scope)
     design_scope = design_scope.with_user(params[:user_id]) unless params[:user_id].blank?
     @designs = design_scope.page(params[:page]).per(40)
   end
@@ -73,10 +42,11 @@ class DesignsController < ApplicationController
   end
 
   # GET /designs/1/edit
+  # GET /designs/1/edit.js
   def edit
   end
 
-  # POST /designs.js
+  # POST /designs
   def create
     @design = current_user.designs.where(project_id: @project.id).create(design_params)
 
@@ -110,13 +80,17 @@ class DesignsController < ApplicationController
 
   private
 
-  def set_viewable_design
-    @design = current_user.all_viewable_designs.find_by_param params[:id]
+  def find_viewable_design_or_redirect
+    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_param params[:id]
     redirect_without_design
   end
 
-  def set_editable_design
-    @design = current_user.all_designs.where(project_id: @project.id).find_by_param params[:id]
+  def editable_designs
+    current_user.all_designs.where(project_id: @project.id)
+  end
+
+  def find_editable_design_or_redirect
+    @design = editable_designs.find_by_param params[:id]
     redirect_without_design
   end
 
@@ -141,5 +115,18 @@ class DesignsController < ApplicationController
     params[:design][:redirect_url] = uri.is_a?(URI::HTTP) ? uri.to_s : ''
   rescue
     params[:design][:redirect_url] = ''
+  end
+
+  def sort_order(design_scope)
+    @order = params[:order]
+    case params[:order]
+    when 'designs.user_name'
+      design_scope.order_by_user_name
+    when 'designs.user_name DESC'
+      design_scope.order_by_user_name_desc
+    else
+      @order = scrub_order(Design, params[:order], 'designs.name')
+      design_scope.order(@order)
+    end
   end
 end

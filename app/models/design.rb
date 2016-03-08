@@ -99,10 +99,6 @@ class Design < ActiveRecord::Base
     current_user.all_designs.where(id: id).count == 1
   end
 
-  def copyable_attributes
-    attributes.reject { |key, _val| %w(id slug user_id deleted created_at updated_at).include?(key.to_s) }
-  end
-
   def options_with_grid_sub_variables
     new_options = []
     design_options.includes(:variable, :section).each do |design_option|
