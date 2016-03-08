@@ -2,6 +2,7 @@
 
 require 'test_helper'
 
+# Tests to make sure project editors can view and edit project posts.
 class PostsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
@@ -28,7 +29,8 @@ class PostsControllerTest < ActionController::TestCase
 
   test 'should create post' do
     assert_difference('Post.count') do
-      post :create, project_id: @project, post: { name: @post.name, archived: @post.archived, description: @post.description }
+      post :create, project_id: @project,
+                    post: { name: @post.name, archived: @post.archived, description: @post.description }
     end
 
     assert_redirected_to project_post_path(assigns(:post).project, assigns(:post))
@@ -47,7 +49,8 @@ class PostsControllerTest < ActionController::TestCase
 
   test 'should not create post with invalid project' do
     assert_difference('Post.count', 0) do
-      post :create, project_id: -1, post: { name: @post.name, archived: @post.archived, description: @post.description }
+      post :create, project_id: -1,
+                    post: { name: @post.name, archived: @post.archived, description: @post.description }
     end
 
     assert_nil assigns(:post)
@@ -80,12 +83,14 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test 'should update post' do
-    patch :update, id: @post, project_id: @project, post: { name: @post.name, archived: @post.archived, description: @post.description }
+    patch :update, id: @post, project_id: @project,
+                   post: { name: @post.name, archived: @post.archived, description: @post.description }
     assert_redirected_to project_post_path(assigns(:post).project, assigns(:post))
   end
 
   test 'should not update post with blank name' do
-    patch :update, id: @post, project_id: @project, post: { name: '', archived: @post.archived, description: @post.description }
+    patch :update, id: @post, project_id: @project,
+                   post: { name: '', archived: @post.archived, description: @post.description }
 
     assert_not_nil assigns(:post)
     assert assigns(:post).errors.size > 0
@@ -94,7 +99,8 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test 'should not update post with invalid project' do
-    patch :update, id: @post, project_id: -1, post: { name: @post.name, archived: @post.archived, description: @post.description }
+    patch :update, id: @post, project_id: -1,
+                   post: { name: @post.name, archived: @post.archived, description: @post.description }
 
     assert_nil assigns(:post)
     assert_nil assigns(:project)

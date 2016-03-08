@@ -1,21 +1,18 @@
 # frozen_string_literal: true
 
+# Allows posts to be made on a project by project editors
 class PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
-  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
-  before_action :set_editable_post, only: [:show, :edit, :update, :destroy]
-  before_action :redirect_without_post, only: [:show, :edit, :update, :destroy]
+  before_action :find_editable_project_or_redirect
+  before_action :find_editable_post_or_redirect, only: [:show, :edit, :update, :destroy]
 
   # GET /posts
-  # GET /posts.json
   def index
-    @order = scrub_order(Post, params[:order], "posts.name")
+    @order = scrub_order(Post, params[:order], 'posts.name')
     @posts = @project.posts.search(params[:search]).order(@order).page(params[:page]).per(20)
   end
 
   # GET /posts/1
-  # GET /posts/1.json
   def show
   end
 
@@ -29,50 +26,35 @@ class PostsController < ApplicationController
   end
 
   # POST /posts
-  # POST /posts.json
   def create
-    @post = @project.posts.new(post_params)
-
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to [@post.project, @post], notice: 'Post was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @post }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    @post = current_user.posts.where(project_id: @project.id).new(post_params)
+    if @post.save
+      redirect_to [@post.project, @post], notice: 'Post was successfully created.'
+    else
+      render :new
     end
   end
 
-  # PUT /posts/1
-  # PUT /posts/1.json
+  # PATCH /posts/1
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to [@post.project, @post], notice: 'Post was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    if @post.update(post_params)
+      redirect_to [@post.project, @post], notice: 'Post was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /posts/1
-  # DELETE /posts/1.json
   def destroy
     @post.destroy
-
-    respond_to do |format|
-      format.html { redirect_to project_posts_path(@project) }
-      format.json { head :no_content }
-    end
+    redirect_to project_posts_path(@project)
   end
 
   private
 
-  def set_editable_post
+  def find_editable_post_or_redirect
     @post = @project.posts.find_by_id(params[:id])
+    redirect_without_post
   end
 
   def redirect_without_post
@@ -80,10 +62,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params[:post] ||= {}
-
-    params[:post][:user_id] = current_user.id unless @post
-
-    params.require(:post).permit(:name, :description, :archived, :user_id)
+    params.require(:post).permit(:name, :description, :archived)
   end
 end

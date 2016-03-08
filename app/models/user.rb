@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   has_many :handoffs
   has_many :links, -> { current }
   has_many :notifications, -> { joins(:project).merge(Project.current) }
+  has_many :posts, -> { current }
   has_many :projects, -> { where deleted: false }
   has_many :project_favorites
   has_many :randomization_schemes, -> { where deleted: false }
