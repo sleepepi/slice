@@ -100,13 +100,17 @@ class DesignsController < ApplicationController
 
   def design_params
     params[:design] ||= {}
-    params[:design][:slug] = params[:design][:slug].parameterize unless params[:design][:slug].blank?
-    params[:design][:updater_id] = current_user.id
+    set_slug_and_updater
     parse_redirect_url
     params.require(:design).permit(
       :name, :slug, :description, :project_id, :updater_id, :publicly_available, :show_site,
       { questions: [:question_name, :question_type] }, :redirect_url, :category_id, :only_unblinded
     )
+  end
+
+  def set_slug_and_updater
+    params[:design][:slug] = params[:design][:slug].parameterize unless params[:design][:slug].blank?
+    params[:design][:updater_id] = current_user.id
   end
 
   def parse_redirect_url
