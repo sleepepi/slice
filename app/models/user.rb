@@ -35,6 +35,7 @@ class User < ActiveRecord::Base
   has_many :events, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
   has_many :handoffs
+  has_many :links, -> { current }
   has_many :notifications, -> { joins(:project).merge(Project.current) }
   has_many :projects, -> { where deleted: false }
   has_many :project_favorites

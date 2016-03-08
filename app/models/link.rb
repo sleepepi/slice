@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows a project to have a list of links to relevant material
 class Link < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
