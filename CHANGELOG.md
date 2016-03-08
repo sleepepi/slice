@@ -5,6 +5,8 @@
   - Improved the responsiveness and display of emails on smaller devices
 - **Gem Changes**
   - Updated simplecov 0.11.2
+- **Mobile Changes**
+  - Recruitment table on project reports page now optimized for mobile
 
 ### Bug Fixes
 - Fixed a bug that prevented the recruitment chart from displaying at minimum
