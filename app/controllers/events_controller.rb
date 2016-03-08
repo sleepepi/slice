@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
+# Allows project editors to create events that are used to group together sets
+# of designs.
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :add_design]
-  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy, :add_design]
-  before_action :set_editable_event, only: [:show, :edit, :update, :destroy]
+  before_action :find_editable_project_or_redirect
+  before_action :find_event_or_redirect, only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_event, only: [:show, :edit, :update, :destroy]
 
   # POST /events/add_design.js
@@ -14,7 +15,9 @@ class EventsController < ApplicationController
   # GET /events
   def index
     @order = scrub_order(Event, params[:order], 'events.position')
-    @events = @project.events.blinding_scope(current_user).search(params[:search]).order(@order).page(params[:page]).per(40)
+    @events = @project.events.blinding_scope(current_user)
+                      .search(params[:search]).order(@order)
+                      .page(params[:page]).per(40)
   end
 
   # GET /events/1
@@ -36,16 +39,16 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to [@project, @event], notice: 'Event was successfully created.'
     else
-      render action: 'new'
+      render :new
     end
   end
 
-  # PUT /events/1
+  # PATCH /events/1
   def update
     if @event.update(event_params)
       redirect_to [@project, @event], notice: 'Event was successfully updated.'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -57,8 +60,9 @@ class EventsController < ApplicationController
 
   private
 
-  def set_editable_event
-    @event = @project.events.blinding_scope(current_user).find_by_param(params[:id])
+  def find_event_or_redirect
+    @event = @project.events.blinding_scope(current_user).find_by_param params[:id]
+    redirect_without_event
   end
 
   def redirect_without_event
