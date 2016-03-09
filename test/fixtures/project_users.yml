@@ -7,6 +7,14 @@ project_one_editor:
   creator: valid
   invite_token: project_one_editor
 
+project_one_editor_blinded:
+  project: one
+  user: project_one_editor_blinded
+  editor: true
+  creator: valid
+  invite_token: project_one_editor_blinded
+  unblinded: false
+
 project_empty_editor:
   project: empty
   user: project_one_editor

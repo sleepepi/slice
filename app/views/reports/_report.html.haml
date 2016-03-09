@@ -88,5 +88,5 @@
 
 .center.text-muted= @report_caption
 
-- link_name = @design ? project_reports_design_advanced_path(@design.project, @design, percent: @percent, f: params[:f]) : report_project_path(@project, f: params[:f])
+- link_name = @design ? project_reports_design_advanced_path(@design.project, @design, percent: @percent, f: params[:f]) : report_reports_project_path(@project, f: params[:f])
 = link_to '#permalink', link_name, class: 'pull-right', rel: 'tooltip', title: 'Right-click and Copy Link Address', data: { placement: 'left' } unless params[:action] == 'report_print'

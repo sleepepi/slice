@@ -83,6 +83,10 @@ class Project < ActiveRecord::Base
     sheets.where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end
 
+  def owner?(current_user)
+    user == current_user
+  end
+
   # Project Owners and Project Editors
   def editable_by?(current_user)
     current_user.all_projects.where(id: id).count == 1
@@ -90,11 +94,6 @@ class Project < ActiveRecord::Base
 
   def site_or_project_editor?(current_user)
     current_user.all_sheet_editable_projects.where(id: id).count == 1
-  end
-
-  # Project Owners
-  def deletable_by?(current_user)
-    current_user.projects.where(id: id).count == 1
   end
 
   def designs_with_event
@@ -213,6 +212,12 @@ class Project < ActiveRecord::Base
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
       .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id and site_users.site_id = #{site.id}")
       .where('users.id = ? or project_users.unblinded IS NOT NULL or site_users.unblinded IS NOT NULL', user_id)
+  end
+
+  def transfer_to_user(new_owner, current_user)
+    update user_id: new_owner.id
+    project_user = project_users.where(user_id: current_user.id).first_or_create(creator_id: new_owner.id)
+    project_user.update editor: true
   end
 
   private

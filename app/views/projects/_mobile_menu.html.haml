@@ -20,7 +20,7 @@
     = link_to project_exports_path(@project), class: (params[:controller] == 'exports' ? 'active' : nil) do
       Exports
   %li
-    = link_to reports_project_path(@project), class: (current_page?(reports_project_path(@project)) ? 'active' : nil) do
+    = link_to reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? 'active' : nil) do
       Reports
   %li
     = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
@@ -30,10 +30,10 @@
       Collaborators
   - if @project.editable_by? current_user
     %li
-      = link_to setup_project_path(@project), class: (current_page?(setup_project_path(@project)) ? 'active' : nil) do
+      = link_to settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? 'active' : nil) do
         Settings
   - if setup_path?
-    - if @project.editable_by?(current_user)
+    - if @project.editable_by? current_user
       %li
         = link_to project_sites_path(@project), class: (params[:controller] == 'sites' ? 'active' : nil) do
           Sites

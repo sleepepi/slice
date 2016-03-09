@@ -3,7 +3,7 @@
 - @title = 'Design Reimport'
 .page-header
   %h1
-    = link_to @project.name, setup_project_path(@project)
+    = link_to @project.name, settings_editor_project_path(@project)
     &middot;
     = link_to @design.name, [@project, @design]
     &middot; Reimport

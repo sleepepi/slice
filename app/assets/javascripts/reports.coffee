@@ -46,7 +46,7 @@ $(document)
     e.preventDefault()
   )
   .on('click', '[data-object~="export-report-pdf"]', () ->
-    window.open($($(this).data('target')).attr('action') + '_print.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
+    window.open($($(this).data('target')).attr('action') + '.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
     false
   )
   .on('click', '[data-object~="export-report-pdf-with-filters"]', () ->

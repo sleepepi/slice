@@ -1,6 +1,6 @@
 - @title = 'Summary Report'
 
-- links = [['Summary Report', report_project_path(@project)]]
+- links = [['Summary Report', report_reports_project_path(@project)]]
 = render 'projects/tabbed_menu', links: links
 
 .mini-menu-outer
@@ -9,7 +9,7 @@
   .mini-menu-right-fluid
     %h2.underline-header
       = @title
-    = form_tag report_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do
+    = form_tag report_reports_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do
       = hidden_field_tag :page
 
       %label By

@@ -1,6 +1,13 @@
 %h2.underline-header= @title
 
-= form_for @project, html: { class: 'form-horizontal' } do |f|
+- if @project.new_record?
+  - url = projects_path
+  - method = :post
+- else
+  - url = editor_project_path(@project)
+  - method = :patch
+
+= form_for @project, url: url, method: method, html: { class: 'form-horizontal' } do |f|
   - if @project.errors.any?
     .bs-callout.bs-callout-danger
       %h4

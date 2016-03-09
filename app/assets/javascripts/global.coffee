@@ -2,6 +2,9 @@
   $("input[name='" + group_name + "']:not(:checked)").parent().removeClass('selected')
   $("input[name='" + group_name + "']:checked").parent().addClass('selected')
 
+@fadeAndRemove = (element) ->
+  $(element).fadeOut(500, () -> $(element).remove())
+
 @initializeTypeahead = () ->
   $('[data-object~="typeahead"]').each( () ->
     $this = $(this)
@@ -25,7 +28,6 @@
   Turbolinks.enableProgressBar()
   # disableRequestCaching will be available with Turbolinks 3.0+
   Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
-
 
 @globalReady = () ->
   initializeTypeahead()

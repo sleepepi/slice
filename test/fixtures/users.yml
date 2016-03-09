@@ -22,6 +22,13 @@ project_one_viewer:
   encrypted_password: ""
   emails_enabled: true
 
+project_one_editor_blinded:
+  first_name: Blinded
+  last_name: Project Editor
+  email: project_one_editor_blinded@example.com
+  encrypted_password: ""
+  emails_enabled: true
+
 two:
   first_name: Two
   last_name: Deux

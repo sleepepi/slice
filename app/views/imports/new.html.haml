@@ -1,7 +1,7 @@
 - @title = 'Design Import'
 .page-header
   %h1
-    = link_to @project.name, setup_project_path(@project)
+    = link_to @project.name, settings_editor_project_path(@project)
     &middot;
     = link_to 'Designs', project_designs_path(@project)
     &middot; Import

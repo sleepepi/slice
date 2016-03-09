@@ -9,7 +9,7 @@
     %ul
       - current_user.all_viewable_sites.collect(&:project).flatten.uniq.sort_by{|p| p.name}.each do |project|
         %li{ style: 'line-height:30px' }
-          = link_to project.name, report_project_path(project)
+          = link_to project.name, report_reports_project_path(project)
   .col-md-4
     %h2.about-title Design Reports
     - current_user.all_viewable_designs.group_by{|d| d.project}.sort{|a,b| (a[0] ? a[0].name : "") <=> (b[0] ? b[0].name : "")}.each do |project, designs|

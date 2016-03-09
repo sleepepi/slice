@@ -2,7 +2,7 @@
 
 - links = []
 - links << ['Subjects', project_subjects_path(@project)]
-- links << ['Subject Report', subject_report_project_path(@project)]
+- links << ['Subject Report', subject_report_reports_project_path(@project)]
 = render 'projects/tabbed_menu', links: links
 
 .mini-menu-outer
@@ -10,4 +10,4 @@
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
     %h2.underline-header= @title
-    = render 'projects/subject_report'
+    = render 'reports/projects/subject_report'

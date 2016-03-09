@@ -16,7 +16,38 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :projects, constraints: { format: /json|pdf|csv|js/ } do
+  namespace :owner do
+    resources :projects, only: :destroy do
+      member do
+        post :transfer
+      end
+    end
+  end
+
+  namespace :editor do
+    resources :projects, only: [:edit, :update] do
+      member do
+        post :invite_user
+        get :settings
+      end
+    end
+  end
+
+  namespace :reports do
+    resources :projects, only: [] do
+      member do
+        get :report
+        post :report
+        get :subject_report
+        get :reports
+        post :filters
+        post :new_filter
+        post :edit_filter
+      end
+    end
+  end
+
+  resources :projects, only: [:index, :show, :new, :create], constraints: { format: /json|pdf|csv|js/ } do
     collection do
       get :splash
       get :search
@@ -24,21 +55,10 @@ Rails.application.routes.draw do
     end
 
     member do
-      get :report
-      post :report
-      get :report_print
-      get :subject_report
-      get :reports
-      post :filters
-      post :new_filter
-      post :edit_filter
       post :favorite
       get :activity
       get :share
-      get :setup
       get :about
-      post :transfer
-      post :invite_user
       get :logo
       post :archive
     end

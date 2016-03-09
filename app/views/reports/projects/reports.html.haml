@@ -1,6 +1,6 @@
 - @title = "#{@project.name} Reports"
 
-= render 'projects/tabbed_menu', links: [['Reports', reports_project_path(@project)]]
+= render 'projects/tabbed_menu', links: [['Reports', reports_reports_project_path(@project)]]
 
 .mini-menu-outer
   .mini-menu-left-fixed
@@ -48,6 +48,6 @@
           %h3.center{ style: 'margin-top: 0' } Cumulative Recruitment
           %p.lead.center.text-muted Subject randomization has not started.
 
-    = render 'projects/show/reports'
+    = render 'reports/projects/reports'
 
 = render 'projects/mobile_menu'
