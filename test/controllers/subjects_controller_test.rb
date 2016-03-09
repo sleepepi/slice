@@ -326,21 +326,11 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should create subject' do
-    assert_difference('Subject.count') do
-      post :create, project_id: @project, subject: { subject_code: 'Code03' }, site_id: @subject.site_id
-    end
-
-    assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
-  end
-
   test 'should create subject and strip whitespace' do
     assert_difference('Subject.count') do
       post :create, project_id: @project, subject: { subject_code: ' Code04 ' }, site_id: @subject.site_id
     end
-
     assert_equal 'Code04', assigns(:subject).subject_code
-
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
   end
 
@@ -387,7 +377,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
   test 'should not create subject for invalid project' do
     assert_difference('Subject.count', 0) do
-      post :create, project_id: projects(:four), subject: { subject_code: 'Code03' }, site_id: @subject.site_id
+      post :create, project_id: projects(:four), subject: { subject_code: 'Code04' }, site_id: @subject.site_id
     end
 
     assert_nil assigns(:project)
@@ -399,7 +389,7 @@ class SubjectsControllerTest < ActionController::TestCase
   test 'should not create subject for site viewer' do
     login(users(:site_one_viewer))
     assert_difference('Subject.count', 0) do
-      post :create, project_id: @project, subject: { subject_code: 'Code03' }, site_id: sites(:one).id
+      post :create, project_id: @project, subject: { subject_code: 'Code04' }, site_id: sites(:one).id
     end
 
     assert_nil assigns(:project)
@@ -411,7 +401,7 @@ class SubjectsControllerTest < ActionController::TestCase
   test 'should create subject for site editor' do
     login(users(:site_one_editor))
     assert_difference('Subject.count') do
-      post :create, project_id: @project, subject: { subject_code: 'Code03' }, site_id: sites(:one).id
+      post :create, project_id: @project, subject: { subject_code: 'Code04' }, site_id: sites(:one).id
     end
 
     assert_redirected_to project_subject_path(assigns(:subject).project, assigns(:subject))
@@ -420,7 +410,7 @@ class SubjectsControllerTest < ActionController::TestCase
   test 'should not create subject for site editor for another site' do
     login(users(:site_one_editor))
     assert_difference('Subject.count', 0) do
-      post :create, project_id: @project, subject: { subject_code: 'Code03' }, site_id: sites(:two).id
+      post :create, project_id: @project, subject: { subject_code: 'Code04' }, site_id: sites(:two).id
     end
 
     assert_not_nil assigns(:project)

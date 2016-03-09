@@ -512,3 +512,11 @@ on_slug_project_string_on_survey:
   position: 0
   # required:
   # branching_logic:
+
+randomize:
+  design: randomize
+  variable: randomize
+  # section:
+  position: 0
+  # required:
+  # branching_logic:

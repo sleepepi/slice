@@ -104,3 +104,17 @@ edge_b_1:
   randomization_scheme: minimization_for_testing_edge_case
   allocation: 1
   user: valid
+
+required_a:
+  name: Required Variable Treatment Arm A
+  project: two
+  randomization_scheme: minimization_with_required_variable
+  allocation: 1
+  user: valid
+
+required_b:
+  name: Required Variable Treatment Arm B
+  project: two
+  randomization_scheme: minimization_with_required_variable
+  allocation: 1
+  user: valid

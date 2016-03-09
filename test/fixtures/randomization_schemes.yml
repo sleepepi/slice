@@ -85,3 +85,15 @@ minimization_for_testing_edge_case:
   randomization_goal: 10
   algorithm: minimization
   chance_of_random_treatment_arm_selection: 0
+
+minimization_with_required_variable:
+  name: Minimization with Required Variable
+  description: Scheme that ensures subject eligibility for randomizaton based on selected variable
+  project: two
+  user: valid
+  published: true
+  randomization_goal: 100
+  algorithm: minimization
+  chance_of_random_treatment_arm_selection: 30
+  variable: randomize
+  variable_value: 1

@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
+# Allows project editors to define randomization schemes based on permuted-block
+# or minimization algorithms.
 class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project_or_editable_site,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
-  before_action :set_editable_project,                    only: [:add_task, :index, :show, :new, :edit, :create, :update, :destroy]
-  before_action :redirect_without_project
+  before_action :find_editable_project_or_editable_site_or_redirect,
+                only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
+  before_action :find_editable_project_or_redirect,
+                only: [:add_task, :index, :show, :new, :edit, :create, :update, :destroy]
   before_action :redirect_blinded_users
-  before_action :set_randomization_scheme,                only: [:show, :edit, :update, :destroy]
-  before_action :set_published_randomization_scheme,      only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
-  before_action :redirect_without_randomization_scheme,   only: [:randomize_subject, :subject_search, :randomize_subject_to_list, :show, :edit, :update, :destroy]
+  before_action :find_scheme_or_redirect,
+                only: [:show, :edit, :update, :destroy]
+  before_action :find_published_scheme_or_redirect,
+                only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
 
   # POST /template/add_task.js
   def add_task
@@ -19,7 +23,8 @@ class RandomizationSchemesController < ApplicationController
   end
 
   def subject_search
-    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:q]).order('subject_code').limit(5)
+    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
+                            .search(params[:q]).order('subject_code').limit(5)
 
     result = @subjects.collect do |s|
       status = 'E'
@@ -49,7 +54,8 @@ class RandomizationSchemesController < ApplicationController
   def randomize_subject_to_list
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
 
-    subject = current_user.all_subjects.where(project_id: @project.id).where('LOWER(subjects.subject_code) = ?', params[:subject_code].to_s.downcase).first
+    subject = current_user.all_subjects.where(project_id: @project.id)
+                          .where('LOWER(subjects.subject_code) = ?', params[:subject_code].to_s.downcase).first
 
     if @randomization_scheme.lists.count == 0
       @randomization.errors.add(:lists, 'need to be generated before a subject can be randomized')
@@ -71,18 +77,12 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
-    criteria_pairs = (params[:stratification_factors] || []).collect { |stratification_factor_id, option_id| [stratification_factor_id, option_id] }
+    criteria_pairs = (params[:stratification_factors] || []).collect { |sf_id, option_id| [sf_id, option_id] }
     list = @randomization_scheme.find_list_by_criteria_pairs(criteria_pairs)
-
-    unless list
-      @randomization.errors.add(:stratification_factors, "can't be blank")
-      render 'randomize_subject'
-      return
-    end
 
     invalid_criteria_found = false
 
-    unless @randomization_scheme.all_criteria_selected?(criteria_pairs)
+    unless list && @randomization_scheme.all_criteria_selected?(criteria_pairs)
       @randomization.errors.add(:stratification_factors, "can't be blank")
       invalid_criteria_found = true
     end
@@ -123,18 +123,19 @@ class RandomizationSchemesController < ApplicationController
 
     if @randomization && @randomization.errors.full_messages == []
       @randomization.launch_tasks!
-      redirect_to [@project, @randomization], notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
+      redirect_to [@project, @randomization],
+                  notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
     elsif @randomization
       @randomization.errors.delete(:subject_id)
       @randomization.errors.add(:subject_id, 'has already been randomized')
       render 'randomize_subject'
     else
-      redirect_to choose_scheme_project_randomizations_path(@project), alert: "Subject was NOT successfully randomized. #{@randomization_scheme.randomization_error_message}"
+      redirect_to choose_scheme_project_randomizations_path(@project),
+                  alert: "Subject was NOT successfully randomized. #{@randomization_scheme.randomization_error_message}"
     end
   end
 
   # GET /randomization_schemes
-  # GET /randomization_schemes.json
   def index
     randomization_scheme_scope = @project.randomization_schemes.search(params[:search])
     @order = scrub_order(RandomizationScheme, params[:order], 'randomization_schemes.name')
@@ -143,7 +144,6 @@ class RandomizationSchemesController < ApplicationController
   end
 
   # GET /randomization_schemes/1
-  # GET /randomization_schemes/1.json
   def show
   end
 
@@ -157,64 +157,52 @@ class RandomizationSchemesController < ApplicationController
   end
 
   # POST /randomization_schemes
-  # POST /randomization_schemes.json
   def create
-    @randomization_scheme = current_user.randomization_schemes.where(project_id: @project.id).new(randomization_scheme_params)
-
-    respond_to do |format|
-      if @randomization_scheme.save
-        format.html { redirect_to [@project, @randomization_scheme], notice: 'Randomization scheme was successfully created.' }
-        format.json { render :show, status: :created, location: @randomization_scheme }
-      else
-        format.html { render :new }
-        format.json { render json: @randomization_scheme.errors, status: :unprocessable_entity }
-      end
+    @randomization_scheme = current_user.randomization_schemes.where(project_id: @project.id)
+                                        .new(randomization_scheme_params)
+    if @randomization_scheme.save
+      redirect_to [@project, @randomization_scheme], notice: 'Randomization scheme was successfully created.'
+    else
+      render :new
     end
   end
 
-  # PATCH/PUT /randomization_schemes/1
-  # PATCH/PUT /randomization_schemes/1.json
+  # PATCH /randomization_schemes/1
   def update
-    respond_to do |format|
-      if @randomization_scheme.update(randomization_scheme_params)
-        format.html { redirect_to [@project, @randomization_scheme], notice: 'Randomization scheme was successfully updated.' }
-        format.json { render :show, status: :ok, location: @randomization_scheme }
-      else
-        format.html { render :edit }
-        format.json { render json: @randomization_scheme.errors, status: :unprocessable_entity }
-      end
+    if @randomization_scheme.update(randomization_scheme_params)
+      redirect_to [@project, @randomization_scheme], notice: 'Randomization scheme was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /randomization_schemes/1
-  # DELETE /randomization_schemes/1.json
   def destroy
     @randomization_scheme.destroy
-    respond_to do |format|
-      format.html { redirect_to project_randomization_schemes_path(@project), notice: 'Randomization scheme was successfully deleted.' }
-      format.json { head :no_content }
-    end
+    redirect_to project_randomization_schemes_path(@project), notice: 'Randomization scheme was successfully deleted.'
   end
 
   private
 
-  def set_randomization_scheme
+  def find_scheme_or_redirect
     @randomization_scheme = @project.randomization_schemes.find_by_id(params[:id])
+    redirect_without_scheme
   end
 
-  def set_published_randomization_scheme
+  def find_published_scheme_or_redirect
     @randomization_scheme = @project.randomization_schemes.published.find_by_id(params[:id])
+    redirect_without_scheme
   end
 
-  def redirect_without_randomization_scheme
+  def redirect_without_scheme
     empty_response_or_root_path(project_randomization_schemes_path(@project)) unless @randomization_scheme
   end
 
   def randomization_scheme_params
     params[:randomization_scheme] ||= { blank: '1' }
 
-    params[:randomization_scheme][:randomization_goal] = 0 if params[:randomization_scheme].key?(:randomization_goal) && params[:randomization_scheme][:randomization_goal].blank?
-    params[:randomization_scheme][:chance_of_random_treatment_arm_selection] = 30 if params[:randomization_scheme].key?(:chance_of_random_treatment_arm_selection) && params[:randomization_scheme][:chance_of_random_treatment_arm_selection].blank?
+    check_key_and_set_default_value(:randomization_scheme, :randomization_goal, 0)
+    check_key_and_set_default_value(:randomization_scheme, :chance_of_random_treatment_arm_selection, 30)
 
     if @randomization_scheme && @randomization_scheme.randomized_subjects?
       params.require(:randomization_scheme).permit(
@@ -227,7 +215,8 @@ class RandomizationSchemesController < ApplicationController
         :name, :description, :randomization_goal,
         { task_hashes: [:description, :offset, :offset_units, :window, :window_units] },
         { expected_randomizations_hashes: [:site_id, :expected] },
-        :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value)
+        :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value
+      )
     end
   end
 end

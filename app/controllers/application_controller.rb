@@ -52,8 +52,15 @@ class ApplicationController < ActionController::Base
     redirect_without_project
   end
 
+  # TODO: Will be deprecated
   def set_editable_project_or_editable_site
     @project = current_user.all_sheet_editable_projects.find_by_param(params[:project_id])
+  end
+
+  # TODO: Will replace original set_editable_project_or_editable_site
+  def find_editable_project_or_editable_site_or_redirect
+    @project = current_user.all_sheet_editable_projects.find_by_param(params[:project_id])
+    redirect_without_project
   end
 
   def redirect_without_project(path = root_path)

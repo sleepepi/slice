@@ -14,6 +14,13 @@ two:
   site: one
   status: valid
 
+code03:
+  project: one
+  subject_code: Code03
+  user: valid
+  site: one
+  status: valid
+
 three:
   project: one
   subject_code: S2001
@@ -38,6 +45,13 @@ randomized:
 sample:
   project: two
   subject_code: 2TWO02
+  user: valid
+  site: site_on_project_two
+  status: valid
+
+eligible_for_randomization:
+  project: two
+  subject_code: eligible_for_randomization
   user: valid
   site: site_on_project_two
   status: valid

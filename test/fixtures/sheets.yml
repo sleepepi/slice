@@ -215,3 +215,9 @@ checkbox_example_one:
   project: one
   subject: one
   user: valid
+
+required_for_randomization:
+  design: randomize
+  project: two
+  subject: eligible_for_randomization
+  user: valid

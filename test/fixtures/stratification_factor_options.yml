@@ -152,3 +152,20 @@ edge_female:
   label: Female
   value: 2
 
+
+required_and_calculated_one:
+  project: two
+  randomization_scheme: minimization_with_required_variable
+  stratification_factor: required_and_calculated
+  user: valid
+  label: Yes
+  value: 1
+
+required_and_calculated_two:
+  project: two
+  randomization_scheme: minimization_with_required_variable
+  stratification_factor: required_and_calculated
+  user: valid
+  label: No
+  value: 2
+

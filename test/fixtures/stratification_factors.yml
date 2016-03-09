@@ -80,3 +80,17 @@ edge_gender:
   randomization_scheme: minimization_for_testing_edge_case
   user: valid
   name: Gender
+
+required_variable_site:
+  project: two
+  randomization_scheme: minimization_with_required_variable
+  user: valid
+  name: Site
+  stratifies_by_site: true
+
+required_and_calculated:
+  project: two
+  randomization_scheme: minimization_with_required_variable
+  user: valid
+  name: calculated
+  calculation: randomize

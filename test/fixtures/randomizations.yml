@@ -23,7 +23,7 @@ two:
   multiplier: 1
   position: 1
   treatment_arm: one
-  subject: one
+  subject: code03
   randomized_at: 2015-07-07 15:57:40
   randomized_by: valid
   attested: true

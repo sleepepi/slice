@@ -150,3 +150,9 @@ integer_unknown:
   display_name: Age Unknown
   description: Missing values for unknown ages
   options: [{ name: 'Unknown', value: '-9', missing_code: '1' }, { name: 'Refusal to provide age', value: '-10', missing_code: '1' }]
+
+randomize_yes_no:
+  name: randomize_yes_no
+  display_name: Randomize Yes or No
+  # description:
+  options: [{ name: 'Yes', value: '1' }, { name: 'No', value: '2' }]

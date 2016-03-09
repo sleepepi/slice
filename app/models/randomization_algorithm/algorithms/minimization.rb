@@ -70,7 +70,7 @@ module RandomizationAlgorithm
         list.randomizations.where(subject_id: nil).destroy_all
 
         # Create a dynamic randomization
-        randomization = self.generate_next_randomization!(list, current_user, criteria_pairs)
+        randomization = generate_next_randomization!(list, current_user, criteria_pairs)
 
         # Add subject to randomization list
         randomization.add_subject!(subject, current_user) if randomization
@@ -84,9 +84,9 @@ module RandomizationAlgorithm
         end
 
         def generate_next_randomization!(list, current_user, criteria_pairs)
-          criteria_pairs.collect!{|sfid,oid| [sfid.to_i, oid.to_i]}
+          criteria_pairs.collect! { |sfid,oid| [sfid.to_i, oid.to_i] }
 
-          return nil unless self.all_criteria_selected?(criteria_pairs)
+          return nil unless all_criteria_selected?(criteria_pairs)
 
           # If 30% chance, select random treatment arm
           dice_roll = rand(100)
@@ -102,7 +102,7 @@ module RandomizationAlgorithm
 
           randomization = nil
 
-          if treatment_arm and weighted_eligible_arms.is_a?(Array)
+          if treatment_arm && weighted_eligible_arms.is_a?(Array)
             randomization = list.randomizations.create(
               project_id: @randomization_scheme.project_id,
               randomization_scheme_id: @randomization_scheme.id,
@@ -115,7 +115,7 @@ module RandomizationAlgorithm
             )
 
             # Add Characteristics
-            self.add_randomization_characteristics!(randomization, criteria_pairs)
+            add_randomization_characteristics!(randomization, criteria_pairs)
           end
 
           randomization

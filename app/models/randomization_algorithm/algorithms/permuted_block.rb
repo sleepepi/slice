@@ -61,20 +61,18 @@ module RandomizationAlgorithm
 
         # Expand lists by another block group
         unless randomization
-          max_needed_block_group = [self.next_block_group - 1, list.next_block_group].max
-          self.generate_next_block_group_up_to!(current_user, max_needed_block_group)
+          max_needed_block_group = [next_block_group - 1, list.next_block_group].max
+          generate_next_block_group_up_to!(current_user, max_needed_block_group)
           randomization = list.randomizations.where(subject_id: nil).order(:position).first
         end
-
 
         if randomization
           # Add subject to randomization list
           randomization.add_subject!(subject, current_user)
 
           # Add Characteristics
-          self.add_randomization_characteristics!(randomization, criteria_pairs)
+          add_randomization_characteristics!(randomization, criteria_pairs)
         end
-
 
         randomization
       end

@@ -2,6 +2,8 @@
 
 require 'test_helper'
 
+# Tests to make sure project editors can edit sites, and that project and site
+# members can view sites.
 class SitesControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
@@ -162,7 +164,7 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test 'should destroy site' do
-    assert_difference('Subject.current.count', -2) do
+    assert_difference('Subject.current.count', -3) do
       assert_difference('Site.current.count', -1) do
         delete :destroy, id: @site, project_id: @project
       end

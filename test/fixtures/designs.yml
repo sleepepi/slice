@@ -143,3 +143,7 @@ on_slug_project:
   project: named_project
   publicly_available: true
 
+randomize:
+  name: Eligible for Randomization
+  user: valid
+  project: two

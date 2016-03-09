@@ -279,3 +279,9 @@ exportable_two:
   sheet: checkbox_example_one
   response: 1
   user: valid
+
+eligible_for_randomization:
+  variable: randomize
+  sheet: required_for_randomization
+  response: 1
+  user: valid

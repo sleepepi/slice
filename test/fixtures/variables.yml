@@ -383,3 +383,12 @@ string_on_survey:
   variable_type: string
   user: valid
   project: named_project
+
+randomize:
+  name: randomize
+  display_name: Eligible for Randomization?
+  description: For Randomizations
+  variable_type: radio
+  user: valid
+  project: two
+  domain: randomize_yes_no
