@@ -41,7 +41,6 @@ class User < ActiveRecord::Base
   has_many :projects, -> { where deleted: false }
   has_many :project_favorites
   has_many :randomization_schemes, -> { where deleted: false }
-  has_many :reports, -> { where deleted: false }
   has_many :sections
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
   has_many :sites, -> { where deleted: false }

@@ -276,8 +276,6 @@ Rails.application.routes.draw do
   get 'invite/:invite_token' => 'project_users#invite'
   get 'site-invite/:site_invite_token' => 'site_users#invite'
 
-  resources :reports
-
   devise_for :users,
              controllers: {
                registrations: 'contour/registrations',
@@ -346,5 +344,7 @@ Rails.application.routes.draw do
   get '/search' => 'projects#search', as: :search
   get '/activity' => 'users#activity', as: :activity
 
+  get 'reports/projects', to: redirect('')
+  get 'reports', to: redirect('')
   root to: 'projects#splash'
 end

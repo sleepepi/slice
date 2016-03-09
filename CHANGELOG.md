@@ -19,6 +19,7 @@
 - Continued cleanup and refactoring, and additional testing of controllers
 - Refactored design imports and reports to dedicated controllers
 - Removed design JSON exports and imports, and design copying
+- Removed saving custom reports
 
 ## 0.35.1 (March 1, 2016)
 
