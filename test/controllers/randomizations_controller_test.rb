@@ -78,6 +78,7 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should print randomization schedule for site editor' do
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
     login(users(:site_one_editor))
     get :schedule, project_id: @project, id: @randomization, format: 'pdf'
     assert_not_nil assigns(:randomization)
@@ -85,10 +86,25 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should print randomization schedule for site viewer' do
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
     login(users(:site_one_viewer))
     get :schedule, project_id: @project, id: @randomization, format: 'pdf'
     assert_not_nil assigns(:randomization)
     assert_response :success
+  end
+
+  test 'should show randomization if PDF fails to render' do
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
+    begin
+      original_latex = ENV['latex_location']
+      ENV['latex_location'] = "echo #{original_latex}"
+      login(users(:site_one_editor))
+      get :schedule, project_id: @project, id: randomizations(:two), format: 'pdf'
+      assert_not_nil assigns(:randomization)
+      assert_redirected_to [@project, randomizations(:two)]
+    ensure
+      ENV['latex_location'] = original_latex
+    end
   end
 
   test 'should undo randomization' do

@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
+# Allows unblinded project and site members to view randomizations. Project
+# editors are able to undo randomizations.
 class RandomizationsController < ApplicationController
   before_action :authenticate_user!
-
-  before_action :set_viewable_project,                  only: [:index, :show, :schedule]
-  before_action :set_editable_project_or_editable_site, only: [:choose_scheme, :undo]
-  before_action :redirect_without_project
-
+  before_action :find_viewable_project_or_redirect, only: [:index, :show, :schedule]
+  before_action :find_editable_project_or_editable_site_or_redirect, only: [:choose_scheme, :undo]
   before_action :redirect_blinded_users
-
-  before_action :set_viewable_randomization,            only: [:show, :schedule]
-  before_action :set_editable_randomization,            only: [:undo]
+  before_action :find_viewable_randomization_or_redirect, only: [:show, :schedule]
+  before_action :find_editable_randomization_or_redirect, only: [:undo]
 
   def choose_scheme
     if @project.randomization_schemes.published.count == 1
-      redirect_to randomize_subject_to_list_project_randomization_scheme_path(@project, @project.randomization_schemes.published.first)
+      redirect_to randomize_subject_to_list_project_randomization_scheme_path(
+        @project,
+        @project.randomization_schemes.published.first
+      )
     end
   end
 
@@ -36,10 +37,10 @@ class RandomizationsController < ApplicationController
   # GET /randomizations/1/schedule.pdf
   def schedule
     file_pdf_location = @randomization.latex_file_location(current_user)
-    if File.exist?(file_pdf_location)
+    if File.exist? file_pdf_location
       send_file file_pdf_location, filename: 'schedule.pdf', type: 'application/pdf', disposition: 'inline'
     else
-      render text: 'PDF did not render in time. Please refresh the page.'
+      redirect_to [@project, @randomization], alert: 'Unable to generate PDF.'
     end
   end
 
@@ -49,20 +50,14 @@ class RandomizationsController < ApplicationController
     redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully removed.'
   end
 
-  # # DELETE /randomizations/1
-  # def destroy
-  #   @randomization.destroy
-  #   redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully deleted.'
-  # end
-
   private
 
-  def set_viewable_randomization
+  def find_viewable_randomization_or_redirect
     @randomization = current_user.all_viewable_randomizations.find_by_id(params[:id])
     redirect_without_randomization
   end
 
-  def set_editable_randomization
+  def find_editable_randomization_or_redirect
     @randomization = current_user.all_randomizations.find_by_id(params[:id])
     redirect_without_randomization
   end
