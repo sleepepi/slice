@@ -34,7 +34,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should archive project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: true).count') do
-      post :archive, id: @project, archive: '1'
+      post :archive, id: @project
     end
     assert_redirected_to root_path
   end
@@ -42,7 +42,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should undo archive project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: false).count') do
-      post :archive, id: @project, archive: '0', undo: '1'
+      post :archive, id: @project, undo: '1'
     end
     assert_redirected_to root_path
   end
@@ -50,7 +50,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should restore project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: false).count') do
-      post :archive, id: @project, archive: '0'
+      post :restore, id: @project
     end
     assert_redirected_to archives_path
   end
@@ -58,7 +58,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should undo restore project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: true).count') do
-      post :archive, id: @project, archive: '1', undo: '1'
+      post :restore, id: @project, undo: '1'
     end
     assert_redirected_to archives_path
   end

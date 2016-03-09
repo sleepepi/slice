@@ -61,6 +61,7 @@ Rails.application.routes.draw do
       get :about
       get :logo
       post :archive
+      post :restore
     end
 
     namespace :reports do

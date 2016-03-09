@@ -4,7 +4,8 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :settings, :show, :collect, :share, :about, :favorite, :archive, :activity, :logo
+    :settings, :show, :collect, :share, :about, :favorite, :activity, :logo,
+    :archive, :restore
   ]
 
   # POST /projects/save_project_order.js
@@ -32,20 +33,15 @@ class ProjectsController < ApplicationController
   # POST /projects/1/archive
   def archive
     project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
-    project_favorite.update archived: (params[:archive] == '1')
-    if params[:undo] == '1'
-      if params[:archive] == '1'
-        redirect_to archives_path, notice: 'Your action has been undone.'
-      else
-        redirect_to root_path, notice: 'Your action has been undone.'
-      end
-    else
-      if params[:archive] == '1'
-        redirect_to root_path, notice: "#{view_context.link_to(@project.name, @project)} has been archived. #{view_context.link_to 'Undo', archive_project_path(@project, archive: '0', undo: '1'), method: :post}"
-      else
-        redirect_to archives_path, notice: "#{view_context.link_to(@project.name, @project)} has been restored. #{view_context.link_to 'Undo', archive_project_path(@project, archive: '1', undo: '1'), method: :post}"
-      end
-    end
+    project_favorite.update archived: (params[:undo] != '1')
+    redirect_to root_path, notice: archive_notice
+  end
+
+  # POST /projects/1/restore
+  def restore
+    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
+    project_favorite.update archived: (params[:undo] == '1')
+    redirect_to archives_path, notice: restore_notice
   end
 
   # GET /projects/search
@@ -148,5 +144,23 @@ class ProjectsController < ApplicationController
       # Will automatically generate a site if the project has no site
       :site_name
     )
+  end
+
+  def restore_notice
+    if params[:undo] == '1'
+      'Your action has been undone.'
+    else
+      "#{view_context.link_to(@project.name, @project)} has been restored.\
+       #{view_context.link_to 'Undo', restore_project_path(@project, undo: '1'), method: :post}"
+    end
+  end
+
+  def archive_notice
+    if params[:undo] == '1'
+      'Your action has been undone.'
+    else
+      "#{view_context.link_to(@project.name, @project)} has been archived.\
+       #{view_context.link_to 'Undo', archive_project_path(@project, undo: '1'), method: :post}"
+    end
   end
 end

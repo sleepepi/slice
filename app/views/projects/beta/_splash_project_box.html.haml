@@ -12,12 +12,13 @@
   .project-details{ id: "project_#{project.id}_details" }
     .pull-right
       %strong.hidden-xs Actions
-      = link_to archive_project_path(project, archive: archived ? '0' : '1'), method: :post, class: 'btn btn-xs btn-default' do
-        - if archived
+      - if archived
+        = link_to restore_project_path(project), method: :post, class: 'btn btn-xs btn-default' do
           %span.glyphicon.glyphicon-eye-open
           %span.hidden-xs
             Restore
-        - else
+      - else
+        = link_to archive_project_path(project), method: :post, class: 'btn btn-xs btn-default' do
           %span.glyphicon.glyphicon-eye-close
           %span.hidden-xs
             Archive
