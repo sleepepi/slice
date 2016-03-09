@@ -61,9 +61,11 @@ class Sheet < ActiveRecord::Base
   has_many :sheet_transaction_audits
 
   # Model Methods
-
-  delegate :name, to: :design
   delegate :description, to: :design
+
+  def name
+    design ? design.name : 'No Design'
+  end
 
   def event_at
     created_at

@@ -325,6 +325,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test 'should not create sheet without design' do
+    assert_difference('Sheet.count', 0) do
+      post :create, project_id: @project, subject_id: subjects(:one), sheet: { design_id: '' }
+    end
+    assert_template 'new'
+    assert_response :success
+  end
+
   test 'should not create sheet for site viewer' do
     login(users(:site_one_viewer))
     assert_difference('Sheet.count', 0) do
@@ -438,24 +446,41 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test 'should print sheet' do
-    get :print, id: @sheet, project_id: @project
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
+    get :show, project_id: @project, id: @sheet, format: 'pdf'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
   test 'should print sheet on project that hides values' do
-    get :print, id: sheets(:two), project_id: projects(:two)
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
+    get :show, project_id: projects(:two), id: sheets(:two), format: 'pdf'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
   test 'should not print invalid sheet' do
-    get :print, id: -1, project_id: @project
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
+    get :show, project_id: @project, id: -1, format: 'pdf'
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_path(assigns(:project))
+  end
+
+  test 'should show sheet if PDF fails to render' do
+    skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
+    begin
+      original_latex = ENV['latex_location']
+      ENV['latex_location'] = "echo #{original_latex}"
+      get :show, project_id: @project, id: sheets(:three), format: 'pdf'
+      assert_not_nil assigns(:project)
+      assert_not_nil assigns(:sheet)
+      assert_redirected_to [@project, sheets(:three)]
+    ensure
+      ENV['latex_location'] = original_latex
+    end
   end
 
   test 'should get edit' do
@@ -570,6 +595,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+  test 'should not update sheet with blank design' do
+    patch :update, project_id: @project, id: @sheet, sheet: { design_id: '' }, variables: {}
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_template 'edit'
+    assert_response :success
+  end
+
   test 'should not update invalid sheet' do
     patch :update, id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types) }, variables: {}
     assert_not_nil assigns(:project)
@@ -604,6 +637,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_equal true, assigns(:sheet).locked
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test 'should remove shareable link as editor' do
+    login(users(:admin))
+    assert_difference('Sheet.where(authentication_token: nil).count') do
+      post :remove_shareable_link, project_id: projects(:three), id: sheets(:external)
+    end
+    assert_redirected_to [projects(:three), sheets(:external)]
   end
 
   test 'should get transfer sheet for editor' do

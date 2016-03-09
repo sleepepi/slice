@@ -1,20 +1,28 @@
 # frozen_string_literal: true
 
+# Allow project and site editors to modify sheets, and project and site viewers
+# to view and print sheets.
 class SheetsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [:index, :show, :print, :file]
-  before_action :set_editable_project_or_editable_site, only: [:edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :new, :create, :update, :destroy, :unlock]
-  before_action :redirect_without_project, only: [:index, :show, :print, :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :new, :create, :update, :destroy, :unlock, :file]
-  before_action :set_subject,              only: [:create]
-  before_action :redirect_without_subject, only: [:create]
-  before_action :set_viewable_sheet, only: [:show, :print, :file]
-  before_action :set_editable_sheet, only: [:edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :update, :destroy, :unlock]
-  before_action :redirect_without_sheet, only: [:show, :print, :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions, :update, :destroy, :unlock, :file]
-  before_action :redirect_with_locked_sheet, only: [:edit, :transfer, :move_to_event, :update, :destroy]
+  before_action :find_viewable_project_or_redirect, only: [:index, :show, :file]
+  before_action :find_editable_project_or_editable_site_or_redirect, only: [
+    :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions,
+    :new, :create, :update, :destroy, :unlock
+  ]
+  before_action :find_subject_or_redirect, only: [:create]
+  before_action :find_viewable_sheet_or_redirect, only: [:show, :file]
+  before_action :find_editable_sheet_or_redirect, only: [
+    :edit, :transfer, :move_to_event, :update, :destroy,
+    :remove_shareable_link, :transactions, :unlock
+  ]
+  before_action :redirect_with_locked_sheet, only: [
+    :edit, :transfer, :move_to_event, :update, :destroy
+  ]
 
   # GET /sheets
   def index
-    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).includes(:user, :design, subject: :site).search(params[:search])
+    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id)
+                              .includes(:user, :design, subject: :site).search(params[:search])
     @sheet_after = parse_date(params[:sheet_after])
     @sheet_before = parse_date(params[:sheet_before])
     sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
@@ -52,19 +60,10 @@ class SheetsController < ApplicationController
     @sheets = sheet_scope.page(params[:page]).per(40)
   end
 
-  # This is the latex view
-  def print
-    file_pdf_location = Sheet.latex_file_location([@sheet], current_user)
-
-    if File.exist?(file_pdf_location)
-      send_file file_pdf_location, filename: "sheet_#{@sheet.id}.pdf", type: 'application/pdf', disposition: 'inline'
-    else
-      render text: 'PDF did not render in time. Please refresh the page.'
-    end
-  end
-
   # GET /sheets/1
+  # GET /sheets/1.pdf
   def show
+    generate_pdf if params[:format] == 'pdf'
   end
 
   # GET /sheets/1/transactions
@@ -88,8 +87,8 @@ class SheetsController < ApplicationController
       @sheet_variable.grids.find_by_variable_id_and_position(params[:variable_id], params[:position].to_i) if @sheet_variable  # Grid
     end
 
-    if @object and @object.response_file.size > 0
-      send_file File.join( CarrierWave::Uploader::Base.root, @object.response_file.url )
+    if @object && @object.response_file.size > 0
+      send_file File.join(CarrierWave::Uploader::Base.root, @object.response_file.url)
     else
       render nothing: true
     end
@@ -170,16 +169,19 @@ class SheetsController < ApplicationController
 
   private
 
-  def set_viewable_sheet
+  def find_viewable_sheet_or_redirect
     @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
+    redirect_without_sheet
   end
 
-  def set_editable_sheet
+  def find_editable_sheet_or_redirect
     @sheet = current_user.all_sheets.find_by_id(params[:id])
+    redirect_without_sheet
   end
 
-  def set_subject
+  def find_subject_or_redirect
     @subject = current_user.all_subjects.where(project_id: @project.id).find_by_id params[:subject_id]
+    redirect_without_subject
   end
 
   def redirect_without_subject
@@ -217,5 +219,14 @@ class SheetsController < ApplicationController
 
   def variables_params
     (params[:variables].blank? ? {} : params.require(:variables).permit!)
+  end
+
+  def generate_pdf
+    pdf_location = Sheet.latex_file_location([@sheet], current_user)
+    if File.exist? pdf_location
+      send_file pdf_location, filename: "sheet_#{@sheet.id}.pdf", type: 'application/pdf', disposition: 'inline'
+    else
+      redirect_to [@project, @sheet], alert: 'Unable to generate PDF.'
+    end
   end
 end
