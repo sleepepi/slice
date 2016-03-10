@@ -47,7 +47,7 @@
                 Transfer Ownership of
                 = @project.name
             .modal-body
-              = form_tag transfer_project_path(@project), method: :post, id: 'transfer_project_form', class: 'form-horizontal' do
+              = form_tag transfer_owner_project_path(@project), method: :post, id: 'transfer_project_form', class: 'form-horizontal' do
                 .form-group
                   = label :user_id, 'Transfer To', class: 'col-md-2 control-label'
                   - project_users = @project.users.order('last_name, first_name') - [current_user]

@@ -96,6 +96,18 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get settings as owner' do
+    login(users(:valid))
+    get :settings, id: @project
+    assert_response :success
+  end
+
+  test 'should get settings as editor' do
+    login(users(:project_one_editor))
+    get :settings, id: @project
+    assert_response :success
+  end
+
   test 'should get edit' do
     login(users(:project_one_editor))
     get :edit, id: @project
