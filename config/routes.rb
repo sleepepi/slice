@@ -109,7 +109,6 @@ Rails.application.routes.draw do
 
     resources :sheets do
       member do
-        get :print
         get :file
         get :transactions
         post :unlock

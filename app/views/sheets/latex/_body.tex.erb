@@ -24,6 +24,10 @@
     <% else %>
       \begin{warning}
         <%= latex_safe section.name %>
+        <% if section.description.present? %>
+          \\
+          <%= latex_safe section.description %>
+        <% end %>
       \end{warning}
     <% end %>
 

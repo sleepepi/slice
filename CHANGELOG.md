@@ -7,6 +7,8 @@
   - Updated to rails 4.2.6
   - Updated simplecov 0.11.2
   - Updated to jquery-rails 4.1.1
+- **Sheet Changes**
+  - Section warning descriptions are now included on PDFs
 - **Mobile Changes**
   - Recruitment table on project reports page now optimized for mobile
   - Project menu is now visible on the bottom of subjects index on mobile
