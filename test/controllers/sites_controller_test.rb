@@ -6,183 +6,173 @@ require 'test_helper'
 # members can view sites.
 class SitesControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
     @project = projects(:one)
     @site = sites(:one)
+    @project_editor = users(:project_one_editor)
+    @site_viewer = users(:site_one_viewer)
+  end
+
+  def site_params
+    {
+      name: @site.name,
+      description: @site.description,
+      subject_code_format: @site.subject_code_format
+    }
   end
 
   test 'should get index' do
+    login(@project_editor)
     get :index, project_id: @project
     assert_response :success
-    assert_not_nil assigns(:sites)
   end
 
   test 'should get paginated index' do
+    login(@project_editor)
     get :index, project_id: @project, format: 'js'
-    assert_not_nil assigns(:sites)
     assert_template 'index'
+    assert_response :success
   end
 
   test 'should not get index with invalid project' do
+    login(@project_editor)
     get :index, project_id: -1
-    assert_nil assigns(:sites)
     assert_redirected_to root_path
   end
 
   test 'should get new' do
+    login(@project_editor)
     get :new, project_id: @project
     assert_response :success
   end
 
   test 'should not get new site with invalid project' do
+    login(@project_editor)
     get :new, project_id: -1
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:site)
-
     assert_redirected_to root_path
   end
 
   test 'should create site' do
+    login(@project_editor)
     assert_difference('Site.count') do
-      post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One' }
+      post :create, project_id: @project, site: site_params.merge(name: 'Site New')
     end
-
-    assert_redirected_to project_site_path(assigns(:site).project, assigns(:site))
+    assert_redirected_to [@project, Site.last]
   end
 
   test 'should not create site with blank name' do
+    login(@project_editor)
     assert_difference('Site.count', 0) do
-      post :create, project_id: @project, site: { name: '', description: 'New Site on Project One' }
+      post :create, project_id: @project, site: site_params.merge(name: '')
     end
-
     assert_not_nil assigns(:site)
     assert assigns(:site).errors.size > 0
     assert_equal ["can't be blank"], assigns(:site).errors[:name]
     assert_template 'new'
+    assert_response :success
   end
 
   test 'should not create site for invalid project' do
+    login(@project_editor)
     assert_difference('Site.count', 0) do
-      post :create, project_id: -1, site: { name: 'Site New', description: 'New Site on Project One' }
+      post :create, project_id: -1, site: site_params.merge(name: 'Site New')
     end
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:site)
-
     assert_redirected_to root_path
   end
 
-  test 'should not create site for site user' do
-    login(users(:site_one_viewer))
+  test 'should not create site for site viewer' do
+    login(@site_viewer)
     assert_difference('Site.count', 0) do
-      post :create, project_id: @project, site: { name: 'Site New', description: 'New Site on Project One' }
+      post :create, project_id: @project, site: site_params.merge(name: 'Site New')
     end
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:site)
-
     assert_redirected_to root_path
   end
 
   test 'should show site' do
-    get :show, id: @site, project_id: @project
-    assert_not_nil assigns(:site)
+    login(@project_editor)
+    get :show, project_id: @project, id: @site
     assert_response :success
   end
 
-  test 'should show site for site user' do
-    login(users(:site_one_viewer))
-    get :show, id: @site, project_id: @project
-    assert_not_nil assigns(:site)
+  test 'should show site for site viewer' do
+    login(@site_viewer)
+    get :show, project_id: @project, id: @site
     assert_response :success
   end
 
   test 'should not show invalid site' do
-    get :show, id: -1, project_id: @project
-    assert_nil assigns(:site)
+    login(@project_editor)
+    get :show, project_id: @project, id: -1
     assert_redirected_to project_sites_path
   end
 
   test 'should not show site with invalid project' do
-    get :show, id: @site, project_id: -1
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:site)
-
+    login(@project_editor)
+    get :show, project_id: -1, id: @site
     assert_redirected_to root_path
   end
 
   test 'should get edit' do
-    get :edit, id: @site, project_id: @project
+    login(@project_editor)
+    get :edit, project_id: @project, id: @site
     assert_response :success
   end
 
   test 'should not get edit for invalid site' do
-    get :edit, id: -1, project_id: @project
-
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:site)
-
-    assert_redirected_to project_sites_path
+    login(@project_editor)
+    get :edit, project_id: @project, id: -1
+    assert_redirected_to project_sites_path(@project)
   end
 
   test 'should not get edit with invalid project' do
-    get :edit, id: @site, project_id: -1
-
+    login(@project_editor)
+    get :edit, project_id: -1, id: @site
     assert_nil assigns(:project)
     assert_nil assigns(:site)
-
     assert_redirected_to root_path
   end
 
   test 'should update site' do
-    put :update, id: @site, project_id: @project, site: { name: 'Site One', description: 'First Site on Project One' }
-    assert_redirected_to project_site_path(assigns(:site).project, assigns(:site))
+    login(@project_editor)
+    patch :update, project_id: @project, id: @site, site: site_params
+    assert_redirected_to project_site_path(@project, @site)
   end
 
   test 'should not update site with blank name' do
-    put :update, id: @site, project_id: @project, site: { name: '', description: 'First Site on Project One' }
+    login(@project_editor)
+    patch :update, project_id: @project, id: @site, site: site_params.merge(name: '')
     assert_not_nil assigns(:site)
     assert_equal ["can't be blank"], assigns(:site).errors[:name]
     assert_template 'edit'
+    assert_response :success
   end
 
   test 'should not update invalid site' do
-    put :update, id: -1, project_id: @project, site: { name: 'Site One', description: 'First Site on Project One' }
-    assert_nil assigns(:site)
-    assert_redirected_to project_sites_path
+    login(@project_editor)
+    patch :update, project_id: @project, id: -1, site: site_params
+    assert_redirected_to project_sites_path(@project)
   end
 
   test 'should not update with invalid project' do
-    put :update, id: @site, project_id: -1, site: { name: 'Site One', description: 'First Site on Project One' }
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:site)
-
+    login(@project_editor)
+    patch :update, project_id: -1, id: @site, site: site_params
     assert_redirected_to root_path
   end
 
   test 'should destroy site' do
+    login(@project_editor)
     assert_difference('Subject.current.count', -3) do
       assert_difference('Site.current.count', -1) do
-        delete :destroy, id: @site, project_id: @project
+        delete :destroy, project_id: @project, id: @site
       end
     end
-
-    assert_not_nil assigns(:site)
-    assert_not_nil assigns(:project)
-    assert_redirected_to project_sites_path
+    assert_redirected_to project_sites_path(@project)
   end
 
   test 'should not destroy site with invalid project' do
+    login(@project_editor)
     assert_difference('Site.current.count', 0) do
-      delete :destroy, id: @site, project_id: -1
+      delete :destroy, project_id: -1, id: @site
     end
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:site)
-
     assert_redirected_to root_path
   end
 end

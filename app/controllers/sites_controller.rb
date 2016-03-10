@@ -3,19 +3,18 @@
 # Manages access to viewing and editing project sites.
 class SitesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [:index, :show]
-  before_action :set_editable_project, only: [:new, :edit, :create, :update, :destroy]
-  before_action :redirect_without_project, only: [:index, :show, :new, :edit, :create, :update, :destroy]
-  before_action :set_viewable_site, only: [:show]
-  before_action :set_editable_site, only: [:edit, :update, :destroy]
-  before_action :redirect_without_site, only: [:show, :edit, :update, :destroy]
+  before_action :find_viewable_project_or_redirect, only: [:index, :show]
+  before_action :find_editable_project_or_redirect,
+                only: [:new, :edit, :create, :update, :destroy]
+  before_action :find_viewable_site_or_redirect, only: [:show]
+  before_action :find_editable_site_or_redirect,
+                only: [:edit, :update, :destroy]
 
   # GET /sites
   def index
     @order = scrub_order(Site, params[:order], 'sites.name')
-    @sites = current_user.all_viewable_sites.where(project_id: @project.id)
-                         .search(params[:search]).order(@order)
-                         .page(params[:page]).per(40)
+    @sites = viewable_sites.search(params[:search]).order(@order)
+                           .page(params[:page]).per(40)
   end
 
   # GET /sites/1
@@ -24,7 +23,7 @@ class SitesController < ApplicationController
 
   # GET /sites/new
   def new
-    @site = current_user.sites.new(site_params)
+    @site = current_user.sites.new
   end
 
   # GET /sites/1/edit
@@ -33,7 +32,7 @@ class SitesController < ApplicationController
 
   # POST /sites
   def create
-    @site = current_user.sites.new(site_params)
+    @site = current_user.sites.where(project_id: @project.id).new(site_params)
     if @site.save
       redirect_to [@project, @site], notice: 'Site was successfully created.'
     else
@@ -62,12 +61,19 @@ class SitesController < ApplicationController
 
   private
 
-  def set_viewable_site
-    @site = current_user.all_viewable_sites.find_by_id(params[:id])
+  def viewable_sites
+    current_user.all_viewable_sites.where(project_id: @project.id)
   end
 
-  def set_editable_site
-    @site = @project.sites.find_by_id(params[:id])
+  def find_viewable_site_or_redirect
+    @site = viewable_sites.find_by_id params[:id]
+    redirect_without_site
+  end
+
+  def find_editable_site_or_redirect
+    @site = current_user.all_editable_sites.where(project_id: @project.id)
+                        .find_by_id params[:id]
+    redirect_without_site
   end
 
   def redirect_without_site
@@ -75,10 +81,6 @@ class SitesController < ApplicationController
   end
 
   def site_params
-    params[:site] ||= {}
-    params[:site][:project_id] = @project.id
-    params.require(:site).permit(
-      :name, :description, :project_id, :subject_code_format
-    )
+    params.require(:site).permit(:name, :description, :subject_code_format)
   end
 end
