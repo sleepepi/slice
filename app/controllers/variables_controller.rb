@@ -70,7 +70,7 @@ class VariablesController < ApplicationController
     end
   end
 
-  # PUT /variables/1
+  # PATCH /variables/1
   def update
     if @variable.update(variable_params)
       url = if params[:continue].to_s == '1'

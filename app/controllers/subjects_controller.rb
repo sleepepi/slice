@@ -212,8 +212,8 @@ class SubjectsController < ApplicationController
     end
   end
 
-  # PUT /subjects/1
-  # PUT /subjects/1.json
+  # PATCH /subjects/1
+  # PATCH /subjects/1.json
   def update
     respond_to do |format|
       if @subject.update(subject_params)
