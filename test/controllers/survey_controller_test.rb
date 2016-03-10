@@ -2,6 +2,7 @@
 
 require 'test_helper'
 
+# Tests to assure surveys can be publicly filled out.
 class SurveyControllerTest < ActionController::TestCase
   setup do
     @public_design = designs(:admin_public_design)
@@ -101,7 +102,9 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, slug: designs(:admin_public_design).slug, email: 'test@example.com', site_id: sites(:admin_site).id
+          post :create, slug: designs(:admin_public_design).slug,
+                        email: 'test@example.com',
+                        site_id: sites(:admin_site).id
         end
       end
     end
@@ -117,7 +120,9 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, slug: designs(:admin_public_design).slug, email: 'test@example.com', site_id: sites(:admin_site_two).id
+          post :create, slug: designs(:admin_public_design).slug,
+                        email: 'test@example.com',
+                        site_id: sites(:admin_site_two).id
         end
       end
     end
@@ -148,14 +153,16 @@ class SurveyControllerTest < ActionController::TestCase
   end
 
   test 'should get edit survey using authentication_token' do
-    get :edit, slug: designs(:admin_public_design).slug, sheet_authentication_token: sheets(:external).authentication_token
+    get :edit, slug: designs(:admin_public_design).slug,
+               sheet_authentication_token: sheets(:external).authentication_token
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test 'should not edit sheet survey with invalid authentication_token' do
-    get :edit, slug: designs(:admin_public_design).slug, sheet_authentication_token: '123'
+    get :edit, slug: designs(:admin_public_design).slug,
+               sheet_authentication_token: '123'
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_equal 'This survey no longer exists.', flash[:alert]
@@ -163,7 +170,8 @@ class SurveyControllerTest < ActionController::TestCase
   end
 
   test 'should not edit locked sheet survey' do
-    get :edit, slug: designs(:admin_public_design).slug, sheet_authentication_token: sheets(:external_locked).authentication_token
+    get :edit, slug: designs(:admin_public_design).slug,
+               sheet_authentication_token: sheets(:external_locked).authentication_token
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal 'This survey has been locked.', flash[:alert]
@@ -171,15 +179,17 @@ class SurveyControllerTest < ActionController::TestCase
   end
 
   test 'should resubmit sheet survey using authentication_token' do
-    patch :update, slug: designs(:admin_public_design).slug, sheet_authentication_token: sheets(:external).authentication_token
+    patch :update, slug: designs(:admin_public_design).slug,
+                   sheet_authentication_token: sheets(:external).authentication_token
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
   end
 
   test 'should not resubmit sheet survey with missing required fields' do
-    patch :update, slug: designs(:admin_public_design_with_required_fields).slug, sheet_authentication_token: sheets(:external_with_required_fields).authentication_token,
-                   variables: { "#{variables(:public_autocomplete).id}" => '' }
+    patch :update, slug: designs(:admin_public_design_with_required_fields).slug,
+                   sheet_authentication_token: sheets(:external_with_required_fields).authentication_token,
+                   variables: { variables(:public_autocomplete).id.to_s => '' }
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
