@@ -4,7 +4,7 @@ require 'test_helper'
 
 # Tests for session timeout check
 class TimeoutControllerTest < ActionController::TestCase
-  test 'should get check as public viewer' do
+  test 'should get check as public user' do
     xhr :get, :check, format: 'js'
     assert_response :success
   end
