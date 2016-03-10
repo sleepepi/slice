@@ -8,6 +8,10 @@ class SubjectsControllerTest < ActionController::TestCase
     login(users(:valid))
     @project = projects(:one)
     @subject = subjects(:one)
+    @project_editor = users(:project_one_editor)
+    @project_viewer = users(:project_one_viewer)
+    @site_editor = users(:site_one_editor)
+    @site_viewer = users(:site_one_viewer)
   end
 
   test 'should get data entry as site editor' do
@@ -57,7 +61,24 @@ class SubjectsControllerTest < ActionController::TestCase
     )
   end
 
+  test 'should get send url as site editor' do
+    login(@site_editor)
+    get :send_url, project_id: @project, id: @subject
+    assert_response :success
+  end
+
+  test 'should set sheet as shareable as site editor' do
+    login(@site_editor)
+    assert_difference('Sheet.count') do
+      post :set_sheet_as_shareable, project_id: @project, id: @subject,
+                                    design_id: designs(:sections_and_variables),
+                                    subject_event_id: subject_events(:one)
+    end
+    assert_redirected_to [@project, Sheet.last]
+  end
+
   test 'should get search as project editor' do
+    login(@project_editor)
     get :search, project_id: @project, q: 'Code01'
     subjects_json = JSON.parse(response.body)
     assert_equal 'Code01', subjects_json.first['value']
@@ -66,11 +87,29 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should get search as project viewer' do
-    login(users(:associated))
+    login(@project_viewer)
     get :search, project_id: @project, q: 'Code01'
     subjects_json = JSON.parse(response.body)
     assert_equal 'Code01', subjects_json.first['value']
     assert_equal 'Code01', subjects_json.first['subject_code']
+    assert_response :success
+  end
+
+  test 'should search for new subject as project editor' do
+    login(@project_editor)
+    get :search, project_id: @project, q: 'NewCode'
+    subjects_json = JSON.parse(response.body)
+    assert_equal 'NewCode', subjects_json.first['value']
+    assert_equal 'NewCode', subjects_json.first['subject_code']
+    assert_equal 'NEW', subjects_json.first['status']
+    assert_response :success
+  end
+
+  test 'should not search for new subject as project viewer' do
+    login(@project_viewer)
+    get :search, project_id: @project, q: 'NewCode'
+    subjects_json = JSON.parse(response.body)
+    assert_nil subjects_json.first
     assert_response :success
   end
 
@@ -206,6 +245,12 @@ class SubjectsControllerTest < ActionController::TestCase
     )
   end
 
+  test 'should not launch subject event for subject with invalid event' do
+    post :launch_subject_event, project_id: @project, id: @subject, event_id: -1,
+                                subject_event: { event_date: '02/14/2015' }
+    assert_redirected_to [@project, @subject]
+  end
+
   test 'should not launch subject event for subject with invalid date' do
     post :launch_subject_event, project_id: @project, id: @subject, event_id: events(:one),
                                 subject_event: { event_date: '02/30/2015' }
@@ -298,7 +343,26 @@ class SubjectsControllerTest < ActionController::TestCase
   test 'should get index' do
     get :index, project_id: @project
     assert_response :success
-    assert_not_nil assigns(:subjects)
+  end
+
+  test 'should get index with event' do
+    get :index, project_id: @project, event_id: events(:one).id
+    assert_response :success
+  end
+
+  test 'should get index without event' do
+    get :index, project_id: @project, without_event_id: events(:one).id
+    assert_response :success
+  end
+
+  test 'should get index with design on event' do
+    get :index, project_id: @project, on_event_design_id: designs(:one).id, event_id: events(:one).id
+    assert_response :success
+  end
+
+  test 'should get index with design not on event' do
+    get :index, project_id: @project, not_on_event_design_id: designs(:one).id, event_id: events(:one).id
+    assert_response :success
   end
 
   test 'should not get index with invalid project' do

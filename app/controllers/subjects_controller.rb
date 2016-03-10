@@ -1,13 +1,31 @@
 # frozen_string_literal: true
 
+# Allows project and site editors to view and modify subjects.
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,                  only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event, :report, :search, :choose_site]
-  before_action :set_editable_project_or_editable_site, only: [:new, :edit, :create, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :redirect_without_project,              only: [:index, :show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event, :report, :search, :choose_site, :new, :edit, :create, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :set_viewable_subject,                  only: [:show, :timeline, :comments, :settings, :files, :adverse_events, :events, :sheets, :event]
-  before_action :set_editable_subject,                  only: [:edit, :update, :destroy, :choose_date, :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry, :choose_event, :launch_subject_event, :edit_event, :update_event, :destroy_event]
-  before_action :set_design,                            only: [:new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable]
+  before_action :find_viewable_project_or_redirect, only: [
+    :index, :show, :timeline, :comments, :settings, :files, :adverse_events,
+    :events, :sheets, :event, :report, :search, :choose_site
+  ]
+  before_action :find_editable_project_or_editable_site_or_redirect, only: [
+    :new, :edit, :create, :update, :destroy, :choose_date,
+    :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing,
+    :set_sheet_as_shareable, :new_data_entry, :choose_event,
+    :launch_subject_event, :edit_event, :update_event, :destroy_event
+  ]
+  before_action :find_viewable_subject_or_redirect, only: [
+    :show, :timeline, :comments, :settings, :files, :adverse_events, :events,
+    :sheets, :event
+  ]
+  before_action :find_editable_subject_or_redirect, only: [
+    :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject,
+    :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable,
+    :new_data_entry, :choose_event, :launch_subject_event, :edit_event,
+    :update_event, :destroy_event
+  ]
+  before_action :set_design, only: [
+    :new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable
+  ]
 
   def data_entry
   end
@@ -15,21 +33,36 @@ class SubjectsController < ApplicationController
   def new_data_entry
     # subject_event_id = params[:sheet][:subject_event_id] if params[:sheet] && params[:sheet].key?(:subject_event_id)
     # @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: subject_event_id)
-    @sheet = @subject.sheets.where(project_id: @project.id, design_id: @design.id, adverse_event_id: params[:adverse_event_id]).new(sheet_params)
+    @sheet = @subject.sheets
+                     .where(project_id: @project.id, design_id: @design.id, adverse_event_id: params[:adverse_event_id])
+                     .new(sheet_params)
     render 'sheets/new'
   end
 
   def set_sheet_as_missing
-    @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id], missing: true)
+    @sheet = @subject.sheets.new(
+      project_id: @project.id, design_id: @design.id,
+      subject_event_id: params[:subject_event_id], missing: true
+    )
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
-    redirect_to event_project_subject_path(@project, @subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)
+    redirect_to(
+      event_project_subject_path(
+        @project, @subject,
+        event_id: @sheet.subject_event.event,
+        subject_event_id: @sheet.subject_event.id,
+        event_date: @sheet.subject_event.event_date_to_param
+      )
+    )
   end
 
+  # GET /subjects/1/send-url
   def send_url
   end
 
+  # POST /subjects/1/set_sheet_as_shareable
   def set_sheet_as_shareable
-    @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id])
+    @sheet = @subject.sheets
+                     .new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id])
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
     @sheet.set_token
     redirect_to [@project, @sheet]
@@ -144,7 +177,8 @@ class SubjectsController < ApplicationController
   end
 
   def search
-    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:q]).order('subject_code').limit(10)
+    @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
+                            .search(params[:q]).order('subject_code').limit(10)
 
     if @subjects.count == 0
       if @project.site_or_project_editor? current_user
@@ -153,20 +187,23 @@ class SubjectsController < ApplicationController
         render json: []
       end
     else
-      render json: @subjects.collect{ |s| { value: s.subject_code, subject_code: s.subject_code, status_class: 'success', status: ''  } }
+      json_result = @subjects.collect do |s|
+        { value: s.subject_code, subject_code: s.subject_code, status_class: 'success', status: '' }
+      end
+      render json: json_result
     end
   end
 
   # GET /subjects
-  # GET /subjects.json
   def index
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
-    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id).search(params[:search]).order(@order)
+    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
+                                .search(params[:search]).order(@order)
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
 
-    if params[:on_event_design_id].present? and params[:event_id].present?
+    if params[:on_event_design_id].present? && params[:event_id].present?
       subject_scope = subject_scope.with_entered_design_on_event(params[:on_event_design_id], params[:event_id])
-    elsif params[:not_on_event_design_id].present? and params[:event_id].present?
+    elsif params[:not_on_event_design_id].present? && params[:event_id].present?
       subject_scope = subject_scope.with_unentered_design_on_event(params[:not_on_event_design_id], params[:event_id])
     elsif params[:event_id].present?
       subject_scope = subject_scope.with_event(params[:event_id])
@@ -177,14 +214,12 @@ class SubjectsController < ApplicationController
       subject_scope = subject_scope.with_design(params[:design_id]) if params[:design_id].present?
     end
 
-    @subjects = subject_scope.page(params[:page]).per( 40 )
+    @subjects = subject_scope.page(params[:page]).per(40)
     @events = @project.events.where(archived: false).order(:position)
   end
 
   # GET /subjects/1
-  # GET /subjects/1.json
   def show
-    # render layout: 'layouts/application_custom_full'
   end
 
   # GET /subjects/new
@@ -197,55 +232,43 @@ class SubjectsController < ApplicationController
   end
 
   # POST /subjects
-  # POST /subjects.json
   def create
     @subject = current_user.subjects.new(subject_params)
-
-    respond_to do |format|
-      if @subject.save
-        format.html { redirect_to [@project, @subject], notice: 'Subject was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @subject }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @subject.errors, status: :unprocessable_entity }
-      end
+    if @subject.save
+      redirect_to [@project, @subject], notice: 'Subject was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH /subjects/1
-  # PATCH /subjects/1.json
   def update
-    respond_to do |format|
-      if @subject.update(subject_params)
-        format.html { redirect_to [@project, @subject], notice: 'Subject was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @subject.errors, status: :unprocessable_entity }
-      end
+    if @subject.update(subject_params)
+      redirect_to [@project, @subject], notice: 'Subject was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /subjects/1
-  # DELETE /subjects/1.json
+  # DELETE /subjects/1.js
   def destroy
     @subject.destroy
 
     respond_to do |format|
       format.html { redirect_to project_subjects_path(@project) }
       format.js
-      format.json { head :no_content }
     end
   end
 
   private
 
-  def set_viewable_subject
+  def find_viewable_subject_or_redirect
     @subject = current_user.all_viewable_subjects.find_by_id(params[:id])
     redirect_without_subject
   end
 
-  def set_editable_subject
+  def find_editable_subject_or_redirect
     @subject = current_user.all_subjects.find_by_id(params[:id])
     redirect_without_subject
   end
@@ -260,11 +283,23 @@ class SubjectsController < ApplicationController
   end
 
   def subject_params
-    params[:subject] ||= {}
-    params[:subject][:subject_code] = params[:subject][:subject_code].strip unless params[:subject][:subject_code].blank?
-    params[:subject][:site_id] = (current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i) ? params[:site_id].to_i : nil)
+    params[:subject] ||= { blank: '1' }
+    clean_subject_code
+    clean_site_id
     params[:subject][:project_id] = @project.id
     params.require(:subject).permit(:project_id, :subject_code, :site_id)
+  end
+
+  def clean_subject_code
+    return if params[:subject][:subject_code].blank?
+    params[:subject][:subject_code].to_s.strip!
+  end
+
+  # Sets site id to nil if it's not part of users editable sites.
+  def clean_site_id
+    params[:subject][:site_id] = if current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i)
+                                   params[:site_id].to_i
+                                 end
   end
 
   def sheet_params
