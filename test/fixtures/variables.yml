@@ -392,3 +392,12 @@ randomize:
   user: valid
   project: two
   domain: randomize_yes_no
+
+deleted:
+  name: Deleted
+  display_name: Deleted on Project One
+  description: This variable can be restored.
+  variable_type: string
+  user: valid
+  project: one
+  deleted: true

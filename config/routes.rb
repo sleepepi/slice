@@ -259,7 +259,7 @@ Rails.application.routes.draw do
       collection do
         post :add_grid_variable
         post :add_question
-        post :cool_lookup
+        post :report_lookup
       end
     end
   end

@@ -15,11 +15,11 @@
     .col-md-6
       .download-container
         %h3 Select Variable
-        = form_tag cool_lookup_project_variables_path(@design.project), method: :post, remote: true, class: "form-inline", id: 'cool_lookup_form' do
+        = form_tag report_lookup_project_variables_path(@design.project), method: :post, remote: true, class: "form-inline", id: 'report_lookup_form' do
           - if row_variable_groups.blank?
             No Variables available as Filters
           - else
-            = select_tag :variable_id, options_for_select(extra_variables) + grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#cool_lookup_form' }
+            = select_tag :variable_id, options_for_select(extra_variables) + grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#report_lookup_form' }
             %br
             %br
             %label.checkbox
@@ -29,8 +29,8 @@
     .col-md-6
       .download-container
         %h3 Description
-        #cool-options
-          -#= render 'filters/cool_options'
+        #report-options
+          -#= render 'filters/variable_options'
 .modal-footer
   = button_tag 'Add to Filters', data: { object: 'add-filter' }, disabled: row_variable_groups.blank?, class: 'btn btn-primary'
   %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

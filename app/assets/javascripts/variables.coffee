@@ -31,6 +31,10 @@
     $('[data-object~="date-or-time"]').show()
   else
     $('[data-object~="date-or-time"]').hide()
+  if $(element).val() in ['time']
+    $('[data-object~="time"]').show()
+  else
+    $('[data-object~="time"]').hide()
   if $(element).val() in ['checkbox', 'radio']
     $('[data-object~="checkbox-or-radio"]').show()
   else
