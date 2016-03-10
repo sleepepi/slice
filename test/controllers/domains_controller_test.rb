@@ -148,7 +148,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'should update domain' do
-    put :update, id: @domain, project_id: @project, domain: { name: @domain.name, display_name: @domain.display_name,
+    patch :update, id: @domain, project_id: @project, domain: { name: @domain.name, display_name: @domain.display_name,
                                                               option_tokens: [
                                                                 { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
                                                                 { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }] }
@@ -156,7 +156,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'should update domain where values have been omitted' do
-    put :update, id: domains(:two), project_id: domains(:two).project, domain: { name: domains(:two).name, display_name: domains(:two).display_name,
+    patch :update, id: domains(:two), project_id: domains(:two).project, domain: { name: domains(:two).name, display_name: domains(:two).display_name,
                   option_tokens: [
                     { name: 'Sunday', value: '' },
                     { name: 'Monday', value: '' },
@@ -191,7 +191,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'should update domain and continue' do
-    put :update, id: @domain, project_id: @project, continue: '1',
+    patch :update, id: @domain, project_id: @project, continue: '1',
                  domain: { name: @domain.name,
                            display_name: @domain.display_name,
                            option_tokens: [
@@ -208,7 +208,7 @@ class DomainsControllerTest < ActionController::TestCase
     assert_equal 1, domains(:change_options).grids.where(response: '2').size
     assert_equal 2, domains(:change_options).grids.where(response: '3').size
 
-    put :update, id: domains(:change_options), project_id: @project,
+    patch :update, id: domains(:change_options), project_id: @project,
                  domain: {
                    name: domains(:change_options).name,
                    display_name: domains(:change_options).display_name,
@@ -238,7 +238,7 @@ class DomainsControllerTest < ActionController::TestCase
     assert_equal 3, domains(:change_options).grids.where(response: '1').size
     assert_equal 1, domains(:change_options).grids.where(response: '2').size
     assert_equal 2, domains(:change_options).grids.where(response: '3').size
-    put :update, id: domains(:change_options), project_id: @project,
+    patch :update, id: domains(:change_options), project_id: @project,
                  domain: {
                    name: domains(:change_options).name,
                    display_name: domains(:change_options).display_name,
@@ -267,7 +267,7 @@ class DomainsControllerTest < ActionController::TestCase
     assert_equal 1, domains(:change_options).grids.where(response: '2').size
     assert_equal 2, domains(:change_options).grids.where(response: '3').size
 
-    put :update, id: domains(:change_options), project_id: @project,
+    patch :update, id: domains(:change_options), project_id: @project,
                  domain: {
                    name: domains(:change_options).name,
                    display_name: domains(:change_options).display_name,
@@ -294,7 +294,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'should not update domain with blank name' do
-    put :update, id: @domain, project_id: @project, domain: { name: '', display_name: '', option_tokens: [{ name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' }, { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }] }
+    patch :update, id: @domain, project_id: @project, domain: { name: '', display_name: '', option_tokens: [{ name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' }, { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }] }
 
     assert_not_nil assigns(:domain)
     assert assigns(:domain).errors.size > 0
@@ -303,7 +303,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'should not update domain with invalid project' do
-    put :update, id: @domain, project_id: -1, domain: { name: @domain.name, display_name: @domain.display_name, option_tokens: [{ name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' }, { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }] }
+    patch :update, id: @domain, project_id: -1, domain: { name: @domain.name, display_name: @domain.display_name, option_tokens: [{ name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' }, { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }] }
 
     assert_nil assigns(:domain)
     assert_nil assigns(:project)

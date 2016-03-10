@@ -107,7 +107,7 @@ class ExportsControllerTest < ActionController::TestCase
   # end
 
   # test 'should update export' do
-  #   put :update, id: @export, project_id: @project, export: { file: @export.file, include_files: @export.include_files, name: @export.name, status: @export.status }
+  #   patch :update, id: @export, project_id: @project, export: { file: @export.file, include_files: @export.include_files, name: @export.name, status: @export.status }
   #   assert_redirected_to export_path(assigns(:export))
   # end
 

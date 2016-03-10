@@ -134,7 +134,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'should update user as admin' do
     login(users(:admin))
-    put :update, id: @user,
+    patch :update, id: @user,
                  user: {
                    first_name: 'FirstName',
                    last_name: 'LastName',
@@ -146,14 +146,14 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'should not update user with blank name' do
     login(users(:admin))
-    put :update, id: @user, user: { first_name: '', last_name: '' }
+    patch :update, id: @user, user: { first_name: '', last_name: '' }
     assert_not_nil assigns(:user)
     assert_template 'edit'
   end
 
   test 'should not update user with invalid id' do
     login(users(:admin))
-    put :update, id: -1,
+    patch :update, id: -1,
                  user: {
                    first_name: 'FirstName',
                    last_name: 'LastName',

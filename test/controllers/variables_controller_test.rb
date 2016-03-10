@@ -222,17 +222,17 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test 'should update variable' do
-    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name }
+    patch :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name }
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test 'should update variable and continue' do
-    put :update, id: @variable, project_id: @project, continue: '1', variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name }
+    patch :update, id: @variable, project_id: @project, continue: '1', variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name }
     assert_redirected_to new_project_variable_path(assigns(:variable).project)
   end
 
   test 'should not update variable with blank display name' do
-    put :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: '', variable_type: @variable.variable_type }
+    patch :update, id: @variable, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: '', variable_type: @variable.variable_type }
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
     assert_equal ['can\'t be blank'], assigns(:variable).errors[:display_name]
@@ -240,14 +240,14 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test 'should not update invalid variable' do
-    put :update, id: -1, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
+    patch :update, id: -1, project_id: @project, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
     assert_not_nil assigns(:project)
     assert_nil assigns(:variable)
     assert_redirected_to project_variables_path(assigns(:project))
   end
 
   test 'should not update variable with invalid project' do
-    put :update, id: @variable, project_id: -1, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
+    patch :update, id: @variable, project_id: -1, variable: { description: @variable.description, name: @variable.name, display_name: @variable.display_name, variable_type: @variable.variable_type }
 
     assert_nil assigns(:project)
     assert_nil assigns(:variable)
@@ -256,7 +256,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test 'should not update variable and remove domain if data has been captured' do
-    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: '' }
+    patch :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: '' }
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
     assert_equal ['must include all previously captured values'], assigns(:variable).errors[:domain_id]
@@ -264,21 +264,21 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test 'should update variable if switching to a more encompasing domain' do
-    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:three_restaurants) }
+    patch :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:three_restaurants) }
     assert_not_nil assigns(:variable)
     assert_equal domains(:three_restaurants), assigns(:variable).domain
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test 'should update variable if switching to a smaller domain that still encompases the existing data' do
-    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_encompassing) }
+    patch :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_encompassing) }
     assert_not_nil assigns(:variable)
     assert_equal domains(:one_restaurant_encompassing), assigns(:variable).domain
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
   test 'should not update variable if switching to a domain that doesn\'t include the captured data' do
-    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_not_encompassing) }
+    patch :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_not_encompassing) }
     assert_not_nil assigns(:variable)
     assert assigns(:variable).errors.size > 0
     assert_equal ['must include all previously captured values'], assigns(:variable).errors[:domain_id]
@@ -286,7 +286,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test 'should update variable if switching to a domain that doesn\'t include the captured data for numerics and integers' do
-    put :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_not_encompassing), variable_type: 'integer' }
+    patch :update, id: variables(:data_captured), project_id: variables(:data_captured).project_id, variable: { domain_id: domains(:one_restaurant_not_encompassing), variable_type: 'integer' }
     assert_not_nil assigns(:variable)
     assert_equal 'integer', assigns(:variable).variable_type
     assert_equal domains(:one_restaurant_not_encompassing), assigns(:variable).domain

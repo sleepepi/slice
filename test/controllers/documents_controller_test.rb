@@ -113,7 +113,7 @@ class DocumentsControllerTest < ActionController::TestCase
   end
 
   test "should update document" do
-    put :update, id: @document, project_id: @project, document: { name: @document.name, archived: @document.archived, category: @document.category, file: fixture_file_upload('../../test/support/projects/rails.png') }
+    patch :update, id: @document, project_id: @project, document: { name: @document.name, archived: @document.archived, category: @document.category, file: fixture_file_upload('../../test/support/projects/rails.png') }
     assert_redirected_to project_document_path(assigns(:document).project, assigns(:document))
   end
 
@@ -136,7 +136,7 @@ class DocumentsControllerTest < ActionController::TestCase
   end
 
   test "should not update document with blank name" do
-    put :update, id: @document, project_id: @project, document: { name: '', archived: @document.archived, category: @document.category, file: fixture_file_upload('../../test/support/projects/rails.png') }
+    patch :update, id: @document, project_id: @project, document: { name: '', archived: @document.archived, category: @document.category, file: fixture_file_upload('../../test/support/projects/rails.png') }
 
     assert_not_nil assigns(:document)
     assert assigns(:document).errors.size > 0
@@ -145,7 +145,7 @@ class DocumentsControllerTest < ActionController::TestCase
   end
 
   test "should not update document with invalid project" do
-    put :update, id: @document, project_id: -1, document: { name: @document.name, archived: @document.archived, category: @document.category, file: fixture_file_upload('../../test/support/projects/rails.png') }
+    patch :update, id: @document, project_id: -1, document: { name: @document.name, archived: @document.archived, category: @document.category, file: fixture_file_upload('../../test/support/projects/rails.png') }
 
     assert_nil assigns(:document)
     assert_nil assigns(:project)

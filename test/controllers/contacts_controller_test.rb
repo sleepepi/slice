@@ -105,7 +105,7 @@ class ContactsControllerTest < ActionController::TestCase
   end
 
   test 'should update contact' do
-    put :update, id: @contact, project_id: @project,
+    patch :update, id: @contact, project_id: @project,
                  contact: {
                    name: @contact.name,
                    email: @contact.email,
@@ -118,7 +118,7 @@ class ContactsControllerTest < ActionController::TestCase
   end
 
   test 'should not update contact with blank name' do
-    put :update, id: @contact, project_id: @project,
+    patch :update, id: @contact, project_id: @project,
                  contact: {
                    name: '',
                    email: @contact.email,
@@ -135,7 +135,7 @@ class ContactsControllerTest < ActionController::TestCase
   end
 
   test 'should not update contact with invalid project' do
-    put :update, id: @contact, project_id: -1,
+    patch :update, id: @contact, project_id: -1,
                  contact: {
                    name: @contact.name,
                    email: @contact.email,

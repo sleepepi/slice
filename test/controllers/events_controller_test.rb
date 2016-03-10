@@ -90,12 +90,12 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should update event' do
-    put :update, id: @event, project_id: @project, event: { name: 'Event One Updated', description: @event.description }
+    patch :update, id: @event, project_id: @project, event: { name: 'Event One Updated', description: @event.description }
     assert_redirected_to project_event_path(assigns(:event).project, assigns(:event))
   end
 
   test 'should not update event with blank name' do
-    put :update, id: @event, project_id: @project, event: { name: '', description: @event.description }
+    patch :update, id: @event, project_id: @project, event: { name: '', description: @event.description }
 
     assert_not_nil assigns(:event)
     assert assigns(:event).errors.size > 0
@@ -104,7 +104,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should not update event with invalid project' do
-    put :update, id: @event, project_id: -1, event: { name: 'Event One Updated', description: @event.description }
+    patch :update, id: @event, project_id: -1, event: { name: 'Event One Updated', description: @event.description }
 
     assert_nil assigns(:event)
     assert_nil assigns(:project)
