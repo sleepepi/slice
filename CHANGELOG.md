@@ -10,6 +10,7 @@
 - **Mobile Changes**
   - Recruitment table on project reports page now optimized for mobile
   - Project menu is now visible on the bottom of subjects index on mobile
+  - Dashboard projects no longer require two clicks to view on mobile
 
 ### Bug Fixes
 - Fixed a bug that prevented the recruitment chart from displaying at minimum

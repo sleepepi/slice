@@ -1,4 +1,5 @@
-@projectsReady = () ->
+@projectSortables = () ->
+  return unless document.documentElement.ontouchstart == undefined
   $('[data-object~="projects-sortable"]').sortable(
     handle: ".handle"
     axis: "y"
@@ -18,6 +19,9 @@
       $.post(root_url + 'projects/save_project_order', params, null, "script")
       true
   )
+
+@projectsReady = () ->
+  projectSortables()
 
 $(document)
   .on('click', '[data-loading-text]', () ->
