@@ -4,6 +4,7 @@
 - **Email Changes**
   - Improved the responsiveness and display of emails on smaller devices
 - **Gem Changes**
+  - Updated to rails 4.2.6
   - Updated simplecov 0.11.2
   - Updated to jquery-rails 4.1.1
 - **Mobile Changes**
