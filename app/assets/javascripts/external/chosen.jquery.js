@@ -587,9 +587,7 @@ Copyright (c) 2011 by Harvest
         maxHeight = parseInt(this.search_results.css("maxHeight"), 10);
         visible_top = this.search_results.scrollTop();
         visible_bottom = maxHeight + visible_top;
-        // TODO: Revert this change with the release of jQuery 2.2.1 (with a jquery-rails to update)
-        // Workaround documented here: https://github.com/harvesthq/chosen/issues/2506
-        high_top = this.result_highlight.position().top; // + this.search_results.scrollTop();
+        high_top = this.result_highlight.position().top + this.search_results.scrollTop();
         high_bottom = high_top + this.result_highlight.outerHeight();
         if (high_bottom >= visible_bottom) {
           return this.search_results.scrollTop((high_bottom - maxHeight) > 0 ? high_bottom - maxHeight : 0);

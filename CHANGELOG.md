@@ -5,6 +5,7 @@
   - Improved the responsiveness and display of emails on smaller devices
 - **Gem Changes**
   - Updated simplecov 0.11.2
+  - Updated to jquery-rails 4.1.1
 - **Mobile Changes**
   - Recruitment table on project reports page now optimized for mobile
 
