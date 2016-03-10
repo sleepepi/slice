@@ -20,6 +20,7 @@
 - Fixed a bug that prevented designs from being imported correctly
 - Fixed a bug that caused advanced design reports from displaying correctly when
   a variable was chosen that didn't have any responses
+- Fixed an animation issue for the notification bell on mobile devices
 
 ### Refactoring
 - Completed cleanup, refactoring, and additional testing of controllers
