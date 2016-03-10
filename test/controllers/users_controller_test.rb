@@ -69,6 +69,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should not change password with new password mismatch' do
+    login(users(:admin))
+    patch :change_password, user: {
+      current_password: 'password',
+      password: 'newpassword',
+      password_confirmation: 'mismatched'
+    }
+    assert_template 'settings'
+    assert_response :success
+  end
+
   test 'should get settings' do
     login(users(:admin))
     get :settings
