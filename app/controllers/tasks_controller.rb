@@ -13,10 +13,8 @@ class TasksController < ApplicationController
   # GET /projects/1/tasks
   def index
     @order = scrub_order(Task, params[:order], 'tasks.created_at DESC')
-    @tasks = current_user.all_viewable_tasks
-                         .where(project_id: @project.id)
-                         .search(params[:search]).order(@order)
-                         .page(params[:page]).per(40)
+    @tasks = viewable_tasks.search(params[:search]).order(@order)
+                           .page(params[:page]).per(40)
   end
 
   # GET /tasks/1
@@ -35,7 +33,6 @@ class TasksController < ApplicationController
   # POST /tasks
   def create
     @task = current_user.tasks.where(project_id: @project.id).new(task_params)
-
     if @task.save
       redirect_to [@project, @task], notice: 'Task was successfully created.'
     else
@@ -60,8 +57,12 @@ class TasksController < ApplicationController
 
   private
 
+  def viewable_tasks
+    current_user.all_viewable_tasks.where(project_id: @project.id)
+  end
+
   def set_viewable_task
-    @task = current_user.all_viewable_tasks.where(project_id: @project.id).find_by_id params[:id]
+    @task = viewable_tasks.find_by_id params[:id]
   end
 
   def set_editable_task
@@ -74,10 +75,16 @@ class TasksController < ApplicationController
 
   def task_params
     params[:task] ||= { blank: '1' }
-    [:due_date, :window_start_date, :window_end_date].each do |date|
-      params[:task][date] = parse_date(params[:task][date]) if params[:task].key?(date)
-    end
-    params.require(:task).permit(:description, :due_date, :window_start_date,
-                                 :window_end_date, :completed, :only_unblinded)
+    parse_task_dates
+    params.require(:task).permit(
+      :description, :completed, :only_unblinded,
+      :due_date, :window_start_date, :window_end_date
+    )
+  end
+
+  def parse_task_dates
+    parse_date_if_key_present(:task, :due_date)
+    parse_date_if_key_present(:task, :window_start_date)
+    parse_date_if_key_present(:task, :window_end_date)
   end
 end
