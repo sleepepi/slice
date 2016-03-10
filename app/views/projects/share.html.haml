@@ -13,7 +13,7 @@
       %div{ style: 'margin-bottom:20px' }
         %h2
 
-        = form_tag invite_user_project_path(@project), method: :post, remote: true, class: 'form-inline' do
+        = form_tag invite_user_editor_project_path(@project), method: :post, remote: true, class: 'form-inline' do
           %strong Invite User
           .form-group
             = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address'

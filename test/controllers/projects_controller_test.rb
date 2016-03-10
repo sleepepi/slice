@@ -6,6 +6,8 @@ require 'test_helper'
 class ProjectsControllerTest < ActionController::TestCase
   setup do
     @project = projects(:one)
+    @project_editor = users(:project_one_editor)
+    @project_viewer = users(:project_one_viewer)
   end
 
   test 'should save project order' do
@@ -29,6 +31,18 @@ class ProjectsControllerTest < ActionController::TestCase
       post :favorite, id: @project, favorite: '1'
     end
     assert_redirected_to root_path
+  end
+
+  test 'should get share as project editor' do
+    login(@project_editor)
+    get :share, id: @project
+    assert_response :success
+  end
+
+  test 'should get share as project viewer' do
+    login(@project_viewer)
+    get :share, id: @project
+    assert_response :success
   end
 
   test 'should archive project' do
