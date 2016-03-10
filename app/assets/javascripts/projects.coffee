@@ -1,7 +1,4 @@
 @projectSortables = () ->
-  unless document.ontouchstart == undefined
-    alert 'touchstart defined'
-    return
   $('[data-object~="projects-sortable"]').sortable(
     handle: ".handle"
     axis: "y"
