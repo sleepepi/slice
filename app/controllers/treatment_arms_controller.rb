@@ -3,13 +3,11 @@
 # Allows project editors to view and modify treatment arms
 class TreatmentArmsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project
-  before_action :redirect_without_project
+  before_action :find_editable_project_or_redirect
   before_action :redirect_blinded_users
-  before_action :set_randomization_scheme
-  before_action :redirect_without_randomization_scheme
-  before_action :set_treatment_arm,               only: [:show, :edit, :update, :destroy]
-  before_action :redirect_with_published_scheme,  only: [:new, :create, :edit, :update, :destroy]
+  before_action :find_randomization_scheme_or_redirect
+  before_action :find_treatment_arm_or_redirect, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_with_published_scheme, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /treatment_arms
   def index
@@ -55,34 +53,47 @@ class TreatmentArmsController < ApplicationController
   # DELETE /treatment_arms/1
   def destroy
     @treatment_arm.destroy
-    redirect_to project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme), notice: 'Treatment arm was successfully deleted.'
+    redirect_to(
+      project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme),
+      notice: 'Treatment arm was successfully deleted.'
+    )
   end
 
   private
 
-  def set_randomization_scheme
+  def find_randomization_scheme_or_redirect
     @randomization_scheme = @project.randomization_schemes.find_by_id(params[:randomization_scheme_id])
+    redirect_without_randomization_scheme
   end
 
   def redirect_without_randomization_scheme
     empty_response_or_root_path(project_randomization_schemes_path(@project)) unless @randomization_scheme
   end
 
-  def set_treatment_arm
+  def find_treatment_arm_or_redirect
     @treatment_arm = @randomization_scheme.treatment_arms.find_by_id(params[:id])
-    empty_response_or_root_path(project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)) unless @treatment_arm
+    redirect_without_treatment_arm
+  end
+
+  def redirect_without_treatment_arm
+    return if @treatment_arm
+    empty_response_or_root_path(project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme))
   end
 
   def redirect_with_published_scheme
-    if @randomization_scheme.published?
-      flash[:alert] = "Treatment arms can't be created or edited on published randomization scheme."
-      empty_response_or_root_path(@treatment_arm ? [@project, @randomization_scheme, @treatment_arm] : project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme))
-    end
+    return unless @randomization_scheme.published?
+    flash[:alert] = "Treatment arms can't be created or edited on published randomization scheme."
+    url = if @treatment_arm
+            [@project, @randomization_scheme, @treatment_arm]
+          else
+            project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
+          end
+    empty_response_or_root_path(url)
   end
 
   def treatment_arm_params
     params[:treatment_arm] ||= { blank: '1' }
-    params[:treatment_arm][:allocation] = 0 if params[:treatment_arm].key?(:allocation) && params[:treatment_arm][:allocation].blank?
+    check_key_and_set_default_value(:treatment_arm, :allocation, 0)
     params.require(:treatment_arm).permit(:name, :allocation)
   end
 end
