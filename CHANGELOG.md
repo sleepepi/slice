@@ -4,6 +4,11 @@
 - **Gem Changes**
   - Updated to rails 5.0.0.beta3
 
+## 0.36.1 (March 14, 2016)
+
+### Bug Fix
+- Fixed a bug that prevented design variables and sections from being updated
+
 ## 0.36.0 (March 14, 2016)
 
 ### Enhancements
