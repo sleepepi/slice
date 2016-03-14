@@ -11,43 +11,43 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should show design reorder mode' do
-    get :reorder, project_id: @project, id: @design
+    get :reorder, params: { project_id: @project, id: @design }
     assert_template 'reorder'
     assert_response :success
   end
 
   test 'should get index' do
-    get :index, project_id: @project
+    get :index, params: { project_id: @project }
     assert_response :success
     assert_not_nil assigns(:designs)
   end
 
   test 'should not get index with invalid project' do
-    get :index, project_id: -1
+    get :index, params: { project_id: -1 }
     assert_nil assigns(:designs)
     assert_redirected_to root_path
   end
 
   test 'should get index by user_name' do
-    get :index, project_id: @project, order: 'designs.user_name'
+    get :index, params: { project_id: @project, order: 'designs.user_name' }
     assert_not_nil assigns(:designs)
     assert_response :success
   end
 
   test 'should get paginated index by user_name desc' do
-    get :index, project_id: @project, order: 'designs.user_name DESC'
+    get :index, params: { project_id: @project, order: 'designs.user_name DESC' }
     assert_not_nil assigns(:designs)
     assert_response :success
   end
 
   test 'should get new' do
-    get :new, project_id: @project
+    get :new, params: { project_id: @project }
     assert_response :success
   end
 
   test 'should create design' do
     assert_difference('Design.count') do
-      post :create, project_id: @project, design: { name: 'Design Three' }
+      post :create, params: { project_id: @project, design: { name: 'Design Three' } }
     end
 
     assert_not_nil assigns(:design)
@@ -56,7 +56,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should not create design with blank name' do
     assert_difference('Design.count', 0) do
-      post :create, project_id: @project, design: { name: '' }
+      post :create, params: { project_id: @project, design: { name: '' } }
     end
     assert_template 'new'
     assert_response :success
@@ -65,15 +65,17 @@ class DesignsControllerTest < ActionController::TestCase
   test 'should create design with questions' do
     assert_difference('Variable.count', 3) do
       assert_difference('Design.count') do
-        post :create, project_id: @project,
-                      design: {
-                        name: 'Design With Questions',
-                        questions: [
-                          { question_name: 'String Question', question_type: 'string' },
-                          { question_name: 'Integer Question', question_type: 'integer' },
-                          { question_name: 'Gender', question_type: 'radio' }
-                        ]
-                      }
+        post :create, params: {
+          project_id: @project,
+          design: {
+            name: 'Design With Questions',
+            questions: [
+              { question_name: 'String Question', question_type: 'string' },
+              { question_name: 'Integer Question', question_type: 'integer' },
+              { question_name: 'Gender', question_type: 'radio' }
+            ]
+          }
+        }
       end
     end
 
@@ -83,11 +85,13 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should create design and save parseable redirect_url' do
     assert_difference('Design.count') do
-      post :create, project_id: @project,
-                    design: {
-                      name: 'Public with Valid Redirect',
-                      redirect_url: 'http://example.com'
-                    }
+      post :create, params: {
+        project_id: @project,
+        design: {
+          name: 'Public with Valid Redirect',
+          redirect_url: 'http://example.com'
+        }
+      }
     end
     assert_not_nil assigns(:design)
     assert_equal 'http://example.com', assigns(:design).redirect_url
@@ -96,11 +100,13 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should create design but not save non http redirect_url' do
     assert_difference('Design.count') do
-      post :create, project_id: @project,
-                    design: {
-                      name: 'Public with Invalid Redirect',
-                      redirect_url: 'fake123'
-                    }
+      post :create, params: {
+        project_id: @project,
+        design: {
+          name: 'Public with Invalid Redirect',
+          redirect_url: 'fake123'
+        }
+      }
     end
     assert_not_nil assigns(:design)
     assert_equal '', assigns(:design).redirect_url
@@ -109,11 +115,13 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should create design but not save nonparseable redirect_url' do
     assert_difference('Design.count') do
-      post :create, project_id: @project,
-                    design: {
-                      name: 'Public with Invalid Redirect',
-                      redirect_url: 'fa\\ke'
-                    }
+      post :create, params: {
+        project_id: @project,
+        design: {
+          name: 'Public with Invalid Redirect',
+          redirect_url: 'fa\\ke'
+        }
+      }
     end
     assert_not_nil assigns(:design)
     assert_equal '', assigns(:design).redirect_url
@@ -122,7 +130,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should not create design with invalid project' do
     assert_difference('Design.count', 0) do
-      post :create, project_id: -1, design: { name: 'Design Three' }
+      post :create, params: { project_id: -1, design: { name: 'Design Three' } }
     end
     assert_redirected_to root_path
   end
@@ -156,26 +164,26 @@ class DesignsControllerTest < ActionController::TestCase
   # end
 
   test 'should show design' do
-    get :show, id: @design, project_id: @project
+    get :show, params: { id: @design, project_id: @project }
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should show design for project with no sites' do
-    get :show, id: designs(:no_sites), project_id: projects(:no_sites)
+    get :show, params: { id: designs(:no_sites), project_id: projects(:no_sites) }
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should not show invalid design' do
-    get :show, id: -1, project_id: @project
+    get :show, params: { id: -1, project_id: @project }
     assert_not_nil assigns(:project)
     assert_nil assigns(:design)
     assert_redirected_to project_designs_path(assigns(:project))
   end
 
   test 'should not show design with invalid project' do
-    get :show, id: @design, project_id: -1
+    get :show, params: { id: @design, project_id: -1 }
     assert_nil assigns(:project)
     assert_nil assigns(:design)
     assert_redirected_to root_path
@@ -183,7 +191,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should print design' do
     skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
-    get :print, id: designs(:all_variable_types), project_id: @project
+    get :print, params: { id: designs(:all_variable_types), project_id: @project }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_response :success
@@ -191,7 +199,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should not print invalid design' do
     skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
-    get :print, id: -1, project_id: @project
+    get :print, params: { id: -1, project_id: @project }
     assert_nil assigns(:design)
     assert_redirected_to project_designs_path(assigns(:project))
   end
@@ -201,7 +209,7 @@ class DesignsControllerTest < ActionController::TestCase
     begin
       original_latex = ENV['latex_location']
       ENV['latex_location'] = "echo #{original_latex}"
-      get :print, project_id: @project, id: designs(:has_no_validations)
+      get :print, params: { project_id: @project, id: designs(:has_no_validations) }
       assert_redirected_to project_design_path(@project, designs(:has_no_validations))
     ensure
       ENV['latex_location'] = original_latex
@@ -209,35 +217,36 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should show design with all variable types' do
-    get :show, id: designs(:all_variable_types), project_id: @project
+    get :show, params: { id: designs(:all_variable_types), project_id: @project }
     assert_response :success
   end
 
   test 'should get edit' do
-    get :edit, id: @design, project_id: @project
+    get :edit, params: { id: @design, project_id: @project }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should not get edit for invalid design' do
-    get :edit, id: -1, project_id: @project
+    get :edit, params: { id: -1, project_id: @project }
     assert_not_nil assigns(:project)
     assert_nil assigns(:design)
     assert_redirected_to project_designs_path(assigns(:project))
   end
 
   test 'should not get edit with invalid project' do
-    get :edit, id: @design, project_id: -1
+    get :edit, params: { id: @design, project_id: -1 }
     assert_nil assigns(:project)
     assert_nil assigns(:design)
     assert_redirected_to root_path
   end
 
   test 'should update design' do
-    patch :update, id: @design, project_id: @project,
-                   design: { description: 'Updated Description' },
-                   format: 'js'
+    patch :update, params: {
+      id: @design, project_id: @project,
+      design: { description: 'Updated Description' }
+    }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'Updated Description', assigns(:design).description
@@ -245,17 +254,19 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should not update design with blank name' do
-    patch :update, id: @design, project_id: @project,
-                   design: { name: '' },
-                   format: 'js'
+    patch :update, params: {
+      id: @design, project_id: @project,
+      design: { name: '' }
+    }, format: 'js'
     assert_template 'edit'
     assert_response :success
   end
 
   test 'should update design and make publicly available' do
-    patch :update, id: @design, project_id: @project,
-                   design: { publicly_available: '1' },
-                   format: 'js'
+    patch :update, params: {
+      id: @design, project_id: @project,
+      design: { publicly_available: '1' }
+    }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'design-one', assigns(:design).slug
@@ -264,9 +275,10 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should update design and make custom slug' do
-    patch :update, id: @design, project_id: @project,
-                   design: { publicly_available: '1', slug: 'design-one-custom' },
-                   format: 'js'
+    patch :update, params: {
+      id: @design, project_id: @project,
+      design: { publicly_available: '1', slug: 'design-one-custom' }
+    }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal 'design-one-custom', assigns(:design).slug
@@ -298,7 +310,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should destroy design' do
     assert_difference('Design.current.count', -1) do
-      delete :destroy, id: @design, project_id: @project
+      delete :destroy, params: { id: @design, project_id: @project }
     end
 
     assert_redirected_to project_designs_path(assigns(:project))
@@ -306,7 +318,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should not destroy design with invalid project' do
     assert_difference('Design.current.count', 0) do
-      delete :destroy, id: @design, project_id: -1
+      delete :destroy, params: { id: @design, project_id: -1 }
     end
 
     assert_nil assigns(:project)
