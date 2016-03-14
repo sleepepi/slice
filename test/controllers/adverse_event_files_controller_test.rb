@@ -12,7 +12,9 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
   end
 
   test 'should get index as project editor' do
-    get :index, project_id: @project, adverse_event_id: @adverse_event
+    get :index, params: {
+      project_id: @project, adverse_event_id: @adverse_event
+    }
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_files)
     assert_response :success
@@ -20,7 +22,9 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
 
   test 'should get index as site editor' do
     login(users(:site_one_editor))
-    get :index, project_id: @project, adverse_event_id: @adverse_event
+    get :index, params: {
+      project_id: @project, adverse_event_id: @adverse_event
+    }
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_files)
     assert_response :success
@@ -28,33 +32,43 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
 
   test 'should get index as site viewer' do
     login(users(:site_one_viewer))
-    get :index, project_id: @project, adverse_event_id: @adverse_event
+    get :index, params: {
+      project_id: @project, adverse_event_id: @adverse_event
+    }
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_files)
     assert_response :success
   end
 
   test 'should get new as project editor' do
-    get :new, project_id: @project, adverse_event_id: @adverse_event
+    get :new, params: {
+      project_id: @project, adverse_event_id: @adverse_event
+    }
     assert_response :success
   end
 
   test 'should get new as site editor' do
     login(users(:site_one_editor))
-    get :new, project_id: @project, adverse_event_id: @adverse_event
+    get :new, params: {
+      project_id: @project, adverse_event_id: @adverse_event
+    }
     assert_response :success
   end
 
   test 'should not get new as site viewer' do
     login(users(:site_one_viewer))
-    get :new, project_id: @project, adverse_event_id: @adverse_event
+    get :new, params: {
+      project_id: @project, adverse_event_id: @adverse_event
+    }
     assert_redirected_to root_path
   end
 
   test 'should create adverse event file as project editor' do
     assert_difference('AdverseEventFile.count') do
-      post :create, project_id: @project, adverse_event_id: @adverse_event,
-                    adverse_event_file: { attachment: fixture_file_upload('../../test/support/projects/rails.png') }
+      post :create, params: {
+        project_id: @project, adverse_event_id: @adverse_event,
+        adverse_event_file: { attachment: fixture_file_upload('../../test/support/projects/rails.png') }
+      }
     end
     assert_redirected_to project_adverse_event_adverse_event_files_path(assigns(:project), assigns(:adverse_event))
   end
@@ -62,15 +76,19 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
   test 'should create adverse event file as site editor' do
     login(users(:site_one_editor))
     assert_difference('AdverseEventFile.count') do
-      post :create, project_id: @project, adverse_event_id: @adverse_event,
-                    adverse_event_file: { attachment: fixture_file_upload('../../test/support/projects/rails.png') }
+      post :create, params: {
+        project_id: @project, adverse_event_id: @adverse_event,
+        adverse_event_file: { attachment: fixture_file_upload('../../test/support/projects/rails.png') }
+      }
     end
     assert_redirected_to project_adverse_event_adverse_event_files_path(assigns(:project), assigns(:adverse_event))
   end
 
   test 'should not create adverse event file without file' do
     assert_difference('AdverseEventFile.count', 0) do
-      post :create, project_id: @project, adverse_event_id: @adverse_event, adverse_event_file: { attachment: '' }
+      post :create, params: {
+        project_id: @project, adverse_event_id: @adverse_event, adverse_event_file: { attachment: '' }
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
@@ -84,8 +102,10 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
   test 'should not create adverse event file as site viewer' do
     login(users(:site_one_viewer))
     assert_difference('AdverseEventFile.count', 0) do
-      post :create, project_id: @project, adverse_event_id: @adverse_event,
-                    adverse_event_file: { attachment: fixture_file_upload('../../test/support/projects/rails.png') }
+      post :create, params: {
+        project_id: @project, adverse_event_id: @adverse_event,
+        adverse_event_file: { attachment: fixture_file_upload('../../test/support/projects/rails.png') }
+      }
     end
 
     assert_redirected_to root_path
@@ -93,34 +113,37 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
 
   test 'should create multiple file attachments as project editor' do
     assert_difference('AdverseEventFile.count', 2) do
-      post :create_multiple, project_id: @project, adverse_event_id: @adverse_event,
-                             attachments: [fixture_file_upload('../../test/support/projects/rails.png'),
-                                           fixture_file_upload('../../test/support/projects/rails.png')],
-                             format: 'js'
+      post :create_multiple, params: {
+        project_id: @project, adverse_event_id: @adverse_event,
+        attachments: [fixture_file_upload('../../test/support/projects/rails.png'),
+                      fixture_file_upload('../../test/support/projects/rails.png')]
+      }, format: 'js'
     end
     assert_template 'index'
     assert_response :success
   end
 
   test 'should get show as project editor' do
-    get :show, project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+    get :show, params: { project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file }
     assert_response :success
   end
 
   test 'should get show as site editor' do
     login(users(:site_one_editor))
-    get :show, project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+    get :show, params: { project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file }
     assert_response :success
   end
 
   test 'should get show as site viewer' do
     login(users(:site_one_viewer))
-    get :show, project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+    get :show, params: { project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file }
     assert_response :success
   end
 
   test 'should download image as project editor' do
-    get :download, project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+    get :download, params: {
+      project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+    }
     assert_not_nil response
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
@@ -132,7 +155,9 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
   end
 
   test 'should download pdf as project editor' do
-    get :download, project_id: @project, adverse_event_id: @adverse_event, id: adverse_event_files(:two)
+    get :download, params: {
+      project_id: @project, adverse_event_id: @adverse_event, id: adverse_event_files(:two)
+    }
     assert_not_nil response
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
@@ -145,7 +170,8 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
 
   test 'should destroy adverse event file as project editor' do
     assert_difference('AdverseEventFile.count', -1) do
-      delete :destroy, project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+      delete :destroy, params: { project_id: @project, adverse_event_id: @adverse_event, id: adverse_event_files(:delete_me)
+      }
     end
     assert_redirected_to project_adverse_event_adverse_event_files_path(assigns(:project), assigns(:adverse_event))
   end
@@ -153,7 +179,8 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
   test 'should destroy adverse event file as site editor' do
     login(users(:site_one_editor))
     assert_difference('AdverseEventFile.count', -1) do
-      delete :destroy, project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+      delete :destroy, params: { project_id: @project, adverse_event_id: @adverse_event, id: adverse_event_files(:delete_me)
+      }
     end
     assert_redirected_to project_adverse_event_adverse_event_files_path(assigns(:project), assigns(:adverse_event))
   end
@@ -161,7 +188,8 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
   test 'should not destroy adverse event file as site viewer' do
     login(users(:site_one_viewer))
     assert_difference('AdverseEventFile.count', 0) do
-      delete :destroy, project_id: @project, adverse_event_id: @adverse_event, id: @adverse_event_file
+      delete :destroy, params: { project_id: @project, adverse_event_id: @adverse_event, id: adverse_event_files(:delete_me)
+      }
     end
     assert_redirected_to root_path
   end

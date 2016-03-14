@@ -11,3 +11,10 @@ two:
   adverse_event: one
   user: valid
   attachment: test_01.pdf
+
+# Allows testing of destroy AE files
+delete_me:
+  project: one
+  adverse_event: one
+  user_id: valid
+  attachment: rails.png
