@@ -2,6 +2,7 @@
 
 require 'test_helper'
 
+# Tests to make sure project and site members can export data.
 class ExportsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
@@ -10,93 +11,95 @@ class ExportsControllerTest < ActionController::TestCase
   end
 
   test 'should get index' do
-    get :index, project_id: @project
+    get :index, params: { project_id: @project }
     assert_response :success
     assert_not_nil assigns(:exports)
   end
 
   test 'should get new' do
-    get :new, project_id: @project
+    get :new, params: { project_id: @project }
     assert_response :success
   end
 
   test 'should create export with raw csv' do
     assert_difference('Export.count') do
-      post :create, project_id: @project, export: { include_csv_raw: '1' }
+      post :create, params: {
+        project_id: @project, export: { include_csv_raw: '1' }
+      }
     end
     assert_redirected_to [assigns(:project), assigns(:export)]
   end
 
   test 'should create export with labeled csv' do
     assert_difference('Export.count') do
-      post :create, project_id: @project, export: { include_csv_labeled: '1' }
+      post :create, params: {
+        project_id: @project, export: { include_csv_labeled: '1' }
+      }
     end
     assert_redirected_to [assigns(:project), assigns(:export)]
   end
 
   test 'should create export with pdf collation' do
     assert_difference('Export.count') do
-      post :create, project_id: @project, export: { include_pdf: '1' }
+      post :create, params: {
+        project_id: @project, export: { include_pdf: '1' }
+      }
     end
     assert_redirected_to [assigns(:project), assigns(:export)]
   end
 
-
   test 'should download export file' do
     assert_not_equal 0, @export.file.size
-    get :file, id: @export, project_id: @project
-
+    get :file, params: { id: @export, project_id: @project }
     assert_not_nil response
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:export)
-
     assert_kind_of String, response.body
-    assert_equal File.binread( File.join(CarrierWave::Uploader::Base.root, assigns(:export).file.url) ), response.body
+    assert_equal(
+      File.binread(File.join(CarrierWave::Uploader::Base.root, assigns(:export).file.url)),
+      response.body
+    )
   end
 
   test 'should not download empty export file' do
     assert_equal 0, exports(:two).file.size
-    get :file, id: exports(:two), project_id: @project
-
+    get :file, params: { id: exports(:two), project_id: @project }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:export)
-
     assert_response :success
   end
 
   test 'should not download export file as non user' do
     assert_not_equal 0, @export.file.size
     login(users(:site_one_viewer))
-    get :file, id: @export, project_id: @project
-
+    get :file, params: { id: @export, project_id: @project }
     assert_not_nil assigns(:project)
     assert_nil assigns(:export)
-
     assert_redirected_to project_exports_path(assigns(:project))
   end
 
   test 'should show export' do
-    get :show, id: @export, project_id: @project
+    get :show, params: { id: @export, project_id: @project }
     assert_not_nil assigns(:export)
     assert_equal true, assigns(:export).viewed
     assert_response :success
   end
 
   test 'should not show invalid export' do
-    get :show, id: -1, project_id: @project
+    get :show, params: { id: -1, project_id: @project }
     assert_nil assigns(:export)
     assert_redirected_to project_exports_path(assigns(:project))
   end
 
   test 'should mark export as unread' do
-    post :mark_unread, id: @export, project_id: @project
+    post :mark_unread, params: { id: @export, project_id: @project }
     assert_not_nil assigns(:export)
     assert_equal false, assigns(:export).viewed
     assert_redirected_to project_exports_path(assigns(:project))
   end
 
   test 'should mark invalid export as unread' do
-    post :mark_unread, id: -1, project_id: @project
+    post :mark_unread, params: { id: -1, project_id: @project }
     assert_nil assigns(:export)
     assert_redirected_to project_exports_path(assigns(:project))
   end
@@ -113,21 +116,17 @@ class ExportsControllerTest < ActionController::TestCase
 
   test 'should destroy export' do
     assert_difference('Export.current.count', -1) do
-      delete :destroy, id: @export, project_id: @project
+      delete :destroy, params: { id: @export, project_id: @project }
     end
-
     assert_not_nil assigns(:export)
-
     assert_redirected_to project_exports_path(assigns(:project))
   end
 
   test 'should not destroy invalid export' do
     assert_difference('Export.current.count', 0) do
-      delete :destroy, id: -1, project_id: @project
+      delete :destroy, params: { id: -1, project_id: @project }
     end
-
     assert_nil assigns(:export)
-
     assert_redirected_to project_exports_path(assigns(:project))
   end
 end
