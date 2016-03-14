@@ -12,43 +12,43 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should save project order' do
     login(users(:valid))
-    post :save_project_order,
-         project_ids: [
-           ActiveRecord::FixtureSet.identify(:two),
-           ActiveRecord::FixtureSet.identify(:one),
-           ActiveRecord::FixtureSet.identify(:no_sites),
-           ActiveRecord::FixtureSet.identify(:single_design),
-           ActiveRecord::FixtureSet.identify(:empty),
-           ActiveRecord::FixtureSet.identify(:named_project)
-         ],
-         format: 'js'
+    post :save_project_order, params: {
+      project_ids: [
+        ActiveRecord::FixtureSet.identify(:two),
+        ActiveRecord::FixtureSet.identify(:one),
+        ActiveRecord::FixtureSet.identify(:no_sites),
+        ActiveRecord::FixtureSet.identify(:single_design),
+        ActiveRecord::FixtureSet.identify(:empty),
+        ActiveRecord::FixtureSet.identify(:named_project)
+      ]
+    }, format: 'js'
     assert_response :success
   end
 
   test 'should favorite project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(favorite: true).count') do
-      post :favorite, id: @project, favorite: '1'
+      post :favorite, params: { id: @project, favorite: '1' }
     end
     assert_redirected_to root_path
   end
 
   test 'should get share as project editor' do
     login(@project_editor)
-    get :share, id: @project
+    get :share, params: { id: @project }
     assert_response :success
   end
 
   test 'should get share as project viewer' do
     login(@project_viewer)
-    get :share, id: @project
+    get :share, params: { id: @project }
     assert_response :success
   end
 
   test 'should archive project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: true).count') do
-      post :archive, id: @project
+      post :archive, params: { id: @project }
     end
     assert_redirected_to root_path
   end
@@ -56,7 +56,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should undo archive project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: false).count') do
-      post :archive, id: @project, undo: '1'
+      post :archive, params: { id: @project, undo: '1' }
     end
     assert_redirected_to root_path
   end
@@ -64,7 +64,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should restore project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: false).count') do
-      post :restore, id: @project
+      post :restore, params: { id: @project }
     end
     assert_redirected_to archives_path
   end
@@ -72,7 +72,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should undo restore project' do
     login(users(:valid))
     assert_difference('ProjectFavorite.where(archived: true).count') do
-      post :restore, id: @project, undo: '1'
+      post :restore, params: { id: @project, undo: '1' }
     end
     assert_redirected_to archives_path
   end
@@ -85,7 +85,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should get logo as project editor' do
     login(@project_editor)
-    get :logo, id: @project
+    get :logo, params: { id: @project }
     assert_not_nil response
     assert_not_nil assigns(:project)
     assert_kind_of String, response.body
@@ -94,13 +94,13 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should not get logo as non-project user' do
     login(users(:two))
-    get :logo, id: @project
+    get :logo, params: { id: @project }
     assert_redirected_to projects_path
   end
 
   test 'should get search' do
     login(users(:valid))
-    get :search, q: ''
+    get :search, params: { q: '' }
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
     assert_not_nil assigns(:designs)
@@ -111,7 +111,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should get search and redirect' do
     login(users(:valid))
-    get :search, q: 'Project With One Design'
+    get :search, params: { q: 'Project With One Design' }
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
     assert_not_nil assigns(:designs)
@@ -123,7 +123,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should get search typeahead' do
     login(users(:valid))
-    get :search, q: 'abc', format: 'json'
+    get :search, params: { q: 'abc' }, format: 'json'
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
     assert_not_nil assigns(:designs)
@@ -201,12 +201,22 @@ class ProjectsControllerTest < ActionController::TestCase
     login(users(:valid))
     assert_difference('Site.count') do
       assert_difference('Project.count') do
-        post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png'), lockable: '1' }
+        post :create, params: {
+          project: {
+            description: @project.description,
+            name: 'Project New Name',
+            logo: fixture_file_upload('../../test/support/projects/rails.png'),
+            lockable: '1'
+          }
+        }
       end
     end
 
     assert_not_nil assigns(:project)
-    assert_equal File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'), assigns(:project).logo.path
+    assert_equal(
+      File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'),
+      assigns(:project).logo.path
+    )
     assert_equal 1, assigns(:project).sites.count
     assert_equal 'Default Site', assigns(:project).sites.first.name
     assert_equal true, assigns(:project).lockable?
@@ -218,15 +228,23 @@ class ProjectsControllerTest < ActionController::TestCase
     login(users(:valid))
     assert_difference('Site.count') do
       assert_difference('Project.count') do
-        post :create, project: { description: @project.description, name: 'Project New Name with Site', logo: fixture_file_upload('../../test/support/projects/rails.png'), site_name: 'New Site with Project' }
+        post :create, params: {
+          project: {
+            description: @project.description,
+            name: 'Project New Name with Site',
+            logo: fixture_file_upload('../../test/support/projects/rails.png'),
+            site_name: 'New Site with Project'
+          }
+        }
       end
     end
-
     assert_not_nil assigns(:project)
-    assert_equal File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'), assigns(:project).logo.path
+    assert_equal(
+      File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'),
+      assigns(:project).logo.path
+    )
     assert_equal 1, assigns(:project).sites.count
     assert_equal 'New Site with Project', assigns(:project).sites.first.name
-
     assert_redirected_to project_path(assigns(:project))
   end
 
@@ -234,7 +252,12 @@ class ProjectsControllerTest < ActionController::TestCase
     login(users(:valid))
     assert_difference('Site.count', 0) do
       assert_difference('Project.count', 0) do
-        post :create, project: { description: @project.description, name: '' }
+        post :create, params: {
+          project: {
+            description: @project.description,
+            name: ''
+          }
+        }
       end
     end
 
@@ -246,35 +269,35 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should show project activity' do
     login(users(:valid))
-    get :activity, id: @project
+    get :activity, params: { id: @project }
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test 'should show project' do
     login(users(:valid))
-    get :show, id: @project
+    get :show, params: { id: @project }
     assert_not_nil assigns(:project)
     assert_redirected_to project_subjects_path(assigns(:project))
   end
 
   test 'should show project using slug' do
     login(users(:valid))
-    get :show, id: projects(:named_project)
+    get :show, params: { id: projects(:named_project) }
     assert_not_nil assigns(:project)
     assert_redirected_to project_subjects_path(assigns(:project))
   end
 
   test 'should show project to site user' do
     login(users(:site_one_viewer))
-    get :show, id: @project
+    get :show, params: { id: @project }
     assert_not_nil assigns(:project)
     assert_redirected_to project_subjects_path(assigns(:project))
   end
 
   test 'should not show invalid project' do
     login(users(:valid))
-    get :show, id: -1
+    get :show, params: { id: -1 }
     assert_nil assigns(:project)
     assert_redirected_to projects_path
   end

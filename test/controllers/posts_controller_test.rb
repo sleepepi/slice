@@ -11,26 +11,31 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test 'should get index' do
-    get :index, project_id: @project
+    get :index, params: { project_id: @project }
     assert_response :success
     assert_not_nil assigns(:posts)
   end
 
   test 'should not get index with invalid project' do
-    get :index, project_id: -1
+    get :index, params: { project_id: -1 }
     assert_nil assigns(:posts)
     assert_redirected_to root_path
   end
 
   test 'should get new' do
-    get :new, project_id: @project
+    get :new, params: { project_id: @project }
     assert_response :success
   end
 
   test 'should create post' do
     assert_difference('Post.count') do
-      post :create, project_id: @project,
-                    post: { name: @post.name, archived: @post.archived, description: @post.description }
+      post :create, params: {
+        project_id: @project,
+        post: {
+          name: @post.name, archived: @post.archived,
+          description: @post.description
+        }
+      }
     end
 
     assert_redirected_to project_post_path(assigns(:post).project, assigns(:post))
@@ -38,7 +43,12 @@ class PostsControllerTest < ActionController::TestCase
 
   test 'should not create post with blank name' do
     assert_difference('Post.count', 0) do
-      post :create, project_id: @project, post: { name: '', archived: @post.archived, description: @post.description }
+      post :create, params: {
+        project_id: @project,
+        post: {
+          name: '', archived: @post.archived, description: @post.description
+        }
+      }
     end
 
     assert_not_nil assigns(:post)
@@ -49,8 +59,13 @@ class PostsControllerTest < ActionController::TestCase
 
   test 'should not create post with invalid project' do
     assert_difference('Post.count', 0) do
-      post :create, project_id: -1,
-                    post: { name: @post.name, archived: @post.archived, description: @post.description }
+      post :create, params: {
+        project_id: -1,
+        post: {
+          name: @post.name, archived: @post.archived,
+          description: @post.description
+        }
+      }
     end
 
     assert_nil assigns(:post)
@@ -59,38 +74,48 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test 'should show post' do
-    get :show, id: @post, project_id: @project
+    get :show, params: { id: @post, project_id: @project }
     assert_not_nil assigns(:post)
     assert_response :success
   end
 
   test 'should not show post with invalid project' do
-    get :show, id: @post, project_id: -1
+    get :show, params: { id: @post, project_id: -1 }
     assert_nil assigns(:post)
     assert_redirected_to root_path
   end
 
   test 'should get edit' do
-    get :edit, id: @post, project_id: @project
+    get :edit, params: { id: @post, project_id: @project }
     assert_not_nil assigns(:post)
     assert_response :success
   end
 
   test 'should not get edit with invalid project' do
-    get :edit, id: @post, project_id: -1
+    get :edit, params: { id: @post, project_id: -1 }
     assert_nil assigns(:post)
     assert_redirected_to root_path
   end
 
   test 'should update post' do
-    patch :update, id: @post, project_id: @project,
-                   post: { name: @post.name, archived: @post.archived, description: @post.description }
+    patch :update, params: {
+      id: @post, project_id: @project,
+      post: {
+        name: @post.name, archived: @post.archived,
+        description: @post.description
+      }
+    }
     assert_redirected_to project_post_path(assigns(:post).project, assigns(:post))
   end
 
   test 'should not update post with blank name' do
-    patch :update, id: @post, project_id: @project,
-                   post: { name: '', archived: @post.archived, description: @post.description }
+    patch :update, params: {
+      id: @post, project_id: @project,
+      post: {
+        name: '', archived: @post.archived,
+        description: @post.description
+      }
+    }
 
     assert_not_nil assigns(:post)
     assert assigns(:post).errors.size > 0
@@ -99,8 +124,13 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test 'should not update post with invalid project' do
-    patch :update, id: @post, project_id: -1,
-                   post: { name: @post.name, archived: @post.archived, description: @post.description }
+    patch :update, params: {
+      id: @post, project_id: -1,
+      post: {
+        name: @post.name, archived: @post.archived,
+        description: @post.description
+      }
+    }
 
     assert_nil assigns(:post)
     assert_nil assigns(:project)
@@ -109,7 +139,7 @@ class PostsControllerTest < ActionController::TestCase
 
   test 'should destroy post' do
     assert_difference('Post.current.count', -1) do
-      delete :destroy, id: @post, project_id: @project
+      delete :destroy, params: { id: @post, project_id: @project }
     end
 
     assert_not_nil assigns(:post)
@@ -120,7 +150,7 @@ class PostsControllerTest < ActionController::TestCase
 
   test 'should not destroy post with invalid project' do
     assert_difference('Post.current.count', 0) do
-      delete :destroy, id: @post, project_id: -1
+      delete :destroy, params: { id: @post, project_id: -1 }
     end
 
     assert_nil assigns(:post)

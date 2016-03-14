@@ -13,14 +13,14 @@ class NotificationsControllerTest < ActionController::TestCase
 
   test 'should get all read index' do
     login(users(:valid))
-    get :index, all: '1'
+    get :index, params: { all: '1' }
     assert_response :success
     assert_not_nil assigns(:notifications)
   end
 
   test 'should show comment notification' do
     login(users(:valid))
-    get :show, id: notifications(:comment)
+    get :show, params: { id: notifications(:comment) }
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to assigns(:notification).comment
@@ -28,7 +28,7 @@ class NotificationsControllerTest < ActionController::TestCase
 
   test 'should show adverse event notification' do
     login(users(:valid))
-    get :show, id: notifications(:adverse_event)
+    get :show, params: { id: notifications(:adverse_event) }
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to [assigns(:notification).project, assigns(:notification).adverse_event]
@@ -36,7 +36,7 @@ class NotificationsControllerTest < ActionController::TestCase
 
   test 'should show handoff notification' do
     login(users(:valid))
-    get :show, id: notifications(:handoff)
+    get :show, params: { id: notifications(:handoff) }
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to event_project_subject_path(
@@ -50,7 +50,7 @@ class NotificationsControllerTest < ActionController::TestCase
 
   test 'should show blank notification and redirect' do
     login(users(:valid))
-    get :show, id: notifications(:blank)
+    get :show, params: { id: notifications(:blank) }
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to notifications_path
@@ -58,14 +58,16 @@ class NotificationsControllerTest < ActionController::TestCase
 
   test 'should not show notification without valid id' do
     login(users(:valid))
-    get :show, id: -1
+    get :show, params: { id: -1 }
     assert_nil assigns(:notification)
     assert_redirected_to notifications_path
   end
 
   test 'should update notification' do
     login(users(:valid))
-    patch :update, id: notifications(:comment), notification: { read: true }, format: 'js'
+    patch :update, params: {
+      id: notifications(:comment), notification: { read: true }
+    }, format: 'js'
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_template 'show'
@@ -74,7 +76,9 @@ class NotificationsControllerTest < ActionController::TestCase
 
   test 'should mark all as read' do
     login(users(:valid))
-    patch :mark_all_as_read, project_id: projects(:one), format: 'js'
+    patch :mark_all_as_read, params: {
+      project_id: projects(:one)
+    }, format: 'js'
     assert_equal 0, users(:valid).notifications.where(project_id: projects(:one), read: false).count
     assert_template 'mark_all_as_read'
     assert_response :success

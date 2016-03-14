@@ -12,7 +12,10 @@ class HandoffsControllerTest < ActionController::TestCase
 
   test 'should get new as project editor' do
     login(users(:valid))
-    get :new, project_id: @project, id: subjects(:three), subject_event_id: subject_events(:three)
+    get :new, params: {
+      project_id: @project, id: subjects(:three),
+      subject_event_id: subject_events(:three)
+    }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_response :success
@@ -20,7 +23,10 @@ class HandoffsControllerTest < ActionController::TestCase
 
   test 'should get new as project editor for existing handoff' do
     login(users(:valid))
-    get :new, project_id: @project, id: subjects(:two), subject_event_id: subject_events(:two)
+    get :new, params: {
+      project_id: @project, id: subjects(:two),
+      subject_event_id: subject_events(:two)
+    }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_response :success
@@ -28,7 +34,10 @@ class HandoffsControllerTest < ActionController::TestCase
 
   test 'should not get new as project viewer' do
     login(users(:associated))
-    get :new, project_id: @project, id: subjects(:three), subject_event_id: subject_events(:three)
+    get :new, params: {
+      project_id: @project, id: subjects(:three),
+      subject_event_id: subject_events(:three)
+    }
     assert_nil assigns(:project)
     assert_nil assigns(:subject)
     assert_redirected_to root_path
@@ -36,7 +45,10 @@ class HandoffsControllerTest < ActionController::TestCase
 
   test 'should not get new as site editor from different site as subject' do
     login(users(:site_one_editor))
-    get :new, project_id: @project, id: subjects(:three), subject_event_id: subject_events(:three)
+    get :new, params: {
+      project_id: @project, id: subjects(:three),
+      subject_event_id: subject_events(:three)
+    }
     assert_not_nil assigns(:project)
     assert_nil assigns(:subject)
     assert_redirected_to project_subjects_path(assigns(:project))
@@ -45,7 +57,10 @@ class HandoffsControllerTest < ActionController::TestCase
   test 'should launch new handoff as project editor' do
     login(users(:valid))
     assert_difference('Handoff.count') do
-      post :create, project_id: @project, id: subjects(:three), subject_event_id: subject_events(:three)
+      post :create, params: {
+        project_id: @project, id: subjects(:three),
+        subject_event_id: subject_events(:three)
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
@@ -58,7 +73,10 @@ class HandoffsControllerTest < ActionController::TestCase
   test 'should launch existing handoff as project editor' do
     login(users(:valid))
     assert_difference('Handoff.count', 0) do
-      post :create, project_id: @project, id: subjects(:two), subject_event_id: subject_events(:two)
+      post :create, params: {
+        project_id: @project, id: subjects(:two),
+        subject_event_id: subject_events(:two)
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
@@ -71,7 +89,10 @@ class HandoffsControllerTest < ActionController::TestCase
   test 'should not launch new handoff as project viewer' do
     login(users(:associated))
     assert_difference('Handoff.count', 0) do
-      post :create, project_id: @project, id: subjects(:three), subject_event_id: subject_events(:three)
+      post :create, params: {
+        project_id: @project, id: subjects(:three),
+        subject_event_id: subject_events(:three)
+      }
     end
     assert_nil assigns(:project)
     assert_nil assigns(:subject)
@@ -82,7 +103,10 @@ class HandoffsControllerTest < ActionController::TestCase
   test 'should not launch new handoff as site editor from different site as subject' do
     login(users(:site_one_editor))
     assert_difference('Handoff.count', 0) do
-      post :create, project_id: @project, id: subjects(:three), subject_event_id: subject_events(:three)
+      post :create, params: {
+        project_id: @project, id: subjects(:three),
+        subject_event_id: subject_events(:three)
+      }
     end
     assert_not_nil assigns(:project)
     assert_nil assigns(:subject)

@@ -11,7 +11,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test 'should resend project invitation' do
     login(users(:valid))
-    post :resend, id: @pending_editor_invite, format: 'js'
+    post :resend, params: { id: @pending_editor_invite }, format: 'js'
     assert_not_nil assigns(:project_user)
     assert_not_nil assigns(:project)
     assert_template 'resend'
@@ -19,7 +19,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test 'should not resend project invitation with invalid id' do
     login(users(:valid))
-    post :resend, id: -1, format: 'js'
+    post :resend, params: { id: -1 }, format: 'js'
     assert_nil assigns(:project_user)
     assert_nil assigns(:project)
     assert_response :success
@@ -27,13 +27,13 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test 'should get invite for logged in user' do
     login(users(:two))
-    get :invite, invite_token: @pending_editor_invite.invite_token
+    get :invite, params: { invite_token: @pending_editor_invite.invite_token }
     assert_equal session[:invite_token], @pending_editor_invite.invite_token
     assert_redirected_to accept_project_users_path
   end
 
   test 'should get invite for public user' do
-    get :invite, invite_token: @pending_editor_invite.invite_token
+    get :invite, params: { invite_token: @pending_editor_invite.invite_token }
     assert_equal session[:invite_token], @pending_editor_invite.invite_token
     assert_redirected_to new_user_session_path
   end
@@ -45,7 +45,10 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:project_user)
     assert_equal users(:two), assigns(:project_user).user
-    assert_equal 'You have been successfully been added to the project.', flash[:notice]
+    assert_equal(
+      'You have been successfully been added to the project.',
+      flash[:notice]
+    )
     assert_redirected_to assigns(:project_user).project
   end
 
@@ -56,13 +59,16 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:project_user)
     assert_equal users(:valid), assigns(:project_user).user
-    assert_equal "You have already been added to #{assigns(:project_user).project.name}.", flash[:notice]
+    assert_equal(
+      "You have already been added to #{assigns(:project_user).project.name}.",
+      flash[:notice]
+    )
     assert_redirected_to assigns(:project_user).project
   end
 
   test 'should not accept invalid token for project user' do
     login(users(:valid))
-    get :accept, invite_token: 'imaninvalidtoken'
+    get :accept, params: { invite_token: 'imaninvalidtoken' }
 
     assert_nil assigns(:project_user)
     assert_equal 'Invalid invitation token.', flash[:alert]
@@ -83,7 +89,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   test 'should destroy project user' do
     login(users(:valid))
     assert_difference('ProjectUser.count', -1) do
-      delete :destroy, id: @accepted_viewer_invite, format: 'js'
+      delete :destroy, params: { id: @accepted_viewer_invite }, format: 'js'
     end
     assert_not_nil assigns(:project)
     assert_template 'projects/members'
@@ -92,7 +98,9 @@ class ProjectUsersControllerTest < ActionController::TestCase
   test 'should allow viewer to remove self from project' do
     login(users(:project_one_viewer))
     assert_difference('ProjectUser.count', -1) do
-      delete :destroy, id: project_users(:project_one_viewer), format: 'js'
+      delete :destroy, params: {
+        id: project_users(:project_one_viewer)
+      }, format: 'js'
     end
 
     assert_not_nil assigns(:project)
@@ -102,7 +110,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   test 'should not destroy project user with invalid id' do
     login(users(:valid))
     assert_difference('ProjectUser.count', 0) do
-      delete :destroy, id: -1, format: 'js'
+      delete :destroy, params: { id: -1 }, format: 'js'
     end
 
     assert_nil assigns(:project)

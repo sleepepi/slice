@@ -12,7 +12,7 @@ class ImportsControllerTest < ActionController::TestCase
 
   test 'should get new as editor' do
     login(@editor)
-    get :new, project_id: @project
+    get :new, params: { project_id: @project }
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:variables)
     assert_response :success
@@ -20,7 +20,7 @@ class ImportsControllerTest < ActionController::TestCase
 
   test 'should require file before proceeding to column specification for design imports as editor' do
     login(@editor)
-    post :create, project_id: @project, design: { csv_file: '' }
+    post :create, params: { project_id: @project, design: { csv_file: '' } }
     assert_equal 0, assigns(:variables).size
     assert assigns(:design).errors.size > 0
     assert_equal ['must be selected'], assigns(:design).errors[:csv_file]
@@ -32,18 +32,20 @@ class ImportsControllerTest < ActionController::TestCase
     login(@editor)
     assert_difference('Design.count', 1) do
       assert_difference('Variable.count', 5) do
-        post :create, project_id: @project,
-                      design: {
-                        csv_file: fixture_file_upload('../../test/support/design_import.csv'),
-                        name: 'Design Import'
-                      },
-                      variables: {
-                        'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
-                        'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
-                        'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
-                        'name' => { display_name: 'First Name', variable_type: 'string' },
-                        'gender' => { display_name: 'Gender', variable_type: 'string' }
-                      }
+        post :create, params: {
+          project_id: @project,
+          design: {
+            csv_file: fixture_file_upload('../../test/support/design_import.csv'),
+            name: 'Design Import'
+          },
+          variables: {
+            'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
+            'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
+            'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
+            'name' => { display_name: 'First Name', variable_type: 'string' },
+            'gender' => { display_name: 'Gender', variable_type: 'string' }
+          }
+        }
       end
     end
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
@@ -53,18 +55,20 @@ class ImportsControllerTest < ActionController::TestCase
     login(@editor)
     assert_difference('Design.count', 0) do
       assert_difference('Variable.count', 0) do
-        post :create, project_id: @project,
-                      design: {
-                        csv_file: fixture_file_upload('../../test/support/design_import.csv'),
-                        name: ''
-                      },
-                      variables: {
-                        'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
-                        'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
-                        'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
-                        'name' => { display_name: 'First Name', variable_type: 'string' },
-                        'gender' => { display_name: 'Gender', variable_type: 'string' }
-                      }
+        post :create, params: {
+          project_id: @project,
+          design: {
+            csv_file: fixture_file_upload('../../test/support/design_import.csv'),
+            name: ''
+          },
+          variables: {
+            'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
+            'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
+            'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
+            'name' => { display_name: 'First Name', variable_type: 'string' },
+            'gender' => { display_name: 'Gender', variable_type: 'string' }
+          }
+        }
       end
     end
     assert_equal 5, assigns(:variables).size
@@ -74,13 +78,13 @@ class ImportsControllerTest < ActionController::TestCase
 
   test 'should load file and present importable columns for new design with blank header columns as editor' do
     login(@editor)
-    post :create, project_id: @project,
-                  design: {
-                    csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv')
-                  }
-
+    post :create, params: {
+      project_id: @project,
+      design: {
+        csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv')
+      }
+    }
     assert_equal 4, assigns(:variables).size
-
     assert_template 'new'
     assert_response :success
   end
@@ -89,17 +93,19 @@ class ImportsControllerTest < ActionController::TestCase
     login(@editor)
     assert_difference('Design.count', 1) do
       assert_difference('Variable.count', 4) do
-        post :create, project_id: @project,
-                      design: {
-                        csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv'),
-                        name: 'Design Import'
-                      },
-                      variables: {
-                        'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
-                        'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
-                        'name' => { display_name: 'First Name', variable_type: 'string' },
-                        'gender' => { display_name: 'Gender', variable_type: 'string' }
-                      }
+        post :create, params: {
+          project_id: @project,
+          design: {
+            csv_file: fixture_file_upload('../../test/support/design_import_with_blank_columns.csv'),
+            name: 'Design Import'
+          },
+          variables: {
+            'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
+            'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
+            'name' => { display_name: 'First Name', variable_type: 'string' },
+            'gender' => { display_name: 'Gender', variable_type: 'string' }
+          }
+        }
       end
     end
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
@@ -107,7 +113,7 @@ class ImportsControllerTest < ActionController::TestCase
 
   test 'should show progress as editor' do
     login(@editor)
-    post :progress, project_id: @project, id: @design, format: 'js'
+    post :progress, params: { project_id: @project, id: @design }, format: 'js'
     assert_not_nil assigns(:design)
     assert_template 'progress'
     assert_response :success
@@ -115,14 +121,16 @@ class ImportsControllerTest < ActionController::TestCase
 
   test 'should get edit as editor' do
     login(@editor)
-    get :edit, id: @design, project_id: @project
+    get :edit, params: { id: @design, project_id: @project }
     assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test 'should require file before proceeding to column specification for updating design imports as editor' do
     login(@editor)
-    patch :update, id: @design, project_id: @project, design: { csv_file: '', reimport: '1' }
+    patch :update, params: {
+      id: @design, project_id: @project, design: { csv_file: '', reimport: '1' }
+    }
     assert assigns(:design).errors.size > 0
     assert_equal ["can't be blank"], assigns(:design).errors[:csv_file]
     assert_template 'edit'
@@ -133,15 +141,20 @@ class ImportsControllerTest < ActionController::TestCase
     login(@editor)
     assert_difference('Design.count', 0) do
       assert_difference('Variable.count', 0) do
-        patch :update, id: @design, project_id: @project,
-                       design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), reimport: '1' },
-                       variables: {
-                         'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
-                         'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
-                         'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
-                         'name' => { display_name: 'First Name', variable_type: 'string' },
-                         'gender' => { display_name: 'Gender', variable_type: 'string' }
-                       }
+        patch :update, params: {
+          id: @design, project_id: @project,
+          design: {
+            csv_file: fixture_file_upload('../../test/support/design_import.csv'),
+            reimport: '1'
+          },
+          variables: {
+            'store_id' => { display_name: 'Store ID', variable_type: 'integer' },
+            'gpa' => { display_name: 'GPA', variable_type: 'numeric' },
+            'buy_date' => { display_name: 'Buy Date', variable_type: 'date' },
+            'name' => { display_name: 'First Name', variable_type: 'string' },
+            'gender' => { display_name: 'Gender', variable_type: 'string' }
+          }
+        }
       end
     end
     assert_redirected_to project_design_path(assigns(:design).project, assigns(:design))
@@ -151,9 +164,14 @@ class ImportsControllerTest < ActionController::TestCase
     login(@editor)
     assert_difference('Design.count', 0) do
       assert_difference('Variable.count', 0) do
-        patch :update, id: @design, project_id: @project,
-                       design: { csv_file: fixture_file_upload('../../test/support/design_import.csv'), reimport: '1' },
-                       variables: {}
+        patch :update, params: {
+          id: @design, project_id: @project,
+          design: {
+            csv_file: fixture_file_upload('../../test/support/design_import.csv'),
+            reimport: '1'
+          },
+          variables: {}
+        }
       end
     end
     assert_template 'edit'
