@@ -1,10 +1,10 @@
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'events.position', 'Position'
-      %th.nowrap= sort_field_helper @order, 'events.name', 'Name'
-      %th.nowrap= sort_field_helper @order, 'events.scheduled', 'Scheduled'
-      %th.nowrap= sort_field_helper @order, 'events.archived', 'Archived'
+      = th_sort_field @order, 'events.position', 'Position'
+      = th_sort_field @order, 'events.name', 'Name'
+      = th_sort_field @order, 'events.scheduled', 'Scheduled'
+      = th_sort_field @order, 'events.archived', 'Archived'
       %th Designs
       %th Actions
 

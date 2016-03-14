@@ -3,11 +3,11 @@
 %table.table.table-striped
   %thead
     %tr
-      %th.nowrap= sort_field_helper @order, 'users.last_name', 'Name'
-      %th.nowrap= sort_field_helper @order, 'users.email', 'Email'
-      %th.nowrap= sort_field_helper @order, 'users.current_sign_in_at', 'Recent Activity'
+      = th_sort_field @order, 'users.last_name', 'Name'
+      = th_sort_field @order, 'users.email', 'Email'
+      = th_sort_field @order, 'users.current_sign_in_at', 'Recent Activity'
       - if current_user.system_admin?
-        %th.nowrap= sort_field_helper @order, 'users.system_admin', 'System Admin'
+        = th_sort_field @order, 'users.system_admin', 'System Admin'
         %th
 
   - @users.each do |user|

@@ -1,10 +1,10 @@
 %table.table.table-striped
   %thead
     %tr
-      %th # Variables
-      %th.nowrap= sort_field_helper @order, 'domains.name', 'Name'
-      %th.nowrap Options
-      %th.nowrap= sort_field_helper @order, 'domains.user_id', ''
+      %th.nowrap # Variables
+      = th_sort_field @order, 'domains.name', 'Name'
+      %th Options
+      = th_sort_field @order, 'domains.user_id', ''
       %th Actions
 
   - @domains.each do |domain|
