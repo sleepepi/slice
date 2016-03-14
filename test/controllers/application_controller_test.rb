@@ -2,30 +2,27 @@
 
 require 'test_helper'
 
+# Tests to assure display of static pages.
 class ApplicationControllerTest < ActionController::TestCase
-  setup do
-    # Nothing
+  test 'should parse time' do
+    assert_equal '12:00:00', @controller.send(:parse_time_to_s, '12:00:00')
   end
 
-  test "should parse time" do
-    assert_equal "12:00:00", @controller.send(:parse_time_to_s, "12:00:00")
+  test 'should parse invalid time' do
+    assert_equal '', @controller.send(:parse_time_to_s, 'abc')
   end
 
-  test "should parse invalid time" do
-    assert_equal "", @controller.send(:parse_time_to_s, "abc")
-  end
-
-  test "should get theme" do
+  test 'should get theme' do
     get :theme
     assert_response :success
   end
 
-  test "should get version" do
+  test 'should get version' do
     get :version
     assert_response :success
   end
 
-  test "should get version as json" do
+  test 'should get version as json' do
     get :version, format: 'json'
     version = JSON.parse(response.body)
     assert_equal Slice::VERSION::STRING, version['version']['string']
