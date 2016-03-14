@@ -37,6 +37,10 @@ module Valuable
 
   # Returns response as a hash that can sent to update_attributes
   def format_response(variable_type, response)
+    if response.is_a? ActionController::Parameters
+      response = response.to_unsafe_hash
+    end
+
     case variable_type
     when 'file'
       response = {} if response.blank?

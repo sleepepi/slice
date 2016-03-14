@@ -23,7 +23,7 @@ class ProjectUsersController < ApplicationController
       @project_user.generate_invite_token!
       # resend.js.erb
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -54,7 +54,7 @@ class ProjectUsersController < ApplicationController
       @project_user.destroy
       render 'projects/members'
     else
-      render nothing: true
+      head :ok
     end
   end
 end

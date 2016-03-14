@@ -90,7 +90,7 @@ class SheetsController < ApplicationController
     if @object && @object.response_file.size > 0
       send_file File.join(CarrierWave::Uploader::Base.root, @object.response_file.url)
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -137,7 +137,7 @@ class SheetsController < ApplicationController
     if subject_event
       SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
     else
-      render nothing: true
+      head :ok
     end
   end
 

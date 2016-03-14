@@ -29,7 +29,7 @@ class SiteUsersController < ApplicationController
       @site_user.send_invitation
       # resend.js.erb
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -67,7 +67,7 @@ class SiteUsersController < ApplicationController
         format.js { render 'projects/members' }
       else
         format.html { redirect_to root_path }
-        format.js { render nothing: true }
+        format.js { head :ok }
       end
     end
   end

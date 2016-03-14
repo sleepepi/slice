@@ -11,7 +11,7 @@ class DocumentsController < ApplicationController
     if @document.file.size > 0
       send_file File.join(CarrierWave::Uploader::Base.root, @document.file.url)
     else
-      render nothing: true
+      head :ok
     end
   end
 

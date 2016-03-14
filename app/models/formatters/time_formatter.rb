@@ -13,7 +13,7 @@ module Formatters
                else
                  @variable.show_seconds? ? '%H:%M:%S' : '%H:%M'
                end
-      Time.strptime(response, '%H:%M:%S').strftime(format)
+      Time.zone.strptime(response, '%H:%M:%S').strftime(format)
     rescue
       response
     end

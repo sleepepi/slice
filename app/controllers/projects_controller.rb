@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
       project_favorite = current_user.project_favorites.where(project_id: project_id).first_or_create
       project_favorite.update position: ((page - 1) * Project::PER_PAGE) + index
     end
-    render nothing: true
+    head :ok
   end
 
   # GET /projects/1/logo

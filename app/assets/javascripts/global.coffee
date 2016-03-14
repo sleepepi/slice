@@ -26,10 +26,9 @@
   $("[rel~=tooltip]").tooltip(trigger: 'hover')
 
 @initializeTurbolinks = () ->
-  # Don't cache pages with Turbolinks
-  Turbolinks.pagesCached(0)
-  # disableRequestCaching will be available with Turbolinks 3.0+
-  Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
+  # # Don't cache pages with Turbolinks
+  # TODO: Clear cache on tablet handoff.
+  # Turbolinks.clearCache()
 
 @globalReady = () ->
   initializeTypeahead()

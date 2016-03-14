@@ -8,7 +8,7 @@ module Validation
       @variable = variable
       @response = response
       @response_file = response_file
-      @responses = responses.collect{|r| Validation::InMemoryResponse.new(r.value)}
+      @responses = responses.collect { |r| Validation::InMemoryResponse.new(r.value) }
     end
 
     def get_raw_response

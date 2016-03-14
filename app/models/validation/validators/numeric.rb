@@ -38,7 +38,7 @@ module Validation
 
       def formatted_value(value)
         if in_missing_codes?(value)
-          ""
+          ''
         else
           "#{value}#{" #{variable.units}" unless variable.units.blank?}" unless value.blank?
         end

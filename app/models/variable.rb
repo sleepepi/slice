@@ -498,10 +498,16 @@ class Variable < ApplicationRecord
   end
 
   def value_in_range?(value)
+    if value.is_a? ActionController::Parameters
+      value = value.to_unsafe_hash
+    end
     validator.value_in_range?(value)
   end
 
   def response_to_value(response)
+    if response.is_a? ActionController::Parameters
+      response = response.to_unsafe_hash
+    end
     validator.response_to_value(response)
   end
 
