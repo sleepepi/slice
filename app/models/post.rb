@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   after_create :send_email
 
   # Concerns

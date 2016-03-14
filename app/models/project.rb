@@ -3,7 +3,7 @@
 # Allows users to collaborate together to enter data across a series of
 # subjects, events, and sites. Provides a method to share access with other
 # users at varying degrees of control.
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   PER_PAGE = 40
 
   mount_uploader :logo, ImageUploader

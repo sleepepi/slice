@@ -28,7 +28,6 @@
 @initializeTurbolinks = () ->
   # Don't cache pages with Turbolinks
   Turbolinks.pagesCached(0)
-  Turbolinks.enableProgressBar()
   # disableRequestCaching will be available with Turbolinks 3.0+
   Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
 

@@ -1,4 +1,4 @@
-= form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: 'multipart/form-data' }) do |f|
+= form_for [@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: 'multipart/form-data' } do |f|
   - if @sheet.errors.any?
     .bs-callout.bs-callout-danger
       %h4

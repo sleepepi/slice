@@ -2,7 +2,7 @@
 
 # A site groups subjects together and helps filter subjects and sheets for site
 # members, and reports that are stratified by site.
-class Site < ActiveRecord::Base
+class Site < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 

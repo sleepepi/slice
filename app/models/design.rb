@@ -2,7 +2,7 @@
 
 # Provides a framework to layout a series of sections and variables that make
 # up a data collection form.
-class Design < ActiveRecord::Base
+class Design < ApplicationRecord
   mount_uploader :csv_file, SpreadsheetUploader
 
   serialize :options, Array

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Grid < ActiveRecord::Base
+class Grid < ApplicationRecord
   # Concerns
   include Formattable, Valuable
 

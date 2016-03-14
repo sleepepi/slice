@@ -327,7 +327,10 @@ class SheetsControllerTest < ActionController::TestCase
 
   test 'should not create sheet without design' do
     assert_difference('Sheet.count', 0) do
-      post :create, project_id: @project, subject_id: subjects(:one), sheet: { design_id: '' }
+      post :create, params: {
+        project_id: @project, subject_id: subjects(:one),
+        sheet: { design_id: '' }
+      }
     end
     assert_template 'new'
     assert_response :success
@@ -508,19 +511,21 @@ class SheetsControllerTest < ActionController::TestCase
 
   test 'should update sheet' do
     assert_difference('SheetTransaction.count') do
-      patch :update, id: @sheet, project_id: @project,
-                     sheet: { design_id: designs(:all_variable_types) },
-                     variables: {
-                       "#{variables(:dropdown).id}" => 'f',
-                       "#{variables(:checkbox).id}" => nil,
-                       "#{variables(:radio).id}" => '1',
-                       "#{variables(:string).id}" => 'This is an updated string',
-                       "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet',
-                       "#{variables(:integer).id}" => 31,
-                       "#{variables(:numeric).id}" => 190.5,
-                       "#{variables(:date).id}" => { month: '05', day: '29', year: '2012' },
-                       "#{variables(:file).id}" => { response_file: '' }
-                     }
+      patch :update, params: {
+        id: @sheet, project_id: @project,
+        sheet: { design_id: designs(:all_variable_types) },
+        variables: {
+          variables(:dropdown).id.to_s => 'f',
+          variables(:checkbox).id.to_s => nil,
+          variables(:radio).id.to_s => '1',
+          variables(:string).id.to_s => 'This is an updated string',
+          variables(:text).id.to_s => 'Lorem ipsum dolor sit amet',
+          variables(:integer).id.to_s => 31,
+          variables(:numeric).id.to_s => 190.5,
+          variables(:date).id.to_s => { month: '05', day: '29', year: '2012' },
+          variables(:file).id.to_s => { response_file: '' }
+        }
+      }
     end
 
     assert_not_nil assigns(:sheet)

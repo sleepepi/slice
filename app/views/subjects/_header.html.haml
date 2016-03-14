@@ -1,4 +1,5 @@
 - links = []
 - links << [@subject.subject_code, [@project, @subject]]
-- links << [(@title || '&nbsp;'.html_safe), url_for(params)] unless current_page?([@project, @subject])
+- filtered_params = params.permit()
+- links << [(@title || '&nbsp;'.html_safe), url_for(filtered_params)] unless current_page?([@project, @subject])
 = render 'projects/tabbed_menu', links: links

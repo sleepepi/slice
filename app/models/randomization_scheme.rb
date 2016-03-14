@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Defines a method for randomization, either Permuted-Block or Minimization
-class RandomizationScheme < ActiveRecord::Base
+class RandomizationScheme < ApplicationRecord
   # Triggers
   after_create :create_default_block_size_multipliers
   attr_accessor :task_hashes, :expected_randomizations_hashes

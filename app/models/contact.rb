@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Contact < ActiveRecord::Base
+class Contact < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 

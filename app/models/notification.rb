@@ -2,7 +2,7 @@
 
 # Tracks if a user has seen changes to adverse events, new sheet comments, and
 # completed tablet handoffs
-class Notification < ActiveRecord::Base
+class Notification < ApplicationRecord
   # Model Validation
   validates :user_id, :project_id, presence: true
 

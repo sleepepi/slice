@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class StratificationFactorOption < ActiveRecord::Base
+class StratificationFactorOption < ApplicationRecord
   # Concerns
   include Deletable
 

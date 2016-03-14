@@ -4,7 +4,7 @@
 # Randomizations can exist without having a subject as placeholders for the
 # permuted-block algorithm, and are generated dynamically by the minimization
 # algorithm.
-class Randomization < ActiveRecord::Base
+class Randomization < ApplicationRecord
   # Serialized
   serialize :past_distributions, Hash
   serialize :weighted_eligible_arms, Array

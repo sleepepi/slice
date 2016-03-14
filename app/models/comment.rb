@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows editors and viewers to comment on sheets
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 

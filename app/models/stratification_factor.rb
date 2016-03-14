@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Provides options used to determine the list to which a subject is randomized
-class StratificationFactor < ActiveRecord::Base
+class StratificationFactor < ApplicationRecord
   # Concerns
   include Deletable
 

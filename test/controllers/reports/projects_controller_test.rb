@@ -6,6 +6,7 @@ require 'test_helper'
 class Reports::ProjectsControllerTest < ActionController::TestCase
   setup do
     @project = projects(:one)
+    @project_editor = users(:project_one_editor)
   end
 
   test 'should get filters' do
@@ -41,7 +42,7 @@ class Reports::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should get reports as project editor' do
-    login(users(:project_one_editor))
+    login(@project_editor)
     get :reports, id: @project
     assert_response :success
   end

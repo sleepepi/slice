@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SiteUser < ActiveRecord::Base
+class SiteUser < ApplicationRecord
   # Named Scopes
   scope :current, -> { all }
 

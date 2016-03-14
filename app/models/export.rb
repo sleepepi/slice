@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Generates a full export of sheets to a chosen format for a project
-class Export < ActiveRecord::Base
+class Export < ApplicationRecord
   mount_uploader :file, ZipUploader
 
   STATUS = %w(ready pending failed).collect { |i| [i, i] }

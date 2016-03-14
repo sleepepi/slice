@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # A completable project todo that is within a specific window and has a due date
-class Task < ActiveRecord::Base
+class Task < ApplicationRecord
   # Concerns
   include Deletable, Searchable
 

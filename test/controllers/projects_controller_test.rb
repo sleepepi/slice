@@ -84,7 +84,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should get logo as project editor' do
-    login(users(:project_one_editor))
+    login(@project_editor)
     get :logo, id: @project
     assert_not_nil response
     assert_not_nil assigns(:project)

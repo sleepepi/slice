@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Response < ActiveRecord::Base
+class Response < ApplicationRecord
   # Model Validation
   validates :variable_id, :value, :sheet_id, presence: true
 

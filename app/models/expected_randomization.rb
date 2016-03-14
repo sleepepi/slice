@@ -2,7 +2,7 @@
 
 # Allows specification of monthly recruitment goals by site for a randomization
 # scheme
-class ExpectedRandomization < ActiveRecord::Base
+class ExpectedRandomization < ApplicationRecord
   # Model Validation
   validates :randomization_scheme_id, :site_id, presence: true
 

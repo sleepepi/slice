@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows main sections, subsections, and warnings to be added to designs
-class Section < ActiveRecord::Base
+class Section < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   # Model Relationships

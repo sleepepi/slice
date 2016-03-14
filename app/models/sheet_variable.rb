@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SheetVariable < ActiveRecord::Base
+class SheetVariable < ApplicationRecord
   # Concerns
   include Formattable, Valuable
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Handles authentication for filling out a series of designs on an event
-class Handoff < ActiveRecord::Base
+class Handoff < ApplicationRecord
   # Callbacks
   after_create :set_token
 

@@ -1,5 +1,9 @@
 ## rails5 branch
 
+### Enhancements
+- **Gem Changes**
+  - Updated to rails 5.0.0.beta3
+
 ## 0.36.0
 
 ### Enhancements

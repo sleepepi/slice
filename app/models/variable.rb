@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Variable < ActiveRecord::Base
+class Variable < ApplicationRecord
   TYPE = %w(dropdown checkbox radio string text integer numeric date time time_duration file calculated grid signature).sort.collect { |i| [i, i] }
   TYPE_IMPORTABLE = %w(string text integer numeric date time).sort.collect { |i| [i, i] }
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)

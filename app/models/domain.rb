@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Represents a finite set of options for a given variable
-class Domain < ActiveRecord::Base
+class Domain < ApplicationRecord
   serialize :options, Array
 
   before_save :check_option_validations

@@ -2,7 +2,7 @@
 
 # The user class provides methods to scope resources in system that the user is
 # allowed to view and edit.
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable and :omniauthable
   devise :database_authenticatable, :registerable, :timeoutable,

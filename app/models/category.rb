@@ -5,7 +5,7 @@
 # only show designs for use with the adverse events module. These designs will
 # not show up on a subject page as a choice, and will only show up while filling
 # out an adverse event for the subject.
-class Category < ActiveRecord::Base
+class Category < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 

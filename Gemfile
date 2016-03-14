@@ -2,14 +2,22 @@
 
 source 'https://rubygems.org'
 
-gem 'rails',                '4.2.6'
+# gem 'rails', '>= 5.0.0.beta3', '< 5.1'
+# gem 'rails', github: 'rails/rails'
+gem 'rails', github: 'rails/rails', ref: 'e56b594'
+
+# Temporary includes
+gem 'bootstrap-sass'
+# gem 'devise', github: 'plataformatec/devise', ref: 'aab7610'
+gem 'devise', '~> 4.0.0.rc2'
 
 # Database Adapter
 gem 'pg',                   '0.18.4'
 
 # Gems used by project
-gem 'contour',              '~> 3.0.1'
-gem 'kaminari',             '~> 0.16.3'
+gem 'contour', github: 'remomueller/contour', ref: 'f077390'
+# gem 'kaminari',             '~> 0.16.3'
+gem 'kaminari', github: 'amatsuda/kaminari', ref: '3974ae5'
 gem 'carrierwave',          '~> 0.10.0'
 gem 'naturalsort',          '~> 1.2.0'
 gem 'redcarpet',            '~> 3.3.2'
@@ -27,13 +35,14 @@ gem 'uglifier',             '>= 1.3.0'
 
 gem 'jbuilder',             '~> 2.0'
 gem 'jquery-rails',         '~> 4.1.1'
-gem 'turbolinks'
+gem 'turbolinks',           '~> 5.0.0.beta2'
 
 # Testing
 group :test do
   # Pretty printed test output
   gem 'minitest'
   gem 'simplecov',          '~> 0.11.2', require: false
+  gem 'rails-controller-testing'
 end
 
 group :development do

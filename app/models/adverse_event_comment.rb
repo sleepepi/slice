@@ -2,7 +2,7 @@
 
 # Captures discussion on an adverse event along with closing and reopening of
 # the adverse event.
-class AdverseEventComment < ActiveRecord::Base
+class AdverseEventComment < ApplicationRecord
   # Constants
   COMMENT_TYPE = %w(commented opened closed reopened)
 
