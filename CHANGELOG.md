@@ -1,4 +1,4 @@
-## 0.36.1
+## 0.36.1 (March 14, 2016)
 
 ### Bug Fix
 - Fixed a bug that prevented design variables and sections from being updated
