@@ -4,7 +4,7 @@
 - **Gem Changes**
   - Updated to rails 5.0.0.beta3
 
-## 0.36.0
+## 0.36.0 (March 14, 2016)
 
 ### Enhancements
 - **Email Changes**
