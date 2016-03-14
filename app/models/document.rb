@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Describes a file that is uploaded as supporting documentation to a project.
 class Document < ApplicationRecord
   mount_uploader :file, GenericUploader
 
