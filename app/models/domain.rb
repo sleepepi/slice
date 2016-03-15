@@ -19,6 +19,8 @@ class Domain < ApplicationRecord
   belongs_to :user
   belongs_to :project
   has_many :variables, -> { where deleted: false }
+  has_many :sheet_variables, through: :variables
+  has_many :grids, through: :variables
 
   # Model Methods
 
@@ -28,21 +30,7 @@ class Domain < ApplicationRecord
 
   # Returns an array of the domains values
   def values
-    @values ||= begin
-      self.options.collect{|o| o[:value]}
-    end
-  end
-
-  def variable_ids
-    variable_ids = self.new_record? ? [] : self.variables.pluck(:id)
-  end
-
-  def sheet_variables
-    SheetVariable.where(variable_id: self.variables.collect{|v| v.id})
-  end
-
-  def grids
-    Grid.where(variable_id: self.variables.collect{|v| v.id})
+    options.collect { |o| o[:value] }
   end
 
   def options_by_site?
@@ -55,8 +43,7 @@ class Domain < ApplicationRecord
     result_b = check_value_uniqueness
     result_c = check_for_blank_values
     result_d = check_for_blank_names
-
-    result_a and result_b and result_c and result_d
+    result_a && result_b && result_c && result_d
   end
 
   def check_for_colons

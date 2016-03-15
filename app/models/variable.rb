@@ -116,7 +116,7 @@ class Variable < ApplicationRecord
   def check_for_valid_domain
     result = true
     d = (domain ? domain : Domain.new)
-    if has_domain? and (captured_values | d.values).size > d.values.size and not ['integer', 'numeric'].include?(self.variable_type)
+    if has_domain? && (captured_values | d.values).size > d.values.size && !%w(integer numeric).include?(variable_type)
       errors.add(:domain_id, 'must include all previously captured values')
       result = false
     end

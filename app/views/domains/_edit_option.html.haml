@@ -5,8 +5,8 @@
 - total_count = 0
 
 - if @domain
-  - sheet_variables_count = SheetVariable.where(variable_id: @domain.variable_ids, response: @option[:value]).count
-  - grid_count = Grid.where(variable_id: @domain.variable_ids, response: @option[:value]).count
+  - sheet_variables_count = @domain.sheet_variables.where(response: @option[:value]).count
+  - grid_count = @domain.grids.where(response: @option[:value]).count
   - total_count = sheet_variables_count + grid_count
 
 .sheet-container{ id: "option_#{@position}", class: "#{'fieldset_with_errors' if @domain and @domain.errors.keys.include?(:options)}", style: "cursor:move;line-height:30px;padding-top:5px" }
