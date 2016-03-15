@@ -32,7 +32,7 @@ project_one_editor_blinded:
 two:
   first_name: Two
   last_name: Deux
-  email: EmailTwo
+  email: two@example.com
   encrypted_password: ""
   emails_enabled: true
 
