@@ -10,7 +10,7 @@ class SurveyControllerTest < ActionController::TestCase
   end
 
   test 'should get new survey with slug' do
-    get :new, slug: @public_design.slug
+    get :new, params: { slug: @public_design.slug }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_equal true, assigns(:design).publicly_available
@@ -19,7 +19,7 @@ class SurveyControllerTest < ActionController::TestCase
 
   test 'should not get new private survey' do
     assert_equal false, @private_design.publicly_available
-    get :new, slug: @private_design.slug
+    get :new, params: { slug: @private_design.slug }
     assert_nil assigns(:project)
     assert_nil assigns(:design)
     assert_redirected_to about_survey_path
@@ -29,11 +29,10 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, slug: designs(:admin_public_design).slug, email: 'test@example.com'
+          post :create, params: { slug: designs(:admin_public_design).slug, email: 'test@example.com' }
         end
       end
     end
-
     assert_not_nil assigns(:design)
     assert_equal true, assigns(:design).publicly_available
     assert_not_nil assigns(:project)
@@ -41,7 +40,6 @@ class SurveyControllerTest < ActionController::TestCase
     assert_equal 'test@example.com', assigns(:subject).email
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).authentication_token
-
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
   end
 
@@ -49,13 +47,14 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count', 0) do
       assert_difference('Subject.count', 0) do
         assert_difference('Sheet.count', 0) do
-          post :create, slug: designs(:admin_public_design_with_required_fields).slug,
-                        subject_id: subjects(:external).id,
-                        variables: { variables(:public_autocomplete).id.to_s => '' }
+          post :create, params: {
+            slug: designs(:admin_public_design_with_required_fields).slug,
+            subject_id: subjects(:external).id,
+            variables: { variables(:public_autocomplete).id.to_s => '' }
+          }
         end
       end
     end
-
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
@@ -67,7 +66,7 @@ class SurveyControllerTest < ActionController::TestCase
   test 'should submit public survey and redirect to redirect_url' do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, slug: designs(:admin_public_design_with_redirect).slug, email: 'test@example.com'
+        post :create, params: { slug: designs(:admin_public_design_with_redirect).slug, email: 'test@example.com' }
       end
     end
 
@@ -86,15 +85,13 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, slug: designs(:admin_public_design).slug, email: 'test@example.com', site_id: ''
+          post :create, params: { slug: designs(:admin_public_design).slug, email: 'test@example.com', site_id: '' }
         end
       end
     end
-
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).subject
     assert_equal sites(:admin_site).id, assigns(:sheet).subject.site_id
-
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
   end
 
@@ -102,17 +99,17 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, slug: designs(:admin_public_design).slug,
-                        email: 'test@example.com',
-                        site_id: sites(:admin_site).id
+          post :create, params: {
+            slug: designs(:admin_public_design).slug,
+            email: 'test@example.com',
+            site_id: sites(:admin_site).id
+          }
         end
       end
     end
-
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).subject
     assert_equal sites(:admin_site).id, assigns(:sheet).subject.site_id
-
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
   end
 
@@ -120,17 +117,17 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, slug: designs(:admin_public_design).slug,
-                        email: 'test@example.com',
-                        site_id: sites(:admin_site_two).id
+          post :create, params: {
+            slug: designs(:admin_public_design).slug,
+            email: 'test@example.com',
+            site_id: sites(:admin_site_two).id
+          }
         end
       end
     end
-
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).subject
     assert_equal sites(:admin_site_two).id, assigns(:sheet).subject.site_id
-
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
   end
 
@@ -138,31 +135,33 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count', 0) do
       assert_difference('Subject.count', 0) do
         assert_difference('Sheet.count', 0) do
-          post :create, slug: designs(:admin_design).slug
+          post :create, params: { slug: designs(:admin_design).slug }
         end
       end
     end
-
     assert_nil assigns(:design)
     assert_nil assigns(:project)
     assert_nil assigns(:subject)
     assert_nil assigns(:sheet)
-
     assert_equal 'This survey no longer exists.', flash[:alert]
     assert_redirected_to about_survey_path
   end
 
   test 'should get edit survey using authentication_token' do
-    get :edit, slug: designs(:admin_public_design).slug,
-               sheet_authentication_token: sheets(:external).authentication_token
+    get :edit, params: {
+      slug: designs(:admin_public_design).slug,
+      sheet_authentication_token: sheets(:external).authentication_token
+    }
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test 'should not edit sheet survey with invalid authentication_token' do
-    get :edit, slug: designs(:admin_public_design).slug,
-               sheet_authentication_token: '123'
+    get :edit, params: {
+      slug: designs(:admin_public_design).slug,
+      sheet_authentication_token: '123'
+    }
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_equal 'This survey no longer exists.', flash[:alert]
@@ -170,8 +169,10 @@ class SurveyControllerTest < ActionController::TestCase
   end
 
   test 'should not edit locked sheet survey' do
-    get :edit, slug: designs(:admin_public_design).slug,
-               sheet_authentication_token: sheets(:external_locked).authentication_token
+    get :edit, params: {
+      slug: designs(:admin_public_design).slug,
+      sheet_authentication_token: sheets(:external_locked).authentication_token
+    }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal 'This survey has been locked.', flash[:alert]
@@ -179,17 +180,21 @@ class SurveyControllerTest < ActionController::TestCase
   end
 
   test 'should resubmit sheet survey using authentication_token' do
-    patch :update, slug: designs(:admin_public_design).slug,
-                   sheet_authentication_token: sheets(:external).authentication_token
+    patch :update, params: {
+      slug: designs(:admin_public_design).slug,
+      sheet_authentication_token: sheets(:external).authentication_token
+    }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
   end
 
   test 'should not resubmit sheet survey with missing required fields' do
-    patch :update, slug: designs(:admin_public_design_with_required_fields).slug,
-                   sheet_authentication_token: sheets(:external_with_required_fields).authentication_token,
-                   variables: { variables(:public_autocomplete).id.to_s => '' }
+    patch :update, params: {
+      slug: designs(:admin_public_design_with_required_fields).slug,
+      sheet_authentication_token: sheets(:external_with_required_fields).authentication_token,
+      variables: { variables(:public_autocomplete).id.to_s => '' }
+    }
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
@@ -199,7 +204,10 @@ class SurveyControllerTest < ActionController::TestCase
   end
 
   test 'should not resubmit sheet survey using invalid authentication_token' do
-    patch :update, slug: designs(:admin_public_design).slug, sheet_authentication_token: '123'
+    patch :update, params: {
+      slug: designs(:admin_public_design).slug,
+      sheet_authentication_token: '123'
+    }
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_equal 'This survey no longer exists.', flash[:alert]

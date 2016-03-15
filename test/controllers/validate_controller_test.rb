@@ -5,9 +5,10 @@ require 'test_helper'
 # Tests to assure variables on a project can be validated.
 class ValidateControllerTest < ActionController::TestCase
   test 'should validate variable' do
-    xhr :post, :variable, project_id: projects(:one), variable_id: variables(:date),
-                          value: { month: '1', day: '1', year: '2000' },
-                          format: 'json'
+    post :variable, params: {
+      project_id: projects(:one), variable_id: variables(:date),
+      value: { month: '1', day: '1', year: '2000' }
+    }, xhr: true, format: 'json'
 
     json = JSON.parse(response.body)
     assert_equal 'in_soft_range', json['status']
@@ -17,9 +18,10 @@ class ValidateControllerTest < ActionController::TestCase
   end
 
   test 'should validate variable with blank fields' do
-    xhr :post, :variable, project_id: projects(:one), variable_id: variables(:date),
-                          value: { month: '', day: '', year: '' },
-                          format: 'json'
+    post :variable, params: {
+      project_id: projects(:one), variable_id: variables(:date),
+      value: { month: '', day: '', year: '' }
+    }, xhr: true, format: 'json'
 
     json = JSON.parse(response.body)
     assert_equal 'blank', json['status']
@@ -29,9 +31,10 @@ class ValidateControllerTest < ActionController::TestCase
   end
 
   test 'should validate return out of range for variable' do
-    xhr :post, :variable, project_id: projects(:one), variable_id: variables(:date),
-                          value: { month: '12', day: '31', year: '1989' },
-                          format: 'json'
+    post :variable, params: {
+      project_id: projects(:one), variable_id: variables(:date),
+      value: { month: '12', day: '31', year: '1989' }
+    }, xhr: true, format: 'json'
 
     json = JSON.parse(response.body)
     assert_equal 'out_of_range', json['status']
@@ -41,9 +44,10 @@ class ValidateControllerTest < ActionController::TestCase
   end
 
   test 'should validate return invalid for variable' do
-    xhr :post, :variable, project_id: projects(:one), variable_id: variables(:date),
-                          value: { month: '2', day: '31', year: '2000' },
-                          format: 'json'
+    post :variable, params: {
+      project_id: projects(:one), variable_id: variables(:date),
+      value: { month: '2', day: '31', year: '2000' }
+    }, xhr: true, format: 'json'
 
     json = JSON.parse(response.body)
     assert_equal 'invalid', json['status']
@@ -53,9 +57,10 @@ class ValidateControllerTest < ActionController::TestCase
   end
 
   test 'should validate return inside hard range for variable' do
-    xhr :post, :variable, project_id: projects(:one), variable_id: variables(:date),
-                          value: { month: '6', day: '15', year: '1995' },
-                          format: 'json'
+    post :variable, params: {
+      project_id: projects(:one), variable_id: variables(:date),
+      value: { month: '6', day: '15', year: '1995' }
+    }, xhr: true, format: 'json'
 
     json = JSON.parse(response.body)
     assert_equal 'in_hard_range', json['status']
