@@ -93,6 +93,28 @@ class DomainsControllerTest < ActionController::TestCase
     assert assigns(:domain).errors.size > 0
     assert_equal ['values must be unique'], assigns(:domain).errors[:option]
     assert_template 'new'
+    assert_response :success
+  end
+
+  test 'should not create domain with options with blank names' do
+    assert_difference('Domain.count', 0) do
+      post :create, params: {
+        project_id: @project,
+        domain: {
+          name: 'new_domain', display_name: 'New Domain',
+          description: @domain.description,
+          option_tokens: [
+            { name: '', value: '1', description: '' },
+            { name: '', value: '2', description: '' }
+          ]
+        }
+      }
+    end
+    assert_not_nil assigns(:domain)
+    assert assigns(:domain).errors.size > 0
+    assert_equal ["names can't be blank"], assigns(:domain).errors[:option]
+    assert_template 'new'
+    assert_response :success
   end
 
   test 'should not create domain where options have colons as part of the value' do
