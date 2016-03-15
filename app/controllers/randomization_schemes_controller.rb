@@ -77,7 +77,7 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
-    criteria_pairs = (params[:stratification_factors] || []).collect { |sf_id, option_id| [sf_id, option_id] }
+    criteria_pairs = build_criteria_pairs
     list = @randomization_scheme.find_list_by_criteria_pairs(criteria_pairs)
 
     invalid_criteria_found = false
@@ -218,5 +218,13 @@ class RandomizationSchemesController < ApplicationController
         :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value
       )
     end
+  end
+
+  def build_criteria_pairs
+    criteria_pairs = []
+    (params[:stratification_factors] || {}).each do |sf_id, option_id|
+      criteria_pairs << [sf_id, option_id]
+    end
+    criteria_pairs
   end
 end
