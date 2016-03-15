@@ -114,23 +114,17 @@ class Variable < ApplicationRecord
   end
 
   def check_for_valid_domain
-    result = true
     d = (domain ? domain : Domain.new)
-    if has_domain? && (captured_values | d.values).size > d.values.size && !%w(integer numeric).include?(variable_type)
-      errors.add(:domain_id, 'must include all previously captured values')
-      result = false
-    end
-    result
+    return unless finite_set_options? && (captured_values | d.values).size > d.values.size
+    errors.add(:domain_id, 'must include all previously captured values')
+    throw :abort
   end
 
   def check_for_duplicate_variables
-    result = true
     variable_ids = grid_variables.collect { |grid_variable| grid_variable[:variable_id] }
-    if variable_ids.uniq.size < variable_ids.size
-      errors.add(:grid, 'variables must be unique')
-      result = false
-    end
-    result
+    return unless variable_ids.uniq.size < variable_ids.size
+    errors.add(:grid, 'variables must be unique')
+    throw :abort
   end
 
   def range_tooltip
@@ -218,6 +212,11 @@ class Variable < ApplicationRecord
 
   def has_domain?
     %w(dropdown checkbox radio integer numeric).include?(variable_type)
+  end
+
+  # Captured values are limited to a finite set of options.
+  def finite_set_options?
+    %w(dropdown checkbox radio).include?(variable_type)
   end
 
   def report_strata(include_missing, max_strata, hash, sheet_scope)
