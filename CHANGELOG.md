@@ -1,5 +1,9 @@
 ## 0.37.0
 
+### Enhancements
+- **Email Changes**
+  - Removed margins in emails to display better across email clients
+
 ## 0.36.1 (March 14, 2016)
 
 ### Bug Fix
