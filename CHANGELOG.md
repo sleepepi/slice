@@ -1,4 +1,4 @@
-## 0.36.2
+## 0.36.2 (March 16, 2016)
 
 ### Bug Fix
 - Fixed a bug that prevented additional options from being added to domains
