@@ -1,5 +1,9 @@
 ## 0.36.2
 
+### Bug Fix
+- Fixed a bug that prevented additional options from being added to domains
+  while editing designs (reported by @michellereid)
+
 ## 0.36.1 (March 14, 2016)
 
 ### Bug Fix
