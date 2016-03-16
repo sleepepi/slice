@@ -15,13 +15,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheets)
   end
 
-  test 'should get index and filter by locked sheets' do
-    get :index, project_id: @project, locked: '1'
-    assert_not_nil assigns(:sheets)
-    assert_equal 1, assigns(:sheets).count
-    assert_response :success
-  end
-
   test 'should get index with invalid project' do
     get :index, project_id: -1
     assert_nil assigns(:sheets)
@@ -235,35 +228,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
     assert_equal '13:02:00', assigns(:sheet).sheet_variables.first.get_response(:raw)
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should create sheet and lock sheet' do
-    assert_difference('Sheet.count') do
-      post :create, project_id: @project,
-                    subject_id: @sheet.subject,
-                    sheet: { design_id: designs(:all_variable_types), locked: '1' },
-                    variables: {
-                      "#{variables(:dropdown).id}" => 'm',
-                      "#{variables(:checkbox).id}" => ['acct101', 'econ101'],
-                      "#{variables(:radio).id}" => '2',
-                      "#{variables(:string).id}" => 'This is a string',
-                      "#{variables(:text).id}" => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                      "#{variables(:integer).id}" => 30,
-                      "#{variables(:numeric).id}" => 180.5,
-                      "#{variables(:date).id}" => { month: '05', day: '28', year: '2012' },
-                      "#{variables(:file).id}" => { response_file: '' },
-                      "#{variables(:time).id}" => { hour: '14', minutes: '30', seconds: '00' },
-                      "#{variables(:calculated).id}" => '1234'
-                    }
-    end
-
-    assert_not_nil assigns(:sheet)
-    assert_equal 11, assigns(:sheet).variables.size
-    assert_equal true, assigns(:sheet).locked
-    assert_not_nil assigns(:sheet).first_locked_at
-    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
 
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
@@ -500,12 +464,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should not get edit for locked sheet' do
-    get :edit, id: sheets(:locked), project_id: @project
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
   test 'should update sheet' do
     assert_difference('SheetTransaction.count') do
       patch :update, id: @sheet, project_id: @project,
@@ -617,28 +575,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should update and lock sheet' do
-    patch :update, id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types), locked: '1' }, variables: {}
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert_equal true, assigns(:sheet).locked
-    assert_not_nil assigns(:sheet).first_locked_at
-    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should not update locked sheet' do
-    patch :update, id: sheets(:locked), project_id: @project, sheet: { locked: '0' }, variables: {}
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert_equal true, assigns(:sheet).locked
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
   test 'should remove shareable link as editor' do
     login(users(:admin))
     assert_difference('Sheet.where(authentication_token: nil).count') do
@@ -662,13 +598,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path
-  end
-
-  test 'should not get transfer sheet for locked sheet' do
-    get :transfer, project_id: @project, id: sheets(:locked)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
   test 'should transfer sheet to new subject for editor' do
@@ -771,54 +700,5 @@ class SheetsControllerTest < ActionController::TestCase
     assert_nil assigns(:sheet)
 
     assert_redirected_to root_path
-  end
-
-  test 'should not destroy locked sheet' do
-    assert_difference('Sheet.current.count', 0) do
-      delete :destroy, id: sheets(:locked), project_id: @project
-    end
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should unlock sheet' do
-    assert_difference('SheetTransaction.count') do
-      post :unlock, id: sheets(:locked), project_id: @project
-    end
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert_equal false, assigns(:sheet).locked
-    assert_not_nil assigns(:sheet).first_locked_at
-    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should not lock sheet on project that does not have lockable and unlockable enabled' do
-    login(users(:admin))
-    patch :update, id: sheets(:external), project_id: projects(:three), sheet: { locked: '1' }, subject_code: sheets(:external).subject.subject_code, site_id: sheets(:external).subject.site_id, variables: {}
-
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert_equal false, assigns(:sheet).locked
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should not unlock sheet on project that does not have lockable and unlockable enabled' do
-    login(users(:admin))
-    post :unlock, id: sheets(:locked_on_non_lockable_project), project_id: projects(:three)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-
-    assert_equal true, assigns(:sheet).locked
-
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 end

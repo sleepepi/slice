@@ -4,7 +4,6 @@ one:
   name: Project One
   description: MyText
   user: valid
-  lockable: true
   logo: rails.png
   randomizations_enabled: true
   adverse_events_enabled: true

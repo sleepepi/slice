@@ -43,20 +43,15 @@
             = @sheet.last_user.name
       %td
         - if @sheet.editable_by?(current_user)
-          - unless @sheet.locked?
-            = succeed ' ' do
-              = link_to edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' do
-                %span.glyphicon.glyphicon-edit
-                Edit
-            = succeed ' ' do
-              = link_to transfer_project_sheet_path(@project, @sheet), class: 'btn btn-default btn-xs' do
-                %span.glyphicon.glyphicon-transfer
-                Transfer
-            = succeed ' ' do
-              = link_to [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } do
-                %span.glyphicon.glyphicon-trash
-                Delete
-        - if @sheet.locked? && @project.lockable?
-          = link_to unlock_project_sheet_path(@sheet.project, @sheet), method: :post, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to unlock this Sheet #{@sheet.name}?" } do
-            %span.glyphicon.glyphicon-lock
-            Unlock
+          = succeed ' ' do
+            = link_to edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' do
+              %span.glyphicon.glyphicon-edit
+              Edit
+          = succeed ' ' do
+            = link_to transfer_project_sheet_path(@project, @sheet), class: 'btn btn-default btn-xs' do
+              %span.glyphicon.glyphicon-transfer
+              Transfer
+          = succeed ' ' do
+            = link_to [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } do
+              %span.glyphicon.glyphicon-trash
+              Delete

@@ -201,16 +201,13 @@ class ProjectsControllerTest < ActionController::TestCase
     login(users(:valid))
     assert_difference('Site.count') do
       assert_difference('Project.count') do
-        post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png'), lockable: '1' }
+        post :create, project: { description: @project.description, name: 'Project New Name', logo: fixture_file_upload('../../test/support/projects/rails.png') }
       end
     end
-
     assert_not_nil assigns(:project)
     assert_equal File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'), assigns(:project).logo.path
     assert_equal 1, assigns(:project).sites.count
     assert_equal 'Default Site', assigns(:project).sites.first.name
-    assert_equal true, assigns(:project).lockable?
-
     assert_redirected_to project_path(assigns(:project))
   end
 

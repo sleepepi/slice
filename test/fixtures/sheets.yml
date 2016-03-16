@@ -44,17 +44,6 @@ external:
   authentication_token: abc123
   last_user: admin
 
-external_locked:
-  design: admin_public_design
-  project: three
-  subject: external
-  user: admin
-  authentication_token: external_locked
-  last_user: admin
-  locked: true
-  first_locked_at: 2015-09-04 13:16:40
-  first_locked_by: admin
-
 external_with_required_fields:
   design: admin_public_design_with_required_fields
   project: three
@@ -159,26 +148,6 @@ coverage_0:
   last_user: valid
   total_response_count: 11
   response_count: 0
-
-locked:
-  design: one
-  project: one
-  subject: one
-  user: valid
-  last_user: valid
-  locked: true
-  first_locked_at: 2014-03-22 11:02:57
-  first_locked_by: valid
-
-locked_on_non_lockable_project:
-  design: admin_design
-  project: three
-  subject: external
-  user: admin
-  last_user: admin
-  locked: true
-  first_locked_at: 2014-03-22 14:20:24
-  first_locked_by: admin
 
 filled_out_half_visible:
   design: one

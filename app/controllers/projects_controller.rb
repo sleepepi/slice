@@ -136,7 +136,7 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(
       :name, :slug, :description, :subject_code_name, :show_contacts,
       :show_documents, :show_posts, :disable_all_emails,
-      :collect_email_on_surveys, :lockable, :hide_values_on_pdfs,
+      :collect_email_on_surveys, :hide_values_on_pdfs,
       :randomizations_enabled, :adverse_events_enabled, :blinding_enabled,
       :handoffs_enabled,
       # Uploaded Logo

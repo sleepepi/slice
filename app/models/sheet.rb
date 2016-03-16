@@ -46,7 +46,6 @@ class Sheet < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :last_user, class_name: 'User'
-  belongs_to :first_locked_by, class_name: 'User'
   belongs_to :design
   belongs_to :project
   belongs_to :subject
@@ -71,10 +70,6 @@ class Sheet < ActiveRecord::Base
     created_at
   end
 
-  def contributors
-    sheet_transactions.select(&:user).collect { |st| st.user.name }.uniq.join(', ')
-  end
-
   def editable_by?(current_user)
     current_user.all_sheets.where(id: id).count == 1
   end
@@ -97,7 +92,6 @@ class Sheet < ActiveRecord::Base
       sheets.each do |sheet|
         @sheet = sheet # Needed by Binding
         file.syswrite(ERB.new(latex_partial('body')).result(binding))
-        file.syswrite(ERB.new(latex_partial('audits')).result(binding))
       end
       file.syswrite(ERB.new(latex_partial('footer')).result(binding))
     end

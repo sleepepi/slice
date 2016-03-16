@@ -1,6 +1,8 @@
 ## 0.37.0
 
 ### Enhancements
+- **Project Changes**
+  - The project setting for manually locking sheets has been removed
 - **Email Changes**
   - Removed margins in emails to display better across email clients
 

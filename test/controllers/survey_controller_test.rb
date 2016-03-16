@@ -169,15 +169,6 @@ class SurveyControllerTest < ActionController::TestCase
     assert_redirected_to about_survey_path(survey: assigns(:design).slug)
   end
 
-  test 'should not edit locked sheet survey' do
-    get :edit, slug: designs(:admin_public_design).slug,
-               sheet_authentication_token: sheets(:external_locked).authentication_token
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal 'This survey has been locked.', flash[:alert]
-    assert_redirected_to about_survey_path(survey: assigns(:design).slug)
-  end
-
   test 'should resubmit sheet survey using authentication_token' do
     patch :update, slug: designs(:admin_public_design).slug,
                    sheet_authentication_token: sheets(:external).authentication_token
