@@ -3,6 +3,16 @@
 ### Enhancements
 - **Project Changes**
   - The project setting for manually locking sheets has been removed
+  - A new project setting called "Sheet Auto-locking" has been added
+    - Sheets can be set to auto-lock:
+      - `Never`
+      - `After 24 hours`
+      - `After 1 week`
+      - `After 1 month`
+    - Sheets that have been auto-locked can be unlocked for an additional time
+      period by project editors
+    - Site editors can make a request to temporarily unlock auto-locked sheets
+    - Comments can still be made on sheets that have been locked
 - **Email Changes**
   - Removed margins in emails to display better across email clients
 

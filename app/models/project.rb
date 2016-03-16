@@ -5,6 +5,12 @@
 # users at varying degrees of control.
 class Project < ActiveRecord::Base
   PER_PAGE = 40
+  AUTO_LOCK_SHEETS = [
+    ['Never Lock Sheets', 'never'],
+    ['After 24 hours', 'after24hours'],
+    ['After 1 week', 'after1week'],
+    ['After 1 month', 'after1month']
+  ]
 
   mount_uploader :logo, ImageUploader
 
