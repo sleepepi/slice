@@ -4,6 +4,12 @@
 - **Gem Changes**
   - Updated to rails 5.0.0.beta3
 
+## 0.36.2 (March 16, 2016)
+
+### Bug Fix
+- Fixed a bug that prevented additional options from being added to domains
+  while editing designs (reported by @michellereid)
+
 ## 0.36.1 (March 14, 2016)
 
 ### Bug Fix
