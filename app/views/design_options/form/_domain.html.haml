@@ -54,4 +54,4 @@
     #options{ data: { object: "sortable" } }
       = render 'domains/options'
     .btn-toolbar
-      = link_to 'Add Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs'
+      = link_to 'Add Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs', data: { project_id: @project.to_param }
