@@ -2,7 +2,7 @@
 
 class Sheet < ActiveRecord::Base
   # Concerns
-  include Deletable, Latexable, Siteable, Evaluatable
+  include Deletable, Latexable, Siteable, Evaluatable, AutoLockable
 
   before_save :check_subject_event_subject_match
 

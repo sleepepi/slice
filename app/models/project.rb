@@ -226,6 +226,10 @@ class Project < ActiveRecord::Base
     project_user.update editor: true
   end
 
+  def auto_locking_enabled?
+    ['', 'never'].exclude?(auto_lock_sheets)
+  end
+
   private
 
   # Creates a default site if the project has no site associated with it

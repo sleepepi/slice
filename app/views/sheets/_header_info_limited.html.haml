@@ -55,3 +55,20 @@
             = link_to [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } do
               %span.glyphicon.glyphicon-trash
               Delete
+
+- if @project.auto_locking_enabled?
+  %div
+    - if @sheet.auto_locked?
+      This sheet is locked.
+      = link_to '#', data: { object: 'suppress-click' } do
+        Unlock for another
+        - case @project.auto_lock_sheets when 'after24hours'
+          24 hours.
+        - when 'after1week'
+          week.
+        - when 'after1month'
+          month.
+    - else
+      This sheet will auto-lock in
+      = succeed '.' do
+        = distance_of_time_in_words Time.zone.now, @sheet.auto_lock_at
