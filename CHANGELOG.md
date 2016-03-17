@@ -14,6 +14,9 @@
     - Site editors can make a request to temporarily unlock auto-locked sheets
     - Project editors are notified of sheet unlock requests by email
     - Comments can still be made on sheets that have been locked
+- **Subject Changes**
+  - Randomized subjects can no longer be deleted
+    - In order to delete a subject, a subject's randomizations need to be undone
 - **Email Changes**
   - Removed margins in emails to display better across email clients
 

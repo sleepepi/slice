@@ -26,6 +26,7 @@ class SubjectsController < ApplicationController
   before_action :set_design, only: [
     :new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable
   ]
+  before_action :check_for_randomizations, only: [:destroy]
 
   def data_entry
   end
@@ -275,6 +276,12 @@ class SubjectsController < ApplicationController
 
   def redirect_without_subject
     empty_response_or_root_path(project_subjects_path(@project)) unless @subject
+  end
+
+  def check_for_randomizations
+    return unless @subject.randomizations.count > 0
+    redirect_to settings_project_subject_path(@project, @subject),
+                alert: "You must undo this subject\'s randomizations in order to delete the subject."
   end
 
   def set_design

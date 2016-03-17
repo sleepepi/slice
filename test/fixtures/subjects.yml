@@ -35,6 +35,13 @@ four:
   site: three
   status: valid
 
+unrandomized:
+  project: one
+  subject_code: unrandomized
+  user: valid
+  site: site_on_project_two
+  status: valid
+
 randomized:
   project: two
   subject_code: alreadyRandomized01

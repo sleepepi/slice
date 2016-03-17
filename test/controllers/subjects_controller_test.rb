@@ -608,15 +608,12 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_subjects_path
   end
 
-  test 'should destroy subject' do
+  test 'should destroy unrandomized subject' do
+    login(users(:valid))
     assert_difference('Subject.current.count', -1) do
-      delete :destroy, project_id: @project, id: @subject
+      delete :destroy, project_id: projects(:one), id: subjects(:unrandomized)
     end
-
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:project)
-
-    assert_redirected_to project_subjects_path
+    assert_redirected_to project_subjects_path(projects(:one))
   end
 
   test 'should not destroy subject with invalid project' do
@@ -628,5 +625,13 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:subject)
 
     assert_redirected_to root_path
+  end
+
+  test 'should not destroy randomized subject' do
+    login(users(:valid))
+    assert_difference('Subject.current.count', 0) do
+      delete :destroy, project_id: projects(:two), id: subjects(:randomized)
+    end
+    assert_redirected_to settings_project_subject_path(projects(:two), subjects(:randomized))
   end
 end
