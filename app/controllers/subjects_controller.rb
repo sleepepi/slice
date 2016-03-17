@@ -40,20 +40,13 @@ class SubjectsController < ApplicationController
     render 'sheets/new'
   end
 
+  # POST /subjects/1/data-missing/:design_id/:subject_event_id.js
   def set_sheet_as_missing
     @sheet = @subject.sheets.new(
       project_id: @project.id, design_id: @design.id,
       subject_event_id: params[:subject_event_id], missing: true
     )
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
-    redirect_to(
-      event_project_subject_path(
-        @project, @subject,
-        event_id: @sheet.subject_event.event,
-        subject_event_id: @sheet.subject_event.id,
-        event_date: @sheet.subject_event.event_date_to_param
-      )
-    )
   end
 
   # GET /subjects/1/send-url

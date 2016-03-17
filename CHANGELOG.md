@@ -17,6 +17,9 @@
 - **Subject Changes**
   - Randomized subjects can no longer be deleted
     - In order to delete a subject, a subject's randomizations need to be undone
+- **Subject Event Changes**
+  - Setting a sheet as missing will now stay on the page the user was on instead
+    of redirecting
 - **Email Changes**
   - Removed margins in emails to display better across email clients
 
