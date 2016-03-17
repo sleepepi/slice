@@ -46,7 +46,7 @@
           %span.text-muted
             %span.glyphicon.glyphicon-lock
             Sheet Locked
-          - if @project.editable_by?(current_user) && false
+          - if @project.editable_by?(current_user)
             = link_to unlock_project_sheet_path(@project, @sheet), method: :post, class: 'btn btn-xs btn-primary' do
               Unlock For
               - case @project.auto_lock_sheets when 'after24hours'
