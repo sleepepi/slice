@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   has_many :project_favorites
   has_many :randomization_schemes, -> { where deleted: false }
   has_many :sections
+  has_many :sheet_unlock_requests, -> { current.joins(:sheet).merge(Sheet.current) }
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
   has_many :sites, -> { where deleted: false }
   has_many :subjects, -> { where deleted: false }

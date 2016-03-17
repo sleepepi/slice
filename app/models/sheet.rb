@@ -2,7 +2,7 @@
 
 class Sheet < ActiveRecord::Base
   # Concerns
-  include Deletable, Latexable, Siteable, Evaluatable, AutoLockable, Forkable
+  include Deletable, Latexable, Siteable, Evaluatable, AutoLockable
 
   before_save :check_subject_event_subject_match
 
@@ -58,6 +58,7 @@ class Sheet < ActiveRecord::Base
   has_many :comments, -> { where(deleted: false).order(created_at: :desc) }
   has_many :sheet_transactions, -> { order(id: :desc) }
   has_many :sheet_transaction_audits
+  has_many :sheet_unlock_requests, -> { current.order(created_at: :desc) }
 
   # Model Methods
   delegate :description, to: :design
@@ -463,17 +464,6 @@ class Sheet < ActiveRecord::Base
     update authentication_token: SecureRandom.hex(12)
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
     retry
-  end
-
-  def send_unlock_request_emails_in_background(current_user)
-    fork_process(:send_unlock_request_emails, current_user)
-  end
-
-  def send_unlock_request_emails(current_user)
-    return unless EMAILS_ENABLED
-    project_editors.each do |editor|
-      UserMailer.sheet_unlock_request(self, editor, current_user).deliver_later
-    end
   end
 
   protected

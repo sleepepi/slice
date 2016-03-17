@@ -37,14 +37,13 @@ class UserMailer < ApplicationMailer
          subject: "#{sheet.subject.subject_code} Submitted #{sheet.design.name}")
   end
 
-  def sheet_unlock_request(sheet, editor, requestor)
+  def sheet_unlock_request(sheet_unlock_request, editor)
     setup_email
-    @sheet = sheet
+    @sheet_unlock_request = sheet_unlock_request
     @editor = editor
-    @requestor = requestor
     @email_to = editor.email
     mail(to: "#{editor.name} <#{editor.email}>",
-         subject: "#{requestor.name} Requests To Unlock a Sheet on Project #{sheet.project.name}")
+         subject: "#{sheet_unlock_request.user.name} Requests To Unlock a Sheet on Project #{sheet_unlock_request.sheet.project.name}")
   end
 
   def survey_user_link(sheet)

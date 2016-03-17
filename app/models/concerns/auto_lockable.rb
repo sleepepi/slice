@@ -37,4 +37,10 @@ module AutoLockable
     )
     # TODO: Create notification to user who made the unlock request.
   end
+
+  def recent_unlock_requested?(current_user)
+    sheet_unlock_requests.where(user_id: current_user.id)
+                         .where('created_at > ?', base_lock_time)
+                         .count > 0
+  end
 end

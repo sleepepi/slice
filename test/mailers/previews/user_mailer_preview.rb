@@ -23,10 +23,9 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def sheet_unlock_request
-    sheet = Sheet.current.first
+    sheet_unlock_request = SheetUnlockRequest.current.first
     editor = User.first
-    requestor = User.second
-    UserMailer.sheet_unlock_request(sheet, editor, requestor)
+    UserMailer.sheet_unlock_request(sheet_unlock_request, editor)
   end
 
   def survey_user_link

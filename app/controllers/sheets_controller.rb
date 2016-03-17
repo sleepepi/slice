@@ -8,13 +8,13 @@ class SheetsController < ApplicationController
   before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions,
-    :new, :create, :update, :destroy, :unlock_request
+    :new, :create, :update, :destroy
   ]
   before_action :find_subject_or_redirect, only: [:create]
   before_action :find_viewable_sheet_or_redirect, only: [:show, :file]
   before_action :find_editable_sheet_or_redirect, only: [
     :edit, :transfer, :move_to_event, :update, :destroy,
-    :remove_shareable_link, :transactions, :unlock, :unlock_request
+    :remove_shareable_link, :transactions, :unlock
   ]
   before_action :redirect_with_auto_locked_sheet, only: [
     :edit, :transfer, :move_to_event, :update, :destroy
@@ -111,12 +111,6 @@ class SheetsController < ApplicationController
     else
       render :edit
     end
-  end
-
-  # POST /sheets/1/unlock_request
-  def unlock_request
-    @sheet.send_unlock_request_emails_in_background(current_user)
-    redirect_to [@project, @sheet], notice: 'Sheet unlock request submitted.'
   end
 
   # POST /sheets/1/unlock

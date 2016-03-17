@@ -584,15 +584,10 @@ class SheetsControllerTest < ActionController::TestCase
   test 'should not update auto-locked sheet' do
     login(users(:valid))
     assert_difference('SheetVariable.count', 0) do
-      patch :update, project_id: projects(:auto_lock), id: sheets(:auto_lock), variables: { variables(:string_on_auto_lock).id.to_s => 'Updated string' }
+      patch :update, project_id: projects(:auto_lock), id: sheets(:auto_lock),
+                     variables: { variables(:string_on_auto_lock).id.to_s => 'Updated string' }
     end
     assert_equal 'This sheet is locked.', flash[:notice]
-    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
-  end
-
-  test 'should create sheet unlock request as site editor' do
-    login(users(:auto_lock_site_one_editor))
-    post :unlock_request, project_id: projects(:auto_lock), id: sheets(:auto_lock)
     assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
