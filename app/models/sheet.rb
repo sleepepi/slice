@@ -2,7 +2,7 @@
 
 class Sheet < ActiveRecord::Base
   # Concerns
-  include Deletable, Latexable, Siteable, Evaluatable, AutoLockable
+  include Deletable, Latexable, Siteable, Evaluatable, AutoLockable, Forkable
 
   before_save :check_subject_event_subject_match
 
@@ -450,11 +450,30 @@ class Sheet < ActiveRecord::Base
     end
   end
 
+  def project_editors
+    if design.only_unblinded
+      project.unblinded_project_editors
+    else
+      project.project_editors
+    end
+  end
+
   def set_token
     return if authentication_token.present?
     update authentication_token: SecureRandom.hex(12)
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
     retry
+  end
+
+  def send_unlock_request_emails_in_background(current_user)
+    fork_process(:send_unlock_request_emails, current_user)
+  end
+
+  def send_unlock_request_emails(current_user)
+    return unless EMAILS_ENABLED
+    project_editors.each do |editor|
+      UserMailer.sheet_unlock_request(self, editor, current_user).deliver_later
+    end
   end
 
   protected

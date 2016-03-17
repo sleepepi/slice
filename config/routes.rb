@@ -116,6 +116,8 @@ Rails.application.routes.draw do
         patch :transfer
         patch :move_to_event
         post :remove_shareable_link
+        post :unlock
+        post :unlock_request
       end
     end
 

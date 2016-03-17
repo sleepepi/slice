@@ -1,4 +1,4 @@
-- if @sheet.authentication_token.present?
+- if @sheet.authentication_token.present? && !@sheet.auto_locked?
   %strong Share via this Link
   %code= "#{ENV['website_url']}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}"
 
@@ -42,33 +42,32 @@
             by
             = @sheet.last_user.name
       %td
-        - if @sheet.editable_by?(current_user)
-          = succeed ' ' do
-            = link_to edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' do
-              %span.glyphicon.glyphicon-edit
-              Edit
-          = succeed ' ' do
-            = link_to transfer_project_sheet_path(@project, @sheet), class: 'btn btn-default btn-xs' do
-              %span.glyphicon.glyphicon-transfer
-              Transfer
-          = succeed ' ' do
-            = link_to [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } do
-              %span.glyphicon.glyphicon-trash
-              Delete
-
-- if @project.auto_locking_enabled?
-  %div
-    - if @sheet.auto_locked?
-      This sheet is locked.
-      = link_to '#', data: { object: 'suppress-click' } do
-        Unlock for another
-        - case @project.auto_lock_sheets when 'after24hours'
-          24 hours.
-        - when 'after1week'
-          week.
-        - when 'after1month'
-          month.
-    - else
-      This sheet will auto-lock in
-      = succeed '.' do
-        = distance_of_time_in_words Time.zone.now, @sheet.auto_lock_at
+        - if @sheet.auto_locked?
+          %span.text-muted
+            %span.glyphicon.glyphicon-lock
+            Sheet Locked
+          - if @project.editable_by?(current_user) && false
+            = link_to unlock_project_sheet_path(@project, @sheet), method: :post, class: 'btn btn-xs btn-primary' do
+              Unlock For
+              - case @project.auto_lock_sheets when 'after24hours'
+                24 Hours
+              - when 'after1week'
+                1 Week
+              - when 'after1month'
+                1 Month
+          - elsif @sheet.editable_by?(current_user)
+            = link_to 'Request Unlock', unlock_request_project_sheet_path(@project, @sheet), method: :post, class: 'btn btn-xs btn-primary'
+        - else
+          - if @sheet.editable_by?(current_user)
+            = succeed ' ' do
+              = link_to edit_project_sheet_path(@sheet.project, @sheet), class: 'btn btn-default btn-xs' do
+                %span.glyphicon.glyphicon-edit
+                Edit
+            = succeed ' ' do
+              = link_to transfer_project_sheet_path(@project, @sheet), class: 'btn btn-default btn-xs' do
+                %span.glyphicon.glyphicon-transfer
+                Transfer
+            = succeed ' ' do
+              = link_to [@sheet.project, @sheet], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sheet #{@sheet.name}?" } do
+                %span.glyphicon.glyphicon-trash
+                Delete

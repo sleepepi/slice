@@ -464,6 +464,12 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test 'should not get edit for auto-locked sheet' do
+    login(users(:valid))
+    get :edit, project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
+  end
+
   test 'should update sheet' do
     assert_difference('SheetTransaction.count') do
       patch :update, id: @sheet, project_id: @project,
@@ -572,6 +578,39 @@ class SheetsControllerTest < ActionController::TestCase
     patch :update, id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types) }, variables: {}
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
+    assert_redirected_to root_path
+  end
+
+  test 'should not update auto-locked sheet' do
+    login(users(:valid))
+    assert_difference('SheetVariable.count', 0) do
+      patch :update, project_id: projects(:auto_lock), id: sheets(:auto_lock), variables: { variables(:string_on_auto_lock).id.to_s => 'Updated string' }
+    end
+    assert_equal 'This sheet is locked.', flash[:notice]
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
+  end
+
+  test 'should create sheet unlock request as site editor' do
+    login(users(:auto_lock_site_one_editor))
+    post :unlock_request, project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
+  end
+
+  test 'should unlock sheet as project editor' do
+    login(users(:valid))
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    post :unlock, project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    sheets(:auto_lock).reload
+    assert_equal false, sheets(:auto_lock).auto_locked?
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
+  end
+
+  test 'should not unlock sheet as site editor' do
+    login(users(:auto_lock_site_one_editor))
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    post :unlock, project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    sheets(:auto_lock).reload
+    assert_equal true, sheets(:auto_lock).auto_locked?
     assert_redirected_to root_path
   end
 
@@ -700,5 +739,14 @@ class SheetsControllerTest < ActionController::TestCase
     assert_nil assigns(:sheet)
 
     assert_redirected_to root_path
+  end
+
+  test 'should not destroy auto-locked sheet' do
+    login(users(:valid))
+    assert_difference('Sheet.current.count', 0) do
+      delete :destroy, project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    end
+    assert_equal 'This sheet is locked.', flash[:notice]
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 end

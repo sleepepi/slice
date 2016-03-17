@@ -520,3 +520,14 @@ randomize:
   position: 0
   # required:
   # branching_logic:
+
+## Design on Auto-lock Project
+
+string_on_auto_lock_design_0:
+  design: auto_lock
+  variable: string_on_auto_lock
+  # section:
+  position: 0
+  # required:
+  # branching_logic:
+

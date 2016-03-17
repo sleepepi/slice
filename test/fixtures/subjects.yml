@@ -138,3 +138,9 @@ edge10:
   subject_code: edge10
   user: valid
   site: two
+
+auto_lock_site_one_subject_one:
+  project: auto_lock
+  subject_code: auto_lock_01
+  user: valid
+  site: auto_lock_site_one

@@ -12,6 +12,7 @@
     - Sheets that have been auto-locked can be unlocked for an additional time
       period by project editors
     - Site editors can make a request to temporarily unlock auto-locked sheets
+    - Project editors are notified of sheet unlock requests by email
     - Comments can still be made on sheets that have been locked
 - **Email Changes**
   - Removed margins in emails to display better across email clients

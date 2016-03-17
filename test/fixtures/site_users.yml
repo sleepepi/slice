@@ -59,3 +59,12 @@ project_two_site_editor:
   invite_token: ggff
   invite_email: site_two_editor@example.com
   editor: true
+
+auto_lock_site_one_editor:
+  project: auto_lock
+  site: auto_lock_site_one
+  creator: valid
+  user: auto_lock_site_one_editor
+  invite_token: auto_lock_site_one_editor
+  invite_email: auto_lock_site_one_editor@example.com
+  editor: true

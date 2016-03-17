@@ -27,8 +27,14 @@ module AutoLockable
     unlocked_at || created_at
   end
 
-  def reset_auto_lock!
-    update unlocked_at: Time.zone.now
+  def reset_auto_lock!(current_user, request)
+    SheetTransaction.save_sheet!(
+      self, {
+        unlocked_at: Time.zone.now,
+        last_user_id: current_user.id,
+        last_edited_at: Time.zone.now
+      }, {}, current_user, request.remote_ip, 'sheet_update'
+    )
     # TODO: Create notification to user who made the unlock request.
   end
 end

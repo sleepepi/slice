@@ -5,15 +5,19 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [:index, :show, :file]
+  before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions,
-    :new, :create, :update, :destroy, :unlock
+    :new, :create, :update, :destroy, :unlock_request
   ]
   before_action :find_subject_or_redirect, only: [:create]
   before_action :find_viewable_sheet_or_redirect, only: [:show, :file]
   before_action :find_editable_sheet_or_redirect, only: [
     :edit, :transfer, :move_to_event, :update, :destroy,
-    :remove_shareable_link, :transactions, :unlock
+    :remove_shareable_link, :transactions, :unlock, :unlock_request
+  ]
+  before_action :redirect_with_auto_locked_sheet, only: [
+    :edit, :transfer, :move_to_event, :update, :destroy
   ]
 
   # GET /sheets
@@ -109,6 +113,18 @@ class SheetsController < ApplicationController
     end
   end
 
+  # POST /sheets/1/unlock_request
+  def unlock_request
+    @sheet.send_unlock_request_emails_in_background(current_user)
+    redirect_to [@project, @sheet], notice: 'Sheet unlock request submitted.'
+  end
+
+  # POST /sheets/1/unlock
+  def unlock
+    @sheet.reset_auto_lock!(current_user, request)
+    redirect_to [@project, @sheet], notice: 'Sheet was successfully unlocked.'
+  end
+
   # GET /sheets/1/transfer
   # PUT /sheets/1/transfer?subject_id=1
   def transfer
@@ -175,6 +191,10 @@ class SheetsController < ApplicationController
 
   def redirect_without_sheet
     empty_response_or_root_path(project_sheets_path(@project)) unless @sheet
+  end
+
+  def redirect_with_auto_locked_sheet
+    redirect_to [@sheet.project, @sheet], notice: 'This sheet is locked.' if @sheet.auto_locked?
   end
 
   def sheet_params

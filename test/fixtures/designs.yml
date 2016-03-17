@@ -147,3 +147,10 @@ randomize:
   name: Eligible for Randomization
   user: valid
   project: two
+
+auto_lock:
+  name: On project that auto-locks sheets
+  user: valid
+  project: auto_lock
+  slug: auto-lock
+  publicly_available: true

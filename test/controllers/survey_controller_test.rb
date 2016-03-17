@@ -169,6 +169,15 @@ class SurveyControllerTest < ActionController::TestCase
     assert_redirected_to about_survey_path(survey: assigns(:design).slug)
   end
 
+  test 'should not edit auto-locked sheet survey' do
+    get :edit, slug: designs(:auto_lock).slug,
+               sheet_authentication_token: sheets(:auto_lock).authentication_token
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_equal 'This survey has been locked.', flash[:alert]
+    assert_redirected_to about_survey_path(survey: assigns(:design).slug)
+  end
+
   test 'should resubmit sheet survey using authentication_token' do
     patch :update, slug: designs(:admin_public_design).slug,
                    sheet_authentication_token: sheets(:external).authentication_token
@@ -194,6 +203,15 @@ class SurveyControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_equal 'This survey no longer exists.', flash[:alert]
+    assert_redirected_to about_survey_path(survey: assigns(:design).slug)
+  end
+
+  test 'should not resubmit auto-locked sheet survey' do
+    patch :update, slug: designs(:auto_lock).slug,
+                   sheet_authentication_token: sheets(:auto_lock).authentication_token
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_equal 'This survey has been locked.', flash[:alert]
     assert_redirected_to about_survey_path(survey: assigns(:design).slug)
   end
 end

@@ -48,3 +48,9 @@ named_project:
   name: Has a Slug
   slug: has-a-slug
   user: valid
+
+auto_lock:
+  name: Auto-lock sheets
+  slug: auto-lock-sheets
+  user: valid
+  auto_lock_sheets: after24hours
