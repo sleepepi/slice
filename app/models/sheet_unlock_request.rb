@@ -4,7 +4,7 @@
 # unlock request also requires the reason behind the request.
 class SheetUnlockRequest < ActiveRecord::Base
   # Triggers
-  after_commit :send_unlock_request_emails_in_background, on: :create
+  after_commit :send_unlock_request_emails_in_background, :create_notifications, on: :create
 
   # Concerns
   include Deletable, Forkable
@@ -17,14 +17,27 @@ class SheetUnlockRequest < ActiveRecord::Base
   belongs_to :sheet
 
   # Model Methods
+  delegate :project_editors, to: :sheet
+
   def send_unlock_request_emails_in_background
     fork_process(:send_unlock_request_emails)
   end
 
   def send_unlock_request_emails
     return unless EMAILS_ENABLED
-    sheet.project_editors.each do |editor|
+    project_editors.each do |editor|
       UserMailer.sheet_unlock_request(self, editor).deliver_later
     end
+  end
+
+  private
+
+  def create_notifications
+    project_editors.each do |u|
+      u.notifications.create(
+        project_id: sheet.project_id, sheet_unlock_request_id: id
+      )
+    end
+    true
   end
 end

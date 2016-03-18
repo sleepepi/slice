@@ -12,8 +12,12 @@
     - Sheets that have been auto-locked can be unlocked for an additional time
       period by project editors
     - Site editors can make a request to temporarily unlock auto-locked sheets
-    - Project editors are notified of sheet unlock requests by email
+    - Project editors are notified of sheet unlock requests by email and by
+      in-app notifications
+    - Project editors can view recent sheet unlock requests for a locked sheet
     - Comments can still be made on sheets that have been locked
+    - When a sheet is unlocked, recent site editors who requested an unlock
+      receive an email notification that the sheet can be edited
 - **Subject Changes**
   - Randomized subjects can no longer be deleted
     - In order to delete a subject, a subject's randomizations need to be undone

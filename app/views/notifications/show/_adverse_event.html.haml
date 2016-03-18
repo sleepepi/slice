@@ -1,0 +1,12 @@
+%td
+  %span.glyphicon.glyphicon-warning-sign{ class: "#{notification.read? ? 'text-muted' : 'text-danger'}" }
+
+%td.nowrap{ class: "#{'text-muted' if notification.read?}" }
+  .overflow-hidden
+    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+      = notification.adverse_event.name
+      for
+      = notification.adverse_event.subject.name
+      has been updated.
+
+%td.hidden-xs

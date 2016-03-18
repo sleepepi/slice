@@ -28,6 +28,12 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.sheet_unlock_request(sheet_unlock_request, editor)
   end
 
+  def sheet_unlocked
+    sheet_unlock_request = SheetUnlockRequest.current.first
+    project_editor = User.first
+    UserMailer.sheet_unlocked(sheet_unlock_request, project_editor)
+  end
+
   def survey_user_link
     sheet = Sheet.current.where.not(authentication_token: nil).first
     UserMailer.survey_user_link(sheet)

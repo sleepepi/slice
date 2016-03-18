@@ -3,17 +3,21 @@
     %span.glyphicon.glyphicon-lock
     Sheet Locked
   - if project.editable_by?(current_user)
-    = link_to unlock_project_sheet_path(project, sheet), method: :post, class: 'btn btn-xs btn-primary' do
-      Unlock For
-      - case project.auto_lock_sheets when 'after24hours'
-        24 Hours
-      - when 'after1week'
-        1 Week
-      - when 'after1month'
-        1 Month
+    = succeed ' ' do
+      = link_to unlock_project_sheet_path(project, sheet), method: :post, class: 'btn btn-xs btn-primary' do
+        Unlock For
+        - case project.auto_lock_sheets when 'after24hours'
+          24 Hours
+        - when 'after1week'
+          1 Week
+        - when 'after1month'
+          1 Month
+    - if sheet.recent_unlock_requests.count > 0
+      = succeed ' ' do
+        = link_to 'View Requests', '#', data: { object: 'toggle-visibility', target: "#sheet_unlock_requests" }, class: 'btn btn-xs btn-default'
   - elsif sheet.editable_by?(current_user)
-    - if @sheet.recent_unlock_requested?(current_user)
-      %span.text-muted Unlock Requested
+    - if sheet.recent_unlock_requested?(current_user)
+      %span.label.label-default Unlock Requested
     - else
       = link_to 'Request Unlock', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_request' }, class: 'btn btn-xs btn-default'
 - else

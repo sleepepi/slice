@@ -59,6 +59,16 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sheet_unlock_request.user.name} has requested that the following sheet be unlocked on project #{sheet_unlock_request.sheet.project.name}\. You can review the request here:/, email.encoded)
   end
 
+  test 'sheet unlocked email' do
+    sheet_unlock_request = sheet_unlock_requests(:one)
+    project_editor = users(:valid)
+    email = UserMailer.sheet_unlocked(sheet_unlock_request, project_editor).deliver_now
+    assert !ActionMailer::Base.deliveries.empty?
+    assert_equal [sheet_unlock_request.user.email], email.to
+    assert_equal "#{project_editor.name} Unlocked a Sheet on Project #{sheet_unlock_request.sheet.project.name}", email.subject
+    assert_match(/#{project_editor.name} has unlocked a sheet for 24 hours on project #{sheet_unlock_request.sheet.project.name}\. You can now edit the sheet here:/, email.encoded)
+  end
+
   test 'survey user link' do
     sheet = sheets(:external_with_email)
 

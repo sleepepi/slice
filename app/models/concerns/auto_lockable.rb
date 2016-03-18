@@ -28,6 +28,7 @@ module AutoLockable
   end
 
   def reset_auto_lock!(current_user, request)
+    requests_granted = recent_unlock_requests
     SheetTransaction.save_sheet!(
       self, {
         unlocked_at: Time.zone.now,
@@ -35,12 +36,25 @@ module AutoLockable
         last_edited_at: Time.zone.now
       }, {}, current_user, request.remote_ip, 'sheet_update'
     )
-    # TODO: Create notification to user who made the unlock request.
+    notify_user_of_sheet_unlock_in_background!(requests_granted, current_user)
+  end
+
+  def recent_unlock_requests
+    sheet_unlock_requests.where('created_at > ?', base_lock_time)
   end
 
   def recent_unlock_requested?(current_user)
-    sheet_unlock_requests.where(user_id: current_user.id)
-                         .where('created_at > ?', base_lock_time)
-                         .count > 0
+    recent_unlock_requests.where(user_id: current_user.id).count > 0
+  end
+
+  def notify_user_of_sheet_unlock_in_background!(requests_granted, project_editor)
+    fork_process(:notify_user_of_sheet_unlock, requests_granted, project_editor)
+  end
+
+  def notify_user_of_sheet_unlock(requests_granted, project_editor)
+    return unless EMAILS_ENABLED
+    requests_granted.each do |sheet_unlock_request|
+      UserMailer.sheet_unlocked(sheet_unlock_request, project_editor).deliver_later
+    end
   end
 end
