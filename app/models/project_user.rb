@@ -11,7 +11,7 @@ class ProjectUser < ApplicationRecord
   belongs_to :user
   belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
 
-  after_update :notify_user
+  after_update_commit :notify_user
 
   def generate_invite_token!(new_invite_token = generate_token)
     save_invite_token new_invite_token
