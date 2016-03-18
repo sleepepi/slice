@@ -1,0 +1,32 @@
+- if sheet.auto_locked? && !project.editable_by?(current_user) && sheet.editable_by?(current_user)
+  - if sheet.recent_unlock_requested?(current_user)
+    #sheet_unlock_requested{ style: 'display:none' }
+      .jumbotron
+        %h3.title My Unlock Request
+        - sheet.recent_unlock_requests.where(user_id: current_user.id).each do |sheet_unlock_request|
+          %blockquote
+            = simple_markdown sheet_unlock_request.reason
+            %p{ style: 'font-style:italic' }
+              = sheet_unlock_request.user.name
+              at
+              = sheet_unlock_request.created_at.strftime('%-d %b %Y, %-l:%M %p')
+            = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-danger-inverse'
+            = link_to 'Close', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requested' }, class: 'btn btn-default'
+  - else
+    #sheet_unlock_request{ style: 'display:none' }
+      = render 'sheet_unlock_requests/form', sheet_unlock_request: sheet.sheet_unlock_requests.new
+
+
+- if sheet.auto_locked? && project.editable_by?(current_user) && sheet.recent_unlock_requests.count > 0
+  #sheet_unlock_requests{ style: 'display:none' }
+    .jumbotron
+      %h3.title Unlock Requests
+      - sheet.recent_unlock_requests.each do |sheet_unlock_request|
+        %blockquote
+          = simple_markdown sheet_unlock_request.reason
+          %p{ style: 'font-style:italic' }
+            = sheet_unlock_request.user.name
+            at
+            = sheet_unlock_request.created_at.strftime('%-d %b %Y, %-l:%M %p')
+          = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-danger-inverse'
+          = link_to 'Close', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requests' }, class: 'btn btn-default'

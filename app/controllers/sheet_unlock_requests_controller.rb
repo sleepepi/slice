@@ -23,7 +23,7 @@ class SheetUnlockRequestsController < ApplicationController
   # DELETE /unlock/requests/1
   def destroy
     @sheet_unlock_request.destroy
-    redirect_to [@project, @sheet], notice: 'Sheet unlock request was successfully destroyed.'
+    redirect_to [@project, @sheet], notice: 'Sheet unlock request was successfully deleted.'
   end
 
   private
@@ -38,7 +38,13 @@ class SheetUnlockRequestsController < ApplicationController
   end
 
   def find_sheet_unlock_request_or_redirect
-    @sheet_unlock_request = @sheet.sheet_unlock_requests.find_by_id params[:id]
+    @sheet_unlock_request = if @project.editable_by?(current_user)
+                              @sheet.sheet_unlock_requests.find_by_id params[:id]
+                            else
+                              @sheet.sheet_unlock_requests
+                                    .where(user_id: current_user.id)
+                                    .find_by_id params[:id]
+                            end
     empty_response_or_root_path([@project, @sheet]) unless @sheet_unlock_request
   end
 

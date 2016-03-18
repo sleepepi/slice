@@ -18,6 +18,8 @@
     - Comments can still be made on sheets that have been locked
     - When a sheet is unlocked, recent site editors who requested an unlock
       receive an email notification that the sheet can be edited
+    - Project editors can delete unlock requests, and site editors can delete
+      unlock requests they have made themselves
 - **Subject Changes**
   - Randomized subjects can no longer be deleted
     - In order to delete a subject, a subject's randomizations need to be undone

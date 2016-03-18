@@ -15,6 +15,7 @@ class SheetUnlockRequest < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :sheet
+  has_many :notifications
 
   # Model Methods
   delegate :project_editors, to: :sheet
@@ -28,6 +29,11 @@ class SheetUnlockRequest < ActiveRecord::Base
     project_editors.each do |editor|
       UserMailer.sheet_unlock_request(self, editor).deliver_later
     end
+  end
+
+  def destroy
+    super
+    notifications.destroy_all
   end
 
   private

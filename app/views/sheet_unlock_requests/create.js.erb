@@ -1,4 +1,2 @@
-$("#sheet_unlock_request").remove();
+$("#sheet_unlocks_container").html("<%=j render 'sheet_unlock_requests/index', project: @project, sheet: @sheet %>");
 $("#sheet_actions").html("<%=j render 'sheets/actions', project: @project, sheet: @sheet %>");
-// TODO: Better alert box.
-// alert('Submitted Successfully');

@@ -17,7 +17,7 @@
         = link_to 'View Requests', '#', data: { object: 'toggle-visibility', target: "#sheet_unlock_requests" }, class: 'btn btn-xs btn-default'
   - elsif sheet.editable_by?(current_user)
     - if sheet.recent_unlock_requested?(current_user)
-      %span.label.label-default Unlock Requested
+      = link_to 'Unlock Requested', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requested' }, class: 'btn btn-xs btn-success'
     - else
       = link_to 'Request Unlock', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_request' }, class: 'btn btn-xs btn-default'
 - else

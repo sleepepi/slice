@@ -34,13 +34,21 @@ class SheetUnlockRequestsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should destroy sheet unlock request' do
+  test 'should destroy sheet unlock request as site editor' do
     login(@site_editor)
     assert_difference('SheetUnlockRequest.current.count', -1) do
       delete :destroy, project_id: @project, sheet_id: @locked_sheet,
                        id: @sheet_unlock_request
     end
+    assert_redirected_to [@project, @locked_sheet]
+  end
 
+  test 'should destroy sheet unlock request as project editor' do
+    login(@project_editor)
+    assert_difference('SheetUnlockRequest.current.count', -1) do
+      delete :destroy, project_id: @project, sheet_id: @locked_sheet,
+                       id: @sheet_unlock_request
+    end
     assert_redirected_to [@project, @locked_sheet]
   end
 end
