@@ -14,7 +14,7 @@ class SiteUser < ApplicationRecord
   belongs_to :user
   belongs_to :site
 
-  after_create :send_invitation
+  after_create_commit :send_invitation
 
   def send_invitation
     generate_invite_token!

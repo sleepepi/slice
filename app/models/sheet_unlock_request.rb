@@ -4,7 +4,7 @@
 # unlock request also requires the reason behind the request.
 class SheetUnlockRequest < ActiveRecord::Base
   # Triggers
-  after_commit :send_unlock_request_emails_in_background, :create_notifications, on: :create
+  after_create_commit :send_unlock_request_emails_in_background, :create_notifications
 
   # Concerns
   include Deletable, Forkable

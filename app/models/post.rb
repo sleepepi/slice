@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
-  after_create :send_email
+  after_create_commit :send_email
 
   # Concerns
   include Searchable, Deletable

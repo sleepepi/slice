@@ -5,7 +5,7 @@ class Comment < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 
-  after_create :create_notifications
+  after_create_commit :create_notifications
 
   # Model Validation
   validates :description, :sheet_id, :user_id, presence: true

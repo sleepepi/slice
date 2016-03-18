@@ -3,7 +3,7 @@
 # Handles authentication for filling out a series of designs on an event
 class Handoff < ApplicationRecord
   # Callbacks
-  after_create :set_token
+  after_create_commit :set_token
 
   # Model Validation
   validates :user_id, :project_id, :subject_event_id, presence: true
