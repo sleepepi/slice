@@ -70,6 +70,3 @@ $(document)
     else
       Turbolinks.visit($(this).data("link"))
   )
-  .on('change', '#locked', () ->
-    $('#sheets_search').submit()
-  )

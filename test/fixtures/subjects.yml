@@ -35,6 +35,13 @@ four:
   site: three
   status: valid
 
+unrandomized:
+  project: one
+  subject_code: unrandomized
+  user: valid
+  site: site_on_project_two
+  status: valid
+
 randomized:
   project: two
   subject_code: alreadyRandomized01
@@ -138,3 +145,9 @@ edge10:
   subject_code: edge10
   user: valid
   site: two
+
+auto_lock_site_one_subject_one:
+  project: auto_lock
+  subject_code: auto_lock_01
+  user: valid
+  site: auto_lock_site_one

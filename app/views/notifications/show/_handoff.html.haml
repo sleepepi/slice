@@ -1,0 +1,12 @@
+%td
+  %span.glyphicon.glyphicon-ok-circle{ class: "#{notification.read? ? 'text-muted' : 'text-success'}" }
+
+%td.nowrap{ class: "#{'text-muted' if notification.read?}" }
+  .overflow-hidden
+    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+      = notification.handoff.subject_event.name
+      completed by
+      = succeed '.' do
+        = notification.handoff.subject_event.subject.name
+
+%td.hidden-xs

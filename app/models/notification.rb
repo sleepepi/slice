@@ -12,6 +12,7 @@ class Notification < ApplicationRecord
   belongs_to :adverse_event
   belongs_to :comment
   belongs_to :handoff
+  belongs_to :sheet_unlock_request
 
   # Notification Methods
 

@@ -16,13 +16,6 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheets)
   end
 
-  test 'should get index and filter by locked sheets' do
-    get :index, params: { project_id: @project, locked: '1' }
-    assert_not_nil assigns(:sheets)
-    assert_equal 1, assigns(:sheets).count
-    assert_response :success
-  end
-
   test 'should get index with invalid project' do
     get :index, params: { project_id: -1 }
     assert_nil assigns(:sheets)
@@ -284,41 +277,6 @@ d est laborum.',
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test 'should create sheet and lock sheet' do
-    assert_difference('Sheet.count') do
-      post :create, params: {
-        project_id: @project,
-        subject_id: @sheet.subject,
-        sheet: { design_id: designs(:all_variable_types).id, locked: '1' },
-        variables: {
-          variables(:dropdown).id.to_s => 'm',
-          variables(:checkbox).id.to_s => %w(acct101 econ101),
-          variables(:radio).id.to_s => '2',
-          variables(:string).id.to_s => 'This is a string',
-          variables(:text).id.to_s => 'Lorem ipsum dolor sit amet, consectetur \
-adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al\
-iqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi u\
-t aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in vo\
-luptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occae\
-cat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id e\
-st laborum.',
-          variables(:integer).id.to_s => 30,
-          variables(:numeric).id.to_s => 180.5,
-          variables(:date).id.to_s => { month: '05', day: '28', year: '2012' },
-          variables(:file).id.to_s => { response_file: '' },
-          variables(:time).id.to_s => { hour: '14', minutes: '30', seconds: '00' },
-          variables(:calculated).id.to_s => '1234'
-        }
-      }
-    end
-    assert_not_nil assigns(:sheet)
-    assert_equal 11, assigns(:sheet).variables.size
-    assert_equal true, assigns(:sheet).locked
-    assert_not_nil assigns(:sheet).first_locked_at
-    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
   # TODO, rewrite these for subject_events
   # test 'should create sheet with subject schedule and event' do
   #   assert_difference('Sheet.count') do
@@ -574,10 +532,13 @@ st laborum.',
     assert_redirected_to root_path
   end
 
-  test 'should not get edit for locked sheet' do
-    get :edit, params: { id: sheets(:locked), project_id: @project }
+  test 'should not get edit for auto-locked sheet' do
+    login(users(:valid))
+    get :edit, params: {
+      project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    }
 
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
   test 'should update sheet' do
@@ -705,22 +666,40 @@ st laborum.',
     assert_redirected_to root_path
   end
 
-  test 'should update and lock sheet' do
-    patch :update, params: { id: @sheet, project_id: @project, sheet: { design_id: designs(:all_variable_types).id, locked: '1' }, variables: {} }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal true, assigns(:sheet).locked
-    assert_not_nil assigns(:sheet).first_locked_at
-    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  test 'should not update auto-locked sheet' do
+    login(users(:valid))
+    assert_difference('SheetVariable.count', 0) do
+      patch :update, params: {
+        project_id: projects(:auto_lock), id: sheets(:auto_lock),
+        variables: {
+          variables(:string_on_auto_lock).id.to_s => 'Updated string'
+        }
+      }
+    end
+    assert_equal 'This sheet is locked.', flash[:notice]
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
-  test 'should not update locked sheet' do
-    patch :update, params: { id: sheets(:locked), project_id: @project, sheet: { locked: '0' }, variables: {} }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal true, assigns(:sheet).locked
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  test 'should unlock sheet as project editor' do
+    login(users(:valid))
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    post :unlock, params: {
+      project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    }
+    sheets(:auto_lock).reload
+    assert_equal false, sheets(:auto_lock).auto_locked?
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
+  end
+
+  test 'should not unlock sheet as site editor' do
+    login(users(:auto_lock_site_one_editor))
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    post :unlock, params: {
+      project_id: projects(:auto_lock), id: sheets(:auto_lock)
+    }
+    sheets(:auto_lock).reload
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    assert_redirected_to root_path
   end
 
   test 'should remove shareable link as editor' do
@@ -746,11 +725,12 @@ st laborum.',
     assert_redirected_to root_path
   end
 
-  test 'should not get transfer sheet for locked sheet' do
-    get :transfer, params: { project_id: @project, id: sheets(:locked) }
+  test 'should not get transfer sheet for auto-locked sheet' do
+    login(users(:auto_lock_site_one_editor))
+    get :transfer, params: { project_id: projects(:auto_lock), id: sheets(:auto_lock) }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-    assert_redirected_to [assigns(:project), assigns(:sheet)]
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
   test 'should transfer sheet to new subject for editor' do
@@ -840,49 +820,14 @@ st laborum.',
     assert_redirected_to root_path
   end
 
-  test 'should not destroy locked sheet' do
+  test 'should not destroy auto-locked sheet' do
+    login(users(:valid))
     assert_difference('Sheet.current.count', 0) do
-      delete :destroy, params: { id: sheets(:locked), project_id: @project }
+      delete :destroy, params: {
+        project_id: projects(:auto_lock), id: sheets(:auto_lock)
+      }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should unlock sheet' do
-    assert_difference('SheetTransaction.count') do
-      post :unlock, params: { id: sheets(:locked), project_id: @project }
-    end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal false, assigns(:sheet).locked
-    assert_not_nil assigns(:sheet).first_locked_at
-    assert_equal users(:valid).id, assigns(:sheet).first_locked_by_id
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should not lock sheet on project that does not have lockable and unlockable enabled' do
-    login(users(:admin))
-    patch :update, params: {
-      id: sheets(:external), project_id: projects(:three),
-      sheet: { locked: '1' },
-      subject_code: sheets(:external).subject.subject_code,
-      site_id: sheets(:external).subject.site_id, variables: {}
-    }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal false, assigns(:sheet).locked
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should not unlock sheet on project that does not have lockable and unlockable enabled' do
-    login(users(:admin))
-    post :unlock, params: {
-      id: sheets(:locked_on_non_lockable_project), project_id: projects(:three)
-    }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_equal true, assigns(:sheet).locked
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+    assert_equal 'This sheet is locked.', flash[:notice]
+    assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 end

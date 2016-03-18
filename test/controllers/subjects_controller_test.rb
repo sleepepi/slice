@@ -59,15 +59,10 @@ class SubjectsControllerTest < ActionController::TestCase
         id: @subject, project_id: @project,
         design_id: designs(:all_variable_types),
         subject_event_id: subject_events(:one)
-      }
+      }, format: 'js'
     end
-    assert_redirected_to event_project_subject_path(
-      assigns(:project),
-      assigns(:subject),
-      event_id: assigns(:sheet).subject_event.event,
-      subject_event_id: assigns(:sheet).subject_event,
-      event_date: assigns(:sheet).subject_event.event_date_to_param
-    )
+    assert_template 'set_sheet_as_missing'
+    assert_response :success
   end
 
   test 'should get send url as site editor' do
@@ -660,13 +655,12 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_subjects_path
   end
 
-  test 'should destroy subject' do
+  test 'should destroy unrandomized subject' do
+    login(users(:valid))
     assert_difference('Subject.current.count', -1) do
-      delete :destroy, params: { project_id: @project, id: @subject }
+      delete :destroy, params: { project_id: projects(:one), id: subjects(:unrandomized) }
     end
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:project)
-    assert_redirected_to project_subjects_path
+    assert_redirected_to project_subjects_path(projects(:one))
   end
 
   test 'should not destroy subject with invalid project' do
@@ -676,5 +670,15 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
     assert_nil assigns(:subject)
     assert_redirected_to root_path
+  end
+
+  test 'should not destroy randomized subject' do
+    login(users(:valid))
+    assert_difference('Subject.current.count', 0) do
+      delete :destroy, params: {
+        project_id: projects(:two), id: subjects(:randomized)
+      }
+    end
+    assert_redirected_to settings_project_subject_path(projects(:two), subjects(:randomized))
   end
 end

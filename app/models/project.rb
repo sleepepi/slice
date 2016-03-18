@@ -5,6 +5,12 @@
 # users at varying degrees of control.
 class Project < ApplicationRecord
   PER_PAGE = 40
+  AUTO_LOCK_SHEETS = [
+    ['Never Lock Sheets', 'never'],
+    ['After 24 hours', 'after24hours'],
+    ['After 1 week', 'after1week'],
+    ['After 1 month', 'after1month']
+  ]
 
   mount_uploader :logo, ImageUploader
 
@@ -218,6 +224,10 @@ class Project < ApplicationRecord
     update user_id: new_owner.id
     project_user = project_users.where(user_id: current_user.id).first_or_create(creator_id: new_owner.id)
     project_user.update editor: true
+  end
+
+  def auto_locking_enabled?
+    ['', 'never'].exclude?(auto_lock_sheets)
   end
 
   private

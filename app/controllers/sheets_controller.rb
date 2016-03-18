@@ -5,9 +5,10 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [:index, :show, :file]
+  before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions,
-    :new, :create, :update, :destroy, :unlock
+    :new, :create, :update, :destroy
   ]
   before_action :find_subject_or_redirect, only: [:create]
   before_action :find_viewable_sheet_or_redirect, only: [:show, :file]
@@ -15,7 +16,7 @@ class SheetsController < ApplicationController
     :edit, :transfer, :move_to_event, :update, :destroy,
     :remove_shareable_link, :transactions, :unlock
   ]
-  before_action :redirect_with_locked_sheet, only: [
+  before_action :redirect_with_auto_locked_sheet, only: [
     :edit, :transfer, :move_to_event, :update, :destroy
   ]
 
@@ -27,7 +28,6 @@ class SheetsController < ApplicationController
     @sheet_before = parse_date(params[:sheet_before])
     sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
     sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
-    sheet_scope = sheet_scope.where(locked: true) if params[:locked].to_s == '1'
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f]).where(missing: false)
 
     %w(design site user).each do |filter|
@@ -113,6 +113,12 @@ class SheetsController < ApplicationController
     end
   end
 
+  # POST /sheets/1/unlock
+  def unlock
+    @sheet.reset_auto_lock!(current_user, request)
+    redirect_to [@project, @sheet], notice: 'Sheet was successfully unlocked.'
+  end
+
   # GET /sheets/1/transfer
   # PUT /sheets/1/transfer?subject_id=1
   def transfer
@@ -156,17 +162,6 @@ class SheetsController < ApplicationController
     end
   end
 
-  def unlock
-    if @project.lockable?
-      flash[:notice] = 'Sheet was successfully unlocked.'
-      SheetTransaction.save_sheet!(@sheet, { locked: false, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
-    end
-    respond_to do |format|
-      format.html { redirect_to [@sheet.project, @sheet] }
-      format.json { head :no_content }
-    end
-  end
-
   private
 
   def find_viewable_sheet_or_redirect
@@ -188,12 +183,12 @@ class SheetsController < ApplicationController
     empty_response_or_root_path(@project) unless @subject
   end
 
-  def redirect_with_locked_sheet
-    redirect_to [@sheet.project, @sheet] if @sheet.locked?
-  end
-
   def redirect_without_sheet
     empty_response_or_root_path(project_sheets_path(@project)) unless @sheet
+  end
+
+  def redirect_with_auto_locked_sheet
+    redirect_to [@sheet.project, @sheet], notice: 'This sheet is locked.' if @sheet.auto_locked?
   end
 
   def sheet_params
@@ -204,15 +199,8 @@ class SheetsController < ApplicationController
     params[:sheet][:last_user_id] = current_user.id
     params[:sheet][:last_edited_at] = current_time
 
-    params[:sheet].delete(:locked) unless @project.lockable?
-    if (@sheet && params[:sheet][:locked].to_s == '1' && !@sheet.first_locked_at) || (!@sheet && params[:sheet][:locked].to_s == '1')
-      params[:sheet][:first_locked_at] = current_time
-      params[:sheet][:first_locked_by_id] = current_user.id
-    end
-
     params.require(:sheet).permit(
       :design_id, :variable_ids, :last_user_id, :last_edited_at,
-      :locked, :first_locked_at, :first_locked_by_id,
       :subject_event_id, :adverse_event_id, :missing
     )
   end

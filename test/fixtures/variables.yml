@@ -401,3 +401,11 @@ deleted:
   user: valid
   project: one
   deleted: true
+
+string_on_auto_lock:
+  name: string_on_auto_lock
+  display_name: String on Auto-lock
+  description: Description
+  variable_type: string
+  user: valid
+  project: auto_lock

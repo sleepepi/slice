@@ -55,3 +55,9 @@ single_design_site:
   # description:
   project: single_design
   user: valid
+
+auto_lock_site_one:
+  name: Site One on Auto-lock
+  # description:
+  project: auto_lock
+  user: valid

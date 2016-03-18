@@ -86,3 +86,10 @@ site_two_editor:
   email: site_two_editor@example.com
   encrypted_password: ""
   emails_enabled: true
+
+auto_lock_site_one_editor:
+  first_name: Auto-lock
+  last_name: Site Editor
+  email: auto_lock_site_one_editor@example.com
+  encrypted_password: ""
+  emails_enabled: true

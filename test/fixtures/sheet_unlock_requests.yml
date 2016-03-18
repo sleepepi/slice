@@ -1,0 +1,11 @@
+one:
+  sheet: auto_lock
+  user: auto_lock_site_one_editor
+  reason: Would like to fix a transcription error.
+  deleted: false
+
+# two:
+#   sheet_id: 1
+#   user_id: 1
+#   reason: MyText
+#   deleted: false

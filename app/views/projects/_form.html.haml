@@ -145,15 +145,6 @@
 
   .form-group
     .col-md-2
-      %label Locking of Sheets
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :lockable
-          Allow Sheets to be Locked and Unlocked for Editing
-
-  .form-group
-    .col-md-2
       %label Hide Values on PDFs
     .col-md-10
       .checkbox
@@ -196,6 +187,11 @@
         %label
           = f.check_box :handoffs_enabled
           Checking this will enable staff members to launch a flow of surveys that participants can complete on a tablet
+
+  .form-group
+    = f.label :auto_lock_sheets, 'Auto-lock Sheets', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.select :auto_lock_sheets, Project::AUTO_LOCK_SHEETS, {}, class: 'form-control'
 
   .form-group
     .col-md-10.col-md-offset-2

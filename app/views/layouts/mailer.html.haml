@@ -15,7 +15,7 @@
           %tr
             %td{ style: 'border-collapse:collapse', valign: 'top' }
               -# Table can be repeated for multiple sections
-              %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;margin-bottom:16px' }
+              %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;' }
                 %tbody
                   %tr
                     %td{ style: 'border-collapse:collapse', valign: 'top', width: '546' }
@@ -24,15 +24,19 @@
               = yield :extra_blocks
           %tr
             %td{ style: 'border-collapse:collapse' }
-              %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'border-collapse:collapse;margin-top:16px;background:white;color:#989ea6', width: '100%' }
+              %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'border-collapse:collapse;background:white;color:#999999', width: '100%' }
                 %tbody
                   %tr
-                    %td{ style: "border-collapse:collapse;background-color:#{banner_color};height:5px;line-height:5px;font-size:5px" } &nbsp;
+                    %td{ style: "border-collapse:collapse;background-color:#{background_color}" }
+                      %div{ style: 'height:32px;line-height:32px;font-size:1px;' } &nbsp;
+                  %tr
+                    %td{ style: "border-collapse:collapse;background-color:#{banner_color};" }
+                      %div{ style: 'height:5px;line-height:5px;font-size:1px;' } &nbsp;
                   %tr
                     %td{ align: 'center', style: 'border-collapse:collapse;padding:16px 8px 24px', valign: 'top' }
                       %div{ style: 'max-width:600px;margin:0 auto' }
-                        %p{ style: 'font-size:12px;line-height:20px;margin:0 0 16px;margin-top:16px' }
-                          %span{ style: 'max-width:380px;display:block' }
+                        %p{ style: 'font-size:12px;line-height:20px;margin:0;padding:16px 0;' }
+                          %span{ style: 'max-width:380px;display:block;' }
                             This email was sent to
                             = succeed '.' do
                               %a{ href: "http://#{@email_to}", style: link_style, target: '_blank' }= @email_to

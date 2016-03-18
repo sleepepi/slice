@@ -10,14 +10,11 @@
       - if viewable_sites.count > 1
         = th_sort_field @order, 'sheets.site_name', 'Site'
       = th_sort_field @order, 'sheets.user_name', 'Creator'
-      %th
 
   - @sheets.each do |sheet|
     %tr{ id: "sheet_#{sheet.id}" }
       %td= coverage_helper(sheet)
       %td.nowrap
-        - if sheet.locked?
-          %span.glyphicon.glyphicon-lock{ style: 'color:#5bc0de' }
         = link_to sheet.design.name, [@project, sheet]
         - if sheet.comments.size > 0
           %span.glyphicon.glyphicon-comment
@@ -30,10 +27,6 @@
       %td
         - if sheet.user
           = link_to sheet.user.name, sheet.user
-      %td
-        - if sheet.locked?
-          %span.glyphicon.glyphicon-lock{ style: 'color:#5bc0de' }
-          %span.glyphicon.glyphicon-leaf{ style: 'color:#5cb85c' }
 
 .center
   = paginate @sheets, theme: 'contour'

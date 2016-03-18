@@ -1,0 +1,19 @@
+%p{ style: p_style }
+  Dear
+  = succeed ',' do
+    = @editor.first_name
+
+%p{ style: p_style }
+  = @sheet_unlock_request.user.name
+  has requested that the following
+  %span{ style: emphasis_style } sheet be unlocked
+  on project
+  = succeed '.' do
+    = link_to @sheet_unlock_request.sheet.project.name, "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}", style: link_style
+
+  You can review the request here:
+
+%blockquote{ style: blockquote_style }= @sheet_unlock_request.reason
+
+%p{ style: center_style }
+  = link_to "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}/sheets/#{@sheet_unlock_request.sheet.id}", "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}/sheets/#{@sheet_unlock_request.sheet.id}", style: link_style

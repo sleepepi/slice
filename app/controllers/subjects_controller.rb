@@ -26,6 +26,7 @@ class SubjectsController < ApplicationController
   before_action :set_design, only: [
     :new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable
   ]
+  before_action :check_for_randomizations, only: [:destroy]
 
   def data_entry
   end
@@ -39,20 +40,13 @@ class SubjectsController < ApplicationController
     render 'sheets/new'
   end
 
+  # POST /subjects/1/data-missing/:design_id/:subject_event_id.js
   def set_sheet_as_missing
     @sheet = @subject.sheets.new(
       project_id: @project.id, design_id: @design.id,
       subject_event_id: params[:subject_event_id], missing: true
     )
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
-    redirect_to(
-      event_project_subject_path(
-        @project, @subject,
-        event_id: @sheet.subject_event.event,
-        subject_event_id: @sheet.subject_event.id,
-        event_date: @sheet.subject_event.event_date_to_param
-      )
-    )
   end
 
   # GET /subjects/1/send-url
@@ -275,6 +269,12 @@ class SubjectsController < ApplicationController
 
   def redirect_without_subject
     empty_response_or_root_path(project_subjects_path(@project)) unless @subject
+  end
+
+  def check_for_randomizations
+    return unless @subject.randomizations.count > 0
+    redirect_to settings_project_subject_path(@project, @subject),
+                alert: "You must undo this subject\'s randomizations in order to delete the subject."
   end
 
   def set_design

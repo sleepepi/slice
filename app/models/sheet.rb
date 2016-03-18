@@ -2,7 +2,7 @@
 
 class Sheet < ApplicationRecord
   # Concerns
-  include Deletable, Latexable, Siteable, Evaluatable
+  include Deletable, Latexable, Siteable, Evaluatable, AutoLockable, Forkable
 
   before_save :check_subject_event_subject_match
 
@@ -46,7 +46,6 @@ class Sheet < ApplicationRecord
   # Model Relationships
   belongs_to :user
   belongs_to :last_user, class_name: 'User'
-  belongs_to :first_locked_by, class_name: 'User'
   belongs_to :design
   belongs_to :project
   belongs_to :subject
@@ -59,6 +58,7 @@ class Sheet < ApplicationRecord
   has_many :comments, -> { where(deleted: false).order(created_at: :desc) }
   has_many :sheet_transactions, -> { order(id: :desc) }
   has_many :sheet_transaction_audits
+  has_many :sheet_unlock_requests, -> { current.order(created_at: :desc) }
 
   # Model Methods
   delegate :description, to: :design
@@ -69,10 +69,6 @@ class Sheet < ApplicationRecord
 
   def event_at
     created_at
-  end
-
-  def contributors
-    sheet_transactions.select(&:user).collect { |st| st.user.name }.uniq.join(', ')
   end
 
   def editable_by?(current_user)
@@ -97,7 +93,6 @@ class Sheet < ApplicationRecord
       sheets.each do |sheet|
         @sheet = sheet # Needed by Binding
         file.syswrite(ERB.new(latex_partial('body')).result(binding))
-        file.syswrite(ERB.new(latex_partial('audits')).result(binding))
       end
       file.syswrite(ERB.new(latex_partial('footer')).result(binding))
     end
@@ -453,6 +448,14 @@ class Sheet < ApplicationRecord
       project.unblinded_members_for_site(subject.site)
     else
       project.members_for_site(subject.site)
+    end
+  end
+
+  def project_editors
+    if design.only_unblinded
+      project.unblinded_project_editors
+    else
+      project.project_editors
     end
   end
 

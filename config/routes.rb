@@ -116,7 +116,10 @@ Rails.application.routes.draw do
         patch :transfer
         patch :move_to_event
         post :remove_shareable_link
+        post :unlock
       end
+
+      resources :sheet_unlock_requests, path: 'unlock/requests'
     end
 
     resources :designs do

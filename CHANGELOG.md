@@ -4,6 +4,37 @@
 - **Gem Changes**
   - Updated to rails 5.0.0.beta3
 
+## 0.37.0
+
+### Enhancements
+- **Project Changes**
+  - The project setting for manually locking sheets has been removed
+  - A new project setting called "Sheet Auto-locking" has been added
+    - Sheets can be set to auto-lock:
+      - `Never`
+      - `After 24 hours`
+      - `After 1 week`
+      - `After 1 month`
+    - Sheets that have been auto-locked can be unlocked for an additional time
+      period by project editors
+    - Site editors can make a request to temporarily unlock auto-locked sheets
+    - Project editors are notified of sheet unlock requests by email and by
+      in-app notifications
+    - Project editors can view recent sheet unlock requests for a locked sheet
+    - Comments can still be made on sheets that have been locked
+    - When a sheet is unlocked, recent site editors who requested an unlock
+      receive an email notification that the sheet can be edited
+    - Project editors can delete unlock requests, and site editors can delete
+      unlock requests they have made themselves
+- **Subject Changes**
+  - Randomized subjects can no longer be deleted
+    - In order to delete a subject, a subject's randomizations need to be undone
+- **Subject Event Changes**
+  - Setting a sheet as missing will now stay on the page the user was on instead
+    of redirecting
+- **Email Changes**
+  - Removed margins in emails to display better across email clients
+
 ## 0.36.2 (March 16, 2016)
 
 ### Bug Fix

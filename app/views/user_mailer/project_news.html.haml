@@ -10,7 +10,8 @@
   = strip_tags(simple_markdown @post.description).html_safe
 
 - content_for :extra_blocks do
-  %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;margin-bottom:16px' }
+  %div{ style: "background-color:#{background_color};height:16px;line-height:16px;font-size:1px;" } &nbsp;
+  %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;' }
     %tbody
       %tr
         %td{ style: 'border-collapse:collapse', valign: 'top', width: '546' }

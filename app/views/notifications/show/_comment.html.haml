@@ -1,0 +1,10 @@
+%td
+  %span.glyphicon.glyphicon-comment{ class: "#{notification.read? ? 'text-muted' : 'text-primary'}" }
+
+%td.nowrap{ class: "#{'text-muted' if notification.read?}" }
+  .overflow-hidden
+    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+      = strip_tags(simple_markdown notification.comment.description)
+
+%td.hidden-xs
+  = image_tag notification.comment.user.avatar_url(18, 'identicon'), size: '18x18', alt: ''
