@@ -5,6 +5,9 @@
   - Notifications are now removed if the associated sheet unlock request,
     adverse event, or comment is deleted
 
+### Bug Fix
+- Fixed a bug escaping html elements when displaying notifications
+
 ## 0.37.0 (March 21, 2016)
 
 ### Enhancements
