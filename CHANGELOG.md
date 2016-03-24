@@ -1,5 +1,10 @@
 ## 0.37.1
 
+### Enhancements
+- **Notification Changes**
+  - Notifications are now removed if the associated sheet unlock request,
+    adverse event, or comment is deleted
+
 ## 0.37.0 (March 21, 2016)
 
 ### Enhancements

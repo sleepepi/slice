@@ -74,10 +74,11 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test 'should destroy comment' do
-    assert_difference('Comment.current.count', -1) do
-      delete :destroy, id: @comment, format: 'js'
+    assert_difference('Notification.count', -1) do
+      assert_difference('Comment.current.count', -1) do
+        delete :destroy, id: @comment, format: 'js'
+      end
     end
-
     assert_template 'destroy'
     assert_response :success
   end
