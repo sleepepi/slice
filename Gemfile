@@ -5,11 +5,15 @@ source 'https://rubygems.org'
 # gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 # gem 'rails', github: 'rails/rails'
 # gem 'rails', github: 'rails/rails', ref: 'e56b594'
-gem 'rails', github: 'rails/rails', ref: 'd54de08'
+# gem 'rails', github: 'rails/rails', ref: 'd54de08'
+gem 'rails', github: 'rails/rails', ref: 'c519d1c'
+# TODO: Remove rack dependency when version past 2.0.0.alpha is released
+# This currently fixes a problem with rack removing nested parameters in certain
+# cases.
+gem 'rack', github: 'rack/rack', ref: 'deec485'
 
 # Temporary includes
 gem 'bootstrap-sass'
-# gem 'devise', github: 'plataformatec/devise', ref: 'aab7610'
 gem 'devise', '~> 4.0.0.rc2'
 
 # Database Adapter
