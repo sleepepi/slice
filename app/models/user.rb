@@ -236,16 +236,16 @@ class User < ActiveRecord::Base
     exports
   end
 
-  def all_comments
-    comments
-  end
-
   def all_viewable_comments
     Comment.current.where(sheet_id: all_viewable_sheets.select(:id))
   end
 
-  def all_deletable_comments
+  def all_editable_comments
     Comment.current.where('sheet_id IN (?) or user_id = ?', all_sheets.select(:id), id)
+  end
+
+  def all_deletable_comments
+    all_editable_comments
   end
 
   # Overriding Devise built-in active_for_authentication? method

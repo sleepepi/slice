@@ -6,24 +6,24 @@ require 'test_helper'
 # sheets.
 class CommentsControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
     @comment = comments(:one)
+    @project_editor = users(:project_one_editor)
   end
 
   test 'should create comment' do
+    login(users(:valid))
     assert_difference('Comment.count') do
       post :create, sheet_id: @comment.sheet_id, comment: { description: @comment.description }, format: 'js'
     end
-
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:comment)
     assert_equal users(:valid).id, assigns(:comment).user_id
-
     assert_template 'index'
     assert_response :success
   end
 
   test 'should not create comment with blank description' do
+    login(users(:valid))
     assert_difference('Comment.count', 0) do
       post :create, sheet_id: @comment.sheet_id, comment: { description: '' }, format: 'js'
     end
@@ -38,11 +38,13 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test 'should show comment as ajax' do
+    login(users(:valid))
     xhr :get, :show, id: @comment, include_name: '0', number: @comment.number, format: 'js'
     assert_response :success
   end
 
   test 'should redirect to comment on sheet' do
+    login(users(:valid))
     get :show, id: @comment, include_name: '0', number: @comment.number
     assert_redirected_to project_sheet_path(
       assigns(:comment).project,
@@ -52,11 +54,29 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test 'should get edit' do
+    login(users(:valid))
     xhr :get, :edit, id: @comment, include_name: '0', number: @comment.number, format: 'js'
+    assert_template 'edit'
+    assert_response :success
+  end
+
+  test 'should get edit as project editor' do
+    login(@project_editor)
+    xhr :get, :edit, id: @comment, include_name: '0', number: @comment.number, format: 'js'
+    assert_template 'edit'
     assert_response :success
   end
 
   test 'should update comment' do
+    login(users(:valid))
+    patch :update, id: @comment, comment: { description: @comment.description }, format: 'js'
+    assert_not_nil assigns(:comment)
+    assert_template 'show'
+    assert_response :success
+  end
+
+  test 'should update comment as project editor' do
+    login(@project_editor)
     patch :update, id: @comment, comment: { description: @comment.description }, format: 'js'
     assert_not_nil assigns(:comment)
     assert_template 'show'
@@ -64,16 +84,17 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test 'should not update comment with blank description' do
+    login(users(:valid))
     patch :update, id: @comment, comment: { description: '' }, format: 'js'
-
     assert_not_nil assigns(:comment)
-
     assert assigns(:comment).errors.size > 0
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
     assert_template 'edit'
+    assert_response :success
   end
 
   test 'should destroy comment' do
+    login(users(:valid))
     assert_difference('Notification.count', -1) do
       assert_difference('Comment.current.count', -1) do
         delete :destroy, id: @comment, format: 'js'

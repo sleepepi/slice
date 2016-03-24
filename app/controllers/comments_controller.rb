@@ -62,7 +62,7 @@ class CommentsController < ApplicationController
   end
 
   def set_editable_comment
-    @comment = current_user.all_comments.find_by_id params[:id]
+    @comment = current_user.all_editable_comments.find_by_id params[:id]
     redirect_without_comment
   end
 

@@ -8,6 +8,7 @@
 ### Bug Fix
 - Fixed a bug escaping html elements when displaying notifications
 - Fixed a bug displaying `<` in sheet comments
+- Fixed a bug that prevents project and site editors from editing comments
 
 ## 0.37.0 (March 21, 2016)
 
