@@ -4,6 +4,18 @@
 - **Gem Changes**
   - Updated to rails 5.0.0.beta3
 
+## 0.37.1 (March 24, 2016)
+
+### Enhancements
+- **Notification Changes**
+  - Notifications are now removed if the associated sheet unlock request,
+    adverse event, or comment is deleted
+
+### Bug Fix
+- Fixed a bug escaping html elements when displaying notifications
+- Fixed a bug displaying `<` in sheet comments
+- Fixed a bug that prevents project and site editors from editing comments
+
 ## 0.37.0 (March 21, 2016)
 
 ### Enhancements

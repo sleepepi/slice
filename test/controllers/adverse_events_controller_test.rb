@@ -240,10 +240,11 @@ class AdverseEventsControllerTest < ActionController::TestCase
 
   test 'should destroy adverse event as project editor' do
     login(users(:valid))
-    assert_difference('AdverseEvent.current.count', -1) do
-      delete :destroy, params: { project_id: @project, id: @adverse_event }
+    assert_difference('Notification.count', -1) do
+      assert_difference('AdverseEvent.current.count', -1) do
+        delete :destroy, params: { project_id: @project, id: @adverse_event }
+      end
     end
-
     assert_redirected_to project_adverse_events_path(assigns(:project))
   end
 

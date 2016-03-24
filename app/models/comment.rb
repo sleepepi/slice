@@ -13,6 +13,7 @@ class Comment < ApplicationRecord
   # Model Relationships
   belongs_to :user
   belongs_to :sheet
+  has_many :notifications
 
   delegate :project, to: :sheet
   delegate :project_id, to: :sheet
@@ -51,6 +52,11 @@ class Comment < ApplicationRecord
 
   def self.searchable_attributes
     %w(description)
+  end
+
+  def destroy
+    super
+    notifications.destroy_all
   end
 
   private

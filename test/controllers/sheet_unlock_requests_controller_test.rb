@@ -49,11 +49,13 @@ class SheetUnlockRequestsControllerTest < ActionController::TestCase
 
   test 'should destroy sheet unlock request as project editor' do
     login(@project_editor)
-    assert_difference('SheetUnlockRequest.current.count', -1) do
-      delete :destroy, params: {
-        project_id: @project, sheet_id: @locked_sheet,
-        id: @sheet_unlock_request
-      }
+    assert_difference('Notification.count', -1) do
+      assert_difference('SheetUnlockRequest.current.count', -1) do
+        delete :destroy, params: {
+          project_id: @project, sheet_id: @locked_sheet,
+          id: @sheet_unlock_request
+        }
+      end
     end
     assert_redirected_to [@project, @locked_sheet]
   end

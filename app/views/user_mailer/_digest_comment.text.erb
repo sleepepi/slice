@@ -1,1 +1,1 @@
-<%= comment.created_at.strftime('%l:%M %p') %>: <%= strip_tags(simple_markdown comment.description).truncate(100) %> - <%= comment.user.name %>
+<%= comment.created_at.strftime('%l:%M %p') %>: <%= strip_tags(simple_markdown comment.description).truncate(100).html_safe %> - <%= comment.user.name %>

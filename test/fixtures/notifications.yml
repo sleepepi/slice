@@ -22,3 +22,9 @@ blank:
   user: valid
   read: false
   project: one
+
+sheet_unlock_request:
+  user: valid
+  read: false
+  project: auto_lock
+  sheet_unlock_request: one

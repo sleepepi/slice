@@ -23,6 +23,7 @@ class AdverseEvent < ApplicationRecord
   has_many :adverse_event_files
   has_many :adverse_event_users
   has_many :sheets, -> { where deleted: false }
+  has_many :notifications
 
   delegate :site, to: :subject
 
@@ -129,5 +130,10 @@ class AdverseEvent < ApplicationRecord
       notification = u.notifications.where(project_id: project_id, adverse_event_id: id).first_or_create
       notification.mark_as_unread!
     end
+  end
+
+  def destroy
+    super
+    notifications.destroy_all
   end
 end

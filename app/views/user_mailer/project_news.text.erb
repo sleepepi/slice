@@ -5,7 +5,7 @@
 
 
 
-  <%= strip_tags(simple_markdown @post.description).gsub(/\n/, "\n  ") %>
+  <%= strip_tags(simple_markdown @post.description).gsub(/\n/, "\n  ").html_safe %>
 
 
 

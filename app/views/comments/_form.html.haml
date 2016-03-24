@@ -1,11 +1,11 @@
 .comment-outer
   .comment-left-fixed
-    = image_tag current_user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+    = image_tag @comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
 
   .comment-right-fluid
     .comment-comment
       .comment-comment-header
-        %strong= current_user.name
+        %strong= @comment.user.name
       .comment-comment-body
         = form_for @comment, remote: true, html: { class: 'form-vertical' } do |f|
           = hidden_field_tag :number, params[:number]
@@ -19,7 +19,7 @@
 
           .form-group
             = f.text_area :description, rows: 7, class: 'comment-control', placeholder: 'Type comment here'
-
-          = f.submit 'Comment', class: 'btn btn-primary', data: { disable_with: 'Comment' }
+          - submit_text = @comment.new_record? ? 'Comment' : 'Update'
+          = f.submit submit_text, class: 'btn btn-primary', data: { disable_with: "#{submit_text}" }
           - unless @comment.new_record?
             = link_to 'Cancel', comment_path(@comment, number: params[:number], include_name: params[:include_name]), remote: true, class: 'btn btn-default'
