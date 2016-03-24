@@ -1,4 +1,4 @@
-## 0.37.1
+## 0.37.1 (March 24, 2016)
 
 ### Enhancements
 - **Notification Changes**
