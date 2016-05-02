@@ -14,7 +14,7 @@ gem 'rack', github: 'rack/rack', ref: 'deec485'
 
 # Temporary includes
 gem 'bootstrap-sass'
-gem 'devise', '~> 4.0.0.rc2'
+gem 'devise', '~> 4.0.1'
 
 # Database Adapter
 gem 'pg',                   '0.18.4'
