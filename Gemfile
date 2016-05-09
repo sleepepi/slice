@@ -6,7 +6,7 @@ gem 'rails', '5.0.0.rc1'
 
 # Temporary includes
 gem 'bootstrap-sass'
-gem 'devise', '~> 4.0.1'
+gem 'devise', '~> 4.1.0'
 
 # Database Adapter
 gem 'pg',                   '0.18.4'
