@@ -6,6 +6,8 @@
     collaborators page
 - **Sheet Changes**
   - A file attachment indicator has been added to the sheets index
+  - Setting a missing sheet as not missing no longer prompts the project editor
+    to unlock the sheet first for projects with sheet auto-locking enabled
 - **Subject Changes**
   - The following filters have been added to the subject index:
     - Filter by site

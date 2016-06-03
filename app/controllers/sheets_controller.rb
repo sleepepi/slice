@@ -8,13 +8,13 @@ class SheetsController < ApplicationController
   before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions,
-    :new, :create, :update, :destroy
+    :new, :create, :update, :destroy, :set_as_not_missing
   ]
   before_action :find_subject_or_redirect, only: [:create]
   before_action :find_viewable_sheet_or_redirect, only: [:show, :file]
   before_action :find_editable_sheet_or_redirect, only: [
     :edit, :transfer, :move_to_event, :update, :destroy,
-    :remove_shareable_link, :transactions, :unlock
+    :remove_shareable_link, :transactions, :unlock, :set_as_not_missing
   ]
   before_action :redirect_with_auto_locked_sheet, only: [
     :edit, :transfer, :move_to_event, :update, :destroy
@@ -117,6 +117,15 @@ class SheetsController < ApplicationController
   def unlock
     @sheet.reset_auto_lock!(current_user, request)
     redirect_to [@project, @sheet], notice: 'Sheet was successfully unlocked.'
+  end
+
+  # POST /sheets/1/set_as_not_missing
+  def set_as_not_missing
+    if @sheet.missing?
+      SheetTransaction.save_sheet!(@sheet, { unlocked_at: Time.zone.now, last_user_id: current_user.id, last_edited_at: Time.zone.now, missing: false }, {}, current_user, request.remote_ip, 'sheet_update')
+      flash[:notice] = 'Sheet was successfully set as not missing.'
+    end
+    redirect_to [@project, @sheet]
   end
 
   # GET /sheets/1/transfer

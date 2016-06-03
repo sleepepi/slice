@@ -198,3 +198,11 @@ auto_lock:
   user: valid
   created_at: 2016-03-01 12:30:45
   authentication_token: auto_lock
+
+missing:
+  design: auto_lock
+  project: auto_lock
+  subject: auto_lock_site_one_subject_one
+  user: valid
+  created_at: 2016-04-01 12:34:56
+  missing: true

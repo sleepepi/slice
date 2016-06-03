@@ -470,6 +470,13 @@ class SheetsControllerTest < ActionController::TestCase
     assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
+  test 'should set sheet as not missing' do
+    login(users(:valid))
+    post :set_as_not_missing, project_id: projects(:auto_lock), id: sheets(:missing)
+    assert_equal false, assigns(:sheet).missing?
+    assert_redirected_to [projects(:auto_lock), sheets(:missing)]
+  end
+
   test 'should update sheet' do
     assert_difference('SheetTransaction.count') do
       patch :update, id: @sheet, project_id: @project,
