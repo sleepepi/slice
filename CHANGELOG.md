@@ -19,6 +19,7 @@
   - A file attachment indicator has been added to the sheets index
   - Setting a missing sheet as not missing no longer prompts the project editor
     to unlock the sheet first for projects with sheet auto-locking enabled
+  - Hitting `Enter` while editing a sheet no longer submits the sheet
 - **Subject Changes**
   - The following filters have been added to the subject index:
     - Filter by site
