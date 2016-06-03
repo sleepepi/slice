@@ -1,8 +1,8 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.2.4
-  - 2.3.0
+  - 2.2.5
+  - 2.3.1
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "psql -c 'create database slice_test;' -U postgres"
