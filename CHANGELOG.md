@@ -32,6 +32,7 @@
 - Fixed a minor layout issue when editing events
 - Fixed a bug in Firefox that prevented tabs from being closed using browser
   `Command + w` shortcut
+- Fixed a bug that prevented filters from being edited on project reports
 
 ## 0.37.1 (March 24, 2016)
 
