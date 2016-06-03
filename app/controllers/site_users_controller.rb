@@ -49,6 +49,17 @@ class SiteUsersController < ApplicationController
     end
   end
 
+  # PATCH /project_users/1
+  def update
+    @project = current_user.all_projects.find_by_param params[:project_id]
+    @site_user = @project.site_users.find_by_id params[:id] if @project
+    if @project && @project.editable_by?(current_user) && @project.blinding_enabled? && @project.unblinded?(current_user) && @site_user
+      @site_user.update unblinded: (params[:unblinded] == '1')
+      flash[:notice] = "Successfully set site member as #{@site_user.unblinded? ? 'un' : ''}blinded."
+    end
+    redirect_to @project ? share_project_path(@project) : root_path
+  end
+
   # DELETE /site_users/1
   def destroy
     @site_user = SiteUser.current.find_by_id(params[:id])

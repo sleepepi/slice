@@ -9,6 +9,9 @@
 ## 0.38.0
 
 ### Enhancements
+- **Project Changes**
+  - Blinded status can now be updated by unblinded project editors on the
+    collaborators page
 - **Sheet Changes**
   - A file attachment indicator has been added to the sheets index
 - **Subject Changes**
@@ -16,6 +19,7 @@
     - Filter by site
     - Filter by randomization status
     - Filter by open and closed adverse events
+  - Sheets on subject page are now listed alphabetically
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0
@@ -23,6 +27,9 @@
 ### Bug Fixes
 - Fixed a bug that prevented the last created sheet from appearing under Recent
   Activity if the sheet was publicly created
+- Fixed a minor layout issue when editing events
+- Fixed a bug in Firefox that prevented tabs from being closed using browser
+  `Command + w` shortcut
 
 ## 0.37.1 (March 24, 2016)
 

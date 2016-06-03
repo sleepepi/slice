@@ -1,5 +1,5 @@
-- uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil)
-- categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil)
+- uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil).includes(:design).order('designs.name')
+- categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil).includes(:design).order('designs.name')
 
 %h2
   Sheets

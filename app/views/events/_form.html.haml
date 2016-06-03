@@ -77,15 +77,15 @@
       .bs-callout.bs-callout-info
         Archived events will still show up if the subject has sheets entered for the archived event.
 
-    - if @project.blinding_enabled?
-      .form-group
-        .col-md-offset-2.col-md-10
-          .checkbox
-            %label
-              = f.check_box :only_unblinded
-              Only Unblinded
-          .bs-callout.bs-callout-info
-            Select to hide the event and associated sheets and comments from blinded staff
+  - if @project.blinding_enabled?
+    .form-group
+      .col-md-offset-2.col-md-10
+        .checkbox
+          %label
+            = f.check_box :only_unblinded
+            Only Unblinded
+        .bs-callout.bs-callout-info
+          Select to hide the event and associated sheets and comments from blinded staff
 
   .form-group
     .col-md-offset-2.col-md-10

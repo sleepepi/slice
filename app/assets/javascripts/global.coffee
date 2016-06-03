@@ -120,7 +120,7 @@ $(document)
       e.preventDefault()
       return
     # Key is 'w'
-    if e.which == 87 and not $("input, textarea, select, a").is(":focus")
+    if not (e.metaKey or e.ctrlKey) and e.which == 87 and not $("input, textarea, select, a").is(":focus")
       $('.container').toggleClass('wide-container')
       e.preventDefault()
       return

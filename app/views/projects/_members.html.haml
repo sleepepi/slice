@@ -5,14 +5,15 @@
       %th Name
       %th Role
       - if @project.blinding_enabled?
-        %th Unblinded
+        %th.center Blinding
       %th Invited By
       %th Actions
   %tr
     %td= @project.user.name
     %td Project Owner
     - if @project.blinding_enabled?
-      %td Unblinded
+      %td.center
+        %span.glyphicon.glyphicon-eye-open.text-muted
     %td
     %td
   - @project.project_users.order(editor: :desc, id: :asc).each do |project_user|
@@ -30,7 +31,7 @@
         %th Name
         %th Role
         - if @project.blinding_enabled?
-          %th Unblinded
+          %th.center Blinding
         %th Invited By
         %th Actions
     - if site.site_users.size == 0
