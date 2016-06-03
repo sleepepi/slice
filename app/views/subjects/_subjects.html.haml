@@ -12,23 +12,47 @@
     %tr
       = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
       - if editable_sites.count > 1
-        = th_sort_field @order, 'subjects.site_id', 'Site'
+        %th.nowrap{ class: ['subjects.site_id', 'subjects.site_id DESC'].include?(params[:order]) ? 'sort-selected' : nil }
+          = link_to 'Site', project_subjects_path(@project, order: (params[:order] == 'subjects.site_id DESC' ? 'subjects.site_id' : 'subjects.site_id DESC'), site_id: params[:site_id])
+          .dropdown{ style: 'display: inline-block' }
+            = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'status-dropdown' do
+              %span.glyphicon.glyphicon-filter
+            %ul.dropdown-menu{ aria: { labelledby: 'status-dropdown' } }
+              %li= link_to 'All Sites', project_subjects_path(@project, order: params[:order]), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
+              - current_user.all_viewable_sites.where(project_id: @project.id).order(:name).each do |site|
+                %li= link_to site.name, project_subjects_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
       %th.nowrap Recent Activity
       - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-        %th.center Randomized
+        %th.center
+          Randomized
+          .dropdown{ style: 'display: inline-block' }
+            = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'randomized-dropdown' do
+              %span.glyphicon.glyphicon-filter
+            %ul.dropdown-menu{ aria: { labelledby: 'randomized-dropdown' } }
+              %li= link_to 'All', project_subjects_path(@project, order: params[:order]), style: params[:randomized].blank? ? 'font-weight:bold;' : ''
+              %li= link_to 'Randomized', project_subjects_path(@project, order: params[:order], randomized: '1'), style: params[:randomized] == '1' ? 'font-weight:bold;' : ''
+              %li= link_to 'Unrandomized', project_subjects_path(@project, order: params[:order], randomized: '0'), style: params[:randomized] == '0' ? 'font-weight:bold;' : ''
       - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-        %th AEs
+        %th
+          AEs
+          .dropdown{ style: 'display: inline-block' }
+            = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'ae-dropdown' do
+              %span.glyphicon.glyphicon-filter
+            %ul.dropdown-menu{ aria: { labelledby: 'ae-dropdown' } }
+              %li= link_to 'All', project_subjects_path(@project, order: params[:order]), style: params[:ae].blank? ? 'font-weight:bold;' : ''
+              %li= link_to 'Open', project_subjects_path(@project, order: params[:order], ae: 'open'), style: params[:ae] == 'open' ? 'font-weight:bold;' : ''
+              %li= link_to 'Closed', project_subjects_path(@project, order: params[:order], ae: 'closed'), style: params[:ae] == 'closed' ? 'font-weight:bold;' : ''
 
   - @subjects.each do |subject|
     %tr{ id: "subject_#{subject.id}" }
       %td= link_to subject.subject_code, [@project, subject]
       - if editable_sites.count > 1
-        %td= link_to subject.site.name, [@project, subject.site]
+        %td= subject.site.short_name
       %td
-        - sheet = subject.blinded_sheets(current_user).where.not(last_edited_at: nil).order(last_edited_at: :desc).first
+        - sheet = subject.last_created_or_edited_sheet(current_user)
         - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
         - if sheet && subject_event
-          - if sheet.last_edited_at > subject_event.updated_at
+          - if (sheet.last_edited_at && sheet.last_edited_at > subject_event.updated_at) || (sheet.last_edited_at.nil? && sheet.created_at > subject_event.updated_at)
             = link_to sheet.name, [@project, sheet]
           - else
             = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do

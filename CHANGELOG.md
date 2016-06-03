@@ -6,6 +6,24 @@
   - Updated to devise 4.1.0
   - Updated to carrierwave 0.11.2
 
+## 0.38.0
+
+### Enhancements
+- **Sheet Changes**
+  - A file attachment indicator has been added to the sheets index
+- **Subject Changes**
+  - The following filters have been added to the subject index:
+    - Filter by site
+    - Filter by randomization status
+    - Filter by open and closed adverse events
+- **Gem Changes**
+  - Updated to Ruby 2.3.1
+  - Updated to kaminari 0.17.0
+
+### Bug Fixes
+- Fixed a bug that prevented the last created sheet from appearing under Recent
+  Activity if the sheet was publicly created
+
 ## 0.37.1 (March 24, 2016)
 
 ### Enhancements

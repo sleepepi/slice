@@ -19,6 +19,8 @@
         - if sheet.comments.size > 0
           %span.glyphicon.glyphicon-comment
           = sheet.comments.size
+        - if sheet.files.size > 0
+          %span.glyphicon.glyphicon-paperclip
       %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
       %td= simple_time sheet.created_at
       %td= simple_time sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at

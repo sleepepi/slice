@@ -12,9 +12,12 @@ Ruby 2.3+.
 
 ## Installation
 
-[Prerequisites Install Guide](https://github.com/remomueller/documentation): Instructions for installing prerequisites like Ruby, Git, JavaScript compiler, etc.
+[Prerequisites Install Guide](https://github.com/remomueller/documentation):
+Instructions for installing prerequisites like Ruby, Git, JavaScript compiler,
+etc.
 
-Once you have the prerequisites in place, you can proceed to install bundler which will handle most of the remaining dependencies.
+Once you have the prerequisites in place, you can proceed to install bundler
+which will handle most of the remaining dependencies.
 
 ```
 gem install bundler
@@ -32,7 +35,8 @@ cd slice
 bundle install
 ```
 
-Install default configuration files for database connection, email server connection, server url, and application name.
+Install default configuration files for database connection, email server
+connection, server url, and application name.
 
 ```
 ruby lib/initial_setup.rb
@@ -58,20 +62,27 @@ Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
 
 ```
 SHELL=/bin/bash
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.2.3/bin/bundle exec rake daily_digest RAILS_ENV=production
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.2.3/bin/bundle exec rake passwords:expire RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.3.1/bin/bundle exec rake daily_digest RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.3.1/bin/bundle exec rake passwords:expire RAILS_ENV=production
 ```
 
 ## Contributing to Slice
 
-- Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-- Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
+- Check out the latest master to make sure the feature hasn't been implemented
+  or the bug hasn't been fixed yet
+- Check out the issue tracker to make sure someone already hasn't requested it
+  and/or contributed it
 - Fork the project
 - Start a feature/bugfix branch
 - Commit and push until you are happy with your contribution
-- Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-- Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+- Make sure to add tests for it. This is important so I don't break it in a
+  future version unintentionally.
+- Please try not to mess with the Rakefile, version, or history. If you want to
+  have your own version, or is otherwise necessary, that is fine, but please
+  isolate to its own commit so I can cherry-pick around it.
 
 ## Copyright [![Creative Commons 3.0](http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/3.0)
 
-Copyright (c) 2016 Remo Mueller. See [LICENSE](https://github.com/remomueller/slice/blob/master/LICENSE) for further details.
+Copyright (c) 2016 Remo Mueller. See
+[LICENSE](https://github.com/remomueller/slice/blob/master/LICENSE) for further
+details.

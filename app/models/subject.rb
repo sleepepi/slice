@@ -13,6 +13,10 @@ class Subject < ApplicationRecord
   scope :with_entered_design_on_event, -> (design, event) { where('subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ? and sheets.subject_event_id IS NOT NULL))', event, false, design) }
   scope :with_unentered_design_on_event, -> (design, event) { where('subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id NOT IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ? and sheets.subject_event_id IS NOT NULL))', event, false, design) }
   scope :without_design_on_event, -> (design, event) { where('subjects.id NOT IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ?))', event, false, design) }
+  scope :randomized, -> { joins(:randomizations).distinct }
+  scope :unrandomized, -> { joins('LEFT OUTER JOIN randomizations ON randomizations.subject_id = subjects.id and randomizations.deleted is false').where('randomizations.id IS NULL').distinct }
+  scope :open_aes, -> { joins(:adverse_events).where(adverse_events: { closed: false }).distinct }
+  scope :closed_aes, -> { joins(:adverse_events).where(adverse_events: { closed: true }).distinct }
   # scope :with_variable, lambda {|variable_id, value| where("subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.id IN (select sheet_variables.sheet_id from sheet_variables where variable_id = ? and response IN (?)))", false, variable_id, value)}
 
   # Model Validation
@@ -78,6 +82,30 @@ class Subject < ApplicationRecord
 
   def blinded_subject_events(current_user)
     subject_events.where(event_id: current_user.all_viewable_events.select(:id))
+  end
+
+  def last_created_or_edited_sheet(current_user)
+    edited_sheet = last_edited_sheet(current_user)
+    created_sheet = last_created_sheet(current_user)
+    if edited_sheet && created_sheet
+      if edited_sheet.last_edited_at > created_sheet.created_at
+        edited_sheet
+      else
+        created_sheet
+      end
+    elsif edited_sheet
+      edited_sheet
+    elsif created_sheet
+      created_sheet
+    end
+  end
+
+  def last_edited_sheet(current_user)
+    blinded_sheets(current_user).where.not(last_edited_at: nil).order(last_edited_at: :desc).first
+  end
+
+  def last_created_sheet(current_user)
+    blinded_sheets(current_user).order(created_at: :desc).first
   end
 
   def validate_subject_format

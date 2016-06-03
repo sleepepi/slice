@@ -22,13 +22,6 @@
         .col-md-9
           = text_field_tag 'search', params[:search], class: 'form-control'
 
-      - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
-      - if editable_sites.count > 1
-        .col-md-6.form-group
-          = label :site_id, 'Site', class: 'col-md-3 control-label'
-          .col-md-9
-            = select_tag :site_id, options_for_select([['---', nil]] + current_user.all_viewable_sites.where( project_id: @project.id ).order('name').collect{|s| [s.name, s.id]}, params[:site_id] ), class: 'form-control'
-
     .row
       - event = @project.events.find_by_id(params[:event_id])
       - without_event = @project.events.find_by_id(params[:without_event_id])
