@@ -1,6 +1,8 @@
 ## 0.38.0
 
 ### Enhancements
+- **Sheet Changes**
+  - A file attachment indicator has been added to the sheets index
 - **Subject Changes**
   - The following filters have been added to the subject index:
     - Filter by site
