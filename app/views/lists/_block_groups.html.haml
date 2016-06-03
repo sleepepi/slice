@@ -1,4 +1,8 @@
-- if @randomization_scheme.permuted_block?
+- if list.randomizations.count == 0
+  .text-muted
+    %span.glyphicon.glyphicon-info-sign
+    This list expands automatically after first randomization.
+- elsif @randomization_scheme.permuted_block?
   - list.randomizations.order(:block_group, :position).group_by(&:block_group).each do |block_group, randomizations|
     .block-group
       - assignment_block_position = 1

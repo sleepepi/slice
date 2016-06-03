@@ -15,6 +15,9 @@
 - **Project Changes**
   - Blinded status can now be updated by unblinded project editors on the
     collaborators page
+- **Randomization Changes**
+  - Added a message to inform project editors that randomization lists expand
+    automatically after each randomization
 - **Sheet Changes**
   - A file attachment indicator has been added to the sheets index
   - Setting a missing sheet as not missing no longer prompts the project editor
