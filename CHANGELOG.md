@@ -1,6 +1,8 @@
 ## 0.38.0
 
 ### Enhancements
+- **Design Changes**
+  - Improved padding between section heading images and surrounding elements
 - **Handoff Changes**
   - Updated tablet handoff text with better information on preparing tablet for
     handoff to participant
