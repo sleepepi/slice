@@ -1,6 +1,9 @@
 ## 0.38.0
 
 ### Enhancements
+- **Project Changes**
+  - Blinded status can now be updated by unblinded project editors on the
+    collaborators page
 - **Sheet Changes**
   - A file attachment indicator has been added to the sheets index
 - **Subject Changes**
