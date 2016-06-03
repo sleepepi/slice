@@ -4,6 +4,7 @@
 - **Design Changes**
   - Improved padding between section heading images and surrounding elements
   - Required design options now have an indicator on the design reorder page
+  - "Required on form?" can now be changed more easily in the design editor
 - **Email Changes**
   - Changed Password Reset Email Reminder subject line to prevent email from
     getting marked as spam
