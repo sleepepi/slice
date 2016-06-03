@@ -11,6 +11,7 @@
     - Filter by site
     - Filter by randomization status
     - Filter by open and closed adverse events
+  - Sheets on subject page are now listed alphabetically
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0
