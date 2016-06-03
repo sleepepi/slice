@@ -3,6 +3,9 @@
 ### Enhancements
 - **Design Changes**
   - Improved padding between section heading images and surrounding elements
+- **Email Changes**
+  - Changed Password Reset Email Reminder subject line to prevent email from
+    getting marked as spam
 - **Handoff Changes**
   - Updated tablet handoff text with better information on preparing tablet for
     handoff to participant

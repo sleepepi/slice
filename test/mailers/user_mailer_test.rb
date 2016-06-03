@@ -157,7 +157,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal 'Your password will expire soon', email.subject
-    assert_match(/Your #{ENV['website_name']} password will expire in [\d]+ day[s]? on #{valid.password_expires_on.strftime('%-m-%-d-%Y.')} Click the link below to reset your password now:/, email.encoded)
+    assert_equal "Slice Reminder for #{valid.name}", email.subject
+    assert_match(/Your #{ENV['website_name']} password will expire in [\d]+ day[s]? on #{valid.password_expires_on.strftime('%-m-%-d-%Y.')}/, email.encoded)
   end
 end
