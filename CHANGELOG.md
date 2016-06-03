@@ -2,7 +2,8 @@
 
 ### Enhancements
 - **Handoff Changes**
-  - Fixed a minor typo when launching a tablet handoff
+  - Updated tablet handoff text with better information on preparing tablet for
+    handoff to participant
 - **Project Changes**
   - Blinded status can now be updated by unblinded project editors on the
     collaborators page

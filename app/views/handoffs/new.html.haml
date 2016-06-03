@@ -1,26 +1,18 @@
-%h2 Setup Guided Access
+%h2 Prepare for Handoff
 
 - if @handoff.handoff_enabled_event_designs.present?
   .jumbotron.bs-callout-danger
     %h4 IMPORTANT
 
     %p
-      Before handing off the tablet to the participant, make sure that you have
-      setup and started
-      %strong Guided Access
-      on the tablet.
-      You can access this feature quickly by triple-clicking the home button and
-      then launching it by clicking start.
+      You may consider using Restricted Profiles (Android) or Guided Access
+      (iOS) when using a tablet for direct data entry by the participant. These
+      features help restrict access and prevent unintended user actions while
+      using the tablet for data entry.
+
     %p
-      Also mark the
-      %em URL bar
-      and the
-      %em left and right edges
-      as untouchable to prevent unintended navigation.
-    %p
-      Once you have started
-      %strong Guided Access
-      mode, click "Launch Tablet Handoff" below.
+      = link_to 'Click here', 'http://www.pcworld.com/article/2921718/2-easy-ways-to-child-proof-your-android-or-ios-device.html', target: '_blank'
+      for more information.
 
   %div{ style: 'margin-bottom: 20px' }
     = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-block btn-success' do
