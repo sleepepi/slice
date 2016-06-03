@@ -1,6 +1,8 @@
 ## 0.38.0
 
 ### Enhancements
+- **Handoff Changes**
+  - Fixed a minor typo when launching a tablet handoff
 - **Project Changes**
   - Blinded status can now be updated by unblinded project editors on the
     collaborators page
