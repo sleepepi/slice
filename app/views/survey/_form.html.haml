@@ -39,4 +39,4 @@
     - else
       %p.lead Thank you
 
-    = submit_tag submit_button, data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large'
+    = link_to submit_button, '#', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-large'

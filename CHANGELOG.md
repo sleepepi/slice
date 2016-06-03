@@ -9,17 +9,37 @@
 ## 0.38.0
 
 ### Enhancements
+- **Design Changes**
+  - Improved padding between section heading images and surrounding elements
+  - Required design options now have an indicator on the design reorder page
+  - Complete variable names are now shown on the design reorder page
+  - "Required on form?" can now be changed more easily in the design editor
+- **Email Changes**
+  - Changed Password Reset Email Reminder subject line to prevent email from
+    getting marked as spam
+- **Handoff Changes**
+  - Updated tablet handoff text with better information on preparing tablet for
+    handoff to participant
 - **Project Changes**
   - Blinded status can now be updated by unblinded project editors on the
     collaborators page
+- **Randomization Changes**
+  - Added a message to inform project editors that randomization lists expand
+    automatically after each randomization
 - **Sheet Changes**
   - A file attachment indicator has been added to the sheets index
+  - Setting a missing sheet as not missing no longer prompts the project editor
+    to unlock the sheet first for projects with sheet auto-locking enabled
+  - Hitting `Enter` while editing a sheet no longer submits the sheet
 - **Subject Changes**
   - The following filters have been added to the subject index:
     - Filter by site
     - Filter by randomization status
     - Filter by open and closed adverse events
   - Sheets on subject page are now listed alphabetically
+  - Adverse events on subject page now provide a brief description as well
+- **Variable Changes**
+  - Updated how variable options are displayed on the variables index
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0
@@ -30,6 +50,7 @@
 - Fixed a minor layout issue when editing events
 - Fixed a bug in Firefox that prevented tabs from being closed using browser
   `Command + w` shortcut
+- Fixed a bug that prevented filters from being edited on project reports
 
 ## 0.37.1 (March 24, 2016)
 

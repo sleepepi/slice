@@ -124,6 +124,6 @@ class UserMailer < ApplicationMailer
     @recipient = recipient
     @email_to = recipient.email
     mail(to: recipient.email,
-         subject: 'Your password will expire soon')
+         subject: "Slice Reminder for #{recipient.name}")
   end
 end

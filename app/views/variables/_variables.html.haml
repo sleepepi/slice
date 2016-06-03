@@ -16,9 +16,8 @@
       %td
         %code= variable.variable_type
       %td
-        - if not variable.shared_options.blank?
-          - variable.alignment = 'vertical'
-          = render "sheet_variables/form/#{variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", response: nil, disabled: true, variable: variable, field_name: "variables[#{variable.id}]"
+        - if variable.shared_options.present?
+          = select_tag "variable_#{variable.id}_options", options_for_select(variable.shared_options.collect { |d| "#{d[:value]}: #{d[:name]}" }), style: 'width:200px', class: 'form-control'
       %td.nowrap
         = link_to 'Copy', copy_project_variable_path(variable.project, variable), class: 'btn btn-default btn-xs'
         - if variable.editable_by?(current_user)

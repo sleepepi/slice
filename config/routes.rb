@@ -117,6 +117,7 @@ Rails.application.routes.draw do
         patch :move_to_event
         post :remove_shareable_link
         post :unlock
+        post :set_as_not_missing
       end
 
       resources :sheet_unlock_requests, path: 'unlock/requests'

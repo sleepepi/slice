@@ -38,7 +38,7 @@
                   %span.label.label-success Handoff
               %td.text-right
                 - if sheet.missing?
-                  = link_to 'Set as Not Missing', project_sheet_path(@project, sheet, sheet: { missing: false }), method: :patch, class: 'btn btn-xs btn-default'
+                  = link_to 'Set as Not Missing', set_as_not_missing_project_sheet_path(@project, sheet), method: :post, class: 'btn btn-xs btn-default'
                 - else
                   - if sheet.comments.count > 0
                     = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do

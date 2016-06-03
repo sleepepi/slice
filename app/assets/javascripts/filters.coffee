@@ -47,10 +47,12 @@ $(document)
   .on('click', '[data-object~="edit-filter"]', () ->
     variable_id = $(this).data('variable-id')
     project_id = $(this).data('project-id')
-    missing = $('#variable_'+variable_id).children('input[data-name~="missing"]').val()
-    axis = $('#variable_'+variable_id).children('input[data-name~="axis"]').val()
-    by_var = $('#variable_'+variable_id).children('input[data-name~="by"]').val()
-    $.post(root_url + "projects/" + project_id + "/edit_filter?variable_id=" + variable_id + "&missing=" + missing + "&axis=" + axis + "&by=" + by_var, null, 'script')
+    params = {}
+    params.variable_id = variable_id
+    params.missing = $("#variable_#{variable_id}").children('input[data-name~="missing"]').val()
+    params.axis = $("#variable_#{variable_id}").children('input[data-name~="axis"]').val()
+    params.by = $("#variable_#{variable_id}").children('input[data-name~="by"]').val()
+    $.post("#{root_url}reports/projects/#{project_id}/edit_filter", params, null, 'script')
     false
   )
   .on('click', '[data-object~="update-filter"]', () ->

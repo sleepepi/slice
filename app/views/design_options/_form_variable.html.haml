@@ -56,11 +56,3 @@
   .col-md-10
     = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
     = render 'layouts/branching_logic_examples'
-
-- if %w(dropdown checkbox radio string text integer numeric date time time_duration signature).include?(variable.variable_type)
-  .form-group
-    %label.col-md-2.control-label Required on Form?
-    .col-md-10
-      = select_tag "design_option[required]", options_for_select([['Not Required', ''], ['Recommended', 'recommended'], ['Required', 'required']], design_option.required), class: 'form-control'
-- else
-  = hidden_field_tag "design_option[required]", ''
