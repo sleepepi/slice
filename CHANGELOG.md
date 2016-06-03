@@ -3,6 +3,7 @@
 ### Enhancements
 - **Design Changes**
   - Improved padding between section heading images and surrounding elements
+  - Required design options now have an indicator on the design reorder page
 - **Email Changes**
   - Changed Password Reset Email Reminder subject line to prevent email from
     getting marked as spam

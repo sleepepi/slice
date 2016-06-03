@@ -11,6 +11,7 @@
         %li.li-variable.nowrap{ id: "option_#{position}", style: 'margin-bottom:5px', data: { position: position } }
           .nowrap{ style: "display:inline-block;overflow:hidden;width:70%;#{'text-decoration: line-through;' if variable.deleted?}" }
             %span.glyphicon.glyphicon-move{ style: "#{'color:#D14' if variable.deleted?}" }
+            = render 'design_options/required', design_option: design_option
             = variable.display_name
           .nowrap{ style: 'width:20%;display:inline-block;overflow:hidden' }
             - if variable.deleted?
