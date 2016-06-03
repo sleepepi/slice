@@ -25,10 +25,10 @@
       - if editable_sites.count > 1
         %td= link_to subject.site.name, [@project, subject.site]
       %td
-        - sheet = subject.blinded_sheets(current_user).where.not(last_edited_at: nil).order(last_edited_at: :desc).first
+        - sheet = subject.last_created_or_edited_sheet(current_user)
         - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
         - if sheet && subject_event
-          - if sheet.last_edited_at > subject_event.updated_at
+          - if (sheet.last_edited_at && sheet.last_edited_at > subject_event.updated_at) || (sheet.last_edited_at.nil? && sheet.created_at > subject_event.updated_at)
             = link_to sheet.name, [@project, sheet]
           - else
             = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do

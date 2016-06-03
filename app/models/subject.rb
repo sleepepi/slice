@@ -80,6 +80,30 @@ class Subject < ActiveRecord::Base
     subject_events.where(event_id: current_user.all_viewable_events.select(:id))
   end
 
+  def last_created_or_edited_sheet(current_user)
+    edited_sheet = last_edited_sheet(current_user)
+    created_sheet = last_created_sheet(current_user)
+    if edited_sheet && created_sheet
+      if edited_sheet.last_edited_at > created_sheet.created_at
+        edited_sheet
+      else
+        created_sheet
+      end
+    elsif edited_sheet
+      edited_sheet
+    elsif created_sheet
+      created_sheet
+    end
+  end
+
+  def last_edited_sheet(current_user)
+    blinded_sheets(current_user).where.not(last_edited_at: nil).order(last_edited_at: :desc).first
+  end
+
+  def last_created_sheet(current_user)
+    blinded_sheets(current_user).order(created_at: :desc).first
+  end
+
   def validate_subject_format
     if user && site && site.subject_regex.present? && site.subject_regex !~ subject_code
       errors[:base] << "#{project.subject_code_name_full} must be in the following format: #{site.regex_string}"
