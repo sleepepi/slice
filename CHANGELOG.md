@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to Ruby 2.3.1
+  - Updated to kaminari 0.17.0
 
 ## 0.37.1 (March 24, 2016)
 
