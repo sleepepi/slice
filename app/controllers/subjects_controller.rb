@@ -207,9 +207,9 @@ class SubjectsController < ApplicationController
       subject_scope = subject_scope.without_design(params[:without_design_id]) if params[:without_design_id].present?
       subject_scope = subject_scope.with_design(params[:design_id]) if params[:design_id].present?
     end
-
+    subject_scope = subject_scope.randomized if params[:randomized] == '1'
+    subject_scope = subject_scope.unrandomized if params[:randomized] == '0'
     @subjects = subject_scope.page(params[:page]).per(40)
-    @events = @project.events.where(archived: false).order(:position)
   end
 
   # GET /subjects/1

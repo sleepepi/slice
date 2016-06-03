@@ -1,6 +1,10 @@
 ## 0.38.0
 
 ### Enhancements
+- **Subject Changes**
+  - The following filters have been added to the subject index:
+    - Filter by site
+    - Filter by randomization status
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0
