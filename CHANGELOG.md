@@ -23,6 +23,8 @@
     - Filter by open and closed adverse events
   - Sheets on subject page are now listed alphabetically
   - Adverse events on subject page now provide a brief description as well
+- **Variable Changes**
+  - Updated how variable options are displayed on the variables index
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0
