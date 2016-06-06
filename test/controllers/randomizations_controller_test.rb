@@ -34,7 +34,7 @@ class RandomizationsControllerTest < ActionController::TestCase
 
   test 'should get export as project editor' do
     login(users(:valid))
-    get :export, project_id: @project
+    get :export, params: { project_id: @project }
     assert_redirected_to [assigns(:project), assigns(:export)]
   end
 
