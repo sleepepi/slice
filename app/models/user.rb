@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
   has_many :adverse_event_files
   has_many :adverse_event_users
   has_many :categories, -> { where deleted: false }
-  has_many :contacts, -> { current }
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
   has_many :documents, -> { current }

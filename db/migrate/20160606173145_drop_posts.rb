@@ -15,6 +15,6 @@ class DropPosts < ActiveRecord::Migration
 
       t.timestamps
     end
-    remove_column :projects, :show_posts, null: false, default: true
+    add_column :projects, :show_posts, :boolean, null: false, default: true
   end
 end

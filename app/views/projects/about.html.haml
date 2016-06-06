@@ -11,12 +11,9 @@
       = @project.name
     = simple_markdown @project.description unless @project.description.blank?
 
-    - if @project.show_documents? or @project.show_contacts?
-      - extra_col_width = "col-sm-#{12 / [@project.show_documents?, @project.show_contacts?].select{|t| t}.size}"
+    - if @project.show_documents?
+      - extra_col_width = "col-sm-#{12 / [@project.show_documents?].select{|t| t}.size}"
       .row
         - if @project.show_documents?
           %div{ class: "#{extra_col_width}" }
             = render 'projects/show/documents'
-        - if @project.show_contacts?
-          %div{ class: "#{extra_col_width}" }
-            = render 'projects/show/contacts'

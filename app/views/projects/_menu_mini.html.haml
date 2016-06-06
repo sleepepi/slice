@@ -57,7 +57,3 @@
       %li
         = link_to project_documents_path(@project), class: (params[:controller] == 'documents' ? 'active' : nil) do
           Documents
-    - if @project.show_contacts?
-      %li
-        = link_to project_contacts_path(@project), class: (params[:controller] == 'contacts' ? 'active' : nil) do
-          Contacts

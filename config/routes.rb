@@ -91,7 +91,6 @@ Rails.application.routes.draw do
 
     resources :categories
 
-    resources :contacts
     resources :documents do
       member do
         get :file
