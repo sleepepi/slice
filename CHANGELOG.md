@@ -15,6 +15,10 @@
   - Variable required status is now included in the data dictionary export
   - Checkbox variables are now split apart into component variables in the data
     dictionary export to better reflect the columns in the sheet data export
+  - Adverse Events and Randomizations can be selected added when generating an
+    export
+  - The project export form now remembers the last export configuration when
+    generating a new export
 - **Handoff Changes**
   - Updated tablet handoff text with better information on preparing tablet for
     handoff to participant

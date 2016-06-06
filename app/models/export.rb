@@ -313,10 +313,9 @@ class Export < ActiveRecord::Base
 
   def generate_csv_adverse_events(filename)
     export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_aes.csv")
-
     CSV.open(export_file, 'wb') do |csv|
       csv << ['Adverse Event ID', 'Reported By', 'Subject', 'Reported On', 'Description', 'Status']
-      project.adverse_events.order(id: :desc).each do |ae|
+      user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
         csv << [
           ae.name,
           ae.reported_by,
@@ -327,22 +326,19 @@ class Export < ActiveRecord::Base
         ]
       end
     end
-
     ["csv/#{filename}_aes.csv", export_file]
   end
 
   def generate_csv_adverse_events_master_list(filename)
     export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_aes_master_list.csv")
-
     CSV.open(export_file, 'wb') do |csv|
       csv << ['Adverse Event ID', 'Sheet ID']
-      project.adverse_events.order(id: :desc).each do |ae|
+      user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
         ae.sheets.order(id: :desc).each do |sheet|
           csv << [ae.name, sheet.id]
         end
       end
     end
-
     ["csv/#{filename}_aes_master_list.csv", export_file]
   end
 
@@ -354,7 +350,7 @@ class Export < ActiveRecord::Base
       csv << column_headers
       randomizations = user.all_viewable_randomizations
                            .where(project_id: project.id)
-                           .includes(:subject)
+                           .includes(:subject, :treatment_arm, :list, :randomized_by, :randomization_scheme)
                            .order('randomized_at desc nulls last')
                            .select('randomizations.*')
       randomizations.each do |r|
