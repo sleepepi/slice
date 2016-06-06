@@ -1,0 +1,9 @@
+.imperial-height-input.form-inline
+  %span.feet-box
+    .input-group
+      = text_field_tag "#feet_#{variable.name}", '', disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
+      .input-group-addon ft
+  %span.inches-box
+    .input-group
+      = text_field_tag "#inches_#{variable.name}", '', disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
+      .input-group-addon in

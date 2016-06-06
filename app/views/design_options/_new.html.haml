@@ -3,7 +3,7 @@
   %h4.modal-title
     Add Section or Question
 .modal-body
-  - ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'time_duration', 'file', 'signature', 'existing_question', 'grid'].in_groups_of(3).each do |row_items|
+  - ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'time_duration', 'file', 'signature', 'imperial_height', 'grid', 'existing_question'].in_groups_of(3).each do |row_items|
     .row
       - row_items.each do |variable_type|
         - if variable_type and not ['section', 'existing_question'].include?(variable_type)
@@ -90,13 +90,13 @@
                     %tbody
                       %tr
                         %td
-                          %input.form-control{ placeholder: "Mouth breath number", type: "text", value: "1" }
-                        %td
+                          %input.form-control{ placeholder: 'Lap #', type: 'text', value: '1' }
+                        %td{ style: 'text-align:left' }
                           = select_tag 'exercise', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 2), disabled: false, class: 'chzn-select'
                       %tr
                         %td
-                          %input.form-control{ placeholder: "Mouth breath number", type: "text", value: "2" }
-                        %td
+                          %input.form-control{ placeholder: 'Lap #', type: 'text', value: '2' }
+                        %td{ style: 'text-align:left' }
                           = select_tag 'exercise2', "<option value=''></option>".html_safe + options_for_select([['1: Sprint', 1], ['2: Jog', 2], ['3: Walk', 3]], 3), disabled: false, class: 'chzn-select'
         - if variable_type == 'section'
           .col-md-4

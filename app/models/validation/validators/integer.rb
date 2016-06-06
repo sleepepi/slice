@@ -18,7 +18,7 @@ module Validation
       private
 
       def get_number(value)
-        Integer('%.0f' % value)
+        Integer(format('%d', value))
       rescue
         nil
       end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Variable < ApplicationRecord
-  TYPE = %w(dropdown checkbox radio string text integer numeric date time time_duration file calculated grid signature).sort.collect { |i| [i, i] }
+  TYPE = %w(dropdown checkbox radio string text integer numeric date time time_duration file calculated grid signature imperial_height).sort.collect { |i| [i, i] }
   TYPE_IMPORTABLE = %w(string text integer numeric date time).sort.collect { |i| [i, i] }
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
   DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]
@@ -207,7 +207,7 @@ class Variable < ApplicationRecord
   end
 
   def statistics?
-    %w(integer numeric calculated).include?(variable_type)
+    %w(integer numeric calculated imperial_height).include?(variable_type)
   end
 
   def has_domain?
@@ -397,7 +397,7 @@ class Variable < ApplicationRecord
       'time20'
     elsif %w(dropdown radio).include?(variable_type) && domain && !domain.all_numeric?
       '$500'
-    elsif %w(numeric integer dropdown radio).include?(variable_type)
+    elsif %w(numeric integer imperial_height dropdown radio).include?(variable_type)
       'best32'
     else # elsif %w(text).include?(variable_type)
       '$5000'
@@ -422,7 +422,7 @@ class Variable < ApplicationRecord
         [option_variable_name(option[:value]), "#{display_name} - #{option[:value]}: #{option[:name]}"]
       end
     else
-      [name, display_name]
+      [[name, display_name]]
     end
   end
 

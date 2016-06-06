@@ -23,6 +23,10 @@
   - Variable required status is now included in the data dictionary export
   - Checkbox variables are now split apart into component variables in the data
     dictionary export to better reflect the columns in the sheet data export
+  - Adverse Events and Randomizations can be selected added when generating an
+    export
+  - The project export form now remembers the last export configuration when
+    generating a new export
 - **Handoff Changes**
   - Updated tablet handoff text with better information on preparing tablet for
     handoff to participant
@@ -47,6 +51,10 @@
   - Adverse events on subject page now provide a brief description as well
 - **Variable Changes**
   - Updated how variable options are displayed on the variables index
+  - Variables marked as integer now display a validation error if the input is
+    in decimal format
+  - A new variable type, Imperial Height, has been added that allows data entry
+    for a height in feet and inches
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0

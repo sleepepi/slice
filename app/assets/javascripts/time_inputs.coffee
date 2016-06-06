@@ -30,6 +30,14 @@
   $("##{target_name}_hours").change()
   $("##{target_name}_hours").blur()
 
+@clearImperialHeightFields = (element) ->
+  target_name = element.data("target-name")
+  clearClassStyles(target_name)
+  $("##{target_name}_feet").val("")
+  $("##{target_name}_inches").val("")
+  $("##{target_name}_feet").change()
+  $("##{target_name}_feet").blur()
+
 @setCurrentDate = (element) ->
   target_name = element.data("target-name")
   date = new Date()
@@ -95,4 +103,8 @@ $(document)
   .on('click', '[data-object~="set-date-input-to-current-date"]', () ->
     setCurrentDate($(this))
     false
+  )
+  .on("click", '[data-object~="clear-imperial-height-input"]', (event) ->
+    clearImperialHeightFields($(this))
+    event.preventDefault()
   )

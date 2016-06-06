@@ -11,6 +11,7 @@ module Validation
     # 'grid' => Validation::Validators::Grid,
     'integer' => Validation::Validators::Integer,
     'numeric' => Validation::Validators::Numeric,
+    'imperial_height' => Validation::Validators::ImperialHeight,
     'radio' => Validation::Validators::SingleChoice,
     'signature' => Validation::Validators::Signature,
     # 'string' => Validation::Validators::String,

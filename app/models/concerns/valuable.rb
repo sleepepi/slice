@@ -57,6 +57,9 @@ module Valuable
     when 'time_duration'
       # Save valuable to string in "%H:%M:%S" db format
       response = { response: parse_time_duration_from_hash_to_s(response) }
+    when 'imperial_height'
+      # Save valuable to string in inches db format
+      response = { response: parse_imperial_height_from_hash_to_s(response) }
     else
       response = { response: response }
     end
