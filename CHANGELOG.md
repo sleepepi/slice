@@ -12,6 +12,7 @@
 - **Export Changes**
   - Data dictionary exports now include all designs on the project regardless of
     whether or not a sheet has been created from the design
+  - Variable required status is now included in the data dictionary export
 - **Handoff Changes**
   - Updated tablet handoff text with better information on preparing tablet for
     handoff to participant

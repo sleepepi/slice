@@ -191,7 +191,7 @@ class Export < ActiveRecord::Base
       csv << ['Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description',
               'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
               'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
-              'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name']
+              'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name', 'Required on Form?']
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
           section = design_option.section
@@ -217,7 +217,8 @@ class Export < ActiveRecord::Base
                     nil, # Display Name Visiblity
                     nil, # Alignment
                     nil, # Default Row Number
-                    nil] # Domain Name
+                    nil, # Domain Name
+                    nil] # Required on Form?
           elsif variable
             csv << [d.name,
                     variable.name,
@@ -239,7 +240,8 @@ class Export < ActiveRecord::Base
                     variable.display_name_visibility, # Display Name Visiblity
                     variable.alignment, # Alignment
                     variable.default_row_number, # Default Row Number
-                    (variable.domain ? variable.domain.name : '')] # Domain Name
+                    (variable.domain ? variable.domain.name : ''), # Domain Name
+                    design_option.required_string] # Required on Form?
           end
         end
       end

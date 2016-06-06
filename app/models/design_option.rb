@@ -14,4 +14,15 @@ class DesignOption < ActiveRecord::Base
   belongs_to :design
   belongs_to :variable
   belongs_to :section, dependent: :destroy
+
+  # Model Methods
+
+  def required_string
+    element = REQUIRED.find { |_label, value| value == required }
+    if element
+      element.first
+    else
+      'Not Required'
+    end
+  end
 end
