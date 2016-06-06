@@ -103,8 +103,8 @@ module DateAndTimeParser
     return unless imperial_height_hash.is_a? Hash
     feet = parse_integer(imperial_height_hash[:feet])
     inches = parse_integer(imperial_height_hash[:inches])
-    if feet && inches
-      total_inches = feet * 12 + inches
+    if feet || inches
+      total_inches = (feet || 0) * 12 + (inches || 0)
       feet_inches_hash(total_inches)
     end
   end
