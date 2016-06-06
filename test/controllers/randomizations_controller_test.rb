@@ -32,6 +32,12 @@ class RandomizationsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test 'should get export as project editor' do
+    login(users(:valid))
+    get :export, project_id: @project
+    assert_redirected_to [assigns(:project), assigns(:export)]
+  end
+
   test 'should get index' do
     login(users(:valid))
     get :index, project_id: @project

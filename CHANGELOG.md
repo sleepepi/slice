@@ -24,6 +24,7 @@
 - **Randomization Changes**
   - Added a message to inform project editors that randomization lists expand
     automatically after each randomization
+  - Randomization assignments can now be exported to CSV
 - **Sheet Changes**
   - A file attachment indicator has been added to the sheets index
   - Setting a missing sheet as not missing no longer prompts the project editor

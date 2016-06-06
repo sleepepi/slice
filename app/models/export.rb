@@ -95,6 +95,7 @@ class Export < ActiveRecord::Base
     all_files << generate_csv_grids(sheet_scope, filename, true, 'r')     if include_r? && include_grids?
     all_files << generate_csv_adverse_events(filename)                    if include_adverse_events?
     all_files << generate_csv_adverse_events_master_list(filename)        if include_adverse_events?
+    all_files << generate_csv_randomizations(filename)                    if include_randomizations?
 
     if include_files?
       sheet_scope.each do |sheet|
@@ -343,6 +344,29 @@ class Export < ActiveRecord::Base
     end
 
     ["csv/#{filename}_aes_master_list.csv", export_file]
+  end
+
+  def generate_csv_randomizations(filename)
+    export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_randomizations.csv")
+    CSV.open(export_file, 'wb') do |csv|
+      csv << ['Randomization #', 'Subject', 'Treatment Arm', 'List', 'Randomized At', 'Randomized By']
+      randomizations = user.all_viewable_randomizations
+                           .where(project_id: project.id)
+                           .includes(:subject)
+                           .order('randomized_at desc nulls last')
+                           .select('randomizations.*')
+      randomizations.each do |r|
+        csv << [
+          r.name,
+          (r.subject ? r.subject.name : nil),
+          (r.treatment_arm ? r.treatment_arm.name : nil),
+          (r.list ? r.list.name : nil),
+          r.randomized_at,
+          (r.randomized_by ? r.randomized_by.name : nil)
+        ]
+      end
+    end
+    ["csv/#{filename}_randomizations.csv", export_file]
   end
 
   def all_design_variables_without_grids(sheet_scope)
