@@ -104,8 +104,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :links
-
     resources :sheets do
       member do
         get :file

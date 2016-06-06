@@ -44,7 +44,7 @@
   - Updated to kaminari 0.17.0
 
 ### Refactoring
-- Removed unused project news
+- Removed unused project news and links
 
 ### Bug Fixes
 - Fixed a bug that prevented the last created sheet from appearing under Recent
