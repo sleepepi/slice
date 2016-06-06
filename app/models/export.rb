@@ -349,7 +349,9 @@ class Export < ApplicationRecord
   def generate_csv_randomizations(filename)
     export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_randomizations.csv")
     CSV.open(export_file, 'wb') do |csv|
-      csv << ['Randomization #', 'Subject', 'Treatment Arm', 'List', 'Randomized At', 'Randomized By']
+      column_headers = ['Randomization #', 'Subject', 'Treatment Arm', 'List', 'Randomized At', 'Randomized By']
+      column_headers += ['Scheme'] if project.randomization_schemes.count > 1
+      csv << column_headers
       randomizations = user.all_viewable_randomizations
                            .where(project_id: project.id)
                            .includes(:subject)
@@ -362,7 +364,8 @@ class Export < ApplicationRecord
           (r.treatment_arm ? r.treatment_arm.name : nil),
           (r.list ? r.list.name : nil),
           r.randomized_at,
-          (r.randomized_by ? r.randomized_by.name : nil)
+          (r.randomized_by ? r.randomized_by.name : nil),
+          (project.randomization_schemes.count > 1 ? r.randomization_scheme.name : nil)
         ]
       end
     end
