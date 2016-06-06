@@ -29,7 +29,6 @@ class User < ActiveRecord::Base
   has_many :categories, -> { where deleted: false }
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
-  has_many :documents, -> { current }
   has_many :domains, -> { current }
   has_many :events, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }

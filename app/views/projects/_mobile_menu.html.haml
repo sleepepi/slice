@@ -52,7 +52,3 @@
       %li
         = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) ? 'active' : nil) do
           Schemes
-    - if @project.show_documents?
-      %li
-        = link_to project_documents_path(@project), class: (params[:controller] == 'documents' ? 'active' : nil) do
-          Documents

@@ -4,7 +4,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :settings, :show, :collect, :share, :about, :favorite, :activity, :logo,
+    :settings, :show, :collect, :share, :favorite, :activity, :logo,
     :archive, :restore
   ]
 
@@ -134,8 +134,7 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(
-      :name, :slug, :description, :subject_code_name,
-      :show_documents, :disable_all_emails,
+      :name, :slug, :description, :subject_code_name, :disable_all_emails,
       :collect_email_on_surveys, :hide_values_on_pdfs,
       :randomizations_enabled, :adverse_events_enabled, :blinding_enabled,
       :handoffs_enabled, :auto_lock_sheets,

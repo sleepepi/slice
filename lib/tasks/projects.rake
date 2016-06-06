@@ -27,7 +27,6 @@ def copy_project(original)
     description: original.description,
     logo: original.logo,
     subject_code_name: original.subject_code_name,
-    show_documents: original.show_documents,
     disable_all_emails: original.disable_all_emails,
     collect_email_on_surveys: original.collect_email_on_surveys,
     hide_values_on_pdfs: original.hide_values_on_pdfs,

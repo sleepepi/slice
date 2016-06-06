@@ -48,9 +48,7 @@ class Project < ActiveRecord::Base
   has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
   has_many :site_users
-
   has_many :project_favorites
-
   has_many :adverse_events, -> { current.joins(:subject).merge(Subject.current) }
   has_many :categories, -> { where(deleted: false).order(:position) }
   has_many :designs, -> { where deleted: false }
@@ -59,15 +57,10 @@ class Project < ActiveRecord::Base
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
   has_many :sites, -> { where(deleted: false).order(:name) }
   has_many :subjects, -> { where deleted: false }
-
   has_many :exports, -> { where deleted: false }
   has_many :events, -> { where deleted: false }
   has_many :handoffs
-
-  has_many :documents, -> { where deleted: false }
-
   has_many :domains, -> { where deleted: false }
-
   has_many :randomizations, -> { where deleted: false }
   has_many :randomization_schemes, -> { where deleted: false }
   has_many :tasks, -> { current }
