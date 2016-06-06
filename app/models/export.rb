@@ -86,7 +86,7 @@ class Export < ApplicationRecord
     all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw? && include_grids?
     all_files << generate_readme('csv')                                   if include_csv_labeled? || include_csv_raw?
     all_files += generate_pdf(sheet_scope)                                if include_pdf?
-    all_files += generate_data_dictionary(sheet_scope)                    if include_data_dictionary?
+    all_files += generate_data_dictionary                                 if include_data_dictionary?
     all_files += generate_sas(sheet_scope, filename)                      if include_sas?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if include_sas?
     all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas? && include_grids?
@@ -95,6 +95,7 @@ class Export < ApplicationRecord
     all_files << generate_csv_grids(sheet_scope, filename, true, 'r')     if include_r? && include_grids?
     all_files << generate_csv_adverse_events(filename)                    if include_adverse_events?
     all_files << generate_csv_adverse_events_master_list(filename)        if include_adverse_events?
+    all_files << generate_csv_randomizations(filename)                    if include_randomizations?
 
     if include_files?
       sheet_scope.each do |sheet|
@@ -165,9 +166,8 @@ class Export < ApplicationRecord
     [["PDF/#{pdf_file.split('/').last}", pdf_file], generate_readme('pdf')]
   end
 
-  def generate_data_dictionary(sheet_scope)
-    design_scope = Design.where(id: sheet_scope.pluck(:design_id)).order('name')
-
+  def generate_data_dictionary
+    design_scope = project.designs.order(:name)
     designs_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_designs.csv")
 
     CSV.open(designs_csv, 'wb') do |csv|
@@ -175,10 +175,14 @@ class Export < ApplicationRecord
 
       design_scope.each do |d|
         d.design_options.includes(:section, :variable).each do |design_option|
-          if section = design_option.section
+          section = design_option.section
+          variable = design_option.variable
+          if section
             csv << [d.name, section.to_slug, section.name, design_option.branching_logic, section.description]
-          elsif variable = design_option.variable
-            csv << [d.name, variable.name, variable.display_name, design_option.branching_logic, variable.description]
+          elsif variable
+            variable.csv_columns_and_names.each do |variable_name, variable_display_name|
+              csv << [d.name, variable_name, variable_display_name, design_option.branching_logic, variable.description]
+            end
           end
         end
       end
@@ -190,7 +194,7 @@ class Export < ApplicationRecord
       csv << ['Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description',
               'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
               'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
-              'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name']
+              'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name', 'Required on Form?']
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
           section = design_option.section
@@ -216,29 +220,33 @@ class Export < ApplicationRecord
                     nil, # Display Name Visiblity
                     nil, # Alignment
                     nil, # Default Row Number
-                    nil] # Domain Name
+                    nil, # Domain Name
+                    nil] # Required on Form?
           elsif variable
-            csv << [d.name,
-                    variable.name,
-                    variable.display_name,
-                    variable.description, # Variable Description
-                    variable.variable_type,
-                    (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min
-                    (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min
-                    (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum), # Soft Max
-                    (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum), # Hard Max
-                    variable.calculation, # Calculation
-                    variable.prepend, # Variable Prepend
-                    variable.units, # Variable Units
-                    variable.append, # Variable Append
-                    variable.format, # Format
-                    variable.multiple_rows, # Multiple Rows
-                    variable.autocomplete_values, # Autocomplete Values
-                    variable.show_current_button, # Show Current Button
-                    variable.display_name_visibility, # Display Name Visiblity
-                    variable.alignment, # Alignment
-                    variable.default_row_number, # Default Row Number
-                    (variable.domain ? variable.domain.name : '')] # Domain Name
+            variable.csv_columns_and_names.each do |variable_name, variable_display_name|
+              csv << [d.name,
+                      variable_name,
+                      variable_display_name,
+                      variable.description, # Variable Description
+                      variable.variable_type,
+                      (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min
+                      (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min
+                      (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum), # Soft Max
+                      (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum), # Hard Max
+                      variable.calculation, # Calculation
+                      variable.prepend, # Variable Prepend
+                      variable.units, # Variable Units
+                      variable.append, # Variable Append
+                      variable.format, # Format
+                      variable.multiple_rows, # Multiple Rows
+                      variable.autocomplete_values, # Autocomplete Values
+                      variable.show_current_button, # Show Current Button
+                      variable.display_name_visibility, # Display Name Visiblity
+                      variable.alignment, # Alignment
+                      variable.default_row_number, # Default Row Number
+                      (variable.domain ? variable.domain.name : ''), # Domain Name
+                      design_option.required_string] # Required on Form?
+            end
           end
         end
       end
@@ -268,7 +276,7 @@ class Export < ApplicationRecord
     end
 
     update_steps(sheet_ids_count)
-    [["DD/#{designs_csv.split('/').last}", designs_csv], ["DD/#{variables_csv.split('/').last}", variables_csv], ["DD/#{domains_csv.split('/').last}", domains_csv], generate_readme('dd', sheet_scope)]
+    [["DD/#{designs_csv.split('/').last}", designs_csv], ["DD/#{variables_csv.split('/').last}", variables_csv], ["DD/#{domains_csv.split('/').last}", domains_csv], generate_readme('dd')]
   end
 
   def generate_statistic_export_from_erb(sheet_scope, filename, language)
@@ -336,6 +344,29 @@ class Export < ApplicationRecord
     end
 
     ["csv/#{filename}_aes_master_list.csv", export_file]
+  end
+
+  def generate_csv_randomizations(filename)
+    export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_randomizations.csv")
+    CSV.open(export_file, 'wb') do |csv|
+      csv << ['Randomization #', 'Subject', 'Treatment Arm', 'List', 'Randomized At', 'Randomized By']
+      randomizations = user.all_viewable_randomizations
+                           .where(project_id: project.id)
+                           .includes(:subject)
+                           .order('randomized_at desc nulls last')
+                           .select('randomizations.*')
+      randomizations.each do |r|
+        csv << [
+          r.name,
+          (r.subject ? r.subject.name : nil),
+          (r.treatment_arm ? r.treatment_arm.name : nil),
+          (r.list ? r.list.name : nil),
+          r.randomized_at,
+          (r.randomized_by ? r.randomized_by.name : nil)
+        ]
+      end
+    end
+    ["csv/#{filename}_randomizations.csv", export_file]
   end
 
   def all_design_variables_without_grids(sheet_scope)

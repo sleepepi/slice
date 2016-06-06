@@ -176,6 +176,7 @@ Rails.application.routes.draw do
     resources :randomizations do
       collection do
         get 'choose-scheme', action: :choose_scheme, as: :choose_scheme
+        get :export
       end
       member do
         get :schedule

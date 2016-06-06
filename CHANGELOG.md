@@ -17,6 +17,12 @@
 - **Email Changes**
   - Changed Password Reset Email Reminder subject line to prevent email from
     getting marked as spam
+- **Export Changes**
+  - Data dictionary exports now include all designs on the project regardless of
+    whether or not a sheet has been created from the design
+  - Variable required status is now included in the data dictionary export
+  - Checkbox variables are now split apart into component variables in the data
+    dictionary export to better reflect the columns in the sheet data export
 - **Handoff Changes**
   - Updated tablet handoff text with better information on preparing tablet for
     handoff to participant
@@ -26,6 +32,7 @@
 - **Randomization Changes**
   - Added a message to inform project editors that randomization lists expand
     automatically after each randomization
+  - Randomization assignments can now be exported to CSV
 - **Sheet Changes**
   - A file attachment indicator has been added to the sheets index
   - Setting a missing sheet as not missing no longer prompts the project editor

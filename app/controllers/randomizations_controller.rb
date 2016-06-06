@@ -4,7 +4,7 @@
 # editors are able to undo randomizations.
 class RandomizationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_viewable_project_or_redirect, only: [:index, :show, :schedule]
+  before_action :find_viewable_project_or_redirect, only: [:index, :export, :show, :schedule]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [:choose_scheme, :undo]
   before_action :redirect_blinded_users
   before_action :find_viewable_randomization_or_redirect, only: [:show, :schedule]
@@ -17,6 +17,15 @@ class RandomizationsController < ApplicationController
         @project.randomization_schemes.published.first
       )
     end
+  end
+
+  # GET /randomizations/export
+  def export
+    @export = current_user.exports
+                          .where(project_id: @project.id, name: @project.name_with_date_for_file, total_steps: 1)
+                          .create(include_randomizations: true)
+    @export.generate_export_in_background!
+    redirect_to [@project, @export]
   end
 
   # GET /randomizations
