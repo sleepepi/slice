@@ -179,7 +179,9 @@ class Export < ActiveRecord::Base
           if section
             csv << [d.name, section.to_slug, section.name, design_option.branching_logic, section.description]
           elsif variable
-            csv << [d.name, variable.name, variable.display_name, design_option.branching_logic, variable.description]
+            variable.csv_columns_and_names.each do |variable_name, variable_display_name|
+              csv << [d.name, variable_name, variable_display_name, design_option.branching_logic, variable.description]
+            end
           end
         end
       end
@@ -220,28 +222,30 @@ class Export < ActiveRecord::Base
                     nil, # Domain Name
                     nil] # Required on Form?
           elsif variable
-            csv << [d.name,
-                    variable.name,
-                    variable.display_name,
-                    variable.description, # Variable Description
-                    variable.variable_type,
-                    (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min
-                    (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min
-                    (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum), # Soft Max
-                    (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum), # Hard Max
-                    variable.calculation, # Calculation
-                    variable.prepend, # Variable Prepend
-                    variable.units, # Variable Units
-                    variable.append, # Variable Append
-                    variable.format, # Format
-                    variable.multiple_rows, # Multiple Rows
-                    variable.autocomplete_values, # Autocomplete Values
-                    variable.show_current_button, # Show Current Button
-                    variable.display_name_visibility, # Display Name Visiblity
-                    variable.alignment, # Alignment
-                    variable.default_row_number, # Default Row Number
-                    (variable.domain ? variable.domain.name : ''), # Domain Name
-                    design_option.required_string] # Required on Form?
+            variable.csv_columns_and_names.each do |variable_name, variable_display_name|
+              csv << [d.name,
+                      variable_name,
+                      variable_display_name,
+                      variable.description, # Variable Description
+                      variable.variable_type,
+                      (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min
+                      (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min
+                      (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum), # Soft Max
+                      (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum), # Hard Max
+                      variable.calculation, # Calculation
+                      variable.prepend, # Variable Prepend
+                      variable.units, # Variable Units
+                      variable.append, # Variable Append
+                      variable.format, # Format
+                      variable.multiple_rows, # Multiple Rows
+                      variable.autocomplete_values, # Autocomplete Values
+                      variable.show_current_button, # Show Current Button
+                      variable.display_name_visibility, # Display Name Visiblity
+                      variable.alignment, # Alignment
+                      variable.default_row_number, # Default Row Number
+                      (variable.domain ? variable.domain.name : ''), # Domain Name
+                      design_option.required_string] # Required on Form?
+            end
           end
         end
       end

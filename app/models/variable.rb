@@ -417,6 +417,16 @@ class Variable < ActiveRecord::Base
     end
   end
 
+  def csv_columns_and_names
+    if variable_type == 'checkbox'
+      shared_options.collect do |option|
+        [option_variable_name(option[:value]), "#{display_name} - #{option[:value]}: #{option[:name]}"]
+      end
+    else
+      [name, display_name]
+    end
+  end
+
   def sas_informat_definition
     if variable_type == 'checkbox'
       option_informat = (domain && !domain.all_numeric? ? '$500' : 'best32')
