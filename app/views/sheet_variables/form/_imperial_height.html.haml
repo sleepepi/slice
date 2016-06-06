@@ -1,0 +1,18 @@
+- is_grid = defined?(grid)
+- target_name = field_name.gsub('[', '_').gsub(']', '')
+- value = variable.response_to_value(response)
+
+.imperial-height-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'imperial_height', status: variable.validator.status(value) } }
+  %span.feet-box
+    .input-group
+      = text_field_tag "#{field_name}[feet]", (value[:feet] ? format('%d', value[:feet]) : nil), disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
+      .input-group-addon ft
+  %span.inches-box
+    .input-group
+      = text_field_tag "#{field_name}[inches]", (value[:inches] ? format('%d', value[:inches]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
+      .input-group-addon in
+  &nbsp;
+  - unless is_grid
+    = link_to 'Clear', '#', data: { object: 'clear-imperial-height-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+
+= render 'validation/full_message', variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

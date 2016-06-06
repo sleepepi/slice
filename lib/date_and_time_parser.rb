@@ -94,6 +94,28 @@ module DateAndTimeParser
     nil
   end
 
+  def parse_imperial_height(imperial_height_string)
+    total_inches = parse_integer(imperial_height_string)
+    feet_inches_hash(total_inches)
+  end
+
+  def parse_imperial_height_from_hash(imperial_height_hash)
+    return unless imperial_height_hash.is_a? Hash
+    feet = parse_integer(imperial_height_hash[:feet])
+    inches = parse_integer(imperial_height_hash[:inches])
+    if feet && inches
+      total_inches = feet * 12 + inches
+      feet_inches_hash(total_inches)
+    end
+  end
+
+  def parse_imperial_height_from_hash_to_s(imperial_height_hash, default_imperial_height: '')
+    hash = parse_imperial_height_from_hash(imperial_height_hash)
+    "#{hash[:feet] * 12 + hash[:inches]}"
+  rescue
+    default_imperial_height
+  end
+
   private
 
   def hms_hash(hours, minutes, seconds)
@@ -102,6 +124,16 @@ module DateAndTimeParser
     hash[:hours]   = hours   || 0
     hash[:minutes] = minutes || 0
     hash[:seconds] = seconds || 0
+    hash
+  end
+
+  def feet_inches_hash(total_inches)
+    return unless total_inches
+    feet = total_inches / 12
+    inches = total_inches % 12
+    hash = {}
+    hash[:feet]   = feet   || 0
+    hash[:inches] = inches || 0
     hash
   end
 end

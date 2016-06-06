@@ -45,6 +45,8 @@
   - Updated how variable options are displayed on the variables index
   - Variables marked as integer now display a validation error if the input is
     in decimal format
+  - A new variable type, Imperial Height, has been added that allows data entry
+    for a height in feet and inches
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0

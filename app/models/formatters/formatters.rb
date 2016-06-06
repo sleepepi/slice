@@ -12,6 +12,7 @@ module Formatters
     'integer' => Formatters::IntegerFormatter,
     'calculated' => Formatters::NumericFormatter,
     'numeric' => Formatters::NumericFormatter,
+    'imperial_height' => Formatters::ImperialHeightFormatter,
     'time_duration' => Formatters::TimeDurationFormatter,
     'time' => Formatters::TimeFormatter
   }
