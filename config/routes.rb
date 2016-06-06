@@ -104,7 +104,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :posts
     resources :links
 
     resources :sheets do

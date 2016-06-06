@@ -43,6 +43,9 @@
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0
 
+### Refactoring
+- Removed unused project news
+
 ### Bug Fixes
 - Fixed a bug that prevented the last created sheet from appearing under Recent
   Activity if the sheet was publicly created

@@ -56,12 +56,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.daily_digest(recipient)
   end
 
-  def project_news
-    post = Post.current.first
-    recipient = User.current.first
-    UserMailer.project_news(post, recipient)
-  end
-
   def subject_randomized
     randomization = Randomization.where.not(subject_id: nil).first
     user = User.current.first

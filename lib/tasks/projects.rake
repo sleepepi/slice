@@ -27,7 +27,6 @@ def copy_project(original)
     description: original.description,
     logo: original.logo,
     subject_code_name: original.subject_code_name,
-    show_posts: original.show_posts,
     show_documents: original.show_documents,
     show_contacts: original.show_contacts,
     disable_all_emails: original.disable_all_emails,
