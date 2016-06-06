@@ -58,7 +58,6 @@ Rails.application.routes.draw do
       post :favorite
       get :activity
       get :share
-      get :about
       get :logo
       post :archive
       post :restore
@@ -91,21 +90,11 @@ Rails.application.routes.draw do
 
     resources :categories
 
-    resources :contacts
-    resources :documents do
-      member do
-        get :file
-      end
-    end
-
     resources :events do
       collection do
         post :add_design
       end
     end
-
-    resources :posts
-    resources :links
 
     resources :sheets do
       member do

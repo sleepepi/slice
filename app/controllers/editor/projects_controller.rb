@@ -41,8 +41,7 @@ class Editor::ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(
-      :name, :slug, :description, :subject_code_name, :show_contacts,
-      :show_documents, :show_posts, :disable_all_emails,
+      :name, :slug, :description, :subject_code_name, :disable_all_emails,
       :collect_email_on_surveys, :hide_values_on_pdfs,
       :randomizations_enabled, :adverse_events_enabled, :blinding_enabled,
       :handoffs_enabled, :auto_lock_sheets,

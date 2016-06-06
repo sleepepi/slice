@@ -89,16 +89,6 @@ class UserMailer < ApplicationMailer
     mail(to: recipient.email, subject: "Daily Digest for #{Time.zone.today.strftime('%a %d %b %Y')}")
   end
 
-  def project_news(post, recipient)
-    setup_email
-    @post = post
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: "#{post.name} [#{post.user.name} Added a News Post on #{post.project.name}]",
-         reply_to: post.user.email)
-  end
-
   def subject_randomized(randomization, user)
     setup_email
     @randomization = randomization

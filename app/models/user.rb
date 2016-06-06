@@ -27,17 +27,13 @@ class User < ApplicationRecord
   has_many :adverse_event_files
   has_many :adverse_event_users
   has_many :categories, -> { where deleted: false }
-  has_many :contacts, -> { current }
   has_many :comments, -> { where deleted: false }
   has_many :designs, -> { where deleted: false }
-  has_many :documents, -> { current }
   has_many :domains, -> { current }
   has_many :events, -> { where deleted: false }
   has_many :exports, -> { where deleted: false }
   has_many :handoffs
-  has_many :links, -> { current }
   has_many :notifications, -> { joins(:project).merge(Project.current) }
-  has_many :posts, -> { current }
   has_many :projects, -> { where deleted: false }
   has_many :project_favorites
   has_many :randomization_schemes, -> { where deleted: false }
