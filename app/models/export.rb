@@ -86,7 +86,7 @@ class Export < ActiveRecord::Base
     all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw? && include_grids?
     all_files << generate_readme('csv')                                   if include_csv_labeled? || include_csv_raw?
     all_files += generate_pdf(sheet_scope)                                if include_pdf?
-    all_files += generate_data_dictionary(sheet_scope)                    if include_data_dictionary?
+    all_files += generate_data_dictionary                                 if include_data_dictionary?
     all_files += generate_sas(sheet_scope, filename)                      if include_sas?
     all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if include_sas?
     all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas? && include_grids?
@@ -165,9 +165,8 @@ class Export < ActiveRecord::Base
     [["PDF/#{pdf_file.split('/').last}", pdf_file], generate_readme('pdf')]
   end
 
-  def generate_data_dictionary(sheet_scope)
-    design_scope = Design.where(id: sheet_scope.pluck(:design_id)).order('name')
-
+  def generate_data_dictionary
+    design_scope = project.designs.order(:name)
     designs_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_designs.csv")
 
     CSV.open(designs_csv, 'wb') do |csv|
@@ -175,9 +174,11 @@ class Export < ActiveRecord::Base
 
       design_scope.each do |d|
         d.design_options.includes(:section, :variable).each do |design_option|
-          if section = design_option.section
+          section = design_option.section
+          variable = design_option.variable
+          if section
             csv << [d.name, section.to_slug, section.name, design_option.branching_logic, section.description]
-          elsif variable = design_option.variable
+          elsif variable
             csv << [d.name, variable.name, variable.display_name, design_option.branching_logic, variable.description]
           end
         end
@@ -268,7 +269,7 @@ class Export < ActiveRecord::Base
     end
 
     update_steps(sheet_ids_count)
-    [["DD/#{designs_csv.split('/').last}", designs_csv], ["DD/#{variables_csv.split('/').last}", variables_csv], ["DD/#{domains_csv.split('/').last}", domains_csv], generate_readme('dd', sheet_scope)]
+    [["DD/#{designs_csv.split('/').last}", designs_csv], ["DD/#{variables_csv.split('/').last}", variables_csv], ["DD/#{domains_csv.split('/').last}", domains_csv], generate_readme('dd')]
   end
 
   def generate_statistic_export_from_erb(sheet_scope, filename, language)

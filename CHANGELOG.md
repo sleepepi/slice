@@ -9,6 +9,9 @@
 - **Email Changes**
   - Changed Password Reset Email Reminder subject line to prevent email from
     getting marked as spam
+- **Export Changes**
+  - Data dictionary exports now include all designs on the project regardless of
+    whether or not a sheet has been created from the design
 - **Handoff Changes**
   - Updated tablet handoff text with better information on preparing tablet for
     handoff to participant
