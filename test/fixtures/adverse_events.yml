@@ -15,3 +15,12 @@ two:
   description: MyText
   adverse_event_date: 2015-09-24
   closed: false
+
+shared:
+  project: one
+  user: site_one_editor
+  subject: code03
+  description: Shared with Medical Monitor
+  adverse_event_date: 2016-03-05
+  closed: false
+  authentication_token: shared

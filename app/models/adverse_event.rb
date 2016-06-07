@@ -14,6 +14,7 @@ class AdverseEvent < ActiveRecord::Base
   validate :ae_date_cannot_be_in_future
   validates :description, presence: true
   validates :project_id, :subject_id, :user_id, presence: true
+  validates :authentication_token, uniqueness: true, allow_nil: true
 
   # Model Relationships
   belongs_to :project
@@ -135,5 +136,16 @@ class AdverseEvent < ActiveRecord::Base
   def destroy
     super
     notifications.destroy_all
+  end
+
+  def id_and_token
+    "#{id}-#{authentication_token}"
+  end
+
+  def set_token
+    return unless authentication_token.blank?
+    update authentication_token: SecureRandom.hex(12)
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
+    retry
   end
 end

@@ -1,8 +1,9 @@
 %form.form-horizontal
-  .pull-right
-    = link_to project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' do
-      %span.glyphicon.glyphicon-print
-      PDF
+  - if current_user
+    .pull-right
+      = link_to project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default btn-xs' do
+        %span.glyphicon.glyphicon-print
+        PDF
 
   .design-header= @sheet.design.name
 

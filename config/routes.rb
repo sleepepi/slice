@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'adverse_event/show'
+
   get 'survey', to: 'survey#index', as: :about_survey
   get 'survey/:slug', to: 'survey#new', as: :new_survey
   get 'survey/:slug/:sheet_authentication_token', to: 'survey#edit', as: :edit_survey
   post 'survey/:slug', to: 'survey#create'
   patch 'survey/:slug/:sheet_authentication_token', to: 'survey#update'
+  get 'adverse-event/:authentication_token', to: 'adverse_event#show'
 
   resources :comments
   resources :lists
@@ -76,6 +79,8 @@ Rails.application.routes.draw do
       end
       member do
         get :forms
+        post :set_shareable_link
+        post :remove_shareable_link
       end
       resources :adverse_event_comments, path: 'comments'
       resources :adverse_event_files, path: 'files' do
