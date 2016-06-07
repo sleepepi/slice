@@ -20,14 +20,20 @@ class AdverseEventControllerTest < ActionController::TestCase
 
   test 'should review shared adverse event' do
     assert_difference('AdverseEventReview.count') do
-      post :review, authentication_token: @shared.id_and_token, adverse_event_review: { name: 'Reviewer', comment: 'I reviewed this.' }
+      post :review, params: {
+        authentication_token: @shared.id_and_token,
+        adverse_event_review: { name: 'Reviewer', comment: 'I reviewed this.' }
+      }
     end
     assert_redirected_to about_path
   end
 
   test 'should not submit review of shared adverse event with blank name or comment' do
     assert_difference('AdverseEventReview.count', 0) do
-      post :review, authentication_token: @shared.id_and_token, adverse_event_review: { name: '', comment: '' }
+      post :review, params: {
+        authentication_token: @shared.id_and_token,
+        adverse_event_review: { name: '', comment: '' }
+      }
     end
     assert_template 'show'
     assert_response :success
