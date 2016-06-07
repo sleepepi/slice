@@ -1,0 +1,9 @@
+.imperial-weight-input.form-inline
+  %span.pounds-box
+    .input-group
+      = text_field_tag "#pounds_#{variable.name}", '', disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
+      .input-group-addon lb
+  %span.ounces-box
+    .input-group
+      = text_field_tag "#ounces_#{variable.name}", '', disabled: true, placeholder: '', class: 'form-control', style: 'display: inline-block;'
+      .input-group-addon oz

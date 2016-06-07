@@ -56,6 +56,9 @@ module Valuable
     when 'imperial_height'
       # Save valuable to string in inches db format
       response = { response: parse_imperial_height_from_hash_to_s(response) }
+    when 'imperial_weight'
+      # Save valuable to string in ounces db format
+      response = { response: parse_imperial_weight_from_hash_to_s(response) }
     else
       response = { response: response }
     end

@@ -104,16 +104,38 @@ module DateAndTimeParser
     feet = parse_integer(imperial_height_hash[:feet])
     inches = parse_integer(imperial_height_hash[:inches])
     if feet || inches
-      total_inches = (feet || 0) * 12 + (inches || 0)
+      total_inches = ((feet || 0).abs * 12 + (inches || 0).abs) * ((feet || 0).negative? ? -1 : 1)
       feet_inches_hash(total_inches)
     end
   end
 
   def parse_imperial_height_from_hash_to_s(imperial_height_hash, default_imperial_height: '')
     hash = parse_imperial_height_from_hash(imperial_height_hash)
-    "#{hash[:feet] * 12 + hash[:inches]}"
+    hash[:total_inches].to_s
   rescue
     default_imperial_height
+  end
+
+  def parse_imperial_weight(imperial_weight_string)
+    total_ounces = parse_integer(imperial_weight_string)
+    pounds_ounces_hash(total_ounces)
+  end
+
+  def parse_imperial_weight_from_hash(imperial_weight_hash)
+    return unless imperial_weight_hash.is_a? Hash
+    pounds = parse_integer(imperial_weight_hash[:pounds])
+    ounces = parse_integer(imperial_weight_hash[:ounces])
+    if pounds || ounces
+      total_ounces = ((pounds || 0).abs * 16 + (ounces || 0).abs) * ((pounds || 0).negative? ? -1 : 1)
+      pounds_ounces_hash(total_ounces)
+    end
+  end
+
+  def parse_imperial_weight_from_hash_to_s(imperial_weight_hash, default_imperial_weight: '')
+    hash = parse_imperial_weight_from_hash(imperial_weight_hash)
+    hash[:total_ounces].to_s
+  rescue
+    default_imperial_weight
   end
 
   private
@@ -129,11 +151,23 @@ module DateAndTimeParser
 
   def feet_inches_hash(total_inches)
     return unless total_inches
-    feet = total_inches / 12
-    inches = total_inches % 12
+    feet = (total_inches.abs / 12) * (total_inches.negative? ? -1 : 1)
+    inches = total_inches.abs % 12
     hash = {}
     hash[:feet]   = feet   || 0
     hash[:inches] = inches || 0
+    hash[:total_inches] = total_inches
+    hash
+  end
+
+  def pounds_ounces_hash(total_ounces)
+    return unless total_ounces
+    pounds = (total_ounces.abs / 16) * (total_ounces.negative? ? -1 : 1)
+    ounces = total_ounces.abs % 16
+    hash = {}
+    hash[:pounds] = pounds || 0
+    hash[:ounces] = ounces || 0
+    hash[:total_ounces] = total_ounces
     hash
   end
 end

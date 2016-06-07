@@ -49,6 +49,8 @@
     in decimal format
   - A new variable type, Imperial Height, has been added that allows data entry
     for a height in feet and inches
+  - A new variable type, Imperial Weight, has been added that allows data entry
+    for a weight in pounds and ounces
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to kaminari 0.17.0

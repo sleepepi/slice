@@ -27,6 +27,8 @@
   $("##{target_name}_period").parent().removeClass('has-warning has-error')
   $("##{target_name}_feet").parent().removeClass('has-warning has-error')
   $("##{target_name}_inches").parent().removeClass('has-warning has-error')
+  $("##{target_name}_pounds").parent().removeClass('has-warning has-error')
+  $("##{target_name}_ounces").parent().removeClass('has-warning has-error')
   $("##{target_name}").parent().removeClass('has-warning has-error')
   $("##{target_name}_alert_box")
     .removeClass('bs-callout-warning bs-callout-danger')
@@ -124,6 +126,22 @@
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_alert_box").show()
 
+@setImperialWeightValidityClass = (parent, data) ->
+  target_name = parent.data("target-name")
+  clearClassStyles(target_name)
+  setDefaultClassStyles(target_name, data)
+  setValidationProperty(parent, data)
+  if data['status'] == 'invalid' or data['status'] == 'out_of_range'
+    $("##{target_name}_alert_box").addClass('bs-callout-danger')
+    $("##{target_name}_pounds").parent().addClass('has-error')
+    $("##{target_name}_ounces").parent().addClass('has-error')
+  if data['status'] == 'in_hard_range'
+    $("##{target_name}_pounds").parent().addClass('has-warning')
+    $("##{target_name}_ounces").parent().addClass('has-warning')
+    $("##{target_name}_alert_box").addClass('bs-callout-warning')
+  if data['status'] == 'blank' or data['status'] == 'in_soft_range'
+    $("##{target_name}_alert_box").show()
+
 @setVariableValidityClass = (parent, data) ->
   if $(parent).data('components') == 'date'
     setDateValidityClass(parent, data)
@@ -133,6 +151,8 @@
     setTimeValidityClass(parent, data)
   else if $(parent).data('components') == 'imperial_height'
     setImperialHeightValidityClass(parent, data)
+  else if $(parent).data('components') == 'imperial_weight'
+    setImperialWeightValidityClass(parent, data)
   else
     setGenericValidityClass(parent, data)
   checkRequiredAndInvalidFormat()
@@ -159,6 +179,10 @@
       value = {}
       value["feet"]    = $("##{$(parent).data('target-name')}_feet").val()
       value["inches"] = $("##{$(parent).data('target-name')}_inches").val()
+    when 'imperial_weight'
+      value = {}
+      value["pounds"]    = $("##{$(parent).data('target-name')}_pounds").val()
+      value["ounces"] = $("##{$(parent).data('target-name')}_ounces").val()
     when 'checkbox'
       value = []
       children = $(parent).find('input:checked')

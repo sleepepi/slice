@@ -13,6 +13,7 @@ module Formatters
     'calculated' => Formatters::NumericFormatter,
     'numeric' => Formatters::NumericFormatter,
     'imperial_height' => Formatters::ImperialHeightFormatter,
+    'imperial_weight' => Formatters::ImperialWeightFormatter,
     'time_duration' => Formatters::TimeDurationFormatter,
     'time' => Formatters::TimeFormatter
   }

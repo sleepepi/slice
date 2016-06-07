@@ -3,7 +3,7 @@
   %h4.modal-title
     Add Section or Question
 .modal-body
-  - ['section', 'string', 'text', 'dropdown', 'radio', 'checkbox', 'integer', 'numeric', 'calculated', 'date', 'time', 'time_duration', 'file', 'signature', 'imperial_height', 'grid', 'existing_question'].in_groups_of(3).each do |row_items|
+  - %w(section string text dropdown radio checkbox integer numeric calculated date time time_duration file signature imperial_height imperial_weight grid existing_question).in_groups_of(3).each do |row_items|
     .row
       - row_items.each do |variable_type|
         - if variable_type and not ['section', 'existing_question'].include?(variable_type)
