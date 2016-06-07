@@ -2,7 +2,7 @@
 
 # Allows site editors to request that an auto-locked sheet be unlocked. The
 # unlock request also requires the reason behind the request.
-class SheetUnlockRequest < ActiveRecord::Base
+class SheetUnlockRequest < ApplicationRecord
   # Triggers
   after_create_commit :send_unlock_request_emails_in_background, :create_notifications
 
