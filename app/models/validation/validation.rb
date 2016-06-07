@@ -12,6 +12,7 @@ module Validation
     'integer' => Validation::Validators::Integer,
     'numeric' => Validation::Validators::Numeric,
     'imperial_height' => Validation::Validators::ImperialHeight,
+    'imperial_weight' => Validation::Validators::ImperialWeight,
     'radio' => Validation::Validators::SingleChoice,
     'signature' => Validation::Validators::Signature,
     # 'string' => Validation::Validators::String,
