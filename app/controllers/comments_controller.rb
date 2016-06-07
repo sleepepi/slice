@@ -72,7 +72,7 @@ class CommentsController < ApplicationController
   end
 
   def redirect_without_comment
-    empty_response_or_root_path(comments_path) unless @comment
+    empty_response_or_root_path unless @comment
   end
 
   def comment_params
