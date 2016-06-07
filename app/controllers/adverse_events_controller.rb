@@ -5,11 +5,11 @@ class AdverseEventsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,                  only: [:index, :show, :forms]
   before_action :set_editable_project,                  only: [:export]
-  before_action :set_editable_project_or_editable_site, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_editable_project_or_editable_site, only: [:new, :create, :edit, :update, :destroy, :set_shareable_link, :remove_shareable_link]
   before_action :redirect_without_project
   before_action :redirect_blinded_users
   before_action :set_viewable_adverse_event,            only: [:show, :forms]
-  before_action :set_editable_adverse_event,            only: [:edit, :update, :destroy]
+  before_action :set_editable_adverse_event,            only: [:edit, :update, :destroy, :set_shareable_link, :remove_shareable_link]
 
   # GET /adverse-events/export
   def export
@@ -60,6 +60,18 @@ class AdverseEventsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  # POST /adverse-events/1/set_shareable_link
+  def set_shareable_link
+    @adverse_event.set_token
+    redirect_to [@project, @adverse_event], notice: 'Shareable link was successfully created.'
+  end
+
+  # POST /adverse-events/1/remove_shareable_link
+  def remove_shareable_link
+    @adverse_event.update authentication_token: nil
+    redirect_to [@project, @adverse_event], notice: 'Shareable link was successfully removed.'
   end
 
   # DELETE /adverse-events/1

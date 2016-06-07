@@ -1,0 +1,26 @@
+.jumbotron
+  %strong= @adverse_event.user.name
+  %span.label.label-success reported
+  an adverse event that occurred on
+  = @adverse_event.adverse_event_date.strftime('%a, %-d %b %Y')
+  for subject
+  = succeed '.' do
+    = link_to @adverse_event.subject.name, [@project, @adverse_event.subject]
+
+  %blockquote{ style: 'margin-bottom: 0' }= @adverse_event.description
+
+  - ae_sheets_count = @adverse_event.sheets.count
+  - if ae_sheets_count > 0
+    Attachments:
+    - @adverse_event.sheets.order(:created_at).each_with_index do |sheet, index|
+      - if ae_sheets_count == index + 1
+        = sheet.name
+      - else
+        = succeed ',' do
+          = sheet.name
+
+%div{ style: 'margin-top: 0px' }
+  - @adverse_event.sheets.each do |sheet|
+    = @sheet = sheet; render 'sheets/show'
+
+= link_to 'I have seen this adverse event', '#', class: 'btn btn-block btn-success'
