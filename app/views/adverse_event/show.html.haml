@@ -1,3 +1,11 @@
+- if @adverse_event_review.errors.any?
+  .bs-callout.bs-callout-danger
+    %h4
+      Please enter all required information.
+    %ul
+      - @adverse_event_review.errors.full_messages.each do |msg|
+        %li= msg
+
 .jumbotron
   %strong= @adverse_event.user.name
   %span.label.label-success reported
@@ -23,4 +31,16 @@
   - @adverse_event.sheets.each do |sheet|
     = @sheet = sheet; render 'sheets/show'
 
-= link_to 'I have seen this adverse event', '#', class: 'btn btn-block btn-success'
+.jumbotron
+  = form_for @adverse_event_review, url: adverse_event_review_path(authentication_token: @adverse_event.id_and_token), html: { class: 'form-horizontal', id: 'adverse_event_review_form' } do |f|
+    .form-group
+      = f.label :name, 'Reviewer Full Name', class: 'col-md-2 control-label'
+      .col-md-10
+        = f.text_field :name, autocomplete: 'off', class: 'form-control'
+
+    .form-group
+      = f.label :comment, nil, class: 'col-md-2 control-label'
+      .col-md-10
+        = f.text_area :comment, rows: 7, class: 'form-control'
+
+    = link_to 'I have fully reviewed this adverse event', '#', class: 'btn btn-block btn-success', data: { object: 'submit', target: '#adverse_event_review_form' }
