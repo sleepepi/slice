@@ -240,14 +240,14 @@ class AdverseEventsControllerTest < ActionController::TestCase
 
   test 'should set shareable link as project editor' do
     login(users(:valid))
-    post :set_shareable_link, project_id: @project, id: @adverse_event
+    post :set_shareable_link, params: { project_id: @project, id: @adverse_event }
     assert_not_nil assigns(:adverse_event).authentication_token
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
   end
 
   test 'should remove shareable link as project editor' do
     login(users(:valid))
-    post :remove_shareable_link, project_id: @project, id: adverse_events(:shared)
+    post :remove_shareable_link, params: { project_id: @project, id: adverse_events(:shared) }
     assert_nil assigns(:adverse_event).authentication_token
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
   end
