@@ -4,6 +4,8 @@
 - **Adverse Event Changes**
   - Project and site editors can now generate links to send adverse event
     summaries to medical monitors
+  - External adverse event reviewers can leave their name and comment on the
+    adverse event
 - **Design Changes**
   - Improved padding between section heading images and surrounding elements
   - Required design options now have an indicator on the design reorder page

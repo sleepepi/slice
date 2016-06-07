@@ -21,6 +21,7 @@ class AdverseEvent < ActiveRecord::Base
   belongs_to :subject
   belongs_to :user
   has_many :adverse_event_comments, -> { order :created_at }
+  has_many :adverse_event_reviews, -> { order :created_at }
   has_many :adverse_event_files
   has_many :adverse_event_users
   has_many :sheets, -> { where deleted: false }
