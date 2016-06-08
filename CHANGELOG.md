@@ -6,7 +6,7 @@
   - Updated to devise 4.1.0
   - Updated to carrierwave 0.11.2
 
-## 0.38.0
+## 0.38.0 (June 8, 2016)
 
 ### Enhancements
 - **Design Changes**
