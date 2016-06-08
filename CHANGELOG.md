@@ -1,4 +1,4 @@
-## 0.38.0
+## 0.38.0 (June 8, 2016)
 
 ### Enhancements
 - **Design Changes**
