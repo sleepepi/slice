@@ -28,6 +28,7 @@
 
 # CarrierWave
 /carrierwave/**/*
+/pats/**/*
 /test/support/*
 
 # Other Files

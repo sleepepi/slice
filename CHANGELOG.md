@@ -1,5 +1,9 @@
 ## 0.39.0
 
+### Enhancements
+- **PATS Changes**
+  - Added a task to export recruitment data for the PATS project
+
 ## 0.38.0 (June 8, 2016)
 
 ### Enhancements
