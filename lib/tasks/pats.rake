@@ -11,8 +11,11 @@ namespace :pats do
       recruitment[:screened] = screened_graph(project, start_date)
       recruitment[:screened][:table] = screened_table(project, start_date)
       recruitment[:consented] = consented_graph(project, start_date)
+      recruitment[:consented][:table] = consented_table(project, start_date)
       recruitment[:eligible] = eligible_graph(project, start_date)
+      recruitment[:eligible][:table] = eligible_table(project, start_date)
       recruitment[:randomized] = randomized_graph(project, start_date)
+      recruitment[:randomized][:table] = randomized_table(project, start_date)
       recruitment[:exported_at] = Time.zone.now
       recruitment_json_file = Rails.root.join('pats', 'recruitment.json')
       File.open(recruitment_json_file, 'w') do |f|
@@ -44,7 +47,7 @@ def screened_graph(project, start_date)
   graph[:in_pipeline] = count_subjects(eligible_to_continue_to_baseline_sheets(project, response: ''))
   graph[:categories] = categories
   graph[:series] = series
-  graph[:title] = 'Cumulative Screening'
+  graph[:title] = 'Cumulative Screened'
   graph[:yaxis] = '# Screened'
   graph[:xaxis] = 'Week Starting On'
   graph
@@ -52,13 +55,44 @@ end
 
 def consented_graph(project, start_date)
   graph = {}
+  categories = generate_categories(start_date)
+  series = []
+  consent_date_variable = project.variables.find_by_name 'ciw_consent_date'
+  project.sites.each do |site|
+    series << {
+      name: site.short_name,
+      data: by_week_of_attribute(informed_consent_sheets(project).where(subjects: { site_id: site.id }), start_date, consent_date_variable)
+    }
+  end
+
   graph[:total] = count_subjects(informed_consent_sheets(project))
+  graph[:categories] = categories
+  graph[:series] = series
+  graph[:title] = 'Cumulative Consented'
+  graph[:yaxis] = '# Consented'
+  graph[:xaxis] = 'Week Starting On'
   graph
 end
 
 def eligible_graph(project, start_date)
   graph = {}
+  categories = generate_categories(start_date)
+  series = []
+  consent_date_variable = project.variables.find_by_name 'ciw_eligible_date' # TODO: Check variable name
+  project.sites.each do |site|
+    series << {
+      name: site.short_name,
+      data: by_week(eligible_to_continue_to_baseline_sheets(project).where(subjects: { site_id: site.id }), start_date) # TODO: Comment Out
+      # data: by_week_of_attribute(eligible_to_continue_to_baseline_sheets(project).where(subjects: { site_id: site.id }), start_date, consent_date_variable) # TODO: Comment in
+    }
+  end
+
   graph[:total] = count_subjects(eligible_to_continue_to_baseline_sheets(project))
+  graph[:categories] = categories
+  graph[:series] = series
+  graph[:title] = 'Cumulative Eligible'
+  graph[:yaxis] = '# Eligible'
+  graph[:xaxis] = 'Week Starting On'
   graph
 end
 
@@ -73,7 +107,11 @@ def randomized_graph(project, start_date)
     }
   end
 
+  scheme = project.randomization_schemes.first
+
   graph[:total] = count_subjects(randomizations(project))
+  graph[:randomization_goal] = scheme.randomization_goal
+  graph[:scheme_name] = scheme.name
   graph[:categories] = categories
   graph[:series] = series
   graph[:title] = 'Cumulative Randomized'
@@ -82,7 +120,7 @@ def randomized_graph(project, start_date)
   graph
 end
 
-def screened_table(project, start_date)
+def generic_table(project, start_date, type, objects, attribute: :created_at, date_variable: nil)
   table = {}
 
   header = []
@@ -90,10 +128,10 @@ def screened_table(project, start_date)
   header << header_row
 
   footer = []
-  footer_row = ['Total Screened']
+  footer_row = ["Total #{type}"]
   footer_total = 0
   project.sites.each do |site|
-    site_total = count_subjects(ciws(project).where(subjects: { site_id: site.id }))
+    site_total = count_subjects(objects.where(subjects: { site_id: site.id }))
     footer_total += site_total
     footer_row << site_total
   end
@@ -108,7 +146,13 @@ def screened_table(project, start_date)
     total_row_count = 0
     row = [current_week.strftime(category_time_format)]
     project.sites.each do |site|
-      week_count = count_subjects(ciws(project).where(subjects: { site_id: site.id }).where(created_at: current_week.all_week))
+      site_objects = objects.where(subjects: { site_id: site.id })
+      week_objects = if date_variable
+                      site_objects.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.all_week.first, current_week.all_week.last).where(sheet_variables: { variable_id: date_variable.id })
+                    else
+                      site_objects.where(attribute.to_sym => current_week.all_week)
+                    end
+      week_count = count_subjects(week_objects)
       total_row_count += week_count
       row << week_count
     end
@@ -122,8 +166,30 @@ def screened_table(project, start_date)
   table[:header] = header
   table[:footer] = footer
   table[:rows] = rows
-  table[:title] = 'Screening By Week'
+  table[:title] = "#{type} By Week"
   table
+end
+
+def screened_table(project, start_date)
+  objects = ciws(project)
+  generic_table(project, start_date, 'Screened', objects)
+end
+
+def consented_table(project, start_date)
+  objects = informed_consent_sheets(project)
+  date_variable = project.variables.find_by_name 'ciw_consent_date'
+  generic_table(project, start_date, 'Consented', objects, date_variable: date_variable)
+end
+
+def eligible_table(project, start_date)
+  objects = eligible_to_continue_to_baseline_sheets(project)
+  # date_variable = project.variables.find_by_name 'ciw_eligible_date' # TODO put in correct variable
+  generic_table(project, start_date, 'Eligible', objects, date_variable: nil)
+end
+
+def randomized_table(project, start_date)
+  objects = randomizations(project)
+  generic_table(project, start_date, 'Randomized', objects, attribute: :randomized_at)
 end
 
 def design_id(project)
@@ -149,7 +215,6 @@ def informed_consent_sheets(project)
   variable_id = variable.id
 
   # `ciw_consent_date` is date the consent happened.
-
   sheet_scope = SheetVariable.where(variable_id: variable_id, response: '1').select(:sheet_id)
   project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
 end
@@ -205,13 +270,14 @@ def by_week(sheets, start_date)
   data
 end
 
-def by_week_of_attribute(sheets, start_date, variable) # ex: `ciw_consent_date`
+def by_week_of_attribute(sheets, start_date, variable)
   data = []
   total_count = 0
   current_week = start_date.beginning_of_week
   last_week = Time.zone.today.beginning_of_week
   while current_week <= last_week
-    total_count += count_subjects(sheets.where(created_at: current_week.all_week)) # Change this
+    week_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.all_week.first, current_week.all_week.last).where(sheet_variables: { variable_id: variable.id })
+    total_count += count_subjects(week_sheets)
     data << total_count
     current_week += 1.week
   end
