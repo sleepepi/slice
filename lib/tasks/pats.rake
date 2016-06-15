@@ -57,11 +57,11 @@ def consented_graph(project, start_date)
   graph = {}
   categories = generate_categories(start_date)
   series = []
-  consent_date_variable = project.variables.find_by_name 'ciw_consent_date'
+  date_variable = project.variables.find_by_name 'ciw_consent_date'
   project.sites.each do |site|
     series << {
       name: site.short_name,
-      data: by_week_of_attribute(informed_consent_sheets(project).where(subjects: { site_id: site.id }), start_date, consent_date_variable)
+      data: by_week_of_attribute(informed_consent_sheets(project).where(subjects: { site_id: site.id }), start_date, date_variable)
     }
   end
 
@@ -78,12 +78,11 @@ def eligible_graph(project, start_date)
   graph = {}
   categories = generate_categories(start_date)
   series = []
-  consent_date_variable = project.variables.find_by_name 'ciw_eligible_date' # TODO: Check variable name
+  date_variable = project.variables.find_by_name 'ciw_eligibility_date'
   project.sites.each do |site|
     series << {
       name: site.short_name,
-      data: by_week(eligible_to_continue_to_baseline_sheets(project).where(subjects: { site_id: site.id }), start_date) # TODO: Comment Out
-      # data: by_week_of_attribute(eligible_to_continue_to_baseline_sheets(project).where(subjects: { site_id: site.id }), start_date, consent_date_variable) # TODO: Comment in
+      data: by_week_of_attribute(eligible_to_continue_to_baseline_sheets(project).where(subjects: { site_id: site.id }), start_date, date_variable)
     }
   end
 
@@ -183,8 +182,8 @@ end
 
 def eligible_table(project, start_date)
   objects = eligible_to_continue_to_baseline_sheets(project)
-  # date_variable = project.variables.find_by_name 'ciw_eligible_date' # TODO put in correct variable
-  generic_table(project, start_date, 'Eligible', objects, date_variable: nil)
+  date_variable = project.variables.find_by_name 'ciw_eligibility_date'
+  generic_table(project, start_date, 'Eligible', objects, date_variable: date_variable)
 end
 
 def randomized_table(project, start_date)
