@@ -36,7 +36,7 @@ class Subject < ActiveRecord::Base
   has_many :adverse_events, -> { where deleted: false }
   has_many :randomizations, -> { where deleted: false }
   has_many :sheets, -> { where deleted: false }
-  has_many :subject_events, -> { order :event_date }
+  has_many :subject_events, -> { joins(:event).order(:event_date, 'events.position') }
 
   # Model Methods
 
