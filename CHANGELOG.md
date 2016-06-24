@@ -4,6 +4,10 @@
 - **PATS Changes**
   - Added a task to export recruitment data for the PATS project
 
+### Bug Fix
+- Fixed a bug that would export zero sheets when exporting Adverse Events
+  alongside other CSVs
+
 ## 0.38.0 (June 8, 2016)
 
 ### Enhancements
