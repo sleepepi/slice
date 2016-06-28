@@ -312,7 +312,6 @@ def copy_events(original, copy, design_map)
       user_id: e.user_id,
       archived: e.archived,
       position: e.position,
-      scheduled: e.scheduled,
       slug: e.slug
     )
     copy_event_designs(e, ec, design_map)

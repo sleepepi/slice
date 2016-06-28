@@ -51,23 +51,6 @@
       .callout.callout-info
         Events with the same position will be shown side-by-side and subjects will typically only select one of these events.
 
-
-  .form-group
-    .col-md-offset-2.col-md-10
-      .checkbox
-        %label
-          = f.check_box :scheduled
-          Schedulable Event
-      .callout.callout-info
-        %ul
-          %li
-            %strong Unschedulable events
-            may contain Adverse Encounters and Unscheduled Phone Calls.
-          %li
-            %strong Schedulable events
-            include Baseline Visits, Followups, Final Visits, and Scheduled
-            Phone Calls.
-
   .form-group
     .col-md-offset-2.col-md-10
       .checkbox

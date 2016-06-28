@@ -11,7 +11,7 @@ class SubjectEvent < ApplicationRecord
   belongs_to :user
   has_many :sheets, -> { current }
 
-  scope :with_valid_subjects, -> { joins(:subject).where(subjects: { status: 'valid', deleted: false }) }
+  scope :with_current_subjects, -> { joins(:subject).merge(Subject.current) }
 
   # Model Methods
 

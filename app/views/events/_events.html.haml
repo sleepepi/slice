@@ -3,7 +3,7 @@
     %tr
       = th_sort_field @order, 'events.position', 'Position'
       = th_sort_field @order, 'events.name', 'Name'
-      = th_sort_field @order, 'events.scheduled', 'Scheduled'
+      %th Launched
       = th_sort_field @order, 'events.archived', 'Archived'
       %th Designs
       %th Actions
@@ -12,7 +12,9 @@
     %tr
       %td= event.position
       %td= link_to event.name, [@project, event]
-      %td= simple_check event.scheduled
+      %td
+        - assigned_count = event.subject_events.with_current_subjects.count
+        = pluralize assigned_count, 'event'
       %td= simple_check event.archived
       %td= event.designs.count
       %td
