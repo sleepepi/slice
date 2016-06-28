@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root 'projects#splash'
+
   get 'survey', to: 'survey#index', as: :about_survey
   get 'survey/:slug', to: 'survey#new', as: :new_survey
   get 'survey/:slug/:sheet_authentication_token', to: 'survey#edit', as: :edit_survey
@@ -343,5 +345,4 @@ Rails.application.routes.draw do
 
   get 'reports/projects', to: redirect('')
   get 'reports', to: redirect('')
-  root to: 'projects#splash'
 end

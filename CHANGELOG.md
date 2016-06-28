@@ -6,6 +6,18 @@
   - Updated to devise 4.1.0
   - Updated to carrierwave 0.11.2
 
+## 0.39.0
+
+### Enhancements
+- **PATS Changes**
+  - Added a task to export recruitment data for the PATS project
+- **Subject Changes**
+  - Subject events that fall on the same day are now ordered by event position
+
+### Bug Fix
+- Fixed a bug that would export zero sheets when exporting Adverse Events
+  alongside other CSVs
+
 ## 0.38.0 (June 8, 2016)
 
 ### Enhancements

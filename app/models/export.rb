@@ -35,12 +35,7 @@ class Export < ApplicationRecord
   end
 
   def generate_export!
-    sheet_scope = if include_adverse_events?
-                    project.sheets.where.not(adverse_event_id: nil)
-                  else
-                    project.sheets
-                  end
-    sheet_scope = sheet_scope.where(missing: false)
+    sheet_scope = project.sheets.where(missing: false)
     all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
     variables_count = all_variables.count
     grid_variables_count = all_variables.where(variable_type: 'grid').count
@@ -130,7 +125,7 @@ class Export < ApplicationRecord
   end
 
   def calculate_total_steps
-    all_exports = [:include_csv_labeled, :include_csv_raw, :include_sas, :include_pdf, :include_data_dictionary, :include_r, :include_files]
+    all_exports = [:include_csv_labeled, :include_csv_raw, :include_sas, :include_pdf, :include_data_dictionary, :include_r, :include_files, :include_adverse_events]
     steps = all_exports.collect { |export| steps_for(export) }.sum
     update_column :total_steps, steps
   end
