@@ -31,9 +31,6 @@
       %dt Archived
       %dd= simple_check @event.archived
 
-      %dt Scheduled
-      %dd= simple_check @event.scheduled
-
       - if @project.blinding_enabled?
         %dt Only Unblinded
         %dd= simple_check @event.only_unblinded

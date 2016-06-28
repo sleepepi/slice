@@ -71,8 +71,8 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(
-      :name, :slug, :description, :position, :scheduled, :archived,
-      :only_unblinded, design_hashes: [:design_id, :handoff_enabled]
+      :name, :slug, :description, :position, :archived, :only_unblinded,
+      design_hashes: [:design_id, :handoff_enabled]
     )
   end
 end

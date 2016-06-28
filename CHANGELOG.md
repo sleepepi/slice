@@ -19,6 +19,7 @@
   alongside other CSVs
 
 ### Refactoring
+- Removed deprecated `scheduled` column from events
 - Removed deprecated `status` column from subjects
 - Removed deprecated `pagination` column from users
 
