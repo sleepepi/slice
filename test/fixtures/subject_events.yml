@@ -3,47 +3,39 @@
 one:
   subject: one
   event: one
-  # status: MyString
   event_date: 2015-03-31
 
 two:
   subject: two
   event: one
-  # status: MyString
   event_date: 2015-03-31
 
 three:
   subject: three
   event: one
-  # status: MyString
   event_date: 2015-11-13
 
 four:
   subject: four
   event: one
-  # status: MyString
   event_date: 2016-03-08
 
 grid:
   subject: one
   event: grid
-  # status: MyString
   event_date: 2015-03-31
 
 calculated:
   subject: one
   event: calculated
-  # status: MyString
   event_date: 2015-03-31
 
 typeahead:
   subject: one
   event: typeahead
-  # status: MyString
   event_date: 2015-03-31
 
 required_forms:
   subject: external
   event: required_forms
-  # status: MyString
   event_date: 2016-03-08

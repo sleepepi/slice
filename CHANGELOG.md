@@ -21,6 +21,7 @@
 ### Refactoring
 - Removed deprecated `scheduled` column from events
 - Removed deprecated `status` column from subjects
+- Removed deprecated `status` column from subject events
 - Removed deprecated `pagination` column from users
 
 ## 0.38.0 (June 8, 2016)
