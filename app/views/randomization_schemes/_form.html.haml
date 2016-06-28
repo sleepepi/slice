@@ -2,7 +2,7 @@
 
 = form_for [@project, @randomization_scheme], html: { class: 'form-horizontal' } do |f|
   - if @randomization_scheme.errors.any?
-    #error_explanation.bs-callout.bs-callout-danger
+    #error_explanation.callout.callout-danger
       %h4
         = pluralize @randomization_scheme.errors.count, 'error'
         prohibited this randomization scheme from being saved
@@ -122,7 +122,7 @@
       = f.label :chance_of_random_treatment_arm_selection, nil, class: 'col-md-2 control-label'
       .col-md-10
         = f.text_field :chance_of_random_treatment_arm_selection, class: 'form-control', placeholder: 30
-        .bs-callout.bs-callout-info
+        .callout.callout-info
           Can be between 0 (Never Random) and 100 (Always Random)
 
   .form-group

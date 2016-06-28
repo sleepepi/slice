@@ -1,0 +1,68 @@
+// Twitter Typeahead Fixes
+.twitter-typeahead {
+  background-color: $input-bg;
+  border-radius: 4px;
+  color: $input-color;
+  display: block;
+  vertical-align: middle;
+
+  input {
+    background-color: $input-bg;
+  }
+
+  .tt-query,
+  .tt-hint {
+    margin-bottom: 0;
+  }
+
+  .tt-query {
+    border-bottom-left-radius: 4px !important;
+    border-top-left-radius: 4px !important;
+    // Fix for typeahead boxes jumping downwards when typing first letter.
+    display: inline-block;
+  }
+}
+
+.tt-dropdown-menu {
+  background-clip: padding-box;
+  background-color: $dropdown-bg;
+  border: 1px solid $dropdown-fallback-border;
+  border-color: $dropdown-border;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px $dropdown-border;
+  margin-top: 2px;
+  min-width: 160px;
+  padding: 5px 0;
+}
+
+.tt-suggestion {
+  display: block;
+  padding: 3px 20px;
+
+  &.tt-is-under-cursor {
+    background-color: $brand-primary;
+    color: $brand-white;
+
+    a {
+      color: $brand-white;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.tt-hint {
+  display: none;
+}
+
+// .input-group .twitter-typeahead:not(:first-child) > .form-control {
+//   border-bottom-left-radius: 0;
+//   border-top-left-radius: 0;
+// }
+
+.input-group .twitter-typeahead:not(:first-child) > .form-control {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}

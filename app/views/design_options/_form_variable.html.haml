@@ -1,5 +1,5 @@
 - if variable.errors.any?
-  .bs-callout.bs-callout-danger
+  .callout.callout-danger
     %h4
       = pluralize variable.errors.count, 'error'
       prohibited this variable from being saved
@@ -14,7 +14,7 @@
   %label.col-md-2.control-label Display Name
   .col-md-10
     = text_field_tag "variable[display_name]", variable.display_name, autocomplete: 'off', class: 'form-control'
-    .bs-callout.bs-callout-info
+    .callout.callout-info
       %h4 Heads up!
 
       %p
@@ -28,7 +28,7 @@
   %label.col-md-2.control-label Name
   .col-md-10
     = text_field_tag "variable[name]", variable.name, maxlength: 32, class: 'form-control'
-    .bs-callout.bs-callout-info
+    .callout.callout-info
       %h4 Naming convention
 
       %ul

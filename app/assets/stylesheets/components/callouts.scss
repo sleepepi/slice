@@ -1,26 +1,45 @@
-// TODO: These should be moved back up into contour
+.callout {
+  @include remove-last-child-bottom-margin;
 
-.bs-callout code,
-.bs-callout .highlight {
-  background-color: $gray-lighter; // #fff;
+  border-left: 5px solid $gray-lighter;
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
 }
 
-// Themes for different contexts
+.callout code,
+.callout .highlight {
+  background-color: $gray-lighter;
+}
 
-.bs-callout-danger {
-  background-color: $panel-danger-heading-bg;// #fcf2f2;
-  border-color: $panel-danger-border; // #dfb5b4;
+.callout-danger {
+  background-color: $panel-danger-heading-bg;
+  border-color: $panel-danger-border;
   color: $panel-danger-text;
+
+  .callout-link {
+    color: $alert-danger-text;
+    font-weight: bold;
+  }
 }
 
-.bs-callout-warning {
-  background-color: $panel-warning-heading-bg;// #fefbed;
-  border-color: $panel-warning-border; // #f1e7bc;
+.callout-warning {
+  background-color: $panel-warning-heading-bg;
+  border-color: $panel-warning-border;
   color: $panel-warning-text;
+
+  .callout-link {
+    color: $alert-warning-text;
+    font-weight: bold;
+  }
 }
 
-.bs-callout-info {
-  background-color: $panel-info-heading-bg;// #f0f7fd;
-  border-color: $panel-info-border; // #d0e3f0;
+.callout-info {
+  background-color: $panel-info-heading-bg;
+  border-color: $panel-info-border;
   color: $panel-info-text;
+
+  .callout-link {
+    color: $alert-info-text;
+    font-weight: bold;
+  }
 }

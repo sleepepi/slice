@@ -3,7 +3,7 @@
     %tr
       %th.nowrap # Variables
       = th_sort_field @order, 'domains.name', 'Name'
-      %th Options
+      %th.nowrap Options
       = th_sort_field @order, 'domains.user_id', ''
       %th Actions
 
@@ -19,4 +19,4 @@
         = link_to 'Edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-default btn-xs'
         = link_to 'Delete', [domain.project, domain], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Domain #{domain.name}?" }
 
-.center= paginate @domains, theme: 'contour'
+.center= paginate @domains, theme: 'bootstrap'

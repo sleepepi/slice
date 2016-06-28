@@ -2,7 +2,7 @@
   %label.col-md-2.control-label Calculation
   .col-md-10
     = text_field_tag "variable[calculation]", @design_option.variable.calculation, autocomplete: 'off', class: "form-control"
-    .bs-callout.bs-callout-info
+    .callout.callout-info
       %h4 Calculation Examples
       %dl.dl-horizontal
         %dt General
@@ -21,7 +21,7 @@
   %label.col-md-2.control-label Format
   .col-md-10
     = text_field_tag "variable[format]", @design_option.variable.format, autocomplete: 'off', class: "form-control"
-    .bs-callout.bs-callout-info
+    .callout.callout-info
       %h4 Format Examples
       %dl.dl-horizontal
         %dt Precision

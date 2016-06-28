@@ -2,7 +2,7 @@ $("#interactive-design-container").html("<%=j render 'design_options/edit_variab
 showInteractiveDesignModal();
 $("#interactive-design-container").find('input, textarea').first().focus();
 $(".chzn-select").chosen({ allow_single_deselect: true });
-resetDatePickers();
+datepickerReady();
 
 $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
 

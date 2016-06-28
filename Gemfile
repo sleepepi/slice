@@ -8,7 +8,6 @@ gem 'rails', '5.0.0.rc2'
 gem 'pg',                   '0.18.4'
 
 # Gems used by project
-gem 'contour', github: 'remomueller/contour', ref: 'f077390'
 # gem 'devise',               '~> 4.1.1'
 gem 'devise', github: 'plataformatec/devise', ref: 'fe10a5b'
 gem 'bootstrap-sass',       '~> 3.3.6'
@@ -22,6 +21,7 @@ gem 'haml'
 gem 'figaro',               '~> 1.1.1'
 gem 'differ',               '~> 0.1.2'
 gem 'colorize',             '~> 0.7.5'
+gem 'jquery-ui-rails',      '~> 5.0.5'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.1.0'

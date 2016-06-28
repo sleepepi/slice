@@ -15,7 +15,7 @@
           %span.glyphicon.glyphicon-download-alt
           Export CSV
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
 
     = render 'adverse_events/adverse_events'
 

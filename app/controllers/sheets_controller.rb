@@ -38,22 +38,22 @@ class SheetsController < ApplicationController
     case params[:order]
     when 'sheets.site_name'
       sheet_scope = sheet_scope.order('sites.name')
-    when 'sheets.site_name DESC'
+    when 'sheets.site_name desc'
       sheet_scope = sheet_scope.order('sites.name desc')
     when 'sheets.design_name'
       sheet_scope = sheet_scope.order('designs.name').select('sheets.*, designs.name')
-    when 'sheets.design_name DESC'
+    when 'sheets.design_name desc'
       sheet_scope = sheet_scope.order('designs.name desc').select('sheets.*, designs.name')
     when 'sheets.subject_code'
       sheet_scope = sheet_scope.order('subjects.subject_code').select('sheets.*, subjects.subject_code')
-    when 'sheets.subject_code DESC'
+    when 'sheets.subject_code desc'
       sheet_scope = sheet_scope.order('subjects.subject_code desc').select('sheets.*, subjects.subject_code')
     when 'sheets.user_name'
       sheet_scope = sheet_scope.order('users.last_name, users.first_name')
-    when 'sheets.user_name DESC'
+    when 'sheets.user_name desc'
       sheet_scope = sheet_scope.order('users.last_name desc, users.first_name desc')
     else
-      @order = scrub_order(Sheet, params[:order], 'sheets.created_at DESC')
+      @order = scrub_order(Sheet, params[:order], 'sheets.created_at desc')
       sheet_scope = sheet_scope.order(@order)
     end
 

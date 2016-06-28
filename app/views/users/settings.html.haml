@@ -45,7 +45,7 @@ You can change your avatar at
       .panel-body
         = form_for current_user, url: change_password_path, method: :patch, html: { id: 'reset_password', class: 'form-vertical' } do |f|
           - if current_user.errors.any?
-            .bs-callout.bs-callout-danger
+            .callout.callout-danger
               %h4
                 = pluralize current_user.errors.count, 'error'
                 prohibited this password from being saved

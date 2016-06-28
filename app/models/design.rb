@@ -72,7 +72,7 @@ class Design < ApplicationRecord
 
   def self.order_by_user_name_desc
     joins('LEFT JOIN users ON users.id = designs.user_id')
-      .order('users.last_name DESC, users.first_name DESC')
+      .order('users.last_name desc, users.first_name desc')
       .select('designs.*, users.last_name, users.first_name')
   end
 

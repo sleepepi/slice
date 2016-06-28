@@ -21,7 +21,7 @@ class ExportsController < ApplicationController
 
   # GET /exports
   def index
-    @order = scrub_order(Export, params[:order], 'exports.created_at DESC')
+    @order = scrub_order(Export, params[:order], 'exports.created_at desc')
     @exports = viewable_exports.search(params[:search]).order(@order)
                                .page(params[:page]).per(20)
   end

@@ -12,7 +12,7 @@
     %h2= @title
 
     - if @randomization_scheme.lists.count == 0
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         %p
           Lists need to be generated before randomization can start for this randomization scheme.
         - if @project.editable_by?(current_user) and false
@@ -25,7 +25,7 @@
     - else
       = form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: 'form-horizontal' do |f|
         - if @randomization.errors.any?
-          .bs-callout.bs-callout-danger
+          .callout.callout-danger
             %h4
               = pluralize(@randomization.errors.count, "error")
               prohibited this subject from being randomized

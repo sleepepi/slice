@@ -35,7 +35,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test 'should get paginated index order by site descending' do
-    get :index, params: { project_id: @project, order: 'sheets.site_name DESC' }
+    get :index, params: { project_id: @project, order: 'sheets.site_name desc' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
@@ -48,7 +48,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test 'should get index by design_name desc' do
     get :index, params: {
-      project_id: @project, order: 'sheets.design_name DESC'
+      project_id: @project, order: 'sheets.design_name desc'
     }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
@@ -62,7 +62,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test 'should get index by subject_code desc' do
     get :index, params: {
-      project_id: @project, order: 'sheets.subject_code DESC'
+      project_id: @project, order: 'sheets.subject_code desc'
     }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
@@ -76,7 +76,7 @@ class SheetsControllerTest < ActionController::TestCase
 
   test 'should get index by project_name desc' do
     get :index, params: {
-      project_id: @project, order: 'sheets.project_name DESC'
+      project_id: @project, order: 'sheets.project_name desc'
     }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
@@ -89,7 +89,7 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test 'should get index by user_name desc' do
-    get :index, params: { project_id: @project, order: 'sheets.user_name DESC' }
+    get :index, params: { project_id: @project, order: 'sheets.user_name desc' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end

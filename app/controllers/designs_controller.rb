@@ -126,7 +126,7 @@ class DesignsController < ApplicationController
     case params[:order]
     when 'designs.user_name'
       design_scope.order_by_user_name
-    when 'designs.user_name DESC'
+    when 'designs.user_name desc'
       design_scope.order_by_user_name_desc
     else
       @order = scrub_order(Design, params[:order], 'designs.name')

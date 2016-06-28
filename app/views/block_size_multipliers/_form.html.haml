@@ -2,7 +2,7 @@
 
 = form_for [@project, @randomization_scheme, @block_size_multiplier], html: { class: 'form-horizontal' } do |f|
   - if @block_size_multiplier.errors.any?
-    #error_explanation.bs-callout.bs-callout-danger
+    #error_explanation.callout.callout-danger
       %h4
         = pluralize(@block_size_multiplier.errors.count, "error")
         prohibited this block size multiplier from being saved

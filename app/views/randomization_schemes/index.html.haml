@@ -10,7 +10,7 @@
       = @title
       = link_to 'Create Randomization Scheme', new_project_randomization_scheme_path(@project), class: 'btn btn-xs btn-primary'
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @randomization_schemes.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @randomization_schemes.total_count
 
     = render 'randomization_schemes/randomization_schemes'
 

@@ -5,7 +5,7 @@
     Create your account
   = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-vertical', autocomplete: 'off' }) do |f|
     - if resource.errors.any?
-      #error_explanation.bs-callout.bs-callout-danger
+      #error_explanation.callout.callout-danger
         %h4
           = pluralize(resource.errors.count, "error")
           prohibited this step from being saved
@@ -41,11 +41,5 @@
           = f.check_box :emails_enabled
           Allow Slice to send you emails?
 
-
-    - Contour.spam_fields.each do |name|
-      .form-group.control-special
-        = label_tag "#{resource_name}[#{name}]", name, class: 'control-label'
-        = text_field_tag "#{resource_name}[#{name}]", '', class: 'form-control'
-
     .form-group
-      = f.submit "Create an Account", class: 'btn btn-success'
+      = f.submit 'Create an Account', class: 'btn btn-success'

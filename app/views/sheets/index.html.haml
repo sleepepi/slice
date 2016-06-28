@@ -9,7 +9,7 @@
     %h2.underline-header
       = @title
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @sheets.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @sheets.total_count
 
     #sheets= render 'sheets/sheets'
 

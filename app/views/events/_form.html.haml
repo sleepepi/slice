@@ -2,7 +2,7 @@
 
 = form_for [@event.project, @event], html: { class: 'form-horizontal' } do |f|
   - if @event.errors.any?
-    #error_explanation.bs-callout.bs-callout-danger
+    #error_explanation.callout.callout-danger
       %h4
         = pluralize(@event.errors.count, "error")
         prohibited this event from being saved
@@ -20,7 +20,7 @@
     = f.label :slug, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :slug, class: 'form-control'
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         %h6
           Naming convention
         %ul
@@ -48,7 +48,7 @@
     = f.label :position, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.number_field :position, class: 'form-control', autocomplete: 'off', min: 0
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         Events with the same position will be shown side-by-side and subjects will typically only select one of these events.
 
 
@@ -58,7 +58,7 @@
         %label
           = f.check_box :scheduled
           Schedulable Event
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         %ul
           %li
             %strong Unschedulable events
@@ -74,7 +74,7 @@
         %label
           = f.check_box :archived
           Archive and hide the event from subject page
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         Archived events will still show up if the subject has sheets entered for the archived event.
 
   - if @project.blinding_enabled?
@@ -84,7 +84,7 @@
           %label
             = f.check_box :only_unblinded
             Only Unblinded
-        .bs-callout.bs-callout-info
+        .callout.callout-info
           Select to hide the event and associated sheets and comments from blinded staff
 
   .form-group

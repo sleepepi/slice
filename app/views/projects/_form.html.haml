@@ -9,7 +9,7 @@
 
 = form_for @project, url: url, method: method, html: { class: 'form-horizontal' } do |f|
   - if @project.errors.any?
-    .bs-callout.bs-callout-danger
+    .callout.callout-danger
       %h4
         = pluralize @project.errors.count, 'error'
         prohibited this project from being saved
@@ -27,7 +27,7 @@
     = f.label :slug, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :slug, class: 'form-control'
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         %h4 Naming convention
         %ul
           %li
@@ -55,7 +55,7 @@
     = f.label :subject_code_name, "Subject Code name", class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :subject_code_name, placeholder: "Subject Code", class: 'form-control'
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         %h4 What is the Subject Code name?
         = ENV['website_name']
         requires a unique string in order to identify subjects. By default the unique string is labeled
@@ -73,7 +73,7 @@
       = f.label :site_name, nil, class: 'col-md-2 control-label'
       .col-md-10
         = f.text_field :site_name, placeholder: 'Default Site', class: 'form-control'
-        .bs-callout.bs-callout-info
+        .callout.callout-info
           %h4 What is the Site name?
           = ENV['website_name']
           requires subjects be grouped by site. This requirement helps enforce

@@ -16,6 +16,6 @@
       - else
         = link_to 'Create Stratification Factor', new_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme), class: 'btn btn-xs btn-primary'
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @stratification_factors.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @stratification_factors.total_count
 
     = render 'stratification_factors/stratification_factors'

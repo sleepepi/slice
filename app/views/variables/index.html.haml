@@ -10,7 +10,7 @@
       = @title
       = link_to 'Create Variable', new_project_variable_path(@project), class: 'btn btn-xs btn-primary'
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @variables.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @variables.total_count
 
     = render 'variables/variables'
 

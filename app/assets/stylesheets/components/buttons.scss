@@ -27,11 +27,9 @@
   }
 }
 
-// TODO: These styles should be available directly in bootstrap without
-// !important listed. Contour should be updated to use bootstrap variables
 .btn-danger-inverse {
   background-color: $body-bg;
-  border: 1px solid $btn-danger-border !important;
+  border: 1px solid $btn-danger-border;
   color: $btn-danger-bg;
 }
 
@@ -42,8 +40,8 @@
 .btn-danger-inverse.disabled,
 .btn-danger-inverse[disabled] {
   background-color: $btn-danger-bg;
-  border: 1px solid $btn-danger-border !important;
-  color: $body-bg !important;
+  border: 1px solid $btn-danger-border;
+  color: $body-bg;
 }
 
 .btn-cutout {

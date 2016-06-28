@@ -13,6 +13,8 @@
   - Added a task to export recruitment data for the PATS project
 - **Subject Changes**
   - Subject events that fall on the same day are now ordered by event position
+- **Gem Changes**
+  - Removed dependency on contour
 
 ### Bug Fix
 - Fixed a bug that would export zero sheets when exporting Adverse Events

@@ -12,7 +12,7 @@
       = @title
       = link_to 'Create Export', new_project_export_path(@project), class: 'btn btn-xs btn-primary'
       .per-page
-        = render 'contour/layouts/per_page', per_page: 20, object_count: @exports.total_count
+        = render 'layouts/per_page', per_page: 20, object_count: @exports.total_count
 
     = render 'exports/exports'
 

@@ -5,14 +5,6 @@
 @fadeAndRemove = (element) ->
   $(element).fadeOut(500, () -> $(element).remove())
 
-@initializeTypeahead = () ->
-  $('[data-object~="typeahead"]').each( () ->
-    $this = $(this)
-    $this.typeahead(
-      local: $this.data('local')
-    )
-  )
-
 @addGlobalNoTouchToBody = () ->
   $('body').addClass('no-touch') if (document.documentElement.ontouchstart == undefined)
 
@@ -20,29 +12,28 @@
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
-@initializeTooltip = () ->
-  $(".tooltip").remove()
-  return unless document.documentElement.ontouchstart == undefined
-  $("[rel~=tooltip]").tooltip(trigger: 'hover')
-
 @initializeTurbolinks = () ->
   # # Don't cache pages with Turbolinks
   # TODO: Clear cache on tablet handoff.
   # Turbolinks.clearCache()
 
+@extensionsReady = ->
+  datepickerReady()
+  tooltipsReady()
+  typeaheadReady()
+
 @globalReady = () ->
-  initializeTypeahead()
-  initializeTooltip()
   window.$isDirty = false
   $("#global-search").typeahead(
     remote: root_url + 'search?q=%QUERY'
   )
   # setFocusToField("#search")
   initializeTurbolinks()
+  extensionsReady()
+  $('[data-object~="form-load"]').submit()
 
 # These functions get called on initial page visit and on turbolink page changes
 @turbolinksReady = () ->
-  contourReady()
   globalReady()
   designsReady()
   domainsReady()
@@ -70,6 +61,7 @@ $(document).ready(initialLoadReady)
 $(document)
   .on('turbolinks:load', turbolinksReady)
   .on('turbolinks:click', -> confirm("You haven't saved your changes.") if window.$isDirty)
+  .on('click', '[data-object~="suppress-click"]', -> false)
   .on('click', '[data-object~="remove"]', () ->
     plural = if $(this).data('count') == 1 then '' else 's'
     if $(this).data('count') in [0, undefined] or ($(this).data('count') and confirm('Removing this option will PERMANENTLY ERASE DATA you have collected. Are you sure you want to RESET responses that used this option from ' + $(this).data('count') + ' sheet' + plural +  '?'))

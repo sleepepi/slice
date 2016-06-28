@@ -1,4 +1,4 @@
-= render 'contour/layouts/per_page', per_page: 40, object_count: @projects.total_count
+= render 'layouts/per_page', per_page: 40, object_count: @projects.total_count
 
 %table.table.table-striped
   %thead
@@ -19,4 +19,4 @@
         = link_to 'Edit', edit_editor_project_path(project), class: 'btn btn-default btn-xs' if project.editable_by?(current_user)
         = link_to 'Delete', owner_project_path(project), method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{project.name}?" } if project.owner?(current_user)
 
-.center= paginate @projects, theme: 'contour'
+.center= paginate @projects, theme: 'bootstrap'

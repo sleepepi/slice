@@ -22,7 +22,7 @@ class AdverseEventsController < ApplicationController
 
   # GET /adverse-events
   def index
-    @order = scrub_order(AdverseEvent, params[:order], 'adverse_events.created_at DESC')
+    @order = scrub_order(AdverseEvent, params[:order], 'adverse_events.created_at desc')
     @adverse_events = viewable_adverse_events.search(params[:search])
                                              .order(@order)
                                              .page(params[:page]).per(40)
