@@ -4,6 +4,7 @@
 - **Event Changes**
   - The event show page now differentiates between entered, unentered, and set
     as missing designs for subjects that have been assigned the event
+  - Event index now displays how many events have been launched
 - **PATS Changes**
   - Added a task to export recruitment data for the PATS project
 - **Subject Changes**
