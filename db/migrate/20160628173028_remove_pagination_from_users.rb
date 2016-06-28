@@ -1,4 +1,4 @@
-class RemovePaginationFromUsers < ActiveRecord::Migration
+class RemovePaginationFromUsers < ActiveRecord::Migration[4.2]
   def up
     remove_column :users, :pagination
   end

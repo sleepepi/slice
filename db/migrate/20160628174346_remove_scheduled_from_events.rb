@@ -1,4 +1,4 @@
-class RemoveScheduledFromEvents < ActiveRecord::Migration
+class RemoveScheduledFromEvents < ActiveRecord::Migration[4.2]
   def up
     remove_column :events, :scheduled
   end

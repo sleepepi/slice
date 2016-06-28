@@ -1,4 +1,4 @@
-class RemoveStatusFromSubjects < ActiveRecord::Migration
+class RemoveStatusFromSubjects < ActiveRecord::Migration[4.2]
   def up
     remove_index :subjects, :status
     remove_column :subjects, :status
