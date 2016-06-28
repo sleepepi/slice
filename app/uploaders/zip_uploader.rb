@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows zip files to be attached to a record.
 class ZipUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   storage :file

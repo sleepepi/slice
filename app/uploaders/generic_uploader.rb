@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows generic files to be attached to a record.
 class GenericUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   storage :file
@@ -19,6 +20,10 @@ class GenericUploader < CarrierWave::Uploader::Base
   # # Add a white list of extensions which are allowed to be uploaded.
   # # TODO: Remove this function with carrierwave 1.0.0
   # def extension_white_list
+  #   %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
+  # end
+  # # TODO: This will replace the above function in carrierwave 1.0.0
+  # def extension_whitelist
   #   %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
   # end
 

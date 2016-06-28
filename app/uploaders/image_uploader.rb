@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows images to be attached to a record.
 class ImageUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   storage :file

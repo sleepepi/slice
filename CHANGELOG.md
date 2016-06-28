@@ -14,6 +14,8 @@
 - **Subject Changes**
   - Subject events that fall on the same day are now ordered by event position
 - **Gem Changes**
+  - Updated to carrierwave 0.11.2
+  - Updated to colorize 0.8.0
   - Removed dependency on contour
 
 ### Bug Fix

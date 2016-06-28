@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows spreadsheets to be attached to a record.
 class SpreadsheetUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   storage :file
