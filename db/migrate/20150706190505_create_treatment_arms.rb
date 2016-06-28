@@ -1,4 +1,4 @@
-class CreateTreatmentArms < ActiveRecord::Migration
+class CreateTreatmentArms < ActiveRecord::Migration[4.2]
   def change
     create_table :treatment_arms do |t|
       t.string :name

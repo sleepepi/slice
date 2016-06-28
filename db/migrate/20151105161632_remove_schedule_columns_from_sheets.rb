@@ -1,4 +1,4 @@
-class RemoveScheduleColumnsFromSheets < ActiveRecord::Migration
+class RemoveScheduleColumnsFromSheets < ActiveRecord::Migration[4.2]
   def up
     remove_index :sheets, :subject_schedule_id
     remove_column :sheets, :subject_schedule_id

@@ -1,4 +1,4 @@
-class CreateAdverseEventFiles < ActiveRecord::Migration
+class CreateAdverseEventFiles < ActiveRecord::Migration[4.2]
   def change
     create_table :adverse_event_files do |t|
       t.integer :project_id

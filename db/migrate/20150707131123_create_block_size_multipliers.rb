@@ -1,4 +1,4 @@
-class CreateBlockSizeMultipliers < ActiveRecord::Migration
+class CreateBlockSizeMultipliers < ActiveRecord::Migration[4.2]
   def change
     create_table :block_size_multipliers do |t|
       t.integer :project_id

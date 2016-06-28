@@ -1,4 +1,4 @@
-class CreateSubjectSchedules < ActiveRecord::Migration
+class CreateSubjectSchedules < ActiveRecord::Migration[4.2]
   def change
     create_table :subject_schedules do |t|
       t.integer :subject_id

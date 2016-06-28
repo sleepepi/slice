@@ -1,4 +1,4 @@
-class AddSoftMaxMinToVariables < ActiveRecord::Migration
+class AddSoftMaxMinToVariables < ActiveRecord::Migration[4.2]
   def change
     add_column :variables, :date_soft_maximum, :date
     add_column :variables, :date_soft_minimum, :date

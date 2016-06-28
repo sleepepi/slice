@@ -1,4 +1,4 @@
-class CreateGrids < ActiveRecord::Migration
+class CreateGrids < ActiveRecord::Migration[4.2]
   def change
     create_table :grids do |t|
       t.integer :sheet_variable_id

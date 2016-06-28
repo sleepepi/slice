@@ -1,4 +1,4 @@
-class CreateSubjectEvents < ActiveRecord::Migration
+class CreateSubjectEvents < ActiveRecord::Migration[4.2]
   def change
     create_table :subject_events do |t|
       t.integer :subject_id

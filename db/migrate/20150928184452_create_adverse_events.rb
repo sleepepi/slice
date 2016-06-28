@@ -1,4 +1,4 @@
-class CreateAdverseEvents < ActiveRecord::Migration
+class CreateAdverseEvents < ActiveRecord::Migration[4.2]
   def change
     create_table :adverse_events do |t|
       t.integer :project_id

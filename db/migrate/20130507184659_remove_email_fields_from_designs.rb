@@ -1,4 +1,4 @@
-class RemoveEmailFieldsFromDesigns < ActiveRecord::Migration
+class RemoveEmailFieldsFromDesigns < ActiveRecord::Migration[4.2]
   def up
     remove_column :designs, :email_subject_template
     remove_column :designs, :email_template

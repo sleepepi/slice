@@ -1,4 +1,4 @@
-class AddInviteTokenToProjectUsers < ActiveRecord::Migration
+class AddInviteTokenToProjectUsers < ActiveRecord::Migration[4.2]
   def change
     add_column :project_users, :invite_token, :string
     add_column :project_users, :invite_email, :string

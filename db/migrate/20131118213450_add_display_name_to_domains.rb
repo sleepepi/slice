@@ -1,4 +1,4 @@
-class AddDisplayNameToDomains < ActiveRecord::Migration
+class AddDisplayNameToDomains < ActiveRecord::Migration[4.2]
   def up
     add_column :domains, :display_name, :string
     Domain.all.each do |domain|

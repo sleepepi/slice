@@ -1,4 +1,4 @@
-class CreateAdverseEventComments < ActiveRecord::Migration
+class CreateAdverseEventComments < ActiveRecord::Migration[4.2]
   def change
     create_table :adverse_event_comments do |t|
       t.integer :project_id

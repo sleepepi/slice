@@ -1,4 +1,4 @@
-class CreateExpectedRandomizations < ActiveRecord::Migration
+class CreateExpectedRandomizations < ActiveRecord::Migration[4.2]
   def change
     create_table :expected_randomizations do |t|
       t.integer :randomization_scheme_id

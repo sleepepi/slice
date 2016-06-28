@@ -1,4 +1,4 @@
-class AddMinimizationColumnsToRandomizations < ActiveRecord::Migration
+class AddMinimizationColumnsToRandomizations < ActiveRecord::Migration[4.2]
   def change
     add_column :randomizations, :dice_roll, :integer
     add_column :randomizations, :dice_roll_cutoff, :integer

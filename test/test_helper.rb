@@ -17,11 +17,11 @@ end
 
 # Set up ActionController tests
 class ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
 
   def login(resource)
     @request.env['devise.mapping'] = Devise.mappings[resource]
-    sign_in(resource.class.name.downcase.to_sym, resource)
+    sign_in(resource, scope: resource.class.name.downcase.to_sym)
   end
 end
 

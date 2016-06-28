@@ -1,4 +1,4 @@
-class CreateProjectFavorites < ActiveRecord::Migration
+class CreateProjectFavorites < ActiveRecord::Migration[4.2]
   def change
     create_table :project_favorites do |t|
       t.integer :project_id

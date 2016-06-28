@@ -1,4 +1,4 @@
-class ChangeVariableDisplayNameToText < ActiveRecord::Migration
+class ChangeVariableDisplayNameToText < ActiveRecord::Migration[4.2]
   def up
     change_column :variables, :display_name, :text
   end

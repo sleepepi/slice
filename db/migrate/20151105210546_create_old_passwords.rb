@@ -1,4 +1,4 @@
-class CreateOldPasswords < ActiveRecord::Migration
+class CreateOldPasswords < ActiveRecord::Migration[4.2]
   def change
     create_table :old_passwords do |t|
       t.integer :user_id

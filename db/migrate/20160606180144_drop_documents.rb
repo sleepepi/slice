@@ -1,4 +1,4 @@
-class DropDocuments < ActiveRecord::Migration
+class DropDocuments < ActiveRecord::Migration[4.2]
   def up
     remove_column :projects, :show_documents
     drop_table :documents

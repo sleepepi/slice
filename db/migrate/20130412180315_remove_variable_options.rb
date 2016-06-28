@@ -1,4 +1,4 @@
-class RemoveVariableOptions < ActiveRecord::Migration
+class RemoveVariableOptions < ActiveRecord::Migration[4.2]
   def up
     remove_column :variables, :options
   end

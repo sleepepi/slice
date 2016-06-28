@@ -1,4 +1,4 @@
-class CreateSheetTransactionAudits < ActiveRecord::Migration
+class CreateSheetTransactionAudits < ActiveRecord::Migration[4.2]
   def change
     create_table :sheet_transaction_audits do |t|
       t.integer :sheet_transaction_id

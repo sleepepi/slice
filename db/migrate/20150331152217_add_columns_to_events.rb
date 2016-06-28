@@ -1,4 +1,4 @@
-class AddColumnsToEvents < ActiveRecord::Migration
+class AddColumnsToEvents < ActiveRecord::Migration[4.2]
   def change
     add_column :events, :archived, :boolean, null: false, default: false
     add_column :events, :position, :integer

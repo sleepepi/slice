@@ -1,4 +1,4 @@
-class RemoveExportTypeFromExports < ActiveRecord::Migration
+class RemoveExportTypeFromExports < ActiveRecord::Migration[4.2]
   def up
     remove_column :exports, :export_type
   end

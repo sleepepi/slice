@@ -1,4 +1,4 @@
-class CreateSheetEmails < ActiveRecord::Migration
+class CreateSheetEmails < ActiveRecord::Migration[4.2]
   def change
     create_table :sheet_emails do |t|
       t.integer :sheet_id

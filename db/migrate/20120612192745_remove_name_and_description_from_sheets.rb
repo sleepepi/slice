@@ -1,4 +1,4 @@
-class RemoveNameAndDescriptionFromSheets < ActiveRecord::Migration
+class RemoveNameAndDescriptionFromSheets < ActiveRecord::Migration[4.2]
   def up
     remove_column :sheets, :name
     remove_column :sheets, :description

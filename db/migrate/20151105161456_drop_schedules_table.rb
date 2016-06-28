@@ -1,4 +1,4 @@
-class DropSchedulesTable < ActiveRecord::Migration
+class DropSchedulesTable < ActiveRecord::Migration[4.2]
   def up
     drop_table :schedules
   end

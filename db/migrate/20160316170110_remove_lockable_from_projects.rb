@@ -1,4 +1,4 @@
-class RemoveLockableFromProjects < ActiveRecord::Migration
+class RemoveLockableFromProjects < ActiveRecord::Migration[4.2]
   def change
     remove_column :projects, :lockable, :boolean, null: false, default: false
     remove_column :sheets, :locked, :boolean, null: false, default: false

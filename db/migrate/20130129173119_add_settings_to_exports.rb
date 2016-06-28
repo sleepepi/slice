@@ -1,4 +1,4 @@
-class AddSettingsToExports < ActiveRecord::Migration
+class AddSettingsToExports < ActiveRecord::Migration[4.2]
   def change
     add_column :exports, :include_xls, :boolean, null: false, default: false
     add_column :exports, :include_csv_labeled, :boolean, null: false, default: false

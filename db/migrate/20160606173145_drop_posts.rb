@@ -1,4 +1,4 @@
-class DropPosts < ActiveRecord::Migration
+class DropPosts < ActiveRecord::Migration[4.2]
   def up
     remove_column :projects, :show_posts
     drop_table :posts

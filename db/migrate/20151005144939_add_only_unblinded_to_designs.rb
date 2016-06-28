@@ -1,4 +1,4 @@
-class AddOnlyUnblindedToDesigns < ActiveRecord::Migration
+class AddOnlyUnblindedToDesigns < ActiveRecord::Migration[4.2]
   def change
     add_column :designs, :only_unblinded, :boolean, null: false, default: false
   end

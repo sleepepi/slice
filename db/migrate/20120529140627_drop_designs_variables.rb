@@ -1,4 +1,4 @@
-class DropDesignsVariables < ActiveRecord::Migration
+class DropDesignsVariables < ActiveRecord::Migration[4.2]
   def up
     drop_table :designs_variables
   end

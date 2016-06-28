@@ -1,4 +1,4 @@
-class RemoveLastEmailedAtFromSheets < ActiveRecord::Migration
+class RemoveLastEmailedAtFromSheets < ActiveRecord::Migration[4.2]
   def up
     remove_column :sheets, :last_emailed_at
   end

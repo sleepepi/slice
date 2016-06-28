@@ -1,4 +1,4 @@
-class CreateRandomizationSchemeTasks < ActiveRecord::Migration
+class CreateRandomizationSchemeTasks < ActiveRecord::Migration[4.2]
   def change
     create_table :randomization_scheme_tasks do |t|
       t.integer :randomization_scheme_id

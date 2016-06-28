@@ -1,4 +1,4 @@
-class AddEventIdAndSubjectScheduleIdToSheets < ActiveRecord::Migration
+class AddEventIdAndSubjectScheduleIdToSheets < ActiveRecord::Migration[4.2]
   def change
     add_column :sheets, :event_id, :integer
     add_column :sheets, :subject_schedule_id, :integer

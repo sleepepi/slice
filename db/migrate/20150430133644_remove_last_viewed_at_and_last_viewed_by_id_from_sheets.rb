@@ -1,4 +1,4 @@
-class RemoveLastViewedAtAndLastViewedByIdFromSheets < ActiveRecord::Migration
+class RemoveLastViewedAtAndLastViewedByIdFromSheets < ActiveRecord::Migration[4.2]
   def up
     remove_index :sheets, :last_viewed_by_id
 

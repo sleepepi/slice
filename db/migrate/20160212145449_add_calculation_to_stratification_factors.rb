@@ -1,4 +1,4 @@
-class AddCalculationToStratificationFactors < ActiveRecord::Migration
+class AddCalculationToStratificationFactors < ActiveRecord::Migration[4.2]
   def change
     add_column :stratification_factors, :calculation, :text
   end

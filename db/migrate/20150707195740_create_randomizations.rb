@@ -1,4 +1,4 @@
-class CreateRandomizations < ActiveRecord::Migration
+class CreateRandomizations < ActiveRecord::Migration[4.2]
   def change
     create_table :randomizations do |t|
       t.integer :project_id

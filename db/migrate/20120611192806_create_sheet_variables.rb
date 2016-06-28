@@ -1,4 +1,4 @@
-class CreateSheetVariables < ActiveRecord::Migration
+class CreateSheetVariables < ActiveRecord::Migration[4.2]
   def change
     create_table :sheet_variables do |t|
       t.integer :variable_id

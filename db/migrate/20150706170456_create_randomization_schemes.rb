@@ -1,4 +1,4 @@
-class CreateRandomizationSchemes < ActiveRecord::Migration
+class CreateRandomizationSchemes < ActiveRecord::Migration[4.2]
   def change
     create_table :randomization_schemes do |t|
       t.string :name

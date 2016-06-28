@@ -1,4 +1,4 @@
-class RemoveHideDisplayNameFromVariables < ActiveRecord::Migration
+class RemoveHideDisplayNameFromVariables < ActiveRecord::Migration[4.2]
   def up
     remove_column :variables, :hide_display_name
   end

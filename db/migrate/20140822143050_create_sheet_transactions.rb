@@ -1,4 +1,4 @@
-class CreateSheetTransactions < ActiveRecord::Migration
+class CreateSheetTransactions < ActiveRecord::Migration[4.2]
   def change
     create_table :sheet_transactions do |t|
       t.string :transaction_type

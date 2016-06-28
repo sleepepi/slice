@@ -1,4 +1,4 @@
-class RemoveReports < ActiveRecord::Migration
+class RemoveReports < ActiveRecord::Migration[4.2]
   def up
     drop_table :reports
   end

@@ -1,4 +1,4 @@
-class CreateListOptions < ActiveRecord::Migration
+class CreateListOptions < ActiveRecord::Migration[4.2]
   def change
     create_table :list_options do |t|
       t.integer :project_id

@@ -1,4 +1,4 @@
-class CreateSheetUnlockRequests < ActiveRecord::Migration
+class CreateSheetUnlockRequests < ActiveRecord::Migration[4.2]
   def change
     create_table :sheet_unlock_requests do |t|
       t.integer :sheet_id

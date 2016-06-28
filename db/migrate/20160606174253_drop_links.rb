@@ -1,4 +1,4 @@
-class DropLinks < ActiveRecord::Migration
+class DropLinks < ActiveRecord::Migration[4.2]
   def up
     remove_index :links, :user_id
     remove_index :links, :project_id

@@ -1,4 +1,4 @@
-class AddStatusStringIndices < ActiveRecord::Migration
+class AddStatusStringIndices < ActiveRecord::Migration[4.2]
   def change
     add_index :exports, :status
     add_index :subjects, :status

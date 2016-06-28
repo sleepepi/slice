@@ -1,4 +1,4 @@
-class AddFileUploaderToSheetVariables < ActiveRecord::Migration
+class AddFileUploaderToSheetVariables < ActiveRecord::Migration[4.2]
   def change
     add_column :sheet_variables, :response_file, :string
     add_column :sheet_variables, :response_file_uploaded_at, :datetime

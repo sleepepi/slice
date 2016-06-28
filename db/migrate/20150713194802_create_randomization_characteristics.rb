@@ -1,4 +1,4 @@
-class CreateRandomizationCharacteristics < ActiveRecord::Migration
+class CreateRandomizationCharacteristics < ActiveRecord::Migration[4.2]
   def change
     create_table :randomization_characteristics do |t|
       t.integer :project_id

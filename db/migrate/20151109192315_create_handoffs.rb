@@ -1,4 +1,4 @@
-class CreateHandoffs < ActiveRecord::Migration
+class CreateHandoffs < ActiveRecord::Migration[4.2]
   def change
     create_table :handoffs do |t|
       t.string :token

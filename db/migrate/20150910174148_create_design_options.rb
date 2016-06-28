@@ -1,4 +1,4 @@
-class CreateDesignOptions < ActiveRecord::Migration
+class CreateDesignOptions < ActiveRecord::Migration[4.2]
   def change
     create_table :design_options do |t|
       t.integer :design_id

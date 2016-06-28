@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def change_password
     if current_user.valid_password?(params[:user][:current_password])
       if current_user.reset_password(params[:user][:password], params[:user][:password_confirmation])
-        sign_in current_user, bypass: true
+        bypass_sign_in current_user
         redirect_to settings_path, notice: 'Your password has been changed.'
       else
         render :settings

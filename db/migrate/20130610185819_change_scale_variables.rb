@@ -1,4 +1,4 @@
-class ChangeScaleVariables < ActiveRecord::Migration
+class ChangeScaleVariables < ActiveRecord::Migration[4.2]
   def up
     Variable.where( variable_type: 'scale', scale_type: 'radio' ).update_all( variable_type: 'radio', alignment: 'scale' )
     Variable.where( variable_type: 'scale', scale_type: 'checkbox' ).update_all( variable_type: 'checkbox', alignment: 'scale' )

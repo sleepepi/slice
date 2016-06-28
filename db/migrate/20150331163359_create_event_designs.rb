@@ -1,4 +1,4 @@
-class CreateEventDesigns < ActiveRecord::Migration
+class CreateEventDesigns < ActiveRecord::Migration[4.2]
   def change
     create_table :event_designs do |t|
       t.integer :event_id

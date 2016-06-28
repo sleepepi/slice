@@ -1,4 +1,4 @@
-class CreateStratificationFactorOptions < ActiveRecord::Migration
+class CreateStratificationFactorOptions < ActiveRecord::Migration[4.2]
   def change
     create_table :stratification_factor_options do |t|
       t.integer :project_id

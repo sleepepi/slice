@@ -1,4 +1,4 @@
-class CreateAdverseEventUsers < ActiveRecord::Migration
+class CreateAdverseEventUsers < ActiveRecord::Migration[4.2]
   def change
     create_table :adverse_event_users do |t|
       t.integer :adverse_event_id
