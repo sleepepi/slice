@@ -1,9 +1,5 @@
-- include_header = true
-- include_header = false if defined?(no_header) and no_header == '1'
-
-- if include_header
-  %h3.center{ style: 'margin:0px' } Subject vs. Design
-  = render 'layouts/per_page', per_page: 40, object_count: @subjects.total_count
+%h3.center{ style: 'margin:0px' } Subject vs. Design
+= render 'layouts/per_page', per_page: 40, object_count: @subjects.total_count
 
 %table.table.table-hover
   %col{ width: '1px' }
@@ -11,9 +7,7 @@
   %col{ width: '1px' }
   %thead
     %tr
-      - if include_header
-        %th
-        %th Subject
+      %th Subject
       - @designs.each do |design|
         %th
           %span{ class: 'count-rot315__' }= design.name
@@ -21,9 +15,7 @@
   - if @subject_count
     %tfoot
       %tr{ style: 'font-weight:bold' }
-        - if include_header
-          %td
-          %td Total
+        %td Total
         - @designs.each do |design|
           - count = design.sheets.where(subject_id: @subjects.select(:id)).count
           %td{ class: "#{'text-muted' if count == 0}" }
@@ -32,14 +24,8 @@
   %tbody
     - @subjects.each do |subject|
       %tr
-        - if include_header
-          %td{ style: 'line-height:30px' }
-            - if subject.status == 'valid'
-              %span.label.label-success= subject.status
-            - else
-              %span.label.label-info= subject.status
-          %td.nowrap{ style: 'line-height:30px' }
-            = link_to subject.subject_code, [subject.project, subject]
+        %td.nowrap{ style: 'line-height:30px' }
+          = link_to subject.subject_code, [subject.project, subject]
         - @designs.each do |design|
           - count = design.sheets.where(subject_id: subject.id).count
           %td{ class: "#{'text-muted' if count == 0}", style: 'line-height:30px', data: { object: 'hover-show', target: "#subject_#{subject.id}_design_#{design.id}_add_link" } }

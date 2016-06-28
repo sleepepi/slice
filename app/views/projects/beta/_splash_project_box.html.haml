@@ -3,7 +3,7 @@
     - if sortable
       %span.glyphicon.glyphicon-move.handle
     = link_to project_subjects_path(project), class: 'hover-link' do
-      - number_with_delimiter project.subjects.where(status: 'valid').count
+      - number_with_delimiter project.subjects.count
     = link_to '#', data: { object: 'toggle-visibility', target: "#project_#{project.id}_details" } do
       %span.glyphicon.glyphicon-option-vertical
 
@@ -32,7 +32,7 @@
           %span.glyphicon.glyphicon-star-empty
           %span.hidden-xs
             Favorite
-    - subject = project.subjects.where(status: 'valid').order(created_at: :desc).first
+    - subject = project.subjects.order(created_at: :desc).first
     %div{ style: "#{'margin-bottom:20px' if subject}" }
       %span.nowrap
         = project.sheets.count

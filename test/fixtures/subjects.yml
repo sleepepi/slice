@@ -5,70 +5,60 @@ one:
   subject_code: Code01
   user: valid
   site: one
-  status: valid
 
 two:
   project: one
   subject_code: Code02
   user: valid
   site: one
-  status: valid
 
 code03:
   project: one
   subject_code: Code03
   user: valid
   site: one
-  status: valid
 
 three:
   project: one
   subject_code: S2001
   user: valid
   site: three
-  status: valid
 
 four:
   project: one
   subject_code: S2002
   user: valid
   site: three
-  status: valid
 
 unrandomized:
   project: one
   subject_code: unrandomized
   user: valid
   site: site_on_project_two
-  status: valid
 
 randomized:
   project: two
   subject_code: alreadyRandomized01
   user: valid
   site: site_on_project_two
-  status: valid
 
 sample:
   project: two
   subject_code: 2TWO02
   user: valid
   site: site_on_project_two
-  status: valid
 
 eligible_for_randomization:
   project: two
   subject_code: eligible_for_randomization
   user: valid
   site: site_on_project_two
-  status: valid
 
 external:
   project: three
   subject_code: first.last@gmail.com
   user: admin
   site: admin_site
-  status: valid
 
 external_with_email:
   project: three
@@ -76,14 +66,12 @@ external_with_email:
   email: external_with_email@example.com
   user: admin
   site: admin_site
-  status: valid
 
 test_one:
   project: one
   subject_code: A500
   user: valid
   site: valid_range
-  status: test
 
 ## Edge Subjects for minimization
 edge01:

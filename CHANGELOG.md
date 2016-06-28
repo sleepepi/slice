@@ -8,6 +8,7 @@
   - Added a task to export recruitment data for the PATS project
 - **Subject Changes**
   - Subject events that fall on the same day are now ordered by event position
+  - Removed deprecated `status` column from subjects
 - **Gem Changes**
   - Updated to carrierwave 0.11.2
   - Updated to colorize 0.8.0
