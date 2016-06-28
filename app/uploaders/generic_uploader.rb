@@ -27,11 +27,6 @@ class GenericUploader < CarrierWave::Uploader::Base
   #   %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
   # end
 
-  # # TODO: This will replace the above function in carrierwave 1.0.0
-  # def extension_whitelist
-  #   %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
-  # end
-
   # Override the filename of the uploaded files:
   # def filename
   #   "something.jpg" if original_filename
