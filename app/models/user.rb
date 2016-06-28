@@ -8,7 +8,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
-  serialize :pagination, Hash
   serialize :email_notifications, Hash
 
   EMAILABLES = [

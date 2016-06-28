@@ -8,7 +8,6 @@
   - Added a task to export recruitment data for the PATS project
 - **Subject Changes**
   - Subject events that fall on the same day are now ordered by event position
-  - Removed deprecated `status` column from subjects
 - **Gem Changes**
   - Updated to carrierwave 0.11.2
   - Updated to colorize 0.8.0
@@ -17,6 +16,10 @@
 ### Bug Fix
 - Fixed a bug that would export zero sheets when exporting Adverse Events
   alongside other CSVs
+
+### Refactoring
+- Removed deprecated `status` column from subjects
+- Removed deprecated `pagination` column from users
 
 ## 0.38.0 (June 8, 2016)
 
