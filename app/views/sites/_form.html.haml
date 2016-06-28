@@ -2,7 +2,7 @@
 
 = form_for [@project, @site], html: { class: 'form-horizontal' } do |f|
   - if @site.errors.any?
-    .bs-callout.bs-callout-danger
+    .callout.callout-danger
       %h4
         = pluralize @site.errors.count, 'error'
         prohibited this site from being saved
@@ -20,7 +20,7 @@
     = f.label :subject_code_format, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Format', class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :subject_code_format, class: 'form-control'
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         %h4 Format
         You may format in the following manner, in addition to letters, a-z A-Z, or numbers, 0-9.
         %ul

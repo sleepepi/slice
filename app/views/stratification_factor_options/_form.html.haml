@@ -2,7 +2,7 @@
 
 = form_for [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], html: { class: 'form-horizontal' } do |f|
   - if @stratification_factor_option.errors.any?
-    .bs-callout.bs-callout-danger
+    .callout.callout-danger
       %h4
         = pluralize(@stratification_factor_option.errors.count, "error")
         prohibited this stratification factor option from being saved

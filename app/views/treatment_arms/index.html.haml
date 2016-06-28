@@ -16,6 +16,6 @@
       - else
         = link_to 'Create Treatment Arm', new_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme), class: 'btn btn-xs btn-primary'
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @treatment_arms.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @treatment_arms.total_count
 
     = render 'treatment_arms/treatment_arms'

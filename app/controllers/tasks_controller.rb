@@ -12,7 +12,7 @@ class TasksController < ApplicationController
 
   # GET /projects/1/tasks
   def index
-    @order = scrub_order(Task, params[:order], 'tasks.created_at DESC')
+    @order = scrub_order(Task, params[:order], 'tasks.created_at desc')
     @tasks = viewable_tasks.search(params[:search]).order(@order)
                            .page(params[:page]).per(40)
   end

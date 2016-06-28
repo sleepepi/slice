@@ -10,7 +10,7 @@
       = @title
       = link_to 'Create Site', new_project_site_path(@project), class: 'btn btn-xs btn-primary' if @project.editable_by?(current_user)
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @sites.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @sites.total_count
 
     = render 'sites/sites'
 

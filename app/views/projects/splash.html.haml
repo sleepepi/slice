@@ -19,7 +19,7 @@
     %strong.btn-text-emphasis New Project
 
 .center
-  = paginate @projects, theme: 'contour'
+  = paginate @projects, theme: 'bootstrap'
 
 - if current_user.all_archived_projects.count > 0
   %div{ style: 'margin-bottom:20px' }

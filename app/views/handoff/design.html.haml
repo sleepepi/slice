@@ -25,7 +25,7 @@
 
 = form_for @sheet, url: submit_url, method: submit_method, html: { class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false } do |f|
   - if @sheet.errors.any?
-    .bs-callout.bs-callout-danger
+    .callout.callout-danger
       %h4
         = pluralize @sheet.errors.count, 'error'
         prohibited this survey from being submitted

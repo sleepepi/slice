@@ -46,6 +46,9 @@
     if $(@).val() == $(@).attr('placeholder')
       $(@).val ''
 
+@nonStandardClick = (event) ->
+  event.which > 1 or event.metaKey or event.ctrlKey or event.shiftKey or event.altKey
+
 @sheetsReady = () ->
   initializeSheet()
   activateSheetDraggables()

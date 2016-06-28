@@ -4,7 +4,7 @@
 .modal-body
   = form_for [@project, @design], remote: true, html: { class: 'form-horizontal', id: 'design_form' } do |f|
     - if @design.errors.any?
-      .bs-callout.bs-callout-danger
+      .callout.callout-danger
         %h4
           = pluralize(@design.errors.count, "error")
           prohibited this design from being saved

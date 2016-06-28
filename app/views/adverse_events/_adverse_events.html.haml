@@ -26,4 +26,4 @@
               = link_to 'Edit', edit_project_adverse_event_path(@project, adverse_event), class: 'btn btn-default btn-xs'
               = link_to 'Delete', [@project, adverse_event], method: :delete, data: { confirm: "Are you sure you want to delete Adverse Event #{adverse_event.name}?" }, class: 'btn btn-danger-inverse btn-xs'
 
-.center= paginate @adverse_events, theme: 'contour'
+.center= paginate @adverse_events, theme: 'bootstrap'

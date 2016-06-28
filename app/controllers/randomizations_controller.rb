@@ -33,7 +33,7 @@ class RandomizationsController < ApplicationController
     @randomizations = current_user.all_viewable_randomizations
                                   .where(project_id: @project.id)
                                   .includes(:subject)
-                                  .order('randomized_at DESC NULLS LAST')
+                                  .order('randomized_at desc nulls last')
                                   .select('randomizations.*')
                                   .page(params[:page])
                                   .per(40)

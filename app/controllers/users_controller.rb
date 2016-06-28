@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       return
     end
 
-    @order = scrub_order(User, params[:order], 'users.current_sign_in_at DESC')
+    @order = scrub_order(User, params[:order], 'users.current_sign_in_at desc')
     @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per(40)
   end
 

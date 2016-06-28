@@ -3,7 +3,7 @@
 
 - if include_header
   %h3.center{ style: 'margin:0px' } Subject vs. Design
-  = render 'contour/layouts/per_page', per_page: 40, object_count: @subjects.total_count
+  = render 'layouts/per_page', per_page: 40, object_count: @subjects.total_count
 
 %table.table.table-hover
   %col{ width: '1px' }
@@ -57,4 +57,4 @@
         %td{ class: "#{'text-muted' if count == 0}", style: 'line-height:30px' }
           = link_to_if count > 0, count == 0 ? '-' : count, project_sheets_path(@project, search: subject.subject_code)
 
-.center= paginate @subjects, theme: 'contour'
+.center= paginate @subjects, theme: 'bootstrap'

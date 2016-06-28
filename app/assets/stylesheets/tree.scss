@@ -1,54 +1,24 @@
-// Contour Styles
-@import 'contour';
+// // Contour Styles
+// @import 'contour';
+// # TODO: Refactor old contour styles, and remove the contour folder
+@import 'fixes/contour/about';
+@import 'fixes/contour/bootstrap-overrides';
+
+// Core Bootstrap styles
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
 
 // App Mixins
 @import 'mixins/all';
 
 // Components
-@import 'components/alignment';
-@import 'components/animations';
-@import 'components/beta';
-@import 'components/body';
-@import 'components/callouts'; // TODO MOVE TO Contour
-@import 'components/containers';
-@import 'components/buttons'; // Move part to Contour
-@import 'components/dividers';
-@import 'components/flash';
-@import 'components/footer';
-@import 'components/forms';
-@import 'components/headings';
-@import 'components/highlights';
-@import 'components/links';
-@import 'components/menu';
-@import 'components/modals'; // Move part to Contour
-@import 'components/pagination';
-@import 'components/tables';
-@import 'components/tips';
+@import 'components/all';
 
 // Extensions
-@import 'extensions/chosen';
-@import 'extensions/differ';
-@import 'extensions/filedrag';
-@import 'extensions/jquery.signaturepad';
+@import 'extensions/all';
 
 // Fixes
-@import 'fixes/bootstrap';
-@import 'fixes/contour';
-@import 'fixes/datepicker';
-@import 'fixes/twitter-typeahead';
+@import 'fixes/all';
 
 // Objects
-@import 'objects/adverse_event_files';
-@import 'objects/comments';
-@import 'objects/coverage';
-@import 'objects/designs';
-@import 'objects/events';
-@import 'objects/filters';
-@import 'objects/grids';
-@import 'objects/projects';
-@import 'objects/randomization_schemes';
-@import 'objects/reports';
-@import 'objects/sections';
-@import 'objects/sheets';
-@import 'objects/subjects';
-@import 'objects/validations';
+@import 'objects/all';

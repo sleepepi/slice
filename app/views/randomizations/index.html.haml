@@ -14,7 +14,7 @@
         %span.glyphicon.glyphicon-download-alt
         Export CSV
       .per-page
-        = render 'contour/layouts/per_page', per_page: 40, object_count: @randomizations.total_count
+        = render 'layouts/per_page', per_page: 40, object_count: @randomizations.total_count
     - if false
       = form_tag project_randomizations_path(@project), method: :get, class: 'form-vertical' do
         = hidden_field_tag :order, params[:order]

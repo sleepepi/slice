@@ -1,15 +1,16 @@
 = form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-inline', id: 'subject-search-form' do
-  %h2.underline-header
-    .form-group{ style: 'margin: 0; margin-top:-12px' }
-      .input-group{ style: 'width: 1px' }
-        = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, placeholder: 'Lookup Subject'
-        %span.input-group-btn{ style: 'vertical-align: bottom;' }
-          = submit_tag 'Go', class: 'btn btn-default'
+  .form-group{ style: 'margin: 0; margin-top:-12px' }
+    .input-group{ style: 'width: 1px' }
+      = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, placeholder: 'Lookup Subject'
+      %span.input-group-btn{ style: 'vertical-align: bottom;' }
+        = submit_tag 'Go', class: 'btn btn-default'
 
-      .form-group{ style: 'margin: 0;' }
-        - if @project.site_or_project_editor? current_user
-          = link_to 'New Subject', new_project_subject_path(@project), class: 'btn btn-primary btn-xs'
-  .per-page= render 'contour/layouts/per_page', per_page: 40, object_count: @subjects.total_count
+    .form-group{ style: 'margin: 0;' }
+      - if @project.site_or_project_editor? current_user
+        = link_to 'New Subject', new_project_subject_path(@project), class: 'btn btn-primary btn-xs'
+
+  %hr
+  .per-page= render 'layouts/per_page', per_page: 40, object_count: @subjects.total_count
 
 = render 'subjects/subjects'
 

@@ -4,11 +4,11 @@
 # Other controllers inherit from this as a base class
 # This controller also handles several static pages in views/application
 class ApplicationController < ActionController::Base
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-
-  layout 'layouts/application_custom'
 
   before_action :set_cache_buster
 
@@ -23,12 +23,16 @@ class ApplicationController < ActionController::Base
 
   def scrub_order(model, params_order, default_order)
     (params_column, params_direction) = params_order.to_s.strip.downcase.split(' ')
-    direction = (params_direction == 'desc' ? 'DESC' : nil)
+    direction = (params_direction == 'desc' ? 'desc' : nil)
     column_name = model.column_names.collect { |c| model.table_name + '.' + c }.find { |c| c == params_column }
     column_name.blank? ? default_order : [column_name, direction].compact.join(' ')
   end
 
   private
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :password, :password_confirmation, :emails_enabled])
+  end
 
   # TODO: Will be deprecated
   def set_viewable_project(id = :project_id)

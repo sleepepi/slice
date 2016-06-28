@@ -1,0 +1,30 @@
+- pagination_size_hash = { 'large' => 'lg', 'small' => 'sm' }
+- pagination_size =
+- per_page = 20 unless defined?(per_page) && per_page
+- object_count = 0 unless defined?(object_count) && object_count
+- page = params[:page].blank? ? 1 : params[:page].to_i
+- current_page_min = (page - 1)*per_page + 1
+- current_page_max = page*per_page
+
+.pull-right
+  %ul.pagination{ style: 'margin:0', class: (defined?(pagination_size) && ['large', 'small'].include?(pagination_size) ? "pagination-#{pagination_size_hash[pagination_size]}" : nil) }
+    - if current_page_min > 1
+      %li= link_to '&laquo;'.html_safe, url_for( params.merge( page: page - 1 )  ).gsub("%2F","/")
+    - else
+      %li.disabled
+        %span &laquo;
+
+    %li
+      %span{ style: 'color:#333' }
+        %b{ style: 'font-size:0.95em' }
+          = number_with_delimiter current_page_min
+          to
+          = number_with_delimiter [current_page_max, object_count].min
+        of
+        = number_with_delimiter object_count
+
+    - if current_page_max < object_count
+      %li= link_to '&raquo;'.html_safe, url_for( params.merge( page: page + 1 )  ).gsub("%2F","/")
+    - else
+      %li.disabled
+        %span &raquo;

@@ -31,7 +31,7 @@
   $("##{target_name}_ounces").parent().removeClass('has-warning has-error')
   $("##{target_name}").parent().removeClass('has-warning has-error')
   $("##{target_name}_alert_box")
-    .removeClass('bs-callout-warning bs-callout-danger')
+    .removeClass('callout-warning callout-danger')
 
 @setDefaultClassStyles = (target_name, data) ->
   $("##{target_name}_alert_box").show()
@@ -59,10 +59,10 @@
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
     $("##{target_name}").parent().addClass('has-error')
-    $("##{target_name}_alert_box").addClass('bs-callout-danger')
+    $("##{target_name}_alert_box").addClass('callout-danger')
   if data['status'] == 'in_hard_range'
     $("##{target_name}").parent().addClass('has-warning')
-    $("##{target_name}_alert_box").addClass('bs-callout-warning')
+    $("##{target_name}_alert_box").addClass('callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_alert_box").hide() if data['message'] == ''
 
@@ -74,7 +74,7 @@
   setValidationProperty(parent, data)
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
-    $("##{target_name}_alert_box").addClass('bs-callout-danger')
+    $("##{target_name}_alert_box").addClass('callout-danger')
     $("##{target_name}_year").parent().addClass('has-error')
     $("##{target_name}_month").parent().addClass('has-error')
     $("##{target_name}_day").parent().addClass('has-error')
@@ -82,7 +82,7 @@
     $("##{target_name}_year").parent().addClass('has-warning')
     $("##{target_name}_month").parent().addClass('has-warning')
     $("##{target_name}_day").parent().addClass('has-warning')
-    $("##{target_name}_alert_box").addClass('bs-callout-warning')
+    $("##{target_name}_alert_box").addClass('callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_alert_box").show()
 
@@ -94,7 +94,7 @@
   setValidationProperty(parent, data)
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
-    $("##{target_name}_alert_box").addClass('bs-callout-danger')
+    $("##{target_name}_alert_box").addClass('callout-danger')
     $("##{target_name}_hour").parent().addClass('has-error')
     $("##{target_name}_hours").parent().addClass('has-error')
     $("##{target_name}_minutes").parent().addClass('has-error')
@@ -106,7 +106,7 @@
     $("##{target_name}_minutes").parent().addClass('has-warning')
     $("##{target_name}_seconds").parent().addClass('has-warning')
     $("##{target_name}_period").parent().addClass('has-warning')
-    $("##{target_name}_alert_box").addClass('bs-callout-warning')
+    $("##{target_name}_alert_box").addClass('callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_alert_box").show()
 
@@ -116,13 +116,13 @@
   setDefaultClassStyles(target_name, data)
   setValidationProperty(parent, data)
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
-    $("##{target_name}_alert_box").addClass('bs-callout-danger')
+    $("##{target_name}_alert_box").addClass('callout-danger')
     $("##{target_name}_feet").parent().addClass('has-error')
     $("##{target_name}_inches").parent().addClass('has-error')
   if data['status'] == 'in_hard_range'
     $("##{target_name}_feet").parent().addClass('has-warning')
     $("##{target_name}_inches").parent().addClass('has-warning')
-    $("##{target_name}_alert_box").addClass('bs-callout-warning')
+    $("##{target_name}_alert_box").addClass('callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_alert_box").show()
 
@@ -132,13 +132,13 @@
   setDefaultClassStyles(target_name, data)
   setValidationProperty(parent, data)
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
-    $("##{target_name}_alert_box").addClass('bs-callout-danger')
+    $("##{target_name}_alert_box").addClass('callout-danger')
     $("##{target_name}_pounds").parent().addClass('has-error')
     $("##{target_name}_ounces").parent().addClass('has-error')
   if data['status'] == 'in_hard_range'
     $("##{target_name}_pounds").parent().addClass('has-warning')
     $("##{target_name}_ounces").parent().addClass('has-warning')
-    $("##{target_name}_alert_box").addClass('bs-callout-warning')
+    $("##{target_name}_alert_box").addClass('callout-warning')
   if data['status'] == 'blank' or data['status'] == 'in_soft_range'
     $("##{target_name}_alert_box").show()
 

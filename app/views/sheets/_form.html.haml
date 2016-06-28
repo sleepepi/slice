@@ -1,6 +1,6 @@
 = form_for([@sheet.project, @sheet], html: { class: 'form-horizontal', enctype: 'multipart/form-data' }) do |f|
   - if @sheet.errors.any?
-    .bs-callout.bs-callout-danger
+    .callout.callout-danger
       %h4
         = pluralize @sheet.errors.count, 'error'
         prohibited this sheet from being saved

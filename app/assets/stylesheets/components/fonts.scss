@@ -1,0 +1,26 @@
+// Fonts
+
+// Open Sans
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: asset-url('opensans/OpenSans-Light.woff') format('woff'),
+       asset-url('opensans/OpenSans-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: asset-url('opensans/OpenSans-Regular.woff') format('woff'),
+       asset-url('opensans/OpenSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: asset-url('opensans/OpenSans-Bold.woff') format('woff'),
+       asset-url('opensans/OpenSans-Bold.ttf') format('truetype');
+}

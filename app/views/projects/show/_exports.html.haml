@@ -24,7 +24,7 @@
         %td
         %td{ colspan: 3 }
           = link_to 'Create Export', project_sheets_path(@project, e: '1')
-      - current_user.exports.where(project_id: @project.id).order("exports.created_at DESC").limit(10).each do |export|
+      - current_user.exports.where(project_id: @project.id).order("exports.created_at desc").limit(10).each do |export|
         %tr{ style: 'cursor:pointer', class: "#{'success' if not export.viewed? and export.status == 'ready'} #{'warning' if export.status == 'pending'}", data: { link: project_export_path(export.project, export) } }
           %td
             %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }= export.status

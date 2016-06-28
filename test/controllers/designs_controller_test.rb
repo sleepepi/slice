@@ -35,7 +35,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   test 'should get paginated index by user_name desc' do
-    get :index, project_id: @project, order: 'designs.user_name DESC'
+    get :index, project_id: @project, order: 'designs.user_name desc'
     assert_not_nil assigns(:designs)
     assert_response :success
   end

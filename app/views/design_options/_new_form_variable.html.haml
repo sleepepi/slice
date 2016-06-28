@@ -9,7 +9,7 @@
 .modal-body
   = form_tag create_variable_project_design_design_options_path(@project, @design), method: :post, remote: true, class: 'form-horizontal', id: 'design_option_form' do
     - if @variable.errors.any?
-      .bs-callout.bs-callout-danger
+      .callout.callout-danger
         %h4
           = pluralize(@variable.errors.count, "error")
           prohibited this variable from being saved
@@ -24,7 +24,7 @@
       .col-md-10
         = text_field_tag "variable[display_name]", @variable.display_name, class: 'form-control', data: { object: 'create-variable-name', variable_name_target: '#variable_name' }
         = hidden_field_tag "variable[variable_type]", @variable.variable_type
-        .bs-callout.bs-callout-info
+        .callout.callout-info
           %h4 Heads up!
 
           %p The display name is the question as displayed to the user who is filling out the form.
@@ -42,7 +42,7 @@
       .form-group
         = label :questions, 'Questions', class: 'col-md-2 control-label'
         .col-md-10
-          .bs-callout.bs-callout-info{ style: "margin-top:0px" }
+          .callout.callout-info{ style: "margin-top:0px" }
             %h4 Quick Start
             %p
               %strong Optional:

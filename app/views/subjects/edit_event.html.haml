@@ -12,7 +12,7 @@
 
     = form_tag update_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :post, class: 'form-horizontal' do
       - if @subject_event.errors.any?
-        .bs-callout.bs-callout-danger
+        .callout.callout-danger
           %h4
             = pluralize @subject_event.errors.count, 'error'
             prohibited this event from being saved

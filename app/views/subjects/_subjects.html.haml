@@ -12,8 +12,8 @@
     %tr
       = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
       - if editable_sites.count > 1
-        %th.nowrap{ class: ['subjects.site_id', 'subjects.site_id DESC'].include?(params[:order]) ? 'sort-selected' : nil }
-          = link_to 'Site', project_subjects_path(@project, order: (params[:order] == 'subjects.site_id DESC' ? 'subjects.site_id' : 'subjects.site_id DESC'), site_id: params[:site_id])
+        %th.nowrap{ class: ['subjects.site_id', 'subjects.site_id desc'].include?(params[:order]) ? 'sort-selected' : nil }
+          = link_to 'Site', project_subjects_path(@project, order: (params[:order] == 'subjects.site_id desc' ? 'subjects.site_id' : 'subjects.site_id desc'), site_id: params[:site_id])
           .dropdown{ style: 'display: inline-block' }
             = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'status-dropdown' do
               %span.glyphicon.glyphicon-filter
@@ -88,4 +88,4 @@
             %span.text-muted -
 
 .center
-  = paginate @subjects, theme: 'contour'
+  = paginate @subjects, theme: 'bootstrap'

@@ -23,6 +23,8 @@
 // $brand-info:            #5bc0de !default;
 // $brand-warning:         #f0ad4e !default;
 // $brand-danger:          #d9534f !default;
+$brand-white:           #fff;
+$brand-gray:            #ccc;
 
 
 // //== Scaffolding
@@ -44,6 +46,7 @@
 // //
 // //## Font, line-height, and color for body text, headings, and more.
 
+$font-family-sans-serif:  'Open Sans', sans-serif;
 // $font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 // $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 // //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.

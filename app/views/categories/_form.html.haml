@@ -2,7 +2,7 @@
 
 = form_for [@project, @category], html: { class: 'form-horizontal' } do |f|
   - if @category.errors.any?
-    .bs-callout.bs-callout-danger
+    .callout.callout-danger
       %h4
         = pluralize @category.errors.count, 'error'
         prohibited this category from being saved
@@ -20,7 +20,7 @@
     = f.label :slug, 'URL Slug', class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :slug, class: 'form-control'
-      .bs-callout.bs-callout-info
+      .callout.callout-info
         %h4 Naming convention
         %ul
           %li

@@ -10,7 +10,29 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require contour
+//= require jquery
+//= require jquery_ujs
+//= require bootstrap-sprockets
 //= require turbolinks
+//= require jquery-ui/droppable
+//= require jquery-ui/sortable
+
+// Compatibility
+
+// Main JS initializer
+//= require global
+
+// External
+//= require external/bootstrap-datepicker.js
 //= require external/highcharts-4.2.3.src.js
+//= require external/typeahead.js
+
+// Components
+
+// Extensions
+//= require extensions/datepicker
+//= require extensions/tooltips
+
+// Objects
+
 //= require_tree .
