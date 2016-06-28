@@ -19,7 +19,7 @@ gem 'chunky_png',           '~> 1.3.4'
 gem 'haml'
 gem 'figaro',               '~> 1.1.1'
 gem 'differ',               '~> 0.1.2'
-gem 'colorize',             '~> 0.7.5'
+gem 'colorize',             '~> 0.8.0'
 gem 'jquery-ui-rails',      '~> 5.0.5'
 
 # Rails Defaults
