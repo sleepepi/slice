@@ -15,16 +15,14 @@
       project_id = $(this).data('project-id')
       subject_event_id = $(this).data('subject-event-id')
       sheet_id = ui['draggable'].data('sheet-id')
-      $.post(root_url + "projects/#{project_id}/sheets/#{sheet_id}/move_to_event", "_method=patch&subject_event_id=#{subject_event_id}", null, "script")
+      $.post("#{root_url}projects/#{project_id}/sheets/#{sheet_id}/move_to_event", "_method=patch&subject_event_id=#{subject_event_id}", null, "script")
     accept: ( draggable ) ->
       $(this).data('subject-event-id') != draggable.data('subject-event-id')
   )
 
 @initializeSheet = (filter_element = '') ->
-  timeInMs = Date.now()
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
-
-  $("#{filter_element} [data-object~='variable-typeahead']").each( () ->
+  $("#{filter_element} [data-object~='variable-typeahead']").each( ->
     $this = $(this)
     $this.typeahead(
       remote: "#{root_url}external/typeahead?query=%QUERY&design=#{$this.data('design')}&variable_id=#{$this.data('variable-id')}&handoff=#{$this.data('handoff')}"
@@ -32,12 +30,11 @@
   )
   updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
-  $( ".grid_sortable" ).sortable(
-    axis: "y"
-    handle: ".grid-handle"
+  $('.grid_sortable').sortable(
+    axis: 'y'
+    handle: '.grid-handle'
   )
   signaturesReady()
-  # console.log "Sheet initialized in #{Date.now() - timeInMs} ms"
 
 # TODO: Might be able to remove this in the future with Turbolinks 5
 # https://github.com/turbolinks/turbolinks-classic/issues/455

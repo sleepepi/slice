@@ -36,6 +36,7 @@ module AutoLockable
         last_edited_at: Time.zone.now
       }, {}, current_user, request.remote_ip, 'sheet_update'
     )
+    Notification.where(sheet_unlock_request: sheet_unlock_requests).update_all read: true
     notify_user_of_sheet_unlock_in_background!(requests_granted, current_user)
   end
 

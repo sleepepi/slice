@@ -811,6 +811,18 @@ d est laborum.',
     assert_response :success
   end
 
+  test 'should not move autolocked sheet to subject event for editor' do
+    patch :move_to_event, params: {
+      project_id: projects(:auto_lock), id: sheets(:auto_lock),
+      subject_event_id: subject_events(:auto_lock_subject_one_event_one)
+    }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:sheet).subject_event_id
+    assert_template 'move_to_event'
+    assert_response :success
+  end
+
   test 'should destroy sheet' do
     assert_difference('Sheet.current.count', -1) do
       delete :destroy, params: { id: @sheet, project_id: @project }

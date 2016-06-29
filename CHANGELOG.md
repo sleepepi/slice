@@ -12,6 +12,11 @@
   - The event show page now differentiates between entered, unentered, and set
     as missing designs for subjects that have been assigned the event
   - Event index now displays how many events have been launched
+  - Dragging a locked sheet to a new event now displays a message to the user
+    that the sheet has been locked
+- **Notification Changes**
+  - Unlocking a sheet after an unlock request will now mark the associated
+    notification as read for others notified as well
 - **PATS Changes**
   - Added a task to export recruitment data for the PATS project
 - **Subject Changes**
@@ -24,6 +29,8 @@
 ### Bug Fix
 - Fixed a bug that would export zero sheets when exporting Adverse Events
   alongside other CSVs
+- Fixed an issue that caused the sheet creator to not be set when a sheet was
+  set as missing
 
 ### Refactoring
 - Removed deprecated `scheduled` column from events

@@ -41,3 +41,10 @@ required_forms:
   description: Required fields on forms
   project: three
   user: admin
+
+auto_lock_event_one:
+  name: Event on Autlock project
+  slug: auto-lock-event-one
+  description: Show that locks sheets can't be moved to event
+  project: auto_lock
+  user: valid

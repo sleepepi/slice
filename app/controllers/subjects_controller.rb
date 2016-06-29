@@ -44,7 +44,9 @@ class SubjectsController < ApplicationController
   def set_sheet_as_missing
     @sheet = @subject.sheets.new(
       project_id: @project.id, design_id: @design.id,
-      subject_event_id: params[:subject_event_id], missing: true
+      subject_event_id: params[:subject_event_id], missing: true,
+      user_id: current_user.id, last_user_id: current_user.id,
+      last_edited_at: Time.zone.now
     )
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
   end
