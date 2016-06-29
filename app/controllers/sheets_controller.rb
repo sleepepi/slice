@@ -17,7 +17,7 @@ class SheetsController < ApplicationController
     :remove_shareable_link, :transactions, :unlock, :set_as_not_missing
   ]
   before_action :redirect_with_auto_locked_sheet, only: [
-    :edit, :transfer, :move_to_event, :update, :destroy
+    :edit, :transfer, :update, :destroy
   ]
 
   # GET /sheets
@@ -149,10 +149,8 @@ class SheetsController < ApplicationController
 
   def move_to_event
     subject_event = @sheet.subject.subject_events.find_by_id(params[:subject_event_id])
-    if subject_event
+    if subject_event && !@sheet.auto_locked?
       SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
-    else
-      render nothing: true
     end
   end
 

@@ -103,7 +103,6 @@
         else
           "parseValue('#{$1}', 'float', '#{grid_string}')"
       )
-      console.log calculation
       calculation_result = eval(calculation)
       calculation_result = '' unless isNumber(calculation_result)
       changes = getDesignVariableAuthenticationParams(this)

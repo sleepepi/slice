@@ -681,43 +681,43 @@ class SheetsControllerTest < ActionController::TestCase
   test 'should not transfer sheet to new subject for viewer' do
     login(users(:site_one_viewer))
     patch :transfer, project_id: @project, id: @sheet, subject_id: subjects(:two)
-
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
-
     assert_redirected_to root_path
   end
 
   test 'should move sheet to subject event for editor' do
     patch :move_to_event, project_id: @project, id: @sheet, subject_event_id: subject_events(:one), format: 'js'
-
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-
     assert_equal subject_events(:one).id, assigns(:sheet).subject_event_id
     assert_equal users(:valid).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
     assert_not_nil assigns(:sheet).subject
-
     assert_template 'move_to_event'
   end
 
   test 'should not make changes if move_to_event does not provide a new subject' do
     patch :move_to_event, project_id: @project, id: @sheet, format: 'js'
-
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-
     assert_response :success
   end
 
   test 'should not move sheet to subject event for viewer' do
     login(users(:site_one_viewer))
     patch :move_to_event, project_id: @project, id: @sheet, subject_event_id: subject_events(:one), format: 'js'
-
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
+    assert_response :success
+  end
 
+  test 'should not move autolocked sheet to subject event for editor' do
+    patch :move_to_event, project_id: projects(:auto_lock), id: sheets(:auto_lock), subject_event_id: subject_events(:auto_lock_subject_one_event_one), format: 'js'
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:sheet)
+    assert_nil assigns(:sheet).subject_event_id
+    assert_template 'move_to_event'
     assert_response :success
   end
 
@@ -725,10 +725,8 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.current.count', -1) do
       delete :destroy, id: @sheet, project_id: @project
     end
-
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-
     assert_redirected_to project_subject_path(@project, @sheet.subject)
   end
 
@@ -736,10 +734,8 @@ class SheetsControllerTest < ActionController::TestCase
     assert_difference('Sheet.current.count', 0) do
       delete :destroy, id: @sheet, project_id: -1
     end
-
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
-
     assert_redirected_to root_path
   end
 

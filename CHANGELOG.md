@@ -5,6 +5,8 @@
   - The event show page now differentiates between entered, unentered, and set
     as missing designs for subjects that have been assigned the event
   - Event index now displays how many events have been launched
+  - Dragging a locked sheet to a new event now displays a message to the user
+    that the sheet has been locked
 - **Notification Changes**
   - Unlocking a sheet after an unlock request will now mark the associated
     notification as read for others notified as well
