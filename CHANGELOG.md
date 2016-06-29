@@ -17,6 +17,8 @@
 ### Bug Fix
 - Fixed a bug that would export zero sheets when exporting Adverse Events
   alongside other CSVs
+- Fixed an issue that caused the sheet creator to not be set when a sheet was
+  set as missing
 
 ### Refactoring
 - Removed deprecated `scheduled` column from events

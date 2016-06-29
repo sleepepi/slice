@@ -52,6 +52,10 @@ class SubjectsControllerTest < ActionController::TestCase
       post :set_sheet_as_missing, id: @subject, project_id: @project, design_id: designs(:all_variable_types),
                                   subject_event_id: subject_events(:one), format: 'js'
     end
+    assert_not_nil assigns(:sheet)
+    assert_equal users(:site_one_editor), assigns(:sheet).user
+    assert_equal users(:site_one_editor), assigns(:sheet).last_user
+    assert_not_nil assigns(:sheet).last_edited_at
     assert_template 'set_sheet_as_missing'
     assert_response :success
   end
