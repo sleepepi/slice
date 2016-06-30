@@ -1,6 +1,6 @@
 - if @domain.errors.any?
   .callout.callout-danger
-    %h4
+    %strong
       = pluralize(@domain.errors.count, "error")
       prohibited this domain from being saved
 
@@ -28,7 +28,7 @@
     .col-md-10
       = text_field_tag "domain[name]", @domain.name, maxlength: 30, class: 'form-control', autocomplete: 'off'
       .callout.callout-info
-        %h4 Naming convention
+        %strong Naming convention
         %ul
           %li
             Must be a letter

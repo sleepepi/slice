@@ -5,8 +5,8 @@
     Create your account
   = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-vertical', autocomplete: 'off' }) do |f|
     - if resource.errors.any?
-      #error_explanation.callout.callout-danger
-        %h4
+      .callout.callout-danger
+        %strong
           = pluralize(resource.errors.count, "error")
           prohibited this step from being saved
 

@@ -3,7 +3,7 @@
 = form_for [@variable.project, @variable], html: { class: 'form-horizontal' } do |f|
   - if @variable.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize @variable.errors.count, "error"
         prohibited this variable from being saved
 
@@ -16,7 +16,7 @@
     .col-md-10
       = f.text_field :name, maxlength: 32, class: 'form-control'
       .callout.callout-info
-        %h4 Naming convention
+        %strong Naming convention
 
         %ul
           %li
@@ -132,7 +132,7 @@
     .col-md-10
       = f.text_field :calculation, class: 'form-control'
       .callout.callout-info
-        %h4 Calculation Examples
+        %strong Calculation Examples
 
         %dl.dl-horizontal
           %dt General
@@ -152,7 +152,7 @@
     .col-md-10
       = f.text_field :format, class: 'form-control'
       .callout.callout-info
-        %h4 Format Examples
+        %strong Format Examples
 
         %dl.dl-horizontal
           %dt Precision

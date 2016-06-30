@@ -10,7 +10,7 @@
 = form_for @project, url: url, method: method, html: { class: 'form-horizontal' } do |f|
   - if @project.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize @project.errors.count, 'error'
         prohibited this project from being saved
 
@@ -28,7 +28,7 @@
     .col-md-10
       = f.text_field :slug, class: 'form-control'
       .callout.callout-info
-        %h4 Naming convention
+        %strong Naming convention
         %ul
           %li
             Must be a lowercase letter
@@ -56,7 +56,7 @@
     .col-md-10
       = f.text_field :subject_code_name, placeholder: "Subject Code", class: 'form-control'
       .callout.callout-info
-        %h4 What is the Subject Code name?
+        %strong What is the Subject Code name?
         = ENV['website_name']
         requires a unique string in order to identify subjects. By default the unique string is labeled
         = succeed ',' do
@@ -74,7 +74,7 @@
       .col-md-10
         = f.text_field :site_name, placeholder: 'Default Site', class: 'form-control'
         .callout.callout-info
-          %h4 What is the Site name?
+          %strong What is the Site name?
           = ENV['website_name']
           requires subjects be grouped by site. This requirement helps enforce
           unique subject codes within a site and also allows reports to break

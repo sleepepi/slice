@@ -26,7 +26,7 @@
       = form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: 'form-horizontal' do |f|
         - if @randomization.errors.any?
           .callout.callout-danger
-            %h4
+            %strong
               = pluralize(@randomization.errors.count, "error")
               prohibited this subject from being randomized
 

@@ -3,7 +3,7 @@
 = form_for [@domain.project, @domain], html: { class: 'form-horizontal' } do |f|
   - if @domain.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize(@domain.errors.count, "error")
         prohibited this domain from being saved
 
@@ -21,7 +21,7 @@
     .col-md-10
       = f.text_field :name, maxlength: 30, class: 'form-control'
       .callout.callout-info
-        %h4 Naming convention
+        %strong Naming convention
 
         %ul
           %li

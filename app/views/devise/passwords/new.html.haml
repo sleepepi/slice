@@ -11,8 +11,8 @@
 
   = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form-vertical' }) do |f|
     - if resource.errors.any?
-      #error_explanation.callout.callout-danger
-        %h4
+      .callout.callout-danger
+        %strong
           Please enter a valid email
 
         %ul

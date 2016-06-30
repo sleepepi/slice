@@ -3,7 +3,7 @@
 = form_for [@design.project, @design], html: { class: 'form-horizontal' } do |f|
   - if @design.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize(@design.errors.count, "error")
         prohibited this design from being saved
 
@@ -39,7 +39,7 @@
           = f.check_box :publicly_available
           Publicly Available
       .callout.callout-info
-        %h4 What does 'Publicly Available' mean?
+        %strong What does 'Publicly Available' mean?
         %p
           Make the design publicly available if you wish to send a link to
           others to answer the questions in a survey format.
@@ -52,7 +52,7 @@
           = check_box_tag "design[show_site]", '1', @design.show_site?
           Show Site Selection on Survey
       .callout.callout-info
-        %h4 What does 'Show Site Selection' mean?
+        %strong What does 'Show Site Selection' mean?
         %p
           Public surveys will allow the respondent to also select the site for
           which they are filling out the survey.
@@ -61,7 +61,7 @@
     = label :questions, 'Questions', class: 'col-md-2 control-label'
     .col-md-10
       .callout.callout-info{ style: "margin-top:0px" }
-        %h4 Quick Start
+        %strong Quick Start
         %p
           %strong Optional:
           Enter the questions you wish to ask on this design, and specify the

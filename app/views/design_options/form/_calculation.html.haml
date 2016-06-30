@@ -3,7 +3,7 @@
   .col-md-10
     = text_field_tag "variable[calculation]", @design_option.variable.calculation, autocomplete: 'off', class: "form-control"
     .callout.callout-info
-      %h4 Calculation Examples
+      %strong Calculation Examples
       %dl.dl-horizontal
         %dt General
         %dd
@@ -22,7 +22,7 @@
   .col-md-10
     = text_field_tag "variable[format]", @design_option.variable.format, autocomplete: 'off', class: "form-control"
     .callout.callout-info
-      %h4 Format Examples
+      %strong Format Examples
       %dl.dl-horizontal
         %dt Precision
         %dd

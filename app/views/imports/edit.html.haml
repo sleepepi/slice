@@ -13,7 +13,7 @@
 = form_for @design, url: imports_project_design_path(@project, @design), method: :patch, html: { class: 'form-horizontal', multipart: true } do |f|
   - if @design.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize @design.errors.count, 'error'
         prohibited this design from being saved
 

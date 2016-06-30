@@ -3,7 +3,7 @@
 = form_for [@project, @category], html: { class: 'form-horizontal' } do |f|
   - if @category.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize @category.errors.count, 'error'
         prohibited this category from being saved
 
@@ -21,7 +21,7 @@
     .col-md-10
       = f.text_field :slug, class: 'form-control'
       .callout.callout-info
-        %h4 Naming convention
+        %strong Naming convention
         %ul
           %li
             Must be a lowercase letter

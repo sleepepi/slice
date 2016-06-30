@@ -1,7 +1,7 @@
 = form_for [@project, @task], html: { class: 'form-horizontal' } do |f|
   - if @task.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize @task.errors.count, 'error'
         prohibited this task from being saved
 

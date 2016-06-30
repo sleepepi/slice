@@ -1,6 +1,8 @@
 ## 0.39.0
 
 ### Enhancements
+- **General Changes**
+  - Updated styling of headings in callouts
 - **Event Changes**
   - The event show page now differentiates between entered, unentered, and set
     as missing designs for subjects that have been assigned the event

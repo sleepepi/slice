@@ -1,6 +1,6 @@
 - if @adverse_event_review.errors.any?
   .callout.callout-danger
-    %h4
+    %strong
       Please enter all required information.
     %ul
       - @adverse_event_review.errors.full_messages.each do |msg|
