@@ -101,7 +101,7 @@
               = render 'design_options/set_design_option', design_option: design_option, title: 'Date Format', values: values, attribute: :format
 
             - if %w(time).include?(variable.variable_type)
-              - values = [['24-Hour', '24hour'], ['12-Hour (AM/PM)', '12hour']]
+              - values = [['24-Hour', '24hour'], ['12-Hour AM/PM [AM]', '12hour'], ['12-Hour AM/PM [PM]', '12hour-pm']]
               = render 'design_options/set_design_option', design_option: design_option, title: 'Time Format', values: values, attribute: :format
 
             - if %w(time).include?(variable.variable_type)

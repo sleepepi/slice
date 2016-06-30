@@ -8,6 +8,8 @@
 ## 0.39.0
 
 ### Enhancements
+- **General Changes**
+  - Updated styling of headings in callouts
 - **Event Changes**
   - The event show page now differentiates between entered, unentered, and set
     as missing designs for subjects that have been assigned the event
@@ -19,8 +21,14 @@
     notification as read for others notified as well
 - **PATS Changes**
   - Added a task to export recruitment data for the PATS project
+- **Report Changes**
+  - Randomizations graph now only displays ticks at whole numbers intervals
 - **Subject Changes**
   - Subject events that fall on the same day are now ordered by event position
+- **Variable Changes**
+  - Improved the variable type filter on the variables index
+  - Clock time variables now let AM or PM to be set as default when using the
+    12-hour clock
 - **Gem Changes**
   - Updated to carrierwave 0.11.2
   - Updated to colorize 0.8.0

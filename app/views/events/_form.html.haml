@@ -2,8 +2,8 @@
 
 = form_for [@event.project, @event], html: { class: 'form-horizontal' } do |f|
   - if @event.errors.any?
-    #error_explanation.callout.callout-danger
-      %h4
+    .callout.callout-danger
+      %strong
         = pluralize(@event.errors.count, "error")
         prohibited this event from being saved
 
@@ -21,7 +21,7 @@
     .col-md-10
       = f.text_field :slug, class: 'form-control'
       .callout.callout-info
-        %h6
+        %strong
           Naming convention
         %ul
           %li

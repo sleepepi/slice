@@ -14,7 +14,7 @@
 = form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |f|
   - if @sheet.errors.any?
     .callout.callout-danger
-      %h4
+      %strong
         = pluralize @sheet.errors.count, 'error'
         prohibited this survey from being submitted
 

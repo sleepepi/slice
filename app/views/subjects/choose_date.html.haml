@@ -16,7 +16,7 @@
     = form_tag launch_subject_event_project_subject_path(@project, @subject, event_id: @event.to_param), method: :post, class: 'form-horizontal' do
       - if @subject_event.errors.any?
         .callout.callout-danger
-          %h4
+          %strong
             = pluralize @subject_event.errors.count, 'error'
             prohibited this event from being saved
 

@@ -67,8 +67,8 @@ module Validation
           response
         else
           time = parse_time(response)
-          if @variable.format == '12hour'
-            (time ? { hour: time.strftime('%I').to_i, minutes: time.min, seconds: time.sec, period: time.strftime('%P') } : {})
+          if %w(12hour 12hour-pm).include?(@variable.format)
+            (time ? { hour: time.strftime('%I').to_i, minutes: time.min, seconds: time.sec, period: time.strftime('%P') } : { period: @variable.format == '12hour-pm' ? 'pm' : 'am' })
           else
             (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
           end

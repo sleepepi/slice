@@ -1,6 +1,6 @@
 - if variable.errors.any?
   .callout.callout-danger
-    %h4
+    %strong
       = pluralize variable.errors.count, 'error'
       prohibited this variable from being saved
 
@@ -15,7 +15,7 @@
   .col-md-10
     = text_field_tag "variable[display_name]", variable.display_name, autocomplete: 'off', class: 'form-control'
     .callout.callout-info
-      %h4 Heads up!
+      %strong Heads up!
 
       %p
         The display name is the question as displayed to the user who is
@@ -29,7 +29,7 @@
   .col-md-10
     = text_field_tag "variable[name]", variable.name, maxlength: 32, class: 'form-control'
     .callout.callout-info
-      %h4 Naming convention
+      %strong Naming convention
 
       %ul
         %li
