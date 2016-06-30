@@ -14,6 +14,8 @@
     notification as read for others notified as well
 - **PATS Changes**
   - Added a task to export recruitment data for the PATS project
+- **Report Changes**
+  - Randomizations graph now only displays ticks at whole numbers intervals
 - **Subject Changes**
   - Subject events that fall on the same day are now ordered by event position
 - **Variable Changes**
