@@ -16,6 +16,8 @@
   - Subject events that fall on the same day are now ordered by event position
 - **Variable Changes**
   - Improved the variable type filter on the variables index
+  - Clock time variables now let AM or PM to be set as default when using the
+    12-hour clock
 - **Gem Changes**
   - Updated to carrierwave 0.11.2
   - Updated to colorize 0.8.0

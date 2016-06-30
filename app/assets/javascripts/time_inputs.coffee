@@ -11,13 +11,14 @@
   $("##{target_name}_day").change()
   $("##{target_name}_day").blur()
 
-@clearTimeFields = (element) ->
+@clearTimeFields = (element, format) ->
   target_name = element.data("target-name")
   clearClassStyles(target_name)
   $("##{target_name}_hour").val("")
   $("##{target_name}_minutes").val("")
   $("##{target_name}_seconds").val("")
-  $("##{target_name}_period").val("am")
+  time_period = if format == '12hour-pm' then 'pm' else 'am'
+  $("##{target_name}_period").val(time_period)
   $("##{target_name}_hour").change()
   $("##{target_name}_hour").blur()
 
@@ -81,7 +82,7 @@ $(document)
     false
   )
   .on("click", '[data-object~="clear-time-input"]', (event) ->
-    clearTimeFields($(this))
+    clearTimeFields($(this), $(this).data('format'))
     event.preventDefault()
   )
   .on("click", '[data-object~="clear-time-duration-input"]', (event) ->

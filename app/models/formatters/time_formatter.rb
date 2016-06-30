@@ -8,7 +8,7 @@ module Formatters
     # end
 
     def name_response(response)
-      format = if @variable.format == '12hour'
+      format = if %w(12hour 12hour-pm).include?(@variable.format)
                  @variable.show_seconds? ? '%-l:%M:%S %P' : '%-l:%M %P'
                else
                  @variable.show_seconds? ? '%H:%M:%S' : '%H:%M'
