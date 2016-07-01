@@ -4,6 +4,7 @@
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to devise 4.2.0
+  - Updated to turbolinks 5
 
 ## 0.39.0
 
