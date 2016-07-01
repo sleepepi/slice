@@ -1,6 +1,9 @@
 ## rails5 branch
 
 ### Enhancements
+- **Live Web Page Updates**
+  - Started work on allowing a live number of current sheets to be displayed on
+    the about page to test ActionCable in production
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to devise 4.1.0

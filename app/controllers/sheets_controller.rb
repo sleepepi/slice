@@ -98,6 +98,7 @@ class SheetsController < ApplicationController
   def create
     @sheet = current_user.sheets.where(project_id: @project.id, subject_id: @subject.id).new(sheet_params)
     if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_create')
+      AboutChannel.broadcast
       redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully created.'
     else
       render :new
