@@ -8,8 +8,7 @@ gem 'rails',                '5.0.0'
 gem 'pg',                   '0.18.4'
 
 # Gems used by project
-# gem 'devise',               '~> 4.1.1'
-gem 'devise', github: 'plataformatec/devise', ref: 'fe10a5b'
+gem 'devise',               '~> 4.2.0'
 gem 'bootstrap-sass',       '~> 3.3.6'
 gem 'kaminari',             '~> 0.17.0'
 gem 'carrierwave',          '~> 0.11.2'
