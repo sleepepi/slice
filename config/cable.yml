@@ -1,6 +1,0 @@
-local: &local
-  adapter: postgresql
-
-development: *local
-test: *local
-production: *local
