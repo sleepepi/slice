@@ -2,7 +2,7 @@
 
 ### Enhancements
 - **Gem Changes**
-  - Updated to rails 5.0.0.rc2
+  - Updated to rails 5.0.0
   - Updated to devise 4.1.0
 
 ## 0.39.0
