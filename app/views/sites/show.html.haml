@@ -43,6 +43,8 @@
               %tr
                 %th Name
                 %th Role
+                - if @project.blinding_enabled?
+                  %th.center Blinding
                 %th Invited By
                 %th Actions
             - @site.site_users.order(editor: :desc, id: :asc).each do |member|
