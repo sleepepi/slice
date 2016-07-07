@@ -80,73 +80,109 @@ module Pats
     end
 
     def demographics(project, sheets)
-      objects = sheets
+      tables = []
+      tables << demographics_age_table(project, sheets)
+      tables << demographics_gender_table(project, sheets)
+      tables << demographics_race_table(project, sheets)
+      tables << demographics_ethnicity_table(project, sheets)
+
+      { tables: tables, extras: extras(project, sheets) }
+    end
+
+    def demographics_age_table(project, sheets)
       table = {}
-      header = []
-      header_row = ['Characteristic', 'Overall'] + project.sites.collect(&:short_name)
-      header << header_row
+      header = [['Age', 'Overall'] + project.sites.collect(&:short_name)]
       rows = []
-      # Age
-      rows << ['Age', ''] + [''] * project.sites.count
       variable = project.variables.find_by_name 'ciw_age_years'
       variable_id = variable.id
       [['3 or 4 years old', "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"], ['5 or 6 years old', "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"], ['7 years or older', "NULLIF(response, '')::numeric >= 7"], ['Unknown or not reported', "response = '' or response IS NULL"]].each do |label, subquery|
         sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-        total_age = count_subjects(objects.where(id: sheet_scope))
-        age_row = [label, total_age]
+        total_subjects = count_subjects(sheets.where(id: sheet_scope))
+        age_row = [label, total_subjects]
         project.sites.each do |site|
-          age_row << count_subjects(objects.where(id: sheet_scope, subjects: { site_id: site.id }))
+          age_row << count_subjects(sheets.where(id: sheet_scope, subjects: { site_id: site.id }))
         end
         rows << age_row
       end
+      table[:header] = header
+      table[:footer] = []
+      table[:rows] = rows
+      table[:title] = 'Demographics - Age by Site'
+      table
+    end
 
-      # Gender
-      rows << ['Gender', ''] + [''] * project.sites.count
+    def demographics_gender_table(project, sheets)
+      table = {}
+      header = [['Gender', 'Overall'] + project.sites.collect(&:short_name)]
+      rows = []
       variable = project.variables.find_by_name 'ciw_sex'
       variable_id = variable.id
       [['Female', "NULLIF(response, '')::numeric = 2"], ['Male', "NULLIF(response, '')::numeric = 1"], ['Unknown or not reported', "response = '' or response IS NULL"]].each do |label, subquery|
         sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-        total_age = count_subjects(objects.where(id: sheet_scope))
-        age_row = [label, total_age]
+        total_subjects = count_subjects(sheets.where(id: sheet_scope))
+        age_row = [label, total_subjects]
         project.sites.each do |site|
-          age_row << count_subjects(objects.where(id: sheet_scope, subjects: { site_id: site.id }))
+          age_row << count_subjects(sheets.where(id: sheet_scope, subjects: { site_id: site.id }))
         end
         rows << age_row
       end
+      table[:header] = header
+      table[:footer] = []
+      table[:rows] = rows
+      table[:title] = 'Demographics - Gender by Site'
+      table
+    end
 
-      # Race
-      rows << ['Race', ''] + [''] * project.sites.count
+    def demographics_race_table(project, sheets)
+      table = {}
+      header = [['Race', 'Overall'] + project.sites.collect(&:short_name)]
+      rows = []
       variable = project.variables.find_by_name 'ciw_race'
       variable_id = variable.id
-      [['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Other race', "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"], ['Unknown or not reported', "value = '' or value IS NULL"]].each do |label, subquery|
+      [['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Other race', "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"]].each do |label, subquery|
         sheet_scope = Response.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-        total_age = count_subjects(objects.where(id: sheet_scope))
-        age_row = [label, total_age]
+        total_subjects = count_subjects(sheets.where(id: sheet_scope))
+        race_row = [label, total_subjects]
         project.sites.each do |site|
-          age_row << count_subjects(objects.where(id: sheet_scope, subjects: { site_id: site.id }))
+          race_row << count_subjects(sheets.where(id: sheet_scope, subjects: { site_id: site.id }))
         end
-        rows << age_row
+        rows << race_row
       end
+      # ['Unknown or not reported', "value = '' or value IS NULL"]
+      inverse_sheet_scope = Response.where(variable_id: variable_id).where("NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)").select(:sheet_id)
+      total_subjects = count_subjects(sheets.where.not(id: inverse_sheet_scope))
+      race_row = ['Unknown or not reported', total_subjects]
+      project.sites.each do |site|
+        race_row << count_subjects(sheets.where.not(id: inverse_sheet_scope).where(subjects: { site_id: site.id }))
+      end
+      rows << race_row
+      table[:header] = header
+      table[:footer] = []
+      table[:rows] = rows
+      table[:title] = 'Demographics - Race by Site'
+      table
+    end
 
-      # Ethnicity
-      rows << ['Ethnicity', ''] + [''] * project.sites.count
+    def demographics_ethnicity_table(project, sheets)
+      table = {}
+      header = [['Ethnicity', 'Overall'] + project.sites.collect(&:short_name)]
+      rows = []
       variable = project.variables.find_by_name 'ciw_ethnicity'
       variable_id = variable.id
       [['Hispanic or Latino', "NULLIF(response, '')::numeric = 1"], ['Not Hispanic or Latino', "NULLIF(response, '')::numeric = 2"], ['Unknown or not reported', "response = '' or response IS NULL"]].each do |label, subquery|
         sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-        total_age = count_subjects(objects.where(id: sheet_scope))
-        age_row = [label, total_age]
+        total_subjects = count_subjects(sheets.where(id: sheet_scope))
+        age_row = [label, total_subjects]
         project.sites.each do |site|
-          age_row << count_subjects(objects.where(id: sheet_scope, subjects: { site_id: site.id }))
+          age_row << count_subjects(sheets.where(id: sheet_scope, subjects: { site_id: site.id }))
         end
         rows << age_row
       end
-
       table[:header] = header
       table[:footer] = []
       table[:rows] = rows
-      table[:title] = 'Demographic and baseline characteristics - Categorical measures'
-      { table: table, extras: extras(project, sheets) }
+      table[:title] = 'Demographics - Ethnicity by Site'
+      table
     end
 
     def extras(project, sheets)
