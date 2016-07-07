@@ -23,7 +23,64 @@ module Pats
       demographics(project, randomized_sheets(project))
     end
 
-    def demographics(project, objects)
+    def female_sheets(project, sheets)
+      variable = project.variables.find_by_name 'ciw_sex'
+      variable_id = variable.id
+      subquery = "NULLIF(response, '')::numeric = 2"
+      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
+      sheets.where(id: sheet_scope)
+    end
+
+    def male_sheets(project, sheets)
+      variable = project.variables.find_by_name 'ciw_sex'
+      variable_id = variable.id
+      subquery = "NULLIF(response, '')::numeric = 1"
+      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
+      sheets.where(id: sheet_scope)
+    end
+
+    def black_race_sheets(project, sheets)
+      variable = project.variables.find_by_name 'ciw_race'
+      variable_id = variable.id
+      subquery = "NULLIF(value, '')::numeric = 3"
+      sheet_scope = Response.where(variable_id: variable_id).where(subquery).select(:sheet_id)
+      sheets.where(id: sheet_scope)
+    end
+
+    def other_race_sheets(project, sheets)
+      variable = project.variables.find_by_name 'ciw_race'
+      variable_id = variable.id
+      subquery = "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"
+      sheet_scope = Response.where(variable_id: variable_id).where(subquery).select(:sheet_id)
+      sheets.where(id: sheet_scope)
+    end
+
+    def age_3_to_4_sheets(project, sheets)
+      variable = project.variables.find_by_name 'ciw_age_years'
+      variable_id = variable.id
+      subquery = "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"
+      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
+      sheets.where(id: sheet_scope)
+    end
+
+    def age_5_to_6_sheets(project, sheets)
+      variable = project.variables.find_by_name 'ciw_age_years'
+      variable_id = variable.id
+      subquery = "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"
+      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
+      sheets.where(id: sheet_scope)
+    end
+
+    def age_7_plus_sheets(project, sheets)
+      variable = project.variables.find_by_name 'ciw_age_years'
+      variable_id = variable.id
+      subquery = "NULLIF(response, '')::numeric >= 7"
+      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
+      sheets.where(id: sheet_scope)
+    end
+
+    def demographics(project, sheets)
+      objects = sheets
       table = {}
       header = []
       header_row = ['Characteristic', 'Overall'] + project.sites.collect(&:short_name)
@@ -89,7 +146,24 @@ module Pats
       table[:footer] = []
       table[:rows] = rows
       table[:title] = 'Demographic and baseline characteristics - Categorical measures'
-      { table: table }
+      { table: table, extras: extras(project, sheets) }
+    end
+
+    def extras(project, sheets)
+      extras = { females: {}, males: {} }
+      extras[:females][:total] = female_sheets(project, sheets).count
+      extras[:females][:black] = black_race_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:other] = other_race_sheets(project, female_sheets(project, sheets)).count
+      extras[:males][:total] = male_sheets(project, sheets).count
+      extras[:males][:black] = black_race_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:other] = other_race_sheets(project, male_sheets(project, sheets)).count
+      extras[:females][:age3to4] = age_3_to_4_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:age5to6] = age_5_to_6_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:age7plus] = age_7_plus_sheets(project, female_sheets(project, sheets)).count
+      extras[:males][:age3to4] = age_3_to_4_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:age5to6] = age_5_to_6_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:age7plus] = age_7_plus_sheets(project, male_sheets(project, sheets)).count
+      extras
     end
   end
 end
