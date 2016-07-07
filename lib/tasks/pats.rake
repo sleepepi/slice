@@ -19,7 +19,12 @@ namespace :pats do
       recruitment[:eligible][:table] = eligible_table(project, start_date)
       recruitment[:randomized] = randomized_graph(project, start_date)
       recruitment[:randomized][:table] = randomized_table(project, start_date)
-      recruitment[:demographics] = demographics(project, start_date)
+      recruitment[:demographics] = {}
+      recruitment[:demographics][:screened] = demographics_screened(project)
+      recruitment[:demographics][:consented] = demographics_consented(project)
+      recruitment[:demographics][:eligible] = demographics_eligible(project)
+      recruitment[:demographics][:randomized] = demographics_randomized(project)
+
       recruitment[:exported_at] = Time.zone.now
       recruitment_json_file = Rails.root.join('pats', 'recruitment.json')
       File.open(recruitment_json_file, 'w') do |f|

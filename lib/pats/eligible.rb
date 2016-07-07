@@ -34,14 +34,7 @@ module Pats
     end
 
     def eligible_to_continue_to_baseline_sheets(project, response: '1')
-      design_id = design_id(project)
-      # answering "1: Yes" to #31 question (eligible for baseline) (i.e. "# Eligible to Continue to Baseline")
-      # variable_id = 14299
-      variable = project.variables.find_by_name 'ciw_eligible_for_baseline'
-      variable_id = variable.id
-
-      sheet_scope = SheetVariable.where(variable_id: variable_id, response: response).select(:sheet_id)
-      project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
+      eligible_sheets(project, response: response)
     end
 
     def eligible_to_continue_to_baseline_sheets_print(project)

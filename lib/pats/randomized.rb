@@ -34,12 +34,6 @@ module Pats
       generic_table(project, start_date, 'Randomized', objects, attribute: :randomized_at)
     end
 
-    def randomizations(project)
-      randomization_scheme_id = project.randomization_schemes.first.id
-      # randomization_scheme_id = 12
-      project.randomizations.where(randomization_scheme_id: randomization_scheme_id).joins(:subject).merge(Subject.current)
-    end
-
     def randomizations_print(project)
       sheets_by_site_print(project, randomizations(project), 'Randomized')
     end

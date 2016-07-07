@@ -71,6 +71,43 @@ module Pats
       sheets_by_site_print(project, ciws(project), 'Screened')
     end
 
+    def screened_sheets(project)
+      ciws(project)
+    end
+
+    def consented_sheets(project)
+      design_id = design_id(project)
+      # answering "1: Yes" to #29 question (Informed Consent) (i.e. "# Consented")
+      # variable_id = 14297
+      variable = project.variables.find_by_name 'ciw_complete_informed_consent'
+      variable_id = variable.id
+
+      # `ciw_consent_date` is date the consent happened.
+      sheet_scope = SheetVariable.where(variable_id: variable_id, response: '1').select(:sheet_id)
+      project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
+    end
+
+    def eligible_sheets(project, response: '1')
+      design_id = design_id(project)
+      # answering "1: Yes" to #31 question (eligible for baseline) (i.e. "# Eligible to Continue to Baseline")
+      # variable_id = 14299
+      variable = project.variables.find_by_name 'ciw_eligible_for_baseline'
+      variable_id = variable.id
+
+      sheet_scope = SheetVariable.where(variable_id: variable_id, response: response).select(:sheet_id)
+      project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
+    end
+
+    def randomized_sheets(project)
+      ciws(project).where(subjects: { id: randomizations(project).select(:subject_id) })
+    end
+
+    def randomizations(project)
+      randomization_scheme_id = project.randomization_schemes.first.id
+      # randomization_scheme_id = 12
+      project.randomizations.where(randomization_scheme_id: randomization_scheme_id).joins(:subject).merge(Subject.current)
+    end
+
     def sheets_by_site_print(project, sheets, text)
       total_sheets_count = count_subjects(sheets)
       puts "#{text} [Total]: " + total_sheets_count.to_s.colorize(total_sheets_count > 0 ? :green : :white)

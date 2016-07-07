@@ -34,15 +34,7 @@ module Pats
     end
 
     def informed_consent_sheets(project)
-      design_id = design_id(project)
-      # answering "1: Yes" to #29 question (Informed Consent) (i.e. "# Consented")
-      # variable_id = 14297
-      variable = project.variables.find_by_name 'ciw_complete_informed_consent'
-      variable_id = variable.id
-
-      # `ciw_consent_date` is date the consent happened.
-      sheet_scope = SheetVariable.where(variable_id: variable_id, response: '1').select(:sheet_id)
-      project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
+      consented_sheets(project)
     end
 
     def informed_consent_sheets_print(project)
