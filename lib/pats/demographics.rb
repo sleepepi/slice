@@ -118,7 +118,7 @@ module Pats
       rows << ['Race', ''] + [''] * project.sites.count
       variable = project.variables.find_by_name 'ciw_race'
       variable_id = variable.id
-      [['American Indian / Native Alaskan', "NULLIF(value, '')::numeric = 1"], ['Asian', "NULLIF(value, '')::numeric = 2"], ['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Native Hawaiian / Other Pacific Islander', "NULLIF(value, '')::numeric = 4"], ['White / Caucasian', "NULLIF(value, '')::numeric = 5"], ['Other race', "NULLIF(value, '')::numeric = 98"], ['Unknown or not reported', "value = '' or value IS NULL"]].each do |label, subquery|
+      [['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Other race', "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"], ['Unknown or not reported', "value = '' or value IS NULL"]].each do |label, subquery|
         sheet_scope = Response.where(variable_id: variable_id).where(subquery).select(:sheet_id)
         total_age = count_subjects(objects.where(id: sheet_scope))
         age_row = [label, total_age]
