@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pats/core'
+require 'pats/characteristics'
 
 module Pats
   # Exports demographics statistics for subjects on PATS.
@@ -81,65 +82,43 @@ module Pats
 
     def demographics(project, sheets)
       tables = []
-      tables << demographics_age_table(project, sheets)
-      tables << demographics_gender_table(project, sheets)
-      tables << demographics_race_table(project, sheets)
-      tables << demographics_ethnicity_table(project, sheets)
+      ['age', 'gender', 'race', 'ethnicity'].each do |characteristic_type|
+        tables << demographics_table(project, sheets, characteristic_type)
+      end
       { tables: tables, extras: extras(project, sheets) }
     end
 
-    def demographics_age_table(project, sheets)
-      characteristic = 'Age'
-      variable = project.variables.find_by_name 'ciw_age_years'
-      categories = [['3 or 4 years old', "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"], ['5 or 6 years old', "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"], ['7 years or older', "NULLIF(response, '')::numeric >= 7"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
-      rows = categories.collect do |label, subquery, css_class, inverse|
-        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
+    def demographics_table(project, sheets, characteristic_type)
+      characteristic = Pats::Characteristics.for(characteristic_type, project)
+      rows = characteristic.categories.collect do |label, subquery, css_class, inverse|
+        compute_row(sheets, characteristic, label, subquery, css_class, inverse: inverse)
       end
-      build_table(project, characteristic, rows)
+      build_table(characteristic, rows)
     end
 
-    def demographics_gender_table(project, sheets)
-      characteristic = 'Gender'
-      variable = project.variables.find_by_name 'ciw_sex'
-      categories = [['Female', "NULLIF(response, '')::numeric = 2"], ['Male', "NULLIF(response, '')::numeric = 1"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
-      rows = categories.collect do |label, subquery, css_class, inverse|
-        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
-      end
-      build_table(project, characteristic, rows)
-    end
-
-    def demographics_race_table(project, sheets)
-      characteristic = 'Race'
-      variable = project.variables.find_by_name 'ciw_race'
-      categories = [['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Other race', "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"], ['Unknown or not reported', "NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)", 'lighter', true]]
-      rows = categories.collect do |label, subquery, css_class, inverse|
-        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
-      end
-      build_table(project, characteristic, rows)
-    end
-
-    def demographics_ethnicity_table(project, sheets)
-      characteristic = 'Ethnicity'
-      variable = project.variables.find_by_name 'ciw_ethnicity'
-      categories = [['Hispanic or Latino', "NULLIF(response, '')::numeric = 1"], ['Not Hispanic or Latino', "NULLIF(response, '')::numeric = 2"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
-      rows = categories.collect do |label, subquery, css_class, inverse|
-        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
-      end
-      build_table(project, characteristic, rows)
+    def build_table(characteristic, rows)
+      table = {}
+      table[:header] = compute_header(characteristic)
+      table[:footer] = []
+      table[:rows] = rows
+      table[:title] = compute_title(characteristic)
+      table
     end
 
     def compute_title(characteristic)
-      "Demographics - #{characteristic} by Site"
+      "Demographics - #{characteristic.label} by Site"
     end
 
-    def compute_header(project, characteristic)
+    def compute_header(characteristic)
       header = []
-      header << ['', { text: 'Overall', colspan: 2 }] + project.sites.collect { |s| { text: s.short_name, colspan: 2 } }
-      header << [characteristic, { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * project.sites.count
+      header << ['', { text: 'Overall', colspan: 2 }] + characteristic.project.sites.collect { |s| { text: s.short_name, colspan: 2 } }
+      header << [characteristic.label, { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * characteristic.project.sites.count
       header
     end
 
-    def compute_row(project, sheets, variable, label, subquery, css_class, inverse: false)
+    def compute_row(sheets, characteristic, label, subquery, css_class, inverse: false)
+      variable = characteristic.variable
+      project = characteristic.project
       model = if variable.variable_type == 'checkbox'
                 Response
               else
@@ -164,15 +143,6 @@ module Pats
         row << { value: "#{(subject_count * 100 / site_subject_count rescue 0)} %", class: [css_class, 'percent'].compact }
       end
       row
-    end
-
-    def build_table(project, characteristic, rows)
-      table = {}
-      table[:header] = compute_header(project, characteristic)
-      table[:footer] = []
-      table[:rows] = rows
-      table[:title] = compute_title(characteristic)
-      table
     end
 
     def extras(project, sheets)
