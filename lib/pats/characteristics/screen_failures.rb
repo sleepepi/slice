@@ -4,7 +4,7 @@ require 'pats/characteristics/default'
 
 module Pats
   module Characteristics
-    # Defines age and associated categories and subqueries.
+    # Defines screen failures and associated categories and subqueries.
     class ScreenFailures < Default
       def label
         'Screen Failures'

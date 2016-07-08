@@ -4,7 +4,7 @@ require 'pats/characteristics/default'
 
 module Pats
   module Characteristics
-    # Defines age and associated categories and subqueries.
+    # Defines eligibility and associated categories and subqueries.
     class Eligibility < Default
       def label
         'Eligibility Status'

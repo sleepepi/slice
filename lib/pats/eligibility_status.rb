@@ -17,6 +17,8 @@ module Pats
       tables << demographics_table(project, sheets, 'eligibility')
       screen_failure_sheets = filter_sheets_by_category(project, sheets, 'ineligible')
       tables << demographics_table(project, screen_failure_sheets, 'screen-failures')
+      not_interested_in_participation_sheets = filter_sheets_by_category(project, sheets, 'caregiver-not-interested')
+      tables << demographics_table(project, not_interested_in_participation_sheets, 'not-interested-in-participation')
       { tables: tables }
     end
   end

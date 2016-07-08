@@ -8,6 +8,7 @@ require 'pats/characteristics/gender'
 require 'pats/characteristics/race'
 require 'pats/characteristics/eligibility'
 require 'pats/characteristics/screen_failures'
+require 'pats/characteristics/not_interested_in_participation'
 
 module Pats
   # Defines characteristic variables and associated subqueries.
@@ -19,7 +20,8 @@ module Pats
       'gender' => Pats::Characteristics::Gender,
       'race' => Pats::Characteristics::Race,
       'eligibility' => Pats::Characteristics::Eligibility,
-      'screen-failures' => Pats::Characteristics::ScreenFailures
+      'screen-failures' => Pats::Characteristics::ScreenFailures,
+      'not-interested-in-participation' => Pats::Characteristics::NotInterestedInParticipation
     }
 
     def self.for(characteristic, project)
