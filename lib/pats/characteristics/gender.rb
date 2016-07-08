@@ -6,8 +6,6 @@ module Pats
   module Characteristics
     # Defines gender and associated categories and subqueries.
     class Gender < Default
-      attr_reader :project
-
       def label
         'Gender'
       end

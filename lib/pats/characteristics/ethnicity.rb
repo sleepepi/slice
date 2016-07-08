@@ -6,8 +6,6 @@ module Pats
   module Characteristics
     # Defines ethnicity and associated categories and subqueries.
     class Ethnicity < Default
-      attr_reader :project
-
       def label
         'Ethnicity'
       end

@@ -6,8 +6,6 @@ module Pats
   module Characteristics
     # Defines race and associated categories and subqueries.
     class Race < Default
-      attr_reader :project
-
       def label
         'Race'
       end

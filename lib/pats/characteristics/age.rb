@@ -6,8 +6,6 @@ module Pats
   module Characteristics
     # Defines age and associated categories and subqueries.
     class Age < Default
-      attr_reader :project
-
       def label
         'Age'
       end

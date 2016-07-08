@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pats/core'
+require 'pats/categories'
 require 'pats/characteristics'
 
 module Pats
@@ -24,60 +25,37 @@ module Pats
       demographics(project, randomized_sheets(project))
     end
 
+    def filter_sheets_by_category(project, sheets, category_type)
+      category = Pats::Categories.for(category_type, project)
+      sheets.where(id: category.select_sheet_ids)
+    end
+
     def female_sheets(project, sheets)
-      variable = project.variables.find_by_name 'ciw_sex'
-      variable_id = variable.id
-      subquery = "NULLIF(response, '')::numeric = 2"
-      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-      sheets.where(id: sheet_scope)
+      filter_sheets_by_category(project, sheets, 'female')
     end
 
     def male_sheets(project, sheets)
-      variable = project.variables.find_by_name 'ciw_sex'
-      variable_id = variable.id
-      subquery = "NULLIF(response, '')::numeric = 1"
-      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-      sheets.where(id: sheet_scope)
+      filter_sheets_by_category(project, sheets, 'male')
     end
 
     def black_race_sheets(project, sheets)
-      variable = project.variables.find_by_name 'ciw_race'
-      variable_id = variable.id
-      subquery = "NULLIF(value, '')::numeric = 3"
-      sheet_scope = Response.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-      sheets.where(id: sheet_scope)
+      filter_sheets_by_category(project, sheets, 'black-race')
     end
 
     def other_race_sheets(project, sheets)
-      variable = project.variables.find_by_name 'ciw_race'
-      variable_id = variable.id
-      subquery = "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"
-      sheet_scope = Response.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-      sheets.where(id: sheet_scope)
+      filter_sheets_by_category(project, sheets, 'other-race')
     end
 
     def age_3_to_4_sheets(project, sheets)
-      variable = project.variables.find_by_name 'ciw_age_years'
-      variable_id = variable.id
-      subquery = "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"
-      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-      sheets.where(id: sheet_scope)
+      filter_sheets_by_category(project, sheets, 'age-3to4')
     end
 
     def age_5_to_6_sheets(project, sheets)
-      variable = project.variables.find_by_name 'ciw_age_years'
-      variable_id = variable.id
-      subquery = "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"
-      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-      sheets.where(id: sheet_scope)
+      filter_sheets_by_category(project, sheets, 'age-5to6')
     end
 
     def age_7_plus_sheets(project, sheets)
-      variable = project.variables.find_by_name 'ciw_age_years'
-      variable_id = variable.id
-      subquery = "NULLIF(response, '')::numeric >= 7"
-      sheet_scope = SheetVariable.where(variable_id: variable_id).where(subquery).select(:sheet_id)
-      sheets.where(id: sheet_scope)
+      filter_sheets_by_category(project, sheets, 'age-7plus')
     end
 
     def demographics(project, sheets)
