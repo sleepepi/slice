@@ -12,6 +12,7 @@ module Pats
 
       def categories
         [
+          Pats::Categories.for('ineligible', project),
           Pats::Categories.for('hx-psych-behavioral-disorder', project),
           Pats::Categories.for('known-cond-airway', project),
           Pats::Categories.for('ent-eligibility-not-met', project),

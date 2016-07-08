@@ -12,10 +12,11 @@ module Pats
     include Pats::Demographics
 
     def eligibility_status(project)
+      tables = []
       sheets = screened_sheets(project)
-      tables = %w(eligibility screen-failures).collect do |characteristic_type|
-        demographics_table(project, sheets, characteristic_type)
-      end
+      tables << demographics_table(project, sheets, 'eligibility')
+      screen_failure_sheets = filter_sheets_by_category(project, sheets, 'ineligible')
+      tables << demographics_table(project, screen_failure_sheets, 'screen-failures')
       { tables: tables }
     end
   end
