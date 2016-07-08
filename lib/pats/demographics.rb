@@ -27,7 +27,7 @@ module Pats
 
     def filter_sheets_by_category(project, sheets, category_type)
       category = Pats::Categories.for(category_type, project)
-      sheets.where(id: category.select_sheet_ids)
+      category.filter_sheets(sheets)
     end
 
     def female_sheets(project, sheets)
@@ -75,7 +75,7 @@ module Pats
         title: compute_title(characteristic),
         header: compute_header(characteristic),
         footer: [],
-        rows: characteristic.categories.collect { |category| compute_row(sheets, characteristic, category) }
+        rows: characteristic.categories.collect { |category| category.compute_row(sheets) }
       }
     end
 
@@ -88,40 +88,6 @@ module Pats
       header << ['', { text: 'Overall', colspan: 2 }] + characteristic.project.sites.collect { |s| { text: s.short_name, colspan: 2 } }
       header << [characteristic.label, { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * characteristic.project.sites.count
       header
-    end
-
-    def compute_row(sheets, characteristic, category)
-      label = category[:label]
-      subquery = category[:subquery]
-      css_class = category[:css_class]
-      inverse = category[:inverse]
-
-      variable = characteristic.variable
-      project = characteristic.project
-      model = if variable.variable_type == 'checkbox'
-                Response
-              else
-                SheetVariable
-              end
-      sheet_scope = model.where(variable: variable).where(subquery).select(:sheet_id)
-      total_subjects = if inverse
-                         count_subjects(sheets.where.not(id: sheet_scope))
-                       else
-                         count_subjects(sheets.where(id: sheet_scope))
-                       end
-      total_percent = "#{(total_subjects * 100 / sheets.count rescue 0)} %"
-      row = [{ value: label, class: css_class }, { value: total_subjects, class: [css_class, 'count'] }, { value: total_percent, class: [css_class, 'percent'] }]
-      project.sites.each do |site|
-        site_subject_count = count_subjects(sheets.where(subjects: { site_id: site.id }))
-        subject_count = if inverse
-                          count_subjects(sheets.where.not(id: sheet_scope).where(subjects: { site_id: site.id }))
-                        else
-                          count_subjects(sheets.where(id: sheet_scope).where(subjects: { site_id: site.id }))
-                        end
-        row << { value: subject_count, class: [css_class, 'count'].compact }
-        row << { value: "#{(subject_count * 100 / site_subject_count rescue 0)} %", class: [css_class, 'percent'].compact }
-      end
-      row
     end
 
     def extras(project, sheets)

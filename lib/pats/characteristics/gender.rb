@@ -16,19 +16,9 @@ module Pats
 
       def categories
         [
-          {
-            label: 'Female',
-            subquery: "NULLIF(response, '')::numeric = 2"
-          },
-          {
-            label: 'Male',
-            subquery: "NULLIF(response, '')::numeric = 1"
-          },
-          {
-            label: 'Unknown or not reported',
-            subquery: "response = '' or response IS NULL",
-            css_class: 'lighter'
-          }
+          Pats::Categories.for('female', project),
+          Pats::Categories.for('male', project),
+          Pats::Categories.for('gender-unknown', project)
         ]
       end
     end

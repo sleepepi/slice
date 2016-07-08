@@ -16,23 +16,10 @@ module Pats
 
       def categories
         [
-          {
-            label: '3 or 4 years old',
-            subquery: "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"
-          },
-          {
-            label: '5 or 6 years old',
-            subquery: "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"
-          },
-          {
-            label: '7 years or older',
-            subquery: "NULLIF(response, '')::numeric >= 7"
-          },
-          {
-            label: 'Unknown or not reported',
-            subquery: "response = '' or response IS NULL",
-            css_class: 'lighter'
-          }
+          Pats::Categories.for('age-3to4', project),
+          Pats::Categories.for('age-5to6', project),
+          Pats::Categories.for('age-7plus', project),
+          Pats::Categories.for('age-unknown', project)
         ]
       end
     end

@@ -16,20 +16,9 @@ module Pats
 
       def categories
         [
-          {
-            label: 'Black / African American',
-            subquery: "NULLIF(value, '')::numeric = 3"
-          },
-          {
-            label: 'Other race',
-            subquery: "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"
-          },
-          {
-            label: 'Unknown or not reported',
-            subquery: "NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)",
-            css_class: 'lighter',
-            inverse: true
-          }
+          Pats::Categories.for('black-race', project),
+          Pats::Categories.for('other-race', project),
+          Pats::Categories.for('unknown-race', project)
         ]
       end
     end

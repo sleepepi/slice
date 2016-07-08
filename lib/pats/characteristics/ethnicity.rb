@@ -16,19 +16,9 @@ module Pats
 
       def categories
         [
-          {
-            label: 'Hispanic or Latino',
-            subquery: "NULLIF(response, '')::numeric = 1"
-          },
-          {
-            label: 'Not Hispanic or Latino',
-            subquery: "NULLIF(response, '')::numeric = 2"
-          },
-          {
-            label: 'Unknown or not reported',
-            subquery: "response = '' or response IS NULL",
-            css_class: 'lighter'
-          }
+          Pats::Categories.for('hispanic', project),
+          Pats::Categories.for('not-hispanic', project),
+          Pats::Categories.for('ethnicity-unknown', project)
         ]
       end
     end

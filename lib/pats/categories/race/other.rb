@@ -8,7 +8,7 @@ module Pats
       # Defines other race variable and associated subquery.
       class Other < Default
         def label
-          'Other'
+          'Other race'
         end
 
         def variable_name

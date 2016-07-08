@@ -4,19 +4,19 @@ require 'pats/categories/default'
 
 module Pats
   module Categories
-    module Race
-      # Defines black race variable and associated subquery.
-      class Black < Default
+    module Ethnicity
+      # Defines hispanic variable and associated subquery.
+      class Hispanic < Default
         def label
-          'Black / African American'
+          'Hispanic or Latino'
         end
 
         def variable_name
-          'ciw_race'
+          'ciw_ethnicity'
         end
 
         def subquery
-          "NULLIF(value, '')::numeric = 3"
+          "NULLIF(response, '')::numeric = 1"
         end
       end
     end

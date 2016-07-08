@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pats/categories'
 require 'pats/characteristics/default'
 require 'pats/characteristics/age'
 require 'pats/characteristics/ethnicity'
