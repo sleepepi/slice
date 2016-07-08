@@ -85,99 +85,94 @@ module Pats
       tables << demographics_gender_table(project, sheets)
       tables << demographics_race_table(project, sheets)
       tables << demographics_ethnicity_table(project, sheets)
-
       { tables: tables, extras: extras(project, sheets) }
     end
 
     def demographics_age_table(project, sheets)
-      table = {}
-      header = [['', { text: 'Overall', colspan: 2 }] + project.sites.collect{ |s| { text: s.short_name, colspan: 2 } }]
-      header << ['Age', { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * project.sites.count
-      rows = []
+      characteristic = 'Age'
       variable = project.variables.find_by_name 'ciw_age_years'
-      [['3 or 4 years old', "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"], ['5 or 6 years old', "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"], ['7 years or older', "NULLIF(response, '')::numeric >= 7"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']].each do |label, subquery, css_class|
-        rows << compute_row(project, sheets, variable, label, subquery, css_class)
+      categories = [['3 or 4 years old', "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"], ['5 or 6 years old', "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"], ['7 years or older', "NULLIF(response, '')::numeric >= 7"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
+      rows = categories.collect do |label, subquery, css_class, inverse|
+        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
       end
-      table[:header] = header
-      table[:footer] = []
-      table[:rows] = rows
-      table[:title] = 'Demographics - Age by Site'
-      table
+      build_table(project, characteristic, rows)
     end
 
     def demographics_gender_table(project, sheets)
-      table = {}
-      header = [['', { text: 'Overall', colspan: 2 }] + project.sites.collect{ |s| { text: s.short_name, colspan: 2 } }]
-      header << ['Gender', { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * project.sites.count
-      rows = []
+      characteristic = 'Gender'
       variable = project.variables.find_by_name 'ciw_sex'
-      variable_id = variable.id
-      [['Female', "NULLIF(response, '')::numeric = 2"], ['Male', "NULLIF(response, '')::numeric = 1"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']].each do |label, subquery, css_class|
-        rows << compute_row(project, sheets, variable, label, subquery, css_class)
+      categories = [['Female', "NULLIF(response, '')::numeric = 2"], ['Male', "NULLIF(response, '')::numeric = 1"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
+      rows = categories.collect do |label, subquery, css_class, inverse|
+        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
       end
-      table[:header] = header
-      table[:footer] = []
-      table[:rows] = rows
-      table[:title] = 'Demographics - Gender by Site'
-      table
+      build_table(project, characteristic, rows)
     end
 
     def demographics_race_table(project, sheets)
-      table = {}
-      header = [['', { text: 'Overall', colspan: 2 }] + project.sites.collect{ |s| { text: s.short_name, colspan: 2 } }]
-      header << ['Race', { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * project.sites.count
-      rows = []
+      characteristic = 'Race'
       variable = project.variables.find_by_name 'ciw_race'
-      [['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Other race', "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"]].each do |label, subquery, css_class|
-        rows << compute_row(project, sheets, variable, label, subquery, css_class, model: Response)
+      categories = [['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Other race', "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"], ['Unknown or not reported', "NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)", 'lighter', true]]
+      rows = categories.collect do |label, subquery, css_class, inverse|
+        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
       end
-      # ['Unknown or not reported', "value = '' or value IS NULL"]
-      inverse_sheet_scope = Response.where(variable: variable).where("NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)").select(:sheet_id)
-      total_subjects = count_subjects(sheets.where.not(id: inverse_sheet_scope))
-      total_percent = "#{(total_subjects * 100 / sheets.count rescue 0)} %"
-      race_row = [{ value: 'Unknown or not reported', class: ['lighter'] }, { value: total_subjects, class: ['lighter', 'count'] }, { value: total_percent, class: ['lighter', 'percent'] }]
-      project.sites.each do |site|
-        site_subject_count = count_subjects(sheets.where(subjects: { site_id: site.id }))
-        subject_count = count_subjects(sheets.where.not(id: inverse_sheet_scope).where(subjects: { site_id: site.id }))
-        race_row << { value: subject_count, class: ['lighter', 'count'].compact }
-        race_row << { value: "#{(subject_count * 100 / site_subject_count rescue 0)} %", class: ['lighter', 'percent'].compact }
-      end
-      rows << race_row
-      table[:header] = header
-      table[:footer] = []
-      table[:rows] = rows
-      table[:title] = 'Demographics - Race by Site'
-      table
+      build_table(project, characteristic, rows)
     end
 
     def demographics_ethnicity_table(project, sheets)
-      table = {}
-      header = [['', { text: 'Overall', colspan: 2 }] + project.sites.collect{ |s| { text: s.short_name, colspan: 2 } }]
-      header << ['Ethnicity', { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * project.sites.count
-      rows = []
+      characteristic = 'Ethnicity'
       variable = project.variables.find_by_name 'ciw_ethnicity'
-      [['Hispanic or Latino', "NULLIF(response, '')::numeric = 1"], ['Not Hispanic or Latino', "NULLIF(response, '')::numeric = 2"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']].each do |label, subquery, css_class|
-        rows << compute_row(project, sheets, variable, label, subquery, css_class)
+      categories = [['Hispanic or Latino', "NULLIF(response, '')::numeric = 1"], ['Not Hispanic or Latino', "NULLIF(response, '')::numeric = 2"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
+      rows = categories.collect do |label, subquery, css_class, inverse|
+        compute_row(project, sheets, variable, label, subquery, css_class, inverse: inverse)
       end
-      table[:header] = header
-      table[:footer] = []
-      table[:rows] = rows
-      table[:title] = 'Demographics - Ethnicity by Site'
-      table
+      build_table(project, characteristic, rows)
     end
 
-    def compute_row(project, sheets, variable, label, subquery, css_class, model: SheetVariable)
+    def compute_title(characteristic)
+      "Demographics - #{characteristic} by Site"
+    end
+
+    def compute_header(project, characteristic)
+      header = []
+      header << ['', { text: 'Overall', colspan: 2 }] + project.sites.collect { |s| { text: s.short_name, colspan: 2 } }
+      header << [characteristic, { text: 'N', class: 'count' }, { text: '%', class: 'percent' }] + [{ text: 'N', class: 'count' }, { text: '%', class: 'percent' }] * project.sites.count
+      header
+    end
+
+    def compute_row(project, sheets, variable, label, subquery, css_class, inverse: false)
+      model = if variable.variable_type == 'checkbox'
+                Response
+              else
+                SheetVariable
+              end
       sheet_scope = model.where(variable: variable).where(subquery).select(:sheet_id)
-      total_subjects = count_subjects(sheets.where(id: sheet_scope))
+      total_subjects = if inverse
+                         count_subjects(sheets.where.not(id: sheet_scope))
+                       else
+                         count_subjects(sheets.where(id: sheet_scope))
+                       end
       total_percent = "#{(total_subjects * 100 / sheets.count rescue 0)} %"
-      row = [{ value: label, class: css_class } , { value: total_subjects, class: [css_class, 'count'].compact }, { value: total_percent, class: [css_class, 'percent'].compact }]
+      row = [{ value: label, class: css_class }, { value: total_subjects, class: [css_class, 'count'] }, { value: total_percent, class: [css_class, 'percent'] }]
       project.sites.each do |site|
         site_subject_count = count_subjects(sheets.where(subjects: { site_id: site.id }))
-        subject_count = count_subjects(sheets.where(id: sheet_scope, subjects: { site_id: site.id }))
+        subject_count = if inverse
+                          count_subjects(sheets.where.not(id: sheet_scope).where(subjects: { site_id: site.id }))
+                        else
+                          count_subjects(sheets.where(id: sheet_scope).where(subjects: { site_id: site.id }))
+                        end
         row << { value: subject_count, class: [css_class, 'count'].compact }
         row << { value: "#{(subject_count * 100 / site_subject_count rescue 0)} %", class: [css_class, 'percent'].compact }
       end
       row
+    end
+
+    def build_table(project, characteristic, rows)
+      table = {}
+      table[:header] = compute_header(project, characteristic)
+      table[:footer] = []
+      table[:rows] = rows
+      table[:title] = compute_title(characteristic)
+      table
     end
 
     def extras(project, sheets)
