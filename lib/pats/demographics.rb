@@ -81,28 +81,24 @@ module Pats
     end
 
     def demographics(project, sheets)
-      tables = []
-      ['age', 'gender', 'race', 'ethnicity'].each do |characteristic_type|
-        tables << demographics_table(project, sheets, characteristic_type)
+      tables = %w(age gender race ethnicity).collect do |characteristic_type|
+        demographics_table(project, sheets, characteristic_type)
       end
       { tables: tables, extras: extras(project, sheets) }
     end
 
     def demographics_table(project, sheets, characteristic_type)
       characteristic = Pats::Characteristics.for(characteristic_type, project)
-      rows = characteristic.categories.collect do |category|
-        compute_row(sheets, characteristic, category)
-      end
-      build_table(characteristic, rows)
+      build_table(characteristic, sheets)
     end
 
-    def build_table(characteristic, rows)
-      table = {}
-      table[:header] = compute_header(characteristic)
-      table[:footer] = []
-      table[:rows] = rows
-      table[:title] = compute_title(characteristic)
-      table
+    def build_table(characteristic, sheets)
+      {
+        title: compute_title(characteristic),
+        header: compute_header(characteristic),
+        footer: [],
+        rows: characteristic.categories.collect { |category| compute_row(sheets, characteristic, category) }
+      }
     end
 
     def compute_title(characteristic)
