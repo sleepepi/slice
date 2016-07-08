@@ -17,7 +17,22 @@ module Pats
       end
 
       def categories
-        [['Black / African American', "NULLIF(value, '')::numeric = 3"], ['Other race', "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"], ['Unknown or not reported', "NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)", 'lighter', true]]
+        [
+          {
+            label: 'Black / African American',
+            subquery: "NULLIF(value, '')::numeric = 3"
+          },
+          {
+            label: 'Other race',
+            subquery: "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"
+          },
+          {
+            label: 'Unknown or not reported',
+            subquery: "NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)",
+            css_class: 'lighter',
+            inverse: true
+          }
+        ]
       end
     end
   end

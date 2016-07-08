@@ -17,7 +17,21 @@ module Pats
       end
 
       def categories
-        [['Female', "NULLIF(response, '')::numeric = 2"], ['Male', "NULLIF(response, '')::numeric = 1"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
+        [
+          {
+            label: 'Female',
+            subquery: "NULLIF(response, '')::numeric = 2"
+          },
+          {
+            label: 'Male',
+            subquery: "NULLIF(response, '')::numeric = 1"
+          },
+          {
+            label: 'Unknown or not reported',
+            subquery: "response = '' or response IS NULL",
+            css_class: 'lighter'
+          }
+        ]
       end
     end
   end

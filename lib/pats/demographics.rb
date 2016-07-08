@@ -90,8 +90,8 @@ module Pats
 
     def demographics_table(project, sheets, characteristic_type)
       characteristic = Pats::Characteristics.for(characteristic_type, project)
-      rows = characteristic.categories.collect do |label, subquery, css_class, inverse|
-        compute_row(sheets, characteristic, label, subquery, css_class, inverse: inverse)
+      rows = characteristic.categories.collect do |category|
+        compute_row(sheets, characteristic, category)
       end
       build_table(characteristic, rows)
     end
@@ -116,7 +116,12 @@ module Pats
       header
     end
 
-    def compute_row(sheets, characteristic, label, subquery, css_class, inverse: false)
+    def compute_row(sheets, characteristic, category)
+      label = category[:label]
+      subquery = category[:subquery]
+      css_class = category[:css_class]
+      inverse = category[:inverse]
+
       variable = characteristic.variable
       project = characteristic.project
       model = if variable.variable_type == 'checkbox'

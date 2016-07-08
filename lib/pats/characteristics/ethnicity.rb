@@ -17,7 +17,21 @@ module Pats
       end
 
       def categories
-        [['Hispanic or Latino', "NULLIF(response, '')::numeric = 1"], ['Not Hispanic or Latino', "NULLIF(response, '')::numeric = 2"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
+        [
+          {
+            label: 'Hispanic or Latino',
+            subquery: "NULLIF(response, '')::numeric = 1"
+          },
+          {
+            label: 'Not Hispanic or Latino',
+            subquery: "NULLIF(response, '')::numeric = 2"
+          },
+          {
+            label: 'Unknown or not reported',
+            subquery: "response = '' or response IS NULL",
+            css_class: 'lighter'
+          }
+        ]
       end
     end
   end

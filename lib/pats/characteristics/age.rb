@@ -17,7 +17,25 @@ module Pats
       end
 
       def categories
-        [['3 or 4 years old', "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"], ['5 or 6 years old', "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"], ['7 years or older', "NULLIF(response, '')::numeric >= 7"], ['Unknown or not reported', "response = '' or response IS NULL", 'lighter']]
+        [
+          {
+            label: '3 or 4 years old',
+            subquery: "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"
+          },
+          {
+            label: '5 or 6 years old',
+            subquery: "NULLIF(response, '')::numeric >= 5 and NULLIF(response, '')::numeric < 7"
+          },
+          {
+            label: '7 years or older',
+            subquery: "NULLIF(response, '')::numeric >= 7"
+          },
+          {
+            label: 'Unknown or not reported',
+            subquery: "response = '' or response IS NULL",
+            css_class: 'lighter'
+          }
+        ]
       end
     end
   end
