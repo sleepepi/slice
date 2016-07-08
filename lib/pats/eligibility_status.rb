@@ -13,7 +13,7 @@ module Pats
 
     def eligibility_status(project)
       sheets = screened_sheets(project)
-      tables = %w(eligibility).collect do |characteristic_type|
+      tables = %w(eligibility screen-failures).collect do |characteristic_type|
         demographics_table(project, sheets, characteristic_type)
       end
       { tables: tables }

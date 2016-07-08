@@ -18,6 +18,7 @@ require 'pats/categories/eligibility/caregiver_not_interested'
 require 'pats/categories/eligibility/fully_eligible'
 require 'pats/categories/eligibility/ineligible'
 require 'pats/categories/eligibility/unknown'
+require 'pats/categories/screen_failures/all'
 
 module Pats
   # Defines categories of variables.
@@ -40,8 +41,20 @@ module Pats
       'fully-eligible' => Pats::Categories::Eligibility::FullyEligible,
       'ineligible' => Pats::Categories::Eligibility::Ineligible,
       'caregiver-not-interested' => Pats::Categories::Eligibility::CaregiverNotInterested,
-      'eligibility-unknown' => Pats::Categories::Eligibility::Unknown
-
+      'eligibility-unknown' => Pats::Categories::Eligibility::Unknown,
+      'prev-upper-airway-surgery' => Pats::Categories::ScreenFailures::PrevUpperAirwaySurgery,
+      'dx-chronic-prob' => Pats::Categories::ScreenFailures::DxChronicProb,
+      'recurrent-tonsillitis' => Pats::Categories::ScreenFailures::RecurrentTonsillitis,
+      'hx-psych-behavioral-disorder' => Pats::Categories::ScreenFailures::HxPsychBehavioralDisorder,
+      'known-cond-airway' => Pats::Categories::ScreenFailures::KnownCondAirway,
+      'taking-meds' => Pats::Categories::ScreenFailures::TakingMeds,
+      'ent-eligibility-not-met' => Pats::Categories::ScreenFailures::EntEligibilityNotMet,
+      'parent-report-snoring' => Pats::Categories::ScreenFailures::ParentReportSnoring,
+      'psg-eligibility-not-met' => Pats::Categories::ScreenFailures::PsgEligibilityNotMet,
+      'bmi-z-score-le3' => Pats::Categories::ScreenFailures::BmiZScoreLe3,
+      'caregiver-understand-english' => Pats::Categories::ScreenFailures::CaregiverUnderstandEnglish,
+      'moving-in-year' => Pats::Categories::ScreenFailures::MovingInYear,
+      'foster-care' => Pats::Categories::ScreenFailures::FosterCare
     }
 
     def self.for(category, project)
