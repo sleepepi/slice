@@ -6,6 +6,7 @@ require 'pats/characteristics/age'
 require 'pats/characteristics/ethnicity'
 require 'pats/characteristics/gender'
 require 'pats/characteristics/race'
+require 'pats/characteristics/eligibility'
 
 module Pats
   # Defines characteristic variables and associated subqueries.
@@ -15,7 +16,8 @@ module Pats
       'age' => Pats::Characteristics::Age,
       'ethnicity' => Pats::Characteristics::Ethnicity,
       'gender' => Pats::Characteristics::Gender,
-      'race' => Pats::Characteristics::Race
+      'race' => Pats::Characteristics::Race,
+      'eligibility' => Pats::Characteristics::Eligibility
     }
 
     def self.for(characteristic, project)

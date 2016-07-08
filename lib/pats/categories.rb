@@ -14,6 +14,10 @@ require 'pats/categories/age/unknown'
 require 'pats/categories/ethnicity/hispanic'
 require 'pats/categories/ethnicity/not_hispanic'
 require 'pats/categories/ethnicity/unknown'
+require 'pats/categories/eligibility/caregiver_not_interested'
+require 'pats/categories/eligibility/fully_eligible'
+require 'pats/categories/eligibility/ineligible'
+require 'pats/categories/eligibility/unknown'
 
 module Pats
   # Defines categories of variables.
@@ -32,7 +36,12 @@ module Pats
       'age-unknown' => Pats::Categories::Age::Unknown,
       'hispanic' => Pats::Categories::Ethnicity::Hispanic,
       'not-hispanic' => Pats::Categories::Ethnicity::NotHispanic,
-      'ethnicity-unknown' => Pats::Categories::Ethnicity::Unknown
+      'ethnicity-unknown' => Pats::Categories::Ethnicity::Unknown,
+      'fully-eligible' => Pats::Categories::Eligibility::FullyEligible,
+      'ineligible' => Pats::Categories::Eligibility::Ineligible,
+      'caregiver-not-interested' => Pats::Categories::Eligibility::CaregiverNotInterested,
+      'eligibility-unknown' => Pats::Categories::Eligibility::Unknown
+
     }
 
     def self.for(category, project)
