@@ -213,7 +213,7 @@ class SubjectsController < ApplicationController
     subject_scope = subject_scope.unrandomized if params[:randomized] == '0'
     subject_scope = subject_scope.open_aes if params[:ae] == 'open'
     subject_scope = subject_scope.closed_aes if params[:ae] == 'closed'
-    @subjects = subject_scope.page(params[:page]).per(40)
+    @subjects = subject_scope.page(params[:page]).per(20)
   end
 
   # GET /subjects/1

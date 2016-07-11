@@ -1,6 +1,9 @@
 ## rails5 branch
 
 ### Enhancements
+- **Project Changes**
+  - Reduced the number of subjects displayed on the project index to improve
+    load time
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to devise 4.2.0
