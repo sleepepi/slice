@@ -33,7 +33,7 @@ namespace :sheets do
         project_results[project_index] = { name: project.name, param: project.to_param, invalid_sheets_count: 0, valid_sheets_count: 0 }
 
         total_project_sheets = project.sheets.count
-        project.sheets.joins(:subject).merge(Subject.current).order(:id).each_with_index do |sheet, index|
+        project.sheets.order(:id).each_with_index do |sheet, index|
           count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{"%0.2f" % ((index + 1) * 100.0 / total_project_sheets)}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{"%0.2f" % ((current_sheet + 1) * 100.0 / total_sheets)}%)]"
           if sheet.successfully_validated?
             print "\r#{"%6d" % sheet.id}:" + " VALID".colorize(:green) + count_message

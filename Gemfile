@@ -19,7 +19,7 @@ gem 'chunky_png',           '~> 1.3.4'
 gem 'haml'
 gem 'figaro',               '~> 1.1.1'
 gem 'differ',               '~> 0.1.2'
-gem 'colorize',             '~> 0.8.0'
+gem 'colorize',             '~> 0.8.1'
 gem 'jquery-ui-rails',      '~> 5.0.5'
 
 # Rails Defaults
@@ -35,7 +35,7 @@ gem 'turbolinks',           '~> 5'
 group :test do
   # Pretty printed test output
   gem 'minitest'
-  gem 'simplecov',          '~> 0.11.2', require: false
+  gem 'simplecov',          '~> 0.12.0', require: false
   gem 'rails-controller-testing'
 end
 

@@ -4,9 +4,8 @@
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to devise 4.2.0
-  - Updated to turbolinks 5
 
-## 0.39.0
+## 0.39.0 (July 11, 2016)
 
 ### Enhancements
 - **General Changes**
@@ -32,7 +31,9 @@
     12-hour clock
 - **Gem Changes**
   - Updated to carrierwave 0.11.2
-  - Updated to colorize 0.8.0
+  - Updated to colorize 0.8.1
+  - Updated to simplecov 0.12.0
+  - Updated to turbolinks 5
   - Removed dependency on contour
 
 ### Bug Fix

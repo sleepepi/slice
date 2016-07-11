@@ -12,11 +12,6 @@
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
-@initializeTurbolinks = () ->
-  # # Don't cache pages with Turbolinks
-  # TODO: Clear cache on tablet handoff.
-  # Turbolinks.clearCache()
-
 @extensionsReady = ->
   datepickerReady()
   tooltipsReady()
@@ -28,7 +23,6 @@
     remote: root_url + 'search?q=%QUERY'
   )
   # setFocusToField("#search")
-  initializeTurbolinks()
   extensionsReady()
   $('[data-object~="form-load"]').submit()
 
