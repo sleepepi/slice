@@ -59,6 +59,5 @@ exclude_paths:
 - "config.ru"
 - Gemfile
 - LICENSE
-- "MIGRATING_TO_POSTGRESQL.md"
 - Rakefile
 - "README.md"

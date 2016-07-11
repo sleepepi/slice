@@ -20,10 +20,10 @@
       %script{ src: '//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js' }
 
     - if current_user and Slice::THEMES.collect{|theme_name, theme| theme}.include?(current_user.theme)
-      = stylesheet_link_tag "application-#{current_user.theme}", media: 'all', data: { turbolinks_track: true }
+      = stylesheet_link_tag "application-#{current_user.theme}", media: 'all', data: { turbolinks_track: 'reload' }
     - else
-      = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
-    = javascript_include_tag 'application', data: { turbolinks_track: true }
+      = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: 'reload' }
+    = javascript_include_tag 'application', data: { turbolinks_track: 'reload' }
     = javascript_tag "var root_url='#{request.script_name + '/'}';"
   %body
     - if current_user
