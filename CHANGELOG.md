@@ -1,4 +1,4 @@
-## rails5 branch
+## 0.40.0
 
 ### Enhancements
 - **Project Changes**
