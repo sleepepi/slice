@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   root 'projects#splash'
+  mount ActionCable.server => '/cable'
 
   get 'survey', to: 'survey#index', as: :about_survey
   get 'survey/:slug', to: 'survey#new', as: :new_survey

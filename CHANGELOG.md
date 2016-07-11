@@ -1,3 +1,10 @@
+## actioncable
+
+### Enhancements
+- **Live Web Page Updates**
+  - Started work on allowing a live number of current sheets to be displayed on
+    the about page to test ActionCable in production
+
 ## 0.40.0
 
 ### Enhancements

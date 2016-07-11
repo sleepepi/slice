@@ -9,6 +9,7 @@
     %meta{ name: 'description', content: 'Simple Data Collection and Reporting for Clinical Research' }
     -# Don't cache any pages
     %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
+    = action_cable_meta_tag
     %title= [@title, ENV['website_name']].compact.join(' - ').html_safe
 
     = favicon_link_tag
