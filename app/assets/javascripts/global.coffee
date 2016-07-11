@@ -12,13 +12,6 @@
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
-@initializeTurbolinks = () ->
-  # Don't cache pages with Turbolinks
-  Turbolinks.pagesCached(0)
-  Turbolinks.enableProgressBar()
-  # disableRequestCaching will be available with Turbolinks 3.0+
-  Turbolinks.disableRequestCaching() if Turbolinks.disableRequestCaching?
-
 @extensionsReady = ->
   datepickerReady()
   tooltipsReady()
@@ -30,7 +23,6 @@
     remote: root_url + 'search?q=%QUERY'
   )
   # setFocusToField("#search")
-  initializeTurbolinks()
   extensionsReady()
   $('[data-object~="form-load"]').submit()
 
@@ -61,8 +53,8 @@
 $(window).onbeforeunload = () -> return "You haven't saved your changes." if window.$isDirty
 $(document).ready(initialLoadReady)
 $(document)
-  .on('page:load', turbolinksReady)
-  .on('page:before-change', -> confirm("You haven't saved your changes.") if window.$isDirty)
+  .on('turbolinks:load', turbolinksReady)
+  .on('turbolinks:click', -> confirm("You haven't saved your changes.") if window.$isDirty)
   .on('click', '[data-object~="suppress-click"]', -> false)
   .on('click', '[data-object~="remove"]', () ->
     plural = if $(this).data('count') == 1 then '' else 's'

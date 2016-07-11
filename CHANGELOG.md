@@ -26,6 +26,7 @@
   - Updated to carrierwave 0.11.2
   - Updated to colorize 0.8.1
   - Updated to simplecov 0.12.0
+  - Updated to turbolinks 5
   - Removed dependency on contour
 
 ### Bug Fix
