@@ -19,6 +19,7 @@ require 'pats/categories/eligibility/fully_eligible'
 require 'pats/categories/eligibility/ineligible'
 require 'pats/categories/eligibility/unknown'
 require 'pats/categories/screen_failures/all'
+require 'pats/categories/disinterested/all'
 
 module Pats
   # Defines categories of variables.
@@ -54,7 +55,18 @@ module Pats
       'bmi-z-score-le3' => Pats::Categories::ScreenFailures::BmiZScoreLe3,
       'caregiver-understand-english' => Pats::Categories::ScreenFailures::CaregiverUnderstandEnglish,
       'moving-in-year' => Pats::Categories::ScreenFailures::MovingInYear,
-      'foster-care' => Pats::Categories::ScreenFailures::FosterCare
+      'foster-care' => Pats::Categories::ScreenFailures::FosterCare,
+      'time-commitment-too-great' => Pats::Categories::Disinterested::TimeCommitmentTooGreat,
+      'too-difficult-traveling-to-appointments' => Pats::Categories::Disinterested::TooDifficultTravelingToAppointments,
+      'study-compensation-too-low' => Pats::Categories::Disinterested::StudyCompensationTooLow,
+      'not-comfortable-with-randomization' => Pats::Categories::Disinterested::NotComfortableWithRandomization,
+      'unable-to-complete-screening-psg' => Pats::Categories::Disinterested::UnableToCompleteScreeningPsg,
+      'unable-to-complete-ent-evaluation' => Pats::Categories::Disinterested::UnableToCompleteEntEvaluation,
+      'unable-to-complete-other-testing' => Pats::Categories::Disinterested::UnableToCompleteOtherTesting,
+      'child-does-not-want-to-enroll' => Pats::Categories::Disinterested::ChildDoesNotWantToEnroll,
+      'caregiver-could-not-be-contacted-for-eligibility' => Pats::Categories::Disinterested::CaregiverCouldNotBeContactedForEligibility,
+      'caregiver-no-showed-for-visit-and-cannot-be-contacted' => Pats::Categories::Disinterested::CaregiverNoShowedForVisitAndCannotBeContacted,
+      'disinterest-reason-unknown' => Pats::Categories::Disinterested::ReasonUnknown
     }
 
     def self.for(category, project)
