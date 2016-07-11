@@ -35,7 +35,7 @@ gem 'turbolinks'
 group :test do
   # Pretty printed test output
   gem 'minitest'
-  gem 'simplecov',          '~> 0.11.2', require: false
+  gem 'simplecov',          '~> 0.12.0', require: false
 end
 
 group :development do
