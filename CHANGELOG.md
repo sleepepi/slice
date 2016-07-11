@@ -24,7 +24,7 @@
     12-hour clock
 - **Gem Changes**
   - Updated to carrierwave 0.11.2
-  - Updated to colorize 0.8.0
+  - Updated to colorize 0.8.1
   - Removed dependency on contour
 
 ### Bug Fix
