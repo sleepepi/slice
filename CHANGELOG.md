@@ -1,5 +1,8 @@
 ## 0.41.0
 
+### Refactoring
+- Added an index back to correct a reverse migration
+
 ## 0.40.0 (July 12, 2016)
 
 ### Enhancements
