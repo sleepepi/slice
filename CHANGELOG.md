@@ -5,6 +5,8 @@
   - Started work on allowing a live number of current sheets to be displayed on
     the about page to test ActionCable in production
 
+## 0.41.0
+
 ## 0.40.0 (July 12, 2016)
 
 ### Enhancements
