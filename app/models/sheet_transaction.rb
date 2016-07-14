@@ -107,7 +107,7 @@ class SheetTransaction < ApplicationRecord
                              .first_or_create(user_id: (current_user ? current_user.id : nil))
         if grid.variable.variable_type == 'file'
           grid_old = sheet_variable.grids.find_by_variable_id_and_position(variable_id, key)
-          if !res[:response_file].is_a?(Hash) || res[:remove_response_file] == '1' || (res[:response_file].is_a?(Hash) && res[:response_file][:cache].present?)
+          if !res[:response_file].is_a?(Hash) || res[:remove_response_file] == '1' || res[:response_file_cache].present?
             # New file added, do nothing
           elsif grid_old
             # Found preexisting grid
