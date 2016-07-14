@@ -7,6 +7,14 @@
 
 ## 0.41.0
 
+### Refactoring
+- Added an index back to correct a reverse migration
+
+## 0.40.1 (July 14, 2016)
+
+### Bug Fix
+- Fixed a bug that prevented files from being attached to sheets
+
 ## 0.40.0 (July 12, 2016)
 
 ### Enhancements

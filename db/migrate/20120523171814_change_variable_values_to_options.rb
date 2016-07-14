@@ -1,5 +1,5 @@
 class ChangeVariableValuesToOptions < ActiveRecord::Migration[4.2]
-  def up
+  def change
     rename_column :variables, :values, :options
   end
 end

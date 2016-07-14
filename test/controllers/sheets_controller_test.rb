@@ -564,11 +564,10 @@ d est laborum.',
           variables(:integer).id.to_s => 31,
           variables(:numeric).id.to_s => 190.5,
           variables(:date).id.to_s => { month: '05', day: '29', year: '2012' },
-          variables(:file).id.to_s => { response_file: '' }
+          variables(:file).id.to_s => { response_file: fixture_file_upload('../../test/support/projects/rails.png') }
         }
       }
     end
-
     assert_not_nil assigns(:sheet)
     assert_equal 9, assigns(:sheet).variables.size
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
@@ -582,7 +581,7 @@ d est laborum.',
         variables(:grid).id.to_s => {
           '0' => {
             variables(:change_options).id.to_s => '1',
-            variables(:file).id.to_s => { response_file: { cache: '' } },
+            variables(:file).id.to_s => { response_file: '' },
             variables(:checkbox).id.to_s => ['acct101', 'econ101'],
             variables(:height).id.to_s => '1.5',
             variables(:weight).id.to_s => '70.0',
@@ -592,7 +591,7 @@ d est laborum.',
           },
           '1' => {
             variables(:change_options).id.to_s => '2',
-            variables(:file).id.to_s => { response_file: { cache: '' } },
+            variables(:file).id.to_s => { response_file: '' },
             variables(:checkbox).id.to_s => ['econ101'],
             variables(:height).id.to_s => '1.5',
             variables(:weight).id.to_s => '0.0',
@@ -602,7 +601,7 @@ d est laborum.',
           },
           '2' => {
             variables(:change_options).id.to_s => '3',
-            variables(:file).id.to_s => { response_file: { cache: '' } },
+            variables(:file).id.to_s => { response_file: '' },
             variables(:checkbox).id.to_s => [],
             variables(:height).id.to_s => '1.5',
             variables(:weight).id.to_s => '70.0',
@@ -627,7 +626,7 @@ d est laborum.',
         variables(:grid).id.to_s => {
           '1' => {
             variables(:change_options).id.to_s => '2',
-            variables(:file).id.to_s => { response_file: { cache: '' } },
+            variables(:file).id.to_s => { response_file: '' },
             variables(:checkbox).id.to_s => ['econ101'],
             variables(:height).id.to_s => '1.5',
             variables(:weight).id.to_s => '0.0',
