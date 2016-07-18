@@ -1,5 +1,8 @@
 ## 0.40.2
 
+### Bug Fix
+- Test to see if sheet unlock emails get sent with `deliver_now`
+
 ## 0.40.1 (July 14, 2016)
 
 ### Bug Fix

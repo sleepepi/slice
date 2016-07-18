@@ -27,7 +27,7 @@ class SheetUnlockRequest < ApplicationRecord
   def send_unlock_request_emails
     return unless EMAILS_ENABLED
     project_editors.each do |editor|
-      UserMailer.sheet_unlock_request(self, editor).deliver_later
+      UserMailer.sheet_unlock_request(self, editor).deliver_now
     end
   end
 
