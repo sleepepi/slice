@@ -322,7 +322,7 @@ class Design < ApplicationRecord
   end
 
   def notify_user!(current_user)
-    UserMailer.import_complete(self, current_user).deliver_later if EMAILS_ENABLED
+    UserMailer.import_complete(self, current_user).deliver_now if EMAILS_ENABLED
   end
 
   def insert_new_design_option!(design_option)

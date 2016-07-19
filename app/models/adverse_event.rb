@@ -123,7 +123,7 @@ class AdverseEvent < ApplicationRecord
   def send_email
     return if !EMAILS_ENABLED || project.disable_all_emails?
     users_to_email.each do |user_to_email|
-      UserMailer.adverse_event_reported(self, user_to_email).deliver_later
+      UserMailer.adverse_event_reported(self, user_to_email).deliver_now
     end
   end
 

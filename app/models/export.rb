@@ -27,7 +27,7 @@ class Export < ApplicationRecord
   end
 
   def notify_user!
-    UserMailer.export_ready(self).deliver_later if EMAILS_ENABLED
+    UserMailer.export_ready(self).deliver_now if EMAILS_ENABLED
   end
 
   def generate_export_in_background!

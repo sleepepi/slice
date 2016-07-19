@@ -1,7 +1,7 @@
 ## 0.40.2
 
 ### Bug Fix
-- Test to see if sheet unlock emails get sent with `deliver_now`
+- Fixed emails in forked processes from not being sent
 
 ## 0.40.1 (July 14, 2016)
 
