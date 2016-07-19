@@ -6,7 +6,7 @@ task daily_digest: :environment do
   return unless EMAILS_ENABLED && (1..5).include?(Date.today.wday)
   User.current.find_each do |user|
     if user.digest_sheets_created.size + user.digest_comments.size > 0
-      UserMailer.daily_digest(user).deliver_later if user.email_on?(:daily_digest)
+      UserMailer.daily_digest(user).deliver_now if user.email_on?(:daily_digest)
     end
   end
 end

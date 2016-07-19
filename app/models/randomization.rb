@@ -101,7 +101,7 @@ class Randomization < ApplicationRecord
   def notify_users!
     return if !EMAILS_ENABLED || project.disable_all_emails?
     users_to_email.each do |user_to_email|
-      UserMailer.subject_randomized(self, user_to_email).deliver_later
+      UserMailer.subject_randomized(self, user_to_email).deliver_now
     end
   end
 
