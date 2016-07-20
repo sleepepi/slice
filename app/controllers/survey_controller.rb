@@ -91,7 +91,7 @@ class SurveyController < ApplicationController
 
   def send_survey_completion_emails
     return unless EMAILS_ENABLED
-    UserMailer.survey_completed(@sheet).deliver_later
-    UserMailer.survey_user_link(@sheet).deliver_later unless @subject.email.blank?
+    UserMailer.survey_completed(@sheet).deliver_now
+    UserMailer.survey_user_link(@sheet).deliver_now unless @subject.email.blank?
   end
 end
