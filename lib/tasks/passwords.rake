@@ -7,7 +7,7 @@ namespace :passwords do
     return unless EMAILS_ENABLED
     User.current.find_each do |user|
       if user.password_expires_soon?
-        UserMailer.password_expires_soon(user).deliver_later
+        UserMailer.password_expires_soon(user).deliver_now
       elsif user.password_expires_today?
         user.expire_password!
       end

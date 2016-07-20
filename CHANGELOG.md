@@ -10,6 +10,11 @@
 ### Refactoring
 - Added an index back to correct a reverse migration
 
+## 0.40.2 (July 19, 2016)
+
+### Bug Fix
+- Fixed emails in forked processes from not being sent
+
 ## 0.40.1 (July 14, 2016)
 
 ### Bug Fix

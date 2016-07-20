@@ -55,7 +55,7 @@ module AutoLockable
   def notify_user_of_sheet_unlock(requests_granted, project_editor)
     return unless EMAILS_ENABLED
     requests_granted.each do |sheet_unlock_request|
-      UserMailer.sheet_unlocked(sheet_unlock_request, project_editor).deliver_later
+      UserMailer.sheet_unlocked(sheet_unlock_request, project_editor).deliver_now
     end
   end
 end

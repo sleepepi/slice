@@ -25,11 +25,11 @@ class ProjectUser < ApplicationRecord
   end
 
   def send_invite_token
-    UserMailer.invite_user_to_project(self).deliver_later if EMAILS_ENABLED && !invite_token.blank?
+    UserMailer.invite_user_to_project(self).deliver_now if EMAILS_ENABLED && !invite_token.blank?
   end
 
   def notify_user
-    UserMailer.user_added_to_project(self).deliver_later if EMAILS_ENABLED && invite_token.blank? && user
+    UserMailer.user_added_to_project(self).deliver_now if EMAILS_ENABLED && invite_token.blank? && user
   end
 
   def generate_token
