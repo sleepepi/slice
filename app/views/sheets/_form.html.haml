@@ -5,6 +5,10 @@
         = pluralize @sheet.errors.count, 'error'
         prohibited this sheet from being saved
 
+      %ul{ style: 'display:none' }
+        - @sheet.errors.full_messages.each do |msg|
+          %li= msg
+
   - # TODO: DESIGN SHOULD ONLY BE NEEDED ON NEW SHEETS
   = f.hidden_field :design_id
 

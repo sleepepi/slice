@@ -1,5 +1,10 @@
 ## 0.41.0
 
+### Enhancements
+- **Sheet Changes**
+  - Sheet saving errors are now written to a hidden field on the form to allow
+    debugging of branching logic mistakes
+
 ### Refactoring
 - Added an index back to correct a reverse migration
 
