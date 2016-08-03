@@ -1,4 +1,4 @@
-## 0.40.3
+## 0.40.3 (August 3, 2016)
 
 ### Refactoring
 - Updated kaminari pagination views to use haml
