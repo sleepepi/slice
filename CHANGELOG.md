@@ -1,3 +1,13 @@
+## 0.40.3 (August 3, 2016)
+
+### Refactoring
+- Updated kaminari pagination views to use haml
+- Updated non-turbolinks links to use new attribute syntax
+
+### Bug Fix
+- Fixed a bug that prevented users from logging in correctly with an expired
+  authenticity token
+
 ## 0.40.2 (July 19, 2016)
 
 ### Bug Fix

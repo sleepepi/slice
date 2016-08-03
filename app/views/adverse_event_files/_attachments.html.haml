@@ -6,7 +6,7 @@
           - url = [@project, @adverse_event, file]
         - else
           - url = download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file)
-        = link_to url, class: 'ae-file', data: { no_turbolink: true } do
+        = link_to url, class: 'ae-file', data: { turbolinks: false } do
           - if file.image?
             %span.glyphicon.glyphicon-picture
           - else
