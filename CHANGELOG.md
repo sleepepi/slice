@@ -7,8 +7,23 @@
 
 ## 0.41.0
 
+### Enhancements
+- **Sheet Changes**
+  - Sheet saving errors are now written to a hidden field on the form to allow
+    debugging of branching logic mistakes
+
 ### Refactoring
 - Added an index back to correct a reverse migration
+
+## 0.40.3 (August 3, 2016)
+
+### Refactoring
+- Updated kaminari pagination views to use haml
+- Updated non-turbolinks links to use new attribute syntax
+
+### Bug Fix
+- Fixed a bug that prevented users from logging in correctly with an expired
+  authenticity token
 
 ## 0.40.2 (July 19, 2016)
 

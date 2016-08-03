@@ -16,7 +16,7 @@
     = render 'adverse_events/menu'
 
     %div{ style: 'margin-bottom: 20px' }
-      = link_to download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), data: { no_turbolink: true }, class: 'btn btn-default' do
+      = link_to download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), data: { turbolinks: false }, class: 'btn btn-default' do
         .glyphicon.glyphicon-download
         = @adverse_event_file.name
       %code= number_to_human_size @adverse_event_file.attachment.size
