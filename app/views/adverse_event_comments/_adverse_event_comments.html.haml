@@ -80,7 +80,7 @@
               - if file.image?
                 = link_to file.name, [@project, @adverse_event, file]
               - else
-                = link_to file.name, download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), data: { no_turbolink: true }
+                = link_to file.name, download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), data: { turbolinks: false }
             - if file.image? and false
               .center{ style: 'margin-top:5px' }
                 = link_to [@project, @adverse_event, file] do
