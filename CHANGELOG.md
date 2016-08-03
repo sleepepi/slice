@@ -2,6 +2,7 @@
 
 ### Refactoring
 - Updated kaminari pagination views to use haml
+- Updated non-turbolinks links to use new attribute syntax
 
 ### Bug Fix
 - Fixed a bug that prevented users from logging in correctly with an expired
