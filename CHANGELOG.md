@@ -1,5 +1,8 @@
 ## 0.40.3
 
+### Refactoring
+- Updated kaminari pagination views to use haml
+
 ### Bug Fix
 - Fixed a bug that prevented users from logging in correctly with an expired
   authenticity token
