@@ -48,16 +48,13 @@
   loadVariableSortable()
   $('#form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
   initializeDesignReordering()
-
   $("#form_grid_variables div").last().click()
-
   if $('[data-object~="ajax-timer"]').length > 0
     interval = setInterval( () ->
       $('[data-object~="ajax-timer"]').each( () ->
         $.post($(this).data('path'), "interval=#{interval}", null, "script")
       )
     , 5000)
-  $(".active[data-object~='edit-mode'],.active[data-object~='preview-mode']").click()
 
 $(document)
   .on('change', '[data-object~="condition"]', () ->
