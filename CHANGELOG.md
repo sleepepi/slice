@@ -1,4 +1,4 @@
-## 0.40.4
+## 0.40.4 (August 4, 2016)
 
 ### Bug Fix
 - Fixed a bug that caused unintended scrolling while editing a design
