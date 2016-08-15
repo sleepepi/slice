@@ -4,6 +4,8 @@
 - **Sheet Changes**
   - Sheet saving errors are now written to a hidden field on the form to allow
     debugging of branching logic mistakes
+- **Gem Changes**
+  - Updated to rails 5.0.0.1
 
 ### Refactoring
 - Added an index back to correct a reverse migration
