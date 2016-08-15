@@ -8,6 +8,9 @@
 ### Refactoring
 - Added an index back to correct a reverse migration
 
+### Bug Fixes
+- Rails model errors are now again correctly styled using Bootstrap CSS classes
+
 ## 0.40.4 (August 4, 2016)
 
 ### Bug Fix
