@@ -133,21 +133,19 @@ class Design < ApplicationRecord
     design_options.joins(:section).where(sections: { level: 0 })
   end
 
-  # def all_sections
-  #   self.options.select{|option| not option[:section_name].blank?}
-  # end
-
-  def reportable_variables(variable_types, except_variable_ids)
-    design_option_variables = design_options.includes(:variable).where.not(variable_id: nil).where.not(variable_id: except_variable_ids).where(variables: { variable_type: variable_types })
-    design_option_variables.collect { |design_option| [containing_section(design_option.position), design_option.variable.display_name, design_option.variable_id] }
-  end
-
-  def grouped_reportable_variables(variable_types, except_variable_ids)
-    reportable_variables(variable_types, except_variable_ids).group_by { |a| a[0] }.collect { |section, values| [section, values.collect { |a| [a[1], a[2]] }] }
-  end
-
-  def containing_section(position)
-    design_options.includes(:section).where.not(section_id: nil).where('position < ?', position).pluck('sections.name').last
+  def design_options_grouped_by_section
+    result = []
+    current_section = ['', []]
+    design_options.each do |design_option|
+      if design_option.section
+        result << current_section unless current_section == ['', []]
+        current_section = [design_option.section.name, []]
+      elsif design_option.variable
+        current_section[1] << [design_option.variable.display_name, design_option.variable_id]
+      end
+    end
+    result << current_section unless current_section == ['', []]
+    result
   end
 
   def reorder_sections(section_order, current_user)

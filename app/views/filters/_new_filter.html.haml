@@ -1,11 +1,8 @@
-- filters = (params[:f] || []).uniq{ |f| f[:id] }
-- filter_ids = filters.reject{ |f| ['site', 'sheet_date'].include?(f[:id]) }.collect{ |f| f[:id] }
-- row_variable_groups = @design.grouped_reportable_variables(%w(dropdown checkbox radio string numeric date integer calculated text time imperial_height imperial_weight), filter_ids)
--# All ['dropdown', 'checkbox', 'radio', 'string', 'text', 'integer', 'numeric', 'date', 'time', 'file', 'calculated', 'grid']
--# Unused ['checkbox', 'file', 'grid', 'signature']
+- filters = (params[:f] || []).uniq { |f| f[:id] }
+- row_variable_groups = @design.design_options_grouped_by_section
 - extra_variables = []
-- extra_variables << ['Site', 'site'] if filters.select{|f| f[:id] == 'site'}.size == 0
-- extra_variables << ['Sheet Date', 'sheet_date'] if filters.select{|f| f[:id] == 'sheet_date'}.size == 0
+- extra_variables << ['Site', 'site'] if filters.select { |f| f[:id] == 'site' }.size == 0
+- extra_variables << ['Sheet Date', 'sheet_date'] if filters.select { |f| f[:id] == 'sheet_date' }.size == 0
 
 .modal-header
   %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
