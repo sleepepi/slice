@@ -1,12 +1,6 @@
-%table
-  - if domain && domain.options.size > 0
-    - domain.options.sort { |a,b| a[:value].to_s <=> b[:value].to_s }.each do |option|
-      %tr
-        %td.text-right
-          = succeed ':' do
-            = option[:value]
-        %td.text-muted.nowrap{ style: 'overflow-x:hidden' }
-          = option[:name]
-  - else
-    %tr.text-muted
-      %td No Values
+- if domain && domain.options.size > 0
+  %ul.list-unstyled
+  - domain.options.sort { |a,b| a[:value].to_s <=> b[:value].to_s }.each do |option|
+    %li.nowrap= "#{option[:value]}: #{option[:name]}"
+- else
+  .text-muted No Values

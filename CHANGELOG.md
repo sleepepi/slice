@@ -7,6 +7,8 @@
 - **Report Changes**
   - Design options are now sorted correctly when adding a new filter to an
     advanced design report
+- **Variable Changes**
+  - Improved the display of domains when editing variables
 - **Gem Changes**
   - Updated to rails 5.0.0.1
 

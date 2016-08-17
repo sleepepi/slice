@@ -1,0 +1,6 @@
+// Adds styling to default Bootstrap columns when they stack on each other in
+// smaller views. col-buffer for example adds a default margin-bottom of 20px
+// to better separate stacked columns.
+.col-buffer {
+  margin-bottom: 20px;
+}

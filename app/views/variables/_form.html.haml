@@ -175,23 +175,26 @@
           of options. Variables can share domains.
           = link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs', target: '_blank'
       - else
-        = f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] }, {}, class: 'form-control', data: { project_id: @variable.project.to_param }
-        = link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs', target: '_blank'
+        .row.col-buffer
+          .col-xs-6.col-sm-9
+            = f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] }, {}, class: 'form-control', data: { project_id: @variable.project.to_param }
+          .col-xs-6.col-sm-3
+            = link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-block', target: '_blank'
         .row
+          .col-md-9
+            .download-container{ style: 'overflow-x:hidden;overflow-y:scroll;max-height:200px' }
+              .download-container-after Domain Values
+              #domain_values{ style: 'padding-top:10px' }
+                = render 'domains/values', domain: @variable.domain
           - if @variable.captured_values.size > 0
             .col-md-3
-              .download-container{ style: 'overflow-x:hidden;overflow-y:scroll;height:80px' }
+              .download-container{ style: 'overflow-x:hidden;overflow-y:scroll;max-height:200px' }
                 .download-container-after Captured Values
                 %div{ style: 'padding-top:10px' }
                   %table
                     - @variable.captured_values.sort.each do |value|
                       %tr
                         %td{ style: 'text-align:right' }= value
-          .col-md-3
-            .download-container{ style: 'overflow-x:hidden;overflow-y:scroll;max-height:100px' }
-              .download-container-after Domain Values
-              #domain_values{ style: 'padding-top:10px' }
-                = render 'domains/values', domain: @variable.domain
 
   .form-group{ data: { object: 'checkbox-or-radio' } }
     = f.label :alignment, nil, class: 'col-md-2 control-label'
