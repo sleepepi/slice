@@ -17,6 +17,7 @@ module Pats
           Pats::Categories.for('known-cond-airway', project),
           Pats::Categories.for('ent-eligibility-not-met', project),
           Pats::Categories.for('parent-report-snoring', project),
+          Pats::Categories.for('previous-osa-diagnosis', project),
           Pats::Categories.for('psg-eligibility-not-met', project),
           Pats::Categories.for('recurrent-tonsillitis', project),
           Pats::Categories.for('prev-upper-airway-surgery', project),

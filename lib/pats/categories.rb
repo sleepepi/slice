@@ -51,6 +51,7 @@ module Pats
       'taking-meds' => Pats::Categories::ScreenFailures::TakingMeds,
       'ent-eligibility-not-met' => Pats::Categories::ScreenFailures::EntEligibilityNotMet,
       'parent-report-snoring' => Pats::Categories::ScreenFailures::ParentReportSnoring,
+      'previous-osa-diagnosis' => Pats::Categories::ScreenFailures::PreviousOSADiagnosis,
       'psg-eligibility-not-met' => Pats::Categories::ScreenFailures::PsgEligibilityNotMet,
       'bmi-z-score-le3' => Pats::Categories::ScreenFailures::BmiZScoreLe3,
       'caregiver-understand-english' => Pats::Categories::ScreenFailures::CaregiverUnderstandEnglish,

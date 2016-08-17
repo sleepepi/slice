@@ -9,6 +9,8 @@
     advanced design report
 - **Variable Changes**
   - Improved the display of domains when editing variables
+- **PATS Changes**
+  - Updated screen failures report to include previous OSA diagnosis
 - **Gem Changes**
   - Updated to rails 5.0.0.1
 
