@@ -36,7 +36,7 @@
 \chead{}
 \rhead{}
 \lfoot{}
-\cfoot{Printed on <%= latex_safe Date.today.strftime("%B %-d, %Y") %>}
+\cfoot{Printed on <%= latex_safe Time.zone.today.strftime("%B %-d, %Y") %>}
 \rfoot{Page \thepage\ of \pageref{LastPage}}
 
 

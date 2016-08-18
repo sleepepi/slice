@@ -43,26 +43,26 @@ module ApplicationHelper
     return '' unless past_time.is_a?(Time)
     time_ago_in_words(past_time)
     seconds_ago = (Time.zone.now - past_time)
-    color = if seconds_ago < 60.minute then "#6DD1EC"
-    elsif seconds_ago < 1.day then "#ADDD1E"
-    elsif seconds_ago < 2.day then "#CEDC34"
-    elsif seconds_ago < 1.week then "#CEDC34"
-    elsif seconds_ago < 1.month then "#DCAA24"
-    elsif seconds_ago < 1.year then "#C2692A"
-    else "#AA2D2F"
-    end
+    color = if seconds_ago < 60.minutes then '#6DD1EC'
+            elsif seconds_ago < 1.day then '#ADDD1E'
+            elsif seconds_ago < 2.days then '#CEDC34'
+            elsif seconds_ago < 1.week then '#CEDC34'
+            elsif seconds_ago < 1.month then '#DCAA24'
+            elsif seconds_ago < 1.year then '#C2692A'
+            else '#AA2D2F'
+            end
     "<span style='color:#{color};font-weight:bold;font-variant:small-caps;'>#{time_ago_in_words(past_time)} ago</span>".html_safe
   end
 
   def simple_date(past_date)
     return '' if past_date.blank?
-    if past_date == Date.today
+    if past_date == Time.zone.today
       'Today'
-    elsif past_date == Date.today - 1.day
+    elsif past_date == Time.zone.today - 1.day
       'Yesterday'
-    elsif past_date == Date.today + 1.day
+    elsif past_date == Time.zone.today + 1.day
       'Tomorrow'
-    elsif past_date.year == Date.today.year
+    elsif past_date.year == Time.zone.today.year
       past_date.strftime("%b %d")
     else
       past_date.strftime("%b %d, %Y")
@@ -71,12 +71,12 @@ module ApplicationHelper
 
   def simple_time(past_time)
     return '' if past_time.blank?
-    if past_time.to_date == Date.today
-      past_time.strftime("<b>Today</b> at %I:%M %p").html_safe
-    elsif past_time.year == Date.today.year
-      past_time.strftime("on %b %d at %I:%M %p")
+    if past_time.to_date == Time.zone.today
+      past_time.strftime('Today at %I:%M %p')
+    elsif past_time.year == Time.zone.today.year
+      past_time.strftime('on %b %d at %I:%M %p')
     else
-      past_time.strftime("on %b %d, %Y at %I:%M %p")
+      past_time.strftime('on %b %d, %Y at %I:%M %p')
     end
   end
 

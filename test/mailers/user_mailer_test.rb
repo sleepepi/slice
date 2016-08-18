@@ -92,7 +92,7 @@ class UserMailerTest < ActionMailer::TestCase
     valid = users(:valid)
     mail = UserMailer.daily_digest(valid)
     assert_equal [valid.email], mail.to
-    assert_equal "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}", mail.subject
+    assert_equal "Daily Digest for #{Time.zone.today.strftime('%a %d %b %Y')}", mail.subject
     assert_match(/Dear #{valid.first_name},/, mail.body.encoded)
   end
 
