@@ -7,6 +7,9 @@
 - **Report Changes**
   - Design options are now sorted correctly when adding a new filter to an
     advanced design report
+- **Search Changes**
+  - Searching no longer matches the middle of words unless the search query
+    string starts with a space
 - **Variable Changes**
   - Improved the display of domains when editing variables
 - **PATS Changes**

@@ -6,14 +6,14 @@ module Searchable
   included do
     # Search Scope
     def self.search(arg)
-      term = arg.to_s.downcase.gsub(/^| |$/, '%')
+      term = arg.to_s.downcase.gsub(/ |$/, '%')
       terms = [term] * search_queries.count
       where search_queries.join(' or '), *terms
     end
 
     def self.search_queries
       searchable_attributes.collect do |searchable_attribute|
-        "LOWER(#{table_name}.#{searchable_attribute}) LIKE ?"
+        "#{table_name}.#{searchable_attribute} ILIKE ?"
       end
     end
 

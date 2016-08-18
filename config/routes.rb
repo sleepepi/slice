@@ -283,6 +283,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: :search do
+    get :search, action: :index
+  end
+
   scope module: :users do
     get :settings
     post :settings, action: :update_settings
@@ -328,7 +332,6 @@ Rails.application.routes.draw do
     post :variable
   end
 
-  get '/search' => 'projects#search', as: :search
   get '/activity' => 'users#activity', as: :activity
 
   get 'reports/projects', to: redirect('')
