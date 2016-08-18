@@ -2,37 +2,43 @@
 
 # Provides methods to invite a new member to an existing project
 class ProjectUser < ApplicationRecord
+  # Concerns
+  include Forkable
+
   # Model Validation
-  validates :project_id, :creator_id, presence: true
+  validates :creator_id, :project_id, presence: true
   validates :invite_token, uniqueness: true, allow_nil: true
 
   # Model Relationships
+  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
   belongs_to :project
   belongs_to :user
-  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
 
-  after_update_commit :notify_user
+  def send_user_invited_email_in_background!
+    set_invite_token
+    fork_process(:send_user_invited_email!)
+  end
 
-  def generate_invite_token!(new_invite_token = generate_token)
-    save_invite_token new_invite_token
-    send_invite_token
+  def send_user_added_email_in_background!
+    fork_process(:send_user_added_email!)
   end
 
   private
 
-  def save_invite_token(new_invite_token)
-    update invite_token: new_invite_token if respond_to?('invite_token') && invite_token.blank? && ProjectUser.where(invite_token: new_invite_token).count == 0
+  def set_invite_token
+    return unless invite_token.blank?
+    update invite_token: SecureRandom.hex(12)
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
+    retry
   end
 
-  def send_invite_token
-    UserMailer.invite_user_to_project(self).deliver_now if EMAILS_ENABLED && !invite_token.blank?
+  def send_user_invited_email!
+    return unless EMAILS_ENABLED
+    UserMailer.user_invited_to_project(self).deliver_now if invite_token.present?
   end
 
-  def notify_user
-    UserMailer.user_added_to_project(self).deliver_now if EMAILS_ENABLED && invite_token.blank? && user
-  end
-
-  def generate_token
-    Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)
+  def send_user_added_email!
+    return unless EMAILS_ENABLED
+    UserMailer.user_added_to_project(self).deliver_now if invite_token.blank? && user
   end
 end

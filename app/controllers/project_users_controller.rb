@@ -20,7 +20,7 @@ class ProjectUsersController < ApplicationController
     @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
 
     if @project && @project_user
-      @project_user.generate_invite_token!
+      @project_user.send_user_invited_email_in_background!
       # resend.js.erb
     else
       head :ok

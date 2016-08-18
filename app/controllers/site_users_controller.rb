@@ -22,11 +22,11 @@ class SiteUsersController < ApplicationController
 
   # POST /site_users/1.js
   def resend
-    @site_user = SiteUser.current.find_by_id(params[:id])
+    @site_user = SiteUser.find_by_id(params[:id])
     @site = current_user.all_sites.find_by_id(@site_user.site_id) if @site_user
 
     if @site && @site_user
-      @site_user.send_invitation
+      @site_user.send_user_invited_email_in_background!
       # resend.js.erb
     else
       head :ok
@@ -62,7 +62,7 @@ class SiteUsersController < ApplicationController
 
   # DELETE /site_users/1
   def destroy
-    @site_user = SiteUser.current.find_by_id(params[:id])
+    @site_user = SiteUser.find_by_id(params[:id])
     @site = current_user.all_sites.find_by_id(@site_user.site_id) if @site_user
     @project = @site_user.project if @site_user
 

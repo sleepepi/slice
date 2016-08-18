@@ -1,0 +1,23 @@
+%p{ style: p_style }
+  Dear
+  = succeed ',' do
+    = @site_user.user.first_name
+
+%p{ style: p_style }
+  = @site_user.creator.name
+  %span{ style: emphasis_style }
+    added you as
+    - if @site_user.editor?
+      an editor
+    - else
+      a viewer
+  to
+  = @site_user.site.name
+  on
+  = succeed '.' do
+    = link_to @site_user.project.name, "#{ENV['website_url']}/projects/#{@site_user.project.to_param}", style: link_style
+
+  - if @site_user.editor?
+    You may add new subjects and sheets to the project.
+  - else
+    You may view the project and sheets.

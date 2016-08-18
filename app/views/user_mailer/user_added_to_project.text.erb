@@ -1,6 +1,6 @@
 Dear <%= @project_user.user.first_name %>,
 
-<%= @project_user.creator.name %> added you to Project <%= @project_user.project.name %> located here:
+<%= @project_user.creator.name %> added you as <% if @project_user.editor? %>an editor<% else %>a viewer<% end %> to <%= @project_user.project.name %> located here:
 
     <%= "#{ENV['website_url']}/projects/#{@project_user.project.to_param}" %>
 

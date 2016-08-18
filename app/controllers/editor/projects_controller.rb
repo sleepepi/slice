@@ -92,11 +92,12 @@ class Editor::ProjectsController < ApplicationController
   def add_existing_member(user)
     @member = member_scope.where(user_id: user.id).first_or_create(creator_id: current_user.id)
     @member.update editor: editor?, unblinded: unblinded?
+    @member.send_user_added_email_in_background!
   end
 
   def invite_new_member
     @member = member_scope.where(invite_email: invite_email).first_or_create(creator_id: current_user.id)
     @member.update editor: editor?, unblinded: unblinded?
-    @member.generate_invite_token!
+    @member.send_user_invited_email_in_background!
   end
 end

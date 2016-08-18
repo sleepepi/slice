@@ -9,7 +9,7 @@ one:
   invite_email: one@example.com
   editor: false
 
-two:
+accepted_viewer_invite:
   site: one
   project: one
   user: valid

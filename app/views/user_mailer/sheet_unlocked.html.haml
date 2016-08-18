@@ -16,7 +16,7 @@
       1 week
     - when 'after1month'
       1 month
-  on project
+  on
   = succeed '.' do
     = link_to @sheet_unlock_request.sheet.project.name, "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}", style: link_style
 

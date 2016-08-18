@@ -2,12 +2,21 @@
 
 # Sends out application emails to users
 class UserMailer < ApplicationMailer
-  def invite_user_to_site(site_user)
+  def user_added_to_site(site_user)
+    setup_email
+    @site_user = site_user
+    @email_to = site_user.user.email
+    mail(to: site_user.user.email,
+         subject: "#{site_user.creator.name} Allows You to #{site_user.editor? ? 'Edit' : 'View'} #{site_user.site.name} on #{site_user.project.name}",
+         reply_to: site_user.creator.email)
+  end
+
+  def user_invited_to_site(site_user)
     setup_email
     @site_user = site_user
     @email_to = site_user.invite_email
     mail(to: site_user.invite_email,
-         subject: "#{site_user.creator.name} Invites You to View Site #{site_user.site.name}",
+         subject: "#{site_user.creator.name} Invites You to #{site_user.editor? ? 'Edit' : 'View'} #{site_user.site.name} on #{site_user.project.name}",
          reply_to: site_user.creator.email)
   end
 
@@ -16,16 +25,16 @@ class UserMailer < ApplicationMailer
     @project_user = project_user
     @email_to = project_user.user.email
     mail(to: project_user.user.email,
-         subject: "#{project_user.creator.name} Allows You to #{project_user.editor? ? 'Edit' : 'View'} Project #{project_user.project.name}",
+         subject: "#{project_user.creator.name} Allows You to #{project_user.editor? ? 'Edit' : 'View'} #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
-  def invite_user_to_project(project_user)
+  def user_invited_to_project(project_user)
     setup_email
     @project_user = project_user
     @email_to = project_user.invite_email
     mail(to: project_user.invite_email,
-         subject: "#{project_user.creator.name} Invites You to #{project_user.editor? ? 'Edit' : 'View'} Project #{project_user.project.name}",
+         subject: "#{project_user.creator.name} Invites You to #{project_user.editor? ? 'Edit' : 'View'} #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
@@ -43,7 +52,7 @@ class UserMailer < ApplicationMailer
     @editor = editor
     @email_to = editor.email
     mail(to: "#{editor.name} <#{editor.email}>",
-         subject: "#{sheet_unlock_request.user.name} Requests To Unlock a Sheet on Project #{sheet_unlock_request.sheet.project.name}")
+         subject: "#{sheet_unlock_request.user.name} Requests To Unlock a Sheet on #{sheet_unlock_request.sheet.project.name}")
   end
 
   def sheet_unlocked(sheet_unlock_request, project_editor)
@@ -52,7 +61,7 @@ class UserMailer < ApplicationMailer
     @project_editor = project_editor
     @email_to = sheet_unlock_request.user.email
     mail(to: "#{sheet_unlock_request.user.name} <#{sheet_unlock_request.user.email}>",
-         subject: "#{project_editor.name} Unlocked a Sheet on Project #{sheet_unlock_request.sheet.project.name}")
+         subject: "#{project_editor.name} Unlocked a Sheet on #{sheet_unlock_request.sheet.project.name}")
   end
 
   def survey_user_link(sheet)

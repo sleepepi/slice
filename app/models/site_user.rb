@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
+# Provides methods to invite a user by email as a site member.
 class SiteUser < ApplicationRecord
-  # Named Scopes
-  scope :current, -> { all }
+  # Concerns
+  include Forkable
 
   # Model Validation
-  validates :creator_id, :site_id, :project_id, presence: true
+  validates :creator_id, :project_id, :site_id, presence: true
   validates :invite_token, uniqueness: true, allow_nil: true
 
   # Model Relationships
@@ -14,14 +15,31 @@ class SiteUser < ApplicationRecord
   belongs_to :user
   belongs_to :site
 
-  after_create_commit :send_invitation
-
-  def send_invitation
-    generate_invite_token!
+  def send_user_invited_email_in_background!
+    set_invite_token
+    fork_process(:send_user_invited_email!)
   end
 
-  def generate_invite_token!(new_invite_token = Digest::SHA1.hexdigest(Time.zone.now.usec.to_s))
-    update(invite_token: new_invite_token) if respond_to?('invite_token') && invite_token.blank? && SiteUser.where(invite_token: new_invite_token).count == 0
-    UserMailer.invite_user_to_site(self).deliver_now if EMAILS_ENABLED && !invite_token.blank?
+  def send_user_added_email_in_background!
+    fork_process(:send_user_added_email!)
+  end
+
+  private
+
+  def set_invite_token
+    return unless invite_token.blank?
+    update invite_token: SecureRandom.hex(12)
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
+    retry
+  end
+
+  def send_user_invited_email!
+    return unless EMAILS_ENABLED
+    UserMailer.user_invited_to_site(self).deliver_now if invite_token.present?
+  end
+
+  def send_user_added_email!
+    return unless EMAILS_ENABLED
+    UserMailer.user_added_to_site(self).deliver_now if invite_token.blank? && user
   end
 end

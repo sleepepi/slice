@@ -24,7 +24,7 @@
   %dt Projects
   %dd
     %ul
-      - @user.all_viewable_projects.each do |project|
+      - @user.all_viewable_projects.order(:name).each do |project|
         - if current_user.all_viewable_projects.pluck(:id).include?(project.id)
           %li= link_to project.name, project
 
@@ -35,12 +35,12 @@
         - if current_user.all_viewable_sites.pluck(:id).include?(site.id)
           %li= link_to "#{site.name} - #{site.project.name}", [site.project, site]
 
-  - site_invitations = SiteUser.where( invite_email: @user.email ).where( user_id: nil )
-  - if current_user.system_admin? and site_invitations.count > 0
+  - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
+  - if current_user.system_admin? && site_invitations.count > 0
     %dt Invitations
     %dd
       %ul.list-unstyled
-        - (site_invitations.to_a*10).each do |site_user|
+        - site_invitations.each do |site_user|
           %li
             = @user.name
             was invited to

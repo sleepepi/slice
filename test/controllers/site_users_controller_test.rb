@@ -57,7 +57,7 @@ class SiteUsersControllerTest < ActionController::TestCase
 
   test 'should accept existing site user' do
     login(users(:valid))
-    session[:site_invite_token] = site_users(:two).invite_token
+    session[:site_invite_token] = site_users(:accepted_viewer_invite).invite_token
     get :accept, params: { project_id: @project }
     assert_not_nil assigns(:site_user)
     assert_equal users(:valid), assigns(:site_user).user
