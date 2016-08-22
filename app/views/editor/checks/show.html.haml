@@ -25,3 +25,40 @@
 
       %dt Archived
       %dd= simple_check @check.archived
+
+      - all_sheets = @check.compute(current_user)
+
+      %dt= link_to 'Filters', editor_project_check_check_filters_path(@project, @check)
+      %dd
+        %table.table
+          %tfoot
+            %tr
+              %th
+              %th
+              %th
+              %th
+              %th.text-right= all_sheets.count
+          - @check.check_filters.each do |check_filter|
+            %tr
+              %td
+                %code
+                  = link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
+              %td
+                - if check_filter.variable
+                  %code= check_filter.operator
+              %td
+                - if check_filter.variable
+                  %code= check_filter.values
+              %td
+                \:
+              %td.text-right
+                %code= check_filter.compute(current_user).count
+
+
+      %dt Sheets
+      %dd
+        %ul
+          - all_sheets.limit(10).each do |sheet|
+            %li= link_to 'sheet', [sheet.project, sheet]
+          - if all_sheets.count > 10
+            %li.text-muted Top 10 Results

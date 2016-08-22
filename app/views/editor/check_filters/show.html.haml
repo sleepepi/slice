@@ -1,0 +1,39 @@
+- @title = @check_filter.name
+
+- links = []
+- links << ['Checks', editor_project_checks_path(@project)]
+- links << [@check.name, editor_project_check_path(@project, @check)]
+- links << ['Filters', editor_project_check_check_filters_path(@project, @check)]
+- links << [@check_filter.name, editor_project_check_check_filter_path(@project, @check, @check_filter)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+
+    %h2.underline-header
+      = @title
+      = link_to 'Edit Filter', edit_editor_project_check_check_filter_path(@project, @check, @check_filter), class: 'btn btn-default btn-xs'
+      = link_to 'Delete Filter', editor_project_check_check_filter_path(@project, @check, @check_filter), method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Filter #{@check_filter.name}?" }
+
+    %dl.dl-horizontal
+      %dt Creator
+      %dd= @check_filter.user.name
+
+      %dt Filter Type
+      %dd= @check_filter.filter_type
+
+      %dt Variable
+      %dd
+        - if @check_filter.variable
+          = @check_filter.variable.name
+
+      %dt Operator
+      %dd= @check_filter.operator
+
+      %dt Values
+      %dd= @check_filter.values
+
+      %dt Compute
+      %dd= @check_filter.compute(current_user).count

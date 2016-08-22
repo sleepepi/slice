@@ -35,7 +35,9 @@ Rails.application.routes.draw do
         get :settings
       end
 
-      resources :checks
+      resources :checks do
+        resources :check_filters, path: 'filters'
+      end
     end
   end
 
