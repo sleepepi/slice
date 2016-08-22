@@ -41,6 +41,17 @@ class Editor::ChecksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to editor_project_check_path(@project, Check.last)
   end
 
+  test 'should not create check with blank name' do
+    login(@project_editor)
+    assert_difference('Check.count', 0) do
+      post editor_project_checks_path(@project), params: {
+        check: check_params.merge(name: '', slug: 'check-three')
+      }
+    end
+    assert_template 'new'
+    assert_response :success
+  end
+
   test 'should show check' do
     login(@project_editor)
     get editor_project_check_path(@project, @check)
@@ -59,6 +70,15 @@ class Editor::ChecksControllerTest < ActionDispatch::IntegrationTest
       check: check_params
     }
     assert_redirected_to editor_project_check_path(@project, @check)
+  end
+
+  test 'should not update check with blank name' do
+    login(@project_editor)
+    patch editor_project_check_path(@project, @check), params: {
+      check: check_params.merge(name: '')
+    }
+    assert_template 'edit'
+    assert_response :success
   end
 
   test 'should destroy check' do
