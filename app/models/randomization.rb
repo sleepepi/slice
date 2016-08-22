@@ -34,7 +34,7 @@ class Randomization < ApplicationRecord
 
   delegate :site, to: :subject
 
-  # Named Scopes
+  # Scopes
   def self.blinding_scope(user)
     joins(:project)
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")

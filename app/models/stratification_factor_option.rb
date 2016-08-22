@@ -4,7 +4,7 @@ class StratificationFactorOption < ApplicationRecord
   # Concerns
   include Deletable
 
-  # Named Scopes
+  # Scopes
 
   # Model Validation
   validates :label, :user_id, :project_id, :randomization_scheme_id, :stratification_factor_id, presence: true

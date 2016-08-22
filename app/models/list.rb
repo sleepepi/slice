@@ -7,7 +7,7 @@ class List < ApplicationRecord
   # Concerns
   include Deletable
 
-  # Named Scopes
+  # Scopes
 
   # Model Validation
   validates :project_id, :randomization_scheme_id, :user_id, presence: true

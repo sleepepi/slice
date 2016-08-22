@@ -17,7 +17,7 @@ class Variable < ApplicationRecord
   # Concerns
   include Searchable, Deletable, DateAndTimeParser
 
-  # Named Scopes
+  # Scopes
   scope :with_user, -> (arg) { where user_id: arg }
   scope :with_project, -> (arg) { where project_id: arg }
   scope :with_variable_type, -> (arg) { where variable_type: arg }

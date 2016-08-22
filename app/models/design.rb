@@ -26,7 +26,7 @@ class Design < ApplicationRecord
   attr_writer :questions
   attr_accessor :reimport
 
-  # Named Scopes
+  # Scopes
   scope :with_user, -> (arg) { where user_id: arg }
   scope :with_project, -> (arg) { where project_id: arg }
 

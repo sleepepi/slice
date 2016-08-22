@@ -21,7 +21,7 @@ class Project < ApplicationRecord
 
   after_save :create_default_site, :create_default_categories
 
-  # Named Scopes
+  # Scopes
   scope :with_user, -> (arg) { where user_id: arg }
   scope :with_editor, -> (*args) { where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
   scope :by_favorite, -> (arg) { joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}").references(:project_favorites) }
@@ -44,25 +44,26 @@ class Project < ApplicationRecord
   belongs_to :user
 
   has_many :project_users
-  has_many :users, -> { where(deleted: false).order('last_name, first_name') }, through: :project_users
+  has_many :users, -> { current.order(:last_name, :first_name) }, through: :project_users
   has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
   has_many :site_users
   has_many :project_favorites
   has_many :adverse_events, -> { current.joins(:subject).merge(Subject.current) }
   has_many :categories, -> { where(deleted: false).order(:position) }
-  has_many :designs, -> { where deleted: false }
-  has_many :variables, -> { where deleted: false }
+  has_many :checks, -> { current }
+  has_many :designs, -> { current }
+  has_many :variables, -> { current }
   has_many :sections
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
-  has_many :sites, -> { where(deleted: false).order(:name) }
-  has_many :subjects, -> { where deleted: false }
-  has_many :exports, -> { where deleted: false }
-  has_many :events, -> { where deleted: false }
+  has_many :sites, -> { current.order(:name) }
+  has_many :subjects, -> { current }
+  has_many :exports, -> { current }
+  has_many :events, -> { current }
   has_many :handoffs
-  has_many :domains, -> { where deleted: false }
-  has_many :randomizations, -> { where deleted: false }
-  has_many :randomization_schemes, -> { where deleted: false }
+  has_many :domains, -> { current }
+  has_many :randomizations, -> { current }
+  has_many :randomization_schemes, -> { current }
   has_many :tasks, -> { current }
 
   # Model Methods

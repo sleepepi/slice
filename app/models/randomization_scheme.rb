@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Defines a method for randomization, either Permuted-Block or Minimization
+# Defines a method for randomization, either Permuted-Block or Minimization.
 class RandomizationScheme < ApplicationRecord
   # Triggers
   after_create_commit :create_default_block_size_multipliers
@@ -14,7 +14,7 @@ class RandomizationScheme < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 
-  # Named Scopes
+  # Scopes
   scope :published, -> { where published: true }
 
   # Model Validation

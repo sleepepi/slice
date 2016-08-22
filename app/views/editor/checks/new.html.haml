@@ -1,0 +1,12 @@
+- @title = 'New Check'
+
+- links = []
+- links << ['Checks', editor_project_checks_path(@project)]
+- links << ['New', new_editor_project_check_path(@project)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows models to be searched.
 module Searchable
   extend ActiveSupport::Concern
 

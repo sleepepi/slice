@@ -34,6 +34,8 @@ Rails.application.routes.draw do
         post :invite_user
         get :settings
       end
+
+      resources :checks
     end
   end
 

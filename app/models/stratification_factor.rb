@@ -5,7 +5,7 @@ class StratificationFactor < ApplicationRecord
   # Concerns
   include Deletable
 
-  # Named Scopes
+  # Scopes
 
   # Model Validation
   validates :name,

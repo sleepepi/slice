@@ -1,0 +1,31 @@
+- @title = 'Checks'
+
+= render 'projects/tabbed_menu', links: [['Checks', editor_project_checks_path(@project)]]
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    %h2.underline-header
+      = @title
+      = link_to 'Create Check', new_editor_project_check_path(@project), class: 'btn btn-xs btn-primary'
+      .per-page
+        = render 'layouts/per_page', per_page: 40, object_count: @checks.total_count
+
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Archived
+          %th Creator
+          %th Actions
+
+      %tbody
+        - @checks.each do |check|
+          %tr
+            %td= link_to check.name, editor_project_check_path(@project, check)
+            %td= simple_check check.archived?
+            %td= check.user.name
+            %td
+              = link_to 'Edit', edit_editor_project_check_path(@project, check), class: 'btn btn-xs btn-default'
+              = link_to 'Destroy', editor_project_check_path(@project, check), method: :delete, data: { confirm: "Are you sure you want to delete check #{check.name}?" }, class: 'btn btn-xs btn-danger-inverse'

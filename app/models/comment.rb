@@ -20,7 +20,7 @@ class Comment < ApplicationRecord
   delegate :users, to: :sheet
   delegate :editable_by?, to: :sheet
 
-  # Named Scopes
+  # Scopes
 
   def self.with_project(arg)
     joins(:sheet).merge(Sheet.current.where(project_id: arg))

@@ -1,0 +1,14 @@
+- @title = "Edit Check: #{@check.name_was}"
+
+- links = []
+- links << ['Checks', editor_project_checks_path(@project)]
+- links << [@check.name_was, editor_project_check_path(@project, @check)]
+- links << ['Edit', edit_editor_project_check_path(@project, @check)]
+
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+    = render 'form'

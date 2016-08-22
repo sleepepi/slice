@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   attr_accessor :design_hashes
   after_save :set_event_designs
 
-  # Named Scopes
+  # Scopes
 
   # Model Validation
   validates :name, :project_id, :user_id, presence: true

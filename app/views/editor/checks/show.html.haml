@@ -1,0 +1,27 @@
+- @title = @check.name
+
+- links = []
+- links << ['Checks', editor_project_checks_path(@project)]
+- links << [@check.name, editor_project_check_path(@project, @check)]
+= render 'projects/tabbed_menu', links: links
+
+.mini-menu-outer
+  .mini-menu-left-fixed
+    = render 'projects/menu_mini'
+  .mini-menu-right-fluid
+
+    %h2.underline-header
+      = @title
+      = link_to 'Edit Check', edit_editor_project_check_path(@project, @check), class: 'btn btn-default btn-xs'
+      = link_to 'Delete Check', editor_project_check_path(@project, @check), method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Check #{@check.name}?" }
+
+
+    %dl.dl-horizontal
+      %dt Description
+      %dd= simple_markdown @check.description
+
+      %dt Creator
+      %dd= @check.user.name
+
+      %dt Archived
+      %dd= simple_check @check.archived

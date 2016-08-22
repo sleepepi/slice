@@ -1,6 +1,9 @@
 ## 0.41.0
 
 ### Enhancements
+- **Data Quality Checks**
+  - Project editors can now define data quality checks that are used to identify
+    sheets that have inconsistent data
 - **Sheet Changes**
   - Sheet saving errors are now written to a hidden field on the form to allow
     debugging of branching logic mistakes

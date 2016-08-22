@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
+# Defines a treatment arm assignment for randomized subjects.
 class TreatmentArm < ApplicationRecord
   # Concerns
   include Deletable
 
-  # Named Scopes
-
+  # Scopes
   scope :positive_allocation, -> { where 'treatment_arms.allocation > 0' }
 
   # Model Validation

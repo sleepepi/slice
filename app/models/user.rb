@@ -21,30 +21,31 @@ class User < ApplicationRecord
   validates :first_name, :last_name, presence: true
 
   # Model Relationships
-  has_many :adverse_events, -> { where deleted: false }
-  has_many :adverse_event_comments, -> { where deleted: false }
+  has_many :adverse_events, -> { current }
+  has_many :adverse_event_comments, -> { current }
   has_many :adverse_event_files
   has_many :adverse_event_users
-  has_many :categories, -> { where deleted: false }
-  has_many :comments, -> { where deleted: false }
-  has_many :designs, -> { where deleted: false }
+  has_many :categories, -> { current }
+  has_many :checks, -> { current }
+  has_many :comments, -> { current }
+  has_many :designs, -> { current }
   has_many :domains, -> { current }
-  has_many :events, -> { where deleted: false }
-  has_many :exports, -> { where deleted: false }
+  has_many :events, -> { current }
+  has_many :exports, -> { current }
   has_many :handoffs
   has_many :notifications, -> { joins(:project).merge(Project.current) }
-  has_many :projects, -> { where deleted: false }
+  has_many :projects, -> { current }
   has_many :project_favorites
-  has_many :randomization_schemes, -> { where deleted: false }
+  has_many :randomization_schemes, -> { current }
   has_many :sections
   has_many :sheet_unlock_requests, -> { current.joins(:sheet).merge(Sheet.current) }
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
-  has_many :sites, -> { where deleted: false }
-  has_many :subjects, -> { where deleted: false }
+  has_many :sites, -> { current }
+  has_many :subjects, -> { current }
   has_many :tasks, -> { current }
   has_many :variables, -> { current }
 
-  # Named Scopes
+  # Scopes
   scope :with_sheet, -> { where 'users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)', false }
   scope :with_design, -> { where 'users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)', false }
   scope :with_variable_on_project, -> (arg) { where 'users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)', arg, false }

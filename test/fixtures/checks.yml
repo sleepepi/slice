@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  user: valid
+  name: Check One
+  slug: check-one
+  description: MyText
+  archived: false
+  deleted: false
+
+two:
+  project: one
+  user: valid
+  name: Check Two
+  slug: check-two
+  description: MyText
+  archived: false
+  deleted: false

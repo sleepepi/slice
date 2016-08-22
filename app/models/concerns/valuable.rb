@@ -6,7 +6,7 @@ module Valuable
   include DateAndTimeParser
 
   included do
-    # Named Scopes
+    # Scopes
     scope :with_variable_type, lambda { |arg| where("#{table_name}.variable_id in (SELECT variables.id from variables where variables.variable_type IN (?))", arg) }
 
     # Model Validation

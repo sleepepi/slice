@@ -4,7 +4,7 @@ class Subject < ApplicationRecord
   # Concerns
   include Searchable, Deletable, Evaluatable
 
-  # Named Scopes
+  # Scopes
   scope :with_project, -> (arg) { where(project_id: arg) }
   scope :without_design, -> (arg) { where('subjects.id NOT IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))', false, arg) }
   scope :with_design, -> (arg) { where('subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))', false, arg) }

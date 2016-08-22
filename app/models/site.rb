@@ -6,7 +6,7 @@ class Site < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 
-  # Named Scopes
+  # Scopes
   def self.with_project_or_as_site_user(project_ids, user_id)
     where('sites.project_id IN (?) or sites.id in (select site_users.site_id '\
       'from site_users where site_users.user_id = ?)', project_ids, user_id)
