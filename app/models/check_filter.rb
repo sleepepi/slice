@@ -146,7 +146,9 @@ class CheckFilter < ApplicationRecord
       end
       full_expression.join(' or ')
     else
-      "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} (#{subquery_values_joined})"
+      extra = ''
+      extra = " or NULLIF(#{subquery_attribute}, '')::#{type_cast} IS NULL" if operator == 'ne'
+      "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} (#{subquery_values_joined})#{extra}"
     end
   end
 
