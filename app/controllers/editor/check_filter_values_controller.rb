@@ -8,7 +8,7 @@ class Editor::CheckFilterValuesController < Editor::EditorController
 
   # GET /editor/projects/1/checks/1/filters/1/values
   def index
-    @check_filter_values = @check_filter.check_filter_values.order(:value)
+    @check_filter_values = @check_filter.check_filter_values
                                         .page(params[:page]).per(40)
   end
 

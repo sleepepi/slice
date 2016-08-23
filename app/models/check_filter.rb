@@ -28,7 +28,7 @@ class CheckFilter < ApplicationRecord
   belongs_to :user
   belongs_to :check
   belongs_to :variable, optional: true
-  has_many :check_filter_values
+  has_many :check_filter_values, -> { order(:value) }
 
   # Model Methods
   def name
