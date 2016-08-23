@@ -75,14 +75,7 @@ class CheckFilter < ApplicationRecord
   end
 
   def randomized_subjects_sheets(current_user)
-    sheet_scope = current_user.all_viewable_sheets.where(project: project)
-    if operator == 'eq'
-      sheet_scope.where(subject_id: project.subjects.randomized.select(:id))
-    elsif operator == 'ne'
-      sheet_scope.where(subject_id: project.subjects.unrandomized.select(:id))
-    else
-      Sheet.none
-    end
+    Sheet.none
   end
 
   def randomized_subjects(current_user)

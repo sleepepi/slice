@@ -36,12 +36,10 @@
               %th
               %th
               %th
-              %th
               %th.text-right Subjects
               %th.text-right Sheets
           %tfoot
             %tr
-              %th
               %th
               %th
               %th
@@ -54,18 +52,16 @@
                   = link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
               %td
                 - if check_filter.variable
-                  %code= check_filter.operator
+                  %code= check_filter.database_operator
               %td
                 - if check_filter.variable
                   - check_filter.check_filter_values.each do |check_filter_value|
                     %code
                       = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, check_filter, check_filter_value)
-              %td
-                \:
               %td.text-right
-                %code= number_with_delimiter check_filter.subjects(current_user).count
+                = number_with_delimiter check_filter.subjects(current_user).count
               %td.text-right
-                %code= number_with_delimiter check_filter.sheets(current_user).count
+                = number_with_delimiter check_filter.sheets(current_user).count
 
     - if all_sheets.count > 40
       %h2.text-muted Top 40 Results
@@ -87,6 +83,28 @@
                 %td= link_to sheet.name, [sheet.project, sheet]
                 - @check.check_filters.each do |check_filter|
                   %td.center
-                    - if check_filter.variable
+                    - if check_filter.filter_type == 'randomized'
+                      = simple_check true
+                    - elsif check_filter.variable
                       - sheet.sheet_variables.where(variable: check_filter.variable).each do |sheet_variable|
                         = sheet_variable.get_response(:raw)
+    - else
+      - if all_subjects.count > 40
+        %h2.text-muted Top 40 Results
+      - if all_subjects.count > 0
+        %table.table.table-borderless
+          %col{ width: '1px' }
+          %thead
+            %th Subject
+            - @check.check_filters.each do |check_filter|
+              %th.center
+                %code= check_filter.name
+
+          - all_subjects.order(:subject_code).limit(40).each do |subject|
+            %tbody
+              %tr
+                %td= link_to subject.subject_code, [subject.project, subject]
+                - @check.check_filters.each do |check_filter|
+                  %td.center
+                    - if check_filter.filter_type == 'randomized'
+                      = simple_check true
