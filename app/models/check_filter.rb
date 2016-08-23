@@ -64,9 +64,9 @@ class CheckFilter < ApplicationRecord
     super
   end
 
-  def compute(current_user)
+  def sheets(current_user)
     if variable
-      compute_for_variable(current_user)
+      compute_sheets_for_variable(current_user)
     elsif filter_type == 'randomized'
       randomized_subjects_sheets(current_user)
     else
@@ -76,52 +76,102 @@ class CheckFilter < ApplicationRecord
 
   def randomized_subjects_sheets(current_user)
     sheet_scope = current_user.all_viewable_sheets.where(project: project)
-    sheet_scope = if operator == 'eq'
-                    sheet_scope.where(subject_id: project.subjects.randomized.select(:id))
-                  elsif operator == 'ne'
-                    sheet_scope.where(subject_id: project.subjects.unrandomized.select(:id))
-                  else
-                    Sheet.none
-                  end
-    sheet_scope
+    if operator == 'eq'
+      sheet_scope.where(subject_id: project.subjects.randomized.select(:id))
+    elsif operator == 'ne'
+      sheet_scope.where(subject_id: project.subjects.unrandomized.select(:id))
+    else
+      Sheet.none
+    end
   end
 
-  def compute_for_variable(current_user)
-    inverse = (operator == 'ne')
-
-    subquery_values = check_filter_values.distinct.pluck(:value)
-
-    sheet_scope = current_user.all_viewable_sheets.where(project: project)
-    return Sheet.none if operator.in?(%w(lt gt le ge))
-    return sheet_scope if subquery_values.count == 0
-
-    if variable.variable_type == 'checkbox'
-      scope = Response
-      if all_numeric?
-        subquery = "NULLIF(value, '')::numeric IN (#{subquery_values.sort.join(', ')})"
-      else
-        subquery = "NULLIF(value, '')::text IN (#{subquery_values.collect { |v| "'#{v}'" }.sort.join(', ')})"
-      end
+  def randomized_subjects(current_user)
+    subject_scope = current_user.all_viewable_subjects.where(project: project)
+    if operator == 'eq'
+      subject_scope.where(id: project.subjects.randomized.select(:id))
+    elsif operator == 'ne'
+      subject_scope.where(id: project.subjects.unrandomized.select(:id))
     else
-      scope = SheetVariable
-      if all_numeric?
-        subquery = "NULLIF(response, '')::numeric IN (#{subquery_values.sort.join(', ')})"
-      else
-        subquery = "NULLIF(response, '')::text IN (#{subquery_values.collect { |v| "'#{v}'" }.sort.join(', ')})"
-      end
+      Subject.none
     end
+  end
 
-    select_sheet_ids = scope.where(variable: variable).where(subquery).select(:sheet_id)
-
-    sheet_scope = if inverse
-                    sheet_scope.where.not(id: select_sheet_ids)
-                  else
-                    sheet_scope.where(id: select_sheet_ids)
-                  end
-    sheet_scope
+  def compute_sheets_for_variable(current_user)
+    sheet_scope = current_user.all_viewable_sheets.where(project: project)
+    return sheet_scope if subquery_values.count == 0
+    select_sheet_ids = subquery_scope.where(variable: variable).where(subquery).select(:sheet_id)
+    sheet_scope.where(id: select_sheet_ids)
   end
 
   def all_numeric?
     check_filter_values.distinct.pluck(:value).count { |v| !(v =~ /^[-+]?[0-9]+$/) } == 0
+  end
+
+  def subquery_attribute
+    variable.variable_type == 'checkbox' ? 'value' : 'response'
+  end
+
+  def subquery_scope
+    variable.variable_type == 'checkbox' ? Response : SheetVariable
+  end
+
+  def subquery_values
+    check_filter_values.distinct.pluck(:value)
+  end
+
+  def subjects(current_user)
+    if variable
+      compute_subjects_for_variable(current_user)
+    elsif filter_type == 'randomized'
+      randomized_subjects(current_user)
+    else
+      Subject.none
+    end
+  end
+
+  def compute_subjects_for_variable(current_user)
+    current_user.all_viewable_subjects
+                .where(project: project)
+                .where(id: sheets(current_user).select(:subject_id))
+  end
+
+  def subquery
+    type_cast = all_numeric? ? 'numeric' : 'text'
+
+    if operator.in?(%w(lt gt le ge))
+      full_expression = []
+      subquery_values.each do |subquery_value|
+        value = all_numeric? ? subquery_value : "'#{subquery_value}'"
+        full_expression << "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} #{value}"
+      end
+      full_expression.join(' or ')
+    else
+      "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} (#{subquery_values_joined})"
+    end
+  end
+
+  def database_operator
+    case operator
+    when 'lt'
+      '<'
+    when 'gt'
+      '>'
+    when 'le'
+      '<='
+    when 'ge'
+      '>='
+    when 'ne'
+      'NOT IN'
+    else
+      'IN'
+    end
+  end
+
+  def subquery_values_joined
+    if all_numeric?
+      subquery_values.sort.join(', ')
+    else
+      subquery_values.collect { |v| "'#{v}'" }.sort.join(', ')
+    end
   end
 end

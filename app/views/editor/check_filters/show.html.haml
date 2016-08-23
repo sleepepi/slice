@@ -38,5 +38,8 @@
           %code
             = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value)
 
-      %dt Compute
-      %dd= @check_filter.compute(current_user).count
+      %dt Sheets
+      %dd= @check_filter.sheets(current_user).count
+
+      %dt Subjects
+      %dd= @check_filter.subjects(current_user).count

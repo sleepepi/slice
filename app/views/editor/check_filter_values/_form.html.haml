@@ -19,6 +19,13 @@
     .col-md-10
       = f.text_field :value, class: 'form-control'
 
+      - if @check_filter.variable
+        .callout.callout-info
+          %strong= @check_filter.variable.display_name
+          %ul
+            - @check_filter.variable.shared_options_with_user(current_user).each do |option|
+              %li= "#{option[:value]}: #{option[:name]}"
+
   .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
