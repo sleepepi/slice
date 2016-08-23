@@ -36,7 +36,9 @@ Rails.application.routes.draw do
       end
 
       resources :checks do
-        resources :check_filters, path: 'filters'
+        resources :check_filters, path: 'filters' do
+          resources :check_filter_values, path: 'values'
+        end
       end
     end
   end

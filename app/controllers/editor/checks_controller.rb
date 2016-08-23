@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 # Allows project editors to create and update project checks.
-class Editor::ChecksController < ApplicationController
-  before_action :authenticate_user!
-  before_action :find_editable_project_or_redirect
+class Editor::ChecksController < Editor::EditorController
   before_action :find_check_or_redirect, only: [:show, :edit, :update, :destroy]
 
   # GET /editor/projects/1/checks
@@ -52,12 +50,7 @@ class Editor::ChecksController < ApplicationController
   private
 
   def find_check_or_redirect
-    @check = @project.checks.find_by_param params[:id]
-    redirect_without_check
-  end
-
-  def redirect_without_check
-    empty_response_or_root_path(editor_project_checks_path(@project)) unless @check
+    super(:id)
   end
 
   def check_params

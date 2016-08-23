@@ -28,6 +28,7 @@ class CheckFilter < ApplicationRecord
   belongs_to :user
   belongs_to :check
   belongs_to :variable, optional: true
+  has_many :check_filter_values
 
   # Model Methods
   def name
@@ -63,16 +64,6 @@ class CheckFilter < ApplicationRecord
     super
   end
 
-  # TODO: Remove when Filter Values are added.
-  def check_filter_values
-    CheckFilter.none
-  end
-  # END TODO
-
-  def values
-    '1'
-  end
-
   def compute(current_user)
     if variable
       compute_for_variable(current_user)
@@ -97,7 +88,8 @@ class CheckFilter < ApplicationRecord
 
   def compute_for_variable(current_user)
     inverse = (operator == 'ne')
-    subquery_values = values.split(/[^\d]/).reject(&:blank?).uniq
+
+    subquery_values = check_filter_values.distinct.pluck(:value)
 
     sheet_scope = current_user.all_viewable_sheets.where(project: project)
     return Sheet.none if operator.in?(%w(lt gt le ge))
@@ -105,10 +97,18 @@ class CheckFilter < ApplicationRecord
 
     if variable.variable_type == 'checkbox'
       scope = Response
-      subquery = "NULLIF(value, '')::numeric IN (#{subquery_values.sort.join(', ')})"
+      if all_numeric?
+        subquery = "NULLIF(value, '')::numeric IN (#{subquery_values.sort.join(', ')})"
+      else
+        subquery = "NULLIF(value, '')::text IN (#{subquery_values.collect { |v| "'#{v}'" }.sort.join(', ')})"
+      end
     else
       scope = SheetVariable
-      subquery = "NULLIF(response, '')::numeric IN (#{subquery_values.sort.join(', ')})"
+      if all_numeric?
+        subquery = "NULLIF(response, '')::numeric IN (#{subquery_values.sort.join(', ')})"
+      else
+        subquery = "NULLIF(response, '')::text IN (#{subquery_values.collect { |v| "'#{v}'" }.sort.join(', ')})"
+      end
     end
 
     select_sheet_ids = scope.where(variable: variable).where(subquery).select(:sheet_id)
@@ -119,5 +119,9 @@ class CheckFilter < ApplicationRecord
                     sheet_scope.where(id: select_sheet_ids)
                   end
     sheet_scope
+  end
+
+  def all_numeric?
+    check_filter_values.distinct.pluck(:value).count { |v| !(v =~ /^[-+]?[0-9]+$/) } == 0
   end
 end

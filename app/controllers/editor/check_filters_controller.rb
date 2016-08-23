@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 # Allows project editors to create and update project check filters.
-class Editor::CheckFiltersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :find_editable_project_or_redirect
+class Editor::CheckFiltersController < Editor::EditorController
   before_action :find_check_or_redirect
   before_action :find_filter_or_redirect, only: [:show, :edit, :update, :destroy]
 
@@ -59,22 +57,8 @@ class Editor::CheckFiltersController < ApplicationController
 
   private
 
-  def find_check_or_redirect
-    @check = @project.checks.find_by_param params[:check_id]
-    redirect_without_check
-  end
-
-  def redirect_without_check
-    empty_response_or_root_path(editor_project_checks_path(@project)) unless @check
-  end
-
   def find_filter_or_redirect
-    @check_filter = @check.check_filters.find_by_id params[:id]
-    redirect_without_filter
-  end
-
-  def redirect_without_filter
-    empty_response_or_root_path(editor_project_check_path(@project, @check)) unless @check_filter
+    super(:id)
   end
 
   def check_filter_params

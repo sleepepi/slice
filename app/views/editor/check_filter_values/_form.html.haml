@@ -1,0 +1,25 @@
+%h2.underline-header= @title
+
+- url = @check_filter_value.new_record? ? editor_project_check_check_filter_check_filter_values_path(@project, @check, @check_filter) : editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value)
+- method = @check_filter_value.new_record? ? :post : :patch
+
+= form_for [@project, @check, @check_filter, @check_filter_value], url: url, method: method, html: { class: 'form-horizontal' } do |f|
+  - if @check_filter_value.errors.any?
+    .callout.callout-danger
+      %strong
+        = pluralize @check_filter_value.errors.count, 'error'
+        prohibited this value from being saved
+
+      %ul
+        - @check_filter_value.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :value, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :value, class: 'form-control'
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      = f.submit nil, class: 'btn btn-primary'
+      = link_to 'Cancel', @check_filter_value.new_record? ? editor_project_check_check_filter_check_filter_values_path(@project, @check, @check_filter) : editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), class: 'btn btn-default'

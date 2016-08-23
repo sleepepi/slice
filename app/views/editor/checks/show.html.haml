@@ -48,7 +48,9 @@
                   %code= check_filter.operator
               %td
                 - if check_filter.variable
-                  %code= check_filter.values
+                  - check_filter.check_filter_values.each do |check_filter_value|
+                    %code
+                      = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, check_filter, check_filter_value)
               %td
                 \:
               %td.text-right
