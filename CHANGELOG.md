@@ -1,6 +1,8 @@
 ## 0.41.0
 
 ### Enhancements
+- **General Changes**
+  - Alerts added to warn a user before a timeout to give a chance to stay active
 - **Data Quality Checks**
   - Project editors can now define data quality checks that are used to identify
     sheets that have inconsistent data

@@ -42,6 +42,8 @@
     %div{ style: 'clear:both;height:0px' }
       &nbsp;
 
+    = render 'timeout/modal' if current_user
+
     - unless @no_footer
       %footer
         .container

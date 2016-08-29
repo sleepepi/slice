@@ -319,6 +319,10 @@ Rails.application.routes.draw do
     get :section_image
   end
 
+  scope module: :internal do
+    post :keep_me_active, path: 'keep-me-active'
+  end
+
   namespace :handoff do
     get ':project/:handoff', action: :start, as: :start
     get ':project/:handoff/:design', action: :design, as: :design

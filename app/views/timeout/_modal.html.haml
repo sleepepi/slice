@@ -1,0 +1,13 @@
+#timeout_modal.modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        = link_to keep_me_active_path, remote: true, method: :post, class: 'close' do
+          &times;
+        %h4.modal-title
+          Session Timeout
+      .modal-body
+        Your session will timeout in less than five minutes.
+
+      .modal-footer
+        = link_to 'Keep me signed in', keep_me_active_path, remote: true, method: :post, class: 'btn btn-success'
