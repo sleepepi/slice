@@ -54,7 +54,16 @@
           .checkbox
             %label
               = f.check_box :only_unblinded
-              Select to hide the design and associated sheets and comments from blinded staff
+              Hide sheets and comments from blinded staff
+    - if @project.auto_locking_enabled?
+      .form-group
+        %label.col-md-2.control-label
+          Ignore Auto Lock
+        .col-md-10
+          .checkbox
+            %label
+              = f.check_box :ignore_auto_lock
+              Prevent sheets from auto-locking
 .modal-footer
   = button_tag 'Update', data: { object: 'submit', target: '#design_form' }, class: 'btn btn-primary'
   %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

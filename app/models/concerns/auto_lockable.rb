@@ -5,6 +5,7 @@ module AutoLockable
   extend ActiveSupport::Concern
 
   def auto_locked?
+    return false if design.ignore_auto_lock?
     return false unless auto_lock_at
     auto_lock_at < Time.zone.now
   end
