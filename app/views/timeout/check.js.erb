@@ -9,7 +9,11 @@
     <% seconds_until_timeout = Devise.timeout_in - (Time.zone.now - last_request_at) %>
     <% if seconds_until_timeout < 300 %>
       $('#timeout_modal').modal({ 'backdrop': 'static', 'keyboard': false });
+    <% else %>
+      $('#timeout_modal').modal('hide');
     <% end %>
+  <% else %>
+    $('#timeout_modal').modal('hide');
   <% end %>
 <% else %>
   clearInterval(<%= params[:interval] %>);
