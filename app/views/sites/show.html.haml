@@ -20,6 +20,10 @@
       %dt Name
       %dd= @site.name
 
+      - if @site.short_name.present?
+        %dt Short Name
+        %dd= @site.short_name
+
       %dt
         = @site.project.subject_code_name_full
         Format

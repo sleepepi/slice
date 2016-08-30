@@ -23,6 +23,8 @@
 - **Search Changes**
   - Searching no longer matches the middle of words unless the search query
     string starts with a space
+- **Site Changes**
+  - Site short names can now be configured
 - **Variable Changes**
   - Improved the display of domains when editing variables
   - Editing variables no longer shows an overwhelming amount of additional

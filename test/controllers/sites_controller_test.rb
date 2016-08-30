@@ -15,6 +15,7 @@ class SitesControllerTest < ActionController::TestCase
   def site_params
     {
       name: @site.name,
+      short_name: @site.short_name,
       description: @site.description,
       subject_code_format: @site.subject_code_format
     }

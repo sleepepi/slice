@@ -2,6 +2,7 @@
 
 one:
   name: Site One
+  short_name: S1
   description: MyText
   project: one
   user: valid

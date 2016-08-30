@@ -1,7 +1,7 @@
-- editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
+- viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
 %table.table.table-striped
   %col
-  - if editable_sites.count > 1
+  - if viewable_sites.count > 1
     %col
   %col
   - if @project.randomizations_enabled? && @project.unblinded?(current_user)
@@ -11,7 +11,7 @@
   %thead
     %tr
       = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
-      - if editable_sites.count > 1
+      - if viewable_sites.count > 1
         %th.nowrap{ class: ['subjects.site_id', 'subjects.site_id desc'].include?(params[:order]) ? 'sort-selected' : nil }
           = link_to 'Site', project_subjects_path(@project, order: (params[:order] == 'subjects.site_id desc' ? 'subjects.site_id' : 'subjects.site_id desc'), site_id: params[:site_id])
           .dropdown{ style: 'display: inline-block' }
@@ -19,8 +19,8 @@
               %span.glyphicon.glyphicon-filter
             %ul.dropdown-menu{ aria: { labelledby: 'status-dropdown' } }
               %li= link_to 'All Sites', project_subjects_path(@project, order: params[:order]), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
-              - current_user.all_viewable_sites.where(project_id: @project.id).order(:name).each do |site|
-                %li= link_to site.name, project_subjects_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
+              - viewable_sites.order(:name).each do |site|
+                %li= link_to site.short_name, project_subjects_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
       %th.nowrap Recent Activity
       - if @project.randomizations_enabled? && @project.unblinded?(current_user)
         %th.center
@@ -46,7 +46,7 @@
   - @subjects.each do |subject|
     %tr{ id: "subject_#{subject.id}" }
       %td= link_to subject.subject_code, [@project, subject]
-      - if editable_sites.count > 1
+      - if viewable_sites.count > 1
         %td= subject.site.short_name
       %td
         - sheet = subject.last_created_or_edited_sheet(current_user)
