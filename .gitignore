@@ -43,6 +43,3 @@
 
 # OS generated files #
 .DS_Store
-
-# Don't include Rake tasks for the moment
-/lib/tasks/*
