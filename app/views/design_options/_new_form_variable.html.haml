@@ -25,13 +25,10 @@
         = text_field_tag "variable[display_name]", @variable.display_name, class: 'form-control', data: { object: 'create-variable-name', variable_name_target: '#variable_name' }
         = hidden_field_tag "variable[variable_type]", @variable.variable_type
         .callout.callout-info
-          %strong Heads up!
-
           %p The display name is the question as displayed to the user who is filling out the form.
-
           %p
             Ex:
-            %span.text-muted What is your age?
+            %strong What is your age?
 
     .form-group
       %label.col-md-2.control-label Name

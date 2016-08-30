@@ -13,22 +13,29 @@
 .form-group
   %label.col-md-2.control-label Display Name
   .col-md-10
-    = text_field_tag "variable[display_name]", variable.display_name, autocomplete: 'off', class: 'form-control'
-    .callout.callout-info
-      %strong Heads up!
+    .input-group
+      = text_field_tag 'variable[display_name]', variable.display_name, autocomplete: 'off', class: 'form-control'
+      %span.input-group-btn
+        = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#display-name-info' }, tabindex: '-1' do
+          %span.glyphicon.glyphicon-info-sign
 
+    #display-name-info.callout.callout-info{ style: 'display:none' }
       %p
         The display name is the question as displayed to the user who is
         filling out the form.
       %p
         Ex:
-        %span.text-muted What is your age?
+        %strong What is your age?
 
 .form-group
   %label.col-md-2.control-label Name
   .col-md-10
-    = text_field_tag "variable[name]", variable.name, maxlength: 32, class: 'form-control'
-    .callout.callout-info
+    .input-group
+      = text_field_tag 'variable[name]', variable.name, maxlength: 32, class: 'form-control'
+      %span.input-group-btn
+        = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
+          %span.glyphicon.glyphicon-info-sign
+    #name-info.callout.callout-info{ style: 'display:none' }
       %strong Naming convention
 
       %ul
@@ -52,7 +59,11 @@
       %code var1_population
 
 .form-group
-  %label.col-md-2.control-label Branching Logic (Show If)
+  %label.col-md-2.control-label
+    Branching Logic
+    = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#branching-logic-info' }, tabindex: '-1' do
+      %span.glyphicon.glyphicon-info-sign
   .col-md-10
     = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
+
     = render 'layouts/branching_logic_examples'

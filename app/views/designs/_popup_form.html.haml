@@ -6,7 +6,7 @@
     - if @design.errors.any?
       .callout.callout-danger
         %strong
-          = pluralize(@design.errors.count, "error")
+          = pluralize @design.errors.count, 'error'
           prohibited this design from being saved
 
         %ul

@@ -25,6 +25,8 @@
     string starts with a space
 - **Variable Changes**
   - Improved the display of domains when editing variables
+  - Editing variables no longer shows an overwhelming amount of additional
+    information
 - **PATS Changes**
   - Updated screen failures report to include previous OSA diagnosis
 - **Gem Changes**
