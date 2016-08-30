@@ -43,6 +43,7 @@
 - Rails model errors are now again correctly styled using Bootstrap CSS classes
 - Fixed a bug that prevented permalinks from generating URL correctly
 - Fixed a bug that sent out multiple site invitation emails
+- Fixed an issue displaying tooltips in search results
 
 ## 0.40.4 (August 4, 2016)
 

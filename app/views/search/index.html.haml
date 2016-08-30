@@ -9,10 +9,9 @@
     - [['Subjects', @subjects], ['Projects', @projects], ['Designs', @designs], ['Variables', @variables]].each do |name, scope|
       - if scope.size > 0
         .col-md-3
-          .download-container{ style: 'overflow:hidden' }
+          .download-container
             %h3= name
-            %table.table.table-hover.table-condensed
-              - scope.each do |item|
-                - link = item.respond_to?('project') ? [item.project, item] : item
-                %tr{ style: 'cursor:pointer', data: { link: url_for(link) } }
-                  %td= link_to highlight(item.name, params[:q], highlighter: '<span class="highlight">\1</span>'), link, rel: "tooltip", data: { placement: 'right' }, title: "#{item.project.name if item.respond_to?('project')}"
+            - scope.each do |item|
+              - link = item.respond_to?('project') ? [item.project, item] : item
+              .overflow-hidden{ title: "#{item.project.name if item.respond_to?('project')}", style: 'width: 100%', rel: 'tooltip', data: { placement: 'right', container: 'body' } }
+                = link_to highlight(item.name, params[:q], highlighter: '<span class="highlight">\1</span>'), link
