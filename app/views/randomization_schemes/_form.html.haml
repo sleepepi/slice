@@ -65,6 +65,13 @@
             treatment arms, block size multipliers, or stratification factors,
             you will need to undo all existing randomizations, and then
             unpublish the randomization scheme.
+      - elsif !@randomization_scheme.published? && @randomization_scheme.minimization? && @randomization_scheme.stratification_factors.where(stratifies_by_site: false).count == 0
+        .checkbox
+          %label.text-muted
+            = f.check_box :published, disabled: true
+            Published
+        .callout.callout-warning
+          Non-site stratification factor required for publishing.
       - else
         .checkbox
           %label

@@ -24,19 +24,20 @@ class RandomizationScheme < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :chance_of_random_treatment_arm_selection,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true }
+  validate :minimization_must_have_stratification_factors
 
   # Model Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :variable
   has_many :expected_randomizations
-  has_many :block_size_multipliers,        -> { where(deleted: false).order(:value) }
-  has_many :lists,                         -> { where deleted: false }
-  has_many :randomizations,                -> { where deleted: false }
+  has_many :block_size_multipliers,        -> { current.order(:value) }
+  has_many :lists,                         -> { current }
+  has_many :randomizations,                -> { current }
   has_many :randomization_scheme_tasks,    -> { order :position }
-  has_many :stratification_factors,        -> { where deleted: false }
-  has_many :stratification_factor_options, -> { where deleted: false }
-  has_many :treatment_arms,                -> { where(deleted: false).order(:name) }
+  has_many :stratification_factors,        -> { current }
+  has_many :stratification_factor_options, -> { current }
+  has_many :treatment_arms,                -> { current.order(:name) }
 
   # Model Methods
 
@@ -148,5 +149,10 @@ class RandomizationScheme < ApplicationRecord
       expected_randomization = expected_randomizations.where(site_id: site.id).first_or_create
       expected_randomization.update expected: expected
     end
+  end
+
+  def minimization_must_have_stratification_factors
+    return unless published? && minimization? && stratification_factors.where(stratifies_by_site: false).count == 0
+    errors.add(:published, 'missing stratification factors')
   end
 end

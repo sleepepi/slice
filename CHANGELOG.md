@@ -14,6 +14,8 @@
 - **Randomization Changes**
   - Randomization characteristics now always record subject site to help display
     site breakdowns on distribution tables
+  - Schemes using minimization algorithm must now have one non-site
+    stratification before being published
 - **Report Changes**
   - Design options are now sorted correctly when adding a new filter to an
     advanced design report
