@@ -1,26 +1,6 @@
 # frozen_string_literal: true
 
 namespace :sheets do
-  # TODO: Remove update_missing method in v0-40-0
-  desc 'Update Missing Sheets'
-  task update_missing: :environment do
-    puts "Sheets Missing UserID and LastUserID: #{Sheet.where(missing: true, user_id: nil, last_user_id: nil, last_edited_at: nil).count}"
-    Sheet.where(missing: true, user_id: nil, last_user_id: nil, last_edited_at: nil).each do |s|
-      st = s.sheet_transactions.where(transaction_type: 'sheet_create').last
-      next unless st
-      s.update user_id: st.user_id, last_user_id: st.user_id, last_edited_at: st.created_at
-    end
-    puts "Sheets Missing UserID but not LastUserID: #{Sheet.where(missing: true, user_id: nil).where.not(last_user_id: nil, last_edited_at: nil).count}"
-    Sheet.where(missing: true, user_id: nil).where.not(last_user_id: nil, last_edited_at: nil).each do |s|
-      st = s.sheet_transactions.where(transaction_type: 'sheet_create').last
-      next unless st
-      s.update user_id: st.user_id
-    end
-    puts '----------'.colorize(:blue)
-    puts "Sheets Missing UserID and LastUserID: #{Sheet.where(missing: true, user_id: nil, last_user_id: nil, last_edited_at: nil).count}"
-    puts "Sheets Missing UserID but not LastUserID: #{Sheet.where(missing: true, user_id: nil).where.not(last_user_id: nil, last_edited_at: nil).count}"
-  end
-
   desc 'Check validity of all sheets'
   task check_validity: :environment do
     project_results = []
