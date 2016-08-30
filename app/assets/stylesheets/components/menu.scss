@@ -21,11 +21,11 @@ $current-tab-color: $btn-success-color;
 
 .navbar-default .navbar-nav .notifications-link span {
   animation: wiggle 250ms linear 4;
-  color: $link-color;
+  color: $brand-warning;
 }
 
 .navbar-default .navbar-nav .notifications-link:hover span {
-  color: $link-hover-color;
+  color: darken($brand-warning, 15%);
 }
 
 .tabbed-navigation-menu {
