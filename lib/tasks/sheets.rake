@@ -13,8 +13,8 @@ namespace :sheets do
         project_results[project_index] = { name: project.name, param: project.to_param, invalid_sheets_count: 0, valid_sheets_count: 0 }
 
         total_project_sheets = project.sheets.count
-        project.sheets.order(:id).find_each.with_index do |sheet, index|
-          count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{'%0.2f' % ((index + 1) * 100.0 / total_project_sheets)}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{"%0.2f" % ((current_sheet + 1) * 100.0 / total_sheets)}%)]"
+        project.sheets.where(missing: false).order(:id).find_each.with_index do |sheet, index|
+          count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{'%0.2f' % ((index + 1) * 100.0 / total_project_sheets)}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{'%0.2f' % ((current_sheet + 1) * 100.0 / total_sheets)}%)]"
           if sheet.successfully_validated?
             print "\r#{"%6d" % sheet.id}:" + ' VALID'.colorize(:green) + count_message
             project_results[project_index][:valid_sheets_count] += 1
@@ -42,7 +42,7 @@ namespace :sheets do
       puts "\nINTERRUPTED".colorize(:red)
     end
 
-    project_results.sort{|a,b| [b[:invalid_sheets_count], a[:name]] <=> [a[:invalid_sheets_count], b[:name]]}.each do |hash|
+    project_results.sort { |a, b| [b[:invalid_sheets_count], a[:name]] <=> [a[:invalid_sheets_count], b[:name]] }.each do |hash|
       puts "\n"
       puts "#{hash[:name]}".colorize( hash[:invalid_sheets_count] == 0 ? :green : :red) + " #{ENV['website_url']}/projects/#{hash[:param]}"
       puts "  #{hash[:valid_sheets_count]} VALID sheet#{'s' unless hash[:valid_sheets_count] == 1}".colorize(:green) + ', ' + "#{hash[:invalid_sheets_count]} NOT VALID sheet#{'s' unless hash[:invalid_sheets_count] == 1}".colorize(hash[:invalid_sheets_count] == 0 ? :white : :red)
