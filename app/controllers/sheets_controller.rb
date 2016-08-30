@@ -129,7 +129,7 @@ class SheetsController < ApplicationController
   end
 
   # GET /sheets/1/transfer
-  # PUT /sheets/1/transfer?subject_id=1
+  # POST /sheets/1/transfer?subject_id=1
   def transfer
     original_subject = @sheet.subject
     subject = @project.subjects.find_by_id(params[:subject_id])
