@@ -15,7 +15,7 @@ namespace :sheets do
       end
 
       current_sheet = 0
-      total_sheets = Sheet.current.joins(:project).merge(project_scope).joins(:subject).merge(Subject.current).count
+      total_sheets = Sheet.current.where(missing: false).joins(:project).merge(project_scope).joins(:subject).merge(Subject.current).count
 
       total_projects = project_scope.count
       project_scope.order(:id).find_each.with_index do |project, project_index|
