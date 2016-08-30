@@ -128,11 +128,9 @@ class Randomization < ApplicationRecord
     jobname = "randomization_#{id}"
     output_folder = File.join('tmp', 'files', 'tex')
     file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
-
     File.open(file_tex, 'w') do |file|
       file.syswrite(ERB.new(latex_partial('schedule')).result(binding))
     end
-
     Design.generate_pdf(jobname, output_folder, file_tex)
   end
 end

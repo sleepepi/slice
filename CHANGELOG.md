@@ -11,6 +11,9 @@
 - **Sheet Changes**
   - Sheet saving errors are now written to a hidden field on the form to allow
     debugging of branching logic mistakes
+- **Randomization Changes**
+  - Randomization characteristics now always record subject site to help display
+    site breakdowns on distribution tables
 - **Report Changes**
   - Design options are now sorted correctly when adding a new filter to an
     advanced design report
