@@ -223,14 +223,14 @@ class Export < ApplicationRecord
                       variable_name,
                       variable_display_name,
                       variable.description, # Variable Description
-                      variable.variable_type,
+                      variable.export_variable_type,
                       (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min
                       (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min
                       (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum), # Soft Max
                       (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum), # Hard Max
                       variable.calculation, # Calculation
                       variable.prepend, # Variable Prepend
-                      variable.units, # Variable Units
+                      variable.export_units, # Variable Units
                       variable.append, # Variable Append
                       variable.format, # Format
                       variable.multiple_rows, # Multiple Rows

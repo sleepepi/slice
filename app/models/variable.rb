@@ -500,6 +500,26 @@ class Variable < ApplicationRecord
     end
   end
 
+  def export_units
+    case variable_type
+    when 'imperial_height'
+      'inches'
+    when 'imperial_weight'
+      'ounces'
+    else
+      units
+    end
+  end
+
+  def export_variable_type
+    case variable_type
+    when 'imperial_height', 'imperial_weight'
+      'integer'
+    else
+      variable_type
+    end
+  end
+
   # Validation Module
 
   def validator

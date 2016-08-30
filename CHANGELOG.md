@@ -27,6 +27,8 @@
   - Improved the display of domains when editing variables
   - Editing variables no longer shows an overwhelming amount of additional
     information
+  - Imperial height and weight are now marked as integers in the data dictionary
+    export as well as listing the appropriate units, inches and ounces
 - **PATS Changes**
   - Updated screen failures report to include previous OSA diagnosis
 - **Gem Changes**
