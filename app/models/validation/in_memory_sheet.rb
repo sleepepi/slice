@@ -41,12 +41,10 @@ module Validation
 
     def show_design_option?(branching_logic)
       return true if branching_logic.to_s.strip.blank?
-      begin
-        result = exec_js_context.eval(expanded_branching_logic(branching_logic))
-        result == false ? false : true
-      rescue
-        true
-      end
+      result = exec_js_context.eval(expanded_branching_logic(branching_logic))
+      result == false ? false : true
+    rescue
+      true
     end
 
     def visible_on_sheet?(variable)
