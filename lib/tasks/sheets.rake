@@ -21,7 +21,7 @@ namespace :sheets do
       project_scope.order(:id).find_each.with_index do |project, project_index|
         project_results[project_index] = { name: project.name, param: project.to_param, invalid_sheets_count: 0, valid_sheets_count: 0 }
 
-        total_project_sheets = project.sheets.count
+        total_project_sheets = project.sheets.where(missing: false).count
         project.sheets.where(missing: false).order(:id).find_each.with_index do |sheet, index|
           count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{format('%0.2f', ((index + 1) * 100.0 / total_project_sheets))}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{format('%0.2f', ((current_sheet + 1) * 100.0 / total_sheets))}%)]"
           if sheet.successfully_validated?
