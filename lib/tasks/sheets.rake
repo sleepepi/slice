@@ -44,6 +44,7 @@ namespace :sheets do
               project_results[project_index][:invalid_sheets_count] += 1
               sheet.update_column :successfully_validated, false
             end
+            in_memory_sheet = nil # Alert GC that the variable is no longer needed
           end
           current_sheet += 1
         end
