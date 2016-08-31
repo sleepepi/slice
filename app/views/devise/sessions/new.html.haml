@@ -1,54 +1,41 @@
 - @title = 'Sign in'
+
+- @no_footer = true
+
+.background-gradient
+
+%div{ style: 'position: relative' }
+  .landing-cog3
+    %span.glyphicon.glyphicon-cog
+
+%p.lead.center Welcome back!
+
 .sign-up-form
   .sign-up-form-title
     Sign in
 
   = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-vertical' }) do |f|
     .form-group
-      = f.label :email, class: 'control-label'
-      = f.email_field :email, class: 'form-control'
+      = f.label :email, 'Email or Username', class: 'control-label'
+      = f.text_field :email, class: 'form-control'
 
     .form-group
       = f.label :password, class: 'control-label'
       = link_to '(Forgot password?)', new_password_path(resource_name), tabindex: '-1'
       = f.password_field :password, class: 'form-control', autocomplete: 'off'
 
-    .form-group
-      = f.submit "Sign in", class: 'btn btn-success'
+    .form-group.sign-up-form-button-container
+      = f.submit 'Sign in', class: 'btn btn-primary btn-block btn-shadow-small'
 
 
 - if devise_mapping.confirmable?
   .center{ style: 'margin-bottom:20px' }
     = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
 
-%hr.divider-md
+.sign-up-form.center
+  New to
+  = succeed '?' do
+    = ENV['website_name']
+  = link_to 'Create an account.', new_user_registration_path
 
-%p.about-description
-  = ENV['website_name']
-  is a
-  = link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' }
-  and
-  = link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
-  clinical research interface for collecting and analyzing data.
-
-.row
-  .col-md-4
-    %h2.about-title
-      Design Forms
-    %ul
-      %li Create new designs and variables, or copy from existing libraries.
-      %li Updating variables migrates already filled-out form data keeping all of your project data in sync.
-  .col-md-4
-    %h2.about-title Manage Multi-site Projects
-    %ul
-      %li Enroll subjects across sites.
-      %li Sites can view their subjects and receipts.
-  .col-md-4
-    %h2.about-title Email Receipts
-    %ul
-      %li Email PDF receipts to sites when a subject form is completed.
-
-%hr.divider-md
-
-.center{ style: 'margin-top:40px' }
-  = image_tag 'try-slice-logo.png', style: "max-width:100%", alt: 'Slice - Data Collection for Clinical Research'
+= render 'layouts/simple_footer'

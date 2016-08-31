@@ -1,34 +1,36 @@
 .sign-up-form {
-  margin: 0 auto;
+  background-color: $brand-white;
+  border: 1px solid $brand-primary;
+  margin: 0 auto 20px;
   max-width: 400px;
+  padding: 20px;
 }
 
 .sign-up-form-title {
+  background-color: $brand-primary;
+  color: $brand-white;
   font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  margin: -20px -20px 20px;
+  padding: 10px 20px;
 }
 
 @media screen and (min-width: $screen-sm-min) {
   .sign-up-form {
-    background-color: $btn-primary-color;
-    border: 1px solid $btn-primary-border;
     border-radius: 5px;
     overflow: hidden;
-    padding: 20px;
   }
 
   .sign-up-form-title {
-    background-color: $btn-primary-bg;
     border-radius: 0;
-    color: $btn-primary-color;
     font-size: 24px;
-    font-weight: 300;
-    margin: -20px -20px 20px;
-    padding: 10px 20px;
-    text-decoration: none;
   }
 }
+
+.sign-up-form-button-container {
+  margin: 20px 0 0;
+}
+
+
 
 // TODO: Rename or remove form-signin, used on public surveys.
 

@@ -9,14 +9,14 @@ footer {
   width: 100%;
 
   a {
-    color: $btn-success-bg;
+    color: $brand-accent;
     font-weight: 300;
   }
 
   a:hover,
   a:focus,
   a:active {
-    color: $btn-success-border;
+    color: darken($brand-accent, 6.5%);
   }
 
   h4 {

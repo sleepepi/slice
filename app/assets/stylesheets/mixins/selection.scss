@@ -1,0 +1,8 @@
+// Note:: Selection color and background is defined in components/body.scss
+
+@mixin ignore-selection {
+  &::selection {
+    background: transparent;
+    color: inherit;
+  }
+}

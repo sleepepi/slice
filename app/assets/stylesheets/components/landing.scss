@@ -1,4 +1,17 @@
-.landing-cog, .landing-cog2 {
+.background-gradient {
+  background-color: $A200;
+  background-image: linear-gradient(180deg, $A100, $A700 31%, $P400 65%, $P500);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -2;
+}
+
+.landing-cog,
+.landing-cog2,
+.landing-cog3 {
   position: absolute;
   z-index: -1;
 }
@@ -22,5 +35,16 @@
 
   span {
     animation: spin-ccw 8s linear infinite;
+  }
+}
+
+.landing-cog3 {
+  color: $brand-muted;
+  font-size: 512px;
+  top: -320px;
+  left: -200px;
+
+  span {
+    animation: spin-cw 72s linear infinite;
   }
 }

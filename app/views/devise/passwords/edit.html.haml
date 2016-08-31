@@ -1,5 +1,12 @@
 - @title = 'Change your password'
 
+- @no_footer = true
+
+.background-gradient
+
+%p.lead.center
+  Change your password
+
 .sign-up-form
   .sign-up-form-title
     Change Password
@@ -19,12 +26,14 @@
     = f.hidden_field :reset_password_token
 
     .form-group
-      = f.label :password, "New password", class: 'control-label'
+      = f.label :password, 'New password', class: 'control-label'
       = f.password_field :password, class: 'form-control'
 
     .form-group
-      = f.label :password_confirmation, "Confirm new password", class: 'control-label'
+      = f.label :password_confirmation, 'Confirm new password', class: 'control-label'
       = f.password_field :password_confirmation, class: 'form-control'
 
-    .form-group
-      = f.submit "Change my password", class: 'btn btn-success'
+    .form-group.sign-up-form-button-container
+      = f.submit 'Change my password', class: 'btn btn-primary btn-block btn-shadow-small'
+
+= render 'layouts/simple_footer'

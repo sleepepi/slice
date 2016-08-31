@@ -33,7 +33,6 @@ class HandoffController < ApplicationController
 
   def clean_layout
     @no_footer = true
-    @no_login = true
   end
 
   def set_project

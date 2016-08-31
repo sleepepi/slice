@@ -5,12 +5,18 @@
   z-index: 2000;
 }
 
-.navbar-fixed-bottom,
-.navbar-fixed-top {
-  z-index: 1080;
-}
+// .navbar-fixed-bottom,
+// .navbar-fixed-top {
+//   z-index: 1080;
+// }
 
 .jumbotron {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.navbar a,
+.navbar-header,
+.navbar-header img {
+  @include ignore-selection;
 }

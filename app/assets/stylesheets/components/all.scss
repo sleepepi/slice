@@ -6,8 +6,9 @@
 @import 'components/body';
 @import 'components/callouts';
 @import 'components/containers';
-@import 'components/buttons'; // Move part to Contour
+@import 'components/buttons'; // TODO: Move part to Contour
 @import 'components/dividers';
+@import 'components/docs';
 @import 'components/flash';
 @import 'components/footer';
 @import 'components/fonts';
@@ -17,9 +18,10 @@
 @import 'components/landing';
 @import 'components/links';
 @import 'components/menu';
-@import 'components/modals'; // Move part to Contour
+@import 'components/modals'; // TODO: Move part to Contour
 @import 'components/pagination';
 @import 'components/rows';
+@import 'components/search';
 @import 'components/tables';
 @import 'components/tips';
 @import 'components/turbolinks';

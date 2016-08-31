@@ -1,15 +1,18 @@
 - @title = 'Join Slice'
 
+- @no_footer = true
+
+.background-gradient
+
+%p.lead.center
+  Become a member.
+
 .sign-up-form
   .sign-up-form-title
     Create your account
   = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-vertical', autocomplete: 'off' }) do |f|
     - if resource.errors.any?
       .callout.callout-danger
-        %strong
-          = pluralize(resource.errors.count, "error")
-          prohibited this step from being saved
-
         %ul
           - resource.errors.full_messages.each do |msg|
             %li= msg
@@ -41,5 +44,7 @@
           = f.check_box :emails_enabled
           Allow Slice to send you emails?
 
-    .form-group
-      = f.submit 'Create an Account', class: 'btn btn-success'
+    .form-group.sign-up-form-button-container
+      = f.submit 'Create an Account', class: 'btn btn-primary btn-block btn-shadow-small'
+
+= render 'layouts/simple_footer'

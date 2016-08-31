@@ -1,6 +1,6 @@
 - @title = "About #{ENV['website_name']}"
 
-.row{ style: "margin-top:54px" }
+.row{ style: 'margin-top:54px' }
   .col-md-12
     %h1.about-title= @title
     %p.about-tagline
@@ -10,14 +10,14 @@
       and
       = link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
       clinical research interface for collecting and analyzing data.
-    %p.about-signup
-      = link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-large"
+    %p.about-signup{ style: 'margin-top: 40px; margin-bottom: 40px' }
+      = link_to 'Sign me up', new_user_registration_path, class: 'btn btn-accent btn-lg btn-shadow-small'
     %p.about-tagline
       Questions?
       = succeed '.' do
         = link_to 'Contact us', contact_path
 
-%hr.divider-md
+%hr
 
 .row
   .col-md-4
@@ -35,12 +35,12 @@
     %ul
       %li Email PDF receipts to sites when a subject form is completed.
 
-%hr.divider-md
+%hr
 
 %p.text-muted.about-footer
   = ENV['website_name']
   Version
-  = link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/tree/v#{Slice::VERSION::STRING}"
+  = link_to Slice::VERSION::STRING, 'https://github.com/remomueller/slice/tree/v#{Slice::VERSION::STRING}'
 
 %p.text-muted.about-footer
   By using
@@ -48,6 +48,3 @@
   you are agreeing to the
   = succeed '.' do
     = link_to 'Acceptable Use Policy', about_use_path
-
-.center{ style: "margin-top:40px" }
-  = image_tag 'try-slice-logo.png'

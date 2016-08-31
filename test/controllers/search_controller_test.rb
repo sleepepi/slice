@@ -6,7 +6,7 @@ require 'test_helper'
 class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'should get search' do
     login(users(:valid))
-    get search_url, params: { q: '' }
+    get search_url, params: { search: '' }
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
     assert_not_nil assigns(:designs)
@@ -17,7 +17,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get search and redirect' do
     login(users(:valid))
-    get search_url, params: { q: 'Project With One Design' }
+    get search_url, params: { search: 'Project With One Design' }
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
     assert_not_nil assigns(:designs)
@@ -29,7 +29,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get search typeahead' do
     login(users(:valid))
-    get search_url(format: 'json'), params: { q: 'abc' }
+    get search_url(format: 'json'), params: { search: 'abc' }
     assert_not_nil assigns(:subjects)
     assert_not_nil assigns(:projects)
     assert_not_nil assigns(:designs)

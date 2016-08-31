@@ -28,11 +28,10 @@
   %body
     - if current_user
       %div{ style: 'display:none', data: { object:  'current-user' } }
-    %nav.navbar.navbar-default.navbar-fixed-top{ role: 'navigation' }
-      .container
-        = render 'layouts/menu'
 
-    = render 'layouts/flash_message'
+    - unless @no_footer
+      = render 'layouts/menu'
+      = render 'layouts/flash_message'
 
     =# render 'layouts/beta/beta_corner'
 

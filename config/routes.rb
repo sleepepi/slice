@@ -11,7 +11,15 @@ Rails.application.routes.draw do
   get 'adverse-event/:authentication_token', to: 'adverse_event#show'
   post 'adverse-event/:authentication_token/review', to: 'adverse_event#review', as: :adverse_event_review
 
+  get 'dashboard', to: 'projects#splash', as: :dashboard
+  get 'docs', to: 'docs#index', as: :docs
+
   resources :comments
+
+  namespace :docs do
+    get :technical
+  end
+
   resources :lists
 
   resources :notifications do

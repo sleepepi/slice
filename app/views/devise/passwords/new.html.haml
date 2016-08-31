@@ -1,28 +1,27 @@
 - @title = 'Forgot your password?'
 
+- @no_footer = true
+
+.background-gradient
+
+%p.lead.center
+  Now where did I put that?
+
 .sign-up-form
   .sign-up-form-title
     Reset Password
 
   %p.lead.center
-    Enter your email address to receive a password reset email. You may
-    = link_to 'contact us', contact_path
-    if you don't remember which email you used to register.
+    Enter your email address to receive a password reset email.
 
   = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form-vertical' }) do |f|
-    - if resource.errors.any?
-      .callout.callout-danger
-        %strong
-          Please enter a valid email
-
-        %ul
-          - resource.errors.full_messages.each do |msg|
-            %li= msg
-
+    - error_message = resource.errors.full_messages.join(',') if resource.errors.any?
 
     .form-group
-      = f.label :email, class: 'control-label'
+      = f.label :email, error_message, class: 'control-label'
       = f.email_field :email, class: 'form-control'
 
-    .form-group
-      = f.submit "Send me reset password instructions", class: 'btn btn-success'
+    .form-group.sign-up-form-button-container
+      = f.submit 'Send me reset password instructions', class: 'btn btn-primary btn-block btn-shadow-small'
+
+= render 'layouts/simple_footer'

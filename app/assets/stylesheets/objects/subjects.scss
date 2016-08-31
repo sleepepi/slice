@@ -1,3 +1,8 @@
+$menu-bg: $P300; // $btn-success-bg;
+$menu-border: $P400; // $btn-success-border;
+$menu-color-hover: $brand-white; // $btn-success-color
+$menu-emphasis: $A700;
+
 .left-navigation {
   list-style: none;
   margin-left: 0;
@@ -12,8 +17,8 @@
   }
 
   a {
-    border-bottom: 1px solid $btn-success-border;
-    border-left: 1px solid $btn-success-border;
+    border-bottom: 1px solid $menu-border;
+    border-left: 1px solid $menu-border;
     color: $text-color;
     display: block;
     padding: 5px 0 5px 50px;
@@ -21,15 +26,15 @@
     text-decoration: none;
 
     .emphasis {
-      color: $btn-success-bg;
+      color: $menu-emphasis;
       display: inline-block;
       font-weight: 600;
     }
 
     &:hover,
     &.active {
-      background-color: $btn-success-bg;
-      color: $btn-success-color;
+      background-color: $menu-bg;
+      color: $menu-color-hover;
     }
 
     &:hover .emphasis,
@@ -39,7 +44,7 @@
   }
 
   a::before {
-    border-color: transparent transparent $btn-success-border;
+    border-color: transparent transparent $menu-border;
     border-style: solid;
     border-width: 0 31px 31px 0;
     content: '';

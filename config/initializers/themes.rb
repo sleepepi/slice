@@ -1,3 +1,9 @@
 # frozen_string_literal: true
 
-Slice::THEMES = [['Night', 'night'], ['Winter (Experimental)', 'winter']]
+Slice::THEMES = [
+  %w(Enterprise enterprise),
+  %w(Fall fall),
+  %w(Night night),
+  %w(Underwater underwater),
+  %w(Winter winter)
+]

@@ -1,32 +1,6 @@
-$tab-default-bg: $navbar-default-bg;
-$current-tab-link-bg: $btn-success-bg;
-$current-tab-color: $btn-success-color;
-
-.navbar-nav > .active > a,
-.navbar-nav > .active > a:hover,
-.navbar-default .navbar-brand.active,
-.navbar-default .navbar-brand.active:hover,
-.navbar-default .navbar-brand.active:focus {
-  background-color: $state-success-bg;
-  color: $state-success-text;
-}
-
-.navbar-default .navbar-nav .logout-button {
-  color: lighten($brand-danger, 15%);
-}
-
-.navbar-default .navbar-nav .logout-button:hover {
-  color: $brand-danger;
-}
-
-.navbar-default .navbar-nav .notifications-link span {
-  animation: wiggle 250ms linear 4;
-  color: $brand-warning;
-}
-
-.navbar-default .navbar-nav .notifications-link:hover span {
-  color: darken($brand-warning, 15%);
-}
+$tab-default-bg: $P400; // $navbar-default-bg;
+$current-tab-link-bg: $P300; // $btn-success-bg;
+$current-tab-color: $brand-white; // $btn-success-color;
 
 .tabbed-navigation-menu {
   margin-bottom: 20px;
@@ -117,17 +91,17 @@ $current-tab-color: $btn-success-color;
 }
 
 .menu-tab-link:hover {
-  background-color: $btn-success-bg;
+  background-color: $current-tab-link-bg;
   color: $btn-success-color;
   text-decoration: none;
 }
 
 .menu-tab-link:hover::before {
-  border-color: transparent $btn-success-bg transparent transparent;
+  border-color: transparent $current-tab-link-bg transparent transparent;
 }
 
 .menu-tab-link:hover::after {
-  border-color: $btn-success-bg transparent transparent;
+  border-color: $current-tab-link-bg transparent transparent;
 }
 
 .mobile-menu {
@@ -149,7 +123,7 @@ $current-tab-color: $btn-success-color;
 
     &:hover,
     &.active {
-      border-left: 2px solid $btn-success-bg;
+      border-left: 2px solid $current-tab-link-bg;
       text-decoration: none;
     }
   }
@@ -212,7 +186,7 @@ $left-menu-width: 100px;
 
     &:hover,
     &.active {
-      border-right: 2px solid $btn-success-bg;
+      border-right: 2px solid $current-tab-link-bg;
       text-decoration: none;
     }
   }

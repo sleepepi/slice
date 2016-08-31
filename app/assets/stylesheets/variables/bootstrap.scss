@@ -26,13 +26,18 @@
 $brand-white:           #fff;
 $brand-gray:            #ccc;
 
+$brand-primary: $P500 !default;
+$brand-accent: $A200 !default;
+$brand-accent-text: $A200-text !default;
+$link-color: $A700 !default; // $A700 !default;
+$brand-muted: $P300 !default;
 
 // //== Scaffolding
 // //
 // //## Settings for some of the most global styles.
 
 // //** Background color for `<body>`.
-// $body-bg:               #fff !default;
+$body-bg:               $P50; // #fff !default;
 // //** Global text color on `<body>`.
 // $text-color:            $gray-dark !default;
 
@@ -195,7 +200,7 @@ $font-size-base:          16px; // 14px !default;
 // //** `<input>` border radius
 // $input-border-radius:            $border-radius-base !default;
 // //** Border color for inputs on focus
-// $input-border-focus:             #66afe9 !default;
+$input-border-focus:             $brand-accent;
 
 // //** Placeholder text color
 // $input-color-placeholder:        $gray-light !default;
@@ -353,13 +358,13 @@ $font-size-base:          16px; // 14px !default;
 // $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
 // $navbar-collapse-max-height:       340px !default;
 
-$navbar-default-color:             #777;
-$navbar-default-bg:                #f8f8f8;
+$navbar-default-color:             $brand-white;
+$navbar-default-bg:                $P600 !default;
 // $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // // Navbar links
-// $navbar-default-link-color:                #777 !default;
-// $navbar-default-link-hover-color:          #333 !default;
+$navbar-default-link-color:                $brand-muted;
+$navbar-default-link-hover-color:          $brand-white;
 // $navbar-default-link-hover-bg:             transparent !default;
 // $navbar-default-link-active-color:         #555 !default;
 // $navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%) !default;
@@ -367,8 +372,8 @@ $navbar-default-bg:                #f8f8f8;
 // $navbar-default-link-disabled-bg:          transparent !default;
 
 // // Navbar brand label
-// $navbar-default-brand-color:               $navbar-default-link-color !default;
-// $navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 10%) !default;
+$navbar-default-brand-color:               $navbar-default-link-color;
+$navbar-default-brand-hover-color:         $navbar-default-link-hover-color;
 // $navbar-default-brand-hover-bg:            transparent !default;
 
 // // Navbar toggle
@@ -477,7 +482,7 @@ $navbar-default-bg:                #f8f8f8;
 
 // $jumbotron-padding:              30px !default;
 // $jumbotron-color:                inherit !default;
-// $jumbotron-bg:                   $gray-lighter !default;
+$jumbotron-bg:                   $A100 !default; // $gray-lighter !default;
 // $jumbotron-heading-color:        inherit !default;
 // $jumbotron-font-size:            ceil(($font-size-base * 1.5)) !default;
 

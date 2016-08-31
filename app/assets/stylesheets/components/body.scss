@@ -13,3 +13,12 @@ body {
     margin-bottom: $footer-height-sm;
   }
 }
+
+::selection {
+  background-color: $brand-accent;
+  color: $text-color;
+}
+
+:focus {
+  outline-color: $brand-accent !important;
+}

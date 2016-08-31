@@ -33,3 +33,14 @@
     text-decoration: none;
   }
 }
+
+.link-accent {
+  color: $brand-accent;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    color: darken($brand-accent, 10%);
+  }
+}
