@@ -63,3 +63,16 @@
   from { transform: rotate(359deg); }
   to { transform: rotate(0deg); }
 }
+
+@keyframes shake {
+  0% {
+    transform: rotate(10deg);
+    transform-origin: 20% 40%;
+  }
+
+  100% {
+    transform: rotate(-10deg);
+    transform-origin: 40% 20%;
+  }
+}
+

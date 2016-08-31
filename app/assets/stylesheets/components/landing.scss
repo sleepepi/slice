@@ -11,7 +11,8 @@
 
 .landing-cog,
 .landing-cog2,
-.landing-cog3 {
+.landing-cog3,
+.landing-lower-right {
   position: absolute;
   z-index: -1;
 }
@@ -46,5 +47,17 @@
 
   span {
     animation: spin-cw 72s linear infinite;
+  }
+}
+
+.landing-lower-right {
+  color: $brand-muted;
+  font-size: 512px;
+  top: 270px;
+  left: -175px;
+
+  i {
+    transform: rotate(10deg);
+    animation: shake 9s ease-in-out infinite alternate;
   }
 }
