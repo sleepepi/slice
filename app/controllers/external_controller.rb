@@ -10,6 +10,10 @@ class ExternalController < ApplicationController
   before_action :set_section, only: [:section_image]
   before_action :set_variable, only: [:add_grid_row, :format_number, :typeahead]
 
+  # GET /landing
+  def landing
+  end
+
   # POST /external/add_grid_row.js?design=REQUIRED&variable_id=REQUIRED
   #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row

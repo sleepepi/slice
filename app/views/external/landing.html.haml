@@ -1,0 +1,57 @@
+%div{ style: 'background-color: #33a9dc; background-image: linear-gradient(180deg, #84FFFF, #33c5dc 31%, #33a9dc 65%, #2196F3);position:absolute; bottom: 0; top: 0; left: 0; right: 0;z-index:-2' }
+
+%div{ style: 'position: relative' }
+  .landing-cog
+    %span.glyphicon.glyphicon-cog
+  .landing-cog2
+    %span.glyphicon.glyphicon-cog
+
+
+%h1{ style: 'margin-bottom: 40px;    color: white;line-height: 1.2;text-align: center;text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);' }
+  %strong Slice:
+  Empower your research.
+
+%div{ style: 'background-color: #fff; padding: 60px;color: #69707a;    border-radius: 3px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);' }
+  .row
+    .col-sm-6
+      %p.lead
+        Create forms.
+
+      %p.lead
+        Collect data.
+
+      %p.lead
+        Collaborate with anyone.
+
+      %p.lead
+        Customize reports.
+
+      %p.lead
+        Report adverse events.
+
+    .col-sm-6
+      %p.lead
+        Randomize participants.
+
+      %p.lead
+        Get notifications.
+
+      %p.lead
+        Run data quality checks.
+
+      %p.lead
+        Analyze data.
+
+      %p.lead
+        Publish results.
+
+
+- content_for :footer do
+  %div{ style: 'background-color: transparent;color: #fff' }
+    .container
+      .jumbotron{ style: 'background-color: transparent' }
+        %h2.center{ style: 'margin-bottom: 40px' } Start working at the next level.
+        .center
+          = link_to 'Create an account today', new_user_registration_path, class: 'btn btn-lg', style: 'background-color: #84FFFF;color: #333; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);'
+
+

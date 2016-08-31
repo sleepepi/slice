@@ -303,13 +303,17 @@ Rails.application.routes.draw do
     get :change_password, to: redirect('settings')
   end
 
-  scope module: 'application' do
+  scope module: :application do
     get :about
     get :contact
     get :font
     get :use, path: '/about/use', as: :about_use
     get :theme
     get :version
+  end
+
+  scope module: :external do
+    get :landing
   end
 
   namespace :external do
@@ -330,7 +334,7 @@ Rails.application.routes.draw do
     get 'completed', action: :completed, as: :completed
   end
 
-  scope module: 'projects' do
+  scope module: :projects do
     get :archives
   end
 

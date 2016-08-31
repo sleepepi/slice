@@ -1,0 +1,26 @@
+.landing-cog, .landing-cog2 {
+  position: absolute;
+  z-index: -1;
+}
+
+.landing-cog {
+  color: #ededed;
+  font-size: 128px;
+  right: 0;
+  top: 0;
+
+  span {
+   animation: spin-cw 16s linear infinite;
+  }
+}
+
+.landing-cog2 {
+  color: #dedede;
+  font-size: 64px;
+  right: -22px;
+  top: 109px;
+
+  span {
+    animation: spin-ccw 8s linear infinite;
+  }
+}

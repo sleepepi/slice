@@ -10,6 +10,11 @@ class ExternalControllerTest < ActionController::TestCase
     @private_section = sections(:private)
   end
 
+  test 'should get landing' do
+    get :landing
+    assert_response :success
+  end
+
   test 'should add grid row as valid user' do
     login(users(:valid))
     post :add_grid_row, params: {
