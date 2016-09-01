@@ -1,4 +1,4 @@
-%h2.underline-header= @title
+%h2.underline-heading= @title
 
 - url = @check_filter.new_record? ? editor_project_check_check_filters_path(@project, @check) : editor_project_check_check_filter_path(@project, @check, @check_filter)
 - method = @check_filter.new_record? ? :post : :patch

@@ -37,7 +37,8 @@ $brand-muted: $P300 !default;
 // //## Settings for some of the most global styles.
 
 // //** Background color for `<body>`.
-$body-bg:               $P50; // #fff !default;
+// $body-bg:               $P50 !default; // #fff !default;
+$body-bg:               #fff !default;
 // //** Global text color on `<body>`.
 // $text-color:            $gray-dark !default;
 
@@ -140,7 +141,7 @@ $font-size-base:          16px; // 14px !default;
 // $table-condensed-cell-padding:  5px !default;
 
 // //** Default background color used for all tables.
-// $table-bg:                      transparent !default;
+$table-bg:                      $body-bg; // transparent !default;
 // //** Background color used for `.table-striped`.
 // $table-bg-accent:               #f9f9f9 !default;
 // //** Background color used for `.table-hover`.
@@ -362,24 +363,24 @@ $navbar-default-color:             $brand-white;
 $navbar-default-bg:                $P600 !default;
 // $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
-// // Navbar links
+// Navbar links
 $navbar-default-link-color:                $brand-muted;
 $navbar-default-link-hover-color:          $brand-white;
 // $navbar-default-link-hover-bg:             transparent !default;
-// $navbar-default-link-active-color:         #555 !default;
+$navbar-default-link-active-color:         $brand-white !default;
 // $navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%) !default;
 // $navbar-default-link-disabled-color:       #ccc !default;
 // $navbar-default-link-disabled-bg:          transparent !default;
 
-// // Navbar brand label
+// Navbar brand label
 $navbar-default-brand-color:               $navbar-default-link-color;
 $navbar-default-brand-hover-color:         $navbar-default-link-hover-color;
 // $navbar-default-brand-hover-bg:            transparent !default;
 
 // // Navbar toggle
-// $navbar-default-toggle-hover-bg:           #ddd !default;
-// $navbar-default-toggle-icon-bar-bg:        #888 !default;
-// $navbar-default-toggle-border-color:       #ddd !default;
+$navbar-default-toggle-hover-bg:           $P700 !default;
+$navbar-default-toggle-icon-bar-bg:        $P300 !default;
+$navbar-default-toggle-border-color:       $P800 !default;
 
 
 // // Inverted navbar
@@ -695,7 +696,7 @@ $jumbotron-bg:                   $A100 !default; // $gray-lighter !default;
 // //
 // //##
 
-// $panel-bg:                    #fff !default;
+$panel-bg:                    $body-bg;// #fff !default;
 // $panel-body-padding:          15px !default;
 // $panel-heading-padding:       10px 15px !default;
 // $panel-footer-padding:        $panel-heading-padding !default;

@@ -1,4 +1,4 @@
-%h2.underline-header= @title
+%h2.underline-heading= @title
 
 = form_for [@project, @randomization_scheme, @treatment_arm], html: { class: 'form-horizontal' } do |f|
   - if @treatment_arm.errors.any?

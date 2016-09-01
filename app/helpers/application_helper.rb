@@ -4,6 +4,7 @@
 module ApplicationHelper
   include DateAndTimeParser
 
+  # TODO: Remove cancel button
   def cancel
     link_to 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'btn btn-default'
   end

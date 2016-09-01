@@ -6,7 +6,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       - if @project.site_or_project_editor? current_user
         = link_to 'Report Adverse Event', new_project_adverse_event_path(@project), class: 'btn btn-xs btn-primary'

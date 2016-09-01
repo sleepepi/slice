@@ -10,7 +10,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       = link_to 'Create Stratification Factor Option', new_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-xs btn-primary'
       .per-page

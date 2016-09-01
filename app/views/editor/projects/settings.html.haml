@@ -6,7 +6,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       Settings
 
     .panel.panel-default
@@ -37,7 +37,7 @@
             = link_to 'Transfer Ownership', '#', data: { object: 'modal-show', target: "#project_#{@project.id}_transfer_modal" }, class: 'btn btn-danger-inverse'
 
       .modal{ id: "project_#{@project.id}_transfer_modal" }
-        .modal-dialog.modal-wide-width
+        .modal-dialog.modal-lg
           .modal-content
             .modal-header
               %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;

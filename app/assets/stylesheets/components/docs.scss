@@ -1,15 +1,15 @@
 .docs-heading {
   margin-bottom: 40px;
-  color: #fff;
+  color: $brand-white;
   line-height: 1.2;
   text-align: center;
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .docs-container {
-  background-color: #fff;
+  background-color: $body-bg;
   padding: 30px;
-  color: #69707a;
+  color: $text-color;
   border-radius: 3px;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
 

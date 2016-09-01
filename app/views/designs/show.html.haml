@@ -8,7 +8,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       = link_to 'Edit Design', edit_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'
       = link_to 'Reimport', imports_edit_project_design_path(@design.project, @design), class: 'btn btn-default btn-xs'

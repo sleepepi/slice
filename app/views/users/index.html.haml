@@ -1,11 +1,18 @@
 - @title = 'Users'
-.page-header
-  %h1
-    = @title
 
-= form_tag users_path, method: :get, class: 'form-inline' do
-  = hidden_field_tag :order, params[:order]
-  = text_field_tag 'search', params[:search], class: 'form-control'
-  = submit_tag 'Search', class: 'btn btn-primary', name: nil
+- content_for :header do
+  .header-container
+    .container
+      %h1.page-heading
+        = @title
+
+        = form_tag users_path, method: :get, class: 'form-inline' do
+          = hidden_field_tag :order, params[:order]
+          = text_field_tag 'search', params[:search], class: 'form-control'
+          = submit_tag 'Search', class: 'btn btn-accent btn-shadow', name: nil
+
+        .per-page= render 'layouts/per_page', per_page: 40, object_count: @users.total_count
+
+.background-gradient
 
 = render 'users/users'

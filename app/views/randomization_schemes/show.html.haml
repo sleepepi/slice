@@ -9,7 +9,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       = link_to 'Edit Randomization Scheme', edit_project_randomization_scheme_path(@project, @randomization_scheme), class: 'btn btn-default btn-xs'
       = link_to 'Delete Randomization Scheme', [@project, @randomization_scheme], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{@randomization_scheme.name}?" }

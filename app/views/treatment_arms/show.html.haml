@@ -11,7 +11,7 @@
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
 
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       - if @randomization_scheme.published?
         = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true

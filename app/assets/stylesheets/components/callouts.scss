@@ -43,3 +43,14 @@
     font-weight: bold;
   }
 }
+
+.callout-accent {
+  background-color: $A100;
+  border-color: $brand-accent;
+  color: $brand-accent-text;
+
+  .callout-link {
+    color: $A700;
+    font-weight: bold;
+  }
+}

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'projects#splash'
+  root 'account#dashboard'
 
   get 'survey', to: 'survey#index', as: :about_survey
   get 'survey/:slug', to: 'survey#new', as: :new_survey
@@ -11,11 +11,18 @@ Rails.application.routes.draw do
   get 'adverse-event/:authentication_token', to: 'adverse_event#show'
   post 'adverse-event/:authentication_token/review', to: 'adverse_event#review', as: :adverse_event_review
 
-  get 'dashboard', to: 'projects#splash', as: :dashboard
-  get 'docs', to: 'docs#index', as: :docs
+  scope module: :account do
+    get :dashboard
+    get :settings
+    post :settings, action: :update_settings
+    get :update_settings, to: redirect('settings')
+    patch :change_password
+    get :change_password, to: redirect('settings')
+  end
 
   resources :comments
 
+  get 'docs', to: 'docs#index', as: :docs
   namespace :docs do
     get :technical
   end
@@ -67,7 +74,6 @@ Rails.application.routes.draw do
 
   resources :projects, only: [:index, :show, :new, :create], constraints: { format: /json|pdf|csv|js/ } do
     collection do
-      get :splash
       get :search
       post :save_project_order
     end
@@ -299,16 +305,6 @@ Rails.application.routes.draw do
 
   scope module: :search do
     get :search, action: :index
-  end
-
-  scope module: :users do
-    get :settings
-    post :settings, action: :update_settings
-    get :update_settings, to: redirect('settings')
-    post :update_theme
-    get :update_theme, to: redirect('settings')
-    patch :change_password
-    get :change_password, to: redirect('settings')
   end
 
   scope module: :application do

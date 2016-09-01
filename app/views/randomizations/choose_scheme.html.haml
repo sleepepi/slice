@@ -10,7 +10,7 @@
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
     - if @project.randomization_schemes.published.count == 0
-      %h2.underline-header
+      %h2.underline-heading
         No Published Randomization Schemes
       .comment-outer{ style: 'margin-top: 40px' }
         .comment-left-fixed
@@ -28,7 +28,7 @@
                 = link_to 'randomization scheme', project_randomization_schemes_path(@project)
                 as published in order for subjects to be randomized.
     - else
-      %h2.underline-header
+      %h2.underline-heading
         = @title
 
       %p.lead

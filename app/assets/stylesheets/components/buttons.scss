@@ -2,7 +2,7 @@
   transition: all .25s ease-out;
 }
 
-.btn-shadow {
+.btn-shadow-lg {
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
 
   &:hover,
@@ -15,7 +15,7 @@
   }
 }
 
-.btn-shadow-small {
+.btn-shadow {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 
   &:hover,
@@ -75,9 +75,9 @@
   &:active,
   &.active,
   .open > &.dropdown-toggle {
-    background-color: darken($btn-success-bg, 10%);
-    border-color: darken($btn-success-border, 12%);
-    color: $btn-success-color;
+    background-color: darken($brand-accent, 10%);
+    border-color: darken($brand-accent, 12%);
+    color: $brand-accent-text;
 
     .btn-text-emphasis {
       color: $success-emphasis-color;
@@ -86,7 +86,7 @@
 
   .btn-text-emphasis {
     backface-visibility: hidden; // Fix for transition flickering
-    color: $btn-success-bg;
+    color: $A700;
     transition: all .4s ease; // Fade to color for Chrome and Safari
   }
 }

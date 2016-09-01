@@ -1,6 +1,74 @@
-.underline-header {
+.underline-heading {
   border-bottom: 1px solid $gray-lighter;
   margin-bottom: 20px;
   padding-bottom: 19px;
   position: relative;
+}
+
+.page-heading {
+  font-weight: normal !important;
+  position: relative;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.header-container {
+  background-color: $P500;
+  color: $brand-white;
+  padding: 20px 0;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .header-container {
+    h1 {
+      font-size: 38px
+    }
+  }
+}
+
+@media screen and (min-width: $screen-md-min) {
+  .header-container {
+    h1 {
+      font-size: 41px
+    }
+  }
+}
+
+.header-container-offthehook {
+  h1 {
+    visibility: hidden;
+  }
+}
+
+.navbar-header {
+  .navbar-brand {
+    display: block;
+
+    &.page-title {
+      display: none;
+    }
+  }
+}
+
+.navbar-header.navbar-page-title {
+  .navbar-brand {
+    display: none;
+
+    &.page-title {
+      color: $brand-white;
+      display: block;
+    }
+  }
 }

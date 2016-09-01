@@ -29,13 +29,13 @@
     - if current_user
       %div{ style: 'display:none', data: { object:  'current-user' } }
 
-    - unless @no_footer
-      = render 'layouts/menu'
-      = render 'layouts/flash_message'
+    = render 'layouts/menu' unless @no_footer
+
+    = yield :header
 
     =# render 'layouts/beta/beta_corner'
 
-    .container.content-margin
+    .container.body-content
       = yield
 
     = yield :footer
@@ -46,6 +46,10 @@
     = render 'timeout/modal' if current_user
 
     - unless @no_footer
-      %footer
+      .footer-container
         .container
-          = render 'layouts/full_footer'
+          = render 'layouts/footer'
+      - if false
+        %footer
+          .container
+            = render 'layouts/full_footer'

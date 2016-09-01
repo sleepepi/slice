@@ -10,7 +10,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       = link_to 'Mark Unread', mark_unread_project_export_path(@project, @export), method: :post, class: 'btn btn-xs btn-default' if @export.status == 'ready'
       = link_to 'Delete Export', [@export.project, @export], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" }

@@ -19,6 +19,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
 }
 
+// .navbar {
+//   box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.75);
+// }
+
 /* Add spacing for definition lists */
 
 dl {
@@ -52,15 +56,6 @@ dt, dd {
   }
 }
 
-/* Make sure datepicker shows up ontop of bootstrap modals */
-.datepicker {
-  z-index: 10000 !important;
-}
-
-.datepicker-dropdown {
-  padding: 4px;
-}
-
 /* Make sure some text is always veiwable in the form control */
 .form-control {
   min-width: 100px;
@@ -71,14 +66,6 @@ dt, dd {
 }
 
 /* Custom Classes */
-
-
-/* Allows modals to be wider on larger screens */
-@media screen and (min-width: 900px) {
-  .modal-dialog.modal-wide-width {
-    width: 900px;
-  }
-}
 
 .form-inline select,
 .form-inline input[type="text"],

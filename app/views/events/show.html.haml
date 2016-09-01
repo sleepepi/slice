@@ -9,7 +9,7 @@
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
 
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       = link_to "Edit Event", edit_project_event_path(@event.project, @event), class: 'btn btn-default btn-xs'
       = link_to "Delete Event", [@event.project, @event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Event #{@event.name}?" }

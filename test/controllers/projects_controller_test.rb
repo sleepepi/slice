@@ -98,51 +98,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to projects_path
   end
 
-  test 'should get splash' do
-    login(users(:valid))
-    get :splash
-    assert_not_nil assigns(:projects)
-    assert_response :success
-  end
-
-  test 'should get paginated splash' do
-    login(users(:valid))
-    get :splash, format: 'js'
-    assert_not_nil assigns(:projects)
-    assert_template 'splash'
-    assert_response :success
-  end
-
-  test 'should get splash and redirect to single project' do
-    login(users(:site_one_viewer))
-    get :splash
-    assert_not_nil assigns(:projects)
-    assert_equal 1, assigns(:projects).count
-    assert_redirected_to projects(:one)
-  end
-
-  test 'should get splash and redirect to project invite' do
-    login(users(:two))
-    session[:invite_token] = project_users(:pending_editor_invite).invite_token
-    get :splash
-    assert_redirected_to accept_project_users_path
-  end
-
-  test 'should get splash and redirect to project site invite' do
-    login(users(:two))
-    session[:site_invite_token] = site_users(:invited).invite_token
-    get :splash
-    assert_redirected_to accept_project_site_users_path(@project)
-  end
-
-  test 'should get splash and remove invalid project site invite token' do
-    login(users(:valid))
-    session[:site_invite_token] = 'imaninvalidtoken'
-    get :splash
-    assert_nil session[:site_invite_token]
-    assert_redirected_to root_path
-  end
-
   test 'should get index' do
     login(users(:valid))
     get :index

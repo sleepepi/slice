@@ -4,3 +4,8 @@
 @import 'themes/night-variables';
 
 @import 'tree';
+
+.background-gradient {
+  background-image: none !important;
+  background-color: $P900;
+}

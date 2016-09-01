@@ -1,5 +1,8 @@
 // Styles for discussion and comments on adverse events and sheets
 
+$comment-header-bg: $P50;
+$comment-border: $P100;
+
 .comment-outer {
   margin-bottom: 20px;
   position: relative;
@@ -28,7 +31,7 @@
 }
 
 .comment-comment {
-  border: 1px solid $navbar-default-border;
+  border: 1px solid $comment-border;
   border-radius: 2px;
 }
 
@@ -37,16 +40,21 @@
 }
 
 .comment-comment-header {
-  background-color: $navbar-default-bg;
+  background-color: $comment-header-bg;
   padding: 10px;
   position: relative;
 
   &.comment-unread::after {
     border-right-color: $alert-warning-bg;
   }
+
+  a:not(.btn) {
+    color: $P600;
+  }
 }
 
 .comment-comment-body {
+  @include remove-last-child-bottom-margin;
   padding: 10px;
 }
 
@@ -69,7 +77,7 @@
 
 .comment-comment-header::before {
   border-bottom: 7px solid transparent;
-  border-right: 7px solid $navbar-default-border;
+  border-right: 7px solid $comment-border;
   border-top: 7px solid transparent;
   content: '';
   height: 0;
@@ -81,7 +89,7 @@
 
 .comment-comment-header::after {
   border-bottom: 7px solid transparent;
-  border-right: 7px solid $navbar-default-bg;
+  border-right: 7px solid $comment-header-bg;
   border-top: 7px solid transparent;
   content: '';
   height: 0;

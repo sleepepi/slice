@@ -14,7 +14,7 @@
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
 
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       = link_to 'Edit Value', edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), class: 'btn btn-default btn-xs'
       = link_to 'Delete Value', editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Value #{@check_filter_value.value}?" }

@@ -24,8 +24,8 @@
       = link_to '(Forgot password?)', new_password_path(resource_name), tabindex: '-1'
       = f.password_field :password, class: 'form-control', autocomplete: 'off'
 
-    .form-group.sign-up-form-button-container
-      = f.submit 'Sign in', class: 'btn btn-primary btn-block btn-shadow-small'
+    .form-group.submit-btn-container
+      = f.submit 'Sign in', class: 'btn btn-primary btn-block btn-shadow'
 
 
 - if devise_mapping.confirmable?

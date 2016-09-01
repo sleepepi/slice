@@ -1,37 +1,13 @@
-footer {
-  background-color: $navbar-default-bg;
+.footer-container {
+  background-color: $brand-black;
   bottom: 0;
-  color: $navbar-default-color;
+  color: $brand-white;
   height: $footer-height;
-  padding: 50px;
   position: absolute;
-  text-align: center;
   width: 100%;
-
-  a {
-    color: $brand-accent;
-    font-weight: 300;
-  }
-
-  a:hover,
-  a:focus,
-  a:active {
-    color: darken($brand-accent, 6.5%);
-  }
-
-  h4 {
-    margin-top: 20px;
-    padding-top: 0;
-  }
 }
 
-@media screen and (min-width: $screen-sm-min) {
-  footer {
-    height: $footer-height-sm;
-    text-align: left;
-
-    h4 {
-      margin-top: 0;
-    }
-  }
+.footer {
+  height: $footer-height;
+  padding: 40px 0;
 }

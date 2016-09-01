@@ -10,6 +10,8 @@
     - Enterprise
     - Fall
     - Underwater
+  - Minimalist theme is now the new Default theme
+  - Users can now update their email and name in the account settings
 - **Data Quality Checks**
   - Project editors can now define data quality checks that are used to identify
     sheets that have inconsistent data

@@ -7,7 +7,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
     = form_tag report_reports_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do
       = hidden_field_tag :page

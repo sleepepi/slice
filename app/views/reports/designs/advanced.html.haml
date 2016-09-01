@@ -9,10 +9,10 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
     #new_filter_modal.modal
-      .modal-dialog.modal-wide-width
+      .modal-dialog.modal-lg
         #filter-modal.modal-content
 
     = form_tag new_filter_reports_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: 'new_filter_form', style: 'display:none' do

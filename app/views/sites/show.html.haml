@@ -9,7 +9,7 @@
   .mini-menu-left-fixed
     = render 'projects/menu_mini'
   .mini-menu-right-fluid
-    %h2.underline-header
+    %h2.underline-heading
       = @title
       - if current_user.all_sites.pluck(:id).include?(@site.id)
         = link_to 'Edit Site', edit_project_site_path(@site.project, @site), class: 'btn btn-default btn-xs'
