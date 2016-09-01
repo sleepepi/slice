@@ -8,13 +8,13 @@
         %span.icon-bar
       = link_to ENV['website_name'], current_user ? root_path : landing_path, class: 'navbar-brand'
       = link_to @title, current_user ? root_path : landing_path, class: 'navbar-brand page-title' if @title
-      - if flash[:notice]
+      - if flash[:notice].present?
         = link_to '#', data: { object: 'remove-self' }, class: 'link-unstyled navbar-brand', style: 'font-size: 16px;' do
           %span.label.label-accent.shadow-sm
             = flash[:notice].html_safe
             &nbsp;
             &times;
-      - if flash[:alert]
+      - if flash[:alert].present?
         = link_to '#', data: { object: 'remove-self' }, class: 'link-unstyled navbar-brand', style: 'font-size: 16px;' do
           %span.label.label-warning.shadow-sm
             = flash[:alert].html_safe
