@@ -5,6 +5,12 @@
     .container
       %h1.page-heading= @title
 
+.background-gradient
+
+.body-attachment
+  .landing-cog3
+    %span.glyphicon.glyphicon-cog
+
 .mini-menu-outer
   .mini-menu-left-fixed
     %ul.mini-left-navigation
@@ -13,24 +19,25 @@
   .mini-menu-right-fluid
     - if @notifications.count > 0
       - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff).group_by(&:project).each do |project, notifications|
-        %table.table.table-fixed
-          %col{ width: '32px' }
-          %col{ }
-          %col.hidden-xs{ width: '32px' }
-          %col.hidden-xs{ width: '165px' }
-          %col{ width: '32px' }
-          %thead
-            %tr
-              %th{ colspan: 2 }= link_to project.name, project, class: 'link-unstyled'
-              %th.hidden-xs
-              %th.hidden-xs
-              %th
-                = link_to mark_all_as_read_notifications_path(project_id: project.id), method: :patch, remote: true, class: 'text-muted' do
-                  %span.glyphicon.glyphicon-ok
-          %tbody
-            - notifications.each do |notification|
-              %tr{ id: "notification_#{notification.id}"}
-                = render 'notifications/show', notification: notification
+        .dashboard-container
+          %table.table.table-fixed
+            %col{ width: '32px' }
+            %col{ }
+            %col.hidden-xs{ width: '32px' }
+            %col.hidden-xs{ width: '165px' }
+            %col{ width: '32px' }
+            %thead
+              %tr
+                %th{ colspan: 2 }= link_to project.name, project, class: 'link-unstyled'
+                %th.hidden-xs
+                %th.hidden-xs
+                %th
+                  = link_to mark_all_as_read_notifications_path(project_id: project.id), method: :patch, remote: true, class: 'text-muted' do
+                    %span.glyphicon.glyphicon-ok
+            %tbody
+              - notifications.each do |notification|
+                %tr{ id: "notification_#{notification.id}"}
+                  = render 'notifications/show', notification: notification
     - else
-      .jumbotron
-        %p.center You have no unread notifications!
+      .dashboard-container
+        %p.lead.center You have no unread notifications!

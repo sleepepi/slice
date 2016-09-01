@@ -11,6 +11,16 @@
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
 }
 
+.page-heading {
+  a:not(.btn) {
+    color: $brand-white;
+  }
+
+  a.btn {
+    text-shadow: none;
+  }
+}
+
 .header-container {
   background-color: $P500;
   color: $brand-white;

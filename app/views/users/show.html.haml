@@ -1,53 +1,61 @@
 - @title = @user.name
-.page-header
-  %h1
-    = link_to_if current_user.system_admin?, "Users", users_path
-    &middot;
-    = @title
-  - if current_user.system_admin?
-    = link_to "Edit User", edit_user_path(@user), class: 'btn btn-default btn-xs'
-    = link_to 'Delete User', @user, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{@user.name}?" } unless current_user == @user
 
-%dl.dl-horizontal
-  - if current_user.system_admin?
-    %dt Email
-    %dd= @user.email
+- content_for :header do
+  .header-container
+    .container
+      %h1.page-heading
+        - if current_user.system_admin?
+          = link_to 'Users', users_path
+          &middot;
+        = @title
 
-    %dt
-      Emails Enabled
+        - if current_user.system_admin?
+          = link_to 'Edit User', edit_user_path(@user), class: 'btn btn-default btn-xs'
+          = link_to 'Delete User', @user, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{@user.name}?" } unless current_user == @user
+
+.background-gradient
+
+.dashboard-container
+  %dl.dl-horizontal
+    - if current_user.system_admin?
+      %dt Email
+      %dd= @user.email
+
+      %dt
+        Emails Enabled
+      %dd
+        = simple_check @user.emails_enabled?
+
+      %dt System Admin
+      %dd= simple_check @user.system_admin?
+
+    %dt Projects
     %dd
-      = simple_check @user.emails_enabled?
+      %ul
+        - @user.all_viewable_projects.order(:name).each do |project|
+          - if current_user.all_viewable_projects.pluck(:id).include?(project.id)
+            %li= link_to project.name, project
 
-    %dt System Admin
-    %dd= simple_check @user.system_admin?
-
-  %dt Projects
-  %dd
-    %ul
-      - @user.all_viewable_projects.order(:name).each do |project|
-        - if current_user.all_viewable_projects.pluck(:id).include?(project.id)
-          %li= link_to project.name, project
-
-  %dt Sites
-  %dd
-    %ul
-      - @user.all_viewable_sites.each do |site|
-        - if current_user.all_viewable_sites.pluck(:id).include?(site.id)
-          %li= link_to "#{site.name} - #{site.project.name}", [site.project, site]
-
-  - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
-  - if current_user.system_admin? && site_invitations.count > 0
-    %dt Invitations
+    %dt Sites
     %dd
-      %ul.list-unstyled
-        - site_invitations.each do |site_user|
-          %li
-            = @user.name
-            was invited to
-            = link_to site_user.project.name, site_user.project
-            = succeed '.' do
-              = simple_time site_user.created_at
-              = " by #{site_user.creator.name}" if site_user.creator
+      %ul
+        - @user.all_viewable_sites.each do |site|
+          - if current_user.all_viewable_sites.pluck(:id).include?(site.id)
+            %li= link_to "#{site.name} - #{site.project.name}", [site.project, site]
 
-  %dt User Avatar
-  %dd= image_tag @user.avatar_url, class: 'img-rounded'
+    - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
+    - if current_user.system_admin? && site_invitations.count > 0
+      %dt Invitations
+      %dd
+        %ul.list-unstyled
+          - site_invitations.each do |site_user|
+            %li
+              = @user.name
+              was invited to
+              = link_to site_user.project.name, site_user.project
+              = succeed '.' do
+                = simple_time site_user.created_at
+                = " by #{site_user.creator.name}" if site_user.creator
+
+    %dt User Avatar
+    %dd= image_tag @user.avatar_url, class: 'img-rounded'
