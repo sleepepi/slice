@@ -1,3 +1,11 @@
 .label-accent {
   background-color: $A700;
 }
+
+.transparent-stamp {
+  background-color: $A700;
+  background-color: rgba(0,0,0,0.15);
+  border-radius: 4px;
+  padding: 15px;
+  color: $brand-white;
+}

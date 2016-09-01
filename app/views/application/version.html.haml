@@ -1,8 +1,18 @@
 - @title = 'Version'
 
-%h1 Version
+- content_for :header do
+  .header-container
+    .container
+      %h1.page-heading= @title
+
+.background-gradient
+
+.body-attachment
+  .landing-lower-right
+    %i.fa.fa-anchor
 
 .text-center{ style: 'margin-top:40px' }
   %p.lead
-    Current version
-    %strong= Slice::VERSION::STRING
+    %span.transparent-stamp
+      Version
+      %strong= Slice::VERSION::STRING
