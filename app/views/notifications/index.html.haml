@@ -13,8 +13,8 @@
 
 .mini-menu-outer
   .mini-menu-left-fixed
-    = link_to 'Unread', notifications_path, class: "btn btn-block #{current_page?(notifications_path) && params[:all] != '1' ? 'btn-primary' : 'btn-default' }"
-    = link_to 'All', notifications_path(all: '1'), class: "btn btn-block #{current_page?(notifications_path) && params[:all] == '1' ? 'btn-primary' : 'btn-default' }"
+    = link_to 'Unread', notifications_path, class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] != '1' ? 'btn-primary' : 'btn-default' }", style: 'margin-bottom: 10px'
+    = link_to 'All', notifications_path(all: '1'), class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] == '1' ? 'btn-primary' : 'btn-default' }"
   .mini-menu-right-fluid
     - if @notifications.count > 0
       - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff).group_by(&:project).each do |project, notifications|
