@@ -15,6 +15,7 @@ Rails.application.config.assets.precompile += %w(
   application-enterprise.css
   application-fall.css
   application-night.css
+  application-spring.css
   application-underwater.css
   application-winter.css
 )

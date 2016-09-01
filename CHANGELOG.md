@@ -6,10 +6,11 @@
   - Improved visibility of notifications bell icon
   - Started work on a new landing page
   - Created new visual identity for Slice
-  - Added three new themes:
+  - Added new themes:
     - Enterprise
-    - Fall
     - Underwater
+    - Spring
+    - Fall
   - Minimalist theme is now the new Default theme
   - Users can now update their email and name in the account settings
 - **Data Quality Checks**
