@@ -53,6 +53,8 @@
 - Fixed a bug that prevented permalinks from generating URL correctly
 - Fixed a bug that sent out multiple site invitation emails
 - Fixed an issue displaying tooltips in search results
+- Fixed a bug that prevented calculated fields from updating correctly when
+  depending on the result of another calculated field
 
 ## 0.40.4 (August 4, 2016)
 

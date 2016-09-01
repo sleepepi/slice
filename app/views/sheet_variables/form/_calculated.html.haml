@@ -3,7 +3,7 @@
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 - value = response
 
-.input-group{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'calculated', status: variable.validator.status(value) } }
+.input-group{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'calculated', status: variable.validator.status(value), format: variable.format } }
   - unless variable.prepend.blank?
     %span.input-group-addon= variable.prepend
   = text_field_tag "#{target_name}_calculation_result", response, class: 'form-control', disabled: 'disabled'

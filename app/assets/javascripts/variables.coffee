@@ -45,8 +45,8 @@
     $('[data-object~="prepend-append"]').hide()
 
 
-@checkForBlankOptions = () ->
-  blank_options = $('[data-object~="option-name"]').filter( () ->
+@checkForBlankOptions = ->
+  blank_options = $('[data-object~="option-name"]').filter( ->
     $.trim($(this).val()) == ''
   )
   blank_options.parent().parent().addClass('has-error')
@@ -69,7 +69,7 @@
   checked = ':checked' if variable_type in ['radio', 'checkbox']
   elements = $("[data-name='#{variable_name}']#{grid_string}#{checked}")
   vals = []
-  $.each(elements, () ->
+  $.each(elements, ->
     if format_type == 'integer'
       vals.push parseInt($(this).val())
     else if format_type == 'float'
@@ -89,8 +89,8 @@
   changes.handoff = $(element).data('handoff')
   return changes
 
-@updateCalculatedVariables = () ->
-  $.each($('[data-object~="calculated"]'), () ->
+@updateCalculatedVariables = ->
+  $.each($('[data-object~="calculated"]'), ->
     calculation = $(this).data('calculation')
     grid_position = $(this).data('grid-position')
     if calculation
@@ -105,25 +105,24 @@
       )
       calculation_result = eval(calculation)
       calculation_result = '' unless isNumber(calculation_result)
-      changes = getDesignVariableAuthenticationParams(this)
-      changes.calculated_number = calculation_result
-      changes.target_name = $(this).data('target-name')
-      $.get("#{root_url}external/format_number", changes, null, "script")
+      target_name = $(this).data('target-name')
+      $("##{target_name}").val(calculation_result)
+      $("##{target_name}_calculation_result").val(calculation_result)
   )
 
-@variablesReady = () ->
+@variablesReady = ->
   if $('#variable_variable_type')
     toggleOptions($('#variable_variable_type'))
 
 $(document)
-  .on('change', '#variable_variable_type', () -> toggleOptions($(this)))
-  .on('change', '#variable_domain_id', () ->
+  .on('change', '#variable_variable_type', -> toggleOptions($(this)))
+  .on('change', '#variable_domain_id', ->
     project_id = $(this).data('project-id')
     domain_id = $(this).val()
     $.post("#{root_url}projects/#{project_id}/domains/values", "domain_id=#{domain_id}", null, 'script')
     false
   )
-  .on('click', '[data-object~="form-check-before-submit"]', () ->
+  .on('click', '[data-object~="form-check-before-submit"]', ->
     if checkForBlankOptions() == false
       return false
     if $(this).data('continue')?
@@ -131,16 +130,16 @@ $(document)
     $($(this).data('target')).submit()
     false
   )
-  .on('click', '[data-object~="variable-check-before-submit"]', () ->
+  .on('click', '[data-object~="variable-check-before-submit"]', ->
     window.$isDirty = false
     $('[data-object~="variable-check-before-submit"]').attr('disabled', 'disabled')
     $($(this).data('target')).submit()
     false
   )
-  .on('click', '[data-object~="update-variable"]', () ->
+  .on('click', '[data-object~="update-variable"]', ->
     $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize() + "&_method=put", null, "script")
   )
-  .on('click', '[data-object~="popup-variable"]', () ->
+  .on('click', '[data-object~="popup-variable"]', ->
     position = $(this).data('position')
     variable_id = $('#design_option_tokens_' + position + '_variable_id').val()
     if variable_id
@@ -149,25 +148,25 @@ $(document)
       $.get(root_url + 'projects/' + $("#design_project_id").val() + '/variables/new', 'position=' + position, null, "script")
     false
   )
-  .on('change', '[data-object~="variable-load"]', () ->
+  .on('change', '[data-object~="variable-load"]', ->
     position = $(this).data('position')
     retrieveVariable(position)
     false
   )
-  .on('click', '#add_grid_variable', () ->
+  .on('click', '#add_grid_variable', ->
     position = $(this).data('position')
     project_id = $(this).data('project-id')
     $.post("#{root_url}projects/#{project_id}/variables/add_grid_variable", 'position=' + position, null, "script")
     false
   )
-  .on('click', '[data-object~="grid-row-add"]', () ->
+  .on('click', '[data-object~="grid-row-add"]', ->
     changes = getDesignVariableAuthenticationParams(this)
     changes.design_option_id = $(this).data('design-option-id')
     changes.header = $(this).data('header')
     $.post("#{root_url}external/add_grid_row", changes, null, "script")
     false
   )
-  .on('click', '[data-object~="set-current-time"]', () ->
+  .on('click', '[data-object~="set-current-time"]', ->
     currentTime = new Date()
     day = currentTime.getDate()
     month = currentTime.getMonth() + 1
@@ -188,11 +187,11 @@ $(document)
     $($(this).data('target-date')).change()
     false
   )
-  .on('click', '[data-object~="set-variable_type"]', () ->
+  .on('click', '[data-object~="set-variable_type"]', ->
     $(this).find('input').prop('checked', true)
     $('#variables_search').submit()
   )
-  .on('change', '.upload', () ->
+  .on('change', '.upload', ->
     file_name = this.value.replace(/\\/g, '/').replace(/.*\//, '')
     $(this).parent().find('.file-input-display').html( file_name || 'Upload File' )
   )

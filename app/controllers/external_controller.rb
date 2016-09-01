@@ -6,9 +6,9 @@ class ExternalController < ApplicationController
   prepend_before_action { request.env['devise.skip_timeout'] = true }
   skip_before_action :verify_authenticity_token
 
-  before_action :set_design, only: [:add_grid_row, :format_number, :section_image, :typeahead]
+  before_action :set_design, only: [:add_grid_row, :section_image, :typeahead]
   before_action :set_section, only: [:section_image]
-  before_action :set_variable, only: [:add_grid_row, :format_number, :typeahead]
+  before_action :set_variable, only: [:add_grid_row, :typeahead]
 
   # GET /landing
   def landing
@@ -20,11 +20,6 @@ class ExternalController < ApplicationController
   #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row
     @design_option = @design.design_options.find_by_id params[:design_option_id] if @design
-  end
-
-  # GET /external/format_number.json
-  def format_number
-    @result = format_calculated_number_params
   end
 
   # GET /external/typeahead.js
@@ -82,15 +77,5 @@ class ExternalController < ApplicationController
       end
     end
     empty_response_or_root_path unless @variable
-  end
-
-  def format_calculated_number_params
-    if @variable.format.blank?
-      params[:calculated_number]
-    else
-      @variable.format % params[:calculated_number]
-    end
-  rescue
-    params[:calculated_number]
   end
 end
