@@ -1,6 +1,9 @@
-.tabbed-navigation-menu
-  .menu-tab-first
-    = link_to 'Notifications', notifications_path, class: 'menu-tab-link current'
+- @title = 'Notifications'
+
+- content_for :header do
+  .header-container
+    .container
+      %h1.page-heading= @title
 
 .mini-menu-outer
   .mini-menu-left-fixed
