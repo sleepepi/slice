@@ -6,4 +6,35 @@
 .docs-container
   %h2 Index
 
-  %p You have found the documentation index.
+  %p
+    %ul
+      %li
+        = link_to 'Designs', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+
+      %li
+        = link_to 'Randomization Schemes', docs_randomization_schemes_path
+        %ul
+          %li= link_to 'Minimization Algorithm', docs_minimization_path
+          %li= link_to 'Permuted-Block Algorithm', docs_permuted_block_path
+          %li= link_to 'Treatment Arms', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+          %li= link_to 'Stratification Factors', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+
+      %li
+        = link_to 'Adverse Events', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+
+      %li
+        = link_to 'Notifications', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+
+      %li
+        = link_to 'Data Quality Checks', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+
+      %li
+        = link_to 'Reports', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+
+      %li
+        = link_to 'Data Entry', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+        %ul
+          %li= link_to 'Auto-locking Sheets', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+          %li= link_to 'Events', '#', data: { object: 'suppress-click' }, style: 'color: #ccc;'
+
+= render 'docs/links', next_link: ['Randomization Schemes', docs_randomization_schemes_path], previous_link: nil

@@ -1,0 +1,169 @@
+- @title = 'Permuted-Block Algorithm'
+
+.background-gradient
+
+%h1.docs-heading
+  = @title
+  %br
+  %small Project Setup
+
+.docs-container
+  %p
+    The
+    %i Permuted-Block algorithm
+    determines participant randomizations in advance by joining a group
+    of blocks together. Each block defines the number of allocations it has in
+    the group as well as the multiple of all treatment arms listed in the block.
+
+  %p
+    As an example, given a Treatment Arm A with an allocation value of 1 and a
+    Treatment Arm B with an allocation of 2, this indicates that we want 1/3 of
+    the participants to ideally fall into Treatment Arm A and 2/3 into Treatment
+    Arm B. The creates a base unit of size 3.
+
+  %p
+    Next, we define two block size multipliers, the first we set to have a
+    base unit multiplier of 1 with an block group allocation of 1, and the
+    second we set as having a base unit multiplier of 2 also with a block group
+    allocation of 1.
+
+  %p
+    The algorithm can now generate the first block group. First it takes a look
+    at the block size multipliers and sees that both have a block group
+    allocation of 1, so it shuffles one of each into the block group.
+
+  %pre
+    Block Group
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; BlockSizeMultiplierx1
+
+  %p or based on the shuffling
+
+  %pre
+    Block Group
+    &nbsp; BlockSizeMultiplierx1
+    &nbsp; BlockSizeMultiplierx2
+
+  %p
+    If we had set the second block size multiplier to have an allocation of 2
+    the algorithm would have generated one of the following block groups.
+
+  %pre
+    Block Group
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; BlockSizeMultiplierx1
+
+  %pre
+    Block Group
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; BlockSizeMultiplierx1
+    &nbsp; BlockSizeMultiplierx2
+
+  %pre
+    Block Group
+    &nbsp; BlockSizeMultiplierx1
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; BlockSizeMultiplierx2
+
+  %p
+    For simplicity and brevity, this example will use block size multipliers
+    with block group allocations of 1.
+
+  %p
+    The algorithm now needs to insert the proper treatment arm assignments into
+    each of these block size multlipliers. Starting with the simpler example,
+    the BlockSizeMultiplierx1 contains 1 base unit of treatment arms. Since the
+    treatment arms have an allocation value of 1 for Treatment Arm A, and 2 for
+    Treatment Arm B, for a total of three treatment arm assignments, these are
+    shuffled and added to BlockSizeMultiplierx1 to give one of the following
+    results.
+
+  %pre
+    BlockSizeMultiplierx1
+    &nbsp; Treatment Arm A
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm B
+
+  %pre
+    BlockSizeMultiplierx1
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm A
+    &nbsp; Treatment Arm B
+
+  %pre
+    BlockSizeMultiplierx1
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm A
+
+  %p
+    The same is done with BlockSizeMultiplerx2. The only difference here is that
+    the treatment arm multiplier is x2, so we take the allocation values of each
+    treatment arm to come up with the following list: Treatment Arm A, Treatment
+    Arm A, Treatment Arm B, Treatment Arm B, Treatment Arm B, Treatment Arm B.
+
+  %p
+    Treatment Arm A occurs twice, and Treatment Arm B occurs four times in
+    BlockSizeMultiplierx2. These are once again shuffled and inserted into the
+    block size multiplier. The following is one possible result.
+
+  %pre
+    BlockSizeMultiplierx2
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm A
+    &nbsp; Treatment Arm B
+    &nbsp; Treatment Arm A
+
+  %p
+    The following shows how the
+    %i Block-Permuted algorithm
+    may generate an evenly distributed set of treatment options within a single
+    Block Group.
+
+  %pre
+    Block Group
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; BlockSizeMultiplierx1
+
+  %pre
+    Block Group
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm A
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm A
+    &nbsp; BlockSizeMultiplierx2
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm A
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm A
+    &nbsp; BlockSizeMultiplierx1
+    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; &nbsp; Treatment Arm A
+    &nbsp; &nbsp; Treatment Arm B
+
+  %h2 Generating Lists
+
+  %p
+    When a subject is randomized using the
+    = succeed ',' do
+      %i Block-Permuted algorithm
+    the stratification factors are used to identify the list from which the
+    algorithm should pull the next treatment arm assignment. Given gender
+    (Male and Female) and site (Site A, Site B), a list would exist for each of
+    these combinations. The following four lists would exist, "Male/Site A",
+    "Male/Site B", "Female/Site A", and "Female/Site B". If a new treatment arm
+    selection didn't exist, the
+    %i Block-Permuted algorithm
+    would then generate the next block group and append it to the appropriate
+    list.
+
+= render 'docs/links', next_link: nil, previous_link: ['Minimization Algorithm', docs_minimization_path]

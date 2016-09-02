@@ -1,0 +1,40 @@
+- @title = 'Randomization Schemes'
+
+.background-gradient
+
+%h1.docs-heading
+  = @title
+  %br
+  %small Project Setup
+
+.docs-container
+  %p
+    Slice provides two types of randomization algorithms,
+    %strong Minimization
+    and
+    %strong Permuted-Block
+    algorithms.
+
+    These algorithms impact how the randomization lists are generated. The
+    following describes the differences between the two algorithms.
+
+  %p
+    %i
+      If you don't have specific requirements for your randomization, Slice
+      recommends the use of the Minimization algorithm as it will generate a more
+      equal distribution as the number stratification factors increases
+      (especially for studies with low numbers of participants), and takes less
+      time to set up.
+
+  %p
+    %span.text-muted Related links:
+    = succeed ',' do
+      = link_to 'Treatment Arms', '#', data: { object: 'suppress-click' }, style: 'color: red'
+    = succeed ',' do
+      = link_to 'Stratification Factors', '#', data: { object: 'suppress-click' }, style: 'color: red'
+    = succeed ',' do
+      = link_to 'Minimization Algorithm', docs_minimization_path
+    = link_to 'Permuted-Block Algorithm', docs_permuted_block_path
+
+
+= render 'docs/links', next_link: ['Minimization Algorithm', docs_minimization_path], previous_link: nil

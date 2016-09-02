@@ -13,4 +13,19 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     get docs_technical_path
     assert_response :success
   end
+
+  test 'should get randomization schemes' do
+    get docs_randomization_schemes_path
+    assert_response :success
+  end
+
+  test 'should get minimization' do
+    get docs_minimization_path
+    assert_response :success
+  end
+
+  test 'should get permuted block' do
+    get docs_permuted_block_path
+    assert_response :success
+  end
 end

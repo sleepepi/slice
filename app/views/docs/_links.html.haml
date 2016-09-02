@@ -1,0 +1,21 @@
+%div{ style: 'background-color: #ededed;padding: 20px;margin-top: 20px;' }
+  .row
+    .col-sm-6.col-md-4
+      - if previous_link
+        = link_to previous_link[1], class: 'btn btn-block btn-lg btn-default text-left btn-shadow' do
+          %small.text-muted{ style: 'font-style:italic;color: #bbb; font-weight: 300' }
+            &larr;
+            Previous
+          %br
+          = previous_link[0]
+    .col-buffer.visible-xs
+    .col-md-4.hidden-xs.hidden-sm
+    .col-sm-6.col-md-4
+      - if next_link
+        = link_to next_link[1], class: 'btn btn-block btn-lg btn-accent text-left btn-shadow' do
+          %small.text-muted{ style: 'font-style:italic;color: #bbb; font-weight: 300' }
+            Next
+            &rarr;
+          %br
+          = next_link[0]
+

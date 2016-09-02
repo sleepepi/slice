@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   get 'docs', to: 'docs#index', as: :docs
   namespace :docs do
     get :technical
+    get :randomization_schemes, path: 'randomization-schemes'
+    get :minimization, path: 'randomization-schemes/minimization'
+    get :permuted_block, path: 'randomization-schemes/permuted-block'
   end
 
   resources :lists
