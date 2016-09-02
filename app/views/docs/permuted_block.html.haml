@@ -23,48 +23,53 @@
 
   %p
     Next, we define two block size multipliers, the first we set to have a
-    base unit multiplier of 1 with an block group allocation of 1, and the
-    second we set as having a base unit multiplier of 2 also with a block group
+    multiplier of x1 with a block group allocation of 1, and the
+    second we set as having a multiplier of x2 also with a block group
     allocation of 1.
 
   %p
-    The algorithm can now generate the first block group. First it takes a look
-    at the block size multipliers and sees that both have a block group
-    allocation of 1, so it shuffles one of each into the block group.
+    The algorithm can now generate the first block group. As both block size
+    multipliers have an allocation of 1, the algorithm shuffles one of each into
+    the block group giving us one of the following arrangements.
 
-  %pre
-    Block Group
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; BlockSizeMultiplierx1
+  .row
+    .col-sm-6
+      %pre
+        Block Group
+        &nbsp; Block x2
+        &nbsp; Block x1
 
-  %p or based on the shuffling
-
-  %pre
-    Block Group
-    &nbsp; BlockSizeMultiplierx1
-    &nbsp; BlockSizeMultiplierx2
+    .col-sm-6
+      %pre
+        Block Group
+        &nbsp; Block x1
+        &nbsp; Block x2
 
   %p
     If we had set the second block size multiplier to have an allocation of 2
     the algorithm would have generated one of the following block groups.
 
-  %pre
-    Block Group
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; BlockSizeMultiplierx1
+  .row
+    .col-sm-4
+      %pre
+        Block Group
+        &nbsp; Block x2
+        &nbsp; Block x2
+        &nbsp; Block x1
 
-  %pre
-    Block Group
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; BlockSizeMultiplierx1
-    &nbsp; BlockSizeMultiplierx2
+    .col-sm-4
+      %pre
+        Block Group
+        &nbsp; Block x2
+        &nbsp; Block x1
+        &nbsp; Block x2
 
-  %pre
-    Block Group
-    &nbsp; BlockSizeMultiplierx1
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; BlockSizeMultiplierx2
+    .col-sm-4
+      %pre
+        Block Group
+        &nbsp; Block x1
+        &nbsp; Block x2
+        &nbsp; Block x2
 
   %p
     For simplicity and brevity, this example will use block size multipliers
@@ -73,29 +78,33 @@
   %p
     The algorithm now needs to insert the proper treatment arm assignments into
     each of these block size multlipliers. Starting with the simpler example,
-    the BlockSizeMultiplierx1 contains 1 base unit of treatment arms. Since the
+    the Block x1 contains 1 base unit of treatment arms. Since the
     treatment arms have an allocation value of 1 for Treatment Arm A, and 2 for
     Treatment Arm B, for a total of three treatment arm assignments, these are
-    shuffled and added to BlockSizeMultiplierx1 to give one of the following
+    shuffled and added to Block x1 to give one of the following
     results.
 
-  %pre
-    BlockSizeMultiplierx1
-    &nbsp; Treatment Arm A
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm B
+  .row
+    .col-sm-4
+      %pre
+        Block x1
+        &nbsp; Arm A
+        &nbsp; Arm B
+        &nbsp; Arm B
 
-  %pre
-    BlockSizeMultiplierx1
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm A
-    &nbsp; Treatment Arm B
+    .col-sm-4
+      %pre
+        Block x1
+        &nbsp; Arm B
+        &nbsp; Arm A
+        &nbsp; Arm B
 
-  %pre
-    BlockSizeMultiplierx1
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm A
+    .col-sm-4
+      %pre
+        Block x1
+        &nbsp; Arm B
+        &nbsp; Arm B
+        &nbsp; Arm A
 
   %p
     The same is done with BlockSizeMultiplerx2. The only difference here is that
@@ -105,17 +114,29 @@
 
   %p
     Treatment Arm A occurs twice, and Treatment Arm B occurs four times in
-    BlockSizeMultiplierx2. These are once again shuffled and inserted into the
-    block size multiplier. The following is one possible result.
+    Block x2. These are once again shuffled and inserted into the
+    block size multiplier. Here are two possible results.
 
-  %pre
-    BlockSizeMultiplierx2
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm A
-    &nbsp; Treatment Arm B
-    &nbsp; Treatment Arm A
+  .row
+    .col-sm-6
+      %pre
+        Block x2
+        &nbsp; Arm B
+        &nbsp; Arm B
+        &nbsp; Arm B
+        &nbsp; Arm A
+        &nbsp; Arm B
+        &nbsp; Arm A
+
+    .col-sm-6
+      %pre
+        Block x2
+        &nbsp; Arm B
+        &nbsp; Arm A
+        &nbsp; Arm B
+        &nbsp; Arm B
+        &nbsp; Arm B
+        &nbsp; Arm A
 
   %p
     The following shows how the
@@ -125,30 +146,30 @@
 
   %pre
     Block Group
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; BlockSizeMultiplierx1
+    &nbsp; Block x2
+    &nbsp; Block x2
+    &nbsp; Block x1
 
   %pre
     Block Group
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm A
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm A
-    &nbsp; BlockSizeMultiplierx2
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm A
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm A
-    &nbsp; BlockSizeMultiplierx1
-    &nbsp; &nbsp; Treatment Arm B
-    &nbsp; &nbsp; Treatment Arm A
-    &nbsp; &nbsp; Treatment Arm B
+    &nbsp; Block x2
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm A
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm A
+    &nbsp; Block x2
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm A
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm A
+    &nbsp; Block x1
+    &nbsp; &nbsp; Arm B
+    &nbsp; &nbsp; Arm A
+    &nbsp; &nbsp; Arm B
 
   %h2 Generating Lists
 
