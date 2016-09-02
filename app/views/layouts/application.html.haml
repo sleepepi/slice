@@ -28,6 +28,7 @@
   %body
     - if current_user
       %div{ style: 'display:none', data: { object:  'current-user' } }
+      = render 'timeout/modal'
 
     = render 'layouts/menu' unless @no_footer
 
@@ -40,16 +41,7 @@
 
     = yield :footer
 
-    %div{ style: 'clear:both;height:0px' }
-      &nbsp;
-
-    = render 'timeout/modal' if current_user
-
     - unless @no_footer
       .footer-container
         .container
           = render 'layouts/footer'
-      - if false
-        %footer
-          .container
-            = render 'layouts/full_footer'
