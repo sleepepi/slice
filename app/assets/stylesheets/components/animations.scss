@@ -75,3 +75,12 @@
     transform-origin: 40% 20%;
   }
 }
+
+@keyframes sidescroll{
+  from {
+    background-position: 1600px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}

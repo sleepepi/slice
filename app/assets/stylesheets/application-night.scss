@@ -9,3 +9,15 @@
   background-image: none !important;
   background-color: $P900;
 }
+
+.footer::before {
+  background: transparent asset-url('themes/night/fog.png') repeat;
+  content: "";
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  height: 181px;
+  animation: sidescroll 120s linear infinite;
+  transform: translatez(0);
+}
