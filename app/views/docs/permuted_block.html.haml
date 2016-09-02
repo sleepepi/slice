@@ -11,9 +11,11 @@
   %p
     The
     %i Permuted-Block algorithm
-    determines participant randomizations in advance by joining a group
-    of blocks together. Each block defines the number of allocations it has in
-    the group as well as the multiple of all treatment arms listed in the block.
+    determines treatment arm assignments by generating a group of blocks. Each
+    block contains a predetermined number of treatment arm assignments based on
+    the treatment arm allocations and the block multiplier. The block itself can
+    also occur one or more times in the block group based on it's own block
+    group allocation.
 
   %p
     As an example, given a Treatment Arm A with an allocation value of 1 and a
@@ -186,5 +188,81 @@
     %i Block-Permuted algorithm
     would then generate the next block group and append it to the appropriate
     list.
+
+  %h2 In-Depth Example of Treatment Block Group
+
+  %p
+    The following image shows a single block group composed of two treatment
+    arms and three different block size multipliers identified by color.
+
+  .row
+    .col-sm-6.center
+      %p
+        The treatment arms are:
+      %ul.list-unstyled
+        %li A1 Allocation 1
+        %li B2 Allocation 2
+
+    .col-sm-6.center
+      %p
+        The block group multipliers are:
+      %ul.list-unstyled
+        %li Green x1 Allocation 2
+        %li Red x2 Allocation 3
+        %li Blue x3 Allocation 1
+
+  %p
+    Given this block group, the first
+    participant would be randomized to A1, and the second participant to B2.
+
+  .center= image_tag 'permuted-block-treatment-assignments-block-group.png'
+
+  %p
+    The 2 green blocks are block size multipliers that have a x1 occurence of
+    treatment arm assignments, and have an allocation of 2 for the block group.
+
+  %p
+    The 3 red block are block size multipliers that have a x2 occurence of
+    treatment arm assignments, creating 6 treatment assignments per block:
+    %code (1[A1] + 2[B2] = 3 treatment assignments)
+    %code (3 treatment assignments * x2 multiplier = 6 treatment assignments)
+    The red blocks have an allocation of 3 for the block group which is why the
+    red blocks appear three times.
+
+  %p
+    Finally the single blue block is a block size multiplier of x3 containing
+    a total of 9 treatment assignments within the block. The blue block has a
+    block allocation of 1, and hence only shows up once in the entire block
+    group.
+
+  %p
+    %strong Important notes:
+
+  %ul
+    %li
+      Each block group will have the same number of treatment
+      assignments, in this case 33 per block group.
+
+    %li
+      An individual block may be allocated multiple times in the block group,
+      with the same number of treatment assignments, but the treatment
+      assignments may not be in the same order due to shuffling of each
+      treatments within each block.
+
+    %li
+      Treatment arms get allocated to blocks and then get shuffled within the
+      block.
+
+    %li
+      Each block as it is added to the block group shuffles the treatment arms
+      indepently of other blocks.
+
+    %li
+      Blocks are allocated to block groups, and then get shuffled to fully create
+      the block group.
+
+    %li
+      When treatment arm assignments are no longer available, a new block group is
+      generated automatically by Slice.
 
 = render 'docs/links', next_link: nil, previous_link: ['Minimization Algorithm', docs_minimization_path]
