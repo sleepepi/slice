@@ -1,12 +1,11 @@
 - @title = 'Dashboard'
 
 - content_for :header do
+  .background-gradient
   .header-container
     .container
       %h1.page-heading
         = @title
-
-.background-gradient
 
 .dashboard-container
   - if @favorited_projects.count > 0
