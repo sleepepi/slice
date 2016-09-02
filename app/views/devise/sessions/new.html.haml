@@ -16,7 +16,7 @@
 
   = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-vertical' }) do |f|
     .form-group
-      = f.label :email, 'Email or Username', class: 'control-label'
+      = f.label :email, class: 'control-label'
       = f.text_field :email, class: 'form-control'
 
     .form-group
