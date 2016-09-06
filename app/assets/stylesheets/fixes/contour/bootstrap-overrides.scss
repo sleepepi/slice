@@ -1,43 +1,10 @@
 /* bootstrap-base-overrides.css */
 /* These overrides come after bootstrap.css */
 
-body { padding-top: 70px; padding-bottom: 90px; }
-
 /* Skinnier titles */
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300 !important;
-}
-
-/* Make sure navbar brand does not wrap onto two lines */
-
-.navbar-brand {
-  white-space: nowrap;
-}
-
-.navbar-inverse .navbar-brand {
-  color: #ffffff;
-}
-
-// .navbar {
-//   box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.75);
-// }
-
-/* Add spacing for definition lists */
-
-dl {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-dt, dd {
-  line-height: 18px;
-  min-height: 40px;
-}
-
-.dl-horizontal dt {
-  white-space: normal;
-  overflow: visible;
 }
 
 /* Modify the page-header class to look differently on mobile and larger screen */
@@ -56,7 +23,7 @@ dt, dd {
   }
 }
 
-/* Make sure some text is always veiwable in the form control */
+/* Make sure some text is always viewable in the form control */
 .form-control {
   min-width: 100px;
 }
