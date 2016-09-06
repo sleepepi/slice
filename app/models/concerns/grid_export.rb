@@ -57,7 +57,7 @@ module GridExport
     responses = Response.joins(:grid)
                         .where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, value: value)
                         .where.not(grid_id: nil)
-                        .order(sheet_id: :desc).pluck(:value, :position, :sheet_id).uniq
+                        .order('sheet_id desc', 'grids.position').pluck(:value, :position, :sheet_id).uniq
     grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
   end
 

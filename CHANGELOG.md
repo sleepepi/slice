@@ -57,6 +57,7 @@
 - Fixed an issue displaying tooltips in search results
 - Fixed a bug that prevented calculated fields from updating correctly when
   depending on the result of another calculated field
+- Fixed an issue exporting checkboxes stored in grids
 
 ## 0.40.4 (August 4, 2016)
 
