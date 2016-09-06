@@ -5,9 +5,9 @@
 
 @import 'tree';
 
-.background-gradient {
-  background-image: none !important;
+body, .background-gradient {
   background-color: $P900;
+  background-image: linear-gradient(180deg, #060606, $P900 95%, $P900);
 }
 
 .footer::before {
