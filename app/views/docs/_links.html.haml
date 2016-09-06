@@ -3,7 +3,7 @@
     .col-sm-6.col-md-4
       - if previous_link
         = link_to previous_link[1], class: 'btn btn-block btn-lg btn-default text-left btn-shadow' do
-          %small.text-muted{ style: 'font-style:italic;color: #bbb; font-weight: 300' }
+          %small.docs-navigation
             &larr;
             Previous
           %br
@@ -14,7 +14,7 @@
     .col-sm-6.col-md-4
       - if next_link
         = link_to next_link[1], class: 'btn btn-block btn-lg btn-accent text-left btn-shadow' do
-          %small.text-muted{ style: 'font-style:italic;color: #bbb; font-weight: 300' }
+          %small.docs-navigation
             Next
             &rarr;
           %br
