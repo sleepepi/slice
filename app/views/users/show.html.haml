@@ -5,7 +5,7 @@
     .container
       %h1.page-heading
         - if current_user.system_admin?
-          = link_to 'Users', users_path
+          = link_to 'Users', users_path, class: 'heading-link'
           &middot;
         = @title
 

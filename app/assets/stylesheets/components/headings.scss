@@ -9,15 +9,19 @@
   font-weight: normal !important;
   position: relative;
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+  .btn {
+    text-shadow: none;
+  }
 }
 
-.page-heading {
-  a:not(.btn) {
-    color: $brand-white;
-  }
+.heading-link {
+  color: $brand-muted;
 
-  a.btn {
-    text-shadow: none;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $brand-white;
   }
 }
 

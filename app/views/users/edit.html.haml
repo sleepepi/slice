@@ -4,9 +4,9 @@
   .header-container
     .container
       %h1.page-heading
-        = link_to 'Users', users_path
+        = link_to 'Users', users_path, class: 'heading-link'
         &middot;
-        = link_to @user.name_was, @user
+        = link_to @user.name_was, @user, class: 'heading-link'
         &middot;
         Edit
 

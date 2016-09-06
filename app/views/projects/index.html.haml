@@ -1,13 +1,19 @@
 - @title = 'Projects'
-.page-header
-  %h1
-    = @title
-    = link_to "Create Project", new_project_path, class: 'btn btn-xs btn-primary'
 
-= form_tag projects_path, method: :get, class: 'form-inline' do
-  = hidden_field_tag :order, params[:order]
-  = text_field_tag 'search', params[:search], class: 'form-control'
-  = submit_tag 'Search', class: 'btn btn-primary', name: nil
-  = link_to 'Reset', projects_path, class: 'btn btn-default'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = @title
+        = link_to 'Create Project', new_project_path, class: 'btn btn-xs btn-primary'
+
+        = form_tag projects_path, method: :get, class: 'form-inline' do
+          = hidden_field_tag :order, params[:order]
+          = text_field_tag 'search', params[:search], class: 'form-control'
+          = submit_tag 'Search', class: 'btn btn-accent btn-shadow', name: nil
+          = link_to 'Reset', projects_path, class: 'btn btn-default btn-shadow'
+
+        .per-page= render 'layouts/per_page', per_page: 40, object_count: @projects.total_count
 
 = render 'projects/projects'
