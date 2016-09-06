@@ -1,0 +1,128 @@
+- @title = 'Roles'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Slice aims to keep roles and user privileges simple. Simple roles helps
+    users better understand their responsibility on a project, and keeps users
+    from being surprised if they cannot interact with something on the project.
+
+  %p
+    Roles are divided into two categories, editors and viewers. Simply, editors
+    can make any change they wish on the project, and viewers are limited to
+    simply view everything on the project.
+
+  %p
+    The amount of project information these roles can edit or view can be further
+    limited by the following items, site versus project membership and the
+    blinding status of the assigned role.
+
+  %p
+    As mentioned in the section on project sites
+    %sup= link_to '1', docs_sites_path
+    a new member can be either assigned to a specific site on the project, or
+    can be allowed to see the project as a whole. Slice calls these roles
+    site members and project members. Project members can see all subjects and
+    data across all sites on a project, while a site member will limited to the
+    subjects and data specific to the member's site.
+
+  %p
+    Note: A user can be invited to multiple sites.
+
+  %p
+    When the blinding module
+    %sup= link_to '2', docs_blinding_path
+    is enabled, a user can be assigned a role that is flagged as "Blinded".
+    This will prevent the user from seeing any subject information that could
+    potentially unblind the user.
+
+  %p
+    For projects that have the blinding module disabled, the roles matrix looks
+    as follows.
+
+    %table.table.table-striped
+      %tr
+        %td
+          Project editor.
+        %td
+          Can do anything.
+      %tr
+        %td Project viewer.
+        %td Can see anything.
+      %tr
+        %td Site editor.
+        %td Can edit site subjects.
+      %tr
+        %td Site viewer.
+        %td Can view site subjects and reports.
+
+  %p
+    For projects that have the blinding module enabled, the role matrix expands
+    and looks as follows.
+
+    %table.table.table-striped
+      %tr
+        %td
+          Unblinded project editor.
+        %td
+          Can do anything.
+      %tr
+        %td Unblinded project viewer.
+        %td Can see anything.
+      %tr
+        %td
+          Blinded project editor.
+        %td Can edit anything, except for randomizations and AEs.
+      %tr
+        %td Blinded project viewer.
+        %td Can see anything, except for randomizations and AEs.
+      %tr
+        %td Unblinded site editor.
+        %td Can edit site subjects.
+      %tr
+        %td Unblinded site viewer.
+        %td Can view site subjects and reports.
+      %tr
+        %td Blinded site editor.
+        %td Can edit site subjects, but not see randomizations or AEs.
+      %tr
+        %td Blinded site viewer.
+        %td Can view site subjects and reports, but not randomizations or AEs.
+
+  %h2 Project Editors
+
+  %p
+    Project editors can modify project settings, invite new collaborators,
+    create subjects, enter sheets, randomize subjects, report adverse events,
+    view reports, generate data exports.
+
+  %h2 Project Viewers
+
+  %p
+    Project viewers can view subjects, including subject sheets, randomization
+    status, adverse events, and subject timelines. Project viewers can also
+    comment on subject sheets, view reports, and generate data exports.
+
+  %h2 Unblinded Member
+
+  %p
+    An unblinded member has no restrictions based on randomizations or adverse
+    events.
+
+  %h2 Blinded Member
+
+  %p
+    A blinded member cannot see existing randomizations, or randomize a subject
+    to a treatment arm. The blinded member can also not see data sheets for
+    designs or events that are flagged as unblinded-only. These designs or
+    events may include information that would unblind the blinded member.
+    A blinded member can also not report or view adverse events, as adverse
+    events have a high likelyhood of including information that could unblind
+    the blinded member.
+
+= render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]

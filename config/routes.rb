@@ -24,10 +24,15 @@ Rails.application.routes.draw do
 
   get 'docs', to: 'docs#index', as: :docs
   namespace :docs do
+    get :adverse_events, path: 'adverse-events'
     get :technical
     get :randomization_schemes, path: 'randomization-schemes'
     get :minimization, path: 'randomization-schemes/minimization'
     get :permuted_block, path: 'randomization-schemes/permuted-block'
+    get :roles, path: 'project-roles'
+    get :notifications
+    get :blinding
+    get :sites
   end
 
   resources :lists

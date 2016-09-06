@@ -1,0 +1,33 @@
+- @title = 'Blinding'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Staff blinding is an important part of clinical trials that randomize
+    subjects to various treatment arms.
+
+  %p
+    The blinding module can be enabled in the project settings, and has an
+    impact on what a project member can see on the site.
+
+  %p
+    Blinded project members cannot randomize subjects or report adverse events,
+    and also cannot see existing subject randomizations, adverse events,
+    restricted designs, or comments on restricted designs.
+
+  %p
+    Please note that the project owner must be unblinded. Project ownership can
+    be transferred to another staff member via the project settings if this is
+    not the case.
+
+  %p
+    For projects that don't have blinding enabled, all project members are
+    considered unblinded.
+
+
+= render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]

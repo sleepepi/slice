@@ -9,6 +9,31 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should get adverse events' do
+    get docs_adverse_events_path
+    assert_response :success
+  end
+
+  test 'should get roles' do
+    get docs_roles_path
+    assert_response :success
+  end
+
+  test 'should get notifications' do
+    get docs_notifications_path
+    assert_response :success
+  end
+
+  test 'should get blinding' do
+    get docs_blinding_path
+    assert_response :success
+  end
+
+  test 'should get sites' do
+    get docs_sites_path
+    assert_response :success
+  end
+
   test 'should get technical' do
     get docs_technical_path
     assert_response :success

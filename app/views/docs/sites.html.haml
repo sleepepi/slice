@@ -1,0 +1,23 @@
+- @title = 'Sites'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Projects can have one or more sites. A site can represent a physical
+    location for staff members, and can be used to limit the scope of subjects
+    that can be seen by project members.
+
+  %p
+    Sites can also be used to help stratify subjects when doing multi-site
+    randomizations.
+
+  %p
+    The primary purpose of sites is to limit the information a member needs to
+    wade through in order to enter subject data.
+
+= render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]

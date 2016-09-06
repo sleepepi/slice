@@ -1,0 +1,34 @@
+- @title = 'Adverse Events'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Slice provides the means to report adverse events that may occur during the
+    course of a clinical trial.
+
+  %p
+    The adverse event module can be enabled in the project settings. When
+    enabled, project and site editors
+    %sup= link_to '1', docs_roles_path
+    can initiate a new adverse event report for a subject. The adverse event is
+    initiated with a brief description of the event, and notifications and
+    emails are sent to unblinded project editors. Additional information can be
+    captured by designating designs for adverse events, unblinded project
+    editors can participate in a discussion, and supplementary files can be
+    attached to the adverse event.
+
+  %p
+    After an adverse event has been resolved, an unblinded project editor can
+    then mark the event as closed.
+
+  %p
+    A subject's adverse events can be viewed from the subject page, and can be
+    filtered on the subjects index. Slice also provides an adverse event export
+    that lists all adverse events along with any supporting information.
+
+= render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]

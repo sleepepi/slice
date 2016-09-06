@@ -1,0 +1,62 @@
+- @title = 'Notifications'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Slice generates two types of notifications:
+    %strong In-App
+    and
+    %strong Email
+    notifications.
+
+  %h2 In-App
+
+  %p
+    The majority of notifications that Slice generates are handled using in-app
+    notifications. This is done to help ensure that users don't miss important
+    alerts that may occur on a less frequent basis.
+
+  %p
+    Users receive in-app notifications when an adverse event is reported, a
+    comment is made, a handoff event is completed, or a sheet unlock is
+    requested.
+
+  %p
+    In-app notifications stay in visible until they are marked as read, after
+    which they will automatically disappear after 7 days.
+
+  %p
+    A user can view current notifications, as well as all recently read
+    notifications no longer than a week old.
+
+  %h2 Email
+
+  %p
+    A user can disable emails in their user
+    = succeed '.' do
+      = link_to 'settings', settings_path
+
+  %p
+    Slice sends out a daily digest that can be enabled or disabled per project
+    that contains a list of sheets and comments created in the past 24 hours.
+    Slice does not send out a daily digest on Saturday or Sunday, but does
+    include sheets and comments created in the past 72 hours in the Monday daily
+    digest.
+
+  %p
+    An email is generated when an adverse event is initially reported, as well
+    as when a subject is randomized.
+
+  %p
+    Slice also sends a few emails that a user will receive whether or not they
+    have emails enabled. These include the password reset email, password
+    expiration email, project invitation email, and sheet unlock email.
+
+
+
+= render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]
