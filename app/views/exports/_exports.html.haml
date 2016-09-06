@@ -15,7 +15,7 @@
       %th Actions
 
   - @exports.each do |export|
-    %tr{ class: "#{'success' if not export.viewed? and export.status == 'ready'} #{'warning' if export.status == 'pending'}" }
+    %tr
       %td
         %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }
           = export.status
