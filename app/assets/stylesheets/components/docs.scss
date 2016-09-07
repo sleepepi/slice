@@ -127,3 +127,13 @@
 a:hover .docs-navigation {
   color: lighten($text-muted, 12%);
 }
+
+.sup-link {
+  font-size: 75%;
+  margin-left: -3px;
+  padding: 0 3px;
+  position: relative;
+  font-weight: 300;
+  top: -0.5em;
+  vertical-align: baseline;
+}

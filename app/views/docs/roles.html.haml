@@ -24,7 +24,7 @@
 
   %p
     As mentioned in the section on project sites
-    %sup= link_to '1', docs_sites_path
+    = link_to '1', docs_sites_path, class: 'btn btn-default sup-link'
     a new member can be either assigned to a specific site on the project, or
     can be allowed to see the project as a whole. Slice calls these roles
     site members and project members. Project members can see all subjects and
@@ -36,7 +36,7 @@
 
   %p
     When the blinding module
-    %sup= link_to '2', docs_blinding_path
+    = link_to '2', docs_blinding_path, class: 'btn btn-default sup-link'
     is enabled, a user can be assigned a role that is flagged as "Blinded".
     This will prevent the user from seeing any subject information that could
     potentially unblind the user.
