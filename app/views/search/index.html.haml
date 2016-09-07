@@ -1,5 +1,5 @@
-- @title = [params[:search], 'Search'].compact.join(' - ')
-- @menu_title = ['Search', params[:search]].compact.join(' ')
+- @title = [params[:search], 'Search'].reject(&:blank?).join(' - ')
+- @menu_title = ['Search', params[:search]].reject(&:blank?).join(' ')
 
 - content_for :header do
   .background-gradient
