@@ -86,8 +86,12 @@
 }
 
 @keyframes wander {
+  0% {
+    opacity: 0;
+  }
 
   25% {
+    opacity: 1;
     transform: scaleX(0.30) scaleY(0.30) translate(0, 0) rotate(15deg);
   }
 
@@ -100,10 +104,12 @@
   }
 
   75% {
+    opacity: 1;
     transform: scaleX(0.30) scaleY(0.30) translate(750px, 500px) rotate(-300deg);
   }
 
   100% {
+    opacity: 0;
     transform: scaleX(1) scaleY(1) translate(600px, 100px) rotate(-270deg);
   }
 }
