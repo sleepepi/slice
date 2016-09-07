@@ -53,4 +53,59 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     get docs_permuted_block_path
     assert_response :success
   end
+
+  test 'should get designs' do
+    get docs_designs_path
+    assert_response :success
+  end
+
+  test 'should get variables' do
+    get docs_variables_path
+    assert_response :success
+  end
+
+  test 'should get domains' do
+    get docs_domains_path
+    assert_response :success
+  end
+
+  test 'should get treatment arms' do
+    get docs_treatment_arms_path
+    assert_response :success
+  end
+
+  test 'should get stratification factors' do
+    get docs_stratification_factors_path
+    assert_response :success
+  end
+
+  test 'should get checks' do
+    get docs_checks_path
+    assert_response :success
+  end
+
+  test 'should get reports' do
+    get docs_reports_path
+    assert_response :success
+  end
+
+  test 'should get sheets' do
+    get docs_sheets_path
+    assert_response :success
+  end
+
+  test 'should get locking' do
+    get docs_locking_path
+    assert_response :success
+  end
+
+  test 'should get events' do
+    get docs_events_path
+    assert_response :success
+  end
+
+  test 'should get project setup' do
+    get docs_project_setup_path
+    assert_response :success
+  end
 end

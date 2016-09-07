@@ -1,0 +1,96 @@
+- @title = 'Lingo'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Lingo, slang, jargon...Slice makes use of its own set of words to
+    encapsulate larger ideas.
+
+  %p
+    Here we present some of the common words you will see in Slice.
+
+  %h2 Designs
+
+  %p
+    %code Questionnaires
+    %code.nowrap Case Report Forms (CRFs)
+    %code Surveys
+    %code Instruments
+
+  %p
+    Designs are blank forms that contain one or more sections and have a series
+    of questions. These questions may have preset choices and may also have
+    predefined valid ranges and formats.
+
+  %p
+    Read more:
+    = link_to 'Designs', docs_designs_path
+
+  %h2 Sheets
+
+  %p
+    %code.nowrap Data Entry
+    %code.nowrap Questionnaire Response
+    %code.nowrap Journal Entry
+    %code.nowrap Completed Survey
+    %code.nowrap Completed Form
+
+  %p
+    Sheets refer to
+    = succeed '.' do
+      %strong data that has been captured
+
+  %p
+    Sheets can be edited, updated, locked, printed, and validated.
+
+  %p
+    Read more:
+    = link_to 'Data Entry', docs_sheets_path
+
+  %h2 Variables
+
+  %p
+    %code Questions
+    %code Data Points
+
+  %p
+    Variables define the questions that are present on designs.
+    Variables can come in a number of different formats to allow a wide range of
+    data to be collected.
+
+  %p
+    Variables can be single choice responses, multi-choice, free text, times,
+    numbers, calculations, and can also be signatures and file uploads.
+
+  %h2 Domains
+
+  %p
+    %code Choices
+    %code.nowrap Discrete Data
+    %code.nowrap Valid Responses
+    %code Options
+    %code Categorical
+
+  %p
+    A domain is a predefined and finite set of choices. A domain can belong to
+    multiple questions, for example a "Yes or No" domain, or it may be specific
+    to a single question.
+
+  %p
+    Read more:
+    = link_to 'Domains', docs_domains_path
+
+.docs-container
+  %p
+    Notice any other words that are confusing when using Slice?
+
+  %p
+    = mail_to ENV['support_email'], 'Send us an email'
+    to let us know!
+
+= render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]

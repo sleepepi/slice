@@ -1,0 +1,82 @@
+- @title = 'Designs'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Perhaps this section should instead be called
+    = succeed '.' do
+      %strong Capturing Data
+    Or better yet,
+    = succeed '.' do
+      %strong Creating a Data Capture Form
+    Or perhaps
+    = succeed ',' do
+      %strong Designing a Data Capture Form
+    because in part, good data capture is an art form.
+
+  %p
+    Or simply:
+    %strong Designs
+
+  %p
+    Slice, for better or for worse, likes to encapsulate larger concepts using
+    single words.
+    %sup= link_to '1', docs_lingo_path
+
+  %h2 What is a Design?
+
+  %p
+    A design is composed of a series of questions that can be grouped into
+    sections. The purpose of a design is to capture a set of data points, and
+    provides the framework to faithfully capture the data.
+
+  %p
+    A good understanding of the formats of questions that Slice provides is
+    important to creating a good design. While Slice provides the tools to make
+    robust designs, it is still possible to create designs that poorly represent
+    the underlying data. This disconnect typically results from a lack of
+    understanding of the reporting and analysis of the data after it is
+    collected.
+
+  %p
+    It is important to know the eventual analysis of the data while creating a
+    design.
+
+  %h2 Creating a design.
+
+  %p
+    A design primarily consists of a list of questions. Each question (commonly
+    referred to as a variable in Slice), has a display name, along with a variable
+    name. The
+    %strong variable name
+    is used to facilitate analysis of data exports, as
+    well as setting up calculations and data quality checks. The
+    %strong display name
+    is what is shown the the user entering the data.
+
+  %p
+    Slice provides a number of variable
+    %strong types
+    that can be used to capture data in different formats. These variable types
+    are covered in detail in the
+    = link_to 'Variables', docs_variables_path
+    section, but can cover single choice responses, free text, numbers, times,
+    and dates.
+
+  %p
+    For long designs, it is useful to split the questions into sections.
+    Sections can be added to designs, and can contain a heading, as well as a
+    section description.
+
+  %p
+    Designs can only be created and modified by project editors. Project
+    viewers, site editors, and site viewers do not have access to the design
+
+    builder.
+
+= render 'docs/links', next_link: ['Variables', docs_variables_path], previous_link: ['Index', docs_path]

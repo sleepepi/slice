@@ -15,8 +15,8 @@
   - Users can now update their email and name in the account settings
 - **Documentation Changes**
   - Added public facing documentation
-  - Documentation currently covers sites, roles, blinding, randomizations,
-    adverse events, and notifications
+  - Documentation currently covers designs, sites, roles, blinding,
+    randomizations, adverse events, notifications, and Slice lingo.
 - **Data Quality Checks**
   - Project editors can now define data quality checks that are used to identify
     sheets that have inconsistent data
