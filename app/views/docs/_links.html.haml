@@ -5,7 +5,7 @@
         = link_to previous_link[1], class: 'btn btn-block btn-lg btn-default text-left btn-shadow' do
           %small.docs-navigation
             &larr;
-            Previous
+            = previous_link[2] || 'Previous'
           %br
           = previous_link[0]
     - if previous_link && next_link
@@ -15,7 +15,7 @@
       - if next_link
         = link_to next_link[1], class: 'btn btn-block btn-lg btn-accent text-left btn-shadow' do
           %small.docs-navigation
-            Next
+            = next_link[2] || 'Next'
             &rarr;
           %br
           = next_link[0]
