@@ -12,8 +12,9 @@
             %code{ data: { object: 'show-search-bar' }, style: 'cursor: pointer;' }= params[:search]
 
 .body-attachment
-  .background-search.hidden-xs.hidden-sm
-    %span.glyphicon.glyphicon-search
+  .container.attachment-container
+    .background-search.hidden-xs.hidden-sm
+      %span.glyphicon.glyphicon-search
 
 - if @objects.size == 0
   .jumbotron
