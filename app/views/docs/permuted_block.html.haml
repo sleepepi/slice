@@ -9,7 +9,7 @@
 .docs-container
   %p
     The
-    %i Permuted-Block algorithm
+    %strong Permuted-Block algorithm
     determines treatment arm assignments by generating a group of blocks. Each
     block contains a predetermined number of treatment arm assignments based on
     the treatment arm allocations and the block multiplier. The block itself can
@@ -141,7 +141,7 @@
 
   %p
     The following shows how the
-    %i Block-Permuted algorithm
+    %strong Block-Permuted algorithm
     may generate an evenly distributed set of treatment options within a single
     Block Group.
 
@@ -177,14 +177,14 @@
   %p
     When a subject is randomized using the
     = succeed ',' do
-      %i Block-Permuted algorithm
+      %strong Block-Permuted algorithm
     the stratification factors are used to identify the list from which the
     algorithm should pull the next treatment arm assignment. Given gender
     (Male and Female) and site (Site A, Site B), a list would exist for each of
     these combinations. The following four lists would exist, "Male/Site A",
     "Male/Site B", "Female/Site A", and "Female/Site B". If a new treatment arm
     selection didn't exist, the
-    %i Block-Permuted algorithm
+    %strong Block-Permuted algorithm
     would then generate the next block group and append it to the appropriate
     list.
 
