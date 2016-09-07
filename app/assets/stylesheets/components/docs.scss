@@ -24,7 +24,7 @@
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
 
   strong {
-    color: #222325;
+    color: $headings-color;
   }
 
   h1,
@@ -33,15 +33,40 @@
   h4,
   h5,
   h6 {
-    color: #222325;
     margin: 30px 0;
     font-weight: 300;
   }
 
-  p {
-    line-height: 28px;
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  h5 {
+    font-size: 14px;
+  }
+
+  h6 {
+    font-size: 14px;
+  }
+
+  p,
+  ul {
     font-size: 16px;
     font-weight: 300;
+    line-height: 1.75em;
+    margin-bottom: 1em;
   }
 }
 
@@ -49,8 +74,34 @@
   .docs-container {
     padding: 60px;
 
-    p {
+    h1 {
+      font-size: 41px;
+    }
+
+    h2 {
+      font-size: 34px;
+    }
+
+    h3 {
+      font-size: 28px;
+    }
+
+    h4 {
       font-size: 20px;
+    }
+
+    h5 {
+      font-size: 16px;
+    }
+
+    h6 {
+      font-size: 14px;
+    }
+
+    p,
+    ul {
+      font-size: 20px;
+      line-height: 1.6em;
     }
   }
 }
