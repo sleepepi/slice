@@ -84,3 +84,26 @@
     background-position: 0 0;
   }
 }
+
+@keyframes wander {
+
+  25% {
+    transform: scaleX(0.30) scaleY(0.30) translate(0, 0) rotate(15deg);
+  }
+
+  40% {
+    transform: scaleX(0.25) scaleY(0.25) translate(550px, 250px) rotate(90deg);
+  }
+
+  60% {
+    transform: scaleX(0.25) scaleY(0.25) translate(550px, 500px) rotate(90deg);
+  }
+
+  75% {
+    transform: scaleX(0.30) scaleY(0.30) translate(750px, 500px) rotate(-300deg);
+  }
+
+  100% {
+    transform: scaleX(1) scaleY(1) translate(600px, 100px) rotate(-270deg);
+  }
+}

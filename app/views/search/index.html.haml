@@ -1,5 +1,19 @@
-.page-header
-  %h1 Search Results
+- @title = [params[:search], 'Search'].compact.join(' - ')
+- @menu_title = ['Search', params[:search]].compact.join(' ')
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        Search
+        - if params[:search].present?
+          %small
+            %code{ data: { object: 'show-search-bar' }, style: 'cursor: pointer;' }= params[:search]
+
+.body-attachment
+  .background-search.hidden-xs.hidden-sm
+    %span.glyphicon.glyphicon-search
 
 - if @objects.size == 0
   .jumbotron
@@ -14,4 +28,4 @@
             - scope.each do |item|
               - link = item.respond_to?('project') ? [item.project, item] : item
               .overflow-hidden{ title: "#{item.project.name if item.respond_to?('project')}", style: 'width: 100%', rel: 'tooltip', data: { placement: 'right', container: 'body' } }
-                = link_to highlight(item.name, params[:q], highlighter: '<span class="highlight">\1</span>'), link
+                = link_to item.name, link

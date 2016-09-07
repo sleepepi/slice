@@ -16,7 +16,8 @@
 .landing-cog,
 .landing-cog2,
 .landing-cog3,
-.landing-lower-right {
+.landing-lower-right,
+.background-search {
   position: absolute;
   z-index: -1;
 }
@@ -63,5 +64,18 @@
   i {
     transform: rotate(10deg);
     animation: shake 9s ease-in-out infinite alternate;
+  }
+}
+
+.background-search {
+  color: $brand-muted;
+  font-size: 512px;
+  top: 270px;
+  left: 0;
+
+  span {
+    transform: scale(1);
+    animation: wander 15s ease-in-out 1;
+    animation-fill-mode: forwards;
   }
 }
