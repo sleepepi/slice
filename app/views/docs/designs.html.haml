@@ -8,44 +8,18 @@
 
 .docs-container
   %p
-    Perhaps this section should instead be called
-    = succeed '.' do
-      %strong Capturing Data
-    Or better yet,
-    = succeed '.' do
-      %strong Creating a Data Capture Form
-    Or perhaps
-    = succeed ',' do
-      %strong Designing a Data Capture Form
-    because in part, good data capture is an art form.
+    A design is a series of questions. The questions in a design can be broken
+    into several sections and subsections. The purpose of a design is to provide
+    a framework for accurately capturing a set of data.
 
   %p
-    Or simply:
-    %strong Designs
+    A good understanding of the types of questions that Slice provides is
+    useful when creating a design, and is covered in the next section.
 
   %p
-    Slice, for better or for worse, likes to encapsulate larger concepts using
-    single words.
-    = link_to '1', docs_lingo_path, class: 'btn btn-default sup-link'
-
-  %h2 What is a Design?
-
-  %p
-    A design is composed of a series of questions that can be grouped into
-    sections. The purpose of a design is to capture a set of data points, and
-    provides the framework to faithfully capture the data.
-
-  %p
-    A good understanding of the formats of questions that Slice provides is
-    important to creating a good design. While Slice provides the tools to make
-    robust designs, it is still possible to create designs that poorly represent
-    the underlying data. This disconnect typically results from a lack of
-    understanding of the reporting and analysis of the data after it is
-    collected.
-
-  %p
-    It is important to know the eventual analysis of the data while creating a
-    design.
+    Before creating a design, make sure you understand the eventual purpose of
+    the data being collected so you won't need to make changes after data
+    collection starts.
 
   %h2 Creating a design.
 
@@ -76,7 +50,6 @@
   %p
     Designs can only be created and modified by project editors. Project
     viewers, site editors, and site viewers do not have access to the design
-
     builder.
 
 = render 'docs/links', next_link: ['Variables', docs_variables_path], previous_link: ['Index', docs_path]
