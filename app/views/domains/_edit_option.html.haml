@@ -9,7 +9,7 @@
   - grid_count = @domain.grids.where(response: @option[:value]).count
   - total_count = sheet_variables_count + grid_count
 
-.sheet-container{ id: "option_#{@position}", class: "#{'fieldset_with_errors' if @domain and @domain.errors.keys.include?(:options)}", style: "cursor:move;line-height:30px;padding-top:5px" }
+.sheet-container{ id: "option_#{@position}", class: "#{'fieldset_with_errors' if @domain && @domain.errors.keys.include?(:options)}", style: "cursor:move;line-height:30px;padding-top:5px" }
   .row
     .col-xs-1
       %span.glyphicon.glyphicon-move
@@ -20,16 +20,16 @@
       = text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control'
     - if false
       .col-xs-2{ style: "display:none" }
-        = text_field_tag "domain[option_tokens][][description]", @option[:description], autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: "-1", class: 'form-control'
+        = text_field_tag "domain[option_tokens][][description]", @option[:description], autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: '-1', class: 'form-control'
 
     .col-xs-2
       %label.checkbox.checkbox-inline{ class: "#{'selected' if @option[:missing_code] == '1'}" }
-        = check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: "-1"
+        = check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: '-1'
         Missing Code
     .col-xs-2
       = select_tag 'domain[option_tokens][][site_id]', options_for_select([['--All Sites--', nil]] + @project.sites.order(:name).pluck(:name, :id), @option[:site_id]), class: 'form-control'
     .col-xs-3
-      = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#option_#{@position}", count: total_count }, id: "option_#{@position}_delete_link", tabindex: "-1"
+      = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#option_#{@position}", count: total_count }, id: "option_#{@position}_delete_link", tabindex: '-1'
       - if total_count > 0
         %span.text-muted
           = pluralize total_count, 'response'

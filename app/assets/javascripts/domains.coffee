@@ -9,8 +9,8 @@
       $(element).parent().hide()
     )
     $("[name='domain[option_tokens][][name]']").each( (index, element) ->
-      $(element).parent().removeClass('col-xs-4')
-      $(element).parent().addClass('col-xs-6')
+      $(element).parent().removeClass('col-xs-2')
+      $(element).parent().addClass('col-xs-4')
     )
   else
     $("[name='domain[option_tokens][][value]']").each( (index, element) ->
