@@ -77,7 +77,11 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    checked ? '<span class="glyphicon glyphicon-ok"></span>'.html_safe : ''
+    if checked
+      content_tag :span, nil, class: %w(glyphicon glyphicon-ok)
+    else
+      ''
+    end
   end
 
   def simple_check_new(checked)

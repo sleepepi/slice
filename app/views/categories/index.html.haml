@@ -17,7 +17,7 @@
         %tr
           %th Position
           %th Name
-          %th Use for adverse events
+          %th.center Use for adverse events
           %th Creator
           %th{ colspan: 2 } Actions
 
@@ -26,8 +26,8 @@
           %tr
             %td= category.position
             %td= link_to category.name, [@project, category]
-            %td= simple_check category.use_for_adverse_events
+            %td.center= simple_check category.use_for_adverse_events
             %td= category.user.name
-            %td
+            %td.nowrap
               = link_to 'Edit', edit_project_category_path(@project, category), class: 'btn btn-xs btn-default'
               = link_to 'Destroy', [@project, category], method: :delete, data: { confirm: "Are you sure you want to delete category #{category.name}?" }, class: 'btn btn-xs btn-danger-inverse'
