@@ -4,11 +4,9 @@
 - if @sheet.new_record?
   - submit_url = new_survey_path(@design.slug)
   - submit_method = :post
-  - submit_button = 'Submit Survey'
 - else
   - submit_url = edit_survey_path(@design.slug, @sheet.authentication_token)
   - submit_method = :patch
-  - submit_button = 'Submit Survey'
 
 - form_name = "survey_#{@design.id}_form"
 = form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |f|
@@ -27,16 +25,15 @@
       .col-md-10
         = select_tag :site_id, options_for_select([['---', nil]] + @design.project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'
 
-  #design{ style: "min-height:200px" }
+  #design{ style: 'min-height:200px' }
     - params[:header] = '0'
     = render 'designs/show', design: @design
 
-  .form-signin
+  - if @sheet.new_record? && @design.project.collect_email_on_surveys?
+    .form-group
+      = label :email, 'Email', class: 'col-md-2 control-label'
+      .col-md-10
+        = email_field_tag :email, params[:email], class: 'form-control', placeholder: 'email@example.com'
 
-    - if @sheet.new_record? and @design.project.collect_email_on_surveys?
-      %p.lead Please enter your email
-      = email_field_tag :email, params[:email], class: 'form-control', placeholder: 'Email'
-    - else
-      %p.lead Thank you
-
-    = link_to submit_button, '#', data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: 'sheet_submit_btn', class: 'btn btn-success btn-block btn-lg'
+  .center{ style: 'margin-top: 40px' }
+    = link_to 'Submit Survey', '#', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, class: 'btn btn-primary btn-lg btn-shadow'

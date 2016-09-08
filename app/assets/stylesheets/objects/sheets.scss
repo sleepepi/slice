@@ -27,6 +27,10 @@
 .shade-background {
   display: table;
   width: 100%;
+
+  .table {
+    background-color: transparent;
+  }
 }
 
 .blind-background {

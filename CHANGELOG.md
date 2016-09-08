@@ -38,6 +38,8 @@
     string starts with a space
 - **Site Changes**
   - Site short names can now be configured
+- **Survey Changes**
+  - Minor UI changes to survey submit button and associated text
 - **Variable Changes**
   - Improved the display of domains when editing variables
   - Editing variables no longer shows an overwhelming amount of additional

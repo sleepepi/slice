@@ -5,11 +5,8 @@
   .jumbotron
     %h1 Survey Complete
     %p
-      Thank you for taking your time to complete the survey. If you entered your
-      email, you will receive a link to your survey responses.
-    %p
-      You can also copy the link below if you wish to go back and make any
-      changes.
+      Thank you for completing the survey.
+      Click the link below if you need to make any changes to your responses.
     %p= text_field_tag 'survey_url', survey_url, class: 'form-control'
     %p= link_to 'Go Back to Survey', survey_url, class: 'btn btn-primary'
 
@@ -24,7 +21,7 @@
       = link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
       clinical research interface for collecting and analyzing data.
     %p.about-signup
-      = link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-lg"
+      = link_to 'Sign Me Up', new_user_registration_path, class: 'btn btn-primary btn-lg btn-shadow'
 
-%div{ style: "padding: 19px 29px 29px; margin: 40px auto 20px;" }
+%div{ style: 'padding: 19px 29px 29px; margin: 40px auto 20px;' }
   = image_tag 'slc_designer.png', style: 'width:100%;'
