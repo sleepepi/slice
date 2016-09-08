@@ -76,4 +76,4 @@
   .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
-      = cancel
+      = link_to 'Cancel', @design.new_record? ? project_designs_path(@project) : [@project, @design], class: 'btn btn-default'

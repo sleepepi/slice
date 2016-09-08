@@ -4,11 +4,6 @@
 module ApplicationHelper
   include DateAndTimeParser
 
-  # TODO: Remove cancel button
-  def cancel
-    link_to 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'btn btn-default'
-  end
-
   def th_sort_field_rev(order, sort_field, display_name, extra_class: '')
     sort_params = params.permit(:search)
     sort_field_order = (order == "#{sort_field} desc" || order == "#{sort_field} desc nulls last") ? sort_field : "#{sort_field} desc"

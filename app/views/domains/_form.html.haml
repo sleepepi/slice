@@ -66,4 +66,4 @@
       = f.submit nil, class: 'btn btn-primary'
       - form_name = @domain.new_record? ? 'new_domain' : "edit_domain_#{@domain.id}"
       = f.submit @domain.new_record? ? 'Create Domain and Continue' : 'Update Domain and Continue', class: 'btn btn-primary', data: { target: "##{form_name}", object: "domain-form-submit", continue: '1' }
-      = cancel
+      = link_to 'Cancel', @domain.new_record? ? project_domains_path(@project) : [@project, @domain], class: 'btn btn-default'

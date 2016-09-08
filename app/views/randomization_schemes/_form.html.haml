@@ -145,4 +145,4 @@
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, class: 'btn btn-primary'
-      = cancel
+      = link_to 'Cancel', @randomization_scheme.new_record? ? project_randomization_schemes_path(@project) : [@project, @randomization_scheme], class: 'btn btn-default'

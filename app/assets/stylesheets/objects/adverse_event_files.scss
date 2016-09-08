@@ -1,8 +1,8 @@
 // Styles for adverse event file uploads and attachments
 
 .ae-file {
-  background-color: $navbar-default-bg;
-  border: 1px solid $navbar-default-border;
+  background-color: $P50;
+  border: 1px solid $P100;
   display: block;
   height: 115px;
   overflow: hidden;
@@ -12,8 +12,8 @@
 }
 
 .ae-file:hover {
-  background-color: $navbar-default-toggle-hover-bg;
-  border-color: $navbar-default-toggle-border-color;
+  background-color: $P100;
+  border-color: $P200;
 }
 
 .ae-file-destroy {

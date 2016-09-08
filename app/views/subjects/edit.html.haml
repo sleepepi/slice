@@ -6,8 +6,9 @@
 - links << ['Edit', edit_project_subject_path(@project, @subject)]
 = render 'projects/tabbed_menu', links: links
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
+
+.row
+  .col-sm-2
+    = render 'subjects/event_navigation'
+  .col-sm-10
     = render 'form'

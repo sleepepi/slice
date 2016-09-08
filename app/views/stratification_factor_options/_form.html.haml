@@ -24,4 +24,4 @@
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, class: 'btn btn-primary'
-      = cancel
+      = link_to 'Cancel', @stratification_factor_option.new_record? ? project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor) : [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], class: 'btn btn-default'
