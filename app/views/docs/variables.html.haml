@@ -8,5 +8,145 @@
 
 .docs-container
   %p
+    Slice provides a wide variety of types of variables that can be used to
+    create robust designs to capture data.
+
+  %h2 Numeric and Integer
+
+  %p
+    Numeric and integer variables create fields that can have a predefined soft
+    and hard range of valid values. Units can also be added to numeric and
+    integer variables to assure better data capture, and to better define the
+    data in data exports.
+
+  %h2 Free Text and String
+
+  %p
+    Free text and string variables allow users to enter any characters into a
+    multi-line text box, or into a one-line field. Use of free text and string
+    variables should be limited and not be used a general all purpose form of
+    capturing data.
+
+  %p
+    String variables can specify a set of auto-complete values that will be
+    displayed to the user entering the data as they are typing.
+
+  %h2 Radio and Single-Choice
+
+  %p
+    Radio variables will present the user a set of choices from which the user
+    can choose one response.
+
+  %p
+    Radio variables can be displayed as a vertical list, a horiztonal list, as
+    part of a scale, or a dropdown list for domains that contain a larger set of
+    options.
+
+  %h2 Checkbox and Multi-Choice
+
+  %p
+    Checkbox variables present the user a set of choices from which the user
+    can choose one or more options.
+
+  %p
+    Checkbox variables can be either presented in a vertical list, horizontal
+    list, or as part of a scale.
+
+  %h2 Date
+
+  %p
+    Date variables can have a hard and soft range, and can be displayed and
+    captured in a few predefined formats. For example the date July 3, 2016 can
+    be formatted as 07/03/2016, 03/07/2016, 2016-07-03, and 03-JUL-2016.
+
+  %p
+    Date variables can include a "Current Date" button to quickly enter today's
+    date without typing.
+
+  %h2 Time of Day
+
+  %p
+    Time of Day variables capture the hour, minutes, and seconds on which an
+    event occurred. Time can be captured and formatted using military time and
+    AM/PM time formats. For example, 1:06:50pm can be formatted as: 13:06:50 or
+    1:06:50 PM.
+
+  %p
+    Time of Day variables can also be set to preselect PM by default, and also
+    to hide the seconds for simpler data capture.
+
+  %p
+    Time of day variables can include a "Current Time" button to quickly enter
+    the current time without typing.
+
+  %h2 Time Duration
+
+  %p
+    Time Duration variables specify the amount of time a task took in hours,
+    minutes, and seconds.
+
+  %p
+    Time Duration variables can also be formatted and captured using only hours
+    and minutes, or alternatively only minutes and seconds.
+
+  %h2 Files
+
+  %p
+    Files can be uploaded to sheets by adding a file variable to a design.
+    Uploads may not be over 10 MB, and should only be used as supporting
+    documentation.
+
+  %h2 Imperial Height and Imperial Weight
+
+  %p
+    The imperial values allow a user to capture weight in feet and inches, and
+    weight in pounds and ounces. Data is exported in total inches and total
+    ounces respectively.
+
+  %p
+    Both of these variable types represent a combo-variable type that eases
+    reporting, data capture, range checks, and data exports. Combo-variable
+    types have built in range checks and custom validations.
+
+  %h2 Signatures
+
+  %p
+    Slice also allows a signature field to be added to designs. Signature fields
+    allow the user entering data to sign in a signature box before creating or
+    updating a sheet.
+
+  %h2 Calculated
+
+  %p
+    Calculated variables are used to compute a value based on other variables
+    above it on the same design. Calculated variables are defined by a formula,
+    and can also be given an arbitrary format. A commonly calculated variable
+    for example is Body Mass Index given that height and weight are provided on
+    the same design.
+
+  %h2 Grids
+
+  %p
+    Grids allow a series of variables to be asked a repeated number of times on
+    the same design. Grids can be used for repeated measures, and can contain
+    many of the above variables. Grids can have a preset number of rows, and
+    can also be set to allow or disallow the adddition of more rows.
+
+  %h2 Required and Recommended
+
+  %p
+    All variables on a design can be set as Not Required (default), Recommended,
+    and Required.
+
+  %p
+    If a recommended variable has no value when a form is being created, the
+    user receives a warning that a recommended field hasn't been filled out, but
+    may opt to save the sheet anyways.
+
+  %p
+    If a required variable has no value, a user must specify a value before
+    being able to create or update the sheet. Increasing the number of required
+    fields on a form also increases the frustration of filling out the form, so
+    make sure to use the required setting judiciously.
 
 = render 'docs/links', previous_link: ['Designs', docs_designs_path], next_link: ['Domains', docs_domains_path]
