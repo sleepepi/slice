@@ -8,5 +8,48 @@
 
 .docs-container
   %p
+    Domains encapsulate a set of choices. Each choice or option in a domain
+    consists of a
+    %strong value
+    and a
+    %strong name
+    also commonly called a label.
+    For example the
+    %code YesNo
+    domain may have two options,
+    = succeed ',' do
+      %code 0: Yes
+    and
+    = succeed ',' do
+      %code 1: No
+    where 0 and 1 are the values, and Yes and No are the names of the options.
+
+  %p
+    Slice allows the values of options to be changed even if data is already
+    captured using that domain. Slice automatically checks that the value change
+    can be made, and then updates any existing sheet that may have the value.
+    These changes are recorded in each sheets audit trail as a domain update.
+
+  %p
+    A domain can belong to a single variable, or it can belong to multiple
+    variables. For example, the domain FemaleMale, may only show up on
+    the Gender variable, while the YesNo domain may occur across a number of
+    variables.
+
+  %p
+    Note that changing a domain will affect all variables to which the domain
+    belongs. A variable can be assigned to a new domain if the already captured
+    values are covered in the new domains specified options.
+
+  %p
+    Domain options can also be flagged as missing codes. Doing so will mark the
+    option as a missing code in data exports and statistical script exports, and
+    will also display the response as a missing code during data entry.
+
+  %p
+    Domains can also have options limited by site. This is helpful if a variable
+    presents a list of staff members in a dropdown, and only a handful of those
+    are valid options for a specific site entering the data. Each staff member
+    option can be assigned to the site to which it belongs.
 
 = render 'docs/links', previous_link: ['Variables', docs_variables_path], next_link: nil

@@ -42,6 +42,10 @@ class DocsController < ApplicationController
   def designs
   end
 
+  # GET /docs/sections
+  def sections
+  end
+
   # GET /docs/variables
   def variables
   end

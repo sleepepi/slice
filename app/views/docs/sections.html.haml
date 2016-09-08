@@ -1,0 +1,34 @@
+- @title = 'Sections'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    A design can be broken into one or more sections. Section headings can be
+    added by project editors building a design.
+
+  %p
+    A section always has a name, and can also be given a description and an
+    image. Images can be used in conjunction with branching logic to display
+    custom warnings if certain branching logic conditions are met on the form.
+
+  %p
+    A section can be set as a Main Section, a Subsection, or as a Warning. The
+    type assigned primarily changes the styling of the section as it shows up
+    on the design. However, when reordering questions and sections on a design,
+    entire main sections can be moved while maintaining the order of questions
+    within the main section.
+
+  %p
+    Sections are typically most useful on long forms to break up the flow of
+    content. However, a design that has more than 3 or 4 main sections may be a
+    sign that the form should be broken up into separate and dedicated designs.
+    Remember, you can always have a series of designs filled out by assigning
+    them together to a specific event.
+
+
+= render 'docs/links', previous_link: ['Designs', docs_designs_path], next_link: ['Variables', docs_variables_path]

@@ -59,6 +59,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should get sections' do
+    get docs_sections_path
+    assert_response :success
+  end
+
   test 'should get variables' do
     get docs_variables_path
     assert_response :success

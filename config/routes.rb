@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     get :sites
 
     get :designs
+    get :sections
     get :variables
     get :domains
     get :treatment_arms, path: 'randomization/treatment-arms'
