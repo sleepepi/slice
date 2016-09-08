@@ -41,6 +41,6 @@
         .row
           - randomization_schemes_row.each do |randomization_scheme|
             .col-sm-6{ style: 'margin-bottom:20px' }
-              = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-success-inverse btn-block btn-lg' do
+              = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, randomization_scheme), class: 'btn btn-success-inverse btn-block btn-lg btn-shadow' do
                 Choose
                 %strong.btn-text-emphasis= randomization_scheme.name

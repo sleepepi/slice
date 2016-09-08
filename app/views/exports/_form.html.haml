@@ -42,8 +42,8 @@
           = f.check_box :include_data_dictionary
           Data Dictionary
 
-    .col-md-4
-      = f.submit 'Export', class: 'btn btn-primary btn-block btn-lg', style: 'height: 122px;font-size: 24.5px;font-weight:300'
+    .col-md-4.hidden-xs.hidden-sm
+      = f.submit 'Export', class: 'btn btn-primary btn-block btn-shadow', style: 'height: 122px;font-size: 24.5px;font-weight:300'
 
   .row
     .col-md-4
@@ -59,3 +59,5 @@
         %label.checkbox{ class: (@export.include_randomizations ? 'selected' : nil) }
           = f.check_box :include_randomizations
           Randomizations
+    .col-md-4.visible-xs.visible-sm
+      = f.submit 'Export', class: 'btn btn-primary btn-block btn-shadow', style: 'height: 122px;font-size: 24.5px;font-weight:300'

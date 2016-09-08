@@ -25,24 +25,16 @@
         = label_tag :subject_event_id, 'Subject Event', class: 'col-md-3 control-label'
         .col-md-9
           = f.hidden_field :subject_event_id
-          %div{ style: 'line-height:34px' }= @sheet.subject_event.event.name
+          %div{ style: 'line-height:34px' }
+            - if @sheet.subject_event.event_date
+              = "#{@sheet.subject_event.event.name} - #{@sheet.subject_event.event_date_to_s}"
+            - else
+              = @sheet.subject_event.event.name
   - elsif @sheet.subject && @sheet.subject.subject_events.size > 0
     .form-group
       = label_tag 'sheet[subject_event_id]', 'Event', class: 'col-md-3 control-label'
       .col-md-9
-        = f.select :subject_event_id, [['---', nil]] + @sheet.subject.subject_events.joins(:event).pluck('events.name', :event_date, :id).collect{|name,event_date,id| ["#{name} - #{event_date ? event_date.strftime('%a, %B %-d, %Y') : 'No Date'}", id]}, {}, class: 'form-control'
-
-  - if false
-    - unless @sheet.new_record?
-      - if @sheet.subject_event
-        .form-group
-          = label_tag :subject_event_id, 'Event', class: 'col-md-3 control-label'
-          .col-md-9
-            %div{ style: 'line-height:34px' }= @sheet.subject_event.event.name
-        .form-group
-          = label_tag :subject_event_event_date, 'Event Date', class: 'col-md-3 control-label'
-          .col-md-9
-            %div{ style: 'line-height:34px' }= @sheet.subject_event.event_date
+        = f.select :subject_event_id, [['---', nil]] + @sheet.subject.subject_events.joins(:event).pluck('events.name', :event_date, :id).collect { |name, event_date, id| ["#{name} - #{event_date ? event_date.strftime('%a, %B %-d, %Y') : 'No Date'}", id] }, {}, class: 'form-control'
 
   = render 'designs/show', design: @sheet.design if @sheet.design
 
@@ -50,6 +42,6 @@
     .col-md-9.col-md-offset-3
       - form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}"
       - submit_text = @sheet.new_record? ? 'Create Sheet' : 'Update Sheet'
-      = link_to submit_text, '#', class: 'btn btn-primary btn-lg', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, id: 'sheet_submit_btn'
+      = link_to submit_text, '#', class: 'btn btn-primary', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, id: 'sheet_submit_btn'
       = cancel
       %span#validation-messages.text-danger
