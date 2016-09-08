@@ -8,5 +8,79 @@
 
 .docs-container
   %p
+    Data entry in Slice revolves around subject data. In order to enter data for
+    a new subject, a project or site editor can create a new subject. Subjects
+    can be created by assigning a new subject code, and then entering the data
+    from the list of available designs.
+
+  %p
+    Designs can be created by project editors at the start of and during a
+    project's lifecycle.
+
+  %p
+    When completing a sheet, a sheet completion percentage is calculated. This
+    calculation takes into account the presence of responses in all visible
+    questions. The completion percentage makes it easy to identify sheets that
+    are missing data.
+
+  %p
+    Some designs may have stricter requirements, and have required fields that
+    must be filled in before a sheet can be saved.
+
+  %p
+    Another alternative to making fields required on a design is to set up
+    data quality checks that can help identify sheets that are missing data or
+    have data that is out of range. Data quality checks also have the advantage
+    of being able to compare values across sheets.
+
+  %p
+    Designs can be also set to be publicly available. When a design is publicly
+    available, it is given a public URL, and is called a survey within the
+    system. Designs that have been set as surveys can be filled out by
+    individuals without the need of logging into the site.
+
+  %p
+    Alternatively, a series of designs on an event can be set to be part of a
+    handoff event. A handoff event could occur during a subject visit, and the
+    subject could fill out a series of forms on a tablet before handing the
+    tablet back to the staff member.
+
+  %p
+    Data entered on a sheet is also audited. The audit trail provides
+    information on the time the data was entered, the responses and changes that
+    were made, as well as the individual who made the changes. Audit trails are
+    kept for each sheet.
+
+  %p
+    Sheets can be saved and printed as PDFs if a hard copy backup is needed.
+
+  %p
+    Randomizing subjects can be setup in such a way that it requires a question
+    on a sheet to be filled out before allowing the subject to be randomized.
+
+  %p
+    Project and site members can make comments on existing sheets if they wish
+    to add additional contextual information. If comments frequently attempt to
+    add additional information to the form, it may be a sign that the design
+    requires new questions to be added.
+
+  %p
+    Designs can be assigned to be part of adverse events. Adverse events
+    themselves only have a brief description and date reported. By creating
+    and adding designs to an adverse event, additional information can be
+    consistenly captured across any adverse event that is reported on the
+    project.
+
+  %p
+    Data that is entered on sheets can be exported to a variety of formats.
+    These formats include labeled and unlabeled CSV files along with
+    corresponding data dictionary that Slice build automatically, PDFs, and SAS
+    and R import scripts.
+
+  %p
+    Slice also provides a flexible reporting system that provides preset and
+    configurable reports to generate a series of tables and graphs. These
+    reports can be exported to CSVs or PDFs and reflect the current state of
+    data within the system.
 
 = render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]

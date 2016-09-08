@@ -8,5 +8,12 @@
 
 .docs-container
   %p
+    In certain cases, data entry adjustments may be made to an existing sheet
+    some time after the initial data entry. Projects can set a length of time
+    that a sheet stays editable before automatically locking. A locked sheet
+    can no longer be edited. In order to make changes on a locked sheet, an
+    site editor must request the sheet to be unlocked for further editing and
+    provide a reason for the changes. This request can be approved or rejected
+    by project editors.
 
 = render 'docs/links', next_link: nil, previous_link: ['Index', docs_path]
