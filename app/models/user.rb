@@ -130,6 +130,11 @@ class User < ApplicationRecord
     Design.current.with_project(all_viewable_and_site_projects.select(:id)).blinding_scope(self)
   end
 
+  # Filters designs on a subject event by the user's blinded status
+  def designs_on_subject_event(subject_event)
+    all_viewable_designs.where(id: subject_event.event.designs.select(:id))
+  end
+
   def all_events
     Event.current.where(project_id: all_projects.select(:id)).blinding_scope(self)
   end
@@ -162,6 +167,17 @@ class User < ApplicationRecord
          .where(design_id: all_viewable_designs.select(:id))
          .joins('LEFT OUTER JOIN subject_events ON subject_events.id = sheets.subject_event_id').distinct
          .where('sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)', all_viewable_events.select(:id))
+  end
+
+  # Filters sheets on a subject event by the user's blinded status
+  def sheets_on_subject_event(subject_event)
+    all_viewable_sheets.where(subject_event_id: subject_event.id)
+                       .where(design_id: subject_event.event.designs.select(:id))
+  end
+
+  def extra_sheets_on_subject_event(subject_event)
+    all_viewable_sheets.where(subject_event_id: subject_event.id)
+                       .where.not(design_id: subject_event.event.designs.select(:id))
   end
 
   # Only Project Editors or Project Owner can modify randomization

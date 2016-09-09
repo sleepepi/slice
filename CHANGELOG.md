@@ -24,6 +24,9 @@
     sheets that have inconsistent data
 - **Design Changes**
   - Designs can be flagged to ignore project-wide auto-locking
+- **Event Changes**
+  - Events that contain designs that are for unblinded-only, now properly hide
+    these sheets from blinded project members
 - **Sheet Changes**
   - Sheet saving errors are now written to a hidden field on the form to allow
     debugging of branching logic mistakes

@@ -2,8 +2,9 @@
   .panel-heading
     .pull-right
       = subject_event.event_date_to_s
-    - sheets_started = sheets_completed = @subject.sheets.where(subject_event_id: subject_event.id, design_id: subject_event.event.designs.pluck(:id)).pluck(:design_id).uniq.count
-    - designs_count = subject_event.event.designs.count
+    - sheets_started = sheets_completed = current_user.sheets_on_subject_event(subject_event).pluck(:design_id).uniq.count
+    - designs_count = current_user.designs_on_subject_event(subject_event).count
+
     - if sheets_completed == designs_count
       %span.text-success
         %span.glyphicon.glyphicon-ok
@@ -23,7 +24,10 @@
       %col{ width: '220px' }
       - subject_event.event.event_designs.includes(:design).each do |event_design|
         - design = event_design.design
+        - next if current_user.all_viewable_designs.where(id: design.id).count == 0
+
         - sheets = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id)
+
         - if sheets.count > 0
           - sheets.each do |sheet|
             %tr{ class: "#{'warning' if sheets.count > 1}"}
@@ -57,7 +61,7 @@
               - if @subject.editable_by? current_user
                 = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs'
                 = link_to 'Set as Missing', set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, remote: true, class: 'btn btn-xs btn-default'
-    - non_design_sheets = subject_event.sheets.where.not(design_id: subject_event.event.designs.select(:id))
+    - non_design_sheets = current_user.extra_sheets_on_subject_event(subject_event)
     - if non_design_sheets && non_design_sheets.count > 0
       %div{ style: 'margin-top: 20px' }
         .callout.callout-warning
