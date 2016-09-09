@@ -103,8 +103,10 @@ class ProjectsController < ApplicationController
     if params[:undo] == '1'
       'Your action has been undone.'
     else
-      "#{view_context.link_to(@project.name, @project)} has been restored.\
-       #{view_context.link_to 'Undo', restore_project_path(@project, undo: '1'), method: :post}"
+      [
+        "#{@project.name} has been restored.",
+        { label: 'Undo', url: restore_project_path(@project, undo: '1'), method: :post }
+      ]
     end
   end
 
@@ -112,8 +114,10 @@ class ProjectsController < ApplicationController
     if params[:undo] == '1'
       'Your action has been undone.'
     else
-      "#{view_context.link_to(@project.name, @project)} has been archived.\
-       #{view_context.link_to 'Undo', archive_project_path(@project, undo: '1'), method: :post}"
+      [
+        "#{@project.name} has been archived.",
+        { label: 'Undo', url: archive_project_path(@project, undo: '1'), method: :post }
+      ]
     end
   end
 end

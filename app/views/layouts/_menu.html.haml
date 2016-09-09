@@ -8,18 +8,7 @@
         %span.icon-bar
       = link_to ENV['website_name'], current_user ? root_path : landing_path, class: 'navbar-brand'
       = link_to @menu_title || @title, '#top', data: { object: 'remove-collapse-in scroll-anchor', target: '.navbar-full-menu' }, class: 'navbar-brand page-title' if @menu_title || @title
-      - if flash[:notice].present?
-        = link_to '#', data: { object: 'remove-self' }, class: 'link-unstyled navbar-brand', style: 'font-size: 16px;' do
-          %span.label.label-accent.shadow-sm
-            = flash[:notice].html_safe
-            &nbsp;
-            &times;
-      - if flash[:alert].present?
-        = link_to '#', data: { object: 'remove-self' }, class: 'link-unstyled navbar-brand', style: 'font-size: 16px;' do
-          %span.label.label-warning.shadow-sm
-            = flash[:alert].html_safe
-            &nbsp;
-            &times;
+      = render 'layouts/menu_flash'
 
     .collapse.navbar-collapse.navbar-full-menu
       - if current_user

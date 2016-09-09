@@ -139,7 +139,7 @@ class SheetsController < ApplicationController
       notice = if params[:undo] == '1'
                  'Your action has been undone.'
                else
-                 "Successfully transferred sheet from subject <b>#{original_subject.subject_code}</b> to <b>#{subject.subject_code}</b>. #{view_context.link_to 'Undo', transfer_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch}"
+                 ["Successfully transferred sheet from subject <b>#{original_subject.subject_code}</b> to <b>#{subject.subject_code}</b>.", { label: 'Undo', url: transfer_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch }]
                end
 
       SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
