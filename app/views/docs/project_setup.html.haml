@@ -8,5 +8,87 @@
 
 .docs-container
   %p
+    Setting up a project in Slice is outlined below. The project is given a
+    name, additional sites are added, members are invited, an initial design is
+    made, and modules are enabled.
+
+  %h2 Creating a Project
+
+  %p
+    To start, click "Create a New Project" on your Dashboard, or go to the
+    = link_to 'Projects Index', projects_path
+    and select and click "Create Project".
+
+  %p
+    All a project needs initially is to have a name, after which you can click
+    the "Create Project" button at the bottom of the form.
+
+  %h2 Setting up Sites
+
+  %p
+    Many projects are located at a single physical location, also known as a
+    site. For projects that have multiple sites, click "Sites" in the project
+    left hand menu. From here you can add new sites, or edit the names of
+    existing sites.
+
+  %h2 Inviting Collaborators
+
+  %p
+    Collaborators can be quickly invited by email from the "Collaborators"
+    project menu item. Enter the new members email, set them as an editor or a
+    viewer, and grant them access to either the entire project, or assign them
+    to a specific site. For more detailed information on project versus site
+    members, read the
+    = link_to 'Roles', docs_roles_path
+    documentation section.
+
+  %h2 Creating a design
+
+  %p
+    Now that you have users on your project, you will want to create a design so
+    that your collaborators can start entering data. To do so you will need to
+    create one (or more) designs.
+
+  %p
+    Start by clicking on "Designs" in the project menu, and click "Create
+    Design". Design creation is outlined in the
+    = link_to 'Designs', docs_designs_path
+    documentation section.
+
+  %h2 Enabling Modules
+
+  %p
+    Slice provides various modules that can be enabled to accomodate projects
+    with more advanced needs.
+
+  %p
+    A randomization module if you will be randomizing subjects.
+    Read more about
+    = succeed '.' do
+      = link_to 'Enabling Randomization', docs_randomization_schemes_path
+
+  %p
+    You may also enable Blinded and Unblinded staff on the project, and that is
+    covered more in the
+    = link_to 'Blinding', docs_blinding_path
+    documentation section.
+
+  %p
+    You may also enable the Adverse Events module in the project settings. This
+    modules allows project members to report and track adverse events that occur
+    during the project life cycle. Read more about
+    = succeed '.' do
+      = link_to 'Adverse Events', docs_randomization_schemes_path
+
+  %p
+    Daily Digest emails can be disabled for all members on the project by
+    disabling project emails in the project settings.
+
+  %p
+    Finally, you may enable the Table Handoff module which allows subjects to
+    fill out a series of designs that have been set to "Handoff Enabled" on an
+    event. Tablet handoff and events are detailed in the
+    = link_to 'Events', docs_events_path
+    documentation section.
 
 = render 'docs/links', previous_link: ['Index', docs_path], next_link: nil
