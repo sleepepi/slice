@@ -8,5 +8,15 @@
 
 .docs-container
   %p
+    A randomization scheme is not complete without a few treatment arms.
+    Treatment arms can be added to each scheme and can be assigned an
+    allocation. If you have two treatment arms, and wish for 1/3 of your
+    participants to go into Treatment Arm A, and the remaining 2/3 to go into
+    Treatment Arm B, then you can set the allocation of Treatment Arm A to 1,
+    and the allocation for Treatment Arm B to 2.
 
-= render 'docs/links', previous_link: ['Randomization Schemes', docs_randomization_schemes_path], next_link: nil
+  %p
+    If you have multiple treatment arms, and want an even distribution among all
+    arms, then you can set the allocation of each arm to 1.
+
+= render 'docs/links', previous_link: ['Permuted-Block Algorithm', docs_permuted_block_path], next_link: ['Stratification Factors', docs_stratification_factors_path]

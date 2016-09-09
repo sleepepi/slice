@@ -16,8 +16,9 @@
 - **Documentation Changes**
   - Added public facing documentation
   - Documentation currently covers designs, sections, variables, domain, data
-    entry, sites, roles, blinding, randomizations, adverse events,
-    notifications, and Slice lingo.
+    entry, sites, roles, blinding, randomizations, treatment arms,
+    stratification factors, adverse events, reports, data quality checks,
+    notifications, project setup, and Slice lingo.
 - **Data Quality Checks**
   - Project editors can now define data quality checks that are used to identify
     sheets that have inconsistent data

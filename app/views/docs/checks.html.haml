@@ -8,5 +8,35 @@
 
 .docs-container
   %p
+    Slice allows project editors to set up custom checks on the project that
+    search for contradictory or missing data for subjects across several sheets.
+
+  %p
+    For instance, a simple check may be to see if Age has been entered for the
+    subject.
+
+  %p
+    A more complex check may be to check if Age has been entered, but only if
+    the subject has also been randomized.
+
+  %p
+    Checks can also look across multiple variables. For example, a check may
+    identify subjects who are marked as eligible on one sheet, but for some
+    reason are marked as ineligible on another sheet.
+
+  %p
+    Once the data check has been made, a list of identified subjects and sheets
+    is available to go and fix the data inconsistencies. The validity of sheets
+    and variables based on these checks is made apparent when viewing a subject,
+    browsing the sheets index, or viewing an individual sheet. The message
+    provided on the check indicates to the user what is wrong, versus what is
+    expected, and provides contextual information to allow the user to resolve
+    the issue.
+
+  %p
+    Sheets on the sheet index can also be filtered by failing these checks which
+    provide users doing data cleaning a direct access to sheets with data
+    quality issues.
+
 
 = render 'docs/links', previous_link: ['Index', docs_path], next_link: nil

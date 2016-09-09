@@ -8,5 +8,34 @@
 
 .docs-container
   %p
+    Slice provides prebuilt and configurable reports. Two types of reports are
+    available for each design on the project. The first is the Design Overview
+    report. This provides a breakdown of each variable along with summary
+    statistics question by question on the design.
+
+  %p
+    The second type of design report is the Advanced Design report builder. The
+    report builder allows you create tables by adding variables from the design
+    to either stratify the rows of the table, or to be used to display the
+    columns of the resulting report. For example, the rows variables could be
+    Site and Biological Sex, which would stratify the rows by each of these.
+    The column for the table could then perhaps be sheet collection date or any
+    other variable available on the design. While the design report builder is
+    a bit more difficult to use than the Design Overview report, we still highly
+    recommend you to try it out as it can provide much better insight into the
+    variables and designs. Add a few filters, reorder the filters, and see as
+    the report will dynamically update as the changes to the report are made.
+
+  %p
+    Slice also provides an overall Summary Report, which displays the types of
+    sheets that have been collected over time
+
+  %p
+    A Subject Report is also available that displays the number of each type of
+    design a subject has completed. This report can be used to identify subjects
+    that may be missing sheets. More detailed checks for missing data can be
+    created using the
+    = link_to 'Data Quality Checks', docs_checks_path
+    module.
 
 = render 'docs/links', previous_link: ['Index', docs_path], next_link: nil

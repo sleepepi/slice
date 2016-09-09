@@ -8,5 +8,33 @@
 
 .docs-container
   %p
+    Setting stratification factors allows similar groups of subjects to be
+    present across all treatment arms. For example, you may wish to study the
+    role biological sex plays on a particular treatment. In this case, the study
+    may make observations and comparisons between females in one treatment arm
+    to another treatment arm. A Case/Control study is a good example of this.
 
-= render 'docs/links', previous_link: ['Randomization Schemes', docs_randomization_schemes_path], next_link: nil
+  %p
+    The study may also be interested in the effects of the treatment based on
+    weight as well. In this case a second stratification factor, for example
+    Body Mass Index, may be added.
+
+  %p
+    Both Biological Sex and Body Mass Index, would need to be split into
+    discrete groups. These groups, called stratification factor options, could
+    be Male and Female, and "BMI less than 20", "BMI 20 to 30", and "BMI greater
+    than 30".
+
+  %p
+    To ensure an even distribution across sites, a "Stratify By Site",
+    stratification option is also available.
+
+  %p
+    If you are using Permuted-block algorithm, increasing the number of
+    stratification factors increases the number of subjects that need to be
+    randomized to ensure even distributions across treatment arms. A better
+    option in this case may be to use the Minimization algorithm instead, which
+    handles distributions by stratification factors dynamically instead of
+    relying on a precomputed list.
+
+= render 'docs/links', previous_link: ['Treatment Arms', docs_treatment_arms_path], next_link: nil

@@ -9,6 +9,9 @@
   %p
     %ul
       %li
+        = link_to 'Project Setup', docs_project_setup_path
+
+      %li
         = link_to 'Designs', docs_designs_path
         %ul
           %li= link_to 'Sections', docs_sections_path
@@ -32,8 +35,8 @@
         %ul
           %li= link_to 'Minimization Algorithm', docs_minimization_path
           %li= link_to 'Permuted-Block Algorithm', docs_permuted_block_path
-          %li= link_to 'Treatment Arms', docs_treatment_arms_path, style: 'color: red'
-          %li= link_to 'Stratification Factors', docs_stratification_factors_path, style: 'color: red'
+          %li= link_to 'Treatment Arms', docs_treatment_arms_path
+          %li= link_to 'Stratification Factors', docs_stratification_factors_path
 
       %li
         = link_to 'Adverse Events', docs_adverse_events_path
@@ -42,15 +45,12 @@
         = link_to 'Notifications', docs_notifications_path
 
       %li
-        = link_to 'Data Quality Checks', docs_checks_path, style: 'color: red'
+        = link_to 'Reports', docs_reports_path
 
       %li
-        = link_to 'Reports', docs_reports_path, style: 'color: red'
-
-      %li
-        = link_to 'Project Setup', docs_project_setup_path, style: 'color: red'
+        = link_to 'Data Quality Checks', docs_checks_path
 
       %li
         = link_to 'Lingo, Slang, Jargon', docs_lingo_path
 
-= render 'docs/links', previous_link: nil, next_link: ['Designs', docs_designs_path, 'Start']
+= render 'docs/links', previous_link: nil, next_link: ['Project Setup', docs_project_setup_path, 'Start']
