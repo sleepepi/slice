@@ -15,8 +15,7 @@
 
   &:hover,
   &:focus,
-  &:active,
-  &:visited {
+  &:active {
     color: $text-muted;
     text-decoration: none;
   }
@@ -27,8 +26,7 @@
 
   &:hover,
   &:focus,
-  &:active,
-  &:visited {
+  &:active {
     color: $text-color;
     text-decoration: none;
   }
@@ -39,8 +37,7 @@
 
   &:hover,
   &:focus,
-  &:active,
-  &:visited {
+  &:active {
     color: darken($brand-accent, 10%);
   }
 }

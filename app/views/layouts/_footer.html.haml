@@ -4,5 +4,10 @@
       &copy;
       = Date.today.year
       = ENV['website_name']
+      |
+      = link_to 'Docs', docs_path
     .col-xs-6.nowrap.text-right
+      = link_to 'Contact Us', contact_path, class: 'hidden-xs'
+      = link_to '<span class="glyphicon glyphicon-envelope"></span>'.html_safe, contact_path, class: 'hidden-sm hidden-md hidden-lg'
+      |
       Boston Sleep
