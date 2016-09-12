@@ -4,3 +4,13 @@
 .col-buffer {
   margin-bottom: 20px;
 }
+
+.col-buffer-visible-xs {
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .col-buffer-visible-xs {
+    margin-bottom: 0;
+  }
+}

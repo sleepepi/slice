@@ -131,32 +131,33 @@
           = f.check_box :hide_values_on_pdfs
           Checking This Will Hide Answer Choice Values on Printed Sheets
 
-  .form-group
-    .col-md-2
-      %label Randomizations
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :randomizations_enabled
-          Checking This Will Enable Subjects to Be Randomized
+  - if false
+    .form-group
+      .col-md-2
+        %label Randomizations
+      .col-md-10
+        .checkbox
+          %label
+            = f.check_box :randomizations_enabled
+            Checking This Will Enable Subjects to Be Randomized
 
-  .form-group
-    .col-md-2
-      %label Adverse Events
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :adverse_events_enabled
-          Checking This Will Enable Adverse Event Reporting
+    .form-group
+      .col-md-2
+        %label Adverse Events
+      .col-md-10
+        .checkbox
+          %label
+            = f.check_box :adverse_events_enabled
+            Checking This Will Enable Adverse Event Reporting
 
-  .form-group
-    .col-md-2
-      %label Blinded and Unblinded
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :blinding_enabled
-          Checking This Will Enable Blinding of Project and Site Members
+    .form-group
+      .col-md-2
+        %label Blinded and Unblinded
+      .col-md-10
+        .checkbox
+          %label
+            = f.check_box :blinding_enabled
+            Checking This Will Enable Blinding of Project and Site Members
 
   .form-group
     .col-md-2
