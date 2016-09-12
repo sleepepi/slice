@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.new(project_params)
     if @project.save
-      redirect_to @project, notice: 'Project was successfully created.'
+      redirect_to settings_editor_project_path(@project), notice: 'Project was successfully created.'
     else
       render :new
     end
