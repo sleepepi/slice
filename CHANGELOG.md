@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Improved styling on projects and users pages
+- **Project Changes**
+  - Improved new project setup workflow
 - **Gem Changes**
   - Updated to jquery-rails 4.2.1
 
