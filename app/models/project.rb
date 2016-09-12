@@ -15,7 +15,9 @@ class Project < ApplicationRecord
   mount_uploader :logo, ImageUploader
 
   # Concerns
-  include Searchable, Deletable, Sluggable
+  include Searchable, Deletable, Sluggable, Squishable
+
+  squish :name
 
   attr_accessor :site_name
 

@@ -5,6 +5,7 @@
   - Improved styling on projects and users pages
 - **Project Changes**
   - Improved new project setup workflow
+  - Project names no longer save trailing whitespace
 - **Gem Changes**
   - Updated to jquery-rails 4.2.1
 
