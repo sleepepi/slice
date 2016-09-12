@@ -9,8 +9,7 @@
         .pull-right
           - if current_user.all_unarchived_projects.count > 0
             = link_to dashboard_path, class: 'btn btn-default' do
-              %span.glyphicon.glyphicon-eye-open
-              = current_user.all_unarchived_projects.count
+              %span.glyphicon.glyphicon-home
 
 
 - if @projects.count > 0

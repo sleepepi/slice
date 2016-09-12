@@ -13,10 +13,8 @@
               %strong.btn-text-emphasis Project
           - if current_user.all_archived_projects.count > 0
             = link_to archives_path, class: 'btn btn-default' do
-              %span.glyphicon.glyphicon-eye-close.text-muted
-              = current_user.all_archived_projects.count
-
-
+              / %i.fa.fa-archive{ aria: { hidden: 'true' } }
+              %span.glyphicon.glyphicon-briefcase{ aria: { hidden: 'true' } }
 
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites

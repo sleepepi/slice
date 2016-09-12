@@ -19,7 +19,7 @@ $brand-primary:         #2a9fd6;
 $brand-success:         #77b300;
 $brand-info:            #93c;
 $brand-warning:         #f80;
-$brand-danger:          #c00;
+// $brand-danger:          #c00;
 $brand-white:           $theme-white;
 $brand-gray:            #ccc;
 
@@ -41,8 +41,6 @@ $link-hover-color:      $link-color;
 //== Typography
 //
 //## Font, line-height, and color for body text, headings, and more.
-
-// $web-font: "//fonts.googleapis.com/css?family=Droid+Sans:400,700";
 
 // $font-family-sans-serif:  "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 // $font-family-serif:       Georgia, "Times New Roman", Times, serif;
@@ -149,7 +147,7 @@ $table-border-color:            $gray-dark;
 //
 //## For each of Bootstrap's buttons, define text, background and border color.
 
-$btn-font-weight:                normal;
+// $btn-font-weight:                normal !default;
 
 $btn-default-color:              #dedede;
 $btn-default-bg:                 lighten($gray-dark, 10%);
@@ -507,28 +505,29 @@ $modal-md:                    600px;
 $modal-sm:                    300px;
 
 
-//== Alerts
-//
-//## Define alert colors, border radius, and padding.
+// //== Alerts
+// //
+// //## Define alert colors, border radius, and padding.
 
-$alert-padding:               15px;
-$alert-link-font-weight:      bold;
+// $alert-padding:               15px !default;
+// $alert-border-radius:         $border-radius-base !default;
+// $alert-link-font-weight:      bold !default;
 
-$alert-success-bg:            $state-success-bg;
-$alert-success-text:          $state-success-text;
-$alert-success-border:        $state-success-border;
+// $alert-success-bg:            $state-success-bg !default;
+// $alert-success-text:          $state-success-text !default;
+// $alert-success-border:        $state-success-border !default;
 
-$alert-info-bg:               $state-info-bg;
-$alert-info-text:             $state-info-text;
-$alert-info-border:           $state-info-border;
+// $alert-info-bg:               $state-info-bg !default;
+// $alert-info-text:             $state-info-text !default;
+// $alert-info-border:           $state-info-border !default;
 
-$alert-warning-bg:            $state-warning-bg;
-$alert-warning-text:          $state-warning-text;
-$alert-warning-border:        $state-warning-border;
+// $alert-warning-bg:            $state-warning-bg !default;
+// $alert-warning-text:          $state-warning-text !default;
+// $alert-warning-border:        $state-warning-border !default;
 
-$alert-danger-bg:             $state-danger-bg;
-$alert-danger-text:           $state-danger-text;
-$alert-danger-border:         $state-danger-border;
+// $alert-danger-bg:             $state-danger-bg !default;
+// $alert-danger-text:           $state-danger-text !default;
+// $alert-danger-border:         $state-danger-border !default;
 
 
 //== Progress bars
@@ -602,21 +601,21 @@ $panel-primary-text:          #dedede;
 $panel-primary-border:        $brand-primary;
 $panel-primary-heading-bg:    $brand-primary;
 
-$panel-success-text:          $state-success-text;
-$panel-success-border:        $state-success-border;
-$panel-success-heading-bg:    $state-success-bg;
+// $panel-success-text:          $state-success-text !default;
+// $panel-success-border:        $state-success-border !default;
+// $panel-success-heading-bg:    $state-success-bg !default;
 
-$panel-info-text:             $state-info-text;
-$panel-info-border:           $state-info-border;
-$panel-info-heading-bg:       $state-info-bg;
+// $panel-info-text:             $state-info-text !default;
+// $panel-info-border:           $state-info-border !default;
+// $panel-info-heading-bg:       $state-info-bg !default;
 
-$panel-warning-text:          $state-warning-text;
-$panel-warning-border:        $state-warning-border;
-$panel-warning-heading-bg:    $state-warning-bg;
+// $panel-warning-text:          $state-warning-text !default;
+// $panel-warning-border:        $state-warning-border !default;
+// $panel-warning-heading-bg:    $state-warning-bg !default;
 
-$panel-danger-text:           $state-danger-text;
-$panel-danger-border:         $state-danger-border;
-$panel-danger-heading-bg:     $state-danger-bg;
+// $panel-danger-text:           $state-danger-text !default;
+// $panel-danger-border:         $state-danger-border !default;
+// $panel-danger-heading-bg:     $state-danger-bg !default;
 
 
 //== Thumbnails

@@ -23,6 +23,15 @@
 // $brand-info:            #5bc0de !default;
 // $brand-warning:         #f0ad4e !default;
 // $brand-danger:          #d9534f !default;
+
+$red: #d32f2f;
+
+$green: #2e7b32;
+$green-bar: #4caf50;
+
+$brand-danger: $red;
+
+
 $brand-white:           #fff;
 $brand-gray:            #ccc;
 
@@ -504,7 +513,7 @@ $jumbotron-bg:                   $P50 !default; // $gray-lighter !default;
 // $state-warning-bg:               #fcf8e3 !default;
 // $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
-// $state-danger-text:              #a94442 !default;
+$state-danger-text:              $brand-danger;// DANGER MODIFIED: #a94442 !default;
 // $state-danger-bg:                #f2dede !default;
 // $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
 

@@ -27,7 +27,7 @@
 .landing-cog,
 .landing-cog2,
 .landing-cog3,
-.landing-lower-right,
+.landing-lower-left,
 .background-search {
   position: absolute;
   z-index: -1;
@@ -66,11 +66,11 @@
   }
 }
 
-.landing-lower-right {
+.landing-lower-left {
   color: $brand-muted;
   font-size: 512px;
-  top: 270px;
-  left: -175px;
+  top: 370px;
+  left: -100px;
 
   i {
     transform: rotate(10deg);
