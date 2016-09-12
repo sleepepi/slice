@@ -2,19 +2,21 @@
   %thead
     %tr
       = th_sort_field @order, 'users.last_name', 'Name'
-      = th_sort_field @order, 'users.email', 'Email'
       = th_sort_field @order, 'users.current_sign_in_at', 'Recent Activity'
-      = th_sort_field @order, 'users.system_admin', 'System Admin', extra_class: 'center'
+      = th_sort_field @order, 'users.sign_in_count', 'Sign in Count', extra_class: 'text-right hidden-xs'
+      = th_sort_field @order, 'users.system_admin', 'System Admin', extra_class: 'center hidden-xs'
       %th
 
   - @users.each do |user|
     %tr
-      %td
+      %td.nowrap
         = image_tag user.avatar_url(18), style: 'vertical-align:text-bottom', alt: ''
-        = link_to user.name, user
-      %td= user.email
+        = link_to user do
+          %span.hidden-xs=user.name
+          %span.hidden-sm.hidden-md.hidden-lg=user.nickname
       %td= recent_activity(user.current_sign_in_at)
-      %td.center= simple_check user.system_admin?
+      %td.text-right.hidden-xs= number_with_delimiter user.sign_in_count
+      %td.center.hidden-xs= simple_check user.system_admin?
       %td.nowrap
         = link_to 'Edit', edit_user_path(user), class: 'btn btn-default btn-xs'
         - unless current_user == user

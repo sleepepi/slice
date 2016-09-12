@@ -6,13 +6,14 @@
     .container
       %h1.page-heading
         = @title
-        = link_to 'Create Project', new_project_path, class: 'btn btn-xs btn-primary'
+        = link_to 'Create Project', new_project_path, class: 'btn btn-xs btn-accent'
 
         = form_tag projects_path, method: :get, class: 'form-inline' do
           = hidden_field_tag :order, params[:order]
-          = text_field_tag 'search', params[:search], class: 'form-control'
-          = submit_tag 'Search', class: 'btn btn-accent btn-shadow', name: nil
-          = link_to 'Reset', projects_path, class: 'btn btn-default btn-shadow'
+          .input-group
+            = text_field_tag 'search', params[:search], class: 'form-control'
+            %span.input-group-btn
+              = submit_tag 'Search', class: 'btn btn-accent', name: nil
 
         .per-page= render 'layouts/per_page', per_page: 40, object_count: @projects.total_count
 
