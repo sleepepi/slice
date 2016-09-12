@@ -34,7 +34,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
 
     sign_in_as @valid, '12345678'
     assert_equal '/projects', path
-    assert_equal I18n.t('devise.sessions.signed_in'), flash[:notice]
   end
 
   test 'should get sign up page' do

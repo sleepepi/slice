@@ -6,8 +6,6 @@ class AccountController < ApplicationController
 
   # GET /dashboard
   def dashboard
-    flash.delete(:notice) if flash[:notice] == 'Signed in successfully.'
-
     if session[:invite_token].present?
       redirect_to accept_project_users_path
       return

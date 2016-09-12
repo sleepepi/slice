@@ -12,8 +12,6 @@ class ExternalController < ApplicationController
 
   # GET /landing
   def landing
-    flash.delete(:notice)
-    flash.delete(:alert)
   end
 
   # POST /external/add_grid_row.js?design=REQUIRED&variable_id=REQUIRED
