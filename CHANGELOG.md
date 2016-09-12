@@ -6,6 +6,9 @@
 - **Gem Changes**
   - Updated to jquery-rails 4.2.1
 
+### Refactoring
+- Renamed project_favorites to project_preferences
+
 ## 0.41.0 (September 12, 2016)
 
 ### Enhancements

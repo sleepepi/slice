@@ -1,51 +1,9 @@
-.projects-box.project-gradient{ data: { project_id: project.id } }
-  .pull-right
+.projects-box.shadow-xs{ data: { project_id: project.id } }
+  .pull-right.nowrap
     - if sortable
       %span.glyphicon.glyphicon-move.handle
-    = link_to project_subjects_path(project), class: 'hover-link' do
-      - number_with_delimiter project.subjects.count
-    = link_to '#', data: { object: 'toggle-visibility', target: "#project_#{project.id}_details" } do
-      %span.glyphicon.glyphicon-option-vertical
+    = number_with_delimiter project.subjects.count
+    = render 'project_preferences/splash_actions', project: project
 
   = link_to project do
     = project.name
-  .project-details{ id: "project_#{project.id}_details" }
-    .pull-right
-      %strong.hidden-xs Actions
-      - if archived
-        = link_to restore_project_path(project), method: :post, class: 'btn btn-xs btn-default' do
-          %span.glyphicon.glyphicon-eye-open
-          %span.hidden-xs
-            Restore
-      - else
-        = link_to archive_project_path(project), method: :post, class: 'btn btn-xs btn-default' do
-          %span.glyphicon.glyphicon-eye-close
-          %span.hidden-xs
-            Archive
-      &nbsp;
-      = link_to favorite_project_path(project, favorite: favorited ? '0' : '1'), class: 'btn btn-xs btn-default', method: :post do
-        - if favorited
-          %span.glyphicon.glyphicon-star
-          %span.hidden-xs
-            Unfavorite
-        - else
-          %span.glyphicon.glyphicon-star-empty
-          %span.hidden-xs
-            Favorite
-    - subject = project.subjects.order(created_at: :desc).first
-    %div{ style: "#{'margin-bottom:20px' if subject}" }
-      %span.nowrap
-        = project.sheets.count
-        %strong= link_to('sheet'.pluralize(project.sheets.count), project_sheets_path(project), class: 'hover-link') + ','
-      %span.nowrap
-        = project.designs.count
-        %strong= link_to('design'.pluralize(project.designs.count), project_designs_path(project), class: 'hover-link') + ','
-      %span.nowrap
-        = project.events.count
-        %strong= link_to 'event'.pluralize(project.events.count), project_events_path(project), class: 'hover-link'
-    - if subject
-      %div
-        Subject
-        %strong= link_to subject.name, project_subject_path(project, subject), class: 'hover-link'
-        %span.label.label-success created
-        recently.

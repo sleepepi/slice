@@ -12,8 +12,8 @@ class ProjectsController < ApplicationController
   def save_project_order
     page = [params[:page].to_i, 1].max
     params[:project_ids].each_with_index do |project_id, index|
-      project_favorite = current_user.project_favorites.where(project_id: project_id).first_or_create
-      project_favorite.update position: ((page - 1) * Project::PER_PAGE) + index
+      project_preference = current_user.project_preferences.where(project_id: project_id).first_or_create
+      project_preference.update position: ((page - 1) * Project::PER_PAGE) + index
     end
     head :ok
   end
@@ -25,22 +25,22 @@ class ProjectsController < ApplicationController
 
   # POST /projects/1/favorite
   def favorite
-    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
-    project_favorite.update favorite: (params[:favorite] == '1')
+    project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
+    project_preference.update favorited: (params[:favorited] == '1')
     redirect_to root_path
   end
 
   # POST /projects/1/archive
   def archive
-    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
-    project_favorite.update archived: (params[:undo] != '1')
+    project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
+    project_preference.update archived: (params[:undo] != '1')
     redirect_to root_path, notice: archive_notice
   end
 
   # POST /projects/1/restore
   def restore
-    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
-    project_favorite.update archived: (params[:undo] == '1')
+    project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
+    project_preference.update archived: (params[:undo] == '1')
     redirect_to archives_path, notice: restore_notice
   end
 

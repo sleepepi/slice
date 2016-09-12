@@ -24,9 +24,9 @@ class Project < ApplicationRecord
   # Scopes
   scope :with_user, -> (arg) { where user_id: arg }
   scope :with_editor, -> (*args) { where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
-  scope :by_favorite, -> (arg) { joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}").references(:project_favorites) }
-  scope :archived, -> { where(project_favorites: { archived: true }) }
-  scope :unarchived, -> { where(project_favorites: { archived: [nil, false] }) }
+  scope :by_favorite, -> (arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}").references(:project_preferences) }
+  scope :archived, -> { where(project_preferences: { archived: true }) }
+  scope :unarchived, -> { where(project_preferences: { archived: [nil, false] }) }
   scope :viewable_by_user, -> (arg) { where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ?)
     OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)', arg, arg, arg) }
@@ -48,7 +48,7 @@ class Project < ApplicationRecord
   has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
   has_many :site_users
-  has_many :project_favorites
+  has_many :project_preferences
   has_many :adverse_events, -> { current.joins(:subject).merge(Subject.current) }
   has_many :categories, -> { where(deleted: false).order(:position) }
   has_many :checks, -> { current }
@@ -145,21 +145,22 @@ class Project < ApplicationRecord
   end
 
   def favorited_by?(current_user)
-    project_favorite = project_favorites.find_by user_id: current_user.id
-    project_favorite.present? && project_favorite.favorite?
+    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference.present? && project_preference.favorited?
+  end
+
+  def archived_by?(current_user)
+    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference.present? && project_preference.archived?
+  end
+
+  def emails_enabled?(current_user)
+    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference.nil? || (project_preference.present? && project_preference.emails_enabled?)
   end
 
   def unblinded?(current_user)
     !blinding_enabled? || user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 0 || site_users.where(user_id: current_user.id, unblinded: true).count > 0
-  end
-
-  def archived_by?(current_user)
-    project_favorite = project_favorites.find_by user_id: current_user.id
-    if project_favorite
-      project_favorite.archived?
-    else
-      false
-    end
   end
 
   def show_type

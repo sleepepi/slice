@@ -82,6 +82,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :project_preferences, path: 'preferences' do
+    patch :update
+  end
+
   namespace :reports do
     resources :projects, only: [] do
       member do

@@ -37,7 +37,7 @@ class User < ApplicationRecord
   has_many :handoffs
   has_many :notifications, -> { joins(:project).merge(Project.current) }
   has_many :projects, -> { current }
-  has_many :project_favorites
+  has_many :project_preferences
   has_many :randomization_schemes, -> { current }
   has_many :sections
   has_many :sheet_unlock_requests, -> { current.joins(:sheet).merge(Sheet.current) }
@@ -79,7 +79,7 @@ class User < ApplicationRecord
 
   def all_favorite_projects
     @all_favorite_projects ||= begin
-      all_viewable_and_site_projects.by_favorite(id).where('project_favorites.favorite = ?', true).order(:name)
+      all_viewable_and_site_projects.by_favorite(id).where('project_preferences.favorited = ?', true).order(:name)
     end
   end
 

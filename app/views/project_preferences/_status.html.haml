@@ -1,0 +1,6 @@
+- if project.archived_by?(current_user)
+  %span.glyphicon.glyphicon-eye-close.text-muted
+- elsif project.favorited_by?(current_user)
+  %span.glyphicon.glyphicon-star.text-accent
+- else
+  %span.glyphicon.glyphicon-eye-open.text-accent

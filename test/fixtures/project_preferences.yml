@@ -1,0 +1,13 @@
+one:
+  project: one
+  user: valid
+  favorited: false
+  archived: false
+  emails_enabled: true
+
+two:
+  project: two
+  user: valid
+  favorited: true
+  archived: false
+  emails_enabled: true

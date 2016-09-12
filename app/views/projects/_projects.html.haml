@@ -1,20 +1,24 @@
 %table.table.table-striped
+  %col{ width: '50%' }
+  %col
+  %col
+  %col{ width: '1px' }
   %thead
     %tr
       = th_sort_field @order, 'projects.name', 'Name'
-      = th_sort_field @order, 'projects.description', 'Description', extra_class: 'hidden-xs hidden-sm'
-      = th_sort_field @order, 'projects.user_id', 'Owner', extra_class: 'hidden-xs'
-      %th Actions
+      %th.center Status
+      %th.center Emails
+      %th
 
   - @projects.each do |project|
     %tr{ id: "project_#{project.id}" }
       %td
-        = render 'projects/logo_small', project: project
         = link_to project.name, project
-      %td.hidden-xs.hidden-sm= project.description
-      %td.hidden-xs.nowrap= link_to project.user.nickname, project.user if project.user
-      %td.nowrap
-        = link_to 'Edit', edit_editor_project_path(project), class: 'btn btn-default btn-xs' if project.editable_by?(current_user)
-        = link_to 'Delete', owner_project_path(project), method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{project.name}?" } if project.owner?(current_user)
+      %td.center{ id: "project_#{project.id}_status" }
+        = render 'project_preferences/status', project: project
+      %td.center{ id: "project_#{project.id}_emails" }
+        = render 'project_preferences/emails', project: project
+      %td{ id: "project_#{project.id}_actions" }
+        = render 'project_preferences/actions', project: project
 
 .center= paginate @projects, theme: 'bootstrap'

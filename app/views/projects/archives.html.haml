@@ -1,23 +1,31 @@
-%p.lead
-  You have
-  = link_to( pluralize(current_user.all_unarchived_projects.count, 'unarchived project'), root_path) + "."
+- @title = 'Archives'
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = @title
+        .pull-right
+          - if current_user.all_unarchived_projects.count > 0
+            = link_to dashboard_path, class: 'btn btn-default' do
+              %span.glyphicon.glyphicon-eye-open
+              = current_user.all_unarchived_projects.count
 
 
 - if @projects.count > 0
-  %div{ style: 'margin-bottom:20px' }
-    %p.lead{ style: 'margin-bottom:5px' } Project Archives
+  .dashboard-container
     - @projects.each do |project|
       = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true, sortable: false
 - else
-  %p.lead
-    You have 0 archived projects.
-  .tip-container
+  .jumbotron
     %p.lead.center
       Archive a project by clicking
-      %span.glyphicon.glyphicon-option-vertical
+      %span.btn.btn-xs.btn-default
+        %strong.caret
       and then clicking
       = succeed '.' do
-        %strong.nowrap{ style: 'display: inline-block' }
+        %span.btn.btn-xs.btn-default
           %span.glyphicon.glyphicon-eye-close
           Archive
 

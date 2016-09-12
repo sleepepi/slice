@@ -27,8 +27,8 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should favorite project' do
     login(users(:valid))
-    assert_difference('ProjectFavorite.where(favorite: true).count') do
-      post :favorite, params: { id: @project, favorite: '1' }
+    assert_difference('ProjectPreference.where(favorited: true).count') do
+      post :favorite, params: { id: @project, favorited: '1' }
     end
     assert_redirected_to root_path
   end
@@ -47,23 +47,23 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should archive project' do
     login(users(:valid))
-    assert_difference('ProjectFavorite.where(archived: true).count') do
+    assert_difference('ProjectPreference.where(archived: true).count') do
       post :archive, params: { id: @project }
     end
     assert_redirected_to root_path
   end
 
   test 'should undo archive project' do
-    login(users(:valid))
-    assert_difference('ProjectFavorite.where(archived: false).count') do
+    login(users(:project_one_editor))
+    assert_difference('ProjectPreference.where(archived: false).count') do
       post :archive, params: { id: @project, undo: '1' }
     end
     assert_redirected_to root_path
   end
 
   test 'should restore project' do
-    login(users(:valid))
-    assert_difference('ProjectFavorite.where(archived: false).count') do
+    login(users(:project_one_editor))
+    assert_difference('ProjectPreference.where(archived: false).count') do
       post :restore, params: { id: @project }
     end
     assert_redirected_to archives_path
@@ -71,7 +71,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test 'should undo restore project' do
     login(users(:valid))
-    assert_difference('ProjectFavorite.where(archived: true).count') do
+    assert_difference('ProjectPreference.where(archived: true).count') do
       post :restore, params: { id: @project, undo: '1' }
     end
     assert_redirected_to archives_path

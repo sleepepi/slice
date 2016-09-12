@@ -1,10 +1,22 @@
 .dashboard-container {
   @include remove-last-child-bottom-margin;
 
+  div {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   background-color: $body-bg;
-  padding: 30px;
+  padding: 10px;
   color: $text-color;
   border-radius: 3px;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .dashboard-container {
+    padding: 30px;
+  }
 }

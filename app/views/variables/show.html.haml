@@ -114,11 +114,6 @@
       %dt Creator
       %dd= link_to @variable.user.name, @variable.user if @variable.user
 
-      %dt Project
-      %dd
-        = render 'projects/logo_small', project: @variable.project
-        = link_to @variable.project.name, @variable.project
-
       %dt Designs
       %dd
         %ul

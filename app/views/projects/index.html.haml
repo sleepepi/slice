@@ -17,4 +17,5 @@
 
         .per-page= render 'layouts/per_page', per_page: 40, object_count: @projects.total_count
 
-= render 'projects/projects'
+.dashboard-container
+  = render 'projects/projects'
