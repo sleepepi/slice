@@ -6,6 +6,7 @@
 - **Project Changes**
   - Improved new project setup workflow
   - Project names no longer save trailing whitespace
+  - Project sorting now ignores case when sorting by name
 - **Gem Changes**
   - Updated to jquery-rails 4.2.1
 

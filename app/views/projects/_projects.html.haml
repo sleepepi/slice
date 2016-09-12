@@ -5,7 +5,7 @@
   %col{ width: '1px' }
   %thead
     %tr
-      = th_sort_field @order, 'projects.name', 'Name'
+      = th_sort_field params[:order], 'projects.name', 'Name'
       %th.center Status
       %th.center Emails
       %th

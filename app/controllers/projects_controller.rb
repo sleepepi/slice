@@ -46,12 +46,17 @@ class ProjectsController < ApplicationController
 
   # GET /archives
   def archives
-    @projects = current_user.all_archived_projects.order(:name).page(params[:page]).per(Project::PER_PAGE)
+    @projects = current_user.all_archived_projects.reorder('lower(name) asc').page(params[:page]).per(Project::PER_PAGE)
   end
 
   # GET /projects
   def index
     @order = scrub_order(Project, params[:order], 'projects.name')
+    if @order == 'projects.name'
+      @order = 'lower(projects.name) asc'
+    elsif @order == 'projects.name desc'
+      @order = 'lower(projects.name) desc'
+    end
     @projects = current_user.all_viewable_projects.search(params[:search]).order(@order).page(params[:page]).per(40)
   end
 
