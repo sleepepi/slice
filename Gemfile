@@ -29,18 +29,16 @@ gem 'sass-rails',           '~> 5.0'
 gem 'uglifier',             '>= 1.3.0'
 
 gem 'jbuilder',             '~> 2.5'
-gem 'jquery-rails',         '~> 4.1.1'
+gem 'jquery-rails',         '~> 4.2.1'
 gem 'turbolinks',           '~> 5'
 
 # Testing
 group :test do
-  # Pretty printed test output
   gem 'minitest'
   gem 'simplecov',          '~> 0.12.0', require: false
   gem 'rails-controller-testing'
 end
 
 group :development do
-  # Access an IRB console on exceptions page and /console in development
   gem 'web-console', '~> 3.0'
 end
