@@ -91,9 +91,10 @@ class ProjectsController < ApplicationController
     super(projects_path)
   end
 
+  # TODO: Reduce this list as it's only for initial project creation.
   def project_params
     params.require(:project).permit(
-      :name, :slug, :description, :subject_code_name, :disable_all_emails,
+      :name, :slug, :description, :disable_all_emails,
       :collect_email_on_surveys, :hide_values_on_pdfs,
       :randomizations_enabled, :adverse_events_enabled, :blinding_enabled,
       :handoffs_enabled, :auto_lock_sheets,

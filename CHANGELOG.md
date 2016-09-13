@@ -5,6 +5,7 @@
   - Improved styling on projects and users pages
 - **Project Changes**
   - Improved new project setup workflow
+  - Removed `subject_code_name` from project settings to simplify setup
   - Project names no longer save trailing whitespace
   - Project sorting now ignores case when sorting by name
 - **Gem Changes**

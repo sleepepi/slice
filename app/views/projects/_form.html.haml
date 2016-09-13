@@ -51,23 +51,6 @@
     .col-md-10
       = f.text_area :description, rows: 7, class: 'form-control'
 
-  .form-group
-    = f.label :subject_code_name, "Subject Code name", class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :subject_code_name, placeholder: "Subject Code", class: 'form-control'
-      .callout.callout-info
-        %strong What is the Subject Code name?
-        = ENV['website_name']
-        requires a unique string in order to identify subjects. By default the unique string is labeled
-        = succeed ',' do
-          %code Subject Code
-        however you may choose to change it to
-        = succeed ',' do
-          %code Participant ID
-        = succeed ',' do
-          %code Survey Recipient Number
-        or any other suitable nomenclature that fits your particular project.
-
   - if @project.sites.size == 0
     .form-group
       = f.label :site_name, nil, class: 'col-md-2 control-label'
