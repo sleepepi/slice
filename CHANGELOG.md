@@ -14,6 +14,13 @@
 ### Refactoring
 - Renamed project_favorites to project_preferences
 
+## 0.41.1 (September 13, 2016)
+
+### Enhancements
+- **PATS Changes**
+  - Updated eligibility status report to include breakdown tables for "ENT
+    requirement not met" and "PSG requirement not met"
+
 ## 0.41.0 (September 12, 2016)
 
 ### Enhancements
