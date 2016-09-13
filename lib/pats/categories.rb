@@ -20,6 +20,8 @@ require 'pats/categories/eligibility/ineligible'
 require 'pats/categories/eligibility/unknown'
 require 'pats/categories/screen_failures/all'
 require 'pats/categories/disinterested/all'
+require 'pats/categories/ent_failures/all'
+require 'pats/categories/psg_failures/all'
 
 module Pats
   # Defines categories of variables.
@@ -67,7 +69,17 @@ module Pats
       'child-does-not-want-to-enroll' => Pats::Categories::Disinterested::ChildDoesNotWantToEnroll,
       'caregiver-could-not-be-contacted-for-eligibility' => Pats::Categories::Disinterested::CaregiverCouldNotBeContactedForEligibility,
       'caregiver-no-showed-for-visit-and-cannot-be-contacted' => Pats::Categories::Disinterested::CaregiverNoShowedForVisitAndCannotBeContacted,
-      'disinterest-reason-unknown' => Pats::Categories::Disinterested::ReasonUnknown
+      'disinterest-reason-unknown' => Pats::Categories::Disinterested::ReasonUnknown,
+      'ent-eligibility-failure-1' => Pats::Categories::ENTFailures::ENTEligibility1,
+      'ent-eligibility-failure-2' => Pats::Categories::ENTFailures::ENTEligibility2,
+      'ent-eligibility-failure-3' => Pats::Categories::ENTFailures::ENTEligibility3,
+      'ent-eligibility-failure-4' => Pats::Categories::ENTFailures::ENTEligibility4,
+      'ent-eligibility-failure-5' => Pats::Categories::ENTFailures::ENTEligibility5,
+      'ent-eligibility-failure-6' => Pats::Categories::ENTFailures::ENTEligibility6,
+      'psg-eligibility-failure-1' => Pats::Categories::PSGFailures::PSGEligibility1,
+      'psg-eligibility-failure-2' => Pats::Categories::PSGFailures::PSGEligibility2,
+      'psg-eligibility-failure-3' => Pats::Categories::PSGFailures::PSGEligibility3,
+      'psg-eligibility-failure-4' => Pats::Categories::PSGFailures::PSGEligibility4
     }
 
     def self.for(category, project)
