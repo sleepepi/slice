@@ -9,6 +9,29 @@ class Editor::ProjectsController < ApplicationController
   def settings
   end
 
+  # GET /editor/projects/1/invite
+  def invite
+  end
+
+  # POST /add-invite-row.js
+  def add_invite_row
+  end
+
+  # POST /send-invites.js
+  def send_invites
+    params[:invites].select { |hash| hash[:name].present? }.each do |hash|
+      # site = @project.sites.find_by id: hash[:id]
+      # if site
+      #   site.update name: hash[:name]
+      # else
+      #   @project.sites.create name: hash[:name], user_id: current_user.id
+      # end
+    end
+    # render plain: params.inspect
+    redirect_to settings_editor_project_path(@project)
+    # redirect_to invite_editor_project_path(@project)
+  end
+
   # POST /editor/projects/1/invite_user.js
   def invite_user
     create_member_invite

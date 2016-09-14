@@ -72,6 +72,9 @@ Rails.application.routes.draw do
       member do
         post :invite_user
         get :settings
+        get :invite
+        post :add_invite_row, path: 'add-site-row'
+        post :send_invites, path: 'send-invites'
       end
 
       resources :checks do
@@ -251,7 +254,9 @@ Rails.application.routes.draw do
 
     resources :sites do
       collection do
-        post :selection
+        get :setup
+        post :add_site_row, path: 'add-site-row'
+        post :create_sites, path: 'create-sites'
       end
     end
 

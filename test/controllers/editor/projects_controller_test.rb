@@ -9,6 +9,32 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     @project_editor = users(:project_one_editor)
   end
 
+  test 'should get invite' do
+    login(@project_editor)
+    get :invite, params: { id: @project }
+    assert_response :success
+  end
+
+  test 'should add invite row' do
+    login(@project_editor)
+    post :add_invite_row, params: { id: @project }, format: 'js'
+    assert_template 'add_invite_row'
+    assert_response :success
+  end
+
+  test 'should send invites' do
+    login(@project_editor)
+    post :send_invites, params: {
+      id: @project,
+      invites: [
+        { email: 'tom@example.com', site_id: '', editor: '1', unblinded: '1' },
+        { email: 'blinded@example.com', site_id: '', editor: '0', unblinded: '0' }
+      ]
+    }, format: 'js'
+    # TODO: Test invites created
+    assert_redirected_to settings_editor_project_path(@project)
+  end
+
   test 'should create project user' do
     login(@project_editor)
     assert_difference('ProjectUser.count') do

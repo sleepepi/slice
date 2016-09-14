@@ -1,0 +1,2 @@
+$("#sites").append("<%=j render 'sites/site_row', site: Site.new, index: nil %>");
+setTimeout(function() { $(".hidden-site-row").removeClass("hidden-site-row"); }, 10);

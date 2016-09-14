@@ -1,5 +1,5 @@
 @usersReady = () ->
-  $("#invite_email").each( () ->
+  $("[data-object~='typeahead-users']").each( () ->
     $this = $(this)
     $this.typeahead(
       remote: root_url + "users/invite?q=%QUERY"

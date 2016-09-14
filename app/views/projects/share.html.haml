@@ -16,7 +16,7 @@
         = form_tag invite_user_editor_project_path(@project), method: :post, remote: true, class: 'form-inline' do
           %strong Invite User
           .form-group
-            = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address'
+            = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address', data: { object: 'typeahead-users' }
 
           .form-group
             = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'

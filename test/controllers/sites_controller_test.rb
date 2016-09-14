@@ -21,6 +21,33 @@ class SitesControllerTest < ActionController::TestCase
     }
   end
 
+  test 'should get setup' do
+    login(@project_editor)
+    get :setup, params: { project_id: @project }
+    assert_response :success
+  end
+
+  test 'should get add site row' do
+    login(@project_editor)
+    post :add_site_row, params: { project_id: @project }, format: 'js'
+    assert_template 'add_site_row'
+    assert_response :success
+  end
+
+  test 'should get create sites' do
+    login(@project_editor)
+    assert_difference('Site.count') do
+      post :create_sites, params: {
+        project_id: @project,
+        sites: [
+          { id: sites(:one).id, name: sites(:one).name },
+          { id: '', name: 'New Site' }
+        ]
+      }, format: 'js'
+    end
+    assert_redirected_to invite_editor_project_path(@project)
+  end
+
   test 'should get index' do
     login(@project_editor)
     get :index, params: { project_id: @project }

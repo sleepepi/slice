@@ -1,0 +1,9 @@
+.site-row {
+  transition: opacity 1s ease-out;
+  opacity: 1;
+
+  &.hidden-site-row {
+    opacity: 0;
+  }
+}
+

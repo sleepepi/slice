@@ -5,10 +5,34 @@ class SitesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [:index, :show]
   before_action :find_editable_project_or_redirect,
-                only: [:new, :edit, :create, :update, :destroy]
+                only: [
+                  :new, :edit, :create, :update, :destroy, :setup,
+                  :add_site_row, :create_sites
+                ]
   before_action :find_viewable_site_or_redirect, only: [:show]
   before_action :find_editable_site_or_redirect,
                 only: [:edit, :update, :destroy]
+
+  # GET /setup
+  def setup
+  end
+
+  # POST /add-site-row.js
+  def add_site_row
+  end
+
+  # POST /create-sites.js
+  def create_sites
+    params[:sites].select { |hash| hash[:name].present? }.each do |hash|
+      site = @project.sites.find_by id: hash[:id]
+      if site
+        site.update name: hash[:name]
+      else
+        @project.sites.create name: hash[:name], user_id: current_user.id
+      end
+    end
+    redirect_to invite_editor_project_path(@project)
+  end
 
   # GET /sites
   def index

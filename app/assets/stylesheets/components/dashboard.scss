@@ -1,7 +1,8 @@
 .dashboard-container {
   @include remove-last-child-bottom-margin;
 
-  div {
+  div,
+  table {
     &:last-child {
       margin-bottom: 0;
     }

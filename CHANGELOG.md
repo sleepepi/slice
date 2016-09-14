@@ -8,6 +8,8 @@
   - Removed `subject_code_name` from project settings to simplify setup
   - Project names no longer save trailing whitespace
   - Project sorting now ignores case when sorting by name
+  - Site creation integrated with project setup
+  - User invites integrated with project setup
 - **Gem Changes**
   - Updated to jquery-rails 4.2.1
 
