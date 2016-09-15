@@ -138,7 +138,7 @@ class ProjectsControllerTest < ActionController::TestCase
     )
     assert_equal 1, assigns(:project).sites.count
     assert_equal 'Default Site', assigns(:project).sites.first.name
-    assert_redirected_to settings_editor_project_path(assigns(:project))
+    assert_redirected_to setup_project_sites_path(assigns(:project))
   end
 
   test 'should create project and automatically with a named site' do
@@ -162,7 +162,7 @@ class ProjectsControllerTest < ActionController::TestCase
     )
     assert_equal 1, assigns(:project).sites.count
     assert_equal 'New Site with Project', assigns(:project).sites.first.name
-    assert_redirected_to settings_editor_project_path(assigns(:project))
+    assert_redirected_to setup_project_sites_path(assigns(:project))
   end
 
   test 'should not create project with blank name' do
