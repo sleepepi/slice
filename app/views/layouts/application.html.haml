@@ -46,9 +46,9 @@
 
       = yield :footer
 
-      - unless @no_footer
-        .footer-container{ class: @side_nav ? 'footer-slide' : '' }
-          .container
-            = render 'layouts/footer'
+    - unless @no_footer
+      .footer-container{ class: @side_nav ? 'footer-slide' : '' }
+        .container
+          = render 'layouts/footer'
 
     .mask-modal
