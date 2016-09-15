@@ -29,7 +29,8 @@
   }
 
   &.table-borderless {
-    td {
+    td,
+    th {
       border-width: 0;
     }
   }

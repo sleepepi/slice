@@ -42,6 +42,13 @@
   h1 {
     font-size: 30px;
   }
+
+  .dropdown,
+  .pull-right {
+    line-height: 45.1px;
+    position: relative;
+    z-index: 1;
+  }
 }
 
 @media screen and (min-width: $screen-sm-min) {

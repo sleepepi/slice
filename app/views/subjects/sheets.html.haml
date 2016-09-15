@@ -1,10 +1,9 @@
-- @title = 'Sheets'
+- @page = 'Sheets'
+- @title = "#{@page} - #{@subject.name}"
+- @menu_title = "#{@subject.name} #{@page}"
 
-= render 'subjects/header'
+= render 'subjects/side_nav'
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
+= render 'subjects/simple_header'
 
-  #subject-sheets.col-sm-10
-    = render 'subjects/sheets'
+#subject-sheets= render 'subjects/sheets'

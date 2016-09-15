@@ -1,44 +1,51 @@
-- @title = 'New Event'
-= render 'subjects/header'
+- @page = 'Choose Date'
+- @title = "#{@page} - #{@event.name} - #{@subject.name}"
+- @menu_title = "#{@subject.name} #{@event.name}"
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
+= render 'subjects/side_nav'
 
-  .col-sm-10
-    %h2
-      = @event.name
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = link_to @subject.subject_code, [@project, @subject]
+        = @event.name
 
-    %p.lead
-      Please enter the date of the event.
+%p.lead.text-primary.text-shadow.center
+  Please enter the date of the event.
+
+.dashboard-container
+  = form_tag launch_subject_event_project_subject_path(@project, @subject, event_id: @event.to_param), method: :post, class: 'form-horizontal' do
+    - if @subject_event.errors.any?
+      .callout.callout-danger
+        %strong
+          = pluralize @subject_event.errors.count, 'error'
+          prohibited this event from being saved
+
+        %ul
+          - @subject_event.errors.full_messages.each do |msg|
+            %li= msg
+
+    .form-group
+      = label_tag 'subject_event_event_date', 'Event Date', class: 'col-md-2 control-label'
+      .col-md-10
+        = text_field_tag 'subject_event[event_date]', (@subject_event && @subject_event.event_date ? @subject_event.event_date.strftime('%m/%d/%Y') : ''), class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', style: 'width: 120px', autocomplete: 'off'
+    .form-group
+      = label_tag "designs", nil, class: 'col-md-2 control-label'
+      .col-md-10
 
 
-    = form_tag launch_subject_event_project_subject_path(@project, @subject, event_id: @event.to_param), method: :post, class: 'form-horizontal' do
-      - if @subject_event.errors.any?
-        .callout.callout-danger
-          %strong
-            = pluralize @subject_event.errors.count, 'error'
-            prohibited this event from being saved
+    .row
+      .col-xs-6
+        = submit_tag 'Launch Event', class: 'btn btn-success btn-block'
+      .col-xs-6
+        = link_to 'Cancel', choose_event_project_subject_path(@project, @subject), class: 'btn btn-default btn-block'
 
-          %ul
-            - @subject_event.errors.full_messages.each do |msg|
-              %li= msg
 
-      .form-group
-        = label_tag 'subject_event_event_date', 'Event Date', class: 'col-md-2 control-label'
-        .col-md-10
-          = text_field_tag 'subject_event[event_date]', (@subject_event && @subject_event.event_date ? @subject_event.event_date.strftime('%m/%d/%Y') : ''), class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', style: 'width: 120px', autocomplete: 'off'
-      .form-group
-        = label_tag "designs", nil, class: 'col-md-2 control-label'
-        .col-md-10
-          %ul.list-unstyled{ style: 'margin-top:10px' }
-            - @event.event_designs.each do |event_design|
-              %li
-                = event_design.design.name
-
-      .row
-        .col-xs-6
-          = submit_tag 'Launch Event', class: 'btn btn-success btn-block'
-        .col-xs-6
-          = link_to 'Cancel', [@project, @subject], class: 'btn btn-default btn-block'
-
+%p.lead.text-white.text-shadow
+  = @event.name
+.dashboard-container
+  %ul
+    - @event.event_designs.each do |event_design|
+      %li= event_design.design.name

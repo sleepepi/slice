@@ -1,30 +1,33 @@
-- @title = 'Adverse Events'
-= render 'subjects/header'
+- @page = 'Adverse Events'
+- @title = "#{@page} - #{@subject.name}"
+- @menu_title = "#{@subject.name} #{@page}"
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
+= render 'subjects/side_nav'
 
-  .col-sm-10
-    %h2
-      Adverse Events
-      = link_to 'Report Adverse Event', new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-primary btn-xs'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      .pull-right
+        = link_to 'Report Adverse Event', new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-accent btn-shadow'
 
-    - if @subject.adverse_events.count == 0
-      .center
-        %p.lead No adverse events have been reported this subject.
+      %h1.page-heading
+        = link_to @subject.subject_code, [@project, @subject]
+        = @page
 
-    - else
+- if @subject.adverse_events.count == 0
+  .jumbotron.center
+    %p.lead No adverse events have been reported this subject.
 
-      %ul
-        - @subject.adverse_events.each do |adverse_event|
-          %li{ style: 'line-height:30px' }
-            = link_to adverse_event.name, [@project, adverse_event]
-            - if adverse_event.closed?
-              %span.label.label-danger Closed
-            - else
-              %span.label.label-success Open
-            %br
-            = adverse_event.description
-
-
+- else
+  .dashboard-container
+    %ul
+      - @subject.adverse_events.each do |adverse_event|
+        %li{ style: 'line-height:30px' }
+          = link_to adverse_event.name, [@project, adverse_event]
+          - if adverse_event.closed?
+            %span.label.label-danger Closed
+          - else
+            %span.label.label-success Open
+          %br
+          = adverse_event.description

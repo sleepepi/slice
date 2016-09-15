@@ -10,6 +10,8 @@
   - Project sorting now ignores case when sorting by name
   - Site creation integrated with project setup
   - User invites integrated with project setup
+- **Subject Changes**
+  - Subject menu now slides in on larger screens
 - **Gem Changes**
   - Updated to jquery-rails 4.2.1
 

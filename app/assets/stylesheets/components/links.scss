@@ -41,3 +41,11 @@
     color: darken($brand-accent, 10%);
   }
 }
+
+.link-no-underline {
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+  }
+}

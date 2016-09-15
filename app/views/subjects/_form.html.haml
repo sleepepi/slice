@@ -1,5 +1,3 @@
-%h2.underline-heading= @title
-
 - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
 
 = form_for [@subject.project, @subject], html: { class: 'form-horizontal' } do |f|

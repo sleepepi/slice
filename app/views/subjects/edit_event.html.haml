@@ -1,32 +1,36 @@
-- @title = 'Edit Event'
+- @page = 'Edit Event'
+- @title = "#{@page} - #{@subject_event.name} - #{@subject.name}"
+- @menu_title = "#{@subject.name} #{@page} #{@subject_event.name}"
 
-= render 'subjects/header'
+= render 'subjects/side_nav'
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = link_to @subject.subject_code, [@project, @subject]
+        = link_to @subject_event.name, event_project_subject_path(@project, @subject, event_id: @subject_event.event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param)
+        = @page
 
-  .col-sm-10
-    %h2
-      = @subject_event.event.name
+.dashboard-container
+  = form_tag update_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :post, class: 'form-horizontal' do
+    - if @subject_event.errors.any?
+      .callout.callout-danger
+        %strong
+          = pluralize @subject_event.errors.count, 'error'
+          prohibited this event from being saved
 
-    = form_tag update_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :post, class: 'form-horizontal' do
-      - if @subject_event.errors.any?
-        .callout.callout-danger
-          %strong
-            = pluralize @subject_event.errors.count, 'error'
-            prohibited this event from being saved
+        %ul
+          - @subject_event.errors.full_messages.each do |msg|
+            %li= msg
 
-          %ul
-            - @subject_event.errors.full_messages.each do |msg|
-              %li= msg
-
-      .form-group
-        = label_tag 'subject_event_event_date', 'Event Date', class: 'col-md-2 control-label'
-        .col-md-10
-          = text_field_tag 'subject_event[event_date]', (@subject_event && @subject_event.event_date ? @subject_event.event_date.strftime('%m/%d/%Y') : ''), class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', style: 'width: 120px', autocomplete: 'off'
-      .row
-        .col-xs-6
-          = submit_tag 'Update Event', class: 'btn btn-success btn-block'
-        .col-xs-6
-          = link_to 'Cancel', event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: 'btn btn-default btn-block'
+    .form-group
+      = label_tag 'subject_event_event_date', 'Event Date', class: 'col-md-2 control-label'
+      .col-md-10
+        = text_field_tag 'subject_event[event_date]', (@subject_event && @subject_event.event_date ? @subject_event.event_date.strftime('%m/%d/%Y') : ''), class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', style: 'width: 120px', autocomplete: 'off'
+    .row
+      .col-xs-6
+        = submit_tag 'Update Event', class: 'btn btn-success btn-block'
+      .col-xs-6
+        = link_to 'Cancel', event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: 'btn btn-default btn-block'

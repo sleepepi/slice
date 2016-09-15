@@ -1,11 +1,8 @@
 - uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil).includes(:design).order('designs.name')
 - categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil).includes(:design).order('designs.name')
 
-%h2
-  Sheets
-
 - if @subject.blinded_sheets(current_user).count == 0
-  .center
+  .jumbotron.center
     %p.lead No data have been entered for this subject.
     = image_tag 'sad-slice.png'
 - else
@@ -21,7 +18,7 @@
           - if @subject.editable_by? current_user
             %small.text-muted Assign to event by dragging sheet to event.
       .panel-body
-        %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+        %table.table.table-striped.table-borderless{ style: 'table-layout:fixed;margin-bottom:0px' }
           - if @subject.editable_by? current_user
             %col{ width: '33px' }
           %col{ width: '60px' }
@@ -37,7 +34,7 @@
           %span.badge= categorized_sheets.count
         On an Event
       .panel-body
-        %table.table.table-bordered{ style: 'table-layout:fixed;margin-bottom:0px' }
+        %table.table.table-striped.table-borderless{ style: 'table-layout:fixed;margin-bottom:0px' }
           - if @subject.editable_by? current_user
             %col{ width: '33px' }
           %col{ width: '60px' }

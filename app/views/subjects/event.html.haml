@@ -1,18 +1,30 @@
 - @title = @subject_event.event.name
 
-= render 'subjects/header'
+= render 'subjects/side_nav'
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
-
-  .col-sm-10
-    %h2
-      = @subject_event.name
-
-    %div{ style: 'margin-bottom: 20px' }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
       - if @subject.editable_by? current_user
-        = link_to 'Edit Event', edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: 'btn btn-default btn-xs'
-        = link_to 'Delete Event', destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Are you sure you want to remove #{@subject_event.event.name} from subject? Associated sheets will not be deleted." }, class: 'btn btn-danger-inverse btn-xs'
+        .dropdown.pull-right
+          = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+            Actions
+            %strong.caret
 
-    %div{ id: "subject_event_#{@subject_event.id}" }= render @subject_event
+          %ul.dropdown-menu.dropdown-menu-right
+            %li
+              = link_to edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param) do
+                %span.glyphicon.glyphicon-edit
+                Edit
+            %li.divider{ role: 'separator' }
+            %li
+              = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Are you sure you want to remove #{@subject_event.event.name} from subject? Associated sheets will not be deleted." } do
+                .text-danger
+                  %span.glyphicon.glyphicon-trash
+                  Delete
+      %h1.page-heading
+        = link_to @subject.subject_code, [@project, @subject]
+        = @title
+
+%div{ id: "subject_event_#{@subject_event.id}" }= render @subject_event

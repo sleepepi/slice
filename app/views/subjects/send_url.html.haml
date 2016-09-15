@@ -1,32 +1,30 @@
-- @title = 'Send URL'
+- @page = 'Send URL'
+- @title = "#{@page} - #{@subject.name}"
+- @menu_title = "#{@subject.name} #{@page}"
 
-= render 'subjects/header'
+= render 'subjects/side_nav'
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
+= render 'subjects/simple_header'
 
-  .col-sm-10
-    %h2
-      Send URL
+- designs = current_user.all_viewable_designs.where(project_id: @project.id).where(publicly_available: true).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
 
-    %p.lead Select design to generate a fillable link. Only designs listed as publicly available can be used to generate a URL.
+- if designs.count == 0
+  .jumbotron.center
+    %p.lead No publicly available designs currently exist on the project.
+- else
+  %p.lead.text-primary.text-shadow.center
+    Select design to generate a fillable link.
 
-    - designs = current_user.all_viewable_designs.where(project_id: @project.id).where(publicly_available: true).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
-
-    - if designs.count == 0
-      .center
-        %p.lead No designs currently exist on the project.
-    - else
-      - category_count = designs.pluck(:category_id).uniq.count
-      - designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
-        - if category_count > 1
-          %h3
-            - if category
-              = category.name
-            - else
-              Uncategorized
-        %ul
-          - designs.each do |design|
-            %li= link_to design.name, set_sheet_as_shareable_project_subject_path(@project, @subject, design_id: design.id), method: :post
+  .dashboard-container
+    - category_count = designs.pluck(:category_id).uniq.count
+    - designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
+      - if category_count > 1
+        %h3
+          - if category
+            = category.name
+          - else
+            Uncategorized
+      %ul
+        - designs.each do |design|
+          %li= link_to design.name, set_sheet_as_shareable_project_subject_path(@project, @subject, design_id: design.id), method: :post
 

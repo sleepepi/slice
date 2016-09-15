@@ -1,10 +1,9 @@
-- @title = 'Data Entry'
+- @page = 'Data Entry'
+- @title = "#{@page} - #{@subject.name}"
+- @menu_title = "#{@subject.name} #{@page}"
 
-= render 'subjects/header'
+= render 'subjects/side_nav'
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
+= render 'subjects/simple_header'
 
-  .col-sm-10
-    = render 'subjects/data_entry'
+= render 'subjects/data_entry'

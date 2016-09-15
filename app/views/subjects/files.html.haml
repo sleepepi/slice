@@ -1,32 +1,29 @@
-- @title = 'Files'
-= render 'subjects/header'
+- @page = 'Files'
+- @title = "#{@page} - #{@subject.name}"
+- @menu_title = "#{@subject.name} #{@page}"
 
-.row
-  .col-sm-2
-    = render 'subjects/event_navigation'
+= render 'subjects/side_nav'
 
-  .col-sm-10
-    %h2
-      Uploaded Files
+= render 'subjects/simple_header'
 
-
-    %table.table.table-bordered
-      %thead
+.dashboard-container
+  %table.table.table-borderless.table-striped
+    %thead
+      %tr
+        %th Sheet
+        %th Variable
+        %th File
+    %tfoot
+      %tr
+        %th Total Files
+        %th
+        %th=@uploaded_files.total_count
+    %tbody
+      - @uploaded_files.each do |sv|
         %tr
-          %th Sheet
-          %th Variable
-          %th File
-      %tfoot
-        %tr
-          %th Total Files
-          %th
-          %th=@uploaded_files.total_count
-      %tbody
-        - @uploaded_files.each do |sv|
-          %tr
-            %td= link_to sv.sheet.name, [@project, sv.sheet]
-            %td= sv.variable.display_name
-            %td= @sheet = sv.sheet; render 'sheet_variables/show/file', variable: sv.variable, object: sv
+          %td= link_to sv.sheet.name, [@project, sv.sheet]
+          %td= sv.variable.display_name
+          %td= @sheet = sv.sheet; render 'sheet_variables/show/file', variable: sv.variable, object: sv
 
-    .center
-      = paginate @uploaded_files, theme: 'bootstrap'
+  .center
+    = paginate @uploaded_files, theme: 'bootstrap'

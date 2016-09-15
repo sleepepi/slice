@@ -31,18 +31,24 @@
       %div{ style: 'display:none', data: { object:  'current-user' } }
       = render 'timeout/modal'
 
+    = yield :side_nav
+
     = render 'layouts/menu' unless @no_footer
 
-    = yield :header
+    %div{ class: @side_nav ? 'header-slide' : '' }= yield :header
 
-    =# render 'layouts/beta/beta_corner'
+    %div{ id: (@side_nav ? 'main-content' : '') }
 
-    .container.body-content
-      = yield
+      =# render 'layouts/beta/beta_corner'
 
-    = yield :footer
+      .container.body-content
+        = yield
 
-    - unless @no_footer
-      .footer-container
-        .container
-          = render 'layouts/footer'
+      = yield :footer
+
+      - unless @no_footer
+        .footer-container{ class: @side_nav ? 'footer-slide' : '' }
+          .container
+            = render 'layouts/footer'
+
+    .mask-modal

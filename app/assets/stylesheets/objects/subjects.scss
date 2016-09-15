@@ -99,4 +99,9 @@ $menu-emphasis: $A700;
   .left-navigation {
     margin-left: -50px;
   }
+
+  #side-nav .left-navigation {
+    margin-left: 0;
+  }
+
 }

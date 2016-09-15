@@ -1,29 +1,27 @@
 - designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
 
-%h2
-  Data Entry
-
-%p.lead
-  Which design would you like to add?
-
-  - if designs.where(publicly_available: true).count > 0
-    %span.text-muted
-      You can also generate a link to a
-      = succeed '.' do
-        = link_to 'fillable sheet', send_url_project_subject_path(@project, @subject)
-
 - if designs.count == 0
-  .center
+  .jumbotron.center
     %p.lead No designs currently exist on the project.
 - else
+  %p.lead.text-primary.text-shadow.center
+    Which design would you like to add?
+
   - category_count = designs.pluck(:category_id).uniq.count
-  - designs.order('categories.position', :name).group_by(&:category).each do |category, designs|
+  - designs.order('categories.position', :name).group_by(&:category).each do |category, category_designs|
     - if category_count > 1
-      %h3
+      %h3.text-white.text-shadow
         - if category
           = category.name
         - else
           Uncategorized
-    %ul
-      - designs.each do |design|
-        %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
+    .dashboard-container
+      %ul
+        - category_designs.each do |design|
+          %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
+
+      - if designs.where(publicly_available: true).count > 0
+        %p.text-muted.center
+          You can also generate a link to a
+          = succeed '.' do
+            = link_to 'fillable sheet', send_url_project_subject_path(@project, @subject)
