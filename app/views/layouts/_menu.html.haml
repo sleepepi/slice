@@ -13,7 +13,7 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-      - if @project
+      - if @project && !@project.new_record?
         = link_to @project.name, @project, class: 'navbar-brand'
       - else
         = link_to ENV['website_name'], current_user ? root_path : landing_path, class: 'navbar-brand'
