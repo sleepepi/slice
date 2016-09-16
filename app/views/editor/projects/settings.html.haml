@@ -1,13 +1,8 @@
-- @title = "#{@project.name} - Settings"
+- @title = 'Settings'
+- @menu_title = "#{@project.name} #{@title}"
 
-- content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @project.name, @project
-        &middot;
-        Settings
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
 .body-attachment
   .container.attachment-container

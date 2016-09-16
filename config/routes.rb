@@ -94,7 +94,7 @@ Rails.application.routes.draw do
       member do
         get :report
         post :report
-        get :subject_report
+        get :subject_report, path: 'subject-report'
         get :reports
         post :filters
         post :new_filter
@@ -273,7 +273,6 @@ Rails.application.routes.draw do
       member do
         get 'choose-date/:event_id', action: :choose_date, as: :choose_date
         post :launch_subject_event
-        get :choose_an_event_for_subject
         get :events
         get 'events/:event_id/:subject_event_id/:event_date', action: :event, as: :event
         get 'events/:event_id/:subject_event_id/:event_date/edit', action: :edit_event, as: :edit_event

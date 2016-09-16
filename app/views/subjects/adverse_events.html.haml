@@ -1,6 +1,5 @@
-- @page = 'Adverse Events'
-- @title = "#{@page} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@page}"
+- @title = 'Adverse Events'
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 = render 'subjects/side_nav'
 
@@ -12,8 +11,9 @@
         = link_to 'Report Adverse Event', new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-accent btn-shadow'
 
       %h1.page-heading
+        = render 'layouts/side_nav_header_button'
         = link_to @subject.subject_code, [@project, @subject]
-        = @page
+        = @title
 
 - if @subject.adverse_events.count == 0
   .jumbotron.center

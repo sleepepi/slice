@@ -1,53 +1,46 @@
-- @title = "#{@project.name} Reports"
+- @title = 'Reports'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Reports', reports_reports_project_path(@project)]]
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      Reports
+- randomization_schemes = @project.randomization_schemes.where(published: true)
 
-    - randomization_schemes = @project.randomization_schemes.where(published: true)
+.row
+  .col-md-4
+    .jumbotron.center
+      %h4.text-muted Number of Subjects
+      .report-number= number_to_human @project.subjects.count
+  .col-md-4
+    .jumbotron.center
+      %h4.text-muted Number of Events
+      .report-number= number_to_human SubjectEvent.where(subject_id: @project.subjects.select(:id)).count
+  .col-md-4
+    .jumbotron.center
+      %h4.text-muted Number of Data Points
+      .report-number= number_to_human SheetVariable.where(sheet_id: @project.sheets.select(:id)).count
 
-    .row
-      .col-md-4
-        .jumbotron.center
-          %h4.text-muted Number of Subjects
-          .report-number= number_to_human @project.subjects.count
-      .col-md-4
-        .jumbotron.center
-          %h4.text-muted Number of Events
-          .report-number= number_to_human SubjectEvent.where(subject_id: @project.subjects.select(:id)).count
-      .col-md-4
-        .jumbotron.center
-          %h4.text-muted Number of Data Points
-          .report-number= number_to_human SheetVariable.where(sheet_id: @project.sheets.select(:id)).count
+- if @project.randomizations_enabled?
+  - if randomization_schemes.count > 0
+    - randomization_schemes.each do |scheme|
+      .jumbotron
+        .pull-right.center
+          %h4.text-muted Subjects Randomized
+          %h2= number_with_delimiter scheme.active_randomizations.count
+        %h4.text-muted Scheme
+        %h2= scheme.name
 
-    - if @project.randomizations_enabled?
-      - if randomization_schemes.count > 0
-        - randomization_schemes.each do |scheme|
-          .jumbotron
-            .pull-right.center
-              %h4.text-muted Subjects Randomized
-              %h2= number_with_delimiter scheme.active_randomizations.count
-            %h4.text-muted Scheme
-            %h2= scheme.name
+        - randomization_count = scheme.active_randomizations.count
+        - if randomization_count > 0 && scheme.randomization_goal > 0
+          - percent = [randomization_count * 100 / scheme.randomization_goal, 100].min
+          .progress.progress-striped{ style: 'margin-top: 20px;margin-bottom: 0' }
+            .progress-bar.progress-bar-success{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
 
-            - randomization_count = scheme.active_randomizations.count
-            - if randomization_count > 0 && scheme.randomization_goal > 0
-              - percent = [randomization_count * 100 / scheme.randomization_goal, 100].min
-              .progress.progress-striped{ style: 'margin-top: 20px;margin-bottom: 0' }
-                .progress-bar.progress-bar-success{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
+      = render 'randomization_schemes/recruitment_chart', scheme: scheme
+      = render 'randomization_schemes/recruitment_tables', scheme: scheme
+  - else
+    .jumbotron
+      %h3.center{ style: 'margin-top: 0' } Cumulative Recruitment
+      %p.lead.center.text-muted Subject randomization has not started.
 
-          = render 'randomization_schemes/recruitment_chart', scheme: scheme
-          = render 'randomization_schemes/recruitment_tables', scheme: scheme
-      - else
-        .jumbotron
-          %h3.center{ style: 'margin-top: 0' } Cumulative Recruitment
-          %p.lead.center.text-muted Subject randomization has not started.
-
-    = render 'reports/projects/reports'
-
-= render 'projects/mobile_menu'
+= render 'reports/projects/reports'

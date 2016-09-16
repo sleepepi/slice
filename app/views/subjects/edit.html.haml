@@ -1,7 +1,5 @@
-
-- @page = 'Edit'
-- @title = "#{@page} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@page}"
+- @title = 'Edit'
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 = render 'subjects/side_nav'
 
@@ -10,7 +8,8 @@
   .header-container
     .container
       %h1.page-heading
+        = render 'layouts/side_nav_header_button'
         = link_to @subject.subject_code, [@project, @subject]
-        = @page
+        = @title
 
 .dashboard-container= render 'form'

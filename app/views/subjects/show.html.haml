@@ -1,4 +1,5 @@
 - @title = @subject.name
+- @menu_title = "#{@project.name} #{@title}"
 
 = render 'subjects/side_nav'
 
@@ -34,14 +35,7 @@
                   Delete
 
       %h1.page-heading
-        - if false
-          - if @side_nav
-            .side-nav-button-container
-              %button.navbar-toggle.side-nav-button{ data: { object: 'toggle-drawer' } }
-                %span.sr-only Toggle menu
-                %span.icon-bar{ style: 'background-color: white' }
-                %span.icon-bar{ style: 'background-color: white' }
-                %span.icon-bar{ style: 'background-color: white' }
+        = render 'layouts/side_nav_header_button'
         = @title
 
 - if @project.events.where(archived: false).count > 0

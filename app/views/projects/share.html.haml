@@ -1,74 +1,69 @@
-- @title = "#{@project.name} - Collaborators"
+- @title = 'Collaborators'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Collaborators', share_project_path(@project)]]
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      Collaborators
+- if @project.editable_by? current_user
+  .jumbotron
+    = form_tag invite_user_editor_project_path(@project), method: :post, remote: true, class: 'form-inline' do
+      %strong Invite User
+      .form-group
+        = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address', data: { object: 'typeahead-users' }
 
-    - if @project.editable_by? current_user
-      %div{ style: 'margin-bottom:20px' }
-        %h2
+      .form-group
+        = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
 
-        = form_tag invite_user_editor_project_path(@project), method: :post, remote: true, class: 'form-inline' do
-          %strong Invite User
-          .form-group
-            = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address', data: { object: 'typeahead-users' }
+      .form-group
+        %label.btn.btn-default
+          = check_box_tag 'editor', '1', true
+          Editor
 
-          .form-group
-            = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
+      - if @project.unblinded? current_user
+        .form-group{ style: "#{'display:none' unless @project.blinding_enabled?}" }
+          %label.btn.btn-default
+            = check_box_tag 'unblinded', '1', true
+            Unblinded
 
-          .form-group
-            %label.btn.btn-default
-              = check_box_tag 'editor', '1', true
-              Editor
+      .form-group
+        = submit_tag 'Invite By Email', class: 'btn btn-primary'
 
-          - if @project.unblinded? current_user
-            .form-group{ style: "#{'display:none' unless @project.blinding_enabled?}" }
-              %label.btn.btn-default
-                = check_box_tag 'unblinded', '1', true
-                Unblinded
+#project-members
+  = render 'projects/members'
 
-          .form-group
-            = submit_tag 'Invite By Email', class: 'btn btn-primary'
+.dashboard-container
+  %table.table.table-fixed
+    %thead
+      %tr
+        %th Roles
+        %th Create Designs, Variables, Sites, Events
+        %th Create Sheets, Subjects
+        %th View Sheets, Subjects
+        %th Comment on Sheets
+      %tr
+        %td Project Editor
+        %td.success Yes
+        %td.success Yes
+        %td.success Yes
+        %td.success Yes
+      %tr
+        %td Project Viewer
+        %td.danger No
+        %td.danger No
+        %td.success Yes
+        %td.success Yes
+      %tr
+        %td Site Editor
+        %td.danger No
+        %td.success Yes*
+        %td.success Yes*
+        %td.success Yes*
+      %tr
+        %td Site Viewer
+        %td.danger No
+        %td.danger No
+        %td.success Yes*
+        %td.success Yes*
 
-    #project-members
-      = render 'projects/members'
-
-    %table.table.table-fixed
-      %thead
-        %tr
-          %th Roles
-          %th Create Designs, Variables, Sites, Events
-          %th Create Sheets, Subjects
-          %th View Sheets, Subjects
-          %th Comment on Sheets
-        %tr
-          %td Project Editor
-          %td.success Yes
-          %td.success Yes
-          %td.success Yes
-          %td.success Yes
-        %tr
-          %td Project Viewer
-          %td.danger No
-          %td.danger No
-          %td.success Yes
-          %td.success Yes
-        %tr
-          %td Site Editor
-          %td.danger No
-          %td.success Yes*
-          %td.success Yes*
-          %td.success Yes*
-        %tr
-          %td Site Viewer
-          %td.danger No
-          %td.danger No
-          %td.success Yes*
-          %td.success Yes*
-
-    \* Only for subjects on the site member's site
+  \* Only for subjects on the site member's site
+  = link_to 'Read about Roles', docs_roles_path

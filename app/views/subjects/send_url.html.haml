@@ -1,9 +1,7 @@
-- @page = 'Send URL'
-- @title = "#{@page} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@page}"
+- @title = 'Send URL'
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 = render 'subjects/side_nav'
-
 = render 'subjects/simple_header'
 
 - designs = current_user.all_viewable_designs.where(project_id: @project.id).where(publicly_available: true).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })

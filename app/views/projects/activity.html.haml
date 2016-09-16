@@ -1,28 +1,26 @@
-- @title = "#{@project.name} - Recent Activity"
+- @title = 'Recent Activity'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Recent Activity', activity_project_path(@project)]]
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading Recent Activity
+- recent_sheets = current_user.all_viewable_sheets.where(project_id: @project.id).where('sheets.created_at > ? or sheets.last_edited_at > ?', Time.zone.now - 7.day, Time.zone.now - 7.day).to_a
+- recent_comments = current_user.all_viewable_comments.with_project(@project.id).where('comments.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 4.day : Time.zone.now - 2.day)).to_a
 
-    - recent_sheets = current_user.all_viewable_sheets.where(project_id: @project.id).where('sheets.created_at > ? or sheets.last_edited_at > ?', Time.zone.now - 7.day, Time.zone.now - 7.day).to_a
-    - recent_comments = current_user.all_viewable_comments.with_project(@project.id).where('comments.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 4.day : Time.zone.now - 2.day)).to_a
+- all_objects = (recent_sheets + recent_comments).sort{ |o1, o2| ((o2.class.method_defined?(:last_edited_at) and o2.last_edited_at != nil) ? o2.last_edited_at : o2.created_at) <=> ((o1.class.method_defined?(:last_edited_at) and o1.last_edited_at != nil) ? o1.last_edited_at : o1.created_at) }
 
-    - all_objects = (recent_sheets + recent_comments).sort{ |o1, o2| ((o2.class.method_defined?(:last_edited_at) and o2.last_edited_at != nil) ? o2.last_edited_at : o2.created_at) <=> ((o1.class.method_defined?(:last_edited_at) and o1.last_edited_at != nil) ? o1.last_edited_at : o1.created_at) }
-
-    - if all_objects.size == 0
-      .center.text-muted No recent activity in the past week.
-    - else
-      - all_objects.each_with_index do |object, index|
-        - current_index = all_objects.count - index
-        - if object.class == Sheet
-          = render 'activity/sheet', sheet: object
-        - elsif object.class == Comment
-          - comment = object
-          %a.anchor-top{ name: "c#{current_index}" }
-          - unless comment.deleted?
-            %div{ id: "comment_#{comment.id}" }
-              = render 'comments/show', comment: comment, include_name: '1', number: current_index
+- if all_objects.size == 0
+  .jumbotron
+    %p.lead.center No recent activity in the past week.
+- else
+  .dashboard-container
+    - all_objects.each_with_index do |object, index|
+      - current_index = all_objects.count - index
+      - if object.class == Sheet
+        = render 'activity/sheet', sheet: object
+      - elsif object.class == Comment
+        - comment = object
+        %a.anchor-top{ name: "c#{current_index}" }
+        - unless comment.deleted?
+          %div{ id: "comment_#{comment.id}" }
+            = render 'comments/show', comment: comment, include_name: '1', number: current_index

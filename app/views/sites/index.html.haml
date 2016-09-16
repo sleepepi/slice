@@ -1,22 +1,19 @@
 - @title = 'Sites'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Sites', project_sites_path(@project)]]
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      = link_to 'Create Site', new_project_site_path(@project), class: 'btn btn-xs btn-primary' if @project.editable_by?(current_user)
-      .per-page
-        = render 'layouts/per_page', per_page: 40, object_count: @sites.total_count
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          - if @project.editable_by?(current_user)
+            = link_to 'Create Site', new_project_site_path(@project), class: 'btn btn-accent btn-shadow'
+        = render 'layouts/side_nav_header_button'
+        = @title
+        .per-page
+          = render 'layouts/per_page', per_page: 40, object_count: @sites.total_count
 
-    = render 'sites/sites'
-
-    .jumbotron
-      = form_tag project_sites_path(@project), method: :get, class: 'form-inline' do
-        = hidden_field_tag :order, params[:order]
-        = text_field_tag 'search', params[:search], class: 'form-control'
-        = submit_tag 'Search', class: 'btn btn-primary', name: nil
-        = link_to 'Reset', project_sites_path(@project), class: 'btn btn-default'
+= render 'sites/sites'

@@ -1,9 +1,7 @@
 - @title = 'Subjects'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Subjects', project_subjects_path(@project)]]
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'subjects/index'
+= render 'subjects/index'

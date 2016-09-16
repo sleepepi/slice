@@ -1,12 +1,8 @@
 - @title = 'New Subject'
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Subjects', project_subjects_path(@project)]
-- links << [@title, new_project_subject_path(@project)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+
+= render 'form'

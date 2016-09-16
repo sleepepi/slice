@@ -1,36 +1,23 @@
 - @title = 'Randomizations'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Randomizations', project_randomizations_path(@project)]]
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      - if @project.site_or_project_editor? current_user
-        = link_to 'Randomize Subject', choose_scheme_project_randomizations_path(@project), class: 'btn btn-xs btn-primary'
-      = link_to export_project_randomizations_path, class: 'btn btn-xs btn-default' do
-        %span.glyphicon.glyphicon-download-alt
-        Export CSV
-      .per-page
-        = render 'layouts/per_page', per_page: 40, object_count: @randomizations.total_count
-    - if false
-      = form_tag project_randomizations_path(@project), method: :get, class: 'form-vertical' do
-        = hidden_field_tag :order, params[:order]
-        .row
-          .col-md-4.form-group
-            = label :search, 'Search', class: 'col-md-3 control-label'
-            .col-md-9
-              = text_field_tag 'search', params[:search], class: 'form-control'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          - if @project.site_or_project_editor? current_user
+            = link_to 'Randomize Subject', choose_scheme_project_randomizations_path(@project), class: 'btn btn-accent btn-shadow'
+          = link_to export_project_randomizations_path, class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-download-alt
+            Export CSV
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-          .col-md-4.form-group
-            = label :randomized_by_id, 'Randomizer', class: 'col-md-3 control-label'
-            .col-md-9
-              = select_tag :randomized_by_id, options_for_select([['---', nil]] + User.where( id: @project.randomizations.select(:randomized_by_id) ).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:randomized_by_id]), class: 'form-control'
+        .per-page
+          = render 'layouts/per_page', per_page: 40, object_count: @randomizations.total_count
 
-          .col-md-4.form-group
-            = submit_tag 'Search', class: 'btn btn-primary', name: nil
-            = link_to 'Reset', project_randomizations_path(@project), class: 'btn btn-default'
-
-    = render 'randomizations/randomizations'
+= render 'randomizations/randomizations'

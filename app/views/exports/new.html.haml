@@ -1,15 +1,15 @@
 - @title = 'New Export'
+- @menu_title = "#{@project.name} #{@title}"
 
+= render 'projects/side_nav'
 
-- links = []
-- links << ['Exports', project_exports_path(@project)]
-- links << ['New', new_project_export_path(@project)]
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to 'Exports', project_exports_path(@project)
+        = @title
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-    = render 'form'
+= render 'form'

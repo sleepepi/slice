@@ -9,7 +9,7 @@ class SubjectsController < ApplicationController
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :choose_date,
-    :choose_an_event_for_subject, :data_entry, :send_url, :set_sheet_as_missing,
+    :data_entry, :send_url, :set_sheet_as_missing,
     :set_sheet_as_shareable, :new_data_entry, :choose_event,
     :launch_subject_event, :edit_event, :update_event, :destroy_event
   ]
@@ -18,10 +18,10 @@ class SubjectsController < ApplicationController
     :sheets, :event
   ]
   before_action :find_editable_subject_or_redirect, only: [
-    :edit, :update, :destroy, :choose_date, :choose_an_event_for_subject,
-    :data_entry, :send_url, :set_sheet_as_missing, :set_sheet_as_shareable,
-    :new_data_entry, :choose_event, :launch_subject_event, :edit_event,
-    :update_event, :destroy_event
+    :edit, :update, :destroy, :choose_date, :data_entry, :send_url,
+    :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry,
+    :choose_event, :launch_subject_event, :edit_event, :update_event,
+    :destroy_event
   ]
   before_action :set_design, only: [
     :new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable
@@ -153,10 +153,6 @@ class SubjectsController < ApplicationController
     else
       redirect_to [@project, @subject], alert: "Event #{params[:event_id]} not found on project."
     end
-  end
-
-  # So many events, so little time
-  def choose_an_event_for_subject
   end
 
   ## Find or create subject for the purpose of filling out a sheet for the subject.

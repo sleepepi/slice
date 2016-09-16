@@ -1,25 +1,46 @@
-%table.table.table-striped
-  %thead
-    %tr
-      = th_sort_field @order, 'events.position', 'Position'
-      = th_sort_field @order, 'events.name', 'Name'
-      %th Launched
-      = th_sort_field @order, 'events.archived', 'Archived'
-      %th Designs
-      %th Actions
+.dashboard-container
+  %table.table.table-striped
+    %col{ width: '1px' }
+    %col
+    %col.hidden-xs
+    %col.hidden-xs
+    %col.hidden-xs.hidden-sm
+    %col{ width: '1px' }
+    %thead
+      %tr
+        = th_sort_field @order, 'events.position', 'Position', extra_class: 'center'
+        = th_sort_field @order, 'events.name', 'Name'
+        %th.hidden-xs Launched
+        = th_sort_field @order, 'events.archived', 'Archived', extra_class: 'hidden-xs'
+        %th.hidden-xs.hidden-sm.center Designs
+        %th Actions
 
-  - @events.each do |event|
-    %tr
-      %td= event.position
-      %td= link_to event.name, [@project, event]
-      %td
-        - assigned_count = event.subject_events.with_current_subjects.count
-        = pluralize assigned_count, 'event'
-      %td= simple_check event.archived
-      %td= event.designs.count
-      %td
-        = link_to 'Edit', edit_project_event_path(@project, event), class: 'btn btn-xs btn-default'
-        = link_to 'Delete', [@project, event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Event #{event.name}?" }
+    - @events.each do |event|
+      %tr
+        %td.center= event.position
+        %td= link_to event.name, [@project, event]
+        %td.hidden-xs
+          - assigned_count = event.subject_events.with_current_subjects.count
+          = pluralize assigned_count, 'event'
+        %td.hidden-xs= simple_check event.archived
+        %td.hidden-xs.hidden-sm.center= event.designs.count
+        %td
+          .dropdown
+            = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
+
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_project_event_path(event.project, event) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to [event.project, event], method: :delete, data: { confirm: "Are you sure you want to delete Event #{event.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
 .center
   = paginate @events, theme: 'bootstrap'

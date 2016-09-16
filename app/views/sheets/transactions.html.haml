@@ -1,8 +1,7 @@
 - @subject = @sheet.subject
 
-- @page = "#{@sheet.name} Transactions"
-- @title = "#{@page} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@page}"
+- @title = "#{@sheet.name} Transactions"
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 = render 'subjects/side_nav'
 
@@ -11,6 +10,7 @@
   .header-container
     .container
       %h1.page-heading
+        = render 'layouts/side_nav_header_button'
         = link_to @subject.subject_code, [@project, @subject]
         = link_to @sheet.name, [@project, @sheet]
         Transactions

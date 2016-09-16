@@ -1,11 +1,14 @@
-%h2.underline-heading Dynamic Reports
-%ul
-  %li{ style: 'line-height:25px;font-weight:bold' }
-    = link_to 'Summary Report', report_reports_project_path(@project)
-  %li{ style: 'line-height:25px;font-weight:bold' }
-    = link_to 'Subject Report', subject_report_reports_project_path(@project)
-  - @project.designs.blinding_scope(current_user).order(:name).each do |design|
-    %li{ style: 'line-height:30px' }
-      = link_to design.name, project_reports_design_advanced_path(design.project, design)
-      &middot;
-      = link_to 'Overview', project_reports_design_overview_path(design.project, design)
+%h3.text-white.text-shadow
+  Dynamic Reports
+
+.dashboard-container
+  %ul
+    %li{ style: 'line-height:25px;font-weight:bold' }
+      = link_to 'Summary Report', report_reports_project_path(@project)
+    %li{ style: 'line-height:25px;font-weight:bold' }
+      = link_to 'Subject Report', subject_report_reports_project_path(@project)
+    - @project.designs.blinding_scope(current_user).order(:name).each do |design|
+      %li{ style: 'line-height:30px' }
+        = link_to design.name, project_reports_design_advanced_path(design.project, design)
+        &middot;
+        = link_to 'Overview', project_reports_design_overview_path(design.project, design)

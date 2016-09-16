@@ -1,6 +1,5 @@
-- @page = 'Settings'
-- @title = "#{@page} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@page}"
+- @title = 'Settings'
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 = render 'subjects/side_nav'
 
@@ -26,8 +25,9 @@
                   %span.glyphicon.glyphicon-trash
                   Delete
       %h1.page-heading
+        = render 'layouts/side_nav_header_button'
         = link_to @subject.subject_code, [@project, @subject]
-        = @page
+        = @title
 
 .dashboard-container
   %table.table.table-borderless.table-striped

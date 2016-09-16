@@ -1,40 +1,41 @@
-%table.table.table-striped
-  %thead
-    %tr
-      = th_sort_field @order, 'exports.status', ''
-      = th_sort_field @order, 'exports.created_at', 'Exported'
-      = th_sort_field @order, 'exports.include_csv_labeled', 'CSV Labeled'
-      = th_sort_field @order, 'exports.include_csv_raw', 'CSV Raw'
-      = th_sort_field @order, 'exports.include_pdf', 'PDF'
-      = th_sort_field @order, 'exports.include_files', 'Files'
-      = th_sort_field @order, 'exports.include_data_dictionary', 'Data Dictionary'
-      = th_sort_field @order, 'exports.include_sas', 'SAS'
-      = th_sort_field @order, 'exports.include_r', 'R'
-      = th_sort_field @order, 'exports.file', 'File'
-      %th Size
-      %th Actions
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %thead
+      %tr
+        = th_sort_field @order, 'exports.status', ''
+        = th_sort_field @order, 'exports.created_at', 'Exported'
+        = th_sort_field @order, 'exports.include_csv_labeled', 'CSV Labeled'
+        = th_sort_field @order, 'exports.include_csv_raw', 'CSV Raw'
+        = th_sort_field @order, 'exports.include_pdf', 'PDF'
+        = th_sort_field @order, 'exports.include_files', 'Files'
+        = th_sort_field @order, 'exports.include_data_dictionary', 'Data Dictionary'
+        = th_sort_field @order, 'exports.include_sas', 'SAS'
+        = th_sort_field @order, 'exports.include_r', 'R'
+        = th_sort_field @order, 'exports.file', 'File'
+        %th Size
+        %th Actions
 
-  - @exports.each do |export|
-    %tr
-      %td
-        %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }
-          = export.status
-      %td= link_to simple_time(export.created_at).gsub('on ', '').html_safe, [export.project, export]
-      %td= simple_check export.include_csv_labeled
-      %td= simple_check export.include_csv_raw
-      %td= simple_check export.include_pdf
-      %td= simple_check export.include_files
-      %td= simple_check export.include_data_dictionary
-      %td= simple_check export.include_sas
-      %td= simple_check export.include_r
-      %td
-        - if export.file.size > 0
-          - full_url = file_project_export_path(@project, export)
-          = link_to export.file.to_s.split('/').last.to_s.split('.').last.to_s, full_url, target: '_blank', class: 'btn btn-default btn-xs'
-      %td
-        - if export.file.size > 0
-          = number_to_human_size(export.file.size)
-      %td
-        = link_to 'Delete', [export.project, export], method: :delete, class: 'btn btn-xs btn-danger-inverse btn-block', data: { confirm: "Are you sure you want to delete Export #{export.name}?" }
+    - @exports.each do |export|
+      %tr
+        %td
+          %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }
+            = export.status
+        %td= link_to simple_time(export.created_at).gsub('on ', '').html_safe, [export.project, export]
+        %td= simple_check export.include_csv_labeled
+        %td= simple_check export.include_csv_raw
+        %td= simple_check export.include_pdf
+        %td= simple_check export.include_files
+        %td= simple_check export.include_data_dictionary
+        %td= simple_check export.include_sas
+        %td= simple_check export.include_r
+        %td
+          - if export.file.size > 0
+            - full_url = file_project_export_path(@project, export)
+            = link_to export.file.to_s.split('/').last.to_s.split('.').last.to_s, full_url, target: '_blank', class: 'btn btn-default btn-xs'
+        %td
+          - if export.file.size > 0
+            = number_to_human_size(export.file.size)
+        %td
+          = link_to 'Delete', [export.project, export], method: :delete, class: 'btn btn-xs btn-danger-inverse btn-block', data: { confirm: "Are you sure you want to delete Export #{export.name}?" }
 
 .center= paginate @exports, theme: 'bootstrap'

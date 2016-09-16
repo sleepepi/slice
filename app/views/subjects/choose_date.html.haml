@@ -1,6 +1,6 @@
 - @page = 'Choose Date'
-- @title = "#{@page} - #{@event.name} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@event.name}"
+- @title = "#{@page} - #{@event.name}"
+- @menu_title = "#{@project.name} #{@subject.name} #{@event.name}"
 
 = render 'subjects/side_nav'
 
@@ -9,6 +9,7 @@
   .header-container
     .container
       %h1.page-heading
+        = render 'layouts/side_nav_header_button'
         = link_to @subject.subject_code, [@project, @subject]
         = @event.name
 

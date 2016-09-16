@@ -5,3 +5,7 @@ $(document)
     $('.mask-modal').toggleClass('mask-visible')
     false
   )
+  .on('click', "[data-object~='toggle-section-links']", () ->
+    $(this).closest('.side-nav-section').find('.side-nav-section-links').toggleClass('active')
+    false
+  )

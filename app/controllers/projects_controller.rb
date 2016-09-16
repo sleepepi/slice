@@ -62,7 +62,11 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1
   def show
-    redirect_to project_subjects_path(@project)
+    @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
+    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
+                                .search(params[:search]).order(@order)
+    @subjects = subject_scope.page(params[:page]).per(20)
+    # redirect_to project_subjects_path(@project)
   end
 
   # GET /projects/new

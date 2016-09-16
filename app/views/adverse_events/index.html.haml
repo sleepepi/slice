@@ -1,34 +1,24 @@
 - @title = 'Adverse Events'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Adverse Events', project_adverse_events_path(@project)]]
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      - if @project.site_or_project_editor? current_user
-        = link_to 'Report Adverse Event', new_project_adverse_event_path(@project), class: 'btn btn-xs btn-primary'
-      - if @project.editable_by? current_user
-        = link_to export_project_adverse_events_path, class: 'btn btn-xs btn-default' do
-          %span.glyphicon.glyphicon-download-alt
-          Export CSV
-      .per-page
-        = render 'layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          - if @project.site_or_project_editor? current_user
+            = link_to 'Report Adverse Event', new_project_adverse_event_path(@project), class: 'btn btn-accent btn-shadow'
+          - if @project.editable_by? current_user
+            = link_to export_project_adverse_events_path, class: 'btn btn-default' do
+              %span.glyphicon.glyphicon-download-alt
+              Export CSV
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-    = render 'adverse_events/adverse_events'
+        .per-page
+          = render 'layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
 
-    - if false
-      .jumbotron
-        = form_tag project_adverse_events_path(@project), method: :get, class: 'form-vertical' do
-          = hidden_field_tag :order, params[:order]
-          .row
-            .col-md-4.form-group
-              = label :search, 'Search', class: 'col-md-3 control-label'
-              .col-md-9
-                = text_field_tag 'search', params[:search], class: 'form-control'
-
-            .col-md-4.form-group
-              = submit_tag 'Search', class: 'btn btn-primary', name: nil
-              = link_to 'Reset', project_adverse_events_path(@project), class: 'btn btn-default'
+= render 'adverse_events/adverse_events'

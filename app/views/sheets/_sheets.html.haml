@@ -1,60 +1,61 @@
 - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
 - viewable_designs = current_user.all_viewable_designs.where(project_id: @project.id)
 - all_creators = User.where(id: @project.sheets.select(:user_id))
-%table.table.table-striped
-  %thead
-    %tr
-      %th Coverage
-      %th.nowrap{ class: ['sheets.design_name', 'sheets.design_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-        = link_to 'Sheet', project_sheets_path(@project, order: (params[:order] == 'sheets.design_name desc' ? 'sheets.design_name' : 'sheets.design_name desc'), design_id: params[:design_id])
-        .dropdown{ style: 'display: inline-block' }
-          = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
-            %span.glyphicon.glyphicon-filter
-          %ul.dropdown-menu
-            %li= link_to 'All Designs', project_sheets_path(@project, order: params[:order]), style: params[:design_id].blank? ? 'font-weight:bold;' : ''
-            - viewable_designs.order(:name).each do |design|
-              %li= link_to design.name, project_sheets_path(@project, order: params[:order], design_id: design.id), style: params[:design_id].to_s == design.id.to_s ? 'font-weight:bold;' : ''
-      = th_sort_field @order, 'sheets.subject_code', 'Subject'
-      = th_sort_field @order, 'sheets.created_at', 'Created'
-      = th_sort_field @order, 'sheets.last_edited_at', 'Updated'
-      - if viewable_sites.count > 1
-        %th.nowrap{ class: ['sheets.site_name', 'sheets.site_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-          = link_to 'Site', project_sheets_path(@project, order: (params[:order] == 'sheets.site_name desc' ? 'sheets.site_name' : 'sheets.site_name desc'), site_id: params[:site_id])
+.dashboard-container
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Coverage
+        %th.nowrap{ class: ['sheets.design_name', 'sheets.design_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
+          = link_to 'Sheet', project_sheets_path(@project, order: (params[:order] == 'sheets.design_name desc' ? 'sheets.design_name' : 'sheets.design_name desc'), design_id: params[:design_id])
           .dropdown{ style: 'display: inline-block' }
             = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
               %span.glyphicon.glyphicon-filter
             %ul.dropdown-menu
-              %li= link_to 'All Sites', project_sheets_path(@project, order: params[:order]), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
-              - viewable_sites.order(:name).each do |site|
-                %li= link_to site.short_name, project_sheets_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
-      %th.nowrap{ class: ['sheets.user_name', 'sheets.user_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-        = link_to 'Creator', project_sheets_path(@project, order: (params[:order] == 'sheets.user_name desc' ? 'sheets.user_name' : 'sheets.user_name desc'), user_id: params[:user_id])
-        .dropdown{ style: 'display: inline-block' }
-          = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
-            %span.glyphicon.glyphicon-filter
-          %ul.dropdown-menu.dropdown-menu-right
-            %li= link_to 'All Users', project_sheets_path(@project, order: params[:order]), style: params[:user_id].blank? ? 'font-weight:bold;' : ''
-            - all_creators.order(:first_name, :last_name).each do |user|
-              %li= link_to user.name, project_sheets_path(@project, order: params[:order], user_id: user.id), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
+              %li= link_to 'All Designs', project_sheets_path(@project, order: params[:order]), style: params[:design_id].blank? ? 'font-weight:bold;' : ''
+              - viewable_designs.order(:name).each do |design|
+                %li= link_to design.name, project_sheets_path(@project, order: params[:order], design_id: design.id), style: params[:design_id].to_s == design.id.to_s ? 'font-weight:bold;' : ''
+        = th_sort_field @order, 'sheets.subject_code', 'Subject'
+        = th_sort_field @order, 'sheets.created_at', 'Created'
+        = th_sort_field @order, 'sheets.last_edited_at', 'Updated'
+        - if viewable_sites.count > 1
+          %th.nowrap{ class: ['sheets.site_name', 'sheets.site_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
+            = link_to 'Site', project_sheets_path(@project, order: (params[:order] == 'sheets.site_name desc' ? 'sheets.site_name' : 'sheets.site_name desc'), site_id: params[:site_id])
+            .dropdown{ style: 'display: inline-block' }
+              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+                %span.glyphicon.glyphicon-filter
+              %ul.dropdown-menu
+                %li= link_to 'All Sites', project_sheets_path(@project, order: params[:order]), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
+                - viewable_sites.order(:name).each do |site|
+                  %li= link_to site.short_name, project_sheets_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
+        %th.nowrap{ class: ['sheets.user_name', 'sheets.user_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
+          = link_to 'Creator', project_sheets_path(@project, order: (params[:order] == 'sheets.user_name desc' ? 'sheets.user_name' : 'sheets.user_name desc'), user_id: params[:user_id])
+          .dropdown{ style: 'display: inline-block' }
+            = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+              %span.glyphicon.glyphicon-filter
+            %ul.dropdown-menu.dropdown-menu-right
+              %li= link_to 'All Users', project_sheets_path(@project, order: params[:order]), style: params[:user_id].blank? ? 'font-weight:bold;' : ''
+              - all_creators.order(:first_name, :last_name).each do |user|
+                %li= link_to user.name, project_sheets_path(@project, order: params[:order], user_id: user.id), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
 
-  - @sheets.each do |sheet|
-    %tr{ id: "sheet_#{sheet.id}" }
-      %td= coverage_helper(sheet)
-      %td.nowrap
-        = link_to sheet.design.name, [@project, sheet]
-        - if sheet.comments.size > 0
-          %span.glyphicon.glyphicon-comment
-          = sheet.comments.size
-        - if sheet.files.size > 0
-          %span.glyphicon.glyphicon-paperclip
-      %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
-      %td= simple_time sheet.created_at
-      %td= simple_time sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at
-      - if viewable_sites.count > 1
-        %td= link_to sheet.subject.site.short_name, [@project, sheet.subject.site] if sheet.subject && sheet.subject.site
-      %td
-        - if sheet.user
-          = link_to sheet.user.name, sheet.user
+    - @sheets.each do |sheet|
+      %tr{ id: "sheet_#{sheet.id}" }
+        %td= coverage_helper(sheet)
+        %td.nowrap
+          = link_to sheet.design.name, [@project, sheet]
+          - if sheet.comments.size > 0
+            %span.glyphicon.glyphicon-comment
+            = sheet.comments.size
+          - if sheet.files.size > 0
+            %span.glyphicon.glyphicon-paperclip
+        %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
+        %td= simple_time sheet.created_at
+        %td= simple_time sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at
+        - if viewable_sites.count > 1
+          %td= link_to sheet.subject.site.short_name, [@project, sheet.subject.site] if sheet.subject && sheet.subject.site
+        %td
+          - if sheet.user
+            = link_to sheet.user.name, sheet.user
 
 .center
   = paginate @sheets, theme: 'bootstrap'

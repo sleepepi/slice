@@ -1,13 +1,8 @@
 - @title = 'Invite Members'
+- @menu_title = "#{@project.name} #{@title}"
 
-- content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @project.name, @project
-        &middot;
-        = @title
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
 %p.lead.center.text-white.text-shadow
   Invite project members.

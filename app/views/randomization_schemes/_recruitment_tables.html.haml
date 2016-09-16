@@ -2,55 +2,56 @@
 - first_randomization = all_randomizations.first
 - last_randomization = all_randomizations.last
 
-%table.table.table-striped.hidden-xs
-  %thead
-    %tr
-      %th
-      %th First Randomization
-      %th Most Recent Randomization
-      %th Days Since Last Randomization
-  %tbody
-    %tr
-      %th Overall
-      %td
-        - if first_randomization
-          = first_randomization.randomized_at.strftime '%b %-d, %Y'
-        - else
-          %span.text-muted -
-      %td
-        - if last_randomization
-          = last_randomization.randomized_at.strftime '%b %-d, %Y'
-        - else
-          %span.text-muted -
-      %td
-        - if last_randomization
-          = (Time.zone.today - last_randomization.randomized_at.to_date).floor
-        - else
-          %span.text-muted -
-    - @project.sites.each do |site|
-      - site_randomizations = scheme.active_randomizations.with_site(site.id).where.not(randomized_at: nil).order(:randomized_at)
-      - first = site_randomizations.first
-      - last = site_randomizations.last
+.dashboard-container.hidden-xs
+  %table.table.table-striped
+    %thead
       %tr
-        %th= site.short_name
+        %th
+        %th First Randomization
+        %th Most Recent Randomization
+        %th Days Since Last Randomization
+    %tbody
+      %tr
+        %th Overall
         %td
-          - if first
-            = first.randomized_at.strftime '%b %-d, %Y'
+          - if first_randomization
+            = first_randomization.randomized_at.strftime '%b %-d, %Y'
           - else
             %span.text-muted -
         %td
-          - if last
-            = last.randomized_at.strftime '%b %-d, %Y'
+          - if last_randomization
+            = last_randomization.randomized_at.strftime '%b %-d, %Y'
           - else
             %span.text-muted -
         %td
-          - if last
-            = (Time.zone.today - last.randomized_at.to_date).floor
+          - if last_randomization
+            = (Time.zone.today - last_randomization.randomized_at.to_date).floor
           - else
             %span.text-muted -
+      - @project.sites.each do |site|
+        - site_randomizations = scheme.active_randomizations.with_site(site.id).where.not(randomized_at: nil).order(:randomized_at)
+        - first = site_randomizations.first
+        - last = site_randomizations.last
+        %tr
+          %th= site.short_name
+          %td
+            - if first
+              = first.randomized_at.strftime '%b %-d, %Y'
+            - else
+              %span.text-muted -
+          %td
+            - if last
+              = last.randomized_at.strftime '%b %-d, %Y'
+            - else
+              %span.text-muted -
+          %td
+            - if last
+              = (Time.zone.today - last.randomized_at.to_date).floor
+            - else
+              %span.text-muted -
 
 .visible-xs
-  %h4.underline-heading Randomizations
+  %h3.text-white.text-shadow Randomizations
   .panel.panel-default
     .panel-heading
       %h3.panel-title Overall

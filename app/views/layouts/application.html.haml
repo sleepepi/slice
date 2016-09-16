@@ -10,7 +10,7 @@
     %meta{ name: 'keywords', content: @keywords.present? ? @keywords : 'clinical trial management system, free, web survey, data collection, data reporting, online randomization, adverse event reporting' }
     -# Don't cache any pages
     %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
-    %title= [@title, ENV['website_name']].compact.join(' - ').html_safe
+    %title= [@title, @subject.try(:name), @project.try(:name), ENV['website_name']].compact.uniq.join(' - ').html_safe
 
     = favicon_link_tag
     = csrf_meta_tags

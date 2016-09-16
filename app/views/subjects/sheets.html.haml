@@ -1,9 +1,7 @@
-- @page = 'Sheets'
-- @title = "#{@page} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@page}"
+- @title = 'Sheets'
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 = render 'subjects/side_nav'
-
 = render 'subjects/simple_header'
 
 #subject-sheets= render 'subjects/sheets'

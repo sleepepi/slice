@@ -177,7 +177,6 @@ class ProjectsControllerTest < ActionController::TestCase
         }
       end
     end
-
     assert_not_nil assigns(:project)
     assert assigns(:project).errors.size > 0
     assert_equal ["can't be blank"], assigns(:project).errors[:name]
@@ -195,21 +194,21 @@ class ProjectsControllerTest < ActionController::TestCase
     login(users(:valid))
     get :show, params: { id: @project }
     assert_not_nil assigns(:project)
-    assert_redirected_to project_subjects_path(assigns(:project))
+    assert_response :success
   end
 
   test 'should show project using slug' do
     login(users(:valid))
     get :show, params: { id: projects(:named_project) }
     assert_not_nil assigns(:project)
-    assert_redirected_to project_subjects_path(assigns(:project))
+    assert_response :success
   end
 
   test 'should show project to site user' do
     login(users(:site_one_viewer))
     get :show, params: { id: @project }
     assert_not_nil assigns(:project)
-    assert_redirected_to project_subjects_path(assigns(:project))
+    assert_response :success
   end
 
   test 'should not show invalid project' do

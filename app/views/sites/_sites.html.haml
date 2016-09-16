@@ -1,19 +1,38 @@
-%table.table.table-striped
-  %thead
-    %tr
-      = th_sort_field @order, 'sites.name', 'Name'
-      = th_sort_field @order, 'sites.description', 'Description'
-      = th_sort_field @order, 'sites.user_id', 'Creator'
-      %th Actions
+.dashboard-container
+  %table.table.table-striped
+    %col
+    %col.hidden-xs
+    %col.hidden-xs
+    %col{ width: '1px' }
+    %thead
+      %tr
+        = th_sort_field @order, 'sites.name', 'Name'
+        = th_sort_field @order, 'sites.description', 'Description', extra_class: 'hidden-xs'
+        = th_sort_field @order, 'sites.user_id', 'Creator', extra_class: 'hidden-xs'
+        %th Actions
 
-  - @sites.each do |site|
-    %tr{ id: "site_#{site.id}" }
-      %td= link_to site.name, [site.project, site]
-      %td= site.description
-      %td= link_to site.user.name, site.user if site.user
-      %td
-        - if current_user.all_sites.pluck(:id).include?(site.id)
-          = link_to 'Edit', edit_project_site_path(site.project, site), class: 'btn btn-default btn-xs'
-          = link_to 'Delete', [site.project, site], method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{site.name}?" }
+    - @sites.each do |site|
+      %tr{ id: "site_#{site.id}" }
+        %td= link_to site.name, [site.project, site]
+        %td.hidden-xs= site.description
+        %td.hidden-xs= link_to site.user.name, site.user if site.user
+        %td
+          - if current_user.all_sites.pluck(:id).include?(site.id)
+            .dropdown
+              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+                Actions
+                %strong.caret
+
+              %ul.dropdown-menu.dropdown-menu-right
+                %li
+                  = link_to edit_project_site_path(site.project, site) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to [site.project, site], method: :delete, data: { confirm: "Are you sure you want to delete Site #{site.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete
 
 .center= paginate @sites, theme: 'bootstrap'

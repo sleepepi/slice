@@ -1,6 +1,6 @@
 - @page = 'Edit Event'
-- @title = "#{@page} - #{@subject_event.name} - #{@subject.name}"
-- @menu_title = "#{@subject.name} #{@page} #{@subject_event.name}"
+- @title = "#{@page} - #{@subject_event.name}"
+- @menu_title = "#{@project.name} #{@subject.name} #{@subject_event.name} #{@page}"
 
 = render 'subjects/side_nav'
 
@@ -9,6 +9,7 @@
   .header-container
     .container
       %h1.page-heading
+        = render 'layouts/side_nav_header_button'
         = link_to @subject.subject_code, [@project, @subject]
         = link_to @subject_event.name, event_project_subject_path(@project, @subject, event_id: @subject_event.event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param)
         = @page

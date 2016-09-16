@@ -218,13 +218,6 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should show events available to a subject' do
-    get :choose_an_event_for_subject, params: { project_id: @project, id: @subject }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_response :success
-  end
-
   test 'should show designs available to a subject for a specific event' do
     get :choose_date, params: { project_id: @project, id: @subject, event_id: 'event-one' }
     assert_not_nil assigns(:project)
