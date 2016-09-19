@@ -7,7 +7,7 @@
 
 - filtered_params = params.permit()
 
-%ul.pagination.pull-right{ class: "#{"pagination-#{pagination_size_hash[pagination_size]}" if defined?(pagination_size) && %w(large small).include?(pagination_size)}" }
+%ul.pagination.pull-right.hidden-xs{ class: "#{"pagination-#{pagination_size_hash[pagination_size]}" if defined?(pagination_size) && %w(large small).include?(pagination_size)}" }
   - if current_page_min > 1
     %li= link_to '&laquo;'.html_safe, url_for(filtered_params.merge(page: page - 1))
   - else
@@ -29,5 +29,3 @@
   - else
     %li.disabled
       %span &raquo;
-
-.clear &nbsp;
