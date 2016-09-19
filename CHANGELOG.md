@@ -19,6 +19,12 @@
 ### Refactoring
 - Renamed project_favorites to project_preferences
 
+## 0.41.2 (September 19, 2016)
+
+### Enhancements
+- **PATS Changes**
+  - Elibility status export added for consented participants
+
 ## 0.41.1 (September 13, 2016)
 
 ### Enhancements

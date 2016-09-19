@@ -12,8 +12,32 @@ module Pats
     include Pats::Demographics
 
     def eligibility_status(project)
+      tables = generic_eligibility_status(project, screened_sheets(project))
+      { tables: tables }
+    end
+
+    def eligibility_status_consented(project)
+      sheets = consented_sheets(project)
+      tables = generic_eligibility_status(project, sheets)
+      consented = count_subjects(sheets)
+      consented_ineligible = count_subjects(filter_sheets_by_category(project, sheets, 'ineligible'))
+      consented_fully_eligible = count_subjects(filter_sheets_by_category(project, sheets, 'fully-eligible'))
+      consented_pending_eligibility = consented - consented_ineligible - consented_fully_eligible
+      consented_randomized = count_subjects(randomizations(project))
+      consented_pending_randomization = consented_fully_eligible - consented_randomized
+      {
+        tables: tables,
+        consented: consented,
+        consented_ineligible: consented_ineligible,
+        consented_fully_eligible: consented_fully_eligible,
+        consented_pending_eligibility: consented_pending_eligibility,
+        consented_pending_randomization: consented_pending_randomization,
+        consented_randomized: consented_randomized
+      }
+    end
+
+    def generic_eligibility_status(project, sheets)
       tables = []
-      sheets = screened_sheets(project)
       tables << demographics_table(project, sheets, 'eligibility')
 
       screen_failure_sheets = filter_sheets_by_category(project, sheets, 'ineligible')
@@ -27,7 +51,7 @@ module Pats
 
       not_interested_in_participation_sheets = filter_sheets_by_category(project, sheets, 'caregiver-not-interested')
       tables << demographics_table(project, not_interested_in_participation_sheets, 'not-interested-in-participation')
-      { tables: tables }
+      tables
     end
   end
 end
