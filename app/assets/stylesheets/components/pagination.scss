@@ -26,12 +26,19 @@
       margin: 0;
     }
   }
+
+  .pull-right {
+    height: 28px;
+  }
 }
 
 
 @media screen and (min-width: $screen-md-min) {
   .page-heading {
     .per-page {
+      height: 29px;
+    }
+    .pull-right {
       height: 29px;
     }
   }

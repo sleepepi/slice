@@ -12,7 +12,7 @@
       = check_box_tag 'invites[][editor]', '1', true
       Editor
 
-  - if @project.unblinded? current_user
+  - if @project.unblinded?(current_user)
     .col-xs-6.col-sm-2{ style: "#{'display:none' unless @project.blinding_enabled?}" }
       %label.btn.btn-link{ style: 'text-decoration:none' }
         = check_box_tag 'invites[][unblinded]', '1', true

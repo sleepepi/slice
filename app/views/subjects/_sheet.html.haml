@@ -2,7 +2,7 @@
   - if sheet.auto_locked?
     %td
       %span.glyphicon.glyphicon-lock.text-muted{ rel: 'tooltip', data: { title: 'Sheet Locked', object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: 'cursor:pointer' }
-  - elsif @subject.editable_by? current_user
+  - elsif @subject.editable_by?(current_user)
     %td
       %span.glyphicon.glyphicon-move{ style: 'cursor:pointer', data: { object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id } }
   %td

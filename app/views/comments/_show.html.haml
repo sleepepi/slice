@@ -6,11 +6,11 @@
     .comment-comment
       .comment-comment-header
         .pull-right
-          - if comment.editable_by? current_user
+          - if comment.editable_by?(current_user)
             = succeed ' ' do
               = link_to edit_comment_path(comment, include_name: include_name, number: number), remote: true, class: 'btn btn-xs btn-default' do
                 %span.glyphicon.glyphicon-pencil
-          - if comment.deletable_by? current_user
+          - if comment.deletable_by?(current_user)
             %span{ id: "comment-#{comment.id}-request-delete" }
               = link_to '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'toggle-delete-buttons', target_show: "#comment-#{comment.id}-confirm-delete", target_hide: "#comment-#{comment.id}-request-delete" } do
                 %span.glyphicon.glyphicon-trash

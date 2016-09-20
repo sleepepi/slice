@@ -24,7 +24,7 @@
     #attachments
       = render 'adverse_event_files/attachments'
 
-    - if @adverse_event.editable_by? current_user
+    - if @adverse_event.editable_by?(current_user)
       = link_to 'Upload New File', new_project_adverse_event_adverse_event_file_path(@project, @adverse_event), class: 'btn btn-default'
       .filedrag{ data: { object: 'dropfile', project: @project.to_param, adverse_event: @adverse_event.to_param } }
         Drag files here to attach to adverse event.

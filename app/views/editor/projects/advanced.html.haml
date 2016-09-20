@@ -1,0 +1,10 @@
+- @title = 'Advanced Setup'
+- @menu_title = "#{@project.name} #{@title}"
+
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
+
+.dashboard-container
+  %ul
+    %li{ style: 'margin-bottom: 20px;' }= link_to 'Create Design from Import', imports_new_project_designs_path(@project)
+    %li{ style: 'margin-bottom: 0;' }= link_to 'Set Subject Code Name', '#', data: { object: 'suppress-click' }

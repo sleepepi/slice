@@ -94,6 +94,28 @@ $side-nav-width: 240px;
   }
 }
 
+.breadcrumbs-slide {
+  background-color: $P500;
+  margin: 0;
+  padding: 5px;
+  padding-left: $side-nav-width;
+
+  .breadcrumb {
+    background-color: $P600;
+    box-shadow: inset 0 0 5px $dropdown-border, 0 0 0 $dropdown-border;
+    transition: all .4s ease-out;
+
+    a:hover {
+      color: $brand-white;
+    }
+
+    &:hover {
+      box-shadow: inset 0 0 0 $dropdown-border, 0 0 10px $dropdown-border;
+      background-color: $P500;
+    }
+  }
+}
+
 .navbar-slide {
   padding-left: $side-nav-width;
 }
@@ -106,7 +128,8 @@ $side-nav-width: 240px;
 
 @media screen and (max-width: 1479px) {
   .footer-slide,
-  .navbar-slide {
+  .navbar-slide,
+  .breadcrumbs-slide {
     padding-left: 0;
   }
 

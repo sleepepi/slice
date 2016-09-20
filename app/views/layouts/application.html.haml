@@ -10,7 +10,7 @@
     %meta{ name: 'keywords', content: @keywords.present? ? @keywords : 'clinical trial management system, free, web survey, data collection, data reporting, online randomization, adverse event reporting' }
     -# Don't cache any pages
     %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
-    %title= [@title, @subject.try(:name), @project.try(:name), ENV['website_name']].compact.uniq.join(' - ').html_safe
+    %title= [@title, (@breadcrumbs || []).reverse.collect(&:first), @subject.try(:name), @project.try(:name), ENV['website_name']].flatten.compact.uniq.join(' - ').html_safe
 
     = favicon_link_tag
     = csrf_meta_tags
@@ -20,7 +20,7 @@
       %script{ src: '//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' }
       %script{ src: '//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js' }
 
-    - if current_user and Slice::THEMES.collect{|theme_name, theme| theme}.include?(current_user.theme)
+    - if current_user && Slice::THEMES.collect { |theme_name, theme| theme }.include?(current_user.theme)
       = stylesheet_link_tag "application-#{current_user.theme}", media: 'all', data: { turbolinks_track: 'reload' }
     - else
       = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: 'reload' }
@@ -35,7 +35,9 @@
 
     = render 'layouts/menu' unless @no_footer
 
-    %div{ class: @side_nav ? 'header-slide' : '' }= yield :header
+    %div{ class: @side_nav ? 'header-slide' : '' }
+      = yield :header
+    = render 'layouts/breadcrumbs'
 
     %div{ id: (@side_nav ? 'main-content' : '') }
 

@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         get :invite
         post :add_invite_row, path: 'add-site-row'
         post :send_invites, path: 'send-invites'
+        get :advanced
       end
 
       resources :checks do
@@ -116,6 +117,8 @@ Rails.application.routes.draw do
       get :logo
       post :archive
       post :restore
+      get :advanced, to: redirect('editor/projects/%{id}/advanced')
+      get :settings, to: redirect('editor/projects/%{id}/settings')
     end
 
     namespace :reports do

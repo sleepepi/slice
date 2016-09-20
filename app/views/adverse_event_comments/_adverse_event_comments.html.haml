@@ -132,7 +132,7 @@
                     .col-sm-6{ style: 'margin-bottom:10px' }
                       = link_to design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, design, adverse_event_id: @adverse_event.id), class: 'btn btn-default btn-block', style: 'white-space: normal'
 
-- if @adverse_event.editable_by? current_user
+- if @adverse_event.editable_by?(current_user)
   #adverse_event_comment_new
     - @adverse_event_comment = current_user.adverse_event_comments.where(project_id: @project.id, adverse_event_id: @adverse_event.id).new
     = render 'adverse_event_comments/form'

@@ -10,7 +10,7 @@
         %th.nowrap Randomized By
         - if @project.randomization_schemes.count > 1
           %th.nowrap Scheme
-        - if @project.site_or_project_editor? current_user
+        - if @project.site_or_project_editor?(current_user)
           %th Actions
 
     %tbody
@@ -24,7 +24,7 @@
           %td= randomization.randomized_by.name if randomization.randomized_by
           - if @project.randomization_schemes.count > 1
             %td= link_to_if @project.editable_by?(current_user), randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
-          - if @project.site_or_project_editor? current_user
+          - if @project.site_or_project_editor?(current_user)
             %td
               - if randomization.editable_by?(current_user) && randomization.randomized?
                 = link_to 'Undo', undo_project_randomization_path(@project, randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{randomization.list.name}" if randomization.list}?" }

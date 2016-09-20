@@ -9,7 +9,7 @@
     .container
       %h1.page-heading
         .pull-right
-          - if @project.site_or_project_editor? current_user
+          - if @project.site_or_project_editor?(current_user)
             = link_to 'Randomize Subject', choose_scheme_project_randomizations_path(@project), class: 'btn btn-accent btn-shadow'
           = link_to export_project_randomizations_path, class: 'btn btn-default' do
             %span.glyphicon.glyphicon-download-alt

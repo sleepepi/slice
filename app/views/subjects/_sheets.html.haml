@@ -15,11 +15,11 @@
           Sheets
         - else
           No Event
-          - if @subject.editable_by? current_user
+          - if @subject.editable_by?(current_user)
             %small.text-muted Assign to event by dragging sheet to event.
       .panel-body
         %table.table.table-striped.table-borderless{ style: 'table-layout:fixed;margin-bottom:0px' }
-          - if @subject.editable_by? current_user
+          - if @subject.editable_by?(current_user)
             %col{ width: '33px' }
           %col{ width: '60px' }
           %col
@@ -35,7 +35,7 @@
         On an Event
       .panel-body
         %table.table.table-striped.table-borderless{ style: 'table-layout:fixed;margin-bottom:0px' }
-          - if @subject.editable_by? current_user
+          - if @subject.editable_by?(current_user)
             %col{ width: '33px' }
           %col{ width: '60px' }
           %col

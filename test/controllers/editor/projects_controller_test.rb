@@ -9,6 +9,12 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     @project_editor = users(:project_one_editor)
   end
 
+  test 'should get advanced' do
+    login(@project_editor)
+    get :advanced, params: { id: @project }
+    assert_response :success
+  end
+
   test 'should get invite' do
     login(@project_editor)
     get :invite, params: { id: @project }

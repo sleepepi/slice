@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Improved styling on projects and users pages
+  - Improved menu and header display on index pages
 - **Project Changes**
   - Improved new project setup workflow
   - Removed `subject_code_name` from project settings to simplify setup
@@ -11,6 +12,7 @@
   - Site creation integrated with project setup
   - User invites integrated with project setup
   - Project menu redesigned to adjust to different screen sizes
+  - Added an advanced project settings page
 - **Subject Changes**
   - Subject menu redesigned to adjust to different screen sizes
 - **Gem Changes**

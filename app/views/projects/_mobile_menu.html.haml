@@ -1,3 +1,4 @@
+-# TODO: Remove in 0.42.0
 %ul.mobile-menu
   %li
     = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' || params[:action] == 'subject_report' ? 'active' : nil) do
@@ -25,11 +26,11 @@
   %li
     = link_to share_project_path(@project), class: (current_page?(share_project_path(@project)) ? 'active' : nil) do
       Collaborators
-  - if @project.editable_by? current_user
+  - if @project.editable_by?(current_user)
     %li
       = link_to settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? 'active' : nil) do
         Settings
-  - if @project.editable_by? current_user
+  - if @project.editable_by?(current_user)
     %li
       = link_to project_sites_path(@project), class: (params[:controller] == 'sites' ? 'active' : nil) do
         Sites

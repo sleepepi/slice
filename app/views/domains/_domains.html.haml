@@ -1,20 +1,39 @@
-%table.table.table-striped
-  %thead
-    %tr
-      = th_sort_field @order, 'domains.name', 'Name'
-      %th.nowrap Options
-      %th.nowrap # Variables
-      %th Actions
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col.hidden-xs
+    %col.hidden-xs.hidden-sm
+    %col{ width: '1px' }
+    %thead
+      %tr
+        = th_sort_field @order, 'domains.name', 'Name'
+        %th.hidden-xs Options
+        %th.hidden-xs.hidden-sm.center # Variables
+        %th Actions
 
-  - @domains.each do |domain|
-    %tr
-      %td= link_to domain.name, [domain.project, domain]
-      %td
-        - if domain.options.size > 0
-          = select_tag "#{domain.id}_options", options_for_select(domain.options.collect { |d| "#{d[:value]}: #{d[:name]}" }), style: 'width:200px', class: 'form-control'
-      %td= domain.variables.count
-      %td.nowrap
-        = link_to 'Edit', edit_project_domain_path(domain.project, domain), class: 'btn btn-default btn-xs'
-        = link_to 'Delete', [domain.project, domain], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Domain #{domain.name}?" }
+    - @domains.each do |domain|
+      %tr
+        %td= link_to domain.name, [domain.project, domain]
+        %td.hidden-xs
+          - if domain.options.size > 0
+            = select_tag "#{domain.id}_options", options_for_select(domain.options.collect { |d| "#{d[:value]}: #{d[:name]}" }), style: 'width:200px', class: 'form-control'
+        %td.hidden-xs.hidden-sm.center= domain.variables.count
+        %td
+          .dropdown
+            = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
+
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_project_domain_path(domain.project, domain) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to [@project, domain], method: :delete, data: { confirm: "Are you sure you want to delete Domain #{domain.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
 .center= paginate @domains, theme: 'bootstrap'

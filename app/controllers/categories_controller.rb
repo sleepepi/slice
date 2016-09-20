@@ -10,7 +10,10 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = @project.categories.search(params[:search]).page(params[:page]).per(40)
+    @order = scrub_order(Category, params[:order], 'categories.position')
+    @categories = @project.categories
+                          .search(params[:search]).reorder(@order)
+                          .page(params[:page]).per(40)
   end
 
   # GET /categories/1

@@ -1,5 +1,5 @@
 .dashboard-container
-  %table.table.table-striped
+  %table.table.table-striped.table-borderless.table-hover
     %col{ width: '1px' }
     %col
     %col.hidden-xs
@@ -42,5 +42,4 @@
                     %span.glyphicon.glyphicon-trash
                     Delete
 
-.center
-  = paginate @events, theme: 'bootstrap'
+.center= paginate @events, theme: 'bootstrap'

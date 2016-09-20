@@ -173,7 +173,7 @@ class SubjectsController < ApplicationController
                             .search(params[:q]).order('subject_code').limit(10)
 
     if @subjects.count == 0
-      if @project.site_or_project_editor? current_user
+      if @project.site_or_project_editor?(current_user)
         render json: [{ value: params[:q], subject_code: params[:q], status_class: 'warning', status: 'NEW' }]
       else
         render json: []

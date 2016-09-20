@@ -25,7 +25,7 @@
               - @adverse_event.sheets.each do |sheet|
                 %li= link_to sheet.name, [@project, sheet]
 
-      - if @adverse_event.editable_by? current_user
+      - if @adverse_event.editable_by?(current_user)
         .col-sm-6
           - designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: true })
 

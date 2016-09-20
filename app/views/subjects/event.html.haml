@@ -7,7 +7,7 @@
   .background-gradient
   .header-container
     .container
-      - if @subject.editable_by? current_user
+      - if @subject.editable_by?(current_user)
         .dropdown.pull-right
           = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
             Actions

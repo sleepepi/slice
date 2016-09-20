@@ -8,7 +8,7 @@
   .mini-menu-right-fluid
     %h2.underline-heading
       = @title
-      - if @project.site_or_project_editor? current_user
+      - if @project.site_or_project_editor?(current_user)
         = link_to 'New Task', new_project_task_path(@project), class: 'btn btn-xs btn-primary'
       .per-page
         = render 'layouts/per_page', per_page: 40, object_count: @tasks.total_count
