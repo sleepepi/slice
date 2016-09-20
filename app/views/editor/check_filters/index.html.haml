@@ -1,40 +1,62 @@
-- @title = "Filters - #{@check.name}"
+- @title = 'Filters'
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
 
-- links = []
-- links << ['Checks', editor_project_checks_path(@project)]
-- links << [@check.name, editor_project_check_path(@project, @check)]
-- links << ['Filters', editor_project_check_check_filters_path(@project, @check)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      = link_to 'Create Filter', new_editor_project_check_check_filter_path(@project, @check), class: 'btn btn-xs btn-primary'
-      .per-page
-        = render 'layouts/per_page', per_page: 40, object_count: @check_filters.total_count
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          = link_to plus_or('Create Filter'), new_editor_project_check_check_filter_path(@project, @check), class: 'btn btn-accent btn-shadow'
+          .per-page= render 'layouts/per_page', per_page: 40, object_count: @check_filters.total_count
+        = render 'layouts/side_nav_header_button'
+        %span.nowrap= @title
 
-    %table.table.table-striped
-      %thead
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col
+    %col
+    %col.hidden-xs
+    %col{ width: '1px' }
+    %thead
+      %tr
+        %th Name
+        %th.hidden-xs Filter
+        %th Operator
+        %th.hidden-xs Creator
+        %th Actions
+
+    %tbody
+      - @check_filters.each do |check_filter|
         %tr
-          %th Name
-          %th Filter
-          %th Operator
-          %th Creator
-          %th Actions
-
-      %tbody
-        - @check_filters.each do |check_filter|
-          %tr
-            %td= link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
-            %td
-              = check_filter.filter_type
+          %td= link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
+          %td.hidden-xs
+            = check_filter.filter_type
+            - if false
+              -# TODO: Revisit checks to see if this is needed
               %br
               = check_filter.variable_id
-            %td= check_filter.operator
-            %td= check_filter.user.name
-            %td
-              = link_to 'Edit', edit_editor_project_check_check_filter_path(@project, @check, check_filter), class: 'btn btn-xs btn-default'
-              = link_to 'Destroy', editor_project_check_check_filter_path(@project, @check, check_filter), method: :delete, data: { confirm: "Are you sure you want to delete filter #{check_filter.name}?" }, class: 'btn btn-xs btn-danger-inverse'
+          %td= check_filter.operator
+          %td.hidden-xs= check_filter.user.name
+          %td
+            .dropdown
+              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+                Actions
+                %strong.caret
+
+              %ul.dropdown-menu.dropdown-menu-right
+                %li
+                  = link_to edit_editor_project_check_check_filter_path(@project, @check, check_filter) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to editor_project_check_check_filter_path(@project, @check, check_filter), method: :delete, data: { confirm: "Are you sure you want to delete filter #{check_filter.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete

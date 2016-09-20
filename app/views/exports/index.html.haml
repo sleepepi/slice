@@ -9,11 +9,9 @@
     .container
       %h1.page-heading
         .pull-right
-          = link_to 'Create Export', new_project_export_path(@project), class: 'btn btn-accent btn-shadow'
+          = link_to plus_or('Create Export'), new_project_export_path(@project), class: 'btn btn-accent btn-shadow'
+          .per-page= render 'layouts/per_page', per_page: 20, object_count: @exports.total_count
         = render 'layouts/side_nav_header_button'
         = @title
-
-        .per-page
-          = render 'layouts/per_page', per_page: 20, object_count: @exports.total_count
 
 = render 'exports/exports'
