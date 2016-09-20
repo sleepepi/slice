@@ -1,24 +1,25 @@
-%table.table.table-striped
-  %col{ width: '50%' }
-  %col
-  %col
-  %col{ width: '1px' }
-  %thead
-    %tr
-      = th_sort_field params[:order], 'projects.name', 'Name'
-      %th.center Status
-      %th.center Emails
-      %th
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col{ width: '50%' }
+    %col
+    %col
+    %col{ width: '1px' }
+    %thead
+      %tr
+        = th_sort_field params[:order], 'projects.name', 'Name'
+        %th.center Status
+        %th.center Emails
+        %th
 
-  - @projects.each do |project|
-    %tr{ id: "project_#{project.id}" }
-      %td
-        = link_to project.name, project
-      %td.center{ id: "project_#{project.id}_status" }
-        = render 'project_preferences/status', project: project
-      %td.center{ id: "project_#{project.id}_emails" }
-        = render 'project_preferences/emails', project: project
-      %td{ id: "project_#{project.id}_actions" }
-        = render 'project_preferences/actions', project: project
+    - @projects.each do |project|
+      %tr{ id: "project_#{project.id}" }
+        %td
+          = link_to project.name, project
+        %td.center{ id: "project_#{project.id}_status" }
+          = render 'project_preferences/status', project: project
+        %td.center{ id: "project_#{project.id}_emails" }
+          = render 'project_preferences/emails', project: project
+        %td{ id: "project_#{project.id}_actions" }
+          = render 'project_preferences/actions', project: project
 
 .center= paginate @projects, theme: 'bootstrap'

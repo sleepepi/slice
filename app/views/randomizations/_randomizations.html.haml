@@ -1,29 +1,38 @@
 .dashboard-container
-  %table.table.table-striped
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col
+    %col
+    %col.hidden-xs
+    %col.hidden-xs.hidden-sm
+    - if @project.randomization_schemes.count > 1
+      %col.hidden-xs.hidden-sm
+    - if @project.site_or_project_editor?(current_user)
+      %col
     %thead
       %tr
-        %th.nowrap Randomization #
-        %th.nowrap Subject
+        %th.nowrap.center
+          %span.hidden-xs.hidden-sm Randomization
+          %span #
+        %th Subject
         %th.nowrap Treatment Arm
-        %th.nowrap List
-        %th.nowrap Randomized At
-        %th.nowrap Randomized By
+        %th.nowrap.hidden-xs Randomized At
+        %th.nowrap.hidden-xs.hidden-sm Randomized By
         - if @project.randomization_schemes.count > 1
-          %th.nowrap Scheme
+          %th.nowrap.hidden-xs.hidden-sm Scheme
         - if @project.site_or_project_editor?(current_user)
           %th Actions
 
     %tbody
       - @randomizations.each do |randomization|
         %tr
-          %td= link_to randomization.name, [@project, randomization]
+          %td.center= link_to randomization.name, [@project, randomization]
           %td= link_to randomization.subject.name, [@project, randomization.subject] if randomization.subject
           %td= link_to_if @project.editable_by?(current_user), randomization.treatment_arm.name, [@project, randomization.randomization_scheme, randomization.treatment_arm] if randomization.randomization_scheme && randomization.treatment_arm
-          %td= randomization.list.name if randomization.list
-          %td= simple_time randomization.randomized_at
-          %td= randomization.randomized_by.name if randomization.randomized_by
+          %td.hidden-xs= simple_time randomization.randomized_at
+          %td.hidden-xs.hidden-sm= randomization.randomized_by.name if randomization.randomized_by
           - if @project.randomization_schemes.count > 1
-            %td= link_to_if @project.editable_by?(current_user), randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
+            %td.hidden-xs.hidden-sm= link_to_if @project.editable_by?(current_user), randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
           - if @project.site_or_project_editor?(current_user)
             %td
               - if randomization.editable_by?(current_user) && randomization.randomized?

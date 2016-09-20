@@ -1,19 +1,21 @@
-- @title = 'Stratification Factor Options'
+- @title = 'Options'
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
 
-- links = []
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-- links << [@stratification_factor.name, project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor)]
-- links << ['Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)]
-= render 'projects/tabbed_menu', links: links
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- @breadcrumbs << [@stratification_factor.name, project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor)]
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      = link_to 'Create Stratification Factor Option', new_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-xs btn-primary'
-      .per-page
-        = render 'layouts/per_page', per_page: 40, object_count: @stratification_factor_options.total_count
+= render 'projects/side_nav'
 
-    = render 'stratification_factor_options/stratification_factor_options'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          = link_to plus_or('Create Option'), new_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-accent btn-shadow'
+          .per-page= render 'layouts/per_page', per_page: 40, object_count: @stratification_factor_options.total_count
+        = render 'layouts/side_nav_header_button'
+        %span.nowrap= @title
+
+= render 'stratification_factor_options/stratification_factor_options'

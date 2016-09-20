@@ -1,14 +1,19 @@
-%table.table.table-striped
-  %thead
-    %tr
-      %th.nowrap Name
-      %th.nowrap Randomized Subjects
-      %th.nowrap Creator
-
-  %tbody
-    - @lists.each do |list|
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col
+    %col
+    %thead
       %tr
-        %td
-          = link_to list.name, [@project, @randomization_scheme, list]
-        %td= link_to list.subject_randomizations.count
-        %td= link_to list.user.name, list.user if list.user
+        %th Name
+        %th.center
+          Randomized
+          %span.hidden-xs Subjects
+        %th.hidden-xs Creator
+
+    %tbody
+      - @lists.each do |list|
+        %tr
+          %td= link_to list.name, [@project, @randomization_scheme, list]
+          %td.center= link_to list.subject_randomizations.count
+          %td.hidden-xs= link_to list.user.name, list.user if list.user

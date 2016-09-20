@@ -8,11 +8,10 @@
   .header-container
     .container
       %h1.page-heading
+        .pull-right
+          .per-page= render 'layouts/per_page', per_page: 40, object_count: @sheets.total_count
         = render 'layouts/side_nav_header_button'
         = @title
-
-        .per-page
-          = render 'layouts/per_page', per_page: 40, object_count: @sheets.total_count
 
 #sheets= render 'sheets/sheets'
 
