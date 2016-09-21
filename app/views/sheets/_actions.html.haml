@@ -1,10 +1,11 @@
 - if sheet.auto_locked?
-  %span.text-muted
-    %span.glyphicon.glyphicon-lock
-    Sheet Locked
+  = succeed ' ' do
+    = link_to '#', data: { object: 'suppress-click' }, class: 'btn btn-default', disabled: 'disabled' do
+      %span.glyphicon.glyphicon-lock
+      Sheet Locked
   - if project.editable_by?(current_user)
     = succeed ' ' do
-      = link_to unlock_project_sheet_path(project, sheet), method: :post, class: 'btn btn-xs btn-primary' do
+      = link_to unlock_project_sheet_path(project, sheet), method: :post, class: 'btn btn-accent' do
         Unlock For
         - case project.auto_lock_sheets when 'after24hours'
           24 Hours
@@ -14,16 +15,16 @@
           1 Month
     - if sheet.recent_unlock_requests.count > 0
       = succeed ' ' do
-        = link_to 'View Requests', '#', data: { object: 'toggle-visibility', target: "#sheet_unlock_requests" }, class: 'btn btn-xs btn-default'
+        = link_to 'View Requests', '#', data: { object: 'toggle-visibility', target: "#sheet_unlock_requests" }, class: 'btn btn-default'
   - elsif sheet.editable_by?(current_user)
     - if sheet.recent_unlock_requested?(current_user)
-      = link_to 'Unlock Requested', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requested' }, class: 'btn btn-xs btn-success'
+      = link_to 'Unlock Requested', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requested' }, class: 'btn btn-success'
     - else
-      = link_to 'Request Unlock', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_request' }, class: 'btn btn-xs btn-default'
+      = link_to 'Request Unlock', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_request' }, class: 'btn btn-default'
 - else
   - if sheet.editable_by?(current_user)
-    .dropdown
-      = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+    %span.dropdown
+      = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
         Actions
         %strong.caret
 
@@ -43,3 +44,6 @@
               %span.glyphicon.glyphicon-trash
               Delete
 
+= link_to project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default' do
+  %span.glyphicon.glyphicon-print
+  %span.hidden-xs Print

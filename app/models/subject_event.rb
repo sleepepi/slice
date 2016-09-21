@@ -31,6 +31,10 @@ class SubjectEvent < ApplicationRecord
     event_date ? event_date.strftime('%a, %B %-d, %Y') : 'No Date'
   end
 
+  def event_name_and_date
+    [name, event_date_to_s].compact.join(' - ')
+  end
+
   def unlink_sheets!(current_user, remote_ip)
     sheets.each do |sheet|
       SheetTransaction.save_sheet!(

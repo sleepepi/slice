@@ -1,7 +1,7 @@
 - events_highlighted = current_page?(events_project_subject_path(@project, @subject))
 - new_event_highlighted = (%w(choose_event choose_date).include?(params[:action]) || (!@subject_event && !@sheet && params[:action] == 'show' && @subject.subject_events.count == 0))
 - sheets_highlighted = current_page?(sheets_project_subject_path(@project, @subject))
-- new_sheet_highlighted = (params[:action] == 'data_entry' || (@sheet && !@sheet.subject_event) || (params[:action] == 'show' && @project.events.where(archived: false).count == 0 && @subject.sheets.count == 0))
+- new_sheet_highlighted = (params[:action] == 'data_entry' || (@sheet && !@sheet.subject_event && !@sheet.adverse_event) || (params[:action] == 'show' && @project.events.where(archived: false).count == 0 && @subject.sheets.count == 0))
 
 - content_for :side_nav do
   - @side_nav = true
@@ -79,4 +79,4 @@
               %li
                 = link_to 'Overview', adverse_events_project_subject_path(@project, @subject), class: "#{'active' if current_page?(adverse_events_project_subject_path(@project, @subject))}"
                 - @subject.adverse_events.each do |adverse_event|
-                  %li= link_to adverse_event.name, [@project, adverse_event], class: "#{'active' if %w(adverse_events adverse_event_files adverse_event_forms).include?(params[:controller])}"
+                  %li= link_to adverse_event.name, [@project, adverse_event], class: "#{'active' if (%w(adverse_events adverse_event_files adverse_event_forms).include?(params[:controller]) && @adverse_event && @adverse_event == adverse_event) || (@sheet && @sheet.adverse_event == adverse_event)}"

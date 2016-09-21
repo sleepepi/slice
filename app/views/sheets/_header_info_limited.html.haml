@@ -9,28 +9,19 @@
     %tr
       %th Coverage
       %th= @sheet.project.subject_code_name_full
-      - if @sheet.subject_event
-        %th Subject Event
       %th Site
-      %th
+      %th.hidden-xs
         - if @sheet.recently_created?
           Created
         - else
           Updated
-      %th Actions
   %tbody
     %tr
       %td= coverage_helper(@sheet)
       %td
         = link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject
-      - if @sheet.subject_event
-        %td
-          = link_to event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param) do
-            = @sheet.subject_event.event.name
-            \-
-            = @sheet.subject_event.event_date_to_s
       %td= link_to @sheet.subject.site.name, [@sheet.subject.site.project, @sheet.subject.site] if @sheet.subject && @sheet.subject.site
-      %td
+      %td.hidden-xs
         - if @sheet.recently_created?
           = link_to_if (@sheet.sheet_transactions.size > 0 && current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time(@sheet.created_at), transactions_project_sheet_path(@sheet.project, @sheet)
           - if @sheet.user
@@ -41,7 +32,5 @@
           - if @sheet.last_user
             by
             = @sheet.last_user.name
-      %td
-        #sheet_actions= render 'sheets/actions', project: @project, sheet: @sheet
 
 #sheet_unlocks_container= render 'sheet_unlock_requests/index', project: @project, sheet: @sheet
