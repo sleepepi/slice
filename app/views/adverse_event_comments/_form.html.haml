@@ -1,11 +1,11 @@
 .comment-outer
   .comment-left-fixed
-    = image_tag current_user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+    = image_tag @adverse_event_comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
 
   .comment-right-fluid
     .comment-comment
       .comment-comment-header
-        %strong= current_user.name
+        %strong= @adverse_event_comment.user.name
       .comment-comment-body
         = form_for [@project, @adverse_event, @adverse_event_comment], remote: true, html: { class: 'form-vertical' } do |f|
           - if @adverse_event_comment.errors.any?

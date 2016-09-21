@@ -26,5 +26,5 @@
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
+      = f.submit @adverse_event.new_record? ? 'Report Adverse Event' : nil, class: 'btn btn-primary'
       = link_to 'Cancel', @adverse_event.new_record? ? project_adverse_events_path(@project) : [@project, @adverse_event], class: 'btn btn-default'

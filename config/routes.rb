@@ -233,7 +233,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :randomization_schemes do
+    resources :randomization_schemes, path: 'schemes' do
       collection do
         post :add_task
       end

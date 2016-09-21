@@ -135,7 +135,7 @@ class RandomizationSchemesController < ApplicationController
     end
   end
 
-  # GET /randomization_schemes
+  # GET /schemes
   def index
     randomization_scheme_scope = @project.randomization_schemes.search(params[:search])
     @order = scrub_order(RandomizationScheme, params[:order], 'randomization_schemes.name')
@@ -143,20 +143,20 @@ class RandomizationSchemesController < ApplicationController
     @randomization_schemes = randomization_scheme_scope.page(params[:page]).per(40)
   end
 
-  # GET /randomization_schemes/1
+  # GET /schemes/1
   def show
   end
 
-  # GET /randomization_schemes/new
+  # GET /schemes/new
   def new
     @randomization_scheme = current_user.randomization_schemes.where(project_id: @project.id).new
   end
 
-  # GET /randomization_schemes/1/edit
+  # GET /schemes/1/edit
   def edit
   end
 
-  # POST /randomization_schemes
+  # POST /schemes
   def create
     @randomization_scheme = current_user.randomization_schemes.where(project_id: @project.id)
                                         .new(randomization_scheme_params)
@@ -167,7 +167,7 @@ class RandomizationSchemesController < ApplicationController
     end
   end
 
-  # PATCH /randomization_schemes/1
+  # PATCH /schemes/1
   def update
     if @randomization_scheme.update(randomization_scheme_params)
       redirect_to [@project, @randomization_scheme], notice: 'Randomization scheme was successfully updated.'
@@ -176,7 +176,7 @@ class RandomizationSchemesController < ApplicationController
     end
   end
 
-  # DELETE /randomization_schemes/1
+  # DELETE /schemes/1
   def destroy
     @randomization_scheme.destroy
     redirect_to project_randomization_schemes_path(@project), notice: 'Randomization scheme was successfully deleted.'

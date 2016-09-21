@@ -1,30 +1,35 @@
-- @title = @adverse_event.name
+- @title = "#{@adverse_event.name} Files"
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]]  if @adverse_event.subject
 
-- links = []
-- links << ['Adverse Events', project_adverse_events_path(@project)]
-- links << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
-- links << [@adverse_event.name, [@project, @adverse_event]]
-- links << ['Files', project_adverse_event_adverse_event_files_path(@project, @adverse_event)]
-= render 'projects/tabbed_menu', links: links
+= @subject = @adverse_event.subject; render 'subjects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'adverse_events/header'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          = render 'adverse_events/actions', adverse_event: @adverse_event
+        = render 'layouts/side_nav_header_button'
+        = link_to @adverse_event.name, [@project, @adverse_event]
+        Files
+      = render 'adverse_events/shareable_link', adverse_event: @adverse_event
 
-    = render 'adverse_events/menu'
+.dashboard-container
+  = render 'adverse_events/menu'
 
-    - files = @adverse_event.adverse_event_files
+  - files = @adverse_event.adverse_event_files
 
-    - if files.count == 0
-      .center
-        %p.lead No files have been uploaded to this adverse event.
+  - if files.count == 0
+    .center
+      %p.lead No files have been uploaded to this adverse event.
 
-    #attachments
-      = render 'adverse_event_files/attachments'
+  #attachments
+    = render 'adverse_event_files/attachments'
 
-    - if @adverse_event.editable_by?(current_user)
-      = link_to 'Upload New File', new_project_adverse_event_adverse_event_file_path(@project, @adverse_event), class: 'btn btn-default'
-      .filedrag{ data: { object: 'dropfile', project: @project.to_param, adverse_event: @adverse_event.to_param } }
-        Drag files here to attach to adverse event.
+  - if @adverse_event.editable_by?(current_user)
+    = link_to 'Upload New File', new_project_adverse_event_adverse_event_file_path(@project, @adverse_event), class: 'btn btn-default'
+    .filedrag{ data: { object: 'dropfile', project: @project.to_param, adverse_event: @adverse_event.to_param } }
+      Drag files here to attach to adverse event.

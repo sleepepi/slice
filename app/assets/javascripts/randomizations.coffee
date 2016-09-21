@@ -44,7 +44,7 @@
   $("[data-object~='randomization_subject_search']").each( () ->
     $this = $(this)
     $this.typeahead(
-      remote: root_url + "projects/#{$this.data('project-slug')}/randomization_schemes/#{$this.data('randomization-scheme-id')}/subject_search?q=%QUERY"
+      remote: root_url + "projects/#{$this.data('project-slug')}/schemes/#{$this.data('randomization-scheme-id')}/subject_search?q=%QUERY"
       template: '<p><span class="label label-{{status_class}}">{{status}}</span> <strong>{{subject_code}}</strong></p>'
       engine: Hogan
     )

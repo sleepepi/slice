@@ -1,0 +1,6 @@
+- if AdverseEvent::SHAREABLE_LINKS_ENABLED
+  - if adverse_event.authentication_token.present?
+    %small
+      %strong Share via this Link
+      %br
+      %code= "#{ENV['website_url']}/adverse-event/#{@adverse_event.id_and_token}"

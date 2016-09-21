@@ -6,6 +6,8 @@ class AdverseEvent < ApplicationRecord
   # Concerns
   include DateAndTimeParser, Deletable, Searchable, Siteable, Forkable
 
+  SHAREABLE_LINKS_ENABLED = false
+
   # Model Alerts
   after_touch :create_notifications
 

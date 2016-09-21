@@ -1,13 +1,7 @@
 - @title = 'Report Adverse Event'
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Adverse Events', project_adverse_events_path(@project)]
-- links << [@title, new_project_adverse_event_path(@project)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading= @title
-    = render 'form'
+.dashboard-container= render 'form'

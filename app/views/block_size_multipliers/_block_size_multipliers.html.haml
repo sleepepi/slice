@@ -19,6 +19,6 @@
           %td.hidden-xs= link_to block_size_multiplier.user.name, block_size_multiplier.user if block_size_multiplier.user
           %td
             - if @randomization_scheme.published?
-              = link_to 'Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+              = link_to label_or('Scheme Published', 'Published'), '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
             - else
               = render 'layouts/edit_delete_dropdown', edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), delete_url: [@project, @randomization_scheme, block_size_multiplier], delete_confirmation: "Are you sure you want to delete Block Size Multiplier #{block_size_multiplier.name}?"
