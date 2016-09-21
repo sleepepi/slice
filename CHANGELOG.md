@@ -4,6 +4,7 @@
 - **General Changes**
   - Improved styling on projects and users pages
   - Improved menu and header display on index pages
+  - Improved display of pagination on mobile devices
 - **Project Changes**
   - Improved new project setup workflow
   - Removed `subject_code_name` from project settings to simplify setup

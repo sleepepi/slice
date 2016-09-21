@@ -6,4 +6,6 @@
 -#   per_page:      number of items to fetch per page
 -#   remote:        data-remote
 %li.first
-  = link_to raw(t 'views.pagination.first'), url, remote: remote
+  = link_to url, remote: remote do
+    %span.hidden-xs= raw(t 'views.pagination.first')
+    %span.hidden-sm.hidden-md.hidden-lg &laquo;
