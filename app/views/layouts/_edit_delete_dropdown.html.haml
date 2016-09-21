@@ -1,0 +1,16 @@
+.dropdown
+  = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+    Actions
+    %strong.caret
+
+  %ul.dropdown-menu.dropdown-menu-right
+    %li
+      = link_to edit_url do
+        %span.glyphicon.glyphicon-edit
+        Edit
+    %li.divider{ role: 'separator' }
+    %li
+      = link_to delete_url, method: :delete, data: { confirm: delete_confirmation } do
+        .text-danger
+          %span.glyphicon.glyphicon-trash
+          Delete

@@ -1,19 +1,19 @@
 - @title = 'Users'
 
 - content_for :header do
+  .background-gradient
   .header-container
     .container
       %h1.page-heading
+        .pull-right
+          .per-page= render 'layouts/per_page', per_page: 40, object_count: @users.total_count
+
         = @title
 
-        = form_tag users_path, method: :get, class: 'form-inline' do
-          = hidden_field_tag :order, params[:order]
-          .input-group
-            = text_field_tag 'search', params[:search], class: 'form-control'
-            %span.input-group-btn= submit_tag 'Search', class: 'btn btn-accent', name: nil
-
-        .per-page= render 'layouts/per_page', per_page: 40, object_count: @users.total_count
-
-.background-gradient
+      = form_tag users_path, method: :get, class: 'form-inline', style: 'margin-top: 10px;' do
+        = hidden_field_tag :order, params[:order]
+        .input-group
+          = text_field_tag 'search', params[:search], class: 'form-control'
+          %span.input-group-btn= submit_tag 'Search', class: 'btn btn-accent', name: nil
 
 = render 'users/users'

@@ -29,6 +29,9 @@
             = link_to 'Notifications', notifications_path
           %li.visible-xs{ class: "#{ 'active' if current_page?(settings_path) }" }
             = link_to 'My Settings', settings_path
+          - if current_user.system_admin?
+            %li.visible-xs{ class: "#{ 'active' if current_page?(users_path) }" }
+              = link_to 'Admin Dashboard', users_path
         %form.navbar-form.navbar-right
           = link_to 'Logout', destroy_user_session_path, class: 'btn btn-primary-dark'
 

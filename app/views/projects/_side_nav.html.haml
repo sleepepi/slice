@@ -31,6 +31,9 @@
             %li
               = link_to share_project_path(@project), class: (current_page?(share_project_path(@project)) ? 'active' : nil) do
                 Collaborators
+            %li
+              = link_to project_tasks_path(@project), class: (params[:controller] == 'tasks' ? 'active' : nil) do
+                Tasks
 
       %ul.side-nav-navigation
         %li.side-nav-section

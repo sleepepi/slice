@@ -1,19 +1,19 @@
 .dashboard-container
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
-  %table.table.table-striped
+  %table.table.table-striped.table-borderless.table-hover
     %col
     - if viewable_sites.count > 1
-      %col
+      %col.hidden-xs.hidden-sm
     %col
     - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-      %col
+      %col.hidden-xs
     - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-      %col
+      %col.hidden-xs
     %thead
       %tr
         = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
         - if viewable_sites.count > 1
-          %th.nowrap{ class: ['subjects.site_id', 'subjects.site_id desc'].include?(params[:order]) ? 'sort-selected' : nil }
+          %th.hidden-xs.hidden-sm.nowrap{ class: ['subjects.site_id', 'subjects.site_id desc'].include?(params[:order]) ? 'sort-selected' : nil }
             = link_to 'Site', project_subjects_path(@project, order: (params[:order] == 'subjects.site_id desc' ? 'subjects.site_id' : 'subjects.site_id desc'), site_id: params[:site_id])
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'status-dropdown' do
@@ -24,7 +24,7 @@
                   %li= link_to site.short_name, project_subjects_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
         %th.nowrap Recent Activity
         - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-          %th.center
+          %th.hidden-xs.center
             Randomized
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'randomized-dropdown' do
@@ -34,7 +34,7 @@
                 %li= link_to 'Randomized', project_subjects_path(@project, order: params[:order], randomized: '1'), style: params[:randomized] == '1' ? 'font-weight:bold;' : ''
                 %li= link_to 'Unrandomized', project_subjects_path(@project, order: params[:order], randomized: '0'), style: params[:randomized] == '0' ? 'font-weight:bold;' : ''
         - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-          %th
+          %th.hidden-xs
             AEs
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'ae-dropdown' do
@@ -48,7 +48,7 @@
       %tr{ id: "subject_#{subject.id}" }
         %td= link_to subject.subject_code, [@project, subject]
         - if viewable_sites.count > 1
-          %td= subject.site.short_name
+          %td.hidden-xs.hidden-sm= subject.site.short_name
         %td
           - sheet = subject.last_created_or_edited_sheet(current_user)
           - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
@@ -66,13 +66,13 @@
           - else
             %span.text-muted Subject Created
         - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-          %td.center
+          %td.hidden-xs.center
             - if subject.randomizations.count > 0
               = simple_check true
             - else
               %span.text-muted -
         - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-          %td.nowrap
+          %td.hidden-xs.nowrap
             - open_ae_count = subject.adverse_events.where(closed: false).count
             - closed_ae_count = subject.adverse_events.where(closed: true).count
             - if open_ae_count + closed_ae_count > 0

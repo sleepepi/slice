@@ -65,15 +65,18 @@
                 = link_to files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}" do
                   %span.emphasis= @subject.uploaded_files(current_user).count
                   = 'File'.pluralize(@subject.uploaded_files(current_user).count)
-            - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-              %li
-                = link_to 'Adverse Events', adverse_events_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'adverse_events'}"
-                %ul
-                  - @subject.adverse_events.each do |adverse_event|
-                    %li= link_to adverse_event.name, [@project, adverse_event]
             - if @subject.blinded_comments(current_user).count > 0 || params[:action] == 'comments'
               %li
                 = link_to comments_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'comments'}" do
                   %span.emphasis= @subject.blinded_comments(current_user).count
                   = 'Comment'.pluralize(@subject.blinded_comments(current_user).count)
             %li= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'settings'}"
+        - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+          %li.side-nav-section
+            .side-nav-section-header
+              = link_to 'Adverse Events', '#', data: { object: 'toggle-section-links' }
+            %ul.side-nav-section-links.active
+              %li
+                = link_to 'Overview', adverse_events_project_subject_path(@project, @subject), class: "#{'active' if current_page?(adverse_events_project_subject_path(@project, @subject))}"
+                - @subject.adverse_events.each do |adverse_event|
+                  %li= link_to adverse_event.name, [@project, adverse_event], class: "#{'active' if current_page?([@project, adverse_event])}"

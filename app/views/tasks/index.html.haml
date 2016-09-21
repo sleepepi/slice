@@ -1,30 +1,18 @@
 - @title = 'Tasks'
+- @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/tabbed_menu', links: [['Tasks', project_tasks_path(@project)]]
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      - if @project.site_or_project_editor?(current_user)
-        = link_to 'New Task', new_project_task_path(@project), class: 'btn btn-xs btn-primary'
-      .per-page
-        = render 'layouts/per_page', per_page: 40, object_count: @tasks.total_count
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          - if @project.site_or_project_editor?(current_user)
+            = link_to plus_or('New Task'), new_project_task_path(@project), class: 'btn btn-accent btn-shadow'
+          .per-page= render 'layouts/per_page', per_page: 40, object_count: @tasks.total_count
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-    = render 'tasks/tasks'
-
-    - if false
-      .jumbotron
-        = form_tag project_tasks_path(@project), method: :get, class: 'form-vertical' do
-          = hidden_field_tag :order, params[:order]
-          .row
-            .col-md-4.form-group
-              = label :search, 'Search', class: 'col-md-3 control-label'
-              .col-md-9
-                = text_field_tag 'search', params[:search], class: 'form-control'
-
-            .col-md-4.form-group
-              = submit_tag 'Search', class: 'btn btn-primary', name: nil
-              = link_to 'Reset', project_tasks_path(@project), class: 'btn btn-default'
+= render 'tasks/tasks'

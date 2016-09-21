@@ -7,8 +7,9 @@ module ProjectsHelper
   end
 
   def viewing_reports?
-    current_page?(reports_reports_project_path(@project)) ||
-      current_page?(subject_report_reports_project_path(@project))
+    # current_page?(reports_reports_project_path(@project)) ||
+    #   current_page?(subject_report_reports_project_path(@project))
+    true
   end
 
   def viewing_project_setup?
