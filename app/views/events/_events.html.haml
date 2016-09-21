@@ -25,21 +25,6 @@
         %td.hidden-xs= simple_check event.archived
         %td.hidden-xs.hidden-sm.center= event.designs.count
         %td
-          .dropdown
-            = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-              Actions
-              %strong.caret
-
-            %ul.dropdown-menu.dropdown-menu-right
-              %li
-                = link_to edit_project_event_path(event.project, event) do
-                  %span.glyphicon.glyphicon-edit
-                  Edit
-              %li.divider{ role: 'separator' }
-              %li
-                = link_to [event.project, event], method: :delete, data: { confirm: "Are you sure you want to delete Event #{event.name}?" } do
-                  .text-danger
-                    %span.glyphicon.glyphicon-trash
-                    Delete
+          = render 'layouts/edit_delete_dropdown', edit_url: edit_project_event_path(event.project, event), delete_url: [event.project, event], delete_confirmation: "Are you sure you want to delete Event #{event.name}?"
 
 .center= paginate @events, theme: 'bootstrap'

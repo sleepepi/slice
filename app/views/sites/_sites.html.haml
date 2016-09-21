@@ -15,21 +15,6 @@
         %td.hidden-xs= link_to site.user.name, site.user if site.user
         %td
           - if current_user.all_sites.pluck(:id).include?(site.id)
-            .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-                Actions
-                %strong.caret
-
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_project_site_path(site.project, site) do
-                    %span.glyphicon.glyphicon-edit
-                    Edit
-                %li.divider{ role: 'separator' }
-                %li
-                  = link_to [site.project, site], method: :delete, data: { confirm: "Are you sure you want to delete Site #{site.name}?" } do
-                    .text-danger
-                      %span.glyphicon.glyphicon-trash
-                      Delete
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_site_path(site.project, site), delete_url: [site.project, site], delete_confirmation: "Are you sure you want to delete Site #{site.name}?"
 
 .center= paginate @sites, theme: 'bootstrap'

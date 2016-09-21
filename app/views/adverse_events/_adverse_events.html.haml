@@ -30,21 +30,6 @@
           - if @project.site_or_project_editor?(current_user)
             %td
               - if adverse_event.editable_by?(current_user)
-                .dropdown
-                  = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-                    Actions
-                    %strong.caret
-
-                  %ul.dropdown-menu.dropdown-menu-right
-                    %li
-                      = link_to edit_project_adverse_event_path(@project, adverse_event) do
-                        %span.glyphicon.glyphicon-edit
-                        Edit
-                    %li.divider{ role: 'separator' }
-                    %li
-                      = link_to [@project, adverse_event], method: :delete, data: { confirm: "Are you sure you want to delete Adverse Event #{adverse_event.name}?" } do
-                        .text-danger
-                          %span.glyphicon.glyphicon-trash
-                          Delete
+                = render 'layouts/edit_delete_dropdown', edit_url: edit_project_adverse_event_path(@project, adverse_event), delete_url: [@project, adverse_event], delete_confirmation: "Are you sure you want to delete Adverse Event #{adverse_event.name}?"
 
 .center= paginate @adverse_events, theme: 'bootstrap'

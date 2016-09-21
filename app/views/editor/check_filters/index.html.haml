@@ -44,19 +44,4 @@
           %td= check_filter.operator
           %td.hidden-xs= check_filter.user.name
           %td
-            .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-                Actions
-                %strong.caret
-
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_editor_project_check_check_filter_path(@project, @check, check_filter) do
-                    %span.glyphicon.glyphicon-edit
-                    Edit
-                %li.divider{ role: 'separator' }
-                %li
-                  = link_to editor_project_check_check_filter_path(@project, @check, check_filter), method: :delete, data: { confirm: "Are you sure you want to delete filter #{check_filter.name}?" } do
-                    .text-danger
-                      %span.glyphicon.glyphicon-trash
-                      Delete
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_check_filter_path(@project, @check, check_filter), delete_url: editor_project_check_check_filter_path(@project, @check, check_filter), delete_confirmation: "Are you sure you want to delete filter #{check_filter.name}?"

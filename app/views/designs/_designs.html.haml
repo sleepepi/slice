@@ -29,22 +29,7 @@
         %td.hidden-xs= design.variables.count
         %td.hidden-xs= link_to design.user.name, design.user if design.user
         %td
-          .dropdown
-            = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-              Actions
-              %strong.caret
-
-            %ul.dropdown-menu.dropdown-menu-right
-              %li
-                = link_to edit_project_design_path(@project, design) do
-                  %span.glyphicon.glyphicon-edit
-                  Edit
-              %li.divider{ role: 'separator' }
-              %li
-                = link_to [@project, design], method: :delete, data: { confirm: "Are you sure you want to delete Design #{design.name}?" } do
-                  .text-danger
-                    %span.glyphicon.glyphicon-trash
-                    Delete
+          = render 'layouts/edit_delete_dropdown', edit_url: edit_project_design_path(@project, design), delete_url: [@project, design], delete_confirmation: "Are you sure you want to delete Design #{design.name}?"
 
 .center
   = paginate @designs, theme: 'bootstrap'

@@ -36,19 +36,4 @@
           %td= link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value)
           %td.hidden-xs= check_filter_value.user.name
           %td
-            .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-                Actions
-                %strong.caret
-
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value) do
-                    %span.glyphicon.glyphicon-edit
-                    Edit
-                %li.divider{ role: 'separator' }
-                %li
-                  = link_to editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), method: :delete, data: { confirm: "Are you sure you want to delete value #{check_filter_value.value}?" } do
-                    .text-danger
-                      %span.glyphicon.glyphicon-trash
-                      Delete
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_url: editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_confirmation: "Are you sure you want to delete value #{check_filter_value.value}?"

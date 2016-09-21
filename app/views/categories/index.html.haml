@@ -37,19 +37,4 @@
           %td.hidden-xs.hidden-sm.center= simple_check category.use_for_adverse_events
           %td.hidden-xs= category.user.name
           %td
-            .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-                Actions
-                %strong.caret
-
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_project_category_path(@project, category) do
-                    %span.glyphicon.glyphicon-edit
-                    Edit
-                %li.divider{ role: 'separator' }
-                %li
-                  = link_to [@project, category], method: :delete, data: { confirm: "Are you sure you want to delete category #{category.name}?" } do
-                    .text-danger
-                      %span.glyphicon.glyphicon-trash
-                      Delete
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_category_path(@project, category), delete_url: [@project, category], delete_confirmation: "Are you sure you want to delete category #{category.name}?"

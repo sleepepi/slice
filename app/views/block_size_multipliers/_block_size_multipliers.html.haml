@@ -21,19 +21,4 @@
             - if @randomization_scheme.published?
               = link_to 'Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
             - else
-              .dropdown
-                = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
-                  Actions
-                  %strong.caret
-
-                %ul.dropdown-menu.dropdown-menu-right
-                  %li
-                    = link_to edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier) do
-                      %span.glyphicon.glyphicon-edit
-                      Edit
-                  %li.divider{ role: 'separator' }
-                  %li
-                    = link_to [@project, @randomization_scheme, block_size_multiplier], method: :delete, data: { confirm: "Are you sure you want to delete Block Size Multiplier #{block_size_multiplier.name}?" } do
-                      .text-danger
-                        %span.glyphicon.glyphicon-trash
-                        Delete
+              = render 'layouts/edit_delete_dropdown', edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), delete_url: [@project, @randomization_scheme, block_size_multiplier], delete_confirmation: "Are you sure you want to delete Block Size Multiplier #{block_size_multiplier.name}?"
