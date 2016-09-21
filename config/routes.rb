@@ -250,7 +250,7 @@ Rails.application.routes.draw do
         end
       end
       resources :stratification_factors do
-        resources :stratification_factor_options
+        resources :stratification_factor_options, path: 'options'
       end
       resources :treatment_arms
     end

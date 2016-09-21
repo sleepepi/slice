@@ -1,12 +1,7 @@
 - @title = 'New Randomization Scheme'
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Randomization Schemes', project_randomization_schemes_path(@project)]
-- links << ['New', new_project_randomization_scheme_path(@project)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

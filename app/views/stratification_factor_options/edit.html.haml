@@ -1,16 +1,18 @@
-- @title = "Edit Stratification Factor Option: #{@stratification_factor_option.name_was}"
+- @title = "#{@stratification_factor_option.name_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- @breadcrumbs << [@stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]]
 
-- links = []
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-- links << [@stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]]
-- links << ['Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)]
-- links << [@stratification_factor_option.name_was, [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option]]
-- links << ['Edit', edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, @stratification_factor_option)]
+= render 'projects/side_nav'
 
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @stratification_factor_option.name_was, [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option]
+        Edit
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

@@ -1,58 +1,81 @@
 - @title = @randomization_scheme.name
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Randomization Schemes', project_randomization_schemes_path(@project)]
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      = link_to 'Edit Randomization Scheme', edit_project_randomization_scheme_path(@project, @randomization_scheme), class: 'btn btn-default btn-xs'
-      = link_to 'Delete Randomization Scheme', [@project, @randomization_scheme], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Randomization Scheme #{@randomization_scheme.name}?" }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
 
-    %dl.dl-horizontal
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_project_randomization_scheme_path(@project, @randomization_scheme) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to [@project, @randomization_scheme], method: :delete, data: { confirm: "Are you sure you want to delete Randomization Scheme #{@randomization_scheme.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
-      - if @randomization_scheme.published?
-        %dt Randomized
-        %dd
+        = render 'layouts/side_nav_header_button'
+        = @title
+
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    - if @randomization_scheme.published?
+      %tr
+        %th Randomized
+        %td
           = render 'randomization_schemes/progress', randomization_scheme: @randomization_scheme
+    %tr
+      %th Description
+      %td= simple_markdown @randomization_scheme.description
 
-      %dt Description
-      %dd= simple_markdown @randomization_scheme.description
+    %tr
+      %th Creator
+      %td= link_to @randomization_scheme.user.name, @randomization_scheme.user if @randomization_scheme.user
 
-      %dt Creator
-      %dd= link_to @randomization_scheme.user.name, @randomization_scheme.user if @randomization_scheme.user
+    %tr
+      %th Published
+      %td= simple_check @randomization_scheme.published
 
-      %dt Published
-      %dd= simple_check @randomization_scheme.published
+    %tr
+      %th Algorithm
+      %td= simple_markdown @randomization_scheme.algorithm_name
 
-      %dt Algorithm
-      %dd= simple_markdown @randomization_scheme.algorithm_name
-
-      %dt Randomization Goal
-      %dd
+    %tr
+      %th Randomization Goal
+      %td
         = @randomization_scheme.randomizations.where.not(subject_id: nil).count
         of
         = @randomization_scheme.randomization_goal
 
-      - if @randomization_scheme.variable
-        %dt Variable Criteria
-        %dd
+    - if @randomization_scheme.variable
+      %tr
+        %th Variable Criteria
+        %td
           = link_to @randomization_scheme.variable.name, [@project, @randomization_scheme.variable]
           \=
           = @randomization_scheme.variable_value
 
-
-      - if @randomization_scheme.minimization?
-        %dt Chance of Random Treatment Arm Selection
-        %dd= @randomization_scheme.chance_of_random_treatment_arm_selection
-
-      %dt= link_to 'Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
-      %dd
+    - if @randomization_scheme.minimization?
+      %tr
+        %th Chance of Random Treatment Arm Selection
+        %td= @randomization_scheme.chance_of_random_treatment_arm_selection
+    %tr
+      %th= link_to 'Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
+      %td
         %ul.list-unstyled
           - @randomization_scheme.treatment_arms.each do |treatment_arm|
             %li
@@ -61,9 +84,10 @@
               %code
                 = treatment_arm.allocation
 
-      - if @randomization_scheme.permuted_block?
-        %dt= link_to 'Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
-        %dd
+    - if @randomization_scheme.permuted_block?
+      %tr
+        %th= link_to 'Block Size Multipliers', project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
+        %td
           %ul.list-unstyled
             - @randomization_scheme.block_size_multipliers.each do |block_size_multiplier|
               %li
@@ -71,9 +95,9 @@
                 Allocation:
                 %code
                   = block_size_multiplier.allocation
-
-      %dt= link_to 'Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)
-      %dd
+    %tr
+      %th= link_to 'Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)
+      %td
         %ul.list-unstyled
           - @randomization_scheme.stratification_factors.order(:name).each do |stratification_factor|
             %li
@@ -86,9 +110,9 @@
                 %ul
                   - stratification_factor.stratification_factor_options.order(:value).each do |stratification_factor_option|
                     %li= link_to stratification_factor_option.name, [@project, @randomization_scheme, stratification_factor, stratification_factor_option]
-
-      %dt= link_to 'Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)
-      %dd
+    %tr
+      %th= link_to 'Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)
+      %td
         %ul.list-unstyled
           - @randomization_scheme.lists.each do |list|
             %li
@@ -101,9 +125,10 @@
           - else
             = link_to 'Generate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, class: 'btn btn-default btn-xs'
 
-      - if @randomization_scheme.randomization_scheme_tasks.count > 0
-        %dt Tasks
-        %dd
+    - if @randomization_scheme.randomization_scheme_tasks.count > 0
+      %tr
+        %th Tasks
+        %td
           %table.table
             %thead
               %th Description
@@ -120,7 +145,7 @@
                     = rst.window
                     = rst.window_units
 
-    = render 'randomization_schemes/existing_lists'
+  = render 'randomization_schemes/existing_lists'
 
-    = render 'randomization_schemes/distributions'
+  = render 'randomization_schemes/distributions'
 

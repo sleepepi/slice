@@ -76,7 +76,7 @@
                   Categories
               - if @project.randomizations_enabled? && @project.unblinded?(current_user)
                 %li
-                  = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) ? 'active' : nil) do
+                  = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) && params[:action] != 'randomize_subject' ? 'active' : nil) do
                     Schemes
               %li
                 = link_to editor_project_checks_path(@project), class: (params[:controller] == 'editor/checks' ? 'active' : nil) do

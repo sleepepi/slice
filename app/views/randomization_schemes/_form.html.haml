@@ -1,5 +1,3 @@
-%h2.underline-heading= @title
-
 = form_for [@project, @randomization_scheme], html: { class: 'form-horizontal' } do |f|
   - if @randomization_scheme.errors.any?
     .callout.callout-danger

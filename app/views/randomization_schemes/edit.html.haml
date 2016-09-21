@@ -1,14 +1,15 @@
-- @title = "Edit Randomization Scheme: #{@randomization_scheme.name_was}"
+- @title = "#{@randomization_scheme.name_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Randomization Schemes', project_randomization_schemes_path(@project)]
-- links << [@randomization_scheme.name_was, [@project, @randomization_scheme]]
-- links << ['Edit', edit_project_randomization_scheme_path(@project, @randomization_scheme)]
+= render 'projects/side_nav'
 
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @randomization_scheme.name_was, [@project, @randomization_scheme]
+        Edit
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

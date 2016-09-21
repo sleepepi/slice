@@ -1,70 +1,76 @@
 - @title = 'Randomize Subject'
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Randomizations', project_randomizations_path(@project)]
-- links << ['Randomize Subject', choose_scheme_project_randomizations_path(@project)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2= @title
+.dashboard-container
+  - if @randomization_scheme.lists.count == 0
+    %p.lead.center
+      Lists not yet generated.
+    .comment-outer{ style: 'margin-top: 40px' }
+      .comment-left-fixed
+        = image_tag 'try-slice-logo-no-text.png', size: '48x48', alt: ''
+      .comment-right-fluid
+        .comment-comment
+          .comment-comment-header
+            %strong Slice
+            says...
+          .comment-comment-body
+            %p
+              Lists need to be generated before randomization can start for this randomization scheme.
+            - if @project.editable_by?(current_user)
+              Go
+              = link_to 'generate lists', [@project, @randomization_scheme]
+              now.
+            - else
+              %p Please contact one of the following project editors to generate the lists:
+              %ul
+                - @project.editors.each do |editor|
+                  %li= editor.name
+  - else
+    = form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: 'form-horizontal' do |f|
+      - if @randomization.errors.any?
+        .callout.callout-danger
+          %strong
+            = pluralize(@randomization.errors.count, "error")
+            prohibited this subject from being randomized
 
-    - if @randomization_scheme.lists.count == 0
-      .callout.callout-info
-        %p
-          Lists need to be generated before randomization can start for this randomization scheme.
-        - if @project.editable_by?(current_user) and false
-          = link_to @randomization_scheme.name, [@project, @randomization_scheme], class: 'btn btn-default'
-        - else
-          %p Please contact one of the following project editors to generate the lists:
           %ul
-            - @project.editors.each do |editor|
-              %li= editor.name
-    - else
-      = form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: 'form-horizontal' do |f|
-        - if @randomization.errors.any?
-          .callout.callout-danger
-            %strong
-              = pluralize(@randomization.errors.count, "error")
-              prohibited this subject from being randomized
+            - @randomization.errors.full_messages.each do |msg|
+              %li= msg
 
-            %ul
-              - @randomization.errors.full_messages.each do |msg|
-                %li= msg
+      .form-group
+        = label_tag :subject_code, 'Subject Code', class: 'col-md-2 control-label'
+        .col-md-10
+          - sfo = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
+          = text_field_tag :subject_code, params[:subject_code], autocomplete: 'off', class: 'form-control', data: { object: "randomization_subject_search",  project_slug: @project.to_param, randomization_scheme_id: @randomization_scheme.id, sfo_id: (sfo ? sfo.id : nil) }
 
+      - @randomization_scheme.stratification_factors.order(:name).each do |stratification_factor|
         .form-group
-          = label_tag :subject_code, 'Subject Code', class: 'col-md-2 control-label'
+          %label.col-md-2.control-label
+            = stratification_factor.name
           .col-md-10
-            - sfo = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
-            = text_field_tag :subject_code, params[:subject_code], autocomplete: 'off', class: 'form-control', data: { object: "randomization_subject_search",  project_slug: @project.to_param, randomization_scheme_id: @randomization_scheme.id, sfo_id: (sfo ? sfo.id : nil) }
+            .sheet-container
+              - stratification_factor.option_hashes.each do |option_hash|
+                - if site = current_user.all_editable_sites.where(project_id: @project.id).find_by_id(option_hash[:site_id])
+                  - selected = (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
+                  %label.radio.radio-inline{ class: "#{'selected' if selected}" }
+                    = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected
+                    = site.name
+                - elsif option = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
+                  - selected = (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
+                  %label.radio.radio-inline{ class: "#{'selected' if selected}" }
+                    = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, data: { stratification_factor_id: stratification_factor.id, value: option.value }
+                    = option.label
 
-        - @randomization_scheme.stratification_factors.order(:name).each do |stratification_factor|
-          .form-group
-            %label.col-md-2.control-label
-              = stratification_factor.name
-            .col-md-10
-              .sheet-container
-                - stratification_factor.option_hashes.each do |option_hash|
-                  - if site = current_user.all_editable_sites.where(project_id: @project.id).find_by_id(option_hash[:site_id])
-                    - selected = (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
-                    %label.radio.radio-inline{ class: "#{'selected' if selected}" }
-                      = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected
-                      = site.name
-                  - elsif option = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
-                    - selected = (params["stratification_factors"] ? params["stratification_factors"]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
-                    %label.radio.radio-inline{ class: "#{'selected' if selected}" }
-                      = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, data: { stratification_factor_id: stratification_factor.id, value: option.value }
-                      = option.label
-
-        .well
-          .form-group
-            = label_tag :attested, "<span class='glyphicon glyphicon-leaf' style='color:#5cb85c'></span> Attestation".html_safe, class: 'col-md-2 control-label'
-            .col-md-10{ style: "padding-left: 20px;display: block;min-height: 27px;padding-top: 7px;" }
-              = check_box_tag :attested, '1', params[:attested] == '1', style: 'float: left;margin-left: -20px;'
-              = @randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements)
-
+      .well
         .form-group
-          .col-md-offset-2.col-md-10
-            = submit_tag 'Randomize!', class: 'btn btn-lg btn-primary btn-shadow'
+          = label_tag :attested, "<span class='glyphicon glyphicon-leaf' style='color:#5cb85c'></span> Attestation".html_safe, class: 'col-md-2 control-label'
+          .col-md-10{ style: "padding-left: 20px;display: block;min-height: 27px;padding-top: 7px;" }
+            = check_box_tag :attested, '1', params[:attested] == '1', style: 'float: left;margin-left: -20px;'
+            = @randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements)
+
+      .form-group
+        .col-md-offset-2.col-md-10
+          = submit_tag 'Randomize!', class: 'btn btn-lg btn-primary btn-shadow'

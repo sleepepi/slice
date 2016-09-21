@@ -1,31 +1,48 @@
 - @title = @stratification_factor_option.name
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
+- @breadcrumbs << [@stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]]
 
-- links = []
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-- links << [@stratification_factor.name, project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor)]
-- links << ['Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)]
-- links << [@stratification_factor_option.name, project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, @stratification_factor_option)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      = link_to 'Edit Stratification Factor Option', edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, @stratification_factor_option), class: 'btn btn-default btn-xs'
-      - if @randomization_scheme.published?
-        = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
-      - else
-        = link_to 'Delete Stratification Factor Option', [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor Option #{@stratification_factor_option.name}?" }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          - unless @randomization_scheme.published?
+            .dropdown
+              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+                Actions
+                %strong.caret
 
-    %dl.dl-horizontal
+              %ul.dropdown-menu.dropdown-menu-right
+                %li
+                  = link_to edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, @stratification_factor_option) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], method: :delete, data: { confirm: "Are you sure you want to delete Stratification Factor Option #{@stratification_factor_option.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete
 
-      %dt Creator
-      %dd= link_to @stratification_factor_option.user.name, @stratification_factor_option.user if @stratification_factor_option.user
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt Label
-      %dd= @stratification_factor_option.label
-
-      %dt Value
-      %dd= @stratification_factor_option.value
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %tr
+      %th Creator
+      %td= link_to @stratification_factor_option.user.name, @stratification_factor_option.user if @stratification_factor_option.user
+    %tr
+      %th Label
+      %td= @stratification_factor_option.label
+    %tr
+      %th Value
+      %td= @stratification_factor_option.value

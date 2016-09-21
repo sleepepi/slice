@@ -1,15 +1,17 @@
-- @title = "Edit Treatment Arm: #{@treatment_arm.name_was}"
+- @title = "#{@treatment_arm.name_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-- links = []
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-- links << ['Treatment Arms', project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)]
-- links << [@treatment_arm.name_was, [@project, @randomization_scheme, @treatment_arm]]
-- links << ['Edit', edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, @treatment_arm)]
+= render 'projects/side_nav'
 
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @treatment_arm.name_was, [@project, @randomization_scheme, @treatment_arm]
+        Edit
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

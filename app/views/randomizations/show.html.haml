@@ -1,162 +1,159 @@
 - @title = "Randomization ##{@randomization.name}"
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Randomizations', project_randomizations_path(@project)]
-- links << [@randomization.name, project_randomization_path(@project, @randomization)]
-= render 'projects/tabbed_menu', links: links
+- if @randomization.subject
+  = @subject = @randomization.subject; render 'subjects/side_nav'
+- else
+  = render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    - if @randomization.subject && @randomization.randomized_by && @randomization.treatment_arm
-      .jumbotron
-        .container
-          %h1
-            = @randomization.treatment_arm.name
-            - if @randomization.editable_by?(current_user)
-              - if @randomization.randomized?
-                = link_to 'Undo', undo_project_randomization_path(@project, @randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{@randomization.list.name}" if @randomization.list}?" }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          - if @randomization.editable_by?(current_user)
+            - if @randomization.randomized?
+              = link_to 'Undo', undo_project_randomization_path(@project, @randomization), method: :patch, class: 'btn btn-danger-inverse', data: { confirm: "Are you sure you want to remove subject#{" from #{@randomization.list.name}" if @randomization.list}?" }
+        = render 'layouts/side_nav_header_button'
+        = @title
 
+- if @randomization.subject && @randomization.randomized_by && @randomization.treatment_arm
+  .jumbotron
+    %h2.center
+      = @randomization.treatment_arm.name
+
+    %p.center
+      %strong
+        = @randomization.subject.name
+      randomized
+      = simple_time @randomization.randomized_at
+      by
+      = @randomization.randomized_by.name
+
+- if @randomization.tasks.count > 0
+  .pull-right
+    = link_to schedule_project_randomization_path(@project, @randomization, format: 'pdf'), class: 'btn btn-xs btn-default' do
+      %span.glyphicon.glyphicon-print
+      Print Schedule
+
+  %h3.text-white.text-shadow
+    Schedule of Events
+
+  .dashboard-container
+    %table.table.table-striped.table-borderless.table-hover
+      %thead
+        %tr
+          %th.center
+          %th Task
+          %th Due Date
+      %tbody
+        - @randomization.tasks.each do |task|
+          %tr
+            %td
+              - if task.completed?
+                %span.glyphicon.glyphicon-check
+              - else
+                %span.glyphicon.glyphicon-unchecked
+            %td= link_to task.description, [task.project, task]
+            %td= task.due_date.strftime('%a, %B %-d, %Y')
+
+%h3.text-white.text-shadow
+  Randomization Details
+.dashboard-container
+  %dl.dl-horizontal
+    %dt Randomization Scheme
+    %dd= @randomization.randomization_scheme.name if @randomization.randomization_scheme
+
+    %dt List
+    %dd= @randomization.list.name if @randomization.list
+
+    - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization?
+      %dt Randomization Characteristics
+      %dd
+        %table.table.table-bordered
+          %thead
+            %tr
+              %th Stratification Factor
+              %th Option
+          - @randomization.randomization_characteristics.joins(:stratification_factor).order('stratification_factors.name').each do |randomization_characteristic|
+            %tr
+              %td= randomization_characteristic.stratification_factor.name
+              %td
+                - if sfo = randomization_characteristic.stratification_factor_option
+                  = sfo.label
+                - elsif site = randomization_characteristic.site
+                  = site.name
+
+    %dt List Position
+    - if @randomization.randomization_scheme && @randomization.randomization_scheme.permuted_block?
+      %dd= @randomization.position
+    - else
+      %dd= @randomization.list_position
+
+    - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization? && @randomization.dice_roll && @randomization.dice_roll_cutoff && @project.editable_by?(current_user)
+      %dt Notes
+      %dd
+        %p
+          %strong Is treatment arm selection random?
+        - if @randomization.dice_roll < @randomization.dice_roll_cutoff
           %p
-            %strong
-              = @randomization.subject.name
-            randomized
-            = simple_time @randomization.randomized_at
-            by
-            = @randomization.randomized_by.name
-
-    .row
-      .col-sm-6
-        %dl.dl-horizontal
-
-          %dt Subject
-          %dd= link_to @randomization.subject.name, [@project, @randomization.subject] if @randomization.subject
-
-          %dt Randomized by
-          %dd= @randomization.randomized_by.name if @randomization.randomized_by
-
-          %dt Randomized at
-          %dd= simple_time @randomization.randomized_at
-
-          %dt Treatment arm
-          %dd= @randomization.treatment_arm.name if @randomization.treatment_arm
-
-      - if @randomization.tasks.count > 0
-        .col-sm-6
-          %dl
-            %dt
-              Tasks
-              = link_to schedule_project_randomization_path(@project, @randomization, format: 'pdf'), class: 'btn btn-xs btn-default' do
-                %span.glyphicon.glyphicon-print
-                Print Schedule
-            %dd
-              %ul.list-unstyled
-                - @randomization.tasks.each do |task|
-                  %li
-                    - if task.completed?
-                      %span.glyphicon.glyphicon-check
-                    - else
-                      %span.glyphicon.glyphicon-unchecked
-                    = link_to task.name, [task.project, task]
-                    = task.due_date.strftime('%a, %B %-d, %Y')
-                    %div{ class: "#{'text-muted' if task.completed?}", style: "#{'text-decoration:line-through' if task.completed?}" }
-                      = simple_markdown task.description
-
-
-    %dl.dl-horizontal
-      %dt Randomization Scheme
-      %dd= @randomization.randomization_scheme.name if @randomization.randomization_scheme
-
-      %dt List
-      %dd= @randomization.list.name if @randomization.list
-
-      - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization?
-        %dt Randomization Characteristics
-        %dd
-          %table.table.table-bordered
-            %thead
-              %tr
-                %th Stratification Factor
-                %th Option
-            - @randomization.randomization_characteristics.joins(:stratification_factor).order('stratification_factors.name').each do |randomization_characteristic|
-              %tr
-                %td= randomization_characteristic.stratification_factor.name
-                %td
-                  - if sfo = randomization_characteristic.stratification_factor_option
-                    = sfo.label
-                  - elsif site = randomization_characteristic.site
-                    = site.name
-
-      %dt List Position
-      - if @randomization.randomization_scheme && @randomization.randomization_scheme.permuted_block?
-        %dd= @randomization.position
-      - else
-        %dd= @randomization.list_position
-
-      - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization? && @randomization.dice_roll && @randomization.dice_roll_cutoff && @project.editable_by?(current_user)
-        %dt Notes
-        %dd
+            Yes,
+            %mark= @randomization.dice_roll
+            is less than
+            = succeed '.' do
+              = @randomization.dice_roll_cutoff
+        - else
           %p
-            %strong Is treatment arm selection random?
-          - if @randomization.dice_roll < @randomization.dice_roll_cutoff
-            %p
-              Yes,
+            No,
+            %span{ rel: 'tooltip', title: 'Random Roll Between 0 and 99', data: { placement: 'right', container: 'body' } }
               %mark= @randomization.dice_roll
-              is less than
-              = succeed '.' do
-                = @randomization.dice_roll_cutoff
-          - else
-            %p
-              No,
-              %span{ rel: 'tooltip', title: 'Random Roll Between 0 and 99', data: { placement: 'right', container: 'body' } }
-                %mark= @randomization.dice_roll
-              is greater than or equal to
-              = succeed '.' do
-                %span{ rel: 'tooltip', title: 'Set by Scheme: Can be between 0 (Never Random) and 100 (Always Random)', data: { placement: 'right', container: 'body' } }= @randomization.dice_roll_cutoff
+            is greater than or equal to
+            = succeed '.' do
+              %span{ rel: 'tooltip', title: 'Set by Scheme: Can be between 0 (Never Random) and 100 (Always Random)', data: { placement: 'right', container: 'body' } }= @randomization.dice_roll_cutoff
 
-          - if @randomization.dice_roll < @randomization.dice_roll_cutoff
-            %p
-              %strong Randomly Select Treatment Arm
-          - else
-            %p
-              %strong Select Treatment Arm Based on Criteria Distributions
-              %table.table.table-bordered
-                - if @randomization.past_distributions[:treatment_arms].is_a?(Array)
-                  %thead
+        - if @randomization.dice_roll < @randomization.dice_roll_cutoff
+          %p
+            %strong Randomly Select Treatment Arm
+        - else
+          %p
+            %strong Select Treatment Arm Based on Criteria Distributions
+            %table.table.table-bordered
+              - if @randomization.past_distributions[:treatment_arms].is_a?(Array)
+                %thead
+                  %tr
+                    %th Stratification Factor
+                    - @randomization.past_distributions[:treatment_arms].each do |arm_hash|
+                      %th{ style: 'text-align:right' }= arm_hash[:name]
+              - if @randomization.past_distributions[:stratification_factors].is_a?(Array)
+                %tbody
+                  - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
                     %tr
-                      %th Stratification Factor
-                      - @randomization.past_distributions[:treatment_arms].each do |arm_hash|
-                        %th{ style: 'text-align:right' }= arm_hash[:name]
-                - if @randomization.past_distributions[:stratification_factors].is_a?(Array)
-                  %tbody
-                    - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
-                      %tr
-                        %td= sf_hash[:name]
-                        - if sf_hash[:treatment_arm_counts].is_a?(Array)
-                          - sf_hash[:treatment_arm_counts].each do |ta_hash|
-                            %td{ style: 'text-align:right' }= ta_hash[:count]
-                - if @randomization.past_distributions[:totals].is_a?(Array) || (@randomization.past_distributions[:weighted_totals].is_a?(Array) && @randomization.past_distributions[:treatment_arms].is_a?(Array))
-                  %tfoot
-                    - if @randomization.past_distributions[:totals].is_a?(Array)
-                      %tr
-                        %th Total
-                        - @randomization.past_distributions[:totals].each do |total_hash|
-                          %th{ style: 'text-align:right' }= total_hash[:count]
-                    - if @randomization.past_distributions[:weighted_totals].is_a?(Array)
-                      %tr
-                        %th Weighted Total
-                        - @randomization.past_distributions[:weighted_totals].each do |total_hash|
-                          %th{ style: 'text-align:right', class: "#{'success' if total_hash[:treatment_arm_id].in?(@randomization.weighted_eligible_arms.collect{|h| h[:id]})}" }= total_hash[:count]
-            %p
-              %strong Treatment Arms with Lowest Weighted Score and Treatment Arm Allocations
-
+                      %td= sf_hash[:name]
+                      - if sf_hash[:treatment_arm_counts].is_a?(Array)
+                        - sf_hash[:treatment_arm_counts].each do |ta_hash|
+                          %td{ style: 'text-align:right' }= ta_hash[:count]
+              - if @randomization.past_distributions[:totals].is_a?(Array) || (@randomization.past_distributions[:weighted_totals].is_a?(Array) && @randomization.past_distributions[:treatment_arms].is_a?(Array))
+                %tfoot
+                  - if @randomization.past_distributions[:totals].is_a?(Array)
+                    %tr
+                      %th Total
+                      - @randomization.past_distributions[:totals].each do |total_hash|
+                        %th{ style: 'text-align:right' }= total_hash[:count]
+                  - if @randomization.past_distributions[:weighted_totals].is_a?(Array)
+                    %tr
+                      %th Weighted Total
+                      - @randomization.past_distributions[:weighted_totals].each do |total_hash|
+                        %th{ style: 'text-align:right', class: "#{'success' if total_hash[:treatment_arm_id].in?(@randomization.weighted_eligible_arms.collect{|h| h[:id]})}" }= total_hash[:count]
           %p
-            = "Weighted Eligible Arms: [#{@randomization.weighted_eligible_arms.collect{|h| h[:name]}.join(', ')}]"
+            %strong Treatment Arms with Lowest Weighted Score and Treatment Arm Allocations
 
+        %p
+          = "Weighted Eligible Arms: [#{@randomization.weighted_eligible_arms.collect{|h| h[:name]}.join(', ')}]"
+
+        %p
+          %strong Treatment Arm Chosen from Eligible Treatment Arms
+        - if @randomization.treatment_arm
           %p
-            %strong Treatment Arm Chosen from Eligible Treatment Arms
-          - if @randomization.treatment_arm
-            %p
-              %mark= @randomization.treatment_arm.name
-              selected.
+            %mark= @randomization.treatment_arm.name
+            selected.

@@ -1,14 +1,10 @@
 - @title = 'New Stratification Factor'
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-- links = []
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-- links << ['Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)]
-- links << ['New', new_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme)]
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-= render 'projects/tabbed_menu', links: links
+.dashboard-container= render 'form'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'

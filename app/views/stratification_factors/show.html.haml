@@ -1,42 +1,63 @@
 - @title = @stratification_factor.name
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-- links = []
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-- links << ['Stratification Factors', project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)]
-- links << [@stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      - if @randomization_scheme.published?
-        = link_to 'Randomization Scheme Published', '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
-      - else
-        = link_to 'Edit Stratification Factor', edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-default btn-xs'
-        = link_to 'Delete Stratification Factor', [@project, @randomization_scheme, @stratification_factor], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Stratification Factor #{@stratification_factor.name}?" }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          - unless @randomization_scheme.published?
+            .dropdown
+              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+                Actions
+                %strong.caret
 
-    %dl.dl-horizontal
+              %ul.dropdown-menu.dropdown-menu-right
+                %li
+                  = link_to edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to [@project, @randomization_scheme, @stratification_factor], method: :delete, data: { confirm: "Are you sure you want to delete Stratification Factor #{@stratification_factor.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete
 
-      %dt Creator
-      %dd= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
+        = render 'layouts/side_nav_header_button'
+        = @title
+
+
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %tr
+      %th Creator
+      %td= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
 
       - if @stratification_factor.stratifies_by_site?
-        %dt Sites
-        %dd
-          %ul.list-unstyled
-            - @project.sites.order(:name).each do |site|
-              %li= site.name
+        %tr
+          %th Sites
+          %td
+            %ul.list-unstyled
+              - @project.sites.order(:name).each do |site|
+                %li= site.name
       - else
-        %dt= link_to 'Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
-        %dd
-          %ul.list-unstyled
-            - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
-              %li
-                = link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]
+        %tr
+          %th= link_to 'Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
+          %td
+            %ul.list-unstyled
+              - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
+                %li
+                  = link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]
         - if @stratification_factor.calculation.present?
-          %dt Calculation
-          %dd
-            %tt= @stratification_factor.calculation
+          %tr
+            %th Calculation
+            %td
+              %tt= @stratification_factor.calculation
