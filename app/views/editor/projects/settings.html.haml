@@ -79,81 +79,68 @@
             %span.hidden-xs.hidden-md.hidden-lg Continue
             %span.glyphicon.glyphicon-arrow-right
 
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title Edit Project
+  .panel-body
+    %p
+      Click here to edit the project name, project description.
+    - if @project.disable_all_emails?
+      %p
+        .callout.callout-warning
+          %strong Emails Disabled
+          Daily Digest and Sheet Comment
+          %strong emails are disabled
+          for this project.
+    %div
+      = link_to 'Edit Project', edit_editor_project_path(@project), class: 'btn btn-default'
 
-- if false
-  = render 'projects/tabbed_menu', links: [['Settings', settings_editor_project_path(@project)]]
+- if @project.owner?(current_user) && @project.users.size > 0
+  .panel.panel-danger
+    .panel-heading
+      %h3.panel-title Transfer Ownership
+    .panel-body
+      %p
+        Click here to transfer the project ownership to another user. This will
+        make you an editor on the project.
+      %div
+        = link_to 'Transfer Ownership', '#', data: { object: 'modal-show', target: "#project_#{@project.id}_transfer_modal" }, class: 'btn btn-danger-inverse'
 
-  .mini-menu-outer
-    .mini-menu-left-fixed
-      = render 'projects/menu_mini'
-    .mini-menu-right-fluid
-      %h2.underline-heading
-        Settings
+  .modal{ id: "project_#{@project.id}_transfer_modal" }
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
+          %h4.modal-title
+            Transfer Ownership of
+            = @project.name
+        .modal-body
+          = form_tag transfer_owner_project_path(@project), method: :post, id: 'transfer_project_form', class: 'form-horizontal' do
+            .form-group
+              = label :user_id, 'Transfer To', class: 'col-md-2 control-label'
+              - project_users = @project.users.order('last_name, first_name') - [current_user]
+              .col-md-10
+                = select_tag :user_id, options_for_select([['---', nil]] + project_users.collect{|u| [u.reverse_name, u.id]}), class: 'form-control'
+        .modal-footer
+          %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Close
+          = button_tag 'Transfer Ownership', data: { object: 'submit', target: '#transfer_project_form' }, class: 'btn btn-danger-inverse'
 
-      .panel.panel-default
-        .panel-heading
-          %h3.panel-title Edit Project
-        .panel-body
-          %p
-            Click here to edit the project name, project description.
-          - if @project.disable_all_emails?
-            %p
-              .callout.callout-warning
-                %strong Emails Disabled
-                Daily Digest and Sheet Comment
-                %strong emails are disabled
-                for this project.
-          %div
-            = link_to 'Edit Project', edit_editor_project_path(@project), class: 'btn btn-default'
-
-      - if @project.owner?(current_user) && @project.users.size > 0
-        .panel.panel-danger
-          .panel-heading
-            %h3.panel-title Transfer Ownership
-          .panel-body
-            %p
-              Click here to transfer the project ownership to another user. This will
-              make you an editor on the project.
-            %div
-              = link_to 'Transfer Ownership', '#', data: { object: 'modal-show', target: "#project_#{@project.id}_transfer_modal" }, class: 'btn btn-danger-inverse'
-
-        .modal{ id: "project_#{@project.id}_transfer_modal" }
-          .modal-dialog.modal-lg
-            .modal-content
-              .modal-header
-                %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
-                %h4.modal-title
-                  Transfer Ownership of
-                  = @project.name
-              .modal-body
-                = form_tag transfer_owner_project_path(@project), method: :post, id: 'transfer_project_form', class: 'form-horizontal' do
-                  .form-group
-                    = label :user_id, 'Transfer To', class: 'col-md-2 control-label'
-                    - project_users = @project.users.order('last_name, first_name') - [current_user]
-                    .col-md-10
-                      = select_tag :user_id, options_for_select([['---', nil]] + project_users.collect{|u| [u.reverse_name, u.id]}), class: 'form-control'
-              .modal-footer
-                %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Close
-                = button_tag 'Transfer Ownership', data: { object: 'submit', target: '#transfer_project_form' }, class: 'btn btn-danger-inverse'
-
-      - if @project.owner?(current_user)
-        .panel.panel-danger
-          .panel-heading
-            %h3.panel-title Delete Project
-          .panel-body
-            %p
-              By deleting the project, you will no longer have access to any of the
-              data collected. Deleting the project removes it for all users on the
-              project.
-            %p
-              If you wish to remove yourself from the project, you can
-              %strong (1) transfer ownership
-              to another user on the project and then
-              %strong (2) remove yourself as an editor
-              under the
-              = link_to 'Share', share_project_path(@project), class: 'btn btn-xs btn-default'
-              link instead.
-            %div
-              = link_to "Delete Project", owner_project_path(@project), method: :delete, class: 'btn btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" }
-
-  = render 'projects/mobile_menu'
+- if @project.owner?(current_user)
+  .panel.panel-danger
+    .panel-heading
+      %h3.panel-title Delete Project
+    .panel-body
+      %p
+        By deleting the project, you will no longer have access to any of the
+        data collected. Deleting the project removes it for all users on the
+        project.
+      %p
+        If you wish to remove yourself from the project, you can
+        %strong (1) transfer ownership
+        to another user on the project and then
+        %strong (2) remove yourself as an editor
+        under the
+        = link_to 'Share', team_project_path(@project), class: 'btn btn-xs btn-default'
+        link instead.
+      %div
+        = link_to 'Delete Project', owner_project_path(@project), method: :delete, class: 'btn btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" }

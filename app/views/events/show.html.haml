@@ -1,42 +1,67 @@
 - @title = @event.name
-- links = []
-- links << ['Events', project_events_path(@project)]
-- links << [@event.name, [@project, @event]]
-= render 'projects/tabbed_menu', links: links
+- @menu_title = "#{@project.name} #{@title}"
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
+= render 'projects/side_nav'
 
-    %h2.underline-heading
-      = @title
-      = link_to "Edit Event", edit_project_event_path(@event.project, @event), class: 'btn btn-default btn-xs'
-      = link_to "Delete Event", [@event.project, @event], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Event #{@event.name}?" }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
 
-    %dl.dl-horizontal
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_project_event_path(@event.project, @event) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to [@project, @event], method: :delete, data: { confirm: "Are you sure you want to delete Event #{@event.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
-      %dt Slug
-      %dd= @event.slug
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt Position
-      %dd= @event.position
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
 
-      %dt Description
-      %dd= simple_format @event.description
+    %tr
+      %th Slug
+      %td= @event.slug
 
-      %dt User
-      %dd= link_to @event.user.name, @event.user if @event.user
+    %tr
+      %th Position
+      %td= @event.position
 
-      %dt Archived
-      %dd= simple_check @event.archived
+    %tr
+      %th Description
+      %td= simple_format @event.description
 
-      - if @project.blinding_enabled?
-        %dt Only Unblinded
-        %dd= simple_check @event.only_unblinded
+    %tr
+      %th User
+      %td= link_to @event.user.name, @event.user if @event.user
 
-      %dt Information
-      %dd
+    %tr
+      %th Archived
+      %td= simple_check @event.archived
+
+    - if @project.blinding_enabled?
+      %tr
+        %th Only Unblinded
+        %td= simple_check @event.only_unblinded
+
+    %tr
+      %th Information
+      %td
         - assigned_count = @event.subject_events.with_current_subjects.count
         = pluralize assigned_count, 'event'
         assigned for
@@ -45,56 +70,56 @@
 
         - subject_count = @project.subjects.count
 
-        %table.table{ style: "table-layout:fixed;" }
-          %thead
-            %tr
-              %th
-              - if @project.handoffs_enabled?
-                %th
-              %th.center{ colspan: 3 } Assigned  (# of Subjects)
-              %th.center Unassigned  (# of Subjects)
-            %tr
-              %th Design
-              - if @project.handoffs_enabled?
-                %th Handoff Enabled
-              %th.center Entered
-              %th.center Set as Missing
-              %th.center Unentered
-              %th
-          - @event.event_designs.includes(:design).each do |event_design|
-            - design = event_design.design
-            %tr
-              %td
-                = link_to design.name, [@project, design]
-              - if @project.handoffs_enabled?
-                %td= simple_check_new event_design.handoff_enabled?
-              %td.center
-                - entered_count = @project.subjects.with_entered_design_on_event(design, @event).count
-                - if entered_count > 0
-                  = link_to entered_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
-                  - if subject_count > 0
-                    %span.text-muted{ style: "font-size:0.7em" }
-                      = "#{(entered_count * 100.0 / subject_count).round}%"
-              %td.center
-                - missing_count = @project.subjects.with_missing_design_on_event(design, @event).count
-                - if missing_count > 0
-                  = link_to missing_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
-                  - if subject_count > 0
-                    %span.text-muted{ style: "font-size:0.7em" }
-                      = "#{(missing_count * 100.0 / subject_count).round}%"
-              %td.center
-                - unentered_count = assigned_subject_count - entered_count - missing_count
-                - if unentered_count > 0
-                  = link_to unentered_count, project_subjects_path(@project, not_on_event_design_id: design.id, event_id: @event.id)
-                  - if subject_count > 0
-                    %span.text-muted{ style: "font-size:0.7em" }
-                      = "#{(unentered_count * 100.0 / subject_count).round}%"
-                - else
-                  %span.text-muted -
-              %td.center
-                - unassigned_count = @project.subjects.without_event(@event).count
-                - if unassigned_count > 0
-                  = link_to unassigned_count, project_subjects_path(@project, without_event_id: @event.id)
-                  - if subject_count > 0
-                    %span.text-muted{ style: "font-size:0.7em" }
-                      = "#{(unassigned_count * 100.0 / subject_count).round}%"
+  %table.table.table-fixed.table-striped
+    %thead
+      %tr
+        %th
+        - if @project.handoffs_enabled?
+          %th
+        %th.center{ colspan: 3 } Assigned  (# of Subjects)
+        %th.center Unassigned  (# of Subjects)
+      %tr
+        %th Design
+        - if @project.handoffs_enabled?
+          %th Handoff Enabled
+        %th.center Entered
+        %th.center Set as Missing
+        %th.center Unentered
+        %th
+    - @event.event_designs.includes(:design).each do |event_design|
+      - design = event_design.design
+      %tr
+        %td
+          = link_to design.name, [@project, design]
+        - if @project.handoffs_enabled?
+          %td= simple_check_new event_design.handoff_enabled?
+        %td.center
+          - entered_count = @project.subjects.with_entered_design_on_event(design, @event).count
+          - if entered_count > 0
+            = link_to entered_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
+            - if subject_count > 0
+              %span.text-muted{ style: "font-size:0.7em" }
+                = "#{(entered_count * 100.0 / subject_count).round}%"
+        %td.center
+          - missing_count = @project.subjects.with_missing_design_on_event(design, @event).count
+          - if missing_count > 0
+            = link_to missing_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
+            - if subject_count > 0
+              %span.text-muted{ style: "font-size:0.7em" }
+                = "#{(missing_count * 100.0 / subject_count).round}%"
+        %td.center
+          - unentered_count = assigned_subject_count - entered_count - missing_count
+          - if unentered_count > 0
+            = link_to unentered_count, project_subjects_path(@project, not_on_event_design_id: design.id, event_id: @event.id)
+            - if subject_count > 0
+              %span.text-muted{ style: "font-size:0.7em" }
+                = "#{(unentered_count * 100.0 / subject_count).round}%"
+          - else
+            %span.text-muted -
+        %td.center
+          - unassigned_count = @project.subjects.without_event(@event).count
+          - if unassigned_count > 0
+            = link_to unassigned_count, project_subjects_path(@project, without_event_id: @event.id)
+            - if subject_count > 0
+              %span.text-muted{ style: "font-size:0.7em" }
+                = "#{(unassigned_count * 100.0 / subject_count).round}%"

@@ -1,30 +1,32 @@
-- if @randomization_scheme.randomized_subjects?
-  .callout.callout-info
-    %strong Randomization Started
+%h3.text-white.text-shadow Lists
+.dashboard-container
+  - if @randomization_scheme.randomized_subjects?
+    .callout.callout-info
+      %strong Randomization Started
 
-    The lists are now
-    = succeed '.' do
-      %strong locked
-    In order to recreate these lists, the existing randomizations need to be
-    manually cleared. Click on the existing randomizations and then select
-    = succeed '.' do
-      %strong Undo Randomization
+      The lists are now
+      = succeed '.' do
+        %strong locked
+      In order to recreate these lists, the existing randomizations need to be
+      manually cleared. Click on the existing randomizations and then select
+      = succeed '.' do
+        %strong Undo Randomization
 
-- lists = @randomization_scheme.lists
+  - lists = @randomization_scheme.lists
 
-.table-responsive
-  %table.table.table-fixed
-    %thead
-      %tr
-        - lists.each do |list|
-          %th.center
-            %strong= link_to list.name, [@project, @randomization_scheme, list]
-            %small.text-muted
-              = surround '(', ')' do
-                = list.randomizations.where.not(subject_id: nil).count
+  .table-responsive
+    %table.table.table-fixed
+      %thead
+        %tr
+          - lists.each do |list|
+            %th.center
+              %strong= link_to list.name, [@project, @randomization_scheme, list]
+              %small.text-muted
+                = surround '(', ')' do
+                  = list.randomizations.where.not(subject_id: nil).count
 
-    %tbody
-      %tr
-        - lists.each do |list|
-          %td
-            = render 'lists/block_groups', list: list
+      %tbody
+        %tr
+          - lists.each do |list|
+            %td
+              = render 'lists/block_groups', list: list

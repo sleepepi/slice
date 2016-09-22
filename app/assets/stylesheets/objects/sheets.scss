@@ -1,10 +1,5 @@
 // Styles sheets to resemble paper collection forms
 
-.markdown-container {
-  @include scale-images;
-  margin: 20px 0;
-}
-
 .sheet-drag-helper {
   background-color: $table-bg-accent;
   border: 1px solid $table-border-color;

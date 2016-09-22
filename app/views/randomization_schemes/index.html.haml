@@ -15,16 +15,3 @@
         %span= @title
 
 = render 'randomization_schemes/randomization_schemes'
-
-.jumbotron
-  = form_tag project_randomization_schemes_path(@project), method: :get, class: 'form-vertical' do
-    = hidden_field_tag :order, params[:order]
-    .row
-      .col-md-4.form-group
-        = label :search, 'Search', class: 'col-md-3 control-label'
-        .col-md-9
-          = text_field_tag 'search', params[:search], class: 'form-control'
-
-      .col-md-4.form-group
-        = submit_tag 'Search', class: 'btn btn-primary', name: nil
-        = link_to 'Reset', project_randomization_schemes_path(@project), class: 'btn btn-default'

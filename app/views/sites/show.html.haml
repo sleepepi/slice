@@ -1,44 +1,69 @@
 - @title = @site.name
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Sites', project_sites_path(@project)]
-- links << [@site.name, [@project, @site]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      - if current_user.all_sites.pluck(:id).include?(@site.id)
-        = link_to 'Edit Site', edit_project_site_path(@site.project, @site), class: 'btn btn-default btn-xs'
-        = link_to 'Delete Site', [@site.project, @site], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Site #{@site.name}?" }
-      = link_to 'View Subjects', project_subjects_path(@project, site_id: @site.id), class: 'btn btn-default btn-xs'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
 
-    %dl.dl-horizontal
-      %dt Name
-      %dd= @site.name
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to project_subjects_path(@project, site_id: @site.id) do
+                  %span.glyphicon.glyphicon-eye-open
+                  View Subjects
+              - if current_user.all_sites.pluck(:id).include?(@site.id)
+                %li
+                  = link_to edit_project_site_path(@site.project, @site) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to [@project, @site], method: :delete, data: { confirm: "Are you sure you want to delete Site #{@site.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete
 
-      - if @site.short_name.present?
-        %dt Short Name
-        %dd= @site.short_name
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %tr
+      %th Name
+      %td= @site.name
+
+    - if @site.short_name.present?
+      %tr
+        %th Short Name
+        %td= @site.short_name
+    %tr
+      %th
         = @site.project.subject_code_name_full
         Format
-      %dd
+      %td
         - if @site.subject_code_format.present?
           %code=@site.subject_code_format
+    %tr
+      %th Description
+      %td= simple_format @site.description
 
-      %dt Description
-      %dd= simple_format @site.description
+    %tr
+      %th Creator
+      %td= link_to @site.user.name, @site.user if @site.user
 
-      %dt Creator
-      %dd= link_to @site.user.name, @site.user if @site.user
-
-      %dt Site Members
-      %dd
+    %tr
+      %th Site Members
+      %td
         - if @site.site_users.size == 0
           %span.text-muted No Members on Site
         - else

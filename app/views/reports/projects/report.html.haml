@@ -1,36 +1,33 @@
 - @title = 'Summary Report'
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << ['Reports', reports_reports_project_path(@project)]
 
-- links = [['Summary Report', report_reports_project_path(@project)]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-    = form_tag report_reports_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do
-      = hidden_field_tag :page
+.dashboard-container
+  = form_tag report_reports_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do
+    = hidden_field_tag :page
 
-      %label By
-      = render 'layouts/radio_button_group', name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: @by
+    %label By
+    = render 'layouts/radio_button_group', name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: @by
 
-      &middot;
-      %label Percent
-      = render 'layouts/radio_button_group', name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent
+    &middot;
+    %label Percent
+    = render 'layouts/radio_button_group', name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent
 
-      &middot;
-      .btn-group
-        = link_to '#', class: 'dropdown-toggle btn btn-default btn-xs', data: { toggle: 'dropdown' } do
-          Export
-          %b.caret
-        %ul.dropdown-menu
-          %li= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' }
-          %li= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' }
-          %li= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' }
-      %button.btn.btn-primary.btn-xs{ type: 'submit' } Refresh
+    &middot;
+    .btn-group
+      = link_to '#', class: 'dropdown-toggle btn btn-default btn-xs', data: { toggle: 'dropdown' } do
+        Export
+        %b.caret
+      %ul.dropdown-menu
+        %li= link_to 'CSV', '#', data: { object: 'export', format: 'csv', target: '#report_form' }
+        %li= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf', orientation: 'portrait', target: '#report_form' }
+        %li= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf', orientation: 'landscape', target: '#report_form' }
+    %button.btn.btn-primary.btn-xs{ type: 'submit' } Refresh
 
-    %hr.divider-md
-
-    #report
-      .center= image_tag 'try-slice-waiting.gif'
+.dashboard-container
+  #report
+    .center= image_tag 'try-slice-waiting.gif'

@@ -1,133 +1,174 @@
-- @title = @variable.display_name
+- @title = @variable.name
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Variables', project_variables_path(@project)]
-- links << [@variable.name, [@project, @variable]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        - if @variable.editable_by?(current_user)
+          .pull-right
+            .dropdown
+              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+                Actions
+                %strong.caret
 
-    %h2.underline-heading
-      = @title
-      - if @variable.editable_by?(current_user)
-        = link_to 'Edit Variable', edit_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
-        = link_to 'Copy Variable', copy_project_variable_path(@project, @variable), class: 'btn btn-default btn-xs'
-        = link_to 'Delete Variable', [@project, @variable], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Variable #{@variable.name}?" }
+              %ul.dropdown-menu.dropdown-menu-right
+                %li
+                  = link_to edit_project_variable_path(@project, @variable) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                  = link_to copy_project_variable_path(@project, @variable) do
+                    %span.glyphicon.glyphicon-duplicate
+                    Copy
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to [@project, @variable], method: :delete, data: { confirm: "Are you sure you want to delete Variable #{@variable.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete
 
-    %dl.dl-horizontal
-      %dt Header
-      %dd= simple_markdown @variable.header
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt Name
-      %dd= @variable.name
-
-      %dt Display Name
-      %dd= @variable.display_name
-
-      %dt Display name visibility
-      %dd= @variable.display_name_visibility.capitalize
-
-      %dt Description
-      %dd= simple_format @variable.description
-
-      %dt Variable Type
-      %dd
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %tr
+      %th Name
+      %td
+        %code= @variable.name
+    %tr
+      %th Header
+      %td= simple_markdown @variable.header
+    %tr
+      %th Display Name
+      %td= @variable.display_name
+    %tr
+      %th Display name visibility
+      %td= @variable.display_name_visibility.capitalize
+    %tr
+      %th Description
+      %td= simple_format @variable.description
+    %tr
+      %th Variable Type
+      %td
         %code= @variable.variable_type
+    %tr
+      %th Prepend
+      %td= @variable.prepend
 
-      %dt Prepend
-      %dd= @variable.prepend
+    %tr
+      %th Append
+      %td= @variable.append
 
-      %dt Append
-      %dd= @variable.append
+    - if ['integer', 'numeric'].include?(@variable.variable_type)
+      %tr
+        %th Hard Minimum
+        %td= @variable.hard_minimum
 
-      - if ['integer', 'numeric'].include?(@variable.variable_type)
-        %dt Hard Minimum
-        %dd= @variable.hard_minimum
+      %tr
+        %th Hard Maximum
+        %td= @variable.hard_maximum
 
-        %dt Hard Maximum
-        %dd= @variable.hard_maximum
+      %tr
+        %th Soft Minimum
+        %td= @variable.soft_minimum
 
-        %dt Soft Minimum
-        %dd= @variable.soft_minimum
+      %tr
+        %th Soft Maximum
+        %td= @variable.soft_maximum
 
-        %dt Soft Maximum
-        %dd= @variable.soft_maximum
+    - if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type)
+      %tr
+        %th Units
+        %td= @variable.units
 
-      - if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type)
-        %dt Units
-        %dd= @variable.units
+    - if ['date'].include?(@variable.variable_type)
+      %tr
+        %th Date Hard Minimum
+        %td= simple_date @variable.date_hard_minimum
 
-      - if ['date'].include?(@variable.variable_type)
-        %dt Date Hard Minimum
-        %dd= simple_date @variable.date_hard_minimum
+      %tr
+        %th Date Hard Maximum
+        %td= simple_date @variable.date_hard_maximum
 
-        %dt Date Hard Maximum
-        %dd= simple_date @variable.date_hard_maximum
+      %tr
+        %th Date Soft Minimum
+        %td= simple_date @variable.date_soft_minimum
 
-        %dt Date Soft Minimum
-        %dd= simple_date @variable.date_soft_minimum
+      %tr
+        %th Date Soft Maximum
+        %td= simple_date @variable.date_soft_maximum
 
-        %dt Date Soft Maximum
-        %dd= simple_date @variable.date_soft_maximum
+      %tr
+        %th Show current date
+        %td= simple_check @variable.show_current_button?
 
-        %dt Show current date
-        %dd= simple_check @variable.show_current_button?
+    - if ['time'].include?(@variable.variable_type)
+      %tr
+        %th Show current time
+        %td= simple_check @variable.show_current_button?
 
-      - if ['time'].include?(@variable.variable_type)
-        %dt Show current time
-        %dd= simple_check @variable.show_current_button?
-
-      - if ['calculated'].include?(@variable.variable_type)
-        %dt Calculation
-        %dd
+    - if ['calculated'].include?(@variable.variable_type)
+      %tr
+        %th Calculation
+        %td
           %tt= @variable.calculation
 
-        %dt Format
-        %dd= @variable.format
+      %tr
+        %th Format
+        %td= @variable.format
 
-      - if ['string'].include?(@variable.variable_type)
-        %dt Autocomplete Values
-        %dd= @variable.autocomplete_values
+    - if ['string'].include?(@variable.variable_type)
+      %tr
+        %th Autocomplete Values
+        %td= @variable.autocomplete_values
 
-      - if ['radio', 'checkbox'].include?(@variable.variable_type)
-        %dt Alignment
-        %dd= @variable.alignment.capitalize
+    - if ['radio', 'checkbox'].include?(@variable.variable_type)
+      %tr
+        %th Alignment
+        %td= @variable.alignment.capitalize
 
-      - if ['grid'].include?(@variable.variable_type)
-        %dt Multiple Rows
-        %dd= simple_check @variable.multiple_rows?
-
-        %dt Default Row Number
-        %dd= @variable.default_row_number
-
-        %dt Variables
-        %dd
+    - if ['grid'].include?(@variable.variable_type)
+      %tr
+        %th Multiple Rows
+        %td= simple_check @variable.multiple_rows?
+      %tr
+        %th Default Row Number
+        %td= @variable.default_row_number
+      %tr
+        %th Variables
+        %td
           %ul
             - @variable.grid_variables.each do |variable_hash|
               - v = current_user.all_viewable_variables.find_by_id(variable_hash[:variable_id])
               - if v
                 %li= link_to v.display_name, [v.project, v]
 
-      %dt Creator
-      %dd= link_to @variable.user.name, @variable.user if @variable.user
+    %tr
+      %th Creator
+      %td= link_to @variable.user.name, @variable.user if @variable.user
 
-      %dt Designs
-      %dd
+    %tr
+      %th Designs
+      %td
         %ul
           - @variable.inherited_designs.each do |design|
             %li= link_to design.name, [design.project, design]
 
-      - if @variable.domain
-        %dt Domain
-        %dd= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
+    - if @variable.domain
+      %tr
+        %th Domain
+        %td= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
 
-    - if @variable.shared_options.size > 0
-      = render 'variables/compact_options', variable: @variable
+  - if @variable.shared_options.size > 0
+    = render 'variables/compact_options', variable: @variable
 
-    - design_option = @variable.design_options.first
-    - if design_option
-      %form.form-horizontal
-        = render 'sheet_variables/form', design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []
+  - design_option = @variable.design_options.first
+  - if design_option
+    %form.form-horizontal
+      = render 'sheet_variables/form', design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []

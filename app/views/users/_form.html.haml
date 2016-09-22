@@ -1,13 +1,13 @@
-= form_for(@user, html: { class: 'form-horizontal' }) do |f|
+= form_for @user, html: { class: 'form-horizontal' } do |f|
   - if @user.errors.any?
     .callout.callout-danger
       %strong
-        = pluralize(@user.errors.count, "error")
+        = pluralize @user.errors.count, 'error'
         prohibited this user from being saved
 
       %ul
-        - @user.errors.full_messages.each do |msg|
-          %li= msg
+        - @user.errors.full_messages.each do |message|
+          %li= message
 
   .form-group
     = f.label :first_name, nil, class: 'col-md-2 control-label'

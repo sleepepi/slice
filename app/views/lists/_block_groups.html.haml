@@ -1,7 +1,6 @@
 - if list.randomizations.count == 0
-  .text-muted
-    %span.glyphicon.glyphicon-info-sign
-    This list expands automatically after first randomization.
+  .center.text-muted
+    Randomizations expand list automatically.
 - elsif @randomization_scheme.permuted_block?
   - list.randomizations.order(:block_group, :position).group_by(&:block_group).each do |block_group, randomizations|
     .block-group
@@ -32,8 +31,8 @@
     .multiplier
       - list.randomizations.order(:created_at).each_with_index do |randomization, index|
         - if randomization.subject
-          .overflow-hidden.nowrap
-            = link_to [@project, randomization], rel: 'tooltip', title: randomization.subject.subject_code do
+          .overflow-hidden.nowrap{ rel: 'tooltip', data: { title: randomization.subject.subject_code, container: 'body' } }
+            = link_to [@project, randomization] do
               = index + 1
               = randomization.treatment_arm.name
         - else

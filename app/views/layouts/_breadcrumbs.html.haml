@@ -1,5 +1,5 @@
 - if @breadcrumbs.present?
-  %div{ class: @side_nav ? 'breadcrumbs-slide' : '' }
+  .breadcrumbs-container{ class: @side_nav ? 'breadcrumbs-slide' : '' }
     .container
       %ol.breadcrumb
         - @breadcrumbs.each do |label, url|

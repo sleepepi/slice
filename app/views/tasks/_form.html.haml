@@ -6,8 +6,8 @@
         prohibited this task from being saved
 
       %ul
-        - @task.errors.full_messages.each do |msg|
-          %li= msg
+        - @task.errors.full_messages.each do |message|
+          %li= message
 
   .form-group
     = f.label :description, nil, class: 'col-md-2 control-label'

@@ -1,19 +1,29 @@
-- @title = "Edit Sheet: #{@sheet.name}"
+- @title = "#{@sheet.name} Transfer"
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@sheet.subject.subject_code, [@project, @sheet.subject]]
+- @breadcrumbs << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
+- @breadcrumbs << [@sheet.subject_event.event_name_and_date, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)] if @sheet.subject_event
 
-- if @subject = @sheet.subject
-  = render 'subjects/header'
+= @subject = @sheet.subject; render 'subjects/side_nav'
 
-%h2.underline-heading
-  Transfer Sheet to Another Subject
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @sheet.name, [@project, @sheet]
+        Transfer
 
+.dashboard-container
+  = form_tag transfer_project_sheet_path(@project, @sheet), method: :patch, class: 'form-horizontal' do
+    .form-group
+      = label_tag :subject_id, 'Transfer To Subject', class: 'col-md-2 control-label'
+      .col-md-10
+        = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: 'form-control chzn-select'
 
-= form_tag transfer_project_sheet_path(@project, @sheet), method: :patch, class: 'form-horizontal' do
-  .form-group
-    = label_tag :subject_id, 'Transfer To Subject', class: 'col-md-2 control-label'
-    .col-md-10
-      = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: 'form-control chzn-select'
-
-  .form-group
-    .col-md-offset-2.col-md-10
-      = submit_tag 'Transfer to Subject', class: 'btn btn-primary', name: nil
-      = link_to 'Cancel', [@project, @sheet], class: 'btn btn-default'
+    .form-group
+      .col-md-offset-2.col-md-10
+        = submit_tag 'Transfer to Subject', class: 'btn btn-primary', name: nil
+        = link_to 'Cancel', [@project, @sheet], class: 'btn btn-default'

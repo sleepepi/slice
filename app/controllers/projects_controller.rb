@@ -4,7 +4,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :settings, :show, :collect, :share, :favorite, :activity, :logo,
+    :settings, :show, :collect, :team, :favorite, :activity, :logo,
     :archive, :restore
   ]
 

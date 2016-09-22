@@ -1,24 +1,28 @@
 - @title = @list.name
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-- links = []
-- links << [@randomization_scheme.name, [@project, @randomization_scheme]]
-- links << ['Lists', project_randomization_scheme_lists_path(@project, @randomization_scheme)]
-- links << [@list.name, [@project, @randomization_scheme, @list]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-    %h2.underline-heading
-      = @title
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %tr
+      %th Creator
+      %td= link_to @list.user.name, @list.user if @list.user
 
-    %dl.dl-horizontal
+  .row
+    .col-md-offset-2.col-md-8
+      = render 'lists/block_groups', list: @list
 
-      %dt Creator
-      %dd= link_to @list.user.name, @list.user if @list.user
 
-    .row
-      .col-md-offset-2.col-md-8
-        = render 'lists/block_groups', list: @list

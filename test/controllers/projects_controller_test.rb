@@ -33,15 +33,15 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should get share as project editor' do
+  test 'should get team as project editor' do
     login(@project_editor)
-    get :share, params: { id: @project }
+    get :team, params: { id: @project }
     assert_response :success
   end
 
-  test 'should get share as project viewer' do
+  test 'should get team as project viewer' do
     login(@project_viewer)
-    get :share, params: { id: @project }
+    get :team, params: { id: @project }
     assert_response :success
   end
 

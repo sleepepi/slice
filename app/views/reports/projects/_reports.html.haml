@@ -2,13 +2,38 @@
   Dynamic Reports
 
 .dashboard-container
-  %ul
-    %li{ style: 'line-height:25px;font-weight:bold' }
-      = link_to 'Summary Report', report_reports_project_path(@project)
-    %li{ style: 'line-height:25px;font-weight:bold' }
-      = link_to 'Subject Report', subject_report_reports_project_path(@project)
-    - @project.designs.blinding_scope(current_user).order(:name).each do |design|
-      %li{ style: 'line-height:30px' }
-        = link_to design.name, project_reports_design_advanced_path(design.project, design)
-        &middot;
-        = link_to 'Overview', project_reports_design_overview_path(design.project, design)
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col{ width: '1px' }
+    %thead
+      %th Report
+      %th
+
+    %tbody
+      %tr
+        %td Summary Report
+        %td
+          = link_to 'View', report_reports_project_path(@project), class: 'btn btn-xs btn-default'
+      %tr
+        %td Subject Report
+        %td
+          = link_to 'View', subject_report_reports_project_path(@project), class: 'btn btn-xs btn-default'
+
+
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col{ width: '1px' }
+    %col{ width: '1px' }
+    %thead
+      %th Design
+      %th
+      %th
+
+    %tbody
+      - @project.designs.blinding_scope(current_user).order(:name).each do |design|
+        %tr
+          %td= design.name
+          %td= link_to 'Overview', project_reports_design_overview_path(design.project, design), class: 'btn btn-xs btn-default'
+          %td= link_to 'Advanced', project_reports_design_advanced_path(design.project, design), class: 'btn btn-xs btn-default'
+
+

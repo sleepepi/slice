@@ -1,14 +1,15 @@
-- @title = "Edit Task: #{@task.name}"
+- @title = "#{@task.name} Edit"
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Tasks', project_tasks_path(@project)]
-- links << [@task.name, [@project, @task]]
-- links << ['Edit', edit_project_task_path(@project, @task)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading= @title
-    = render 'form'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @task.name, [@project, @task]
+        Edit
+
+.dashboard-container= render 'form'

@@ -1,13 +1,14 @@
-.comment-outer{ style: 'margin-top: 40px' }
-  .comment-left-fixed
-    = image_tag 'try-slice-logo-no-text.png', size: '48x48', alt: ''
-  .comment-right-fluid
-    .comment-comment
-      .comment-comment-header
-        %strong Slice
-        says...
-      .comment-comment-body
-        %p
-          Whoops! A project editor forgot to add "Handoff Enabled" designs to the
-          = link_to @handoff.subject_event.name, [@project, @handoff.subject_event.event]
-          event.
+.dashboard-container
+  .comment-outer
+    .comment-left-fixed
+      = image_tag 'try-slice-logo-no-text.png', size: '48x48', alt: ''
+    .comment-right-fluid
+      .comment-comment
+        .comment-comment-header
+          %strong Slice
+          says...
+        .comment-comment-body
+          %p
+            Whoops! A project editor forgot to add "Handoff Enabled" designs to the
+            = link_to @handoff.subject_event.name, [@project, @handoff.subject_event.event]
+            event.

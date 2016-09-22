@@ -29,8 +29,8 @@
               = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
                 Activity
             %li
-              = link_to share_project_path(@project), class: (current_page?(share_project_path(@project)) ? 'active' : nil) do
-                Collaborators
+              = link_to team_project_path(@project), class: (current_page?(team_project_path(@project)) ? 'active' : nil) do
+                Team
             %li
               = link_to project_tasks_path(@project), class: (params[:controller] == 'tasks' ? 'active' : nil) do
                 Tasks
@@ -43,6 +43,7 @@
             %li
               = link_to reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? 'active' : nil) do
                 Overview
+            %li= link_to 'Summary Report', report_reports_project_path(@project), class: (current_page?(report_reports_project_path(@project)) ? 'active' : nil)
             %li= link_to 'Subject Report', subject_report_reports_project_path(@project), class: (current_page?(subject_report_reports_project_path(@project)) ? 'active' : nil)
 
       %ul.side-nav-navigation

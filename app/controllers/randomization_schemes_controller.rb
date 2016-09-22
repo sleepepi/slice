@@ -137,10 +137,10 @@ class RandomizationSchemesController < ApplicationController
 
   # GET /schemes
   def index
-    randomization_scheme_scope = @project.randomization_schemes.search(params[:search])
     @order = scrub_order(RandomizationScheme, params[:order], 'randomization_schemes.name')
-    randomization_scheme_scope = randomization_scheme_scope.order(@order)
-    @randomization_schemes = randomization_scheme_scope.page(params[:page]).per(40)
+    @randomization_schemes = @project.randomization_schemes
+                                     .order(@order)
+                                     .page(params[:page]).per(40)
   end
 
   # GET /schemes/1

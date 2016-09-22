@@ -1,54 +1,68 @@
 - @title = @export.name
+- @menu_title = "#{@project.name} #{@title}"
 
+= render 'projects/side_nav'
 
-- links = []
-- links << ['Exports', project_exports_path(@project)]
-- links << [@export.name, [@project, @export]]
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      = link_to 'Mark Unread', mark_unread_project_export_path(@project, @export), method: :post, class: 'btn btn-xs btn-default' if @export.status == 'ready'
-      = link_to 'Delete Export', [@export.project, @export], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Export #{@export.name}?" }
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to [@project, @export], method: :delete, data: { confirm: "Are you sure you want to delete Export #{@export.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
-    #progress{ data: { object: "#{'ajax-timer' if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
-      = render 'exports/progress'
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-    %dl.dl-horizontal{ style: 'margin-top: 0px' }
-      %dt Status
-      %dd#export_status
+#progress{ data: { object: "#{'ajax-timer' if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
+  = render 'exports/progress'
+
+.dashboard-container
+
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %tr
+      %th Status
+      %td#export_status
         = render 'exports/status'
-
-      %dt XLS
-      %dd= simple_check @export.include_xls
-
-      %dt CSV Labeled
-      %dd= simple_check @export.include_csv_labeled
-
-      %dt CSV Raw
-      %dd= simple_check @export.include_csv_raw
-
-      %dt PDF
-      %dd= simple_check @export.include_pdf
-
-      %dt Files
-      %dd= simple_check @export.include_files
-
-      %dt Data Dictionary
-      %dd= simple_check @export.include_data_dictionary
-
-      %dt SAS
-      %dd= simple_check @export.include_sas
-
-      %dt R
-      %dd= simple_check @export.include_r
-
-      %dt Adverse Events
-      %dd= simple_check @export.include_adverse_events
-
-      %dt Randomizations
-      %dd= simple_check @export.include_randomizations
+    %tr
+      %th XLS
+      %td= simple_check @export.include_xls
+    %tr
+      %th CSV Labeled
+      %td= simple_check @export.include_csv_labeled
+    %tr
+      %th CSV Raw
+      %td= simple_check @export.include_csv_raw
+    %tr
+      %th PDF
+      %td= simple_check @export.include_pdf
+    %tr
+      %th Files
+      %td= simple_check @export.include_files
+    %tr
+      %th Data Dictionary
+      %td= simple_check @export.include_data_dictionary
+    %tr
+      %th SAS
+      %td= simple_check @export.include_sas
+    %tr
+      %th R
+      %td= simple_check @export.include_r
+    %tr
+      %th Adverse Events
+      %td= simple_check @export.include_adverse_events
+    %tr
+      %th Randomizations
+      %td= simple_check @export.include_randomizations

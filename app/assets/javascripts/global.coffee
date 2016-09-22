@@ -3,21 +3,25 @@
   $("input[name='" + group_name + "']:checked").parent().addClass('selected')
 
 @fadeAndRemove = (element) ->
-  $(element).fadeOut(500, () -> $(element).remove())
+  $(element).fadeOut(500, -> $(element).remove())
 
-@addGlobalNoTouchToBody = () ->
+@addGlobalNoTouchToBody = ->
   $('body').addClass('no-touch') if (document.documentElement.ontouchstart == undefined)
 
 @setFocusToField = (element_id) ->
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
+@wideContainer = ->
+  if $('[data-object~="wide-container"]').length > 0
+    $('.container').addClass('wide-container')
+
 @extensionsReady = ->
   datepickerReady()
   tooltipsReady()
   typeaheadReady()
 
-@globalReady = () ->
+@globalReady = ->
   window.$isDirty = false
   $("#global-search").typeahead(
     remote: root_url + 'search?q=%QUERY'
@@ -27,7 +31,7 @@
   $('[data-object~="form-load"]').submit()
 
 # These functions get called on initial page visit and on turbolink page changes
-@turbolinksReady = () ->
+@turbolinksReady = ->
   globalReady()
   designsReady()
   domainsReady()
@@ -44,13 +48,14 @@
   fileDragReady()
   randomizationSchemesReady()
   addGlobalNoTouchToBody()
+  wideContainer()
 
 # These functions only get called on the initial page visit (no turbolinks)
-@initialLoadReady = () ->
+@initialLoadReady = ->
   turbolinksReady()
   timeoutReady()
 
-$(window).onbeforeunload = () -> return "You haven't saved your changes." if window.$isDirty
+$(window).onbeforeunload = -> return "You haven't saved your changes." if window.$isDirty
 $(document).ready(initialLoadReady)
 $(document)
   .on('turbolinks:load', turbolinksReady)
@@ -60,7 +65,7 @@ $(document)
     $(this).remove()
     false
   )
-  .on('click', '[data-object~="remove"]', () ->
+  .on('click', '[data-object~="remove"]', ->
     plural = if $(this).data('count') == 1 then '' else 's'
     if $(this).data('count') in [0, undefined] or ($(this).data('count') and confirm('Removing this option will PERMANENTLY ERASE DATA you have collected. Are you sure you want to RESET responses that used this option from ' + $(this).data('count') + ' sheet' + plural +  '?'))
       $($(this).data('target')).remove()
@@ -68,29 +73,29 @@ $(document)
     else
       false
   )
-  .on('click', '[data-object~="modal-show"]', () ->
+  .on('click', '[data-object~="modal-show"]', ->
     $($(this).data('target')).modal({ dynamic: true })
     false
   )
-  .on('click', '[data-object~="modal-hide"]', () ->
+  .on('click', '[data-object~="modal-hide"]', ->
     $($(this).data('target')).modal('hide')
     false
   )
-  .on('click', '[data-object~="submit"]', () ->
+  .on('click', '[data-object~="submit"]', ->
     $($(this).data('target')).submit()
     false
   )
-  .on('mouseenter', '[data-object~="hover-show"]', () ->
+  .on('mouseenter', '[data-object~="hover-show"]', ->
     return false unless document.documentElement.ontouchstart == undefined
     $('[data-object~="hover-show"]').each( (index, element) ->
       $($(element).data('target')).hide()
     )
     $($(this).data('target')).show()
   )
-  .on('mouseleave', '[data-object~="hover-show"]', () ->
+  .on('mouseleave', '[data-object~="hover-show"]', ->
     $($(this).data('target')).hide()
   )
-  .on('change', '.checkbox input:checkbox', () ->
+  .on('change', '.checkbox input:checkbox', ->
     color_group($(this).attr('name'))
   )
   .keydown( (e) ->
@@ -115,12 +120,12 @@ $(document)
       e.preventDefault()
       return
   )
-  .on('click', '[data-object~="settings-save"]', () ->
+  .on('click', '[data-object~="settings-save"]', ->
     window.$isDirty = false
     $($(this).data('target')).submit()
     false
   )
-  .on('click', '[data-object~="toggle-visibility"]', () ->
+  .on('click', '[data-object~="toggle-visibility"]', ->
     $($(this).data('target')).toggle()
     false
   )
@@ -138,11 +143,11 @@ $(document)
   .on('keydown', "#subject-search", (e) ->
     $("#subject-search-form").submit() if e.which == 13
   )
-  .on('change', ':input', () ->
+  .on('change', ':input', ->
     if $("#isdirty").val() == '1'
       window.$isDirty = true
   )
-  .on('click', '[data-object~="toggle-delete-buttons"]', () ->
+  .on('click', '[data-object~="toggle-delete-buttons"]', ->
     $($(this).data('target-show')).show()
     $($(this).data('target-hide')).hide()
     false

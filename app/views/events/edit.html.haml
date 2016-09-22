@@ -1,14 +1,15 @@
-- @title = "Edit Event: #{@event.name}"
+- @title = "#{@event.name_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Events', project_events_path(@project)]
-- links << [@event.name_was, [@project, @event]]
-- links << ['Edit', edit_project_event_path(@project, @event)]
+= render 'projects/side_nav'
 
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @event.name_was, [@project, @event]
+        Edit
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

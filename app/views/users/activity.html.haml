@@ -1,7 +1,12 @@
 - @title = 'Recent Activity'
-.page-header
-  %h1
-    Recent Activity
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = @title
+
 
 - recent_sheets = current_user.all_viewable_sheets.where('sheets.created_at > ? or sheets.last_edited_at > ?', Time.zone.now - 7.day, Time.zone.now - 7.day).to_a
 - recent_comments = current_user.all_viewable_comments.where('comments.created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 4.day : Time.zone.now - 2.day)).to_a
@@ -9,17 +14,19 @@
 - all_objects = (recent_sheets + recent_comments).sort { |o1, o2| ((o2.class.method_defined?(:last_edited_at) && o2.last_edited_at != nil) ? o2.last_edited_at : o2.created_at) <=> ((o1.class.method_defined?(:last_edited_at) && o1.last_edited_at != nil) ? o1.last_edited_at : o1.created_at) }
 
 - if all_objects.size == 0
-  .center.text-muted No recent activity in the past week.
+  .jumbotron
+    %p.lead.center No recent activity in the past week.
 - else
-  %table
-    %col{ width: "50px" }
-    - all_objects.each_with_index do |object, index|
-      - current_index = all_objects.count - index
-      - if object.is_a? Sheet
-        = render 'activity/sheet', sheet: object
-      - elsif object.class == Comment
-        - comment = object
-        %a.anchor-top{ name: "c#{current_index}" }
-        - unless comment.deleted?
-          %div{ id: "comment_#{comment.id}" }
-            = render 'comments/show', comment: comment, include_name: '1', number: current_index
+  .dashboard-container
+    %table
+      %col{ width: "50px" }
+      - all_objects.each_with_index do |object, index|
+        - current_index = all_objects.count - index
+        - if object.is_a? Sheet
+          = render 'activity/sheet', sheet: object
+        - elsif object.class == Comment
+          - comment = object
+          %a.anchor-top{ name: "c#{current_index}" }
+          - unless comment.deleted?
+            %div{ id: "comment_#{comment.id}" }
+              = render 'comments/show', comment: comment, include_name: '1', number: current_index

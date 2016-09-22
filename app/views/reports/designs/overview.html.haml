@@ -1,18 +1,17 @@
 - @title = "#{@design.name} Overview"
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << ['Reports', reports_reports_project_path(@project)]
 
-- links = []
-- links << [@design.name, [@project, @design]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
+.dashboard-container
+  %h2.underline-heading
+    = @title
 
-    - unless @design.description.blank?
-      .callout.callout-info
-        = simple_markdown @design.description
+  - unless @design.description.blank?
+    .callout.callout-info
+      = simple_markdown @design.description
 
-    = render 'reports/designs/overview'
+  = render 'reports/designs/overview'

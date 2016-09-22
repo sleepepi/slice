@@ -113,7 +113,7 @@ Rails.application.routes.draw do
     member do
       post :favorite
       get :activity
-      get :share
+      get :team
       get :logo
       post :archive
       post :restore

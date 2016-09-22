@@ -1,45 +1,72 @@
 - @title = @task.name
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Tasks', project_tasks_path(@project)]
-- links << [@task.name, [@project, @task]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      - if @task.editable_by?(current_user)
-        = link_to 'Edit Task', edit_project_task_path(@project, @task), class: 'btn btn-default btn-xs'
-        = link_to 'Delete Task', [@project, @task], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Task #{@task.name}?" }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        - if @task.editable_by?(current_user)
+          .pull-right
+            .dropdown
+              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+                Actions
+                %strong.caret
 
-    %dl.dl-horizontal
-      %dt Creator
-      %dd= @task.user.name
+              %ul.dropdown-menu.dropdown-menu-right
+                %li
+                  = link_to edit_project_task_path(@project, @task) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to [@project, @task], method: :delete, data: { confirm: "Are you sure you want to delete #{@task.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete
 
-      %dt Description
-      %dd= simple_markdown @task.description
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt Due date
-      %dd= @task.due_date
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
 
-      %dt Window start date
-      %dd= @task.window_start_date
+    %tr
+      %th Creator
+      %td= @task.user.name
 
-      %dt Window end date
-      %dd= @task.window_end_date
+    %tr
+      %th Description
+      %td= simple_markdown @task.description
 
-      %dt Completed
-      %dd= simple_check @task.completed
+    %tr
+      %th Due date
+      %td= @task.due_date
 
-      %dt Only unblinded
-      %dd= simple_check @task.only_unblinded
+    %tr
+      %th Window start date
+      %td= @task.window_start_date
 
-      - if @task.randomization
-        %dt Randomization
-        %dd
+    %tr
+      %th Window end date
+      %td= @task.window_end_date
+
+    %tr
+      %th Completed
+      %td= simple_check @task.completed
+
+    %tr
+      %th Only unblinded
+      %td= simple_check @task.only_unblinded
+
+    - if @task.randomization
+      %tr
+        %th Randomization
+        %td
           = link_to [@task.randomization.project, @task.randomization] do
             = @task.randomization.treatment_arm.name
 

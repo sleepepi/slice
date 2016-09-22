@@ -1,56 +1,57 @@
-%h2 Distributions
+%h3.text-white.text-shadow Distributions
 
-- if @randomization_scheme.stratification_factors.collect{ |sf| sf.option_hashes.count }.inject(:*).to_i < RandomizationScheme::MAX_LISTS
+.dashboard-container
+  - if @randomization_scheme.stratification_factors.collect{ |sf| sf.option_hashes.count }.inject(:*).to_i < RandomizationScheme::MAX_LISTS
 
-  - stratifications = [[]]
-  - @randomization_scheme.stratification_factors.each do |stratification_factor|
-    - stratifications = stratifications.product(stratification_factor.option_hashes)
+    - stratifications = [[]]
+    - @randomization_scheme.stratification_factors.each do |stratification_factor|
+      - stratifications = stratifications.product(stratification_factor.option_hashes)
 
-  - stratifications.collect!{|s| s.flatten}
+    - stratifications.collect!{|s| s.flatten}
 
-  %table.table.table-bordered.table-striped
-    %thead
-      %tr
-        - @randomization_scheme.stratification_factors.each do |stratification_factor|
-          %th= stratification_factor.name
-        - @randomization_scheme.treatment_arms.each do |treatment_arm|
-          %th= treatment_arm.name
-    %tbody
-      - stratifications.each do |stratification|
+    %table.table.table-bordered.table-striped
+      %thead
         %tr
-          - stratification.each do |option_hash|
-            %td
-              - if sfo = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
-                = sfo.label
-              - elsif site = @randomization_scheme.project.sites.find_by_id(option_hash[:site_id])
-                = site.name
+          - @randomization_scheme.stratification_factors.each do |stratification_factor|
+            %th= stratification_factor.name
           - @randomization_scheme.treatment_arms.each do |treatment_arm|
-            %td
-              - randomization_scope = @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id)
-              - randomization_ids = []
-              - stratification.each_with_index do |option_hash, index|
-                - filtered_ids = []
-                - if sfo = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
-                  - filtered_ids = randomization_scope.joins(:randomization_characteristics).where(randomization_characteristics: { stratification_factor_option_id: sfo.id }).pluck(:id)
-                - elsif site = @randomization_scheme.project.sites.find_by_id(option_hash[:site_id])
-                  - filtered_ids = randomization_scope.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id }).pluck(:id)
-                - else
-                  - filtered_ids = nil
-                - if index == 0 and filtered_ids.is_a?(Array)
-                  - randomization_ids = filtered_ids
-                - elsif filtered_ids.is_a?(Array)
-                  - randomization_ids = randomization_ids & filtered_ids
-              = randomization_ids.uniq.count
-    - if @randomization_scheme.stratification_factors.where(stratifies_by_site: false).count > 0
+            %th= treatment_arm.name
       %tbody
-        - @randomization_scheme.project.sites.order(:name).each do |site|
-          - randomization_scope = @randomization_scheme.randomizations.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id })
+        - stratifications.each do |stratification|
           %tr
-            %th{ colspan: @randomization_scheme.stratification_factors.count }= site.name
+            - stratification.each do |option_hash|
+              %td
+                - if sfo = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
+                  = sfo.label
+                - elsif site = @randomization_scheme.project.sites.find_by_id(option_hash[:site_id])
+                  = site.name
             - @randomization_scheme.treatment_arms.each do |treatment_arm|
-              %th= randomization_scope.where(treatment_arm_id: treatment_arm.id).count
-    %tbody
-      %tr
-        %th{ colspan: @randomization_scheme.stratification_factors.count } Total
-        - @randomization_scheme.treatment_arms.each do |treatment_arm|
-          %th= @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id).where.not(subject_id: nil).count
+              %td
+                - randomization_scope = @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id)
+                - randomization_ids = []
+                - stratification.each_with_index do |option_hash, index|
+                  - filtered_ids = []
+                  - if sfo = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
+                    - filtered_ids = randomization_scope.joins(:randomization_characteristics).where(randomization_characteristics: { stratification_factor_option_id: sfo.id }).pluck(:id)
+                  - elsif site = @randomization_scheme.project.sites.find_by_id(option_hash[:site_id])
+                    - filtered_ids = randomization_scope.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id }).pluck(:id)
+                  - else
+                    - filtered_ids = nil
+                  - if index == 0 and filtered_ids.is_a?(Array)
+                    - randomization_ids = filtered_ids
+                  - elsif filtered_ids.is_a?(Array)
+                    - randomization_ids = randomization_ids & filtered_ids
+                = randomization_ids.uniq.count
+      - if @randomization_scheme.stratification_factors.where(stratifies_by_site: false).count > 0
+        %tbody
+          - @randomization_scheme.project.sites.order(:name).each do |site|
+            - randomization_scope = @randomization_scheme.randomizations.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id })
+            %tr
+              %th{ colspan: @randomization_scheme.stratification_factors.count }= site.name
+              - @randomization_scheme.treatment_arms.each do |treatment_arm|
+                %th= randomization_scope.where(treatment_arm_id: treatment_arm.id).count
+      %tbody
+        %tr
+          %th{ colspan: @randomization_scheme.stratification_factors.count } Total
+          - @randomization_scheme.treatment_arms.each do |treatment_arm|
+            %th= @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id).where.not(subject_id: nil).count

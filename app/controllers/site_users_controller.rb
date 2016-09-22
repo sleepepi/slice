@@ -57,7 +57,7 @@ class SiteUsersController < ApplicationController
       @site_user.update unblinded: (params[:unblinded] == '1')
       flash[:notice] = "Successfully set site member as #{@site_user.unblinded? ? 'un' : ''}blinded."
     end
-    redirect_to @project ? share_project_path(@project) : root_path
+    redirect_to @project ? team_project_path(@project) : root_path
   end
 
   # DELETE /site_users/1

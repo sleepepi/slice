@@ -23,8 +23,7 @@
   = render 'sheets/header_info_limited'
 
 .dashboard-container
-  .markdown-container
-    = render 'sheets/show'
+  = render 'sheets/show'
 
   - unless @sheet.adverse_event
     %div{ id: "sheet_#{@sheet.id}_comments" }

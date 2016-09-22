@@ -24,7 +24,7 @@
     = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
       Activity
   %li
-    = link_to share_project_path(@project), class: (current_page?(share_project_path(@project)) ? 'active' : nil) do
+    = link_to team_project_path(@project), class: (current_page?(team_project_path(@project)) ? 'active' : nil) do
       Collaborators
   - if @project.editable_by?(current_user)
     %li

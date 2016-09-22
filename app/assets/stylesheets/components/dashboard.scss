@@ -1,5 +1,6 @@
 .dashboard-container {
   @include remove-last-child-bottom-margin;
+  @include scale-images;
 
   background-color: $body-bg;
   padding: 10px;

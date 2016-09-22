@@ -1,22 +1,24 @@
 - @title = 'Notifications'
 
 - content_for :header do
+  .background-gradient
   .header-container
     .container
       %h1.page-heading= @title
-
-.background-gradient
 
 .body-attachment
   .container.attachment-container
     .landing-cog3
       %span.glyphicon.glyphicon-cog
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = link_to 'Unread', notifications_path, class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] != '1' ? 'btn-primary' : 'btn-default' }", style: 'margin-bottom: 10px'
-    = link_to 'All', notifications_path(all: '1'), class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] == '1' ? 'btn-primary' : 'btn-default' }"
-  .mini-menu-right-fluid
+.row
+  .col-sm-2
+    .row
+      .col-xs-6.col-sm-12
+        = link_to 'Unread', notifications_path, class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] != '1' ? 'btn-primary' : 'btn-default' }", style: 'margin-bottom: 10px'
+      .col-xs-6.col-sm-12
+        = link_to 'All', notifications_path(all: '1'), class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] == '1' ? 'btn-primary' : 'btn-default' }"
+  .col-sm-10
     - if @notifications.count > 0
       - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff).group_by(&:project).each do |project, notifications|
         .dashboard-container

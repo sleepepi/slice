@@ -1,4 +1,12 @@
-%h2 Prepare for Handoff
+- @title = 'Prepare for Handoff'
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = @title
 
 - if @handoff.handoff_enabled_event_designs.present?
   .jumbotron.callout-danger
@@ -14,17 +22,13 @@
       = link_to 'Click here', 'http://www.pcworld.com/article/2921718/2-easy-ways-to-child-proof-your-android-or-ios-device.html', target: '_blank'
       for more information.
 
-  %div{ style: 'margin-bottom: 20px' }
-    = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-block btn-success' do
+  .center{ style: 'margin-bottom: 20px' }
+    = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-accent btn-shadow' do
       Launch Tablet Handoff
       %span.glyphicon.glyphicon-send
 
-  %hr.divider-md
-
-  %h3 Handoff URL
-  %p
-    You may also choose to copy the following URL to access the handoff on a
-    different device.
+  %h3.text-white.text-shadow
+    Handoff URL
   %code
     = "#{ENV['website_url']}/handoff/#{@project.to_param}/#{@handoff.to_param}"
 - else

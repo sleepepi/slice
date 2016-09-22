@@ -3,6 +3,10 @@
 
 @import 'themes/night-variables';
 
+$header-bg:             $gray-darker;
+$side-nav-bg:           $body-bg;
+$side-nav-active-bg:    $A700;
+
 @import 'tree';
 
 body, .background-gradient {

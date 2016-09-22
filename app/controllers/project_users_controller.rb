@@ -50,7 +50,7 @@ class ProjectUsersController < ApplicationController
       @project_user.update unblinded: (params[:unblinded] == '1')
       flash[:notice] = "Successfully set project member as #{@project_user.unblinded? ? 'un' : ''}blinded."
     end
-    redirect_to @project ? share_project_path(@project) : root_path
+    redirect_to @project ? team_project_path(@project) : root_path
   end
 
   # DELETE /project_users/1
