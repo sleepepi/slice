@@ -1,35 +1,57 @@
 - @title = @check.name
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Checks', editor_project_checks_path(@project)]
-- links << [@check.name, editor_project_check_path(@project, @check)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
 
-    %h2.underline-heading
-      = @title
-      = link_to 'Edit Check', edit_editor_project_check_path(@project, @check), class: 'btn btn-default btn-xs'
-      = link_to 'Delete Check', editor_project_check_path(@project, @check), method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Check #{@check.name}?" }
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_editor_project_check_path(@project, @check) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to editor_project_check_path(@project, @check), method: :delete, data: { confirm: "Are you sure you want to delete Check #{@check.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
-    %dl.dl-horizontal
-      %dt Description
-      %dd= simple_markdown @check.description
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt Creator
-      %dd= @check.user.name
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
 
-      %dt Archived
-      %dd= simple_check @check.archived
+    %tr
+      %th Description
+      %td= simple_markdown @check.description
 
+    %tr
+      %th Creator
+      %td= @check.user.name
+
+    %tr
+      %th Archived
+      %td= simple_check @check.archived
+
+    %tr
       - all_sheets = @check.sheets(current_user)
       - all_subjects = @check.subjects(current_user)
 
-      %dt= link_to 'Filters', editor_project_check_check_filters_path(@project, @check)
-      %dd
+      %th= link_to 'Filters', editor_project_check_check_filters_path(@project, @check)
+      %td
         %table.table
           %thead
             %tr
@@ -63,48 +85,50 @@
               %td.text-right
                 = number_with_delimiter check_filter.sheets(current_user).count
 
-    - if all_sheets.count > 40
-      %h2.text-muted Top 40 Results
-    - if all_sheets.count > 0
-      %table.table.table-borderless
+- if all_sheets.count > 40
+  %h3.text-white.text-shadow Top 40 Results
+- if all_sheets.count > 0
+  .dashboard-container
+    %table.table.table-borderless.table-hover
+      %col{ width: '1px' }
+      %thead
+        %th Subject
+        %th Sheet
+        - @check.check_filters.each do |check_filter|
+          %th.center
+            %code= check_filter.name
+
+      - all_sheets.includes(:subject).order('subjects.subject_code').limit(40).group_by(&:subject).each do |subject, sheets|
+        %tbody
+          - sheets.each_with_index do |sheet, index|
+            %tr
+              %td= subject.subject_code if index == 0
+              %td= link_to sheet.name, [sheet.project, sheet]
+              - @check.check_filters.each do |check_filter|
+                %td.center
+                  - if check_filter.filter_type == 'randomized'
+                    = simple_check true
+                  - elsif check_filter.variable
+                    - sheet.sheet_variables.where(variable: check_filter.variable).each do |sheet_variable|
+                      = sheet_variable.get_response(:raw)
+- else
+  - if all_subjects.count > 40
+    %h3.text-white.text-shadow Top 40 Results
+  - if all_subjects.count > 0
+    .dashboard-container
+      %table.table.table-borderless.table-hover
         %col{ width: '1px' }
         %thead
           %th Subject
-          %th Sheet
           - @check.check_filters.each do |check_filter|
             %th.center
               %code= check_filter.name
 
-        - all_sheets.includes(:subject).order('subjects.subject_code').limit(40).group_by(&:subject).each do |subject, sheets|
+        - all_subjects.order(:subject_code).limit(40).each do |subject|
           %tbody
-            - sheets.each_with_index do |sheet, index|
-              %tr
-                %td= subject.subject_code if index == 0
-                %td= link_to sheet.name, [sheet.project, sheet]
-                - @check.check_filters.each do |check_filter|
-                  %td.center
-                    - if check_filter.filter_type == 'randomized'
-                      = simple_check true
-                    - elsif check_filter.variable
-                      - sheet.sheet_variables.where(variable: check_filter.variable).each do |sheet_variable|
-                        = sheet_variable.get_response(:raw)
-    - else
-      - if all_subjects.count > 40
-        %h2.text-muted Top 40 Results
-      - if all_subjects.count > 0
-        %table.table.table-borderless
-          %col{ width: '1px' }
-          %thead
-            %th Subject
-            - @check.check_filters.each do |check_filter|
-              %th.center
-                %code= check_filter.name
-
-          - all_subjects.order(:subject_code).limit(40).each do |subject|
-            %tbody
-              %tr
-                %td= link_to subject.subject_code, [subject.project, subject]
-                - @check.check_filters.each do |check_filter|
-                  %td.center
-                    - if check_filter.filter_type == 'randomized'
-                      = simple_check true
+            %tr
+              %td= link_to subject.subject_code, [subject.project, subject]
+              - @check.check_filters.each do |check_filter|
+                %td.center
+                  - if check_filter.filter_type == 'randomized'
+                    = simple_check true

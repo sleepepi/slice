@@ -23,6 +23,10 @@
 .variable-shade {
   background-color: $table-bg-accent;
   border-left: 2px solid $table-border-color;
+
+  .table {
+    background-color: $table-bg-accent;
+  }
 }
 
 .blind-background,

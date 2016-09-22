@@ -18,9 +18,9 @@
       %td
       - variable.grid_variables.each do |grid_variable|
         - v = grid_variables.find { |gv| gv.id == grid_variable[:variable_id].to_i }
-        %td= v.display_name if v
+        %th= v.display_name if v
       - if variable.multiple_rows?
-        %td Actions
+        %th Actions
   %tbody.grid_sortable{ id: "variable_#{variable.id}_grid_container" }
     - range.each do |position|
       = render 'sheet_variables/form/grid_variables', design: design, design_option: design_option, disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids

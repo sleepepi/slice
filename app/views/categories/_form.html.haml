@@ -1,5 +1,3 @@
-%h2.underline-heading= @title
-
 = form_for [@project, @category], html: { class: 'form-horizontal' } do |f|
   - if @category.errors.any?
     .callout.callout-danger

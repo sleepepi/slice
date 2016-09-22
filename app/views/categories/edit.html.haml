@@ -1,14 +1,15 @@
-- @title = "Edit Category: #{@category.name_was}"
+- @title = "#{@category.name_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Categories', project_categories_path(@project)]
-- links << [@category.name_was, [@project, @category]]
-- links << ['Edit', edit_project_category_path(@project, @category)]
+= render 'projects/side_nav'
 
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @category.name_was, [@project, @category]
+        Edit
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

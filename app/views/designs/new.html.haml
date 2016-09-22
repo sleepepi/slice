@@ -1,13 +1,7 @@
 - @title = 'New Design'
+- @menu_title = "#{@project.name} #{@title}"
 
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-- links = []
-- links << ['Designs', project_designs_path(@project)]
-- links << ['New', new_project_design_path(@project)]
-= render 'projects/tabbed_menu', links: links
-
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

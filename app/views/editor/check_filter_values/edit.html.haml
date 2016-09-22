@@ -1,19 +1,18 @@
-- @title = "Edit Value: #{@check_filter_value.value_was}"
+- @title = "#{@check_filter_value.value_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
+- @breadcrumbs << [@check_filter.name, editor_project_check_check_filter_path(@project, @check, @check_filter)]
 
-- links = []
-- links << ['Checks', editor_project_checks_path(@project)]
-- links << [@check.name, editor_project_check_path(@project, @check)]
-- links << ['Filters', editor_project_check_check_filters_path(@project, @check)]
-- links << [@check_filter.name, editor_project_check_check_filter_path(@project, @check, @check_filter)]
-- links << ['Values', editor_project_check_check_filter_check_filter_values_path(@project, @check, @check_filter)]
-- links << [@check_filter_value.value_was, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value)]
-- links << ['Edit', edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value)]
+= render 'projects/side_nav'
 
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @check_filter_value.value_was, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value)
+        Edit
 
-= render 'projects/tabbed_menu', links: links
-
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

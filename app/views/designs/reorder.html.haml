@@ -1,53 +1,58 @@
-- @title = "Edit Design: #{@design.name}"
+- @title = "#{@design.name_was} Reorder"
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Designs', project_designs_path(@project)]
-- links << [@design.name, [@project, @design]]
-- links << ['Reorder', reorder_project_design_path(@project, @design)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .btn-toolbar{ style: 'margin-bottom: 20px' }
+            .btn-group
+              = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
+              = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: 'preview'), class: 'btn btn-xs btn-default'
 
-    #interactive_design_modal.modal
-      .modal-dialog.modal-lg
-        #interactive-design-container.modal-content
+            = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default active'
+            = link_to edit_project_design_path(@project, @design), method: :get, remote: true, class: 'btn btn-xs btn-default design-preview-hide' do
+              %span.glyphicon.glyphicon-cog
+              Edit Design Settings
 
-    .btn-toolbar
-      .btn-group
-        = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
-        = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: 'preview'), class: 'btn btn-xs btn-default'
-      = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default active'
+        = render 'layouts/side_nav_header_button'
+        = link_to @design.name_was, [@project, @design]
+        Reorder
 
-    %ul.pagination
-      %li
-        %a#sections_link{ href: "#" } Sections
-      %li.active
-        %a{ href: "#" }= @design.main_sections.count
+#interactive_design_modal.modal
+  .modal-dialog.modal-lg
+    #interactive-design-container.modal-content
 
-    %ul.pagination
-      %li.disabled
-        %a#variables_link{ href: "#" } Variables
-      %li.active
-        %a{ href: "#" }= @design.variables.count
+.dashboard-container
+  %ul.pagination
+    %li
+      %a#sections_link{ href: "#" } Sections
+    %li.active
+      %a{ href: "#" }= @design.main_sections.count
 
-    = link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top'
-    = link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top;display:none'
+  %ul.pagination
+    %li.disabled
+      %a#variables_link{ href: "#" } Variables
+    %li.active
+      %a{ href: "#" }= @design.variables.count
 
-    #saving_modal.modal
-      .modal-dialog
-        .modal-content
-          .modal-header
-            %h4.modal-title Reordering Design
-          .modal-body
-            %p Your changes to the design are being saved...this shouldn't take longer than a minute.
+  = link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top'
+  = link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top;display:none'
 
-    #reorder_options_container
-      = render 'design_options/reorder_options'
+  #saving_modal.modal
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %h4.modal-title Reordering Design
+        .modal-body
+          %p Your changes to the design are being saved...this shouldn't take longer than a minute.
 
-    #reorder_sections_container{ style: "display:none" }
-      = render 'design_options/reorder_sections'
+  #reorder_options_container
+    = render 'design_options/reorder_options'
+
+  #reorder_sections_container{ style: "display:none" }
+    = render 'design_options/reorder_sections'

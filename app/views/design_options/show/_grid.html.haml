@@ -8,7 +8,7 @@
       %tr
         - variable.grid_variables.each do |grid_variable_id|
           - v = Variable.find_by_id(grid_variable_id[:variable_id])
-          %td= v.display_name if v
+          %th= v.display_name if v
     %tbody{ id: "variable_#{variable.id}_grid_container" }
       - range.each do |position|
         = render 'design_options/show/grid_variables', design_option: design_option, disabled: true, position: position, variable: variable

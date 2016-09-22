@@ -1,28 +1,47 @@
 - @title = @domain.name
+- @menu_title = "#{@project.name} #{@title}"
 
-- links = []
-- links << ['Domains', project_domains_path(@project)]
-- links << [@domain.name, [@project, @domain]]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    %h2.underline-heading
-      = @title
-      = link_to "Edit Domain", edit_project_domain_path(@domain.project, @domain), class: 'btn btn-default btn-xs'
-      = link_to "Delete Domain", [@domain.project, @domain], method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Domain #{@domain.name}?" }
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
 
-    %dl.dl-horizontal
-      %dt Description
-      %dd= simple_format @domain.description
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_project_domain_path(@domain.project, @domain) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to [@project, @domain], method: :delete, data: { confirm: "Are you sure you want to delete Domain #{@domain.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
-      %dt Creator
-      %dd= link_to @domain.user.name, @domain.user if @domain.user
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt Variables
-      %dd
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %tr
+      %th Description
+      %td= simple_format @domain.description
+    %tr
+      %th Creator
+      %td= link_to @domain.user.name, @domain.user if @domain.user
+    %tr
+      %th Variables
+      %td
         %ul
           - @domain.variables.order('name').each do |variable|
             %li
@@ -30,5 +49,5 @@
               \-
               %span.text-muted= variable.display_name
 
-    - if @domain.options.size > 0
-      = render 'compact_options', domain: @domain
+  - if @domain.options.size > 0
+    = render 'compact_options', domain: @domain

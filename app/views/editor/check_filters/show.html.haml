@@ -1,45 +1,71 @@
 - @title = @check_filter.name
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
 
-- links = []
-- links << ['Checks', editor_project_checks_path(@project)]
-- links << [@check.name, editor_project_check_path(@project, @check)]
-- links << ['Filters', editor_project_check_check_filters_path(@project, @check)]
-- links << [@check_filter.name, editor_project_check_check_filter_path(@project, @check, @check_filter)]
-= render 'projects/tabbed_menu', links: links
+= render 'projects/side_nav'
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
 
-    %h2.underline-heading
-      = @title
-      = link_to 'Edit Filter', edit_editor_project_check_check_filter_path(@project, @check, @check_filter), class: 'btn btn-default btn-xs'
-      = link_to 'Delete Filter', editor_project_check_check_filter_path(@project, @check, @check_filter), method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Filter #{@check_filter.name}?" }
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_editor_project_check_check_filter_path(@project, @check, @check_filter) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to editor_project_check_check_filter_path(@project, @check, @check_filter), method: :delete, data: { confirm: "Are you sure you want to delete Filter #{@check_filter.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
 
-    %dl.dl-horizontal
-      %dt Creator
-      %dd= @check_filter.user.name
+        = render 'layouts/side_nav_header_button'
+        = @title
 
-      %dt Filter Type
-      %dd= @check_filter.filter_type
 
-      %dt Variable
-      %dd
+.dashboard-container
+  %table.table.table-borderless
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+
+    %tr
+      %th Creator
+      %td= @check_filter.user.name
+
+    %tr
+      %th Filter Type
+      %td= @check_filter.filter_type
+
+    %tr
+      %th Variable
+      %td
         - if @check_filter.variable
           = @check_filter.variable.name
 
-      %dt Operator
-      %dd= @check_filter.operator
+    %tr
+      %th Operator
+      %td= @check_filter.operator
 
-      %dt= link_to 'Values', editor_project_check_check_filter_check_filter_values_path(@project, @check, @check_filter)
-      %dd
+    %tr
+      %th= link_to 'Values', editor_project_check_check_filter_check_filter_values_path(@project, @check, @check_filter)
+      %td
         - @check_filter.check_filter_values.each do |check_filter_value|
           %code
             = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value)
 
-      %dt Sheets
-      %dd= @check_filter.sheets(current_user).count
+    %tr
+      %th Sheets
+      %td= @check_filter.sheets(current_user).count
 
-      %dt Subjects
-      %dd= @check_filter.subjects(current_user).count
+    %tr
+      %th Subjects
+      %td= @check_filter.subjects(current_user).count

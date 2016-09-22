@@ -35,7 +35,7 @@ class ExternalController < ApplicationController
   # Image returned or blank
   # GET /external/image/:section_id?design=REQUIRED&handoff=OPTIONAL
   def section_image
-    if @section
+    if @section && @section.image.size > 0
       send_file File.join(CarrierWave::Uploader::Base.root, @section.image.url)
     else
       head :ok

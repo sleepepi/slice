@@ -1,5 +1,3 @@
-%h2.underline-heading= @title
-
 - url = @check.new_record? ? editor_project_checks_path(@project) : editor_project_check_path(@project, @check)
 - method = @check.new_record? ? :post : :patch
 

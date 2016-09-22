@@ -1,15 +1,9 @@
 - @title = 'New Filter'
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
 
-- links = []
-- links << ['Checks', editor_project_checks_path(@project)]
-- links << [@check.name, editor_project_check_path(@project, @check)]
-- links << ['Filters', editor_project_check_check_filters_path(@project, @check)]
-- links << ['New', new_editor_project_check_check_filter_path(@project, @check)]
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
 
-= render 'projects/tabbed_menu', links: links
-
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'

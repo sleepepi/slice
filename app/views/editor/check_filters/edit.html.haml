@@ -1,16 +1,17 @@
-- @title = "Edit Filter: #{@check_filter.name_was}"
+- @title = "#{@check_filter.name_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
 
-- links = []
-- links << ['Checks', editor_project_checks_path(@project)]
-- links << [@check.name, editor_project_check_path(@project, @check)]
-- links << ['Filters', editor_project_check_check_filters_path(@project, @check)]
-- links << [@check_filter.name_was, editor_project_check_check_filter_path(@project, @check, @check_filter)]
-- links << ['Edit', edit_editor_project_check_check_filter_path(@project, @check, @check_filter)]
+= render 'projects/side_nav'
 
-= render 'projects/tabbed_menu', links: links
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @check_filter.name_was, editor_project_check_check_filter_path(@project, @check, @check_filter)
+        Edit
 
-.mini-menu-outer
-  .mini-menu-left-fixed
-    = render 'projects/menu_mini'
-  .mini-menu-right-fluid
-    = render 'form'
+.dashboard-container= render 'form'
