@@ -6,12 +6,9 @@
 = render 'projects/side_nav'
 = render 'layouts/simple_header'
 
+- unless @design.description.blank?
+  .jumbotron
+    = simple_markdown @design.description
+
 .dashboard-container
-  %h2.underline-heading
-    = @title
-
-  - unless @design.description.blank?
-    .callout.callout-info
-      = simple_markdown @design.description
-
   = render 'reports/designs/overview'
