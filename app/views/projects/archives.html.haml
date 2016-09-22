@@ -13,9 +13,8 @@
 
 
 - if @projects.count > 0
-  .dashboard-container
-    - @projects.each do |project|
-      = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true, sortable: false
+  - @projects.each do |project|
+    = render 'projects/beta/splash_project_box', project: project, favorited: project.favorited_by?(current_user), archived: true, sortable: false
 - else
   .jumbotron
     %p.lead.center

@@ -6,10 +6,18 @@
 .projects-box {
   margin: 0 0 10px;
   padding: 10px;
-  transition: box-shadow .2s ease;
+  background-color: $project-box-bg;
+  // border: 1px solid $P500;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: box-shadow .2s ease, background-color .2s ease;
 
   &:hover {
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    background-color: lighten($project-box-bg, 5%)
+  }
+
+  > a {
+    color: $project-box-link;
   }
 }
 

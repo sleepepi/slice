@@ -18,16 +18,14 @@
 
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites
-  .dashboard-container
-    %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'favored' } }
-      - @favorited_projects.each do |project|
-        = render 'projects/beta/splash_project_box', project: project, favorited: true, archived: false, sortable: true
+  %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'favored' } }
+    - @favorited_projects.each do |project|
+      = render 'projects/beta/splash_project_box', project: project, favorited: true, archived: false, sortable: true
 
 - if @current_projects.count > 0
   %h2.text-white.text-shadow Current Projects
-  .dashboard-container
-    - @current_projects.each do |project|
-      = render 'projects/beta/splash_project_box', project: project, favorited: false, archived: false, sortable: false
+  - @current_projects.each do |project|
+    = render 'projects/beta/splash_project_box', project: project, favorited: false, archived: false, sortable: false
 
 - if @projects.total_count > @projects.count
   .dashboard-container
