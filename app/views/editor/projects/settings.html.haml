@@ -135,12 +135,14 @@
         data collected. Deleting the project removes it for all users on the
         project.
       %p
-        If you wish to remove yourself from the project, you can
-        %strong (1) transfer ownership
+        To remove yourself from this project,
+        %strong
+          (1)
+          = link_to 'transfer ownership', '#', data: { object: 'modal-show', target: "#project_#{@project.id}_transfer_modal" }
         to another user on the project and then
-        %strong (2) remove yourself as an editor
-        under the
-        = link_to 'Share', team_project_path(@project), class: 'btn btn-xs btn-default'
-        link instead.
+        %strong
+          (2)
+          = link_to 'remove yourself as an editor', team_project_path(@project)
+        from the Team page.
       %div
         = link_to 'Delete Project', owner_project_path(@project), method: :delete, class: 'btn btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" }
