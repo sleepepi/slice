@@ -20,6 +20,7 @@
   - Treatment Arms can now have short names
 - **Subject Changes**
   - Subject menu redesigned to adjust to different screen sizes
+  - Adverse events and randomizations now included in subject menu
 - **Gem Changes**
   - Updated to jquery-rails 4.2.1
 

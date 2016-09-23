@@ -6,10 +6,10 @@
       %ul.side-nav-navigation
         %li.side-nav-section
           .side-nav-section-header
-            = link_to @project.name, '#', data: { object: 'toggle-section-links' }
-          %ul.side-nav-section-links{ class: viewing_main_project? ? 'active' : nil }
+            = link_to @project.name, @project, class: (current_page?(@project) ? 'active' : nil)
+          %ul.side-nav-section-links.active
             %li
-              = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' || params[:action] == 'subject_report' || current_page?(@project) ? 'active' : nil) do
+              = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' ? 'active' : nil) do
                 Subjects
             %li
               = link_to project_sheets_path(@project), class: (params[:controller] == 'sheets' ? 'active' : nil) do
@@ -26,37 +26,29 @@
               = link_to project_exports_path(@project), class: (params[:controller] == 'exports' ? 'active' : nil) do
                 Exports
             %li
-              = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
-                Activity
+              = link_to project_tasks_path(@project), class: (params[:controller] == 'tasks' ? 'active' : nil) do
+                Tasks
             %li
               = link_to team_project_path(@project), class: (current_page?(team_project_path(@project)) ? 'active' : nil) do
                 Team
             %li
-              = link_to project_tasks_path(@project), class: (params[:controller] == 'tasks' ? 'active' : nil) do
-                Tasks
+              = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
+                Activity
 
       %ul.side-nav-navigation
         %li.side-nav-section
           .side-nav-section-header
-            = link_to 'Reports', '#', data: { object: 'toggle-section-links' }
-          %ul.side-nav-section-links{ class: viewing_reports? ? 'active' : nil }
-            %li
-              = link_to reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? 'active' : nil) do
-                Overview
+            = link_to 'Reports', reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? 'active' : nil)
+          %ul.side-nav-section-links.active
             %li= link_to 'Summary Report', report_reports_project_path(@project), class: (current_page?(report_reports_project_path(@project)) ? 'active' : nil)
             %li= link_to 'Subject Report', subject_report_reports_project_path(@project), class: (current_page?(subject_report_reports_project_path(@project)) ? 'active' : nil)
 
-      %ul.side-nav-navigation
-        %li.side-nav-section
-          .side-nav-section-header
-            = link_to 'Setup', '#', data: { object: 'toggle-section-links' }
-          %ul.side-nav-section-links{ class: viewing_project_setup? ? 'active' : nil }
-            - if @project.editable_by?(current_user)
-              %li
-                = link_to settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? 'active' : nil) do
-                  Overview
-
-            - if @project.editable_by?(current_user)
+      - if @project.editable_by?(current_user)
+        %ul.side-nav-navigation
+          %li.side-nav-section
+            .side-nav-section-header
+              = link_to 'Setup', settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? 'active' : nil)
+            %ul.side-nav-section-links.active
               %li
                 = link_to project_sites_path(@project), class: (params[:controller] == 'sites' ? 'active' : nil) do
                   Sites

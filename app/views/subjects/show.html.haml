@@ -14,6 +14,17 @@
             %strong.caret
 
           %ul.dropdown-menu.dropdown-menu-right
+            - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+              - scheme_count = @project.randomization_schemes.published.count
+              - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
+                %li
+                  = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code) do
+                    %span.glyphicon.glyphicon-random
+                    Randomize
+                    - if scheme_count > 1
+                      to
+                      = scheme.name
+
             - if @project.events.where(archived: false).count > 0
               %li
                 = link_to choose_event_project_subject_path(@project, @subject) do

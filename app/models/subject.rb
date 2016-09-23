@@ -34,9 +34,9 @@ class Subject < ApplicationRecord
   belongs_to :user
   belongs_to :project
   belongs_to :site
-  has_many :adverse_events, -> { where deleted: false }
-  has_many :randomizations, -> { where deleted: false }
-  has_many :sheets, -> { where deleted: false }
+  has_many :adverse_events, -> { current }
+  has_many :randomizations, -> { current }
+  has_many :sheets, -> { current }
   has_many :subject_events, -> { joins(:event).order(:event_date, 'events.position') }
 
   # Model Methods
@@ -120,6 +120,20 @@ class Subject < ApplicationRecord
     randomization_scheme.stratification_factors_with_calculation.each do |sf|
       calculation = expand_calculation(sf.calculation)
       result[sf.id.to_s] = exec_js_context.eval(calculation)
+    end
+    result
+  end
+
+  def stratification_factors_for_params(randomization_scheme)
+    result = {}
+    randomization_scheme.stratification_factors_with_calculation.each do |sf|
+      calculation = expand_calculation(sf.calculation)
+      sfo_value = exec_js_context.eval(calculation)
+      option = sf.stratification_factor_options.find_by(value: sfo_value)
+      result[sf.id.to_s] = option ? option.id : nil
+    end
+    randomization_scheme.stratification_factors.where(stratifies_by_site: true).each do |sf|
+      result[sf.id.to_s] = site_id
     end
     result
   end

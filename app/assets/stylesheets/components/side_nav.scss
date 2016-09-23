@@ -205,6 +205,12 @@ $side-nav-width: 240px;
       display: block;
       padding: 15px 0 15px 22px;
       text-decoration: none;
+
+      &.active,
+      &:hover {
+        background-color: $side-nav-active-bg;
+        color: $link-hover-color;
+      }
     }
   }
 

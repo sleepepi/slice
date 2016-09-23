@@ -20,6 +20,10 @@ class RandomizationSchemesController < ApplicationController
 
   def randomize_subject
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
+    if params[:subject_code].present? && params[:stratification_factors].blank?
+      @subject = @project.subjects.find_by(subject_code: params[:subject_code])
+      params[:stratification_factors] = @subject.stratification_factors_for_params(@randomization_scheme) if @subject
+    end
   end
 
   def subject_search

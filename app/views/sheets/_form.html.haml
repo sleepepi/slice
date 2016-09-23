@@ -20,17 +20,7 @@
   = f.hidden_field :adverse_event_id
 
   - if @sheet.new_record?
-    - if @sheet.subject_event
-      .dashboard-container
-        .form-group
-          = label_tag :subject_event_id, 'Subject Event', class: 'col-md-3 control-label'
-          .col-md-9
-            = f.hidden_field :subject_event_id
-            %div{ style: 'line-height:34px' }
-              - if @sheet.subject_event.event_date
-                = "#{@sheet.subject_event.event.name} - #{@sheet.subject_event.event_date_to_s}"
-              - else
-                = @sheet.subject_event.event.name
+    = f.hidden_field :subject_event_id if @sheet.subject_event
   - elsif @sheet.subject && @sheet.subject.subject_events.size > 0
     .dashboard-container
       .form-group

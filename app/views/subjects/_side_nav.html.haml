@@ -11,19 +11,51 @@
       %ul.side-nav-navigation
         %li.side-nav-section
           .side-nav-section-header
-            = link_to @subject.name, '#', data: { object: 'toggle-section-links' }
+            = link_to @project.short_name, @project
+
+      %ul.side-nav-navigation
+        %li.side-nav-section
+          .side-nav-section-header
+            = link_to @subject.name, [@project, @subject], class: current_page?([@project, @subject]) ? 'active' : ''
           %ul.side-nav-section-links.active
-            = link_to 'Overview', [@project, @subject], class: current_page?([@project, @subject]) ? 'active' : ''
+            - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+              - @subject.randomizations.each do |randomization|
+                %li= link_to "Randomization ##{randomization.name}", [@project, randomization], class: "#{'active' if @randomization == randomization}"
+              - scheme_count = @project.randomization_schemes.published.count
+              - if @subject.randomizations.count == 0 && scheme_count == 1
+                - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
+                  %li= link_to 'Randomize', randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code), class: "#{'active' if current_page?(randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code))}"
+            - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+              %li= link_to 'Report Adverse Event', new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: "#{'active' if current_page?(new_project_adverse_event_path(@project, subject_code: @subject.subject_code))}"
+            %li= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'timeline'}"
+            - if @subject.uploaded_files(current_user).count > 0 || params[:action] == 'files'
+              %li
+                = link_to files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}" do
+                  %span.emphasis= @subject.uploaded_files(current_user).count
+                  = 'File'.pluralize(@subject.uploaded_files(current_user).count)
+            - if @subject.blinded_comments(current_user).count > 0 || params[:action] == 'comments'
+              %li
+                = link_to comments_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'comments'}" do
+                  %span.emphasis= @subject.blinded_comments(current_user).count
+                  = 'Comment'.pluralize(@subject.blinded_comments(current_user).count)
+            %li= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'settings'}"
+
+        - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+          %li.side-nav-section
+            .side-nav-section-header
+              = link_to 'Adverse Events', adverse_events_project_subject_path(@project, @subject), class: "#{'active' if current_page?(adverse_events_project_subject_path(@project, @subject))}"
+            %ul.side-nav-section-links.active
+              - @subject.adverse_events.each do |adverse_event|
+                %li= link_to adverse_event.name, [@project, adverse_event], class: "#{'active' if (%w(adverse_events adverse_event_files adverse_event_forms).include?(params[:controller]) && @adverse_event && @adverse_event == adverse_event) || (@sheet && @sheet.adverse_event == adverse_event)}"
 
         - if @project.events.where(archived: false).count > 0
           %li.side-nav-section
             .side-nav-section-header
-              = link_to '#', data: { object: 'toggle-section-links' } do
+              = link_to events_project_subject_path(@project, @subject), class: "#{'active' if events_highlighted}" do
                 %span.emphasis= @subject.blinded_subject_events(current_user).count
                 = 'Event'.pluralize(@subject.blinded_subject_events(current_user).count)
 
             %ul.side-nav-section-links.active
-              %li= link_to 'Overview', events_project_subject_path(@project, @subject), class: "#{'active' if events_highlighted}"
               - @subject.blinded_subject_events(current_user).each do |subject_event|
                 %li{ data: { object: 'event-droppable', project_id: @project.to_param, subject_event_id: subject_event.id } }
                   - event_highlighted = ((params[:action] == 'event' && subject_event == @subject_event) || (params[:action].in?(['show', 'edit']) && @sheet && @sheet.subject_event == subject_event))
@@ -46,37 +78,9 @@
 
         %li.side-nav-section
           .side-nav-section-header
-            = link_to '#', data: { object: 'toggle-section-links' } do
+            = link_to sheets_project_subject_path(@project, @subject), class: "#{'active' if sheets_highlighted}" do
               %span.emphasis= @subject.blinded_sheets(current_user).count
               = 'Sheet'.pluralize(@subject.blinded_sheets(current_user).count)
           %ul.side-nav-section-links.active
-            %li
-              = link_to 'Overview', sheets_project_subject_path(@project, @subject), class: "#{'active' if sheets_highlighted}"
-              - if @subject.editable_by?(current_user)
-                %li= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "#{'active' if new_sheet_highlighted}"
-
-        %li.side-nav-section
-          .side-nav-section-header
-            = link_to 'General', '#', data: { object: 'toggle-section-links' }
-          %ul.side-nav-section-links.active
-            %li= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'timeline'}"
-            - if @subject.uploaded_files(current_user).count > 0 || params[:action] == 'files'
-              %li
-                = link_to files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}" do
-                  %span.emphasis= @subject.uploaded_files(current_user).count
-                  = 'File'.pluralize(@subject.uploaded_files(current_user).count)
-            - if @subject.blinded_comments(current_user).count > 0 || params[:action] == 'comments'
-              %li
-                = link_to comments_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'comments'}" do
-                  %span.emphasis= @subject.blinded_comments(current_user).count
-                  = 'Comment'.pluralize(@subject.blinded_comments(current_user).count)
-            %li= link_to 'Settings', settings_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'settings'}"
-        - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-          %li.side-nav-section
-            .side-nav-section-header
-              = link_to 'Adverse Events', '#', data: { object: 'toggle-section-links' }
-            %ul.side-nav-section-links.active
-              %li
-                = link_to 'Overview', adverse_events_project_subject_path(@project, @subject), class: "#{'active' if current_page?(adverse_events_project_subject_path(@project, @subject))}"
-                - @subject.adverse_events.each do |adverse_event|
-                  %li= link_to adverse_event.name, [@project, adverse_event], class: "#{'active' if (%w(adverse_events adverse_event_files adverse_event_forms).include?(params[:controller]) && @adverse_event && @adverse_event == adverse_event) || (@sheet && @sheet.adverse_event == adverse_event)}"
+            - if @subject.editable_by?(current_user)
+              %li= link_to '+ Data Entry', data_entry_project_subject_path(@project, @subject), class: "#{'active' if new_sheet_highlighted}"
