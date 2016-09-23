@@ -56,6 +56,7 @@ $comment-border: $P100;
 .comment-comment-body {
   @include remove-last-child-bottom-margin;
   padding: 10px;
+  background-color: $input-bg;
 }
 
 .comment-control {

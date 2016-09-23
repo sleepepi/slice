@@ -8,7 +8,7 @@
   border-bottom: 1px solid $text-color;
   color: $text-color;
   display: block;
-  font-size: 41px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.1;
   margin-bottom: 30px;
@@ -19,7 +19,7 @@
   border-bottom: 1px solid $text-color;
   color: $text-color;
   display: block;
-  font-size: 34px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.1;
   margin-bottom: 30px;
@@ -31,10 +31,25 @@
   border-bottom: 1px solid $text-color;
   color: $text-color;
   display: block;
-  font-size: 28px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.1;
   margin-bottom: 11px;
   margin-top: 50px;
   padding-bottom: 9.5px;
+}
+
+
+@media screen and (min-width: $screen-md-min) {
+  .design-header {
+    font-size: 41px;
+  }
+
+  .section-header {
+    font-size: 34px;
+  }
+
+  .sub-section-header {
+    font-size: 28px;
+  }
 }

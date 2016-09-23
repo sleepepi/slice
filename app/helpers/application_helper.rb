@@ -76,6 +76,15 @@ module ApplicationHelper
     end
   end
 
+  def simple_time_short(past_time)
+    return '' if past_time.blank?
+    if past_time.year == Time.zone.today.year
+      past_time.strftime('%b %d at %I:%M %p')
+    else
+      past_time.strftime('%b %d, %Y at %I:%M %p')
+    end
+  end
+
   def simple_check(checked)
     if checked
       content_tag :span, nil, class: %w(glyphicon glyphicon-ok)

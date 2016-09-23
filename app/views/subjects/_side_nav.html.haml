@@ -1,7 +1,7 @@
 - events_highlighted = current_page?(events_project_subject_path(@project, @subject))
 - new_event_highlighted = (%w(choose_event choose_date).include?(params[:action]) || (!@subject_event && !@sheet && params[:action] == 'show' && @subject.subject_events.count == 0))
-- sheets_highlighted = current_page?(sheets_project_subject_path(@project, @subject))
-- new_sheet_highlighted = (params[:action] == 'data_entry' || (@sheet && !@sheet.subject_event && !@sheet.adverse_event) || (params[:action] == 'show' && @project.events.where(archived: false).count == 0 && @subject.sheets.count == 0))
+- sheets_highlighted = current_page?(sheets_project_subject_path(@project, @subject)) || (@sheet && !@sheet.new_record? && !@sheet.subject_event && !@sheet.adverse_event)
+- new_sheet_highlighted = (params[:action] == 'data_entry' || (@sheet && @sheet.new_record? && !@sheet.subject_event && !@sheet.adverse_event))
 
 - content_for :side_nav do
   - @side_nav = true

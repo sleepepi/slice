@@ -3,7 +3,6 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@sheet.subject.subject_code, [@project, @sheet.subject]]
 - @breadcrumbs << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
-- @breadcrumbs << [@sheet.subject_event.event_name_and_date, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)] if @sheet.subject_event
 
 = @subject = @sheet.subject; render 'subjects/side_nav'
 = render 'layouts/simple_header'

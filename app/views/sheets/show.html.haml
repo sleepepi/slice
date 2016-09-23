@@ -25,6 +25,7 @@
 .dashboard-container
   = render 'sheets/show'
 
-  - unless @sheet.adverse_event
-    %div{ id: "sheet_#{@sheet.id}_comments" }
-      = render 'comments/comments'
+- unless @sheet.adverse_event
+  %h3.text-white.text-shadow Comments
+  %div{ id: "sheet_#{@sheet.id}_comments", style: 'margin-top: 20px;' }
+    = render 'comments/comments'

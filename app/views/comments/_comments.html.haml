@@ -1,6 +1,3 @@
-.page-header
-  %h2 Comments
-
 - @sheet.comments.reorder(:created_at).each do |comment|
   %div{ id: "comment_#{comment.id}" }
     = render 'comments/show', comment: comment, number: comment.number, include_name: '0'
