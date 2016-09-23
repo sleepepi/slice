@@ -34,7 +34,13 @@ class AdverseEvent < ApplicationRecord
   # Model Methods
 
   def name
-    "AE##{id}"
+    "AE##{number}"
+  end
+
+  def number
+    AdverseEvent.where(project: project).order(:created_at).pluck(:id).index(id) + 1
+  rescue
+    nil
   end
 
   def editable_by?(current_user)

@@ -1,32 +1,32 @@
 .dashboard-container
   %table.table.table-striped.table-borderless.table-hover
-    %col
-    %col
+    %col{ width: '1px' }
     %col
     %col.hidden-xs
     %col.hidden-xs
+    %col
     %col{ width: '1px' }
     %thead
       %tr
-        = th_sort_field @order, 'adverse_events.closed', 'Status'
-        = th_sort_field @order, 'adverse_events.created_at', 'Number'
+        = th_sort_field @order, 'adverse_events.created_at', '#', extra_class: 'center'
         %th Subject
         = th_sort_field @order, 'adverse_events.adverse_event_date', 'Adverse Event Date', extra_class: 'hidden-xs'
         %th.hidden-xs Reported By
+        = th_sort_field @order, 'adverse_events.closed', 'Status'
         - if @project.site_or_project_editor?(current_user)
           %th Actions
     %tbody
       - @adverse_events.each do |adverse_event|
         %tr
+          %td.center.nowrap= link_to adverse_event.name, [@project, adverse_event]
+          %td= link_to adverse_event.subject.subject_code, [@project, adverse_event]
+          %td.hidden-xs= adverse_event.adverse_event_date
+          %td.hidden-xs= adverse_event.user.nickname
           %td
             - if adverse_event.closed?
               %span.label.label-danger Closed
             - else
               %span.label.label-success Open
-          %td= link_to adverse_event.name, [@project, adverse_event]
-          %td= link_to adverse_event.subject.subject_code, [@project, adverse_event.subject]
-          %td.hidden-xs= adverse_event.adverse_event_date
-          %td.hidden-xs= adverse_event.user.nickname
           - if @project.site_or_project_editor?(current_user)
             %td
               - if adverse_event.editable_by?(current_user)

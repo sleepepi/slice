@@ -62,7 +62,7 @@ class Randomization < ApplicationRecord
   end
 
   def name
-    randomization_number || ''
+    randomization_number.to_s
   end
 
   def add_subject!(subject, current_user)
