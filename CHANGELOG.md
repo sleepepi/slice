@@ -1,4 +1,4 @@
-## 0.41.3
+## 0.41.3 (September 23, 2016)
 
 ### Enhancements
 - **PATS Changes**
