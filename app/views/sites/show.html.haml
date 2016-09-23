@@ -42,7 +42,7 @@
       %th Name
       %td= @site.name
 
-    - if @site.short_name.present?
+    - if @site[:short_name].present?
       %tr
         %th Short Name
         %td= @site.short_name

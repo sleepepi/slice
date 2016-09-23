@@ -3,7 +3,9 @@
 # Defines a treatment arm assignment for randomized subjects.
 class TreatmentArm < ApplicationRecord
   # Concerns
-  include Deletable
+  include Deletable, ShortNameable, Squishable
+
+  squish :name
 
   # Scopes
   scope :positive_allocation, -> { where 'treatment_arms.allocation > 0' }

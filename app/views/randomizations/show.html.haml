@@ -20,14 +20,17 @@
 
 - if @randomization.subject && @randomization.randomized_by && @randomization.treatment_arm
   .jumbotron
-    %h2.center
-      = @randomization.treatment_arm.name
-
+    %h2.center{ style: 'margin: 0;' }
+      %span.hidden-sm.hidden-md.hidden-lg= @randomization.treatment_arm.short_name
+      %span.hidden-xs= @randomization.treatment_arm.name
+    %br
     %p.center
       %strong
         = @randomization.subject.name
       randomized
-      = simple_time @randomization.randomized_at
+      %span.hidden-sm.hidden-md.hidden-lg= simple_date @randomization.randomized_at
+      %span.hidden-xs= simple_time @randomization.randomized_at
+      %br
       by
       = @randomization.randomized_by.name
 

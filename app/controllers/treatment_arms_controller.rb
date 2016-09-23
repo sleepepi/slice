@@ -94,6 +94,6 @@ class TreatmentArmsController < ApplicationController
   def treatment_arm_params
     params[:treatment_arm] ||= { blank: '1' }
     check_key_and_set_default_value(:treatment_arm, :allocation, 0)
-    params.require(:treatment_arm).permit(:name, :allocation)
+    params.require(:treatment_arm).permit(:name, :short_name, :allocation)
   end
 end

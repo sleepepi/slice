@@ -1,6 +1,6 @@
 .dashboard-container
   %table.table.table-striped.table-borderless.table-hover
-    %col
+    %col{ width: '1px' }
     %col
     %col
     %col.hidden-xs
@@ -11,9 +11,7 @@
       %col
     %thead
       %tr
-        %th.nowrap.center
-          %span.hidden-xs.hidden-sm Randomization
-          %span #
+        %th.nowrap.center #
         %th Subject
         %th.nowrap Treatment Arm
         %th.nowrap.hidden-xs Randomized At
@@ -27,8 +25,8 @@
       - @randomizations.each do |randomization|
         %tr
           %td.center= link_to randomization.name, [@project, randomization]
-          %td= link_to randomization.subject.name, [@project, randomization.subject] if randomization.subject
-          %td= link_to_if @project.editable_by?(current_user), randomization.treatment_arm.name, [@project, randomization.randomization_scheme, randomization.treatment_arm] if randomization.randomization_scheme && randomization.treatment_arm
+          %td= link_to randomization.subject.name, [@project, randomization] if randomization.subject
+          %td= randomization.treatment_arm.short_name if randomization.randomization_scheme && randomization.treatment_arm
           %td.hidden-xs= simple_time randomization.randomized_at
           %td.hidden-xs.hidden-sm= randomization.randomized_by.name if randomization.randomized_by
           - if @project.randomization_schemes.count > 1

@@ -14,6 +14,8 @@
   - User invites integrated with project setup
   - Project menu redesigned to adjust to different screen sizes
   - Added an advanced project settings page
+- **Treatment Arm Changes**
+  - Treatment Arms can now have short names
 - **Subject Changes**
   - Subject menu redesigned to adjust to different screen sizes
 - **Gem Changes**

@@ -15,7 +15,7 @@ class Project < ApplicationRecord
   mount_uploader :logo, ImageUploader
 
   # Concerns
-  include Searchable, Deletable, Sluggable, Squishable
+  include Searchable, Deletable, Sluggable, Squishable, ShortNameable
 
   squish :name
 
@@ -77,17 +77,6 @@ class Project < ApplicationRecord
 
   def name_for_file
     name.gsub(/[^a-zA-Z0-9_]/, '_')
-  end
-
-  def short_name
-    return self[:short_name] if self[:short_name].present?
-    computed_short_name
-  end
-
-  def computed_short_name
-    return name if name.to_s.split(/\s/).count <= 1
-    s = name.gsub(/(\b\w)([\w']*)/) { Regexp.last_match[1] }
-    s.to_s.gsub(/\s/, '')
   end
 
   def recent_sheets
