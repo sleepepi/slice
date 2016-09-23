@@ -12,7 +12,7 @@ $side-nav-width: 240px;
   position: fixed;
   top: 0;
   width: $side-nav-width;
-  z-index: 1090;
+  z-index: $zindex-modal;
 
   transform: translateZ(0);
   transform-style: preserve-3d;
@@ -70,7 +70,7 @@ $side-nav-width: 240px;
   top: 0;
   visibility: hidden;
   width: 100%;
-  z-index: 3;
+  z-index: $zindex-modal-background;
 
   position: fixed;
   transition: visibility 0 linear 0.4s, opacity 0.4s cubic-bezier(.4,0,.2,1);
