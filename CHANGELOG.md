@@ -22,6 +22,13 @@
 ### Refactoring
 - Renamed project_favorites to project_preferences
 
+## 0.41.3 (September 23, 2016)
+
+### Enhancements
+- **PATS Changes**
+  - Reduced the number of tables shown on elgibility table for consented
+    participants
+
 ## 0.41.2 (September 19, 2016)
 
 ### Enhancements

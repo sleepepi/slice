@@ -18,7 +18,7 @@ module Pats
 
     def eligibility_status_consented(project)
       sheets = consented_sheets(project)
-      tables = generic_eligibility_status(project, sheets)
+      tables = generic_eligibility_status_consented(project, sheets)
       consented = count_subjects(sheets)
       consented_ineligible = count_subjects(filter_sheets_by_category(project, sheets, 'ineligible'))
       consented_fully_eligible = count_subjects(filter_sheets_by_category(project, sheets, 'fully-eligible'))
@@ -51,6 +51,21 @@ module Pats
 
       not_interested_in_participation_sheets = filter_sheets_by_category(project, sheets, 'caregiver-not-interested')
       tables << demographics_table(project, not_interested_in_participation_sheets, 'not-interested-in-participation')
+      tables
+    end
+
+    def generic_eligibility_status_consented(project, sheets)
+      tables = []
+      tables << demographics_table(project, sheets, 'eligibility-consented')
+
+      screen_failure_sheets = filter_sheets_by_category(project, sheets, 'ineligible')
+      tables << demographics_table(project, screen_failure_sheets, 'screen-failures-consented')
+
+      ent_sheets = filter_sheets_by_category(project, screen_failure_sheets, 'ent-eligibility-not-met')
+      tables << demographics_table(project, ent_sheets, 'ent-failures')
+
+      psg_sheets = filter_sheets_by_category(project, screen_failure_sheets, 'psg-eligibility-not-met')
+      tables << demographics_table(project, psg_sheets, 'psg-failures')
       tables
     end
   end
