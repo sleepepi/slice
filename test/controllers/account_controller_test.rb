@@ -72,7 +72,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'valid_update@example.com', @regular_user.email
     assert_equal false, @regular_user.emails_enabled?
     assert_equal 'fall', @regular_user.theme
-    assert_equal 'Your settings have been saved.', flash[:notice]
+    assert_equal 'Settings saved.', flash[:notice]
     assert_redirected_to settings_path
   end
 
@@ -81,7 +81,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     post settings_path, params: { user: user_params.merge(emails_enabled: '1') }
     users(:send_no_email).reload # Needs reload to avoid stale object
     assert_equal true, users(:send_no_email).emails_enabled?
-    assert_equal 'Your settings have been saved.', flash[:notice]
+    assert_equal 'Settings saved.', flash[:notice]
     assert_redirected_to settings_path
   end
 
@@ -90,7 +90,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     post settings_path, params: { user: { emails_enabled: '0' }, email: {} }
     @regular_user.reload # Needs reload to avoid stale object
     assert_equal false, @regular_user.emails_enabled?
-    assert_equal 'Your settings have been saved.', flash[:notice]
+    assert_equal 'Settings saved.', flash[:notice]
     assert_redirected_to settings_path
   end
 

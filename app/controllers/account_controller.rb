@@ -48,7 +48,7 @@ class AccountController < ApplicationController
 
   def update_settings
     current_user.update user_params
-    redirect_to settings_path, notice: 'Your settings have been saved.'
+    redirect_to settings_path, notice: 'Settings saved.'
   end
 
   private

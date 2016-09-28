@@ -114,7 +114,7 @@ class ProjectsController < ApplicationController
       'Your action has been undone.'
     else
       [
-        "#{@project.name} has been restored.",
+        'Project restored.',
         { label: 'Undo', url: restore_project_path(@project, undo: '1'), method: :post }
       ]
     end
@@ -125,7 +125,7 @@ class ProjectsController < ApplicationController
       'Your action has been undone.'
     else
       [
-        "#{@project.name} has been archived.",
+        'Project archived.',
         { label: 'Undo', url: archive_project_path(@project, undo: '1'), method: :post }
       ]
     end
