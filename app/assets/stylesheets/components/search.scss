@@ -5,3 +5,32 @@
 .full-search-bar {
   display: none;
 }
+
+.search-container {
+  @include remove-last-child-bottom-margin;
+  background-color: $jumbotron-bg;
+  padding: 10px;
+  color: $text-color;
+  border-radius: 3px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: absolute;
+  opacity: 0;
+  margin: 0 15px;
+  left: 0;
+  right: 0;
+  transform: translateY(-20px);
+
+  transition-property: opacity, position, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+
+  &.search-container-visible {
+    position: relative;
+    visibility: inherit;
+    opacity: 1;
+    transform: translateY(0);
+    margin: 0 0 20px;
+  }
+}
+

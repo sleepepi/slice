@@ -9,14 +9,17 @@
           .per-page= render 'layouts/per_page', per_page: 20, object_count: @subjects.total_count
         = render 'layouts/side_nav_header_button'
         = @title
+        %small
+          = link_to '#', data: { object: 'toggle-search-container', target: '#subject-search' } do
+            %span.glyphicon.glyphicon-search
 
-
-= form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-inline', id: 'subject-search-form', style: 'margin-bottom: 20px' do
-  .form-group{ style: 'margin: 0; margin-top:-12px' }
-    .input-group{ style: 'width: 1px' }
-      = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, placeholder: 'Lookup Subject'
-      %span.input-group-btn{ style: 'vertical-align: bottom;' }
-        = submit_tag 'Go', class: 'btn btn-default'
+.search-container
+  = form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-vertical', id: 'subject-search-form' do
+    .form-group{ style: 'margin: 0;' }
+      .input-group.text-left
+        = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, placeholder: 'Lookup Subject'
+        %span.input-group-btn{ style: 'vertical-align: bottom;' }
+          = submit_tag 'Go', class: 'btn btn-default'
 
 = render 'subjects/subjects'
 

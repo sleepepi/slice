@@ -12,24 +12,27 @@
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @sheets.total_count
         = render 'layouts/side_nav_header_button'
         = @title
+        %small
+          = link_to '#', data: { object: 'toggle-search-container', target: '#search' } do
+            %span.glyphicon.glyphicon-search
 
-#sheets= render 'sheets/sheets'
-
-.jumbotron
-  = form_tag project_sheets_path(@project), method: :get, id: 'sheets_search', class: 'form-vertical' do
+.search-container
+  = form_tag project_sheets_path(@project), method: :get, id: 'sheets_search', class: 'form-vertical text-left' do
     = hidden_field_tag :order, params[:order]
 
     .form-group
       = label :search, 'Search', class: 'control-label'
       = text_field_tag 'search', params[:search], class: 'form-control', placeholder: 'Design Name or Subject Code', autocomplete: 'off'
 
-    .form-group
-      = label :sheet_after, 'Date after', class: 'control-label'
-      = text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker form-control'
-
-    .form-group
-      = label :sheet_before, 'Date before', class: 'control-label'
-      = text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker form-control'
+    .row
+      .col-sm-6
+        .form-group
+          = label :sheet_after, 'Date after', class: 'control-label'
+          = text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker form-control'
+      .col-sm-6
+        .form-group
+          = label :sheet_before, 'Date before', class: 'control-label'
+          = text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker form-control'
 
     - (params[:f] || []).each do |filter|
       .form-group
@@ -56,3 +59,5 @@
     .form-group{ style: 'margin-top: 20px' }
       = submit_tag 'Search', class: 'btn btn-primary', name: nil
       = link_to 'Reset', project_sheets_path(@project), class: 'btn btn-default'
+
+#sheets= render 'sheets/sheets'
