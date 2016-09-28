@@ -5,7 +5,7 @@
 = render 'layouts/simple_header'
 
 - if @project.editable_by?(current_user)
-  .jumbotron
+  .dashboard-container
     = form_tag invite_user_editor_project_path(@project), method: :post, remote: true, class: 'form-inline' do
       %strong Invite User
       .form-group
