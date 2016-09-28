@@ -20,7 +20,7 @@ class Category < ApplicationRecord
   # Model Relationships
   belongs_to :project
   belongs_to :user
-  has_many :designs, -> { where deleted: false }
+  has_many :designs, -> { current }
 
   # Model Methods
 

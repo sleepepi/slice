@@ -19,7 +19,7 @@ class Event < ApplicationRecord
   belongs_to :user
   belongs_to :project
   has_many :event_designs, -> { order(:position) }
-  has_many :designs, -> { where deleted: false }, through: :event_designs
+  has_many :designs, -> { current }, through: :event_designs
 
   has_many :subject_events
 

@@ -26,7 +26,7 @@ class AdverseEvent < ApplicationRecord
   has_many :adverse_event_reviews, -> { order :created_at }
   has_many :adverse_event_files
   has_many :adverse_event_users
-  has_many :sheets, -> { where deleted: false }
+  has_many :sheets, -> { current }
   has_many :notifications
 
   delegate :site, to: :subject

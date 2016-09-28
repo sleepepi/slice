@@ -18,7 +18,7 @@ class List < ApplicationRecord
   belongs_to :user
   has_many :list_options
   has_many :options, through: :list_options
-  has_many :randomizations, -> { where deleted: false }
+  has_many :randomizations, -> { current }
 
   # Model Methods
 

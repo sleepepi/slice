@@ -19,7 +19,7 @@ class Domain < ApplicationRecord
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  has_many :variables, -> { where deleted: false }
+  has_many :variables, -> { current }
   has_many :sheet_variables, through: :variables
   has_many :grids, through: :variables
 

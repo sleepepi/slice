@@ -51,12 +51,11 @@ class Sheet < ApplicationRecord
   belongs_to :project
   belongs_to :subject
   belongs_to :subject_event
-  belongs_to :adverse_event, -> { where deleted: false }, touch: true
+  belongs_to :adverse_event, -> { current }, touch: true
   has_many :sheet_variables
   has_many :responses
-  has_many :variables, -> { where deleted: false }, through: :sheet_variables
-  has_many :sheet_emails, -> { where deleted: false }
-  has_many :comments, -> { where(deleted: false).order(created_at: :desc) }
+  has_many :variables, -> { current }, through: :sheet_variables
+  has_many :comments, -> { current.order(created_at: :desc) }
   has_many :sheet_transactions, -> { order(id: :desc) }
   has_many :sheet_transaction_audits
   has_many :sheet_unlock_requests, -> { current.order(created_at: :desc) }

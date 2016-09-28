@@ -31,7 +31,7 @@ class Site < ApplicationRecord
   belongs_to :user
   belongs_to :project
   has_many :expected_randomizations
-  has_many :subjects, -> { where deleted: false }
+  has_many :subjects, -> { current }
   has_many :site_users
   has_many :users, -> { current.order(:last_name, :first_name) }, through: :site_users
 
