@@ -193,6 +193,8 @@ class SubjectsController < ApplicationController
                                 .search(params[:search]).order(@order)
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
 
+    # TODO: Remove, only launched from events page
+    # Refactor to use advanced filter
     if params[:on_event_design_id].present? && params[:event_id].present?
       subject_scope = subject_scope.with_entered_design_on_event(params[:on_event_design_id], params[:event_id])
     elsif params[:not_on_event_design_id].present? && params[:event_id].present?
@@ -205,6 +207,8 @@ class SubjectsController < ApplicationController
       subject_scope = subject_scope.without_design(params[:without_design_id]) if params[:without_design_id].present?
       subject_scope = subject_scope.with_design(params[:design_id]) if params[:design_id].present?
     end
+    # END: TODO
+
     subject_scope = subject_scope.randomized if params[:randomized] == '1'
     subject_scope = subject_scope.unrandomized if params[:randomized] == '0'
     subject_scope = subject_scope.open_aes if params[:ae] == 'open'
