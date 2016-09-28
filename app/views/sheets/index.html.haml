@@ -16,48 +16,49 @@
           = link_to '#', data: { object: 'toggle-search-container', target: '#search' } do
             %span.glyphicon.glyphicon-search
 
-.search-container
-  = form_tag project_sheets_path(@project), method: :get, id: 'sheets_search', class: 'form-vertical text-left' do
-    = hidden_field_tag :order, params[:order]
+.search-container-relative
+  .search-container
+    = form_tag project_sheets_path(@project), method: :get, id: 'sheets_search', class: 'form-vertical text-left' do
+      = hidden_field_tag :order, params[:order]
 
-    .form-group
-      = label :search, 'Search', class: 'control-label'
-      = text_field_tag 'search', params[:search], class: 'form-control', placeholder: 'Design Name or Subject Code', autocomplete: 'off'
-
-    .row
-      .col-sm-6
-        .form-group
-          = label :sheet_after, 'Date after', class: 'control-label'
-          = text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker form-control'
-      .col-sm-6
-        .form-group
-          = label :sheet_before, 'Date before', class: 'control-label'
-          = text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker form-control'
-
-    - (params[:f] || []).each do |filter|
       .form-group
-        - if v = @project.variable_by_id(filter[:variable_id])
-          = label "variable_id_#{filter[:variable_id]}", v.display_name, class: 'control-label'
-          = hidden_field_tag "f[][variable_id]", filter[:variable_id]
-          = hidden_field_tag "f[][start_date]", filter[:start_date]
-          = hidden_field_tag "f[][end_date]", filter[:end_date]
-          - if filter[:missing] == '1'
-            %span.label.label-default{ style: "background-color:#ffc8ba;", title: "Includes Missing" } m
-          - if ['sheet_date', 'date'].include?(v.variable_type)
-            %span.label.label-default
-              = filter[:start_date]
-            to
-            %span.label.label-default
-              = filter[:end_date]
-          - else
-            - if ['dropdown', 'radio', 'checkbox'].include?(v.variable_type)
-              = select_tag 'f[][value]', options_for_select(v.options_missing_at_end.collect{|o| ["#{o[:value]}: #{o[:name]}", o[:value]]} + [[':any', ':any'],[':missing', ':missing']], filter[:value]), class: 'form-control'
-            - else
-              = hidden_field_tag "f[][value]", filter[:value]
-              %span.label.label-default= filter[:value]
+        = label :search, 'Search', class: 'control-label'
+        = text_field_tag 'search', params[:search], class: 'form-control', placeholder: 'Design Name or Subject Code', autocomplete: 'off'
 
-    .form-group{ style: 'margin-top: 20px' }
-      = submit_tag 'Search', class: 'btn btn-primary', name: nil
-      = link_to 'Reset', project_sheets_path(@project), class: 'btn btn-default'
+      .row
+        .col-sm-6
+          .form-group
+            = label :sheet_after, 'Date after', class: 'control-label'
+            = text_field_tag :sheet_after, params[:sheet_after], class: 'datepicker form-control'
+        .col-sm-6
+          .form-group
+            = label :sheet_before, 'Date before', class: 'control-label'
+            = text_field_tag :sheet_before, params[:sheet_before], class: 'datepicker form-control'
+
+      - (params[:f] || []).each do |filter|
+        .form-group
+          - if v = @project.variable_by_id(filter[:variable_id])
+            = label "variable_id_#{filter[:variable_id]}", v.display_name, class: 'control-label'
+            = hidden_field_tag "f[][variable_id]", filter[:variable_id]
+            = hidden_field_tag "f[][start_date]", filter[:start_date]
+            = hidden_field_tag "f[][end_date]", filter[:end_date]
+            - if filter[:missing] == '1'
+              %span.label.label-default{ style: "background-color:#ffc8ba;", title: "Includes Missing" } m
+            - if ['sheet_date', 'date'].include?(v.variable_type)
+              %span.label.label-default
+                = filter[:start_date]
+              to
+              %span.label.label-default
+                = filter[:end_date]
+            - else
+              - if ['dropdown', 'radio', 'checkbox'].include?(v.variable_type)
+                = select_tag 'f[][value]', options_for_select(v.options_missing_at_end.collect{|o| ["#{o[:value]}: #{o[:name]}", o[:value]]} + [[':any', ':any'],[':missing', ':missing']], filter[:value]), class: 'form-control'
+              - else
+                = hidden_field_tag "f[][value]", filter[:value]
+                %span.label.label-default= filter[:value]
+
+      .form-group{ style: 'margin-top: 20px' }
+        = submit_tag 'Search', class: 'btn btn-primary', name: nil
+        = link_to 'Reset', project_sheets_path(@project), class: 'btn btn-default'
 
 #sheets= render 'sheets/sheets'

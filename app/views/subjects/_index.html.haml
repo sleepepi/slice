@@ -13,12 +13,13 @@
           = link_to '#', data: { object: 'toggle-search-container', target: '#subject-search' } do
             %span.glyphicon.glyphicon-search
 
-.search-container
-  = form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-vertical', id: 'subject-search-form' do
-    .form-group{ style: 'margin: 0;' }
-      .input-group.text-left
-        = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, placeholder: 'Lookup Subject'
-        %span.input-group-btn{ style: 'vertical-align: bottom;' }
-          = submit_tag 'Go', class: 'btn btn-default'
+.search-container-relative
+  .search-container
+    = form_tag choose_site_project_subjects_path(@project), method: :get, class: 'form-vertical', id: 'subject-search-form' do
+      .form-group{ style: 'margin: 0;' }
+        .input-group.text-left
+          = text_field_tag :subject_code, '', autocomplete: 'off', id: 'subject-search', class: 'form-control', data: { project_slug: @project.to_param }, placeholder: 'Lookup Subject'
+          %span.input-group-btn{ style: 'vertical-align: bottom;' }
+            = submit_tag 'Go', class: 'btn btn-default'
 
 = render 'subjects/subjects'
