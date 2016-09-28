@@ -225,6 +225,10 @@ class Project < ApplicationRecord
     ['', 'never'].exclude?(auto_lock_sheets)
   end
 
+  def auto_lock_name
+    AUTO_LOCK_SHEETS.find { |_name, value| value == auto_lock_sheets }.first
+  end
+
   private
 
   # Creates a default site if the project has no site associated with it

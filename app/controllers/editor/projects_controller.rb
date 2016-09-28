@@ -23,17 +23,10 @@ class Editor::ProjectsController < ApplicationController
 
   # POST /send-invites.js
   def send_invites
-    params[:invites].select { |hash| hash[:name].present? }.each do |hash|
-      # site = @project.sites.find_by id: hash[:id]
-      # if site
-      #   site.update name: hash[:name]
-      # else
-      #   @project.sites.create name: hash[:name], user_id: current_user.id
-      # end
+    params[:invites].select { |hash| hash[:email].to_s.strip.present? }.each do |hash|
+      create_member_invite_from_hash(hash)
     end
-    # render plain: params.inspect
     redirect_to settings_editor_project_path(@project)
-    # redirect_to invite_editor_project_path(@project)
   end
 
   # POST /editor/projects/1/invite_user.js
@@ -79,20 +72,49 @@ class Editor::ProjectsController < ApplicationController
     )
   end
 
-  def unblinded?
+  def create_member_invite
+    email = params[:invite_email].to_s.strip
+    site_id = params[:site_id]
+    editor = editor_generic(params[:editor])
+    unblinded = unblinded_generic(params[:unblinded])
+    add_or_invite_member(email, editor, unblinded, site_id)
+  end
+
+  def create_member_invite_from_hash(hash)
+    email = hash[:email].to_s.strip
+    site_id = hash[:site_id]
+    editor = editor_generic(hash[:editor])
+    unblinded = unblinded_generic(hash[:unblinded])
+    add_or_invite_member(email, editor, unblinded, site_id)
+  end
+
+  def add_or_invite_member(email, editor, unblinded, site_id)
+    invitee = associated_user_generic(email)
+    if invitee
+      add_existing_member_generic(invitee, editor, unblinded, site_id)
+    elsif email.present?
+      invite_new_member_generic(email, editor, unblinded, site_id)
+    end
+  end
+
+  def editor_generic(editor)
+    (editor == '1')
+  end
+
+  def unblinded_generic(unblinded)
     if @project.unblinded?(current_user)
-      (params[:unblinded] == '1')
+      (unblinded == '1')
     else
       false
     end
   end
 
-  def editor?
-    (params[:editor] == '1')
+  def associated_user_generic(email)
+    current_user.associated_users.find_by_email(email.split('[').last.to_s.split(']').first)
   end
 
-  def member_scope
-    site = @project.sites.find_by_id(params[:site_id])
+  def member_scope_generic(site_id)
+    site = @project.sites.find_by_id(site_id)
     if site
       site.site_users.where(project_id: @project)
     else
@@ -100,31 +122,15 @@ class Editor::ProjectsController < ApplicationController
     end
   end
 
-  def invite_email
-    params[:invite_email].to_s.strip
-  end
-
-  def associated_user
-    current_user.associated_users.find_by_email(invite_email.split('[').last.to_s.split(']').first)
-  end
-
-  def create_member_invite
-    if associated_user
-      add_existing_member(associated_user)
-    elsif invite_email.present?
-      invite_new_member
-    end
-  end
-
-  def add_existing_member(user)
-    @member = member_scope.where(user_id: user.id).first_or_create(creator_id: current_user.id)
-    @member.update editor: editor?, unblinded: unblinded?
+  def add_existing_member_generic(invitee, editor, unblinded, site_id)
+    @member = member_scope_generic(site_id).where(user_id: invitee.id).first_or_create(creator_id: current_user.id)
+    @member.update editor: editor, unblinded: unblinded
     @member.send_user_added_email_in_background!
   end
 
-  def invite_new_member
-    @member = member_scope.where(invite_email: invite_email).first_or_create(creator_id: current_user.id)
-    @member.update editor: editor?, unblinded: unblinded?
+  def invite_new_member_generic(email, editor, unblinded, site_id)
+    @member = member_scope_generic(site_id).where(invite_email: email).first_or_create(creator_id: current_user.id)
+    @member.update editor: editor, unblinded: unblinded
     @member.send_user_invited_email_in_background!
   end
 end

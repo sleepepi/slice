@@ -67,12 +67,12 @@
           .col-sm-6
             = link_to 'Learn more...', docs_randomization_schemes_path, class: 'btn btn-lg btn-block btn-link'
   .col-sm-6
-    %h2.text-white.text-shadow.center Continue
+    %h2.text-white.text-shadow.center Configuration
     .dashboard-container
       .row
         .col-sm-6.col-buffer-visible-xs
           = link_to edit_editor_project_path(@project), class: 'btn btn-default btn-block btn-lg' do
-            Edit Name
+            Edit Settings
         .col-sm-6
           = link_to @project, class: 'btn btn-lg btn-block btn-link' do
             %span.hidden-sm Go To Project
@@ -81,19 +81,91 @@
 
 .panel.panel-default
   .panel-heading
-    %h3.panel-title Edit Project
+    %h3.panel-title
+      Project Emails
+      - if @project.disable_all_emails?
+        %span.label.label-default Disabled
+      - else
+        %span.label.label-success Enabled
   .panel-body
-    %p
-      Click here to edit the project name, project description.
     - if @project.disable_all_emails?
       %p
-        .callout.callout-warning
-          %strong Emails Disabled
-          Daily Digest and Sheet Comment
-          %strong emails are disabled
-          for this project.
-    %div
-      = link_to 'Edit Project', edit_editor_project_path(@project), class: 'btn btn-default'
+        Daily Digest and Sheet Comment
+        %strong emails are disabled
+        for this project.
+    - else
+      %p
+        This project sends daily digest emails.
+        = link_to 'Learn more...', docs_notifications_path, class: 'alert-link'
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title
+      PDF Option Values
+      - if @project.hide_values_on_pdfs?
+        %span.label.label-default Hidden
+      - else
+        %span.label.label-success Visible
+  .panel-body
+    - if @project.hide_values_on_pdfs?
+      %p
+        Answer choice values are hidden on printed sheet PDFs.
+      %p
+        Ex: "What is your favorite animal?"
+        %code Dog
+        %code Cat
+    - else
+      %p
+        Answer choice values are visible on printed sheet PDFs.
+      %p
+        Ex: "What is your favorite animal?"
+        %code 1: Dog
+        %code 2: Cat
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title
+      Tablet Handoff
+      - if @project.handoffs_enabled?
+        %span.label.label-success Enabled
+      - else
+        %span.label.label-default Disabled
+  .panel-body
+    - if @project.handoffs_enabled?
+      %p
+        Make a design part of a tablet handoff by
+        setting the design as "Handoff Enabled" on an
+        = succeed '.' do
+          = link_to 'event', project_events_path(@project)
+        = link_to 'Learn more...', '#', data: { object: 'suppress-click' }, style: 'color: red'
+    - else
+      %p
+        The tablet handoff module is not enabled.
+        = link_to 'Learn more...', '#', data: { object: 'suppress-click' }, style: 'color: red'
+
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title
+      Sheet Locking
+      - if @project.auto_locking_enabled?
+        %span.label.label-success= @project.auto_lock_name
+      - else
+        %span.label.label-default Disabled
+  .panel-body
+    - if @project.auto_locking_enabled?
+      %p
+        Sheets automatically lock after
+        = succeed '.' do
+          = @project.auto_lock_name.downcase
+      %p
+        After this time, a request must be made and approved to make
+        additional changes to the sheet.
+        = link_to 'Learn more...', docs_locking_path
+    - else
+      %p
+        Sheets do not automatically lock.
+        = link_to 'Learn more...', docs_locking_path
 
 - if @project.owner?(current_user) && @project.users.size > 0
   .panel.panel-danger
@@ -134,15 +206,16 @@
         By deleting the project, you will no longer have access to any of the
         data collected. Deleting the project removes it for all users on the
         project.
-      %p
-        To remove yourself from this project,
-        %strong
-          (1)
-          = link_to 'transfer ownership', '#', data: { object: 'modal-show', target: "#project_#{@project.id}_transfer_modal" }
-        to another user on the project and then
-        %strong
-          (2)
-          = link_to 'remove yourself as an editor', team_project_path(@project)
-        from the Team page.
+      - if @project.users.size > 0
+        %p
+          To remove yourself from this project without deleting the project,
+          %strong
+            (1)
+            = link_to 'transfer ownership', '#', data: { object: 'modal-show', target: "#project_#{@project.id}_transfer_modal" }
+          to another user on the project and then
+          %strong
+            (2)
+            = link_to 'remove yourself as an editor', team_project_path(@project)
+          from the Team page.
       %div
         = link_to 'Delete Project', owner_project_path(@project), method: :delete, class: 'btn btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" }
