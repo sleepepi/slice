@@ -1,7 +1,8 @@
 .panel.panel-default
   .panel-heading
     .pull-right
-      = subject_event.event_date_to_s
+      %span.hidden-xs= subject_event.event_date_to_s
+      %span.hidden-sm.hidden-md.hidden-lg= subject_event.event_date_to_s_xs
     - sheets_started = sheets_completed = current_user.sheets_on_subject_event(subject_event).pluck(:design_id).uniq.count
     - designs_count = current_user.designs_on_subject_event(subject_event).count
 
@@ -15,13 +16,18 @@
       %span.text-highlight
         %span.glyphicon.glyphicon-tasks
     = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
-    - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
-      = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-xs btn-primary'
-  .panel-body
-    %table.table.table-striped{ style: 'table-layout:fixed; margin-bottom:0' }
-      %col{ width: '60px' }
+  - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
+    .panel-body
+      .hidden-xs.hidden-sm.text-right
+        = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-accent shadow-sm'
+      .hidden-md.hidden-lg
+        = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-accent shadow-sm btn-block'
+
+  .panel-body{ style: 'padding: 0;' }
+    %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
+      %col.hidden-xs{ width: '60px' }
       %col
-      %col{ width: '220px' }
+      %col{ width: '1px' }
       - subject_event.event.event_designs.includes(:design).each do |event_design|
         - design = event_design.design
         - next if current_user.all_viewable_designs.where(id: design.id).count == 0
@@ -31,18 +37,28 @@
         - if sheets.count > 0
           - sheets.each do |sheet|
             %tr{ class: "#{'warning' if sheets.count > 1}"}
-              %td
+              %td.hidden-xs
                 - if sheet.missing?
-                  %span.label.label-default{ rel: 'tooltip', title: 'Marked as Missing', data: { container: 'body', placement: 'right' } } -
+                  %span.label.label-default{ rel: 'tooltip', title: 'Marked as Missing', data: { container: 'body', placement: 'right' } } M
                 - else
                   = coverage_helper(sheet)
               %td
-                = link_to_if !sheet.missing?, sheet.name, project_sheet_path(@project, sheet)
                 - if event_design.handoff_enabled?
-                  %span.label.label-success Handoff
+                  %span.label.label-accent.hidden-xs Handoff
+                  %span.label.label-accent.hidden-sm.hidden-md.hidden-lg H
+                = link_to_if !sheet.missing?, sheet.name, project_sheet_path(@project, sheet)
               %td.text-right
                 - if sheet.missing?
-                  = link_to 'Set as Not Missing', set_as_not_missing_project_sheet_path(@project, sheet), method: :post, class: 'btn btn-xs btn-default'
+                  .dropdown
+                    = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+                      Actions
+                      %strong.caret
+
+                    %ul.dropdown-menu.dropdown-menu-right
+                      %li
+                        = link_to set_as_not_missing_project_sheet_path(@project, sheet), method: :post do
+                          / %span.glyphicon.glyphicon-trash
+                          Set as Not Missing
                 - else
                   - if sheet.comments.count > 0
                     = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
@@ -52,32 +68,46 @@
                   %span.glyphicon.glyphicon-warning-sign.text-warning{ rel: 'tooltip', title: 'Duplicate Entry', data: { placement: 'left', container: 'body' } }
         - else
           %tr
+            %td.hidden-xs
             %td
-            %td
-              = design.name
               - if event_design.handoff_enabled?
-                %span.label.label-success Handoff
-            %td
+                %span.label.label-accent.hidden-xs Handoff
+                %span.label.label-accent.hidden-sm.hidden-md.hidden-lg H
+              = design.name
+            %td.text-right
               - if @subject.editable_by?(current_user)
-                = link_to 'Create Sheet', new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-primary btn-xs'
-                = link_to 'Set as Missing', set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, remote: true, class: 'btn btn-xs btn-default'
+                .dropdown
+                  = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+                    Actions
+                    %strong.caret
+
+                  %ul.dropdown-menu.dropdown-menu-right
+                    %li
+                      = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }) do
+                        / %span.glyphicon.glyphicon-edit
+                        Create Sheet
+                    %li.divider{ role: 'separator' }
+                    %li
+                      = link_to set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, remote: true do
+                        / %span.glyphicon.glyphicon-trash
+                        Set as Missing
     - non_design_sheets = current_user.extra_sheets_on_subject_event(subject_event)
     - if non_design_sheets && non_design_sheets.count > 0
       %div{ style: 'margin-top: 20px' }
         .callout.callout-warning
           %strong Extra Sheets
           The following sheets are not explicitly listed on the project event.
-      %table.table.table-striped{ style: 'table-layout:fixed;margin-bottom:0px' }
-        %col{ width: '60px' }
+      %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
+        %col.hidden-xs{ width: '60px' }
         %col
-        %col{ width: '120px' }
+        %col{ width: '1px' }
         - non_design_sheets.each do |sheet|
           %tr
-            %td
+            %td.hidden-xs
               = coverage_helper(sheet)
             %td
               = link_to sheet.name, project_sheet_path(@project, sheet)
-            %td{ style: 'text-align:right' }
+            %td.text-right
               - if sheet.comments.count > 0
                 = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
                   = sheet.comments.count

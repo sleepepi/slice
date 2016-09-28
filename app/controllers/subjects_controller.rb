@@ -89,7 +89,7 @@ class SubjectsController < ApplicationController
       redirect_to event_project_subject_path(@project, @subject, event_id: @event,
                                                                  subject_event_id: @subject_event.id,
                                                                  event_date: @subject_event.event_date_to_param),
-                  notice: 'Subject event updated successfully.'
+                  notice: 'Event updated successfully.'
     else
       render :edit_event
     end
@@ -136,7 +136,7 @@ class SubjectsController < ApplicationController
         redirect_to event_project_subject_path(@project, @subject, event_id: @event,
                                                                    subject_event_id: @subject_event.id,
                                                                    event_date: @subject_event.event_date_to_param),
-                    notice: 'Subject event created successfully.'
+                    notice: 'Event created successfully.'
       else
         render :choose_date
       end
