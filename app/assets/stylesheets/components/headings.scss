@@ -84,6 +84,20 @@
     &.page-title {
       color: $brand-white;
       display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 300px;
+    }
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .navbar-header.navbar-page-title {
+    .navbar-brand {
+      &.page-title {
+        max-width: initial;
+      }
     }
   }
 }
