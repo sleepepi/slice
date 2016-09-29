@@ -715,7 +715,7 @@ $code-bg:                     $navbar-default-bg;
 $kbd-color:                   #dedede;
 $kbd-bg:                      #333;
 
-$pre-bg:                      #f5f5f5;
-$pre-color:                   $gray-dark;
-$pre-border-color:            #ccc;
+$pre-bg:                      $gray-dark;
+$pre-color:                   $text-color;
+$pre-border-color:            $gray-light;
 $pre-scrollable-max-height:   340px;

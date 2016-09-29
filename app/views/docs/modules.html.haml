@@ -1,0 +1,27 @@
+- @title = 'Modules'
+= render 'docs/side_nav'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Slice provides modules that can be enabled and disabled on a project. Each
+    module can be independently of other modules. Any combination of modules
+    can be used, and modules can be enabled or disabled through the project
+    life cycle as project needs changed.
+
+  %p
+    Slice provides the following modules:
+
+  %ul
+    %li= link_to 'Adverse Events', docs_adverse_events_path
+    %li= link_to 'Sheet Locking', docs_locking_path
+    %li= link_to 'Staff Blinding/Unblinding', docs_blinding_path
+    %li= link_to 'Subject Randomization', docs_randomization_schemes_path
+    %li= link_to 'Tablet Handoff', docs_tablet_handoff_path
+
+= render 'docs/links', previous_link: ['Index', docs_path], next_link: nil

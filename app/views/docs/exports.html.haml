@@ -1,0 +1,60 @@
+- @title = 'Exports'
+= render 'docs/side_nav'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Project Setup
+  = @title
+
+.docs-container
+  %p
+    Slice provides a variety of formats for data exports.
+
+  %h2 CSV Exports
+
+  %p
+    Data can be exported to CSV format using either labeled or pure values. The
+    labeled CSVs are more human-readable, while the pure value CSVs are easier
+    to integrate into statistical analysis programs.
+
+  %h2 R and SAS
+
+  %p
+    For users comfortable in doing analysis in R or SAS, Slice provides exports
+    directly to these formats. Each export contains a script to properly format
+    the data in both R and SAS.
+
+  %h2 PDF
+
+  %p
+    Each sheet can be printed as a PDF. This export generates a PDF for each
+    sheet for users wishing to archive, print, or upload sheets to other
+    systems.
+
+  %h2 Data Dictionary
+
+  %p
+    Slice automatically generates a data dictionary describing how data is
+    collected across designs. This data dictionary can be exported along with
+    the data itself to help in sharing results and analysis with other
+    researchers, or to aid in secondary analysis.
+
+  %h2 Uploaded Files
+
+  %p
+    Files attached to sheets can be downloaded by including "Uploaded Files" in
+    the data export.
+
+  %h2 Adverse Events
+
+  %p
+    A CSV of data describing adverse events on the project can be exported.
+
+  %h2 Randomizations
+
+  %p
+    This CSV export includes a list of randomizations along with associated
+    randomization data, including treatment arms and randomization number.
+
+= render 'docs/links', previous_link: ['Index', docs_path], next_link: nil

@@ -137,11 +137,11 @@
         setting the design as "Handoff Enabled" on an
         = succeed '.' do
           = link_to 'event', project_events_path(@project)
-        = link_to 'Learn more...', '#', data: { object: 'suppress-click' }, style: 'color: red'
+        = link_to 'Learn more...', docs_tablet_handoff_path
     - else
       %p
         The tablet handoff module is not enabled.
-        = link_to 'Learn more...', '#', data: { object: 'suppress-click' }, style: 'color: red'
+        = link_to 'Learn more...', docs_tablet_handoff_path
 
 
 .panel.panel-default

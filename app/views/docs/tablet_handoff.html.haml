@@ -1,0 +1,63 @@
+- @title = 'Tablet Handoff'
+= render 'docs/side_nav'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Modules
+  = @title
+
+.docs-container
+  %p
+    The
+    %strong Tablet Handoff
+    module allows project editors to set up a series of designs that get filled
+    out by a participant during a particular event. For example, a participant
+    who taking part of a baseline event may be asked to fill out a series of
+    questionnaires. The module allows the research staff member to give the
+    participant a tablet that guides through multiple pages of questions. At the
+    end of the last questionnaire, the tablet instructs the participant to hand
+    the tablet back to the staff member.
+
+  %h2 Setting Up
+
+  %p
+    The
+    %strong Tablet Handoff
+    is enabled on the project settings page. Once enabled, an event must be
+    created and designs must be added to the event. An existing event may also
+    be used.
+
+  %p
+    While editing the event, add one or more designs and set the designs as
+    either
+    %code No Handoff
+    or
+    = succeed '.' do
+      %code Handoff Enabled
+    The designs will be presented in the order they are listed. Drag the designs
+    to reorder them on the event.
+
+  %p
+    The event can also include designs that are not part of the tablet handoff,
+    for instance, designs that are filled in by the research staff. Only events
+    shown as
+    %code Handoff Enabled
+    will be presented to the participant.
+
+  %h2 Launching a Tablet Handoff
+
+  %p
+    From the subject page, select
+    %strong New Event
+    select the appropriate event, specify a date, and click
+    %strong Launch Event.
+    On the event page, click
+    %strong Launch Tablet Handoff
+    to start the event.
+    A warning will be displayed, indicating to setup Restricted Profiles
+    (Android), or Guided Access (iOS). Once this is done, click
+    %strong Launch Tablet Handoff
+    and hand the tablet to the participant.
+
+= render 'docs/links', previous_link: ['Index', docs_path], next_link: nil

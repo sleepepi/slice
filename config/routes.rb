@@ -24,7 +24,9 @@ Rails.application.routes.draw do
 
   get 'docs', to: 'docs#index', as: :docs
   namespace :docs do
+    get :modules
     get :adverse_events, path: 'adverse-events'
+    get :tablet_handoff, path: 'tablet-handoff'
     get :technical
     get :randomization_schemes, path: 'randomization-schemes'
     get :minimization, path: 'randomization-schemes/minimization'
@@ -41,12 +43,14 @@ Rails.application.routes.draw do
     get :treatment_arms, path: 'randomization/treatment-arms'
     get :stratification_factors, path: 'randomization/stratification-factors'
     get :checks, path: 'data-quality-checks'
+    get :exports
     get :reports
     get :sheets, path: 'data-entry'
     get :locking, path: 'data-entry/locking'
     get :events, path: 'data-entry/events'
     get :project_setup, path: 'project-setup'
     get :lingo
+    get :data_review, path: 'data-review-and-analysis'
 
     get :theme
   end

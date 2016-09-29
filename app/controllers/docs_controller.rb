@@ -2,8 +2,16 @@
 
 # Displays publicly available documentation.
 class DocsController < ApplicationController
+  # GET /docs/modules
+  def modules
+  end
+
   # GET /docs/adverse-events
   def adverse_events
+  end
+
+  # GET /docs/tablet-handoff
+  def tablet_handoff
   end
 
   # GET /docs/roles
@@ -20,6 +28,10 @@ class DocsController < ApplicationController
 
   # GET /docs/sites
   def sites
+  end
+
+  # GET /docs/data-review-and-analysis
+  def data_review
   end
 
   # GET /docs/technical
@@ -64,6 +76,10 @@ class DocsController < ApplicationController
 
   # GET /docs/data-quality-checks
   def checks
+  end
+
+  # GET /docs/exports
+  def exports
   end
 
   # GET /docs/reports

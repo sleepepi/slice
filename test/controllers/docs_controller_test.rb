@@ -9,8 +9,18 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should get modules' do
+    get docs_modules_path
+    assert_response :success
+  end
+
   test 'should get adverse events' do
     get docs_adverse_events_path
+    assert_response :success
+  end
+
+  test 'should get tablet handoff' do
+    get docs_tablet_handoff_path
     assert_response :success
   end
 
@@ -31,6 +41,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get sites' do
     get docs_sites_path
+    assert_response :success
+  end
+
+  test 'should get data review and analysis' do
+    get docs_data_review_path
     assert_response :success
   end
 
@@ -86,6 +101,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get checks' do
     get docs_checks_path
+    assert_response :success
+  end
+
+  test 'should get exports' do
+    get docs_exports_path
     assert_response :success
   end
 
