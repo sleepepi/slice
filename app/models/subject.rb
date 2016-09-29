@@ -2,7 +2,9 @@
 
 class Subject < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, Evaluatable
+  include Searchable, Deletable, Evaluatable, Squishable
+
+  squish :subject_code
 
   # Scopes
   scope :with_project, -> (arg) { where(project_id: arg) }

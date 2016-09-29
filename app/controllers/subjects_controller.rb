@@ -222,7 +222,7 @@ class SubjectsController < ApplicationController
 
   # GET /subjects/new
   def new
-    @subject = current_user.subjects.new(subject_params)
+    @subject = current_user.subjects.where(project_id: @project.id).new(subject_params)
   end
 
   # GET /subjects/1/edit
@@ -231,7 +231,7 @@ class SubjectsController < ApplicationController
 
   # POST /subjects
   def create
-    @subject = current_user.subjects.new(subject_params)
+    @subject = current_user.subjects.where(project_id: @project.id).new(subject_params)
     if @subject.save
       redirect_to [@project, @subject], notice: 'Subject was successfully created.'
     else
@@ -288,15 +288,8 @@ class SubjectsController < ApplicationController
 
   def subject_params
     params[:subject] ||= { blank: '1' }
-    clean_subject_code
     clean_site_id
-    params[:subject][:project_id] = @project.id
-    params.require(:subject).permit(:project_id, :subject_code, :site_id)
-  end
-
-  def clean_subject_code
-    return if params[:subject][:subject_code].blank?
-    params[:subject][:subject_code].to_s.strip!
+    params.require(:subject).permit(:subject_code, :site_id)
   end
 
   # Sets site id to nil if it's not part of users editable sites.
