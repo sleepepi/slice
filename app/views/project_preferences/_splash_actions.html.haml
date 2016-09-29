@@ -3,16 +3,10 @@
     %strong.caret
 
   %ul.dropdown-menu.dropdown-menu-right
-    - if project.archived_by?(current_user)
-      %li
-        = link_to restore_project_path(project), method: :post do
-          %span.glyphicon.glyphicon-eye-open
-          Unarchive
-    - else
-      %li
-        = link_to archive_project_path(project), method: :post do
-          %span.glyphicon.glyphicon-eye-close
-          Archive
+    %li
+      = link_to archive_project_path(project), method: :post do
+        %span.glyphicon.glyphicon-eye-close
+        Archive
 
       - if project.favorited_by?(current_user)
         %li

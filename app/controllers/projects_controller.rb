@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
     :settings, :show, :collect, :team, :favorite, :activity, :logo,
-    :archive, :restore
+    :archive
   ]
 
   # POST /projects/save_project_order.js
@@ -35,18 +35,6 @@ class ProjectsController < ApplicationController
     project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
     project_preference.update archived: (params[:undo] != '1')
     redirect_to root_path, notice: archive_notice
-  end
-
-  # POST /projects/1/restore
-  def restore
-    project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
-    project_preference.update archived: (params[:undo] == '1')
-    redirect_to archives_path, notice: restore_notice
-  end
-
-  # GET /archives
-  def archives
-    @projects = current_user.all_archived_projects.reorder('lower(name) asc').page(params[:page]).per(Project::PER_PAGE)
   end
 
   # GET /projects
@@ -107,17 +95,6 @@ class ProjectsController < ApplicationController
       # Will automatically generate a site if the project has no site
       :site_name
     )
-  end
-
-  def restore_notice
-    if params[:undo] == '1'
-      'Your action has been undone.'
-    else
-      [
-        'Project restored.',
-        { label: 'Undo', url: restore_project_path(@project, undo: '1'), method: :post }
-      ]
-    end
   end
 
   def archive_notice

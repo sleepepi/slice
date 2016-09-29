@@ -120,7 +120,6 @@ Rails.application.routes.draw do
       get :team
       get :logo
       post :archive
-      post :restore
       get :advanced, to: redirect('editor/projects/%{id}/advanced')
       get :settings, to: redirect('editor/projects/%{id}/settings')
     end
@@ -373,10 +372,6 @@ Rails.application.routes.draw do
     get ':project/:handoff/:design', action: :design, as: :design
     post ':project/:handoff/:design', action: :save, as: :save
     get 'completed', action: :completed, as: :completed
-  end
-
-  scope module: :projects do
-    get :archives
   end
 
   namespace :timeout do

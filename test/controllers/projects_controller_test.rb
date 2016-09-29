@@ -61,28 +61,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should restore project' do
-    login(users(:project_one_editor))
-    assert_difference('ProjectPreference.where(archived: false).count') do
-      post :restore, params: { id: @project }
-    end
-    assert_redirected_to archives_path
-  end
-
-  test 'should undo restore project' do
-    login(users(:valid))
-    assert_difference('ProjectPreference.where(archived: true).count') do
-      post :restore, params: { id: @project, undo: '1' }
-    end
-    assert_redirected_to archives_path
-  end
-
-  test 'should get archives' do
-    login(users(:valid))
-    get :archives
-    assert_response :success
-  end
-
   test 'should get logo as project editor' do
     login(@project_editor)
     get :logo, params: { id: @project }
