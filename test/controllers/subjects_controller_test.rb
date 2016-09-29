@@ -185,17 +185,6 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should get settings as project editor' do
-    get :settings, params: { project_id: @project, id: @subject }
-    assert_response :success
-  end
-
-  test 'should get settings as project viewer' do
-    login(users(:associated))
-    get :settings, params: { project_id: @project, id: @subject }
-    assert_response :success
-  end
-
   test 'should get files as project editor' do
     get :files, params: { project_id: @project, id: @subject }
     assert_response :success
@@ -676,6 +665,6 @@ class SubjectsControllerTest < ActionController::TestCase
         project_id: projects(:two), id: subjects(:randomized)
       }
     end
-    assert_redirected_to settings_project_subject_path(projects(:two), subjects(:randomized))
+    assert_redirected_to [projects(:two), subjects(:randomized)]
   end
 end

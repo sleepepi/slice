@@ -33,7 +33,7 @@
             %li
               = link_to data_entry_project_subject_path(@project, @subject) do
                 %span.glyphicon.glyphicon-plus
-                Data Entry
+                New Sheet
             %li
               = link_to edit_project_subject_path(@subject.project, @subject) do
                 %span.glyphicon.glyphicon-edit
@@ -49,6 +49,19 @@
         = render 'layouts/side_nav_header_button'
         = @title
 
+.row
+  - if @project.events.where(archived: false).count > 0
+    .col-sm-6.col-md-offset-1.col-md-4
+      .jumbotron.center
+        %h4.text-muted Number of Events
+        .report-number= link_to number_to_human(@subject.blinded_subject_events(current_user).count), events_project_subject_path(@project, @subject), class: 'link-no-underline'
+  - else
+    .col-sm-3.col-md-2
+  .col-sm-6.col-md-offset-2.col-md-4
+    .jumbotron.center
+      %h4.text-muted Number of Sheets
+      .report-number= link_to number_to_human(@subject.blinded_sheets(current_user).count), sheets_project_subject_path(@project, @subject), class: 'link-no-underline'
+
 - if @project.events.where(archived: false).count > 0
   - if @subject.subject_events.count == 0
     = render 'subjects/choose_event'
@@ -59,3 +72,17 @@
     = render 'subjects/data_entry'
   - else
     = render 'subjects/sheets'
+
+.dashboard-container
+  %table.table.table-borderless.table-striped
+    %col.hidden-xs{ width: '30%' }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
+    - if viewable_sites.count > 1
+      %tr
+        %th Site
+        %td= link_to @subject.site.name, [@subject.site.project, @subject.site] if @subject.site
+
+    %tr
+      %th=@project.subject_code_name_full
+      %td=@subject.subject_code

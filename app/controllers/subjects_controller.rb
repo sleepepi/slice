@@ -4,7 +4,7 @@
 class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :index, :show, :timeline, :comments, :settings, :files, :adverse_events,
+    :index, :show, :timeline, :comments, :files, :adverse_events,
     :events, :sheets, :event, :report, :search, :choose_site
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
@@ -14,7 +14,7 @@ class SubjectsController < ApplicationController
     :launch_subject_event, :edit_event, :update_event, :destroy_event
   ]
   before_action :find_viewable_subject_or_redirect, only: [
-    :show, :timeline, :comments, :settings, :files, :adverse_events, :events,
+    :show, :timeline, :comments, :files, :adverse_events, :events,
     :sheets, :event
   ]
   before_action :find_editable_subject_or_redirect, only: [
@@ -277,7 +277,7 @@ class SubjectsController < ApplicationController
 
   def check_for_randomizations
     return unless @subject.randomizations.count > 0
-    redirect_to settings_project_subject_path(@project, @subject),
+    redirect_to [@project, @subject],
                 alert: "You must undo this subject\'s randomizations in order to delete the subject."
   end
 

@@ -2,6 +2,18 @@
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 = render 'subjects/side_nav'
-= render 'subjects/simple_header'
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      - if @subject.editable_by?(current_user)
+        .pull-right
+          = link_to plus_or('New Event'), choose_event_project_subject_path(@project, @subject), class: 'btn btn-accent btn-shadow'
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = link_to @subject.name, [@project, @subject]
+        = @title
+
 
 = render 'subjects/events'

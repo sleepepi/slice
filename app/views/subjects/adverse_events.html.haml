@@ -8,11 +8,11 @@
   .header-container
     .container
       .pull-right
-        = link_to 'Report Adverse Event', new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-accent btn-shadow'
+        = link_to plus_or('Report Adverse Event'), new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-accent btn-shadow'
 
       %h1.page-heading
         = render 'layouts/side_nav_header_button'
-        = link_to @subject.subject_code, [@project, @subject]
+        = link_to @subject.name, [@project, @subject]
         = @title
 
 - if @subject.adverse_events.count == 0

@@ -287,7 +287,6 @@ Rails.application.routes.draw do
         delete 'events/:event_id/:subject_event_id/:event_date', action: :destroy_event, as: :destroy_event
         get :timeline
         get :comments
-        get :settings
         get :files
         get :adverse_events, path: 'adverse-events'
         get :sheets
