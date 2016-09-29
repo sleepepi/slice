@@ -12,7 +12,7 @@
         %th
 
     - @projects.each do |project|
-      %tr{ id: "project_#{project.id}" }
+      %tr{ data: { project_id: project.id } }
         %td
           = link_to project.name, project
         %td.center{ id: "project_#{project.id}_status" }
