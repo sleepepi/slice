@@ -1,89 +1,86 @@
 - @title = 'Acceptable Use Policy'
 
-.page-header
-  %h1= @title
+.background-gradient
 
-%p{ style: 'font-size:1.5em;line-height:2em' }
-  = ENV['website_name']
-  provides a platform for clinical research data collection. To keep the
-  = ENV['website_name']
-  running smoothly for everyone, you agree that you will use the Slice web
-  application only in a manner consistent with the following Acceptable Use
-  Policy.
+%h1.docs-heading
+  = @title
 
-%hr.divider-md
+.docs-container
+  %p
+    = ENV['website_name']
+    provides a platform for clinical research data collection. To keep the
+    = ENV['website_name']
+    running smoothly for everyone, you agree that you will use the Slice web
+    application only in a manner consistent with the following Acceptable Use
+    Policy.
 
-%h4 You agree to:
+  %h4 You agree to:
 
-%ul
-  %li
-    Obtain
-    %span{ title: 'Institutional Review Board', rel: 'tooltip' }
-      %abbr{ title: '' } IRB
-    approval for clinical research studies collecting data for the purposes of
-    human subject research.
-  %li
-    Collect only minimally necessary
-    %span{ title: 'Protected Health Information', rel: 'tooltip' }
-      %abbr{ title: '' } PHI
-    in compliance with
-    %span{ title: 'Institutional Review Board', rel: 'tooltip' }
-      %abbr{ title: '' } IRB
-    and
-    %span{ title: 'Health Insurance Portability and Accountability Act', rel: 'tooltip' }
-      %abbr{ title: '' } HIPAA
-    regulations.
-  %li
-    Mark all
-    %span{ title: 'Protected Health Information', rel: 'tooltip' }
-      %abbr{ title: '' } PHI
-    variables collected specifically as identifiable.
-  %li
-    = mail_to ENV['support_email'], 'Notify us', target: '_blank', subject: "#{ENV['website_name']} Account Compromised"
-    immediately if your account has been comprised and to follow immediate steps
-    to secure your account.
-
-%hr.divider-md
-
-%h4
-  You agree
-  %span.label{ style: 'background-color:red' } NOT
-  to:
-
-%ul
-  %li
-    Provide access to clinical research studies to those who have not undergone
-    training to protect
-    = succeed '.' do
+  %ul
+    %li
+      Obtain
+      %span{ title: 'Institutional Review Board', rel: 'tooltip' }
+        %abbr{ title: '' } IRB
+      approval for clinical research studies collecting data for the purposes of
+      human subject research.
+    %li
+      Collect only minimally necessary
       %span{ title: 'Protected Health Information', rel: 'tooltip' }
         %abbr{ title: '' } PHI
-  %li
-    Download
-    %span{ title: 'Protected Health Information', rel: 'tooltip' }
-      %abbr{ title: '' } PHI
-    to unencrypted system or transfer data outside of the hospital network.
-  %li
-    Share you account login and password with anyone else for any reason.
-  %li
-    Upload objectionable content or malware.
-
-%hr.divider-md
-
-%h4 We reserve the right to:
-
-%ul
-  %li
-    Conduct audits to detect violations of the Acceptable Use Policy.
-  %li
-    Remove user access and delete all the user's data that is in violation of
-    the Acceptable Use Policy.
-  %li
-    Remove all data that has not been approved for collection by the
-    = succeed '.' do
+      in compliance with
       %span{ title: 'Institutional Review Board', rel: 'tooltip' }
         %abbr{ title: '' } IRB
-  %li
-    Remove all data that exceeds the scope of meaningful use granted by the
-    = succeed '.' do
-      %span{ title: 'Institutional Review Board', rel: 'tooltip' }
-        %abbr{ title: '' } IRB
+      and
+      %span{ title: 'Health Insurance Portability and Accountability Act', rel: 'tooltip' }
+        %abbr{ title: '' } HIPAA
+      regulations.
+    %li
+      Mark all
+      %span{ title: 'Protected Health Information', rel: 'tooltip' }
+        %abbr{ title: '' } PHI
+      variables collected specifically as identifiable.
+    %li
+      = mail_to ENV['support_email'], 'Notify us', target: '_blank', subject: "#{ENV['website_name']} Account Compromised"
+      immediately if your account has been comprised and to follow immediate steps
+      to secure your account.
+
+  %h4
+    You agree
+    %span.label{ style: 'background-color:red' } NOT
+    to:
+
+  %ul
+    %li
+      Provide access to clinical research studies to those who have not undergone
+      training to protect
+      = succeed '.' do
+        %span{ title: 'Protected Health Information', rel: 'tooltip' }
+          %abbr{ title: '' } PHI
+    %li
+      Download
+      %span{ title: 'Protected Health Information', rel: 'tooltip' }
+        %abbr{ title: '' } PHI
+      to unencrypted system or transfer data outside of the hospital network.
+    %li
+      Share you account login and password with anyone else for any reason.
+    %li
+      Upload objectionable content or malware.
+
+  %h4 We reserve the right to:
+
+  %ul
+    %li
+      Conduct audits to detect violations of the Acceptable Use Policy.
+    %li
+      Remove user access and delete all the user's data that is in violation of
+      the Acceptable Use Policy.
+    %li
+      Remove all data that has not been approved for collection by the
+      = succeed '.' do
+        %span{ title: 'Institutional Review Board', rel: 'tooltip' }
+          %abbr{ title: '' } IRB
+    %li
+      Remove all data that exceeds the scope of meaningful use granted by the
+      = succeed '.' do
+        %span{ title: 'Institutional Review Board', rel: 'tooltip' }
+          %abbr{ title: '' } IRB

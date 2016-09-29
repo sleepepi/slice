@@ -1,50 +1,40 @@
 - @title = "About #{ENV['website_name']}"
 
-.row{ style: 'margin-top:54px' }
-  .col-md-12
-    %h1.about-title= @title
-    %p.about-tagline
-      = ENV['website_name']
-      is a
-      = link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' }
-      and
-      = link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
-      clinical research interface for collecting and analyzing data.
-    %p.about-signup{ style: 'margin-top: 40px; margin-bottom: 40px' }
-      = link_to 'Sign me up', new_user_registration_path, class: 'btn btn-accent btn-lg btn-shadow'
-    %p.about-tagline
-      Questions?
-      = succeed '.' do
-        = link_to 'Contact us', contact_path
+.background-gradient
 
-%hr
+%h1.docs-heading
+  = @title
 
-.row
-  .col-md-4
-    %h2.about-title Design Forms
-    %ul
-      %li Create new designs and variables, or copy from existing libraries.
-      %li Updating variables migrates already filled-out form data keeping all of your project data in sync.
-  .col-md-4
-    %h2.about-title Manage Multi-site Projects
-    %ul
-      %li Enroll subjects across sites.
-      %li Sites can view their subjects and receipts.
-  .col-md-4
-    %h2.about-title Email Receipts
-    %ul
-      %li Email PDF receipts to sites when a subject form is completed.
+.docs-container
+  %p
+    = ENV['website_name']
+    is a free clinical research data collection system for capturing and
+    analyzing data.
+  %p
+    Learn how to:
+  %p
+    1.
+    = link_to 'Create a project.', docs_project_setup_path
 
-%hr
+  %p
+    2.
+    = link_to 'Enter data.', docs_sheets_path
 
-%p.text-muted.about-footer
-  = ENV['website_name']
-  Version
-  = link_to Slice::VERSION::STRING, 'https://github.com/remomueller/slice/tree/v#{Slice::VERSION::STRING}'
+  %p
+    3.
+    = link_to 'Discover results.', docs_data_review_path
 
-%p.text-muted.about-footer
-  By using
-  = ENV['website_name']
-  you are agreeing to the
-  = succeed '.' do
-    = link_to 'Acceptable Use Policy', about_use_path
+
+%h3.text-white.text-shadow
+  Questions?
+
+.docs-container
+  %ul
+    %li= link_to 'Visit the Docs', docs_path
+    %li= link_to 'Contact us', contact_path
+
+.text-center{ style: 'margin-top:40px' }
+  %p.lead
+    %span.transparent-stamp
+      Version
+      %strong= link_to Slice::VERSION::STRING, 'https://github.com/remomueller/slice/releases', class: 'link-accent'

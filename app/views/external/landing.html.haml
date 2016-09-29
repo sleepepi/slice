@@ -13,38 +13,52 @@
   Empower your research.
 
 .docs-container
-  .row
-    .col-sm-6
-      %p.lead
-        Create forms.
+  %p
+    = ENV['website_name']
+    is a free clinical research data collection system for capturing and
+    analyzing data.
+  %p
+    Learn how to:
+  %p
+    1.
+    = link_to 'Create a project.', docs_project_setup_path
 
-      %p.lead
-        Collect data.
+  %p
+    2.
+    = link_to 'Enter data.', docs_sheets_path
 
-      %p.lead
-        Collaborate with anyone.
+  %p
+    3.
+    = link_to 'Discover results.', docs_data_review_path
 
-      %p.lead
-        Customize reports.
+  %p
+    Slice allows you to
+    = succeed ',' do
+      = link_to 'create forms', docs_designs_path
 
-      %p.lead
-        Report adverse events.
+    = succeed ',' do
+      = link_to 'collect data', docs_sheets_path
 
-    .col-sm-6
-      %p.lead
-        Randomize participants.
+    = succeed ',' do
+      = link_to 'build your team', docs_roles_path
 
-      %p.lead
-        Get notifications.
+    = succeed ',' do
+      = link_to 'view reports', docs_reports_path
 
-      %p.lead
-        Run data quality checks.
+    = succeed ',' do
+      = link_to 'report adverse events', docs_adverse_events_path
 
-      %p.lead
-        Analyze data.
+    = succeed ',' do
+      = link_to 'randomize participants', docs_randomization_schemes_path
 
-      %p.lead
-        Publish results.
+    = succeed ',' do
+      = link_to 'run data quality checks', docs_checks_path
+
+    = succeed ',' do
+      = link_to 'analyze data', docs_data_review_path
+
+    = succeed '.' do
+      = link_to 'publish results', docs_exports_path
 
 
 - content_for :footer do

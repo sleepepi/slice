@@ -25,15 +25,4 @@
     (especially for studies with low numbers of participants), and takes less
     time to set up.
 
-  %p
-    %span.text-muted Related links:
-    = succeed ',' do
-      = link_to 'Treatment Arms', docs_treatment_arms_path
-    = succeed ',' do
-      = link_to 'Stratification Factors', docs_stratification_factors_path
-    = succeed ',' do
-      = link_to 'Minimization Algorithm', docs_minimization_path
-    = link_to 'Permuted-Block Algorithm', docs_permuted_block_path
-
-
-= render 'docs/links', previous_link: ['Index', docs_path], next_link: ['Minimization Algorithm', docs_minimization_path]
+= render 'docs/links', previous_link: nil, next_link: ['Minimization Algorithm', docs_minimization_path]
