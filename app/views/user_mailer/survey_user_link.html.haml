@@ -1,8 +1,0 @@
-%p{ style: p_style }
-  Thank you for submitting
-  = succeed '.' do
-    %strong= @sheet.name
-  You can make changes to your survey responses here:
-
-%p{ style: center_style }
-  = link_to @sheet.name, "#{ENV['website_url']}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}", style: link_style

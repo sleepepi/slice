@@ -16,6 +16,7 @@
   - User invites integrated with project setup
   - Project menu redesigned to adjust to different screen sizes
   - Added an advanced project settings page
+  - Collecting emails on surveys has been removed as a project setting
 - **Treatment Arm Changes**
   - Treatment Arms can now have short names
 - **Subject Changes**

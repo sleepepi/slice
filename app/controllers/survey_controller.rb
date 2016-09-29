@@ -50,7 +50,7 @@ class SurveyController < ApplicationController
 
   def find_or_create_subject
     @subject = @project.subjects.find_by_id(params[:subject_id])
-    @subject = @project.create_valid_subject(params[:email], params[:site_id]) unless @subject
+    @subject = @project.create_valid_subject(params[:site_id]) unless @subject
   end
 
   def redirect_without_design
@@ -92,6 +92,5 @@ class SurveyController < ApplicationController
   def send_survey_completion_emails
     return unless EMAILS_ENABLED
     UserMailer.survey_completed(@sheet).deliver_now
-    UserMailer.survey_user_link(@sheet).deliver_now unless @subject.email.blank?
   end
 end

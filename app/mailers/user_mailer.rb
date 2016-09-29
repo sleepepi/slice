@@ -64,14 +64,6 @@ class UserMailer < ApplicationMailer
          subject: "#{project_editor.name} Unlocked a Sheet on #{sheet_unlock_request.sheet.project.name}")
   end
 
-  def survey_user_link(sheet)
-    setup_email
-    @sheet = sheet
-    @email_to = sheet.subject.email
-    mail(to: sheet.subject.email,
-         subject: "Thank you for Submitting #{sheet.design.name}")
-  end
-
   def export_ready(export)
     setup_email
     @export = export

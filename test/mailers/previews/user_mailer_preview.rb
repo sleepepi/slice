@@ -39,11 +39,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.sheet_unlocked(sheet_unlock_request, project_editor)
   end
 
-  def survey_user_link
-    sheet = Sheet.current.where.not(authentication_token: nil).first
-    UserMailer.survey_user_link(sheet)
-  end
-
   def export_ready
     export = Export.current.first
     UserMailer.export_ready(export)

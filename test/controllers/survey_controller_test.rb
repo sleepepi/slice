@@ -29,7 +29,7 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, params: { slug: designs(:admin_public_design).slug, email: 'test@example.com' }
+          post :create, params: { slug: designs(:admin_public_design).slug }
         end
       end
     end
@@ -37,7 +37,6 @@ class SurveyControllerTest < ActionController::TestCase
     assert_equal true, assigns(:design).publicly_available
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
-    assert_equal 'test@example.com', assigns(:subject).email
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).authentication_token
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
@@ -66,7 +65,7 @@ class SurveyControllerTest < ActionController::TestCase
   test 'should submit public survey and redirect to redirect_url' do
     assert_difference('Subject.count') do
       assert_difference('Sheet.count') do
-        post :create, params: { slug: designs(:admin_public_design_with_redirect).slug, email: 'test@example.com' }
+        post :create, params: { slug: designs(:admin_public_design_with_redirect).slug }
       end
     end
 
@@ -74,7 +73,6 @@ class SurveyControllerTest < ActionController::TestCase
     assert_equal true, assigns(:design).publicly_available
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
-    assert_equal 'test@example.com', assigns(:subject).email
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).authentication_token
 
@@ -85,7 +83,7 @@ class SurveyControllerTest < ActionController::TestCase
     assert_difference('SheetTransaction.count') do
       assert_difference('Subject.count') do
         assert_difference('Sheet.count') do
-          post :create, params: { slug: designs(:admin_public_design).slug, email: 'test@example.com', site_id: '' }
+          post :create, params: { slug: designs(:admin_public_design).slug, site_id: '' }
         end
       end
     end
@@ -101,7 +99,6 @@ class SurveyControllerTest < ActionController::TestCase
         assert_difference('Sheet.count') do
           post :create, params: {
             slug: designs(:admin_public_design).slug,
-            email: 'test@example.com',
             site_id: sites(:admin_site).id
           }
         end
@@ -119,7 +116,6 @@ class SurveyControllerTest < ActionController::TestCase
         assert_difference('Sheet.count') do
           post :create, params: {
             slug: designs(:admin_public_design).slug,
-            email: 'test@example.com',
             site_id: sites(:admin_site_two).id
           }
         end

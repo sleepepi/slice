@@ -130,20 +130,12 @@ class Project < ApplicationRecord
     end
   end
 
-  def create_valid_subject(email, site_id)
+  def create_valid_subject(site_id)
     create_default_site if sites.count == 0
-    hexdigest = Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)
     site = sites.find_by_id(site_id)
     site_id = sites.first.id unless site
-
-    if email.blank?
-      subject_code = hexdigest[0..12]
-    elsif subjects.where(subject_code: email.to_s).size == 0
-      subject_code = email.to_s
-    else
-      subject_code = "#{email} - #{hexdigest[0..8]}"
-    end
-    subjects.create(subject_code: subject_code, site_id: site_id, email: email.to_s)
+    subject_code = SecureRandom.hex(8)
+    subjects.create(subject_code: subject_code, site_id: site_id)
   end
 
   def favorited_by?(current_user)

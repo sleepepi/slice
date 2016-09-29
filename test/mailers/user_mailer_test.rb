@@ -63,14 +63,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_editor.name} has unlocked a sheet for 24 hours on #{sheet_unlock_request.sheet.project.name}\. You can now edit the sheet here:/, mail.body.encoded)
   end
 
-  test 'survey user link' do
-    sheet = sheets(:external_with_email)
-    mail = UserMailer.survey_user_link(sheet)
-    assert_equal [sheet.subject.email], mail.to
-    assert_equal "Thank you for Submitting #{sheet.design.name}", mail.subject
-    assert_match(/Thank you for submitting #{sheet.name}\.\r\n\r\nYou can make changes to your survey responses here:/, mail.body.encoded)
-  end
-
   test 'export ready email' do
     export = exports(:one)
     mail = UserMailer.export_ready(export)

@@ -60,13 +60,6 @@ external:
   user: admin
   site: admin_site
 
-external_with_email:
-  project: three
-  subject_code: "external_with_email@example.com - c68242d87"
-  email: external_with_email@example.com
-  user: admin
-  site: admin_site
-
 test_one:
   project: one
   subject_code: A500

@@ -29,11 +29,5 @@
     - params[:header] = '0'
     = render 'designs/show', design: @design
 
-  - if @sheet.new_record? && @design.project.collect_email_on_surveys?
-    .form-group
-      = label :email, 'Email', class: 'col-md-2 control-label'
-      .col-md-10
-        = email_field_tag :email, params[:email], class: 'form-control', placeholder: 'email@example.com'
-
   .center{ style: 'margin-top: 40px' }
     = link_to 'Submit Survey', '#', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, class: 'btn btn-primary btn-lg btn-shadow'
