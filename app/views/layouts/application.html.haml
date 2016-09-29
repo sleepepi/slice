@@ -48,6 +48,11 @@
 
       = yield :footer
 
+      - if current_user && current_user.system_admin? && @keywords.present?
+        .center
+          - @keywords.split(',').each do |keyword|
+            %code= keyword.to_s.strip
+
     - unless @no_footer
       .footer-container{ class: @side_nav ? 'footer-slide' : '' }
         .container
