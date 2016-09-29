@@ -22,6 +22,7 @@
   - Subject menu redesigned to adjust to different screen sizes
   - Adverse events and randomizations now included in subject menu
 - **Gem Changes**
+  - Updated to pg 0.19.0
   - Updated to jquery-rails 4.2.1
 
 ### Refactoring
