@@ -8,50 +8,19 @@
 
 .docs-container
   %p
-    %ul
-      %li
-        = link_to 'Project Setup', docs_project_setup_path
+    Welcome!
 
-      %li
-        = link_to 'Designs', docs_designs_path
-        %ul
-          %li= link_to 'Sections', docs_sections_path
-          %li= link_to 'Variables', docs_variables_path
-          %li= link_to 'Domains', docs_domains_path
+  %p
+    The following pages provide an overview of how to setup a project, collect
+    data, and explore the results.
 
-      %li
-        = link_to 'Data Entry', docs_sheets_path
-        %ul
-          %li= link_to 'Auto-locking Sheets', docs_locking_path
-          %li= link_to 'Events', docs_events_path
+  %p
+    Email us at
+    = mail_to ENV['support_email']
+    if you don't find an answer to your questions.
 
-      %li= link_to 'Sites', docs_sites_path
+  %p We're here to help,
 
-      %li= link_to 'Roles', docs_roles_path
-
-      %li= link_to 'Blinding', docs_blinding_path
-
-      %li
-        = link_to 'Randomization Schemes', docs_randomization_schemes_path
-        %ul
-          %li= link_to 'Minimization Algorithm', docs_minimization_path
-          %li= link_to 'Permuted-Block Algorithm', docs_permuted_block_path
-          %li= link_to 'Treatment Arms', docs_treatment_arms_path
-          %li= link_to 'Stratification Factors', docs_stratification_factors_path
-
-      %li
-        = link_to 'Adverse Events', docs_adverse_events_path
-
-      %li
-        = link_to 'Notifications', docs_notifications_path
-
-      %li
-        = link_to 'Reports', docs_reports_path
-
-      %li
-        = link_to 'Data Quality Checks', docs_checks_path
-
-      %li
-        = link_to 'Lingo, Slang, Jargon', docs_lingo_path
+  %p The Slice Team
 
 = render 'docs/links', previous_link: nil, next_link: ['Project Setup', docs_project_setup_path, 'Start']
