@@ -1,92 +1,96 @@
-.dashboard-container
-  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
-  %table.table.table-striped.table-borderless.table-hover
-    %col
-    - if viewable_sites.count > 1
-      %col.hidden-xs.hidden-sm
-    %col
-    - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-      %col.hidden-xs
-    - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-      %col.hidden-xs
-    %thead
-      %tr
-        = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
-        - if viewable_sites.count > 1
-          %th.hidden-xs.hidden-sm.nowrap{ class: ['subjects.site_id', 'subjects.site_id desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Site', project_subjects_path(@project, order: (params[:order] == 'subjects.site_id desc' ? 'subjects.site_id' : 'subjects.site_id desc'), site_id: params[:site_id])
-            .dropdown{ style: 'display: inline-block' }
-              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'status-dropdown' do
-                %span.glyphicon.glyphicon-filter
-              %ul.dropdown-menu{ aria: { labelledby: 'status-dropdown' } }
-                %li= link_to 'All Sites', project_subjects_path(@project, order: params[:order]), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
-                - viewable_sites.order(:name).each do |site|
-                  %li= link_to site.short_name, project_subjects_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
-        %th.nowrap Recent Activity
-        - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-          %th.hidden-xs.center
-            Randomized
-            .dropdown{ style: 'display: inline-block' }
-              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'randomized-dropdown' do
-                %span.glyphicon.glyphicon-filter
-              %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: 'randomized-dropdown' } }
-                %li= link_to 'All', project_subjects_path(@project, order: params[:order]), style: params[:randomized].blank? ? 'font-weight:bold;' : ''
-                %li= link_to 'Randomized', project_subjects_path(@project, order: params[:order], randomized: '1'), style: params[:randomized] == '1' ? 'font-weight:bold;' : ''
-                %li= link_to 'Unrandomized', project_subjects_path(@project, order: params[:order], randomized: '0'), style: params[:randomized] == '0' ? 'font-weight:bold;' : ''
-        - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-          %th.hidden-xs
-            AEs
-            .dropdown{ style: 'display: inline-block' }
-              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'ae-dropdown' do
-                %span.glyphicon.glyphicon-filter
-              %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: 'ae-dropdown' } }
-                %li= link_to 'All', project_subjects_path(@project, order: params[:order]), style: params[:ae].blank? ? 'font-weight:bold;' : ''
-                %li= link_to 'Open', project_subjects_path(@project, order: params[:order], ae: 'open'), style: params[:ae] == 'open' ? 'font-weight:bold;' : ''
-                %li= link_to 'Closed', project_subjects_path(@project, order: params[:order], ae: 'closed'), style: params[:ae] == 'closed' ? 'font-weight:bold;' : ''
+- if @subjects.count == 0
+  .jumbotron
+    %p.center No subjects found.
+- else
+  .dashboard-container
+    - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
+    %table.table.table-striped.table-borderless.table-hover
+      %col
+      - if viewable_sites.count > 1
+        %col.hidden-xs.hidden-sm
+      %col
+      - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+        %col.hidden-xs
+      - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+        %col.hidden-xs
+      %thead
+        %tr
+          = th_sort_field @order, 'subjects.subject_code', @project.subject_code_name_full
+          - if viewable_sites.count > 1
+            %th.hidden-xs.hidden-sm.nowrap{ class: ['subjects.site_id', 'subjects.site_id desc'].include?(params[:order]) ? 'sort-selected' : nil }
+              = link_to 'Site', project_subjects_path(@project, order: (params[:order] == 'subjects.site_id desc' ? 'subjects.site_id' : 'subjects.site_id desc'), site_id: params[:site_id])
+              .dropdown{ style: 'display: inline-block' }
+                = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'status-dropdown' do
+                  %span.glyphicon.glyphicon-filter
+                %ul.dropdown-menu{ aria: { labelledby: 'status-dropdown' } }
+                  %li= link_to 'All Sites', project_subjects_path(@project, order: params[:order]), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
+                  - viewable_sites.order(:name).each do |site|
+                    %li= link_to site.short_name, project_subjects_path(@project, order: params[:order], site_id: site.id), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
+          %th.nowrap Recent Activity
+          - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+            %th.hidden-xs.center
+              Randomized
+              .dropdown{ style: 'display: inline-block' }
+                = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'randomized-dropdown' do
+                  %span.glyphicon.glyphicon-filter
+                %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: 'randomized-dropdown' } }
+                  %li= link_to 'All', project_subjects_path(@project, order: params[:order]), style: params[:randomized].blank? ? 'font-weight:bold;' : ''
+                  %li= link_to 'Randomized', project_subjects_path(@project, order: params[:order], randomized: '1'), style: params[:randomized] == '1' ? 'font-weight:bold;' : ''
+                  %li= link_to 'Unrandomized', project_subjects_path(@project, order: params[:order], randomized: '0'), style: params[:randomized] == '0' ? 'font-weight:bold;' : ''
+          - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+            %th.hidden-xs
+              AEs
+              .dropdown{ style: 'display: inline-block' }
+                = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, id: 'ae-dropdown' do
+                  %span.glyphicon.glyphicon-filter
+                %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: 'ae-dropdown' } }
+                  %li= link_to 'All', project_subjects_path(@project, order: params[:order]), style: params[:ae].blank? ? 'font-weight:bold;' : ''
+                  %li= link_to 'Open', project_subjects_path(@project, order: params[:order], ae: 'open'), style: params[:ae] == 'open' ? 'font-weight:bold;' : ''
+                  %li= link_to 'Closed', project_subjects_path(@project, order: params[:order], ae: 'closed'), style: params[:ae] == 'closed' ? 'font-weight:bold;' : ''
 
-    - @subjects.each do |subject|
-      %tr{ id: "subject_#{subject.id}" }
-        %td= link_to subject.subject_code, [@project, subject]
-        - if viewable_sites.count > 1
-          %td.hidden-xs.hidden-sm= subject.site.short_name
-        %td
-          - sheet = subject.last_created_or_edited_sheet(current_user)
-          - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
-          - if sheet && subject_event
-            - if (sheet.last_edited_at && sheet.last_edited_at > subject_event.updated_at) || (sheet.last_edited_at.nil? && sheet.created_at > subject_event.updated_at)
+      - @subjects.each do |subject|
+        %tr{ id: "subject_#{subject.id}" }
+          %td= link_to subject.subject_code, [@project, subject]
+          - if viewable_sites.count > 1
+            %td.hidden-xs.hidden-sm= subject.site.short_name
+          %td
+            - sheet = subject.last_created_or_edited_sheet(current_user)
+            - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
+            - if sheet && subject_event
+              - if (sheet.last_edited_at && sheet.last_edited_at > subject_event.updated_at) || (sheet.last_edited_at.nil? && sheet.created_at > subject_event.updated_at)
+                = link_to sheet.name, [@project, sheet]
+              - else
+                = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
+                  = subject_event.name
+            - elsif sheet
               = link_to sheet.name, [@project, sheet]
-            - else
+            - elsif subject_event
               = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
                 = subject_event.name
-          - elsif sheet
-            = link_to sheet.name, [@project, sheet]
-          - elsif subject_event
-            = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
-              = subject_event.name
-          - else
-            %span.text-muted Subject Created
-        - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-          %td.hidden-xs.center
-            - if subject.randomizations.count > 0
-              = simple_check true
             - else
-              %span.text-muted -
-        - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-          %td.hidden-xs.nowrap
-            - open_ae_count = subject.adverse_events.where(closed: false).count
-            - closed_ae_count = subject.adverse_events.where(closed: true).count
-            - if open_ae_count + closed_ae_count > 0
-              - if open_ae_count > 0
-                = link_to adverse_events_project_subject_path(@project, subject), class: 'btn btn-success btn-xs' do
-                  = open_ae_count
-                  Open
-                &nbsp;
-              - if closed_ae_count > 0
-                = link_to adverse_events_project_subject_path(@project, subject), class: 'btn btn-danger btn-xs' do
-                  = closed_ae_count
-                  Closed
-            - else
-              %span.text-muted -
+              %span.text-muted Subject Created
+          - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+            %td.hidden-xs.center
+              - if subject.randomizations.count > 0
+                = simple_check true
+              - else
+                %span.text-muted -
+          - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+            %td.hidden-xs.nowrap
+              - open_ae_count = subject.adverse_events.where(closed: false).count
+              - closed_ae_count = subject.adverse_events.where(closed: true).count
+              - if open_ae_count + closed_ae_count > 0
+                - if open_ae_count > 0
+                  = link_to adverse_events_project_subject_path(@project, subject), class: 'btn btn-success btn-xs' do
+                    = open_ae_count
+                    Open
+                  &nbsp;
+                - if closed_ae_count > 0
+                  = link_to adverse_events_project_subject_path(@project, subject), class: 'btn btn-danger btn-xs' do
+                    = closed_ae_count
+                    Closed
+              - else
+                %span.text-muted -
 
-.center
-  = paginate @subjects, theme: 'bootstrap'
+  .center
+    = paginate @subjects, theme: 'bootstrap'
