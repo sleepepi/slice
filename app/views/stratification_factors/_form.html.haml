@@ -18,29 +18,28 @@
     = f.label :calculation, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :calculation, class: 'form-control'
+      %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
+        %col.hidden-xs{ width: '30%' }
+        %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+        %tr
+          %th General
+          %td
+            %code var1 + var2
+        %tr
+          %th Missing Values
+          %td
+            %code var1 == -9 ? -9 : var1 + var2
+        %tr
+          %th Parentheses
+          %td
+            %code (var1 + var2) / var3
+
       .callout.callout-danger
         %p
           %strong NOTE:
           Setting the calculation will automatically set the randomization
           criteria for the selected subject and will prevent randomization if
           other criteria are selected, or if the criteria is blank.
-
-      .callout.callout-info
-        %strong Calculation Examples
-
-        %dl.dl-horizontal
-          %dt General
-          %dd
-            %code var1 + var2
-
-          %dt Missing Values
-          %dd
-            %code var1 == -9 ? -9 : var1 + var2
-
-          %dt Parentheses
-          %dd
-            %code (var1 + var2) / var3
-
 
   - if @randomization_scheme.stratification_factors.where(stratifies_by_site: true).count == 0 or @stratification_factor.stratifies_by_site?
     .form-group

@@ -4,7 +4,7 @@ one:
   project: one
   randomization_scheme: one
   user: valid
-  # list_id: 1
+  list: one
   block_group: 1
   multiplier: 1
   position: 1
@@ -18,7 +18,7 @@ two:
   project: one
   randomization_scheme: one
   user: valid
-  # list_id: 1
+  list: one
   block_group: 1
   multiplier: 1
   position: 1

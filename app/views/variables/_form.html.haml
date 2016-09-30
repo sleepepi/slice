@@ -129,39 +129,54 @@
     = f.label :calculation, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :calculation, class: 'form-control'
-      .callout.callout-info
-        %strong Calculation Examples
-
-        %dl.dl-horizontal
-          %dt General
-          %dd
+      %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
+        %col.hidden-xs{ width: '30%' }
+        %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+        %tr
+          %th General
+          %td
             %code var1 + var2
-
-          %dt Missing Values
-          %dd
+        %tr
+          %th Missing Values
+          %td
             %code var1 == -9 ? -9 : var1 + var2
-
-          %dt Parentheses
-          %dd
+        %tr
+          %th Parentheses
+          %td
             %code (var1 + var2) / var3
 
   .form-group{ data: { object: 'calculated' } }
     = f.label :format, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :format, class: 'form-control'
-      .callout.callout-info
-        %strong Format Examples
-
-        %dl.dl-horizontal
-          %dt Precision
-          %dd
+      %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
+        %col.hidden-xs{ width: '30%' }
+        %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+        %col
+        %col{ width: '1px' }
+        %col{ width: '1px' }
+        %col{ width: '1px' }
+        %tr
+          %th Precision
+          %td
             %code %0.02f
-            %p 4.127 => 4.13
+          %td.text-right
+            4.127
+          %td
+            %span.glyphicon.glyphicon-arrow-right
+          %td
+            4.13
 
-          %dt Leading Zeros
-          %dd
+        %tr
+          %th Leading Zeros
+          %td
             %code %04d
-            %p 45 => 0045
+          %td.text-right
+            45
+          %td
+            %span.glyphicon.glyphicon-arrow-right
+          %td
+            0045
 
   .form-group{ data: { object: 'options' } }
     = f.label :domain_id, nil, class: 'col-md-2 control-label'

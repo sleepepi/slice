@@ -2,33 +2,50 @@
   %label.col-md-2.control-label Calculation
   .col-md-10
     = text_field_tag "variable[calculation]", @design_option.variable.calculation, autocomplete: 'off', class: "form-control"
-    .callout.callout-info
-      %strong Calculation Examples
-      %dl.dl-horizontal
-        %dt General
-        %dd
-          %code
-            var1 + var2
-        %dt Missing Values
-        %dd
-          %code
-            var1 == -9 ? -9 : var1 + var2
-        %dt Parentheses
-        %dd
-          %code
-            (var1 + var2) / var3
+    %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
+      %col.hidden-xs{ width: '30%' }
+      %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+      %tr
+        %th General
+        %td
+          %code var1 + var2
+      %tr
+        %th Missing Values
+        %td
+          %code var1 == -9 ? -9 : var1 + var2
+      %tr
+        %th Parentheses
+        %td
+          %code (var1 + var2) / var3
 .form-group
   %label.col-md-2.control-label Format
   .col-md-10
     = text_field_tag "variable[format]", @design_option.variable.format, autocomplete: 'off', class: "form-control"
-    .callout.callout-info
-      %strong Format Examples
-      %dl.dl-horizontal
-        %dt Precision
-        %dd
+    %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
+      %col.hidden-xs{ width: '30%' }
+      %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+      %col
+      %col{ width: '1px' }
+      %col{ width: '1px' }
+      %col{ width: '1px' }
+      %tr
+        %th Precision
+        %td
           %code %0.02f
-          %p 4.127 => 4.13
-        %dt Leading Zeros
-        %dd
+        %td.text-right
+          4.127
+        %td
+          %span.glyphicon.glyphicon-arrow-right
+        %td
+          4.13
+
+      %tr
+        %th Leading Zeros
+        %td
           %code %04d
-          %p 45 => 0045
+        %td.text-right
+          45
+        %td
+          %span.glyphicon.glyphicon-arrow-right
+        %td
+          0045
