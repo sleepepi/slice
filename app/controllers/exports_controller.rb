@@ -24,6 +24,7 @@ class ExportsController < ApplicationController
     @order = scrub_order(Export, params[:order], 'exports.created_at desc')
     @exports = viewable_exports.search(params[:search]).order(@order)
                                .page(params[:page]).per(20)
+    redirect_to new_project_export_path(@project) if viewable_exports.count == 0
   end
 
   # GET /exports/1

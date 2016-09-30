@@ -136,3 +136,28 @@ a:hover .docs-navigation {
   top: -0.5em;
   vertical-align: baseline;
 }
+
+.docs-learn-more {
+  color: $brand-white;
+  font-size: 18px;
+  font-weight: 300;
+  margin-top: 40px;
+  text-align: center;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+  a {
+    color: $brand-accent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: darken($brand-accent, 10%);
+    }
+  }
+}
+
+@media screen and (min-width: $screen-md-min) {
+  .docs-learn-more {
+    font-size: 28px;
+  }
+}

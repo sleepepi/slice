@@ -9,7 +9,11 @@
     .container
       %h1.page-heading
         = render 'layouts/side_nav_header_button'
-        = link_to 'Exports', project_exports_path(@project)
         = @title
 
 = render 'form'
+
+.docs-learn-more
+  Learn about
+  = succeed '.' do
+    = link_to 'exports', docs_exports_path
