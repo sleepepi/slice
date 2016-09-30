@@ -4,7 +4,7 @@
   .jumbotron.center
     %p.lead No designs currently exist on the project.
 - else
-  %p.lead.text-primary.text-shadow.center
+  %p.lead.text-white.text-shadow.center
     Which design would you like to add?
 
   - category_count = designs.pluck(:category_id).uniq.count
