@@ -718,31 +718,31 @@ d est laborum.',
     assert_redirected_to [projects(:three), sheets(:external)]
   end
 
-  test 'should get transfer sheet for editor' do
-    get :transfer, params: { project_id: @project, id: @sheet }
+  test 'should get reassign sheet for editor' do
+    get :reassign, params: { project_id: @project, id: @sheet }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
-  test 'should not get transfer sheet for viewer' do
+  test 'should not get reassign sheet for viewer' do
     login(users(:site_one_viewer))
-    get :transfer, params: { project_id: @project, id: @sheet }
+    get :reassign, params: { project_id: @project, id: @sheet }
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path
   end
 
-  test 'should not get transfer sheet for auto-locked sheet' do
+  test 'should not get reassign sheet for auto-locked sheet' do
     login(users(:auto_lock_site_one_editor))
-    get :transfer, params: { project_id: projects(:auto_lock), id: sheets(:auto_lock) }
+    get :reassign, params: { project_id: projects(:auto_lock), id: sheets(:auto_lock) }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
-  test 'should transfer sheet to new subject for editor' do
-    patch :transfer, params: { project_id: @project, id: @sheet, subject_id: subjects(:two) }
+  test 'should reassign sheet to new subject for editor' do
+    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:two) }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
@@ -752,8 +752,8 @@ d est laborum.',
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
-  test 'should undo transfer for subject for editor' do
-    patch :transfer, params: { project_id: @project, id: @sheet, subject_id: subjects(:two), undo: '1' }
+  test 'should undo reassign for subject for editor' do
+    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:two), undo: '1' }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
@@ -763,16 +763,16 @@ d est laborum.',
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
-  test 'should not make changes if transfer does not provide a new subject' do
-    patch :transfer, params: { project_id: @project, id: @sheet, subject_id: subjects(:one) }
+  test 'should not make changes if reassign does not provide a new subject' do
+    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:one) }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
-  test 'should not transfer sheet to new subject for viewer' do
+  test 'should not reassign sheet to new subject for viewer' do
     login(users(:site_one_viewer))
-    patch :transfer, params: { project_id: @project, id: @sheet, subject_id: subjects(:two) }
+    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:two) }
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_redirected_to root_path

@@ -34,9 +34,9 @@
             %span.glyphicon.glyphicon-edit
             Edit
         %li
-          = link_to transfer_project_sheet_path(project, sheet) do
+          = link_to reassign_project_sheet_path(project, sheet) do
             %span.glyphicon.glyphicon-transfer
-            Transfer
+            Reassign
         %li.divider{ role: 'separator' }
         %li
           = link_to [sheet.project, sheet], method: :delete, data: { confirm: "Are you sure you want to delete Sheet #{sheet.name}?" } do

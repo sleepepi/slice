@@ -164,8 +164,8 @@ Rails.application.routes.draw do
         get :file
         get :transactions
         post :unlock
-        get :transfer
-        patch :transfer
+        get :reassign
+        patch :reassign
         patch :move_to_event
         post :remove_shareable_link
         post :unlock

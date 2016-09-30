@@ -1,4 +1,4 @@
-- @title = "#{@sheet.name} Transfer"
+- @title = "#{@sheet.name} Reassign"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
 - @breadcrumbs << [@sheet.subject.subject_code, [@project, @sheet.subject]]
@@ -14,16 +14,16 @@
       %h1.page-heading
         = render 'layouts/side_nav_header_button'
         = link_to @sheet.name, [@project, @sheet]
-        Transfer
+        Reassign
 
 .dashboard-container
-  = form_tag transfer_project_sheet_path(@project, @sheet), method: :patch, class: 'form-horizontal' do
+  = form_tag reassign_project_sheet_path(@project, @sheet), method: :patch, class: 'form-horizontal' do
     .form-group
-      = label_tag :subject_id, 'Transfer To Subject', class: 'col-md-2 control-label'
+      = label_tag :subject_id, 'Reassign To Subject', class: 'col-md-2 control-label'
       .col-md-10
         = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: 'form-control chzn-select'
 
     .form-group
       .col-md-offset-2.col-md-10
-        = submit_tag 'Transfer to Subject', class: 'btn btn-primary', name: nil
+        = submit_tag 'Reassign to Subject', class: 'btn btn-primary', name: nil
         = link_to 'Cancel', [@project, @sheet], class: 'btn btn-default'

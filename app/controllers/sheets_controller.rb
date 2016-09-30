@@ -7,17 +7,17 @@ class SheetsController < ApplicationController
   before_action :find_viewable_project_or_redirect, only: [:index, :show, :file]
   before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
-    :edit, :transfer, :move_to_event, :remove_shareable_link, :transactions,
+    :edit, :reassign, :move_to_event, :remove_shareable_link, :transactions,
     :new, :create, :update, :destroy, :set_as_not_missing
   ]
   before_action :find_subject_or_redirect, only: [:create]
   before_action :find_viewable_sheet_or_redirect, only: [:show, :file]
   before_action :find_editable_sheet_or_redirect, only: [
-    :edit, :transfer, :move_to_event, :update, :destroy,
+    :edit, :reassign, :move_to_event, :update, :destroy,
     :remove_shareable_link, :transactions, :unlock, :set_as_not_missing
   ]
   before_action :redirect_with_auto_locked_sheet, only: [
-    :edit, :transfer, :update, :destroy
+    :edit, :reassign, :update, :destroy
   ]
 
   # GET /sheets
@@ -128,9 +128,9 @@ class SheetsController < ApplicationController
     redirect_to [@project, @sheet]
   end
 
-  # GET /sheets/1/transfer
-  # POST /sheets/1/transfer?subject_id=1
-  def transfer
+  # GET /sheets/1/reassign
+  # POST /sheets/1/reassign?subject_id=1
+  def reassign
     original_subject = @sheet.subject
     subject = @project.subjects.find_by_id(params[:subject_id])
     if subject && subject == original_subject
@@ -139,9 +139,8 @@ class SheetsController < ApplicationController
       notice = if params[:undo] == '1'
                  'Your action has been undone.'
                else
-                 ["Successfully transferred sheet from subject <b>#{original_subject.subject_code}</b> to <b>#{subject.subject_code}</b>.", { label: 'Undo', url: transfer_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch }]
+                 ["Reassigned sheet to <b>#{subject.subject_code}</b>.", { label: 'Undo', url: reassign_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch }]
                end
-
       SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
       redirect_to [@project, @sheet], notice: notice
     end
