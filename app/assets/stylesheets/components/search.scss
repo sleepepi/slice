@@ -29,7 +29,6 @@
   transition-property: opacity, position, transform;
   transition-duration: 0.25s;
   transition-timing-function: ease-out;
-  z-index: -1;
 
   .btn {
     transition-property: none;
@@ -41,7 +40,6 @@
     opacity: 1;
     transform: translateY(0);
     margin: 0 0 20px;
-    z-index: initial;
 
     .btn {
       transition-property: background-color;

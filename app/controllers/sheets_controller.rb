@@ -23,12 +23,18 @@ class SheetsController < ApplicationController
   # GET /sheets
   def index
     sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id)
-                              .includes(:user, :design, subject: :site).search(params[:search])
-    @sheet_after = parse_date(params[:sheet_after])
-    @sheet_before = parse_date(params[:sheet_before])
-    sheet_scope = sheet_scope.sheet_after(@sheet_after) unless @sheet_after.blank?
-    sheet_scope = sheet_scope.sheet_before(@sheet_before) unless @sheet_before.blank?
+                              .includes(:user, :design, subject: :site)
+
+    # TODO: Refactor use of [:f] filters and use params[:search] instead
+    (params[:f] || []).select { |f| f[:variable_id] == 'sheet_date' }.each do |filter|
+      params[:search] = [params[:search], "created:>=#{filter[:start_date]}"].select(&:present?).join(' ') if filter[:start_date].present?
+      params[:search] = [params[:search], "created:<=#{filter[:end_date]}"].select(&:present?).join(' ') if filter[:end_date].present?
+    end
+    params[:f] = params[:f].reject { |filter| filter[:variable_id] == 'sheet_date' } if params[:f]
     sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f]).where(missing: false)
+    # END TODO
+
+    sheet_scope = filter_scope(sheet_scope, params[:search])
 
     %w(design site user).each do |filter|
       sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
@@ -222,5 +228,61 @@ class SheetsController < ApplicationController
     else
       redirect_to [@project, @sheet], alert: 'Unable to generate PDF.'
     end
+  end
+
+  def filter_scope(sheet_scope, search)
+    tokens = pull_tokens(search)
+    terms = []
+    tokens.each do |token|
+      if token[:key] == 'created'
+        sheet_scope = scope_by_date(sheet_scope, token)
+      elsif token[:key] == 'search'
+        terms << token[:value]
+      end
+    end
+    sheet_scope = sheet_scope.search(terms.join(' '))
+    sheet_scope
+  end
+
+  def pull_tokens(token_string)
+    @tokens = token_string.to_s.squish.split(/\s/).collect do |part|
+      operator = nil
+      (key, value) = part.split(':')
+      if value.blank?
+        value = key
+        key = 'search'
+      else
+        operator = set_operator(value)
+        value = value.gsub(/^#{operator}/, '') unless operator.nil?
+      end
+      { key: key, operator: operator, value: value }
+    end
+    @tokens
+  end
+
+  def set_operator(value)
+    operator = nil
+    found = ((/^>=|^<=|^>|^=|^</).match(value))
+    operator = found[0] if found
+    operator
+  end
+
+  def scope_by_date(sheet_scope, token)
+    date = Date.strptime(token[:value], '%Y-%m-%d')
+    case token[:operator]
+    when '<'
+      sheet_scope = sheet_scope.sheet_before(date - 1.day)
+    when '>'
+      sheet_scope = sheet_scope.sheet_after(date + 1.day)
+    when '<='
+      sheet_scope = sheet_scope.sheet_before(date)
+    when '>='
+      sheet_scope = sheet_scope.sheet_after(date)
+    else
+      sheet_scope = sheet_scope.sheet_before(date).sheet_after(date)
+    end
+    sheet_scope
+  rescue
+    sheet_scope
   end
 end

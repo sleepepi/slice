@@ -18,6 +18,14 @@
   - Project menu redesigned to adjust to different screen sizes
   - Added an advanced project settings page
   - Collecting emails on surveys has been removed as a project setting
+- **Sheet Changes**
+  - Improved search on sheet index
+    - Search by sheet creation date:
+      - `created:2016-05-30`
+      - `created:>2016-05-30`
+      - `created:<2016-05-30`
+      - `created:<=2016-05-30`
+      - `created:>=2016-05-30`
 - **Treatment Arm Changes**
   - Treatment Arms can now have short names
 - **Subject Changes**
