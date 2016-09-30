@@ -16,7 +16,7 @@
         = @title
       = render 'adverse_events/shareable_link', adverse_event: @adverse_event
 
+= render 'adverse_events/menu'
 .dashboard-container
-  = render 'adverse_events/menu'
   #adverse_event_comments
     = render 'adverse_event_comments/adverse_event_comments', adverse_event_comments: @adverse_event.adverse_event_comments
