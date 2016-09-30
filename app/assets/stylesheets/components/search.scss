@@ -16,19 +16,24 @@
   padding: 10px;
   color: $text-color;
   border-radius: 3px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   text-align: center;
   position: absolute;
   opacity: 0;
+  visibility: hidden;
   left: 0;
   right: 0;
   transform: translateY(-20px);
   margin: 0;
 
   transition-property: opacity, position, transform;
-  transition-duration: 0.2s;
+  transition-duration: 0.25s;
   transition-timing-function: ease-out;
   z-index: -1;
+
+  .btn {
+    transition-property: none;
+  }
 
   &.search-container-visible {
     position: relative;
@@ -37,6 +42,9 @@
     transform: translateY(0);
     margin: 0 0 20px;
     z-index: initial;
+
+    .btn {
+      transition-property: background-color;
+    }
   }
 }
-

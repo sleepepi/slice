@@ -1,0 +1,12 @@
+.search-container-relative
+  .search-container{ class: params[:search].present? ? 'search-container-visible' : nil }
+    = form_tag url, method: :get, class: 'form-vertical' do
+      = hidden_field_tag :order, params[:order]
+      .form-group{ style: 'margin: 0;' }
+        .input-group
+          = text_field_tag :search, params[:search], autocomplete: 'off', class: 'form-control', placeholder: "Search #{@title}"
+          %span.input-group-btn{ style: 'vertical-align: bottom;' }
+            = submit_tag 'Search', class: 'btn btn-primary', name: nil
+            - if params[:search].present?
+              = link_to url, class: 'btn btn-default' do
+                &times;

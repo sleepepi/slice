@@ -1,35 +1,39 @@
-- all_creators = User.where(id: @project.designs.select(:user_id))
-.dashboard-container
-  %table.table.table-striped
-    %col
-    %col.hidden-xs
-    %col.hidden-xs
-    %col{ width: '1px' }
-    %thead
-      %tr
-        = th_sort_field @order, 'designs.name', 'Name'
-        %th.hidden-xs Variables
-        %th.hidden-xs.nowrap{ class: ['designs.user_name', 'designs.user_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-          = link_to 'Creator', project_designs_path(@project, order: (params[:order] == 'designs.user_name desc' ? 'designs.user_name' : 'designs.user_name desc'), user_id: params[:user_id])
-          .dropdown{ style: 'display: inline-block' }
-            = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
-              %span.glyphicon.glyphicon-filter
-            %ul.dropdown-menu.dropdown-menu-right
-              %li= link_to 'All Users', project_designs_path(@project, order: params[:order]), style: params[:user_id].blank? ? 'font-weight:bold;' : ''
-              - all_creators.order(:first_name, :last_name).each do |user|
-                %li= link_to user.name, project_designs_path(@project, order: params[:order], user_id: user.id), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
+- if @designs.count == 0
+  .jumbotron
+    %p.center No designs found.
+- else
+  - all_creators = User.where(id: @project.designs.select(:user_id))
+  .dashboard-container
+    %table.table.table-striped
+      %col
+      %col.hidden-xs
+      %col.hidden-xs
+      %col{ width: '1px' }
+      %thead
+        %tr
+          = th_sort_field @order, 'designs.name', 'Name'
+          %th.hidden-xs Variables
+          %th.hidden-xs.nowrap{ class: ['designs.user_name', 'designs.user_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
+            = link_to 'Creator', project_designs_path(@project, order: (params[:order] == 'designs.user_name desc' ? 'designs.user_name' : 'designs.user_name desc'), user_id: params[:user_id])
+            .dropdown{ style: 'display: inline-block' }
+              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+                %span.glyphicon.glyphicon-filter
+              %ul.dropdown-menu.dropdown-menu-right
+                %li= link_to 'All Users', project_designs_path(@project, order: params[:order]), style: params[:user_id].blank? ? 'font-weight:bold;' : ''
+                - all_creators.order(:first_name, :last_name).each do |user|
+                  %li= link_to user.name, project_designs_path(@project, order: params[:order], user_id: user.id), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
 
-        %th Actions
+          %th Actions
 
-    - @designs.each do |design|
+      - @designs.each do |design|
 
-      %tr{ id: "design_#{design.id}" }
-        %td= link_to design.name, [@project, design]
+        %tr{ id: "design_#{design.id}" }
+          %td= link_to design.name, [@project, design]
 
-        %td.hidden-xs= design.variables.count
-        %td.hidden-xs= link_to design.user.name, design.user if design.user
-        %td
-          = render 'layouts/edit_delete_dropdown', edit_url: edit_project_design_path(@project, design), delete_url: [@project, design], delete_confirmation: "Are you sure you want to delete Design #{design.name}?"
+          %td.hidden-xs= design.variables.count
+          %td.hidden-xs= link_to design.user.name, design.user if design.user
+          %td
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_design_path(@project, design), delete_url: [@project, design], delete_confirmation: "Are you sure you want to delete Design #{design.name}?"
 
-.center
-  = paginate @designs, theme: 'bootstrap'
+  .center
+    = paginate @designs, theme: 'bootstrap'

@@ -13,11 +13,12 @@
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @events.total_count
         = render 'layouts/side_nav_header_button'
         = @title
+        = render 'search/toggle'
 
+= render 'search/simple', url: project_events_path(@project)
 = render 'events/events'
 
-.jumbotron
-  = form_tag project_events_path(@project), method: :get, class: 'form-inline' do
-    = hidden_field_tag :order, params[:order]
-    = text_field_tag 'search', params[:search], class: 'form-control'
-    = submit_tag 'Search', class: 'btn btn-primary', name: nil
+.docs-learn-more
+  Learn about
+  = succeed '.' do
+    = link_to 'events', docs_events_path

@@ -38,7 +38,7 @@ class VariablesController < ApplicationController
     variable_scope = viewable_variables.search(params[:search]).order(@order)
     variable_scope = variable_scope.where(user_id: params[:user_id]) if params[:user_id].present?
     variable_scope = variable_scope.with_variable_type(params[:variable_type]) if params[:variable_type].present?
-    @variables = variable_scope.page(params[:page]).per(40)
+    @variables = variable_scope.page(params[:page]).per(20)
   end
 
   # GET /variables/1

@@ -93,6 +93,7 @@ class Variable < ApplicationRecord
   end
 
   # Use inherited designs to include grid variables
+  # TODO: This is very slow, especially on variables index page
   def inherited_designs
     variable_ids = Variable.current.where(project_id: project_id, variable_type: 'grid').select { |v| v.grid_variable_ids.include?(id) }.collect(&:id) + [id]
     Design.current.where(project_id: project_id).select { |d| (d.variables.pluck(:id) & variable_ids).size > 0 }.sort_by(&:name)
@@ -103,7 +104,7 @@ class Variable < ApplicationRecord
   end
 
   def copyable_attributes
-    self.attributes.reject { |key, val| %w(id user_id deleted created_at updated_at).include?(key.to_s) }
+    attributes.reject { |key, _val| %w(id user_id deleted created_at updated_at).include?(key.to_s) }
   end
 
   # Includes responses, grids, and sheet_variables

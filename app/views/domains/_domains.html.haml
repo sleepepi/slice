@@ -1,24 +1,28 @@
-.dashboard-container
-  %table.table.table-striped.table-borderless.table-hover
-    %col
-    %col.hidden-xs
-    %col.hidden-xs.hidden-sm
-    %col{ width: '1px' }
-    %thead
-      %tr
-        = th_sort_field @order, 'domains.name', 'Name'
-        %th.hidden-xs Options
-        %th.hidden-xs.hidden-sm.center # Variables
-        %th Actions
+- if @domains.count == 0
+  .jumbotron
+    %p.center No domains found.
+- else
+  .dashboard-container
+    %table.table.table-striped.table-borderless.table-hover
+      %col
+      %col.hidden-xs
+      %col.hidden-xs.hidden-sm
+      %col{ width: '1px' }
+      %thead
+        %tr
+          = th_sort_field @order, 'domains.name', 'Name'
+          %th.hidden-xs Options
+          %th.hidden-xs.hidden-sm.center # Variables
+          %th Actions
 
-    - @domains.each do |domain|
-      %tr
-        %td= link_to domain.name, [domain.project, domain]
-        %td.hidden-xs
-          - if domain.options.size > 0
-            = select_tag "#{domain.id}_options", options_for_select(domain.options.collect { |d| "#{d[:value]}: #{d[:name]}" }), style: 'width:200px', class: 'form-control'
-        %td.hidden-xs.hidden-sm.center= domain.variables.count
-        %td
-          = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_path(domain.project, domain), delete_url: [@project, domain], delete_confirmation: "Are you sure you want to delete Domain #{domain.name}?"
+      - @domains.each do |domain|
+        %tr
+          %td= link_to domain.name, [domain.project, domain]
+          %td.hidden-xs
+            - if domain.options.size > 0
+              = select_tag "#{domain.id}_options", options_for_select(domain.options.collect { |d| "#{d[:value]}: #{d[:name]}" }), style: 'width:200px', class: 'form-control'
+          %td.hidden-xs.hidden-sm.center= domain.variables.count
+          %td
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_path(domain.project, domain), delete_url: [@project, domain], delete_confirmation: "Are you sure you want to delete Domain #{domain.name}?"
 
-.center= paginate @domains, theme: 'bootstrap'
+  .center= paginate @domains, theme: 'bootstrap'

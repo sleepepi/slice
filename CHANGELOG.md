@@ -5,6 +5,7 @@
   - Improved styling on projects and users pages
   - Improved menu and header display on index pages
   - Improved display of pagination on mobile devices
+  - Added a simplified search for index pages
 - **Adverse Event Changes**
   - Adverse events are now numbered on the project-level
 - **Project Changes**
