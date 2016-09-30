@@ -13,7 +13,7 @@
     .container
       %h1.page-heading
         .pull-right
-          = link_to plus_or('Create Option'), new_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-accent btn-shadow'
+          = link_to plus_or('New Option'), new_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-accent btn-shadow'
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @stratification_factor_options.total_count
         = render 'layouts/side_nav_header_button'
         %span.nowrap= @title
