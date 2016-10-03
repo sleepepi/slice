@@ -238,6 +238,8 @@ class SheetsController < ApplicationController
         sheet_scope = scope_by_date(sheet_scope, token)
       elsif token[:key] == 'search'
         terms << token[:value]
+      else
+        sheet_scope = scope_by_variable(sheet_scope, token)
       end
     end
     sheet_scope = sheet_scope.search(terms.join(' '))
@@ -262,7 +264,7 @@ class SheetsController < ApplicationController
 
   def set_operator(value)
     operator = nil
-    found = ((/^>=|^<=|^>|^=|^</).match(value))
+    found = ((/^>=|^<=|^>|^=|^<|!=/).match(value))
     operator = found[0] if found
     operator
   end
@@ -284,5 +286,9 @@ class SheetsController < ApplicationController
     sheet_scope
   rescue
     sheet_scope
+  end
+
+  def scope_by_variable(sheet_scope, token)
+    Search.run_sheets(@project, current_user, sheet_scope, token)
   end
 end

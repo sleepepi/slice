@@ -79,9 +79,9 @@ module ApplicationHelper
   def simple_time_short(past_time)
     return '' if past_time.blank?
     if past_time.year == Time.zone.today.year
-      past_time.strftime('%b %d at %I:%M %p')
+      past_time.strftime('%b %-d, %-I:%M %p')
     else
-      past_time.strftime('%b %d, %Y at %I:%M %p')
+      past_time.strftime('%b %-d, %Y, %-I:%M %p')
     end
   end
 

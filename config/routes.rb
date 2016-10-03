@@ -316,6 +316,7 @@ Rails.application.routes.draw do
         post :add_grid_variable
         post :add_question
         post :report_lookup
+        get :search
       end
     end
   end

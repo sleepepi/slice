@@ -43,5 +43,8 @@ module Slice
 
     # Add Formatters Module to autoload path
     config.autoload_paths << Rails.root.join('app', 'models', 'formatters')
+
+    # Add Search Module to autoload path
+    config.autoload_paths << Rails.root.join('app', 'models', 'search')
   end
 end

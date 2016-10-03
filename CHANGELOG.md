@@ -26,6 +26,10 @@
       - `created:<2016-05-30`
       - `created:<=2016-05-30`
       - `created:>=2016-05-30`
+    - By variable name:
+      - `age:>4`
+      - `bmi:<5`
+      - `consented_yes_no:1`
 - **Treatment Arm Changes**
   - Treatment Arms can now have short names
 - **Subject Changes**

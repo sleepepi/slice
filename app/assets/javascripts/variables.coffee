@@ -110,9 +110,29 @@
       $("##{target_name}_calculation_result").val(calculation_result)
   )
 
+@variableAutocompleteReady = ->
+
+  $('[data-object~="variable-name-autocomplete"]').each(->
+    $this = $(this)
+    $this.textcomplete(
+      [
+        match: /(^|\s)(\w+)$/
+        search: (term, callback) ->
+          # callback(cache[term], true)
+          $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/search", { q: term })
+            .done((resp) -> callback(resp) )
+            .fail(-> callback([]))
+        replace: (value) ->
+          return "$1#{value}:"
+        cache: true
+      ], { appendTo: 'body' }
+    )
+  )
+
 @variablesReady = ->
   if $('#variable_variable_type')
     toggleOptions($('#variable_variable_type'))
+  variableAutocompleteReady()
 
 $(document)
   .on('change', '#variable_variable_type', -> toggleOptions($(this)))
