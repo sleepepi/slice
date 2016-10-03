@@ -43,7 +43,9 @@ class VariablesController < ApplicationController
 
   # GET /search.json
   def search
-    variable_scope = viewable_variables.where('name ILIKE (?)', "%#{params[:q]}%").order(:name).limit(5)
+    variable_scope = viewable_variables.where(variable_type: %w(dropdown checkbox radio string integer numeric date calculated imperial_height imperial_weight))
+                                       .where('name ILIKE (?)', "#{params[:q]}%")
+                                       .order(:name).limit(10)
     render json: variable_scope.pluck(:name)
   end
 
