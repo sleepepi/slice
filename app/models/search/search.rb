@@ -56,7 +56,7 @@ class Search
   end
 
   def all_numeric?
-    (variable.captured_values + @values).uniq.count { |v| !(v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
+    (variable.captured_values + @values).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
   end
 
   def subquery_attribute
