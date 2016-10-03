@@ -23,7 +23,6 @@ class SheetsController < ApplicationController
   # GET /sheets
   def index
     sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id)
-                              .includes(:user, :design, subject: :site)
 
     # TODO: Refactor use of [:f] filters and use params[:search] instead
     (params[:f] || []).select { |f| f[:variable_id] == 'sheet_date' }.each do |filter|
@@ -43,21 +42,21 @@ class SheetsController < ApplicationController
     @order = params[:order]
     case params[:order]
     when 'sheets.site_name'
-      sheet_scope = sheet_scope.order('sites.name')
+      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name')
     when 'sheets.site_name desc'
-      sheet_scope = sheet_scope.order('sites.name desc')
+      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name desc')
     when 'sheets.design_name'
-      sheet_scope = sheet_scope.order('designs.name').select('sheets.*, designs.name')
+      sheet_scope = sheet_scope.includes(:design).order('designs.name').select('sheets.*, designs.name')
     when 'sheets.design_name desc'
-      sheet_scope = sheet_scope.order('designs.name desc').select('sheets.*, designs.name')
+      sheet_scope = sheet_scope.includes(:design).order('designs.name desc').select('sheets.*, designs.name')
     when 'sheets.subject_code'
       sheet_scope = sheet_scope.order('subjects.subject_code').select('sheets.*, subjects.subject_code')
     when 'sheets.subject_code desc'
       sheet_scope = sheet_scope.order('subjects.subject_code desc').select('sheets.*, subjects.subject_code')
     when 'sheets.user_name'
-      sheet_scope = sheet_scope.order('users.last_name, users.first_name')
+      sheet_scope = sheet_scope.includes(:user).order('users.last_name, users.first_name')
     when 'sheets.user_name desc'
-      sheet_scope = sheet_scope.order('users.last_name desc, users.first_name desc')
+      sheet_scope = sheet_scope.includes(:user).order('users.last_name desc, users.first_name desc')
     else
       @order = scrub_order(Sheet, params[:order], 'sheets.created_at desc')
       sheet_scope = sheet_scope.order(@order)
@@ -253,6 +252,13 @@ class SheetsController < ApplicationController
       if value.blank?
         value = key
         key = 'search'
+      elsif %w(has is).include?(key)
+        key = value
+        value = '1'
+      elsif %w(not).include?(key)
+        key = value
+        value = '1'
+        operator = '!='
       else
         operator = set_operator(value)
         value = value.gsub(/^#{operator}/, '') unless operator.nil?

@@ -19,14 +19,13 @@ class Search
   end
 
   def run_sheets
-    @sheet_scope = @sheet_scope.where(id: sheets.select(:id)) if @variable
-    @sheet_scope
+    @sheet_scope.where(id: sheets.select(:id))
   end
 
   def sheets
-    if variable
+    if @variable
       compute_sheets_for_variable
-    elsif filter_type == 'randomized'
+    elsif @token[:key] == 'randomized'
       randomized_subjects_sheets
     else
       Sheet.none
@@ -34,15 +33,15 @@ class Search
   end
 
   def randomized_subjects_sheets
-    Sheet.none
+    @project.sheets.where(subject_id: randomized_subjects.select(:id))
   end
 
   def randomized_subjects
-    subject_scope = @current_user.all_viewable_subjects.where(project: project)
-    if operator == 'eq'
-      subject_scope.where(id: project.subjects.randomized.select(:id))
-    elsif operator == 'ne'
-      subject_scope.where(id: project.subjects.unrandomized.select(:id))
+    subject_scope = @current_user.all_viewable_subjects.where(project: @project)
+    if @operator == '=' || @operator.blank?
+      subject_scope.where(id: @project.subjects.randomized.select(:id))
+    elsif @operator == '!='
+      subject_scope.where(id: @project.subjects.unrandomized.select(:id))
     else
       Subject.none
     end
@@ -51,7 +50,7 @@ class Search
   def compute_sheets_for_variable
     sheet_scope = @current_user.all_viewable_sheets.where(project: project)
     return sheet_scope if @values.count == 0
-    select_sheet_ids = subquery_scope.where(variable: variable).where(subquery).select(:sheet_id)
+    select_sheet_ids = subquery_scope.where(variable: @variable).where(subquery).select(:sheet_id)
     sheet_scope.where(id: select_sheet_ids)
   end
 
@@ -115,7 +114,6 @@ class Search
     if all_numeric?
       @values.sort.join(', ')
     else
-      Rails.logger.debug "@values.collect { |v| "'#{v}'" }.sort.join(', '): #{@values.collect { |v| "'#{v}'" }.sort.join(', ')}".colorize(:green).on_white
       @values.collect { |v| "'#{v}'" }.sort.join(', ')
     end
   end

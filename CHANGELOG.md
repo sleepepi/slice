@@ -30,6 +30,9 @@
       - `age:>4`
       - `bmi:<5`
       - `consented_yes_no:1`
+    - By randomized:
+      - `is:randomized`
+      - `not:randomized`
 - **Treatment Arm Changes**
   - Treatment Arms can now have short names
 - **Subject Changes**
