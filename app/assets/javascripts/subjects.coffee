@@ -1,5 +1,5 @@
-@subjectsReady = () ->
-  $("#subject-search").each( () ->
+@subjectsReady = ->
+  $("#subject-search").each( ->
     $this = $(this)
     $this.typeahead(
       remote: root_url + "projects/#{$this.data('project-slug')}/subjects/search?q=%QUERY"
