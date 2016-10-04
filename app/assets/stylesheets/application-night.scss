@@ -10,6 +10,7 @@ $project-box-bg:        $P900;
 $project-box-link: $brand-white;
 $comment-header-bg: darken($gray-darker, 5%);
 $comment-border: darken($gray-darker, 10%);
+$breadcrumb-link-color: $link-color;
 
 @import 'tree';
 
