@@ -84,9 +84,11 @@
     %h3.panel-title
       Project Emails
       - if @project.disable_all_emails?
-        %span.label.label-default Disabled
+        = link_to editor_project_path(@project, project: { disable_all_emails: '0' }), method: :patch, class: 'btn btn-default btn-xs btn-shadow' do
+          Disabled
       - else
-        %span.label.label-success Enabled
+        = link_to editor_project_path(@project, project: { disable_all_emails: '1' }), method: :patch, class: 'btn btn-success btn-xs btn-shadow' do
+          Enabled
   .panel-body
     - if @project.disable_all_emails?
       %p
@@ -103,9 +105,11 @@
     %h3.panel-title
       PDF Option Values
       - if @project.hide_values_on_pdfs?
-        %span.label.label-default Hidden
+        = link_to editor_project_path(@project, project: { hide_values_on_pdfs: '0' }), method: :patch, class: 'btn btn-default btn-xs btn-shadow' do
+          Hidden
       - else
-        %span.label.label-success Visible
+        = link_to editor_project_path(@project, project: { hide_values_on_pdfs: '1' }), method: :patch, class: 'btn btn-success btn-xs btn-shadow' do
+          Visible
   .panel-body
     - if @project.hide_values_on_pdfs?
       %p
@@ -127,9 +131,11 @@
     %h3.panel-title
       Tablet Handoff
       - if @project.handoffs_enabled?
-        %span.label.label-success Enabled
+        = link_to editor_project_path(@project, project: { handoffs_enabled: '0' }), method: :patch, class: 'btn btn-success btn-xs btn-shadow' do
+          Enabled
       - else
-        %span.label.label-default Disabled
+        = link_to editor_project_path(@project, project: { handoffs_enabled: '1' }), method: :patch, class: 'btn btn-default btn-xs btn-shadow' do
+          Disabled
   .panel-body
     - if @project.handoffs_enabled?
       %p
@@ -152,6 +158,8 @@
         %span.label.label-success= @project.auto_lock_name
       - else
         %span.label.label-default Disabled
+      = link_to edit_editor_project_path(@project), class: 'btn btn-default btn-xs btn-shadow' do
+        %span.glyphicon.glyphicon-cog
   .panel-body
     - if @project.auto_locking_enabled?
       %p

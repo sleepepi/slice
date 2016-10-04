@@ -68,42 +68,43 @@
           need more than one, you can add additional sites after the project has
           been created.
 
-  .form-group
-    = f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-md-2 control-label'
-    .col-md-10
-      .row
-        .col-md-6
-          = f.file_field :logo, class: 'form-control'
-          = f.hidden_field :logo_cache
-
-        - if @project.logo and @project.logo.size > 0
-          .col-md-6
-            .sheet-container
-              %label.checkbox.checkbox-inline.negation
-                = check_box_tag "project[remove_logo]", '1', false
-                Remove
-                %code= @project.logo.path.split('/').last
-                %tt= number_to_human_size(@project.logo.size)
-
-  .form-group
-    .col-md-2
-      %label Email Settings
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :disable_all_emails
-          Disable Daily Digest
-
-  .form-group
-    .col-md-2
-      %label Hide Values on PDFs
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :hide_values_on_pdfs
-          Checking This Will Hide Answer Choice Values on Printed Sheets
-
   - if false
+    .form-group
+      = f.label :logo, 'Logo (JPG, GIF, PNG)', class: 'col-md-2 control-label'
+      .col-md-10
+        .row
+          .col-md-6
+            = f.file_field :logo, class: 'form-control'
+            = f.hidden_field :logo_cache
+
+          - if @project.logo and @project.logo.size > 0
+            .col-md-6
+              .sheet-container
+                %label.checkbox.checkbox-inline.negation
+                  = check_box_tag "project[remove_logo]", '1', false
+                  Remove
+                  %code= @project.logo.path.split('/').last
+                  %tt= number_to_human_size(@project.logo.size)
+
+    .form-group
+      .col-md-2
+        %label Email Settings
+      .col-md-10
+        .checkbox
+          %label
+            = f.check_box :disable_all_emails
+            Disable Daily Digest
+
+    .form-group
+      .col-md-2
+        %label Hide Values on PDFs
+      .col-md-10
+        .checkbox
+          %label
+            = f.check_box :hide_values_on_pdfs
+            Checking This Will Hide Answer Choice Values on Printed Sheets
+
+
     .form-group
       .col-md-2
         %label Randomizations
@@ -131,14 +132,14 @@
             = f.check_box :blinding_enabled
             Checking This Will Enable Blinding of Project and Site Members
 
-  .form-group
-    .col-md-2
-      %label Tablet Handoffs
-    .col-md-10
-      .checkbox
-        %label
-          = f.check_box :handoffs_enabled
-          Checking this will enable staff members to launch a flow of surveys that participants can complete on a tablet
+    .form-group
+      .col-md-2
+        %label Tablet Handoffs
+      .col-md-10
+        .checkbox
+          %label
+            = f.check_box :handoffs_enabled
+            Checking this will enable staff members to launch a flow of surveys that participants can complete on a tablet
 
   .form-group
     = f.label :auto_lock_sheets, 'Auto-lock Sheets', class: 'col-md-2 control-label'
