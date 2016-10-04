@@ -5,7 +5,7 @@
 = render 'subjects/simple_header'
 
 .dashboard-container
-  - events = (@subject.blinded_sheets(current_user).order(created_at: :desc) + @subject.blinded_comments(current_user).to_a + @subject.blinded_subject_events(current_user).to_a + @subject.randomizations.to_a).sort_by(&:event_at).reverse
+  - events = (@subject.blinded_sheets(current_user).order(created_at: :desc) + @subject.blinded_comments(current_user).to_a + @subject.blinded_subject_events(current_user).to_a + @subject.randomizations.to_a + @subject.adverse_events.to_a).sort_by(&:event_at).reverse
 
   - events.each_with_index do |event, index|
     - current_index = events.count - index + 1
@@ -53,10 +53,12 @@
       .comment-outer
         .comment-left-fixed
         .comment-right-fluid
-          .comment-icon
-            %span.glyphicon.glyphicon-random
-          .comment-action
+          .jumbotron{ style: 'margin-bottom: 0;' }
+            .timeline-large-icon
+              %span.glyphicon.glyphicon-random
             %strong
+              %span.hidden-sm.hidden-md.hidden-lg
+                %span.glyphicon.glyphicon-random
               - if randomization.randomized_by
                 = randomization.randomized_by.name
               - else
@@ -65,6 +67,27 @@
             = link_to randomization.treatment_arm.name, [@project, randomization]
             %abbr{ rel: 'tooltip', data: { title: randomization.randomized_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
               = time_ago_in_words(randomization.randomized_at)
+              ago
+    - elsif event.class == AdverseEvent && @project.unblinded?(current_user)
+      - adverse_event = event
+      %a.anchor-top{ name: "c#{current_index}" }
+      .comment-outer
+        .comment-left-fixed
+        .comment-right-fluid
+          .jumbotron.callout-danger{ style: 'margin-bottom: 0;' }
+            .timeline-large-icon
+              %span.glyphicon.glyphicon-warning-sign
+            %strong
+              %span.hidden-sm.hidden-md.hidden-lg
+                %span.glyphicon.glyphicon-warning-sign
+              = adverse_event.user.name
+            reported an
+            = link_to 'adverse event', [@project, adverse_event], class: 'callout-link'
+            that occurred on
+            = adverse_event.adverse_event_date.strftime('%a, %-d %b %Y')
+
+            %abbr{ rel: 'tooltip', data: { title: adverse_event.event_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+              = time_ago_in_words(adverse_event.event_at)
               ago
     - elsif event.class == Comment
       - comment = event
@@ -76,7 +99,11 @@
     .comment-left-fixed
     .comment-right-fluid
       .jumbotron{ style: 'margin-bottom: 0;' }
+        .timeline-large-icon
+          %i.fa.fa-birthday-cake{ aria: { hidden: 'true' } }
         %strong
+          %span.hidden-sm.hidden-md.hidden-lg
+            %i.fa.fa-birthday-cake{ aria: { hidden: 'true' } }
           - if @subject.user
             = @subject.user.name
           - else

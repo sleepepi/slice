@@ -38,6 +38,7 @@
 - **Subject Changes**
   - Subject menu redesigned to adjust to different screen sizes
   - Adverse events and randomizations now included in subject menu
+  - Adverse events are now displayed on the subject timeline
 - **Gem Changes**
   - Updated to pg 0.19.0
   - Updated to jquery-rails 4.2.1

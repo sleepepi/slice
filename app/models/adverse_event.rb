@@ -33,6 +33,10 @@ class AdverseEvent < ApplicationRecord
 
   # Model Methods
 
+  def event_at
+    created_at
+  end
+
   def name
     "AE##{number}"
   end

@@ -1,0 +1,13 @@
+.timeline-large-icon {
+  display: none;
+  position: absolute;
+  left: -70px;
+  top: 26px;
+  font-size: 48px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .timeline-large-icon {
+    display: block;
+  }
+}
