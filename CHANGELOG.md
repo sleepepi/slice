@@ -8,6 +8,8 @@
   - Added a simplified search for index pages
 - **Adverse Event Changes**
   - Adverse events are now numbered on the project-level
+- **Comment Changes**
+  - Improved comment and anchor link navigation
 - **Project Changes**
   - Improved new project setup workflow
   - Removed `subject_code_name` from project settings to simplify setup

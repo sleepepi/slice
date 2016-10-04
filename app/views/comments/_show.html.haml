@@ -1,4 +1,4 @@
-%a.anchor-top{ name: comment.anchor }
+%a.anchor-top{ name: comment.anchor, id: "comment-#{number}" }
 .comment-outer{ data: { comment_id: comment.id } }
   .comment-left-fixed
     = image_tag comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
@@ -17,7 +17,7 @@
             %span{ id: "comment-#{comment.id}-confirm-delete", style: 'display:none' }
               = link_to 'Cancel', '#', class: 'btn btn-xs btn-default', data: { object: 'toggle-delete-buttons', target_show: "#comment-#{comment.id}-request-delete", target_hide: "#comment-#{comment.id}-confirm-delete" }
               = link_to 'Confirm Delete', comment, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse'
-          = link_to "##{number}", "#c#{number}", class: 'btn btn-link btn-xs'
+          = link_to "##{number}", "#comment-#{number}", class: 'btn btn-link btn-xs', data: { object: 'scroll-anchor-keep-link' }
         %strong= comment.user.name
         commented
         - if include_name == '1'

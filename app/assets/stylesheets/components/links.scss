@@ -2,7 +2,7 @@
   display: block;
   height: 0;
   position: relative;
-  top: -($header-height);
+  top: -($header-height) - 20px;
   width: 0;
 }
 

@@ -29,6 +29,10 @@ class AdverseEventComment < ApplicationRecord
     0
   end
 
+  def anchor
+    "comment-#{number}"
+  end
+
   def editable_by?(current_user)
     adverse_event.editable_by?(current_user) && current_user.all_adverse_event_comments.where(id: id).count == 1
   end
