@@ -19,9 +19,9 @@
 
   %ul
     %li= link_to 'Adverse Events', docs_adverse_events_path
-    %li= link_to 'Sheet Locking', docs_locking_path
+    %li= link_to 'Auto-locking Sheets', docs_locking_path
     %li= link_to 'Staff Blinding/Unblinding', docs_blinding_path
     %li= link_to 'Subject Randomization', docs_randomization_schemes_path
     %li= link_to 'Tablet Handoff', docs_tablet_handoff_path
 
-= render 'docs/links', previous_link: nil, next_link: nil
+= render 'docs/links', previous_link: nil, next_link: ['Adverse Events', docs_adverse_events_path]
