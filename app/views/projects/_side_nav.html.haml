@@ -6,10 +6,10 @@
       %ul.side-nav-navigation
         %li.side-nav-section
           .side-nav-section-header
-            = link_to @project.name, @project, class: (current_page?(@project) ? 'active' : nil)
+            = link_to @project.name
           %ul.side-nav-section-links.active
             %li
-              = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' ? 'active' : nil) do
+              = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' || current_page?(@project) ? 'active' : nil) do
                 Subjects
             %li
               = link_to project_sheets_path(@project), class: (params[:controller] == 'sheets' ? 'active' : nil) do
@@ -38,8 +38,9 @@
       %ul.side-nav-navigation
         %li.side-nav-section
           .side-nav-section-header
-            = link_to 'Reports', reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? 'active' : nil)
+            = link_to 'Reports', reports_reports_project_path(@project)
           %ul.side-nav-section-links.active
+            %li= link_to 'Overview', reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? 'active' : nil)
             %li= link_to 'Summary Report', report_reports_project_path(@project), class: (current_page?(report_reports_project_path(@project)) ? 'active' : nil)
             %li= link_to 'Subject Report', subject_report_reports_project_path(@project), class: (current_page?(subject_report_reports_project_path(@project)) ? 'active' : nil)
 
@@ -47,8 +48,10 @@
         %ul.side-nav-navigation
           %li.side-nav-section
             .side-nav-section-header
-              = link_to 'Setup', settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? 'active' : nil)
+              = link_to 'Setup', settings_editor_project_path(@project)
             %ul.side-nav-section-links.active
+              %li
+                = link_to 'Overview', settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? 'active' : nil)
               %li
                 = link_to project_categories_path(@project), class: (params[:controller] == 'categories' ? 'active' : nil) do
                   Categories

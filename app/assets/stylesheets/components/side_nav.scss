@@ -202,7 +202,7 @@ $side-nav-width: 240px;
     a {
       color: $text-color;
       display: block;
-      padding: 15px 0 15px 22px;
+      padding: 14px 0 15px 22px;
       text-decoration: none;
 
       &.active,
@@ -222,7 +222,8 @@ $side-nav-width: 240px;
     a {
       color: $text-color;
       display: block;
-      padding: 10px 24px 10px 46px;
+      font-size: 14px;
+      padding: 8px 6px 8px 32px;
       text-decoration: none;
 
       &.active,

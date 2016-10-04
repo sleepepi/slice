@@ -1,8 +1,12 @@
 .panel.panel-default
   .panel-heading
     .pull-right
+      - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
+        %span.hidden-xs.hidden-sm.text-right
+          = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-xs btn-accent shadow-sm'
       %span.hidden-xs= subject_event.event_date_to_s
       %span.hidden-sm.hidden-md.hidden-lg= subject_event.event_date_to_s_xs
+
     - sheets_started = sheets_completed = current_user.sheets_on_subject_event(subject_event).pluck(:design_id).uniq.count
     - designs_count = current_user.designs_on_subject_event(subject_event).count
 
@@ -17,10 +21,8 @@
         %span.glyphicon.glyphicon-tasks
     = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
   - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
-    .panel-body
-      .hidden-xs.hidden-sm.text-right
-        = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-accent shadow-sm'
-      .hidden-md.hidden-lg
+    .hidden-md.hidden-lg
+      .panel-body
         = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-accent shadow-sm btn-block'
 
   .panel-body{ style: 'padding: 0;' }
