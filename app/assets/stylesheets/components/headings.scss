@@ -8,11 +8,11 @@
     text-shadow: none;
   }
 
-  a {
+  > a {
     color: $breadcrumb-link-color;
   }
 
-  a:hover {
+  > a:hover {
     color: darken($breadcrumb-link-color, 10%);
   }
 }
