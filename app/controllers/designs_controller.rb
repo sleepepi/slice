@@ -14,9 +14,9 @@ class DesignsController < ApplicationController
 
   # GET /designs
   def index
-    design_scope = editable_designs.includes(:user).search(params[:search])
+    design_scope = editable_designs.search(params[:search])
     design_scope = sort_order(design_scope)
-    design_scope = design_scope.with_user(params[:user_id]) unless params[:user_id].blank?
+    design_scope = design_scope.where(category_id: params[:category_id]) if params[:category_id].present?
     @designs = design_scope.page(params[:page]).per(40)
   end
 
@@ -125,10 +125,10 @@ class DesignsController < ApplicationController
   def sort_order(design_scope)
     @order = params[:order]
     case params[:order]
-    when 'designs.user_name'
-      design_scope.order_by_user_name
-    when 'designs.user_name desc'
-      design_scope.order_by_user_name_desc
+    when 'designs.category_name'
+      design_scope.includes(:category).order('categories.name', :name)
+    when 'designs.category_name desc'
+      design_scope.includes(:category).order('categories.name desc', :name)
     else
       @order = scrub_order(Design, params[:order], 'designs.name')
       design_scope.order(@order)

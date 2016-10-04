@@ -10,6 +10,9 @@
   - Adverse events are now numbered on the project-level
 - **Comment Changes**
   - Improved comment and anchor link navigation
+- **Design Changes**
+  - Design index display blinding status
+  - Design index can be filtered by category
 - **Project Changes**
   - Improved new project setup workflow
   - Removed `subject_code_name` from project settings to simplify setup
