@@ -30,36 +30,3 @@
 .submit-btn-container {
   margin: 20px 0 0;
 }
-
-
-
-// TODO: Rename or remove form-signin, used on public surveys.
-
-.form-signin {
-  background-color: $body-bg;
-  border: 1px solid $input-border;
-  border-radius: 5px;
-  box-shadow: $input-shadow;
-  margin: 40px auto 20px;
-  max-width: 300px;
-  padding: 19px 29px 29px;
-
-  .form-signin-heading,
-  .checkbox {
-    margin-bottom: 10px;
-  }
-
-  input {
-    &[type="text"],
-    &[type="email"],
-    &[type="password"] {
-      font-size: 16px;
-      height: auto;
-      margin-bottom: 15px;
-      padding: 7px 9px;
-    }
-  }
-}
-
-
-
