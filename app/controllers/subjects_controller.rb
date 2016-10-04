@@ -188,6 +188,19 @@ class SubjectsController < ApplicationController
 
   # GET /subjects
   def index
+    if params[:search] == 'is:randomized'
+      params[:randomized] = '1'
+      params[:search].gsub!('is:randomized', '')
+    elsif params[:search] == 'not:randomized'
+      params[:randomized] = '0'
+      params[:search].gsub!('not:randomized', '')
+    end
+
+    if params[:search] == 'has:ae'
+      params[:ae] = 'open'
+      params[:search].gsub!('has:ae', '')
+    end
+
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
                                 .search(params[:search]).order(@order)

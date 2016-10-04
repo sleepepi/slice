@@ -1,6 +1,10 @@
 - if @subjects.count == 0
   .jumbotron
-    %p.center No subjects found.
+    %p.center
+      No subjects found.
+      - if params[:search].present? && params[:search].to_s.squish.tr(':', '').size == params[:search].to_s.size
+        = succeed '.' do
+          = link_to "Create subject #{params[:search]}", choose_site_project_subjects_path(subject_code: params[:search])
 - else
   .dashboard-container
     - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)

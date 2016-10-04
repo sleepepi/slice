@@ -35,12 +35,16 @@
     - By randomized:
       - `is:randomized`
       - `not:randomized`
-- **Treatment Arm Changes**
-  - Treatment Arms can now have short names
 - **Subject Changes**
   - Subject menu redesigned to adjust to different screen sizes
   - Adverse events and randomizations now included in subject menu
   - Adverse events are now displayed on the subject timeline
+  - Subject index can be filtered by:
+    - `is:randomized`
+    - `not:randomized`
+    - `has:ae`
+- **Treatment Arm Changes**
+  - Treatment Arms can now have short names
 - **Gem Changes**
   - Updated to pg 0.19.0
   - Updated to jquery-rails 4.2.1
