@@ -1,8 +1,8 @@
 .navbar-default .navbar-nav .notifications-link span {
   animation: wiggle 250ms linear 4;
-  color: $brand-accent;
+  color: $notification-link-color;
 }
 
 .navbar-default .navbar-nav .notifications-link:hover span {
-  color: darken($brand-accent, 15%);
+  color: darken($notification-link-color, 15%);
 }
