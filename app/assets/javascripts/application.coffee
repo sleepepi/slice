@@ -24,9 +24,10 @@
 
 # External
 #= require external/bootstrap-datepicker.js
+#= require external/clipboard-1.5.12.src.js
 #= require external/highcharts-4.2.3.src.js
-#= require external/typeahead.js
 #= require external/jquery.textcomplete-1.7.3.src.js
+#= require external/typeahead.js
 
 # Components
 

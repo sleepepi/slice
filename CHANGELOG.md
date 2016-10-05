@@ -23,6 +23,7 @@
   - Project menu redesigned to adjust to different screen sizes
   - Added an advanced project settings page
   - Collecting emails on surveys has been removed as a project setting
+  - Clicking project member invites now copies the URL to the clipboard
 - **Sheet Changes**
   - Improved search on sheet index
     - Search by sheet creation date:

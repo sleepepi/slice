@@ -17,6 +17,7 @@
     $('.container').addClass('wide-container')
 
 @extensionsReady = ->
+  clipboardReady()
   datepickerReady()
   tooltipsReady()
   typeaheadReady()

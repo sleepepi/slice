@@ -1,15 +1,10 @@
 %tr{ class: "#{'success' if @member == member}" }
-  - if member.user
-    %td.nowrap
+  %td
+    - if member.user
       %span.hidden-xs= member.user.name
       %span.hidden-sm.hidden-md.hidden-lg= member.user.nickname
-  - else
-    %td
-      %span.text-muted= member.invite_email
-      - if member.is_a? ProjectUser
-        = text_field_tag 'member_invite', "#{ENV['website_url']}/invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator
-      - else
-        = text_field_tag 'member_invite', "#{ENV['website_url']}/site-invite/#{member.invite_token}", class: 'form-control' if current_user == member.creator
+    - else
+      %span.text-muted{ style: 'word-break: break-word;' }= member.invite_email
   %td
     %span.hidden-xs= member.is_a?(ProjectUser) ? 'Project' : 'Site'
     = member.editor? ? 'Editor' : 'Viewer'
@@ -81,3 +76,16 @@
                 .text-danger
                   %span.glyphicon.glyphicon-trash
                   Remove
+
+- unless member.user
+  %tr{ class: "#{'success' if @member == member}" }
+    %td{ colspan: @project.blinding_enabled? ? 5 : 4 }
+      - if member.is_a?(ProjectUser)
+        - clipboard_text = "#{ENV['website_url']}/invite/#{member.invite_token}"
+      - else
+        - clipboard_text = "#{ENV['website_url']}/site-invite/#{member.invite_token}"
+      .input-group{ style: 'width: 100%;' }
+        = text_field_tag 'member_invite', clipboard_text, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', data: { object: 'suppress-click', clipboard_text: clipboard_text, placement: 'bottom', container: 'body', title: 'Copied!', trigger: 'manual' }, style: 'text-decoration: none', class: 'btn btn-accent' do
+            %span.glyphicon.glyphicon-copy

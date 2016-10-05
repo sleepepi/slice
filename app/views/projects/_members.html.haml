@@ -1,6 +1,6 @@
 %h3.text-white.text-shadow Project Members
 .dashboard-container
-  %table.table
+  %table.table.table-borderless
     %col
     %col
     - if @project.blinding_enabled?
@@ -43,7 +43,7 @@
       %span.hidden-xs= site.name
       .hidden-sm.hidden-md.hidden-lg.center
         = site.short_name
-    %table.table.table-striped.table-borderless
+    %table.table.table-borderless
       %col
       %col
       - if @project.blinding_enabled?

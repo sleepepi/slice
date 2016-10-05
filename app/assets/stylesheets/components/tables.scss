@@ -33,6 +33,10 @@
     th {
       border-width: 0;
     }
+
+    > tbody + tbody {
+      border-width: 0;
+    }
   }
 }
 
