@@ -79,15 +79,15 @@ class ProjectsControllerTest < ActionController::TestCase
   test 'should get index' do
     login(users(:valid))
     get :index
-    assert_response :success
     assert_not_nil assigns(:projects)
+    assert_response :success
   end
 
-  test 'should get paginated index' do
+  test 'should get index by reverse project name' do
     login(users(:valid))
-    get :index, format: 'js'
+    get :index, params: { order: 'projects.name desc' }
     assert_not_nil assigns(:projects)
-    assert_template 'index'
+    assert_response :success
   end
 
   test 'should get new' do
