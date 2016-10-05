@@ -21,7 +21,7 @@ class ProjectUsersController < ApplicationController
 
     if @project && @project_user
       @project_user.send_user_invited_email_in_background!
-      # resend.js.erb
+      render :update
     else
       head :ok
     end
@@ -43,14 +43,18 @@ class ProjectUsersController < ApplicationController
   end
 
   # PATCH /project_users/1
+  # PATCH /project_users/1.js
   def update
     @project = current_user.all_projects.find_by_id params[:project_id]
     @project_user = @project.project_users.find_by_id params[:id] if @project
     if @project && @project.editable_by?(current_user) && @project.blinding_enabled? && @project.unblinded?(current_user) && @project_user
       @project_user.update unblinded: (params[:unblinded] == '1')
-      flash[:notice] = "Successfully set project member as #{@project_user.unblinded? ? 'un' : ''}blinded."
+      flash_notice = "Set member as #{@project_user.unblinded? ? 'un' : ''}blinded."
     end
-    redirect_to @project ? team_project_path(@project) : root_path
+    respond_to do |format|
+      format.html { redirect_to @project ? team_project_path(@project) : root_path, notice: flash_notice }
+      format.js
+    end
   end
 
   # DELETE /project_users/1

@@ -12,58 +12,25 @@
         = text_field_tag :invite_email, '', autocomplete: 'off', class: 'form-control', placeholder: 'Email Address', data: { object: 'typeahead-users' }
 
       .form-group
-        = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
+        = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect { |s| [s.short_name, s.id] }), class: 'form-control'
 
       .form-group
         %label.btn.btn-default
           = check_box_tag 'editor', '1', true
           Editor
 
-      - if @project.unblinded?(current_user)
-        .form-group{ style: "#{'display:none' unless @project.blinding_enabled?}" }
-          %label.btn.btn-default
+        - if @project.unblinded?(current_user)
+          %label.btn.btn-default{ style: "#{'display:none' unless @project.blinding_enabled?}" }
             = check_box_tag 'unblinded', '1', true
             Unblinded
 
       .form-group
-        = submit_tag 'Invite By Email', class: 'btn btn-primary'
+        = submit_tag 'Invite', class: 'btn btn-primary'
 
 #project-members
   = render 'projects/members'
 
-.dashboard-container
-  %table.table.table-fixed
-    %thead
-      %tr
-        %th Roles
-        %th Create Designs, Variables, Sites, Events
-        %th Create Sheets, Subjects
-        %th View Sheets, Subjects
-        %th Comment on Sheets
-      %tr
-        %td Project Editor
-        %td.success Yes
-        %td.success Yes
-        %td.success Yes
-        %td.success Yes
-      %tr
-        %td Project Viewer
-        %td.danger No
-        %td.danger No
-        %td.success Yes
-        %td.success Yes
-      %tr
-        %td Site Editor
-        %td.danger No
-        %td.success Yes*
-        %td.success Yes*
-        %td.success Yes*
-      %tr
-        %td Site Viewer
-        %td.danger No
-        %td.danger No
-        %td.success Yes*
-        %td.success Yes*
-
-  \* Only for subjects on the site member's site
-  = link_to 'Read about Roles', docs_roles_path
+.docs-learn-more
+  Learn about
+  = succeed '.' do
+    = link_to 'roles', docs_roles_path

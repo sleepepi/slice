@@ -70,6 +70,13 @@ site_one_editor:
   encrypted_password: ""
   emails_enabled: true
 
+site_one_editor_blinded:
+  first_name: SiteOne
+  last_name: EditorBlinded
+  email: site_one_editor_blinded@example.com
+  encrypted_password: ""
+  emails_enabled: true
+
 site_two_viewer:
   first_name: SiteTwo
   last_name: Viewer

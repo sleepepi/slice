@@ -6,7 +6,10 @@ require 'test_helper'
 class SiteUsersControllerTest < ActionController::TestCase
   setup do
     @project = projects(:one)
+    @project_editor = users(:project_one_editor)
     @site_user = site_users(:one)
+    @unblinded_member = site_users(:site_editor)
+    @blinded_member = site_users(:site_editor_blinded)
   end
 
   test 'should resend site invitation' do
@@ -14,7 +17,8 @@ class SiteUsersControllerTest < ActionController::TestCase
     post :resend, params: { id: @site_user, project_id: @project }, format: 'js'
     assert_not_nil assigns(:site_user)
     assert_not_nil assigns(:site)
-    assert_template 'resend'
+    assert_template 'update'
+    assert_response :success
   end
 
   test 'should not resend site invitation with invalid id' do
@@ -22,6 +26,7 @@ class SiteUsersControllerTest < ActionController::TestCase
     post :resend, params: { id: -1, project_id: @project }, format: 'js'
     assert_nil assigns(:site_user)
     assert_nil assigns(:site)
+    assert_template nil
     assert_response :success
   end
 
@@ -82,6 +87,28 @@ class SiteUsersControllerTest < ActionController::TestCase
     assert_not_equal users(:two), assigns(:site_user).user
     assert_equal 'This invite has already been claimed.', flash[:alert]
     assert_redirected_to root_path
+  end
+
+  test 'should set site user as blinded' do
+    login(@project_editor)
+    assert_difference('SiteUser.where(unblinded: true).count', -1) do
+      patch :update, params: {
+        project_id: @project.id, id: @unblinded_member, unblinded: '0'
+      }, format: 'js'
+    end
+    assert_template 'update'
+    assert_response :success
+  end
+
+  test 'should set site user as unblinded' do
+    login(@project_editor)
+    assert_difference('SiteUser.where(unblinded: false).count', -1) do
+      patch :update, params: {
+        project_id: @project.id, id: @blinded_member, unblinded: '1'
+      }, format: 'js'
+    end
+    assert_template 'update'
+    assert_response :success
   end
 
   test 'should destroy site_user' do

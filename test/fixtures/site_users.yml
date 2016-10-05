@@ -38,9 +38,19 @@ site_editor:
   site: one
   creator: valid
   user: site_one_editor
-  invite_token: ccd113
+  invite_token: site_editor
   invite_email: site_one_editor@example.com
   editor: true
+
+site_editor_blinded:
+  project: one
+  site: one
+  creator: valid
+  user: site_one_editor_blinded
+  invite_token: site_editor_blinded
+  invite_email: site_one_editor@example.com
+  editor: true
+  unblinded: false
 
 project_two_site_viewer:
   project: two

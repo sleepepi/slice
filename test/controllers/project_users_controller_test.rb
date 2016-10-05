@@ -5,8 +5,12 @@ require 'test_helper'
 # Tests to make sure users can be successfully invited to projects
 class ProjectUsersControllerTest < ActionController::TestCase
   setup do
+    @project = projects(:one)
+    @project_editor = users(:project_one_editor)
     @pending_editor_invite = project_users(:pending_editor_invite)
     @accepted_viewer_invite = project_users(:accepted_viewer_invite)
+    @unblinded_member = project_users(:project_one_editor)
+    @blinded_member = project_users(:project_one_editor_blinded)
   end
 
   test 'should resend project invitation' do
@@ -14,7 +18,8 @@ class ProjectUsersControllerTest < ActionController::TestCase
     post :resend, params: { id: @pending_editor_invite }, format: 'js'
     assert_not_nil assigns(:project_user)
     assert_not_nil assigns(:project)
-    assert_template 'resend'
+    assert_template 'update'
+    assert_response :success
   end
 
   test 'should not resend project invitation with invalid id' do
@@ -22,6 +27,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
     post :resend, params: { id: -1 }, format: 'js'
     assert_nil assigns(:project_user)
     assert_nil assigns(:project)
+    assert_template nil
     assert_response :success
   end
 
@@ -84,6 +90,28 @@ class ProjectUsersControllerTest < ActionController::TestCase
     assert_not_equal users(:two), assigns(:project_user).user
     assert_equal 'This invite has already been claimed.', flash[:alert]
     assert_redirected_to root_path
+  end
+
+  test 'should set project user as blinded' do
+    login(@project_editor)
+    assert_difference('ProjectUser.where(unblinded: true).count', -1) do
+      patch :update, params: {
+        project_id: @project.id, id: @unblinded_member, unblinded: '0'
+      }, format: 'js'
+    end
+    assert_template 'update'
+    assert_response :success
+  end
+
+  test 'should set project user as unblinded' do
+    login(@project_editor)
+    assert_difference('ProjectUser.where(unblinded: false).count', -1) do
+      patch :update, params: {
+        project_id: @project.id, id: @blinded_member, unblinded: '1'
+      }, format: 'js'
+    end
+    assert_template 'update'
+    assert_response :success
   end
 
   test 'should destroy project user' do

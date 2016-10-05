@@ -24,10 +24,10 @@ class SiteUsersController < ApplicationController
   def resend
     @site_user = SiteUser.find_by_id(params[:id])
     @site = current_user.all_sites.find_by_id(@site_user.site_id) if @site_user
-
     if @site && @site_user
       @site_user.send_user_invited_email_in_background!
-      # resend.js.erb
+      @project = @site.project
+      render :update
     else
       head :ok
     end
@@ -49,15 +49,19 @@ class SiteUsersController < ApplicationController
     end
   end
 
-  # PATCH /project_users/1
+  # PATCH /site_users/1
+  # PATCH /site_users/1.js
   def update
     @project = current_user.all_projects.find_by_param params[:project_id]
     @site_user = @project.site_users.find_by_id params[:id] if @project
     if @project && @project.editable_by?(current_user) && @project.blinding_enabled? && @project.unblinded?(current_user) && @site_user
       @site_user.update unblinded: (params[:unblinded] == '1')
-      flash[:notice] = "Successfully set site member as #{@site_user.unblinded? ? 'un' : ''}blinded."
+      flash_notice = "Set member as #{@site_user.unblinded? ? 'un' : ''}blinded."
     end
-    redirect_to @project ? team_project_path(@project) : root_path
+    respond_to do |format|
+      format.html { redirect_to @project ? team_project_path(@project) : root_path, notice: flash_notice }
+      format.js
+    end
   end
 
   # DELETE /site_users/1
