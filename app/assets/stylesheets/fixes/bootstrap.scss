@@ -1,5 +1,11 @@
 // Fixes for bootstrap to make sure popups and tooltips display over modals
 
+.panel-title {
+  .btn-success {
+    color: $btn-success-color;
+  }
+}
+
 .popover,
 .tooltip {
   z-index: 2000;
