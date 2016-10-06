@@ -73,12 +73,14 @@
               - if @subject.editable_by?(current_user)
                 = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-xs btn-accent btn-shadow' do
                   %i.fa.fa-plus{ aria: { hidden: 'true' } }
-
             %td
               - if event_design.handoff_enabled?
                 %span.label.label-accent.hidden-xs Handoff
                 %span.label.label-accent.hidden-sm.hidden-md.hidden-lg H
-              = design.name
+              - if @subject.editable_by?(current_user)
+                = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id })
+              - else
+                = design.name
             %td.text-right
               - if @subject.editable_by?(current_user)
                 .dropdown
