@@ -81,6 +81,9 @@
   - if @subject.subject_events.count == 0
     = render 'subjects/choose_event'
   - else
+    - uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil).includes(:design).order('designs.name')
+    - categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil).includes(:design).order('designs.name')
+    = render 'subjects/uncategorized_sheets', uncategorized_sheets: uncategorized_sheets, categorized_sheets: categorized_sheets
     = render 'subjects/events'
 - else
   - if @subject.sheets.count == 0

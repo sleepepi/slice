@@ -2,6 +2,6 @@
   cursor: move;
 }
 
-.event-droppable-hover {
+.event-droppable-hover, .panel-heading.event-droppable-hover {
   background-color: $state-success-bg;
 }

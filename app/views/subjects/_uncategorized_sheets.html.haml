@@ -1,0 +1,20 @@
+- if uncategorized_sheets.count > 0
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        %span.badge= uncategorized_sheets.count
+      - if categorized_sheets.count == 0
+        Sheets
+      - else
+        No Event
+        - if @subject.editable_by?(current_user)
+          %small.text-muted Assign to event by dragging sheet to event.
+    .panel-body{ style: 'padding: 0;' }
+      %table.table.table-striped.table-borderless{ style: 'table-layout: fixed;margin-bottom:0;' }
+        - if @subject.editable_by?(current_user)
+          %col{ width: '33px' }
+        %col{ width: '60px' }
+        %col
+        %col{ width: '120px' }
+        - uncategorized_sheets.each do |sheet|
+          = render 'subjects/sheet', sheet: sheet
