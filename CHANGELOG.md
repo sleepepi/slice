@@ -16,6 +16,9 @@
 - **Design Changes**
   - Design index display blinding status
   - Design index can be filtered by category
+- **Email Changes**
+  - Project-level emails now take into account project-specific email
+    preferences of the user
 - **Project Changes**
   - Improved new project setup workflow
   - Removed `subject_code_name` from project settings to simplify setup

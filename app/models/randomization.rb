@@ -95,7 +95,10 @@ class Randomization < ApplicationRecord
   end
 
   def users_to_email
-    project.unblinded_members_for_site(site).where.not(id: randomized_by_id).where(emails_enabled: true)
+    project.unblinded_members_for_site(site)
+           .where.not(id: randomized_by_id)
+           .where(emails_enabled: true)
+           .select { |u| project.emails_enabled?(u) }
   end
 
   def notify_users!

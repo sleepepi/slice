@@ -89,6 +89,7 @@ class SurveyController < ApplicationController
     end
   end
 
+  # TODO: Survey completion emails should be sent differently or done as in-app notifications to project editors
   def send_survey_completion_emails
     return unless EMAILS_ENABLED
     UserMailer.survey_completed(@sheet).deliver_now

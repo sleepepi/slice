@@ -112,9 +112,11 @@ class Project < ApplicationRecord
     subject_code_name.to_s.strip.blank? ? 'Subject Code' : subject_code_name.to_s.strip
   end
 
+  # TODO: Refactor
   def users_to_email
-    result = (users + [user] + sites.collect(&:users).flatten).uniq
-    result.select(&:emails_enabled?)
+    (users + [user] + sites.collect(&:users).flatten).uniq
+                                                     .select(&:emails_enabled?) # User setting
+                                                     .select { |u| emails_enabled?(u) } # Project setting
   end
 
   # Returns "fake" constructed variables like 'site' and 'sheet_date'

@@ -8,12 +8,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
-  serialize :email_notifications, Hash
-
-  EMAILABLES = [
-    [:daily_digest, 'Receive daily digest emails of sheets that have been created the previous day']
-  ]
-
   # Concerns
   include Deletable, Expirable
 
@@ -275,7 +269,7 @@ class User < ApplicationRecord
   def all_digest_projects
     @all_digest_projects ||= begin
       all_viewable_and_site_projects.where(disable_all_emails: false).select do |p|
-        emails_enabled? && email_on?(:daily_digest) && email_on?("project_#{p.id}_daily_digest")
+        emails_enabled? && p.emails_enabled?(self)
       end
     end
   end
@@ -298,10 +292,6 @@ class User < ApplicationRecord
     all_viewable_comments.with_project(project_ids)
                          .where('comments.created_at > ?', last_business_day)
                          .order(:created_at)
-  end
-
-  def email_on?(value)
-    [nil, true].include?(email_notifications[value.to_s])
   end
 
   def name

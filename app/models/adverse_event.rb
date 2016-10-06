@@ -125,7 +125,7 @@ class AdverseEvent < ApplicationRecord
 
   # Adverse Events reports are sent to unblinded project editors
   def users_to_email
-    project.unblinded_members_for_site(site).where.not(id: user_id).where(emails_enabled: true)
+    project.unblinded_members_for_site(site).where.not(id: user_id).where(emails_enabled: true).select { |u| project.emails_enabled?(u) }
   end
 
   def send_email_in_background
