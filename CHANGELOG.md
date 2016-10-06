@@ -10,6 +10,9 @@
   - Adverse events are now numbered on the project-level
 - **Comment Changes**
   - Improved comment and anchor link navigation
+- **Check Changes**
+  - Checks can now find sheets and subjects that are missing a response for a
+    variable
 - **Design Changes**
   - Design index display blinding status
   - Design index can be filtered by category

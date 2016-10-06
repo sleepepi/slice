@@ -30,60 +30,61 @@
         = @title
 
 .dashboard-container
-  %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+  .row
+    .col-sm-2.col-buffer
+      %strong Description
+    .col-sm-10.col-buffer= simple_markdown @check.description
 
-    %tr
-      %th Description
-      %td= simple_markdown @check.description
+  .row
+    .col-sm-2.col-buffer
+      %strong Creator
+    .col-sm-10.col-buffer= @check.user.name
 
-    %tr
-      %th Creator
-      %td= @check.user.name
+  .row
+    .col-sm-2.col-buffer
+      %strong Archived
+    .col-sm-10.col-buffer= simple_check @check.archived
 
-    %tr
-      %th Archived
-      %td= simple_check @check.archived
-
-    %tr
+  .row
+    .col-sm-2.col-buffer
+      %strong= link_to 'Filters', editor_project_check_check_filters_path(@project, @check)
+    .col-sm-10.col-buffer
       - all_sheets = @check.sheets(current_user)
       - all_subjects = @check.subjects(current_user)
-
-      %th= link_to 'Filters', editor_project_check_check_filters_path(@project, @check)
-      %td
-        %table.table
-          %thead
-            %tr
-              %th
-              %th
-              %th
-              %th.text-right Subjects
-              %th.text-right Sheets
-          %tfoot
-            %tr
-              %th
-              %th
-              %th
-              %th.text-right= number_with_delimiter all_subjects.count
-              %th.text-right= number_with_delimiter all_sheets.count
-          - @check.check_filters.each do |check_filter|
-            %tr
-              %td
-                %code
-                  = link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
-              %td
-                - if check_filter.variable
+      %table.table
+        %thead
+          %tr
+            %th
+            %th
+            %th
+            %th.text-right Subjects
+            %th.text-right Sheets
+        %tfoot
+          %tr
+            %th
+            %th
+            %th
+            %th.text-right= number_with_delimiter all_subjects.count
+            %th.text-right= number_with_delimiter all_sheets.count
+        - @check.check_filters.each do |check_filter|
+          %tr
+            %td
+              = link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
+            %td
+              - if check_filter.variable
+                - if check_filter.operator == 'missing'
+                  %code MISSING
+                - else
                   %code= check_filter.database_operator
-              %td
-                - if check_filter.variable
-                  - check_filter.check_filter_values.each do |check_filter_value|
-                    %code
-                      = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, check_filter, check_filter_value)
-              %td.text-right
-                = number_with_delimiter check_filter.subjects(current_user).count
-              %td.text-right
-                = number_with_delimiter check_filter.sheets(current_user).count
+            %td
+              - if check_filter.variable
+                - check_filter.check_filter_values.each do |check_filter_value|
+                  %code
+                    = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, check_filter, check_filter_value)
+            %td.text-right
+              = number_with_delimiter check_filter.subjects(current_user).count
+            %td.text-right
+              = number_with_delimiter check_filter.sheets(current_user).count
 
 - if all_sheets.count > 40
   %h3.text-white.text-shadow Top 40 Results
@@ -102,7 +103,7 @@
         %tbody
           - sheets.each_with_index do |sheet, index|
             %tr
-              %td= subject.subject_code if index == 0
+              %td= link_to subject.subject_code, [@project, subject] if index == 0
               %td= link_to sheet.name, [sheet.project, sheet]
               - @check.check_filters.each do |check_filter|
                 %td.center

@@ -9,7 +9,8 @@ class CheckFilter < ApplicationRecord
     ['Less Than', 'lt'],
     ['Greater Than', 'gt'],
     ['Less Than or Equal', 'le'],
-    ['Greater Than or Equal', 'ge']
+    ['Greater Than or Equal', 'ge'],
+    ['Missing', 'missing']
   ]
 
   FILTER_TYPE = [
@@ -93,7 +94,14 @@ class CheckFilter < ApplicationRecord
     sheet_scope = current_user.all_viewable_sheets.where(project: project)
     return sheet_scope if subquery_values.count == 0
     select_sheet_ids = subquery_scope.where(variable: variable).where(subquery).select(:sheet_id)
-    sheet_scope.where(id: select_sheet_ids)
+    if operator == 'missing'
+      subjects = current_user.all_viewable_subjects
+                  .where(project: project)
+                  .where(id: sheet_scope.where(id: select_sheet_ids).select(:subject_id))
+      sheet_scope.where.not(subject_id: subjects.select(:id))
+    else
+      sheet_scope.where(id: select_sheet_ids)
+    end
   end
 
   def all_numeric?
@@ -157,6 +165,8 @@ class CheckFilter < ApplicationRecord
       '>='
     when 'ne'
       'NOT IN'
+    when 'missing'
+      'IN'
     else
       'IN'
     end

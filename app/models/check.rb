@@ -18,7 +18,7 @@ class Check < ApplicationRecord
 
   # Methods
   def sheets(current_user)
-    sheet_scope = Sheet
+    sheet_scope = project.sheets
     check_filters.each_with_index do |check_filter, index|
       if index == 0
         sheet_scope = sheet_scope.where(id: check_filter.sheets(current_user).select(:id))
@@ -26,11 +26,13 @@ class Check < ApplicationRecord
         sheet_scope = Sheet.where(id: sheet_scope.select(:id)).or(Sheet.where(id: check_filter.sheets(current_user).select(:id)))
       end
     end
+    design_ids = DesignOption.where(variable_id: check_filters.select(:variable_id)).select(:design_id)
+    sheet_scope = sheet_scope.where(design_id: design_ids)
     current_user.all_viewable_sheets.where(project: project).where(id: sheet_scope.select(:id), subject_id: subjects(current_user).select(:id))
   end
 
   def subjects(current_user)
-    subject_scope = Subject
+    subject_scope = project.subjects
     check_filters.each do |check_filter|
       subject_scope = subject_scope.where(id: check_filter.subjects(current_user).select(:id))
     end
