@@ -6,7 +6,7 @@
       %ul.side-nav-navigation
         %li.side-nav-section
           .side-nav-section-header
-            = link_to @project.name
+            = link_to @project.name, @project
           %ul.side-nav-section-links.active
             %li
               = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' || current_page?(@project) ? 'active' : nil) do
