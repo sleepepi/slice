@@ -12,40 +12,4 @@
         = link_to @subject.name, [@project, @subject]
         = @event.name
 
-%p.lead.text-white.text-shadow.center
-  Please enter the date of the event.
-
-.dashboard-container
-  = form_tag launch_subject_event_project_subject_path(@project, @subject, event_id: @event.to_param), method: :post, class: 'form-horizontal' do
-    - if @subject_event.errors.any?
-      .callout.callout-danger
-        %strong
-          = pluralize @subject_event.errors.count, 'error'
-          prohibited this event from being saved
-
-        %ul
-          - @subject_event.errors.full_messages.each do |msg|
-            %li= msg
-
-    .form-group
-      = label_tag 'subject_event_event_date', 'Event Date', class: 'col-md-2 control-label'
-      .col-md-10
-        = text_field_tag 'subject_event[event_date]', (@subject_event && @subject_event.event_date ? @subject_event.event_date.strftime('%m/%d/%Y') : ''), class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', style: 'width: 120px', autocomplete: 'off'
-    .form-group
-      = label_tag "designs", nil, class: 'col-md-2 control-label'
-      .col-md-10
-
-
-    .row
-      .col-xs-6
-        = submit_tag 'Launch Event', class: 'btn btn-success btn-block'
-      .col-xs-6
-        = link_to 'Cancel', choose_event_project_subject_path(@project, @subject), class: 'btn btn-default btn-block'
-
-
-%p.lead.text-white.text-shadow
-  = @event.name
-.dashboard-container
-  %ul
-    - @event.event_designs.each do |event_design|
-      %li= event_design.design.name
+= render 'subject_events/form', subject_event: @subject_event, event: @event

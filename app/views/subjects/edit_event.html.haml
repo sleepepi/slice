@@ -13,24 +13,4 @@
         = link_to @subject_event.name, event_project_subject_path(@project, @subject, event_id: @subject_event.event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param)
         Edit
 
-.dashboard-container
-  = form_tag update_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :post, class: 'form-horizontal' do
-    - if @subject_event.errors.any?
-      .callout.callout-danger
-        %strong
-          = pluralize @subject_event.errors.count, 'error'
-          prohibited this event from being saved
-
-        %ul
-          - @subject_event.errors.full_messages.each do |msg|
-            %li= msg
-
-    .form-group
-      = label_tag 'subject_event_event_date', 'Event Date', class: 'col-md-2 control-label'
-      .col-md-10
-        = text_field_tag 'subject_event[event_date]', (@subject_event && @subject_event.event_date ? @subject_event.event_date.strftime('%m/%d/%Y') : ''), class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', style: 'width: 120px', autocomplete: 'off'
-    .row
-      .col-xs-6
-        = submit_tag 'Update Event', class: 'btn btn-success btn-block'
-      .col-xs-6
-        = link_to 'Cancel', event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: 'btn btn-default btn-block'
+= render 'subject_events/form', subject_event: @subject_event, event: @subject_event.event
