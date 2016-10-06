@@ -4,7 +4,7 @@ Slice::THEMES = [
   %w(Enterprise enterprise),
   %w(Night night),
   %w(Underwater underwater),
-  %w(Spring spring),
-  %w(Fall fall),
+  ['Spring - Beta', 'spring'],
+  ['Fall - Beta', 'fall'],
   %w(Winter winter)
 ]
