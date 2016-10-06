@@ -39,7 +39,7 @@ module Validation
       end
 
       def response_to_value(response)
-        if response.is_a? Hash
+        if response.is_a?(Hash)
           response[:pounds] = parse_integer(response[:pounds])
           response[:ounces] = parse_integer(response[:ounces])
           response

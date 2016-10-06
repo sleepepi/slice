@@ -39,7 +39,7 @@ module Validation
       end
 
       def response_to_value(response)
-        if response.is_a? Hash
+        if response.is_a?(Hash)
           response[:feet] = parse_integer(response[:feet])
           response[:inches] = parse_integer(response[:inches])
           response

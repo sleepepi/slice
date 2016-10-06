@@ -94,8 +94,8 @@ class AdverseEvent < ApplicationRecord
   def compress_events(events)
     b = []
     events.each do |e|
-      if e.is_a? AdverseEventUser
-        if b.last.is_a? Array
+      if e.is_a?(AdverseEventUser)
+        if b.last.is_a?(Array)
           b.last << e
         else
           b << [e]

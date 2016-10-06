@@ -82,7 +82,7 @@ module Validation
     end
 
     def store_temp_response(variable, sheet_variable, response)
-      if response.is_a? ActionController::Parameters
+      if response.is_a?(ActionController::Parameters)
         response = response.to_unsafe_hash
       end
       variable.validator.store_temp_response(sheet_variable, response)

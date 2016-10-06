@@ -28,7 +28,7 @@
 
 
 - @adverse_event.compress_events(all_events).each do |event|
-  - if event.is_a? Array
+  - if event.is_a?(Array)
     %div
       .comment-outer
         .comment-left-fixed
@@ -39,10 +39,10 @@
               - event.each do |adverse_event_user|
                 = image_tag adverse_event_user.user.avatar_url(16, 'identicon'), size: '16x16', alt: '', rel: 'tooltip', data: { title: adverse_event_user.user.name, container: 'body', placement: 'top' }
             &nbsp;
-  - elsif event.is_a? AdverseEventComment
+  - elsif event.is_a?(AdverseEventComment)
     %div{ id: "adverse_event_comment_#{event.id}" }
       = render 'adverse_event_comments/show', adverse_event_comment: event
-  - elsif event.is_a? Sheet
+  - elsif event.is_a?(Sheet)
     - sheet = event
     %div
       .comment-outer
@@ -62,7 +62,7 @@
               %abbr{ rel: 'tooltip', data: { title: sheet.updated_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
                 = time_ago_in_words sheet.updated_at
                 ago
-  - elsif event.is_a? AdverseEventFile
+  - elsif event.is_a?(AdverseEventFile)
     - file = event
     %div
       .comment-outer
@@ -85,7 +85,7 @@
               .center{ style: 'margin-top:5px' }
                 = link_to [@project, @adverse_event, file] do
                   = image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), style: 'height: 64px', class: 'img-thumbnail'
-  - elsif event.is_a? AdverseEventReview
+  - elsif event.is_a?(AdverseEventReview)
     .comment-outer
       .comment-left-fixed
       .comment-right-fluid

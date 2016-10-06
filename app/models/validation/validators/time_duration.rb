@@ -47,7 +47,7 @@ module Validation
       end
 
       def response_to_value(response)
-        if response.is_a? Hash
+        if response.is_a?(Hash)
           response[:hours] = parse_integer(response[:hours])
           response[:minutes] = parse_integer(response[:minutes])
           response[:seconds] = parse_integer(response[:seconds])

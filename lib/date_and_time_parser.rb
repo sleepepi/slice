@@ -74,7 +74,7 @@ module DateAndTimeParser
   end
 
   def parse_time_duration_from_hash(time_duration_hash)
-    return unless time_duration_hash.is_a? Hash
+    return unless time_duration_hash.is_a?(Hash)
     hours = parse_integer(time_duration_hash[:hours])
     minutes = parse_integer(time_duration_hash[:minutes])
     seconds = parse_integer(time_duration_hash[:seconds])
@@ -100,7 +100,7 @@ module DateAndTimeParser
   end
 
   def parse_imperial_height_from_hash(imperial_height_hash)
-    return unless imperial_height_hash.is_a? Hash
+    return unless imperial_height_hash.is_a?(Hash)
     feet = parse_integer(imperial_height_hash[:feet])
     inches = parse_integer(imperial_height_hash[:inches])
     if feet || inches
@@ -122,7 +122,7 @@ module DateAndTimeParser
   end
 
   def parse_imperial_weight_from_hash(imperial_weight_hash)
-    return unless imperial_weight_hash.is_a? Hash
+    return unless imperial_weight_hash.is_a?(Hash)
     pounds = parse_integer(imperial_weight_hash[:pounds])
     ounces = parse_integer(imperial_weight_hash[:ounces])
     if pounds || ounces

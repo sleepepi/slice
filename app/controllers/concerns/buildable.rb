@@ -170,7 +170,7 @@ module Buildable
     table_row = []
 
     @table_header.each do |header|
-      next unless header.is_a? Hash
+      next unless header.is_a?(Hash)
       cell = header.dup
       cell[:filters] = (cell[:filters] || []) + filters
       # This adds in row specific missing filters to accurately calculate the total row count

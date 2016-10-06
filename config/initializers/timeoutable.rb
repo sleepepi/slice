@@ -10,9 +10,9 @@ Warden::Manager.after_set_user do |record, warden, options|
      options[:store] != false && !env['devise.skip_timeoutable']
     last_request_at = warden.session(scope)['last_request_at']
 
-    if last_request_at.is_a? Integer
+    if last_request_at.is_a?(Integer)
       last_request_at = Time.at(last_request_at).utc
-    elsif last_request_at.is_a? String
+    elsif last_request_at.is_a?(String)
       last_request_at = Time.parse(last_request_at)
     end
 

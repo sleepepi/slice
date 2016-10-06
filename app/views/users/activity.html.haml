@@ -22,7 +22,7 @@
       %col{ width: "50px" }
       - all_objects.each_with_index do |object, index|
         - current_index = all_objects.count - index
-        - if object.is_a? Sheet
+        - if object.is_a?(Sheet)
           = render 'activity/sheet', sheet: object
         - elsif object.class == Comment
           - comment = object

@@ -1,5 +1,5 @@
 - if flash[:notice].present?
-  - if flash[:notice].is_a? Array
+  - if flash[:notice].is_a?(Array)
     = link_to '#', data: { object: 'remove-self' }, class: 'link-unstyled navbar-brand', style: 'font-size: 16px;padding-left: 0;padding-right: 0;margin-left: 0;' do
       %span.label.label-accent.shadow-sm
         = flash[:notice].first.html_safe
