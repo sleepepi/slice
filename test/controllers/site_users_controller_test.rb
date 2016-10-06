@@ -56,8 +56,8 @@ class SiteUsersControllerTest < ActionController::TestCase
     get :accept, params: { project_id: @project }
     assert_not_nil assigns(:site_user)
     assert_equal users(:two), assigns(:site_user).user
-    assert_equal 'You have been successfully been added to the site.', flash[:notice]
-    assert_redirected_to [assigns(:site_user).site.project, assigns(:site_user).site]
+    assert_equal 'You have been successfully been added to the project.', flash[:notice]
+    assert_redirected_to assigns(:site_user).site.project
   end
 
   test 'should accept existing site user' do
@@ -67,7 +67,7 @@ class SiteUsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:site_user)
     assert_equal users(:valid), assigns(:site_user).user
     assert_equal "You have already been added to #{assigns(:site_user).site.name}.", flash[:notice]
-    assert_redirected_to [assigns(:site_user).site.project, assigns(:site_user).site]
+    assert_redirected_to assigns(:site_user).site.project
   end
 
   test 'should not accept invalid token for site user' do

@@ -37,13 +37,12 @@ class SiteUsersController < ApplicationController
     site_invite_token = session.delete(:site_invite_token)
     @site_user = SiteUser.find_by_invite_token(site_invite_token)
     if @site_user && @site_user.user == current_user
-      redirect_to [@site_user.site.project, @site_user.site],
-                  notice: "You have already been added to #{@site_user.site.name}."
+      redirect_to @site_user.site.project, notice: "You have already been added to #{@site_user.site.name}."
     elsif @site_user && @site_user.user
       redirect_to root_path, alert: 'This invite has already been claimed.'
     elsif @site_user
-      @site_user.update_attributes user_id: current_user.id
-      redirect_to [@site_user.project, @site_user.site], notice: 'You have been successfully been added to the site.'
+      @site_user.update user_id: current_user.id
+      redirect_to @site_user.project, notice: 'You have been successfully been added to the project.'
     else
       redirect_to root_path, alert: 'Invalid invitation token.'
     end

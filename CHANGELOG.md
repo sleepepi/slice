@@ -27,6 +27,8 @@
   - Added an advanced project settings page
   - Collecting emails on surveys has been removed as a project setting
   - Clicking project member invites now copies the URL to the clipboard
+  - Site member invites now get directed to the main project page instead of the
+    site specific page
 - **Sheet Changes**
   - Improved search on sheet index
     - Search by sheet creation date:
