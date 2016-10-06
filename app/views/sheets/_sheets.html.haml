@@ -4,7 +4,6 @@
 
   - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
 
-
   - if variable
     - case rand(5)
     - when 0
@@ -114,10 +113,8 @@
           %td.hidden-xs.hidden-sm= simple_time_short sheet.created_at
           %td.hidden-xs.hidden-sm= simple_time_short sheet.last_edited_at unless sheet.created_at == sheet.last_edited_at
           - if viewable_sites.count > 1
-            %td.hidden-xs= link_to sheet.subject.site.short_name, [@project, sheet.subject.site] if sheet.subject && sheet.subject.site
-          %td.hidden-xs
-            - if sheet.user
-              = link_to sheet.user.name, sheet.user
+            %td.hidden-xs= sheet.subject.site.short_name if sheet.subject && sheet.subject.site
+          %td.hidden-xs.nowrap= sheet.user.nickname if sheet.user
 
   .center
     = paginate @sheets, theme: 'bootstrap'
