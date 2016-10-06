@@ -6,7 +6,7 @@
       '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
   )
   if $('[data-object~="draw-chart"]').length > 0
-    $.each($('[data-object~=draw-chart]'), () ->
+    $.each($('[data-object~=draw-chart]'), ->
       $(@).highcharts(
         credits:
           enabled: false
@@ -28,9 +28,9 @@
           title:
             text: $(@).data('yaxis')
           # labels:
-          #   formatter: () -> return bytes(this.value, true, 0)
+          #   formatter: -> return bytes(this.value, true, 0)
         # tooltip:
-        #   formatter: () -> return bytes(this.y, true, 1)
+        #   formatter: -> return bytes(this.y, true, 1)
         plotOptions:
           column:
             pointPadding: 0.2
@@ -40,8 +40,8 @@
       )
     )
 
-@randomizationsReady = () ->
-  $("[data-object~='randomization_subject_search']").each( () ->
+@randomizationsReady = ->
+  $("[data-object~='randomization_subject_search']").each( ->
     $this = $(this)
     $this.typeahead(
       remote: root_url + "projects/#{$this.data('project-slug')}/schemes/#{$this.data('randomization-scheme-id')}/subject_search?q=%QUERY"

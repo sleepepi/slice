@@ -22,21 +22,21 @@
     $(reorder_button).removeAttr('disabled')
   false
 
-@initializeDesignReordering = () ->
+@initializeDesignReordering = ->
   $('#reorder_options[data-object~="sortable"]').sortable(
     placeholder: "li-section li-placeholder"
-    stop: () ->
+    stop: ->
       toggleReorderSubmitButton($(this), '#reorder_design_button')
       true
   )
   $('#reorder_sections_design[data-object~="sortable"]').sortable(
     placeholder: "li-section li-placeholder"
-    stop: () ->
+    stop: ->
       toggleReorderSubmitButton($(this), '#reorder_design_sections_button')
       true
   )
 
-@loadVariableSortable = () ->
+@loadVariableSortable = ->
   $('#variables[data-object~="sortable"]').sortable(
     placeholder: "well alert alert-block"
     handle: ".handle"
@@ -44,20 +44,20 @@
       top: 30
   )
 
-@designsReady = () ->
+@designsReady = ->
   loadVariableSortable()
   $('#form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
   initializeDesignReordering()
   $("#form_grid_variables div").last().click()
   if $('[data-object~="ajax-timer"]').length > 0
-    interval = setInterval( () ->
-      $('[data-object~="ajax-timer"]').each( () ->
+    interval = setInterval( ->
+      $('[data-object~="ajax-timer"]').each( ->
         $.post($(this).data('path'), "interval=#{interval}", null, "script")
       )
     , 5000)
 
 $(document)
-  .on('change', '[data-object~="condition"]', () ->
+  .on('change', '[data-object~="condition"]', ->
     updateAllDesignOptionsVisibility()
     updateCalculatedVariables()
   )
@@ -72,12 +72,12 @@ $(document)
       window.location = url
     false
   )
-  .on('keyup', '[data-object~="create-variable-name"]', () ->
+  .on('keyup', '[data-object~="create-variable-name"]', ->
     new_value = $(this).val().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
     new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,32)
     $($(this).data('variable-name-target')).val(new_value)
   )
-  .on('click', '#reorder_design_button', () ->
+  .on('click', '#reorder_design_button', ->
     if $(this).attr('disabled') != 'disabled'
       $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
       rows = $('#reorder_options').sortable('toArray', attribute: 'data-position').toString()
@@ -85,7 +85,7 @@ $(document)
       $('#saving_modal').modal(backdrop: 'static', keyboard: false)
     false
   )
-  .on('click', '#reorder_design_sections_button', () ->
+  .on('click', '#reorder_design_sections_button', ->
     if $(this).attr('disabled') != 'disabled'
       $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
       sections = $('#reorder_sections_design').sortable('toArray', attribute: 'data-position').toString()
@@ -93,26 +93,26 @@ $(document)
       $('#saving_modal').modal(backdrop: 'static', keyboard: false)
     false
   )
-  .on('click', '#sections_link', () ->
+  .on('click', '#sections_link', ->
     $(this).closest('li').addClass('disabled')
     $('#variables_link').closest('li').removeClass('disabled')
     $('#reorder_design_button, #reorder_options_container').hide()
     $('#reorder_design_sections_button, #reorder_sections_container').show()
     false
   )
-  .on('click', '#variables_link', () ->
+  .on('click', '#variables_link', ->
     $(this).closest('li').addClass('disabled')
     $('#sections_link').closest('li').removeClass('disabled')
     $('#reorder_design_button, #reorder_options_container').show()
     $('#reorder_design_sections_button, #reorder_sections_container').hide()
     false
   )
-  .on('click', '[data-object~="preview-mode"]', () ->
+  .on('click', '[data-object~="preview-mode"]', ->
     $('.design-preview-hide').hide()
     $('[data-object~="design-preview-expand"]').removeClass('col-sm-6')
     $('[data-object~="design-preview-expand"]').addClass('col-sm-12')
   )
-  .on('click', '[data-object~="edit-mode"]', () ->
+  .on('click', '[data-object~="edit-mode"]', ->
     $('.design-preview-hide').show()
     $('[data-object~="design-preview-expand"]').removeClass('col-sm-12')
     $('[data-object~="design-preview-expand"]').addClass('col-sm-6')

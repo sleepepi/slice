@@ -1,6 +1,6 @@
 # This function updates all variables starting with lowest one and progressing
 # up in visibility.
-@updateAllDesignOptionsVisibility = () ->
+@updateAllDesignOptionsVisibility = ->
   $('[data-object~="design-option-container"]').each( (index, variableContainer) ->
     updateDesignOptionContainer(variableContainer)
   )
@@ -19,7 +19,7 @@
   design_option.position = element.data('position')
   return design_option
 
-@buildSectionFormData = () ->
+@buildSectionFormData = ->
   formData = new FormData()
   formData.append("section[name]", $("#section_name").val())
   formData.append("section[description]", $("#section_description").val())
@@ -30,14 +30,14 @@
   formData.append("design_option[branching_logic]", $("#design_option_branching_logic").val()) unless $("#design_option_branching_logic").val() == undefined
   return formData
 
-@hideInteractiveDesignModal = () ->
+@hideInteractiveDesignModal = ->
   $('#interactive_design_modal').modal('hide')
 
-@showInteractiveDesignModal = () ->
+@showInteractiveDesignModal = ->
   $('#interactive_design_modal').modal('show')
 
 $(document)
-  .on('click', '[data-object~="new-section-popup"]', () ->
+  .on('click', '[data-object~="new-section-popup"]', ->
     project_id = $("#project_id").val()
     design_id = $('#design_id').val()
     changes = {}
@@ -45,7 +45,7 @@ $(document)
     $.get("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/new_section", changes, null, "script")
     false
   )
-  .on('click', '[data-object~="new-variable-popup"]', () ->
+  .on('click', '[data-object~="new-variable-popup"]', ->
     project_id = $("#project_id").val()
     design_id = $('#design_id').val()
     changes = {}
@@ -54,7 +54,7 @@ $(document)
     $.get("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/new_variable", changes, null, "script")
     false
   )
-  .on('click', '[data-object~="new-existing-variable-popup"]', () ->
+  .on('click', '[data-object~="new-existing-variable-popup"]', ->
     project_id = $("#project_id").val()
     design_id = $('#design_id').val()
     changes = {}
@@ -62,7 +62,7 @@ $(document)
     $.get("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/new_existing_variable", changes, null, "script")
     false
   )
-  .on('click', '[data-object~="set-variable-domain"]', () ->
+  .on('click', '[data-object~="set-variable-domain"]', ->
     project_id = $("#project_id").val()
     design_id = $('#design_id').val()
     design_option_id = $(this).data('design-option-id')
@@ -71,7 +71,7 @@ $(document)
     changes['variable'] = { domain_id: $($(this).data('target')).val() }
     $.post("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/#{design_option_id}", changes, null, "script")
   )
-  .on('click', '[data-object~="submit-section-form-with-file"]', () ->
+  .on('click', '[data-object~="submit-section-form-with-file"]', ->
     $.ajax(
       url: $($(this).data('target')).attr('action')
       type: $(this).data('method')

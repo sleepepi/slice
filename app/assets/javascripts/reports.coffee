@@ -10,12 +10,12 @@
     $(element).addClass("shadow-inset-right")
   false
 
-@submitReportWithFilters = () ->
+@submitReportWithFilters = ->
   filters = $("#filters_form").serialize()
   $.post($("#report_form").attr('action'), filters + '&' + $("#report_form").serialize(), null, 'script')
 
-@loadPeity = () ->
-  $.each($('[data-object~="sparkline"]'), () ->
+@loadPeity = ->
+  $.each($('[data-object~="sparkline"]'), ->
     $(this).show()
     if $(this).data('type') == 'box'
       minValue = undefined
@@ -36,7 +36,7 @@
       $(this).peity($(this).data('type'))
   )
 
-@reportsReady = () ->
+@reportsReady = ->
   loadPeity()
 
 $(document)
@@ -45,15 +45,15 @@ $(document)
     submitReportWithFilters()
     e.preventDefault()
   )
-  .on('click', '[data-object~="export-report-pdf"]', () ->
+  .on('click', '[data-object~="export-report-pdf"]', ->
     window.open($($(this).data('target')).attr('action') + '.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize())
     false
   )
-  .on('click', '[data-object~="export-report-pdf-with-filters"]', () ->
+  .on('click', '[data-object~="export-report-pdf-with-filters"]', ->
     window.open($($(this).data('target')).attr('action') + '.pdf?orientation=' + $(this).data('orientation') + '&' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize())
     false
   )
-  .on('click', '[data-object~="export-csv-with-filters"]', () ->
+  .on('click', '[data-object~="export-csv-with-filters"]', ->
     url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize() + '&' + $('#filters_form').serialize()
     if $(this).data('page') == 'blank'
       window.open(url)
@@ -61,12 +61,12 @@ $(document)
       window.location = url
     false
   )
-  .on('click', '[data-object~="set-value"]', () ->
+  .on('click', '[data-object~="set-value"]', ->
     $($(this).data('target')).val($(this).data('value'))
     submitReportWithFilters()
     false
   )
-  .on('click', '[data-object~="refresh-report"]', () ->
+  .on('click', '[data-object~="refresh-report"]', ->
     submitReportWithFilters()
     false
   )

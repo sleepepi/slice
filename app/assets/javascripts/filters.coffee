@@ -1,4 +1,4 @@
-@activateFilterSortable = () ->
+@activateFilterSortable = ->
   $('.filter-sort-container').sortable(
     placeholder: 'filter-bubble-faded'
     connectWith: '.filter-sort-container, #trash'
@@ -17,20 +17,20 @@
 
   $('.filter-sort-container').droppable( activeClass: 'droppable-hover', tolerance: 'pointer' )
 
-@filtersReady = () ->
+@filtersReady = ->
   activateFilterSortable()
   if $('[data-object~="form-load-with-filters"]').length > 0
     submitReportWithFilters()
 
 $(document)
-  .on('click', '[data-object~="open-new-filter-modal"]', () ->
+  .on('click', '[data-object~="open-new-filter-modal"]', ->
     $.post($("#new_filter_form").attr('action'), $("#filters_form").serialize(), null, 'script')
     false
   )
-  .on('change', '[data-object~="variable-selection"]', () ->
+  .on('change', '[data-object~="variable-selection"]', ->
     $($(this).data('target')).submit()
   )
-  .on('click', '[data-object~="add-filter"]', () ->
+  .on('click', '[data-object~="add-filter"]', ->
     variable_id = $("#variable_id").val()
     if $("#missing").is(":checked")
       missing = '1'
@@ -44,7 +44,7 @@ $(document)
     $('#new_filter_modal').modal('hide')
     false
   )
-  .on('click', '[data-object~="edit-filter"]', () ->
+  .on('click', '[data-object~="edit-filter"]', ->
     variable_id = $(this).data('variable-id')
     project_id = $(this).data('project-id')
     params = {}
@@ -55,7 +55,7 @@ $(document)
     $.post("#{root_url}reports/projects/#{project_id}/edit_filter", params, null, 'script')
     false
   )
-  .on('click', '[data-object~="update-filter"]', () ->
+  .on('click', '[data-object~="update-filter"]', ->
     variable_id = $(this).data('variable-id')
     if $("#missing").is(":checked")
       missing = '1'
@@ -67,7 +67,7 @@ $(document)
     $('#new_filter_modal').modal('hide')
     false
   )
-  .on('click', '[data-object~="remove-filter"]', () ->
+  .on('click', '[data-object~="remove-filter"]', ->
     $($(this).data('target')).remove()
     submitReportWithFilters()
     $('#new_filter_modal').modal('hide')

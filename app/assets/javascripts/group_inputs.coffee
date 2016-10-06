@@ -40,12 +40,12 @@ $(document)
     group_name = radio.attr("name")
     toggleGroupInput(radio, group_name, event)
   )
-  .on("click", ".checkbox input:checkbox", () ->
+  .on("click", ".checkbox input:checkbox", ->
     $(this).focus()
   )
-  .on("focus", ".radio input:radio, .checkbox input:checkbox", () ->
+  .on("focus", ".radio input:radio, .checkbox input:checkbox", ->
     $(this).parent().addClass("focus")
   )
-  .on("focusout", ".radio input:radio, .checkbox input:checkbox", () ->
+  .on("focusout", ".radio input:radio, .checkbox input:checkbox", ->
     $(this).parent().removeClass("focus")
   )

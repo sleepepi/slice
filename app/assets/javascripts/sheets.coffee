@@ -1,13 +1,13 @@
-@activateSheetDraggables = () ->
+@activateSheetDraggables = ->
   $('[data-object~="sheet-draggable"]').draggable(
     revert: 'invalid'
-    helper: () ->
+    helper: ->
       "<div class='sheet-drag-helper'>Sheet #{$(this).data('sheet-name')}</div>"
     cursorAt: { left: 10 }
     appendTo: "body"
   )
 
-@activateEventDroppables = () ->
+@activateEventDroppables = ->
   $('[data-object~="event-droppable"]').droppable(
     hoverClass: "event-droppable-hover"
     tolerance: "pointer"
@@ -46,14 +46,14 @@
 @nonStandardClick = (event) ->
   event.which > 1 or event.metaKey or event.ctrlKey or event.shiftKey or event.altKey
 
-@sheetsReady = () ->
+@sheetsReady = ->
   initializeSheet()
   activateSheetDraggables()
   activateEventDroppables()
   fix_ie10_placeholder()
 
 $(document)
-  .on('click', '[data-object~="export"]', () ->
+  .on('click', '[data-object~="export"]', ->
     url = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
     if $(this).data('page') == 'blank'
       window.open(url)

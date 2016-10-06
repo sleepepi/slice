@@ -1,4 +1,4 @@
-@signaturesReady = () ->
+@signaturesReady = ->
   $("[data-object~='signature']").each( (index, element) ->
     sig = $($(this).data('signature-target')).val() if $($(this).data('signature-target')).val()
     $(this).signaturePad( drawOnly: true, lineWidth: 0, validateFields: false, canvas: $(this), output: $($(this).data('signature-target')) ).regenerate(sig)
@@ -10,7 +10,7 @@
   false
 
 $(document)
-  .on('click', '[data-object~="clear-signature"]', () ->
+  .on('click', '[data-object~="clear-signature"]', ->
     target_name = $(this).data("target-name")
     clearClassStyles(target_name)
     $("##{target_name}").val("")

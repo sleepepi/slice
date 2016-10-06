@@ -1,8 +1,8 @@
-@projectSortables = () ->
+@projectSortables = ->
   $('[data-object~="projects-sortable"]').sortable(
     handle: ".handle"
     axis: "y"
-    stop: () ->
+    stop: ->
       favored_order = if $('[data-object~="projects-sortable"][data-category~="favored"]').length > 0
         $('[data-object~="projects-sortable"][data-category~="favored"]').sortable('toArray', attribute: 'data-project-id')
       else
@@ -19,10 +19,10 @@
       true
   )
 
-@projectsReady = () ->
+@projectsReady = ->
   projectSortables()
 
 $(document)
-  .on('click', '[data-loading-text]', () ->
+  .on('click', '[data-loading-text]', ->
     $(this).button('loading')
   )

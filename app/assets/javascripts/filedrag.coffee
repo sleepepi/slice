@@ -1,4 +1,4 @@
-@isNotInternetExplorer = () ->
+@isNotInternetExplorer = ->
   ua = window.navigator.userAgent
   msie = ua.indexOf('MSIE ')
   # If Internet Explorer, return version number
@@ -7,7 +7,7 @@
   else # If another browser
     return true
 
-@fileDragReady = () ->
+@fileDragReady = ->
   if window.FormData != undefined and isNotInternetExplorer()
     $('.filedrag').show()
 
@@ -55,9 +55,9 @@ $(document)
       data: data         # The form with the file inputs.
       processData: false # Using FormData, no need to process data.
       contentType: false
-    ).done( () ->
+    ).done( ->
       console.log("Success: Attachments uploaded!")
-    ).fail( () ->
+    ).fail( ->
       url = "#{root_url}projects/#{project}/adverse-events/#{adverse_event}/files/new"
       $this.html("An error occurred, the attachments could not be uploaded!<br /><br />Please try again or <a href=\"#{url}\">upload the files</a> manually.")
     )

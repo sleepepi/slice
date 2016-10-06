@@ -73,11 +73,11 @@
   $("##{target_name}_hour").blur()
 
 $(document)
-  .on('click', '[data-object~="set-time-input-to-current-time"]', () ->
+  .on('click', '[data-object~="set-time-input-to-current-time"]', ->
     setCurrentTime($(this))
     false
   )
-  .on('click', '[data-object~="set-time-input-to-current-time-12hour"]', () ->
+  .on('click', '[data-object~="set-time-input-to-current-time-12hour"]', ->
     setCurrentTime12Hour($(this))
     false
   )
@@ -89,11 +89,11 @@ $(document)
     clearTimeDurationFields($(this))
     event.preventDefault()
   )
-  .on("click", '[data-object~="clear-date-input"]', () ->
+  .on("click", '[data-object~="clear-date-input"]', ->
     clearDateFields($(this))
     false
   )
-  .on('click', '[data-object~="set-date-input-to-current-date"]', () ->
+  .on('click', '[data-object~="set-date-input-to-current-date"]', ->
     setCurrentDate($(this))
     false
   )
