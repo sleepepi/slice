@@ -61,6 +61,10 @@
 ### Refactoring
 - Renamed project_favorites to project_preferences
 
+### Bug Fix
+- Fixed a bug that prevented check filters from correctly checking variables
+  that looked like numeric values
+
 ## 0.41.3 (September 23, 2016)
 
 ### Enhancements

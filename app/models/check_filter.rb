@@ -105,7 +105,7 @@ class CheckFilter < ApplicationRecord
   end
 
   def all_numeric?
-    check_filter_values.distinct.pluck(:value).count { |v| !(v =~ /^[-+]?[0-9]+$/) } == 0
+    (variable.captured_values + check_filter_values.distinct.pluck(:value)).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
   end
 
   def subquery_attribute
