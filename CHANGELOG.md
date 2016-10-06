@@ -39,6 +39,8 @@
     - By randomized:
       - `is:randomized`
       - `not:randomized`
+  - Clicking the sheet validation message now scrolls to the first field that
+    caused the error message to display
 - **Subject Changes**
   - Subject menu redesigned to adjust to different screen sizes
   - Adverse events and randomizations now included in subject menu

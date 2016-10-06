@@ -220,26 +220,42 @@
     console.log("FAIL: #{textStatus} #{errorThrown}")
   )
 
-@checkRequiredAndInvalidFormat = () ->
-  fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( () ->
+@checkRequiredAndInvalidFormat = ->
+  fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( ->
     $(this).data('status') == "blank" || $(this).data('status') == "invalid"
   )
 
-  out_of_range_fields = $('[data-status]:visible').filter( () ->
+  out_of_range_fields = $('[data-status]:visible').filter( ->
     $(this).data('status') == "out_of_range"
   )
 
   field_count = fields.length + out_of_range_fields.length
 
   if field_count > 0
-    $("#validation-messages").html("#{field_count} field#{if field_count == 1 then ' is' else 's are'} invalid, missing, or out of range")
+    $("#validation-messages").html("#{field_count} error#{if field_count == 1 then '' else 's'} found. Scroll to error.")
   else
     $("#validation-messages").html("")
 
 $(document)
-  .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', () ->
+  .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', ->
     validateElement($(this))
   )
-  .on('change', '[data-object~="validate"] .checkbox input:checkbox, [data-object~="validate"] .radio input:radio, [data-object~="validate"] select', () ->
+  .on('change', '[data-object~="validate"] .checkbox input:checkbox, [data-object~="validate"] .radio input:radio, [data-object~="validate"] select', ->
     validateElement($(this))
+  )
+  .on('click', '[data-object~="scroll-to-first-error"]', ->
+    fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( ->
+      $(this).data('status') == "blank" || $(this).data('status') == "invalid"
+    )
+    out_of_range_fields = $('[data-status]:visible').filter( ->
+      $(this).data('status') == "out_of_range"
+    )
+    if fields.length > 0
+      field = fields[0]
+    else if out_of_range_fields.length > 0
+      field = out_of_range_fields[0]
+
+    if field
+      validateElement(field)
+      $('html, body').animate { scrollTop: $(field).offset().top - 100 }, 400
   )
