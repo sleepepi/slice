@@ -59,6 +59,8 @@
     - `has:ae`
 - **Treatment Arm Changes**
   - Treatment Arms can now have short names
+- **PATS Changes**
+  - Added "Caregiver not interested - Other Reasons" to PATS tables
 - **Gem Changes**
   - Updated to pg 0.19.0
   - Updated to jquery-rails 4.2.1

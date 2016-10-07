@@ -23,6 +23,7 @@ module Pats
           Pats::Categories.for('child-does-not-want-to-enroll', project),
           Pats::Categories.for('caregiver-could-not-be-contacted-for-eligibility', project),
           Pats::Categories.for('caregiver-no-showed-for-visit-and-cannot-be-contacted', project),
+          Pats::Categories.for('caregiver-not-interested-other-reasons', project),
           Pats::Categories.for('disinterest-reason-unknown', project)
         ]
       end

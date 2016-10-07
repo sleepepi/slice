@@ -69,6 +69,7 @@ module Pats
       'child-does-not-want-to-enroll' => Pats::Categories::Disinterested::ChildDoesNotWantToEnroll,
       'caregiver-could-not-be-contacted-for-eligibility' => Pats::Categories::Disinterested::CaregiverCouldNotBeContactedForEligibility,
       'caregiver-no-showed-for-visit-and-cannot-be-contacted' => Pats::Categories::Disinterested::CaregiverNoShowedForVisitAndCannotBeContacted,
+      'caregiver-not-interested-other-reasons' => Pats::Categories::Disinterested::OtherReasons,
       'disinterest-reason-unknown' => Pats::Categories::Disinterested::ReasonUnknown,
       'ent-eligibility-failure-1' => Pats::Categories::ENTFailures::ENTEligibility1,
       'ent-eligibility-failure-2' => Pats::Categories::ENTFailures::ENTEligibility2,
