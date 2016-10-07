@@ -14,7 +14,7 @@
   - Checks can now find sheets and subjects that are missing a response for a
     variable
 - **Design Changes**
-  - Design index display blinding status
+  - Blinding status and category added to design index
   - Design index can be filtered by category
 - **Email Changes**
   - Project-level emails now take into account project-specific email
@@ -66,7 +66,7 @@
   - Updated to jquery-rails 4.2.1
 
 ### Refactoring
-- Renamed project_favorites to project_preferences
+- Renamed `project_favorites` to `project_preferences`
 
 ### Bug Fix
 - Fixed a bug that prevented check filters from correctly checking variables
