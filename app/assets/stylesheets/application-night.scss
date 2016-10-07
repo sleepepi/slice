@@ -11,6 +11,9 @@ $project-box-link: $brand-white;
 $comment-header-bg: darken($gray-darker, 5%);
 $comment-border: darken($gray-darker, 10%);
 $breadcrumb-link-color: $link-color;
+$calendar-border-color: $gray-darker;
+$calendar-today-bg: $gray-darker;
+
 
 @import 'tree';
 

@@ -1,5 +1,3 @@
-$calendar-border-color: $A100;
-
 .calendar-week {
   display: flex;
   min-height: 100px;
@@ -12,7 +10,7 @@ $calendar-border-color: $A100;
     overflow-x: hidden;
 
     &.today {
-      background-color: lighten($A200, 27%);
+      background-color: $calendar-today-bg;
     }
 
     &.saturday,

@@ -101,6 +101,6 @@
                     - adverse_event = object
                     - display_text = "#{adverse_event.subject.name} #{adverse_event.name}"
                     %li.nowrap
-                      %span.glyphicon.glyphicon-warning-sign
+                      %span.glyphicon.glyphicon-warning-sign.text-danger
                       = link_to [@project, adverse_event] do
                         = display_text
