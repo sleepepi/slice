@@ -122,6 +122,7 @@ Rails.application.routes.draw do
       post :archive
       get :advanced, to: redirect('editor/projects/%{id}/advanced')
       get :settings, to: redirect('editor/projects/%{id}/settings')
+      get :calendar
     end
 
     namespace :reports do

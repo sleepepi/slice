@@ -1,0 +1,51 @@
+$calendar-border-color: $A100;
+
+.calendar-week {
+  display: flex;
+  min-height: 100px;
+
+  .calendar-day {
+    flex-grow: 1;
+    box-shadow: -1px -1px $calendar-border-color, inset -1px -1px 0 0 $calendar-border-color;
+    flex: 1;
+    font-size: 14px;
+    overflow-x: hidden;
+
+    &.today {
+      background-color: lighten($A200, 27%);
+    }
+
+    &.saturday,
+    &.sunday {
+      display: none;
+    }
+  }
+
+  &.calendar-header {
+    min-height: 0;
+
+    .calendar-day {
+      box-shadow: none;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+}
+
+.calendar-week-header {
+   display: flex;
+
+  .calendar-day {
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .calendar-week {
+    .calendar-day {
+      &.saturday,
+      &.sunday {
+        display: block;
+      }
+    }
+  }
+}

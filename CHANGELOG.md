@@ -1,5 +1,10 @@
 ## 0.43.0
 
+### Enhancements
+- **Project Changes**
+  - A calendar has been added that shows tasks, adverse events, and
+    randomizations
+
 ## 0.42.0
 
 ### Enhancements

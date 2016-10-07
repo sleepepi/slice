@@ -195,4 +195,10 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
     assert_redirected_to projects_path
   end
+
+  test 'should get calendar' do
+    login(users(:valid))
+    get :calendar, params: { id: @project }
+    assert_response :success
+  end
 end

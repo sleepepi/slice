@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
     :settings, :show, :collect, :team, :favorite, :activity, :logo,
-    :archive
+    :archive, :calendar
   ]
 
   # POST /projects/save_project_order.js
@@ -35,6 +35,10 @@ class ProjectsController < ApplicationController
     project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
     project_preference.update archived: (params[:undo] != '1')
     redirect_to root_path, notice: archive_notice
+  end
+
+  # GET /projects/1/calendar
+  def calendar
   end
 
   # GET /projects

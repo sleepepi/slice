@@ -1,0 +1,106 @@
+- @title = 'Calendar'
+- @menu_title = "#{@project.name} #{@title}"
+
+= render 'projects/side_nav'
+
+
+- @anchor_date = (Date.parse(params[:date]) rescue Time.zone.today)
+
+- @anchor_date = @anchor_date.beginning_of_week(:sunday)
+
+-# if current_user.calendar_view == '4week'
+- move_forward = @anchor_date + 4.weeks
+- move_backward = @anchor_date - 4.weeks
+-# else
+  -# move_forward = @anchor_date + 1.month
+  -# move_backward = @anchor_date - 1.month
+
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      .pull-right
+        = succeed ' ' do
+          = link_to calendar_project_path(@project, date: move_backward.strftime('%Y%m%d')), tabindex: '-1', class: 'btn btn-xs btn-default' do
+            %span.glyphicon.glyphicon-chevron-left
+
+        = succeed ' ' do
+          = link_to calendar_project_path(@project), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Time.zone.today.beginning_of_week(:sunday) ? 'disabled' : nil) do
+            %span.glyphicon.glyphicon-calendar
+
+        = succeed ' ' do
+          = link_to calendar_project_path(@project, date: move_forward.strftime('%Y%m%d')), tabindex: '-1', class: 'btn btn-xs btn-default' do
+            %span.glyphicon.glyphicon-chevron-right
+
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        = @title
+
+.dashboard-container
+  .calendar
+    .calendar-week.calendar-header
+      .calendar-day.sunday
+        S
+
+      .calendar-day
+        M
+
+      .calendar-day
+        T
+
+      .calendar-day
+        W
+
+      .calendar-day
+        R
+
+      .calendar-day
+        F
+
+      .calendar-day.saturday
+        S
+
+    - index = -1
+    - (-1..4).each do |week_offset|
+      .calendar-week
+        - (0..6).each do |day_offset|
+          - index += 1
+          - current_date = @anchor_date + week_offset.week + day_offset.day
+          - dayname = Date::DAYNAMES[current_date.wday]
+          .calendar-day{ class: [dayname.downcase, Time.zone.today == current_date ? 'today' : nil] }
+            - if index == 0 || current_date.day == 1
+              - date_format = current_date.strftime '%b %e'
+            - else
+              - date_format = current_date.strftime '%e'
+            = date_format
+            - tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: current_date)
+            - randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) = ?', current_date)
+            - adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: current_date)
+            - objects = (tasks.to_a + randomizations.to_a + adverse_events.to_a).sort_by(&:created_at)
+            - if objects.count > 0
+              %ul.list-unstyled
+                - objects.each do |object|
+                  - if object.is_a?(Task)
+                    - task = object
+                    - display_text = task.description
+                    - if task.randomization
+                      - display_text = "#{task.randomization.subject.name} #{task.description}"
+                    %li.nowrap
+                      %span.glyphicon.glyphicon-earphone
+                      = link_to [@project, task] do
+                        = display_text
+                  - elsif object.is_a?(Randomization)
+                    - randomization = object
+                    - display_text = "#{randomization.subject.name} #{randomization.treatment_arm.short_name}"
+                    %li.nowrap
+                      %span.glyphicon.glyphicon-random
+                      = link_to [@project, randomization] do
+                        = display_text
+                  - elsif object.is_a?(AdverseEvent)
+                    - adverse_event = object
+                    - display_text = "#{adverse_event.subject.name} #{adverse_event.name}"
+                    %li.nowrap
+                      %span.glyphicon.glyphicon-warning-sign
+                      = link_to [@project, adverse_event] do
+                        = display_text
