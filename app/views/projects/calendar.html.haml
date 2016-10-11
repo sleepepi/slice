@@ -61,15 +61,15 @@
       .calendar-day.saturday
         S
 
+    - weeks_before = -1
+
     - stacked_windows = []
-    - added_task_counter = -1
-    -# end_windows = current_user.all_viewable_tasks.where(project_id: @project.id).where('window_start_date < ? and window_end_date >= ?', @anchor_date - 1.week, @anchor_date - 1.week)
-    -# end_windows.each_with_index do |end_window, index|
-      -# added_task_counter += 1
-      -# stacked_windows << [end_window, 'start', colors(added_task_counter)]
+    - end_windows = current_user.all_viewable_tasks.where(project_id: @project.id).where('window_start_date < ? and window_end_date >= ?', @anchor_date + weeks_before.week, @anchor_date + weeks_before.week)
+    - end_windows.each_with_index do |end_window, index|
+      - stacked_windows << [end_window, 'start']
 
     - index = -1
-    - (-1..4).each do |week_offset|
+    - (weeks_before..4).each do |week_offset|
       .calendar-week
         - (0..6).each do |day_offset|
           - index += 1
@@ -82,43 +82,35 @@
               - else
                 - date_format = current_date.strftime '%e'
               = date_format
-            - stacked_windows.collect! do |stacked_window, state, color|
+            - stacked_windows.collect! do |stacked_window, state|
               - if stacked_window.window_end_date < current_date
-                - [stacked_window, 'cleared', '#ededed']
+                - [stacked_window, 'cleared']
               - elsif stacked_window.window_end_date == current_date
-                - [stacked_window, 'end', color]
+                - [stacked_window, 'end']
               - else
-                - [stacked_window, 'middle', color]
-            - stacked_windows.reject! { |stacked_window, state, _color| state == 'cleared' } if day_offset == 0
+                - [stacked_window, 'middle']
+            - stacked_windows.reject! { |stacked_window, state| state == 'cleared' } if day_offset == 0
 
             - start_windows = current_user.all_viewable_tasks.where(project_id: @project.id, window_start_date: current_date)
             - start_windows.each do |start_window|
               - added = false
-              - added_task_counter += 1
-              - stacked_windows.each_with_index do |(stacked_window, state, color), index|
+              - stacked_windows.each_with_index do |(stacked_window, state), index|
                 - if state == 'cleared'
-                  - stacked_windows[index] = [start_window, 'start', colors(added_task_counter)]
+                  - stacked_windows[index] = [start_window, 'start']
                   - added = true
                   - break
-              - stacked_windows << [start_window, 'start', colors(added_task_counter)] unless added
+              - stacked_windows << [start_window, 'start'] unless added
 
-            - stacked_windows.each_with_index do |(stacked_window, state, color), index|
-              .calendar-window{ class: "window-#{state}", style: "background-color: #{color};", data: { object: 'calendar-window', task_id: stacked_window.id } }
+            - stacked_windows.each_with_index do |(stacked_window, state), index|
+              .calendar-window{ class: "window-#{state}", data: { object: 'calendar-window', task_id: stacked_window.id } }
                 - if state == 'start'
-                  =# stacked_window.id
-                  =# state
-                  =# stacked_window.calendar_description
-                  Window Start
+                  %span.hidden-xs.hidden-sm Window
+                  Start
                 - elsif state == 'end'
-                  Window End
-                - elsif state == 'cleared'
-                  &nbsp;
-                  =# stacked_window.id
-                  =# state
+                  %span.hidden-xs.hidden-sm Window
+                  End
                 - else
                   &nbsp;
-                  =# stacked_window.id
-                  =# state
 
             - tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: current_date)
             - randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) = ?', current_date)
