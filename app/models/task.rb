@@ -56,4 +56,12 @@ class Task < ApplicationRecord
       description
     end
   end
+
+  def phonecall?
+    !(description =~ /phone/i).nil?
+  end
+
+  def visit?
+    !(description =~ /visit/i).nil?
+  end
 end

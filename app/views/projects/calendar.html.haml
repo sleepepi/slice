@@ -121,11 +121,15 @@
                 - objects.each do |object|
                   - if object.is_a?(Task)
                     - task = object
-                    - display_text = task.calendar_description
                     %li.nowrap
-                      %span.glyphicon.glyphicon-earphone
+                      - if task.phonecall?
+                        %span.glyphicon.glyphicon-earphone
+                      - elsif task.visit?
+                        %span.glyphicon.glyphicon-user
+                      - else
+                        %span.glyphicon.glyphicon-pushpin
                       = link_to [@project, task], data: { object: 'calendar-window-hover', task_id: task.id } do
-                        = display_text
+                        = object.calendar_description
                   - elsif object.is_a?(Randomization)
                     - randomization = object
                     - display_text = "#{randomization.subject.name} #{randomization.treatment_arm.short_name}"
