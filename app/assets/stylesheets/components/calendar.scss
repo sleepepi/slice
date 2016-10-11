@@ -22,14 +22,11 @@
     .calendar-window {
       background-color: $calender-window-bg;
       color: $brand-white;
-      // display: none;
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       white-space: nowrap;
-      padding-left: 3px;
-      padding-right: 3px;
       opacity: 0;
       transition: opacity .5s ease-out;
       text-align: center;
@@ -37,14 +34,6 @@
       &.window-cleared {
         background-color: transparent;
       }
-
-      // &.window-start {
-      //   text-align: center;
-      // }
-
-      // &.window-end {
-      //   text-align: right;
-      // }
 
       &.calendar-window-hover {
         opacity: 0.8;
