@@ -48,4 +48,12 @@ class Task < ApplicationRecord
   def self.searchable_attributes
     %w(description)
   end
+
+  def calendar_description
+    if randomization
+      "#{randomization.subject.name} #{description}"
+    else
+      description
+    end
+  end
 end

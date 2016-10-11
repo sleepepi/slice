@@ -4,6 +4,7 @@
 - **Project Changes**
   - A calendar has been added that shows tasks, adverse events, and
     randomizations
+    - Task windows are now viewable on calendar
 
 ## 0.42.0 (October 11, 2016)
 

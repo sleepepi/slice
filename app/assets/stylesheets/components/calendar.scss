@@ -8,6 +8,7 @@
     flex: 1;
     font-size: 14px;
     overflow-x: hidden;
+    position: relative;
 
     &.today {
       background-color: $calendar-today-bg;
@@ -16,6 +17,20 @@
     &.saturday,
     &.sunday {
       display: none;
+    }
+
+    .calendar-window {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      white-space: nowrap;
+      color: white;
+      display: none;
+
+      &.window-end {
+        text-align: right;
+      }
     }
   }
 
@@ -47,3 +62,4 @@
     }
   }
 }
+
