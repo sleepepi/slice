@@ -4,10 +4,6 @@
 = render 'projects/side_nav'
 
 
-- @anchor_date = (Date.parse(params[:date]) rescue Time.zone.today)
-
-- @anchor_date = @anchor_date.beginning_of_week(:sunday)
-
 -# if current_user.calendar_view == '4week'
 - move_forward = @anchor_date + 4.weeks
 - move_backward = @anchor_date - 4.weeks
@@ -61,15 +57,20 @@
       .calendar-day.saturday
         S
 
-    - weeks_before = -1
-
     - stacked_windows = []
-    - end_windows = current_user.all_viewable_tasks.where(project_id: @project.id).where('window_start_date < ? and window_end_date >= ?', @anchor_date + weeks_before.week, @anchor_date + weeks_before.week)
+    - end_windows = current_user.all_viewable_tasks.where(project_id: @project.id).where('window_start_date < ? and window_end_date >= ?', @anchor_date + @weeks_before.week, @anchor_date + @weeks_before.week)
     - end_windows.each_with_index do |end_window, index|
       - stacked_windows << [end_window, 'start']
 
+    -# all_objects
+    -# tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: current_date)
+    -# randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) = ?', current_date)
+    -# adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: current_date)
+    -# comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where('DATE(comments.created_at) = ?', current_date)
+    -# objects = (tasks.to_a + randomizations.to_a + adverse_events.to_a + comments.to_a).sort_by(&:created_at)
+
     - index = -1
-    - (weeks_before..4).each do |week_offset|
+    - (@weeks_before..@weeks_after).each do |week_offset|
       .calendar-week
         - (0..6).each do |day_offset|
           - index += 1
@@ -112,10 +113,18 @@
                 - else
                   &nbsp;
 
-            - tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: current_date)
-            - randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) = ?', current_date)
-            - adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: current_date)
+            -# tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: current_date)
+            -# randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) = ?', current_date)
+            -# adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: current_date)
+            -# comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where('DATE(comments.created_at) = ?', current_date)
+            -# objects = (tasks.to_a + randomizations.to_a + adverse_events.to_a + comments.to_a).sort_by(&:created_at)
+
+            - tasks = @tasks.select { |t| t.due_date == current_date }
+            - randomizations = @randomizations.select { |r| r.randomized_at.to_date == current_date }
+            - adverse_events = @adverse_events.select { |a| a.adverse_event_date == current_date }
+            - comments = @comments.select { |c| c.created_at.to_date == current_date }
             - objects = (tasks.to_a + randomizations.to_a + adverse_events.to_a).sort_by(&:created_at)
+
             - if objects.count > 0
               %ul.list-unstyled
                 - objects.each do |object|
@@ -143,4 +152,11 @@
                     %li.nowrap
                       %span.glyphicon.glyphicon-warning-sign.text-danger
                       = link_to [@project, adverse_event] do
+                        = display_text
+                  - elsif object.is_a?(Comment)
+                    - comment = object
+                    - display_text = "#{comment.description}"
+                    %li.nowrap
+                      %span.glyphicon.glyphicon-comment
+                      = link_to [@project, comment.sheet] do
                         = display_text

@@ -39,6 +39,18 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/calendar
   def calendar
+    @anchor_date = (Date.parse(params[:date]) rescue Time.zone.today)
+    @anchor_date = @anchor_date.beginning_of_week(:sunday)
+    @weeks_before = -1
+    @weeks_after = 4
+    @first_date = @anchor_date + @weeks_before.week
+    @last_date = (@anchor_date + @weeks_after.week) + 6.days
+
+    @tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: @first_date..@last_date).to_a
+    @randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) IN (?)', @first_date..@last_date).to_a
+    @adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: @first_date..@last_date).to_a
+    @comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where('DATE(comments.created_at) IN (?)', @first_date..@last_date).to_a
+    @objects = (@tasks + @randomizations + @adverse_events).sort_by(&:created_at)
   end
 
   # GET /projects
