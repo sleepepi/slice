@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
     @randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) IN (?)', @first_date..@last_date).to_a
     @adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: @first_date..@last_date).to_a
     @comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where('DATE(comments.created_at) IN (?)', @first_date..@last_date).to_a
-    @objects = (@tasks + @randomizations + @adverse_events).sort_by(&:created_at)
+    @subject_events = SubjectEvent.joins(:subject, :event).merge(current_user.all_viewable_subjects.where(project_id: @project.id)).merge(current_user.all_viewable_events.where(project_id: @project.id)).where(event_date: @first_date..@last_date).to_a
   end
 
   # GET /projects

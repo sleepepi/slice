@@ -34,6 +34,9 @@
             %li
               = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? 'active' : nil) do
                 Activity
+            %li
+              = link_to calendar_project_path(@project), class: (current_page?(calendar_project_path(@project)) ? 'active' : nil) do
+                Calendar
 
       %ul.side-nav-navigation
         %li.side-nav-section

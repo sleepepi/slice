@@ -123,7 +123,8 @@
             - randomizations = @randomizations.select { |r| r.randomized_at.to_date == current_date }
             - adverse_events = @adverse_events.select { |a| a.adverse_event_date == current_date }
             - comments = @comments.select { |c| c.created_at.to_date == current_date }
-            - objects = (tasks.to_a + randomizations.to_a + adverse_events.to_a).sort_by(&:created_at)
+            - subject_events = @subject_events.select { |se| se.event_date == current_date }
+            - objects = (tasks + randomizations + adverse_events).sort_by(&:created_at)
 
             - if objects.count > 0
               %ul.list-unstyled
@@ -159,4 +160,11 @@
                     %li.nowrap
                       %span.glyphicon.glyphicon-comment
                       = link_to [@project, comment.sheet] do
+                        = display_text
+                  - elsif object.is_a?(SubjectEvent)
+                    - subject_event = object
+                    - display_text = "#{subject_event.subject.name} #{subject_event.name}"
+                    %li.nowrap
+                      %span.glyphicon.glyphicon-comment
+                      = link_to event_project_subject_path(@project, subject_event.subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
                         = display_text
