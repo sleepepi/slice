@@ -39,7 +39,8 @@
             %td
               %span{ class: "#{'text-muted' if hash[:count] == nil}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
                 %span.rounded-borders{ style: 'background-color: transparent' }
-                  - link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters]) : project_sheets_path(@project, f: hash[:filters])
+                  - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
+                  - link_name = project_sheets_path(@project, filter_params)
                   = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
                   = link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank')
                 - unless hash[:debug].blank?
@@ -64,7 +65,8 @@
               - column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index]
               %span{ class: "#{'text-muted' if hash[:count] == nil}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
                 %span.rounded-borders{ class: "#{'text-muted' if hash[:name].blank?}", style: 'background-color: transparent' }
-                  - link_name = @design ? project_sheets_path(@project, design_id: @design.id, f: hash[:filters]) : project_sheets_path(@project, f: hash[:filters])
+                  - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
+                  - link_name = project_sheets_path(@project, filter_params)
                   = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
                   - if hash[:name].blank?
                     Unknown

@@ -22,16 +22,7 @@ class SheetsController < ApplicationController
 
   # GET /sheets
   def index
-    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id)
-
-    # TODO: Refactor use of [:f] filters and use params[:search] instead
-    (params[:f] || []).select { |f| f[:variable_id] == 'sheet_date' }.each do |filter|
-      params[:search] = [params[:search], "created:>=#{filter[:start_date]}"].select(&:present?).join(' ') if filter[:start_date].present?
-      params[:search] = [params[:search], "created:<=#{filter[:end_date]}"].select(&:present?).join(' ') if filter[:end_date].present?
-    end
-    params[:f] = params[:f].reject { |filter| filter[:variable_id] == 'sheet_date' } if params[:f]
-    sheet_scope = Sheet.filter_sheet_scope(sheet_scope, params[:f]).where(missing: false)
-    # END TODO
+    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).where(missing: false)
 
     sheet_scope = filter_scope(sheet_scope, params[:search])
 

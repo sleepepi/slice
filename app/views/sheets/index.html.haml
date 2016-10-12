@@ -19,7 +19,9 @@
     - url = project_sheets_path(@project)
     = form_tag url, method: :get, class: 'form-vertical text-left' do
       = hidden_field_tag :order, params[:order]
-
+      = hidden_field_tag :design_id, params[:design_id]
+      = hidden_field_tag :site_id, params[:site_id]
+      = hidden_field_tag :user_id, params[:user_id]
       .form-group{ style: params[:f] && params[:f].size > 0 ? nil : 'margin: 0;' }
         .input-group
           = text_field_tag :search, params[:search], autocomplete: 'off', class: 'form-control', placeholder: "Search #{@title}", data: { object: 'variable-name-autocomplete', project_id: @project.to_param }

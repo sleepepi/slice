@@ -5,6 +5,8 @@
   - A calendar has been added that shows tasks, adverse events, and
     randomizations
     - Task windows are now viewable on calendar
+- **Report Changes**
+  - Report sheet filters now use new sheet search syntax
 - **Sheet Changes**
   - Sheet index filters no longer clear other preset filters
 
