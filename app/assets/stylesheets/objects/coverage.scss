@@ -2,27 +2,51 @@
   background-color: $label-default-bg;
   font-weight: 200;
 
-  &.complete {
-    background-color: $label-primary-bg;
+  &.coverage-100 {
+    background-color: $P900;
   }
 
-  &.green {
-    background-color: $label-success-bg;
+  &.coverage-90 {
+    background-color: $P800;
   }
 
-  &.yellow {
-    background-color: $label-warning-bg;
+  &.coverage-80 {
+    background-color: $P700;
   }
 
-  &.orange {
-    background-color: $label-warning-bg;
+  &.coverage-70 {
+    background-color: $P600;
   }
 
-  &.red {
-    background-color: $label-danger-bg;
+  &.coverage-60 {
+    background-color: $P500;
   }
 
-  &.blank {
-    background-color: $label-default-bg;
+  &.coverage-50 {
+    background-color: $P400;
+  }
+
+  &.coverage-40 {
+    background-color: $P300;
+  }
+
+  &.coverage-30 {
+    background-color: $P200;
+  }
+
+
+  &.coverage-20 {
+    color: $P900;
+    background-color: $P100;
+  }
+
+  &.coverage-10 {
+    color: $P800;
+    background-color: $P50;
+  }
+
+  &.coverage-0 {
+    color: $P800;
+    background-color: $P50;
   }
 }

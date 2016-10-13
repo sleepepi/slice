@@ -411,19 +411,7 @@ class Sheet < ApplicationRecord
   end
 
   def coverage
-    if percent == 100
-      'complete'
-    elsif percent >= 80
-      'green'
-    elsif percent >= 60
-      'yellow'
-    elsif percent >= 40
-      'orange'
-    elsif percent >= 1
-      'red'
-    else
-      'blank'
-    end
+    "coverage-#{(percent / 10) * 10}"
   end
 
   def color

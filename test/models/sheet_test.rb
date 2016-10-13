@@ -13,12 +13,12 @@ class SheetTest < ActiveSupport::TestCase
   end
 
   test 'should get sheet coverage' do
-    assert_equal 'complete',  sheets(:coverage_complete).coverage
-    assert_equal 'green',     sheets(:coverage_90).coverage
-    assert_equal 'yellow',    sheets(:coverage_70).coverage
-    assert_equal 'orange',    sheets(:coverage_50).coverage
-    assert_equal 'red',       sheets(:coverage_30).coverage
-    assert_equal 'blank',     sheets(:coverage_0).coverage
+    assert_equal 'coverage-100', sheets(:coverage_complete).coverage
+    assert_equal 'coverage-90', sheets(:coverage_90).coverage
+    assert_equal 'coverage-70', sheets(:coverage_70).coverage
+    assert_equal 'coverage-50', sheets(:coverage_50).coverage
+    assert_equal 'coverage-30', sheets(:coverage_30).coverage
+    assert_equal 'coverage-0', sheets(:coverage_0).coverage
   end
 
   test 'should get sheet color' do

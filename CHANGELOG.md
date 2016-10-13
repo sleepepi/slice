@@ -13,6 +13,7 @@
     values
     - `bmi:any`
     - `bmi:missing`
+  - Sheet coverage percentage colors now match selected theme
 
 ## 0.42.0 (October 11, 2016)
 
