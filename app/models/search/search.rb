@@ -57,10 +57,7 @@ class Search
     select_sheet_ids = subquery_scope.where(variable: @variable).where(subquery).select(:sheet_id)
 
     if @operator == 'missing'
-      subjects = @current_user.all_viewable_subjects
-                              .where(project: @project)
-                              .where(id: sheet_scope.where(id: select_sheet_ids).select(:subject_id))
-      sheet_scope.where.not(subject_id: subjects.select(:id))
+      sheet_scope.where.not(id: select_sheet_ids)
     else
       sheet_scope.where(id: select_sheet_ids)
     end
@@ -90,8 +87,8 @@ class Search
 
   def compute_subjects_for_variable(current_user)
     @current_user.all_viewable_subjects
-                .where(project: project)
-                .where(id: sheets.select(:subject_id))
+                 .where(project: project)
+                 .where(id: sheets.select(:subject_id))
   end
 
   def subquery
