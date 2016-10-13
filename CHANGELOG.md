@@ -14,10 +14,6 @@
     - `bmi:any`
     - `bmi:missing`
 
-### Bug Fixes
-- Added a fallback font for glyphicons that fail to display when Internet
-  Explorer has font download disabled due to stringent security settings
-
 ## 0.42.0 (October 11, 2016)
 
 ### Enhancements
