@@ -7,8 +7,8 @@ module ReportsHelper
     search = nil
     filters.each do |filter|
       search_parts = []
-      variable = convert_variable(project, filter)
-      value = convert_value(filter)
+      variable = convert_variable_from_filter(project, filter)
+      value = convert_value_from_filter(filter)
 
       if %(site_id).include?(variable)
         filter_params[variable.to_sym] = filter[:value]
@@ -25,7 +25,7 @@ module ReportsHelper
     filter_params
   end
 
-  def convert_variable(project, filter)
+  def convert_variable_from_filter(project, filter)
     case filter[:variable_id]
     when 'sheet_date'
       'created'
@@ -41,8 +41,10 @@ module ReportsHelper
     end
   end
 
-  def convert_value(filter)
+  def convert_value_from_filter(filter)
     case filter[:value]
+    when ':any'
+      'any'
     when ':missing'
       'missing'
     else

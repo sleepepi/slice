@@ -9,6 +9,10 @@
   - Report sheet filters now use new sheet search syntax
 - **Sheet Changes**
   - Sheet index filters no longer clear other preset filters
+  - Search filters can now find sheets for variables with `any` and `missing`
+    values
+    - `bmi:any`
+    - `bmi:missing`
 
 ## 0.42.0 (October 11, 2016)
 

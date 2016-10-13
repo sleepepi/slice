@@ -15,7 +15,11 @@ class Search
     @token = token
     @operator = token[:operator]
     @variable = @project.variables.find_by_name(token[:key])
-    @values = token[:value].to_s.split(',').reject(&:blank?).collect(&:strip).reject(&:blank?).uniq
+    if %w(any missing).include?(@operator)
+      @values = @variable.captured_values.uniq
+    else
+      @values = token[:value].to_s.split(',').reject(&:blank?).collect(&:strip).reject(&:blank?).uniq
+    end
   end
 
   def run_sheets
@@ -48,26 +52,34 @@ class Search
   end
 
   def compute_sheets_for_variable
-    sheet_scope = @current_user.all_viewable_sheets.where(project: project)
+    sheet_scope = @current_user.all_viewable_sheets.where(project: @project)
     return sheet_scope if @values.count == 0
     select_sheet_ids = subquery_scope.where(variable: @variable).where(subquery).select(:sheet_id)
-    sheet_scope.where(id: select_sheet_ids)
+
+    if @operator == 'missing'
+      subjects = @current_user.all_viewable_subjects
+                              .where(project: @project)
+                              .where(id: sheet_scope.where(id: select_sheet_ids).select(:subject_id))
+      sheet_scope.where.not(subject_id: subjects.select(:id))
+    else
+      sheet_scope.where(id: select_sheet_ids)
+    end
   end
 
   def all_numeric?
-    (variable.captured_values + @values).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
+    (@variable.captured_values + @values).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
   end
 
   def subquery_attribute
-    variable.variable_type == 'checkbox' ? 'value' : 'response'
+    @variable.variable_type == 'checkbox' ? 'value' : 'response'
   end
 
   def subquery_scope
-    variable.variable_type == 'checkbox' ? Response : SheetVariable
+    @variable.variable_type == 'checkbox' ? Response : SheetVariable
   end
 
   def subjects(current_user)
-    if variable
+    if @variable
       compute_subjects_for_variable(@current_user)
     elsif filter_type == 'randomized'
       randomized_subjects(@current_user)
@@ -105,6 +117,8 @@ class Search
       @operator
     when '!='
       'NOT IN'
+    when 'any', 'missing'
+      'IN'
     else
       'IN'
     end
