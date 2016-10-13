@@ -59,9 +59,9 @@ module ApplicationHelper
     elsif past_date == Time.zone.today + 1.day
       'Tomorrow'
     elsif past_date.year == Time.zone.today.year
-      past_date.strftime('%b %d')
+      past_date.strftime('%b %-d')
     else
-      past_date.strftime('%b %d, %Y')
+      past_date.strftime('%b %-d, %Y')
     end
   end
 
