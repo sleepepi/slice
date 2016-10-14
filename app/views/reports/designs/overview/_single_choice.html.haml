@@ -15,6 +15,8 @@
     %strong N
   .col-xs-6
     = filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
+    - unless no_responses
+      %small.text-muted (100%)
 
 - count_index = -1
 - variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value], opt[:missing_code]] }.each do |name, value, missing_code|
@@ -28,6 +30,9 @@
         - unless missing_code == '1'
           %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
         = filter_link(count == 0 ? nil : count, @design, variable, value)
+        - if valid_responses.count != 0 && missing_code != '1'
+          - percent = count * 100 / valid_responses.count
+          %small.text-muted= "(#{percent}%)"
 
 .row.col-buffer
   .col-xs-6.text-right
