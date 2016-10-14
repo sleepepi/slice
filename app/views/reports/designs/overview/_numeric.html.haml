@@ -1,38 +1,40 @@
-- missing_responses = responses.select(&:blank?)
-- valid_responses = responses.reject(&:blank?).map(&:to_f)
+- missing_codes = variable.missing_codes
+- missing_responses = responses.select{ |r| r.blank? || missing_codes.include?(r) }
+- valid_responses = responses.reject{ |r| r.blank? || missing_codes.include?(r) }.map(&:to_f)
 - valid_sheets = sheet_scope.with_stratum(variable.id, ':any')
+- no_responses = (valid_responses.count == 0)
 
-%table.table
+- unless no_responses
+  .center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'box', values: valid_responses } }
+
+%table.table.table-fixed.table-borderless
   %thead
     %tr
-      %th
-      %th N
-      %th Mean
-      %th StdDev
-      %th Median
-      %th Min
-      %th Max
-      %th.text-muted Unknown
-      %th Total
+      %th.center N
+      %th.center Mean
+      %th.center.hidden-xs StdDev
+      %th.center Med
+      %th.center Min
+      %th.center Max
+      %th.center.text-muted.hidden-xs Missing
+      %th.center Total
   %tbody
     %tr
-      %td
-        %span{ style: 'display:none', data: { object: 'sparkline', type: 'box', values: valid_responses, min: @overall_min, max: @overall_max } }
-      %td= filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
-      %td
+      %td.center= filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
+      %td.center
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         = mean ? mean : '-'
-      %td
+      %td.center.nowrap.hidden-xs
         - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
         = stdev ? "&plusmn; #{stdev}".html_safe : '-'
-      %td
+      %td.center
         - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
-        = median ? filter_link(median, @design, variable, "%g"%median) : '-'
-      %td
+        = median ? filter_link(median, @design, variable, format('%g', median)) : '-'
+      %td.center
         - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
-        = min ? filter_link(min, @design, variable, "%g"%min) : '-'
-      %td
+        = min ? filter_link(min, @design, variable, format('%g', min)) : '-'
+      %td.center
         - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
-        = max ? filter_link(max, @design, variable, "%g"%max) : '-'
-      %td= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing'
-      %td= filter_link Sheet.array_count(responses), @design, nil, nil
+        = max ? filter_link(max, @design, variable, format('%g', max)) : '-'
+      %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing'
+      %td.center= filter_link Sheet.array_count(responses), @design, nil, nil

@@ -13,6 +13,9 @@ $comment-border: darken($gray-darker, 10%);
 $breadcrumb-link-color: $link-color;
 $calendar-border-color: $gray-darker;
 $calendar-today-bg: $gray-darker;
+$dashboard-bg: #111;
+$dashboard-lead-bg: $P900;
+$section-lead-bg: $P700;
 
 @import 'tree';
 

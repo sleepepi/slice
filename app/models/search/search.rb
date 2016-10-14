@@ -23,7 +23,7 @@ class Search
         else
           @variable.captured_values.uniq - @variable.missing_codes
         end
-    elsif %w(entered present unentered blank)
+    elsif %w(entered present unentered blank).include?(@operator)
       @values = @variable.captured_values.uniq
     else
       @values = token[:value].to_s.split(',').reject(&:blank?).collect(&:strip).reject(&:blank?).uniq
@@ -105,7 +105,7 @@ class Search
     if @operator.in?(%w(< > <= >=))
       full_expression = []
       @values.each do |subquery_value|
-        value = all_numeric? ? subquery_value : "'#{subquery_value}'"
+        value = all_numeric? ? subquery_value : ActiveRecord::Base.sanitize(subquery_value)
         full_expression << "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} #{value}"
       end
       full_expression.join(' or ')
@@ -133,7 +133,7 @@ class Search
     if all_numeric?
       @values.sort.join(', ')
     else
-      @values.collect { |v| "'#{v}'" }.sort.join(', ')
+      @values.collect { |v| ActiveRecord::Base.sanitize(v) }.sort.join(', ')
     end
   end
 end

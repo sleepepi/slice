@@ -23,6 +23,8 @@ module SheetsHelper
       'any'
     when ':missing'
       'missing'
+    when ':blank'
+      'blank'
     else
       value
     end

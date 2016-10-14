@@ -7,6 +7,7 @@
     - Task windows are now viewable on calendar
 - **Report Changes**
   - Report sheet filters now use new sheet search syntax
+  - Improved layout of the design overview report
 - **Sheet Changes**
   - Sheet index filters no longer clear other preset filters
   - Search filters can now find sheets for variables with `entered`, `present`,
