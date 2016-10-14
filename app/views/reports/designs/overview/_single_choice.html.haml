@@ -14,6 +14,7 @@
   .col-xs-6.text-right
     %strong N
   .col-xs-6
+    %span &nbsp;
     = filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
     - unless no_responses
       %small.text-muted (100%)
