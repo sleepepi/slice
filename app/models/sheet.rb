@@ -300,19 +300,23 @@ class Sheet < ApplicationRecord
   #     Would return the average of all ages on all sheets that contained age (as a sheet_variable, not as a grid or grid_response)
   def self.array_calculation(sheet_scope, variable, calculation)
     calculation = 'array_count' if calculation.blank?
-    number = if calculation == 'array_count'
-               # New, to account for sheets that are scoped based on a missing/non-entered value, should be counted as the count of sheets, not the count of responses.
-               send(calculation, sheet_scope.pluck(:id))
-             else
-               send(calculation, array_responses(sheet_scope, variable))
-             end
+    number = \
+      if calculation == 'array_count'
+        # New, to account for sheets that are scoped based on a
+        # missing/non-entered value, should be counted as the count of sheets,
+        # not the count of responses.
+        send(calculation, sheet_scope.pluck(:id))
+      else
+        send(calculation, array_responses(sheet_scope, variable))
+      end
 
     if calculation != 'array_count' && !number.nil?
-      if variable.variable_type == 'calculated' and not variable.format.blank?
-        number = variable.format % number rescue number
-      else
-        number = "%0.02f" % number
-      end
+      number = \
+        if variable.variable_type == 'calculated' && variable.format.present?
+          format(variable.format, number) rescue number
+        else
+          format('%0.02f', number)
+        end
     end
     number
   end

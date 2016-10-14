@@ -16,6 +16,14 @@ class Search
     @operator = token[:operator]
     @variable = @project.variables.find_by_name(token[:key])
     if %w(any missing).include?(@operator)
+      @values = []
+      @values = \
+        if all_numeric?
+          (@variable.captured_values.collect(&:to_f).uniq - @variable.missing_codes.collect(&:to_f)).collect(&:to_s)
+        else
+          @variable.captured_values.uniq - @variable.missing_codes
+        end
+    elsif %w(entered present unentered blank)
       @values = @variable.captured_values.uniq
     else
       @values = token[:value].to_s.split(',').reject(&:blank?).collect(&:strip).reject(&:blank?).uniq
@@ -56,7 +64,7 @@ class Search
     return sheet_scope if @values.count == 0
     select_sheet_ids = subquery_scope.where(variable: @variable).where(subquery).select(:sheet_id)
 
-    if @operator == 'missing'
+    if %w(missing unentered blank).include?(@operator)
       sheet_scope.where.not(id: select_sheet_ids)
     else
       sheet_scope.where(id: select_sheet_ids)
@@ -114,7 +122,7 @@ class Search
       @operator
     when '!='
       'NOT IN'
-    when 'any', 'missing'
+    when 'entered', 'present', 'any', 'missing', 'unentered', 'blank'
       'IN'
     else
       'IN'

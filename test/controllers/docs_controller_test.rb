@@ -133,4 +133,9 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     get docs_project_setup_path
     assert_response :success
   end
+
+  test 'should get filters' do
+    get docs_filters_path
+    assert_response :success
+  end
 end

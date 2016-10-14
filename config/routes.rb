@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     get :project_setup, path: 'project-setup'
     get :lingo
     get :data_review, path: 'data-review-and-analysis'
-
+    get :filters
     get :theme
   end
 

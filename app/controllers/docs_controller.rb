@@ -101,4 +101,8 @@ class DocsController < ApplicationController
   # GET /docs/project-setup
   def project_setup
   end
+
+  # GET /docs/filters
+  def filters
+  end
 end

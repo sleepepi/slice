@@ -261,7 +261,7 @@ class SheetsController < ApplicationController
 
   def set_operator(value)
     operator = nil
-    found = ((/^>=|^<=|^>|^=|^<|!=|missing$|any$/).match(value))
+    found = ((/^>=|^<=|^>|^=|^<|^!=|^entered$|^present$|^any$|^missing$|^unentered$|^blank$/).match(value))
     operator = found[0] if found
     operator
   end

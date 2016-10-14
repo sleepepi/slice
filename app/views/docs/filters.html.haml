@@ -1,0 +1,150 @@
+- @title = 'Filters'
+= render 'docs/side_nav'
+
+.background-gradient
+
+%h1.docs-heading
+  .docs-subheading Extras
+  = @title
+
+.docs-container
+  %p
+    Slice provides a simple syntax to quickly filter subjects and sheets.
+    Multiple filters can be combined to find subjects and sheets matching the
+    criteria.
+
+  %p
+    %strong Usage:
+  %p
+    %code variable:value
+  %p
+    %strong Example:
+  %code{ style: 'text-align: right;' } bmi:missing grade:9,10 study_visit:>=2016-10-10 study_visit:<=2016-10-14
+
+  %h3 Operators
+  %p
+    Sheets and subjects can be filtered by providing values and operators along
+    with the variable of interest.
+    For example
+    %code bmi:23.0
+    finds all sheets that have a BMI equal to
+    = succeed '.' do
+      %strong 23.0
+    To find a BMI greater than or equal to
+    %strong 23.0
+    the filter can be written as
+    = succeed '.' do
+      %code bmi:>=23.0
+    The following operators work as well.
+    %code bmi:>23.0
+    %code bmi:<23.0
+    %code bmi:<=23.0
+
+  %h3 Multiple Values
+  %p
+    Use commas to separate values to filter by multiple values.
+    Do not put spaces between the values and commas.
+    The filter
+    %code grade=9,10,11,12
+    will return results where the
+    %code grade
+    equals
+    = succeed ',' do
+      %strong 9
+    = succeed ',' do
+      %strong 10
+    = succeed ',' do
+      %strong 11
+    or
+    = succeed '.' do
+      %strong 12
+
+  %h3 Not Equal
+  %p
+    Use the
+    %code !=
+    operator to filter results where BMI does not equal
+    %strong 23.0
+    Ex:
+    %code bmi:!=23.0
+
+  %h3 Dates
+  %p
+    Dates can also be compared using these operators. For example the following
+    provides results with a
+    %strong study_visit
+    on or after October 14, 2016:
+    %code study_visit:>=2016-10-14
+
+  %h2 Special Values
+
+  %p
+    Special Values:
+    = succeed ',' do
+      %code :entered
+    = succeed ',' do
+      %code :any
+    = succeed ',' do
+      %code :missing
+    = succeed '.' do
+      %code :unentered
+
+  %h3 Entered / Present
+  %p
+    The
+    %code :entered
+    and
+    %code :present
+    keywords find sheets that have data entered for a variable.
+    These filters find sheets with actual values
+    = succeed ',' do
+      %strong 23.0
+    = succeed ',' do
+      %strong 0.0
+    as well as entered missing codes
+    = succeed '.' do
+      %strong -9
+
+  %h3 Any
+  %p
+    The
+    %code :any
+    keyword finds sheets that have a value entered for a variable
+    that is NOT a missing code. The example
+    %code bmi:any
+    returns sheets that have values
+    %strong 23.0
+    and
+    = succeed '.' do
+      %strong 0.0
+
+  %h3 Missing
+  %p
+    The
+    %code :missing
+    keyword finds sheets that have missing codes or are unentered.
+    The example
+    %code bmi:missing
+    returns sheets that have missing code values
+    %strong -9
+    and sheets that have no values entered for BMI.
+
+  %h3 Unentered / Blank
+  %p
+    The
+    %code :unentered
+    and
+    %code :blank
+    keywords find sheets that have no values entered for a variable.
+    The example
+    %code bmi:unentered
+    returns sheets that have no values entered for BMI.
+
+  %h3 Multiple Variables
+  %p
+    To find results where BMI is missing and grade is either 9 or 10, and a
+    study visit during the week of October 10, 2016 use the following set of
+    filters. Filters should be separated by a space.
+  %code{ style: 'text-align: right;' } bmi:missing grade:9,10 study_visit:>=2016-10-10 study_visit:<=2016-10-14
+
+= render 'docs/links', previous_link: ['Lingo', docs_lingo_path], next_link: nil

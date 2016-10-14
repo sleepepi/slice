@@ -9,10 +9,16 @@
   - Report sheet filters now use new sheet search syntax
 - **Sheet Changes**
   - Sheet index filters no longer clear other preset filters
-  - Search filters can now find sheets for variables with `any` and `missing`
+  - Search filters can now find sheets for variables with `entered`, `present`,
+    `any`, `missing`, `unentered`, and `blank`.
     values
     - `bmi:any`
     - `bmi:missing`
+    - `entered` and `present` are identical aliases
+    - `unentered` and `blank` are identical aliases
+    - `entered` and `unentered` are opposites
+    - `present` and `blank` are opposites
+    - `any` and `missing` are opposites
   - Sheet coverage percentage colors now match selected theme
 
 ## 0.42.0 (October 11, 2016)

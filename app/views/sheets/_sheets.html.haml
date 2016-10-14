@@ -133,3 +133,8 @@
 
   .center
     = paginate @sheets, theme: 'bootstrap'
+
+  .docs-learn-more
+    Learn about
+    = succeed '.' do
+      = link_to 'search filters', docs_filters_path
