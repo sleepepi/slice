@@ -7,11 +7,6 @@
   transform: rotate(315deg);
 }
 
-.rounded-borders {
-  border-radius: 3px;
-  padding: 1px 4px 2px;
-}
-
 .shadow-inset-left {
   box-shadow: inset 10px 0 10px -10px $report-shadow-color;
 
@@ -24,7 +19,6 @@
 .shadow-inset-right {
   box-shadow: inset -10px 0 10px -10px $report-shadow-color;
 }
-
 
 .report-number {
   font-weight: 300;
