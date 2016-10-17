@@ -101,7 +101,8 @@ class Sheet < ApplicationRecord
   end
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
-  def self.with_stratum(current_user, stratum_id, stratum_value, stratum_start_date = nil, stratum_end_date = nil)
+  # TODO: This can be cleaned up using the new Search module along with operators.
+  def self.with_stratum(current_user, stratum_id, stratum_value, operator, stratum_start_date = nil, stratum_end_date = nil)
     stratum_variable = if stratum_id == 'design'
                          Variable.design(0) # 0 project?...
                        elsif stratum_id == 'site' || stratum_id.nil?
@@ -112,21 +113,19 @@ class Sheet < ApplicationRecord
                          Variable.find_by_id(stratum_id)
                        end
 
-    if stratum_variable && stratum_value == ':any' && !(%w(site sheet_date design).include?(stratum_variable.variable_type))
-      if stratum_variable.variable_type == 'checkbox'
-        with_checkbox_any_variable_response_not_missing_code(stratum_variable)
-      elsif stratum_variable.variable_type == 'file'
-        with_variable_response_file(stratum_id)
-      else
-        with_any_variable_response_not_missing_code(stratum_variable)
-      end
-    elsif stratum_variable && stratum_variable.variable_type == 'design'
+    if stratum_variable && stratum_variable.variable_type == 'design'
       with_design(stratum_value)
     elsif stratum_variable && stratum_variable.variable_type == 'site'
       with_site(stratum_value)
-    elsif stratum_variable && %w(sheet_date date).include?(stratum_variable.variable_type) && stratum_value != ':missing'
+    elsif stratum_variable && operator == 'any' && !(%w(sheet_date).include?(stratum_variable.variable_type))
+      if stratum_variable.variable_type == 'file'
+        with_variable_response_file(stratum_id)
+      else
+        filter_variable(stratum_variable, current_user, 'any')
+      end
+    elsif stratum_variable && %w(sheet_date date).include?(stratum_variable.variable_type) && !%w(blank missing).include?(operator)
       sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
-    elsif stratum_value.present? && stratum_value != ':missing' # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
+    elsif stratum_value.present? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
       if stratum_variable.variable_type == 'checkbox'
         with_checkbox_variable_response(stratum_id, stratum_value)
       elsif stratum_variable.variable_type == 'file'
@@ -134,13 +133,25 @@ class Sheet < ApplicationRecord
       else
         with_variable_response(stratum_id, stratum_value)
       end
+    elsif stratum_variable && operator == 'blank'
+      filter_variable(stratum_variable, current_user, operator)
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
       if stratum_variable.variable_type == 'file'
         with_response_file_unknown_or_missing(stratum_id)
       else
-        variable_missing(stratum_variable, current_user)
+        filter_variable(stratum_variable, current_user, 'missing')
       end
     end
+  end
+
+  # TODO: Temporary rewrite to use Search instead of sheet scopes
+  def self.filter_variable(variable, current_user, operator)
+    Search.run_sheets(
+      variable.project,
+      current_user,
+      current_user.all_viewable_sheets.where(project_id: variable.project.id).where(missing: false),
+      { key: variable.name, operator: operator }
+    ).where(design_id: variable.designs.select(:id))
   end
 
   def self.sheet_after_variable(variable, date)
@@ -303,7 +314,7 @@ class Sheet < ApplicationRecord
       unless filter[:end_date].is_a?(Date)
         filter[:end_date] = Date.parse(filter[:end_date]) rescue filter[:start_date] = nil
       end
-      sheet_scope = sheet_scope.with_stratum(current_user, filter[:variable_id], filter[:value], filter[:start_date], filter[:end_date])
+      sheet_scope = sheet_scope.with_stratum(current_user, filter[:variable_id], filter[:value], filter[:operator], filter[:start_date], filter[:end_date])
     end
     sheet_scope
   end
@@ -430,17 +441,6 @@ class Sheet < ApplicationRecord
     update authentication_token: SecureRandom.hex(12)
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
     retry
-  end
-
-  # TODO: Temporary rewrite to use Search instead of sheet scopes
-  # Includes response equaling a missing code, or a response that is blank.
-  def self.variable_missing(variable, current_user)
-    Search.run_sheets(
-      variable.project,
-      current_user,
-      current_user.all_viewable_sheets.where(project_id: variable.project.id).where(missing: false),
-      { key: variable.name, operator: 'missing' }
-    ).where(design_id: variable.designs.select(:id))
   end
 
   protected

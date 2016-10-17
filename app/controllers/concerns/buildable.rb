@@ -152,8 +152,8 @@ module Buildable
     @table_body = []
     @row_strata.each do |row_stratum|
       table_row = []
-      table_row += row_stratum.collect { |info| { name: info[:name], link: info[:link] } }
-      filters = row_stratum.collect { |info| info[:filters] }.flatten
+      table_row += row_stratum.collect { |hash| { name: hash[:value].present? ? "#{hash[:value]}: #{hash[:name]}" : hash[:name] } }
+      filters = row_stratum.collect { |hash| hash[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator && calculator.statistics?
                                [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), 'box']

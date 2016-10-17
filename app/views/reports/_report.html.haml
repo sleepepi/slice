@@ -37,17 +37,17 @@
         - @table_footer[:cells].each do |hash|
           - if hash[:colspan].blank?
             %td
-              %span{ class: "#{'text-muted' if hash[:count] == nil}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
+              %span{ class: "#{'text-muted' if hash[:count] == 0}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
                 %span.rounded-borders{ style: 'background-color: transparent' }
                   - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
                   - link_name = project_sheets_path(@project, filter_params)
-                  = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
+                  = '&plusmn;'.html_safe if hash[:symbol] == 'pm' && hash[:name] != '-'
                   = link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank')
                 - unless hash[:debug].blank?
                   = hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}
                   = hash[:calculation]
                 - if @table_footer[:chart_type] == 'line' and hash[:count]
-                  - if @percent == 'row' and hash[:count] > 0 and @table_footer[:values].sum > 0 and hash[:column_type] != 'total'
+                  - if @percent == 'row' && hash[:count] > 0 && @table_footer[:values].sum > 0 && hash[:column_type] != 'total'
                     %span.text-muted{ style: 'font-size:0.7em' }
                       = (hash[:count] * 100 / @table_footer[:values].sum).to_s + '%'
           - else
@@ -63,18 +63,12 @@
             %td
               - reverse_index = index - row[:cells].size + 1
               - column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index]
-              %span{ class: "#{'text-muted' if hash[:count] == nil}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
-                %span.rounded-borders{ class: "#{'text-muted' if hash[:name].blank?}", style: 'background-color: transparent' }
+              %span{ class: "#{'text-muted' if hash[:count] == 0}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
+                %span.rounded-borders{ class: "#{'text-muted' if %w(blank missing).include?(hash[:opertor])}", style: 'background-color: transparent' }
                   - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
                   - link_name = project_sheets_path(@project, filter_params)
                   = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
-                  - if hash[:name].blank?
-                    Missing
-                  - else
-                    - if not hash[:link].blank?
-                      = link_to hash[:name], root_path + hash[:link]
-                    - else
-                      = link_to_if hash[:count].to_i > 0, hash[:name], link_name, target: '_blank'
+                  = link_to_if hash[:count].to_i > 0, hash[:name], link_name, target: '_blank'
 
                 - unless hash[:debug].blank?
                   = hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}

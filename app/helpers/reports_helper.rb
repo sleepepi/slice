@@ -47,6 +47,8 @@ module ReportsHelper
       'any'
     when ':missing'
       'missing'
+    when ':blank'
+      'blank'
     else
       filter[:value]
     end

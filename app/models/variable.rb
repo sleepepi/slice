@@ -222,7 +222,7 @@ class Variable < ApplicationRecord
 
   def report_strata(include_missing, max_strata, hash, sheet_scope)
     strata = base_strata(sheet_scope, include_missing, hash)
-    strata << unknown_filter if include_missing && !%w(site sheet_date).include?(variable_type)
+    strata << missing_filter if include_missing && !%w(site sheet_date dropdown radio string checkbox).include?(variable_type)
     strata.collect! { |s| s.merge(calculator: self, variable_id: id ? id : name) }
     strata.last(max_strata)
   end
@@ -255,10 +255,13 @@ class Variable < ApplicationRecord
   end
 
   def domain_filters(sheet_scope, include_missing)
+    filters = [{ filters: [{ variable_id: id, value: nil, operator: 'any' }], name: 'N', tooltip: 'N', calculation: 'array_count' }]
     unique_responses = unique_responses_for_sheets(sheet_scope)
-    options_or_autocomplete(include_missing)
-      .select { |h| unique_responses.include?(h[:value]) }
-      .collect { |h| h.merge(filters: [{ variable_id: id, value: h[:value] }], tooltip: h[:name]) }
+    filters += options_or_autocomplete(include_missing)
+               .select { |h| unique_responses.include?(h[:value]) }
+               .collect { |h| h.merge(filters: [{ variable_id: id, value: h[:value] }], tooltip: h[:value].present? ? "#{h[:value]}: #{h[:name]}" : h[:name]) }
+    filters << blank_filter if include_missing
+    filters
   end
 
   def design_filters
@@ -303,11 +306,15 @@ class Variable < ApplicationRecord
 
   def presence_filters(hash)
     display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Any"
-    [{ filters: [{ variable_id: id, value: ':any' }], name: display_name, tooltip: display_name }]
+    [{ filters: [{ variable_id: id, value: nil, operator: 'any' }], name: display_name, tooltip: display_name }]
   end
 
-  def unknown_filter
-    { filters: [{ variable_id: id, value: ':missing' }], name: '', tooltip: 'Missing', value: nil }
+  def missing_filter
+    { filters: [{ variable_id: id, value: nil, operator: 'missing' }], name: 'Missing', tooltip: 'Missing' }
+  end
+
+  def blank_filter
+    { filters: [{ variable_id: id, value: nil, operator: 'blank' }], name: 'Blank', tooltip: 'Blank' }
   end
 
   def unique_responses_for_sheets(sheet_scope)
