@@ -23,14 +23,6 @@ class Sheet < ApplicationRecord
   scope :with_variable_response_after, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response >= ? and sheet_variables.response != '')", args.first, args[1]) }
   scope :with_variable_response_before, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response <= ? and sheet_variables.response != '')", args.first, args[1]) }
 
-  # These include blank or missing responses
-  scope :with_variable_response_after_with_blank, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response < ? and sheet_variables.response != '')", args.first, args[1]) }
-  scope :with_variable_response_before_with_blank, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response > ? and sheet_variables.response != '')", args.first, args[1]) }
-
-  # Only includes blank or unknown values
-  scope :without_variable_response, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
-  scope :without_checkbox_variable_response, -> (*args) { where("sheets.id NOT IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '')", args.first) }
-
   # # Includes entered values, or entered missing values
   # scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '')", args.first) }
   # Includes only entered values (that are not marked as missing)
@@ -166,22 +158,6 @@ class Sheet < ApplicationRecord
       sheet_before(date)
     end
   end
-
-  # def self.sheet_after_variable_with_blank(variable, date)
-  #   if variable and variable.variable_type == 'date'
-  #     self.with_variable_response_after_with_blank(variable, date)
-  #   else
-  #     self.sheet_after(date)
-  #   end
-  # end
-
-  # def self.sheet_before_variable_with_blank(variable, date)
-  #   if variable and variable.variable_type == 'date'
-  #     self.with_variable_response_before_with_blank(variable, date)
-  #   else
-  #     self.sheet_before(date)
-  #   end
-  # end
 
   # Buffers with blank responses for sheets that don't have a sheet_variable for the specific variable
   def self.sheet_responses(variable)
