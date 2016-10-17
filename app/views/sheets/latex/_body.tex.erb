@@ -70,7 +70,7 @@
       <% if variable.variable_type == 'checkbox' %>
         <% if !sheet_variable or (sheet_variable and sheet_variable.get_response(@sheet.project.show_type).size == 0) %>
           \vspace{1 mm}
-          \textcolor[gray]{0.5}{Unknown}
+          \textcolor[gray]{0.5}{Blank}
           \vspace{2 mm}
         <% else %>
           \begin{itemize}
@@ -107,7 +107,7 @@
         <% end %>
       <% elsif !sheet_variable or (sheet_variable and sheet_variable.get_response(@sheet.project.show_type).blank?) %>
         \vspace{1 mm}
-        \textcolor[gray]{0.5}{Unknown}
+        \textcolor[gray]{0.5}{Blank}
         \vspace{2 mm}
       <% else %>
         \vspace{1 mm}

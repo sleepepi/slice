@@ -24,7 +24,7 @@
           %th
             - if header.is_a?(Hash)
               %span.count-rot315{ class: "#{'text-muted' if header[:name].blank?}", rel: 'tooltip', title: header[:tooltip] }
-                = header[:name].blank? ? 'Unknown' : header[:name].truncate(10)
+                = header[:name].blank? ? 'Missing' : header[:name].truncate(10)
             - else
               = header
     %tfoot
@@ -69,7 +69,7 @@
                   - link_name = project_sheets_path(@project, filter_params)
                   = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
                   - if hash[:name].blank?
-                    Unknown
+                    Missing
                   - else
                     - if not hash[:link].blank?
                       = link_to hash[:name], root_path + hash[:link]

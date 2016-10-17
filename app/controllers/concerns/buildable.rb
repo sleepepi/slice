@@ -138,7 +138,7 @@ module Buildable
 
     calculator = @column_filters.first[:variable] if @column_filters.first
     (values, chart_type) = if calculator && calculator.statistics?
-                             [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
+                             [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), 'box']
                            else
                              [table_row.select { |cell| cell[:column_type] != 'total' }
                                        .collect { |cell| cell[:count] }.compact, 'line']
@@ -156,7 +156,7 @@ module Buildable
       filters = row_stratum.collect { |info| info[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator && calculator.statistics?
-                               [Sheet.array_responses_with_filters(@sheets, calculator, filters), 'box']
+                               [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), 'box']
                              else
                                [table_row.select { |cell| cell[:column_type] != 'total' }
                                          .collect { |cell| cell[:count] }.compact, 'line']
@@ -178,8 +178,7 @@ module Buildable
                         .select { |f| f[:missing] != '1' }
                         .select { |f| f[:id].to_i > 0 }
                         .collect { |f| { variable_id: f[:id], value: ':any' } } if header[:column_type] == 'total'
-      (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(
-        @sheets, cell[:calculator], cell[:calculation], cell[:filters])
+      (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters], current_user)
       # cell[:debug] = '1'
       table_row << cell
     end
@@ -197,7 +196,7 @@ module Buildable
       row = []
       @table_header.each do |header|
         row << if header.is_a?(Hash)
-                 (header[:name].blank? ? 'Unknown' : header[:name].to_s)
+                 (header[:name].blank? ? 'Missing' : header[:name].to_s)
                else
                  header
                end
@@ -207,7 +206,7 @@ module Buildable
       @table_body.each do |body|
         row = []
         body[:cells].each do |hash|
-          row << (hash[:name].blank? ? 'Unknown' : hash[:name].to_s)
+          row << (hash[:name].blank? ? 'Missing' : hash[:name].to_s)
         end
         csv << row
       end
@@ -215,7 +214,7 @@ module Buildable
       row = []
       @table_footer[:cells].each do |hash|
         if hash[:colspan].blank?
-          row << (hash[:name].blank? ? 'Unknown' : hash[:name].to_s)
+          row << (hash[:name].blank? ? 'Missing' : hash[:name].to_s)
         else
           row << hash[:name]
           ([''] * (hash[:colspan] - 1)).each do |item|

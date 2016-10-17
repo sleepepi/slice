@@ -302,12 +302,12 @@ class Variable < ApplicationRecord
   end
 
   def presence_filters(hash)
-    display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Collected"
+    display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Any"
     [{ filters: [{ variable_id: id, value: ':any' }], name: display_name, tooltip: display_name }]
   end
 
   def unknown_filter
-    { filters: [{ variable_id: id, value: ':missing' }], name: '', tooltip: 'Unknown', value: nil }
+    { filters: [{ variable_id: id, value: ':missing' }], name: '', tooltip: 'Missing', value: nil }
   end
 
   def unique_responses_for_sheets(sheet_scope)

@@ -48,7 +48,7 @@
   <% @table_header.each do |header| %>
     &
     <% if header.is_a?(Hash) %>
-      <%= header[:name].blank? ? "\\textcolor[gray]{0.5}{Unknown}" : latex_safe(header[:name].truncate(10)) %>
+      <%= header[:name].blank? ? "\\textcolor[gray]{0.5}{Missing}" : latex_safe(header[:name].truncate(10)) %>
     <% else %>
       <%= latex_safe(header.truncate(10)) %>
     <% end %>
@@ -70,7 +70,7 @@
       &
       <% reverse_index = index - row[:cells].size + 1 %>
       <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
-      <%= '\\pm' if hash[:symbol] == 'pm' and hash[:name] != '-' %><%= hash[:name].blank? ? "\\textcolor[gray]{0.5}{Unknown}" : latex_safe(hash[:name]) %>
+      <%= '\\pm' if hash[:symbol] == 'pm' and hash[:name] != '-' %><%= hash[:name].blank? ? "\\textcolor[gray]{0.5}{Missing}" : latex_safe(hash[:name]) %>
         <% if row[:chart_type] == 'line' and hash[:count] %>
           <% if @percent == 'row' and hash[:count] > 0 and row[:values].sum > 0 and hash[:column_type] != 'total' %>
             \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / row[:values].sum).to_s + "%") %>}}
