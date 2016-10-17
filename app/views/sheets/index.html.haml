@@ -31,27 +31,4 @@
               = link_to url, class: 'btn btn-default' do
                 &times;
 
-      - (params[:f] || []).each do |filter|
-        - v = @project.variable_by_id(filter[:variable_id])
-        - if v
-          .form-group
-            = label "variable_id_#{filter[:variable_id]}", v.display_name, class: 'control-label'
-            = hidden_field_tag "f[][variable_id]", filter[:variable_id]
-            = hidden_field_tag "f[][start_date]", filter[:start_date]
-            = hidden_field_tag "f[][end_date]", filter[:end_date]
-            - if filter[:missing] == '1'
-              %span.label.label-default{ style: "background-color:#ffc8ba;", title: "Includes Missing" } m
-            - if ['sheet_date', 'date'].include?(v.variable_type)
-              .form-control
-                = filter[:start_date]
-                to
-                = filter[:end_date]
-            - else
-              - if ['dropdown', 'radio', 'checkbox'].include?(v.variable_type)
-                = select_tag 'f[][value]', options_for_select(v.options_missing_at_end.collect{|o| ["#{o[:value]}: #{o[:name]}", o[:value]]} + [[':any', ':any'],[':missing', ':missing']], filter[:value]), class: 'form-control'
-              - else
-                .form-control
-                  = hidden_field_tag "f[][value]", filter[:value]
-                  = filter[:value]
-
 #sheets= render 'sheets/sheets'

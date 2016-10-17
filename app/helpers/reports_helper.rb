@@ -42,13 +42,8 @@ module ReportsHelper
   end
 
   def convert_value_from_filter(filter)
-    case filter[:value]
-    when ':any'
-      'any'
-    when ':missing'
-      'missing'
-    when ':blank'
-      'blank'
+    if filter[:operator].present?
+      filter[:operator]
     else
       filter[:value]
     end

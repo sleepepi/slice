@@ -2,7 +2,7 @@
   .alert.alert-warning
     %button.close{ type: 'button', data: { dismiss: 'alert' }, aria: { hidden: true } } &times;
     = link_to 'previous', '#', class: 'btn btn-default btn-xs', data: { object: 'set-value', target: '#page', value: params[:page] - 1 } if params[:page] > 1
-    = link_to 'next', '#', class: 'btn btn-default btn-xs', data: { object: 'set-value', target: '#page', value: params[:page] + 1 } if @per_page > 0 and params[:page] < @total_rows.to_f / @per_page
+    = link_to 'next', '#', class: 'btn btn-default btn-xs', data: { object: 'set-value', target: '#page', value: params[:page] + 1 } if @per_page > 0 && params[:page] < @total_rows.to_f / @per_page
 
     = (params[:page] - 1) * @per_page + 1
     to
@@ -46,7 +46,7 @@
                 - unless hash[:debug].blank?
                   = hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}
                   = hash[:calculation]
-                - if @table_footer[:chart_type] == 'line' and hash[:count]
+                - if @table_footer[:chart_type] == 'line' && hash[:count]
                   - if @percent == 'row' && hash[:count] > 0 && @table_footer[:values].sum > 0 && hash[:column_type] != 'total'
                     %span.text-muted{ style: 'font-size:0.7em' }
                       = (hash[:count] * 100 / @table_footer[:values].sum).to_s + '%'
@@ -64,21 +64,17 @@
               - reverse_index = index - row[:cells].size + 1
               - column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index]
               %span{ class: "#{'text-muted' if hash[:count] == 0}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
-                %span.rounded-borders{ class: "#{'text-muted' if %w(blank missing).include?(hash[:opertor])}", style: 'background-color: transparent' }
+                %span.rounded-borders{ class: "#{'text-muted' if hash[:muted]}", style: 'background-color: transparent' }
                   - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
                   - link_name = project_sheets_path(@project, filter_params)
-                  = '&plusmn;'.html_safe if hash[:symbol] == 'pm' and hash[:name] != '-'
+                  = '&plusmn;'.html_safe if hash[:symbol] == 'pm' && hash[:name] != '-'
                   = link_to_if hash[:count].to_i > 0, hash[:name], link_name, target: '_blank'
 
-                - unless hash[:debug].blank?
-                  = hash[:filters].collect{|f| "#{f[:variable_id]}:#{f[:value]}:#{f[:start_date]}:#{f[:end_date]}"}
-                  = hash[:calculation]
-
-                - if row[:chart_type] == 'line' and hash[:count]
-                  - if @percent == 'row' and hash[:count] > 0 and row[:values].sum > 0 and hash[:column_type] != 'total'
+                - if row[:chart_type] == 'line' && hash[:count]
+                  - if @percent == 'row' && hash[:count] > 0 && row[:values].sum > 0 && hash[:column_type] != 'total'
                     %span.text-muted{ style: 'font-size:0.7em' }
                       = (hash[:count] * 100 / row[:values].sum).to_s + '%'
-                  - if @percent == 'column' and hash[:count] > 0 and column_count and column_count > 0
+                  - if @percent == 'column' && hash[:count] > 0 && column_count && column_count > 0
                     %span.text-muted{ style: 'font-size:0.7em' }
                       = (hash[:count] * 100 / column_count).to_s + '%'
 

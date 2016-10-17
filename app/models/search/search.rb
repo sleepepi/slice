@@ -76,7 +76,14 @@ class Search
   end
 
   def subquery_attribute
-    @variable.variable_type == 'checkbox' ? 'value' : 'response'
+    case @variable.variable_type
+    when 'checkbox'
+      'value'
+    when 'file'
+      'response_file'
+    else
+      'response'
+    end
   end
 
   def subquery_scope

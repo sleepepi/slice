@@ -110,7 +110,11 @@ class Variable < ApplicationRecord
   # Includes responses, grids, and sheet_variables
   def captured_values
     @captured_values ||= begin
-      (sheet_variables.pluck(:response) + grids.pluck(:response) + responses.pluck(:value)).uniq.reject(&:blank?)
+      if variable_type == 'file'
+        (sheet_variables.pluck(:response_file) + grids.pluck(:response_file)).uniq.reject(&:blank?)
+      else
+        (sheet_variables.pluck(:response) + grids.pluck(:response) + responses.pluck(:value)).uniq.reject(&:blank?)
+      end
     end
   end
 
@@ -306,15 +310,15 @@ class Variable < ApplicationRecord
 
   def presence_filters(hash)
     display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Any"
-    [{ filters: [{ variable_id: id, value: nil, operator: 'any' }], name: display_name, tooltip: display_name }]
+    [{ filters: [{ variable_id: id, value: nil, operator: 'any' }], name: display_name, tooltip: display_name, muted: false }]
   end
 
   def missing_filter
-    { filters: [{ variable_id: id, value: nil, operator: 'missing' }], name: 'Missing', tooltip: 'Missing' }
+    { filters: [{ variable_id: id, value: nil, operator: 'missing' }], name: 'Missing', tooltip: 'Missing', muted: true }
   end
 
   def blank_filter
-    { filters: [{ variable_id: id, value: nil, operator: 'blank' }], name: 'Blank', tooltip: 'Blank' }
+    { filters: [{ variable_id: id, value: nil, operator: 'blank' }], name: 'Blank', tooltip: 'Blank', muted: true }
   end
 
   def unique_responses_for_sheets(sheet_scope)

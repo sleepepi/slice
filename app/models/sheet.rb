@@ -11,12 +11,8 @@ class Sheet < ApplicationRecord
   scope :search, -> (arg) { where('sheets.subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%')).references(:designs) }
   scope :sheet_before, -> (*args) { where('sheets.created_at < ?', (args.first + 1.day).at_midnight) }
   scope :sheet_after, -> (*args) { where('sheets.created_at >= ?', args.first.at_midnight) }
-  scope :with_user, -> (*args) { where('sheets.user_id in (?)', args.first) }
-  scope :with_project, -> (*args) { where('sheets.project_id IN (?)', args.first) }
-  scope :with_design, -> (*args) { where('sheets.design_id IN (?)', args.first) }
 
   scope :with_variable_response, -> (*args) { where('sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response = ?)', args.first, args[1]) }
-  scope :with_variable_response_file, -> (arg) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response_file IS NOT NULL and sheet_variables.response_file != '')", arg) }
   scope :with_checkbox_variable_response, -> (*args) { where('sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value = ? )', args.first, args[1]) }
 
   # These don't include blank codes
@@ -30,7 +26,6 @@ class Sheet < ApplicationRecord
   scope :with_checkbox_any_variable_response_not_missing_code, -> (*args) { where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '' and responses.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
   # Include blank, unknown, or values entered as missing
   scope :with_response_unknown_or_missing, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response IS NOT NULL and sheet_variables.response != '' and sheet_variables.response NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
-  scope :with_response_file_unknown_or_missing, -> (arg) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.response_file IS NOT NULL and sheet_variables.response_file != '')", arg) }
 
   # Model Validation
   validates :design_id, :project_id, :subject_id, presence: true
@@ -114,33 +109,26 @@ class Sheet < ApplicationRecord
                        end
 
     if stratum_variable && stratum_variable.variable_type == 'design'
-      with_design(stratum_value)
+      where(design_id: stratum_value)
     elsif stratum_variable && stratum_variable.variable_type == 'site'
       with_site(stratum_value)
     elsif stratum_variable && operator == 'any' && !(%w(sheet_date).include?(stratum_variable.variable_type))
-      if stratum_variable.variable_type == 'file'
-        with_variable_response_file(stratum_id)
-      else
-        filter_variable(stratum_variable, current_user, 'any')
-      end
+      filter_variable(stratum_variable, current_user, 'any')
     elsif stratum_variable && %w(sheet_date date).include?(stratum_variable.variable_type) && !%w(blank missing).include?(operator)
       sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
     elsif stratum_value.present? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
-      if stratum_variable.variable_type == 'checkbox'
+      if stratum_variable.variable_type == 'file'
+        # TODO: This may be able to target a specific file.
+        filter_variable(stratum_variable, current_user, 'any')
+      elsif stratum_variable.variable_type == 'checkbox'
         with_checkbox_variable_response(stratum_id, stratum_value)
-      elsif stratum_variable.variable_type == 'file'
-        with_variable_response_file(stratum_id)
       else
         with_variable_response(stratum_id, stratum_value)
       end
     elsif stratum_variable && operator == 'blank'
       filter_variable(stratum_variable, current_user, operator)
     else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
-      if stratum_variable.variable_type == 'file'
-        with_response_file_unknown_or_missing(stratum_id)
-      else
-        filter_variable(stratum_variable, current_user, 'missing')
-      end
+      filter_variable(stratum_variable, current_user, 'missing')
     end
   end
 

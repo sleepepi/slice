@@ -132,7 +132,7 @@ module Buildable
     # is set as false for a particular row variable
     filters = @row_filters.select { |f| f[:missing] != '1' }
                           .select { |f| f[:id].to_i > 0 }
-                          .collect { |f| { variable_id: f[:id], value: ':any' } }
+                          .collect { |f| { variable_id: f[:id], value: nil, operator: 'any' } }
 
     table_row += build_row(filters)
 
@@ -152,7 +152,7 @@ module Buildable
     @table_body = []
     @row_strata.each do |row_stratum|
       table_row = []
-      table_row += row_stratum.collect { |hash| { name: hash[:value].present? ? "#{hash[:value]}: #{hash[:name]}" : hash[:name] } }
+      table_row += row_stratum.collect { |hash| { name: hash[:value].present? ? "#{hash[:value]}: #{hash[:name]}" : hash[:name], muted: hash[:muted] } }
       filters = row_stratum.collect { |hash| hash[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator && calculator.statistics?
@@ -177,7 +177,7 @@ module Buildable
       cell[:filters] += @column_filters
                         .select { |f| f[:missing] != '1' }
                         .select { |f| f[:id].to_i > 0 }
-                        .collect { |f| { variable_id: f[:id], value: ':any' } } if header[:column_type] == 'total'
+                        .collect { |f| { variable_id: f[:id], value: nil, operator: 'any' } } if header[:column_type] == 'total'
       (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters], current_user)
       # cell[:debug] = '1'
       table_row << cell

@@ -23,37 +23,11 @@ class SheetsController < ApplicationController
   # GET /sheets
   def index
     sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).where(missing: false)
-
     sheet_scope = filter_scope(sheet_scope, params[:search])
-
-    %w(design site user).each do |filter|
-      sheet_scope = sheet_scope.send("with_#{filter}", params["#{filter}_id".to_sym]) unless params["#{filter}_id".to_sym].blank?
-    end
-
-    @order = params[:order]
-    case params[:order]
-    when 'sheets.site_name'
-      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name')
-    when 'sheets.site_name desc'
-      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name desc')
-    when 'sheets.design_name'
-      sheet_scope = sheet_scope.includes(:design).order('designs.name').select('sheets.*, designs.name')
-    when 'sheets.design_name desc'
-      sheet_scope = sheet_scope.includes(:design).order('designs.name desc').select('sheets.*, designs.name')
-    when 'sheets.subject_code'
-      sheet_scope = sheet_scope.order('subjects.subject_code').select('sheets.*, subjects.subject_code')
-    when 'sheets.subject_code desc'
-      sheet_scope = sheet_scope.order('subjects.subject_code desc').select('sheets.*, subjects.subject_code')
-    when 'sheets.user_name'
-      sheet_scope = sheet_scope.includes(:user).order('users.last_name, users.first_name')
-    when 'sheets.user_name desc'
-      sheet_scope = sheet_scope.includes(:user).order('users.last_name desc, users.first_name desc')
-    else
-      @order = scrub_order(Sheet, params[:order], 'sheets.created_at desc')
-      sheet_scope = sheet_scope.order(@order)
-    end
-
-    @sheets = sheet_scope.page(params[:page]).per(40)
+    sheet_scope = sheet_scope.where(design_id: params[:design_id]) if params[:design_id].present?
+    sheet_scope = sheet_scope.where(user_id: params[:user_id]) if params[:user_id].present?
+    sheet_scope = sheet_scope.with_site(params[:site_id]) if params[:site_id].present?
+    @sheets = set_order(sheet_scope).page(params[:page]).per(40)
   end
 
   # GET /sheets/1
@@ -237,7 +211,7 @@ class SheetsController < ApplicationController
   end
 
   def pull_tokens(token_string)
-    @tokens = token_string.to_s.squish.split(/\s/).collect do |part|
+    token_string.to_s.squish.split(/\s/).collect do |part|
       operator = nil
       (key, value) = part.split(':')
       if value.blank?
@@ -256,7 +230,6 @@ class SheetsController < ApplicationController
       end
       { key: key, operator: operator, value: value }
     end
-    @tokens
   end
 
   def set_operator(value)
@@ -287,5 +260,31 @@ class SheetsController < ApplicationController
 
   def scope_by_variable(sheet_scope, token)
     Search.run_sheets(@project, current_user, sheet_scope, token)
+  end
+
+  def set_order(sheet_scope)
+    @order = params[:order]
+    case params[:order]
+    when 'sheets.site_name'
+      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name')
+    when 'sheets.site_name desc'
+      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name desc')
+    when 'sheets.design_name'
+      sheet_scope = sheet_scope.includes(:design).order('designs.name').select('sheets.*, designs.name')
+    when 'sheets.design_name desc'
+      sheet_scope = sheet_scope.includes(:design).order('designs.name desc').select('sheets.*, designs.name')
+    when 'sheets.subject_code'
+      sheet_scope = sheet_scope.order('subjects.subject_code').select('sheets.*, subjects.subject_code')
+    when 'sheets.subject_code desc'
+      sheet_scope = sheet_scope.order('subjects.subject_code desc').select('sheets.*, subjects.subject_code')
+    when 'sheets.user_name'
+      sheet_scope = sheet_scope.includes(:user).order('users.last_name, users.first_name')
+    when 'sheets.user_name desc'
+      sheet_scope = sheet_scope.includes(:user).order('users.last_name desc, users.first_name desc')
+    else
+      @order = scrub_order(Sheet, params[:order], 'sheets.created_at desc')
+      sheet_scope = sheet_scope.order(@order)
+    end
+    sheet_scope
   end
 end
