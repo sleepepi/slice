@@ -199,18 +199,17 @@
       value = $("##{$(parent).data('target-name')}").val()
   value
 
-@validateElement = (element) ->
-  parent = $(element).closest('[data-object~="validate"]')
+@validateElement = (element, relatedTarget = null) ->
+  return if relatedTarget? and $(relatedTarget).data('target-name')? and $(element).data('target-name')? and $(element).data('target-name') == $(relatedTarget).data('target-name')
 
+  parent = $(element).closest('[data-object~="validate"]')
   changes = {}
   changes["project_id"] = $(parent).data('project-id')
   changes["variable_id"] = $(parent).data('variable-id')
   changes["value"] = valueToJSON(parent)
 
-  url = root_url + 'validate/variable'
-
   $.ajax(
-    url: url
+    url: "#{root_url}validate/variable"
     type: 'POST'
     dataType: 'json'
     data: changes
@@ -237,8 +236,9 @@
     $("#validation-messages").html("")
 
 $(document)
-  .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', ->
-    validateElement($(this))
+  .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', (e) ->
+    relatedTarget = e.relatedTarget || e.toElement;
+    validateElement($(this), $(relatedTarget))
   )
   .on('change', '[data-object~="validate"] .checkbox input:checkbox, [data-object~="validate"] .radio input:radio, [data-object~="validate"] select', ->
     validateElement($(this))

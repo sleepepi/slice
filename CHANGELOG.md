@@ -24,6 +24,8 @@
     - `present` and `blank` are opposites
     - `any` and `missing` are opposites
   - Sheet coverage percentage colors now match selected theme
+  - Date and time validations changed to occur only after the variable loses
+    focus
 
 ## 0.42.0 (October 11, 2016)
 
