@@ -1,6 +1,8 @@
 ## 0.43.0
 
 ### Enhancements
+- **Event Changes**
+  - When adding a new event to a subject, events that already exist are shown
 - **Project Changes**
   - A calendar has been added that shows tasks, adverse events, and
     randomizations

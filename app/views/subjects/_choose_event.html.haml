@@ -2,9 +2,26 @@
   Which event would you like to add?
 
 .dashboard-container
-  - if current_user.all_viewable_events.where(project_id: @project.id, archived: false).count > 0
+  - events = current_user.all_viewable_events.where(project_id: @project.id, archived: false).joins(:designs).group(:id).having('COUNT(designs.id) > 0')
+
+  - new_events = events.where.not(id: @subject.blinded_subject_events(current_user).select(:event_id))
+  - existing_events = events.where(id: @subject.blinded_subject_events(current_user).select(:event_id))
+
+  - if new_events.present?
+    %strong New Events
     %ul
-      - current_user.all_viewable_events.where(project_id: @project.id, archived: false).order(:position).each do |event|
-        - if event.designs.count > 0
-          %li
-            = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
+      - new_events.order(:position).each do |event|
+        %li
+          = link_to event.name, choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
+
+  - if existing_events.present?
+    %strong Existing Events
+    %ul
+      - existing_events.order(:position).each do |event|
+        %li
+          = event.name
+          %br
+          - @subject.blinded_subject_events(current_user).where(event_id: event.id).order(:event_date).each do |subject_event|
+            = link_to subject_event.event_date_to_s, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
+          %br
+          = link_to "+ Add #{event.name}", choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
