@@ -53,3 +53,15 @@
 .span-link {
   cursor: pointer;
 }
+
+.link-white {
+  @include ignore-selection;
+
+  color: $brand-white;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $brand-white;
+  }
+}

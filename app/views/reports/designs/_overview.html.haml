@@ -7,8 +7,9 @@
     .section-lead
       = render 'sections/show', design: @design, design_option: design_option, section: section
   - elsif variable
+    %a.anchor-top{ id: variable.name }
     .dashboard-lead
-      = variable.display_name
+      = link_to variable.display_name, "##{variable.name}", data: { object: 'scroll-anchor-keep-link' }, class: 'link-white'
     .dashboard-container
       - responses = @sheets.sheet_responses(variable)
       = render "reports/designs/overview/#{variable.variable_type}", variable: variable, sheet_scope: @sheets, responses: responses
