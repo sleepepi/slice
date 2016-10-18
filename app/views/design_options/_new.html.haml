@@ -77,6 +77,26 @@
                     %span.sec-box
                       = text_field_tag 'sec_time_duration', '', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
                     s
+                - when 'imperial_height'
+                  .form-inline
+                    %span.feet-box
+                      .input-group
+                        = text_field_tag 'feet', '', class: 'form-control', style: 'display: inline-block;'
+                        .input-group-addon ft
+                    %span.inches-box
+                      .input-group
+                        = text_field_tag 'inches', '', class: 'form-control', style: 'display: inline-block;'
+                        .input-group-addon in
+                - when 'imperial_weight'
+                  .form-inline
+                    %span.feet-box
+                      .input-group
+                        = text_field_tag 'pounds', '', class: 'form-control', style: 'display: inline-block;'
+                        .input-group-addon lb
+                    %span.inches-box
+                      .input-group
+                        = text_field_tag 'ounces', '', class: 'form-control', style: 'display: inline-block;'
+                        .input-group-addon oz
                 - when 'file'
                   = button_tag 'Choose File', disabled: true
                 - when 'signature'
