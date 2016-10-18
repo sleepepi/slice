@@ -1,9 +1,2 @@
-- if @subject.blinded_subject_events(current_user).count == 0
-  .jumbotron
-    .center
-      %p.lead No events have been added for this subject.
-
-      = image_tag 'sad-slice.png'
-- else
-  - @subject.blinded_subject_events(current_user).each do |subject_event|
-    %div{ id: "subject_event_#{subject_event.id}" }= render subject_event
+- @subject.blinded_subject_events(current_user).each do |subject_event|
+  %div{ id: "subject_event_#{subject_event.id}" }= render subject_event

@@ -1,26 +1,42 @@
-- uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil).includes(:design).order('designs.name')
-- categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil).includes(:design).order('designs.name')
+.row
+  .col-sm-4.col-buffer
+    - if @project.events.where(archived: false).count > 0
+      = link_to choose_event_project_subject_path(@project, @subject), class: 'btn btn-lg btn-accent btn-shadow btn-block' do
+        %span.glyphicon.glyphicon-plus
+        New Event
+    - else
+      = link_to data_entry_project_subject_path(@project, @subject), class: 'btn btn-lg btn-accent btn-shadow btn-block' do
+        %span.glyphicon.glyphicon-plus
+        New Sheet
 
-- if @subject.blinded_sheets(current_user).count == 0
+  .col-sm-4.col-buffer
+    - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+      - scheme_count = @project.randomization_schemes.published.count
+      - if @subject.randomizations.count == 0 && scheme_count == 1
+        - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
+          = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code), class: 'btn btn-lg btn-accent btn-shadow btn-block' do
+            %span.glyphicon.glyphicon-random
+            Randomize
+
+  .col-sm-4.col-buffer
+    - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+      = link_to new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-lg btn-accent btn-shadow btn-block' do
+        %span.glyphicon.glyphicon-warning-sign
+        Report
+        %span.hidden-xs.hidden-sm Adverse Event
+        %span.hidden-md.hidden-lg AE
+
+- if @project.events.where(archived: false).count > 0 && @subject.blinded_subject_events(current_user).count == 0
+  .jumbotron
+    .center
+      %p.lead No events have been added for this subject.
+      = image_tag 'sad-slice.png'
+- elsif @subject.blinded_sheets(current_user).count == 0
   .jumbotron.center
     %p.lead No data have been entered for this subject.
     = image_tag 'sad-slice.png'
 - else
+  - uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil).includes(:design).order('designs.name')
+  - categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil).includes(:design).order('designs.name')
   = render 'subjects/uncategorized_sheets', uncategorized_sheets: uncategorized_sheets, categorized_sheets: categorized_sheets
-
-  - if categorized_sheets.count > 0
-    .panel.panel-default
-      .panel-heading
-        .pull-right
-          %span.badge= categorized_sheets.count
-        On an Event
-      .panel-body
-        %table.table.table-striped.table-borderless{ style: 'table-layout: fixed;margin-bottom: 0;' }
-          - if @subject.editable_by?(current_user)
-            %col{ width: '33px' }
-          %col{ width: '60px' }
-          %col
-          %col
-          %col{ width: '120px' }
-          - categorized_sheets.select('sheets.*, subject_events.event_date').order('subject_events.event_date').each do |sheet|
-            = render 'subjects/sheet', sheet: sheet
+  = render 'subjects/events'

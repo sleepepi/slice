@@ -1,18 +1,14 @@
 - if uncategorized_sheets.count > 0
   .panel.panel-default
-    .panel-heading
-      .pull-right
-        %span.badge= uncategorized_sheets.count
+    .panel-heading{ data: { object: 'event-droppable', project_id: @project.to_param, subject_event_id: nil } }
       - if categorized_sheets.count == 0
         Sheets
       - else
         No Event
         - if @subject.editable_by?(current_user)
-          %small.text-muted Assign to event by dragging sheet to event.
+          %small.text-muted.hidden-xs Drag sheets to assign events.
     .panel-body{ style: 'padding: 0;' }
       %table.table.table-striped.table-borderless{ style: 'table-layout: fixed;margin-bottom:0;' }
-        - if @subject.editable_by?(current_user)
-          %col{ width: '33px' }
         %col{ width: '60px' }
         %col
         %col{ width: '120px' }

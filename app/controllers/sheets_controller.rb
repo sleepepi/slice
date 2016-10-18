@@ -118,8 +118,12 @@ class SheetsController < ApplicationController
 
   def move_to_event
     subject_event = @sheet.subject.subject_events.find_by_id(params[:subject_event_id])
-    if subject_event && !@sheet.auto_locked?
-      SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
+    if !@sheet.auto_locked?
+      if subject_event
+        SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
+      else
+        SheetTransaction.save_sheet!(@sheet, { subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
+      end
     end
   end
 

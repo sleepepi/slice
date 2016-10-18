@@ -28,6 +28,19 @@
   }
 }
 
+.btn-shadow-sm {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &.disabled,
+  &[disabled] {
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
 .btn-accent {
   background-color: $A200;
   border: 1px solid $A400;

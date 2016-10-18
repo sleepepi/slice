@@ -26,7 +26,7 @@
         = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-accent shadow-sm btn-block'
   .panel-body{ style: 'padding: 0;' }
     %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
-      %col.hidden-xs{ width: '60px' }
+      %col{ width: '60px' }
       %col
       %col{ width: '1px' }
       - subject_event.event.event_designs.includes(:design).each do |event_design|
@@ -37,8 +37,8 @@
 
         - if sheets.count > 0
           - sheets.each do |sheet|
-            %tr{ class: "#{'warning' if sheets.count > 1}"}
-              %td.hidden-xs
+            %tr{ class: "#{'warning' if sheets.count > 1}", data: { object: sheet.missing? ? nil : 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: sheet.missing? ? nil : 'cursor: move;' }
+              %td
                 - if sheet.missing?
                   %span.label.label-default{ rel: 'tooltip', title: 'Marked as Missing', data: { container: 'body', placement: 'right' } } M
                 - else
@@ -69,9 +69,9 @@
                   %span.glyphicon.glyphicon-warning-sign.text-warning{ rel: 'tooltip', title: 'Duplicate Entry', data: { placement: 'left', container: 'body' } }
         - else
           %tr
-            %td.hidden-xs
+            %td
               - if @subject.editable_by?(current_user)
-                = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-xs btn-accent btn-shadow' do
+                = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: 'btn btn-xs btn-accent btn-shadow-sm' do
                   %i.fa.fa-plus{ aria: { hidden: 'true' } }
             %td
               - if event_design.handoff_enabled?
@@ -91,7 +91,7 @@
                   %ul.dropdown-menu.dropdown-menu-right
                     %li
                       = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }) do
-                        / %span.glyphicon.glyphicon-edit
+                        / %span.glyphicon.glyphicon-plus
                         Create Sheet
                     %li.divider{ role: 'separator' }
                     %li
@@ -100,19 +100,16 @@
                         Set as Missing
     - non_design_sheets = current_user.extra_sheets_on_subject_event(subject_event)
     - if non_design_sheets && non_design_sheets.count > 0
-      %div{ style: 'margin-top: 20px' }
-        .callout.callout-warning
-          %strong Extra Sheets
-          The following sheets are not explicitly listed on the project event.
       %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
-        %col.hidden-xs{ width: '60px' }
+        %col{ width: '60px' }
         %col
         %col{ width: '1px' }
         - non_design_sheets.each do |sheet|
-          %tr
-            %td.hidden-xs
-              = coverage_helper(sheet)
+          %tr{ data: { object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: 'cursor: move;' }
+            %td= coverage_helper(sheet)
             %td
+              %span.label.label-warning.hidden-xs{ rel: 'tooltip', title: 'Not on base event', data: { placement: 'bottom', container: 'body' } } Extra
+              %span.label.label-warning.hidden-sm.hidden-md.hidden-lg{ rel: 'tooltip', title: 'Not on base event', data: { placement: 'bottom', container: 'body' } } E
               = link_to sheet.name, project_sheet_path(@project, sheet)
             %td.text-right
               - if sheet.comments.count > 0
