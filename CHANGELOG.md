@@ -12,6 +12,7 @@
   - A calendar has been added that shows tasks, adverse events, and
     randomizations
     - Task windows are now viewable on calendar
+  - URL slugs are now removed when projects are deleted
 - **Randomization Changes**
   - Typing a non-existent subject code now indicates that no matching
     subjects were found

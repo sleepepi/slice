@@ -71,6 +71,11 @@ class Project < ApplicationRecord
 
   # Model Methods
 
+  def destroy
+    super
+    update slug: nil
+  end
+
   def name_with_date_for_file
     "#{name_for_file}_#{Time.zone.today.strftime('%Y%m%d')}"
   end
