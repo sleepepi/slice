@@ -33,7 +33,6 @@
 
 # These functions get called on initial page visit and on turbolink page changes
 @turbolinksReady = ->
-  console.log "turbolinksReady"
   globalReady()
   designsReady()
   domainsReady()
@@ -54,8 +53,7 @@
 
 # These functions only get called on the initial page visit (no turbolinks)
 @initialLoadReady = ->
-  console.log "initialLoadReady"
-  # turbolinksReady()
+  turbolinksReady()
   timeoutReady()
 
 $(window).onbeforeunload = -> return "You haven't saved your changes." if window.$isDirty
