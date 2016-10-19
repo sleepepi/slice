@@ -1,12 +1,18 @@
 ## 0.43.0
 
 ### Enhancements
+- **Adverse Events**
+  - Typing a non-existent subject code now indicates that no matching
+    subjects were found
 - **Event Changes**
   - When adding a new event to a subject, events that already exist are shown
 - **Project Changes**
   - A calendar has been added that shows tasks, adverse events, and
     randomizations
     - Task windows are now viewable on calendar
+- **Randomization Changes**
+  - Typing a non-existent subject code now indicates that no matching
+    subjects were found
 - **Report Changes**
   - Report sheet filters now use new sheet search syntax
   - Improved layout of the design overview report

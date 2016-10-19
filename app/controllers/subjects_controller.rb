@@ -171,16 +171,11 @@ class SubjectsController < ApplicationController
   def search
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
                             .search(params[:q]).order('subject_code').limit(10)
-
     if @subjects.count == 0
-      if @project.site_or_project_editor?(current_user)
-        render json: [{ value: params[:q], subject_code: params[:q], status_class: 'warning', status: 'NEW' }]
-      else
-        render json: []
-      end
+      render json: [{ value: params[:q], subject_code: 'Subject Not Found' }]
     else
-      json_result = @subjects.collect do |s|
-        { value: s.subject_code, subject_code: s.subject_code, status_class: 'success', status: '' }
+      json_result = @subjects.pluck(:subject_code).collect do |subject_code|
+        { value: subject_code, subject_code: subject_code }
       end
       render json: json_result
     end

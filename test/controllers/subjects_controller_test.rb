@@ -105,21 +105,12 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should search for new subject as project editor' do
+  test 'should search and return no subjects found for new subject' do
     login(@project_editor)
     get :search, params: { project_id: @project, q: 'NewCode' }
     subjects_json = JSON.parse(response.body)
     assert_equal 'NewCode', subjects_json.first['value']
-    assert_equal 'NewCode', subjects_json.first['subject_code']
-    assert_equal 'NEW', subjects_json.first['status']
-    assert_response :success
-  end
-
-  test 'should not search for new subject as project viewer' do
-    login(@project_viewer)
-    get :search, params: { project_id: @project, q: 'NewCode' }
-    subjects_json = JSON.parse(response.body)
-    assert_nil subjects_json.first
+    assert_equal 'Subject Not Found', subjects_json.first['subject_code']
     assert_response :success
   end
 
