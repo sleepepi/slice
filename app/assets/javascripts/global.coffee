@@ -24,15 +24,16 @@
 
 @globalReady = ->
   window.$isDirty = false
-  $("#global-search").typeahead(
-    remote: root_url + 'search?q=%QUERY'
-  )
+  # $("#global-search").typeahead(
+  #   remote: root_url + 'search?q=%QUERY'
+  # )
   # setFocusToField("#search")
   extensionsReady()
   $('[data-object~="form-load"]').submit()
 
 # These functions get called on initial page visit and on turbolink page changes
 @turbolinksReady = ->
+  console.log "turbolinksReady"
   globalReady()
   designsReady()
   domainsReady()
@@ -53,7 +54,8 @@
 
 # These functions only get called on the initial page visit (no turbolinks)
 @initialLoadReady = ->
-  turbolinksReady()
+  console.log "initialLoadReady"
+  # turbolinksReady()
   timeoutReady()
 
 $(window).onbeforeunload = -> return "You haven't saved your changes." if window.$isDirty
@@ -130,10 +132,10 @@ $(document)
     $($(this).data('target')).toggle()
     false
   )
-  .on('typeahead:selected', "#global-search", (event, datum) ->
-    $(this).val(datum['value'])
-    $("#global-search-form").submit()
-  )
+  # .on('typeahead:selected', "#global-search", (event, datum) ->
+  #   $(this).val(datum['value'])
+  #   $("#global-search-form").submit()
+  # )
   .on('keydown', "#global-search", (e) ->
     $("#global-search-form").submit() if e.which == 13
   )

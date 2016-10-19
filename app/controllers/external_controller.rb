@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-# Grants access to public surveys for images, adding grid rows, variable
-# typeahead, and formatting variable numbers.
+# Grants access to public surveys for section images and adding grid rows.
 class ExternalController < ApplicationController
   prepend_before_action { request.env['devise.skip_timeout'] = true }
   skip_before_action :verify_authenticity_token
 
-  before_action :set_design, only: [:add_grid_row, :section_image, :typeahead]
+  before_action :set_design, only: [:add_grid_row, :section_image]
   before_action :set_section, only: [:section_image]
-  before_action :set_variable, only: [:add_grid_row, :typeahead]
+  before_action :set_variable, only: [:add_grid_row]
 
   # GET /landing
   def landing
@@ -18,18 +17,6 @@ class ExternalController < ApplicationController
   #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row
     @design_option = @design.design_options.find_by_id params[:design_option_id] if @design
-  end
-
-  # GET /external/typeahead.js
-  def typeahead
-    array = if ['string'].include?(@variable.variable_type)
-              @variable.autocomplete_array.select do |i|
-                i.to_s.downcase.include?(params[:query].to_s.downcase)
-              end
-            else
-              []
-            end
-    render json: array
   end
 
   # Image returned or blank

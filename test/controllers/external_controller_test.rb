@@ -2,6 +2,8 @@
 
 require 'test_helper'
 
+# Tests to assure users can view section images and add grid rows on public
+# surveys.
 class ExternalControllerTest < ActionController::TestCase
   setup do
     @public_design = designs(:admin_public_design)
@@ -66,57 +68,6 @@ class ExternalControllerTest < ActionController::TestCase
     }, format: 'js'
     assert_not_nil assigns(:variable)
     assert_template 'add_grid_row'
-    assert_response :success
-  end
-
-  test 'should get typeahead as valid user' do
-    login(users(:valid))
-    get :typeahead, params: {
-      design: designs(:all_variable_types),
-      variable_id: variables(:autocomplete)
-    }, xhr: true, format: 'js'
-    assert_not_nil assigns(:variable)
-    assert_equal %w(Cat Dog Fish), assigns(:variable).autocomplete_array
-    assert_response :success
-  end
-
-  test 'should not get typeahead for user not on project' do
-    login(users(:two))
-    get :typeahead, params: {
-      design: designs(:all_variable_types),
-      variable_id: variables(:autocomplete)
-    }, xhr: true, format: 'js'
-    assert_nil assigns(:variable)
-    assert_response :success
-  end
-
-  test 'should get typeahead for public survey' do
-    get :typeahead, params: {
-      design: designs(:admin_public_design),
-      variable_id: variables(:public_autocomplete)
-    }, xhr: true, format: 'js'
-    assert_not_nil assigns(:variable)
-    assert_equal %w(Cat Dog Fish), assigns(:variable).autocomplete_array
-    assert_response :success
-  end
-
-  test 'should get blank array for non-string typeahead' do
-    login(users(:valid))
-    get :typeahead, params: {
-      design: designs(:all_variable_types), variable_id: variables(:dropdown)
-    }, xhr: true, format: 'js'
-    assert_not_nil assigns(:variable)
-    assert_equal [], assigns(:variable).autocomplete_array
-    assert_response :success
-  end
-
-  test 'should get typeahead for handoff' do
-    get :typeahead, params: {
-      design: designs(:all_variable_types),
-      variable_id: variables(:autocomplete), handoff: handoffs(:typeahead)
-    }, xhr: true, format: 'js'
-    assert_not_nil assigns(:variable)
-    assert_equal %w(Cat Dog Fish), assigns(:variable).autocomplete_array
     assert_response :success
   end
 

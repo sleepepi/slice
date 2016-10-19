@@ -22,12 +22,6 @@
 
 @initializeSheet = (filter_element = '') ->
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
-  $("#{filter_element} [data-object~='variable-typeahead']").each( ->
-    $this = $(this)
-    $this.typeahead(
-      remote: "#{root_url}external/typeahead?query=%QUERY&design=#{$this.data('design')}&variable_id=#{$this.data('variable-id')}&handoff=#{$this.data('handoff')}"
-    )
-  )
   updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
   $('.grid_sortable').sortable(

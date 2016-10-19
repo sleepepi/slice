@@ -361,7 +361,6 @@ Rails.application.routes.draw do
 
   namespace :external do
     post :add_grid_row
-    get :typeahead
     get :section_image
   end
 

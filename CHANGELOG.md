@@ -27,6 +27,9 @@
   - Date and time validations changed to occur only after the variable loses
     focus
 
+### Bug Fixes
+- Fixed a bug that caused autocomplete suggestion menu from rendering twice
+
 ## 0.42.0 (October 11, 2016)
 
 ### Enhancements
