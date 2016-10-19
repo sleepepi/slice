@@ -15,6 +15,8 @@
 - **Randomization Changes**
   - Typing a non-existent subject code now indicates that no matching
     subjects were found
+  - Subject code is no longer editable when randomizing directly from the
+    subject page
 - **Report Changes**
   - Report sheet filters now use new sheet search syntax
   - Improved layout of the design overview report
