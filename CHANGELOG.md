@@ -4,6 +4,8 @@
 - **Adverse Events**
   - Typing a non-existent subject code now indicates that no matching
     subjects were found
+  - Subject code is no longer editable when launching an adverse event directly
+    from the subject page
 - **Event Changes**
   - When adding a new event to a subject, events that already exist are shown
 - **Project Changes**
