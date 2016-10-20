@@ -16,7 +16,8 @@ module Pats
       "%b '%y"
     end
 
-    def generic_table(project, start_date, type, objects, attribute: :created_at, date_variable: nil)
+    def generic_table(project, start_date, type, objects, attribute: :created_at, date_variable: nil, breakdown: :month)
+      return generic_table_by_month(project, start_date, type, objects, attribute: attribute, date_variable: date_variable) if breakdown == :month
       table = {}
 
       header = []
@@ -44,9 +45,9 @@ module Pats
         project.sites.each do |site|
           site_objects = objects.where(subjects: { site_id: site.id })
           week_objects = if date_variable
-                          site_objects.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.all_week.first, current_week.all_week.last).where(sheet_variables: { variable_id: date_variable.id })
+                          site_objects.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.beginning_of_week, current_week.end_of_week).where(sheet_variables: { variable_id: date_variable.id })
                         else
-                          site_objects.where(attribute.to_sym => current_week.all_week)
+                          site_objects.where("DATE(#{site_objects.table_name}.#{attribute}) BETWEEN ? AND ?", current_month.beginning_of_week, current_month.end_of_week)
                         end
           week_count = count_subjects(week_objects)
           total_row_count += week_count
@@ -63,6 +64,56 @@ module Pats
       table[:footer] = footer
       table[:rows] = rows
       table[:title] = "#{type} By Week"
+      table
+    end
+
+    def generic_table_by_month(project, start_date, type, objects, attribute: :created_at, date_variable: nil)
+      table = {}
+
+      header = []
+      header_row = ['Month'] + project.sites.collect(&:short_name) + ['Month Total']
+      header << header_row
+
+      footer = []
+      footer_row = ["Total #{type}"]
+      footer_total = 0
+      project.sites.each do |site|
+        site_total = count_subjects(objects.where(subjects: { site_id: site.id }))
+        footer_total += site_total
+        footer_row << site_total
+      end
+      footer_row << footer_total
+      footer << footer_row
+
+      rows = []
+      current_month = start_date.beginning_of_month
+      last_month = Time.zone.today.beginning_of_month
+      total = 0
+      while current_month <= last_month
+        total_row_count = 0
+        row = [current_month.strftime(category_time_month_format)]
+        project.sites.each do |site|
+          site_objects = objects.where(subjects: { site_id: site.id })
+          month_objects = if date_variable
+                          site_objects.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_month.beginning_of_month, current_month.end_of_month).where(sheet_variables: { variable_id: date_variable.id })
+                        else
+                          site_objects.where("DATE(#{site_objects.table_name}.#{attribute}) BETWEEN ? AND ?", current_month.beginning_of_month, current_month.end_of_month)
+                        end
+          month_count = count_subjects(month_objects)
+          total_row_count += month_count
+          row << month_count
+        end
+        row << total_row_count
+        rows << row
+        total += total_row_count
+        current_month += 1.month
+      end
+
+      table[:total] = total
+      table[:header] = header
+      table[:footer] = footer
+      table[:rows] = rows
+      table[:title] = "#{type} By Month"
       table
     end
 
@@ -140,7 +191,7 @@ module Pats
       current_week = start_date.beginning_of_week
       last_week = Time.zone.today.beginning_of_week
       while current_week <= last_week
-        week_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.all_week.first, current_week.all_week.last).where(sheet_variables: { variable_id: variable.id })
+        week_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.beginning_of_week, current_week.end_of_week).where(sheet_variables: { variable_id: variable.id })
         total_count += count_subjects(week_sheets)
         data << total_count
         current_week += 1.week
@@ -167,7 +218,7 @@ module Pats
       current_month = start_date.beginning_of_month - 1.month
       last_month = Time.zone.today.beginning_of_month
       while current_month <= last_month
-        month_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_month.all_month.first, current_month.all_month.last).where(sheet_variables: { variable_id: variable.id })
+        month_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_month.beginning_of_month, current_month.end_of_month).where(sheet_variables: { variable_id: variable.id })
         total_count += count_subjects(month_sheets)
         data << total_count
         current_month += 1.month
