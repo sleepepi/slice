@@ -461,9 +461,9 @@ $navbar-default-toggle-border-color:       $P800 !default;
 // $pagination-hover-bg:                  $gray-lighter !default;
 // $pagination-hover-border:              #ddd !default;
 
-// $pagination-active-color:              #fff !default;
-// $pagination-active-bg:                 $brand-primary !default;
-// $pagination-active-border:             $brand-primary !default;
+$pagination-active-color:              $brand-white !default;
+$pagination-active-bg:                 $link-color !default;
+$pagination-active-border:             $link-color !default;
 
 // $pagination-disabled-color:            $gray-light !default;
 // $pagination-disabled-bg:               #fff !default;
