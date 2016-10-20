@@ -5,6 +5,6 @@
 
 - unless is_grid
   %div
-    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success' do
+    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-cutout btn-shadow-sm' do
       = variable.shared_options.size == 0 ? 'Add' : 'Edit'
       Choices

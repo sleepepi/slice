@@ -1,4 +1,4 @@
-- @title = "#{@design.name_was} Reorder"
+- @title = "#{@design.name} Reorder"
 - @menu_title = "#{@project.name} #{@title}"
 
 = render 'projects/side_nav'
@@ -9,18 +9,15 @@
     .container
       %h1.page-heading
         .pull-right
-          .btn-toolbar{ style: 'margin-bottom: 20px' }
+          .hidden-xs.btn-toolbar{ style: 'margin-top: 15px;' }
             .btn-group
               = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
               = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: 'preview'), class: 'btn btn-xs btn-default'
 
             = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default active'
-            = link_to edit_project_design_path(@project, @design), method: :get, remote: true, class: 'btn btn-xs btn-default design-preview-hide' do
-              %span.glyphicon.glyphicon-cog
-              Edit Design Settings
 
         = render 'layouts/side_nav_header_button'
-        = link_to @design.name_was, [@project, @design]
+        = link_to @design.short_name, edit_project_design_path(@project, @design)
         Reorder
 
 #interactive_design_modal.modal

@@ -25,7 +25,7 @@
       - unless is_grid
         %tr.design-preview-hide
           %td.center{ colspan: "#{variable.shared_options.size + 1}" }
-            = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success' do
+            = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-cutout btn-shadow-sm' do
               = variable.shared_options.size == 0 ? 'Add' : 'Edit'
               Choices
 - else
@@ -43,6 +43,6 @@
           = value
         = name
   - unless is_grid
-    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-success' do
+    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-cutout btn-shadow-sm' do
       = variable.shared_options.size == 0 ? 'Add' : 'Edit'
       Choices

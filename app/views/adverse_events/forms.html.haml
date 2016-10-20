@@ -1,7 +1,7 @@
 - @title = "#{@adverse_event.name} Forms"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
-- @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]]  if @adverse_event.subject
+- @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 
 = @subject = @adverse_event.subject; render 'subjects/side_nav'
 

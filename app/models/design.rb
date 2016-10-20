@@ -21,7 +21,7 @@ class Design < ApplicationRecord
   ]
 
   # Concerns
-  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable
+  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable, ShortNameable
 
   attr_writer :questions
   attr_accessor :reimport

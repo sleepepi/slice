@@ -1,3 +1,10 @@
-.design-header= @design.name
+.design-header
+  .pull-right.design-preview-hide
+    = link_to edit_project_design_path(@project, @design), method: :get, remote: true, class: 'btn btn-cutout btn-shadow-sm' do
+      %span.hidden-xs Edit
+      %span.glyphicon.glyphicon-edit
+  = @design.name
 
-= simple_markdown @design.description unless @design.description.blank?
+- unless @design.description.blank?
+  .callout.callout-info
+    = simple_markdown @design.description

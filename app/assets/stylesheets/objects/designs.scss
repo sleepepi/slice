@@ -38,7 +38,24 @@
 
 .design-edit-box {
   background-color: $table-bg-accent;
-  border-left: 2px solid $table-border-color;
+  background-image: linear-gradient(90deg, $table-bg-accent, $table-bg-accent 65%, $body-bg);
+  border-radius: 4px 0 0 4px;
+  box-shadow: -7px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+
+  h4 {
+    font-weight: bold !important;
+    margin-top: 0;
+  }
+
+  .design-option-lead {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .design-option-body {
+    margin: 0 0 15px 10px;
+  }
 }
 
 .editable-design-element,
@@ -53,4 +70,8 @@
 .editable-design-element:hover,
 .editable-design-element input:hover {
   background-color: $alert-success-bg;
+}
+
+.add-design-option {
+  margin: 20px 0;
 }
