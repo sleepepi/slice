@@ -13,6 +13,14 @@
   line-height: 1.1;
   margin-bottom: 30px;
   padding-bottom: 9.5px;
+
+  + .design-description {
+    margin-top: -20px;
+  }
+}
+
+.design-description {
+  text-align: justify;
 }
 
 .section-header {
