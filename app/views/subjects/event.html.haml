@@ -28,5 +28,8 @@
         = render 'layouts/side_nav_header_button'
         = link_to @subject.name, [@project, @subject]
         = @title
+        - if @project.blinding_enabled? && @event.only_unblinded?
+          %small
+            %span.glyphicon.glyphicon-eye-open.text-muted{ rel: 'tooltip', data: { title: 'Unblinded Only', placement: 'top', container: 'body' } }
 
 %div{ id: "subject_event_#{@subject_event.id}" }= render @subject_event

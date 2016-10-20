@@ -114,7 +114,7 @@
           %td.hidden-xs= coverage_helper(sheet)
           %td
             = link_to sheet.design.name, [@project, sheet]
-            - if @project.blinding_enabled && sheet.design.only_unblinded?
+            - if @project.blinding_enabled? && sheet.design.only_unblinded?
               %span.glyphicon.glyphicon-eye-open.text-muted{ rel: 'tooltip', data: { title: 'Unblinded Only', placement: 'right', container: 'body' } }
             - if sheet.comments.size > 0
               %span.glyphicon.glyphicon-comment

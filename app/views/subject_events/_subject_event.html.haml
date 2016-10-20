@@ -20,6 +20,10 @@
       %span.text-highlight
         %span.glyphicon.glyphicon-tasks
     = link_to subject_event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
+    - if @project.blinding_enabled? && subject_event.event.only_unblinded?
+      %small
+        %span.glyphicon.glyphicon-eye-open.text-muted{ rel: 'tooltip', data: { title: 'Unblinded Only', placement: 'top', container: 'body' } }
+
   - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
     .hidden-md.hidden-lg
       .panel-body
@@ -48,6 +52,9 @@
                   %span.label.label-accent.hidden-xs Handoff
                   %span.label.label-accent.hidden-sm.hidden-md.hidden-lg H
                 = link_to_if !sheet.missing?, sheet.name, project_sheet_path(@project, sheet)
+                - if @project.blinding_enabled? && design.only_unblinded?
+                  %small
+                    %span.glyphicon.glyphicon-eye-open.text-muted{ rel: 'tooltip', data: { title: 'Unblinded Only', placement: 'top', container: 'body' } }
               %td.text-right
                 - if sheet.missing?
                   .dropdown
@@ -81,6 +88,10 @@
                 = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id })
               - else
                 = design.name
+              - if @project.blinding_enabled? && design.only_unblinded?
+                %small
+                  %span.glyphicon.glyphicon-eye-open.text-muted{ rel: 'tooltip', data: { title: 'Unblinded Only', placement: 'top', container: 'body' } }
+
             %td.text-right
               - if @subject.editable_by?(current_user)
                 .dropdown
