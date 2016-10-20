@@ -199,7 +199,7 @@ class Export < ApplicationRecord
                     section.to_slug,
                     section.name,
                     section.description, # Variable Description
-                    section.level_name,
+                    section.level_name.downcase,
                     nil, # Hard Min
                     nil, # Soft Min
                     nil, # Soft Max

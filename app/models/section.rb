@@ -2,6 +2,16 @@
 
 # Allows main sections, subsections, and warnings to be added to designs
 class Section < ApplicationRecord
+  # Constants
+  LEVELS = [
+    ['Section', 0],
+    ['Subsection', 1],
+    ['Informational', 2],
+    ['Warning', 3],
+    ['Alert', 4]
+  ]
+
+  # Uploaders
   mount_uploader :image, ImageUploader
 
   # Model Relationships
@@ -19,13 +29,8 @@ class Section < ApplicationRecord
   end
 
   def level_name
-    case level
-    when 0
-      'section'
-    when 1
-      'subsection'
-    when 2
-      'warning'
-    end
+    LEVELS.find { |_name, value| value == level }.first
+  rescue
+    'Section'
   end
 end

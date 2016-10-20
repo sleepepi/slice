@@ -10,6 +10,7 @@
   - Double-clicking "Add Variable" no longer attempts to add a variable twice
     in the design builder
   - Improved the design builder interface
+  - Sections have two new levels, "Warning" and "Alert"
 - **Event Changes**
   - When adding a new event to a subject, events that already exist are shown
 - **Project Changes**

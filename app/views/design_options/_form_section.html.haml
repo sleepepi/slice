@@ -30,7 +30,7 @@
 .form-group
   %label.col-md-2.control-label Section Type
   .col-md-10
-    = select_tag 'section[level]', options_for_select( [['Main Section', 0], ['Subsection', '1'], ['Warning', '2']], section.level), style: 'width:200px', class: 'form-control'
+    = select_tag 'section[level]', options_for_select(Section::LEVELS, section.level), style: 'width:200px', class: 'form-control'
 
 .form-group
   %label.col-md-2.control-label
