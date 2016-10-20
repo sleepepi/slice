@@ -30,7 +30,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
       project_id: @project, design_id: @design, design_option: { position: 0 },
       variable: { variable_type: 'string' }
     }, xhr: true, format: 'js'
-    assert_template partial: '_new_form_variable'
+    assert_template partial: '_new_variable'
     assert_response :success
   end
 
@@ -39,7 +39,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
       project_id: @project, design_id: @design, design_option: { position: 0 },
       variable: { variable_type: 'grid' }
     }, xhr: true, format: 'js'
-    assert_template partial: '_new_form_variable'
+    assert_template partial: '_new_variable'
     assert_response :success
   end
 

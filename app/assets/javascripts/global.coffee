@@ -86,6 +86,11 @@ $(document)
     $($(this).data('target')).submit()
     false
   )
+  .on('click', '[data-object~="submit-and-disable"]', ->
+    $(this).prop('disabled', true)
+    $($(this).data('target')).submit()
+    false
+  )
   .on('mouseenter', '[data-object~="hover-show"]', ->
     return false unless document.documentElement.ontouchstart == undefined
     $('[data-object~="hover-show"]').each( (index, element) ->

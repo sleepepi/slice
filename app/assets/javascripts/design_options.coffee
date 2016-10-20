@@ -72,6 +72,7 @@ $(document)
     $.post("#{root_url}projects/#{project_id}/designs/#{design_id}/design_options/#{design_option_id}", changes, null, "script")
   )
   .on('click', '[data-object~="submit-section-form-with-file"]', ->
+    $(this).prop('disabled', true)
     $.ajax(
       url: $($(this).data('target')).attr('action')
       type: $(this).data('method')

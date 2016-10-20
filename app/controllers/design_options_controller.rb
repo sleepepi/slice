@@ -60,9 +60,6 @@ class DesignOptionsController < ApplicationController
   def create_variable
     @variable = current_user.variables.where(project_id: @project.id).new(variable_params)
     if @variable.save
-      # if @variable.variable_type == 'grid' && params[:variable][:questions].present?
-      #   @variable.create_variables_from_questions!(params[:variable][:questions])
-      # end
       @design_option.variable_id = @variable.id
       @design_option.save
     end

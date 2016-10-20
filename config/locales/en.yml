@@ -32,3 +32,7 @@ en:
           billion: B
           trillion: T
           quadrillion: Q
+  errors:
+    messages:
+      extension_white_list_error: "allowed types: %{allowed_types}"
+      extension_whitelist_error: "allowed types: %{allowed_types}"

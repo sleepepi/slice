@@ -1,23 +1,15 @@
-- if variable.errors.any?
-  .callout.callout-danger
-    %strong
-      = pluralize variable.errors.count, 'error'
-      prohibited this variable from being saved
-
-    %ul
-      - variable.errors.full_messages.each do |msg|
-        %li= msg
-
 = hidden_field_tag "design_option[position]", design_option.position
+= hidden_field_tag "variable[variable_type]", variable.variable_type if variable.new_record?
 
 .form-group
   %label.col-md-2.control-label Display Name
   .col-md-10
     .input-group
-      = text_field_tag 'variable[display_name]', variable.display_name, autocomplete: 'off', class: 'form-control'
+      = text_field_tag 'variable[display_name]', variable.display_name, autocomplete: 'off', class: 'form-control', data: { object: (variable.new_record? ? 'create-variable-name' : ''), variable_name_target: '#variable_name' }
       %span.input-group-btn
         = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#display-name-info' }, tabindex: '-1' do
           %span.glyphicon.glyphicon-info-sign
+    = render 'layouts/errors', object: variable, key: :display_name
 
     #display-name-info.callout.callout-info{ style: 'display:none' }
       %p
@@ -35,6 +27,7 @@
       %span.input-group-btn
         = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
           %span.glyphicon.glyphicon-info-sign
+    = render 'layouts/errors', object: variable, key: :name
     #name-info.callout.callout-info{ style: 'display:none' }
       %strong Naming convention
 
@@ -58,12 +51,32 @@
       Ex:
       %code var1_population
 
-.form-group
-  %label.col-md-2.control-label
-    Branching Logic
-    = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#branching-logic-info' }, tabindex: '-1' do
-      %span.glyphicon.glyphicon-info-sign
-  .col-md-10
-    = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
+- unless variable.new_record?
+  .form-group
+    %label.col-md-2.control-label
+      Branching Logic
+      = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#branching-logic-info' }, tabindex: '-1' do
+        %span.glyphicon.glyphicon-info-sign
+    .col-md-10
+      = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
 
-    = render 'layouts/branching_logic_examples'
+      = render 'layouts/branching_logic_examples'
+
+- if variable.new_record? && variable.variable_type == 'grid'
+  .form-group
+    = label :questions, 'Questions', class: 'col-md-2 control-label'
+    .col-md-10
+      .callout.callout-info{ style: "margin-top:0px" }
+        %strong Quick Start
+        %p
+          %strong Optional:
+          Enter the questions you wish to ask on this design, and specify
+          the format of the response. You can also skip adding questions
+          here and add them in the advanced editor in the next step. The
+          advanced editor will also provide finer control over responses to
+          questions.
+      #questions
+        - questions = (params[:variable] && params[:variable][:questions] ? params[:variable][:questions] : [ { question_name: '', question_type: 'free text' } ])
+        - questions.each do |question_hash|
+          = render 'variables/question', question_hash: question_hash
+      = link_to 'Add Question', add_question_project_variables_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'

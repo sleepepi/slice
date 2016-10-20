@@ -7,7 +7,7 @@
     = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: 'form-horizontal', id: 'design_option_form' do
       = render 'design_options/form_section', design_option: @design_option, section: section
   .modal-footer
-    = button_tag 'Update', data: { object: 'submit-section-form-with-file', target: '#design_option_form', method: :patch }, class: 'btn btn-primary'
+    = button_tag 'Update Section', data: { object: 'submit-section-form-with-file', target: '#design_option_form', method: :patch }, class: 'btn btn-primary'
     %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
 - elsif variable = @design_option.variable
   .modal-header
@@ -15,11 +15,11 @@
     %h4.modal-title
       Edit Variable
       &middot;
-      = variable.name
+      = variable.name_was
   .modal-body
     = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: 'form-horizontal', id: 'design_option_form' do
       = render 'design_options/form_variable', design_option: @design_option, variable: variable
 
   .modal-footer
-    = button_tag 'Update', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+    = button_tag 'Update Variable', data: { object: 'submit-and-disable', target: '#design_option_form' }, class: 'btn btn-primary'
     %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel

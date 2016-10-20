@@ -6,6 +6,9 @@
     subjects were found
   - Subject code is no longer editable when launching an adverse event directly
     from the subject page
+- **Design Changes**
+  - Double-clicking "Add Variable" no longer attempts to add a variable twice
+    in the design builder
 - **Event Changes**
   - When adding a new event to a subject, events that already exist are shown
 - **Project Changes**
