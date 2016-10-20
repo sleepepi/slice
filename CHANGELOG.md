@@ -41,6 +41,9 @@
   - Sheet coverage percentage colors now match selected theme
   - Date and time validations changed to occur only after the variable loses
     focus
+- **PATS Changes**
+  - Graphs now contain an overall total that is hidden by default
+  - Graphs are now broken down by month instead of by week
 
 ### Bug Fixes
 - Fixed a bug that caused autocomplete suggestion menu from rendering twice

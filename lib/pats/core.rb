@@ -12,6 +12,10 @@ module Pats
       "%d %b '%y"
     end
 
+    def category_time_month_format
+      "%b '%y"
+    end
+
     def generic_table(project, start_date, type, objects, attribute: :created_at, date_variable: nil)
       table = {}
 
@@ -123,7 +127,7 @@ module Pats
       current_week = start_date.beginning_of_week
       last_week = Time.zone.today.beginning_of_week
       while current_week <= last_week
-        total_count += count_subjects(sheets.where(created_at: current_week.all_week))
+        total_count += count_subjects(sheets.where("DATE(#{sheets.table_name}.created_at) BETWEEN ? AND ?", current_month.beginning_of_week, current_month.end_of_week))
         data << total_count
         current_week += 1.week
       end
@@ -144,6 +148,33 @@ module Pats
       data
     end
 
+    def by_month(sheets, start_date)
+      data = []
+      total_count = 0
+      current_month = start_date.beginning_of_month - 1.month
+      last_month = Time.zone.today.beginning_of_month
+      while current_month <= last_month
+        total_count += count_subjects(sheets.where("DATE(#{sheets.table_name}.created_at) BETWEEN ? AND ?", current_month.beginning_of_month, current_month.end_of_month))
+        data << total_count
+        current_month += 1.month
+      end
+      data
+    end
+
+    def by_month_of_attribute(sheets, start_date, variable)
+      data = []
+      total_count = 0
+      current_month = start_date.beginning_of_month - 1.month
+      last_month = Time.zone.today.beginning_of_month
+      while current_month <= last_month
+        month_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_month.all_month.first, current_month.all_month.last).where(sheet_variables: { variable_id: variable.id })
+        total_count += count_subjects(month_sheets)
+        data << total_count
+        current_month += 1.month
+      end
+      data
+    end
+
     def count_subjects(sheets)
       sheets.select(:subject_id).distinct.count(:subject_id)
     end
@@ -157,6 +188,17 @@ module Pats
         current_week += 1.week
       end
       weeks
+    end
+
+    def generate_categories_months(start_date)
+      months = []
+      current_month = start_date.beginning_of_month - 1.month
+      last_month = Time.zone.today.beginning_of_month
+      while current_month <= last_month
+        months << current_month.strftime(category_time_month_format)
+        current_month += 1.month
+      end
+      months
     end
   end
 end

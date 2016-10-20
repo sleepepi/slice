@@ -9,14 +9,19 @@ module Pats
 
     def randomized_graph(project, start_date)
       graph = {}
-      categories = generate_categories(start_date)
+      categories = generate_categories_months(start_date)
       series = []
       project.sites.each do |site|
         series << {
           name: site.short_name,
-          data: by_week(randomizations(project).where(subjects: { site_id: site.id }), start_date)
+          data: by_month(randomizations(project).where(subjects: { site_id: site.id }), start_date)
         }
       end
+      series << {
+        name: 'Overall',
+        data: by_month(randomizations(project), start_date),
+        visible: false
+      }
       scheme = project.randomization_schemes.first
       graph[:total] = count_subjects(randomizations(project))
       graph[:randomization_goal] = scheme.randomization_goal
@@ -25,7 +30,7 @@ module Pats
       graph[:series] = series
       graph[:title] = 'Cumulative Randomized'
       graph[:yaxis] = '# Randomized'
-      graph[:xaxis] = 'Week Starting On'
+      # graph[:xaxis] = ''
       graph
     end
 

@@ -9,21 +9,26 @@ module Pats
 
     def consented_graph(project, start_date)
       graph = {}
-      categories = generate_categories(start_date)
+      categories = generate_categories_months(start_date)
       series = []
       date_variable = project.variables.find_by_name 'ciw_consent_date'
       project.sites.each do |site|
         series << {
           name: site.short_name,
-          data: by_week_of_attribute(informed_consent_sheets(project).where(subjects: { site_id: site.id }), start_date, date_variable)
+          data: by_month_of_attribute(informed_consent_sheets(project).where(subjects: { site_id: site.id }), start_date, date_variable)
         }
       end
+      series << {
+        name: 'Overall',
+        data: by_month_of_attribute(informed_consent_sheets(project), start_date, date_variable),
+        visible: false
+      }
       graph[:total] = count_subjects(informed_consent_sheets(project))
       graph[:categories] = categories
       graph[:series] = series
       graph[:title] = 'Cumulative Consented'
       graph[:yaxis] = '# Consented'
-      graph[:xaxis] = 'Week Starting On'
+      # graph[:xaxis] = ''
       graph
     end
 
