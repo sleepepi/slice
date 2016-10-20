@@ -6,6 +6,9 @@
     subjects were found
   - Subject code is no longer editable when launching an adverse event directly
     from the subject page
+- **Blinding Module Changes**
+  - Additional indicators added to show designs, events, and sheets that are
+    only viewable by unblinded members
 - **Design Changes**
   - Double-clicking "Add Variable" no longer attempts to add a variable twice
     in the design builder

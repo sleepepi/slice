@@ -2,11 +2,12 @@
   .jumbotron
     %p.center No designs found.
 - else
+  - show_unblinded_only = (@project.blinding_enabled? && @project.unblinded?(current_user))
   .dashboard-container
     %table.table.table-striped
       %col
       %col.hidden-xs
-      - if @project.blinding_enabled? && @project.unblinded?(current_user)
+      - if show_unblinded_only
         %col.hidden-xs
       %col.hidden-xs
       %col{ width: '1px' }
@@ -14,7 +15,7 @@
         %tr
           = th_sort_field @order, 'designs.name', 'Name'
           %th.hidden-xs Variables
-          - if @project.blinding_enabled? && @project.unblinded?(current_user)
+          - if show_unblinded_only
             %th.hidden-xs.center Only Unblinded
           %th.hidden-xs.nowrap{ class: ['designs.category_name', 'designs.category_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
             = link_to 'Category', project_designs_path(@project, order: (params[:order] == 'designs.category_name' ? 'designs.category_name desc' : 'designs.category_name'), category_id: params[:category_id])
@@ -33,10 +34,10 @@
           %td= link_to design.name, [@project, design]
 
           %td.hidden-xs= design.variables.count
-          - if @project.blinding_enabled? && @project.unblinded?(current_user)
+          - if show_unblinded_only
             %td.hidden-xs.center
               - if design.only_unblinded?
-                %span.glyphicon.glyphicon-eye-close.text-muted
+                %span.glyphicon.glyphicon-eye-open.text-muted
           %td.hidden-xs= design.category.name if design.category
           %td
             = render 'layouts/edit_delete_dropdown', edit_url: edit_project_design_path(@project, design), delete_url: [@project, design], delete_confirmation: "Are you sure you want to delete Design #{design.name}?"

@@ -2,11 +2,14 @@
   .jumbotron
     %p.center No events found.
 - else
+  - show_unblinded_only = (@project.blinding_enabled? && @project.unblinded?(current_user))
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
       %col{ width: '1px' }
       %col
       %col.hidden-xs
+      - if show_unblinded_only
+        %col.hidden-xs
       %col.hidden-xs
       %col.hidden-xs.hidden-sm
       %col{ width: '1px' }
@@ -15,6 +18,8 @@
           = th_sort_field @order, 'events.position', 'Position', extra_class: 'center'
           = th_sort_field @order, 'events.name', 'Name'
           %th.hidden-xs Launched
+          - if show_unblinded_only
+            %th.hidden-xs.center Only Unblinded
           = th_sort_field @order, 'events.archived', 'Archived', extra_class: 'hidden-xs'
           %th.hidden-xs.hidden-sm.center Designs
           %th Actions
@@ -26,6 +31,10 @@
           %td.hidden-xs
             - assigned_count = event.subject_events.with_current_subjects.count
             = pluralize assigned_count, 'event'
+          - if show_unblinded_only
+            %td.hidden-xs.center
+              - if event.only_unblinded?
+                %span.glyphicon.glyphicon-eye-open.text-muted
           %td.hidden-xs= simple_check event.archived
           %td.hidden-xs.hidden-sm.center= event.designs.count
           %td

@@ -50,11 +50,14 @@
     %table.table.table-borderless
       %col.hidden-xs{ width: '30%' }
       %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
-
       - if @design.category
         %tr
           %th Category
           %td= link_to @design.category.name, [@project, @design.category]
+      - if @project.blinding_enabled?
+        %tr
+          %th Only Unblinded
+          %td= simple_check_new @design.only_unblinded
       - if @design.publicly_available?
         %tr
           %th Publicly Available

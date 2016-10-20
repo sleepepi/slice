@@ -38,6 +38,11 @@
       %th Slug
       %td= @event.slug
 
+    - if @project.blinding_enabled?
+      %tr
+        %th Only Unblinded
+        %td= simple_check_new @event.only_unblinded
+
     %tr
       %th Position
       %td= @event.position
@@ -53,11 +58,6 @@
     %tr
       %th Archived
       %td= simple_check @event.archived
-
-    - if @project.blinding_enabled?
-      %tr
-        %th Only Unblinded
-        %td= simple_check @event.only_unblinded
 
     %tr
       %th Information
