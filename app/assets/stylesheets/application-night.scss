@@ -34,4 +34,5 @@ body, .background-gradient {
   height: 181px;
   animation: sidescroll 120s linear infinite;
   transform: translatez(0);
+  pointer-events: none;
 }

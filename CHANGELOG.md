@@ -58,6 +58,8 @@
 
 ### Bug Fixes
 - Fixed a bug that caused autocomplete suggestion menu from rendering twice
+- Fixed a bug that prevented footer links from being clicked in Internet
+  Explorer and Firefox
 
 ## 0.42.0 (October 11, 2016)
 
