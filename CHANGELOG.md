@@ -466,7 +466,7 @@
   - Schedule of upcoming tasks can be printed out when a subject is randomized
   - Randomization notifications are now limited to project and site members
 - **Report Changes**
-  - Cumulative Recruitment chart now starts one month before first randomization
+  - Cumulative Randomized chart now starts one month before first randomization
 
 ### Refactoring
 - Removed deprecated `sub_section` attribute from `Section`s

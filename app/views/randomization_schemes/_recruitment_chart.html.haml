@@ -53,4 +53,4 @@
   - series_expected << { name: 'Overall Expected', data: overall_expected, type: 'line', color: light_colors[sites.count % colors.size], marker: { fillColor: colors[sites.count % colors.size] }, visible: false }
 
   - series += series_expected
-  %div{ style: 'margin-bottom: 20px', data: { object: 'draw-chart', series: series.to_json, categories: months.to_json, title: 'Cumulative Recruitment', yaxis: '# Randomized' } }
+  %div{ style: 'margin-bottom: 20px', data: { object: 'draw-chart', series: series.to_json, categories: months.to_json, title: 'Cumulative Randomized', yaxis: '# Randomized' } }
