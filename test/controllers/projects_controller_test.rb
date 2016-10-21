@@ -119,30 +119,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to setup_project_sites_path(assigns(:project))
   end
 
-  test 'should create project and automatically with a named site' do
-    login(users(:valid))
-    assert_difference('Site.count') do
-      assert_difference('Project.count') do
-        post :create, params: {
-          project: {
-            description: @project.description,
-            name: 'Project New Name with Site',
-            logo: fixture_file_upload('../../test/support/projects/rails.png'),
-            site_name: 'New Site with Project'
-          }
-        }
-      end
-    end
-    assert_not_nil assigns(:project)
-    assert_equal(
-      File.join(CarrierWave::Uploader::Base.root, 'projects', assigns(:project).id.to_s, 'logo', 'rails.png'),
-      assigns(:project).logo.path
-    )
-    assert_equal 1, assigns(:project).sites.count
-    assert_equal 'New Site with Project', assigns(:project).sites.first.name
-    assert_redirected_to setup_project_sites_path(assigns(:project))
-  end
-
   test 'should not create project with blank name' do
     login(users(:valid))
     assert_difference('Site.count', 0) do

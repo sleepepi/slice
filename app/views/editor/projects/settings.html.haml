@@ -35,8 +35,12 @@
       - if @project.blinding_enabled?
         .row
           .col-sm-6.col-buffer-visible-xs
-            = link_to editor_project_path(@project, project: { blinding_enabled: '0' }), method: :patch, class: 'btn btn-success btn-block btn-lg btn-shadow' do
-              ON
+            - if @project.unblinded?(current_user)
+              = link_to editor_project_path(@project, project: { blinding_enabled: '0' }), method: :patch, class: 'btn btn-success btn-block btn-lg btn-shadow' do
+                ON
+            - else
+              .btn.btn-success.btn-block.btn-lg.disabled
+                ON
           .col-sm-6
             = link_to 'Learn more...', docs_blinding_path, class: 'btn btn-lg btn-block btn-link'
       - else

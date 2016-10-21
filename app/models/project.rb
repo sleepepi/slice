@@ -19,8 +19,6 @@ class Project < ApplicationRecord
 
   squish :name
 
-  attr_accessor :site_name
-
   after_save :create_default_site, :create_default_categories
 
   # Scopes
@@ -233,10 +231,7 @@ class Project < ApplicationRecord
   # Creates a default site if the project has no site associated with it
   def create_default_site
     return if sites.count > 0
-    sites.create(
-      name: site_name.blank? ? 'Default Site' : site_name,
-      user_id: user_id
-    )
+    sites.create(name: 'Default Site', user_id: user_id)
   end
 
   def create_default_categories

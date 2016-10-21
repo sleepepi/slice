@@ -6,30 +6,46 @@ require 'test_helper'
 class Editor::ProjectsControllerTest < ActionController::TestCase
   setup do
     @project = projects(:one)
-    @project_editor = users(:project_one_editor)
+    @unblinded_editor = users(:project_one_editor)
+    @blinded_editor = users(:project_one_editor_blinded)
+  end
+
+  def project_params
+    {
+      name: 'My Project',
+      slug: 'my-project',
+      description: "Project Description\n Line two",
+      disable_all_emails: '1',
+      hide_values_on_pdfs: '1',
+      randomizations_enabled: '1',
+      adverse_events_enabled: '1',
+      blinding_enabled: '1',
+      handoffs_enabled: '1',
+      auto_lock_sheets: 'after24hours'
+    }
   end
 
   test 'should get advanced' do
-    login(@project_editor)
+    login(@unblinded_editor)
     get :advanced, params: { id: @project }
     assert_response :success
   end
 
   test 'should get invite' do
-    login(@project_editor)
+    login(@unblinded_editor)
     get :invite, params: { id: @project }
     assert_response :success
   end
 
   test 'should add invite row' do
-    login(@project_editor)
+    login(@unblinded_editor)
     post :add_invite_row, params: { id: @project }, format: 'js'
     assert_template 'add_invite_row'
     assert_response :success
   end
 
   test 'should send invites' do
-    login(@project_editor)
+    login(@unblinded_editor)
     post :send_invites, params: {
       id: @project,
       invites: [
@@ -42,7 +58,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should create project user' do
-    login(@project_editor)
+    login(@unblinded_editor)
     assert_difference('ProjectUser.count') do
       post :invite_user, params: {
         id: @project, editor: '1',
@@ -81,7 +97,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should create project user invitation' do
-    login(@project_editor)
+    login(@unblinded_editor)
     assert_difference('ProjectUser.count') do
       post :invite_user, params: {
         id: @project, editor: '1',
@@ -94,7 +110,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should not create project user with invalid project id' do
-    login(@project_editor)
+    login(@unblinded_editor)
     assert_difference('ProjectUser.count', 0) do
       post :invite_user, params: {
         id: -1, editor: '1',
@@ -107,7 +123,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should create site user as editor' do
-    login(@project_editor)
+    login(@unblinded_editor)
     assert_difference('SiteUser.count') do
       post :invite_user, params: {
         id: @project, site_id: sites(:one), editor: '1',
@@ -121,7 +137,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should create site user as viewer' do
-    login(@project_editor)
+    login(@unblinded_editor)
     assert_difference('SiteUser.count') do
       post :invite_user, params: {
         id: @project, site_id: sites(:one),
@@ -141,37 +157,55 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should get settings as editor' do
-    login(@project_editor)
+    login(@unblinded_editor)
     get :settings, params: { id: @project }
     assert_response :success
   end
 
   test 'should get edit' do
-    login(@project_editor)
+    login(@unblinded_editor)
     get :edit, params: { id: @project }
     assert_response :success
   end
 
   test 'should update project' do
-    login(@project_editor)
-    patch :update, params: {
-      id: @project,
-      project: { name: @project.name, description: @project.description }
-    }
-    assert_redirected_to settings_editor_project_path(@project)
+    login(@unblinded_editor)
+    patch :update, params: { id: @project, project: project_params }
+    assert_not_nil assigns(:project)
+    assert_equal 'My Project', assigns(:project).name
+    assert_equal 'my-project', assigns(:project).slug
+    assert_equal "Project Description\n Line two", assigns(:project).description
+    assert_equal true, assigns(:project).disable_all_emails?
+    assert_equal true, assigns(:project).hide_values_on_pdfs?
+    assert_equal true, assigns(:project).randomizations_enabled?
+    assert_equal true, assigns(:project).adverse_events_enabled?
+    assert_equal true, assigns(:project).blinding_enabled?
+    assert_equal true, assigns(:project).handoffs_enabled?
+    assert_equal 'after24hours', assigns(:project).auto_lock_sheets
+    assert_redirected_to settings_editor_project_path(assigns(:project))
   end
 
   test 'should not update project with blank name' do
-    login(@project_editor)
+    login(@unblinded_editor)
     patch :update, params: { id: @project, project: { name: '' } }
     assert_not_nil assigns(:project)
-    assert assigns(:project).errors.size > 0
     assert_equal ["can't be blank"], assigns(:project).errors[:name]
     assert_template 'edit'
+    assert_response :success
+  end
+
+  test 'should not update project blinding as blinded editor' do
+    login(@blinded_editor)
+    patch :update, params: {
+      id: @project, project: project_params.merge(blinding_enabled: '0')
+    }
+    assert_not_nil assigns(:project)
+    assert_equal true, assigns(:project).blinding_enabled?
+    assert_redirected_to settings_editor_project_path(assigns(:project))
   end
 
   test 'should not update invalid project' do
-    login(@project_editor)
+    login(@unblinded_editor)
     patch :update, params: {
       id: -1,
       project: { name: @project.name, description: @project.description }
@@ -182,7 +216,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
 
   test 'should remove attached logo' do
     begin
-      login(@project_editor)
+      login(@unblinded_editor)
       assert_not_equal 0, @project.logo.size
       patch :update, params: { id: @project, project: { remove_logo: '1' } }
 

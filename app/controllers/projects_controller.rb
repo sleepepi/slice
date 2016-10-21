@@ -99,17 +99,11 @@ class ProjectsController < ApplicationController
     super(projects_path)
   end
 
-  # TODO: Reduce this list as it's only for initial project creation.
   def project_params
     params.require(:project).permit(
-      :name, :slug, :description, :disable_all_emails,
-      :hide_values_on_pdfs,
-      :randomizations_enabled, :adverse_events_enabled, :blinding_enabled,
-      :handoffs_enabled, :auto_lock_sheets,
+      :name, :slug, :description,
       # Uploaded Logo
-      :logo, :logo_uploaded_at, :logo_cache, :remove_logo,
-      # Will automatically generate a site if the project has no site
-      :site_name
+      :logo, :logo_uploaded_at, :logo_cache, :remove_logo
     )
   end
 

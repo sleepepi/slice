@@ -9,6 +9,7 @@
 - **Blinding Module Changes**
   - Additional indicators added to show designs, events, and sheets that are
     only viewable by unblinded members
+  - Unblinded project editors can no longer disable project blinding setting
 - **Design Changes**
   - Double-clicking "Add Variable" no longer attempts to add a variable twice
     in the design builder
