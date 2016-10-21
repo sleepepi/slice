@@ -46,6 +46,9 @@
   - Sheet coverage percentage colors now match selected theme
   - Date and time validations changed to occur only after the variable loses
     focus
+- **Subject Changes**
+  - Sheet transactions and reassigning a sheet now properly highlight the event
+    in the subject side navigation
 - **PATS Changes**
   - Graphs now contain an overall total that is hidden by default
   - Graphs and tables are now broken down by month instead of by week
