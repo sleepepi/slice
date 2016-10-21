@@ -15,5 +15,5 @@
 
 .background-gradient {
   animation: bubbles-three 20s linear infinite;
-  background-image: asset-url('themes/winter/snow2.png'), asset-url('themes/winter/snow3.png'), linear-gradient(180deg, $A100, $A700 31%, $P400 65%, $P500);
+  background-image: asset-url('themes/winter/snow2.png'), asset-url('themes/winter/snow3.png'), linear-gradient(180deg, $a100, $a700 31%, $p400 65%, $p500);
 }

@@ -5,8 +5,8 @@
 
 $header-bg:             $gray-darker;
 $side-nav-bg:           $body-bg;
-$side-nav-active-bg:    $A700;
-$project-box-bg:        $P900;
+$side-nav-active-bg:    $a700;
+$project-box-bg:        $p900;
 $project-box-link: $brand-white;
 $comment-header-bg: darken($gray-darker, 5%);
 $comment-border: darken($gray-darker, 10%);
@@ -14,25 +14,26 @@ $breadcrumb-link-color: $link-color;
 $calendar-border-color: $gray-darker;
 $calendar-today-bg: $gray-darker;
 $dashboard-bg: #111;
-$dashboard-lead-bg: $P900;
-$section-lead-bg: $P700;
+$dashboard-lead-bg: $p900;
+$section-lead-bg: $p700;
 
 @import 'tree';
 
-body, .background-gradient {
-  background-color: $P900;
-  background-image: linear-gradient(180deg, #060606, $P900 95%, $P900);
+body,
+.background-gradient {
+  background-color: $p900;
+  background-image: linear-gradient(180deg, $body-bg, $p900 95%, $p900);
 }
 
 .footer::before {
-  background: transparent asset-url('themes/night/fog.png') repeat;
-  content: "";
-  left: 0;
-  bottom: 0;
-  position: absolute;
-  width: 100%;
-  height: 181px;
   animation: sidescroll 120s linear infinite;
-  transform: translatez(0);
+  background: transparent asset-url('themes/night/fog.png') repeat;
+  bottom: 0;
+  content: '';
+  height: 181px;
+  left: 0;
   pointer-events: none;
+  position: absolute;
+  transform: translatez(0);
+  width: 100%;
 }

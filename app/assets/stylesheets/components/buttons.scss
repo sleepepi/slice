@@ -42,9 +42,9 @@
 }
 
 .btn-accent {
-  background-color: $A200;
-  border: 1px solid $A400;
-  color: $A200-text;
+  background-color: $a200;
+  border: 1px solid $a400;
+  color: $a200-text;
 
   &:hover,
   &:focus,
@@ -52,9 +52,9 @@
   &.active,
   &.disabled,
   &[disabled] {
-    background-color: $A400;
-    border: 1px solid $A700;
-    color: $A200-text;
+    background-color: $a400;
+    border: 1px solid $a700;
+    color: $a200-text;
   }
 }
 
@@ -99,7 +99,7 @@
 
   .btn-text-emphasis {
     backface-visibility: hidden; // Fix for transition flickering
-    color: $A700;
+    color: $a700;
     transition: all .4s ease; // Fade to color for Chrome and Safari
   }
 }
@@ -133,9 +133,9 @@
 .btn-cutout.active,
 .btn-cutout.disabled,
 .btn-cutout[disabled] {
-  background-color: $A200;
-  border: 1px solid $A400;
-  color: $A200-text;
+  background-color: $a200;
+  border: 1px solid $a400;
+  color: $a200-text;
 }
 
 // TODO: Move to fixes/buttons, or remove?

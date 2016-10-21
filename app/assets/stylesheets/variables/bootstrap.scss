@@ -35,18 +35,18 @@ $brand-danger: $red;
 $brand-white:           #fff;
 $brand-gray:            #ccc;
 
-$brand-primary: $P500 !default;
-$brand-accent: $A200 !default;
-$brand-accent-text: $A200-text !default;
-$link-color: $A700 !default; // $A700 !default;
-$brand-muted: $P300 !default;
+$brand-primary: $p500 !default;
+$brand-accent: $a200 !default;
+$brand-accent-text: $a200-text !default;
+$link-color: $a700 !default; // $a700 !default;
+$brand-muted: $p300 !default;
 
 // //== Scaffolding
 // //
 // //## Settings for some of the most global styles.
 
 // //** Background color for `<body>`.
-// $body-bg:               $P50 !default; // #fff !default;
+// $body-bg:               $p50 !default; // #fff !default;
 $body-bg:               #fff !default;
 // //** Global text color on `<body>`.
 // $text-color:            $gray-dark !default;
@@ -369,7 +369,7 @@ $input-border-focus:             $brand-accent;
 // $navbar-collapse-max-height:       340px !default;
 
 $navbar-default-color:             $brand-white;
-$navbar-default-bg:                $P600 !default;
+$navbar-default-bg:                $p600 !default;
 // $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // Navbar links
@@ -387,9 +387,9 @@ $navbar-default-brand-hover-color:         $navbar-default-link-hover-color;
 // $navbar-default-brand-hover-bg:            transparent !default;
 
 // // Navbar toggle
-$navbar-default-toggle-hover-bg:           $P700 !default;
-$navbar-default-toggle-icon-bar-bg:        $P300 !default;
-$navbar-default-toggle-border-color:       $P800 !default;
+$navbar-default-toggle-hover-bg:           $p700 !default;
+$navbar-default-toggle-icon-bar-bg:        $p300 !default;
+$navbar-default-toggle-border-color:       $p800 !default;
 
 
 // // Inverted navbar
@@ -492,7 +492,7 @@ $pagination-active-border:             $link-color !default;
 
 // $jumbotron-padding:              30px !default;
 // $jumbotron-color:                inherit !default;
-$jumbotron-bg:                   $P50 !default; // $gray-lighter !default;
+$jumbotron-bg:                   $p50 !default; // $gray-lighter !default;
 // $jumbotron-heading-color:        inherit !default;
 // $jumbotron-font-size:            ceil(($font-size-base * 1.5)) !default;
 
@@ -705,7 +705,7 @@ $state-danger-text:              $brand-danger;// DANGER MODIFIED: #a94442 !defa
 // //
 // //##
 
-$panel-bg:                    $P50 !default;
+$panel-bg:                    $p50 !default;
 // $panel-body-padding:          15px !default;
 // $panel-heading-padding:       10px 15px !default;
 // $panel-footer-padding:        $panel-heading-padding !default;
@@ -833,7 +833,7 @@ $panel-bg:                    $P50 !default;
 // //##
 
 $code-color:                  $navbar-default-color;
-$code-bg:                     $P300; // $navbar-default-bg;
+$code-bg:                     $p300; // $navbar-default-bg;
 
 // $kbd-color:                   #fff !default;
 // $kbd-bg:                      #333 !default;

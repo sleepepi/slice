@@ -1,7 +1,7 @@
 // Styles for discussion and comments on adverse events and sheets
 
-$comment-header-bg: $P50 !default;
-$comment-border: $P100 !default;
+$comment-header-bg: $p50 !default;
+$comment-border: $p100 !default;
 
 .comment-outer {
   margin-bottom: 20px;
@@ -49,7 +49,7 @@ $comment-border: $P100 !default;
   }
 
   a:not(.btn) {
-    color: $P600;
+    color: $p600;
   }
 }
 
