@@ -3,6 +3,7 @@
     = coverage_helper(sheet)
   %td
     = link_to sheet.name, [@project, sheet]
+    = render 'layouts/unblinded_only', project: @project, object: sheet.design, placement: 'top'
     - if sheet.subject_event
       %br
       .text-muted
