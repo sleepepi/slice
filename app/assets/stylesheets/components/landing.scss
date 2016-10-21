@@ -1,23 +1,26 @@
+$landing-cog-color: #ededed;
+$landing-cog2-color: #dedede;
+
 .background-gradient {
   background-color: $a200;
   background-image: linear-gradient(180deg, $a100, $a700 31%, $p400 65%, $p500);
-  position: absolute;
   bottom: 0;
-  top: 0;
   left: 0;
+  position: absolute;
   right: 0;
+  top: 0;
   z-index: -3;
 }
 
 .body-attachment {
-  overflow: hidden;
-  position: absolute;
   bottom: 0;
-  top: 0;
   left: 0;
-  right: 0;
-  z-index: -2;
+  overflow: hidden;
   padding-top: $header-height + 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -2;
 
   .attachment-container {
     position: relative;
@@ -34,18 +37,18 @@
 }
 
 .landing-cog {
-  color: #ededed;
+  color: $landing-cog-color;
   font-size: 128px;
   right: 0;
   top: 0;
 
   span {
-   animation: spin-cw 16s linear infinite;
+    animation: spin-cw 16s linear infinite;
   }
 }
 
 .landing-cog2 {
-  color: #dedede;
+  color: $landing-cog2-color;
   font-size: 64px;
   right: -22px;
   top: 109px;
@@ -58,8 +61,8 @@
 .landing-cog3 {
   color: $brand-muted;
   font-size: 512px;
-  top: -320px;
   left: -200px;
+  top: -320px;
 
   span {
     animation: spin-cw 72s linear infinite;
@@ -69,25 +72,25 @@
 .landing-lower-left {
   color: $brand-muted;
   font-size: 512px;
-  top: 370px;
   left: -100px;
+  top: 370px;
 
   i {
-    transform: rotate(10deg);
     animation: shake 9s ease-in-out infinite alternate;
+    transform: rotate(10deg);
   }
 }
 
 .background-search {
   color: $brand-muted;
   font-size: 512px;
-  top: 270px;
   left: 0;
+  top: 270px;
 
   span {
-    transform: scale(1);
-    opacity: 0;
     animation: wander 15s ease-in-out 1;
     animation-fill-mode: forwards;
+    opacity: 0;
+    transform: scale(1);
   }
 }

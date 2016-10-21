@@ -40,7 +40,7 @@
   background-color: $table-bg-accent;
   background-image: linear-gradient(90deg, $table-bg-accent, $table-bg-accent 65%, $body-bg);
   border-radius: 4px 0 0 4px;
-  box-shadow: -7px 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: -7px 0 10px $standard-shadow-hover-color;
   padding: 10px;
 
   h4 {

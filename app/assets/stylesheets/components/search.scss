@@ -13,33 +13,32 @@
 .search-container {
   @include remove-last-child-bottom-margin;
   background-color: $jumbotron-bg;
-  padding: 10px;
-  color: $text-color;
   border-radius: 3px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  position: absolute;
-  opacity: 0;
-  visibility: hidden;
+  box-shadow: 0 0 20px $standard-shadow-color;
+  color: $text-color;
   left: 0;
-  right: 0;
-  transform: translateY(-20px);
   margin: 0;
-
+  opacity: 0;
+  padding: 10px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  transform: translateY(-20px);
+  transition-duration: .25s;
   transition-property: opacity, position, transform;
-  transition-duration: 0.25s;
   transition-timing-function: ease-out;
+  visibility: hidden;
 
   .btn {
     transition-property: none;
   }
 
   &.search-container-visible {
-    position: relative;
-    visibility: inherit;
-    opacity: 1;
-    transform: translateY(0);
     margin: 0 0 20px;
+    opacity: 1;
+    position: relative;
+    transform: translateY(0);
+    visibility: inherit;
 
     .btn {
       transition-property: background-color;

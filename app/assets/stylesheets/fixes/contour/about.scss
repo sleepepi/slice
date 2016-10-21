@@ -1,45 +1,47 @@
-/* About Page Styling */
+// About Page Styling
 
-// TODO: Remove
+// TODO: Remove stylesheet
+
+$about-color: #999;
 
 h1.about-title {
-  font-size:40px;
-  font-weight:300;
-  text-align:center;
-  margin-bottom:9px
+  font-size: 40px;
+  font-weight: 300;
+  margin-bottom: 9px;
+  text-align: center;
 }
 
 h2.about-title {
   font-size: 22px;
   font-weight: 300;
   line-height: 36px;
-  text-align:center;
   margin-bottom: 9px;
+  text-align: center;
 }
 
 p.about-tagline {
-  font-size:18px;
-  line-height:36px;
-  font-weight:300;
-  color:#999;
-  text-align:center
+  color: $about-color;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 36px;
+  text-align: center;
 }
 
 p.about-signup {
-  text-align:center;
-  line-height:36px;
+  line-height: 36px;
+  text-align: center;
 }
 
 p.about-description {
-  font-size:18px;
-  line-height:36px;
-  font-weight:300;
-  color:#999;
-  text-align:center;
-  margin-bottom:20px;
+  color: $about-color;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 36px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 p.about-footer {
-  text-align:center;
-  font-weight:300;
+  font-weight: 300;
+  text-align: center;
 }

@@ -1,7 +1,7 @@
 .page-heading {
   font-weight: normal !important;
   position: relative;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 3px $standard-shadow-color;
   word-break: break-word;
 
   .btn,
@@ -60,7 +60,7 @@
 @media screen and (min-width: $screen-md-min) {
   .header-container {
     h1 {
-      font-size: 41px
+      font-size: 41px;
     }
 
     .dropdown,
@@ -84,19 +84,19 @@
       display: none;
     }
   }
-}
 
-.navbar-header.navbar-page-title {
-  .navbar-brand {
-    display: none;
+  &.navbar-page-title {
+    .navbar-brand {
+      display: none;
 
-    &.page-title {
-      color: $brand-white;
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 300px;
+      &.page-title {
+        color: $brand-white;
+        display: block;
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 }

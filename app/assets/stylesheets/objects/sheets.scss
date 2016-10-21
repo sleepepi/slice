@@ -4,7 +4,7 @@
   background-color: $table-bg-accent;
   border: 1px solid $table-border-color;
   border-radius: 4px;
-  box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 7px 15px $standard-shadow-hover-color;
   padding: 2px 4px;
   z-index: $zindex-modal;
 }

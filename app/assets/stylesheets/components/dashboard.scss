@@ -3,11 +3,11 @@
   @include scale-images;
 
   background-color: $dashboard-bg;
-  padding: 10px;
-  color: $text-color;
   border-radius: 3px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 60px $standard-shadow-color;
+  color: $text-color;
   margin-bottom: 40px;
+  padding: 10px;
 
   > div,
   > table {
@@ -52,19 +52,20 @@
 .section-lead {
   background-color: $section-lead-bg;
   border-radius: 4px;
-  padding: 15px;
   margin-bottom: 20px;
+  padding: 15px;
 
   > div > div {
     margin-bottom: 0 !important;
   }
 
-  .section-header, .sub-section-header {
+  .section-header,
+  .sub-section-header {
+    border: 0;
     color: $brand-white;
     font-weight: initial;
-    margin-top: 0;
     margin-bottom: 0;
+    margin-top: 0;
     padding: 0;
-    border: 0;
   }
 }

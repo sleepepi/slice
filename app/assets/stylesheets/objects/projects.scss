@@ -4,16 +4,15 @@
 }
 
 .projects-box {
+  background-color: $project-box-bg;
+  box-shadow: 0 0 5px $standard-shadow-hover-color;
   margin: 0 0 10px;
   padding: 10px;
-  background-color: $project-box-bg;
-  // border: 1px solid $p500;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: box-shadow .2s ease, background-color .2s ease;
 
   &:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    background-color: lighten($project-box-bg, 5%)
+    background-color: lighten($project-box-bg, 5%);
+    box-shadow: 0 0 20px $standard-shadow-hover-color;
   }
 
   > a {

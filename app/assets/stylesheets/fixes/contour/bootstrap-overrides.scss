@@ -1,16 +1,22 @@
-/* bootstrap-base-overrides.css */
-/* These overrides come after bootstrap.css */
+// bootstrap-base-overrides.css
+// These overrides come after bootstrap.css
 
-/* Skinnier titles */
+// Skinnier titles
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 300 !important;
 }
 
-/* Modify the page-header class to look differently on mobile and larger screen */
+// Modify the page-header class to look differently on mobile and larger screen
 
-.page-header h1, .page-header .h1 {
-  font-size: 30px
+.page-header h1,
+.page-header .h1 {
+  font-size: 30px;
 }
 
 @media screen and (min-width: 768px) {
@@ -18,12 +24,13 @@ h1, h2, h3, h4, h5, h6 {
     text-align: left;
   }
 
-  .page-header h1, .page-header .h1 {
-    font-size: 38px
+  .page-header h1,
+  .page-header .h1 {
+    font-size: 38px;
   }
 }
 
-/* Make sure some text is always viewable in the form control */
+// Make sure some text is always viewable in the form control
 .form-control {
   min-width: 100px;
 }
@@ -32,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: default !important;
 }
 
-/* Custom Classes */
+// Custom Classes
 
 // TODO: Remove
 // .form-inline select,
@@ -41,6 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 //   width: 180px;
 // }
 
-.radio, .checkbox {
+.checkbox,
+.radio {
   min-height: 35px;
 }

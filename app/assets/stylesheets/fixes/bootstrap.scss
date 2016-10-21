@@ -34,14 +34,15 @@ dl {
   padding-right: 15px;
 }
 
-dt, dd {
+dt,
+dd {
   line-height: 18px;
   min-height: 40px;
 }
 
 .dl-horizontal dt {
-  white-space: normal;
   overflow: visible;
+  white-space: normal;
 }
 
 .nav-custom-tabs {

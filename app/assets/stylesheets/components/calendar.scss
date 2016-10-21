@@ -3,9 +3,9 @@
   min-height: 100px;
 
   .calendar-day {
-    flex-grow: 1;
     box-shadow: -1px -1px $calendar-border-color, inset -1px -1px 0 0 $calendar-border-color;
     flex: 1;
+    flex-grow: 1;
     font-size: 14px;
     overflow-x: hidden;
     position: relative;
@@ -22,21 +22,21 @@
     .calendar-window {
       background-color: $calender-window-bg;
       color: $brand-white;
-      position: absolute;
-      top: 0;
       left: 0;
-      right: 0;
-      white-space: nowrap;
       opacity: 0;
-      transition: opacity .5s ease-out;
+      position: absolute;
+      right: 0;
       text-align: center;
+      top: 0;
+      transition: opacity .5s ease-out;
+      white-space: nowrap;
 
       &.window-cleared {
         background-color: transparent;
       }
 
       &.calendar-window-hover {
-        opacity: 0.8;
+        opacity: .8;
       }
     }
   }
@@ -53,10 +53,7 @@
 }
 
 .calendar-week-header {
-   display: flex;
-
-  .calendar-day {
-  }
+  display: flex;
 }
 
 @media screen and (min-width: $screen-sm-min) {

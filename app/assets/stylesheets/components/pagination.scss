@@ -15,12 +15,12 @@
 
 .page-heading {
   .per-page {
-    top: 0;
-    margin: 0;
-    height: 28px;
-    position: relative;
     display: inline-block;
+    height: 28px;
+    margin: 0;
+    position: relative;
     text-shadow: none;
+    top: 0;
 
     ul {
       margin: 0;
@@ -32,12 +32,12 @@
   }
 }
 
-
 @media screen and (min-width: $screen-md-min) {
   .page-heading {
     .per-page {
       height: 29px;
     }
+
     .pull-right {
       height: 29px;
     }

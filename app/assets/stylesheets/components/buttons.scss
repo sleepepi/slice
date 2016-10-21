@@ -3,7 +3,7 @@
 }
 
 .btn-shadow-lg {
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 60px $standard-shadow-color;
 
   &:hover,
   &:focus,
@@ -11,12 +11,12 @@
   &.active,
   &.disabled,
   &[disabled] {
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 30px $standard-shadow-hover-color;
   }
 }
 
 .btn-shadow {
-  box-shadow: 0 7px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 7px 30px $standard-shadow-color;
 
   &:hover,
   &:focus,
@@ -24,12 +24,12 @@
   &.active,
   &.disabled,
   &[disabled] {
-    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 7px 15px $standard-shadow-hover-color;
   }
 }
 
 .btn-shadow-sm {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px $standard-shadow-hover-color;
 
   &:hover,
   &:focus,
@@ -37,7 +37,7 @@
   &.active,
   &.disabled,
   &[disabled] {
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 8px $standard-shadow-hover-color;
   }
 }
 

@@ -1,17 +1,17 @@
 .docs-heading {
-  margin-bottom: 40px;
   color: $brand-white;
   line-height: 1.2;
+  margin-bottom: 40px;
   text-align: center;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 3px $standard-shadow-color;
 }
 
 .docs-subheading {
   color: $brand-primary;
-  text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-size: .6em;
   margin-bottom: 10px;
-  font-size: 0.6em;
+  text-align: center;
+  text-shadow: 0 1px 2px $standard-shadow-color;
 }
 
 .docs-container {
@@ -19,11 +19,11 @@
   @include scale-images;
 
   background-color: $body-bg;
-  padding: 30px;
-  color: $text-color;
   border-radius: 3px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 60px $standard-shadow-color;
+  color: $text-color;
   margin-bottom: 20px;
+  padding: 30px;
 
   strong {
     color: $headings-color;
@@ -35,8 +35,8 @@
   h4,
   h5,
   h6 {
-    margin: 30px 0;
     font-weight: 300;
+    margin: 30px 0;
   }
 
   h1 {
@@ -113,13 +113,13 @@
 }
 
 .docs-navigation-container {
-  padding: 20px;
   margin-top: 20px;
+  padding: 20px;
 }
 
 .docs-navigation {
-  font-style: italic;
   color: $text-muted;
+  font-style: italic;
   font-weight: 300;
 }
 
@@ -129,11 +129,11 @@ a:hover .docs-navigation {
 
 .sup-link {
   font-size: 75%;
+  font-weight: 300;
   margin-left: -3px;
   padding: 0 3px;
   position: relative;
-  font-weight: 300;
-  top: -0.5em;
+  top: -.5em;
   vertical-align: baseline;
 }
 
@@ -143,7 +143,7 @@ a:hover .docs-navigation {
   font-weight: 300;
   margin: 40px 0;
   text-align: center;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 3px $standard-shadow-color;
 
   a {
     color: $brand-accent;

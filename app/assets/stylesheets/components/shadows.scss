@@ -1,11 +1,11 @@
 .shadow {
-  box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 7px 15px $standard-shadow-hover-color;
 }
 
 .shadow-sm {
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 20px $standard-shadow-hover-color;
 }
 
 .shadow-xs {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px $standard-shadow-hover-color;
 }

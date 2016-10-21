@@ -80,6 +80,7 @@
   from {
     background-position: 1600px 0;
   }
+
   to {
     background-position: 0 0;
   }
@@ -92,20 +93,20 @@
 
   25% {
     opacity: 1;
-    transform: scaleX(0.30) scaleY(0.30) translate(0, 0) rotate(15deg);
+    transform: scaleX(.30) scaleY(.30) translate(0, 0) rotate(15deg);
   }
 
   40% {
-    transform: scaleX(0.25) scaleY(0.25) translate(550px, 250px) rotate(90deg);
+    transform: scaleX(.25) scaleY(.25) translate(550px, 250px) rotate(90deg);
   }
 
   60% {
-    transform: scaleX(0.25) scaleY(0.25) translate(550px, 500px) rotate(90deg);
+    transform: scaleX(.25) scaleY(.25) translate(550px, 500px) rotate(90deg);
   }
 
   75% {
     opacity: 1;
-    transform: scaleX(0.30) scaleY(0.30) translate(750px, 500px) rotate(-300deg);
+    transform: scaleX(.30) scaleY(.30) translate(750px, 500px) rotate(-300deg);
   }
 
   100% {
