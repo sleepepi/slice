@@ -39,11 +39,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.sheet_unlocked(sheet_unlock_request, project_editor)
   end
 
-  def export_ready
-    export = Export.current.first
-    UserMailer.export_ready(export)
-  end
-
   def import_complete
     design = Design.current.first
     recipient = User.current.first

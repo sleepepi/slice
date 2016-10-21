@@ -64,14 +64,6 @@ class UserMailer < ApplicationMailer
          subject: "#{project_editor.name} Unlocked a Sheet on #{sheet_unlock_request.sheet.project.name}")
   end
 
-  def export_ready(export)
-    setup_email
-    @export = export
-    @email_to = export.user.email
-    mail(to: "#{export.user.name} <#{export.user.email}>",
-         subject: "Your Data Export for #{export.project.name} is now Ready")
-  end
-
   def import_complete(design, recipient)
     setup_email
     @design = design

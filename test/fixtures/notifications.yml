@@ -28,3 +28,9 @@ sheet_unlock_request:
   read: false
   project: auto_lock
   sheet_unlock_request: one
+
+export:
+  user: valid
+  read: false
+  project: one
+  export: one

@@ -17,6 +17,9 @@
   - Sections have two new levels, "Warning" and "Alert"
 - **Event Changes**
   - When adding a new event to a subject, events that already exist are shown
+- **Export Changes**
+  - Exports now create an in-app notification when complete, and no longer send
+    an email notification
 - **Project Changes**
   - A calendar has been added that shows tasks, adverse events, and
     randomizations

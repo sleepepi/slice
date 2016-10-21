@@ -63,14 +63,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_editor.name} has unlocked a sheet for 24 hours on #{sheet_unlock_request.sheet.project.name}\. You can now edit the sheet here:/, mail.body.encoded)
   end
 
-  test 'export ready email' do
-    export = exports(:one)
-    mail = UserMailer.export_ready(export)
-    assert_equal [export.user.email], mail.to
-    assert_equal "Your Data Export for #{export.project.name} is now Ready", mail.subject
-    assert_match(/The data export you requested for #{export.project.name} is now ready for download\./, mail.body.encoded)
-  end
-
   test 'import complete email' do
     design = designs(:one)
     valid = users(:valid)

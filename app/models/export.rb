@@ -15,6 +15,7 @@ class Export < ApplicationRecord
   # Model Relationships
   belongs_to :user
   belongs_to :project
+  has_many :notifications
 
   # Model Methods
 
@@ -26,8 +27,9 @@ class Export < ApplicationRecord
     File.join(CarrierWave::Uploader::Base.root, file.url)
   end
 
-  def notify_user!
-    UserMailer.export_ready(self).deliver_now if EMAILS_ENABLED
+  def create_notification
+    notification = user.notifications.where(project_id: project_id, export_id: id).first_or_create
+    notification.mark_as_unread!
   end
 
   def generate_export_in_background!
@@ -44,6 +46,11 @@ class Export < ApplicationRecord
     finalize_export!(generate_zip_file(sheet_scope))
   rescue => e
     export_failed(e.message.to_s + e.backtrace.to_s)
+  end
+
+  def destroy
+    super
+    notifications.destroy_all
   end
 
   private
@@ -66,11 +73,12 @@ class Export < ApplicationRecord
 
   def export_succeeded(export_file)
     update status: 'ready', file: File.open(export_file), file_created_at: Time.zone.now, steps_completed: total_steps
-    notify_user!
+    create_notification
   end
 
   def export_failed(details)
     update status: 'failed', details: details
+    create_notification
   end
 
   def generate_all_files(sheet_scope, filename)

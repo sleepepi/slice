@@ -2,6 +2,8 @@
   = render 'notifications/show/adverse_event', notification: notification
 - elsif notification.comment
   = render 'notifications/show/comment', notification: notification
+- elsif notification.export
+  = render 'notifications/show/export', notification: notification
 - elsif notification.handoff
   = render 'notifications/show/handoff', notification: notification
 - elsif notification.sheet_unlock_request

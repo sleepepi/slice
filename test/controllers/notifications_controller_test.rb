@@ -34,6 +34,14 @@ class NotificationsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:notification).project, assigns(:notification).adverse_event]
   end
 
+  test 'should show export notification' do
+    login(users(:valid))
+    get :show, params: { id: notifications(:export) }
+    assert_not_nil assigns(:notification)
+    assert_equal true, assigns(:notification).read
+    assert_redirected_to [assigns(:notification).project, assigns(:notification).export]
+  end
+
   test 'should show handoff notification' do
     login(users(:valid))
     get :show, params: { id: notifications(:handoff) }

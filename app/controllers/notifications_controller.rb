@@ -52,6 +52,7 @@ class NotificationsController < ApplicationController
   def notification_redirect_path
     return [@notification.project, @notification.adverse_event] if @notification.adverse_event
     return @notification.comment if @notification.comment
+    return [@notification.project, @notification.export] if @notification.export
     return subject_event_redirect_path if @notification.handoff
     return [@notification.project, @notification.sheet_unlock_request.sheet] if @notification.sheet_unlock_request
     notifications_path
