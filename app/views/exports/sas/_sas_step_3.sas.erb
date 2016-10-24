@@ -3,5 +3,9 @@
 /* Step 3: Create formats for slice domain options */
 
 proc format;
+<% unless use_grids %>  value _missingf
+    0='0: No'
+    1='1: Yes'
+  ;<% end %>
 <%= domains.collect{ |d| d.sas_value_domain }.join("\n") %>
 run;

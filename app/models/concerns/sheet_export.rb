@@ -20,6 +20,7 @@ module SheetExport
       csv << ['Event Name'] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil }
       csv << ['Design Name'] + sheet_scope.joins(:design).pluck(:name)
       csv << ['Sheet ID'] + sheet_ids
+      csv << ['Missing'] + sheet_scope.select(:missing).collect { |s| s.missing? ? 1 : 0 }
 
       variables.each do |v|
         if v.variable_type == 'checkbox'

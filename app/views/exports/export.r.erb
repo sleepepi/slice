@@ -28,12 +28,16 @@ graphics.off
   label(slice$Event.Name)  <- "Event Name"
   label(slice$Design.Name) <- "Design Name"
   label(slice$Sheet.ID)    <- "Sheet ID"
+  label(slice$Missing)     <- "Missing"
 
   # Sheet Variables
 <% @export_formatter.labels.each do |name, display_name| %>  label(slice$<%= name %>) <- "<%= display_name %>"
 <% end %>
 
 # Create 'factor' variables for single/multi-option choices
+  slice$Missing <- factor(slice$Missing, levels <- c("0","1"))
+  levels(slice$Missing) <- c("No","Yes")
+
 <% @export_formatter.factors.each do |name, options| %>
   slice$<%= name %> <- factor(slice$<%= name %>, levels <- c(<%= options.collect{|o| "\"#{o[:value]}\""}.join(',') %>))
   levels(slice$<%= name %>) <- c(<%= options.collect{|o| "\"#{o[:name].gsub('"', '\"')}\""}.join(',') %>)<% end %>

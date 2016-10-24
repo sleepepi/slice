@@ -37,7 +37,7 @@ class Export < ApplicationRecord
   end
 
   def generate_export!
-    sheet_scope = project.sheets.where(missing: false)
+    sheet_scope = project.sheets
     all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
     variables_count = all_variables.count
     grid_variables_count = all_variables.where(variable_type: 'grid').count

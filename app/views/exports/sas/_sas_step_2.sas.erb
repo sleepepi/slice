@@ -12,6 +12,7 @@ data slice<%= '_grids' if use_grids %>;
   label _event_name='Event Name';
   label _design_name='Design Name';
   label _sheet_id='Sheet ID';
+<% unless use_grids %>  label _missing='Sheet Missing?';<% end %>
 
   /* Sheet Variables */
 <%= format_labels.join("\n") %>

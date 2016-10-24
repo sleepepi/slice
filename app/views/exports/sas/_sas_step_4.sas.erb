@@ -6,5 +6,6 @@
 data slice<%= '_grids' if use_grids %>;
   set slice<%= '_grids' if use_grids %>;
 
+<% unless use_grids %>  format _missing _missingf. ;<% end %>
 <%= format_domains.join("\n") %>
 run;
