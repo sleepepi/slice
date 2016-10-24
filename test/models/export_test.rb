@@ -14,8 +14,8 @@ class ExportTest < ActiveSupport::TestCase
 
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, 'test-export.csv', true, '')
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal 'Subject,Site,Event Name,Design Name,Sheet ID,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
-    assert_equal "Code01,Site One,,Checkbox and Radio for Export Test,#{sheets(:checkbox_example_one).id},,econ101,math123,,,1", rows[1]
+    assert_equal 'Subject,Site,Event Name,Design Name,Sheet ID,Missing,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
+    assert_equal "Code01,Site One,,Checkbox and Radio for Export Test,#{sheets(:checkbox_example_one).id},0,,econ101,math123,,,1", rows[1]
   end
 
   test 'generate an export with checkbox labeled values split across columns' do
@@ -23,8 +23,8 @@ class ExportTest < ActiveSupport::TestCase
 
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, 'test-export-labeled.csv', false, '')
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal 'Subject,Site,Event Name,Design Name,Sheet ID,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
-    assert_equal "Code01,Site One,,Checkbox and Radio for Export Test,#{sheets(:checkbox_example_one).id},,econ101: ECON 101,math123: MATH 123,,,1: Freshman", rows[1]
+    assert_equal 'Subject,Site,Event Name,Design Name,Sheet ID,Missing,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
+    assert_equal "Code01,Site One,,Checkbox and Radio for Export Test,#{sheets(:checkbox_example_one).id},0,,econ101: ECON 101,math123: MATH 123,,,1: Freshman", rows[1]
   end
 
   test 'generate a grid export with rows for each grid row' do
