@@ -359,6 +359,8 @@ Rails.application.routes.draw do
     get :landing
   end
 
+  get 'sitemap.xml.gz' => 'external#sitemap_xml'
+
   namespace :external do
     post :add_grid_row
     get :section_image

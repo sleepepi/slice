@@ -1,6 +1,8 @@
 ## 0.44.0
 
 ### Enhancements
+- **General Changes**
+  - Added a sitemap to index public documentation on Google and Bing
 - **Event Changes**
   - Event slugs now autofill when writing a new event name
 - **Export Changes**

@@ -125,4 +125,9 @@ class ExternalControllerTest < ActionController::TestCase
     assert_nil assigns(:section)
     assert_response :success
   end
+
+  test 'should get sitemap xml file' do
+    get :sitemap_xml
+    assert_response :success
+  end
 end
