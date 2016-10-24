@@ -8,6 +8,7 @@ smtp@example.com
 smtp_username
 smtp_password
 echo /usr/bin/pdflatex
+UA-googleanalytics-1
 postgres
 
 

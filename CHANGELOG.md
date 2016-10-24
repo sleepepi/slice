@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Added a sitemap to index public documentation on Google and Bing
+  - Added Google Analytics for documentation pages
 - **Event Changes**
   - Event slugs now autofill when writing a new event name
 - **Export Changes**
