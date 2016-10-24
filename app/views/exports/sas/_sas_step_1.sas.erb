@@ -21,23 +21,25 @@ data slice<%= '_grids' if use_grids %>;
   infile "&path_file<%= '_grids' if use_grids %>._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=<%= use_grids ? 3 : 2 %> ;
 
   /* Design and Subject Variables */
-  informat _subject              $100.     ;   * Subject code ;
-  informat _site                 $500.     ;   * Subject site name ;
-  informat _event_name           $500.     ;   * Event name ;
-  informat _design_name          $500.     ;   * Design name ;
-  informat _sheet_id             best32.   ;   * Sheet ID ;
-<% unless use_grids %>  informat _missing              best32.   ;   * Missing ;<% end %>
+  informat _subject              $100.       ;   * Subject code ;
+  informat _site                 $500.       ;   * Subject site name ;
+  informat _event_name           $500.       ;   * Event name ;
+  informat _design_name          $500.       ;   * Design name ;
+  informat _sheet_id             best32.     ;   * Sheet ID ;
+<% unless use_grids %>  informat _sheet_created        anydtdtm40. ;   * Sheet Created ;
+  informat _missing              best32.     ;   * Missing ;<% end %>
 
   /* Sheet Variables */
 <%= column_informats.join("\n") %>
 
   /* Design and Subject Variables */
-  format _subject                $100.     ;
-  format _site                   $500.     ;
-  format _event_name             $500.     ;
-  format _design_name            $500.     ;
-  format _sheet_id               best32.   ;
-<% unless use_grids %>  format _missing                best32.   ;<% end %>
+  format _subject                $100.       ;
+  format _site                   $500.       ;
+  format _event_name             $500.       ;
+  format _design_name            $500.       ;
+  format _sheet_id               best32.     ;
+<% unless use_grids %>  format _sheet_created          datetime.   ;
+  format _missing                best32.     ;<% end %>
 
   /* Sheet Variables */
 <%= column_formats.join("\n") %>
@@ -50,7 +52,9 @@ data slice<%= '_grids' if use_grids %>;
     _event_name
     _design_name
     _sheet_id
-<% unless use_grids %>    _missing<% end %>
+<% unless use_grids %>    _sheet_created
+    _missing<% end %>
+
 <%= column_headers.collect{ |c| "    #{c}" }.join("\n") %>
   ;
 run;

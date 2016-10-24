@@ -12,14 +12,13 @@ module SheetExport
     design_ids = sheet_scope.select(:design_id)
     variables = all_design_variables_using_design_ids(design_ids).where.not(variable_type: 'grid').includes(:domain)
 
-    sheet_ids = sheet_scope.pluck(:id)
-
     CSV.open(tmp_export_file, 'wb') do |csv|
       csv << ['Subject'] + sheet_scope.joins(:subject).pluck(:subject_code)
       csv << ['Site'] + sheet_scope.includes(subject: :site).collect { |s| s.subject && s.subject.site ? s.subject.site.name : nil }
       csv << ['Event Name'] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil }
       csv << ['Design Name'] + sheet_scope.joins(:design).pluck(:name)
-      csv << ['Sheet ID'] + sheet_ids
+      csv << ['Sheet ID'] + sheet_scope.pluck(:id)
+      csv << ['Sheet Created'] + sheet_scope.pluck(:created_at).collect { |created| created.strftime('%F %T') }
       csv << ['Missing'] + sheet_scope.select(:missing).collect { |s| s.missing? ? 1 : 0 }
 
       variables.each do |v|
