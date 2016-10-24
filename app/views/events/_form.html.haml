@@ -12,7 +12,7 @@
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :name, class: 'form-control'
+      = f.text_field :name, class: 'form-control', autocomplete: 'off', data: { object: (@event.new_record? ? 'create-slug' : ''), target: '#event_slug' }
 
   .form-group
     = f.label :slug, nil, class: 'col-md-2 control-label'

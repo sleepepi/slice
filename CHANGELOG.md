@@ -1,6 +1,8 @@
 ## 0.44.0
 
 ### Enhancements
+- **Event Changes**
+  - Event slugs now autofill when writing a new event name
 - **Export Changes**
   - Calculated variables are now formatted as numeric in SAS exports
 
