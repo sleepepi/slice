@@ -6,6 +6,9 @@
 - **Export Changes**
   - Calculated variables are now formatted as numeric in SAS exports
 
+### Bug Fix
+- Fixed a bug in computing the correct column in the R export script
+
 ## 0.43.0 (October 24, 2016)
 
 ### Enhancements

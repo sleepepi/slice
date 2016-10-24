@@ -56,7 +56,7 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2
 
   # Grid Variables
 <% @export_formatter.grid_labels.each_with_index do |(name, display_name), index| %>
-  names(slice_grids)[<%= index+13 %>] <- "<%= name %>"
+  names(slice_grids)[<%= index+6 %>] <- "<%= name %>"
   label(slice_grids$<%= name %>) <- "<%= display_name %>"
 <% end %>
 
