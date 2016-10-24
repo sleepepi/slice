@@ -409,7 +409,7 @@ class Variable < ApplicationRecord
       'time20'
     elsif %w(dropdown radio).include?(variable_type) && domain && !domain.all_numeric?
       '$500'
-    elsif %w(numeric integer imperial_height imperial_weight dropdown radio).include?(variable_type)
+    elsif %w(numeric integer calculated imperial_height imperial_weight dropdown radio).include?(variable_type)
       'best32'
     else # elsif %w(text).include?(variable_type)
       '$5000'

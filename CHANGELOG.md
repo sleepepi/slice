@@ -1,5 +1,9 @@
 ## 0.44.0
 
+### Enhancements
+- **Export Changes**
+  - Calculated variables are now formatted as numeric in SAS exports
+
 ## 0.43.0 (October 24, 2016)
 
 ### Enhancements

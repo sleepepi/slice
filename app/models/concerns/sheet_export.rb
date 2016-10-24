@@ -43,7 +43,7 @@ module SheetExport
   end
 
   def transpose_tmp_csv(tmp_export_file, export_file)
-    arr_of_arrs = CSV.parse(File.open(tmp_export_file, 'r:iso-8859-1:utf-8') { |f| f.read })
+    arr_of_arrs = CSV.parse(File.open(tmp_export_file, 'r:iso-8859-1:utf-8', &:read))
     l = arr_of_arrs.map(&:length).max
     arr_of_arrs.map! { |e| e.values_at(0...l) }
     CSV.open(export_file, 'wb') do |csv|
