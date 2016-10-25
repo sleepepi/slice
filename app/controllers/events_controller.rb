@@ -44,18 +44,26 @@ class EventsController < ApplicationController
   end
 
   # PATCH /events/1
+  # PATCH /events/1.js
   def update
     if @event.update(event_params)
-      redirect_to [@project, @event], notice: 'Event was successfully updated.'
+      respond_to do |format|
+        format.html { redirect_to [@project, @event], notice: 'Event was successfully updated.' }
+        format.js
+      end
     else
       render :edit
     end
   end
 
   # DELETE /events/1
+  # DELETE /events/1.js
   def destroy
     @event.destroy
-    redirect_to project_events_path(@project)
+    respond_to do |format|
+      format.html { redirect_to project_events_path(@project), notice: 'Event was successfully deleted.' }
+      format.js
+    end
   end
 
   private

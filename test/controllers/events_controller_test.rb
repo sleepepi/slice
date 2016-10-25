@@ -105,6 +105,15 @@ class EventsControllerTest < ActionController::TestCase
     assert_redirected_to project_event_path(assigns(:event).project, assigns(:event))
   end
 
+  test 'should update event with ajax' do
+    patch :update, params: {
+      id: @event, project_id: @project,
+      event: { name: 'Event One Updated', description: @event.description }
+    }, format: 'js'
+    assert_template 'update'
+    assert_response :success
+  end
+
   test 'should not update event with blank name' do
     patch :update, params: {
       id: @event, project_id: @project,
@@ -133,6 +142,14 @@ class EventsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:event)
     assert_not_nil assigns(:project)
     assert_redirected_to project_events_path
+  end
+
+  test 'should destroy event with ajax' do
+    assert_difference('Event.current.count', -1) do
+      delete :destroy, params: { id: @event, project_id: @project }, format: 'js'
+    end
+    assert_template 'destroy'
+    assert_response :success
   end
 
   test 'should not destroy event with invalid project' do

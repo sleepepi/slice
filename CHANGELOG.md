@@ -6,6 +6,7 @@
   - Added Google Analytics for documentation pages
 - **Event Changes**
   - Event slugs now autofill when writing a new event name
+  - Events can be archived from the event index
 - **Export Changes**
   - Calculated variables are now formatted as numeric in SAS exports
   - `Sheet Created` is now included in exports
