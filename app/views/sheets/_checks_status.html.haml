@@ -1,0 +1,3 @@
+- check_names = checks.collect(&:name).reject(&:blank?)
+- if check_names.count > 0
+  %span.check-bullet{ rel: 'tooltip', data: { title: check_names.join(', ') } } &bull;

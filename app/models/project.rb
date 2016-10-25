@@ -226,6 +226,22 @@ class Project < ApplicationRecord
     AUTO_LOCK_SHEETS.find { |_name, value| value == auto_lock_sheets }.first
   end
 
+  def failed_sheet_id_checks(current_user, filtered_sheets)
+    hash = {}
+    filtered_sheets.each do |sheet|
+      hash[sheet.id] = []
+    end
+    all_sheet_ids = filtered_sheets.pluck(:id)
+    checks.where(archived: false).collect do |check|
+      sheet_ids = check.sheets(current_user).pluck(:id).select { |sheet_id| all_sheet_ids.include?(sheet_id) }
+      sheet_ids.each do |sheet_id|
+        next unless hash.key?(sheet_id)
+        hash[sheet_id] << check
+      end
+    end
+    hash
+  end
+
   private
 
   # Creates a default site if the project has no site associated with it

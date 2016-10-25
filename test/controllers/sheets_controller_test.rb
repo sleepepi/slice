@@ -831,6 +831,14 @@ d est laborum.',
     assert_redirected_to project_subject_path(@project, @sheet.subject)
   end
 
+  test 'should destroy sheet with ajax' do
+    assert_difference('Sheet.current.count', -1) do
+      delete :destroy, params: { id: @sheet, project_id: @project }, format: 'js'
+    end
+    assert_template 'destroy'
+    assert_response :success
+  end
+
   test 'should not destroy sheet with invalid project' do
     assert_difference('Sheet.current.count', 0) do
       delete :destroy, params: { id: @sheet, project_id: -1 }

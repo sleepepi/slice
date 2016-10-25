@@ -6,6 +6,7 @@
   - Added Google Analytics for documentation pages
 - **Check Changes**
   - Checks can be archived from the check index
+  - Sheets that fail checks now have an alert next to them on the sheets index
 - **Event Changes**
   - Event slugs now autofill when writing a new event name
   - Events can be archived from the event index

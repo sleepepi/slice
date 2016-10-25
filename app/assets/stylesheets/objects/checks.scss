@@ -1,0 +1,15 @@
+@keyframes pulse-shadow {
+  from {
+    color: $brand-danger;
+  }
+
+  to {
+    color: lighten($brand-danger, 25%);
+  }
+}
+
+.check-bullet {
+  animation: pulse-shadow 2s linear infinite alternate;
+  color: $brand-danger;
+  text-shadow: 0 0 2px $brand-danger;
+}

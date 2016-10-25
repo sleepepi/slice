@@ -1,0 +1,50 @@
+.jumbotron
+  %p.center No sheets found.
+
+- (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
+
+- if variable
+  - case rand(5)
+  - when 0
+    .docs-learn-more
+      Created this past week:
+      - search = "created:>#{(Time.zone.today - 7.days).strftime('%Y-%m-%d')}"
+      = succeed '.' do
+        = link_to search, project_sheets_path(@project, search: search)
+  - when 1
+    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
+    - values = variable.sheet_variables.select(:response).distinct.pluck(:response).reject(&:blank?).sort
+    - if variable
+      .docs-learn-more
+        Try:
+        - search = "#{variable.name}:>=#{values.last}"
+        = succeed '.' do
+          = link_to search, project_sheets_path(@project, search: search)
+  - when 2
+    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
+    - values = variable.sheet_variables.select(:response).distinct.pluck(:response).reject(&:blank?).sort
+    - if variable
+      .docs-learn-more
+        Try:
+        - search = "#{variable.name}:#{values.join(',')}"
+        = succeed '.' do
+          = link_to search, project_sheets_path(@project, search: search)
+  - when 3
+    .docs-learn-more
+      Randomized:
+      - search = 'is:randomized'
+      = succeed '.' do
+        = link_to search, project_sheets_path(@project, search: search)
+  - when 4
+    .docs-learn-more
+      Not Randomized:
+      - search = 'not:randomized'
+      = succeed '.' do
+        = link_to search, project_sheets_path(@project, search: search)
+
+- else
+  .docs-learn-more
+    Created this past week:
+    - search = "created:>#{(Time.zone.today - 7.days).strftime('%Y-%m-%d')}"
+    = succeed '.' do
+      = link_to search, project_sheets_path(@project, search: search)
