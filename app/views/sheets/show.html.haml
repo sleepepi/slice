@@ -23,6 +23,14 @@
 .dashboard-container
   = render 'sheets/header_info_limited'
 
+- failed_checks = @sheet.failed_checks(current_user)
+- if failed_checks.count > 0
+  .dashboard-container
+    - failed_checks.each do |check|
+      %p.lead
+        %span.check-bullet &bull;
+        %span.text-danger= check.message
+
 .dashboard-container
   = render 'sheets/show'
 

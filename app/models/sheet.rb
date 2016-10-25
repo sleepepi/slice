@@ -431,6 +431,15 @@ class Sheet < ApplicationRecord
     retry
   end
 
+  def failed_checks(current_user)
+    checks = []
+    project.checks.where(archived: false).find_each do |check|
+      next if check.message.blank?
+      checks << check if check.sheets(current_user).pluck(:id).include?(id)
+    end
+    checks
+  end
+
   protected
 
   def self.latex_safe(mystring)
