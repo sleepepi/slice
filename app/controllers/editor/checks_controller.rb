@@ -33,18 +33,26 @@ class Editor::ChecksController < Editor::EditorController
   end
 
   # PATCH /editor/projects/1/checks/1
+  # PATCH /editor/projects/1/checks/1.js
   def update
     if @check.update(check_params)
-      redirect_to editor_project_check_path(@project, @check), notice: 'Check was successfully updated.'
+      respond_to do |format|
+        format.html { redirect_to editor_project_check_path(@project, @check), notice: 'Check was successfully updated.' }
+        format.js
+      end
     else
       render :edit
     end
   end
 
   # DELETE /editor/projects/1/checks/1
+  # DELETE /editor/projects/1/checks/1.js
   def destroy
     @check.destroy
-    redirect_to editor_project_checks_path(@project), notice: 'Check was successfully deleted.'
+    respond_to do |format|
+      format.html { redirect_to editor_project_checks_path(@project), notice: 'Check was successfully deleted.' }
+      format.js
+    end
   end
 
   private

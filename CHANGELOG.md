@@ -4,6 +4,8 @@
 - **General Changes**
   - Added a sitemap to index public documentation on Google and Bing
   - Added Google Analytics for documentation pages
+- **Check Changes**
+  - Checks can be archived from the check index
 - **Event Changes**
   - Event slugs now autofill when writing a new event name
   - Events can be archived from the event index

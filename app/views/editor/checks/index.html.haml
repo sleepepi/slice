@@ -18,20 +18,14 @@
   %table.table.table-striped.table-borderless.table-hover
     %col
     %col.hidden-xs
-    %col.hidden-xs
     %col{ width: '1px' }
     %thead
       %tr
         %th Name
-        %th.hidden-xs Archived
-        %th.hidden-xs Creator
+        %th.hidden-xs.center Archived
         %th Actions
 
     %tbody
       - @checks.each do |check|
-        %tr
-          %td= link_to check.name, editor_project_check_path(@project, check)
-          %td.hidden-xs= simple_check check.archived?
-          %td.hidden-xs= check.user.name
-          %td
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_path(@project, check), delete_url: editor_project_check_path(@project, check), delete_confirmation: "Are you sure you want to delete check #{check.name}?"
+        %tr{ id: "check-#{check.id}-container" }
+          = render 'editor/checks/check_row', check: check

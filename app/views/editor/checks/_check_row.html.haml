@@ -1,0 +1,26 @@
+%td= link_to check.name, editor_project_check_path(@project, check)
+%td.hidden-xs.center= simple_check check.archived?
+%td
+  .dropdown
+    = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+      Actions
+      %strong.caret
+
+    %ul.dropdown-menu.dropdown-menu-right
+      %li
+        = link_to edit_editor_project_check_path(@project, check) do
+          %span.glyphicon.glyphicon-edit
+          Edit
+      %li
+        = link_to editor_project_check_path(@project, check, check: { archived: check.archived? ? '0' : '1' }), method: :patch, remote: true do
+          %span.glyphicon.glyphicon-briefcase
+          - if check.archived?
+            Restore
+          - else
+            Archive
+      %li.divider{ role: 'separator' }
+      %li
+        = link_to editor_project_check_path(@project, check), method: :delete, remote: true, data: { confirm: "Delete #{check.name}?" } do
+          .text-danger
+            %span.glyphicon.glyphicon-trash
+            Delete

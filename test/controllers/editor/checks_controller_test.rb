@@ -72,6 +72,15 @@ class Editor::ChecksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to editor_project_check_path(@project, @check)
   end
 
+  test 'should update check with ajax' do
+    login(@project_editor)
+    patch editor_project_check_path(@project, @check, format: 'js'), params: {
+      check: check_params
+    }
+    assert_template 'update'
+    assert_response :success
+  end
+
   test 'should not update check with blank name' do
     login(@project_editor)
     patch editor_project_check_path(@project, @check), params: {
@@ -87,5 +96,14 @@ class Editor::ChecksControllerTest < ActionDispatch::IntegrationTest
       delete editor_project_check_path(@project, @check)
     end
     assert_redirected_to editor_project_checks_path(@project)
+  end
+
+  test 'should destroy check with ajax' do
+    login(@project_editor)
+    assert_difference('Check.current.count', -1) do
+      delete editor_project_check_path(@project, @check, format: 'js')
+    end
+    assert_template 'destroy'
+    assert_response :success
   end
 end
