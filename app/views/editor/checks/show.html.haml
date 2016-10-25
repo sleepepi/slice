@@ -32,13 +32,21 @@
 .dashboard-container
   .row
     .col-sm-2.col-buffer
-      %strong Description
-    .col-sm-10.col-buffer= simple_markdown @check.description
+      %strong Creator
+    .col-sm-10.col-buffer= @check.user.name
 
   .row
     .col-sm-2.col-buffer
-      %strong Creator
-    .col-sm-10.col-buffer= @check.user.name
+      %strong Description
+    .col-sm-10.col-buffer= simple_markdown @check.description
+
+  - if @check.message.present?
+    .row
+      .col-sm-2.col-buffer
+        %strong Message
+      .col-sm-10.col-buffer
+        .alert.alert-danger
+          = @check.message
 
   .row
     .col-sm-2.col-buffer

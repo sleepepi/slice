@@ -6,6 +6,7 @@ one:
   name: Check One
   slug: check-one
   description: MyText
+  message: MyText
   archived: false
   deleted: false
 
@@ -15,5 +16,6 @@ two:
   name: Check Two
   slug: check-two
   description: MyText
+  message: MyText
   archived: false
   deleted: false

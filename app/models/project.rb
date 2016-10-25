@@ -231,9 +231,9 @@ class Project < ApplicationRecord
     filtered_sheets.each do |sheet|
       hash[sheet.id] = []
     end
-    all_sheet_ids = filtered_sheets.pluck(:id)
-    checks.where(archived: false).collect do |check|
-      sheet_ids = check.sheets(current_user).pluck(:id).select { |sheet_id| all_sheet_ids.include?(sheet_id) }
+    checks.where(archived: false).find_each do |check|
+      next if check.message.blank?
+      sheet_ids = check.sheets(current_user).pluck(:id)
       sheet_ids.each do |sheet_id|
         next unless hash.key?(sheet_id)
         hash[sheet_id] << check

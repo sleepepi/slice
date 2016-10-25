@@ -15,6 +15,7 @@ class Editor::ChecksControllerTest < ActionDispatch::IntegrationTest
       name: @check.name,
       slug: @check.slug,
       description: @check.description,
+      message: @check.message,
       archived: @check.archived
     }
   end

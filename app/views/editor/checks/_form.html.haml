@@ -46,6 +46,11 @@
       = f.text_area :description, rows: 7, class: 'form-control'
 
   .form-group
+    = f.label :message, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :message, class: 'form-control'
+
+  .form-group
     .col-md-10.col-md-offset-2
       .checkbox
         %label

@@ -7,6 +7,8 @@
 - **Check Changes**
   - Checks can be archived from the check index
   - Sheets that fail checks now have an alert next to them on the sheets index
+  - An alert message can be added to a check that describes why the sheet is
+    flagged on the sheets index
 - **Event Changes**
   - Event slugs now autofill when writing a new event name
   - Events can be archived from the event index
