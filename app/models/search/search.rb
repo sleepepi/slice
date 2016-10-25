@@ -30,7 +30,7 @@ class Search
     if @operator == 'any'
       @checks = @project.runnable_checks
     else
-      @checks = @project.checks.where(slug: token[:value])
+      @checks = @project.checks.where(slug: token[:value].to_s.split(','))
     end
   end
 
