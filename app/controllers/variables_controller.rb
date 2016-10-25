@@ -3,7 +3,9 @@
 # Allows project editors to view and modify project variables.
 class VariablesController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_viewable_project_or_redirect, only: [:report_lookup, :search]
+  before_action :find_viewable_project_or_redirect, only: [
+    :report_lookup, :search, :checks_search, :values_search
+  ]
   before_action :find_editable_project_or_redirect, only: [
     :index, :show, :new, :edit, :create, :update, :destroy, :copy,
     :add_grid_variable, :restore
@@ -47,6 +49,18 @@ class VariablesController < ApplicationController
                                        .where('name ILIKE (?)', "#{params[:q]}%")
                                        .order(:name).limit(10)
     render json: variable_scope.pluck(:name)
+  end
+
+  def values_search
+    @variable = viewable_variables.where('name ILIKE ?', params[:q].split(':').first).first
+    render json: (@variable ? @variable.shared_options : []) + [{value: 'any'}, { value: 'missing' }]
+  end
+
+  # GET /checks_search.json
+  def checks_search
+    check_scope = @project.runnable_checks.where('slug ILIKE (?)', "#{params[:q]}%")
+                                          .order(:slug).limit(10)
+    render json: check_scope.pluck(:slug)
   end
 
   # GET /variables/1

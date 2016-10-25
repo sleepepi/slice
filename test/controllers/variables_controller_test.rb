@@ -395,4 +395,22 @@ class VariablesControllerTest < ActionController::TestCase
     end
     assert_redirected_to [@project, variables(:deleted)]
   end
+
+  test 'should get search' do
+    login(users(:valid))
+    get :search, params: { project_id: @project, q: 'var' }, xhr: true, format: 'js'
+    assert_response :success
+  end
+
+  test 'should get values search' do
+    login(users(:valid))
+    get :values_search, params: { project_id: @project, q: 'var_gender:' }, xhr: true, format: 'js'
+    assert_response :success
+  end
+
+  test 'should get checks search' do
+    login(users(:valid))
+    get :checks_search, params: { project_id: @project, q: 'checks:' }, xhr: true, format: 'js'
+    assert_response :success
+  end
 end

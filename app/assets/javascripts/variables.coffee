@@ -116,15 +116,45 @@
     $this = $(this)
     $this.textcomplete(
       [
-        match: /(^|\s)(\w+)$/
-        search: (term, callback) ->
-          # callback(cache[term], true)
-          $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/search", { q: term })
-            .done((resp) -> callback(resp) )
-            .fail(-> callback([]))
-        replace: (value) ->
-          return "$1#{value}:"
-        cache: true
+        {
+          match: /(^|\s)checks\:([\w\-]*)$/
+          search: (term, callback) ->
+            # callback(cache[term], true)
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/checks_search", { q: term })
+              .done((resp) -> callback(resp) )
+              .fail(-> callback([]))
+          replace: (value) ->
+            return "$1checks:#{value}"
+          cache: true
+        },
+        {
+          match: /(^|\s)(\w+)$/
+          search: (term, callback) ->
+            # callback(cache[term], true)
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/search", { q: term })
+              .done((resp) -> callback(resp))
+              .fail(-> callback([]))
+          replace: (value) ->
+            return "$1#{value}"
+          cache: true
+        },
+        {
+          match: /(^|\s)(\w+\:[\w\-\.,]*)$/
+          search: (term, callback) ->
+            # callback(cache[term], true)
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/values_search", { q: term })
+              .done((resp) -> callback(resp) )
+              .fail(-> callback([]))
+          replace: (item) ->
+            return "$1$2#{item.value}"
+          template: (item) ->
+            if item.name?
+              "#{item.value}: #{item.name}"
+            else
+              "#{item.value}"
+          cache: true
+        },
+
       ], { appendTo: 'body' }
     )
   )
