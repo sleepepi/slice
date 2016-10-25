@@ -140,6 +140,19 @@
     %code bmi:unentered
     returns sheets that have no values entered for BMI.
 
+  %h3 Checks
+  %p
+    For projects that have
+    = link_to 'checks', docs_checks_path
+    setup, sheets can be filtered as follow:
+  %p
+    To filter on sheets that are failing a check, type:
+    %code checks:any
+  %p
+    To filter on a single check, type:
+    %code= "checks:<b>NAME</b>".html_safe
+    when NAME is the check name.
+
   %h3 Multiple Variables
   %p
     To find results where BMI is missing and grade is either 9 or 10, and a

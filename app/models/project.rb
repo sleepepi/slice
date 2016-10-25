@@ -226,13 +226,16 @@ class Project < ApplicationRecord
     AUTO_LOCK_SHEETS.find { |_name, value| value == auto_lock_sheets }.first
   end
 
+  def runnable_checks
+    checks.where(archived: false).where.not(message: [nil, ''])
+  end
+
   def failed_sheet_id_checks(current_user, filtered_sheets)
     hash = {}
     filtered_sheets.each do |sheet|
       hash[sheet.id] = []
     end
-    checks.where(archived: false).find_each do |check|
-      next if check.message.blank?
+    runnable_checks.find_each do |check|
       sheet_ids = check.sheets(current_user).pluck(:id)
       sheet_ids.each do |sheet_id|
         next unless hash.key?(sheet_id)

@@ -98,6 +98,9 @@
   %h3.text-white.text-shadow Top 40 Results
 - if all_sheets.count > 0
   .dashboard-container
+    = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: 'btn btn-default' do
+      View All Sheets
+      %span.glyphicon.glyphicon-new-window
     %table.table.table-borderless.table-hover
       %col{ width: '1px' }
       %thead

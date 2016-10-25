@@ -3,7 +3,9 @@
 # Defines a check that can be run on a project to identify data inconsistencies.
 class Check < ApplicationRecord
   # Concerns
-  include Deletable, Sluggable
+  include Deletable, Sluggable, Squishable
+
+  squish :name, :message
 
   # Model Validation
   validates :project_id, :user_id, :name, presence: true

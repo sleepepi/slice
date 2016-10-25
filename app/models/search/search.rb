@@ -14,6 +14,27 @@ class Search
     @sheet_scope = sheet_scope
     @token = token
     @operator = token[:operator]
+
+    set_checks_or_variable
+  end
+
+  def set_checks_or_variable
+    if token[:key] == 'checks'
+      set_checks
+    else
+      set_variable
+    end
+  end
+
+  def set_checks
+    if @operator == 'any'
+      @checks = @project.runnable_checks
+    else
+      @checks = @project.checks.where(slug: token[:value])
+    end
+  end
+
+  def set_variable
     @variable = @project.variables.find_by_name(token[:key])
     if %w(any missing).include?(@operator)
       @values = []
@@ -35,7 +56,9 @@ class Search
   end
 
   def sheets
-    if @variable
+    if @checks
+      compute_sheets_for_checks
+    elsif @variable
       compute_sheets_for_variable
     elsif @token[:key] == 'randomized'
       randomized_subjects_sheets
@@ -57,6 +80,17 @@ class Search
     else
       Subject.none
     end
+  end
+
+  def compute_sheets_for_checks
+    sheet_scope = @current_user.all_viewable_sheets.where(project: @project)
+    return sheet_scope if @checks.count == 0
+    sheet_ids = []
+    @checks.each do |check|
+      sheet_ids << check.sheets(current_user).pluck(:id)
+    end
+    sheet_ids.flatten!
+    sheet_scope.where(id: sheet_ids)
   end
 
   def compute_sheets_for_variable

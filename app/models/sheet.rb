@@ -433,8 +433,7 @@ class Sheet < ApplicationRecord
 
   def failed_checks(current_user)
     checks = []
-    project.checks.where(archived: false).find_each do |check|
-      next if check.message.blank?
+    project.runnable_checks.find_each do |check|
       checks << check if check.sheets(current_user).pluck(:id).include?(id)
     end
     checks
