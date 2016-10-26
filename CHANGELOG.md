@@ -34,6 +34,7 @@
 - Fixed a bug in computing the correct column in the R export script
 - Fixed time duration not clearing correctly when formatted with only minutes
   and seconds
+- Fixed a bug that created two sheets when the submit button was double-clicked
 
 ## 0.43.0 (October 24, 2016)
 

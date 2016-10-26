@@ -1,5 +1,6 @@
 $(document)
   .on('click', "[data-object~='submit-ae-comment']", ->
+    $(this).prop('disabled', true)
     $(this).attr('disabled', 'disabled')
     $("#{$(this).data('target')} #adverse_event_comment_comment_type").val($(this).data('comment-type'))
     $($(this).data('target')).submit()

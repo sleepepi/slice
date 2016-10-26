@@ -181,8 +181,9 @@ $(document)
     false
   )
   .on('click', '[data-object~="variable-check-before-submit"]', ->
-    window.$isDirty = false
+    $('[data-object~="variable-check-before-submit"]').prop('disabled', true)
     $('[data-object~="variable-check-before-submit"]').attr('disabled', 'disabled')
+    window.$isDirty = false
     $($(this).data('target')).submit()
     false
   )
