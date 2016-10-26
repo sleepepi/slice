@@ -23,7 +23,7 @@
         = link_to '#', class: "btn btn-xs dropdown-toggle #{params[:site_id].blank? ? 'btn-default': 'btn-primary'}", data: { toggle: 'dropdown' } do
           - site = @project.sites.find_by_id(params[:site_id])
           - if site
-            = site.name
+            = site.short_name
           - else
             Site
           %strong.caret
@@ -46,8 +46,8 @@
         %ul.dropdown-menu
           %li= link_to 'All Users', activity_project_path(@project, filtered_params.merge(user_id: nil)), style: params[:user_id].blank? ? 'font-weight:bold;' : ''
           %li.divider{ role: 'separator' }
-          - @project.members.sort_by(&:nickname).each do |user|
-            %li= link_to user.nickname, activity_project_path(@project, filtered_params.merge(user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
+          - @project.members.distinct.sort_by(&:nickname).each do |user|
+            %li= link_to user.name, activity_project_path(@project, filtered_params.merge(user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
 
       = link_to 'Reset Filters', activity_project_path(@project), class: 'btn btn-xs btn-link' if params[:site_id].present? || params[:user_id].present?
 
