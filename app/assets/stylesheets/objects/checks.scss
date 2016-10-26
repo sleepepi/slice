@@ -1,4 +1,4 @@
-@keyframes pulse-shadow {
+@keyframes pulse-danger {
   from {
     color: $brand-danger;
   }
@@ -9,7 +9,7 @@
 }
 
 .check-bullet {
-  animation: pulse-shadow 2s linear infinite alternate;
+  animation: pulse-danger 2s linear infinite alternate;
   color: $brand-danger;
   text-shadow: 0 0 4px $brand-danger;
 }

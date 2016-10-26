@@ -1,5 +1,15 @@
+@keyframes pulse-notification {
+  from {
+    color: $notification-link-color;
+  }
+
+  to {
+    color: $header-bg;
+  }
+}
+
 .navbar-default .navbar-nav .notifications-link span {
-  animation: wiggle 250ms linear 4;
+  animation: pulse-notification 2s ease-in infinite alternate;
   color: $notification-link-color;
 }
 

@@ -23,6 +23,8 @@
   - Missing sheets now appear in exports and are labeled in SAS and R exports
 - **Project Changes**
   - Project activity can now be filtered by site and by user
+- **Notification Changes**
+  - Improved notification bell animation
 - **Sheet Changes**
   - Improved the autocomplete capability for search filters
     - Check names will be recommended for autocompletion
