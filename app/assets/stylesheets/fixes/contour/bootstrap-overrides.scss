@@ -12,24 +12,6 @@ h6 {
   font-weight: 300 !important;
 }
 
-// Modify the page-header class to look differently on mobile and larger screen
-
-.page-header h1,
-.page-header .h1 {
-  font-size: 30px;
-}
-
-@media screen and (min-width: 768px) {
-  .page-header {
-    text-align: left;
-  }
-
-  .page-header h1,
-  .page-header .h1 {
-    font-size: 38px;
-  }
-}
-
 // Make sure some text is always viewable in the form control
 .form-control {
   min-width: 100px;
@@ -40,13 +22,6 @@ h6 {
 }
 
 // Custom Classes
-
-// TODO: Remove
-// .form-inline select,
-// .form-inline input[type="text"],
-// .form-inline input[type="password"] {
-//   width: 180px;
-// }
 
 .checkbox,
 .radio {

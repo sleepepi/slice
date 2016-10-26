@@ -1,27 +1,43 @@
 - @title = 'Slice'
 
-- if not params[:survey].blank? and not params[:a].blank?
+- if params[:survey].present? && params[:a].present?
   - survey_url = "#{ENV['website_url']}/survey/#{params[:survey]}/#{params[:a]}"
   .jumbotron
-    %h1 Survey Complete
+    %h2.center{ style: 'margin-top: 0;' } Survey Complete
     %p
       Thank you for completing the survey.
       Click the link below if you need to make any changes to your responses.
     %p= text_field_tag 'survey_url', survey_url, class: 'form-control'
     %p= link_to 'Go Back to Survey', survey_url, class: 'btn btn-primary'
 
-.row{ style: "margin-top:54px" }
-  .col-md-12
-    %h1.about-title Interested in creating your own survey?
-    %p.about-description
-      = ENV['website_name']
-      is a
-      = link_to 'free to use*', 'https://github.com/remomueller/slice/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' }
-      and
-      = link_to 'open source', 'https://github.com/remomueller/slice', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
-      clinical research interface for collecting and analyzing data.
-    %p.about-signup
-      = link_to 'Sign Me Up', new_user_registration_path, class: 'btn btn-primary btn-lg btn-shadow'
+.background-gradient
 
-%div{ style: 'padding: 19px 29px 29px; margin: 40px auto 20px;' }
-  = image_tag 'slc_designer.png', style: 'width:100%;'
+.body-attachment
+  .container.attachment-container
+    .landing-cog
+      %span.glyphicon.glyphicon-cog
+    .landing-cog2
+      %span.glyphicon.glyphicon-cog
+    = render 'theme/lower_left_icon'
+
+%h1.docs-heading
+  %strong Interested in creating your own survey?
+
+.docs-container
+  %p
+    = ENV['website_name']
+    is a free clinical research data collection system for capturing and
+    analyzing data.
+
+  .jumbotron{ style: 'background-color: transparent' }
+    .center
+      = link_to 'Create an account today', new_user_registration_path, class: 'btn btn-lg btn-accent btn-shadow-lg'
+
+  %div{ style: 'padding: 19px 29px 29px; margin: 40px auto 20px;' }
+    = image_tag 'slc_designer.png', style: 'width:100%;'
+
+
+.docs-learn-more
+  Learn more about
+  = succeed '.' do
+    = link_to ENV['website_name'], docs_path

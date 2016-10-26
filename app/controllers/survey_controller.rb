@@ -12,6 +12,7 @@ class SurveyController < ApplicationController
   layout 'layouts/minimal_layout'
 
   def index
+    render layout: 'layouts/application'
   end
 
   def new
