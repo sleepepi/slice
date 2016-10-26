@@ -51,6 +51,12 @@
       Ex:
       %code var1_population
 
+.form-group
+  %label.col-md-2.control-label Field Note
+  .col-md-10
+    = text_field_tag 'variable[field_note]', variable.field_note, class: 'form-control'
+    = render 'layouts/errors', object: variable, key: :field_note
+
 - unless variable.new_record?
   .form-group
     %label.col-md-2.control-label

@@ -9,6 +9,7 @@ one:
   user: valid
   project: one
   domain: var_one_options
+  field_note: Field Note
 
 two:
   name: var_2

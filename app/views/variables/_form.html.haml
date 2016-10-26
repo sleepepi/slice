@@ -52,6 +52,11 @@
       = f.text_area :description, rows: 7, class: 'form-control'
 
   .form-group
+    = f.label :field_note, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :field_note, class: 'form-control'
+
+  .form-group
     = f.label :variable_type, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.select :variable_type, [['---', nil]] + Variable::TYPE, {}, class: 'form-control'

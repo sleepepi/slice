@@ -174,17 +174,17 @@ class Export < ApplicationRecord
     designs_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_designs.csv")
 
     CSV.open(designs_csv, 'wb') do |csv|
-      csv << ['Design Name', 'Name', 'Display Name', 'Branching Logic', 'Description']
+      csv << ['Design Name', 'Name', 'Display Name', 'Branching Logic', 'Description', 'Field Note']
 
       design_scope.each do |d|
         d.design_options.includes(:section, :variable).each do |design_option|
           section = design_option.section
           variable = design_option.variable
           if section
-            csv << [d.name, section.to_slug, section.name, design_option.branching_logic, section.description]
+            csv << [d.name, section.to_slug, section.name, design_option.branching_logic, section.description, nil]
           elsif variable
             variable.csv_columns_and_names.each do |variable_name, variable_display_name|
-              csv << [d.name, variable_name, variable_display_name, design_option.branching_logic, variable.description]
+              csv << [d.name, variable_name, variable_display_name, design_option.branching_logic, variable.description, variable.field_note]
             end
           end
         end
@@ -194,7 +194,7 @@ class Export < ApplicationRecord
     variables_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_variables.csv")
 
     CSV.open(variables_csv, 'wb') do |csv|
-      csv << ['Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description',
+      csv << ['Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description', 'Field Note',
               'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
               'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
               'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name', 'Required on Form?']
@@ -207,6 +207,7 @@ class Export < ApplicationRecord
                     section.to_slug,
                     section.name,
                     section.description, # Variable Description
+                    nil, # Field Note
                     section.level_name.downcase,
                     nil, # Hard Min
                     nil, # Soft Min
@@ -230,7 +231,8 @@ class Export < ApplicationRecord
               csv << [d.name,
                       variable_name,
                       variable_display_name,
-                      variable.description, # Variable Description
+                      variable.description,
+                      variable.field_note,
                       variable.export_variable_type,
                       (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min
                       (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min

@@ -70,6 +70,7 @@
             %div{ style: 'line-height: 30px;' }
               - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
                 = render "design_options/show/#{variable.variable_type}", design_option: design_option, variable: variable
+                = render 'variables/field_note', variable: variable
     .col-sm-6.design-preview-hide
       .design-edit-box
         %h4

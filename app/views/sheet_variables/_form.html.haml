@@ -47,6 +47,7 @@
     %div{ style: "line-height:30px", class: (form_class == 'variable-shade' ? 'shade-background' : 'blind-background') }
       - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
         = render "sheet_variables/form/#{variable.variable_type}", design: design, design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: "variables[#{variable.id}]", show_values: show_values, object: sheet_variable, validate_response: validate_response
+        = render 'variables/field_note', variable: variable
       - else
         = hidden_field_tag "variables[#{variable.id}]", nil, disabled: disabled
         Unsupported Variable Type

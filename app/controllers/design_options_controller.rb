@@ -167,11 +167,14 @@ class DesignOptionsController < ApplicationController
     params[:variable] ||= { blank: '1' }
     parse_variable_dates
     params.require(:variable).permit(
-      :name, :display_name, :description, :variable_type, :prepend, :append, :display_name_visibility,
-      :show_current_button, :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :time_duration_format,
-      :calculation, :format, :hide_calculation, :units, { grid_tokens: [:variable_id] }, :multiple_rows,
-      { questions: [:question_name, :question_type] }, :default_row_number, :autocomplete_values, :alignment, :domain_id
+      :name, :display_name, :description, :variable_type, :prepend, :append,
+      :field_note, :display_name_visibility, :show_current_button,
+      :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum,
+      :date_soft_minimum, :time_duration_format, :calculation, :format,
+      :hide_calculation, :units, { grid_tokens: [:variable_id] },
+      :multiple_rows, :default_row_number, :autocomplete_values,
+      { questions: [:question_name, :question_type] }, :alignment, :domain_id
     )
   end
 

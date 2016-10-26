@@ -149,7 +149,7 @@ class VariablesController < ApplicationController
     parse_variable_dates
     params.require(:variable).permit(
       :name, :display_name, :description, :variable_type,
-      :updater_id, :display_name_visibility, :prepend, :append,
+      :updater_id, :display_name_visibility, :prepend, :append, :field_note,
       # For Integers and Numerics
       :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
       # For Dates

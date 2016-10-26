@@ -27,6 +27,8 @@
   - Improved the autocomplete capability for search filters
     - Check names will be recommended for autocompletion
     - Variable values will be recommended for autocompletion
+- **Variable Changes**
+  - Field notes can now be added that are displayed when entering a sheet
 
 ### Bug Fix
 - Fixed a bug in computing the correct column in the R export script
