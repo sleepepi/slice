@@ -29,7 +29,7 @@
   $("##{target_name}_minutes").val("")
   $("##{target_name}_seconds").val("")
   $("##{target_name}_hours").change()
-  $("##{target_name}_hours").blur()
+  $("##{target_name}_minutes").blur()
 
 @setCurrentDate = (element) ->
   target_name = element.data("target-name")

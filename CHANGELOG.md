@@ -32,6 +32,8 @@
 
 ### Bug Fix
 - Fixed a bug in computing the correct column in the R export script
+- Fixed time duration not clearing correctly when formatted with only minutes
+  and seconds
 
 ## 0.43.0 (October 24, 2016)
 
