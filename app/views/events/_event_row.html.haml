@@ -1,13 +1,10 @@
-- show_unblinded_only = (@project.blinding_enabled? && @project.unblinded?(current_user))
 %td.center= event.position
-%td= link_to event.name, [@project, event]
+%td
+  = link_to event.name, [@project, event]
+  = render 'layouts/unblinded_only', project: @project, object: event, placement: 'right'
 %td.hidden-xs
   - assigned_count = event.subject_events.with_current_subjects.count
   = pluralize assigned_count, 'event'
-- if show_unblinded_only
-  %td.hidden-xs.center
-    - if event.only_unblinded?
-      %span.glyphicon.glyphicon-eye-open.text-muted
 %td.hidden-xs.center= simple_check event.archived
 %td.hidden-xs.hidden-sm.center= event.designs.count
 %td

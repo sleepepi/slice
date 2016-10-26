@@ -2,14 +2,11 @@
   .jumbotron
     %p.center No events found.
 - else
-  - show_unblinded_only = (@project.blinding_enabled? && @project.unblinded?(current_user))
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
       %col{ width: '1px' }
       %col
       %col.hidden-xs
-      - if show_unblinded_only
-        %col.hidden-xs
       %col.hidden-xs
       %col.hidden-xs.hidden-sm
       %col{ width: '1px' }
@@ -18,8 +15,6 @@
           = th_sort_field @order, 'events.position', 'Position', extra_class: 'center'
           = th_sort_field @order, 'events.name', 'Name'
           %th.hidden-xs Launched
-          - if show_unblinded_only
-            %th.hidden-xs.center Only Unblinded
           = th_sort_field @order, 'events.archived', 'Archived', extra_class: 'hidden-xs center'
           %th.hidden-xs.hidden-sm.center Designs
           %th Actions

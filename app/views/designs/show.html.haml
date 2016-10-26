@@ -37,13 +37,14 @@
 
               %li.divider{ role: 'separator' }
               %li
-                = link_to [@design.project, @design], method: :delete, data: { confirm: "Are you sure you want to delete Design #{@design.name}?" } do
+                = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete
 
         = render 'layouts/side_nav_header_button'
         = @title
+        = render 'layouts/unblinded_only', project: @project, object: @design, placement: 'top'
 
 - if @design.category || @design.publicly_available? || @design.total_rows > 0
   .dashboard-container
@@ -54,10 +55,6 @@
         %tr
           %th Category
           %td= link_to @design.category.name, [@project, @design.category]
-      - if @project.blinding_enabled?
-        %tr
-          %th Only Unblinded
-          %td= simple_check_new @design.only_unblinded
       - if @design.publicly_available?
         %tr
           %th Publicly Available

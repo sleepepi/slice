@@ -28,6 +28,7 @@
 
         = render 'layouts/side_nav_header_button'
         = @title
+        = render 'layouts/unblinded_only', project: @project, object: @event, placement: 'top'
 
 .dashboard-container
   %table.table.table-borderless
@@ -37,11 +38,6 @@
     %tr
       %th Slug
       %td= @event.slug
-
-    - if @project.blinding_enabled?
-      %tr
-        %th Only Unblinded
-        %td= simple_check_new @event.only_unblinded
 
     %tr
       %th Position
