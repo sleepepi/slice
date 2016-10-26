@@ -7,7 +7,7 @@
 = render 'layouts/simple_header'
 
 .dashboard-container
-  = form_tag report_reports_project_path(@project), method: :post, remote: true, data: { object: 'form-load' }, class: "form-inline", id: 'report_form' do
+  = form_tag report_reports_project_path(@project), method: :post, remote: true, class: "form-inline", id: 'report_form' do
     = hidden_field_tag :page
 
     %label By
@@ -29,5 +29,4 @@
     %button.btn.btn-primary.btn-xs{ type: 'submit' } Refresh
 
 .dashboard-container
-  #report
-    .center= image_tag 'try-slice-waiting.gif'
+  #report=render 'reports/report'

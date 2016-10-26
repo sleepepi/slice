@@ -10,8 +10,7 @@
     %tr
       %th Subject
       - @designs.each do |design|
-        %th
-          %span{ class: 'count-rot315__' }= design.name
+        %th= design.short_name
       %th Total
   - if @subject_count
     %tfoot

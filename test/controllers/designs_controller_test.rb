@@ -69,6 +69,7 @@ class DesignsControllerTest < ActionController::TestCase
           project_id: @project,
           design: {
             name: 'Design With Questions',
+            short_name: 'DEWQUE',
             questions: [
               { question_name: 'String Question', question_type: 'string' },
               { question_name: 'Integer Question', question_type: 'integer' },
@@ -78,8 +79,9 @@ class DesignsControllerTest < ActionController::TestCase
         }
       end
     end
-
     assert_not_nil assigns(:design)
+    assert_equal 'Design With Questions', assigns(:design).name
+    assert_equal 'DEWQUE', assigns(:design).short_name
     assert_redirected_to edit_project_design_path(assigns(:design).project, assigns(:design))
   end
 

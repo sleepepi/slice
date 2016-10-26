@@ -7,19 +7,6 @@
   transform: rotate(315deg);
 }
 
-.shadow-inset-left {
-  box-shadow: inset 10px 0 10px -10px $report-shadow-color;
-
-  &.shadow-inset-right {
-    box-shadow: inset 10px 0 10px -10px $report-shadow-color,
-                inset -10px 0 10px -10px $report-shadow-color;
-  }
-}
-
-.shadow-inset-right {
-  box-shadow: inset -10px 0 10px -10px $report-shadow-color;
-}
-
 .report-number {
   font-size: 41px;
   font-weight: 300;

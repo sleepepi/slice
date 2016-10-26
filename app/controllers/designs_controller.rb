@@ -103,8 +103,9 @@ class DesignsController < ApplicationController
     set_slug_and_updater
     parse_redirect_url
     params.require(:design).permit(
-      :name, :slug, :description, :project_id, :updater_id, :publicly_available,
-      :show_site, :ignore_auto_lock, :category_id, :only_unblinded,
+      :name, :slug, :short_name, :description, :project_id, :updater_id,
+      :publicly_available, :show_site, :ignore_auto_lock, :category_id,
+      :only_unblinded,
       { questions: [:question_name, :question_type] }, :redirect_url
     )
   end

@@ -12,6 +12,8 @@
   - Check names can now be used to filter sheets on the sheet index:
     - `checks:any`
     - `checks:NAME[,NAME]`
+- **Design Changes**
+  - Designs can now have a short name specified
 - **Event Changes**
   - Event slugs now autofill when writing a new event name
   - Events can be archived from the event index
