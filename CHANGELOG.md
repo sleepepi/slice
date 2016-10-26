@@ -21,6 +21,8 @@
   - Calculated variables are now formatted as numeric in SAS exports
   - `Sheet Created` is now included in exports
   - Missing sheets now appear in exports and are labeled in SAS and R exports
+- **Project Changes**
+  - Project activity can now be filtered by site and by user
 - **Sheet Changes**
   - Improved the autocomplete capability for search filters
     - Check names will be recommended for autocompletion
