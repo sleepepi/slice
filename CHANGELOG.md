@@ -154,6 +154,8 @@
       - `not:randomized`
   - Clicking the sheet validation message now scrolls to the first field that
     caused the error message to display
+  - Sheets no longer display attached files that were removed from the
+    corresponding design
 - **Subject Changes**
   - Subject menu redesigned to adjust to different screen sizes
   - Adverse events and randomizations now included in subject menu

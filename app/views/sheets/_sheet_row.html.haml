@@ -7,7 +7,7 @@
     %span.glyphicon.glyphicon-comment
     = sheet.comments.size
   - if sheet.files.size > 0
-    %span.glyphicon.glyphicon-paperclip
+    %span.glyphicon.glyphicon-paperclip{ rel: 'tooltip', data: { title: pluralize(sheet.files.size, 'File'), container: 'body', placement: 'top' } }
 %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
 %td.nowrap.hidden-xs.hidden-sm
   %span.hidden-md= simple_time_short sheet.created_at

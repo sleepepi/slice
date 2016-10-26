@@ -72,7 +72,8 @@ class Subject < ApplicationRecord
   end
 
   def uploaded_files(current_user)
-    SheetVariable.where(sheet_id: blinded_sheets(current_user).select(:id)).includes(:variable).where(variables: { variable_type: 'file' }).order(created_at: :desc)
+    SheetVariable.where(sheet_id: blinded_sheets(current_user).select(:id)).with_files
+                 .order(created_at: :desc)
   end
 
   def has_value?(variable, value)

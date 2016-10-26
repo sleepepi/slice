@@ -4,6 +4,9 @@ class SheetVariable < ApplicationRecord
   # Concerns
   include Formattable, Valuable
 
+  # Scopes
+  scope :with_files, -> { joins(variable: :design_options).where(variables: { variable_type: 'file' }).where.not(response_file: [nil, '']) }
+
   # Model Validation
   validates :sheet_id, presence: true
 

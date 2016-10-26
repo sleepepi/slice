@@ -79,4 +79,5 @@
               %li
                 = link_to files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}" do
                   Files
-                  %span.badge= @subject.uploaded_files(current_user).count
+                  - if @subject.uploaded_files(current_user).count > 0
+                    %span.badge= @subject.uploaded_files(current_user).count
