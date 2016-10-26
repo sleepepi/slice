@@ -139,7 +139,7 @@
           cache: true
         },
         {
-          match: /(^|\s)(\w+\:[\w\-\.,]*)$/
+          match: /(^|\s)(\w+\:([\w\-\.]*,)*)$/
           search: (term, callback) ->
             # callback(cache[term], true)
             $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/values_search", { q: term })
