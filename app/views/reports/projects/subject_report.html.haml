@@ -1,7 +1,5 @@
 - @title = 'Subject Report'
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << ['Reports', reports_reports_project_path(@project)]
 
 = render 'projects/side_nav'
 
@@ -14,4 +12,50 @@
         = render 'layouts/side_nav_header_button'
         %span= @title
 
-= render 'reports/projects/subject_report'
+%div{ style: 'display: none;', data: { object: 'wide-container' } }
+
+.alert.alert-danger
+  The Subject Report is being removed soon. Send us an email at
+  = mail_to ENV['support_email'], ENV['support_email'], class: 'alert-link'
+  with any questions.
+
+.table-responsive
+  %table.table.table-hover
+    %col{ width: '1px' }
+      = ("<col width='#{100/(@designs.size + 1)}%'/>" * (@designs.size + 1)).html_safe
+    %col{ width: '1px' }
+    %thead
+      %tr
+        %th Subject
+        - @designs.each do |design|
+          %th.nowrap=# design.short_name
+        %th Total
+    %tbody
+      - @subjects.each do |subject|
+        %tr
+          %td.nowrap{ style: 'line-height:30px' }
+            = link_to subject.subject_code, [subject.project, subject]
+          - @designs.each do |design|
+            - sheet_scope = @project.sheets.where(design_id: design.id, subject_id: subject.id, missing: false)
+            - count = sheet_scope.count
+            %td.nowrap.center{ class: "#{'text-muted' if count == 0}", style: 'line-height:30px', rel: 'tooltip', data: { title: design.name, container: 'body', placement: 'top' } }
+              - add_url = new_data_entry_project_subject_path(@project, subject, design)
+              - show_url = project_sheets_path(@project, design_id: design.id, search: subject.subject_code)
+              - if count == 0
+                = link_to '+', add_url if @project.editable_by?(current_user)
+              - else
+                .label.label-success
+                  - if count == 1
+                    - sheet = sheet_scope.first
+                    = link_to count, [sheet.project, sheet], class: 'link-white'
+                  - else
+                    = link_to count, show_url, class: 'link-white'
+          - count = @designs.collect{ |d| d.sheets.where(subject_id: subject.id).where(missing: false).count }.sum
+          %td{ class: "#{'text-muted' if count == 0}", style: 'line-height:30px' }
+            - if count > 0
+              .label.label-success
+                = link_to count, project_sheets_path(@project, search: subject.subject_code), class: 'link-white'
+            - else
+              \-
+
+  .center= paginate @subjects, theme: 'bootstrap'
