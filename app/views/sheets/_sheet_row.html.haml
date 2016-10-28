@@ -4,8 +4,7 @@
   = link_to sheet.design.name, [@project, sheet]
   = render 'layouts/unblinded_only', project: @project, object: sheet.design, placement: 'right'
   - if sheet.comments.size > 0
-    %span.glyphicon.glyphicon-comment
-    = sheet.comments.size
+    %span.glyphicon.glyphicon-comment{ rel: 'tooltip', data: { title: pluralize(sheet.comments.size, 'Comment'), container: 'body', placement: 'top' } }
   - if sheet.files.size > 0
     %span.glyphicon.glyphicon-paperclip{ rel: 'tooltip', data: { title: pluralize(sheet.files.size, 'File'), container: 'body', placement: 'top' } }
 %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
