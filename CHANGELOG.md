@@ -29,6 +29,11 @@
   - Improved the autocomplete capability for search filters
     - Check names will be recommended for autocompletion
     - Variable values will be recommended for autocompletion
+  - New sheet search filters added to filter by sheets associated with adverse
+    events, that have comments, and that have files
+    - `has:adverse-events`
+    - `has:comments`
+    - `has:files`
 - **Variable Changes**
   - Field notes can now be added that are displayed when entering a sheet
 

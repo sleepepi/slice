@@ -117,6 +117,19 @@
     $this.textcomplete(
       [
         {
+          match: /(^|\s)has\:([\w\-]*)$/
+          search: (term, callback) ->
+            words = ['adverse-events', 'comments', 'files']
+            resp = $.map(words, (word) ->
+              if word.indexOf(term) == 0
+                word
+              else
+                null
+            )
+            callback(resp)
+          replace: (value) -> return "$1has:#{value}"
+        },
+        {
           match: /(^|\s)checks\:([\w\-]*)$/
           search: (term, callback) ->
             # callback(cache[term], true)

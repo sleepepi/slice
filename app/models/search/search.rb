@@ -19,8 +19,15 @@ class Search
   end
 
   def set_checks_or_variable
-    if token[:key] == 'checks'
+    case token[:key]
+    when 'checks'
       set_checks
+    when 'comments', 'comment'
+      @comments = true
+    when 'aes', 'ae', 'adverse-events', 'adverse-events'
+      @aes = true
+    when 'files', 'file'
+      @files = true
     else
       set_variable
     end
@@ -56,7 +63,15 @@ class Search
   end
 
   def sheets
-    if @checks
+    if @aes
+      all_viewable_sheets.where.not(adverse_event_id: nil)
+    elsif @comments
+      all_viewable_sheets.where(id: Comment.current.select(:sheet_id))
+    elsif @files
+      all_viewable_sheets
+        .where(id: SheetVariable.with_files.select(:sheet_id))
+        .or(all_viewable_sheets.where(id: Grid.with_files.joins(:sheet_variable).select('sheet_variables.sheet_id')))
+    elsif @checks
       compute_sheets_for_checks
     elsif @variable
       compute_sheets_for_variable
@@ -83,7 +98,7 @@ class Search
   end
 
   def compute_sheets_for_checks
-    sheet_scope = @current_user.all_viewable_sheets.where(project: @project)
+    sheet_scope = all_viewable_sheets
     return sheet_scope if @checks.count == 0
     sheet_ids = []
     @checks.each do |check|
@@ -94,7 +109,7 @@ class Search
   end
 
   def compute_sheets_for_variable
-    sheet_scope = @current_user.all_viewable_sheets.where(project: @project)
+    sheet_scope = all_viewable_sheets
     return sheet_scope if @values.count == 0
     select_sheet_ids = subquery_scope.where(variable: @variable).where(subquery).select(:sheet_id)
 
@@ -103,6 +118,10 @@ class Search
     else
       sheet_scope.where(id: select_sheet_ids)
     end
+  end
+
+  def all_viewable_sheets
+    @current_user.all_viewable_sheets.where(project: @project)
   end
 
   def all_numeric?
