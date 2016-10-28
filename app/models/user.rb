@@ -196,11 +196,25 @@ class User < ApplicationRecord
   end
 
   def all_tasks
-    Task.current.where(project_id: all_projects.select(:id)).blinding_scope(self)
+    task_scope = task_scope(all_editable_sites)
+    task_scope_filtered(task_scope, all_subjects)
   end
 
   def all_viewable_tasks
-    Task.current.where(project_id: all_viewable_and_site_projects.select(:id)).blinding_scope(self)
+    task_scope = task_scope(all_viewable_sites)
+    task_scope_filtered(task_scope, all_viewable_subjects)
+  end
+
+  def task_scope(site_scope)
+    Task.current
+        .where(project_id: site_scope.select(:project_id))
+        .includes(randomization_task: :randomization)
+  end
+
+  def task_scope_filtered(task_scope, subject_scope)
+    task_scope.where(randomizations: { subject_id: nil }).or(
+      task_scope.where(randomizations: { subject_id: subject_scope.select(:id) })
+    ).blinding_scope(self)
   end
 
   def all_viewable_adverse_event_comments
