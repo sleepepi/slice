@@ -4,7 +4,7 @@
 - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
 
 - if variable
-  - case rand(5)
+  - case rand(8)
   - when 0
     .docs-learn-more
       Created this past week:
@@ -39,6 +39,24 @@
     .docs-learn-more
       Not Randomized:
       - search = 'not:randomized'
+      = succeed '.' do
+        = link_to search, project_sheets_path(@project, search: search)
+  - when 5
+    .docs-learn-more
+      Attached Files:
+      - search = 'has:files'
+      = succeed '.' do
+        = link_to search, project_sheets_path(@project, search: search)
+  - when 6
+    .docs-learn-more
+      Comments:
+      - search = 'has:comments'
+      = succeed '.' do
+        = link_to search, project_sheets_path(@project, search: search)
+  - when 7
+    .docs-learn-more
+      Adverse Events:
+      - search = 'has:adverse-events'
       = succeed '.' do
         = link_to search, project_sheets_path(@project, search: search)
 
