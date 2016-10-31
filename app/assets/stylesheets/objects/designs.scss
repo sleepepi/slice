@@ -65,12 +65,8 @@
 }
 
 .editable-design-element:hover {
+  background-color: $table-bg-hover;
   border-radius: 4px;
-}
-
-.editable-design-element:hover,
-.editable-design-element input:hover {
-  background-color: $alert-success-bg;
 }
 
 .add-design-option {

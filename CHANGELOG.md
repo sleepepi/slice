@@ -10,6 +10,8 @@
   - Switching the order on the sheets index no longer resets other filters
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
+- **Theme Changes**
+  - Improved hover effect color for night theme on design builder
 
 ## 0.44.1 (October 31, 2016)
 
