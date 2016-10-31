@@ -27,7 +27,7 @@
 
       - @designs.each do |design|
         %tr{ id: "design_#{design.id}" }
-          %td= design.short_name
+          %td.nowrap= design.short_name
           %td
             = link_to design.name, [@project, design]
             = render 'layouts/unblinded_only', project: @project, object: design, placement: 'right'
