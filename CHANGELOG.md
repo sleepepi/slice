@@ -1,5 +1,9 @@
 ## 0.45.0
 
+### Enhancements
+- **Task Changes**
+  - Blinding indicator updated to be consistent with designs and events
+
 ## 0.44.1 (October 31, 2016)
 
 ### Enhancements

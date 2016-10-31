@@ -29,6 +29,7 @@
 
         = render 'layouts/side_nav_header_button'
         = @title
+        = render 'layouts/unblinded_only', project: @project, object: @task, placement: 'top'
 
 .dashboard-container
   %table.table.table-borderless
@@ -58,10 +59,6 @@
     %tr
       %th Completed
       %td= simple_check @task.completed
-
-    %tr
-      %th Only unblinded
-      %td= simple_check @task.only_unblinded
 
     - if @task.randomization
       %tr

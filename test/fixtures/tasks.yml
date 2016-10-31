@@ -3,7 +3,7 @@
 one:
   project: one
   user: valid
-  description: MyText
+  description: Phonecall
   due_date: 2016-02-15
   window_start_date: 2016-02-12
   window_end_date: 2016-02-18
