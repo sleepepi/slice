@@ -12,8 +12,44 @@ class SheetsControllerTest < ActionController::TestCase
 
   test 'should get index' do
     get :index, params: { project_id: @project }
-    assert_response :success
     assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets by variable' do
+    get :index, params: { project_id: @project, search: 'var_1:1' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets by non-existent variable' do
+    get :index, params: { project_id: @project, search: 'var_does_not_exist:any' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets with comments' do
+    get :index, params: { project_id: @project, search: 'has:comments' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets with adverse events' do
+    get :index, params: { project_id: @project, search: 'has:adverse-events' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets with files' do
+    get :index, params: { project_id: @project, search: 'has:files' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets that fail checks' do
+    get :index, params: { project_id: @project, search: 'checks:any' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
   end
 
   test 'should get index with invalid project' do

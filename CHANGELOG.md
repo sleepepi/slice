@@ -1,5 +1,9 @@
 ## 0.44.1
 
+### Bug Fix
+- Fixed a bug that prevented sheets index from returning results when searching
+  for a non-existent variable
+
 ## 0.44.0 (October 31, 2016)
 
 ### Enhancements
