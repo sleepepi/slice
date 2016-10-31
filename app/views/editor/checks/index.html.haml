@@ -29,3 +29,8 @@
       - @checks.each do |check|
         %tr{ id: "check-#{check.id}-container" }
           = render 'editor/checks/check_row', check: check
+
+.docs-learn-more
+  Learn about
+  = succeed '.' do
+    = link_to 'checks', docs_checks_path
