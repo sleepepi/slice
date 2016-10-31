@@ -171,7 +171,8 @@
   - if @variable.shared_options.size > 0
     = render 'variables/compact_options', variable: @variable
 
-  - design_option = @variable.design_options.first
-  - if design_option
-    %form.form-horizontal
+- design_option = @variable.design_options.first
+- if design_option
+  %form.form-horizontal
+    .dashboard-container
       = render 'sheet_variables/form', design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []
