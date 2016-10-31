@@ -3,6 +3,7 @@
 ### Bug Fix
 - Fixed a bug that prevented sheets index from returning results when searching
   for a non-existent variable
+- Branching logic is now saved correctly when adding a new section to a design
 
 ## 0.44.0 (October 31, 2016)
 

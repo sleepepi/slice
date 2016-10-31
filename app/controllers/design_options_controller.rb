@@ -45,6 +45,7 @@ class DesignOptionsController < ApplicationController
 
   def create_section
     @section = current_user.sections.where(project_id: @project.id, design_id: @design.id).new(section_params)
+    @design_option.branching_logic = params[:design_option][:branching_logic] if params[:design_option] && params[:design_option][:branching_logic].present?
     if @section.save
       @design_option.section_id = @section.id
       @design_option.save
