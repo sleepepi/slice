@@ -3,6 +3,8 @@
 ### Enhancements
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
+- **Report Changes**
+  - The subject report has been removed
 - **Sheet Changes**
   - Switching the order on the sheets index no longer resets other filters
 - **Task Changes**

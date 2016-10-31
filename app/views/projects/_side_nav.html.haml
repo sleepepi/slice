@@ -45,7 +45,6 @@
           %ul.side-nav-section-links.active
             %li= link_to 'Overview', reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? 'active' : nil)
             %li= link_to 'Summary Report', report_reports_project_path(@project), class: (current_page?(report_reports_project_path(@project)) ? 'active' : nil)
-            %li= link_to 'Subject Report', subject_report_reports_project_path(@project), class: (current_page?(subject_report_reports_project_path(@project)) ? 'active' : nil)
 
       - if @project.editable_by?(current_user)
         %ul.side-nav-navigation

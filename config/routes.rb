@@ -99,7 +99,6 @@ Rails.application.routes.draw do
       member do
         get :report
         post :report
-        get :subject_report, path: 'subject-report'
         get :reports
         post :filters
         post :new_filter

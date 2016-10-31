@@ -142,20 +142,4 @@ class Reports::ProjectsControllerTest < ActionController::TestCase
       ENV['latex_location'] = original_latex
     end
   end
-
-  test 'should get subject report' do
-    login(users(:valid))
-    get :subject_report, params: { id: @project }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subjects)
-    assert_not_nil assigns(:designs)
-    assert_response :success
-  end
-
-  test 'should not get subject report for invalid project' do
-    login(users(:valid))
-    get :subject_report, params: { id: -1 }
-    assert_nil assigns(:project)
-    assert_redirected_to projects_path
-  end
 end

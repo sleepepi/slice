@@ -37,15 +37,6 @@ class Reports::ProjectsController < ApplicationController
     generate_report_pdf if params[:format] == 'pdf'
   end
 
-  # GET /projects/1/subject_report
-  def subject_report
-    @subjects = current_user.all_viewable_subjects
-                            .where(project_id: @project.id).order(:subject_code)
-                            .page(params[:page]).per(40)
-    @designs = current_user.all_viewable_designs
-                           .where(project_id: @project.id).order(:name)
-  end
-
   private
 
   # Overwriting application_controller
