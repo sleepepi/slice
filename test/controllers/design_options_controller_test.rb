@@ -292,12 +292,8 @@ class DesignOptionsControllerTest < ActionController::TestCase
       assert_difference('Section.count') do
         post :create_section, params: {
           project_id: @project, design_id: @design,
-          design_option: { position: 0 },
-          section: {
-            name: 'Section A',
-            description: 'Section Description',
-            level: '1'
-          }
+          design_option: { position: 0, branching_logic: '1 == 1' },
+          section: { name: 'Section A', description: 'Description', level: '1' }
         }, format: 'js'
       end
     end
@@ -306,8 +302,9 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design_option)
     assert_not_nil assigns(:section)
     assert_equal 'Section A', assigns(:design_option).section.name
-    assert_equal 'Section Description', assigns(:design_option).section.description
+    assert_equal 'Description', assigns(:design_option).section.description
     assert_equal 1, assigns(:design_option).section.level
+    assert_equal '1 == 1', assigns(:design_option).branching_logic
     assert_template 'index'
   end
 

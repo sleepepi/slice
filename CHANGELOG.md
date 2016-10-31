@@ -1,5 +1,17 @@
 ## 0.45.0
 
+## 0.44.1 (October 31, 2016)
+
+### Enhancements
+- **Design Changes**
+  - Design abbreviations are now displayed on the design index
+
+### Bug Fix
+- Fixed a bug that prevented sheets index from returning results when searching
+  for a non-existent variable
+- Branching logic is now saved correctly when adding a new section to a design
+- Fixed styling of variable preview on variable show page on mobile
+
 ## 0.44.0 (October 31, 2016)
 
 ### Enhancements

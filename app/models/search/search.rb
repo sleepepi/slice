@@ -43,6 +43,7 @@ class Search
 
   def set_variable
     @variable = @project.variables.find_by_name(token[:key])
+    return unless @variable
     if %w(any missing).include?(@operator)
       @values = []
       @values = \

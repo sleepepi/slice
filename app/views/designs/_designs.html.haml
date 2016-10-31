@@ -4,12 +4,14 @@
 - else
   .dashboard-container
     %table.table.table-striped
+      %col{ width: '1px' }
       %col
       %col.hidden-xs
       %col.hidden-xs
       %col{ width: '1px' }
       %thead
         %tr
+          %th Abbr
           = th_sort_field @order, 'designs.name', 'Name'
           %th.hidden-xs Variables
           %th.hidden-xs.nowrap{ class: ['designs.category_name', 'designs.category_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
@@ -25,6 +27,7 @@
 
       - @designs.each do |design|
         %tr{ id: "design_#{design.id}" }
+          %td= design.short_name
           %td
             = link_to design.name, [@project, design]
             = render 'layouts/unblinded_only', project: @project, object: design, placement: 'right'
