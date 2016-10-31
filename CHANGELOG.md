@@ -1,6 +1,8 @@
 ## 0.45.0
 
 ### Enhancements
+- **Sheet Changes**
+  - Switching the order on the sheets index no longer resets other filters
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
 

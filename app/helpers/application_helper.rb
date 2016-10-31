@@ -4,8 +4,9 @@
 module ApplicationHelper
   include DateAndTimeParser
 
-  def th_sort_field_rev(order, sort_field, display_name, extra_class: '')
-    sort_params = params.permit(:search)
+  def th_sort_field_rev(order, sort_field, display_name, extra_class: '', permit: [])
+    permit_options = [:search] + permit
+    sort_params = params.permit(*permit_options)
     sort_field_order = (order == "#{sort_field} desc" || order == "#{sort_field} desc nulls last") ? sort_field : "#{sort_field} desc"
     if order == sort_field
       selected_class = 'sort-selected'
@@ -19,8 +20,9 @@ module ApplicationHelper
     end.html_safe
   end
 
-  def th_sort_field(order, sort_field, display_name, extra_class: '')
-    sort_params = params.permit(:search)
+  def th_sort_field(order, sort_field, display_name, extra_class: '', permit: [])
+    permit_options = [:search] + permit
+    sort_params = params.permit(*permit_options)
     sort_field_order = (order == sort_field) ? "#{sort_field} desc" : sort_field
     if order == sort_field
       selected_class = 'sort-selected'

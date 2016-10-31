@@ -63,9 +63,9 @@
                 %li= link_to 'All Designs', project_sheets_path(@project, filtered_params.merge(order: params[:order], design_id: nil)), style: params[:design_id].blank? ? 'font-weight:bold;' : ''
                 - viewable_designs.order(:name).each do |design|
                   %li= link_to design.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], design_id: design.id)), style: params[:design_id].to_s == design.id.to_s ? 'font-weight:bold;' : ''
-          = th_sort_field @order, 'sheets.subject_code', 'Subject'
-          = th_sort_field @order, 'sheets.created_at', 'Created', extra_class: 'hidden-xs hidden-sm'
-          = th_sort_field @order, 'sheets.last_edited_at', 'Updated', extra_class: 'hidden-xs hidden-sm'
+          = th_sort_field @order, 'sheets.subject_code', 'Subject', permit: [:design_id, :site_id, :user_id]
+          = th_sort_field @order, 'sheets.created_at', 'Created', extra_class: 'hidden-xs hidden-sm', permit: [:design_id, :site_id, :user_id]
+          = th_sort_field @order, 'sheets.last_edited_at', 'Updated', extra_class: 'hidden-xs hidden-sm', permit: [:design_id, :site_id, :user_id]
           - if viewable_sites.count > 1
             %th.nowrap.hidden-xs{ class: ['sheets.site_name', 'sheets.site_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
               = link_to 'Site', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.site_name desc' ? 'sheets.site_name' : 'sheets.site_name desc')))
