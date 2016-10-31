@@ -32,7 +32,7 @@ class List < ApplicationRecord
   end
 
   def extra_option_names
-    project.sites.where(id: extra_options.collect { |h| h[:site_id] }).order(:name).collect(&:name)
+    project.sites.where(id: extra_options.collect { |h| h[:site_id] }).order(:name).collect(&:short_name)
   end
 
   def subject_randomizations

@@ -1,6 +1,8 @@
 ## 0.45.0
 
 ### Enhancements
+- **Randomization Changes**
+  - Improved the display of subject randomization on mobile devices
 - **Sheet Changes**
   - Switching the order on the sheets index no longer resets other filters
 - **Task Changes**

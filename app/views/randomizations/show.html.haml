@@ -95,7 +95,8 @@
             - if sfo = randomization_characteristic.stratification_factor_option
               = sfo.label
             - elsif site = randomization_characteristic.site
-              = site.name
+              %span.hidden-xs= site.name
+              %span.hidden-sm.hidden-md.hidden-lg= site.short_name
 
 - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization? && @randomization.dice_roll && @randomization.dice_roll_cutoff && @project.editable_by?(current_user)
   %h3.text-white.text-shadow
@@ -134,7 +135,11 @@
                   %tr
                     %th Stratification Factor
                     - @randomization.past_distributions[:treatment_arms].each do |arm_hash|
-                      %th{ style: 'text-align:right' }= arm_hash[:name]
+                      - treatment_arm = @randomization.randomization_scheme.treatment_arms.find_by(id: arm_hash[:id])
+                      - if treatment_arm
+                        %th{ style: 'text-align:right' }
+                          %span.hidden-xs.hidden-sm= treatment_arm.name
+                          %span.hidden-md.hidden-lg= treatment_arm.short_name
               - if @randomization.past_distributions[:stratification_factors].is_a?(Array)
                 %tbody
                   - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
@@ -160,11 +165,15 @@
         %th Weighted Eligible Arms
         %td
           %ul.list-unstyled
-            - @randomization.weighted_eligible_arms.collect { |h| h[:name] }.each do |arm_name|
-              %li
-                %code= arm_name
+            - @randomization.weighted_eligible_arms.each do |arm_hash|
+              - treatment_arm = @randomization.randomization_scheme.treatment_arms.find_by(id: arm_hash[:id])
+              - if treatment_arm
+                %li
+                  %code.hidden-xs= treatment_arm.name
+                  %code.hidden-sm.hidden-md.hidden-lg= treatment_arm.short_name
       %tr
         %th Treatment Arm Chosen from Eligible Treatment Arms
         %td
-          %mark= @randomization.treatment_arm.name
+          %mark.hidden-xs= @randomization.treatment_arm.name
+          %mark.hidden-sm.hidden-md.hidden-lg= @randomization.treatment_arm.short_name
           selected.
