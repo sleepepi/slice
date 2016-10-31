@@ -5,6 +5,7 @@
   - Improved the display of subject randomization on mobile devices
 - **Report Changes**
   - The subject report has been removed
+  - Design short names are now used on mobile versions of reports
 - **Sheet Changes**
   - Switching the order on the sheets index no longer resets other filters
 - **Task Changes**

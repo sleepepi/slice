@@ -27,7 +27,9 @@
     %tbody
       - @project.designs.blinding_scope(current_user).order(:name).each do |design|
         %tr
-          %td= design.name
+          %td
+            %span.hidden-xs= design.name
+            %span.hidden-sm.hidden-md.hidden-lg= design.short_name
           %td= link_to 'Overview', project_reports_design_overview_path(design.project, design), class: 'btn btn-xs btn-default'
           %td= link_to 'Advanced', project_reports_design_advanced_path(design.project, design), class: 'btn btn-xs btn-default'
 

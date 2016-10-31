@@ -4,7 +4,14 @@
 - @breadcrumbs << ['Reports', reports_reports_project_path(@project)]
 
 = render 'projects/side_nav'
-= render 'layouts/simple_header'
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        = render 'layouts/side_nav_header_button'
+        %span.hidden-xs= "#{@design.name} Overview"
+        %span.hidden-sm.hidden-md.hidden-lg= "#{@design.short_name} Overview"
 
 - unless @design.description.blank?
   .jumbotron
