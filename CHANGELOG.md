@@ -1,5 +1,9 @@
 ## 0.44.1
 
+### Enhancements
+- **Design Changes**
+  - Design abbreviations are now displayed on the design index
+
 ### Bug Fix
 - Fixed a bug that prevented sheets index from returning results when searching
   for a non-existent variable
