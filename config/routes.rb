@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get 'survey', to: 'survey#index', as: :about_survey
   get 'survey/:slug', to: 'survey#new', as: :new_survey
   get 'survey/:slug/:sheet_authentication_token', to: 'survey#edit', as: :edit_survey
-  post 'survey/:slug', to: 'survey#create'
-  patch 'survey/:slug/:sheet_authentication_token', to: 'survey#update'
+  post 'survey/:slug', to: 'survey#create', as: :create_survey
+  patch 'survey/:slug/:sheet_authentication_token', to: 'survey#update', as: :update_survey
   get 'adverse-event/:authentication_token', to: 'adverse_event#show'
   post 'adverse-event/:authentication_token/review', to: 'adverse_event#review', as: :adverse_event_review
 
