@@ -4,7 +4,7 @@
 class VariablesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :report_lookup, :search, :checks_search, :values_search
+    :report_lookup, :search, :checks_search, :events_search, :values_search
   ]
   before_action :find_editable_project_or_redirect, only: [
     :index, :show, :new, :edit, :create, :update, :destroy, :copy,
@@ -61,6 +61,13 @@ class VariablesController < ApplicationController
     check_scope = @project.runnable_checks.where('slug ILIKE (?)', "#{params[:q]}%")
                                           .order(:slug).limit(10)
     render json: check_scope.pluck(:slug)
+  end
+
+  # GET /events_search.json
+  def events_search
+    event_scope = @project.events.where('slug ILIKE (?) or id = ?', "#{params[:q]}%", params[:q].to_i)
+                                 .order(:slug).limit(10)
+    render json: event_scope.collect(&:to_param)
   end
 
   # GET /variables/1

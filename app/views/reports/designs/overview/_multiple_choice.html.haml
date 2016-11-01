@@ -20,4 +20,4 @@
       .col-xs-6
         - unless missing_code == '1'
           %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
-        = filter_link(count == 0 ? nil : count, @design, variable, value)
+        = filter_link(count == 0 ? nil : count, @design, variable, value, event_id: event_id)

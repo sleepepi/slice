@@ -318,6 +318,7 @@ Rails.application.routes.draw do
         post :report_lookup
         get :search
         get :checks_search
+        get :events_search
         get :values_search
       end
     end

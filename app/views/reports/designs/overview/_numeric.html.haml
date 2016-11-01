@@ -20,7 +20,7 @@
       %th.center Total
   %tbody
     %tr
-      %td.center= filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
+      %td.center= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', event_id: event_id
       %td.center
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         = mean ? mean : '-'
@@ -29,12 +29,12 @@
         = stdev ? "&plusmn; #{stdev}".html_safe : '-'
       %td.center
         - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
-        = median ? filter_link(median, @design, variable, format('%g', median)) : '-'
+        = median ? filter_link(median, @design, variable, format('%g', median), event_id: event_id) : '-'
       %td.center
         - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
-        = min ? filter_link(min, @design, variable, format('%g', min)) : '-'
+        = min ? filter_link(min, @design, variable, format('%g', min), event_id: event_id) : '-'
       %td.center
         - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
-        = max ? filter_link(max, @design, variable, format('%g', max)) : '-'
-      %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing'
-      %td.center= filter_link Sheet.array_count(responses), @design, nil, nil
+        = max ? filter_link(max, @design, variable, format('%g', max), event_id: event_id) : '-'
+      %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+      %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id

@@ -15,7 +15,7 @@
     %strong N
   .col-xs-6
     %span &nbsp;
-    = filter_link Sheet.array_count(valid_responses), @design, variable, ':any'
+    = filter_link Sheet.array_count(valid_responses), @design, variable, ':any', event_id: event_id
     - unless no_responses
       %small.text-muted (100%)
 
@@ -30,7 +30,7 @@
       .col-xs-6
         - unless missing_code == '1'
           %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
-        = filter_link(count == 0 ? nil : count, @design, variable, value)
+        = filter_link(count == 0 ? nil : count, @design, variable, value, event_id: event_id)
         - if valid_responses.count != 0 && missing_code != '1'
           - percent = count * 100 / valid_responses.count
           %small.text-muted= "(#{percent}%)"
@@ -39,10 +39,10 @@
   .col-xs-6.text-right
     %strong.text-muted Blank
   .col-xs-6
-    = filter_link Sheet.array_count(blank_responses), @design, variable, ':blank'
+    = filter_link Sheet.array_count(blank_responses), @design, variable, ':blank', event_id: event_id
 
 .row.col-buffer
   .col-xs-6.text-right
     %strong Total
   .col-xs-6
-    = filter_link Sheet.array_count(responses), @design, nil, nil
+    = filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id

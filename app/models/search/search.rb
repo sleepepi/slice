@@ -22,6 +22,8 @@ class Search
     case token[:key]
     when 'checks'
       set_checks
+    when 'events'
+      set_events
     when 'comments', 'comment'
       @comments = true
     when 'aes', 'ae', 'adverse-events', 'adverse-events'
@@ -38,6 +40,14 @@ class Search
       @checks = @project.runnable_checks
     else
       @checks = @project.checks.where(slug: token[:value].to_s.split(','))
+    end
+  end
+
+  def set_events
+    if @operator == 'any'
+      @events = @project.events
+    else
+      @events = @project.events.where('slug ilike any (array[?]) or id IN (?)', token[:value].to_s.split(','), token[:value].to_s.split(',').collect(&:to_i))
     end
   end
 
@@ -74,6 +84,8 @@ class Search
         .or(all_viewable_sheets.where(id: Grid.with_files.joins(:sheet_variable).select('sheet_variables.sheet_id')))
     elsif @checks
       compute_sheets_for_checks
+    elsif @events
+      compute_sheets_for_events
     elsif @variable
       compute_sheets_for_variable
     elsif @token[:key] == 'randomized'
@@ -104,6 +116,17 @@ class Search
     sheet_ids = []
     @checks.each do |check|
       sheet_ids << check.sheets(current_user).pluck(:id)
+    end
+    sheet_ids.flatten!
+    sheet_scope.where(id: sheet_ids)
+  end
+
+  def compute_sheets_for_events
+    sheet_scope = all_viewable_sheets
+    return sheet_scope if @events.count == 0
+    sheet_ids = []
+    @events.each do |event|
+      sheet_ids << all_viewable_sheets.where(subject_events: { event_id: event.id }).pluck(:id)
     end
     sheet_ids.flatten!
     sheet_scope.where(id: sheet_ids)

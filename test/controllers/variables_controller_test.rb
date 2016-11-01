@@ -413,4 +413,10 @@ class VariablesControllerTest < ActionController::TestCase
     get :checks_search, params: { project_id: @project, q: 'checks:' }, xhr: true, format: 'js'
     assert_response :success
   end
+
+  test 'should get events search' do
+    login(users(:valid))
+    get :events_search, params: { project_id: @project, q: 'events:' }, xhr: true, format: 'js'
+    assert_response :success
+  end
 end

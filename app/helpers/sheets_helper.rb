@@ -10,9 +10,12 @@ module SheetsHelper
                 title: sheet.out_of)
   end
 
-  def filter_link(count, design, variable, value)
+  def filter_link(count, design, variable, value, event_id: nil)
     params = { design_id: design.id }
-    params[:search] = "#{variable.name}:#{convert_value(value)}" if variable
+    search_tokens = []
+    search_tokens << "events:#{event_id}" if event_id.present?
+    search_tokens << "#{variable.name}:#{convert_value(value)}" if variable
+    params[:search] = search_tokens.join(' ')
     url = project_sheets_path design.project, params
     link_to_if count.present?, count || '-', url, target: '_blank'
   end

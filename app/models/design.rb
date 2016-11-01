@@ -44,6 +44,7 @@ class Design < ApplicationRecord
   has_many :sections
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
   has_many :event_designs
+  has_many :events, through: :event_designs
 
   has_many :design_options, -> { order :position }
   has_many :variables, through: :design_options

@@ -6,8 +6,11 @@
 - **Report Changes**
   - The subject report has been removed
   - Design short names are now used on mobile versions of reports
+  - Overview reports for designs on multiple events can now be filtered by event
 - **Sheet Changes**
   - Switching the order on the sheets index no longer resets other filters
+  - Sheets can now be filtered by event
+    - `events:NAME[,NAME]`
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
 - **Theme Changes**

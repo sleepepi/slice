@@ -141,6 +141,17 @@
           cache: true
         },
         {
+          match: /(^|\s)events\:([\w\-]*)$/
+          search: (term, callback) ->
+            # callback(cache[term], true)
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/events_search", { q: term })
+              .done((resp) -> callback(resp) )
+              .fail(-> callback([]))
+          replace: (value) ->
+            return "$1events:#{value}"
+          cache: true
+        },
+        {
           match: /(^|\s)(\w+)$/
           search: (term, callback) ->
             # callback(cache[term], true)

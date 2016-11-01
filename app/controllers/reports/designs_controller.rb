@@ -19,9 +19,12 @@ class Reports::DesignsController < ApplicationController
 
   # GET /reports/designs/1/overview
   def overview
-    @sheets = current_user.all_viewable_sheets
-                          .where(project_id: @project.id, design_id: @design.id)
-                          .where(missing: false)
+    @event = @design.events.find_by_id(params[:event_id]) if @design.events.count > 1
+    sheet_scope = current_user.all_viewable_sheets
+                              .where(project_id: @project.id, design_id: @design.id)
+                              .where(missing: false)
+    sheet_scope = sheet_scope.includes(:subject_event).where(subject_events: { event_id: @event.id }) if @event
+    @sheets = sheet_scope
   end
 
   def advanced
