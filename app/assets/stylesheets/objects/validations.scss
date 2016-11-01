@@ -1,15 +1,5 @@
 // Defines styles for validation errors on sheets
 
-.variable-shade.variable-errors {
-  border-left: 2px solid $brand-danger;
-  color: $brand-danger;
-}
-
-.variable-blind.variable-errors {
-  border-left: 2px solid $brand-danger;
-  color: $brand-danger;
-}
-
 .variable-shade.variable-warnings {
   border-left: 2px solid $brand-warning;
   color: $brand-warning;
@@ -18,4 +8,14 @@
 .variable-blind.variable-warnings {
   border-left: 2px solid $brand-warning;
   color: $brand-warning;
+}
+
+.variable-shade.variable-errors {
+  border-left: 2px solid $brand-danger;
+  color: $brand-danger;
+}
+
+.variable-blind.variable-errors {
+  border-left: 2px solid $brand-danger;
+  color: $brand-danger;
 }

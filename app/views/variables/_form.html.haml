@@ -1,19 +1,20 @@
 = form_for [@variable.project, @variable], html: { class: 'form-horizontal' } do |f|
-  - if @variable.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @variable.errors.count, "error"
-        prohibited this variable from being saved
-
-      %ul
-        - @variable.errors.full_messages.each do |msg|
-          %li= msg
+  .form-group
+    = f.label :display_name, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :display_name, class: 'form-control', autocomplete: 'off', data: { object: (@variable.new_record? ? 'create-variable-name' : ''), variable_name_target: '#variable_name' }
+      = render 'layouts/errors', object: @variable, key: :display_name
 
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :name, maxlength: 32, class: 'form-control'
-      .callout.callout-info
+      .input-group
+        = f.text_field :name, maxlength: 32, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @variable, key: :name
+      #name-info.callout.callout-info{ style: 'display: none;' }
         %strong Naming convention
 
         %ul
@@ -37,11 +38,6 @@
         %code var1_population
 
   .form-group
-    = f.label :display_name, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :display_name, class: 'form-control'
-
-  .form-group
     = f.label :display_name_visibility, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.select :display_name_visibility, Variable::DISPLAY_NAME_VISIBILITY, {}, class: 'form-control'
@@ -60,6 +56,7 @@
     = f.label :variable_type, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.select :variable_type, [['---', nil]] + Variable::TYPE, {}, class: 'form-control'
+      = render 'layouts/errors', object: @variable, key: :variable_type
 
   .form-group{ data: { object: 'prepend-append' } }
     = f.label :prepend, nil, class: 'col-md-2 control-label'

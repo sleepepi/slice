@@ -24,7 +24,7 @@
   $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
   updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
-  $('.grid_sortable').sortable(
+  $('[data-object~="grid-sortable"]').sortable(
     axis: 'y'
     handle: '.grid-handle'
   )

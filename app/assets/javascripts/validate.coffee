@@ -1,6 +1,7 @@
 @clearErrorAndWarning = (parent, data) ->
   container = $(parent).closest('[data-object~="design-option-container"]')
-  container.removeClass('variable-errors variable-warnings')
+  container.removeClass('variable-errors') if container.find('.has-error').length == 0
+  container.removeClass('variable-warnings') if container.find('.has-warning').length == 0
 
 @setError = (parent, data) ->
   clearErrorAndWarning(parent, data)
@@ -14,7 +15,6 @@
 
 @setSuccess = (parent, data) ->
   clearErrorAndWarning(parent, data)
-  # container = $(parent).closest('[data-object~="design-option-container"]')
 
 @clearClassStyles = (target_name) ->
   $("##{target_name}_month").parent().removeClass('has-warning has-error')
@@ -203,16 +203,16 @@
   return if relatedTarget? and $(relatedTarget).data('target-name')? and $(element).data('target-name')? and $(element).data('target-name') == $(relatedTarget).data('target-name')
 
   parent = $(element).closest('[data-object~="validate"]')
-  changes = {}
-  changes["project_id"] = $(parent).data('project-id')
-  changes["variable_id"] = $(parent).data('variable-id')
-  changes["value"] = valueToJSON(parent)
+  params = {}
+  params.project_id = $(parent).data('project-id')
+  params.variable_id = $(parent).data('variable-id')
+  params.value = valueToJSON(parent)
 
   $.ajax(
     url: "#{root_url}validate/variable"
     type: 'POST'
     dataType: 'json'
-    data: changes
+    data: params
   ).done( (data) ->
     setVariableValidityClass(parent, data)
   ).fail( (jqXHR, textStatus, errorThrown) ->

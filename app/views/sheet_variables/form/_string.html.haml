@@ -4,8 +4,7 @@
 - value = response
 
 %div{ class: "#{'input-group' if variable.prepend.present? || variable.append.present?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'string', status: variable.validator.status(value) } }
-  - unless variable.prepend.blank?
-    %span.input-group-addon= variable.prepend
+  = render 'sheet_variables/form/addon', method: 'prepend', variable: variable
   = text_field_tag field_name, response, class: 'form-control',
     data: { content: variable.description, object: "condition typeahead cursor-navigatable",
       design: design.to_param,
@@ -17,5 +16,4 @@
       autocomplete: 'off',
       disabled: disabled,
       placeholder: is_grid ? variable.display_name : nil
-  - unless variable.append.blank?
-    %span.input-group-addon= variable.append
+  = render 'sheet_variables/form/addon', method: 'append', variable: variable

@@ -11,32 +11,15 @@ class SheetTransaction < ApplicationRecord
 
   # Model Methods
 
+  # This modifies existing values the sheet with new unsaved values for
+  # validation. None of these changes are saved to the database.
   def self.validate_variable_values(sheet, variables_params)
-    # This alters modifies existing sheet variables on the sheet variable and
-    # adds new unsaved sheet variables. No changes are saved here.
-
     in_memory_sheet = Validation::InMemorySheet.new(sheet)
-
     in_memory_sheet.merge_form_params!(variables_params)
-
-    variables_params.each do |variable_id, value|
-      variable = in_memory_sheet.variables.find { |v| v.id.to_s == variable_id.to_s }
-      # Skip if hidden, visible_on_sheet?
-      # to work to correctly merge new values and existing sheet_variable responses
-      # before checking if the variable is visible
-      if variable && in_memory_sheet.visible_on_sheet?(variable)
-        validation_hash = variable.value_in_range?(value)
-        case validation_hash[:status]
-        when 'blank' # AND REQUIRED
-          sheet.errors.add(:base, "#{variable.name} can't be blank") if variable.requirement_on_design(sheet.design) == 'required'
-        when 'invalid'
-          sheet.errors.add(:base, "#{variable.name} is invalid")
-        when 'out_of_range'
-          sheet.errors.add(:base, "#{variable.name} is out of range")
-        end
-      end
+    in_memory_sheet.valid?
+    in_memory_sheet.errors.each do |error|
+      sheet.errors.add(:base, error)
     end
-
     return sheet.errors.count == 0
   end
 

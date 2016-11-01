@@ -16,6 +16,9 @@
     - `events:NAME[,NAME]`
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
+- **Variable Changes**
+  - Variables in grids are now validated when saving a sheet
+  - Improved display of validation messages for grids
 - **Theme Changes**
   - Improved hover effect color for night theme on design builder
 

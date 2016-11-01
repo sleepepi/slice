@@ -16,7 +16,10 @@ class ExternalController < ApplicationController
   # POST /external/add_grid_row.js?design=REQUIRED&variable_id=REQUIRED
   #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row
-    @design_option = @design.design_options.find_by_id params[:design_option_id] if @design
+    if @design
+      @design_option = @design.design_options.find_by_id params[:design_option_id]
+      @project = @design.project
+    end
   end
 
   # Image returned or blank

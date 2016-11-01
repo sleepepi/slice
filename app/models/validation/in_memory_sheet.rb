@@ -9,11 +9,16 @@ module Validation
     # Concerns
     include Evaluatable
 
-    attr_accessor :sheet_variables, :project, :variables, :design
+    attr_accessor :sheet_variables, :grids, :project, :variables, :design
     attr_accessor :errors
 
     def initialize(sheet)
-      @sheet_variables = sheet.sheet_variables.collect{|sv| InMemorySheetVariable.new(sv.variable, sv.response, sv.response_file, sv.responses)}
+      @sheet_variables = sheet.sheet_variables.collect do |sv|
+        InMemorySheetVariable.new(sv.variable, sv.response, sv.response_file, sv.responses)
+      end
+      @grids = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id)).collect do |g|
+        InMemoryGrid.new(g.sheet_variable.variable, g.position, g.variable, g.response, g.response_file, g.responses)
+      end
       @project = sheet.project
       @design = sheet.design
       @variables = []
@@ -25,18 +30,45 @@ module Validation
       variables_params.each do |variable_id, response|
         variable = @variables.find { |v| v.id.to_s == variable_id.to_s }
         if variable
-          sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
-          unless sheet_variable
-            sheet_variable = InMemorySheetVariable.new(variable)
-            @sheet_variables << sheet_variable
-          end
-
-          sheet_variable = store_temp_response(variable, sheet_variable, response)
-
-          @sheet_variables.reject! { |sv| sv.variable.id == variable.id }
-          @sheet_variables << sheet_variable
+          load_grids!(variable, response)
+          load_sheet_variable!(variable, response)
         end
       end
+    end
+
+    def load_grids!(variable, response)
+      return unless variable.variable_type == 'grid'
+      response.select! do |_key, vhash|
+        vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) } > 0
+      end
+      response.each_pair { |k, v| }.each.with_index do |(key, variable_response_hash), position|
+        variable_response_hash.each_pair do |grid_variable_id, res|
+          grid_variable = @project.variables.find_by(id: grid_variable_id)
+          load_grid!(variable, grid_variable, res, position) if grid_variable
+        end
+      end
+    end
+
+    def load_grid!(variable, grid_variable, res, position)
+      grid = @grids.find { |g| g.parent_variable.id == variable.id && g.position == position && g.variable.id == grid_variable.id }
+      unless grid
+        grid = InMemoryGrid.new(variable, position, grid_variable)
+        @grids << grid
+      end
+      grid = store_temp_response(grid_variable, grid, res)
+      @grids.reject! { |g| g.parent_variable.id == variable.id && g.position == position && g.variable.id == grid_variable.id }
+      @grids << grid
+    end
+
+    def load_sheet_variable!(variable, response)
+      sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
+      unless sheet_variable
+        sheet_variable = InMemorySheetVariable.new(variable)
+        @sheet_variables << sheet_variable
+      end
+      sheet_variable = store_temp_response(variable, sheet_variable, response)
+      @sheet_variables.reject! { |sv| sv.variable.id == variable.id }
+      @sheet_variables << sheet_variable
     end
 
     def show_design_option?(branching_logic)
@@ -57,18 +89,42 @@ module Validation
     end
 
     def valid?
+      return false unless @design
       @design.variables.each do |variable|
         if visible_on_sheet?(variable)
           sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
-          value = variable.response_to_value(sheet_variable ? sheet_variable.get_raw_response : nil)
-          validation_hash = variable.value_in_range?(value)
-          case validation_hash[:status]
-          when 'blank' # AND REQUIRED
-            @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
-          when 'invalid'
-            @errors << "#{variable.name} is invalid"
-          when 'out_of_range'
-            @errors << "#{variable.name} is out of range"
+          if sheet_variable && variable.variable_type == 'grid'
+            variable.grid_variable_ids.each do |grid_variable_id|
+              grid_variable = @project.variables.find_by(id: grid_variable_id)
+              if grid_variable
+                grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == grid_variable.id }
+                grids.each do |grid|
+                  value = grid_variable.response_to_value(grid ? grid.get_raw_response : nil)
+                  validation_hash = grid_variable.value_in_range?(value)
+
+                  case validation_hash[:status]
+                  # when 'blank' # AND REQUIRED
+                  #   @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
+                  when 'invalid'
+                    @errors << "#{variable.name} #{grid_variable.name} is invalid"
+                  when 'out_of_range'
+                    @errors << "#{variable.name} #{grid_variable.name} is out of range"
+                  end
+                end
+              end
+            end
+          else
+            value = variable.response_to_value(sheet_variable ? sheet_variable.get_raw_response : nil)
+            validation_hash = variable.value_in_range?(value)
+
+            case validation_hash[:status]
+            when 'blank' # AND REQUIRED
+              @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
+            when 'invalid'
+              @errors << "#{variable.name} is invalid"
+            when 'out_of_range'
+              @errors << "#{variable.name} is out of range"
+            end
           end
         end
       end

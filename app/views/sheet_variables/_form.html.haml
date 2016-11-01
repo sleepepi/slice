@@ -8,7 +8,7 @@
 
 - value = variable.response_to_value(response)
 
-- validate_response = if @sheet and (@sheet.errors.count > 0 or !@sheet.new_record?)
+- validate_response = if @sheet && (@sheet.errors.count > 0 || !@sheet.new_record?)
   - variable.validate_value(design, value)
 - else
   - 'blank'

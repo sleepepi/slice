@@ -1,24 +1,20 @@
 = form_for [@domain.project, @domain], html: { class: 'form-horizontal' } do |f|
-  - if @domain.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize(@domain.errors.count, "error")
-        prohibited this domain from being saved
-
-      %ul
-        - @domain.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :display_name, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :display_name, class: 'form-control', autocomplete: 'off', data: { object: (@domain.new_record? ? 'create-domain-name' : ''), domain_target: '#domain_name' }
+      = render 'layouts/errors', object: @domain, key: :display_name
 
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :name, maxlength: 30, class: 'form-control'
-      .callout.callout-info
+      .input-group
+        = f.text_field :name, maxlength: 30, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @domain, key: :name
+      #name-info.callout.callout-info{ style: 'display: none;' }
         %strong Naming convention
 
         %ul
@@ -54,6 +50,7 @@
 
   .form-group
     .col-md-10.col-md-offset-2
+      = render 'layouts/errors', object: @domain, key: :option
       .btn-toolbar
         = link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs', data: { project_id: @project.to_param }
 

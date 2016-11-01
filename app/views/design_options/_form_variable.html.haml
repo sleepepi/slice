@@ -28,7 +28,7 @@
         = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
           %span.glyphicon.glyphicon-info-sign
     = render 'layouts/errors', object: variable, key: :name
-    #name-info.callout.callout-info{ style: 'display:none' }
+    #name-info.callout.callout-info{ style: 'display: none;' }
       %strong Naming convention
 
       %ul

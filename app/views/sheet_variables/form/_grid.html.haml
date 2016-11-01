@@ -4,7 +4,7 @@
 - all_grids = object ? object.grids.includes(variable: [:domain]).to_a : []
 - grid_variables = @project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a
 
-- if not params[:variables].blank? and not params[:variables][variable.id.to_s].blank?
+- if params[:variables].present? && params[:variables][variable.id.to_s].present?
   - range = params[:variables][variable.id.to_s].keys
 - else
   - max_position = object ? (all_grids.collect(&:position) + [variable.default_row_number - 1]).max.to_i : (variable.default_row_number - 1)
@@ -15,13 +15,13 @@
 %table.table.table-hover.table-grid
   %thead
     %tr
-      %td
+      %th
       - variable.grid_variables.each do |grid_variable|
         - v = grid_variables.find { |gv| gv.id == grid_variable[:variable_id].to_i }
         %th= v.display_name if v
       - if variable.multiple_rows?
         %th Actions
-  %tbody.grid_sortable{ id: "variable_#{variable.id}_grid_container" }
+  %tbody{ id: "variable_#{variable.id}_grid_container", data: { object: 'grid-sortable' } }
     - range.each do |position|
       = render 'sheet_variables/form/grid_variables', design: design, design_option: design_option, disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids
 

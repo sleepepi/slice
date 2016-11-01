@@ -266,6 +266,11 @@ $(document)
     $(this).find('input').prop('checked', true)
     $('#variables_search').submit()
   )
+  .on('keyup', '[data-object~="create-variable-name"]', ->
+    new_value = $(this).val().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+    new_value = new_value.replace(/^[\d_]/i, 'n').replace(/_{2,}/g, '_').replace(/_$/, '').substring(0,32)
+    $($(this).data('variable-name-target')).val(new_value)
+  )
   .on('change', '.upload', ->
     file_name = this.value.replace(/\\/g, '/').replace(/.*\//, '')
     $(this).parent().find('.file-input-display').html( file_name || 'Upload File' )
