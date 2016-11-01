@@ -8,9 +8,9 @@ class SearchController < ApplicationController
   # GET /search.json
   def index
     @subjects = current_user.all_viewable_subjects.search(params[:search]).order('subject_code').limit(10)
-    @projects = current_user.all_viewable_projects.search(params[:search]).order('name').limit(10)
-    @designs = current_user.all_viewable_designs.search(params[:search]).order('name').limit(10)
-    @variables = current_user.all_viewable_variables.search(params[:search]).order('name').limit(10)
+    @projects = current_user.all_viewable_and_site_projects.search(params[:search], match_start: false).order('name').limit(10)
+    @designs = current_user.all_viewable_designs.search(params[:search], match_start: false).order('name').limit(10)
+    @variables = current_user.all_viewable_variables.search(params[:search], match_start: false).order('name').limit(10)
 
     @objects = @subjects + @projects + @designs + @variables
 
