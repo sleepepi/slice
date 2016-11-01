@@ -13,10 +13,10 @@ module Validation
     attr_accessor :errors
 
     def initialize(sheet)
-      @sheet_variables = sheet.sheet_variables.collect do |sv|
+      @sheet_variables = sheet.sheet_variables.includes(:variable, :responses).collect do |sv|
         InMemorySheetVariable.new(sv.variable, sv.response, sv.response_file, sv.responses)
       end
-      @grids = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id)).collect do |g|
+      @grids = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id)).includes(:variable, :responses, sheet_variable: :variable).collect do |g|
         InMemoryGrid.new(g.sheet_variable.variable, g.position, g.variable, g.response, g.response_file, g.responses)
       end
       @project = sheet.project
