@@ -1,6 +1,9 @@
 ## 0.45.0
 
 ### Enhancements
+- **Design Changes**
+  - Strings and numerics inputs without prefixes, suffixes, and units now
+    display properly on design builder
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
 - **Report Changes**

@@ -1,6 +1,6 @@
 - is_grid = defined?(grid)
 
-.input-group
+%div{ class: variable.prepend.present? || variable.units.present? || variable.append.present? ? 'input-group' : nil }
   = render 'design_options/show/addon', method: 'prepend', variable: variable
   = text_field_tag variable.name, '', class: 'form-control', disabled: true
   = render 'design_options/show/addon', method: 'units', variable: variable

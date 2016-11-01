@@ -1,3 +1,3 @@
-- unless variable.send(method).blank?
+- if variable.send(method).present?
   %span.input-group-addon
     = variable.send(method)
