@@ -67,6 +67,11 @@ module ApplicationHelper
     end
   end
 
+  def format_date(date)
+    return '' if date.blank?
+    date.strftime('%b %-d, %Y')
+  end
+
   def simple_time(past_time)
     return '' if past_time.blank?
     if past_time.to_date == Time.zone.today

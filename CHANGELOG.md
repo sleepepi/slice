@@ -21,6 +21,7 @@
 - **Variable Changes**
   - Variables in grids are now validated when saving a sheet
   - Improved display of validation messages for grids
+  - Date range formatting improved on variable show page
 - **Theme Changes**
   - Improved hover effect color for night theme on design builder
 

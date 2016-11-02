@@ -93,19 +93,19 @@
     - if ['date'].include?(@variable.variable_type)
       %tr
         %th Date Hard Minimum
-        %td= simple_date @variable.date_hard_minimum
+        %td= format_date @variable.date_hard_minimum
 
       %tr
         %th Date Hard Maximum
-        %td= simple_date @variable.date_hard_maximum
+        %td= format_date @variable.date_hard_maximum
 
       %tr
         %th Date Soft Minimum
-        %td= simple_date @variable.date_soft_minimum
+        %td= format_date @variable.date_soft_minimum
 
       %tr
         %th Date Soft Maximum
-        %td= simple_date @variable.date_soft_maximum
+        %td= format_date @variable.date_soft_maximum
 
       %tr
         %th Show current date
