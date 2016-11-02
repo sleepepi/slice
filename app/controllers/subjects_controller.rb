@@ -48,7 +48,7 @@ class SubjectsController < ApplicationController
       user_id: current_user.id, last_user_id: current_user.id,
       last_edited_at: Time.zone.now
     )
-    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
+    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true)
   end
 
   # GET /subjects/1/send-url
@@ -59,7 +59,7 @@ class SubjectsController < ApplicationController
   def set_sheet_as_shareable
     @sheet = @subject.sheets
                      .new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id])
-    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create')
+    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true)
     @sheet.set_token
     redirect_to [@project, @sheet]
   end

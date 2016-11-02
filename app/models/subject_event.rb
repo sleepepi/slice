@@ -47,7 +47,7 @@ class SubjectEvent < ApplicationRecord
           subject_event_id: nil,
           last_user_id: current_user.id,
           last_edited_at: Time.zone.now
-        }, {}, current_user, remote_ip, 'sheet_update'
+        }, {}, current_user, remote_ip, 'sheet_update', skip_validation: true
       )
     end
   end

@@ -92,7 +92,7 @@ class SheetsController < ApplicationController
   # POST /sheets/1/set_as_not_missing
   def set_as_not_missing
     if @sheet.missing?
-      SheetTransaction.save_sheet!(@sheet, { unlocked_at: Time.zone.now, last_user_id: current_user.id, last_edited_at: Time.zone.now, missing: false }, {}, current_user, request.remote_ip, 'sheet_update')
+      SheetTransaction.save_sheet!(@sheet, { unlocked_at: Time.zone.now, last_user_id: current_user.id, last_edited_at: Time.zone.now, missing: false }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
       flash[:notice] = 'Sheet was successfully set as not missing.'
     end
     redirect_to [@project, @sheet]
@@ -111,7 +111,7 @@ class SheetsController < ApplicationController
                else
                  ["Reassigned sheet to <b>#{subject.subject_code}</b>.", { label: 'Undo', url: reassign_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch }]
                end
-      SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
+      SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
       redirect_to [@project, @sheet], notice: notice
     end
   end
@@ -120,9 +120,9 @@ class SheetsController < ApplicationController
     subject_event = @sheet.subject.subject_events.find_by_id(params[:subject_event_id])
     if !@sheet.auto_locked?
       if subject_event
-        SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
+        SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
       else
-        SheetTransaction.save_sheet!(@sheet, { subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update')
+        SheetTransaction.save_sheet!(@sheet, { subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
       end
     end
   end

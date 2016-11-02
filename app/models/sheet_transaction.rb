@@ -23,8 +23,8 @@ class SheetTransaction < ApplicationRecord
     return sheet.errors.count == 0
   end
 
-  def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type)
-    return false unless validate_variable_values(sheet, variables_params)
+  def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type, skip_validation: false)
+    return false unless skip_validation || validate_variable_values(sheet, variables_params)
 
     sheet_save_result = case transaction_type
                         when 'sheet_create', 'public_sheet_create'
