@@ -16,6 +16,7 @@
   - Switching the order on the sheets index no longer resets other filters
   - Sheets can now be filtered by event
     - `events:NAME[,NAME]`
+  - Design descriptions are now displayed on sheet show pages
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
 - **Variable Changes**

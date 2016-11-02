@@ -1,6 +1,10 @@
 %form.form-horizontal
   .design-header= @sheet.design.name
 
+  - if @sheet.design.description.present?
+    .design-description.lead
+      = simple_markdown @sheet.design.description
+
   - sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a
   - @sheet.design.design_options.includes(:variable, :section).each do |design_option|
     - next unless @sheet.show_design_option?(design_option.branching_logic)
