@@ -58,6 +58,15 @@ $comment-border: $p100 !default;
 
   background-color: $input-bg;
   padding: 10px;
+
+  blockquote {
+    background-color: $blockquote-border-color;
+    font-size: initial;
+    padding: 11px;
+    margin: 0 0 11px 11px;
+    border-color: darken($blockquote-border-color, 10%);
+    border-width: 2px;
+  }
 }
 
 .comment-control {
