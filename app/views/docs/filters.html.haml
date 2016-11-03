@@ -187,6 +187,35 @@
 
     %code has:files
 
+  %h3 Time Duration
+
+  %p
+    Time duration is stored in total seconds. To filter sheets by duration
+    greater than 1 hour, type:
+
+    %code :>3600
+    %code :>3600s
+    %code :>60m
+    %code :>1h
+
+  %h3 Imperial Height
+  %p
+    Imperial height is stored in total inches. To filter sheets by height
+    greater than or equal to 6 feet, type:
+
+    %code :>=72
+    %code :>=72in
+    %code :>=6ft
+
+  %h3 Imperial Weight
+  %p
+    Imperial weight is stored in total ounces. To filter sheets by weight less
+    than or equal to 4 pounds, type:
+
+    %code :<=64
+    %code :<=64oz
+    %code :<=4lb
+
   %h3 Multiple Variables
   %p
     To find results where BMI is missing and grade is either 9 or 10, and a

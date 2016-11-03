@@ -65,8 +65,31 @@ class Search
     elsif %w(entered present unentered blank).include?(@operator)
       @values = @variable.captured_values.uniq
     else
-      @values = token[:value].to_s.split(',').reject(&:blank?).collect(&:strip).reject(&:blank?).uniq
+      @values = parse_values_for_variable(token)
     end
+  end
+
+  def parse_values_for_variable(token)
+    values = token[:value].to_s.split(',').reject(&:blank?).collect(&:strip).reject(&:blank?).uniq.collect do |val|
+      if !(/^(\d+)s$/ =~ val).nil?
+        val.gsub(/s$/, '')
+      elsif !(/^(\d+)m$/ =~ val).nil?
+        (val.gsub(/m$/, '').to_i * 60).to_s
+      elsif !(/^(\d+)h$/ =~ val).nil?
+        (val.gsub(/h$/, '').to_i * 3600).to_s
+      elsif !(/^(\d+)oz$/ =~ val).nil?
+        val.gsub(/oz$/, '')
+      elsif !(/^(\d+)lb$/ =~ val).nil?
+        (val.gsub(/lb$/, '').to_i * 16).to_s
+      elsif !(/^(\d+)in$/ =~ val).nil?
+        val.gsub(/in$/, '')
+      elsif !(/^(\d+)ft$/ =~ val).nil?
+        (val.gsub(/ft$/, '').to_i * 12).to_s
+      else
+        val
+      end
+    end
+    values.uniq
   end
 
   def run_sheets

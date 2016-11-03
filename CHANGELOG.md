@@ -18,6 +18,20 @@
   - Sheets can now be filtered by event
     - `events:NAME[,NAME]`
   - Design descriptions are now displayed on sheet show pages
+  - Sheets can now be filtered by variables that use seconds, minutes, hours for
+    time durations, inches and feet for imperial height, and ounces and pounds
+    for imperial weight
+    - `time:>3600`
+    - `time:>3600s`
+    - `time:>60m`
+    - `time:>1h`
+    - `height:>=72`
+    - `height:>=72in`
+    - `height:>=6ft`
+    - `weight:<=64`
+    - `weight:<=64oz`
+    - `weight:<=4lb`
+
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
 - **Variable Changes**
