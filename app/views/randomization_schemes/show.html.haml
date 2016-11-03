@@ -38,21 +38,27 @@
         %th Randomized
         %td
           = render 'randomization_schemes/progress', randomization_scheme: @randomization_scheme
-    %tr
-      %th Description
-      %td= simple_markdown @randomization_scheme.description
-
-    %tr
-      %th Creator
-      %td= link_to @randomization_scheme.user.name, @randomization_scheme.user if @randomization_scheme.user
-
-    %tr
-      %th Published
-      %td= simple_check @randomization_scheme.published
 
     %tr
       %th Algorithm
       %td= simple_markdown @randomization_scheme.algorithm_name
+
+    - if false
+      %tr
+        %th Description
+        %td= simple_markdown @randomization_scheme.description
+
+      %tr
+        %th Creator
+        %td= link_to @randomization_scheme.user.name, @randomization_scheme.user if @randomization_scheme.user
+
+    %tr
+      %th Published
+      %td
+        - if @randomization_scheme.published?
+          %code Published
+        - else
+          %code Draft
 
     %tr
       %th Randomization Goal

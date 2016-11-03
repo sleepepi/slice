@@ -22,6 +22,7 @@
   border-radius: 3px;
   box-shadow: 0 30px 60px $standard-shadow-color;
   color: $text-color;
+  font-size: $font-size-base;
   margin-bottom: 20px;
   padding: 30px;
 
@@ -67,17 +68,22 @@
     text-align: justify;
   }
 
+  strong,
   p,
   ul {
-    font-size: 16px;
-    font-weight: 300;
     line-height: 1.75em;
     margin-bottom: 1em;
+  }
+
+  p,
+  ul {
+    font-weight: 300;
   }
 }
 
 @media screen and (min-width: $screen-md-min) {
   .docs-container {
+    font-size: $font-size-large;
     padding: 60px;
 
     h1 {
@@ -104,9 +110,9 @@
       font-size: 14px;
     }
 
+    strong,
     p,
     ul {
-      font-size: 20px;
       line-height: 1.6em;
     }
   }

@@ -17,4 +17,29 @@
         = render 'layouts/side_nav_header_button'
         %span= @title
 
-= render 'block_size_multipliers/block_size_multipliers'
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col
+    %col{ width: '1px' }
+    %thead
+      %tr
+        %th.center Value
+        %th.center Allocation
+        %th Actions
+
+    %tbody
+      - @block_size_multipliers.each do |block_size_multiplier|
+        %tr
+          %td.center= link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
+          %td.center= block_size_multiplier.allocation
+          %td
+            - if @randomization_scheme.published?
+              = link_to label_or('Scheme Published', 'Published'), '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+            - else
+              = render 'layouts/edit_delete_dropdown', edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), delete_url: [@project, @randomization_scheme, block_size_multiplier], delete_confirmation: "Are you sure you want to delete Block Size Multiplier #{block_size_multiplier.name}?"
+
+.docs-learn-more
+  Learn about the
+  = succeed '.' do
+    = link_to 'Permuted-Block algorithm', docs_permuted_block_path

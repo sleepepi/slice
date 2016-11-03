@@ -6,6 +6,7 @@
     display properly on design builder
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
+  - Improved documentation on setting up a new randomization scheme
 - **Report Changes**
   - The subject report has been removed
   - Design short names are now used on mobile versions of reports

@@ -15,11 +15,41 @@
       .input-group
         .input-group-addon &times;
         = f.text_field :value, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#value-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      #value-info.callout.callout-info{ style: 'display: none;' }
+        %p
+          Determines the amount of times treatment arms occur within this block.
+          Given two treatment arms, one with allocation of 1, one with allocation of 2,
+          and a block size multiplier value of x2, the first treatment arm would
+          occur twice in the block group, and the second treatment arms would
+          occur four times.
+        %p
+          Read more about block groups
+          = succeed '.' do
+            = link_to 'here', docs_permuted_block_path
+
+
 
   .form-group
     = f.label :allocation, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :allocation, class: 'form-control'
+      .input-group
+        = f.text_field :allocation, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#allocation-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      #allocation-info.callout.callout-info{ style: 'display: none;' }
+        %strong Allocation
+        %p
+          Determines how many times this block occurs within a single block
+          group.
+        %p
+          Read more about block groups
+          = succeed '.' do
+            = link_to 'here', docs_permuted_block_path
+
 
   .form-group
     .col-md-offset-2.col-md-10

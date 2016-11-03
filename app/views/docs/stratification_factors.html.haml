@@ -9,11 +9,15 @@
 
 .docs-container
   %p
-    Setting stratification factors allows similar groups of subjects to be
-    present across all treatment arms. For example, you may wish to study the
-    role biological sex plays on a particular treatment. In this case, the study
-    may make observations and comparisons between females in one treatment arm
-    to another treatment arm. A Case/Control study is a good example of this.
+    Stratification factors are the criteria that ensure treatment arms maintain
+    an balanced variety of subjects across all treatment arms. For example, you
+    may wish to study the role biological sex plays on a particular treatment.
+    In this case, biological sex would be set up as the stratification factor,
+    allowing this criteria to be selected during randomization. This would
+    ensure that a balanced amount of men and women are present amongst the
+    treatment arms, allowing observations to be made between these subgroups.
+    A Case/Control study could benifit from properly chosen stratification
+    factors.
 
   %p
     The study may also be interested in the effects of the treatment based on
@@ -21,10 +25,20 @@
     Body Mass Index, may be added.
 
   %p
-    Both Biological Sex and Body Mass Index, would need to be split into
-    discrete groups. These groups, called stratification factor options, could
-    be Male and Female, and "BMI less than 20", "BMI 20 to 30", and "BMI greater
-    than 30".
+    Both the Permuted-block and the Minimization algorithm require discrete
+    choices to be present for all stratification factors. In the case of
+    biological sex and body mass index, these groups could look as follow:
+
+  %strong Biological Sex
+  %ul
+    %li Male
+    %li Female
+
+  %strong Body Mass Index
+  %ul
+    %li Less than 20
+    %li 20 to 30
+    %li Greater than 30
 
   %p
     To ensure an even distribution across sites, a "Stratify By Site",
@@ -36,6 +50,6 @@
     randomized to ensure even distributions across treatment arms. A better
     option in this case may be to use the Minimization algorithm instead, which
     handles distributions by stratification factors dynamically instead of
-    relying on a precomputed list.
+    relying on precomputed lists.
 
 = render 'docs/links', previous_link: ['Treatment Arms', docs_treatment_arms_path], next_link: nil

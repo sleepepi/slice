@@ -14,7 +14,7 @@
     determines treatment arm assignments by generating a group of blocks. Each
     block contains a predetermined number of treatment arm assignments based on
     the treatment arm allocations and the block multiplier. The block itself can
-    also occur one or more times in the block group based on it's own block
+    also occur one or more times in the block group based on its own block
     group allocation.
 
   %p
@@ -35,13 +35,13 @@
     the block group giving us one of the following arrangements.
 
   .row
-    .col-sm-6
+    .col-sm-6.col-buffer
       %pre
         Block Group
         &nbsp; Block x2
         &nbsp; Block x1
 
-    .col-sm-6
+    .col-sm-6.col-buffer
       %pre
         Block Group
         &nbsp; Block x1
@@ -52,21 +52,21 @@
     the algorithm would have generated one of the following block groups.
 
   .row
-    .col-sm-4
+    .col-sm-4.col-buffer
       %pre
         Block Group
         &nbsp; Block x2
         &nbsp; Block x2
         &nbsp; Block x1
 
-    .col-sm-4
+    .col-sm-4.col-buffer
       %pre
         Block Group
         &nbsp; Block x2
         &nbsp; Block x1
         &nbsp; Block x2
 
-    .col-sm-4
+    .col-sm-4.col-buffer
       %pre
         Block Group
         &nbsp; Block x1
@@ -87,21 +87,21 @@
     results.
 
   .row
-    .col-sm-4
+    .col-sm-4.col-buffer
       %pre
         Block x1
         &nbsp; Arm A
         &nbsp; Arm B
         &nbsp; Arm B
 
-    .col-sm-4
+    .col-sm-4.col-buffer
       %pre
         Block x1
         &nbsp; Arm B
         &nbsp; Arm A
         &nbsp; Arm B
 
-    .col-sm-4
+    .col-sm-4.col-buffer
       %pre
         Block x1
         &nbsp; Arm B
@@ -120,7 +120,7 @@
     block size multiplier. Here are two possible results.
 
   .row
-    .col-sm-6
+    .col-sm-6.col-buffer
       %pre
         Block x2
         &nbsp; Arm B
@@ -130,7 +130,7 @@
         &nbsp; Arm B
         &nbsp; Arm A
 
-    .col-sm-6
+    .col-sm-6.col-buffer
       %pre
         Block x2
         &nbsp; Arm B
@@ -196,14 +196,14 @@
     arms and three different block size multipliers identified by color.
 
   .row
-    .col-sm-6.center
+    .col-sm-6.center.col-buffer
       %p
         The treatment arms are:
       %ul.list-unstyled
         %li A1 Allocation 1
         %li B2 Allocation 2
 
-    .col-sm-6.center
+    .col-sm-6.center.col-buffer
       %p
         The block group multipliers are:
       %ul.list-unstyled
