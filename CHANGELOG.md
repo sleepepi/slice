@@ -24,6 +24,10 @@
   - Variables in grids are now validated when saving a sheet
   - Improved display of validation messages for grids
   - Date range formatting improved on variable show page
+  - Time duration is now stored as total seconds in database
+    - This change allows Slice to display better graphs and statistics on the
+      design overview and advanced design reports as well as provide sheet
+      filters based on the total number of seconds, minutes, or hours
 - **Theme Changes**
   - Improved hover effect color for night theme on design builder
 

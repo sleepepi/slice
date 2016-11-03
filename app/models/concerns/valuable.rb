@@ -55,13 +55,13 @@ module Valuable
       # Save valuable to string in "%H:%M:%S" db format
       response = { response: parse_time_from_hash_to_s(response) }
     when 'time_duration'
-      # Save valuable to string in "%H:%M:%S" db format
+      # Save valuable to string in total seconds db format
       response = { response: parse_time_duration_from_hash_to_s(response) }
     when 'imperial_height'
-      # Save valuable to string in inches db format
+      # Save valuable to string in total inches db format
       response = { response: parse_imperial_height_from_hash_to_s(response) }
     when 'imperial_weight'
-      # Save valuable to string in ounces db format
+      # Save valuable to string in total ounces db format
       response = { response: parse_imperial_weight_from_hash_to_s(response) }
     else
       response = { response: response }

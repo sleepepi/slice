@@ -212,7 +212,7 @@ class Variable < ApplicationRecord
   end
 
   def statistics?
-    %w(integer numeric calculated imperial_height imperial_weight).include?(variable_type)
+    %w(integer numeric calculated imperial_height imperial_weight time_duration).include?(variable_type)
   end
 
   def has_domain?
@@ -405,11 +405,9 @@ class Variable < ApplicationRecord
       'yymmdd10'
     elsif %w(time).include?(variable_type)
       'time8'
-    elsif %w(time_duration).include?(variable_type)
-      'time20'
     elsif %w(dropdown radio).include?(variable_type) && domain && !domain.all_numeric?
       '$500'
-    elsif %w(numeric integer calculated imperial_height imperial_weight dropdown radio).include?(variable_type)
+    elsif %w(numeric integer calculated imperial_height imperial_weight dropdown radio time_duration).include?(variable_type)
       'best32'
     else # elsif %w(text).include?(variable_type)
       '$5000'
@@ -518,6 +516,8 @@ class Variable < ApplicationRecord
       'inches'
     when 'imperial_weight'
       'ounces'
+    when 'time_duration'
+      'seconds'
     else
       units
     end
@@ -525,7 +525,7 @@ class Variable < ApplicationRecord
 
   def export_variable_type
     case variable_type
-    when 'imperial_height', 'imperial_weight'
+    when 'imperial_height', 'imperial_weight', 'time_duration'
       'integer'
     else
       variable_type

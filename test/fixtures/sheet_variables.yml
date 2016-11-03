@@ -128,10 +128,11 @@ calculated:
   response: 24.36
   user: valid
 
+# Represents 57 hours, 2 minutes, and 3 seconds
 time_duration:
   variable: time_duration
   sheet: all_variables
-  response: "57:2:3"
+  response: 205323
   user: valid
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'

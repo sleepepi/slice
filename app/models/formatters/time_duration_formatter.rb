@@ -4,9 +4,6 @@ module Formatters
   # Formats time durations
   class TimeDurationFormatter < DefaultFormatter
     include DateAndTimeParser
-    # def raw_response(response)
-    #   response
-    # end
 
     def name_response(response)
       hash = parse_time_duration(response)
