@@ -31,7 +31,6 @@
     - `weight:<=64`
     - `weight:<=64oz`
     - `weight:<=4lb`
-
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
 - **Variable Changes**
