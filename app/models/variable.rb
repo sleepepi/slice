@@ -19,7 +19,6 @@ class Variable < ApplicationRecord
 
   # Scopes
   scope :with_user, -> (arg) { where user_id: arg }
-  scope :with_project, -> (arg) { where project_id: arg }
   scope :with_variable_type, -> (arg) { where variable_type: arg }
   scope :without_variable_type, -> (arg) { where 'variables.variable_type NOT IN (?)', arg }
 

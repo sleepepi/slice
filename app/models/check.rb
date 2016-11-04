@@ -19,6 +19,7 @@ class Check < ApplicationRecord
   has_many :check_filters
 
   # Methods
+
   def sheets(current_user)
     sheet_scope = project.sheets
     check_filters.each_with_index do |check_filter, index|

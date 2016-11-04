@@ -32,21 +32,18 @@ class User < ApplicationRecord
   has_many :notifications, -> { joins(:project).merge(Project.current) }
   has_many :projects, -> { current }
   has_many :project_preferences
+  has_many :project_users
   has_many :randomization_schemes, -> { current }
   has_many :sections
   has_many :sheet_unlock_requests, -> { current.joins(:sheet).merge(Sheet.current) }
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
   has_many :sites, -> { current }
+  has_many :site_users
   has_many :subjects, -> { current }
   has_many :tasks, -> { current }
   has_many :variables, -> { current }
 
   # Scopes
-  # TODO: Rewrite scopes
-  scope :with_sheet, -> { where 'users.id in (select DISTINCT(sheets.user_id) from sheets where sheets.deleted = ?)', false }
-  scope :with_design, -> { where 'users.id in (select DISTINCT(designs.user_id) from designs where designs.deleted = ?)', false }
-  scope :with_variable_on_project, -> (arg) { where 'users.id in (select DISTINCT(variables.user_id) from variables where variables.project_id in (?) and variables.deleted = ?)', arg, false }
-  scope :with_project, -> (*args) { where 'users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.editor IN (?))', args.first, false, args.first, args[1] }
 
   def self.search(arg)
     term = arg.to_s.downcase.gsub(/^| |$/, '%')
@@ -61,7 +58,7 @@ class User < ApplicationRecord
     where conditions.join(' or '), *terms
   end
 
-  # User Methods
+  # Model Methods
 
   def avatar_url(size = 80, default = 'mm')
     gravatar_id = Digest::MD5.hexdigest(email.to_s.downcase)
@@ -69,7 +66,16 @@ class User < ApplicationRecord
   end
 
   def associated_users
-    User.current.with_project(all_projects.pluck(:id), [true, false])
+    User
+      .current
+      .left_outer_joins(:projects, :project_users, :site_users)
+      .where(
+        'projects.id in (?) or project_users.project_id in (?) or site_users.project_id in (?)',
+        all_viewable_and_site_projects.select(:id),
+        all_viewable_and_site_projects.select(:id),
+        all_viewable_and_site_projects.select(:id)
+      )
+      .distinct
   end
 
   def all_projects
@@ -94,14 +100,14 @@ class User < ApplicationRecord
   def all_designs
     Design
       .current
-      .with_project(all_projects.select(:id))
+      .where(project_id: all_projects.select(:id))
       .blinding_scope(self)
   end
 
   def all_viewable_designs
     Design
       .current
-      .with_project(all_viewable_and_site_projects.select(:id))
+      .where(project_id: all_viewable_and_site_projects.select(:id))
       .blinding_scope(self)
   end
 
@@ -125,11 +131,15 @@ class User < ApplicationRecord
   end
 
   def all_variables
-    Variable.current.with_project(all_projects.pluck(:id))
+    Variable
+      .current
+      .where(project_id: all_projects.select(:id))
   end
 
   def all_viewable_variables
-    Variable.current.with_project(all_viewable_and_site_projects.pluck(:id))
+    Variable
+      .current
+      .where(project_id: all_viewable_and_site_projects.select(:id))
   end
 
   # Project Editors and Site Editors on that site can modify sheet
@@ -138,7 +148,7 @@ class User < ApplicationRecord
       .current
       .with_site(all_editable_sites.select(:id))
       .where(design_id: all_viewable_designs.select(:id))
-      .joins('LEFT OUTER JOIN subject_events ON subject_events.id = sheets.subject_event_id').distinct
+      .left_outer_joins(:subject_event)
       .where('sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)', all_viewable_events.select(:id))
   end
 
@@ -148,7 +158,7 @@ class User < ApplicationRecord
       .current
       .with_site(all_viewable_sites.select(:id))
       .where(design_id: all_viewable_designs.select(:id))
-      .joins('LEFT OUTER JOIN subject_events ON subject_events.id = sheets.subject_event_id').distinct
+      .left_outer_joins(:subject_event)
       .where('sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)', all_viewable_events.select(:id))
   end
 
@@ -304,8 +314,8 @@ class User < ApplicationRecord
   end
 
   # All sheets created in the last day, or over the weekend if it's Monday
-  # Ex: On Mon, returns sheets created since Fri morning (Time.zone.now - 3.day)
-  # Ex: On Tue, returns sheets created since Mon morning (Time.zone.now - 1.day)
+  # On Mon, returns sheets created since Fri morning (Time.zone.now - 3.days)
+  # On Tue, returns sheets created since Mon morning (Time.zone.now - 1.day)
   def digest_sheets_created
     all_viewable_sheets
       .where(project_id: all_digest_projects.select(:id), missing: false)
@@ -336,10 +346,7 @@ class User < ApplicationRecord
   end
 
   def last_business_day
-    if Time.zone.now.monday?
-      Time.zone.now - 3.days
-    else
-      Time.zone.now - 1.day
-    end
+    days = Time.zone.now.monday? ? 3.days : 1.day
+    Time.zone.now - days
   end
 end

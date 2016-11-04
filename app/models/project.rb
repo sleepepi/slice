@@ -22,7 +22,6 @@ class Project < ApplicationRecord
   after_save :create_default_site, :create_default_categories
 
   # Scopes
-  scope :with_user, -> (arg) { where user_id: arg }
   scope :with_editor, -> (*args) { where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
   scope :by_favorite, -> (arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}").references(:project_preferences) }
   scope :archived, -> { where(project_preferences: { archived: true }) }
@@ -45,8 +44,8 @@ class Project < ApplicationRecord
 
   has_many :project_users
   has_many :users, -> { current.order(:last_name, :first_name) }, through: :project_users
-  has_many :editors, -> { where('project_users.editor = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
-  has_many :viewers, -> { where('project_users.editor = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
+  has_many :editors, -> { current.where(project_users: { editor: true }) }, through: :project_users, source: :user
+  has_many :viewers, -> { current.where(project_users: { editor: false }) }, through: :project_users, source: :user
   has_many :site_users
   has_many :project_preferences
   has_many :adverse_events, -> { current.joins(:subject).merge(Subject.current) }
@@ -83,7 +82,7 @@ class Project < ApplicationRecord
   end
 
   def recent_sheets
-    sheets.where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
+    sheets.where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.days : Time.zone.now - 1.day))
   end
 
   def owner?(current_user)
