@@ -9,6 +9,8 @@ Rails:
   Enabled: true
 # Style/Documentation:
 #   Enabled: false
+Metrics/ClassLength:
+  Enabled: false
 Metrics/LineLength:
   Max: 120
 # While methods ideally should be around 5 lines max, comment this out while

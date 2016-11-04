@@ -69,7 +69,7 @@ class EventsController < ApplicationController
   private
 
   def find_event_or_redirect
-    @event = @project.events.blinding_scope(current_user).find_by_param params[:id]
+    @event = current_user.all_events.where(project: @project).find_by_param params[:id]
     redirect_without_event
   end
 
