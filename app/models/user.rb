@@ -72,24 +72,6 @@ class User < ApplicationRecord
     User.current.with_project(all_projects.pluck(:id), [true, false])
   end
 
-  def all_favorite_projects
-    @all_favorite_projects ||= begin
-      all_viewable_and_site_projects.by_favorite(id).where('project_preferences.favorited = ?', true).order(:name)
-    end
-  end
-
-  def all_unarchived_projects
-    @all_unarchived_projects ||= begin
-      all_viewable_and_site_projects.by_favorite(id).unarchived
-    end
-  end
-
-  def all_archived_projects
-    @all_archived_projects ||= begin
-      all_viewable_and_site_projects.by_favorite(id).archived.order(:name)
-    end
-  end
-
   def all_projects
     @all_projects ||= begin
       Project.current.with_editor(id, true)
@@ -118,11 +100,17 @@ class User < ApplicationRecord
   end
 
   def all_designs
-    Design.current.with_project(all_projects.select(:id)).blinding_scope(self)
+    Design
+      .current
+      .with_project(all_projects.select(:id))
+      .blinding_scope(self)
   end
 
   def all_viewable_designs
-    Design.current.with_project(all_viewable_and_site_projects.select(:id)).blinding_scope(self)
+    Design
+      .current
+      .with_project(all_viewable_and_site_projects.select(:id))
+      .blinding_scope(self)
   end
 
   # Filters designs on a subject event by the user's blinded status
@@ -131,11 +119,17 @@ class User < ApplicationRecord
   end
 
   def all_events
-    Event.current.where(project_id: all_projects.select(:id)).blinding_scope(self)
+    Event
+      .current
+      .where(project_id: all_projects.select(:id))
+      .blinding_scope(self)
   end
 
   def all_viewable_events
-    Event.current.where(project_id: all_viewable_and_site_projects.select(:id)).blinding_scope(self)
+    Event
+      .current
+      .where(project_id: all_viewable_and_site_projects.select(:id))
+      .blinding_scope(self)
   end
 
   def all_variables
@@ -166,33 +160,47 @@ class User < ApplicationRecord
 
   # Filters sheets on a subject event by the user's blinded status
   def sheets_on_subject_event(subject_event)
-    all_viewable_sheets.where(subject_event_id: subject_event.id)
-                       .where(design_id: subject_event.event.designs.select(:id))
+    all_viewable_sheets
+      .where(subject_event_id: subject_event.id)
+      .where(design_id: subject_event.event.designs.select(:id))
   end
 
   def extra_sheets_on_subject_event(subject_event)
-    all_viewable_sheets.where(subject_event_id: subject_event.id)
-                       .where.not(design_id: subject_event.event.designs.select(:id))
+    all_viewable_sheets
+      .where(subject_event_id: subject_event.id)
+      .where.not(design_id: subject_event.event.designs.select(:id))
   end
 
   # Only Project Editors or Project Owner can modify randomization
   def all_randomizations
-    Randomization.current.where(project_id: all_projects.select(:id)).blinding_scope(self)
+    Randomization
+      .current
+      .where(project_id: all_projects.select(:id))
+      .blinding_scope(self)
   end
 
   # Project Editors and Viewers and Site Members can view randomization
   def all_viewable_randomizations
-    Randomization.current.with_site(all_viewable_sites.select(:id)).blinding_scope(self)
+    Randomization
+      .current
+      .with_site(all_viewable_sites.select(:id))
+      .blinding_scope(self)
   end
 
   # Only Project Editors and Site Editors can modify adverse event
   def all_adverse_events
-    AdverseEvent.current.with_site(all_editable_sites.select(:id)).blinding_scope(self)
+    AdverseEvent
+     .current
+     .with_site(all_editable_sites.select(:id))
+     .blinding_scope(self)
   end
 
   # Project Editors and Viewers and Site Members can view adverse event
   def all_viewable_adverse_events
-    AdverseEvent.current.with_site(all_viewable_sites.select(:id)).blinding_scope(self)
+    AdverseEvent
+      .current
+      .with_site(all_viewable_sites.select(:id))
+      .blinding_scope(self)
   end
 
   def all_tasks
@@ -218,12 +226,16 @@ class User < ApplicationRecord
   end
 
   def all_viewable_adverse_event_comments
-    AdverseEventComment.current.where(adverse_event_id: all_viewable_adverse_events.select(:id))
+    AdverseEventComment
+      .current
+      .where(adverse_event_id: all_viewable_adverse_events.select(:id))
   end
 
   # Comment creator can edit, or project editors and owners
   def all_adverse_event_comments
-    AdverseEventComment.current.where('user_id = ? or project_id in (?)', id, all_projects.select(:id))
+    AdverseEventComment
+      .current
+      .where('user_id = ? or project_id in (?)', id, all_projects.select(:id))
   end
 
   # Project Editors
@@ -233,7 +245,9 @@ class User < ApplicationRecord
 
   # Project Editors and Viewers and Site Members
   def all_viewable_sites
-    Site.current.with_project_or_as_site_user(all_viewable_projects.select(:id), id)
+    Site
+      .current
+      .with_project_or_as_site_user(all_viewable_projects.select(:id), id)
   end
 
   # Project Editors and Site Editors
@@ -264,7 +278,9 @@ class User < ApplicationRecord
   end
 
   def all_editable_comments
-    Comment.current.where('sheet_id IN (?) or user_id = ?', all_sheets.select(:id), id)
+    Comment
+      .current
+      .where('sheet_id IN (?) or user_id = ?', all_sheets.select(:id), id)
   end
 
   def all_deletable_comments
@@ -282,11 +298,11 @@ class User < ApplicationRecord
   end
 
   def all_digest_projects
-    @all_digest_projects ||= begin
-      all_viewable_and_site_projects.where(disable_all_emails: false).select do |p|
-        emails_enabled? && p.emails_enabled?(self)
-      end
-    end
+    return Project.none unless emails_enabled?
+    all_viewable_and_site_projects
+      .where(disable_all_emails: false)
+      .left_outer_joins(:project_preferences)
+      .where(project_preferences: { user_id: id, emails_enabled: [nil, true] })
   end
 
   def unread_notifications?
@@ -294,19 +310,19 @@ class User < ApplicationRecord
   end
 
   # All sheets created in the last day, or over the weekend if it's Monday
-  # Ex: On Monday, returns sheets created since Friday morning (Time.zone.now - 3.day)
-  # Ex: On Tuesday, returns sheets created since Monday morning (Time.zone.now - 1.day)
+  # Ex: On Mon, returns sheets created since Fri morning (Time.zone.now - 3.day)
+  # Ex: On Tue, returns sheets created since Mon morning (Time.zone.now - 1.day)
   def digest_sheets_created
-    project_ids = all_digest_projects.collect(&:id)
-    all_viewable_sheets.where(project_id: project_ids)
-                       .where('sheets.created_at > ?', last_business_day)
+    all_viewable_sheets
+      .where(project_id: all_digest_projects.select(:id), missing: false)
+      .where('sheets.created_at > ?', last_business_day)
   end
 
   def digest_comments
-    project_ids = all_digest_projects.collect(&:id)
-    all_viewable_comments.with_project(project_ids)
-                         .where('comments.created_at > ?', last_business_day)
-                         .order(:created_at)
+    all_viewable_comments
+      .with_project(all_digest_projects.select(:id))
+      .where('comments.created_at > ?', last_business_day)
+      .order(:created_at)
   end
 
   def name

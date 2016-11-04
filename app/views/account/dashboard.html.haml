@@ -8,9 +8,7 @@
         = @title
         .pull-right
           = link_to 'New Project', new_project_path, class: 'btn btn-accent'
-
-          - if current_user.all_archived_projects.count > 0
-            = link_to label_or('Archives', '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'.html_safe), projects_path, class: 'btn btn-default'
+          = link_to label_or('Archives', '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'.html_safe), projects_path, class: 'btn btn-default'
 
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites

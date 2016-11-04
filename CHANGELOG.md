@@ -44,6 +44,9 @@
 - **Theme Changes**
   - Improved hover effect color for night theme on design builder
 
+### Bug Fix
+- Missing sheets are no longer included in the daily digest
+
 ## 0.44.1 (October 31, 2016)
 
 ### Enhancements
