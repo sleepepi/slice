@@ -1,18 +1,39 @@
-- @adverse_event.adverse_event_files.in_groups_of(6, false).each do |files|
-  .row
-    - files.each do |file|
-      .col-xs-4.col-sm-2{ style: 'margin-bottom:10px' }
+- files = @adverse_event.adverse_event_files.order(:attachment)
+
+- if files.count == 0
+  .center
+    %p.lead No files have been uploaded to this adverse event.
+- else
+  %table.table.table-striped.table-borderless.table-hover
+    %col{ width: '1px' }
+    %col
+    %col
+    %col.hidden-xs
+    %col{ width: '1px' }
+    %thead
+      %tr
+        %th
+        %th Name
+        %th Size
+        %th.hidden-xs.hidden-sm Uploaded
+        %th Actions
+
+    %tbody
+      - files.each do |file|
         - if file.image?
           - url = [@project, @adverse_event, file]
         - else
           - url = download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file)
-        = link_to url, class: 'ae-file', data: { turbolinks: false } do
-          - if file.image?
-            %span.glyphicon.glyphicon-picture
-          - else
-            %span.glyphicon.glyphicon-paperclip
-          .nowrap= file.name
-          .nowrap= number_to_human_size file.attachment.size
-        .ae-file-destroy
-          = link_to [@project, @adverse_event, file], method: :delete, data: { confirm: "Are you sure you want to delete #{file.name}?" }, class: 'btn btn-danger-inverse btn-xs' do
-            %span.glyphicon.glyphicon-trash
+        %tr
+          %td
+            - if file.image?
+              %span.glyphicon.glyphicon-picture
+            - else
+              %span.glyphicon.glyphicon-paperclip
+          %td= link_to file.name, url, data: { turbolinks: false }
+          %td
+            %code.nowrap= number_to_human_size file.attachment.size
+          %td.hidden-xs.hidden-sm.nowrap
+            = format_date file.created_at
+          %td
+            = link_to 'Delete', [@project, @adverse_event, file], method: :delete, data: { confirm: "Delete #{file.name}?" }, class: 'btn btn-danger-inverse btn-xs'

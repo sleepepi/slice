@@ -1,6 +1,8 @@
 ## 0.45.0
 
 ### Enhancements
+- **Adverse Event Changes**
+  - Improved styling of files attached to adverse events
 - **Design Changes**
   - Strings and numerics inputs without prefixes, suffixes, and units now
     display properly on design builder

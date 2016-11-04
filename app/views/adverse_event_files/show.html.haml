@@ -17,14 +17,14 @@
         Files
       = render 'adverse_events/shareable_link', adverse_event: @adverse_event
 
+= render 'adverse_events/menu'
 .dashboard-container
-  = render 'adverse_events/menu'
+  .jumbotron.center
+    = succeed ' ' do
+      = link_to download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), data: { turbolinks: false }, class: 'btn btn-default' do
+        .glyphicon.glyphicon-download
+        = @adverse_event_file.name
+    %code= number_to_human_size @adverse_event_file.attachment.size
 
-  = succeed ' ' do
-    = link_to download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), data: { turbolinks: false }, class: 'btn btn-default' do
-      .glyphicon.glyphicon-download
-      = @adverse_event_file.name
-  %code= number_to_human_size @adverse_event_file.attachment.size
-
-- if @adverse_event_file.image?
-  .center= image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), class: 'img-responsive img-thumbnail shadow'
+  - if @adverse_event_file.image?
+    .center= image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), class: 'img-responsive img-thumbnail shadow'

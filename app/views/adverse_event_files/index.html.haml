@@ -19,12 +19,6 @@
 
 = render 'adverse_events/menu'
 .dashboard-container
-  - files = @adverse_event.adverse_event_files
-
-  - if files.count == 0
-    .center
-      %p.lead No files have been uploaded to this adverse event.
-
   #attachments
     = render 'adverse_event_files/attachments'
 
