@@ -16,6 +16,42 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should search for sheets by date' do
+    get :index, params: { project_id: @project, search: 'created:2016-11-04' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets with invalid date' do
+    get :index, params: { project_id: @project, search: 'created:2016-02-30' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets by less than date' do
+    get :index, params: { project_id: @project, search: 'created:<2016-11-04' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets by greater than date' do
+    get :index, params: { project_id: @project, search: 'created:>2016-11-04' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets by less than or equal to date' do
+    get :index, params: { project_id: @project, search: 'created:<=2016-11-04' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets by greater than or equal to date' do
+    get :index, params: { project_id: @project, search: 'created:>=2016-11-04' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
   test 'should search for sheets by variable' do
     get :index, params: { project_id: @project, search: 'var_1:1' }
     assert_not_nil assigns(:sheets)
