@@ -33,6 +33,17 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to projects(:one)
   end
 
+  test 'should get dashboard and redirect to root with invalid site invite token' do
+    get '/site-invite/INVALID'
+    assert_equal 'INVALID', session[:site_invite_token]
+    assert_redirected_to new_user_session_path
+    login(users(:valid))
+    get dashboard_path
+    assert_nil assigns(:site_user)
+    assert_nil session[:site_invite_token]
+    assert_response :success
+  end
+
   test 'should get dashboard and redirect to project invite' do
     get "/invite/#{project_users(:pending_editor_invite).invite_token}"
     login(users(:two))

@@ -346,6 +346,21 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get index for randomized subjects' do
+    get :index, params: { project_id: @project, search: 'is:randomized' }
+    assert_response :success
+  end
+
+  test 'should get index for unrandomized subjects' do
+    get :index, params: { project_id: @project, search: 'not:randomized' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects with adverse events' do
+    get :index, params: { project_id: @project, search: 'has:ae' }
+    assert_response :success
+  end
+
   test 'should get index with event' do
     get :index, params: { project_id: @project, event_id: events(:one).id }
     assert_response :success

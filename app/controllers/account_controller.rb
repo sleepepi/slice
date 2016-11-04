@@ -14,11 +14,11 @@ class AccountController < ApplicationController
       @site_user = SiteUser.find_by_invite_token(site_invite_token)
       if @site_user
         redirect_to accept_project_site_users_path(@site_user.project)
+        return
       else
         session[:site_invite_token] = nil
-        redirect_to root_path, alert: 'Invalid invitation token.'
+        flash[:alert] = 'Invalid invitation token.'
       end
-      return
     end
 
     @projects = current_user.all_viewable_and_site_projects.by_favorite(current_user.id).unarchived.order("(favorited IS NULL or favorited = 'f') ASC, position, name").page(params[:page]).per(Project::PER_PAGE)

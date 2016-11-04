@@ -34,8 +34,20 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should get paginated index by user_name desc' do
+  test 'should get index by user_name desc' do
     get :index, params: { project_id: @project, order: 'designs.user_name desc' }
+    assert_not_nil assigns(:designs)
+    assert_response :success
+  end
+
+  test 'should get index by category_name' do
+    get :index, params: { project_id: @project, order: 'designs.category_name' }
+    assert_not_nil assigns(:designs)
+    assert_response :success
+  end
+
+  test 'should get index by category_name desc' do
+    get :index, params: { project_id: @project, order: 'designs.category_name desc' }
     assert_not_nil assigns(:designs)
     assert_response :success
   end
