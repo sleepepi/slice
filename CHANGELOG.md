@@ -53,6 +53,8 @@
 
 ### Bug Fix
 - Missing sheets are no longer included in the daily digest
+- Fixed a bug that prevented sheets from being saved after a date field was
+  changed to required
 
 ## 0.44.1 (October 31, 2016)
 

@@ -23,6 +23,13 @@ module DateAndTimeParser
     end
   end
 
+  # String is returned in database format '%Y-%m-%d'
+  def parse_date_from_hash_to_s(date_hash, default_date = '')
+    parse_date_from_hash(date_hash).strftime('%Y-%m-%d')
+  rescue
+    default_date
+  end
+
   def parse_time(time_string, default_time = nil)
     if time_string.to_s.split(':', -1).last.size > 0
       Time.strptime(time_string, '%H:%M:%S')
