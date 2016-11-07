@@ -20,7 +20,7 @@ module Validation
       end
 
       def value_in_range?(value)
-        { status: status(value), message: message(value), formatted_value: formatted_value(value) }
+        { status: status(value), message: message(value), formatted_value: formatted_value(value), raw_value: raw_value(value) }
       end
 
       def blank_value?(value)
@@ -55,6 +55,10 @@ module Validation
         response
       end
 
+      def response_to_raw_value(response)
+        raw_value(response_to_value(response))
+      end
+
       def status(value)
         if blank_value?(value)
           'blank'
@@ -79,6 +83,10 @@ module Validation
 
       def db_key_value_pairs(response)
         { response: response }
+      end
+
+      def raw_value(response)
+        db_key_value_pairs(response).dig(:response)
       end
 
       def store_temp_response(in_memory_sheet_variable, response)

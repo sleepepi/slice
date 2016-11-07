@@ -37,6 +37,8 @@
   $("##{target_name}_alert_box").show()
   $("##{target_name}_message").html(data['message'])
   $("##{target_name}_formatted_value").html(data['formatted_value'])
+  $("[data-raw-value-for='#{target_name}']").val(data['raw_value'])
+  $("[data-raw-value-for='#{target_name}']").change()
 
 @setValidationProperty = (parent, data) ->
   $(parent).data('status', data['status'])

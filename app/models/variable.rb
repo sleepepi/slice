@@ -551,6 +551,13 @@ class Variable < ApplicationRecord
     validator.response_to_value(response)
   end
 
+  def response_to_raw_value(response)
+    if response.is_a?(ActionController::Parameters)
+      response = response.to_unsafe_hash
+    end
+    validator.response_to_raw_value(response)
+  end
+
   def requirement_on_design(design)
     design_option = design_options.where(design_id: design.id).first
     if design_option

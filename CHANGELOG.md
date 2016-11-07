@@ -6,6 +6,9 @@
 - **Design Changes**
   - Strings and numerics inputs without prefixes, suffixes, and units now
     display properly on design builder
+  - Time duration, imperial height, and imperial weight variables can now be
+    used in branching logic, using total seconds, total inches, and total ounces
+    respectively as comparison
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
   - Improved documentation on setting up a new randomization scheme
@@ -146,8 +149,7 @@
 - **Sheet Changes**
   - Sheet index filters no longer clear other preset filters
   - Search filters can now find sheets for variables with `entered`, `present`,
-    `any`, `missing`, `unentered`, and `blank`.
-    values
+    `any`, `missing`, `unentered`, and `blank` values
     - `bmi:any`
     - `bmi:missing`
     - `entered` and `present` are identical aliases

@@ -1,8 +1,10 @@
 - is_grid = defined?(grid)
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 - value = variable.response_to_value(response)
+- raw_value = variable.response_to_raw_value(response)
 
 .imperial-height-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'imperial_height', status: variable.validator.status(value) } }
+  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: 'condition', raw_value_for: target_name }
   %span.feet-box
     .input-group
       = text_field_tag "#{field_name}[feet]", (value[:feet] ? format('%d', value[:feet]) : nil), disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
