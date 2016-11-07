@@ -11,6 +11,8 @@
   - Time duration, imperial height, and imperial weight variables can now be
     used in branching logic, using total seconds, total inches, and total ounces
     respectively as comparison
+  - Time duration, imperial height, and imperial weight variables can now be
+    used by calculated variables
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
   - Improved documentation on setting up a new randomization scheme

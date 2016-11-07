@@ -6,7 +6,7 @@
 - raw_value = variable.response_to_raw_value(response)
 
 .time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time_duration', status: variable.validator.status(value) } }
-  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: 'condition', raw_value_for: target_name }
+  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: 'condition', name: variable.name, raw_value_for: target_name }
   - if ['hh:mm:ss', 'hh:mm', '', nil].include?(variable.time_duration_format)
     %span.hour-box
       = text_field_tag "#{field_name}[hours]", (value[:hours] ? format('%02d', value[:hours]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
