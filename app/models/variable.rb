@@ -7,7 +7,7 @@ class Variable < ApplicationRecord
   DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]
   ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical'], ['Scale', 'scale']]
 
-  serialize :grid_variables, Array
+  serialize :deprecated_grid_variables, Array
 
   # Triggers
   before_save :check_for_duplicate_variables, :check_for_valid_domain
@@ -70,7 +70,7 @@ class Variable < ApplicationRecord
     end
 
     self.questions = nil
-    update grid_variables: new_grid_variables.uniq.compact
+    update deprecated_grid_variables: new_grid_variables.uniq.compact
   end
 
   def shared_options
@@ -125,7 +125,7 @@ class Variable < ApplicationRecord
   end
 
   def check_for_duplicate_variables
-    variable_ids = grid_variables.collect { |grid_variable| grid_variable[:variable_id] }
+    variable_ids = deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }
     return unless variable_ids.uniq.size < variable_ids.size
     errors.add(:grid, 'variables must be unique')
     throw :abort
@@ -147,14 +147,14 @@ class Variable < ApplicationRecord
   end
 
   def grid_tokens=(tokens)
-    self.grid_variables = []
+    self.deprecated_grid_variables = []
     tokens.each do |grid_hash|
-      self.grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i } if grid_hash[:variable_id].strip.to_i > 0
+      self.deprecated_grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i } if grid_hash[:variable_id].strip.to_i > 0
     end
   end
 
   def grid_variable_ids
-    grid_variables.collect { |gv| gv[:variable_id] }
+    deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }
   end
 
   def missing_codes

@@ -22,8 +22,8 @@ class ExportFormatter
     @grid_group_variables = Variable.current.joins(:design_options).where(design_options: { design_id: sheet_scope.pluck(:design_id) }).where(variable_type: 'grid').order("design_options.design_id", "design_options.position")
     @grid_variables = []
     @grid_group_variables.each do |variable|
-      variable.grid_variables.each do |grid_variable_hash|
-        grid_variable = Variable.current.find_by_id(grid_variable_hash[:variable_id])
+      variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
+        grid_variable = Variable.current.find_by_id(deprecated_grid_variable_hash[:variable_id])
         @grid_variables << grid_variable if grid_variable
       end
     end

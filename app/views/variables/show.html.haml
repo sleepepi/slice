@@ -147,8 +147,8 @@
         %th Variables
         %td
           %ul
-            - @variable.grid_variables.each do |variable_hash|
-              - v = current_user.all_viewable_variables.find_by_id(variable_hash[:variable_id])
+            - @variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
+              - v = current_user.all_viewable_variables.find_by_id(deprecated_grid_variable_hash[:variable_id])
               - if v
                 %li= link_to v.display_name, [v.project, v]
 

@@ -81,15 +81,15 @@
 
 \begin{table*}[!htbp]\centering
 
-\begin{tabularx}{\textwidth}{<%= 'X'*variable.grid_variables.size %>}
-<% variable.grid_variables.each do |grid_variable| %>
-  <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %>
+\begin{tabularx}{\textwidth}{<%= 'X'*variable.deprecated_grid_variables.size %>}
+<% variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash| %>
+  <% v = current_user.all_viewable_variables.find_by_id(deprecated_grid_variable_hash[:variable_id]) %>
   <%= latex_safe v.display_name if v %> &
 <% end %>
 \midrule
 <% (0..([variable.default_row_number.to_i - 1, 0]).max).each do |position| %>
-  <% variable.grid_variables.each do |grid_variable| %>
-    <% v = current_user.all_viewable_variables.find_by_id(grid_variable[:variable_id]) %> <%= latex_safe v.units if v %> &
+  <% variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash| %>
+    <% v = current_user.all_viewable_variables.find_by_id(deprecated_grid_variable_hash[:variable_id]) %> <%= latex_safe v.units if v %> &
   <% end %>
   \midrule
 <% end %>

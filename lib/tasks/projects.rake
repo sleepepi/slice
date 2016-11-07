@@ -134,7 +134,7 @@ def copy_variables(original, copy)
       calculation: v.calculation,
       format: v.format,
       units: v.units,
-      grid_variables: v.grid_variables.collect { |h| { variable_id: variable_map[h[:variable_id].to_s] } },
+      deprecated_grid_variables: v.deprecated_grid_variables.collect { |deprecated_grid_variable_hash| { variable_id: variable_map[deprecated_grid_variable_hash[:variable_id].to_s] } },
       multiple_rows: v.multiple_rows,
       autocomplete_values: v.autocomplete_values,
       prepend: v.prepend,

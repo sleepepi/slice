@@ -1,7 +1,7 @@
 = hidden_field_tag "variable[project_id]", @design_option.variable.project.id
 #form_grid_variables{ data: { object: 'sortable' } }
-  - @design_option.variable.grid_variables.each do |grid_variable|
-    = render 'variables/edit_grid_variable', grid_variable: grid_variable
+  - @design_option.variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
+    = render 'variables/edit_grid_variable', deprecated_grid_variable_hash: deprecated_grid_variable_hash
 .row{ style: "margin-top:20px" }
   .col-xs-1
   .col-xs-11

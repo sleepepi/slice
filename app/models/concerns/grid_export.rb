@@ -22,9 +22,9 @@ module GridExport
       csv << ['', 'Sheet ID'] + sheet_ids
 
       grid_group_variables.each do |grid_group_variable|
-        grid_variables = grid_group_variable.project.variables.where(id: grid_group_variable.grid_variables.collect { |gv| gv[:variable_id] }).to_a
-        grid_group_variable.grid_variables.each do |grid_variable_hash|
-          v = grid_variables.find { |gv| gv.id == grid_variable_hash[:variable_id].to_i }
+        grid_variables = grid_group_variable.project.variables.where(id: grid_group_variable.deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }).to_a
+        grid_group_variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
+          v = grid_variables.find { |gv| gv.id == deprecated_grid_variable_hash[:variable_id].to_i }
           next unless v
           if v.variable_type == 'checkbox'
             v.shared_options.each do |option|

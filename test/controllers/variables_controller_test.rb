@@ -48,7 +48,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test 'should add grid variable' do
     post :add_grid_variable, params: { project_id: @project }, format: 'js'
-    assert_not_nil assigns(:grid_variable)
+    assert_not_nil assigns(:deprecated_grid_variable_hash)
     assert_template 'add_grid_variable'
   end
 

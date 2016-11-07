@@ -2,7 +2,7 @@
 -# positions from the sheet_variables
 
 - all_grids = object ? object.grids.includes(variable: [:domain]).to_a : []
-- grid_variables = @project.variables.where(id: variable.grid_variables.collect{ |gv| gv[:variable_id] }).to_a
+- grid_variables = @project.variables.where(id: variable.deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }).to_a
 
 - if params[:variables].present? && params[:variables][variable.id.to_s].present?
   - range = params[:variables][variable.id.to_s].keys
@@ -16,8 +16,8 @@
   %thead
     %tr
       %th
-      - variable.grid_variables.each do |grid_variable|
-        - v = grid_variables.find { |gv| gv.id == grid_variable[:variable_id].to_i }
+      - variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
+        - v = grid_variables.find { |gv| gv.id == deprecated_grid_variable_hash[:variable_id].to_i }
         %th= v.display_name if v
       - if variable.multiple_rows?
         %th Actions

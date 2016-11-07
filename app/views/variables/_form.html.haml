@@ -234,8 +234,8 @@
     %label.col-md-2.control-label Variables
     .col-md-10
       #form_grid_variables{ data: { object: 'sortable' } }
-        - @variable.grid_variables.each do |grid_variable|
-          = render 'edit_grid_variable', grid_variable: grid_variable
+        - @variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
+          = render 'variables/edit_grid_variable', deprecated_grid_variable_hash: deprecated_grid_variable_hash
       .btn-toolbar
         = link_to 'Add Variable', '#', id: 'add_grid_variable', class: 'btn btn-default btn-xs', data: { position: 'bottom', project_id: @project.to_param }
 

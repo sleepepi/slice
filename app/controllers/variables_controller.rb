@@ -31,7 +31,7 @@ class VariablesController < ApplicationController
   end
 
   def add_grid_variable
-    @grid_variable = { variable_id: '' }
+    @deprecated_grid_variable_hash = { variable_id: '' }
   end
 
   # GET /variables

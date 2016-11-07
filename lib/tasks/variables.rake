@@ -14,6 +14,13 @@ namespace :variables do
       object.update response: change_response_to_seconds(object.response)
     end
   end
+
+  desc 'Migrate grid variables'
+  task migrate_grid_variables: :environment do
+    # TODO:
+    # variable.each...
+    # deprecated_grid_variables
+  end
 end
 
 def change_response_to_seconds(time_duration)
