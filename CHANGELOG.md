@@ -1,6 +1,8 @@
 ## 0.45.0
 
 ### Enhancements
+- **General Changes**
+  - Dropped support for Ruby 2.2
 - **Adverse Event Changes**
   - Improved styling of files attached to adverse events
 - **Design Changes**
