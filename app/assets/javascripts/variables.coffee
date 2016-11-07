@@ -229,9 +229,7 @@ $(document)
     false
   )
   .on('click', '#add_grid_variable', ->
-    position = $(this).data('position')
-    project_id = $(this).data('project-id')
-    $.post("#{root_url}projects/#{project_id}/variables/add_grid_variable", 'position=' + position, null, "script")
+    $.post("#{root_url}projects/#{$(this).data('project-id')}/variables/add_grid_variable", null, null, 'script')
     false
   )
   .on('click', '[data-object~="grid-row-add"]', ->

@@ -237,7 +237,7 @@
         - @variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
           = render 'variables/edit_grid_variable', deprecated_grid_variable_hash: deprecated_grid_variable_hash
       .btn-toolbar
-        = link_to 'Add Variable', '#', id: 'add_grid_variable', class: 'btn btn-default btn-xs', data: { position: 'bottom', project_id: @project.to_param }
+        = link_to 'Add Variable', '#', id: 'add_grid_variable', class: 'btn btn-default btn-xs', data: { project_id: @project.to_param }
 
   .form-group{ data: { object: 'autocomplete' } }
     = f.label :autocomplete_values, nil, class: 'col-md-2 control-label'
