@@ -102,8 +102,8 @@ class Design < ApplicationRecord
       new_options << design_option
       variable = design_option.variable
       next unless variable && variable.variable_type == 'grid'
-      variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
-        new_options << DesignOption.new(variable_id: deprecated_grid_variable_hash[:variable_id])
+      variable.child_variables.each do |child_variable|
+        new_options << DesignOption.new(variable_id: child_variable.id)
       end
     end
     new_options

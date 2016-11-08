@@ -22,21 +22,18 @@ module GridExport
       csv << ['', 'Sheet ID'] + sheet_ids
 
       grid_group_variables.each do |grid_group_variable|
-        grid_variables = grid_group_variable.project.variables.where(id: grid_group_variable.deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }).to_a
-        grid_group_variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
-          v = grid_variables.find { |gv| gv.id == deprecated_grid_variable_hash[:variable_id].to_i }
-          next unless v
-          if v.variable_type == 'checkbox'
-            v.shared_options.each do |option|
+        grid_group_variable.child_variables.each do |child_variable|
+          if child_variable.variable_type == 'checkbox'
+            child_variable.shared_options.each do |option|
               value = option[:value]
-              sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, v, sheet_scope, sheet_ids, value)
-              formatted_responses = format_responses(v, raw_data, sorted_responses)
-              csv << [grid_group_variable.name, "#{v.name}__#{value}"] + formatted_responses
+              sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, child_variable, sheet_scope, sheet_ids, value)
+              formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
+              csv << [grid_group_variable.name, "#{child_variable.name}__#{value}"] + formatted_responses
             end
           else
-            sorted_responses = grid_sort_responses_by_sheet_id_generic(grid_group_variable, v, sheet_scope, sheet_ids)
-            formatted_responses = format_responses(v, raw_data, sorted_responses)
-            csv << [grid_group_variable.name, v.name] + formatted_responses
+            sorted_responses = grid_sort_responses_by_sheet_id_generic(grid_group_variable, child_variable, sheet_scope, sheet_ids)
+            formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
+            csv << [grid_group_variable.name, child_variable.name] + formatted_responses
           end
         end
         update_steps(1)

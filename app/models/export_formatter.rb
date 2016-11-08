@@ -16,23 +16,21 @@ class ExportFormatter
     @design_scope = Design.where(id: sheet_scope.pluck(:design_id)).order(:id)
     @variables = all_design_variables_without_grids
     @domains = Domain.where(id: @variables.collect{|v| v.domain_id}).order('name')
-
-    # @variable_ids = Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variable_ids).flatten.uniq
-    # @grid_group_variables = Variable.current.where(variable_type: 'grid', id: @variable_ids)
-    @grid_group_variables = Variable.current.joins(:design_options).where(design_options: { design_id: sheet_scope.pluck(:design_id) }).where(variable_type: 'grid').order("design_options.design_id", "design_options.position")
+    @grid_group_variables = Variable.current.joins(:design_options).where(design_options: { design_id: sheet_scope.pluck(:design_id) }).where(variable_type: 'grid').order('design_options.design_id', 'design_options.position')
     @grid_variables = []
     @grid_group_variables.each do |variable|
-      variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
-        grid_variable = Variable.current.find_by_id(deprecated_grid_variable_hash[:variable_id])
-        @grid_variables << grid_variable if grid_variable
+      variable.child_variables.each do |child_variable|
+        @grid_variables << child_variable
       end
     end
     @grid_domains = Domain.where(id: @grid_variables.collect{|v| v.domain_id}).order('name')
   end
 
   def all_design_variables_without_grids
-    Variable.current.joins(:design_options).where(design_options: { design_id: @sheet_scope.select(:design_id) }).where.not(variable_type: 'grid').order("design_options.design_id", "design_options.position")
-    # Design.where(id: @sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select{|v| v.variable_type != 'grid'}
+    Variable.current.joins(:design_options)
+            .where(design_options: { design_id: @sheet_scope.select(:design_id) })
+            .where.not(variable_type: 'grid')
+            .order('design_options.design_id', 'design_options.position')
   end
 
   def labels

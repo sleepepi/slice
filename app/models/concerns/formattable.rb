@@ -48,8 +48,8 @@ module Formattable
     all_grids = grids.to_a
     (0..all_grids.collect(&:position).max.to_i).each do |position|
       grid_responses[position] ||= {}
-      variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
-        grid = all_grids.find { |g| g.variable_id == deprecated_grid_variable_hash[:variable_id].to_i && g.position == position }
+      variable.child_grid_variables.each do |child_grid_variable|
+        grid = all_grids.find { |g| g.variable_id == child_grid_variable.child_variable_id && g.position == position }
         grid_responses[position][grid.variable.name] = grid.get_response(raw_format) if grid
       end
     end

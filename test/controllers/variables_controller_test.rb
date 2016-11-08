@@ -39,16 +39,14 @@ class VariablesControllerTest < ActionController::TestCase
 
   test 'should not copy variable with invalid project' do
     get :copy, params: { id: @variable, project_id: -1 }
-
     assert_nil assigns(:project)
     assert_nil assigns(:variable)
-
     assert_redirected_to root_path
   end
 
   test 'should add grid variable' do
     post :add_grid_variable, params: { project_id: @project }, format: 'js'
-    assert_not_nil assigns(:deprecated_grid_variable_hash)
+    assert_not_nil assigns(:child_grid_variable)
     assert_template 'add_grid_variable'
   end
 
@@ -156,8 +154,8 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should not create grid variable with nonunique variables' do
-    assert_difference('Variable.count', 0) do
+  test 'should create grid variable and combine non-unique child variables' do
+    assert_difference('Variable.count') do
       post :create, params: {
         project_id: @project,
         variable: {
@@ -174,9 +172,8 @@ class VariablesControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ['variables must be unique'], assigns(:variable).errors[:grid]
-    assert_template 'new'
+    assert 1, assigns(:variable).child_variables.count
+    assert_redirected_to [@project, Variable.last]
   end
 
   test 'should show variable' do

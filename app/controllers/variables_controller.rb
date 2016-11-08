@@ -31,7 +31,7 @@ class VariablesController < ApplicationController
   end
 
   def add_grid_variable
-    @deprecated_grid_variable_hash = { variable_id: '' }
+    @child_grid_variable = @project.grid_variables.new
   end
 
   # GET /variables
@@ -87,6 +87,8 @@ class VariablesController < ApplicationController
   def create
     @variable = current_user.variables.where(project_id: @project.id).new(variable_params)
     if @variable.save
+      @variable.create_variables_from_questions!
+      @variable.update_grid_tokens!
       url = if params[:continue].to_s == '1'
               new_project_variable_path(@variable.project)
             else
@@ -101,6 +103,7 @@ class VariablesController < ApplicationController
   # PATCH /variables/1
   def update
     if @variable.update(variable_params)
+      @variable.update_grid_tokens!
       url = if params[:continue].to_s == '1'
               new_project_variable_path(@variable.project)
             else

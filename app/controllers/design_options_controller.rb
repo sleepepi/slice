@@ -61,6 +61,8 @@ class DesignOptionsController < ApplicationController
   def create_variable
     @variable = current_user.variables.where(project_id: @project.id).new(variable_params)
     if @variable.save
+      @variable.create_variables_from_questions!
+      @variable.update_grid_tokens!
       @design_option.variable_id = @variable.id
       @design_option.save
     end
@@ -86,6 +88,7 @@ class DesignOptionsController < ApplicationController
     if @design_option.section && @design_option.section.update(section_params)
       render :show
     elsif @design_option.variable && @design_option.variable.update(variable_params)
+      @design_option.variable.update_grid_tokens!
       render :show
     else
       render :edit

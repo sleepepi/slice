@@ -2,13 +2,12 @@
 - max_position = (variable.default_row_number - 1)
 - range = (0..max_position)
 
-- if variable.deprecated_grid_variables.size > 0
+- if variable.child_variables.size > 0
   %table.table.table-hover
     %thead
       %tr
-        - variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
-          - v = Variable.find_by_id(deprecated_grid_variable_hash[:variable_id])
-          %th= v.display_name if v
+        - variable.child_variables.each do |child_variable|
+          %th= child_variable.display_name
     %tbody{ id: "variable_#{variable.id}_grid_container" }
       - range.each do |position|
         = render 'design_options/show/grid_variables', design_option: design_option, disabled: true, position: position, variable: variable

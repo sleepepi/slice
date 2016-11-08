@@ -87,6 +87,8 @@ Rails.application.routes.draw do
           resources :check_filter_values, path: 'values'
         end
       end
+
+      resources :grid_variables, path: 'grid-variables'
     end
   end
 

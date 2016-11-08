@@ -1,0 +1,46 @@
+- @title = @grid_variable.id
+- @menu_title = "#{@project.name} #{@title}"
+
+= render 'projects/side_nav'
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .dropdown
+            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
+
+            %ul.dropdown-menu.dropdown-menu-right
+              %li
+                = link_to edit_editor_project_grid_variable_path(@project, @grid_variable) do
+                  %span.glyphicon.glyphicon-edit
+                  Edit
+              %li.divider{ role: 'separator' }
+              %li
+                = link_to editor_project_grid_variable_path(@project, @grid_variable), method: :delete, data: { confirm: "Delete #{@grid_variable.child_variable.name} from #{@grid_variable.parent_variable.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
+
+        = render 'layouts/side_nav_header_button'
+        = @title
+
+.dashboard-container
+  .row
+    .col-sm-2.col-buffer
+      %strong Parent Variable
+    .col-sm-10.col-buffer= @grid_variable.parent_variable.name
+
+  .row
+    .col-sm-2.col-buffer
+      %strong Child Variable
+    .col-sm-10.col-buffer= @grid_variable.child_variable.name
+
+  .row
+    .col-sm-2.col-buffer
+      %strong Position
+    .col-sm-10.col-buffer= @grid_variable.position

@@ -60,6 +60,16 @@ class ExportsControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:export)]
   end
 
+  test 'should create export with data dictionary' do
+    login(@regular_user)
+    assert_difference('Export.count') do
+      post :create, params: {
+        project_id: @project, export: { include_data_dictionary: '1' }
+      }
+    end
+    assert_redirected_to [assigns(:project), assigns(:export)]
+  end
+
   test 'should download export file' do
     login(@regular_user)
     assert_not_equal 0, @export.file.size

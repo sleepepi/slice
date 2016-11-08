@@ -267,9 +267,8 @@ class Export < ApplicationRecord
 
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
-          if variable = design_option.variable and variable.domain
-            objects << variable.domain
-          end
+          variable = design_option.variable
+          objects << variable.domain if variable && variable.domain
         end
       end
 

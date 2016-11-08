@@ -17,9 +17,17 @@ namespace :variables do
 
   desc 'Migrate grid variables'
   task migrate_grid_variables: :environment do
-    # TODO:
-    # variable.each...
-    # deprecated_grid_variables
+    # ActiveRecord::Base.connection.execute('TRUNCATE grid_variables RESTART IDENTITY;')
+    Variable.where(variable_type: 'grid').find_each do |variable|
+      variable.deprecated_grid_variables.each_with_index do |deprecated_grid_variable_hash, index|
+        variable.child_grid_variables.create(
+          project_id: variable.project_id,
+          child_variable_id: deprecated_grid_variable_hash[:variable_id],
+          position: index
+        )
+      end
+      puts "#{variable.child_variables.count == 1 ? " 1 child   " : "#{format('%2d', variable.child_variables.count)} children"} added to #{variable.name}"
+    end
   end
 end
 

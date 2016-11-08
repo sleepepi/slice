@@ -134,7 +134,6 @@ def copy_variables(original, copy)
       calculation: v.calculation,
       format: v.format,
       units: v.units,
-      deprecated_grid_variables: v.deprecated_grid_variables.collect { |deprecated_grid_variable_hash| { variable_id: variable_map[deprecated_grid_variable_hash[:variable_id].to_s] } },
       multiple_rows: v.multiple_rows,
       autocomplete_values: v.autocomplete_values,
       prepend: v.prepend,
@@ -149,6 +148,13 @@ def copy_variables(original, copy)
       time_duration_format: v.time_duration_format,
       hide_calculation: v.hide_calculation
     )
+    v.child_grid_variables.each_with_index do |child_grid_variable, index|
+      vc.child_grid_variables.create(
+        project_id: copy.id,
+        child_variable_id: variable_map[child_grid_variable.child_variable_id.to_s],
+        position: index
+      )
+    end
     variable_map[v.id.to_s] = vc.id
     puts "Added #{vc.name.colorize(:white)} variable"
   end

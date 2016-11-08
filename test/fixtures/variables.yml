@@ -1,6 +1,3 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
---- !map:HashWithIndifferentAccess
-
 one:
   name: var_1
   display_name: Variable One
@@ -299,16 +296,6 @@ grid:
   display_name: Grid of Variables
   description: Testing for grid of Variables
   variable_type: grid
-  deprecated_grid_variables: [
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:change_options) %> },
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:file) %> },
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:checkbox) %> },
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:height) %> },
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:weight) %> },
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:calculated) %> },
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:integer) %> },
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:time) %> }
-  ]
   default_row_number: 3
   user: valid
   project: one
@@ -318,9 +305,6 @@ grid_with_scale_variable:
   display_name: Grid of a Single Scale Variable
   description: Testing for grid containing a scale variable
   variable_type: grid
-  deprecated_grid_variables: [
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:scale_in_grid) %> }
-  ]
   default_row_number: 3
   user: valid
   project: one
@@ -330,9 +314,6 @@ external_grid:
   display_name: Grid of Variables
   description: Testing for grid of Variables
   variable_type: grid
-  deprecated_grid_variables: [
-    { variable_id: <%= ActiveRecord::FixtureSet.identify(:external_autocomplete) %> }
-  ]
   default_row_number: 3
   user: admin
   project: three

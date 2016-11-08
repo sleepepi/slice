@@ -1,0 +1,59 @@
+grid_change_options:
+  project: one
+  parent_variable: grid
+  child_variable: change_options
+  position: 0
+
+grid_file:
+  project: one
+  parent_variable: grid
+  child_variable: file
+  position: 1
+
+grid_checkbox:
+  project: one
+  parent_variable: grid
+  child_variable: checkbox
+  position: 2
+
+grid_height:
+  project: one
+  parent_variable: grid
+  child_variable: height
+  position: 3
+
+grid_weight:
+  project: one
+  parent_variable: grid
+  child_variable: weight
+  position: 4
+
+grid_calculated:
+  project: one
+  parent_variable: grid
+  child_variable: calculated
+  position: 5
+
+grid_integer:
+  project: one
+  parent_variable: grid
+  child_variable: integer
+  position: 6
+
+grid_time:
+  project: one
+  parent_variable: grid
+  child_variable: time
+  position: 7
+
+grid_with_scale_variable_scale_in_grid:
+  project: one
+  parent_variable: grid_with_scale_variable
+  child_variable: scale_in_grid
+  position: 0
+
+external_grid_external_autocomplete:
+  project: three
+  parent_variable: external_grid
+  child_variable: external_autocomplete
+  position: 0

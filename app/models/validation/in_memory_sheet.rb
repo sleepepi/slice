@@ -94,22 +94,19 @@ module Validation
         if visible_on_sheet?(variable)
           sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
           if sheet_variable && variable.variable_type == 'grid'
-            variable.grid_variable_ids.each do |grid_variable_id|
-              grid_variable = @project.variables.find_by(id: grid_variable_id)
-              if grid_variable
-                grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == grid_variable.id }
-                grids.each do |grid|
-                  value = grid_variable.response_to_value(grid ? grid.get_raw_response : nil)
-                  validation_hash = grid_variable.value_in_range?(value)
+            variable.child_variables.each do |child_variable|
+              grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == child_variable.id }
+              grids.each do |grid|
+                value = child_variable.response_to_value(grid ? grid.get_raw_response : nil)
+                validation_hash = child_variable.value_in_range?(value)
 
-                  case validation_hash[:status]
-                  # when 'blank' # AND REQUIRED
-                  #   @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
-                  when 'invalid'
-                    @errors << "#{variable.name} #{grid_variable.name} is invalid"
-                  when 'out_of_range'
-                    @errors << "#{variable.name} #{grid_variable.name} is out of range"
-                  end
+                case validation_hash[:status]
+                # when 'blank' # AND REQUIRED
+                #   @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
+                when 'invalid'
+                  @errors << "#{variable.name} #{child_variable.name} is invalid"
+                when 'out_of_range'
+                  @errors << "#{variable.name} #{child_variable.name} is out of range"
                 end
               end
             end

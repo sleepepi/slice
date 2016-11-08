@@ -65,6 +65,7 @@ class Project < ApplicationRecord
   has_many :randomizations, -> { current }
   has_many :randomization_schemes, -> { current }
   has_many :tasks, -> { current }
+  has_many :grid_variables
 
   # Model Methods
 

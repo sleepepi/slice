@@ -58,6 +58,10 @@
 - Fixed a bug that prevented sheets from being saved after a date field was
   changed to required
 
+### Refactoring
+- Grid variables are no longer stored as an array, and are now defined by proper
+  database relationships
+
 ## 0.44.1 (October 31, 2016)
 
 ### Enhancements

@@ -1,19 +1,16 @@
 - if sheet_variable
-  - grid_variables = @project.variables.where(id: variable.deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }).to_a
   .table-responsive
     %table.table.table-hover.table-condensed{ style: "margin-top:-5px" }
       %thead
         %tr
-          - variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
-            %th
-              - v = grid_variables.select{|gv| gv.id == deprecated_grid_variable_hash[:variable_id].to_i}.first
-              = v.display_name if v
+          - variable.child_variables.each do |child_variable|
+            %th= child_variable.display_name
       %tbody
         - all_grids = sheet_variable.grids.includes(variable: [:domain]).to_a
         - (0..all_grids.collect(&:position).max.to_i).each do |position|
           %tr
-            - variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
+            - variable.child_variables.each do |child_variable|
               %td
-                - grid = all_grids.select{|g| g.variable_id == deprecated_grid_variable_hash[:variable_id].to_i and g.position == position}.first
-                - if grid and (Variable::TYPE.flatten.uniq - ['grid']).include?(grid.variable.variable_type)
+                - grid = all_grids.find { |g| g.variable_id == child_variable.id && g.position == position }
+                - if grid && (Variable::TYPE.flatten.uniq - ['grid']).include?(grid.variable.variable_type)
                   = render "sheet_variables/show/#{grid.variable.variable_type}", variable: grid.variable, object: grid

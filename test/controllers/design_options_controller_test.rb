@@ -405,8 +405,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_equal 'my_new_grid_variable', assigns(:design_option).variable.name
     assert_equal 'My New Grid Variable', assigns(:design_option).variable.display_name
     assert_equal 'grid', assigns(:design_option).variable.variable_type
-    assert_equal 'enter_your_address',
-                 assigns(:project).variables.find(assigns(:design_option).variable.grid_variable_ids.first).name
+    assert_equal 'enter_your_address', assigns(:design_option).variable.child_variables.first.name
     assert_template 'index'
   end
 

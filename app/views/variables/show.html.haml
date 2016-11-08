@@ -38,9 +38,18 @@
     %col.hidden-xs{ width: '30%' }
     %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
     %tr
+      %th Creator
+      %td= link_to @variable.user.name, @variable.user if @variable.user
+
+    %tr
       %th Name
       %td
         %code= @variable.name
+
+    %tr
+      %th Variable Type
+      %td
+        %code= @variable.variable_type
     %tr
       %th Header
       %td= simple_markdown @variable.header
@@ -56,10 +65,7 @@
     %tr
       %th Field Note
       %td= @variable.field_note
-    %tr
-      %th Variable Type
-      %td
-        %code= @variable.variable_type
+
     %tr
       %th Prepend
       %td= @variable.prepend
@@ -146,20 +152,14 @@
       %tr
         %th Variables
         %td
-          %ul
-            - @variable.deprecated_grid_variables.each do |deprecated_grid_variable_hash|
-              - v = current_user.all_viewable_variables.find_by_id(deprecated_grid_variable_hash[:variable_id])
-              - if v
-                %li= link_to v.display_name, [v.project, v]
-
-    %tr
-      %th Creator
-      %td= link_to @variable.user.name, @variable.user if @variable.user
+          %ul.list-unstyled
+            - @variable.child_variables.each do |child_variable|
+              %li= link_to child_variable.display_name, [child_variable.project, child_variable]
 
     %tr
       %th Designs
       %td
-        %ul
+        %ul.list-unstyled
           - @variable.inherited_designs.each do |design|
             %li= link_to design.name, [design.project, design]
 

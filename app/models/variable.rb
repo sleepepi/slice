@@ -11,8 +11,7 @@ class Variable < ApplicationRecord
 
   # Triggers
   before_save :check_for_duplicate_variables, :check_for_valid_domain
-  attr_accessor :questions
-  after_save :create_variables_from_questions
+  attr_accessor :questions, :grid_tokens
 
   # Concerns
   include Searchable, Deletable, DateAndTimeParser
@@ -37,6 +36,12 @@ class Variable < ApplicationRecord
   belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
   has_many :design_options, -> { order :position }
   has_many :designs, through: :design_options
+  has_many :child_grid_variables, -> { order('position nulls last') },
+           class_name: 'GridVariable', source: :child_variable,
+           foreign_key: :parent_variable_id
+  has_many :child_variables, through: :child_grid_variables
+  has_many :parent_grid_variables, class_name: 'GridVariable', source: :parent_variable, foreign_key: :child_variable_id
+  has_many :parent_variables, through: :parent_grid_variables
 
   # Model Methods
 
@@ -44,10 +49,9 @@ class Variable < ApplicationRecord
     %w(name description display_name)
   end
 
-  def create_variables_from_questions
+  def create_variables_from_questions!
     return unless variable_type == 'grid' && questions.present?
-    new_grid_variables = []
-    questions.select { |hash| hash[:question_name].present? }.each do |question_hash|
+    questions.select { |hash| hash[:question_name].present? }.each_with_index do |question_hash, index|
       question_hash = question_hash.symbolize_keys
       name = question_hash[:question_name].to_s.downcase
                                           .gsub(/[^a-zA-Z0-9]/, '_')
@@ -66,11 +70,13 @@ class Variable < ApplicationRecord
         display_name: question_hash[:question_name]
       }
       variable = project.variables.create(params)
-      new_grid_variables << { variable_id: variable.id } if variable && !variable.new_record?
+      next if variable.new_record?
+      child_grid_variables.create(
+        project_id: project_id,
+        child_variable_id: variable.id,
+        position: index
+      )
     end
-
-    self.questions = nil
-    update deprecated_grid_variables: new_grid_variables.uniq.compact
   end
 
   def shared_options
@@ -92,10 +98,11 @@ class Variable < ApplicationRecord
   end
 
   # Use inherited designs to include grid variables
-  # TODO: This is very slow, especially on variables index page
   def inherited_designs
-    variable_ids = Variable.current.where(project_id: project_id, variable_type: 'grid').select { |v| v.grid_variable_ids.include?(id) }.collect(&:id) + [id]
-    Design.current.where(project_id: project_id).select { |d| (d.variables.pluck(:id) & variable_ids).size > 0 }.sort_by(&:name)
+    design_options = DesignOption.where(variable_id: id).or(
+      DesignOption.where(variable_id: parent_variables.select(:id))
+    )
+    project.designs.where(id: design_options.select(:design_id)).order(:name)
   end
 
   def editable_by?(current_user)
@@ -125,7 +132,7 @@ class Variable < ApplicationRecord
   end
 
   def check_for_duplicate_variables
-    variable_ids = deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }
+    variable_ids = child_grid_variables.pluck(:child_variable_id)
     return unless variable_ids.uniq.size < variable_ids.size
     errors.add(:grid, 'variables must be unique')
     throw :abort
@@ -146,15 +153,17 @@ class Variable < ApplicationRecord
     result
   end
 
-  def grid_tokens=(tokens)
-    self.deprecated_grid_variables = []
-    tokens.each do |grid_hash|
-      self.deprecated_grid_variables << { variable_id: grid_hash[:variable_id].strip.to_i } if grid_hash[:variable_id].strip.to_i > 0
+  def update_grid_tokens!
+    return if grid_tokens.nil?
+    child_grid_variables.delete_all
+    grid_tokens.each_with_index do |grid_hash, index|
+      next unless grid_hash[:variable_id].strip.to_i > 0
+      child_grid_variables.create(
+        project_id: project_id,
+        child_variable_id: grid_hash[:variable_id].strip.to_i,
+        position: index
+      )
     end
-  end
-
-  def grid_variable_ids
-    deprecated_grid_variables.collect { |deprecated_grid_variable_hash| deprecated_grid_variable_hash[:variable_id] }
   end
 
   def missing_codes

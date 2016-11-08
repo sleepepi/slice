@@ -1,0 +1,56 @@
+- @title = 'Grid Variables'
+- @menu_title = "#{@project.name} #{@title}"
+
+= render 'projects/side_nav'
+
+- content_for :header do
+  .background-gradient
+  .header-container
+    .container
+      %h1.page-heading
+        .pull-right
+          .per-page= render 'layouts/per_page', per_page: 40, object_count: @grid_variables.total_count
+        = render 'layouts/side_nav_header_button'
+        %span.nowrap= @title
+
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col
+    %col
+    %col{ width: '1px' }
+    %thead
+      %tr
+        %th Parent
+        %th Child
+        %th Position
+        %th Actions
+
+    %tbody
+      - @grid_variables.each do |grid_variable|
+        %tr{ id: "grid-variable-#{grid_variable.id}-container" }
+          %td= grid_variable.parent_variable.name
+          %td= grid_variable.child_variable.name
+          %td= grid_variable.position
+          %td
+            .dropdown
+              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+                Actions
+                %strong.caret
+
+              %ul.dropdown-menu.dropdown-menu-right
+                %li
+                  = link_to edit_editor_project_grid_variable_path(@project, grid_variable) do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+                %li.divider{ role: 'separator' }
+                %li
+                  = link_to editor_project_grid_variable_path(@project, grid_variable), method: :delete, remote: true, data: { confirm: "Delete #{grid_variable.child_variable.name} from #{grid_variable.parent_variable.name}?" } do
+                    .text-danger
+                      %span.glyphicon.glyphicon-trash
+                      Delete
+
+.docs-learn-more
+  Learn about
+  = succeed '.' do
+    = link_to 'grids', docs_variables_path(anchor: 'grids')
