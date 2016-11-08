@@ -16,6 +16,7 @@
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
   - Improved documentation on setting up a new randomization scheme
+  - The Schedule of Events PDF now includes the subject code
 - **Report Changes**
   - The subject report has been removed
   - Design short names are now used on mobile versions of reports

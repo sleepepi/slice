@@ -28,8 +28,8 @@
 \includegraphics[max width=2.0in]{<%= @randomization.project.logo.path %>}
 }
 <% end %>}
-\chead{\textbf{<%= latex_safe @randomization.project.name %>\\Schedule of Events\\\\}}
-\rhead{}
+\chead{\textbf{<%= latex_safe @randomization.project.name %>\\Schedule of Events\\}}
+\rhead{<%= latex_safe @randomization.subject.subject_code if @randomization.subject %>\\~\\}
 \lfoot{}
 \cfoot{Printed on <%= latex_safe Time.zone.today.strftime '%B %-d, %Y' %>}
 \rfoot{Page \thepage\ of \pageref{LastPage}}
