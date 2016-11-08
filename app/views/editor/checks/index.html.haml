@@ -30,6 +30,8 @@
         %tr{ id: "check-#{check.id}-container" }
           = render 'editor/checks/check_row', check: check
 
+.center= paginate @checks, theme: 'bootstrap'
+
 .docs-learn-more
   Learn about
   = succeed '.' do

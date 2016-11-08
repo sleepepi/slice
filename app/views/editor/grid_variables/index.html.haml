@@ -50,6 +50,8 @@
                       %span.glyphicon.glyphicon-trash
                       Delete
 
+.center= paginate @grid_variables, theme: 'bootstrap'
+
 .docs-learn-more
   Learn about
   = succeed '.' do
