@@ -75,6 +75,7 @@
           replace: (value) -> return "$1adverse-events:#{value}"
         },
         {
+          name: 'search'
           match: /(^|\s)([\w\-]+)$/
           search: (term, callback) ->
             # callback(cache[term], true)
@@ -86,6 +87,9 @@
           cache: true
         }
       ], { appendTo: 'body' }
+    ).on('textComplete:select': (e, value, strategy) ->
+      if strategy.name == 'search' and value not in ['adverse-events', 'has', 'is', 'not']
+        $(this).closest('form').submit()
     )
   )
 
