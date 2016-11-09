@@ -23,6 +23,7 @@
     $this.textcomplete(
       [
         {
+          name: 'submit-on-click'
           match: /(^|\s)has\:([\w\-]*)$/
           search: (term, callback) ->
             words = ['adverse-events', 'comments', 'files']
@@ -36,6 +37,7 @@
           replace: (value) -> return "$1has:#{value}"
         },
         {
+          name: 'submit-on-click'
           match: /(^|\s)is\:([\w\-]*)$/
           search: (term, callback) ->
             words = ['randomized']
@@ -49,6 +51,7 @@
           replace: (value) -> return "$1is:#{value}"
         },
         {
+          name: 'submit-on-click'
           match: /(^|\s)not\:([\w\-]*)$/
           search: (term, callback) ->
             words = ['randomized']
@@ -62,6 +65,7 @@
           replace: (value) -> return "$1not:#{value}"
         },
         {
+          name: 'submit-on-click'
           match: /(^|\s)adverse-events\:([\w\-]*)$/
           search: (term, callback) ->
             words = ['open', 'closed']
@@ -89,6 +93,8 @@
       ], { appendTo: 'body' }
     ).on('textComplete:select': (e, value, strategy) ->
       if strategy.name == 'search' and value not in ['adverse-events', 'has', 'is', 'not']
+        $(this).closest('form').submit()
+      else if strategy.name == 'submit-on-click'
         $(this).closest('form').submit()
     )
   )
