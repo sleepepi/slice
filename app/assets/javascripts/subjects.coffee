@@ -75,7 +75,7 @@
           replace: (value) -> return "$1adverse-events:#{value}"
         },
         {
-          match: /(^|\s)(\w+)$/
+          match: /(^|\s)([\w\-]+)$/
           search: (term, callback) ->
             # callback(cache[term], true)
             $.getJSON("#{root_url}projects/#{$this.data('project-id')}/subjects/autocomplete", { q: term })
