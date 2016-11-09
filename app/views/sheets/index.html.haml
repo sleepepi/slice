@@ -17,11 +17,11 @@
 .search-container-relative
   .search-container{ class: params[:search].present? ? 'search-container-visible' : nil }
     - url = project_sheets_path(@project)
-    = form_tag url, method: :get, class: 'form-vertical text-left', enforce_utf8: false do
-      = hidden_field_tag :order, params[:order] unless params[:order].blank?
-      = hidden_field_tag :design_id, params[:design_id] unless params[:design_id].blank?
-      = hidden_field_tag :site_id, params[:site_id] unless params[:site_id].blank?
-      = hidden_field_tag :user_id, params[:user_id] unless params[:user_id].blank?
+    = form_tag url, method: :get, class: 'form-vertical', enforce_utf8: false do
+      = hidden_field_tag :order, params[:order] if params[:order].present?
+      = hidden_field_tag :design_id, params[:design_id] if params[:design_id].present?
+      = hidden_field_tag :site_id, params[:site_id] if params[:site_id].present?
+      = hidden_field_tag :user_id, params[:user_id] if params[:user_id].present?
       .form-group{ style: params[:f] && params[:f].size > 0 ? nil : 'margin: 0;' }
         .input-group
           = text_field_tag :search, params[:search], autocomplete: 'off', class: 'form-control', placeholder: "Search #{@title}", data: { object: 'variable-name-autocomplete', project_id: @project.to_param }

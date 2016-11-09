@@ -5,7 +5,7 @@ class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
     :index, :show, :timeline, :comments, :files, :adverse_events,
-    :events, :sheets, :event, :report, :search, :choose_site
+    :events, :sheets, :event, :report, :search, :choose_site, :autocomplete
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :choose_date,
@@ -181,25 +181,23 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def autocomplete
+    subject_scope = current_user.all_viewable_subjects
+                                .where(project_id: @project.id)
+                                .where('subject_code ILIKE (?)', "#{params[:q]}%")
+                                .order(:subject_code).limit(10)
+    terms = ['adverse-events', 'has', 'is', 'not']
+    additional_terms = terms.reject { |term| (/^#{params[:q]}/ =~ term).nil? }
+    render json: additional_terms + subject_scope.pluck(:subject_code)
+  end
+
   # GET /subjects
   def index
-    if params[:search] == 'is:randomized'
-      params[:randomized] = '1'
-      params[:search].gsub!('is:randomized', '')
-    elsif params[:search] == 'not:randomized'
-      params[:randomized] = '0'
-      params[:search].gsub!('not:randomized', '')
-    end
-
-    if params[:search] == 'has:ae'
-      params[:ae] = 'open'
-      params[:search].gsub!('has:ae', '')
-    end
-
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
-                                .search(params[:search]).order(@order)
+    subject_scope = filter_scope(subject_scope, params[:search])
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
+    subject_scope = subject_scope.order(@order)
 
     # TODO: Remove, only launched from events page
     # Refactor to use advanced filter
@@ -217,11 +215,12 @@ class SubjectsController < ApplicationController
     end
     # END: TODO
 
-    subject_scope = subject_scope.randomized if params[:randomized] == '1'
-    subject_scope = subject_scope.unrandomized if params[:randomized] == '0'
-    subject_scope = subject_scope.open_aes if params[:ae] == 'open'
-    subject_scope = subject_scope.closed_aes if params[:ae] == 'closed'
     @subjects = subject_scope.page(params[:page]).per(20)
+
+    if params[:search].present? && subject_scope.count == 1 &&
+       subject_scope.first && subject_scope.first.subject_code == params[:search]
+      redirect_to [@project, subject_scope.first]
+    end
   end
 
   # GET /subjects/1
@@ -315,5 +314,38 @@ class SubjectsController < ApplicationController
   def subject_event_params
     params[:subject_event] ||= { blank: '1' }
     params.require(:subject_event).permit(:event_date)
+  end
+
+  def filter_scope(scope, search)
+    @tokens = pull_tokens(search)
+    # TODO: Remove randomized_used if left_outer_join is used in subject.rb
+    randomized_used = false
+    @tokens.each do |token|
+      case token.key
+      when 'randomized'
+        break if randomized_used
+        scope = \
+          if token.operator == '!='
+            scope.unrandomized
+          else
+            scope.randomized
+          end
+        randomized_used = true
+      when 'adverse-events'
+        scope = \
+          if token.value == 'open'
+            scope.open_aes
+          else
+            scope.closed_aes
+          end
+      end
+    end
+    scope.search(@tokens.select { |t| t.key == 'search' }.collect(&:value).join(' '))
+  end
+
+  def pull_tokens(token_string)
+    token_string.to_s.squish.split(/\s/).collect do |part|
+      Token.parse(part)
+    end
   end
 end

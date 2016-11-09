@@ -304,6 +304,7 @@ Rails.application.routes.draw do
       collection do
         get :choose_site, path: 'choose-site'
         get :search
+        get :autocomplete
       end
     end
 

@@ -11,5 +11,19 @@
         = @title
         = render 'search/toggle'
 
-= render 'search/simple', url: project_subjects_path(@project)
+.search-container-relative
+  .search-container{ class: params[:search].present? ? 'search-container-visible' : nil }
+    - url = project_subjects_path(@project)
+    = form_tag url, method: :get, class: 'form-vertical', enforce_utf8: false do
+      = hidden_field_tag :order, params[:order] if params[:order].present?
+      = hidden_field_tag :site_id, params[:site_id] if params[:site_id].present?
+      .form-group{ style: 'margin: 0;' }
+        .input-group
+          = text_field_tag :search, params[:search], autocomplete: 'off', class: 'form-control', placeholder: "Search #{@title}", data: { object: 'subjects-autocomplete', project_id: @project.to_param }
+          %span.input-group-btn{ style: 'vertical-align: bottom;' }
+            = submit_tag 'Search', class: 'btn btn-primary', name: nil
+            - if params[:search].present?
+              = link_to url, class: 'btn btn-default' do
+                &times;
+
 = render 'subjects/subjects'

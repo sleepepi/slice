@@ -111,7 +111,6 @@
   )
 
 @variableAutocompleteReady = ->
-
   $('[data-object~="variable-name-autocomplete"]').each(->
     $this = $(this)
     $this.textcomplete(
@@ -177,8 +176,7 @@
             else
               "#{item.value}"
           cache: true
-        },
-
+        }
       ], { appendTo: 'body' }
     )
   )

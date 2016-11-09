@@ -41,6 +41,16 @@
     - `weight:<=64`
     - `weight:<=64oz`
     - `weight:<=4lb`
+- **Subject Changes**
+  - Subject index search now autocompletes:
+    - Subject Codes
+    - `is:randomized`
+    - `not:randomized`
+    - `adverse-events:open`
+    - `adverse-events:closed`
+  - Filters no longer reset when adding new filters or sorting
+  - Entering an exact subject code on the subject index now redirects to the
+    subject page
 - **Task Changes**
   - Blinding indicator updated to be consistent with designs and events
 - **Variable Changes**

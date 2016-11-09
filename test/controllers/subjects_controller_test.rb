@@ -14,6 +14,12 @@ class SubjectsControllerTest < ActionController::TestCase
     @site_viewer = users(:site_one_viewer)
   end
 
+  test 'should get autocomplete as site viewer' do
+    login(@site_viewer)
+    get :autocomplete, params: { project_id: @project, q: 'Code' }
+    assert_response :success
+  end
+
   test 'should get data entry as site editor' do
     login(users(:site_one_editor))
     get :data_entry, params: { project_id: @project, id: @subject }
@@ -356,8 +362,13 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should get index for subjects with adverse events' do
-    get :index, params: { project_id: @project, search: 'has:ae' }
+  test 'should get index for subjects with open adverse events' do
+    get :index, params: { project_id: @project, search: 'adverse-events:open' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects with closed adverse events' do
+    get :index, params: { project_id: @project, search: 'adverse-events:closed' }
     assert_response :success
   end
 

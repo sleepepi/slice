@@ -70,6 +70,7 @@ class ProjectsController < ApplicationController
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
                                 .search(params[:search]).order(@order)
     @subjects = subject_scope.page(params[:page]).per(20)
+    @tokens = []
     # redirect_to project_subjects_path(@project)
   end
 
