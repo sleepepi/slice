@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Dropped support for Ruby 2.2
+  - Improved styling of error messages across several pages, error messages now
+    appear inline
 - **Adverse Event Changes**
   - Improved styling of files attached to adverse events
 - **Design Changes**

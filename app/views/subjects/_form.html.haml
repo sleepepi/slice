@@ -1,21 +1,12 @@
 - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
 
 = form_for [@subject.project, @subject], html: { class: 'form-horizontal' } do |f|
-  - if @subject.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @subject.errors.count, 'error'
-        prohibited this subject from being saved
-
-      %ul
-        - @subject.errors.full_messages.each do |msg|
-          %li= msg
-
   - if editable_sites.count > 1
     .form-group
       = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
       .col-md-10
         = select_tag :site_id, options_for_select([['---', nil]] + editable_sites.order(:name).pluck(:name, :id), (params[:site_id] || (@subject ? @subject.site_id : nil))), class: 'form-control'
+        = render 'layouts/errors', object: @subject, key: :site_id
   - elsif editable_sites.count == 1
     = hidden_field_tag :site_id, editable_sites.first.id
   - else
@@ -31,6 +22,7 @@
     = f.label :subject_code, @project.subject_code_name_full, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :subject_code, class: 'form-control', autocomplete: 'off'
+      = render 'layouts/errors', object: @subject, key: :subject_code, key_name: @project.subject_code_name_full
 
   .form-group
     .col-md-10.col-md-offset-2

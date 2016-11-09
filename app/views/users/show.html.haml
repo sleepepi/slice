@@ -53,14 +53,14 @@
     %tr
       %th Projects
       %td
-        %ul
+        %ul.list-unstyled
           - @user.all_viewable_projects.order(:name).each do |project|
             - if current_user.all_viewable_projects.pluck(:id).include?(project.id)
               %li= link_to project.name, project
     %tr
       %th Sites
       %td
-        %ul
+        %ul.list-unstyled
           - @user.all_viewable_sites.each do |site|
             - if current_user.all_viewable_sites.pluck(:id).include?(site.id)
               %li= link_to "#{site.name} - #{site.project.name}", [site.project, site]

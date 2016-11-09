@@ -1,28 +1,21 @@
 = form_for @user, html: { class: 'form-horizontal' } do |f|
-  - if @user.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @user.errors.count, 'error'
-        prohibited this user from being saved
-
-      %ul
-        - @user.errors.full_messages.each do |message|
-          %li= message
-
   .form-group
     = f.label :first_name, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :first_name, class: 'form-control'
+      = render 'layouts/errors', object: @user, key: :first_name
 
   .form-group
     = f.label :last_name, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :last_name, class: 'form-control'
+      = render 'layouts/errors', object: @user, key: :last_name
 
   .form-group
     = f.label :email, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :email, class: 'form-control'
+      = render 'layouts/errors', object: @user, key: :email
 
   .form-group
     .col-md-10.col-md-offset-2

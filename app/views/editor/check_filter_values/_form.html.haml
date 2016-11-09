@@ -2,20 +2,11 @@
 - method = @check_filter_value.new_record? ? :post : :patch
 
 = form_for [@project, @check, @check_filter, @check_filter_value], url: url, method: method, html: { class: 'form-horizontal' } do |f|
-  - if @check_filter_value.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @check_filter_value.errors.count, 'error'
-        prohibited this value from being saved
-
-      %ul
-        - @check_filter_value.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :value, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :value, class: 'form-control'
+      = render 'layouts/errors', object: @check_filter_value, key: :value
 
       - if @check_filter.variable
         .callout.callout-info

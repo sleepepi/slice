@@ -1,23 +1,15 @@
 = form_for [@project, @task], html: { class: 'form-horizontal' } do |f|
-  - if @task.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @task.errors.count, 'error'
-        prohibited this task from being saved
-
-      %ul
-        - @task.errors.full_messages.each do |message|
-          %li= message
-
   .form-group
     = f.label :description, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_area :description, rows: 7, class: 'form-control'
+      = render 'layouts/errors', object: @task, key: :description
 
   .form-group
     = f.label :due_date, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :due_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', value: @task.due_date ? @task.due_date.strftime('%m/%d/%Y') : nil
+      = render 'layouts/errors', object: @task, key: :due_date
 
   .form-group
     .col-md-10.col-md-offset-2
@@ -30,11 +22,13 @@
     = f.label :window_start_date, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :window_start_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', value: @task.window_start_date ? @task.window_start_date.strftime('%m/%d/%Y') : nil
+      = render 'layouts/errors', object: @task, key: :window_start_date
 
   .form-group
     = f.label :window_end_date, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :window_end_date, class: 'datepicker form-control', placeholder: 'mm/dd/yyyy', value: @task.window_end_date ? @task.window_end_date.strftime('%m/%d/%Y') : nil
+      = render 'layouts/errors', object: @task, key: :window_end_date
 
   - if @project.blinding_enabled?
     -# TODO: Only editable by blinded members.

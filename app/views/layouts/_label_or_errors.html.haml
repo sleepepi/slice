@@ -1,0 +1,2 @@
+- error_message = object.errors[key].present? ? object.errors[key].collect{ |e| "#{defined?(key_name) ? key_name : key.to_s.humanize} #{e}" }.join(', ') : defined?(key_name) ? key_name : nil
+= f.label key, error_message, class: 'control-label'

@@ -17,10 +17,8 @@
     - method = :patch
 
   = form_for @project, url: url, method: method, html: { class: 'form-vertical' } do |f|
-    - error_message = @project.errors.full_messages.join(',') if @project.errors.any?
-
     .form-group
-      = f.label :name, error_message, class: 'control-label'
+      = render 'layouts/label_or_errors', f: f, object: @project, key: :name
       = f.text_field :name, autocomplete: 'off', class: 'form-control'
 
     .form-group.submit-btn-container

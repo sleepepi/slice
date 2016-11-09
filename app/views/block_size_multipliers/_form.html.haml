@@ -1,14 +1,4 @@
 = form_for [@project, @randomization_scheme, @block_size_multiplier], html: { class: 'form-horizontal' } do |f|
-  - if @block_size_multiplier.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize(@block_size_multiplier.errors.count, "error")
-        prohibited this block size multiplier from being saved
-
-      %ul
-        - @block_size_multiplier.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :value, nil, class: 'col-md-2 control-label'
     .col-md-10
@@ -18,6 +8,7 @@
         %span.input-group-btn
           = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#value-info' }, tabindex: '-1' do
             %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @block_size_multiplier, key: :value
       #value-info.callout.callout-info{ style: 'display: none;' }
         %p
           Determines the amount of times treatment arms occur within this block.
@@ -30,8 +21,6 @@
           = succeed '.' do
             = link_to 'here', docs_permuted_block_path
 
-
-
   .form-group
     = f.label :allocation, nil, class: 'col-md-2 control-label'
     .col-md-10
@@ -40,6 +29,7 @@
         %span.input-group-btn
           = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#allocation-info' }, tabindex: '-1' do
             %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @block_size_multiplier, key: :allocation
       #allocation-info.callout.callout-info{ style: 'display: none;' }
         %strong Allocation
         %p
@@ -49,7 +39,6 @@
           Read more about block groups
           = succeed '.' do
             = link_to 'here', docs_permuted_block_path
-
 
   .form-group
     .col-md-offset-2.col-md-10

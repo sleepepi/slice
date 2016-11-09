@@ -18,26 +18,16 @@
         My Settings
       .panel-body
         = form_for current_user, url: settings_path, method: :post, html: { class: 'form-vertical' } do |f|
-          - if current_user.errors.reject { |key, _| [:current_password, :password, :password_confirmation].include?(key) }.any?
-            .callout.callout-danger
-              %strong
-                = pluralize current_user.errors.count, 'error'
-                prohibited settings from being saved
-
-              %ul
-                - current_user.errors.full_messages.each do |message|
-                  %li= message
-
           .form-group
-            = f.label :first_name, nil, class: 'control-label'
+            = render 'layouts/label_or_errors', f: f, object: current_user, key: :first_name
             = f.text_field :first_name, class: 'form-control'
 
           .form-group
-            = f.label :last_name, nil, class: 'control-label'
+            = render 'layouts/label_or_errors', f: f, object: current_user, key: :last_name
             = f.text_field :last_name, class: 'form-control'
 
           .form-group
-            = f.label :email, nil, class: 'control-label'
+            = render 'layouts/label_or_errors', f: f, object: current_user, key: :email
             = f.text_field :email, class: 'form-control'
 
           .form-group
@@ -78,28 +68,19 @@
         Change Password
       .panel-body
         = form_for current_user, url: change_password_path, method: :patch, html: { id: 'reset_password', class: 'form-vertical' } do |f|
-          - if current_user.errors.any?
-            .callout.callout-danger
-              %strong
-                = pluralize current_user.errors.count, 'error'
-                prohibited this password from being saved
-
-              %ul
-                - current_user.errors.full_messages.each do |msg|
-                  %li= msg
-
           .form-group
-            = f.label :current_password, 'Current Password', class: 'control-label'
+            = render 'layouts/label_or_errors', f: f, object: current_user, key: :current_password, key_name: 'Current Password'
             = f.password_field :current_password, class: 'form-control', autocomplete: 'off'
+
           .form-group
-            = f.label :password, 'New Password', class: 'control-label'
+            = render 'layouts/label_or_errors', f: f, object: current_user, key: :password, key_name: 'New Password'
             = f.password_field :password, class: 'form-control', autocomplete: 'off'
 
           .form-group
-            = f.label :password, 'Password Confirmation', class: 'control-label'
+            = render 'layouts/label_or_errors', f: f, object: current_user, key: :password_confirmation, key_name: 'Password Confirmation'
             = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
 
-          .form-group
+          .form-group.submit-btn-container
             = link_to 'Update Password', '#', class: 'btn btn-accent btn-shadow', data: { object: 'settings-save', target: '#reset_password' }
       .panel-footer
         - if current_user.password_expires_in > 0

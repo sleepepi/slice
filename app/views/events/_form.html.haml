@@ -1,24 +1,20 @@
 = form_for [@event.project, @event], html: { class: 'form-horizontal' } do |f|
-  - if @event.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize(@event.errors.count, "error")
-        prohibited this event from being saved
-
-      %ul
-        - @event.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :name, class: 'form-control', autocomplete: 'off', data: { object: (@event.new_record? ? 'create-slug' : ''), target: '#event_slug' }
+      = render 'layouts/errors', object: @event, key: :name
 
   .form-group
     = f.label :slug, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :slug, class: 'form-control'
-      .callout.callout-info
+      .input-group
+        = f.text_field :slug, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#slug-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @event, key: :slug
+      #slug-info.callout.callout-info{ style: 'display: none;' }
         %strong
           Naming convention
         %ul
@@ -45,8 +41,13 @@
   .form-group
     = f.label :position, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.number_field :position, class: 'form-control', autocomplete: 'off', min: 0
-      .callout.callout-info
+      .input-group
+        = f.number_field :position, class: 'form-control', autocomplete: 'off', min: 0
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#position-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @event, key: :position
+      #position-info.callout.callout-info{ style: 'display: none;' }
         Events with the same position will be shown side-by-side and subjects will typically only select one of these events.
 
   .form-group
@@ -55,7 +56,9 @@
         %label
           = f.check_box :archived
           Archive and hide the event from subject page
-      .callout.callout-info
+        = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#archived-info' }, tabindex: '-1' do
+          %span.glyphicon.glyphicon-info-sign
+      #archived-info.callout.callout-info{ style: 'display: none;' }
         Archived events will still show up if the subject has sheets entered for the archived event.
 
   - if @project.blinding_enabled?
@@ -65,7 +68,9 @@
           %label
             = f.check_box :only_unblinded
             Only Unblinded
-        .callout.callout-info
+          = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#only-unblinded-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+        #only-unblinded-info.callout.callout-info{ style: 'display: none;' }
           Select to hide the event and associated sheets and comments from blinded staff
 
   .form-group

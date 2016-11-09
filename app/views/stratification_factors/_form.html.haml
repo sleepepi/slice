@@ -1,18 +1,9 @@
 = form_for [@project, @randomization_scheme, @stratification_factor], html: { class: 'form-horizontal' } do |f|
-  - if @stratification_factor.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize(@stratification_factor.errors.count, "error")
-        prohibited this stratification factor from being saved
-
-      %ul
-        - @stratification_factor.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :name, class: 'form-control'
+      = render 'layouts/errors', object: @stratification_factor, key: :name
 
   .form-group
     = f.label :calculation, nil, class: 'col-md-2 control-label'
@@ -41,7 +32,7 @@
           criteria for the selected subject and will prevent randomization if
           other criteria are selected, or if the criteria is blank.
 
-  - if @randomization_scheme.stratification_factors.where(stratifies_by_site: true).count == 0 or @stratification_factor.stratifies_by_site?
+  - if @randomization_scheme.stratification_factors.where(stratifies_by_site: true).count == 0 || @stratification_factor.stratifies_by_site?
     .form-group
       .col-md-10.col-md-offset-2
         or
@@ -49,6 +40,7 @@
           %label
             = f.check_box :stratifies_by_site
             Stratify by Site
+        = render 'layouts/errors', object: @stratification_factor, key: :stratifies_by_site
 
   .form-group
     .col-md-offset-2.col-md-10

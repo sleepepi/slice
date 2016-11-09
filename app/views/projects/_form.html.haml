@@ -6,26 +6,22 @@
   - method = :patch
 
 = form_for @project, url: url, method: method, html: { class: 'form-horizontal' } do |f|
-  - if @project.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @project.errors.count, 'error'
-        prohibited this project from being saved
-
-      %ul
-        - @project.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :name, autocomplete: 'off', class: 'form-control', data: { object: (@project.new_record? ? 'create-slug' : ''), target: '#project_slug' }
+      = render 'layouts/errors', object: @project, key: :name
 
   .form-group
     = f.label :slug, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :slug, class: 'form-control'
-      .callout.callout-info
+      .input-group
+        = f.text_field :slug, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#slug-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @project, key: :slug
+      #slug-info.callout.callout-info{ style: 'display: none;' }
         %strong Naming convention
         %ul
           %li

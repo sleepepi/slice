@@ -1,24 +1,20 @@
 = form_for [@project, @category], html: { class: 'form-horizontal' } do |f|
-  - if @category.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @category.errors.count, 'error'
-        prohibited this category from being saved
-
-      %ul
-        - @category.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :name, class: 'form-control', data: { object: (@category.new_record? ? 'create-slug' : ''), target: '#category_slug' }
+      = f.text_field :name, class: 'form-control', autocomplete: 'off', data: { object: (@category.new_record? ? 'create-slug' : ''), target: '#category_slug' }
+      = render 'layouts/errors', object: @category, key: :name
 
   .form-group
-    = f.label :slug, 'URL Slug', class: 'col-md-2 control-label'
+    = f.label :slug, 'URL Slug', class: 'col-md-2 control-label', autocomplete: 'off'
     .col-md-10
-      = f.text_field :slug, class: 'form-control'
-      .callout.callout-info
+      .input-group
+        = f.text_field :slug, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#slug-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @category, key: :slug
+      #slug-info.callout.callout-info{ style: 'display: none;' }
         %strong Naming convention
         %ul
           %li
@@ -53,6 +49,7 @@
     = f.label :position, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.text_field :position, class: 'form-control'
+      = render 'layouts/errors', object: @category, key: :position
 
   .form-group
     .col-md-10.col-md-offset-2

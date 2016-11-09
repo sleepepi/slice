@@ -2,30 +2,23 @@
 - method = @check_filter.new_record? ? :post : :patch
 
 = form_for [@project, @check, @check_filter], url: url, method: method, html: { class: 'form-horizontal' } do |f|
-  - if @check_filter.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @check_filter.errors.count, 'error'
-        prohibited this filter from being saved
-
-      %ul
-        - @check_filter.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :filter_type, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.select :filter_type, CheckFilter::FILTER_TYPE, {}, class: 'form-control'
+      = render 'layouts/errors', object: @check_filter, key: :filter_type
 
   .form-group
     = f.label :variable_id, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.select :variable_id, @project.variables.order(:name).pluck(:name, :id), { include_blank: true }, class: 'form-control chzn-select'
+      = render 'layouts/errors', object: @check_filter, key: :variable_id
 
   .form-group
     = f.label :operator, nil, class: 'col-md-2 control-label'
     .col-md-10
       = f.select :operator, CheckFilter::OPERATOR_TYPE, {}, class: 'form-control'
+      = render 'layouts/errors', object: @check_filter, key: :operator
 
   .form-group
     .col-md-10.col-md-offset-2

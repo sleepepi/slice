@@ -2,26 +2,22 @@
 - method = @check.new_record? ? :post : :patch
 
 = form_for [@project, @check], url: url, method: method, html: { class: 'form-horizontal' } do |f|
-  - if @check.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @check.errors.count, 'error'
-        prohibited this check from being saved
-
-      %ul
-        - @check.errors.full_messages.each do |msg|
-          %li= msg
-
   .form-group
     = f.label :name, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :name, class: 'form-control', data: { object: (@check.new_record? ? 'create-slug' : ''), target: '#check_slug' }
+      = f.text_field :name, class: 'form-control', autocomplete: 'off', data: { object: (@check.new_record? ? 'create-slug' : ''), target: '#check_slug' }
+      = render 'layouts/errors', object: @check, key: :name
 
   .form-group
     = f.label :slug, 'URL Slug', class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :slug, class: 'form-control'
-      .callout.callout-info
+      .input-group
+        = f.text_field :slug, class: 'form-control'
+        %span.input-group-btn
+          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#slug-info' }, tabindex: '-1' do
+            %span.glyphicon.glyphicon-info-sign
+      = render 'layouts/errors', object: @check, key: :slug
+      #slug-info.callout.callout-info{ style: 'display: none;' }
         %strong Naming convention
         %ul
           %li
@@ -48,7 +44,7 @@
   .form-group
     = f.label :message, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :message, class: 'form-control'
+      = f.text_field :message, class: 'form-control', autocomplete: 'off'
 
   .form-group
     .col-md-10.col-md-offset-2
