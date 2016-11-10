@@ -8,8 +8,8 @@
 - **Adverse Event Changes**
   - Improved styling of files attached to adverse events
 - **Design Changes**
-  - Strings and numerics inputs without prefixes, suffixes, and units now
-    display properly on design builder
+  - String and numeric inputs without prefixes, suffixes, and units now display
+    properly on design builder
   - Time duration, imperial height, and imperial weight variables can now be
     used in branching logic, using total seconds, total inches, and total ounces
     respectively as comparison
