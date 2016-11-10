@@ -51,7 +51,7 @@ class Search
 
   def set_events
     @events = \
-      if @operator == 'any'
+      if %w(any missing).include?(@operator)
         @project.events
       else
         @project.events.where(
@@ -163,7 +163,12 @@ class Search
       sheet_ids << all_viewable_sheets.where(subject_events: { event_id: event.id }).pluck(:id)
     end
     sheet_ids.flatten!
-    sheet_scope.where(id: sheet_ids)
+
+    if @operator == 'missing'
+      sheet_scope.where.not(id: sheet_ids)
+    else
+      sheet_scope.where(id: sheet_ids)
+    end
   end
 
   def compute_sheets_for_variable

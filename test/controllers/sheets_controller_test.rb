@@ -94,6 +94,12 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should search for sheets that are not on an event' do
+    get :index, params: { project_id: @project, search: 'events:missing' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
   test 'should get index with invalid project' do
     get :index, params: { project_id: -1 }
     assert_nil assigns(:sheets)

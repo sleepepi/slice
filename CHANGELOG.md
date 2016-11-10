@@ -49,6 +49,8 @@
     - `weight:<=4lb`
   - Sheets can now be filtered by responses that include spaces
     - `staff:"Dr John"`
+  - Sheets can be filtered by those not associated with an event
+    - `events:missing`
 - **Subject Changes**
   - Subject index search now autocompletes:
     - Subject Codes
