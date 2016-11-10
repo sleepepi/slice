@@ -19,6 +19,8 @@
     design itself
   - Sections are no longer required to have a name and can exist with simply a
     description
+  - Designs not on a specific event are now listed when adding a new event to
+    an existing subject
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
   - Improved documentation on setting up a new randomization scheme

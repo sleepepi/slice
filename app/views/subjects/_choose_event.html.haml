@@ -25,3 +25,22 @@
             = link_to subject_event.event_date_to_s, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
           %br
           = link_to "+ Add #{event.name}", choose_date_project_subject_path(@project, @subject, event_id: event.to_param)
+
+  - eventless_designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] }).left_outer_joins(:event_designs).where(event_designs: { design_id: nil })
+  - if eventless_designs.present?
+    %hr
+    - eventless_designs.order('categories.position', :name).group_by(&:category).each do |category, category_designs|
+      %strong
+        - if category
+          = category.name
+        - else
+          Uncategorized
+      %ul
+        - category_designs.each do |design|
+          %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
+
+      - if eventless_designs.where(publicly_available: true).count > 0
+        %p.text-muted.center
+          You can also generate a link to a
+          = succeed '.' do
+            = link_to 'fillable sheet', send_url_project_subject_path(@project, @subject)
