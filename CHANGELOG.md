@@ -76,6 +76,7 @@
 ### Refactoring
 - Grid variables are no longer stored as an array, and are now defined by proper
   database relationships
+- Removed deprecated options column from designs
 
 ## 0.44.1 (October 31, 2016)
 

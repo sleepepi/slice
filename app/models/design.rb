@@ -5,8 +5,6 @@
 class Design < ApplicationRecord
   mount_uploader :csv_file, SpreadsheetUploader
 
-  serialize :options, Array
-
   # Callbacks
   after_save :reset_sheet_total_response_count, :set_slug
 
