@@ -6,6 +6,12 @@ class Search
     new(project, current_user, sheet_scope, token).run_sheets
   end
 
+  def self.pull_tokens(search)
+    search.to_s.squish.split(/\s(?=(?:[^"]|"[^"]*")*$)/).collect do |part|
+      ::Token.parse(part)
+    end
+  end
+
   attr_accessor :project, :sheet_scope, :token, :current_user, :variable
 
   def initialize(project, current_user, sheet_scope, token)
@@ -13,13 +19,12 @@ class Search
     @current_user = current_user
     @sheet_scope = sheet_scope
     @token = token
-    @operator = token[:operator]
-
+    @operator = token.operator
     set_checks_or_variable
   end
 
   def set_checks_or_variable
-    case token[:key]
+    case @token.key
     when 'checks'
       set_checks
     when 'events'
@@ -36,23 +41,29 @@ class Search
   end
 
   def set_checks
-    if @operator == 'any'
-      @checks = @project.runnable_checks
-    else
-      @checks = @project.checks.where(slug: token[:value].to_s.split(','))
-    end
+    @checks = \
+      if @operator == 'any'
+        @project.runnable_checks
+      else
+        @project.checks.where(slug: @token.values)
+      end
   end
 
   def set_events
-    if @operator == 'any'
-      @events = @project.events
-    else
-      @events = @project.events.where('slug ilike any (array[?]) or id IN (?)', token[:value].to_s.split(','), token[:value].to_s.split(',').collect(&:to_i))
-    end
+    @events = \
+      if @operator == 'any'
+        @project.events
+      else
+        @project.events.where(
+          'slug ilike any (array[?]) or id IN (?)',
+          @token.values,
+          @token.values.collect(&:to_i)
+        )
+      end
   end
 
   def set_variable
-    @variable = @project.variables.find_by_name(token[:key])
+    @variable = @project.variables.find_by_name(@token.key)
     return unless @variable
     if %w(any missing).include?(@operator)
       @values = []
@@ -65,12 +76,12 @@ class Search
     elsif %w(entered present unentered blank).include?(@operator)
       @values = @variable.captured_values.uniq
     else
-      @values = parse_values_for_variable(token)
+      @values = parse_values_for_variable
     end
   end
 
-  def parse_values_for_variable(token)
-    values = token[:value].to_s.split(',').reject(&:blank?).collect(&:strip).reject(&:blank?).uniq.collect do |val|
+  def parse_values_for_variable
+    values = @token.values.reject(&:blank?).collect(&:strip).reject(&:blank?).uniq.collect do |val|
       if !(/^(\d+)s$/ =~ val).nil?
         val.gsub(/s$/, '')
       elsif !(/^(\d+)m$/ =~ val).nil?
@@ -111,7 +122,7 @@ class Search
       compute_sheets_for_events
     elsif @variable
       compute_sheets_for_variable
-    elsif @token[:key] == 'randomized'
+    elsif @token.key == 'randomized'
       randomized_subjects_sheets
     else
       Sheet.none

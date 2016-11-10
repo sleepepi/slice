@@ -317,7 +317,7 @@ class SubjectsController < ApplicationController
   end
 
   def filter_scope(scope, search)
-    @tokens = pull_tokens(search)
+    @tokens = Search.pull_tokens(search)
     # TODO: Remove randomized_used if left_outer_join is used in subject.rb
     randomized_used = false
     @tokens.each do |token|
@@ -341,11 +341,5 @@ class SubjectsController < ApplicationController
       end
     end
     scope.search(@tokens.select { |t| t.key == 'search' }.collect(&:value).join(' '))
-  end
-
-  def pull_tokens(token_string)
-    token_string.to_s.squish.split(/\s/).collect do |part|
-      Token.parse(part)
-    end
   end
 end

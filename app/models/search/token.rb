@@ -8,14 +8,16 @@ class Token
 
   attr_accessor :key, :operator, :value
 
-  def initialize
-    @operator = nil
-    @key = nil
-    @value = nil
+  def initialize(key: nil, operator: nil, value: nil)
+    @key = key
+    @operator = operator
+    @value = value
+    @has_quotes = false
   end
 
   def parse(part)
     (@key, @value) = part.split(':')
+    @value = remove_quotes(@value)
     if @value.blank?
       @value = @key
       @key = 'search'
@@ -51,6 +53,14 @@ class Token
     end
   end
 
+  def values
+    if @has_quotes
+      [@value]
+    else
+      @value.split(',')
+    end
+  end
+
   private
 
   def set_operator
@@ -58,5 +68,11 @@ class Token
     found = (/^>=|^<=|^>|^=|^<|^!=|^entered$|^present$|^any$|^missing$|^unentered$|^blank$/).match(@value)
     operator = found[0] if found
     operator
+  end
+
+  def remove_quotes(old_value)
+    new_value = old_value.to_s.gsub(/^"(.*?)"$/) { |m| $1 }
+    @has_quotes = true if old_value.to_s.size != new_value.size
+    new_value
   end
 end

@@ -13,7 +13,17 @@
       %td.center= filter_link Sheet.array_count(blank_responses), @design, variable, ':blank', event_id: event_id
       %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id
 
-- if valid_responses.uniq.size <= 50
-  = valid_responses.uniq.sort.join(', ')
+- unique_responses = NaturalSort.sort(valid_responses.uniq)
+- if unique_responses.size <= 50
+  - unique_responses.each_with_index do |response, index|
+    - if !/\s/.match(response).nil?
+      - search = "#{variable.name}:\"#{response}\""
+    - else
+      - search = "#{variable.name}:#{response}"
+    - if index < unique_responses.size - 1
+      = succeed ',' do
+        = link_to response, project_sheets_path(@project, search: search)
+    - else
+      = link_to response, project_sheets_path(@project, search: search)
 - else
   .text-muted Individual responses suppressed since the total amount of responses exceeds 50.

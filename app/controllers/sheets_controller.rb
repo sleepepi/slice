@@ -198,54 +198,23 @@ class SheetsController < ApplicationController
     end
   end
 
-  def filter_scope(sheet_scope, search)
-    tokens = pull_tokens(search)
-    terms = []
-    tokens.each do |token|
-      if token[:key] == 'created'
-        sheet_scope = scope_by_date(sheet_scope, token)
-      elsif token[:key] == 'search'
-        terms << token[:value]
+  def filter_scope(scope, search)
+    @tokens = Search.pull_tokens(search)
+    @tokens.reject { |t| t.key == 'search' }.each do |token|
+      case token.key
+      when 'created'
+        scope = scope_by_date(scope, token)
       else
-        sheet_scope = scope_by_variable(sheet_scope, token)
+        scope = scope_by_variable(scope, token)
       end
     end
-    sheet_scope = sheet_scope.search(terms.join(' '))
-    sheet_scope
-  end
-
-  def pull_tokens(token_string)
-    token_string.to_s.squish.split(/\s/).collect do |part|
-      operator = nil
-      (key, value) = part.split(':')
-      if value.blank?
-        value = key
-        key = 'search'
-      elsif %w(has is).include?(key)
-        key = value
-        value = '1'
-      elsif %w(not).include?(key)
-        key = value
-        value = '1'
-        operator = '!='
-      else
-        operator = set_operator(value)
-        value = value.gsub(/^#{operator}/, '') unless operator.nil?
-      end
-      { key: key, operator: operator, value: value }
-    end
-  end
-
-  def set_operator(value)
-    operator = nil
-    found = ((/^>=|^<=|^>|^=|^<|^!=|^entered$|^present$|^any$|^missing$|^unentered$|^blank$/).match(value))
-    operator = found[0] if found
-    operator
+    terms = @tokens.select { |t| t.key == 'search' }.collect(&:value)
+    scope.search(terms.join(' '))
   end
 
   def scope_by_date(sheet_scope, token)
-    date = Date.strptime(token[:value], '%Y-%m-%d')
-    case token[:operator]
+    date = Date.strptime(token.value, '%Y-%m-%d')
+    case token.operator
     when '<'
       sheet_scope = sheet_scope.sheet_before(date - 1.day)
     when '>'

@@ -134,11 +134,12 @@ class Sheet < ApplicationRecord
 
   # TODO: Temporary rewrite to use Search instead of sheet scopes
   def self.filter_variable(variable, current_user, operator)
+    token = Token.new(key: variable.name, operator: operator)
     Search.run_sheets(
       variable.project,
       current_user,
       current_user.all_viewable_sheets.where(project_id: variable.project.id).where(missing: false),
-      { key: variable.name, operator: operator }
+      token
     ).where(design_id: variable.designs.select(:id))
   end
 

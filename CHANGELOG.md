@@ -43,6 +43,8 @@
     - `weight:<=64`
     - `weight:<=64oz`
     - `weight:<=4lb`
+  - Sheets can now be filtered by responses that include spaces
+    - `staff:"Dr John"`
 - **Subject Changes**
   - Subject index search now autocompletes:
     - Subject Codes
