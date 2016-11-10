@@ -25,7 +25,7 @@ class Section < ApplicationRecord
   # Model Methods
 
   def to_slug
-    name.parameterize
+    name.to_s.parameterize
   end
 
   def level_name
