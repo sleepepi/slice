@@ -101,7 +101,7 @@ class RandomizationSchemesController < ApplicationController
       criteria_pair = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
       sfo = sf.stratification_factor_options.find_by_id criteria_pair.last if criteria_pair
       unless sfo && sfo.value.to_s == expected_stratification_factors[sf.id.to_s].to_s
-        @randomization.errors.add(sf.name, 'does not match value on specified on subject sheet')
+        @randomization.errors.add(sf.name, 'does not match value specified on subject sheet')
         invalid_criteria_found = true
       end
     end

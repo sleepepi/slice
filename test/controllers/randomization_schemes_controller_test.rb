@@ -401,7 +401,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
       }
     end
     assert assigns(:randomization).errors.size > 0
-    assert_equal ['does not match value on specified on subject sheet'], assigns(:randomization).errors[:calculated]
+    assert_equal ['does not match value specified on subject sheet'], assigns(:randomization).errors[:calculated]
     assert_response :success
   end
 
