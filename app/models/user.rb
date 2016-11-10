@@ -291,6 +291,17 @@ class User < ApplicationRecord
     all_editable_comments
   end
 
+  def sheets_with_comments(project)
+    scope = all_viewable_sheets.where(project: project)
+    scope.where(id: project.blinded_comments(self).select(:sheet_id))
+  end
+
+  def sheets_with_files(project)
+    scope = all_viewable_sheets.where(project: project)
+    scope.where(id: SheetVariable.with_files.select(:sheet_id))
+         .or(scope.where(id: Grid.with_files.joins(:sheet_variable).select('sheet_variables.sheet_id')))
+  end
+
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
     super && !deleted?

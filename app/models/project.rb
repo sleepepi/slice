@@ -162,6 +162,10 @@ class Project < ApplicationRecord
     !blinding_enabled? || user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 0 || site_users.where(user_id: current_user.id, unblinded: true).count > 0
   end
 
+  def blinded_comments(current_user)
+    Comment.current.where(sheet_id: current_user.all_viewable_sheets.where(missing: false, project_id: id).select(:id))
+  end
+
   def show_type
     hide_values_on_pdfs? ? :display_name : :name
   end

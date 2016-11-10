@@ -58,6 +58,8 @@
     - `not:randomized`
     - `adverse-events:open`
     - `adverse-events:closed`
+    - `has:comments`
+    - `has:files`
   - Filters no longer reset when adding new filters or sorting
   - Entering an exact subject code on the subject index now redirects to the
     subject page

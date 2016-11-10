@@ -338,6 +338,10 @@ class SubjectsController < ApplicationController
           else
             scope.closed_aes
           end
+      when 'comments'
+        scope = scope.where(id: current_user.sheets_with_comments(@project).select(:subject_id))
+      when 'files'
+        scope = scope.where(id: current_user.sheets_with_files(@project).select(:subject_id))
       end
     end
     scope.search(@tokens.select { |t| t.key == 'search' }.collect(&:value).join(' '))
