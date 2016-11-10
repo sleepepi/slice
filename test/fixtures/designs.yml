@@ -1,80 +1,65 @@
 one:
   name: Design One
-  description: MyText
-  # options:
   user: valid
   project: one
 
 two:
   name: Design Two
-  description: MyText
-  # options:
   user: valid
   project: two
 
+# This is a blank design.
 two_copy:
   name: Design Two Copy
-  description: This is a blank design.
-  # options:
   user: valid
   project: two
 
+# A Design with all types of variables used
 all_variable_types:
   name: All Variable Types
-  description: A Design with all types of variables used
-  # options:
   user: valid
   project: one
 
+# Design with no validations or ranges
 has_no_validations:
   name: Design with no validations or ranges
-  description: Design with no validations or ranges
-  # options:
   user: valid
   project: one
 
+# Used to test section and variable reordering
 sections_and_variables:
   name: Sections and Variables
-  description: Used to test section and variable reordering
-  # options:
   user: valid
   project: one
   slug: 'sections-and-variables'
 
+# Test file upload and removal.
 section_and_file:
   name: Section and File Variable
-  description: Test file upload and removal.
-  # options:
   user: valid
   project: one
 
+# Test for grid variable saving
 has_grid:
   name: Includes a Grid Variable
-  description: Test for grid variable saving
-  # options:
   user: valid
   project: one
 
+# Valid user should be able to view and edit this design
 no_sites:
   name: This design is saved on a project with no sites
-  description: Valid user should be able to view and edit this design
-  # options:
   user: valid
   project: no_sites
 
 admin_design:
   name: On admin project
   slug: private-design
-  # description:
-  # options:
   user: admin
   project: three
 
 admin_public_design:
   name: On Public Admin Project
   slug: public-survey
-  # description:
-  # options:
   user: admin
   project: three
   publicly_available: true
@@ -82,8 +67,6 @@ admin_public_design:
 admin_public_design_with_required_fields:
   name: On Public Admin Project
   slug: public-survey-required-fields
-  # description:
-  # options:
   user: admin
   project: three
   publicly_available: true
@@ -91,7 +74,6 @@ admin_public_design_with_required_fields:
 admin_public_design_with_redirect:
   name: On Public Admin with Redirect
   slug: public-survey-redirect
-  # options:
   user: admin
   project: three
   publicly_available: true
@@ -99,46 +81,34 @@ admin_public_design_with_redirect:
 
 single_design:
   name: On single_design project
-  # description:
-  # options:
   user: valid
   project: single_design
 
 one_sheet_entered:
   name: One Sheet of Existing Data
-  # description:
-  # options:
   user: valid
   project: one
 
 weight_and_gender:
   name: Weight and Gender Collected for Reports
-  # description:
-  # options:
   user: valid
   project: one
 
 two_scale_variables:
   name: two_scale_variables
-  # description:
-  # options:
   user: valid
   project: one
 
 contains_single_scale_in_grid:
   name: scale_in_grid
-  # description:
-  # options:
   user: valid
   project: one
 
 checkbox_and_radio:
   name: Checkbox and Radio for Export Test
-  # options:
 
 on_slug_project:
   name: On Project with Slug
-  # options:
   user: valid
   project: named_project
   publicly_available: true

@@ -15,6 +15,10 @@
     respectively as comparison
   - Time duration, imperial height, and imperial weight variables can now be
     used by calculated variables
+  - Design descriptions have been removed and moved into a subsection on the
+    design itself
+  - Sections are no longer required to have a name and can exist with simply a
+    description
 - **Randomization Changes**
   - Improved the display of subject randomization on mobile devices
   - Improved documentation on setting up a new randomization scheme

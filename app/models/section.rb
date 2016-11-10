@@ -20,7 +20,7 @@ class Section < ApplicationRecord
   belongs_to :user
 
   # Model Validation
-  validates :name, :project_id, :design_id, :user_id, presence: true
+  validates :project_id, :design_id, :user_id, presence: true
 
   # Model Methods
 

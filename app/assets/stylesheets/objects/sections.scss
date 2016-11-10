@@ -13,14 +13,6 @@
   line-height: 1.1;
   margin-bottom: 30px;
   padding-bottom: 9.5px;
-
-  + .design-description {
-    margin-top: -20px;
-  }
-}
-
-.design-description {
-  text-align: justify;
 }
 
 .section-header {
@@ -33,6 +25,10 @@
   margin-bottom: 30px;
   margin-top: 50px;
   padding-bottom: 9.5px;
+
+  + .section-description {
+    margin-top: 10px;
+  }
 }
 
 .sub-section-header {
@@ -45,8 +41,11 @@
   margin-bottom: 11px;
   margin-top: 50px;
   padding-bottom: 9.5px;
-}
 
+  + .section-description {
+    margin-top: 10px;
+  }
+}
 
 @media screen and (min-width: $screen-md-min) {
   .design-header {
@@ -60,4 +59,8 @@
   .sub-section-header {
     font-size: 28px;
   }
+}
+
+.section-description {
+  @include remove-last-child-bottom-margin;
 }

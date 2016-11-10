@@ -308,29 +308,6 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  test 'should not create section with blank name on design' do
-    assert_difference('DesignOption.count', 0) do
-      assert_difference('Section.count', 0) do
-        post :create_section, params: {
-          project_id: @project, design_id: @design,
-          design_option: { position: 0 },
-          section: {
-            name: '',
-            description: 'Section Description',
-            level: '1'
-          }
-        }, format: 'js'
-      end
-    end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:section)
-    assert assigns(:section).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:section).errors[:name]
-    assert_template 'new_section'
-  end
-
   test 'should create variable on design' do
     assert_difference('DesignOption.count') do
       assert_difference('Variable.current.count') do

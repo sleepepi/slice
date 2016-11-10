@@ -1,2 +1,25 @@
-%div
-  = render 'sections/header', design_option: design_option, section: section
+- if section.level < 2
+  %div{ style: 'margin-bottom: 20px; ' }
+    - if section.name.present?
+      - case section.level
+      - when 0
+        .section-header= section.name
+      - when 1
+        .sub-section-header= section.name
+      - else
+        = section.name
+    - if section.description.present?
+      .section-description= simple_markdown section.description
+    = render 'sections/image', design_option: design_option, section: section
+- else
+  - css_class = case section.level
+  - when 2
+    - 'alert-info'
+  - when 3
+    - 'alert-warning'
+  - when 4
+    - 'alert-danger'
+  .alert{ class: css_class }
+    %strong= section.name
+    = simple_markdown section.description unless section.description.blank?
+    = render 'sections/image', design_option: design_option, section: section

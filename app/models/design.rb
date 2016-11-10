@@ -319,7 +319,12 @@ class Design < ApplicationRecord
   end
 
   def insert_new_design_option!(design_option)
-    design_options.where.not(id: design_option.id).where('position >= ?', design_option.position).each { |dopt| dopt.update(position: dopt.position + 1) }
+    design_options
+      .where.not(id: design_option.id)
+      .where('position >= ?', design_option.position)
+      .find_each do |dopt|
+        dopt.update(position: dopt.position + 1)
+      end
     recalculate_design_option_positions!
   end
 

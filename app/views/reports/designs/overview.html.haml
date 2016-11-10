@@ -13,9 +13,6 @@
         %span.hidden-xs= "#{@design.name} Overview"
         %span.hidden-sm.hidden-md.hidden-lg= "#{@design.short_name} Overview"
 
-- if @design.description.present?
-  .jumbotron= simple_markdown @design.description
-
 - @colors = ['#3366cc', '#dc3912', '#ff9900', '#109618', '#66aa00', '#dd4477', '#0099c6', '#990099']
 
 
@@ -42,7 +39,7 @@
   - variable = design_option.variable
   - if section
     .section-lead
-      = render 'sections/show', design: @design, design_option: design_option, section: section
+      = render 'sections/show', design_option: design_option, section: section
   - elsif variable
     %a.anchor-top{ id: variable.name }
     .dashboard-lead

@@ -49,10 +49,6 @@
 
 \section*{<%= latex_safe @design.name %>}
 
-<%= latex_safe @design.description %> \\
-
-
-
 <% @design.design_options.includes(:variable, :section).each_with_index do |design_option, index| %>
   \FloatBarrier
   <% if section = design_option.section %>

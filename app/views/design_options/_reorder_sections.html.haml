@@ -1,6 +1,7 @@
 = form_tag update_section_order_project_design_design_options_path(@design.project, @design), method: :post, remote: true, id: 'reorder_sections_design_form' do
-  %ul#reorder_sections_design.design-list{ data: { object: "sortable" } }
+  %ul#reorder_sections_design.design-list{ data: { object: 'sortable' } }
     - @design.main_sections.each_with_index do |design_option, index|
-      %li.li-section.nowrap{ id: "section_#{index}", style: 'margin-bottom:5px', data: { position: index } }
-        %div{ style: "display:inline-block" }
-          %a{ href: "#" }= design_option.section.name
+      - section = design_option.section
+      %li.li-section.nowrap{ id: "section_#{index}", style: 'margin-bottom: 5px;', data: { position: index } }
+        %div{ style: 'display: inline-block;' }
+          %a{ href: '#' }= section.name.present? ? section.name : section.description.to_s.truncate(50)

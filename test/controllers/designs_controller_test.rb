@@ -151,7 +151,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   # test 'should not create design with a duplicated variable' do
   #   assert_difference('Design.count', 0) do
-  #     post :create, project_id: @project, design: { description: 'Design description', name: 'Design Three',
+  #     post :create, project_id: @project, design: { name: 'Design Three',
   #                             option_tokens: [ { 'variable_id' => ActiveRecord::FixtureSet.identify(:dropdown) },
   #                                              { 'variable_id' => ActiveRecord::FixtureSet.identify(:dropdown) }
   #                                            ]
@@ -165,7 +165,7 @@ class DesignsControllerTest < ActionController::TestCase
 
   # test 'should not create design with a duplicated section name' do
   #   assert_difference('Design.count', 0) do
-  #     post :create, project_id: @project, design: { description: 'Design description', name: 'Design with Sections',
+  #     post :create, project_id: @project, design: { name: 'Design with Sections',
   #                             option_tokens: [ { 'section_name' => 'Section A' },
   #                                              { 'section_name' => 'Section A' }
   #                                            ]
@@ -258,12 +258,11 @@ class DesignsControllerTest < ActionController::TestCase
 
   test 'should update design' do
     patch :update, params: {
-      id: @design, project_id: @project,
-      design: { description: 'Updated Description' }
+      id: @design, project_id: @project, design: { name: 'Updated Name' }
     }, format: 'js'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 'Updated Description', assigns(:design).description
+    assert_equal 'Updated Name', assigns(:design).name
     assert_template 'show'
   end
 
@@ -301,7 +300,7 @@ class DesignsControllerTest < ActionController::TestCase
   end
 
   # test 'should not update design with blank name' do
-  #   patch :update, id: @design, project_id: @project, design: { description: @design.description, name: '' }
+  #   patch :update, id: @design, project_id: @project, design: { name: '' }
   #   assert_not_nil assigns(:design)
   #   assert assigns(:design).errors.size > 0
   #   assert_equal ["can't be blank"], assigns(:design).errors[:name]
@@ -309,14 +308,14 @@ class DesignsControllerTest < ActionController::TestCase
   # end
 
   # test 'should not update invalid design' do
-  #   patch :update, id: -1, project_id: @project, design: { description: @design.description, name: @design.name }
+  #   patch :update, id: -1, project_id: @project, design: { name: @design.name }
   #   assert_not_nil assigns(:project)
   #   assert_nil assigns(:design)
   #   assert_redirected_to project_designs_path(assigns(:project))
   # end
 
   # test 'should not update design with invalid project' do
-  #   patch :update, id: @design, project_id: -1, design: { description: @design.description, name: @design.name }
+  #   patch :update, id: @design, project_id: -1, design: { name: @design.name }
   #   assert_nil assigns(:project)
   #   assert_nil assigns(:design)
   #   assert_redirected_to root_path

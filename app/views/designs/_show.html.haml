@@ -1,15 +1,12 @@
 - unless params[:header] == '0'
   .design-header= design.name
 
-- unless design.description.blank?
-  .design-description.lead
-    = simple_markdown design.description
-
-
 - sheet_variables = @sheet ? @sheet.sheet_variables.includes(variable: [:domain]).to_a : []
 
 - design.design_options.includes(:variable, :section).each do |design_option|
-  - if section = design_option.section
+  - section = design_option.section
+  - variable = design_option.variable
+  - if section
     = render 'sections/form', design: design, design_option: design_option, section: section
-  - elsif variable = design_option.variable
+  - elsif variable
     = render 'sheet_variables/form', design: design, design_option: design_option, show_values: params[:header] != '0', variable: variable, sheet_variables: sheet_variables
