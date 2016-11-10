@@ -35,7 +35,6 @@
   - Switching the order on the sheets index no longer resets other filters
   - Sheets can now be filtered by event
     - `events:NAME[,NAME]`
-  - Design descriptions are now displayed on sheet show pages
   - Sheets can now be filtered by variables that use seconds, minutes, hours for
     time durations, inches and feet for imperial height, and ounces and pounds
     for imperial weight
