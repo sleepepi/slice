@@ -5,6 +5,7 @@
   - Improved filtering designs by name on design index
 - **Sheet Changes**
   - Improved display of changes to signature variables in sheet transactions
+  - Question styling now alternates dynamically based on hidden questions
 
 ### Refactoring
 - Removed deprecated_grid_variables from variables

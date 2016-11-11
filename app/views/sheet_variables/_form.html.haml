@@ -13,7 +13,6 @@
 - else
   - 'blank'
 
-- form_class = cycle('variable-shade', 'variable-blind')
 - case validate_response
 - when 'error'
   - validation_class = 'variable-errors'
@@ -24,7 +23,7 @@
 
 - hidden_class = (variable.variable_type == 'calculated' && variable.hide_calculation? ? 'calculation-hidden' : '')
 
-.form-group{ class: "#{form_class} #{validation_class} #{hidden_class}", data: { object: 'design-option-container', required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
+.form-group{ class: "#{validation_class} #{hidden_class}", data: { object: 'design-option-container', required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
   - elsif %w(invisible gone).include?(variable.display_name_visibility)
@@ -44,7 +43,7 @@
 
 
   %div{ class: "#{col_class} #{col_offset}" }
-    %div{ style: "line-height:30px", class: (form_class == 'variable-shade' ? 'shade-background' : 'blind-background') }
+    .shade-or-blind-background{ style: 'line-height: 30px;' }
       - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
         = render "sheet_variables/form/#{variable.variable_type}", design: design, design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: "variables[#{variable.id}]", show_values: show_values, object: sheet_variable, validate_response: validate_response
         = render 'variables/field_note', variable: variable

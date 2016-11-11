@@ -6,13 +6,26 @@
   )
   false
 
+@updateAlternatingVariableClasses = ->
+  $('.variable-visible').each( (index, element) ->
+    if index % 2 == 0
+      $(element).removeClass('variable-blind')
+      $(element).addClass('variable-shade')
+    else
+      $(element).removeClass('variable-shade')
+      $(element).addClass('variable-blind')
+  )
+
 # This function updates an individual variables container to show or be hidden
 # based on what variable it depends on.
 @updateDesignOptionContainer = (element) ->
   if elementVisible(element)
     $(element).show()
+    $(element).addClass('variable-visible') if $(element).hasClass('form-group')
   else
     $(element).hide()
+    $(element).removeClass('variable-visible') if $(element).hasClass('form-group')
+  updateAlternatingVariableClasses()
 
 @buildDesignOption = (element) ->
   design_option = {}

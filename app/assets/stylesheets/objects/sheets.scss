@@ -24,8 +24,7 @@
   }
 }
 
-.blind-background,
-.shade-background {
+.shade-or-blind-background {
   display: table;
   width: 100%;
 
@@ -34,11 +33,11 @@
   }
 }
 
-.blind-background {
+.variable-blind .shade-or-blind-background {
   background-color: $body-bg;
 }
 
-.shade-background {
+.variable-shade .shade-or-blind-background {
   background-color: $table-bg-accent;
 }
 
