@@ -21,10 +21,10 @@
 @updateDesignOptionContainer = (element) ->
   if elementVisible(element)
     $(element).show()
-    $(element).addClass('variable-visible') if $(element).hasClass('form-group')
+    $(element).addClass('variable-visible') if $(element).hasClass('form-group') and not $(element).hasClass('calculation-hidden')
   else
     $(element).hide()
-    $(element).removeClass('variable-visible') if $(element).hasClass('form-group')
+    $(element).removeClass('variable-visible')
   updateAlternatingVariableClasses()
 
 @buildDesignOption = (element) ->
