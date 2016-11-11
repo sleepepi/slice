@@ -2,6 +2,7 @@
 
 ### Refactoring
 - Removed deprecated_grid_variables from variables
+- Removed description from designs
 
 ## 0.45.0 (November 11, 2016)
 

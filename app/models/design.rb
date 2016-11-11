@@ -59,6 +59,10 @@ class Design < ApplicationRecord
       .distinct
   end
 
+  def self.searchable_attributes
+    %w(name)
+  end
+
   def self.order_by_user_name
     joins('LEFT JOIN users ON users.id = designs.user_id')
       .order('users.last_name, users.first_name')
