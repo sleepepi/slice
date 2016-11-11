@@ -33,8 +33,7 @@ module AutoLockable
     SheetTransaction.save_sheet!(
       self, {
         unlocked_at: Time.zone.now,
-        last_user_id: current_user.id,
-        last_edited_at: Time.zone.now
+        last_edited_at: Time.zone.now, last_user_id: current_user.id
       }, {}, current_user, request.remote_ip, 'sheet_update',
       skip_validation: true
     )
