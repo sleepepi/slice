@@ -58,13 +58,13 @@ module Formattable
 
   def get_signature_response(raw_format)
     if raw_format == :raw_file
-      save_signature_file(raw_format)
+      save_signature_file
     else
       get_single_response(response, raw_format)
     end
   end
 
-  def save_signature_file(raw_format)
+  def save_signature_file
     file = Tempfile.new('signature.png')
     begin
       create_signature_png(response, file.path)
