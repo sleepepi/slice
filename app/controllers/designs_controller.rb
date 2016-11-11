@@ -14,7 +14,7 @@ class DesignsController < ApplicationController
 
   # GET /designs
   def index
-    design_scope = editable_designs.search(params[:search])
+    design_scope = editable_designs.search(params[:search], match_start: false)
     design_scope = sort_order(design_scope)
     design_scope = design_scope.where(category_id: params[:category_id]) if params[:category_id].present?
     @designs = design_scope.page(params[:page]).per(40)

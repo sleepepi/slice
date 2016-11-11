@@ -1,6 +1,8 @@
 ## 0.46.0
 
 ### Enhancements
+- **Design Changes**
+  - Improved filtering designs by name on design index
 - **Sheet Changes**
   - Improved display of changes to signature variables in sheet transactions
 
