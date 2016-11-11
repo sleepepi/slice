@@ -1,13 +1,44 @@
 # frozen_string_literal: true
 
+# Defines how data is captured, displayed, and exported.
 class Variable < ApplicationRecord
-  TYPE = %w(dropdown checkbox radio string text integer numeric date time time_duration file calculated grid signature imperial_height imperial_weight).sort.collect { |i| [i, i] }
-  TYPE_IMPORTABLE = %w(string text integer numeric date time).sort.collect { |i| [i, i] }
-  TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
-  DISPLAY_NAME_VISIBILITY = [['Inline', 'visible'], ['Above - Indented', 'invisible'], ['Above - Full', 'gone']]
-  ALIGNMENT = [['Horizontal', 'horizontal'], ['Vertical', 'vertical'], ['Scale', 'scale']]
+  # CONSTANTS
+  TYPE = %w(
+    calculated
+    checkbox
+    date
+    dropdown
+    file
+    grid
+    imperial_height
+    imperial_weight
+    integer
+    numeric
+    radio
+    string
+    text
+    time
+    time_duration
+    signature
+  ).sort.collect { |i| [i, i] }
 
-  serialize :deprecated_grid_variables, Array
+  TYPE_IMPORTABLE = %w(
+    string text integer numeric date time
+  ).sort.collect { |i| [i, i] }
+
+  TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
+
+  DISPLAY_NAME_VISIBILITY = [
+    %w(Inline visible),
+    ['Above - Indented', 'invisible'],
+    ['Above - Full', 'gone']
+  ]
+
+  ALIGNMENT = [
+    %w(Horizontal horizontal),
+    %w(Vertical vertical),
+    %w(Scale scale)
+  ]
 
   # Triggers
   before_save :check_for_duplicate_variables, :check_for_valid_domain
