@@ -82,10 +82,16 @@ module Formattable
 
   def create_signature_png(signature, filename)
     canvas = ChunkyPNG::Canvas.new(300, 55)
-    (JSON.parse(signature) rescue []).each do |hash|
+    signature_array(signature).each do |hash|
       canvas.line(hash['mx'], hash['my'], hash['lx'], hash['ly'], ChunkyPNG::Color.parse('#145394'))
     end
     png = canvas.to_image
     png.save(filename)
+  end
+
+  def signature_array(signature)
+    JSON.parse(signature)
+  rescue
+    []
   end
 end

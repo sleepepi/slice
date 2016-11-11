@@ -1,5 +1,9 @@
 ## 0.46.0
 
+### Enhancements
+- **Sheet Changes**
+  - Improved display of changes to signature variables in sheet transactions
+
 ### Refactoring
 - Removed deprecated_grid_variables from variables
 - Removed description from designs
