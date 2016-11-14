@@ -46,6 +46,9 @@ class Sheet < ApplicationRecord
   has_many :sheet_transactions, -> { order(id: :desc) }
   has_many :sheet_transaction_audits
   has_many :sheet_unlock_requests, -> { current.order(created_at: :desc) }
+  has_many :status_checks
+  has_many :failed_checks, -> { where(status_checks: { failed: true }) },
+           through: :status_checks, source: :check
 
   # Model Methods
   delegate :description, to: :design
@@ -432,12 +435,30 @@ class Sheet < ApplicationRecord
     retry
   end
 
-  def failed_checks(current_user)
-    checks = []
-    project.runnable_checks.find_each do |check|
-      checks << check if check.sheets(current_user).pluck(:id).include?(id)
+  # TODO: Launch after subject "update", sheet "update", check "update"...?
+  # - [ ] After Sheet Create
+  # - [ ] After Sheet Update
+  # - [ ] After Sheet Move
+  # - [ ] After Another Sheet Update
+  # - [ ] After Subject Randomized
+  # - [ ] After Subject Unrandomized
+  # - [ ] After Check Update (Check filter/check filter value) ?
+  def reset_checks!
+    project.checks.runnable.find_each do |check|
+      status_checks.where(check_id: check.id).first_or_create
     end
-    checks
+    status_checks.update_all failed: nil
+  end
+
+  # TODO: Remove reference to project user.
+  def run_pending_checks!
+    status_checks.where(failed: nil).find_each do |status_check|
+      if status_check.check.sheets(project.user).where(id: id).count == 1
+        status_check.update failed: true
+      else
+        status_check.update failed: false
+      end
+    end
   end
 
   protected

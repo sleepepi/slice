@@ -43,7 +43,6 @@
       %col
       %col
       %col.hidden-xs.hidden-sm
-      %col.hidden-xs.hidden-sm
       - if viewable_sites.count > 1
         %col.hidden-xs
       %col.hidden-xs
@@ -64,8 +63,7 @@
                 - viewable_designs.order(:name).each do |design|
                   %li= link_to design.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], design_id: design.id)), style: params[:design_id].to_s == design.id.to_s ? 'font-weight:bold;' : ''
           = th_sort_field @order, 'sheets.subject_code', 'Subject', permit: [:design_id, :site_id, :user_id]
-          = th_sort_field @order, 'sheets.created_at', 'Created', extra_class: 'hidden-xs hidden-sm', permit: [:design_id, :site_id, :user_id]
-          = th_sort_field @order, 'sheets.last_edited_at', 'Updated', extra_class: 'hidden-xs hidden-sm', permit: [:design_id, :site_id, :user_id]
+          = th_sort_field @order, 'sheets.last_edited_at', 'Last Edited', extra_class: 'hidden-xs hidden-sm', permit: [:design_id, :site_id, :user_id]
           - if viewable_sites.count > 1
             %th.nowrap.hidden-xs{ class: ['sheets.site_name', 'sheets.site_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
               = link_to 'Site', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.site_name desc' ? 'sheets.site_name' : 'sheets.site_name desc')))
@@ -92,11 +90,9 @@
                 - all_creators.order(:first_name, :last_name).each do |user|
                   %li= link_to user.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
 
-      - failed_sheet_id_checks = @project.failed_sheet_id_checks(current_user, @sheets)
-
       - @sheets.each do |sheet|
         %tr{ id: "sheet_#{sheet.id}" }
-          = render 'sheets/sheet_row', sheet: sheet, viewable_sites: viewable_sites, failed_sheet_id_checks: failed_sheet_id_checks
+          = render 'sheets/sheet_row', sheet: sheet, viewable_sites: viewable_sites
   .center
     = paginate @sheets, theme: 'bootstrap'
 

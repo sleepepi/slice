@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   check: 1
+#   sheet: 1
+#   failed: false
+
+# two:
+#   check: 1
+#   sheet: 1
+#   failed: false

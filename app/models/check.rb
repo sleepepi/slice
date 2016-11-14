@@ -7,16 +7,20 @@ class Check < ApplicationRecord
 
   squish :name, :message
 
-  # Model Validation
+  # Scopes
+  scope :runnable, -> { where(archived: false).where.not(message: [nil, '']) }
+
+  # Validation
   validates :project_id, :user_id, :name, presence: true
   validates :slug, uniqueness: { scope: :project_id },
                    format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
                    allow_nil: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :user
   has_many :check_filters
+  has_many :status_checks
 
   # Methods
 
@@ -42,8 +46,16 @@ class Check < ApplicationRecord
     subject_scope
   end
 
+  # TODO: Remove reference to project user.
+  def run_pending_checks!
+    status_checks.update_all failed: nil
+    status_checks.where(sheet_id: sheets(project.user).select(:id)).update_all failed: true
+    status_checks.where(failed: nil).update_all failed: false
+  end
+
   def destroy
     update slug: nil
+    status_checks.destroy_all
     super
   end
 end

@@ -43,7 +43,7 @@ class Search
   def set_checks
     @checks = \
       if @operator == 'any'
-        @project.runnable_checks
+        @project.checks.runnable
       else
         @project.checks.where(slug: @token.values)
       end
@@ -147,11 +147,7 @@ class Search
   def compute_sheets_for_checks
     sheet_scope = all_viewable_sheets
     return sheet_scope if @checks.count == 0
-    sheet_ids = []
-    @checks.each do |check|
-      sheet_ids << check.sheets(current_user).pluck(:id)
-    end
-    sheet_ids.flatten!
+    sheet_ids = StatusCheck.where(check_id: @checks.select(:id), failed: true).select(:sheet_id)
     sheet_scope.where(id: sheet_ids)
   end
 

@@ -1,6 +1,6 @@
 %td.hidden-xs= coverage_helper(sheet)
 %td
-  = render 'sheets/checks_status', sheet: sheet, checks: failed_sheet_id_checks[sheet.id]
+  = render 'sheets/status/checks_bullet', sheet: sheet
   = link_to sheet.design.name, [@project, sheet]
   = render 'layouts/unblinded_only', project: @project, object: sheet.design, placement: 'right'
   - if sheet.comments.size > 0
@@ -9,12 +9,8 @@
     %span.glyphicon.glyphicon-paperclip{ rel: 'tooltip', data: { title: pluralize(sheet.files.size, 'File'), container: 'body', placement: 'top' } }
 %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
 %td.nowrap.hidden-xs.hidden-sm
-  %span.hidden-md= simple_time_short sheet.created_at
-  %span.hidden-lg= simple_date sheet.created_at
-%td.nowrap.hidden-xs.hidden-sm
-  - unless sheet.created_at == sheet.last_edited_at
-    %span.hidden-md= simple_time_short sheet.last_edited_at
-    %span.hidden-lg= simple_date sheet.last_edited_at
+  %span.hidden-md= simple_time_short sheet.last_edited_at
+  %span.hidden-lg= simple_date sheet.last_edited_at
 - if viewable_sites.count > 1
   %td.nowrap.hidden-xs= sheet.subject.site.short_name if sheet.subject && sheet.subject.site
 %td.hidden-xs.nowrap= sheet.user.nickname if sheet.user

@@ -58,15 +58,17 @@ class VariablesController < ApplicationController
 
   # GET /checks_search.json
   def checks_search
-    check_scope = @project.runnable_checks.where('slug ILIKE (?)', "#{params[:q]}%")
-                                          .order(:slug).limit(10)
+    check_scope = @project.checks.runnable
+                          .where('slug ILIKE (?)', "#{params[:q]}%")
+                          .order(:slug).limit(10)
     render json: check_scope.pluck(:slug)
   end
 
   # GET /events_search.json
   def events_search
-    event_scope = @project.events.where('slug ILIKE (?) or id = ?', "#{params[:q]}%", params[:q].to_i)
-                                 .order(:slug).limit(10)
+    event_scope = @project.events
+                          .where('slug ILIKE (?) or id = ?', "#{params[:q]}%", params[:q].to_i)
+                          .order(:slug).limit(10)
     render json: event_scope.collect(&:to_param)
   end
 

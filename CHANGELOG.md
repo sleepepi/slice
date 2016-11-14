@@ -1,6 +1,8 @@
 ## 0.46.0
 
 ### Enhancements
+- **Check Changes**
+  - Check results are now precomputed to improve the speed of the sheets index
 - **Design Changes**
   - Improved filtering designs by name on design index
 - **Sheet Changes**

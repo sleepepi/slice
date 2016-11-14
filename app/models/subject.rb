@@ -2,7 +2,7 @@
 
 class Subject < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, Evaluatable, Squishable
+  include Searchable, Deletable, Evaluatable, Squishable, Forkable
 
   squish :subject_code
 
@@ -160,5 +160,14 @@ class Subject < ApplicationRecord
     formatted_responses = formatter.format_array(responses, true).uniq.compact
     result = (formatted_responses.size == 1 ? formatted_responses.first : nil)
     result.to_json
+  end
+
+  def reset_checks_in_background!
+    fork_process(:reset_checks!)
+  end
+
+  def reset_checks!
+    sheets.find_each(&:reset_checks!)
+    sheets.find_each(&:run_pending_checks!)
   end
 end

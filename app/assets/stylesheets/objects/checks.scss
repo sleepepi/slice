@@ -8,8 +8,24 @@
   }
 }
 
+@keyframes pulse-in-progress {
+  from {
+    color: $brand-gray;
+  }
+
+  to {
+    color: lighten($brand-gray, 25%);
+  }
+}
+
 .check-bullet {
   animation: pulse-danger 2s linear infinite alternate;
   color: $brand-danger;
   text-shadow: 0 0 4px $brand-danger;
+}
+
+.check-bullet-in-progress {
+  animation: pulse-in-progress 2s linear infinite alternate;
+  color: $brand-gray;
+  text-shadow: 0 0 4px $brand-gray;
 }

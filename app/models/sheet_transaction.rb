@@ -43,6 +43,8 @@ class SheetTransaction < ApplicationRecord
       sheet_transaction.update_variables!(variables_params, current_user)
     end
 
+    sheet.subject.reset_checks_in_background!
+
     sheet_save_result
   end
 
