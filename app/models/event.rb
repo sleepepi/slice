@@ -2,7 +2,7 @@
 
 class Event < ApplicationRecord
   # Concerns
-  include Searchable, Deletable
+  include Searchable, Deletable, Forkable
 
   attr_accessor :design_hashes
   after_save :set_event_designs
@@ -47,14 +47,14 @@ class Event < ApplicationRecord
     find_by 'events.slug = ? or events.id = ?', input.to_s, input.to_i
   end
 
-  def unlink_sheets!(current_user, remote_ip)
-    subject_events.each do |subject_event|
-      subject_event.unlink_sheets!(current_user, remote_ip)
-    end
+  def unlink_sheets_in_background!(current_user, remote_ip)
+    fork_process(:unlink_sheets!, current_user, remote_ip)
   end
 
-  def destroy
-    super
+  def unlink_sheets!(current_user, remote_ip)
+    subject_events.find_each do |subject_event|
+      subject_event.unlink_sheets!(current_user, remote_ip)
+    end
     subject_events.destroy_all
   end
 

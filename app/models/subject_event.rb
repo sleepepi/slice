@@ -40,7 +40,7 @@ class SubjectEvent < ApplicationRecord
   end
 
   def unlink_sheets!(current_user, remote_ip)
-    sheets.each do |sheet|
+    sheets.find_each do |sheet|
       SheetTransaction.save_sheet!(
         sheet,
         {
