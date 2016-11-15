@@ -2,8 +2,11 @@
 
 # Defines a check that can be run on a project to identify data inconsistencies.
 class Check < ApplicationRecord
+  # Callbacks
+  after_commit :reset_checks_in_background!
+
   # Concerns
-  include Deletable, Sluggable, Squishable
+  include Deletable, Sluggable, Squishable, Forkable
 
   squish :name, :message
 
@@ -46,8 +49,15 @@ class Check < ApplicationRecord
     subject_scope
   end
 
+  def reset_checks_in_background!
+    fork_process :reset_checks!
+  end
+
   # TODO: Remove reference to project user.
-  def run_pending_checks!
+  def reset_checks!
+    project.sheets.find_each do |sheet|
+      status_checks.where(sheet_id: sheet.id).first_or_create
+    end
     status_checks.update_all failed: nil
     status_checks.where(sheet_id: sheets(project.user).select(:id)).update_all failed: true
     status_checks.where(failed: nil).update_all failed: false

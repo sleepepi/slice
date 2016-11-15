@@ -11,7 +11,7 @@ class CheckFilterValue < ApplicationRecord
   belongs_to :project
   belongs_to :user
   belongs_to :check
-  belongs_to :check_filter
+  belongs_to :check_filter, touch: true
 
   # Model Methods
 end

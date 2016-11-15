@@ -436,13 +436,13 @@ class Sheet < ApplicationRecord
   end
 
   # TODO: Launch after subject "update", sheet "update", check "update"...?
-  # - [ ] After Sheet Create
-  # - [ ] After Sheet Update
-  # - [ ] After Sheet Move
-  # - [ ] After Another Sheet Update
-  # - [ ] After Subject Randomized
-  # - [ ] After Subject Unrandomized
-  # - [ ] After Check Update (Check filter/check filter value) ?
+  # - [X] After Sheet Create
+  # - [X] After Sheet Update
+  # - [X] After Sheet Move
+  # - [X] After Another Sheet Update
+  # - [X] After Subject Randomized
+  # - [X] After Subject Unrandomized
+  # - [X] After Check Update (Check filter/check filter value) ?
   def reset_checks!
     project.checks.runnable.find_each do |check|
       status_checks.where(check_id: check.id).first_or_create
