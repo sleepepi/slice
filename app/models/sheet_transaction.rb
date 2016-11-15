@@ -41,9 +41,11 @@ class SheetTransaction < ApplicationRecord
       sheet_transaction = create(transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip)
       sheet_transaction.generate_audits!(original_attributes)
       sheet_transaction.update_variables!(variables_params, current_user)
+      unless skip_validation
+        sheet.update_response_count!
+        sheet.subject.reset_checks_in_background!
+      end
     end
-
-    sheet.subject.reset_checks_in_background! unless skip_validation
 
     sheet_save_result
   end
@@ -75,7 +77,6 @@ class SheetTransaction < ApplicationRecord
         update_response_with_transaction(sv, response, current_user)
       end
     end
-    sheet.update_response_count!
   end
 
   def update_grid_responses!(sheet_variable, response, current_user)
