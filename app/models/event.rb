@@ -47,6 +47,17 @@ class Event < ApplicationRecord
     find_by 'events.slug = ? or events.id = ?', input.to_s, input.to_i
   end
 
+  def unlink_sheets!(current_user, remote_ip)
+    subject_events.each do |subject_event|
+      subject_event.unlink_sheets!(current_user, remote_ip)
+    end
+  end
+
+  def destroy
+    super
+    subject_events.destroy_all
+  end
+
   private
 
   def set_event_designs

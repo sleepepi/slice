@@ -59,6 +59,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.js
   def destroy
+    @event.unlink_sheets!(current_user, request.remote_ip)
     @event.destroy
     respond_to do |format|
       format.html { redirect_to project_events_path(@project), notice: 'Event was successfully deleted.' }
