@@ -11,6 +11,10 @@
 - **Gem Changes**
   - Updated to Ruby 2.3.2
 
+### Bug Fix
+- Search filter `has:adverse-events` now correctly returns subjects with any
+  adverse event on the subject index
+
 ### Refactoring
 - Removed deprecated_grid_variables from variables
 - Removed description from designs

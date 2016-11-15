@@ -20,6 +20,7 @@ class Subject < ApplicationRecord
   scope :unrandomized, -> { joins('LEFT OUTER JOIN randomizations ON randomizations.subject_id = subjects.id and randomizations.deleted is false').where('randomizations.id IS NULL').distinct }
   scope :open_aes, -> { joins(:adverse_events).where(adverse_events: { closed: false }).distinct }
   scope :closed_aes, -> { joins(:adverse_events).where(adverse_events: { closed: true }).distinct }
+  scope :any_aes, -> { joins(:adverse_events).distinct }
   # scope :with_variable, lambda {|variable_id, value| where("subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.id IN (select sheet_variables.sheet_id from sheet_variables where variable_id = ? and response IN (?)))", false, variable_id, value)}
 
   # Model Validation

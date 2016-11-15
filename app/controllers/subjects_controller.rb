@@ -335,8 +335,10 @@ class SubjectsController < ApplicationController
         scope = \
           if token.value == 'open'
             scope.open_aes
-          else
+          elsif token.value == 'closed'
             scope.closed_aes
+          else
+            scope.any_aes
           end
       when 'comments'
         scope = scope.where(id: current_user.sheets_with_comments(@project).select(:subject_id))

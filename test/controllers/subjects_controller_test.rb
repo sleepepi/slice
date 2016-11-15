@@ -372,6 +372,11 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get index for subjects with any adverse events' do
+    get :index, params: { project_id: @project, search: 'has:adverse-events' }
+    assert_response :success
+  end
+
   test 'should get index for subjects with comments' do
     get :index, params: { project_id: @project, search: 'has:comments' }
     assert_response :success
