@@ -65,22 +65,22 @@ class CheckFilter < ApplicationRecord
     super
   end
 
-  def sheets(current_user)
+  def sheets
     if variable
-      compute_sheets_for_variable(current_user)
+      compute_sheets_for_variable
     elsif filter_type == 'randomized'
-      randomized_subjects_sheets(current_user)
+      randomized_subjects_sheets
     else
       Sheet.none
     end
   end
 
-  def randomized_subjects_sheets(current_user)
+  def randomized_subjects_sheets
     Sheet.none
   end
 
-  def randomized_subjects(current_user)
-    subject_scope = current_user.all_viewable_subjects.where(project: project)
+  def randomized_subjects
+    subject_scope = project.subjects
     if operator == 'eq'
       subject_scope.where(id: project.subjects.randomized.select(:id))
     elsif operator == 'ne'
@@ -90,14 +90,12 @@ class CheckFilter < ApplicationRecord
     end
   end
 
-  def compute_sheets_for_variable(current_user)
-    sheet_scope = current_user.all_viewable_sheets.where(project: project)
+  def compute_sheets_for_variable
+    sheet_scope = project.sheets
     return sheet_scope if subquery_values.count == 0
     select_sheet_ids = subquery_scope.where(variable: variable).where(subquery).select(:sheet_id)
     if operator == 'missing'
-      subjects = current_user.all_viewable_subjects
-                  .where(project: project)
-                  .where(id: sheet_scope.where(id: select_sheet_ids).select(:subject_id))
+      subjects = project.subjects.where(id: sheet_scope.where(id: select_sheet_ids).select(:subject_id))
       sheet_scope.where.not(subject_id: subjects.select(:id))
     else
       sheet_scope.where(id: select_sheet_ids)
@@ -120,20 +118,18 @@ class CheckFilter < ApplicationRecord
     check_filter_values.distinct.pluck(:value)
   end
 
-  def subjects(current_user)
+  def subjects
     if variable
-      compute_subjects_for_variable(current_user)
+      compute_subjects_for_variable
     elsif filter_type == 'randomized'
-      randomized_subjects(current_user)
+      randomized_subjects
     else
       Subject.none
     end
   end
 
-  def compute_subjects_for_variable(current_user)
-    current_user.all_viewable_subjects
-                .where(project: project)
-                .where(id: sheets(current_user).select(:subject_id))
+  def compute_subjects_for_variable
+    project.subjects.where(id: sheets.select(:subject_id))
   end
 
   def subquery

@@ -57,8 +57,8 @@
     .col-sm-2.col-buffer
       %strong= link_to 'Filters', editor_project_check_check_filters_path(@project, @check)
     .col-sm-10.col-buffer
-      - all_sheets = @check.sheets(current_user)
-      - all_subjects = @check.subjects(current_user)
+      - all_sheets = current_user.all_viewable_sheets.where(id: @check.sheets.select(:id))
+      - all_subjects = current_user.all_viewable_subjects.where(id: @check.subjects.select(:id))
       %table.table
         %thead
           %tr
@@ -90,9 +90,9 @@
                   %code
                     = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, check_filter, check_filter_value)
             %td.text-right
-              = number_with_delimiter check_filter.subjects(current_user).count
+              = number_with_delimiter current_user.all_viewable_subjects.where(id: check_filter.subjects.select(:id)).count
             %td.text-right
-              = number_with_delimiter check_filter.sheets(current_user).count
+              = number_with_delimiter current_user.all_viewable_sheets.where(id: check_filter.sheets.select(:id)).count
 
 - if all_sheets.count > 40
   %h3.text-white.text-shadow Top 40 Results

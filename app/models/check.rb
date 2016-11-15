@@ -27,24 +27,24 @@ class Check < ApplicationRecord
 
   # Methods
 
-  def sheets(current_user)
+  def sheets
     sheet_scope = project.sheets
     check_filters.each_with_index do |check_filter, index|
       if index == 0
-        sheet_scope = sheet_scope.where(id: check_filter.sheets(current_user).select(:id))
+        sheet_scope = sheet_scope.where(id: check_filter.sheets.select(:id))
       else
-        sheet_scope = Sheet.where(id: sheet_scope.select(:id)).or(Sheet.where(id: check_filter.sheets(current_user).select(:id)))
+        sheet_scope = Sheet.where(id: sheet_scope.select(:id)).or(Sheet.where(id: check_filter.sheets.select(:id)))
       end
     end
     design_ids = DesignOption.where(variable_id: check_filters.select(:variable_id)).select(:design_id)
     sheet_scope = sheet_scope.where(design_id: design_ids)
-    current_user.all_viewable_sheets.where(project: project).where(id: sheet_scope.select(:id), subject_id: subjects(current_user).select(:id))
+    project.sheets.where(id: sheet_scope.select(:id), subject_id: subjects.select(:id))
   end
 
-  def subjects(current_user)
+  def subjects
     subject_scope = project.subjects
     check_filters.each do |check_filter|
-      subject_scope = subject_scope.where(id: check_filter.subjects(current_user).select(:id))
+      subject_scope = subject_scope.where(id: check_filter.subjects.select(:id))
     end
     subject_scope
   end
@@ -53,13 +53,12 @@ class Check < ApplicationRecord
     fork_process :reset_checks!
   end
 
-  # TODO: Remove reference to project user.
   def reset_checks!
     project.sheets.find_each do |sheet|
       status_checks.where(sheet_id: sheet.id).first_or_create
     end
     status_checks.update_all failed: nil
-    status_checks.where(sheet_id: sheets(project.user).select(:id)).update_all failed: true
+    status_checks.where(sheet_id: sheets.select(:id)).update_all failed: true
     status_checks.where(failed: nil).update_all failed: false
   end
 

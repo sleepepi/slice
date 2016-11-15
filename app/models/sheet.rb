@@ -450,10 +450,9 @@ class Sheet < ApplicationRecord
     status_checks.update_all failed: nil
   end
 
-  # TODO: Remove reference to project user.
   def run_pending_checks!
     status_checks.where(failed: nil).find_each do |status_check|
-      if status_check.check.sheets(project.user).where(id: id).count == 1
+      if status_check.check.sheets.where(id: id).count == 1
         status_check.update failed: true
       else
         status_check.update failed: false
