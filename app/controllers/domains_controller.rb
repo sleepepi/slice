@@ -4,21 +4,26 @@
 class DomainsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_editable_project_or_redirect
-  before_action :find_domain_or_redirect, only: [:show, :edit, :update, :destroy]
+  before_action :find_domain_or_redirect,
+                only: [:show, :edit, :update, :destroy]
 
+  # TODO: Check to see where domains/values is called from and if it can be
+  # removed.
   # POST /domains/values.js
   def values
-    @domain = @project.domains.find_by_id params[:domain_id]
+    @domain = @project.domains.find_by(id: params[:domain_id])
   end
 
   # POST /domains/add_option.js
   def add_option
+    @domain_options = (0..2).collect { DomainOption.new }
   end
 
   # GET /domains
   def index
     @order = scrub_order(Domain, params[:order], 'domains.name')
-    @domains = @project.domains.search(params[:search]).order(@order).page(params[:page]).per(20)
+    @domains = @project.domains.search(params[:search], match_start: false)
+                       .order(@order).page(params[:page]).per(20)
   end
 
   # GET /domains/1
@@ -38,6 +43,7 @@ class DomainsController < ApplicationController
   def create
     @domain = @project.domains.new(domain_params)
     if @domain.save
+      @domain.update_option_tokens!
       redirect_to show_or_continue, notice: 'Domain was successfully created.'
     else
       render :new
@@ -47,6 +53,7 @@ class DomainsController < ApplicationController
   # PATCH /domains/1
   def update
     if @domain.update(domain_params)
+      @domain.update_option_tokens!
       redirect_to show_or_continue, notice: 'Domain was successfully updated.'
     else
       render :edit
@@ -77,15 +84,15 @@ class DomainsController < ApplicationController
     params[:domain] = Domain.clean_option_tokens(params[:domain])
     params.require(:domain).permit(
       :name, :display_name, :description, :user_id,
-      option_tokens: [:name, :value, :description, :missing_code, :option_index, :site_id]
+      option_tokens: [:name, :value, :description, :missing_code, :site_id, :domain_option_id]
     )
   end
 
   def show_or_continue
     if params[:continue].to_s == '1'
-      new_project_domain_path(@domain.project)
+      new_project_domain_path(@project)
     else
-      [@domain.project, @domain]
+      [@project, @domain]
     end
   end
 end

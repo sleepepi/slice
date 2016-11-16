@@ -1,13 +1,15 @@
 = hidden_field_tag 'is_new_domain', @domain.new_record? ? '1' : '0'
-- if @domain.options.size == 0
+- if @domain.domain_options.present?
+  - if params.dig(:domain, :option_tokens)
+    - params[:domain][:option_tokens].each_with_index do |option_hash, position|
+      - domain_option = @domain.domain_options.new(name: option_hash[:name], value: option_hash[:value], description: option_hash[:description], missing_code: (option_hash[:missing_code] == '1'), archived: (option_hash[:archived] == '1'), site_id: option_hash[:site_id], position: position)
+      = render 'domains/edit_option', domain_option: domain_option
+  - else
+    - @domain.domain_options.each do |domain_option|
+      = render 'domains/edit_option', domain_option: domain_option
+- else
   - (0..4).each do |index|
     - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s + index.to_s
     - @option = { name: '', value: '', description: '' }
     = render 'domains/edit_option', position: position, index: index
-- else
-  - if params[:domain] and params[:domain][:option_tokens]
-    - params[:domain][:option_tokens].each_with_index do |option, position|
-      = @option = option; render 'domains/edit_option', option_index: option[:option_index], position: position
-  - else
-    - @domain.options.each_with_index do |option, index|
-      = @option = option; render 'domains/edit_option', option_index: index
+

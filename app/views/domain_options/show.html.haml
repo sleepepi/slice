@@ -1,5 +1,7 @@
-- @title = @domain.name
+- @title = @domain_option.name
 - @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@domain.name, [@project, @domain]]
 
 = render 'projects/side_nav'
 
@@ -16,12 +18,12 @@
 
             %ul.dropdown-menu.dropdown-menu-right
               %li
-                = link_to edit_project_domain_path(@domain.project, @domain) do
+                = link_to edit_project_domain_domain_option_path(@project, @domain, @domain_option) do
                   %span.glyphicon.glyphicon-edit
                   Edit
               %li.divider{ role: 'separator' }
               %li
-                = link_to [@project, @domain], method: :delete, data: { confirm: "Are you sure you want to delete Domain #{@domain.name}?" } do
+                = link_to [@project, @domain, @domain_option], method: :delete, data: { confirm: "Delete #{@domain_option.name}?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete
@@ -33,22 +35,30 @@
   %table.table.table-borderless
     %col.hidden-xs{ width: '30%' }
     %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
-    - if @domain.description.present?
-      %tr
-        %th Description
-        %td= simple_format @domain.description
     %tr
-      %th Creator
-      %td= link_to @domain.user.name, @domain.user if @domain.user
-  %table.table.table-borderless
-    %col{ width: '1px' }
-    %col
-    %thead
-      %tr
-        %th{ colspan: 2 } Variables
-    - @domain.variables.order('name').each do |variable|
-      %tr
-        %td= link_to variable.name, [variable.project, variable]
-        %td.text-muted= variable.display_name
+      %th Domain
+      %td= @domain_option.domain_id
 
-  = render 'domain_options/domain_options', domain: @domain
+    %tr
+      %th Name
+      %td= @domain_option.name
+
+    %tr
+      %th Value
+      %td= @domain_option.value
+
+    %tr
+      %th Description
+      %td= @domain_option.description
+
+    %tr
+      %th Missing code
+      %td= @domain_option.missing_code
+
+    %tr
+      %th Site
+      %td= @domain_option.site_id
+
+    %tr
+      %th Archived
+      %td= @domain_option.archived

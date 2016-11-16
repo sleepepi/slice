@@ -1,35 +1,34 @@
-- position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s unless position
-- @position = position
-- option_index = 'new' if option_index.blank?
-
 - total_count = 0
-
 - if @domain
-  - sheet_variables_count = @domain.sheet_variables.where(response: @option[:value]).count
-  - grid_count = @domain.grids.where(response: @option[:value]).count
-  - total_count = sheet_variables_count + grid_count
+  - # TODO: Refactor how sheet variables and grids are counted
+  - # TODO: Make sure checkbox responses are also counted in this
+  - sheet_variables_count = @domain.sheet_variables.where(response: domain_option.value).count
+  - grid_count = @domain.grids.where(response: domain_option.value).count
+  - checkbox_response_count = @domain.responses.where(value: domain_option.value).count
+  - total_count = sheet_variables_count + grid_count + checkbox_response_count
 
-.sheet-container{ id: "option_#{@position}", class: "#{'fieldset_with_errors' if @domain && @domain.errors.keys.include?(:options)}", style: "cursor:move;line-height:30px;padding-top:5px" }
+.sheet-container.domain-option-container{ class: "#{'fieldset_with_errors' if @domain && @domain.errors.keys.include?(:options)}" }
   .row
     .col-xs-1
       %span.glyphicon.glyphicon-move
-      = hidden_field_tag "domain[option_tokens][][option_index]", option_index
+      =# hidden_field_tag "domain[option_tokens][][option_index]", option_index
+      = hidden_field_tag "domain[option_tokens][][domain_option_id]", domain_option.id
     .col-xs-2
-      = text_field_tag "domain[option_tokens][][value]", @option[:value], autocomplete: 'off', rel: 'tooltip', title: 'Value', class: 'form-control'
+      = text_field_tag "domain[option_tokens][][value]", domain_option.value, autocomplete: 'off', rel: 'tooltip', title: 'Value', class: 'form-control'
     .col-xs-2
-      = text_field_tag "domain[option_tokens][][name]", @option[:name], data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control'
+      = text_field_tag "domain[option_tokens][][name]", domain_option.name, data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control'
     - if false
       .col-xs-2{ style: "display:none" }
-        = text_field_tag "domain[option_tokens][][description]", @option[:description], autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: '-1', class: 'form-control'
+        = text_field_tag "domain[option_tokens][][description]", domain_option.description, autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: '-1', class: 'form-control'
 
     .col-xs-2
-      %label.checkbox.checkbox-inline{ class: "#{'selected' if @option[:missing_code] == '1'}" }
-        = check_box_tag "domain[option_tokens][][missing_code]", '1', @option[:missing_code] == '1', class: 'checkbox', tabindex: '-1'
+      %label.checkbox.checkbox-inline{ class: "#{'selected' if domain_option.missing_code?}" }
+        = check_box_tag "domain[option_tokens][][missing_code]", '1', domain_option.missing_code?, class: 'checkbox', tabindex: '-1'
         Missing Code
     .col-xs-2
-      = select_tag 'domain[option_tokens][][site_id]', options_for_select([['--All Sites--', nil]] + @project.sites.order(:name).pluck(:name, :id), @option[:site_id]), class: 'form-control'
+      = select_tag 'domain[option_tokens][][site_id]', options_for_select([['--All Sites--', nil]] + @project.sites.order(:name).pluck(:name, :id), domain_option.site_id), class: 'form-control', tabindex: '-1'
     .col-xs-3
-      = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#option_#{@position}", count: total_count }, id: "option_#{@position}_delete_link", tabindex: '-1'
+      = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove-closest', target: '.domain-option-container', count: total_count }, tabindex: '-1'
       - if total_count > 0
         %span.text-muted
           = pluralize total_count, 'response'

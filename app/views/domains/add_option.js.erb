@@ -1,7 +1,5 @@
-<% (0..2).each do |index| %>
-  <% position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s + index.to_s %>
-  <% @option = { name: '', value: '', description: '' } %>
-  $("#options").append("<%=j render 'edit_option', position: position %>");
+<% @domain_options.each do |domain_option| %>
+  $("#options").append("<%=j render 'edit_option', domain_option: domain_option %>");
 <% end %>
 
 setDomainOptionPlaceholders();

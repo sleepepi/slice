@@ -2,13 +2,15 @@
 
 # Represents a finite set of options for a given variable
 class Domain < ApplicationRecord
-  serialize :options, Array
+  serialize :deprecated_options, Array
 
   before_save :check_for_colons, :check_value_uniqueness,
               :check_for_blank_values, :check_for_blank_names
 
   # Concerns
   include Searchable, Deletable
+
+  attr_accessor :option_tokens
 
   # Model Validation
   validates :name, :display_name, :project_id, :user_id, presence: true
@@ -19,27 +21,45 @@ class Domain < ApplicationRecord
   # Model Relationships
   belongs_to :user
   belongs_to :project
+  has_many :domain_options, -> { order('position nulls last', :id) }
   has_many :variables, -> { current }
   has_many :sheet_variables, through: :variables
   has_many :grids, through: :variables
+  has_many :responses, through: :variables
 
   # Model Methods
 
   def self.searchable_attributes
-    %w(name description options)
+    %w(name description)
   end
 
   # Returns an array of the domains values
+  # TODO: Check if the places that reference this could be optimized
   def values
-    options.collect { |o| o[:value].to_s.strip }
+    domain_options.pluck(:value)
+    # options.collect { |o| o[:value].to_s.strip }
   end
 
+  # TODO: Check if the places that reference this could be optimized
   def names
-    options.collect { |o| o[:name].to_s.strip }
+    domain_options.pluck(:name)
+    # options.collect { |o| o[:name].to_s.strip }
   end
 
-  def options_by_site?
-    options.count { |o| o[:site_id].present? } > 0
+  def missing_codes?
+    domain_options.where(missing_code: true).count > 0
+  end
+
+  def descriptions?
+    domain_options.where.not(description: [nil, '']).count > 0
+  end
+
+  def sites?
+    domain_options.where.not(site_id: nil).count > 0
+  end
+
+  def archived_options?
+    domain_options.where(archived: true).count > 0
   end
 
   def check_for_colons
@@ -66,68 +86,75 @@ class Domain < ApplicationRecord
     throw :abort
   end
 
-  # All of these changes are rolled back if the domain is not saved successfully
-  # Wrapped in single transaction
-  def option_tokens=(tokens)
-    unless new_record?
-      original_options = self.options
-      existing_options = tokens.reject{|hash| ['new', nil].include?(hash[:option_index]) }
+  # # All of these changes are rolled back if the domain is not saved successfully
+  # # Wrapped in single transaction
+  # def option_tokens=(tokens)
+  #   unless new_record?
+  #     original_options = self.options
+  #     existing_options = tokens.reject{|hash| ['new', nil].include?(hash[:option_index]) }
 
-      removable_options = original_options.reject.each_with_index{ |hash,index| existing_options.collect{|hash| hash[:option_index].to_i}.include?(index) }
-      removable_values = removable_options.collect{ |hash| hash.symbolize_keys[:value] }
+  #     removable_options = original_options.reject.each_with_index{ |hash,index| existing_options.collect{|hash| hash[:option_index].to_i}.include?(index) }
+  #     removable_values = removable_options.collect{ |hash| hash.symbolize_keys[:value] }
 
-      changed_options = existing_options.reject{ |hash| original_options[hash[:option_index].to_i].symbolize_keys[:value].strip == hash[:value].strip }
-      changed_values = changed_options.collect do |hash|
-        old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
-        new_value = hash[:value].strip
-        intermediate_value = old_value + ":" + new_value
-        [old_value, intermediate_value, new_value]
-      end
+  #     changed_options = existing_options.reject{ |hash| original_options[hash[:option_index].to_i].symbolize_keys[:value].strip == hash[:value].strip }
+  #     changed_values = changed_options.collect do |hash|
+  #       old_value = original_options[hash[:option_index].to_i].symbolize_keys[:value].strip
+  #       new_value = hash[:value].strip
+  #       intermediate_value = old_value + ":" + new_value
+  #       [old_value, intermediate_value, new_value]
+  #     end
 
-      sheet_transaction_ids = []
+  #     sheet_transaction_ids = []
 
-      # Reset any sheets that specified an option that has been removed
-      sheet_transaction_ids = removable_values.collect{ |value| self.update_response_values(value, nil, sheet_transaction_ids) }.flatten.uniq
+  #     # Reset any sheets that specified an option that has been removed
+  #     sheet_transaction_ids = removable_values.collect{ |value| update_response_values(value, nil, sheet_transaction_ids) }.flatten.uniq
 
-      # Update all existing sheets to intermediate value for values that already existed and have changed
-      sheet_transaction_ids = changed_values.collect{ |old_value, intermediate_value, new_value| self.update_response_values(old_value, intermediate_value, sheet_transaction_ids) }.flatten.uniq
+  #     # Update all existing sheets to intermediate value for values that already existed and have changed
+  #     sheet_transaction_ids = changed_values.collect{ |old_value, intermediate_value, new_value| update_response_values(old_value, intermediate_value, sheet_transaction_ids) }.flatten.uniq
 
-      # Update all existing sheets to new value
-      sheet_transaction_ids = changed_values.collect{ |old_value, intermediate_value, new_value| self.update_response_values(intermediate_value, new_value, sheet_transaction_ids) }.flatten.uniq
-    end
+  #     # Update all existing sheets to new value
+  #     sheet_transaction_ids = changed_values.collect{ |old_value, intermediate_value, new_value| update_response_values(intermediate_value, new_value, sheet_transaction_ids) }.flatten.uniq
+  #   end
 
-    self.options = []
-    tokens.each do |token|
-      next unless token[:name].strip.present? || (token[:value].strip.present? && token[:option_index] != 'new')
-      self.options << {
-        name: token[:name].strip,
-        value: token[:value].strip,
-        description: token[:description].to_s.strip,
-        missing_code: token[:missing_code].to_s.strip,
-        site_id: token[:site_id].to_s.strip
-      }
-    end
-  end
+  #   self.options = []
+  #   tokens.each do |token|
+  #     next unless token[:name].strip.present? || (token[:value].strip.present? && token[:option_index] != 'new')
+  #     self.options << {
+  #       name: token[:name].strip,
+  #       value: token[:value].strip,
+  #       description: token[:description].to_s.strip,
+  #       missing_code: token[:missing_code].to_s.strip,
+  #       site_id: token[:site_id].to_s.strip
+  #     }
+  #   end
+  # end
 
+  # TODO: Check if this updates checkbox responses correctly.
   def update_response_values(database_value, new_value, sheet_transaction_ids)
     sheet_transactions = SheetTransaction.where( id: sheet_transaction_ids )
-    svs = self.sheet_variables.where(response: database_value)
-    gds = self.grids.where(response: database_value)
-    sheet_transaction_ids = (svs + gds).collect do |o|
-      sheet_transaction = sheet_transactions.where( sheet_id: o.sheet_id ).first_or_create( transaction_type: 'domain_update', user_id: self.user.id, remote_ip: self.user.current_sign_in_ip )
-      sheet_transaction.update_response_with_transaction(o, new_value, self.user)
+    svs = sheet_variables.where(response: database_value)
+    gds = grids.where(response: database_value)
+    sheet_transaction_ids = (svs + gds).collect do |valuable|
+      sheet_transaction = sheet_transactions.where(sheet_id: valuable.sheet_id).first_or_create(transaction_type: 'domain_update', user_id: user.id, remote_ip: user.current_sign_in_ip)
+      sheet_transaction.update_response_with_transaction(valuable, new_value, user)
       sheet_transaction.id
     end
     sheet_transaction_ids
   end
 
   # Returns true if all options are integers
+  # TODO: Check where this is referenced for optimization
+  # TODO: Currently doesn't allow decimals.
   def all_numeric?
-    options.count { |o| !(o[:value] =~ /^[-+]?[0-9]+$/) } == 0
+    @all_numeric ||= begin
+      domain_options.count { |o| !(o.value =~ /^[-+]?[0-9]+$/) } == 0
+    end
+    # options.count { |o| !(o[:value] =~ /^[-+]?[0-9]+$/) } == 0
   end
 
   def sas_value_domain
-    "  value #{self.sas_domain_name}\n#{self.options.collect{|o| "    #{"'" unless self.all_numeric? }#{o[:value]}#{"'" unless self.all_numeric? }='#{o[:value]}: #{o[:name].gsub("'", "''")}'"}.join("\n")}\n  ;"
+    "  value #{sas_domain_name}\n#{domain_options.collect { |o| "    #{"'" unless all_numeric? }#{o.value}#{"'" unless all_numeric? }='#{o.value}: #{o.name.gsub("'", "''")}'"}.join("\n")}\n  ;"
+    # "  value #{sas_domain_name}\n#{self.options.collect{|o| "    #{"'" unless self.all_numeric? }#{o[:value]}#{"'" unless self.all_numeric? }='#{o[:value]}: #{o[:name].gsub("'", "''")}'"}.join("\n")}\n  ;"
   end
 
   def sas_domain_name
@@ -139,5 +166,33 @@ class Domain < ApplicationRecord
       params[:option_tokens][index][:value] = (index + 1).to_s if option[:name].present? && option[:value].blank?
     end
     params
+  end
+
+  def update_option_tokens!
+    Rails.logger.debug "REMO: " + "#{option_tokens.inspect}"
+    return if option_tokens.nil?
+    transaction do
+      option_tokens.each_with_index do |option_hash, index|
+        next if option_hash[:name].blank?
+        domain_option = domain_options.find_by(id: option_hash.delete(:domain_option_id))
+        if domain_option
+          domain_option.update(cleaned_hash(option_hash, index, domain_option))
+        else
+          domain_options.create(cleaned_hash(option_hash, index, nil))
+        end
+        # domain_option.update_from_hash!(option_hash, index)
+      end
+    end
+  end
+
+  def cleaned_hash(option_hash, index, domain_option)
+    description = DesignOption.cleaned_description(option_hash, domain_option)
+    value = DesignOption.cleaned_value(option_hash, index)
+    {
+      name: option_hash[:name], value: value, description: description,
+      site_id: option_hash[:site_id], position: index,
+      missing_code: (option_hash[:missing_code] == '1'),
+      archived: (option_hash[:archived] == '1')
+    }
   end
 end

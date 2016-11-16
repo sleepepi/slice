@@ -25,4 +25,20 @@ class DesignOption < ApplicationRecord
       'Not Required'
     end
   end
+
+  def self.cleaned_description(hash, domain_option)
+    if hash.key?(:description)
+      hash[:description]
+    elsif domain_option
+      domain_option.description
+    end
+  end
+
+  def self.cleaned_value(hash, index)
+    if hash[:value].blank?
+      index + 1
+    else
+      hash[:value]
+    end
+  end
 end

@@ -1,0 +1,10 @@
+- @title = 'New Domain Option'
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@domain.name, [@project, @domain]]
+
+= render 'projects/side_nav'
+= render 'layouts/simple_header'
+
+.dashboard-container= render 'form', domain_option: @domain_option
+

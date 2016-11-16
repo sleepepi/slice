@@ -100,6 +100,7 @@ class DesignOptionsController < ApplicationController
     if @domain.new_record? && @domain.save && @design_option.variable.update(domain_id: @domain.id)
       render :show
     elsif !@domain.new_record? && @domain.update(domain_params)
+      @domain.update_option_tokens!
       render :show
     else
       render :edit_domain
@@ -199,7 +200,7 @@ class DesignOptionsController < ApplicationController
 
     params.require(:domain).permit(
       :name, :display_name, :description, :user_id,
-      option_tokens: [:name, :value, :description, :missing_code, :option_index, :site_id]
+      option_tokens: [:name, :value, :description, :missing_code, :site_id, :domain_option_id]
     )
   end
 end

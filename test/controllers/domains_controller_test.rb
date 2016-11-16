@@ -42,19 +42,20 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'should create domain' do
-    assert_difference('Domain.count') do
-      post :create, params: {
-        project_id: @project,
-        domain: {
-          name: 'new_domain', display_name: 'New Domain',
-          option_tokens: [
-            { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-            { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
-          ]
+    assert_difference('DomainOption.count', 2) do
+      assert_difference('Domain.count') do
+        post :create, params: {
+          project_id: @project,
+          domain: {
+            name: 'new_domain', display_name: 'New Domain',
+            option_tokens: [
+              { name: 'Chocolate', value: '1', description: '' },
+              { name: 'Vanilla', value: '2', description: '' }
+            ]
+          }
         }
-      }
+      end
     end
-
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
@@ -65,8 +66,8 @@ class DomainsControllerTest < ActionController::TestCase
         domain: {
           name: 'new_domain_2', display_name: 'New Domain Two',
           option_tokens: [
-            { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-            { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
+            { name: 'Chocolate', value: '1', description: '' },
+            { name: 'Vanilla', value: '2', description: '' }
           ]
         }
       }
@@ -168,8 +169,8 @@ class DomainsControllerTest < ActionController::TestCase
           name: '',
           display_name: '',
           option_tokens: [
-            { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-            { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
+            { name: 'Chocolate', value: '1', description: '' },
+            { name: 'Vanilla', value: '2', description: '' }
           ]
         }
       }
@@ -189,8 +190,8 @@ class DomainsControllerTest < ActionController::TestCase
           name: 'new_domain',
           display_name: 'New Domain',
           option_tokens: [
-            { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-            { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
+            { name: 'Chocolate', value: '1', description: '' },
+            { name: 'Vanilla', value: '2', description: '' }
           ]
         }
       }
@@ -230,8 +231,8 @@ class DomainsControllerTest < ActionController::TestCase
       domain: {
         name: @domain.name, display_name: @domain.display_name,
         option_tokens: [
-          { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-          { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
+          { name: 'Chocolate', value: '1', description: '' },
+          { name: 'Vanilla', value: '2', description: '' }
         ]
       }
     }

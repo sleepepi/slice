@@ -213,6 +213,8 @@ Rails.application.routes.draw do
     end
 
     resources :domains do
+      resources :domain_options, path: 'options'
+
       collection do
         post :add_option
         post :values

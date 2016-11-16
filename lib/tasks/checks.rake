@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 namespace :checks do
-  desc 'Check validity of all sheets'
+  desc 'Rerun all checks for all sheets'
   task reset: :environment do
     Check.find_each do |check|
       puts check.name.to_s.colorize(:blue).on_white

@@ -72,9 +72,19 @@ def copy_variables(original, copy)
       name: d.name,
       display_name: d.display_name,
       description: d.description,
-      options: d.options,
       user_id: d.user_id
     )
+    d.domain_options.each do |domain_option|
+      dc.domain_options.create(
+        name: domain_option.name,
+        value: domain_option.value,
+        description: domain_option.description,
+        site_id: domain_option.site_id,
+        missing_code: domain_option.missing_code,
+        archived: domain_option.archived,
+        position: domain_option.position
+      )
+    end
     domain_map[d.id.to_s] = dc.id
     puts "Added #{dc.name.colorize(:white)} domain"
   end

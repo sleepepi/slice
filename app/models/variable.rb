@@ -110,10 +110,20 @@ class Variable < ApplicationRecord
     end
   end
 
+  # TODO: Update to use domain_options
+  # def domain_options
+  #   domain ? domain.domain_options : DomainOption.none
+  # end
   def shared_options
     domain ? domain.options : []
   end
 
+  # TODO: Update to use domain_options
+  # def domain_options_with_user(current_user)
+  #   return domain_options unless current_user
+  #   site_ids = current_user.all_editable_sites.where(project_id: project_id).select(:id)
+  #   domain_options.where(site_id: site_ids).or(domain_options.where(site_id: nil))
+  # end
   def shared_options_with_user(current_user)
     return shared_options unless current_user
     site_ids = current_user.all_editable_sites.where(project_id: project_id).pluck(:id)
