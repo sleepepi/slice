@@ -169,7 +169,6 @@ class Domain < ApplicationRecord
   end
 
   def update_option_tokens!
-    Rails.logger.debug "REMO: " + "#{option_tokens.inspect}"
     return if option_tokens.nil?
     transaction do
       option_tokens.each_with_index do |option_hash, index|
