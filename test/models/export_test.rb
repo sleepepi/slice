@@ -11,7 +11,6 @@ class ExportTest < ActiveSupport::TestCase
 
   test 'generate an export with checkbox values split across columns' do
     sheets_with_checkboxes = projects(:one).sheets.where(id: sheets(:checkbox_example_one))
-
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, 'test-export.csv', true, '')
     rows = IO.readlines(export_file).collect(&:strip)
     assert_equal 'Subject,Site,Event Name,Design Name,Sheet ID,Sheet Created,Missing,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]
@@ -20,7 +19,6 @@ class ExportTest < ActiveSupport::TestCase
 
   test 'generate an export with checkbox labeled values split across columns' do
     sheets_with_checkboxes = projects(:one).sheets.where(id: sheets(:checkbox_example_one))
-
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, 'test-export-labeled.csv', false, '')
     rows = IO.readlines(export_file).collect(&:strip)
     assert_equal 'Subject,Site,Event Name,Design Name,Sheet ID,Sheet Created,Missing,var_course_work__acct101,var_course_work__econ101,var_course_work__math123,var_course_work__phys500,var_course_work__biol327,var_year', rows[0]

@@ -24,8 +24,7 @@ module GridExport
       grid_group_variables.each do |grid_group_variable|
         grid_group_variable.child_variables.each do |child_variable|
           if child_variable.variable_type == 'checkbox'
-            child_variable.shared_options.each do |option|
-              value = option[:value]
+            child_variable.domain_options.pluck(:value).each do |value|
               sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, child_variable, sheet_scope, sheet_ids, value)
               formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
               csv << [grid_group_variable.name, "#{child_variable.name}__#{value}"] + formatted_responses

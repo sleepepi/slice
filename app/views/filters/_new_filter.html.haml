@@ -12,14 +12,14 @@
     .col-md-6
       .download-container
         %h3 Select Variable
-        = form_tag report_lookup_project_variables_path(@design.project), method: :post, remote: true, class: "form-inline", id: 'report_lookup_form' do
+        = form_tag report_lookup_project_variables_path(@design.project), method: :post, remote: true, class: 'form-horizontal', id: 'report_lookup_form' do
           - if row_variable_groups.blank?
             No Variables available as Filters
           - else
             = select_tag :variable_id, options_for_select(extra_variables) + grouped_options_for_select(row_variable_groups), class: 'input-medium chzn-select', data: { object: 'variable-selection', target: '#report_lookup_form' }
             %br
             %br
-            %label.checkbox
+            %label.checkbox.checkbox-radio-outline
               = check_box_tag :missing, '1', false
               Include Missing
             = hidden_field_tag :axis, 'row'

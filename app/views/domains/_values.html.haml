@@ -1,6 +1,6 @@
-- if domain && domain.options.size > 0
+- if domain && domain.domain_options.present?
   %ul.list-unstyled
-  - domain.options.sort { |a,b| a[:value].to_s <=> b[:value].to_s }.each do |option|
-    %li.nowrap= "#{option[:value]}: #{option[:name]}"
+    - domain.domain_options.each do |domain_option|
+      %li.nowrap= domain_option.value_and_name
 - else
   .text-muted No Values

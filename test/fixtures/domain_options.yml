@@ -2,251 +2,295 @@ one_easy:
   domain: one
   name: Easy
   value: 1
+  position: 0
 
 one_medium:
   domain: one
   name: Medium
   value: 2
+  position: 1
 
 one_hard:
   domain: one
   name: Hard
   value: 3
+  position: 2
 
 two_sun:
   domain: two
   name: Sunday
   value: 0
+  position: 0
 
 two_mon:
   domain: two
   name: Monday
   value: 1
+  position: 1
 
 two_tue:
   domain: two
   name: Tuesday
   value: 2
+  position: 2
 
 two_wed:
   domain: two
   name: Wednesday
   value: 3
+  position: 3
 
 two_thu:
   domain: two
   name: Thursday
   value: 4
+  position: 4
 
 two_fri:
   domain: two
   name: Friday
   value: 5
+  position: 5
 
 two_sat:
   domain: two
   name: Saturday
   value: 6
+  position: 6
 
 icecream_chocolate:
   domain: icecream_flavors
   name: Chocolate
   value: 1
+  position: 0
 
 icecream_vanilla:
   domain: icecream_flavors
   name: Vanilla
   value: 2
+  position: 1
 
 checkbox_two_domain_yes:
   domain: checkbox_two_domain
   name: Yes
   value: 1
+  position: 0
 
 checkbox_two_domain_no:
   domain: checkbox_two_domain
   name: No
   value: 2
+  position: 1
 
 change_options_1:
   domain: change_options
   name: Option 1
   value: 2
   description: Should have value 1
+  position: 0
 
 change_options_2:
   domain: change_options
   name: Option 2
   value: 3
   description: Should have value 2
+  position: 1
 
 change_options_3:
   domain: change_options
   name: Option 3
   value: 1
   description: Should have value 3
+  position: 2
 
 var_one_1:
   domain: var_one_options
   name: Show Hidden
   value: 1
+  position: 0
 
 var_one_2:
   domain: var_one_options
   name: No More questions
   value: 2
+  position: 1
 
 var_two_1:
   domain: var_two_options
   name: Name
   value: Value
   description: Description
+  position: 0
 
 var_dropdown_m:
   domain: var_dropdown_options
   name: Male
   value: m
   description: Male Gender
+  position: 0
 
 var_dropdown_f:
   domain: var_dropdown_options
   name: Female
   value: f
   description: Female Gender
+  position: 1
 
 var_checkbox_acct101:
   domain: var_checkbox_options
   name: ACCT 101
   value: acct101
   description: Introduction to Accounting
+  position: 0
 
 var_checkbox_econ101:
   domain: var_checkbox_options
   name: ECON 101
   value: econ101
   description: Introduction to Microeconomics
+  position: 1
 
 var_checkbox_math123:
   domain: var_checkbox_options
   name: MATH 123
   value: math123
   description: Basic Algebra
+  position: 2
 
 var_checkbox_phys500:
   domain: var_checkbox_options
   name: PHYS 500
   value: phys500
   description: Physics - Special Topic
+  position: 3
 
 var_checkbox_biol327:
   domain: var_checkbox_options
   name: BIOL 327
   value: biol327
   description: Cells for Beginners
-
-
+  position: 4
 
 var_radio_1:
   domain: var_radio_options
   name: Freshman
   value: 1
   description: Year 1
+  position: 0
 
 var_radio_2:
   domain: var_radio_options
   name: Sophomore
   value: 2
   description: Year 2
+  position: 1
 
 var_radio_3:
   domain: var_radio_options
   name: Junior
   value: 3
   description: Year 3
+  position: 2
 
 var_radio_4:
   domain: var_radio_options
   name: Senior
   value: 4
   description: Year 4
+  position: 3
 
 var_radio_5:
   domain: var_radio_options
   name: Professional
   value: 5+
   description: Year 5+
+  position: 4
 
 var_change_options_1:
   domain: var_change_options
   name: Option 1
   value: 2
   description: Should have value 1
+  position: 0
 
 var_change_options_2:
   domain: var_change_options
   name: Option 2
   value: 3
   description: Should have value 2
+  position: 1
 
 var_change_options_3:
   domain: var_change_options
   name: Option 3
   value: 1
   description: Should have value 3
+  position: 2
 
 two_restaurants_1:
   domain: two_restaurants
   name: Avocado Place
   value: 1
+  position: 0
 
 two_restaurants_2:
   domain: two_restaurants
   name: Banana Anarchy
   value: 2
+  position: 1
 
 three_restaurants_1:
   domain: three_restaurants
   name: Avocado Place
   value: 1
+  position: 0
 
 three_restaurants_2:
   domain: three_restaurants
   name: Banana Anarchy
   value: 2
+  position: 1
 
 three_restaurants_3:
   domain: three_restaurants
   name: Chewing Gum Palace
   value: 3
+  position: 2
 
 one_restaurant_encompassing_1:
   domain: one_restaurant_encompassing
   name: Avocado Place
   value: 1
+  position: 0
 
 one_restaurant_not_encompassing_2:
   domain: one_restaurant_not_encompassing
   name: Banana Anarchy
   value: 2
+  position: 0
 
 integer_unknown_9:
   domain: integer_unknown
   name: Unknown
   value: -9
   missing_code: true
+  position: 0
 
 integer_unknown_10:
   domain: integer_unknown
   name: Refusal to provide age
   value: -10
   missing_code: true
+  position: 1
 
 randomize_yes_no_1:
   domain: randomize_yes_no
   name: Yes
   value: 1
+  position: 0
 
 randomize_yes_no_2:
   domain: randomize_yes_no
   name: No
   value: 2
+  position: 1

@@ -6,11 +6,7 @@
   if $('#is_new_domain').val() == '1'
     $("[name='domain[option_tokens][][value]']").each( (index, element) ->
       $(element).val("#{index + 1}")
-      $(element).parent().hide()
-    )
-    $("[name='domain[option_tokens][][name]']").each( (index, element) ->
-      $(element).parent().removeClass('col-xs-2')
-      $(element).parent().addClass('col-xs-4')
+      # $(element).parent().hide()
     )
   else
     $("[name='domain[option_tokens][][value]']").each( (index, element) ->

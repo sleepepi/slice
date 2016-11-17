@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Formatters
+  # Formats date responses.
   class DateFormatter < DefaultFormatter
     # def raw_response(response)
     #   response

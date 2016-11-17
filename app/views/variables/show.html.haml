@@ -168,8 +168,8 @@
         %th Domain
         %td= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
 
-  - if @variable.shared_options.size > 0
-    = render 'variables/compact_options', variable: @variable
+  - if @variable.domain
+    = render 'domain_options/domain_options', domain: @variable.domain
 
 - design_option = @variable.design_options.first
 - if design_option

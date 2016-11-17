@@ -152,12 +152,9 @@ class DomainsControllerTest < ActionController::TestCase
         }
       }
     end
-
     assert_not_nil assigns(:domain)
-
-    assert_equal 'Chocolate', assigns(:domain).options[0][:name]
-    assert_equal '1', assigns(:domain).options[0][:value]
-
+    assert_equal 'Chocolate', assigns(:domain).domain_options.first.name
+    assert_equal '1', assigns(:domain).domain_options.first.value
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
@@ -231,11 +228,12 @@ class DomainsControllerTest < ActionController::TestCase
       domain: {
         name: @domain.name, display_name: @domain.display_name,
         option_tokens: [
-          { name: 'Chocolate', value: '1', description: '' },
-          { name: 'Vanilla', value: '2', description: '' }
+          { name: 'Chocolate', value: '1', description: '', domain_option_id: domain_options(:one_easy).id },
+          { name: 'Vanilla', value: '2', description: '', domain_option_id: domain_options(:one_medium).id }
         ]
       }
     }
+    # TODO CHECK THAT domain_options(:one_hard) no longer exists.
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
@@ -246,30 +244,31 @@ class DomainsControllerTest < ActionController::TestCase
         name: domains(:two).name,
         display_name: domains(:two).display_name,
         option_tokens: [
-          { name: 'Sunday', value: '' },
-          { name: 'Monday', value: '' },
-          { name: 'Tuesday', value: '' },
-          { name: 'Wednesday', value: '' },
-          { name: 'Thursday', value: '' },
-          { name: 'Friday', value: '' },
-          { name: 'Saturday', value: '' }
+          { name: 'Sunday', value: '', domain_option_id: domain_options(:two_sun).id },
+          { name: 'Monday', value: '', domain_option_id: domain_options(:two_mon).id },
+          { name: 'Tuesday', value: '', domain_option_id: domain_options(:two_tue).id },
+          { name: 'Wednesday', value: '', domain_option_id: domain_options(:two_wed).id },
+          { name: 'Thursday', value: '', domain_option_id: domain_options(:two_thu).id },
+          { name: 'Friday', value: '', domain_option_id: domain_options(:two_fri).id },
+          { name: 'Saturday', value: '', domain_option_id: domain_options(:two_sat).id }
         ]
       }
     }
-    assert_equal 'Sunday', assigns(:domain).options[0][:name]
-    assert_equal '1', assigns(:domain).options[0][:value]
-    assert_equal 'Monday', assigns(:domain).options[1][:name]
-    assert_equal '2', assigns(:domain).options[1][:value]
-    assert_equal 'Tuesday', assigns(:domain).options[2][:name]
-    assert_equal '3', assigns(:domain).options[2][:value]
-    assert_equal 'Wednesday', assigns(:domain).options[3][:name]
-    assert_equal '4', assigns(:domain).options[3][:value]
-    assert_equal 'Thursday', assigns(:domain).options[4][:name]
-    assert_equal '5', assigns(:domain).options[4][:value]
-    assert_equal 'Friday', assigns(:domain).options[5][:name]
-    assert_equal '6', assigns(:domain).options[5][:value]
-    assert_equal 'Saturday', assigns(:domain).options[6][:name]
-    assert_equal '7', assigns(:domain).options[6][:value]
+    assigns(:domain).domain_options.reload
+    assert_equal 'Sunday', assigns(:domain).domain_options.first.name
+    assert_equal '1', assigns(:domain).domain_options.first.value
+    assert_equal 'Monday', assigns(:domain).domain_options.second.name
+    assert_equal '2', assigns(:domain).domain_options.second.value
+    assert_equal 'Tuesday', assigns(:domain).domain_options.third.name
+    assert_equal '3', assigns(:domain).domain_options.third.value
+    assert_equal 'Wednesday', assigns(:domain).domain_options.fourth.name
+    assert_equal '4', assigns(:domain).domain_options.fourth.value
+    assert_equal 'Thursday', assigns(:domain).domain_options.fifth.name
+    assert_equal '5', assigns(:domain).domain_options.fifth.value
+    assert_equal 'Friday', assigns(:domain).domain_options.sixth.name
+    assert_equal '6', assigns(:domain).domain_options.sixth.value
+    assert_equal 'Saturday', assigns(:domain).domain_options.seventh.name
+    assert_equal '7', assigns(:domain).domain_options.seventh.value
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
@@ -280,8 +279,8 @@ class DomainsControllerTest < ActionController::TestCase
         name: @domain.name,
         display_name: @domain.display_name,
         option_tokens: [
-          { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-          { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
+          { name: 'Chocolate', value: '1', description: '', domain_option_id: domain_options(:one_easy).id },
+          { name: 'Vanilla', value: '2', description: '', domain_option_id: domain_options(:one_medium).id }
         ]
       }
     }
@@ -302,10 +301,10 @@ class DomainsControllerTest < ActionController::TestCase
         display_name: domains(:change_options).display_name,
         description: domains(:change_options).description,
         option_tokens: [
-          { name: 'Option 1', value: '1', description: 'Should have value 1', option_index: '0' },
-          { name: 'Option 2', value: '2', description: 'Should have value 2', option_index: '1' },
-          { name: 'Option 3', value: '3', description: 'Should have value 3', option_index: '2' },
-          { name: 'Option 4', value: '4', description: 'Should have value 4', option_index: 'new' }
+          { name: 'Option 1', value: '1', description: 'Should have value 1', domain_option_id: domain_options(:change_options_1).id },
+          { name: 'Option 2', value: '2', description: 'Should have value 2', domain_option_id: domain_options(:change_options_2).id },
+          { name: 'Option 3', value: '3', description: 'Should have value 3', domain_option_id: domain_options(:change_options_3).id },
+          { name: 'Option 4', value: '4', description: 'Should have value 4' }
         ]
       }
     }
@@ -333,9 +332,9 @@ class DomainsControllerTest < ActionController::TestCase
         display_name: domains(:change_options).display_name,
         description: domains(:change_options).description,
         option_tokens: [
-          { name: 'Option 1', value: '2', description: 'Should have value 1', option_index: '0' },
-          { name: 'Option 2', value: '3', description: 'Should have value 2', option_index: '1' },
-          { name: 'Option 4', value: '4', description: 'Should have value 4', option_index: 'new' }
+          { name: 'Option 1', value: '2', description: 'Should have value 1', domain_option_id: domain_options(:change_options_1).id },
+          { name: 'Option 2', value: '3', description: 'Should have value 2', domain_option_id: domain_options(:change_options_2).id },
+          { name: 'Option 4', value: '4', description: 'Should have value 4' }
         ]
       }
     }
@@ -363,10 +362,10 @@ class DomainsControllerTest < ActionController::TestCase
         display_name: domains(:change_options).display_name,
         description: domains(:change_options).description,
         option_tokens: [
-          { name: 'Option 1', value: '1', description: 'Should have value 1', option_index: '0' },
-          { name: 'Option 2', value: '2', description: 'Should have value 2', option_index: '1' },
-          { name: 'Option 3', value: '3', description: 'Should have value 3', option_index: '2' },
-          { name: 'Option 4', value: ':4', description: 'Should have value 4', option_index: 'new' }
+          { name: 'Option 1', value: '1', description: 'Should have value 1', domain_option_id: domain_options(:change_options_1).id },
+          { name: 'Option 2', value: '2', description: 'Should have value 2', domain_option_id: domain_options(:change_options_2).id },
+          { name: 'Option 3', value: '3', description: 'Should have value 3', domain_option_id: domain_options(:change_options_3).id },
+          { name: 'Option 4', value: ':4', description: 'Should have value 4' }
         ]
       }
     }
@@ -389,8 +388,8 @@ class DomainsControllerTest < ActionController::TestCase
         name: '',
         display_name: '',
         option_tokens: [
-          { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-          { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
+          { name: 'Chocolate', value: '1', description: '', domain_option_id: domain_options(:one_easy).id },
+          { name: 'Vanilla', value: '2', description: '', domain_option_id: domain_options(:one_medium).id }
         ]
       }
     }
@@ -407,8 +406,8 @@ class DomainsControllerTest < ActionController::TestCase
         name: @domain.name,
         display_name: @domain.display_name,
         option_tokens: [
-          { name: 'Chocolate', value: '1', description: '', color: '#FFBBCC' },
-          { name: 'Vanilla', value: '2', description: '', color: '#FFAAFF' }
+          { name: 'Chocolate', value: '1', description: '', domain_option_id: domain_options(:one_easy).id },
+          { name: 'Vanilla', value: '2', description: '', domain_option_id: domain_options(:one_medium).id }
         ]
       }
     }

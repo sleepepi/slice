@@ -1,0 +1,10 @@
+- display_class = [variable.display_class(is_grid), (domain_option.missing_code? ? 'negation' : nil)].join(' ')
+%label.checkbox-radio-outline{ class: display_class }
+  - if variable.single_choice?
+    = radio_button_tag variable.name, "#{domain_option.value}", false, disabled: true
+  - else
+    = check_box_tag "#{variable.name}[]", "#{domain_option.value}", false, disabled: true
+  - if variable.alignment == 'scale'
+    &#8288;
+  - else
+    = domain_option.value_and_name

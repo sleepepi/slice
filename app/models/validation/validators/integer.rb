@@ -2,6 +2,7 @@
 
 module Validation
   module Validators
+    # Used to help validate values for integer variables.
     class Integer < Validation::Validators::Numeric
       MESSAGES = {
         blank: '',

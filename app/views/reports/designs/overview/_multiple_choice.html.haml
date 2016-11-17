@@ -1,7 +1,7 @@
 - responses = @sheets.sheet_responses_for_checkboxes(variable)
 - counts = []
-- variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value]] }.each do |name, value|
-  - count = responses.select { |r| r == value }.count
+- variable.domain_options.each do |domain_option|
+  - count = responses.select { |r| r == domain_option.value }.count
   - counts << count if count > 0
 - no_responses = (counts.count == 0)
 
@@ -9,15 +9,15 @@
   .center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'pie', values: counts } }
 
 - count_index = -1
-- variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:missing_code]]}.each do |name, value, missing_code|
-  - count = responses.select { |r| r == value }.count
-  - if count > 0 || no_responses
+- variable.domain_options.each do |domain_option|
+  - count = responses.select { |r| r == domain_option.value }.count
+  - if !domain_option.missing_code? && (count > 0 || no_responses)
     - count_index += 1
 
     .row.col-buffer
       .col-xs-6.text-right
-        %strong= "#{value}: #{name}"
+        %strong= domain_option.value_and_name
       .col-xs-6
-        - unless missing_code == '1'
+        - unless domain_option.missing_code?
           %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
-        = filter_link(count == 0 ? nil : count, @design, variable, value, event_id: event_id)
+        = filter_link(count == 0 ? nil : count, @design, variable, domain_option.value, event_id: event_id)

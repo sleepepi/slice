@@ -110,24 +110,14 @@ class Variable < ApplicationRecord
     end
   end
 
-  # TODO: Update to use domain_options
-  # def domain_options
-  #   domain ? domain.domain_options : DomainOption.none
-  # end
-  def shared_options
-    domain ? domain.options : []
+  def domain_options
+    domain ? domain.domain_options : DomainOption.none
   end
 
-  # TODO: Update to use domain_options
-  # def domain_options_with_user(current_user)
-  #   return domain_options unless current_user
-  #   site_ids = current_user.all_editable_sites.where(project_id: project_id).select(:id)
-  #   domain_options.where(site_id: site_ids).or(domain_options.where(site_id: nil))
-  # end
-  def shared_options_with_user(current_user)
-    return shared_options unless current_user
-    site_ids = current_user.all_editable_sites.where(project_id: project_id).pluck(:id)
-    shared_options.select { |opt| opt[:site_id].blank? || site_ids.include?(opt[:site_id].to_i) }
+  def domain_options_with_user(current_user)
+    return domain_options unless current_user
+    site_ids = current_user.all_editable_sites.where(project_id: project_id).select(:id)
+    domain_options.where(site_id: site_ids).or(domain_options.where(site_id: nil))
   end
 
   def autocomplete_array
@@ -207,47 +197,44 @@ class Variable < ApplicationRecord
     end
   end
 
+  # TODO: Remove/refactor Missing_codes
   def missing_codes
-    shared_options.select { |opt| opt[:missing_code] == '1' }.collect { |opt| opt[:value] }
+    domain_options.where(missing_code: true).pluck(:value)
   end
 
   def first_scale_variable?(design)
     return true unless design
-
     position = design.design_options.pluck(:variable_id).index(id)
     if position && position > 0
       design_option = design.design_options[position - 1]
       previous_variable = design_option.variable
     end
-    # While this could just compare the variable domains, comparing the shared options allows scales with different domains (that have the same options) to still stack nicely on a form
-    if previous_variable && previous_variable.uses_scale? && previous_variable.shared_options == shared_options
+    if previous_variable && previous_variable.uses_scale? && previous_variable.domain_id == domain_id
       return false
     else
       return true
     end
   end
 
-  def options_missing_at_end(current_user = nil)
-    options_without_missing(current_user) + options_only_missing(current_user)
-  end
-
-  def options_without_missing(current_user = nil)
-    shared_options_with_user(current_user).select { |opt| opt[:missing_code] != '1' }
-  end
-
-  def options_only_missing(current_user = nil)
-    shared_options_with_user(current_user).select { |opt| opt[:missing_code] == '1' }
-  end
-
   def grouped_by_missing(show_values, current_user = nil)
-    [['', options_without_missing(current_user).collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }], ['Missing', options_only_missing(current_user).collect { |opt| [[(show_values ? opt[:value] : nil), opt[:name]].compact.join(': '), opt[:value]] }]]
+    non_missing = domain_options_with_user(current_user).where(missing_code: false)
+    missing = domain_options_with_user(current_user).where(missing_code: true)
+    [['', non_missing.collect { |domain_option| [domain_option.value_and_name(show_values: show_values), domain_option.value] }], ['Missing', missing.collect { |domain_option| [domain_option.value_and_name(show_values: show_values), domain_option.value] }]]
   end
 
   def options_or_autocomplete(include_missing)
     if variable_type == 'string'
       NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.response, value: sv.response, info: 'User Submitted' } }.uniq { |a| a[:value].downcase })
     else
-      (include_missing ? shared_options : options_without_missing)
+      doscope = \
+        if include_missing
+          domain_options
+        else
+          domain_options.where(missing_code: false)
+        end
+      doscope.collect do |domain_option|
+        { name: domain_option.name, value: domain_option.value, missing_code: domain_option.missing_code? ? '1' : '0' }
+      end
     end
   end
 
@@ -469,7 +456,7 @@ class Variable < ApplicationRecord
 
   def csv_column
     if variable_type == 'checkbox'
-      shared_options.collect { |option| option_variable_name(option[:value]) }
+      domain_options.collect { |domain_option| option_variable_name(domain_option.value) }
     else
       name
     end
@@ -477,8 +464,8 @@ class Variable < ApplicationRecord
 
   def csv_columns_and_names
     if variable_type == 'checkbox'
-      shared_options.collect do |option|
-        [option_variable_name(option[:value]), "#{display_name} - #{option[:value]}: #{option[:name]}"]
+      domain_options.collect do |domain_option|
+        [option_variable_name(domain_option.value), "#{display_name} - #{domain_option.value_and_name}"]
       end
     else
       [[name, display_name]]
@@ -488,7 +475,7 @@ class Variable < ApplicationRecord
   def sas_informat_definition
     if variable_type == 'checkbox'
       option_informat = (domain && !domain.all_numeric? ? '$500' : 'best32')
-      shared_options.collect { |option| "  informat #{option_variable_name(option[:value])} #{option_informat}. ;" }
+      domain_options.collect { |domain_option| "  informat #{option_variable_name(domain_option.value)} #{option_informat}. ;" }
     else
       "  informat #{name} #{sas_informat}. ;"
     end
@@ -497,7 +484,7 @@ class Variable < ApplicationRecord
   def sas_format_definition
     if variable_type == 'checkbox'
       option_format = (domain && !domain.all_numeric? ? '$500' : 'best32')
-      shared_options.collect { |option| "  format #{option_variable_name(option[:value])} #{option_format}. ;" }
+      domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option.value)} #{option_format}. ;" }
     else
       "  format #{name} #{sas_format}. ;"
     end
@@ -505,7 +492,7 @@ class Variable < ApplicationRecord
 
   def sas_format_label
     if variable_type == 'checkbox'
-      shared_options.collect { |option| "  label #{option_variable_name(option[:value])}='#{display_name.gsub("'", "''")} (#{option[:name].to_s.gsub("'", "''")})' ;" }
+      domain_options.collect { |domain_option| "  label #{option_variable_name(domain_option.value)}='#{display_name.gsub("'", "''")} (#{domain_option.name.gsub("'", "''")})' ;" }
     else
       "  label #{name}='#{display_name.gsub("'", "''")}';"
     end
@@ -515,7 +502,7 @@ class Variable < ApplicationRecord
     if domain
       case variable_type
       when 'checkbox'
-        shared_options.collect { |option| "  format #{option_variable_name(option[:value])} #{domain.sas_domain_name}. ;" }
+        domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option.value)} #{domain.sas_domain_name}. ;" }
       else
         "  format #{name} #{domain.sas_domain_name}. ;"
       end
@@ -628,5 +615,17 @@ class Variable < ApplicationRecord
     else
       'valid'
     end
+  end
+
+  def display_class(is_grid)
+    if is_grid || %w(horizontal scale).include?(alignment)
+      "#{variable_type}-inline"
+    else
+      variable_type
+    end
+  end
+
+  def single_choice?
+    variable_type != 'checkbox'
   end
 end

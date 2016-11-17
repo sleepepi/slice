@@ -356,9 +356,7 @@ Rails.application.routes.draw do
   scope module: :application do
     get :about
     get :contact
-    get :font
     get :use, path: '/about/use', as: :about_use
-    get :theme
     get :version
   end
 

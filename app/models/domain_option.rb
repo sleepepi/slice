@@ -17,8 +17,16 @@ class DomainOption < ApplicationRecord
 
   # Methods
 
-  def value_and_name
-    "#{value}: #{name}"
+  def value_and_name(show_values: true)
+    if show_values
+      "#{value}: #{name}"
+    else
+      name
+    end
+  end
+
+  def destroy
+    # TODO: Remove associated values
   end
 
   # def update_from_hash!(option_hash, index)

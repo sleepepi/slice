@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Formatters
-  # Formats times based on 24 or 12 hour clock
+  # Formats times based on 24 or 12 hour clock.
   class TimeFormatter < DefaultFormatter
     # def raw_response(response)
     #   response

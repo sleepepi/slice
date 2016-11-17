@@ -19,7 +19,7 @@
         - if domain.descriptions?
           %th Description
         - if domain.missing_codes?
-          %th.nowrap Missing Code
+          %th.nowrap.center Missing Code
         - if domain.sites?
           %th.hidden-xs Site
         - if domain.archived_options?
@@ -32,7 +32,7 @@
         - if domain.descriptions?
           %td= domain_option.description
         - if domain.missing_codes?
-          %td= simple_check domain_option.missing_code?
+          %td.center= simple_check domain_option.missing_code?
         - if domain.sites?
           %td.hidden-xs
             - if domain_option.site
@@ -42,4 +42,4 @@
         - if domain.archived_options?
           %td.hidden-xs.center= simple_check domain_option.archived?
         %td
-          = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_domain_option_path(@project, @domain, domain_option), delete_url: [@project, @domain, domain_option], delete_confirmation: "Delete #{domain_option.name}?"
+          = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_domain_option_path(@project, domain, domain_option), delete_url: [@project, domain, domain_option], delete_confirmation: "Delete #{domain_option.name}?"

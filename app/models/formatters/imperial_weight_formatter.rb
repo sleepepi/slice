@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Formatters
-  # Formats imperial weight
+  # Formats imperial weight.
   class ImperialWeightFormatter < DefaultFormatter
     include DateAndTimeParser
     # def raw_response(response)

@@ -7,30 +7,26 @@
   - checkbox_response_count = @domain.responses.where(value: domain_option.value).count
   - total_count = sheet_variables_count + grid_count + checkbox_response_count
 
-.sheet-container.domain-option-container{ class: "#{'fieldset_with_errors' if @domain && @domain.errors.keys.include?(:options)}" }
-  .row
-    .col-xs-1
-      %span.glyphicon.glyphicon-move
-      =# hidden_field_tag "domain[option_tokens][][option_index]", option_index
-      = hidden_field_tag "domain[option_tokens][][domain_option_id]", domain_option.id
-    .col-xs-2
-      = text_field_tag "domain[option_tokens][][value]", domain_option.value, autocomplete: 'off', rel: 'tooltip', title: 'Value', class: 'form-control'
-    .col-xs-2
-      = text_field_tag "domain[option_tokens][][name]", domain_option.name, data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control'
-    - if false
-      .col-xs-2{ style: "display:none" }
-        = text_field_tag "domain[option_tokens][][description]", domain_option.description, autocomplete: 'off', rel: 'tooltip', title: 'Description', tabindex: '-1', class: 'form-control'
-
-    .col-xs-2
-      %label.checkbox.checkbox-inline{ class: "#{'selected' if domain_option.missing_code?}" }
-        = check_box_tag "domain[option_tokens][][missing_code]", '1', domain_option.missing_code?, class: 'checkbox', tabindex: '-1'
-        Missing Code
-    .col-xs-2
+%tr.domain-option-container{ class: "#{'fieldset_with_errors' if @domain && @domain.errors.keys.include?(:options)}" }
+  %td{ style: 'vertical-align: middle;' }
+    %span.glyphicon.glyphicon-move
+    = hidden_field_tag 'domain[option_tokens][][domain_option_id]', domain_option.id
+  %td
+    = text_field_tag 'domain[option_tokens][][value]', domain_option.value, autocomplete: 'off', rel: 'tooltip', title: 'Value', class: 'form-control'
+  %td
+    = text_field_tag 'domain[option_tokens][][name]', domain_option.name, data: { object: 'option-name' }, autocomplete: 'off', rel: 'tooltip', title: 'Name', class: 'form-control'
+  %td.hidden-xs
+    %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{'selected' if domain_option.missing_code?}" }
+      = check_box_tag "domain[option_tokens][][missing_code]", '1', domain_option.missing_code?, tabindex: '-1'
+      Missing Code
+  - if @project.sites.count > 1
+    %td.hidden-xs
       = select_tag 'domain[option_tokens][][site_id]', options_for_select([['--All Sites--', nil]] + @project.sites.order(:name).pluck(:name, :id), domain_option.site_id), class: 'form-control', tabindex: '-1'
-    .col-xs-3
-      = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove-closest', target: '.domain-option-container', count: total_count }, tabindex: '-1'
-      - if total_count > 0
-        %span.text-muted
-          = pluralize total_count, 'response'
-          = "use#{'s' if total_count == 1}"
-          this option.
+  %td{ style: 'vertical-align: middle;' }
+    = link_to '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove-closest', target: '.domain-option-container', count: total_count }, tabindex: '-1' do
+      %span.glyphicon.glyphicon-trash
+    - if total_count > 0
+      %span.text-muted
+        = pluralize total_count, 'response'
+        = "use#{'s' if total_count == 1}"
+        this option.

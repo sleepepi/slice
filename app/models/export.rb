@@ -256,31 +256,37 @@ class Export < ApplicationRecord
         end
       end
     end
-
     csv_name = "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_domains.csv"
     domains_csv = File.join('tmp', 'files', 'exports', csv_name)
-
     CSV.open(domains_csv, 'wb') do |csv|
-      csv << ['Domain Name', 'Description', 'Option Name', 'Option Value', 'Missing Code', 'Option Description']
-
+      csv << [
+        'Domain Name', 'Description', 'Option Name', 'Option Value',
+        'Missing Code', 'Option Description'
+      ]
       objects = []
-
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
           variable = design_option.variable
           objects << variable.domain if variable && variable.domain
         end
       end
-
       objects.uniq.each do |object|
-        object.options.each do |opt|
-          csv << [object.name, object.description, opt[:name], opt[:value], opt[:missing_code], opt[:description]]
+        object.domain_options.each do |domain_option|
+          csv << [
+            object.name, object.description, domain_option.name,
+            domain_option.value, domain_option.missing_code?,
+            domain_option.description
+          ]
         end
       end
     end
-
     update_steps(sheet_ids_count)
-    [["DD/#{designs_csv.split('/').last}", designs_csv], ["DD/#{variables_csv.split('/').last}", variables_csv], ["DD/#{domains_csv.split('/').last}", domains_csv], generate_readme('dd')]
+    [
+      ["DD/#{designs_csv.split('/').last}", designs_csv],
+      ["DD/#{variables_csv.split('/').last}", variables_csv],
+      ["DD/#{domains_csv.split('/').last}", domains_csv],
+      generate_readme('dd')
+    ]
   end
 
   def generate_statistic_export_from_erb(sheet_scope, filename, language)
@@ -372,6 +378,7 @@ class Export < ApplicationRecord
     ["csv/#{filename}_randomizations.csv", export_file]
   end
 
+  # TODO: Refactor this method.
   def all_design_variables_without_grids(sheet_scope)
     Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select { |v| v.variable_type != 'grid' }
   end

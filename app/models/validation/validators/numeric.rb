@@ -2,6 +2,7 @@
 
 module Validation
   module Validators
+    # Used to help validate values for numeric variables.
     class Numeric < Validation::Validators::Default
       MESSAGES = {
         blank: '',
@@ -16,9 +17,9 @@ module Validation
       end
 
       def message(value)
-        option = @variable.shared_options.select { |o| o[:value] == value.to_s }.first
-        if in_missing_codes?(value) && option
-          "#{option[:value]}: #{option[:name]}"
+        domain_option = @variable.domain_options.where(missing_code: true).find_by(value: value)
+        if domain_option
+          domain_option.value_and_name
         else
           messages[status(value).to_sym]
         end
@@ -48,10 +49,10 @@ module Validation
         message(value) != ''
       end
 
-    private
+      private
 
       def get_number(value)
-        string_response = "%g" % value
+        string_response = format('%g', value)
         begin
           Integer(string_response)
         rescue
@@ -78,7 +79,7 @@ module Validation
       end
 
       def in_missing_codes?(value)
-        @variable.missing_codes.include?(value.to_s)
+        @variable.domain_options.where(missing_code: true, value: value).count > 0
       end
     end
   end

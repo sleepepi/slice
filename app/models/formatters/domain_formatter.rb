@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 module Formatters
-  # Used to help format arrays of database responses for variables with domains
+  # Used to help format arrays of database responses for variables with domains.
   class DomainFormatter < DefaultFormatter
     def name_responses
-      shared_responses = shared_options
+      shared_responses = domain_options
       @responses.collect { |r| name_response(r, shared_responses) }
     end
 
-    def shared_options
-      @variable.shared_options
+    def domain_options
+      @variable.domain_options
     end
 
-    def name_response(response, shared_responses = shared_options)
+    def name_response(response, shared_responses = domain_options)
       domain_string = hash_value_and_name(response, shared_responses)
       if domain_string.blank?
         components(response).compact.join(' ').squish if response.present?
@@ -26,8 +26,8 @@ module Formatters
     end
 
     def hash_value_and_name(response, shared_responses)
-      hash = shared_responses.find { |o| o[:value] == response }
-      [hash[:value], hash[:name]].compact.join(': ') if hash
+      domain_option = shared_responses.find_by(value: response)
+      domain_option.value_and_name if domain_option
     end
   end
 end

@@ -177,10 +177,10 @@ class DesignOptionsControllerTest < ActionController::TestCase
           name: 'new_domain_for_variable',
           display_name: 'New Domain For Variable',
           option_tokens: [
-            { option_index: 'new', name: 'Easy', value: '1' },
-            { option_index: 'new', name: 'Medium', value: '2' },
-            { option_index: 'new', name: 'Hard', value: '3' },
-            { option_index: 'new', name: 'Old Value', value: 'Value' }
+            { name: 'Easy', value: '1', design_option_id: nil },
+            { name: 'Medium', value: '2', design_option_id: nil },
+            { name: 'Hard', value: '3', design_option_id: nil },
+            { name: 'Old Value', value: 'Value', design_option_id: nil }
           ]
         }
       }, format: 'js'
@@ -191,7 +191,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:domain)
     assert_equal 'new_domain_for_variable', assigns(:domain).name
     assert_equal 'New Domain For Variable', assigns(:domain).display_name
-    assert_equal 4, assigns(:domain).options.size
+    assert_equal 4, assigns(:domain).domain_options.count
     assert_equal assigns(:domain), assigns(:design_option).variable.domain
     assert_template 'show'
   end
@@ -204,10 +204,10 @@ class DesignOptionsControllerTest < ActionController::TestCase
         name: 'dropdown_options_new',
         display_name: 'New Domain For Dropdown Variable',
         option_tokens: [
-          { option_index: 'new', name: 'Easy', value: '1' },
-          { option_index: 'new', name: 'Medium', value: '2' },
-          { option_index: 'new', name: 'Hard', value: '3' },
-          { option_index: 'new', name: 'Old Value', value: 'Value' }
+          { name: 'Easy', value: '1', domain_option_id: domain_options(:one_easy).id },
+          { name: 'Medium', value: '2', domain_option_id: domain_options(:one_medium).id },
+          { name: 'Hard', value: '3', domain_option_id: domain_options(:one_hard).id },
+          { name: 'Old Value', value: 'Value' }
         ]
       },
       position: 3,
@@ -219,12 +219,14 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design_option)
     assert_not_nil assigns(:domain)
     assert_equal 'dropdown_options_new', assigns(:design_option).variable.domain.name
-    assert_equal 'Easy', assigns(:design_option).variable.domain.options[0][:name]
-    assert_equal '1', assigns(:design_option).variable.domain.options[0][:value]
-    assert_equal 'Medium', assigns(:design_option).variable.domain.options[1][:name]
-    assert_equal '2', assigns(:design_option).variable.domain.options[1][:value]
-    assert_equal 'Hard', assigns(:design_option).variable.domain.options[2][:name]
-    assert_equal '3', assigns(:design_option).variable.domain.options[2][:value]
+    assert_equal 'Easy', assigns(:design_option).variable.domain.domain_options.first.name
+    assert_equal '1', assigns(:design_option).variable.domain.domain_options.first.value
+    assert_equal 'Medium', assigns(:design_option).variable.domain.domain_options.second.name
+    assert_equal '2', assigns(:design_option).variable.domain.domain_options.second.value
+    assert_equal 'Hard', assigns(:design_option).variable.domain.domain_options.third.name
+    assert_equal '3', assigns(:design_option).variable.domain.domain_options.third.value
+    assert_equal 'Old Value', assigns(:design_option).variable.domain.domain_options.fourth.name
+    assert_equal 'Value', assigns(:design_option).variable.domain.domain_options.fourth.value
     assert_template 'show'
   end
 
@@ -236,10 +238,10 @@ class DesignOptionsControllerTest < ActionController::TestCase
         name: 'dropdown_options_new',
         display_name: 'New Domain For Dropdown Variable',
         option_tokens: [
-          { option_index: 'new', name: 'Easy', value: '' },
-          { option_index: 'new', name: 'Medium', value: '' },
-          { option_index: 'new', name: 'Hard', value: '' },
-          { option_index: 'new', name: 'Old Value', value: 'Value' }
+          { name: 'Easy', value: '', domain_option_id: nil },
+          { name: 'Medium', value: '', domain_option_id: nil },
+          { name: 'Hard', value: '', domain_option_id: nil },
+          { name: 'Old Value', value: 'Value', domain_option_id: nil }
         ]
       },
       position: 3,
@@ -251,12 +253,14 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design_option)
     assert_not_nil assigns(:domain)
     assert_equal 'dropdown_options_new', assigns(:design_option).variable.domain.name
-    assert_equal 'Easy', assigns(:design_option).variable.domain.options[0][:name]
-    assert_equal '1', assigns(:design_option).variable.domain.options[0][:value]
-    assert_equal 'Medium', assigns(:design_option).variable.domain.options[1][:name]
-    assert_equal '2', assigns(:design_option).variable.domain.options[1][:value]
-    assert_equal 'Hard', assigns(:design_option).variable.domain.options[2][:name]
-    assert_equal '3', assigns(:design_option).variable.domain.options[2][:value]
+    assert_equal 'Easy', assigns(:design_option).variable.domain.domain_options.first.name
+    assert_equal '1', assigns(:design_option).variable.domain.domain_options.first.value
+    assert_equal 'Medium', assigns(:design_option).variable.domain.domain_options.second.name
+    assert_equal '2', assigns(:design_option).variable.domain.domain_options.second.value
+    assert_equal 'Hard', assigns(:design_option).variable.domain.domain_options.third.name
+    assert_equal '3', assigns(:design_option).variable.domain.domain_options.third.value
+    assert_equal 'Old Value', assigns(:design_option).variable.domain.domain_options.fourth.name
+    assert_equal 'Value', assigns(:design_option).variable.domain.domain_options.fourth.value
     assert_template 'show'
   end
 
@@ -268,10 +272,10 @@ class DesignOptionsControllerTest < ActionController::TestCase
         name: '',
         display_name: 'New Domain For Dropdown Variable',
         option_tokens: [
-          { option_index: 'new', name: 'Easy', value: '1' },
-          { option_index: 'new', name: 'Medium', value: '2' },
-          { option_index: 'new', name: 'Hard', value: '3' },
-          { option_index: 'new', name: 'Old Value', value: 'Value' }
+          { name: 'Easy', value: '1', domain_option_id: nil },
+          { name: 'Medium', value: '2', domain_option_id: nil },
+          { name: 'Hard', value: '3', domain_option_id: nil },
+          { name: 'Old Value', value: 'Value', domain_option_id: nil }
         ]
       },
       position: 3,

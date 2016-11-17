@@ -24,7 +24,7 @@
                 %li= link_to 'All Variables', project_variables_path(@project, order: params[:order]), style: params[:variable_type].blank? ? 'font-weight:bold;' : ''
                 - Variable::TYPE.each do |variable_type_label, variable_type_value|
                   %li= link_to variable_type_label, project_variables_path(@project, order: params[:order], variable_type: variable_type_value), style: params[:variable_type].to_s == variable_type_value.to_s ? 'font-weight:bold;' : ''
-          = th_sort_field @order, 'variables.options', 'Options', extra_class: 'hidden-xs'
+          %th.hidden-xs Options
           %th Actions
 
       - @variables.each do |variable|
@@ -35,8 +35,8 @@
           %td.hidden-xs
             %code= variable.variable_type
           %td.hidden-xs
-            - if variable.shared_options.present?
-              = select_tag "variable_#{variable.id}_options", options_for_select(variable.shared_options.collect { |d| "#{d[:value]}: #{d[:name]}" }), style: 'width:200px', class: 'form-control'
+            - if variable.domain_options.present?
+              = select_tag "variable_#{variable.id}_options", options_for_select(variable.domain_options.collect(&:value_and_name)), style: 'width:200px', class: 'form-control'
           %td.nowrap
             .dropdown
               = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do

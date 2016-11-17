@@ -171,6 +171,10 @@ class Domain < ApplicationRecord
   def update_option_tokens!
     return if option_tokens.nil?
     transaction do
+      # TODO: Delete option tokens that aren't updated?
+      domain_option_ids = option_tokens.collect { |hash| hash[:domain_option_id] }.select(&:present?)
+      domain_options.where.not(id: domain_option_ids).destroy_all
+
       option_tokens.each_with_index do |option_hash, index|
         next if option_hash[:name].blank?
         domain_option = domain_options.find_by(id: option_hash.delete(:domain_option_id))

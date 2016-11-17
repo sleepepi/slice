@@ -3,8 +3,8 @@
 - missing_responses = responses.select{ |r| r.blank? || missing_codes.include?(r) }
 - valid_responses = responses.reject{ |r| r.blank? || missing_codes.include?(r) }.map(&:to_i)
 - counts = []
-- variable.options_without_missing.collect { |opt| [opt[:name], opt[:value]] }.each do |name, value|
-  - count = responses.select { |r| r == value }.count
+- variable.domain_options.where(missing_code: false).each do |domain_option|
+  - count = responses.select { |r| r == domain_option.value }.count
   - counts << count if count > 0
 - no_responses = (counts.count == 0)
 
@@ -20,18 +20,18 @@
       %small.text-muted (100%)
 
 - count_index = -1
-- variable.options_missing_at_end.collect { |opt| [opt[:name], opt[:value], opt[:missing_code]] }.each do |name, value, missing_code|
-  - count = responses.select { |r| r == value }.count
-  - if count > 0 || no_responses
+- variable.domain_options.each do |domain_option|
+  - count = responses.select { |r| r == domain_option.value }.count
+  - if !domain_option.missing_code? && (count > 0 || no_responses)
     - count_index += 1
     .row.col-buffer
-      .col-xs-6.text-right{ class: missing_code == '1' ? 'text-muted' : nil }
-        %strong= "#{value}: #{name}"
+      .col-xs-6.text-right{ class: domain_option.missing_code? ? 'text-muted' : nil }
+        %strong= domain_option.value_and_name
       .col-xs-6
-        - unless missing_code == '1'
+        - unless domain_option.missing_code?
           %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
-        = filter_link(count == 0 ? nil : count, @design, variable, value, event_id: event_id)
-        - if valid_responses.count != 0 && missing_code != '1'
+        = filter_link(count == 0 ? nil : count, @design, variable, domain_option.value, event_id: event_id)
+        - if valid_responses.count != 0 && !domain_option.missing_code?
           - percent = count * 100 / valid_responses.count
           %small.text-muted= "(#{percent}%)"
 

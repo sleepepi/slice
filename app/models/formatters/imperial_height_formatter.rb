@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Formatters
-  # Formats imperial height
+  # Formats imperial height.
   class ImperialHeightFormatter < DefaultFormatter
     include DateAndTimeParser
     # def raw_response(response)

@@ -121,7 +121,7 @@ class VariablesControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:variable)
-    assert_equal 2, assigns(:variable).shared_options.size
+    assert_equal 2, assigns(:variable).domain_options.count
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
@@ -135,7 +135,7 @@ class VariablesControllerTest < ActionController::TestCase
       }
     end
     assert_not_nil assigns(:variable)
-    assert_equal 0, assigns(:variable).shared_options.size
+    assert_equal 0, assigns(:variable).domain_options.count
     assert_nil assigns(:variable).domain
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end

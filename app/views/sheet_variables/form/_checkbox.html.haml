@@ -3,42 +3,35 @@
 
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 - values = variable.response_to_value(response)
+- domain_options = variable.domain_options_with_user(current_user)
 
 .checkbox-input{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'checkbox', status: variable.validator.status(values) } }
-
   = hidden_field_tag "#{field_name}[]", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.variable_type }
-
   - if variable.alignment == 'scale'
-    - options_missing_at_end = variable.options_missing_at_end(current_user)
     %table.table.table-borderless
       %col{ width: "300px" }
-      = ("<col width='#{100/(options_missing_at_end.size+2)}%'/>" * options_missing_at_end.size).html_safe
+      = ("<col width='#{100 / (domain_options.count + 2)}%'/>" * domain_options.count).html_safe
       - if variable.first_scale_variable?(design)
         %thead
           %tr
             %th
-            - options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, v|
-              %th.text-center
-                - if show_values
-                  = succeed ':' do
-                    = v
-                = name
+            - domain_options.each do |domain_option|
+              %th.center
+                = domain_option.value_and_name(show_values: show_values)
       %tbody
         %tr
-          %td{ style: "font-weight:bold" }
+          %th
             = variable.display_name
             = render 'design_options/required', design_option: design_option if design_option
-          - options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, v, description, missing|
-            %td.text-center.sheet-container
-              - selected = (values.include?(v))
-              %label.checkbox.checkbox-inline{ class: "#{'selected' if selected} #{'negation' if missing == '1'}", rel: "#{description.blank? ? 'tooltip' : 'popover'}", data: { content: description, title: "#{v}: #{name}", placement: "bottom", html: "true" } }
-                = check_box_tag "#{field_name}[]", "#{v}", selected, data: { object: "condition", name: variable.name, variable_type: variable.variable_type }, disabled: disabled, style: 'margin-left:-14px'
+          - domain_options.each do |domain_option|
+            - selected = (values.include?(domain_option.value))
+            %td.center
+              %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{'selected' if selected} #{'negation' if domain_option.missing_code?}", rel: (domain_option.description.blank? ? 'tooltip' : 'popover'), data: { content: domain_option.description, title: domain_option.value_and_name(show_values: show_values), placement: 'bottom', html: 'true' } }
+                = check_box_tag "#{field_name}[]", "#{domain_option.value}", selected, data: { object: 'condition', name: variable.name, variable_type: variable.variable_type }, disabled: disabled
+                &#8288;
   - else
-    .sheet-container
-      - variable.shared_options_with_user(current_user).collect{|o| [o[:name], o[:value], o[:missing_code]]}.each do |name, v, missing_code|
-        %label.checkbox{ class: "#{'checkbox-inline' if is_grid or variable.alignment == 'horizontal'} #{'selected' if values.include?(v)} #{'negation' if missing_code == '1'}" }
-          = check_box_tag "#{field_name}[]", "#{v}", values.include?(v), data: { object: "condition", name: variable.name }, disabled: disabled
-          - if show_values
-            = succeed ':' do
-              = v
-          = name
+    - domain_options.each do |domain_option|
+      - selected = values.include?(domain_option.value)
+      %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{'selected' if selected} #{'negation' if domain_option.missing_code?}" }
+        = check_box_tag "#{field_name}[]", "#{domain_option.value}", selected, data: { object: 'condition', name: variable.name }, disabled: disabled
+        = domain_option.value_and_name(show_values: show_values)

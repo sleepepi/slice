@@ -23,8 +23,7 @@ module SheetExport
 
       variables.each do |v|
         if v.variable_type == 'checkbox'
-          v.shared_options.each do |option|
-            value = option[:value]
+          v.domain_options.pluck(:value).each do |value|
             sorted_responses = sort_responses_by_sheet_id_for_checkbox(v, sheet_scope, value)
             formatted_responses = format_responses(v, raw_data, sorted_responses)
             csv << ["#{v.name}__#{value}"] + formatted_responses

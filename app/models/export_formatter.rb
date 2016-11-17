@@ -61,7 +61,7 @@ class ExportFormatter
     variable_labels = []
     variable_scope.each do |variable|
       if variable.variable_type == 'checkbox'
-        variable_labels += variable.shared_options.collect { |option| [variable.option_variable_name(option[:value]), "#{variable.display_name.gsub('"', '\"')} (#{option[:name].gsub('"', '\"')})"] }
+        variable_labels += variable.domain_options.collect { |domain_option| [variable.option_variable_name(domain_option.value), "#{variable.display_name.gsub('"', '\"')} (#{domain_option.name.gsub('"', '\"')})"] }
       else
         variable_labels << [variable.name, variable.display_name.gsub('"', '\"')]
       end
@@ -72,11 +72,11 @@ class ExportFormatter
   def get_factors(variable_scope)
     variable_factors = []
     variable_scope.each do |variable|
-      if variable.shared_options.present?
+      if variable.domain_options.present?
         if variable.variable_type == 'checkbox'
-          variable_factors += variable.shared_options.collect { |option| [variable.option_variable_name(option[:value]), variable.shared_options] }
+          variable_factors += variable.domain_options.collect { |domain_option| [variable.option_variable_name(domain_option.value), variable.domain_options] }
         else
-          variable_factors << [variable.name, variable.shared_options]
+          variable_factors << [variable.name, variable.domain_options]
         end
       end
     end

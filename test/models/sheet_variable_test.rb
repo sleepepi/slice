@@ -45,7 +45,7 @@ class SheetVariableTest < ActiveSupport::TestCase
   test 'get integer' do
     assert_equal Formatters::IntegerFormatter, Formatters.for(sheet_variables(:integer).variable).class
     assert_equal '-9: Unknown', sheet_variables(:integer).get_response(:name)
-    assert_equal(-9, sheet_variables(:integer).get_response(:raw))
+    assert_equal('-9', sheet_variables(:integer).get_response(:raw))
   end
 
   test 'get string' do

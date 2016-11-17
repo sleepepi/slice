@@ -53,7 +53,7 @@ class VariablesController < ApplicationController
 
   def values_search
     @variable = viewable_variables.where('name ILIKE ?', params[:q].split(':').first).first
-    render json: (@variable ? @variable.shared_options : []) + [{value: 'any'}, { value: 'missing' }]
+    render json: (@variable ? @variable.domain_options.collect { |o| { value: o.value, name: o.name } } : []) + [{value: 'any'}, { value: 'missing' }]
   end
 
   # GET /checks_search.json

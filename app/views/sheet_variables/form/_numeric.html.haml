@@ -5,7 +5,7 @@
 
 %div{ class: "#{'input-group' if variable.prepend.present? || variable.units.present? || variable.append.present?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'numeric', status: variable.validator.status(value) } }
   = render 'sheet_variables/form/addon', method: 'prepend', variable: variable
-  = text_field_tag field_name, response, class: 'form-control', data: { object: 'condition cursor-navigatable', name: variable.name, variable_type: variable.variable_type, content: variable.description, grid_position: defined?(position) ? position : "", html: !variable.description.blank? }, title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip, disabled: disabled, rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}", autocomplete: 'off', placeholder: is_grid ? variable.display_name : nil
+  = text_field_tag field_name, response, class: 'form-control', data: { object: 'condition cursor-navigatable', name: variable.name, variable_type: variable.variable_type, content: variable.description, grid_position: defined?(position) ? position : "", html: variable.description.present? }, title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip, disabled: disabled, rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}", autocomplete: 'off', placeholder: is_grid ? variable.display_name : nil
   = render 'sheet_variables/form/addon', method: 'units', variable: variable
   = render 'sheet_variables/form/addon', method: 'append', variable: variable
 

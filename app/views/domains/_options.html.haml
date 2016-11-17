@@ -9,7 +9,4 @@
       = render 'domains/edit_option', domain_option: domain_option
 - else
   - (0..4).each do |index|
-    - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s + index.to_s
-    - @option = { name: '', value: '', description: '' }
-    = render 'domains/edit_option', position: position, index: index
-
+    = render 'domains/edit_option', domain_option: DomainOption.new

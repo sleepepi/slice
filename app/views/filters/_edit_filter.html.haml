@@ -10,9 +10,10 @@
         - if ['site', 'sheet_date'].include?(params[:variable_id])
           = hidden_field_tag :missing, '0'
         - else
-          %label.checkbox{ class: "#{'selected' if params[:missing] == '1'}" }
-            = check_box_tag :missing, '1', params[:missing] == '1'
-            Include Missing
+          %form.form-horizontal
+            %label.checkbox.checkbox-radio-outline{ class: "#{'selected' if params[:missing] == '1'}" }
+              = check_box_tag :missing, '1', params[:missing] == '1'
+              Include Missing
 
     .col-md-6
       #report-options.download-container

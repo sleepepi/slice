@@ -1,0 +1,38 @@
+.checkbox-radio-outline {
+  background-color: $table-bg-accent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+
+  &:hover {
+    background-color: $table-bg-hover;
+  }
+
+  &.selected {
+    background-color: $btn-primary-border;
+    color: $btn-primary-color;
+
+    &.negation {
+      background-color: $btn-danger-border;
+      color: $btn-danger-color;
+    }
+  }
+}
+
+label {
+  &.checkbox-radio-outline {
+    font-weight: normal;
+    padding-bottom: 9px;
+    padding-left: 31px;
+    padding-right: 10px;
+  }
+}
+
+.checkbox,
+.radio,
+.checkbox-inline,
+.radio-inline {
+  &.checkbox-radio-outline {
+    margin-bottom: 4px;
+  }
+}

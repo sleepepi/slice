@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Formatters
-  # Provides default methods for returning and formatting stored database values
+  # Provides default methods for formatting stored database values.
   class DefaultFormatter
     class << self
       def format_array(responses, variable, raw_data)

@@ -3,24 +3,24 @@
 
 - if variable.alignment == 'scale'
   %table.table.table-borderless
-    %col{ width: "300px" }
-    - (1..variable.options_missing_at_end.size).each do
-      %col{ width: "#{100/(variable.options_missing_at_end.size+2)}%" }
-    %col{ width: "1px" }
+    %col{ width: '300px' }
+    - (1..variable.domain_options.count).each do
+      %col{ width: "#{100 / (variable.domain_options.count + 2)}%" }
+    %col{ width: '1px' }
     - if variable.first_scale_variable?(@sheet.design)
       %thead
         %tr
           %th
-          - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value]]}.each do |name, value|
-            %th{ style: "text-align:center" }
-              = "#{value}: #{name}"
+          - variable.domain_options.each do |domain_option|
+            %th.center
+              = domain_option.value_and_name
     %tbody
       %tr
-        %td{ style: "font-weight:bold" }= variable.display_name
-        - variable.options_missing_at_end.collect{|opt| [opt[:name], opt[:value], opt[:description], opt[:missing_code]]}.each do |name, value, description, missing|
-          %td.sheet-container{ style: "text-align:center" }
-            - selected = (value.to_s == response_raw.to_s)
-            %label.radio.radio-inline{ class: "#{'selected' if selected} #{'negation' if missing == '1'}" }
-              = radio_button_tag variable.name, "#{value}", selected, disabled: true, style: 'margin-left:-14px'
+        %th= variable.display_name
+        - variable.domain_options.each do |domain_option|
+          %td.center
+            - selected = (domain_option.value == response_raw.to_s)
+            %label.radio-inline.checkbox-radio-outline{ class: "#{'selected' if selected} #{'negation' if domain_option.missing_code?}" }
+              = radio_button_tag variable.name, domain_option.value, selected, disabled: true
 - else
   = response_name

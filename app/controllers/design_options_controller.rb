@@ -98,6 +98,7 @@ class DesignOptionsController < ApplicationController
   def update_domain
     @domain = @design_option.variable.domain || @project.domains.new(domain_params)
     if @domain.new_record? && @domain.save && @design_option.variable.update(domain_id: @domain.id)
+      @domain.update_option_tokens!
       render :show
     elsif !@domain.new_record? && @domain.update(domain_params)
       @domain.update_option_tokens!

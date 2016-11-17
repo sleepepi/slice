@@ -1,6 +1,3 @@
-@color_group = (group_name) ->
-  $("input[name='" + group_name + "']:not(:checked)").parent().removeClass('selected')
-  $("input[name='" + group_name + "']:checked").parent().addClass('selected')
 
 @fadeAndRemove = (element) ->
   $(element).fadeOut(500, -> $(element).remove())
@@ -104,9 +101,6 @@ $(document)
   )
   .on('mouseleave', '[data-object~="hover-show"]', ->
     $($(this).data('target')).hide()
-  )
-  .on('change', '.checkbox input:checkbox', ->
-    color_group($(this).attr('name'))
   )
   .keydown( (e) ->
     # p will enter the search box, Esc will exit

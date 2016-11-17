@@ -41,26 +41,28 @@
   background-color: $table-bg-accent;
 }
 
-.radio.inline + .radio.inline,
-.checkbox.inline + .checkbox.inline {
-  margin-right: 10px;
-}
+// TODO: Check if this removes margins correctly for inline boxes.
+// .radio.inline + .radio.inline,
+// .checkbox.inline + .checkbox.inline {
+//   margin-right: 10px;
+// }
 
-.checkbox.selected,
-.checkbox.selected:hover,
-.radio.selected,
-.radio.selected:hover {
-  background-color: $btn-primary-border;
-  color: $btn-primary-color;
-}
+// TODO: Update
+// .checkbox.selected,
+// .checkbox.selected:hover,
+// .radio.selected,
+// .radio.selected:hover {
+//   background-color: $btn-primary-border;
+//   color: $btn-primary-color;
+// }
 
-.checkbox.selected.negation,
-.checkbox.selected.negation:hover,
-.radio.selected.negation,
-.radio.selected.negation:hover {
-  background-color: $btn-danger-border;
-  color: $btn-danger-color;
-}
+// .checkbox.selected.negation,
+// .checkbox.selected.negation:hover,
+// .radio.selected.negation,
+// .radio.selected.negation:hover {
+//   background-color: $btn-danger-border;
+//   color: $btn-danger-color;
+// }
 
 .file-input {
   overflow: hidden;
@@ -81,18 +83,10 @@
   }
 }
 
-
-label {
-  &.checkbox,
-  &.radio {
-    font-weight: normal;
-  }
-}
-
-.form-horizontal .radio,
-.form-horizontal .checkbox {
-  min-height: 31px;
-}
+// .form-horizontal .radio,
+// .form-horizontal .checkbox {
+//   min-height: 31px;
+// }
 
 .form-group .control-label {
   text-align: left;

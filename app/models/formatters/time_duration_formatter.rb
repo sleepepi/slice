@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Formatters
-  # Formats time durations
+  # Formats time durations.
   class TimeDurationFormatter < DefaultFormatter
     include DateAndTimeParser
 
