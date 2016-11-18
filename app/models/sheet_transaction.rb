@@ -105,7 +105,7 @@ class SheetTransaction < ApplicationRecord
           end
         end
 
-        self.update_response_with_transaction(grid, res, current_user)
+        update_response_with_transaction(grid, res, current_user)
       end
     end
 

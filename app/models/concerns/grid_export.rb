@@ -51,20 +51,27 @@ module GridExport
 
   def grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, variable, sheet_scope, sheet_ids, value)
     responses = Response.joins(:grid)
-                        .where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, value: value)
+                        .where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
                         .where.not(grid_id: nil)
-                        .order('sheet_id desc', 'grids.position').pluck(:value, :position, :sheet_id).uniq
+                        .where('responses.value = ? or domain_options.value = ?', value, value)
+                        .left_outer_joins(:domain_option)
+                        .order('sheet_id desc', 'grids.position')
+                        .pluck('domain_options.value', :value, 'grids.position', :sheet_id)
+                        .collect { |v1, v2, position, sheet_id| [v1 || v2, position, sheet_id] }.uniq
     grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
   end
 
   def grid_sort_responses_by_sheet_id_generic(grid_group_variable, variable, sheet_scope, sheet_ids)
     response_scope = Grid.joins(:sheet_variable).merge(SheetVariable.where(sheet_id: sheet_scope.select(:id)))
-                    .where(variable_id: variable.id)
-                    .order('sheet_id desc', :position)
+                         .where(variable_id: variable.id)
+                         .order('sheet_id desc', :position)
     responses = if variable.variable_type == 'file'
                   response_scope.pluck(:response_file, :position, :sheet_id).uniq
                 else
-                  response_scope.pluck(:response, :position, :sheet_id).uniq
+                  response_scope
+                    .left_outer_joins(:domain_option)
+                    .pluck('domain_options.value', :response, :position, :sheet_id)
+                    .collect { |v1, v2, position, sheet_id| [v1 || v2, position, sheet_id] }.uniq
                 end
     grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
   end

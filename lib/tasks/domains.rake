@@ -5,7 +5,7 @@ namespace :domains do
   task migrate_options: :environment do
     Domain.find_each do |domain|
       domain.deprecated_options.each do |option|
-        domain.domain_options.create(
+        domain_option = domain.domain_options.create(
           name: option[:name],
           value: option[:value],
           description: option[:description],
@@ -13,6 +13,7 @@ namespace :domains do
           missing_code: (option[:missing_code] == '1'),
           archived: false
         )
+        domain_option.add_domain_option! unless domain_option.new_record?
       end
     end
   end

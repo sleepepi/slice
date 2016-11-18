@@ -52,19 +52,28 @@ module SheetExport
     end
   end
 
+  # TODO: Update to use domain_option instead of "VALUE"
   def sort_responses_by_sheet_id_for_checkbox(variable, sheet_scope, value)
-    responses = Response.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, value: value, grid_id: nil)
-                        .order(sheet_id: :desc).pluck(:value, :sheet_id).uniq
+    responses = Response.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, grid_id: nil)
+                        .left_outer_joins(:domain_option)
+                        .where('responses.value = ? or domain_options.value = ?', value, value)
+                        .order(sheet_id: :desc)
+                        .pluck('domain_options.value', :value, :sheet_id)
+                        .collect { |v1, v2, sheet_id| [v1 || v2, sheet_id] }.uniq
     sort_responses_by_sheet_id(responses, sheet_scope)
   end
 
   def sort_responses_by_sheet_id_generic(variable, sheet_scope)
+    # TODO: Change sheet_variables `response` to `value`
     response_scope = SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
                                   .order(sheet_id: :desc)
     responses = if variable.variable_type == 'file'
                   response_scope.pluck(:response_file, :sheet_id).uniq
                 else
-                  response_scope.pluck(:response, :sheet_id).uniq
+                  response_scope
+                    .left_outer_joins(:domain_option)
+                    .pluck('domain_options.value', :response, :sheet_id)
+                    .collect { |v1, v2, sheet_id| [v1 || v2, sheet_id] }.uniq
                 end
     sort_responses_by_sheet_id(responses, sheet_scope)
   end
