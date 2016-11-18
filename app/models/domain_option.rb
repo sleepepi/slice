@@ -15,6 +15,10 @@ class DomainOption < ApplicationRecord
   belongs_to :domain
   belongs_to :site
 
+  has_many :sheet_variables
+  has_many :grids
+  has_many :responses
+
   # Methods
 
   def value_and_name(show_values: true)
@@ -25,8 +29,23 @@ class DomainOption < ApplicationRecord
     end
   end
 
+  # TODO: Update sheet_variables and grids to use `value` instead of `response`
+  def add_domain_option!
+    domain.sheet_variables.where(response: value).update_all(domain_option_id: id, response: nil)
+    domain.grids.where(response: value).update_all(domain_option_id: id, response: nil)
+    domain.responses.where(value: value).update_all(domain_option_id: id, value: nil)
+  end
+
+  # TODO: Update sheet_variables and grids to use `value` instead of `response`
+  def remove_domain_option!
+    sheet_variables.update_all(domain_option_id: nil, response: value)
+    grids.update_all(domain_option_id: nil, response: value)
+    responses.update_all(domain_option_id: nil, value: value)
+  end
+
   def destroy
-    # TODO: Remove associated values
+    remove_domain_option!
+    super
   end
 
   # def update_from_hash!(option_hash, index)

@@ -170,20 +170,16 @@ class Domain < ApplicationRecord
 
   def update_option_tokens!
     return if option_tokens.nil?
-    transaction do
-      # TODO: Delete option tokens that aren't updated?
-      domain_option_ids = option_tokens.collect { |hash| hash[:domain_option_id] }.select(&:present?)
-      domain_options.where.not(id: domain_option_ids).destroy_all
-
-      option_tokens.each_with_index do |option_hash, index|
-        next if option_hash[:name].blank?
-        domain_option = domain_options.find_by(id: option_hash.delete(:domain_option_id))
-        if domain_option
-          domain_option.update(cleaned_hash(option_hash, index, domain_option))
-        else
-          domain_options.create(cleaned_hash(option_hash, index, nil))
-        end
-        # domain_option.update_from_hash!(option_hash, index)
+    domain_option_ids = option_tokens.collect { |hash| hash[:domain_option_id] }.select(&:present?)
+    domain_options.where.not(id: domain_option_ids).destroy_all
+    option_tokens.each_with_index do |option_hash, index|
+      next if option_hash[:name].blank?
+      domain_option = domain_options.find_by(id: option_hash.delete(:domain_option_id))
+      if domain_option
+        domain_option.update(cleaned_hash(option_hash, index, domain_option))
+      else
+        domain_option = domain_options.create(cleaned_hash(option_hash, index, nil))
+        domain_option.add_domain_option! unless domain_option.new_record?
       end
     end
   end
@@ -197,5 +193,13 @@ class Domain < ApplicationRecord
       missing_code: (option_hash[:missing_code] == '1'),
       archived: (option_hash[:archived] == '1')
     }
+  end
+
+  def add_domain_values!
+    domain_options.each(&:add_domain_option!)
+  end
+
+  def remove_domain_values!
+    domain_options.each(&:remove_domain_option!)
   end
 end

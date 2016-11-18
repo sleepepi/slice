@@ -6,7 +6,7 @@
   if $('#is_new_domain').val() == '1'
     $("[name='domain[option_tokens][][value]']").each( (index, element) ->
       $(element).val("#{index + 1}")
-      # $(element).parent().hide()
+      $(element).parent().hide()
     )
   else
     $("[name='domain[option_tokens][][value]']").each( (index, element) ->

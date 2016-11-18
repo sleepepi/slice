@@ -15,16 +15,25 @@ module Formattable
     when 'signature'
       get_signature_response(raw_format)
     else
-      get_single_response(response, raw_format)
+      get_single_response(response_or_domain_value, raw_format)
     end
   end
 
   private
 
+  def response_or_domain_value
+    if domain_option
+      domain_option.value
+    else
+      response
+    end
+  end
+
+  # TODO: Multiple responses...
   def get_multiple_responses(raw_format)
     formatter = Formatters.for(variable)
     # Collect is used here since responses may be "built" and not yet saved to database
-    values = responses.collect(&:value)
+    values = responses.collect(&:domain_option_value_or_value)
     raw_data = (raw_format == :raw)
     formatter.format_array(values, raw_data)
   end
@@ -39,7 +48,7 @@ module Formattable
   end
 
   def get_grid_responses(raw_format)
-    return get_single_response(response, raw_format) unless respond_to?('grids')
+    return get_single_response(response_or_domain_value, raw_format) unless respond_to?('grids')
     build_grid_responses(raw_format)
   end
 

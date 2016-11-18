@@ -47,7 +47,7 @@
     .col-md-10
       %table.table.table-borderless
         %col{ width: '1px' }
-        %col
+        %col{ style: @domain && @domain.new_record? ? 'display:none' : nil }
         %col
         %col.hidden-xs{ width: '1px' }
         - if @project.sites.count > 1

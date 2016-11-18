@@ -40,7 +40,7 @@
     #domain_option.col-md-10{ data: { placement: "left" } }
       %table.table.table-borderless
         %col{ width: '1px' }
-        %col
+        %col{ style: @domain && @domain.new_record? ? 'display:none' : nil }
         %col
         %col.hidden-xs
         - if @project.sites.count > 1

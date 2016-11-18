@@ -29,6 +29,7 @@ class DomainOptionsController < ApplicationController
   def create
     @domain_option = @domain.domain_options.new(domain_option_params)
     if @domain_option.save
+      @domain_option.add_domain_option!
       redirect_to [@project, @domain, @domain_option], notice: 'Domain option was successfully created.'
     else
       render :new

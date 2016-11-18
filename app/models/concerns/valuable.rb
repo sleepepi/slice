@@ -26,10 +26,20 @@ module Valuable
     old_response_ids = responses.collect(&:id)
 
     self.responses = values.select(&:present?).collect do |value|
+      domain_option = variable.domain_options.find_by(value: value)
+      if domain_option
+        new_domain_option_id = domain_option.id
+        new_value = nil
+      else
+        new_domain_option_id = nil
+        new_value = value
+      end
+
       Response.where(class_foreign_key => id,
                      sheet_id: sheet.id,
                      variable_id: variable_id,
-                     value: value)
+                     value: new_value,
+                     domain_option_id: new_domain_option_id)
               .first_or_create(user_id: (current_user ? current_user.id : nil))
     end
     Response.where(id: old_response_ids, class_foreign_key => nil).destroy_all
@@ -64,7 +74,13 @@ module Valuable
       # Save valuable to string in total ounces db format
       response = { response: parse_imperial_weight_from_hash_to_s(response) }
     else
-      response = { response: response }
+      domain_option = variable.domain_options.find_by(value: response)
+      response = \
+        if domain_option
+          { response: nil, domain_option_id: domain_option.id }
+        else
+          { response: response, domain_option_id: nil }
+        end
     end
     response
   end

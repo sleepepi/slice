@@ -15,6 +15,7 @@ class Grid < ApplicationRecord
   # Model Relationships
   belongs_to :sheet_variable, touch: true
   belongs_to :user
+  belongs_to :domain_option
 
   delegate :sheet_id, to: :sheet_variable
 

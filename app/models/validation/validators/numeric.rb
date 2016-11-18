@@ -17,7 +17,7 @@ module Validation
       end
 
       def message(value)
-        domain_option = @variable.domain_options.where(missing_code: true).find_by(value: value)
+        domain_option = @variable.domain_options.find_by(value: value)
         if domain_option
           domain_option.value_and_name
         else
@@ -30,15 +30,15 @@ module Validation
       end
 
       def in_hard_range?(value)
-        value_in_hard_range?(get_number(value)) || in_missing_codes?(value)
+        value_in_hard_range?(get_number(value)) || in_domain_options?(value)
       end
 
       def in_soft_range?(value)
-        value_in_soft_range?(get_number(value)) || in_missing_codes?(value)
+        value_in_soft_range?(get_number(value)) || in_domain_options?(value)
       end
 
       def formatted_value(value)
-        if in_missing_codes?(value)
+        if in_domain_options?(value)
           ''
         else
           "#{value}#{" #{variable.units}" unless variable.units.blank?}" unless value.blank?
@@ -78,8 +78,8 @@ module Validation
         !number || !number_min || (number_min && number >= number_min)
       end
 
-      def in_missing_codes?(value)
-        @variable.domain_options.where(missing_code: true, value: value).count > 0
+      def in_domain_options?(value)
+        @variable.domain_options.where(value: value).count > 0
       end
     end
   end

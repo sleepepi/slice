@@ -40,8 +40,10 @@ class Variable < ApplicationRecord
     %w(Scale scale)
   ]
 
-  # Triggers
+  # Callbacks
   before_save :check_for_duplicate_variables, :check_for_valid_domain
+  after_save :update_domain_values!
+
   attr_accessor :questions, :grid_tokens
 
   # Concerns
@@ -627,5 +629,14 @@ class Variable < ApplicationRecord
 
   def single_choice?
     variable_type != 'checkbox'
+  end
+
+  def update_domain_values!
+    return unless changes.key?(:domain_id)
+    (old_domain_id, new_domain_id) = changes[:domain_id]
+    old_domain = project.domains.find_by(id: old_domain_id)
+    new_domain = project.domains.find_by(id: new_domain_id)
+    old_domain.remove_domain_values! if old_domain
+    new_domain.add_domain_values! if new_domain
   end
 end

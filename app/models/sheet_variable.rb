@@ -13,6 +13,7 @@ class SheetVariable < ApplicationRecord
   # Model Relationships
   belongs_to :sheet, touch: true
   belongs_to :user
+  belongs_to :domain_option
   has_many :grids
 
   # Returns its ID if it's not empty, else nil
