@@ -513,6 +513,7 @@ class Variable < ApplicationRecord
     end
   end
 
+  # TODO: Rewrite to use domain_option
   def option_variable_name(value)
     "#{name}__#{value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
   end

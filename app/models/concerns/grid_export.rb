@@ -24,10 +24,10 @@ module GridExport
       grid_group_variables.each do |grid_group_variable|
         grid_group_variable.child_variables.each do |child_variable|
           if child_variable.variable_type == 'checkbox'
-            child_variable.domain_options.pluck(:value).each do |value|
-              sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, child_variable, sheet_scope, sheet_ids, value)
+            child_variable.domain_options.each do |domain_option|
+              sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, child_variable, sheet_scope, sheet_ids, domain_option)
               formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
-              csv << [grid_group_variable.name, "#{child_variable.name}__#{value}"] + formatted_responses
+              csv << [grid_group_variable.option_variable_name(domain_option.value)] + formatted_responses
             end
           else
             sorted_responses = grid_sort_responses_by_sheet_id_generic(grid_group_variable, child_variable, sheet_scope, sheet_ids)
@@ -49,7 +49,8 @@ module GridExport
     end
   end
 
-  def grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, variable, sheet_scope, sheet_ids, value)
+  def grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, variable, sheet_scope, sheet_ids, domain_option)
+    value = domain_option.value
     responses = Response.joins(:grid)
                         .where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
                         .where.not(grid_id: nil)

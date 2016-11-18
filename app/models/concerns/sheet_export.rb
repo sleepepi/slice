@@ -23,10 +23,10 @@ module SheetExport
 
       variables.each do |v|
         if v.variable_type == 'checkbox'
-          v.domain_options.pluck(:value).each do |value|
-            sorted_responses = sort_responses_by_sheet_id_for_checkbox(v, sheet_scope, value)
+          v.domain_options.each do |domain_option|
+            sorted_responses = sort_responses_by_sheet_id_for_checkbox(v, sheet_scope, domain_option)
             formatted_responses = format_responses(v, raw_data, sorted_responses)
-            csv << ["#{v.name}__#{value}"] + formatted_responses
+            csv << [v.option_variable_name(domain_option.value)] + formatted_responses
           end
         else
           sorted_responses = sort_responses_by_sheet_id_generic(v, sheet_scope)
@@ -53,7 +53,8 @@ module SheetExport
   end
 
   # TODO: Update to use domain_option instead of "VALUE"
-  def sort_responses_by_sheet_id_for_checkbox(variable, sheet_scope, value)
+  def sort_responses_by_sheet_id_for_checkbox(variable, sheet_scope, domain_option)
+    value = domain_option.value
     responses = Response.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, grid_id: nil)
                         .left_outer_joins(:domain_option)
                         .where('responses.value = ? or domain_options.value = ?', value, value)

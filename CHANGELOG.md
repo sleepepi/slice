@@ -17,6 +17,8 @@
 - Search filter `has:adverse-events` now correctly returns subjects with any
   adverse event on the subject index
 - Deleting an event now correctly removes subject_event associations
+- Fixed a bug that incorrectly formatted column names in exports for domains
+  with negative values
 
 ### Refactoring
 - Removed deprecated_grid_variables from variables
