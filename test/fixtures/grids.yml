@@ -1,62 +1,68 @@
 one:
   sheet_variable: one
   variable: one
-  response: 1
-  response_file: MyText
   position: 0
   user: valid
+  domain_option: var_one_1
+  # response: 1
 
 two:
   sheet_variable: one
   variable: one
-  response: 2
-  response_file: MyText
   position: 1
   user: valid
+  domain_option: var_one_2
+  # response: 2
 
 # This grid had "Option 1" selected that was incorrectly mapped to the value '2'
 # Updating the "change_options" variable should change this value to '1'
 value_to_update_a:
   sheet_variable: grid
   variable: change_options
-  response: 2
   user: valid
   position: 0
+  domain_option: var_change_options_1
+  # response: 2
 
 value_to_update_b1:
   sheet_variable: grid
   variable: change_options
-  response: 3
   user: valid
   position: 1
+  domain_option: var_change_options_2
+  # response: 3
 
 value_to_update_b2:
   sheet_variable: grid
   variable: change_options
-  response: 3
   user: valid
   position: 2
+  domain_option: var_change_options_2
+  # response: 3
 
 value_to_update_c1:
   sheet_variable: grid
   variable: change_options
-  response: 1
   user: valid
   position: 3
+  domain_option: var_change_options_3
+  # response: 1
 
 value_to_update_c2:
   sheet_variable: grid
   variable: change_options
-  response: 1
   user: valid
   position: 4
+  domain_option: var_change_options_3
+  # response: 1
 
 value_to_update_c3:
   sheet_variable: grid
   variable: change_options
-  response: 1
   user: valid
   position: 5
+  domain_option: var_change_options_3
+  # response: 1
 
 
 # This grid had "Option 1" selected that was incorrectly mapped to the value '2'
@@ -64,51 +70,58 @@ value_to_update_c3:
 domain_value_to_update_a:
   sheet_variable: grid
   variable: change_domain_options
-  response: 2
   user: valid
   position: 0
+  domain_option: change_options_1
+  # response: 2
 
 domain_value_to_update_b1:
   sheet_variable: grid
   variable: change_domain_options
-  response: 3
   user: valid
   position: 1
+  domain_option: change_options_2
+  # response: 3
 
 domain_value_to_update_b2:
   sheet_variable: grid
   variable: change_domain_options
-  response: 3
   user: valid
   position: 2
+  domain_option: change_options_2
+  # response: 3
 
 domain_value_to_update_c1:
   sheet_variable: grid
   variable: change_domain_options
-  response: 1
   user: valid
   position: 3
+  domain_option: change_options_3
+  # response: 1
 
 domain_value_to_update_c2:
   sheet_variable: grid
   variable: change_domain_options
-  response: 1
   user: valid
   position: 4
+  domain_option: change_options_3
+  # response: 1
 
 domain_value_to_update_c3:
   sheet_variable: grid
   variable: change_domain_options
-  response: 1
   user: valid
   position: 5
+  domain_option: change_options_3
+  # response: 1
 
 has_grid_row_one_var_a:
   sheet_variable: has_grid
   variable: change_options
-  response: 1
   user: valid
   position: 0
+  domain_option: var_change_options_3
+  # response: 1
 
 has_grid_row_one_var_b:
   sheet_variable: has_grid
@@ -171,9 +184,10 @@ has_grid_row_one_attached_file:
 has_grid_row_two_var_a:
   sheet_variable: has_grid
   variable: change_options
-  response: 2
   user: valid
   position: 1
+  domain_option: var_change_options_1
+  # response: 2
 
 has_grid_row_two_var_b:
   sheet_variable: has_grid

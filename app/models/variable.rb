@@ -458,7 +458,7 @@ class Variable < ApplicationRecord
 
   def csv_column
     if variable_type == 'checkbox'
-      domain_options.collect { |domain_option| option_variable_name(domain_option.value) }
+      domain_options.collect { |domain_option| option_variable_name(domain_option) }
     else
       name
     end
@@ -467,7 +467,7 @@ class Variable < ApplicationRecord
   def csv_columns_and_names
     if variable_type == 'checkbox'
       domain_options.collect do |domain_option|
-        [option_variable_name(domain_option.value), "#{display_name} - #{domain_option.value_and_name}"]
+        [option_variable_name(domain_option), "#{display_name} - #{domain_option.value_and_name}"]
       end
     else
       [[name, display_name]]
@@ -477,7 +477,7 @@ class Variable < ApplicationRecord
   def sas_informat_definition
     if variable_type == 'checkbox'
       option_informat = (domain && !domain.all_numeric? ? '$500' : 'best32')
-      domain_options.collect { |domain_option| "  informat #{option_variable_name(domain_option.value)} #{option_informat}. ;" }
+      domain_options.collect { |domain_option| "  informat #{option_variable_name(domain_option)} #{option_informat}. ;" }
     else
       "  informat #{name} #{sas_informat}. ;"
     end
@@ -486,7 +486,7 @@ class Variable < ApplicationRecord
   def sas_format_definition
     if variable_type == 'checkbox'
       option_format = (domain && !domain.all_numeric? ? '$500' : 'best32')
-      domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option.value)} #{option_format}. ;" }
+      domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option)} #{option_format}. ;" }
     else
       "  format #{name} #{sas_format}. ;"
     end
@@ -494,7 +494,7 @@ class Variable < ApplicationRecord
 
   def sas_format_label
     if variable_type == 'checkbox'
-      domain_options.collect { |domain_option| "  label #{option_variable_name(domain_option.value)}='#{display_name.gsub("'", "''")} (#{domain_option.name.gsub("'", "''")})' ;" }
+      domain_options.collect { |domain_option| "  label #{option_variable_name(domain_option)}='#{display_name.gsub("'", "''")} (#{domain_option.name.gsub("'", "''")})' ;" }
     else
       "  label #{name}='#{display_name.gsub("'", "''")}';"
     end
@@ -504,7 +504,7 @@ class Variable < ApplicationRecord
     if domain
       case variable_type
       when 'checkbox'
-        domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option.value)} #{domain.sas_domain_name}. ;" }
+        domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option)} #{domain.sas_domain_name}. ;" }
       else
         "  format #{name} #{domain.sas_domain_name}. ;"
       end
@@ -513,9 +513,8 @@ class Variable < ApplicationRecord
     end
   end
 
-  # TODO: Rewrite to use domain_option
-  def option_variable_name(value)
-    "#{name}__#{value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
+  def option_variable_name(domain_option)
+    "#{name}__#{domain_option.value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
   end
 
   def date_order

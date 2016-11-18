@@ -3,8 +3,9 @@
 one:
   variable: one
   sheet: two
-  response: 1
   user: valid
+  domain_option: var_one_1
+  # response: 1
 
 checkbox_two:
   variable: checkbox_two
@@ -21,8 +22,9 @@ numeric_two:
 dropdown_two:
   variable: dropdown_two
   sheet: two
-  response: 1
   user: valid
+  domain_option: checkbox_two_domain_yes
+  # response: 1
 
 time_two:
   variable: time_two
@@ -35,38 +37,44 @@ time_two:
 value_to_update_a:
   variable: change_options
   sheet: two
-  response: 2
   user: valid
+  domain_option: var_change_options_1
+  # response: 2
 
 value_to_update_b1:
   variable: change_options
   sheet: two
-  response: 3
   user: valid
+  domain_option: var_change_options_2
+  # response: 3
 
 value_to_update_b2:
   variable: change_options
   sheet: two
-  response: 3
   user: valid
+  domain_option: var_change_options_2
+  # response: 3
 
 value_to_update_c1:
   variable: change_options
   sheet: two
-  response: 1
   user: valid
+  domain_option: var_change_options_3
+  # response: 1
 
 value_to_update_c2:
   variable: change_options
   sheet: two
-  response: 1
   user: valid
+  domain_option: var_change_options_3
+  # response: 1
 
 value_to_update_c3:
   variable: change_options
   sheet: two
-  response: 1
   user: valid
+  domain_option: var_change_options_3
+  # response: 1
 
 file_attachment:
   variable: file
@@ -77,8 +85,9 @@ file_attachment:
 gender_male:
   variable: dropdown
   sheet: all_variables
-  response: m
   user: valid
+  domain_option: var_dropdown_m
+  # response: m
 
 course_work:
   variable: checkbox
@@ -119,8 +128,9 @@ text:
 integer:
   variable: integer
   sheet: all_variables
-  response: -9
   user: valid
+  domain_option: integer_unknown_9
+  # response: -9
 
 calculated:
   variable: calculated
@@ -140,44 +150,51 @@ time_duration:
 domain_value_to_update_a:
   variable: change_domain_options
   sheet: two
-  response: 2
   user: valid
+  domain_option: change_options_1
+  # response: 2
 
 domain_value_to_update_b1:
   variable: change_domain_options
   sheet: two
-  response: 3
   user: valid
+  domain_option: change_options_2
+  # response: 3
 
 domain_value_to_update_b2:
   variable: change_domain_options
   sheet: two
-  response: 3
   user: valid
+  domain_option: change_options_2
+  # response: 3
 
 domain_value_to_update_c1:
   variable: change_domain_options
   sheet: two
-  response: 1
   user: valid
+  domain_option: change_options_3
+  # response: 1
 
 domain_value_to_update_c2:
   variable: change_domain_options
   sheet: two
-  response: 1
   user: valid
+  domain_option: change_options_3
+  # response: 1
 
 domain_value_to_update_c3:
   variable: change_domain_options
   sheet: two
-  response: 1
   user: valid
+  domain_option: change_options_3
+  # response: 1
 
 domain_data_captured:
   variable: data_captured
   sheet: domain_data_captured
-  response: 1
   user: valid
+  domain_option: two_restaurants_1
+  # response: 1
 
 has_grid:
   variable: grid
@@ -200,8 +217,9 @@ weight_subject_one:
 gender_subject_one:
   variable: gender
   sheet: weight_and_gender_subject_one
-  response: m
   user: valid
+  domain_option: var_dropdown_m
+  # response: m
 
 weight_subject_two:
   variable: weight
@@ -212,20 +230,23 @@ weight_subject_two:
 gender_subject_two:
   variable: gender
   sheet: weight_and_gender_subject_two
-  response: f
   user: valid
+  domain_option: var_dropdown_f
+  # response: f
 
 half_filled_first_answer:
   variable: one
   sheet: filled_out_half_visible
-  response: 2
   user: valid
+  domain_option: var_one_2
+  # response: 2
 
 not_triggering_hidden_first_answer:
   variable: one
   sheet: filled_out_all_visible
-  response: 2
   user: valid
+  domain_option: var_one_2
+  # response: 2
 
 date_visible_third_answer:
   variable: date
@@ -236,14 +257,16 @@ date_visible_third_answer:
 filled_out_all_first:
   variable: one
   sheet: filled_out_entire_sheet
-  response: 1
   user: valid
+  domain_option: var_one_1
+  # response: 1
 
+# TODO: Check if string variables can have domains
 filled_out_all_second:
   variable: two
   sheet: filled_out_entire_sheet
-  response: Text Response
   user: valid
+  response: Text Response
 
 filled_out_all_third:
   variable: date
@@ -254,20 +277,23 @@ filled_out_all_third:
 filled_out_some_first:
   variable: one
   sheet: all_visible_not_all_answered
-  response: 1
   user: valid
+  domain_option: var_one_1
+  # response: 1
 
+# TODO: Check if string variables can have domains
 filled_out_some_second:
   variable: two
   sheet: all_visible_not_all_answered
-  response: Text Response
   user: valid
+  response: Text Response
 
+# TODO: Check if string variables can have domains
 hidden_response_answered:
   variable: two
   sheet: hidden_response_answered
-  response: Some response
   user: valid
+  response: Some response
 
 exportable_one:
   variable: checkbox
@@ -278,11 +304,13 @@ exportable_one:
 exportable_two:
   variable: radio
   sheet: checkbox_example_one
-  response: 1
   user: valid
+  domain_option: var_radio_1
+  # response: 1
 
 eligible_for_randomization:
   variable: randomize
   sheet: required_for_randomization
-  response: 1
   user: valid
+  domain_option: randomize_yes_no_1
+  # response: 1

@@ -27,7 +27,7 @@ module GridExport
             child_variable.domain_options.each do |domain_option|
               sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, child_variable, sheet_scope, sheet_ids, domain_option)
               formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
-              csv << [grid_group_variable.option_variable_name(domain_option.value)] + formatted_responses
+              csv << [grid_group_variable.name, child_variable.option_variable_name(domain_option)] + formatted_responses
             end
           else
             sorted_responses = grid_sort_responses_by_sheet_id_generic(grid_group_variable, child_variable, sheet_scope, sheet_ids)
@@ -50,15 +50,13 @@ module GridExport
   end
 
   def grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, variable, sheet_scope, sheet_ids, domain_option)
-    value = domain_option.value
     responses = Response.joins(:grid)
                         .where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
                         .where.not(grid_id: nil)
-                        .where('responses.value = ? or domain_options.value = ?', value, value)
                         .left_outer_joins(:domain_option)
-                        .order('sheet_id desc', 'grids.position')
-                        .pluck('domain_options.value', :value, 'grids.position', :sheet_id)
-                        .collect { |v1, v2, position, sheet_id| [v1 || v2, position, sheet_id] }.uniq
+                        .where(domain_options: { id: domain_option.id })
+                        .order('sheet_id desc', 'grids.position').distinct
+                        .pluck('domain_options.value', 'grids.position', :sheet_id)
     grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
   end
 
