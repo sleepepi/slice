@@ -10,6 +10,15 @@ module SheetsHelper
                 title: sheet.out_of)
   end
 
+  def coverage_helper_static(sheet, placement = 'right')
+    return coverage_helper(sheet, placement) unless sheet.total_response_count.nil?
+    content_tag(:span, '-',
+                class: 'label label-coverage coverage-0',
+                rel: 'tooltip',
+                data: { container: 'body', placement: placement },
+                title: 'Calculating...')
+  end
+
   def filter_link(count, design, variable, value, event_id: nil)
     params = { design_id: design.id }
     search_tokens = []

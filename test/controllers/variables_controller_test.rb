@@ -309,19 +309,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should not update variable and remove domain if data has been captured' do
-    patch :update, params: {
-      project_id: variables(:data_captured).project_id,
-      id: variables(:data_captured),
-      variable: { domain_id: '' }
-    }
-    assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ['must include all previously captured values'], assigns(:variable).errors[:domain_id]
-    assert_template 'edit'
-  end
-
-  test 'should update variable if switching to a more encompasing domain' do
+  test 'should update variable and switch domain single choice' do
     patch :update, params: {
       project_id: variables(:data_captured).project_id,
       id: variables(:data_captured),
@@ -332,30 +320,7 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
-  test 'should update variable if switching to a smaller domain that still encompases the existing data' do
-    patch :update, params: {
-      project_id: variables(:data_captured).project_id,
-      id: variables(:data_captured),
-      variable: { domain_id: domains(:one_restaurant_encompassing) }
-    }
-    assert_not_nil assigns(:variable)
-    assert_equal domains(:one_restaurant_encompassing), assigns(:variable).domain
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
-  end
-
-  test 'should not update variable if switching to a domain that does not include the captured data' do
-    patch :update, params: {
-      project_id: variables(:data_captured).project_id,
-      id: variables(:data_captured),
-      variable: { domain_id: domains(:one_restaurant_not_encompassing) }
-    }
-    assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
-    assert_equal ['must include all previously captured values'], assigns(:variable).errors[:domain_id]
-    assert_template 'edit'
-  end
-
-  test 'should update variable if switching to a domain that includes the captured data for numerics and integers' do
+  test 'should update variable and switch domain for numerics' do
     patch :update, params: {
       project_id: variables(:data_captured).project_id,
       id: variables(:data_captured),
@@ -368,6 +333,17 @@ class VariablesControllerTest < ActionController::TestCase
     assert_equal 'integer', assigns(:variable).variable_type
     assert_equal domains(:one_restaurant_not_encompassing), assigns(:variable).domain
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
+  test 'should update variable and switch domain for checkbox' do
+    patch :update, params: {
+      project_id: @project,
+      id: variables(:checkbox),
+      variable: { domain_id: domains(:one) }
+    }
+    assert_not_nil assigns(:variable)
+    assert_equal domains(:one), assigns(:variable).domain
+    assert_redirected_to project_variable_path(@project, variables(:checkbox))
   end
 
   test 'should destroy variable' do

@@ -77,8 +77,14 @@ class Subject < ApplicationRecord
                  .order(created_at: :desc)
   end
 
+  # TODO: Should this look across grids or responses as well...?
   def has_value?(variable, value)
-    sheets.joins(:sheet_variables).where(sheet_variables: { variable_id: variable.id, response: value }).count >= 1
+    domain_option = variable.domain_options.find_by(value: value)
+    if domain_option
+      sheets.joins(:sheet_variables).where(sheet_variables: { variable_id: variable.id, domain_option: domain_option }).count >= 1
+    else
+      sheets.joins(:sheet_variables).where(sheet_variables: { variable_id: variable.id, response: value }).count >= 1
+    end
   end
 
   def blinded_sheets(current_user)

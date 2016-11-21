@@ -334,12 +334,8 @@ class Sheet < ApplicationRecord
     [name, number]
   end
 
-  # Returns out of the design responses how many are not blank.
   def non_blank_design_variable_responses
-    @non_blank_design_variable_responses ||= begin
-      non_blank_sheet_variable_ids = self.sheet_variables.collect{|sv| sv.empty_or_not}.compact
-      SheetVariable.where(variable_id: self.design.variable_ids).where(id: non_blank_sheet_variable_ids).count
-    end
+    sheet_variables.not_empty.where(variable_id: design.variables.select(:id)).count
   end
 
   def total_design_variables
@@ -353,11 +349,9 @@ class Sheet < ApplicationRecord
 
   def percent
     check_response_count_change
-    begin
-      (response_count * 100.0 / total_response_count).to_i
-    rescue
-      0
-    end
+    (response_count * 100.0 / total_response_count).to_i
+  rescue
+    0
   end
 
   def non_hidden_variable_ids
@@ -374,8 +368,7 @@ class Sheet < ApplicationRecord
   end
 
   def non_hidden_responses
-    non_blank_sheet_variable_ids = sheet_variables.collect(&:empty_or_not).compact
-    SheetVariable.where(variable_id: non_hidden_variable_ids).where(id: non_blank_sheet_variable_ids).count
+    sheet_variables.not_empty.where(variable_id: non_hidden_variable_ids).count
   end
 
   def non_hidden_total_responses
@@ -383,12 +376,14 @@ class Sheet < ApplicationRecord
   end
 
   def check_response_count_change
-    update_response_count! if total_response_count.to_i == 0
+    update_response_count! if total_response_count.nil?
   end
 
   def update_response_count!
-    update_column :response_count, non_hidden_responses
-    update_column :total_response_count, non_hidden_total_responses
+    update_columns(
+      response_count: non_hidden_responses,
+      total_response_count: non_hidden_total_responses
+    )
   end
 
   def coverage
