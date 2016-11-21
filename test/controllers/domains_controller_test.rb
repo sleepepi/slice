@@ -72,72 +72,7 @@ class DomainsControllerTest < ActionController::TestCase
         }
       }
     end
-
     assert_redirected_to new_project_domain_path(assigns(:domain).project)
-  end
-
-  test 'should not create domain where options have non-unique values' do
-    assert_difference('Domain.count', 0) do
-      post :create, params: {
-        project_id: @project,
-        domain: {
-          name: 'new_domain', display_name: 'New Domain',
-          description: @domain.description,
-          option_tokens: [
-            { name: 'Chocolate', value: '1', description: '' },
-            { name: 'Vanilla', value: '1', description: '' }
-          ]
-        }
-      }
-    end
-    assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
-    assert_equal ['values must be unique'], assigns(:domain).errors[:option]
-    assert_template 'new'
-    assert_response :success
-  end
-
-  test 'should not create domain with options with blank names' do
-    assert_difference('Domain.count', 0) do
-      post :create, params: {
-        project_id: @project,
-        domain: {
-          name: 'new_domain', display_name: 'New Domain',
-          description: @domain.description,
-          option_tokens: [
-            { name: '', value: '1', description: '' },
-            { name: '', value: '2', description: '' }
-          ]
-        }
-      }
-    end
-    assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
-    assert_equal ["names can't be blank"], assigns(:domain).errors[:option]
-    assert_template 'new'
-    assert_response :success
-  end
-
-  test 'should not create domain where options have colons as part of the value' do
-    assert_difference('Domain.count', 0) do
-      post :create, params: {
-        project_id: @project,
-        domain: {
-          name: 'new_domain',
-          display_name: 'New Domain',
-          description: @domain.description,
-          option_tokens: [
-            { name: 'Chocolate', value: '1-chocolate', description: '' },
-            { name: 'Vanilla', value: '2:vanilla', description: '' }
-          ]
-        }
-      }
-    end
-
-    assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
-    assert_equal ['values can\'t contain colons'], assigns(:domain).errors[:option]
-    assert_template 'new'
   end
 
   test 'should create domain where options have default values' do
@@ -172,9 +107,7 @@ class DomainsControllerTest < ActionController::TestCase
         }
       }
     end
-
     assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
     assert_equal ['can\'t be blank', 'is invalid'], assigns(:domain).errors[:name]
     assert_template 'new'
   end
@@ -199,19 +132,19 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'should show domain' do
-    get :show, params: { id: @domain, project_id: @project }
+    get :show, params: { project_id: @project, id: @domain }
     assert_not_nil assigns(:domain)
     assert_response :success
   end
 
   test 'should not show domain with invalid project' do
-    get :show, params: { id: @domain, project_id: -1 }
+    get :show, params: { project_id: -1, id: @domain }
     assert_nil assigns(:domain)
     assert_redirected_to root_path
   end
 
   test 'should get edit' do
-    get :edit, params: { id: @domain, project_id: @project }
+    get :edit, params: { project_id: @project, id: @domain }
     assert_not_nil assigns(:domain)
     assert_response :success
   end
@@ -224,7 +157,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test 'should update domain' do
     patch :update, params: {
-      id: @domain, project_id: @project,
+      project_id: @project, id: @domain,
       domain: {
         name: @domain.name, display_name: @domain.display_name,
         option_tokens: [
@@ -237,44 +170,9 @@ class DomainsControllerTest < ActionController::TestCase
     assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
   end
 
-  test 'should update domain where values have been omitted' do
-    patch :update, params: {
-      id: domains(:two), project_id: domains(:two).project,
-      domain: {
-        name: domains(:two).name,
-        display_name: domains(:two).display_name,
-        option_tokens: [
-          { name: 'Sunday', value: '', domain_option_id: domain_options(:two_sun).id },
-          { name: 'Monday', value: '', domain_option_id: domain_options(:two_mon).id },
-          { name: 'Tuesday', value: '', domain_option_id: domain_options(:two_tue).id },
-          { name: 'Wednesday', value: '', domain_option_id: domain_options(:two_wed).id },
-          { name: 'Thursday', value: '', domain_option_id: domain_options(:two_thu).id },
-          { name: 'Friday', value: '', domain_option_id: domain_options(:two_fri).id },
-          { name: 'Saturday', value: '', domain_option_id: domain_options(:two_sat).id }
-        ]
-      }
-    }
-    assigns(:domain).domain_options.reload
-    assert_equal 'Sunday', assigns(:domain).domain_options.first.name
-    assert_equal '1', assigns(:domain).domain_options.first.value
-    assert_equal 'Monday', assigns(:domain).domain_options.second.name
-    assert_equal '2', assigns(:domain).domain_options.second.value
-    assert_equal 'Tuesday', assigns(:domain).domain_options.third.name
-    assert_equal '3', assigns(:domain).domain_options.third.value
-    assert_equal 'Wednesday', assigns(:domain).domain_options.fourth.name
-    assert_equal '4', assigns(:domain).domain_options.fourth.value
-    assert_equal 'Thursday', assigns(:domain).domain_options.fifth.name
-    assert_equal '5', assigns(:domain).domain_options.fifth.value
-    assert_equal 'Friday', assigns(:domain).domain_options.sixth.name
-    assert_equal '6', assigns(:domain).domain_options.sixth.value
-    assert_equal 'Saturday', assigns(:domain).domain_options.seventh.name
-    assert_equal '7', assigns(:domain).domain_options.seventh.value
-    assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
-  end
-
   test 'should update domain and continue' do
     patch :update, params: {
-      id: @domain, project_id: @project, continue: '1',
+      project_id: @project, id: @domain, continue: '1',
       domain: {
         name: @domain.name,
         display_name: @domain.display_name,
@@ -287,103 +185,9 @@ class DomainsControllerTest < ActionController::TestCase
     assert_redirected_to new_project_domain_path(assigns(:domain).project)
   end
 
-  test 'should update domain and change new option value for associated sheets and grids' do
-    assert_equal 3, domains(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, domains(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, domains(:change_options).sheet_variables.where(response: '3').size
-    assert_equal 3, domains(:change_options).grids.where(response: '1').size
-    assert_equal 1, domains(:change_options).grids.where(response: '2').size
-    assert_equal 2, domains(:change_options).grids.where(response: '3').size
-    patch :update, params: {
-      id: domains(:change_options), project_id: @project,
-      domain: {
-        name: domains(:change_options).name,
-        display_name: domains(:change_options).display_name,
-        description: domains(:change_options).description,
-        option_tokens: [
-          { name: 'Option 1', value: '1', description: 'Should have value 1', domain_option_id: domain_options(:change_options_1).id },
-          { name: 'Option 2', value: '2', description: 'Should have value 2', domain_option_id: domain_options(:change_options_2).id },
-          { name: 'Option 3', value: '3', description: 'Should have value 3', domain_option_id: domain_options(:change_options_3).id },
-          { name: 'Option 4', value: '4', description: 'Should have value 4' }
-        ]
-      }
-    }
-    assert_equal 1, assigns(:domain).sheet_variables.where(response: '1').size
-    assert_equal 2, assigns(:domain).sheet_variables.where(response: '2').size
-    assert_equal 3, assigns(:domain).sheet_variables.where(response: '3').size
-    assert_equal 1, assigns(:domain).grids.where(response: '1').size
-    assert_equal 2, assigns(:domain).grids.where(response: '2').size
-    assert_equal 3, assigns(:domain).grids.where(response: '3').size
-    assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
-  end
-
-  # Option 3 (value 1) being removed. Three sheets where the value existed are then reset to null.
-  test 'should update domain and remove option and reset option value for associated sheets and grids' do
-    assert_equal 3, domains(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, domains(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, domains(:change_options).sheet_variables.where(response: '3').size
-    assert_equal 3, domains(:change_options).grids.where(response: '1').size
-    assert_equal 1, domains(:change_options).grids.where(response: '2').size
-    assert_equal 2, domains(:change_options).grids.where(response: '3').size
-    patch :update, params: {
-      id: domains(:change_options), project_id: @project,
-      domain: {
-        name: domains(:change_options).name,
-        display_name: domains(:change_options).display_name,
-        description: domains(:change_options).description,
-        option_tokens: [
-          { name: 'Option 1', value: '2', description: 'Should have value 1', domain_option_id: domain_options(:change_options_1).id },
-          { name: 'Option 2', value: '3', description: 'Should have value 2', domain_option_id: domain_options(:change_options_2).id },
-          { name: 'Option 4', value: '4', description: 'Should have value 4' }
-        ]
-      }
-    }
-    assert_equal 0, assigns(:domain).sheet_variables.where(response: '1').size
-    assert_equal 1, assigns(:domain).sheet_variables.where(response: '2').size
-    assert_equal 2, assigns(:domain).sheet_variables.where(response: '3').size
-    assert_equal 0, assigns(:domain).grids.where(response: '1').size
-    assert_equal 1, assigns(:domain).grids.where(response: '2').size
-    assert_equal 2, assigns(:domain).grids.where(response: '3').size
-    assert_redirected_to project_domain_path(assigns(:domain).project, assigns(:domain))
-  end
-
-  test 'should not update domain and not change existing values for associated sheets and grids if validation fails' do
-    assert_equal 3, domains(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, domains(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, domains(:change_options).sheet_variables.where(response: '3').size
-    assert_equal 3, domains(:change_options).grids.where(response: '1').size
-    assert_equal 1, domains(:change_options).grids.where(response: '2').size
-    assert_equal 2, domains(:change_options).grids.where(response: '3').size
-
-    patch :update, params: {
-      id: domains(:change_options), project_id: @project,
-      domain: {
-        name: domains(:change_options).name,
-        display_name: domains(:change_options).display_name,
-        description: domains(:change_options).description,
-        option_tokens: [
-          { name: 'Option 1', value: '1', description: 'Should have value 1', domain_option_id: domain_options(:change_options_1).id },
-          { name: 'Option 2', value: '2', description: 'Should have value 2', domain_option_id: domain_options(:change_options_2).id },
-          { name: 'Option 3', value: '3', description: 'Should have value 3', domain_option_id: domain_options(:change_options_3).id },
-          { name: 'Option 4', value: ':4', description: 'Should have value 4' }
-        ]
-      }
-    }
-    assert_equal 3, variables(:change_options).sheet_variables.where(response: '1').size
-    assert_equal 1, variables(:change_options).sheet_variables.where(response: '2').size
-    assert_equal 2, variables(:change_options).sheet_variables.where(response: '3').size
-    assert_equal 3, domains(:change_options).grids.where(response: '1').size
-    assert_equal 1, domains(:change_options).grids.where(response: '2').size
-    assert_equal 2, domains(:change_options).grids.where(response: '3').size
-    assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
-    assert_equal ['values can\'t contain colons'], assigns(:domain).errors[:option]
-    assert_template 'edit'
-  end
-
   test 'should not update domain with blank name' do
     patch :update, params: {
-      id: @domain, project_id: @project,
+      project_id: @project, id: @domain,
       domain: {
         name: '',
         display_name: '',
@@ -394,14 +198,13 @@ class DomainsControllerTest < ActionController::TestCase
       }
     }
     assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
     assert_equal ['can\'t be blank', 'is invalid'], assigns(:domain).errors[:name]
     assert_template 'edit'
   end
 
   test 'should not update domain with invalid project' do
     patch :update, params: {
-      id: @domain, project_id: -1,
+      project_id: -1, id: @domain,
       domain: {
         name: @domain.name,
         display_name: @domain.display_name,
@@ -418,7 +221,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test 'should destroy domain' do
     assert_difference('Domain.current.count', -1) do
-      delete :destroy, params: { id: @domain, project_id: @project }
+      delete :destroy, params: { project_id: @project, id: @domain }
     end
     assert_not_nil assigns(:domain)
     assert_not_nil assigns(:project)
@@ -427,7 +230,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   test 'should not destroy domain with invalid project' do
     assert_difference('Domain.current.count', 0) do
-      delete :destroy, params: { id: @domain, project_id: -1 }
+      delete :destroy, params: { project_id: -1, id: @domain }
     end
     assert_nil assigns(:domain)
     assert_nil assigns(:project)

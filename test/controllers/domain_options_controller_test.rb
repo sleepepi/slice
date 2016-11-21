@@ -44,6 +44,39 @@ class DomainOptionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to [@project, @domain, DomainOption.last]
   end
 
+  test 'should not create domain option with blank name' do
+    login(@project_editor)
+    assert_difference('DomainOption.count', 0) do
+      post project_domain_domain_options_path(@project, @domain), params: {
+        domain_option: domain_option_params.merge(name: '', value: '4')
+      }
+    end
+    assert_template 'new'
+    assert_response :success
+  end
+
+  test 'should not create domain option with colon in name' do
+    login(@project_editor)
+    assert_difference('DomainOption.count', 0) do
+      post project_domain_domain_options_path(@project, @domain), params: {
+        domain_option: domain_option_params.merge(name: 'Extreme', value: '4:4')
+      }
+    end
+    assert_template 'new'
+    assert_response :success
+  end
+
+  test 'should not create domain option with non-unique value' do
+    login(@project_editor)
+    assert_difference('DomainOption.count', 0) do
+      post project_domain_domain_options_path(@project, @domain), params: {
+        domain_option: domain_option_params.merge(name: 'Extreme', value: '3')
+      }
+    end
+    assert_template 'new'
+    assert_response :success
+  end
+
   test 'should show domain option' do
     login(@project_editor)
     get project_domain_domain_option_path(@project, @domain, @domain_option)
