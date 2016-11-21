@@ -39,6 +39,7 @@ class DomainOptionsController < ApplicationController
   # PATCH /domains/1/options/1
   def update
     if @domain_option.update(domain_option_params)
+      @domain_option.add_domain_option!
       redirect_to [@project, @domain, @domain_option], notice: 'Domain option was successfully updated.'
     else
       render :edit

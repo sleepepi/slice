@@ -120,7 +120,9 @@ class Domain < ApplicationRecord
       next if option_hash[:name].blank?
       domain_option = domain_options.find_by(id: option_hash.delete(:domain_option_id))
       if domain_option
-        domain_option.update(cleaned_hash(option_hash, index, domain_option))
+        if domain_option.update(cleaned_hash(option_hash, index, domain_option))
+          domain_option.add_domain_option!
+        end
       else
         domain_option = domain_options.create(cleaned_hash(option_hash, index, nil))
         domain_option.add_domain_option! unless domain_option.new_record?
