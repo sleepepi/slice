@@ -28,6 +28,12 @@
 - Removed deprecated_grid_variables from variables
 - Removed description from designs
 
+## 0.45.1 (November 22, 2016)
+
+### Bug Fix
+- Fixed a bug that prevented designs from being edited when a checkbox or radio
+  variable was set to display as a scale
+
 ## 0.45.0 (November 11, 2016)
 
 ### Enhancements
