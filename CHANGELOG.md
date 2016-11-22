@@ -10,6 +10,7 @@
 - **Sheet Changes**
   - Improved display of changes to signature variables in sheet transactions
   - Question styling now alternates dynamically based on hidden questions
+  - Sheet coverage is now computed asynchronously
 - **Gem Changes**
   - Updated to Ruby 2.3.2
 

@@ -539,6 +539,14 @@ d est laborum.',
     assert_redirected_to root_path
   end
 
+  test 'should get sheet coverage' do
+    post :coverage, params: { id: @sheet, project_id: @project }, format: 'js'
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:project)
+    assert_template 'coverage'
+    assert_response :success
+  end
+
   test 'should not show transactions for invalid sheet' do
     get :transactions, params: { id: -1, project_id: @project }
     assert_not_nil assigns(:project)

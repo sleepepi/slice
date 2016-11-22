@@ -4,14 +4,18 @@
 # to view and print sheets.
 class SheetsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_viewable_project_or_redirect, only: [:index, :show, :file]
+  before_action :find_viewable_project_or_redirect, only: [
+    :index, :show, :file, :coverage
+  ]
   before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :edit, :reassign, :move_to_event, :remove_shareable_link, :transactions,
     :new, :create, :update, :destroy, :set_as_not_missing
   ]
   before_action :find_subject_or_redirect, only: [:create]
-  before_action :find_viewable_sheet_or_redirect, only: [:show, :file]
+  before_action :find_viewable_sheet_or_redirect, only: [
+    :show, :file, :coverage
+  ]
   before_action :find_editable_sheet_or_redirect, only: [
     :edit, :reassign, :move_to_event, :update, :destroy,
     :remove_shareable_link, :transactions, :unlock, :set_as_not_missing
@@ -34,6 +38,11 @@ class SheetsController < ApplicationController
   # GET /sheets/1.pdf
   def show
     generate_pdf if params[:format] == 'pdf'
+  end
+
+  # POST /sheets/1/coverage.js
+  def coverage
+    @sheet.check_response_count_change
   end
 
   # GET /sheets/1/transactions

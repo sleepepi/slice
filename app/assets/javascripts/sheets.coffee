@@ -40,11 +40,20 @@
 @nonStandardClick = (event) ->
   event.which > 1 or event.metaKey or event.ctrlKey or event.shiftKey or event.altKey
 
+@updateCoverage = ->
+  $('[data-object~="sheet-coverage-updater"]').each( (index, element) ->
+    setTimeout (->
+      $.post($(element).data('url'), null, null, 'script')
+      return
+    ), 1000 + index * 1000
+  )
+
 @sheetsReady = ->
   initializeSheet()
   activateSheetDraggables()
   activateEventDroppables()
   fix_ie10_placeholder()
+  updateCoverage()
 
 $(document)
   .on('click', '[data-object~="export"]', ->

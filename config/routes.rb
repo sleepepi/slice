@@ -163,6 +163,7 @@ Rails.application.routes.draw do
 
     resources :sheets do
       member do
+        post :coverage
         get :file
         get :transactions
         post :unlock

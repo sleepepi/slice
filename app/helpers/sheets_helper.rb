@@ -15,7 +15,11 @@ module SheetsHelper
     content_tag(:span, '-',
                 class: 'label label-coverage coverage-0',
                 rel: 'tooltip',
-                data: { container: 'body', placement: placement },
+                data: {
+                  container: 'body', placement: placement,
+                  object: 'sheet-coverage-updater',
+                  url: coverage_project_sheet_path(sheet.project, sheet)
+                },
                 title: 'Calculating...')
   end
 

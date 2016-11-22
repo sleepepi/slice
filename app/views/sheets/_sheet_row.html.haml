@@ -1,4 +1,4 @@
-%td.hidden-xs= coverage_helper_static(sheet)
+%td.hidden-xs{ id: "sheet_#{sheet.id}_coverage" }= render 'sheets/coverage', sheet: sheet
 %td
   = render 'sheets/status/checks_bullet', sheet: sheet
   = link_to sheet.design.name, [@project, sheet]
