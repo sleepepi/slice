@@ -17,20 +17,4 @@ namespace :domains do
       end
     end
   end
-
-  task size: :environment do
-    Domain.find_each do |domain|
-      if domain.deprecated_options.size != domain.domain_options.size
-        puts domain.name
-        puts domain.deprecated_options
-        puts domain.domain_options.inspect
-      end
-    end
-  end
-
-  task valid: :environment do
-    DomainOption.find_each do |o|
-      puts o.inspect unless o.valid?
-    end
-  end
 end
