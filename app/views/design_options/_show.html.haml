@@ -55,18 +55,18 @@
               this variable from the design.
               - variable.deleted = true
       - else
-        - if not variable.uses_scale? and ['invisible', 'gone'].include?(variable.display_name_visibility)
+        - if !variable.uses_scale? && variable.display_name_visibility == 'gone'
           %label
             = variable.display_name
             = render 'design_options/required', design_option: design_option
 
         .form-group
-          - if not variable.uses_scale? and 'visible' == variable.display_name_visibility
+          - if !variable.uses_scale? && variable.display_name_visibility == 'visible'
             %label.col-md-3.control-label
               = variable.display_name
               = render 'design_options/required', design_option: design_option
 
-          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')} #{'col-md-offset-3' if variable.display_name_visibility == 'invisible' and not variable.uses_scale?}" }
+          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')}" }
             - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
               = render "design_options/show/#{variable.variable_type}", design_option: design_option, variable: variable
               = render 'variables/field_note', variable: variable
@@ -126,7 +126,7 @@
             = render 'design_options/set_design_option', design_option: design_option, title: 'Options Alignment', values: Variable::ALIGNMENT, attribute: :alignment
 
           - unless ['radio', 'checkbox'].include?(variable.variable_type) and variable.alignment == 'scale'
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Display Name', values: Variable::DISPLAY_NAME_VISIBILITY, attribute: :display_name_visibility
+            = render 'design_options/set_design_option', design_option: design_option, title: 'Layout', values: Variable::DISPLAY_NAME_VISIBILITY, attribute: :display_name_visibility
 
           - if %w(time date).include?(variable.variable_type)
             - title = "Current #{variable.variable_type.titleize} Button"

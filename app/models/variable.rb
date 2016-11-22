@@ -30,8 +30,7 @@ class Variable < ApplicationRecord
 
   DISPLAY_NAME_VISIBILITY = [
     %w(Inline visible),
-    ['Above - Indented', 'invisible'],
-    ['Above - Full', 'gone']
+    %w(Underneath gone)
   ]
 
   ALIGNMENT = [

@@ -4,17 +4,19 @@
   - sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a
   - @sheet.design.design_options.includes(:variable, :section).each do |design_option|
     - next unless @sheet.show_design_option?(design_option.branching_logic)
-    - if section = design_option.section
+    - section = design_option.section
+    - variable = design_option.variable
+    - if section
       %div= render 'sections/show', design_option: design_option, section: section
-    - elsif variable = design_option.variable
+    - elsif variable
       %div{ class: cycle('variable-shade', 'variable-blind') }
-        - sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
-        - if not variable.uses_scale? and ['invisible', 'gone'].include?(variable.display_name_visibility)
+        - sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
+        - if !variable.uses_scale? && variable.display_name_visibility == 'gone'
           %label= variable.display_name
         .form-group
-          - if not variable.uses_scale? and 'visible' == variable.display_name_visibility
+          - if !variable.uses_scale? && variable.display_name_visibility == 'visible'
             = label 'variables', "#{variable.id}", variable.display_name, class: 'col-md-3 control-label'
-          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')} #{'col-md-offset-3' if variable.display_name_visibility == 'invisible' and not variable.uses_scale?}", style: "line-height:30px;padding-top:4px;" }
+          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')}", style: 'line-height: 30px;padding-top: 4px;' }
             - if variable.variable_type == 'grid'
               = render "sheet_variables/show/#{variable.variable_type}", variable: variable, sheet_variable: sheet_variable
             - elsif Variable::TYPE.flatten.uniq.include?(variable.variable_type)

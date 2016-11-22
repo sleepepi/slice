@@ -26,12 +26,11 @@
 .form-group{ class: "#{validation_class} #{hidden_class}", data: { object: 'design-option-container', required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
-  - elsif %w(invisible gone).include?(variable.display_name_visibility)
+  - elsif variable.display_name_visibility == 'gone'
     .col-xs-12
       %label
         = variable.display_name
         = render 'design_options/required', design_option: design_option
-    %div{ style: "clear:both" }
   - else
     %label.col-md-3.control-label{ for: "variable_#{variable.id}" }
       = variable.display_name
@@ -39,10 +38,9 @@
 
   - col_class = 'col-xs-12'
   - col_class = 'col-md-9' if variable.display_name_visibility != 'gone' && !variable.uses_scale?
-  - col_offset = 'col-md-offset-3' if variable.display_name_visibility == 'invisible' && !variable.uses_scale?
 
 
-  %div{ class: "#{col_class} #{col_offset}" }
+  %div{ class: col_class }
     .shade-or-blind-background
       - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
         = render "sheet_variables/form/#{variable.variable_type}", design: design, design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: "variables[#{variable.id}]", show_values: show_values, object: sheet_variable, validate_response: validate_response
