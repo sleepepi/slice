@@ -1,5 +1,9 @@
 ## 0.45.1
 
+### Bug Fix
+- Fixed a bug that prevented designs from being edited when a checkbox or radio
+  variable was set to display as a scale
+
 ## 0.45.0 (November 11, 2016)
 
 ### Enhancements
