@@ -187,14 +187,15 @@ class Search
     (@variable.captured_values + @values).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
   end
 
+  # TODO: `response` will be changed to `value` in the future
   def subquery_attribute
     case @variable.variable_type
     when 'checkbox'
-      'value'
+      "#{subquery_scope.table_name}.value"
     when 'file'
-      'response_file'
+      "#{subquery_scope.table_name}.response_file"
     else
-      'response'
+      "#{subquery_scope.table_name}.response"
     end
   end
 

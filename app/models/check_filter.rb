@@ -106,9 +106,16 @@ class CheckFilter < ApplicationRecord
     (variable.captured_values + check_filter_values.pluck(:value)).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
   end
 
-  # TODO: This will be changed to just equal "value" in the future
+  # TODO: `response` will be changed to `value` in the future
   def subquery_attribute
-    variable.variable_type == 'checkbox' ? 'value' : 'response'
+    case variable.variable_type
+    when 'checkbox'
+      "#{subquery_scope.table_name}.value"
+    when 'file'
+      "#{subquery_scope.table_name}.response_file"
+    else
+      "#{subquery_scope.table_name}.response"
+    end
   end
 
   def subquery_scope
