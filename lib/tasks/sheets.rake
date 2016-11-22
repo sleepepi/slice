@@ -59,4 +59,9 @@ namespace :sheets do
       puts "  #{hash[:valid_sheets_count]} VALID sheet#{'s' unless hash[:valid_sheets_count] == 1}".colorize(:green) + ', ' + "#{hash[:invalid_sheets_count]} NOT VALID sheet#{'s' unless hash[:invalid_sheets_count] == 1}".colorize(hash[:invalid_sheets_count] == 0 ? :white : :red)
     end
   end
+
+  desc 'Reset sheet coverage computation'
+  task reset_coverage: :environment do
+    Sheet.update_all(total_response_count: nil)
+  end
 end
