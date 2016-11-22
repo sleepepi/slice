@@ -305,9 +305,10 @@ class Variable < ApplicationRecord
         filters: [{ variable_id: 'design', value: design.id.to_s }],
         name: design.name,
         tooltip: design.name,
-        link: "projects/#{project_id}/reports/designs/#{design.id}/advanced",
+        link: "/projects/#{project.to_param}/reports/designs/#{design.id}/advanced",
         value: design.id.to_s,
-        calculation: 'array_count'
+        calculation: 'array_count',
+        hide_value: '1'
       }
     end
   end
@@ -319,7 +320,8 @@ class Variable < ApplicationRecord
         name: site.name,
         tooltip: site.name,
         value: site.id.to_s,
-        calculation: 'array_count'
+        calculation: 'array_count',
+        hide_value: '1'
       }
     end
   end

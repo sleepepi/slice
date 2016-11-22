@@ -64,7 +64,10 @@
                 - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
                 - link_name = project_sheets_path(@project, filter_params)
                 = '&plusmn;'.html_safe if hash[:symbol] == 'pm' && hash[:name] != '-'
-                = link_to_if hash[:count].to_i > 0, hash[:name], link_name, target: '_blank'
+                - if hash[:link].present?
+                  = link_to hash[:name], "#{ENV['website_url']}#{hash[:link]}"
+                - else
+                  = link_to_if hash[:count].to_i > 0, hash[:name], link_name, target: '_blank'
 
                 - if row[:chart_type] == 'line' && hash[:count]
                   - if @percent == 'row' && hash[:count] > 0 && row[:values].sum > 0 && hash[:column_type] != 'total'

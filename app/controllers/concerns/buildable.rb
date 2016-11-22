@@ -152,7 +152,15 @@ module Buildable
     @table_body = []
     @row_strata.each do |row_stratum|
       table_row = []
-      table_row += row_stratum.collect { |hash| { name: hash[:value].present? ? "#{hash[:value]}: #{hash[:name]}" : hash[:name], muted: hash[:muted] } }
+      table_row += row_stratum.collect do |hash|
+        name = \
+          if hash[:value].present? && hash[:hide_value] != '1'
+            "#{hash[:value]}: #{hash[:name]}"
+          else
+            hash[:name]
+          end
+        { name: name, muted: hash[:muted], value: hash[:value], link: hash[:link] }
+      end
       filters = row_stratum.collect { |hash| hash[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator && calculator.statistics?
