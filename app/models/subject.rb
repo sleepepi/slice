@@ -162,7 +162,11 @@ class Subject < ApplicationRecord
   end
 
   def response_for_variable(variable)
-    responses = variable.sheet_variables.joins(:sheet).merge(sheets).pluck(:response)
+    responses = variable
+                .sheet_variables.joins(:sheet).merge(sheets)
+                .left_outer_joins(:domain_option)
+                .pluck('domain_options.value', :response)
+                .collect { |value, response| value || response }
     formatter = Formatters.for(variable)
     formatted_responses = formatter.format_array(responses, true).uniq.compact
     result = (formatted_responses.size == 1 ? formatted_responses.first : nil)

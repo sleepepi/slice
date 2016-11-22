@@ -271,7 +271,7 @@ filled_out_all_second:
 filled_out_all_third:
   variable: date
   sheet: filled_out_entire_sheet
-  response: 2014-05-06
+  response: "2014-05-06"
   user: valid
 
 filled_out_some_first:

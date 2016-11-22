@@ -72,13 +72,13 @@ icecream_vanilla:
 
 checkbox_two_domain_yes:
   domain: checkbox_two_domain
-  name: Yes
+  name: "Yes"
   value: 1
   position: 0
 
 checkbox_two_domain_no:
   domain: checkbox_two_domain
-  name: No
+  name: "No"
   value: 2
   position: 1
 
@@ -285,12 +285,12 @@ integer_unknown_10:
 
 randomize_yes_no_1:
   domain: randomize_yes_no
-  name: Yes
+  name: "Yes"
   value: 1
   position: 0
 
 randomize_yes_no_2:
   domain: randomize_yes_no
-  name: No
+  name: "No"
   value: 2
   position: 1
