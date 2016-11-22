@@ -93,7 +93,7 @@ class CheckFilter < ApplicationRecord
   def compute_sheets_for_variable
     sheet_scope = project.sheets
     return sheet_scope if subquery_values.count == 0
-    select_sheet_ids = subquery_scope.where(variable: variable).where(subquery).select(:sheet_id)
+    select_sheet_ids = subquery_scope.where(variable: variable).left_outer_joins(:domain_option).where(subquery).select(:sheet_id)
     if operator == 'missing'
       subjects = project.subjects.where(id: sheet_scope.where(id: select_sheet_ids).select(:subject_id))
       sheet_scope.where.not(subject_id: subjects.select(:id))
@@ -103,7 +103,7 @@ class CheckFilter < ApplicationRecord
   end
 
   def all_numeric?
-    (variable.captured_values + check_filter_values.distinct.pluck(:value)).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
+    (variable.captured_values + check_filter_values.pluck(:value)).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
   end
 
   # TODO: This will be changed to just equal "value" in the future
@@ -140,14 +140,20 @@ class CheckFilter < ApplicationRecord
       full_expression = []
       subquery_values.each do |subquery_value|
         value = all_numeric? ? subquery_value : "'#{subquery_value}'"
-        full_expression << "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} #{value}"
+        full_expression << "#{domain_option_value_or_attribute(type_cast)} #{database_operator} #{value}"
       end
       full_expression.join(' or ')
     else
       extra = ''
-      extra = " or NULLIF(#{subquery_attribute}, '')::#{type_cast} IS NULL" if operator == 'ne'
-      "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} (#{subquery_values_joined})#{extra}"
+      extra = " or #{domain_option_value_or_attribute(type_cast)} IS NULL" if operator == 'ne'
+      "#{domain_option_value_or_attribute(type_cast)} #{database_operator} (#{subquery_values_joined})#{extra}"
     end
+  end
+
+  def domain_option_value_or_attribute(type_cast)
+    field_one = "NULLIF(domain_options.value, '')::#{type_cast}"
+    field_two = "NULLIF(#{subquery_attribute}, '')::#{type_cast}"
+    "(CASE WHEN (#{field_one} IS NULL) THEN #{field_two} ELSE #{field_one} END)"
   end
 
   def database_operator

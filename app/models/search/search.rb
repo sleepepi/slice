@@ -170,7 +170,7 @@ class Search
   def compute_sheets_for_variable
     sheet_scope = all_viewable_sheets
     return sheet_scope if @values.count == 0
-    select_sheet_ids = subquery_scope.where(variable: @variable).where(subquery).select(:sheet_id)
+    select_sheet_ids = subquery_scope.where(variable: @variable).left_outer_joins(:domain_option).where(subquery).select(:sheet_id)
 
     if %w(missing unentered blank).include?(@operator)
       sheet_scope.where.not(id: select_sheet_ids)
@@ -225,14 +225,20 @@ class Search
       full_expression = []
       @values.each do |subquery_value|
         value = all_numeric? ? subquery_value : ActiveRecord::Base.sanitize(subquery_value)
-        full_expression << "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} #{value}"
+        full_expression << "#{domain_option_value_or_attribute(type_cast)} #{database_operator} #{value}"
       end
       full_expression.join(' or ')
     else
       extra = ''
-      extra = " or NULLIF(#{subquery_attribute}, '')::#{type_cast} IS NULL" if @operator == '!='
-      "NULLIF(#{subquery_attribute}, '')::#{type_cast} #{database_operator} (#{subquery_values_joined})#{extra}"
+      extra = " or #{domain_option_value_or_attribute(type_cast)} IS NULL" if @operator == '!='
+      "#{domain_option_value_or_attribute(type_cast)} #{database_operator} (#{subquery_values_joined})#{extra}"
     end
+  end
+
+  def domain_option_value_or_attribute(type_cast)
+    field_one = "NULLIF(domain_options.value, '')::#{type_cast}"
+    field_two = "NULLIF(#{subquery_attribute}, '')::#{type_cast}"
+    "(CASE WHEN (#{field_one} IS NULL) THEN #{field_two} ELSE #{field_one} END)"
   end
 
   def database_operator
