@@ -1,4 +1,4 @@
-## 0.45.1
+## 0.45.1 (November 22, 2016)
 
 ### Bug Fix
 - Fixed a bug that prevented designs from being edited when a checkbox or radio
