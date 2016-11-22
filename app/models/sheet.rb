@@ -47,7 +47,7 @@ class Sheet < ApplicationRecord
   has_many :sheet_transaction_audits
   has_many :sheet_unlock_requests, -> { current.order(created_at: :desc) }
   has_many :status_checks
-  has_many :failed_checks, -> { where(status_checks: { failed: true }) },
+  has_many :failed_checks, -> { runnable.where(status_checks: { failed: true }) },
            through: :status_checks, source: :check
 
   # Model Methods
