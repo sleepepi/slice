@@ -41,7 +41,7 @@ class Variable < ApplicationRecord
   ]
 
   # Callbacks
-  before_save :check_for_duplicate_variables, :check_for_valid_domain
+  before_save :check_for_duplicate_variables
   after_save :update_domain_values!
 
   attr_accessor :questions, :grid_tokens
@@ -51,8 +51,6 @@ class Variable < ApplicationRecord
 
   # Scopes
   scope :with_user, -> (arg) { where user_id: arg }
-  scope :with_variable_type, -> (arg) { where variable_type: arg }
-  scope :without_variable_type, -> (arg) { where 'variables.variable_type NOT IN (?)', arg }
 
   # Model Validation
   validates :name, :display_name, :variable_type, :project_id, presence: true
@@ -150,18 +148,14 @@ class Variable < ApplicationRecord
   def captured_values
     @captured_values ||= begin
       if variable_type == 'file'
-        (sheet_variables.pluck(:response_file) + grids.pluck(:response_file)).uniq.reject(&:blank?)
+        (sheet_variables.pluck(:response_file) +
+          grids.pluck(:response_file)).uniq.reject(&:blank?)
       else
-        (sheet_variables.pluck(:response) + grids.pluck(:response) + responses.pluck(:value)).uniq.reject(&:blank?)
+        (sheet_variables.pluck_domain_option_value_or_response +
+          grids.pluck_domain_option_value_or_response +
+          responses.pluck_domain_option_value_or_value).uniq.reject(&:blank?)
       end
     end
-  end
-
-  def check_for_valid_domain
-    d = (domain ? domain : Domain.new)
-    return unless finite_set_options? && (captured_values | d.values).size > d.values.size
-    errors.add(:domain_id, 'must include all previously captured values')
-    throw :abort
   end
 
   def check_for_duplicate_variables

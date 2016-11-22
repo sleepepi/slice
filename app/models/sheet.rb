@@ -168,13 +168,13 @@ class Sheet < ApplicationRecord
     responses = if variable.variable_type == 'file'
                   value_scope.pluck(:response_file)
                 else
-                  value_scope.pluck(:response)
+                  value_scope.pluck_domain_option_value_or_response
                 end
     responses + [''] * [all.count - responses.size, 0].max
   end
 
   def self.sheet_responses_for_checkboxes(variable)
-    Response.where(sheet_id: self.all.select(:id), variable_id: variable.id).pluck(:value)
+    Response.where(sheet_id: select(:id), variable_id: variable.id).pluck_domain_option_value_or_value
   end
 
   def expanded_branching_logic(branching_logic)
@@ -206,7 +206,9 @@ class Sheet < ApplicationRecord
   end
 
   def grids
-    Grid.where(sheet_variable_id: sheet_variables.with_variable_type(['grid']).select(:id))
+    Grid.where(
+      sheet_variable_id: sheet_variables.joins(:variable).where(variables: { variable_type: 'grid' }).select(:id)
+    )
   end
 
   # Returns the file path with the relative location
@@ -266,7 +268,7 @@ class Sheet < ApplicationRecord
       responses = sheet_scope.includes(:subject).collect { |s| s.subject.site_id } if variable.variable_type == 'site'
       responses = sheet_scope.pluck(:created_at) if variable.variable_type == 'sheet_date'
     else
-      responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id).pluck(:response) : [])
+      responses = (variable ? SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id).pluck_domain_option_value_or_response : [])
     end
     # Convert to integer or float
     variable && variable.variable_type == 'integer' ? responses.map(&:to_i) : responses.map(&:to_f)

@@ -39,7 +39,7 @@ class VariablesController < ApplicationController
     @order = scrub_order(Variable, params[:order], 'variables.name')
     variable_scope = viewable_variables.search(params[:search]).order(@order)
     variable_scope = variable_scope.where(user_id: params[:user_id]) if params[:user_id].present?
-    variable_scope = variable_scope.with_variable_type(params[:variable_type]) if params[:variable_type].present?
+    variable_scope = variable_scope.where(variable_type: params[:variable_type]) if params[:variable_type].present?
     @variables = variable_scope.page(params[:page]).per(20)
   end
 
@@ -136,7 +136,7 @@ class VariablesController < ApplicationController
   private
 
   def viewable_variables
-    current_user.all_viewable_variables.where(project_id: @project.id)
+    @project.variables
   end
 
   def find_editable_variable_or_redirect

@@ -106,6 +106,7 @@ class CheckFilter < ApplicationRecord
     (variable.captured_values + check_filter_values.distinct.pluck(:value)).uniq.count { |v| (v =~ /^[-+]?[0-9]*\.?[0-9]*$/).nil? } == 0
   end
 
+  # TODO: This will be changed to just equal "value" in the future
   def subquery_attribute
     variable.variable_type == 'checkbox' ? 'value' : 'response'
   end

@@ -2,6 +2,14 @@
 
 # Tracks a response to a multichoice variable.
 class Response < ApplicationRecord
+  # Scopes
+  # TODO: Move to valuable later...
+  def self.pluck_domain_option_value_or_value
+    left_outer_joins(:domain_option)
+      .pluck('domain_options.value', :value)
+      .collect { |v1, v2| v1 || v2 }
+  end
+
   # Validations
   validates :variable_id, :sheet_id, presence: true
 

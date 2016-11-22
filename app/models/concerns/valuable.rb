@@ -7,7 +7,11 @@ module Valuable
 
   included do
     # Scopes
-    scope :with_variable_type, lambda { |arg| where("#{table_name}.variable_id in (SELECT variables.id from variables where variables.variable_type IN (?))", arg) }
+    def self.pluck_domain_option_value_or_response
+      left_outer_joins(:domain_option)
+        .pluck('domain_options.value', :response)
+        .collect { |value, response| value || response }
+    end
 
     # Model Validation
     validates :variable_id, presence: true
@@ -18,6 +22,8 @@ module Valuable
 
     mount_uploader :response_file, GenericUploader
   end
+
+  # Methods
 
   def update_responses!(values, current_user, sheet)
     class_foreign_key = "#{self.class.name.underscore}_id".to_sym

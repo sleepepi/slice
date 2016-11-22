@@ -1,6 +1,6 @@
 - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s
 - @position = position
-- @select_variables = current_user.all_viewable_variables.where(project_id: @project.id).without_variable_type(['grid', 'file']).order(:name).pluck(:name, :id)
+- @select_variables = @project.variables.where.not(variable_type: %w(grid file)).order(:name).pluck(:name, :id)
 .row{ id: "form_grid_variable_#{position}", style: "cursor:move;line-height:20px;padding-top:5px" }
   .col-xs-1
     %span.glyphicon.glyphicon-move

@@ -37,13 +37,11 @@ class Domain < ApplicationRecord
   # TODO: Check if the places that reference this could be optimized
   def values
     domain_options.pluck(:value)
-    # options.collect { |o| o[:value].to_s.strip }
   end
 
   # TODO: Check if the places that reference this could be optimized
   def names
     domain_options.pluck(:name)
-    # options.collect { |o| o[:name].to_s.strip }
   end
 
   def missing_codes?
