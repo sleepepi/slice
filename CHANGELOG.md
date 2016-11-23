@@ -14,7 +14,7 @@
 - **Variable Changes**
   - Variable layouts have been simplified to "Inline" and "Underneath"
 - **Gem Changes**
-  - Updated to Ruby 2.3.2
+  - Updated to Ruby 2.3.3
 
 ### Bug Fix
 - Search filter `has:adverse-events` now correctly returns subjects with any
