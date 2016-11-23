@@ -22,5 +22,6 @@
             - selected = (domain_option.value == response_raw.to_s)
             %label.radio-inline.checkbox-radio-outline{ class: "#{'selected' if selected} #{'negation' if domain_option.missing_code?}" }
               = radio_button_tag variable.name, domain_option.value, selected, disabled: true
+              &#8288;
 - else
   = response_name
