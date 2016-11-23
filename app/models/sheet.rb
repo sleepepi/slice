@@ -349,11 +349,10 @@ class Sheet < ApplicationRecord
     "#{response_count} of #{total_response_count} #{total_response_count == 1 ? 'question' : 'questions'}"
   end
 
-  def percent
-    check_response_count_change
-    (response_count * 100.0 / total_response_count).to_i
+  def compute_percent(rcount, trcount)
+    (rcount * 100.0 / trcount).to_i
   rescue
-    0
+    nil
   end
 
   def non_hidden_variable_ids
@@ -382,26 +381,30 @@ class Sheet < ApplicationRecord
   end
 
   def update_response_count!
+    rcount = non_hidden_responses
+    trcount = non_hidden_total_responses
+    pcount = compute_percent(rcount, trcount)
     update_columns(
-      response_count: non_hidden_responses,
-      total_response_count: non_hidden_total_responses
+      response_count: rcount,
+      total_response_count: trcount,
+      percent: pcount
     )
   end
 
   def coverage
-    "coverage-#{(percent / 10) * 10}"
+    "coverage-#{(percent.to_i / 10) * 10}"
   end
 
   def color
-    if percent == 100
+    if percent.to_i == 100
       '#337ab7'
-    elsif percent >= 80
+    elsif percent.to_i >= 80
       '#5cb85c'
-    elsif percent >= 60
+    elsif percent.to_i >= 60
       '#f0ad4e'
-    elsif percent >= 40
+    elsif percent.to_i >= 40
       '#f0ad4e'
-    elsif percent >= 1
+    elsif percent.to_i >= 1
       '#d9534f'
     else
       '#777777'

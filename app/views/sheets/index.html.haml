@@ -49,7 +49,7 @@
       %thead
         %tr
           - filtered_params = params.permit(:design_id, :site_id, :user_id, :search)
-          %th.hidden-xs Coverage
+          = th_sort_field_rev @order, 'sheets.percent', 'Coverage', extra_class: 'hidden-xs', permit: [:design_id, :site_id, :user_id]
           %th.nowrap{ class: ['sheets.design_name', 'sheets.design_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
             = link_to 'Sheet', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.design_name desc' ? 'sheets.design_name' : 'sheets.design_name desc')))
             .dropdown{ style: 'display: inline-block' }

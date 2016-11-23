@@ -95,6 +95,7 @@ coverage_complete:
   last_user: valid
   total_response_count: 11
   response_count: 11
+  percent: 100
 
 coverage_90:
   design: all_variable_types
@@ -104,6 +105,7 @@ coverage_90:
   last_user: valid
   total_response_count: 11
   response_count: 10
+  percent: 90
 
 coverage_70:
   design: all_variable_types
@@ -113,6 +115,7 @@ coverage_70:
   last_user: valid
   total_response_count: 11
   response_count: 8
+  percent: 72
 
 coverage_50:
   design: all_variable_types
@@ -122,6 +125,7 @@ coverage_50:
   last_user: valid
   total_response_count: 11
   response_count: 6
+  percent: 55
 
 coverage_30:
   design: all_variable_types
@@ -131,6 +135,7 @@ coverage_30:
   last_user: valid
   total_response_count: 11
   response_count: 4
+  percent: 36
 
 coverage_0:
   design: all_variable_types
@@ -140,6 +145,7 @@ coverage_0:
   last_user: valid
   total_response_count: 11
   response_count: 0
+  percent: 0
 
 filled_out_half_visible:
   design: one

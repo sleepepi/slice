@@ -31,6 +31,12 @@ class SheetTest < ActiveSupport::TestCase
   end
 
   test 'sheet completion should be based on non hidden responses' do
+    sheets(:filled_out_half_visible).update_response_count!
+    sheets(:filled_out_all_visible).update_response_count!
+    sheets(:filled_out_entire_sheet).update_response_count!
+    sheets(:all_visible_not_all_answered).update_response_count!
+    sheets(:hidden_response_answered).update_response_count!
+
     assert_equal 50, sheets(:filled_out_half_visible).percent
     assert_equal 100, sheets(:filled_out_all_visible).percent
     assert_equal 100, sheets(:filled_out_entire_sheet).percent

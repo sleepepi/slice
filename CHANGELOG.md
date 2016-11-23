@@ -11,6 +11,7 @@
   - Improved display of changes to signature variables in sheet transactions
   - Question styling now alternates dynamically based on hidden questions
   - Sheet coverage is now computed asynchronously
+  - Sheets can now be sorted by coverage percentage
 - **Variable Changes**
   - Variable layouts have been simplified to "Inline" and "Underneath"
 - **Gem Changes**

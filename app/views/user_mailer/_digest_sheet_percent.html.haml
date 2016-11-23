@@ -1,3 +1,2 @@
-%span{ style: "color:#{sheet.color};font-weight:bold;font-size:10px;" }
-  = succeed '%' do
-    = sheet.percent
+%span{ style: "color: #{sheet.color};font-weight: bold;font-size: 10px;" }
+  = "#{sheet.percent}%" unless sheet.percent.nil?

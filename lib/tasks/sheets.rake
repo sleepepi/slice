@@ -62,6 +62,6 @@ namespace :sheets do
 
   desc 'Reset sheet coverage computation'
   task reset_coverage: :environment do
-    Sheet.update_all(total_response_count: nil)
+    Sheet.update_all(total_response_count: nil, percent: nil)
   end
 end

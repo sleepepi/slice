@@ -334,6 +334,7 @@ class Design < ApplicationRecord
 
   def recalculate_design_option_positions!
     design_options.each_with_index { |design_option, index| design_option.update(position: index) }
+    reset_sheet_total_response_count
     reload
   end
 
@@ -360,7 +361,7 @@ class Design < ApplicationRecord
 
   # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage
   def reset_sheet_total_response_count
-    sheets.update_all total_response_count: nil
+    sheets.update_all(total_response_count: nil, percent: nil)
   end
 
   def set_slug
