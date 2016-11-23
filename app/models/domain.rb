@@ -4,9 +4,6 @@
 class Domain < ApplicationRecord
   serialize :deprecated_options, Array
 
-  before_save :check_for_colons, :check_value_uniqueness,
-              :check_for_blank_values, :check_for_blank_names
-
   # Concerns
   include Searchable, Deletable
 
@@ -60,30 +57,6 @@ class Domain < ApplicationRecord
     domain_options.where(archived: true).count > 0
   end
 
-  def check_for_colons
-    return if values.join.count(':') == 0
-    errors.add :option, "values can't contain colons"
-    throw :abort
-  end
-
-  def check_value_uniqueness
-    return unless values.uniq.size < values.size
-    errors.add :option, 'values must be unique'
-    throw :abort
-  end
-
-  def check_for_blank_values
-    return unless values.count(&:blank?) > 0
-    errors.add :option, "values can't be blank"
-    throw :abort
-  end
-
-  def check_for_blank_names
-    return unless names.count(&:blank?) > 0
-    errors.add :option, "names can't be blank"
-    throw :abort
-  end
-
   # Returns true if all options are integers
   # TODO: Check where this is referenced for optimization
   # TODO: Currently doesn't allow decimals.
@@ -91,12 +64,10 @@ class Domain < ApplicationRecord
     @all_numeric ||= begin
       domain_options.count { |o| !(o.value =~ /^[-+]?[0-9]+$/) } == 0
     end
-    # options.count { |o| !(o[:value] =~ /^[-+]?[0-9]+$/) } == 0
   end
 
   def sas_value_domain
     "  value #{sas_domain_name}\n#{domain_options.collect { |o| "    #{"'" unless all_numeric? }#{o.value}#{"'" unless all_numeric? }='#{o.value}: #{o.name.gsub("'", "''")}'"}.join("\n")}\n  ;"
-    # "  value #{sas_domain_name}\n#{self.options.collect{|o| "    #{"'" unless self.all_numeric? }#{o[:value]}#{"'" unless self.all_numeric? }='#{o[:value]}: #{o[:name].gsub("'", "''")}'"}.join("\n")}\n  ;"
   end
 
   def sas_domain_name
