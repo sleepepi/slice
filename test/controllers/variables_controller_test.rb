@@ -346,6 +346,49 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to project_variable_path(@project, variables(:checkbox))
   end
 
+  test 'should update variable and remove domain from sheet variables' do
+    assert_difference('SheetVariable.where(response: [1,2]).count', 1) do
+      assert_difference('Grid.where(response: [1,2]).count', 0) do
+        assert_difference('Response.where(value: [1,2]).count', 0) do
+          patch :update, params: {
+            project_id: variables(:data_captured).project_id,
+            id: variables(:data_captured),
+            variable: { domain_id: nil }
+          }
+        end
+      end
+    end
+    assert_not_nil assigns(:variable)
+    assert_nil assigns(:variable).domain
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
+  test 'should update variable and remove domain from responses' do
+    assert_difference('Response.where(value: %w(acct101 econ101 math123 phys500 biol327)).count', 5) do
+      patch :update, params: {
+        project_id: variables(:checkbox).project_id,
+        id: variables(:checkbox),
+        variable: { domain_id: nil }
+      }
+    end
+    assert_not_nil assigns(:variable)
+    assert_nil assigns(:variable).domain
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
+  test 'should update variable and remove domain from grids' do
+    assert_difference('Grid.where(response: [1, 2, 3]).count', 6) do
+      patch :update, params: {
+        project_id: variables(:change_domain_options).project_id,
+        id: variables(:change_domain_options),
+        variable: { domain_id: nil }
+      }
+    end
+    assert_not_nil assigns(:variable)
+    assert_nil assigns(:variable).domain
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
   test 'should destroy variable' do
     assert_difference('Variable.current.count', -1) do
       delete :destroy, params: { project_id: @project, id: @variable }
