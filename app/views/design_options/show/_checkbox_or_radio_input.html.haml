@@ -4,7 +4,4 @@
     = radio_button_tag variable.name, "#{domain_option.value}", false, disabled: true
   - else
     = check_box_tag "#{variable.name}[]", "#{domain_option.value}", false, disabled: true
-  - if variable.alignment == 'scale'
-    &#8288;
-  - else
-    = domain_option.value_and_name
+  = domain_option.value_and_name unless variable.alignment == 'scale'

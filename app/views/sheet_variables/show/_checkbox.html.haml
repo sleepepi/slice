@@ -22,7 +22,6 @@
             - selected = (response_raws.include?(domain_option.value))
             %label.checkbox-inline.checkbox-radio-outline{ class: "#{'selected' if selected} #{'negation' if domain_option.missing_code?}" }
               = check_box_tag "#{variable.name}[]", domain_option.value, selected, disabled: true
-              &#8288;
 - else
   - response_names.each do |response_name|
     - unless defined?(position)
