@@ -348,15 +348,11 @@ class VariablesControllerTest < ActionController::TestCase
 
   test 'should update variable and remove domain from sheet variables' do
     assert_difference('SheetVariable.where(response: [1,2]).count', 1) do
-      assert_difference('Grid.where(response: [1,2]).count', 0) do
-        assert_difference('Response.where(value: [1,2]).count', 0) do
-          patch :update, params: {
-            project_id: variables(:data_captured).project_id,
-            id: variables(:data_captured),
-            variable: { domain_id: nil }
-          }
-        end
-      end
+      patch :update, params: {
+        project_id: variables(:data_captured).project_id,
+        id: variables(:data_captured),
+        variable: { domain_id: nil }
+      }
     end
     assert_not_nil assigns(:variable)
     assert_nil assigns(:variable).domain
