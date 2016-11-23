@@ -30,17 +30,6 @@ class Domain < ApplicationRecord
     %w(name description)
   end
 
-  # Returns an array of the domains values
-  # TODO: Check if the places that reference this could be optimized
-  def values
-    domain_options.pluck(:value)
-  end
-
-  # TODO: Check if the places that reference this could be optimized
-  def names
-    domain_options.pluck(:name)
-  end
-
   def missing_codes?
     domain_options.where(missing_code: true).count > 0
   end
