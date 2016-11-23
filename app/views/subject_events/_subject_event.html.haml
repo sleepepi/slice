@@ -44,7 +44,7 @@
                 - if sheet.missing?
                   %span.label.label-default{ rel: 'tooltip', title: 'Marked as Missing', data: { container: 'body', placement: 'right' } } M
                 - else
-                  = coverage_helper(sheet)
+                  %span{ id: "sheet_#{sheet.id}_coverage" }= render 'sheets/coverage', sheet: sheet
               %td
                 - if event_design.handoff_enabled?
                   %span.label.label-accent.hidden-xs Handoff
@@ -110,7 +110,7 @@
         %col{ width: '1px' }
         - non_design_sheets.each do |sheet|
           %tr{ data: { object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: 'cursor: move;' }
-            %td= coverage_helper(sheet)
+            %td{ id: "sheet_#{sheet.id}_coverage" }= render 'sheets/coverage', sheet: sheet
             %td
               %span.label.label-warning.hidden-xs{ rel: 'tooltip', title: 'Not on base event', data: { placement: 'bottom', container: 'body' } } Extra
               %span.label.label-warning.hidden-sm.hidden-md.hidden-lg{ rel: 'tooltip', title: 'Not on base event', data: { placement: 'bottom', container: 'body' } } E
