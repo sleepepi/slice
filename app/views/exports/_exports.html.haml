@@ -54,7 +54,7 @@
                   = link_to full_url, target: '_blank' do
                     %span.glyphicon.glyphicon-download-alt
                     Download
-              %li.divider{ role: 'separator' }
+                %li.divider{ role: 'separator' }
               %li
                 = link_to [export.project, export], method: :delete, data: { confirm: "Are you sure you want to delete Export #{export.name}?" } do
                   .text-danger

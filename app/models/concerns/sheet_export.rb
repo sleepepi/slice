@@ -10,7 +10,7 @@ module SheetExport
 
     t = Time.zone.now
     design_ids = sheet_scope.select(:design_id)
-    variables = all_design_variables_using_design_ids(design_ids).where.not(variable_type: 'grid').includes(:domain)
+    variables = all_design_variables_using_design_ids(design_ids).where.not(variable_type: 'grid').includes(domain: :domain_options)
 
     CSV.open(tmp_export_file, 'wb') do |csv|
       csv << ['Subject'] + sheet_scope.joins(:subject).pluck(:subject_code)

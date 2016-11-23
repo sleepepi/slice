@@ -3,8 +3,8 @@
 module Formatters
   # Used to help format arrays of database responses for numeric variables.
   class NumericFormatter < DomainFormatter
-    def raw_response(response)
-      domain_option = domain_options.find_by(value: response)
+    def raw_response(response, shared_responses = domain_options)
+      domain_option = shared_responses.find { |option| option.value == response }
       if domain_option
         domain_option.value
       else
