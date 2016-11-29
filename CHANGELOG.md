@@ -1,5 +1,9 @@
 ## 0.45.3
 
+### Enhancements
+- **PATS Changes**
+  - Overall expected randomizations by month added to randomizations graph
+
 ## 0.45.2 (November 29, 2016)
 
 ### Enhancements
