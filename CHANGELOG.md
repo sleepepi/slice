@@ -1,4 +1,4 @@
-## 0.45.3
+## 0.45.3 (November 29, 2016)
 
 ### Enhancements
 - **PATS Changes**
