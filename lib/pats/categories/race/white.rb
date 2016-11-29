@@ -5,10 +5,10 @@ require 'pats/categories/default'
 module Pats
   module Categories
     module Race
-      # Defines black race variable.
-      class Black < Default
+      # Defines white race variable.
+      class White < Default
         def label
-          'Black / African American'
+          'White / Caucasian'
         end
 
         def variable_name
@@ -16,7 +16,7 @@ module Pats
         end
 
         def subquery
-          "NULLIF(response, '')::numeric = 1"
+          "NULLIF(response, '')::numeric = 2"
         end
       end
     end

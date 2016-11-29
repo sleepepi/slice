@@ -5,18 +5,18 @@ require 'pats/categories/default'
 module Pats
   module Categories
     module Race
-      # Defines other race variable and associated subquery.
-      class Other < Default
+      # Defines Native Hawaiian / Other Pacific Islander race variable.
+      class Hawaiian < Default
         def label
-          'Other race'
+          'Native Hawaiian / Other Pacific Islander'
         end
 
         def variable_name
-          'ciw_race'
+          'ciw_race_cat_single'
         end
 
         def subquery
-          "NULLIF(value, '')::numeric IN (1, 2, 4, 5, 98)"
+          "NULLIF(response, '')::numeric = 5"
         end
       end
     end

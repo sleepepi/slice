@@ -1,5 +1,10 @@
 ## 0.45.2
 
+### Enhancements
+- **PATS Changes**
+  - Race is now exported as Black, White, American Indian, Asian, Native
+    Hawaiian, Multiple, and Unknown
+
 ## 0.45.1 (November 22, 2016)
 
 ### Bug Fix

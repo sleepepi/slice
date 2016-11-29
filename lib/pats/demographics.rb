@@ -42,8 +42,24 @@ module Pats
       filter_sheets_by_category(project, sheets, 'black-race')
     end
 
-    def other_race_sheets(project, sheets)
-      filter_sheets_by_category(project, sheets, 'other-race')
+    def white_race_sheets(project, sheets)
+      filter_sheets_by_category(project, sheets, 'white-race')
+    end
+
+    def american_indian_race_sheets(project, sheets)
+      filter_sheets_by_category(project, sheets, 'american-indian-race')
+    end
+
+    def asian_race_sheets(project, sheets)
+      filter_sheets_by_category(project, sheets, 'asian-race')
+    end
+
+    def hawaiian_race_sheets(project, sheets)
+      filter_sheets_by_category(project, sheets, 'hawaiian-race')
+    end
+
+    def multiple_race_sheets(project, sheets)
+      filter_sheets_by_category(project, sheets, 'multiple-race')
     end
 
     def age_3_to_4_sheets(project, sheets)
@@ -94,10 +110,18 @@ module Pats
       extras = { females: {}, males: {} }
       extras[:females][:total] = female_sheets(project, sheets).count
       extras[:females][:black] = black_race_sheets(project, female_sheets(project, sheets)).count
-      extras[:females][:other] = other_race_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:white] = white_race_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:american_indian] = american_indian_race_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:asian] = asian_race_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:hawaiian] = hawaiian_race_sheets(project, female_sheets(project, sheets)).count
+      extras[:females][:multiple] = multiple_race_sheets(project, female_sheets(project, sheets)).count
       extras[:males][:total] = male_sheets(project, sheets).count
       extras[:males][:black] = black_race_sheets(project, male_sheets(project, sheets)).count
-      extras[:males][:other] = other_race_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:white] = white_race_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:american_indian] = american_indian_race_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:asian] = asian_race_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:hawaiian] = hawaiian_race_sheets(project, male_sheets(project, sheets)).count
+      extras[:males][:multiple] = multiple_race_sheets(project, male_sheets(project, sheets)).count
       extras[:females][:age3to4] = age_3_to_4_sheets(project, female_sheets(project, sheets)).count
       extras[:females][:age5to6] = age_5_to_6_sheets(project, female_sheets(project, sheets)).count
       extras[:females][:age7plus] = age_7_plus_sheets(project, female_sheets(project, sheets)).count
