@@ -29,6 +29,13 @@
 - Removed deprecated_grid_variables from variables
 - Removed description from designs
 
+## 0.45.2 (November 29, 2016)
+
+### Enhancements
+- **PATS Changes**
+  - Race is now exported as Black, White, American Indian, Asian, Native
+    Hawaiian, Multiple, and Unknown
+
 ## 0.45.1 (November 22, 2016)
 
 ### Bug Fix

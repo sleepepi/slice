@@ -4,9 +4,7 @@ require 'pats/categories/default'
 require 'pats/categories/gender/female'
 require 'pats/categories/gender/male'
 require 'pats/categories/gender/unknown'
-require 'pats/categories/race/black'
-require 'pats/categories/race/other'
-require 'pats/categories/race/unknown'
+require 'pats/categories/race/all'
 require 'pats/categories/age/three_to_four'
 require 'pats/categories/age/five_to_six'
 require 'pats/categories/age/seven_plus'
@@ -32,7 +30,11 @@ module Pats
       'male' => Pats::Categories::Gender::Male,
       'gender-unknown' => Pats::Categories::Gender::Unknown,
       'black-race' => Pats::Categories::Race::Black,
-      'other-race' => Pats::Categories::Race::Other,
+      'white-race' => Pats::Categories::Race::White,
+      'american-indian-race' => Pats::Categories::Race::AmericanIndian,
+      'asian-race' => Pats::Categories::Race::Asian,
+      'hawaiian-race' => Pats::Categories::Race::Hawaiian,
+      'multiple-race' => Pats::Categories::Race::Multiple,
       'unknown-race' => Pats::Categories::Race::Unknown,
       'age-3to4' => Pats::Categories::Age::ThreeToFour,
       'age-5to6' => Pats::Categories::Age::FiveToSix,

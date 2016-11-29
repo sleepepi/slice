@@ -12,11 +12,11 @@ module Pats
         end
 
         def variable_name
-          'ciw_race'
+          'ciw_race_cat_single'
         end
 
         def subquery
-          "NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 98)"
+          "NULLIF(response, '')::numeric IN (1, 2, 3, 4, 5, 6)"
         end
 
         def css_class

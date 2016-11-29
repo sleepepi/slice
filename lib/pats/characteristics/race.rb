@@ -11,13 +11,17 @@ module Pats
       end
 
       def variable_name
-        'ciw_race'
+        'ciw_race_cat_single'
       end
 
       def categories
         [
           Pats::Categories.for('black-race', project),
-          Pats::Categories.for('other-race', project),
+          Pats::Categories.for('white-race', project),
+          Pats::Categories.for('american-indian-race', project),
+          Pats::Categories.for('asian-race', project),
+          Pats::Categories.for('hawaiian-race', project),
+          Pats::Categories.for('multiple-race', project),
           Pats::Categories.for('unknown-race', project)
         ]
       end
