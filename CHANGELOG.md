@@ -29,6 +29,12 @@
 - Removed deprecated_grid_variables from variables
 - Removed description from designs
 
+## 0.45.3 (November 29, 2016)
+
+### Enhancements
+- **PATS Changes**
+  - Overall expected randomizations by month added to randomizations graph
+
 ## 0.45.2 (November 29, 2016)
 
 ### Enhancements
