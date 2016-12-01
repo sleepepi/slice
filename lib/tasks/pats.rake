@@ -8,7 +8,7 @@ namespace :pats do
   task recruitment: :environment do
     recruitment = {}
     slug = 'pats'
-    project = Project.current.find_by_slug slug
+    project = Project.current.find_by(slug: slug)
     start_date = Date.parse('2016-06-01')
     if project
       recruitment[:screened] = screened_graph(project, start_date)
@@ -26,6 +26,8 @@ namespace :pats do
       recruitment[:demographics][:randomized] = demographics_randomized(project)
       recruitment[:eligibility_status] = eligibility_status(project)
       recruitment[:eligibility_status_consented] = eligibility_status_consented(project)
+      recruitment[:data_quality] = {}
+      recruitment[:data_quality][:tables] = data_quality_tables(project)
 
       recruitment[:exported_at] = Time.zone.now
       recruitment_json_file = Rails.root.join('pats', 'recruitment.json')

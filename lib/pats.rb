@@ -6,6 +6,7 @@ require 'pats/consented'
 require 'pats/eligible'
 require 'pats/randomized'
 require 'pats/eligibility_status'
+require 'pats/data_quality'
 
 # Helps export data from PATS project for display on patstrial.org.
 module Pats
@@ -15,4 +16,5 @@ module Pats
   include Pats::Eligible
   include Pats::Randomized
   include Pats::EligibilityStatus
+  include Pats::DataQuality
 end

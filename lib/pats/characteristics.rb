@@ -13,6 +13,8 @@ require 'pats/characteristics/screen_failures_consented'
 require 'pats/characteristics/not_interested_in_participation'
 require 'pats/characteristics/ent_failures'
 require 'pats/characteristics/psg_failures'
+require 'pats/characteristics/psg_overall_study_quality'
+require 'pats/characteristics/psg_study_passed'
 
 module Pats
   # Defines characteristic variables and associated subqueries.
@@ -29,7 +31,9 @@ module Pats
       'screen-failures-consented' => Pats::Characteristics::ScreenFailuresConsented,
       'not-interested-in-participation' => Pats::Characteristics::NotInterestedInParticipation,
       'ent-failures' => Pats::Characteristics::ENTFailures,
-      'psg-failures' => Pats::Characteristics::PSGFailures
+      'psg-failures' => Pats::Characteristics::PSGFailures,
+      'psg-overall-study-quality' => Pats::Characteristics::PSGOverallStudyQuality,
+      'psg-study-passed' => Pats::Characteristics::PSGStudyPassed
     }
 
     def self.for(characteristic, project)

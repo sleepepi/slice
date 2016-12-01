@@ -20,6 +20,8 @@ require 'pats/categories/screen_failures/all'
 require 'pats/categories/disinterested/all'
 require 'pats/categories/ent_failures/all'
 require 'pats/categories/psg_failures/all'
+require 'pats/categories/psg_overall_study_qualities/all'
+require 'pats/categories/psg_study_passed/all'
 
 module Pats
   # Defines categories of variables.
@@ -82,7 +84,17 @@ module Pats
       'psg-eligibility-failure-1' => Pats::Categories::PSGFailures::PSGEligibility1,
       'psg-eligibility-failure-2' => Pats::Categories::PSGFailures::PSGEligibility2,
       'psg-eligibility-failure-3' => Pats::Categories::PSGFailures::PSGEligibility3,
-      'psg-eligibility-failure-4' => Pats::Categories::PSGFailures::PSGEligibility4
+      'psg-eligibility-failure-4' => Pats::Categories::PSGFailures::PSGEligibility4,
+      'psg-5-outstanding' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality5,
+      'psg-4-excellent' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality4,
+      'psg-3-very-good' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality3,
+      'psg-2-good' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality2,
+      'psg-1-fair' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality1,
+      'psg-0-failed' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality0,
+      'psg-unknown' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQualityUnknown,
+      'psg-study-passed-yes' => Pats::Categories::PSGStudyPassed::PSGStudyPassedYes,
+      'psg-study-passed-no' => Pats::Categories::PSGStudyPassed::PSGStudyPassedNo,
+      'psg-study-passed-unknown' => Pats::Categories::PSGStudyPassed::PSGStudyPassedUnknown
     }
 
     def self.for(category, project)
