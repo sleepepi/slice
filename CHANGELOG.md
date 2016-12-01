@@ -1,5 +1,9 @@
 ## 0.45.4
 
+### Enhancements
+- **PATS Changes**
+  - Added exports for PSG Overall Study Quality and PSG Study Passed tables
+
 ## 0.45.3 (November 29, 2016)
 
 ### Enhancements

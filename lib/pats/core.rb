@@ -163,6 +163,11 @@ module Pats
       project.randomizations.where(randomization_scheme_id: randomization_scheme_id).joins(:subject).merge(Subject.current)
     end
 
+    def psg_report_sheets(project)
+      design = project.designs.find_by(short_name: 'PSG-RPT')
+      project.sheets.where(design: design, missing: false)
+    end
+
     def sheets_by_site_print(project, sheets, text)
       total_sheets_count = count_subjects(sheets)
       puts "#{text} [Total]: " + total_sheets_count.to_s.colorize(total_sheets_count > 0 ? :green : :white)
