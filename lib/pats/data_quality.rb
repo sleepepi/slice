@@ -11,8 +11,8 @@ module Pats
 
     def data_quality_tables(project)
       tables = []
-      tables << psg_overall_study_quality_table(project)
       tables << psg_study_passed_table(project)
+      tables << psg_overall_study_quality_table(project)
       tables
     end
 
