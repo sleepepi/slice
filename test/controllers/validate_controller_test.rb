@@ -25,7 +25,7 @@ class ValidateControllerTest < ActionController::TestCase
 
     json = JSON.parse(response.body)
     assert_equal 'blank', json['status']
-    assert_equal nil, json['formatted_value']
+    assert_nil json['formatted_value']
     assert_equal '', json['message']
     assert_response :success
   end
@@ -51,7 +51,7 @@ class ValidateControllerTest < ActionController::TestCase
 
     json = JSON.parse(response.body)
     assert_equal 'invalid', json['status']
-    assert_equal nil, json['formatted_value']
+    assert_nil json['formatted_value']
     assert_equal 'Not a Valid Date', json['message']
     assert_response :success
   end

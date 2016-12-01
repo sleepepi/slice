@@ -830,7 +830,7 @@ d est laborum.',
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
-    assert_equal nil, assigns(:sheet).subject_event_id
+    assert_nil assigns(:sheet).subject_event_id
     assert_equal users(:valid).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to [assigns(:project), assigns(:sheet)]
@@ -841,7 +841,7 @@ d est laborum.',
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
-    assert_equal nil, assigns(:sheet).subject_event_id
+    assert_nil assigns(:sheet).subject_event_id
     assert_equal users(:valid).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to [assigns(:project), assigns(:sheet)]
