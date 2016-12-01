@@ -16,7 +16,7 @@ module Pats
         end
 
         def subquery
-          "NULLIF(response, '')::numeric >= 3 and NULLIF(response, '')::numeric < 5"
+          "#{database_value} >= 3 and #{database_value} < 5"
         end
       end
     end

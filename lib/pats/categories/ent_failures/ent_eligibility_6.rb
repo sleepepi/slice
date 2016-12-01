@@ -16,7 +16,7 @@ module Pats
         end
 
         def subquery
-          "NULLIF(value, '')::numeric = 6"
+          "#{database_value} = 6"
         end
       end
     end

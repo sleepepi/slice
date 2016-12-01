@@ -43,8 +43,20 @@ module Pats
         end
       end
 
+      def column_name
+        if variable && variable.variable_type == 'checkbox'
+          'value'
+        else
+          'response'
+        end
+      end
+
       def select_sheet_ids
-        model.where(variable: variable).where(subquery).select(:sheet_id)
+        model
+          .left_outer_joins(:domain_option)
+          .where(variable: variable)
+          .where(subquery)
+          .select(:sheet_id)
       end
 
       def filter_sheets(sheets)
@@ -95,6 +107,12 @@ module Pats
         cells << { value: cell_count, class: [css_class, 'count'].compact }
         cells << { value: cell_percent, class: [css_class, 'percent'].compact }
         cells
+      end
+
+      def database_value(type_cast: 'numeric')
+        field_one = "NULLIF(domain_options.value, '')::#{type_cast}"
+        field_two = "NULLIF(#{model.table_name}.#{column_name}, '')::#{type_cast}"
+        "(CASE WHEN (#{field_one} IS NULL) THEN #{field_two} ELSE #{field_one} END)"
       end
     end
   end

@@ -16,7 +16,7 @@ module Pats
         end
 
         def subquery
-          "NULLIF(value, '')::numeric IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)"
+          "#{database_value} IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)"
         end
 
         def css_class

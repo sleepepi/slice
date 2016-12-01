@@ -62,6 +62,9 @@ namespace :sheets do
 
   desc 'Reset sheet coverage computation'
   task reset_coverage: :environment do
+    sheet_count = Sheet.count
     Sheet.update_all(total_response_count: nil, percent: nil)
+
+    puts "Reset coverage for #{sheet_count} sheet#{'s' if sheet_count != 1}."
   end
 end

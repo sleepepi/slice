@@ -3,9 +3,8 @@
 module Pats
   module Core
     def design_id(project)
-      # design_id = 476
-      design = project.designs.find_by_name 'Child Information Worksheet'
-      design_id = design.id
+      design = project.designs.find_by(short_name: 'CIW')
+      design.id
     end
 
     def category_time_format
@@ -134,22 +133,28 @@ module Pats
       design_id = design_id(project)
       # answering "1: Yes" to #29 question (Informed Consent) (i.e. "# Consented")
       # variable_id = 14297
-      variable = project.variables.find_by_name 'ciw_complete_informed_consent'
+      variable = project.variables.find_by(name: 'ciw_complete_informed_consent')
       variable_id = variable.id
 
       # `ciw_consent_date` is date the consent happened.
-      sheet_scope = SheetVariable.where(variable_id: variable_id, response: '1').select(:sheet_id)
+      sheet_scope = SheetVariable.left_outer_joins(:domain_option).where(variable_id: variable_id).where(database_value_for_variable_equals(1)).select(:sheet_id)
       project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
+    end
+
+    def database_value_for_variable_equals(response, type_cast: 'numeric')
+      field_one = "NULLIF(domain_options.value, '')::#{type_cast}"
+      field_two = "NULLIF(sheet_variables.response, '')::#{type_cast}"
+      "(CASE WHEN (#{field_one} IS NULL) THEN #{field_two} ELSE #{field_one} END) #{response.present? ? "= #{response}" : 'IS NULL'}"
     end
 
     def eligible_sheets(project, response: '1')
       design_id = design_id(project)
       # answering "1: Yes" to #31 question (eligible for baseline) (i.e. "# Eligible to Continue to Baseline")
       # variable_id = 14299
-      variable = project.variables.find_by_name 'ciw_eligible_for_baseline'
+      variable = project.variables.find_by(name: 'ciw_eligible_for_baseline')
       variable_id = variable.id
 
-      sheet_scope = SheetVariable.where(variable_id: variable_id, response: response).select(:sheet_id)
+      sheet_scope = SheetVariable.left_outer_joins(:domain_option).where(variable_id: variable_id).where(database_value_for_variable_equals(response)).select(:sheet_id)
       project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
     end
 

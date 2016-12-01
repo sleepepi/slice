@@ -16,7 +16,7 @@ module Pats
         end
 
         def subquery
-          "response = '' or response IS NULL"
+          "#{database_value} IS NULL"
         end
 
         def css_class
