@@ -39,7 +39,7 @@
   - all_creators = User.where(id: @project.sheets.select(:user_id))
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
-      %col.hidden-xs
+      %col.hidden-xs{ width: '1px' }
       %col
       %col
       %col.hidden-xs.hidden-sm
