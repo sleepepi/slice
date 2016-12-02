@@ -378,11 +378,6 @@ class Export < ApplicationRecord
     ["csv/#{filename}_randomizations.csv", export_file]
   end
 
-  # TODO: Refactor this method.
-  def all_design_variables_without_grids(sheet_scope)
-    Design.where(id: sheet_scope.pluck(:design_id)).order(:id).collect(&:variables).flatten.uniq.select { |v| v.variable_type != 'grid' }
-  end
-
   def all_design_variables_using_design_ids(design_ids)
     Variable.current.joins(:design_options)
             .where(design_options: { design_id: design_ids })
