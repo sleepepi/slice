@@ -75,12 +75,11 @@
 
           - if @project.logo and @project.logo.size > 0
             .col-md-6
-              .sheet-container
-                %label.checkbox.checkbox-inline.negation
-                  = check_box_tag "project[remove_logo]", '1', false
-                  Remove
-                  %code= @project.logo.path.split('/').last
-                  %tt= number_to_human_size(@project.logo.size)
+              %label.checkbox-inline.checkbox-radio-outline.negation
+                = check_box_tag "project[remove_logo]", '1', false
+                Remove
+                %code= @project.logo.path.split('/').last
+                %tt= number_to_human_size(@project.logo.size)
 
     .form-group
       .col-md-2

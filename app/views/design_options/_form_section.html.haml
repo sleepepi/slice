@@ -19,12 +19,11 @@
         = file_field_tag "section[image]", class: 'form-control', value: section.image
       - if section.image && section.image.size > 0
         .col-md-6
-          .sheet-container
-            %label.checkbox.checkbox-inline.negation
-              = check_box_tag "section[remove_image]", '1', false
-              Remove Image
-              %code= section.image.path.split('/').last
-              %tt= number_to_human_size(section.image.size)
+          %label.checkbox-inline.checkbox-radio-outline.negation
+            = check_box_tag "section[remove_image]", '1', false
+            Remove Image
+            %code= section.image.path.split('/').last
+            %tt= number_to_human_size(section.image.size)
     = render 'layouts/errors', object: section, key: :image
 
 .form-group
