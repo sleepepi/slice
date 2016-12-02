@@ -242,7 +242,7 @@ $(document)
     relatedTarget = e.relatedTarget || e.toElement;
     validateElement($(this), $(relatedTarget))
   )
-  .on('change', '[data-object~="validate"] .checkbox input:checkbox, [data-object~="validate"] .radio input:radio, [data-object~="validate"] select', ->
+  .on('change', '[data-object~="validate"] input:checkbox, [data-object~="validate"] input:radio, [data-object~="validate"] select', ->
     validateElement($(this))
   )
   .on('click', '[data-object~="scroll-to-first-error"]', ->

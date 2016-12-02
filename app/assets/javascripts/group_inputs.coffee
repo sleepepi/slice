@@ -1,20 +1,15 @@
-@clearSelections = (member) ->
-  $("input[name='" + $(member).attr("name") + "']")
-    .prop('checked', false)
-    .parent().removeClass("selected")
-  $("input[name='" + $(member).attr("name") + "']").data('previous', 'unchecked')
+@clearSelections = (element) ->
+  group_name = $(element).attr('name')
+  $("input[name='#{group_name}']").prop('checked', false)
+  $(element).change()
   updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
 
-
 @toggleGroupInput = (input, group_name, event) ->
-  if input.parent("label").hasClass("selected") and (input.attr('type') == "checkbox" or event.type == "click")
-    input.prop("checked", false)
-    input.parent("label").removeClass("selected")
+  if input.parent('label').hasClass('selected') and (input.attr('type') == 'checkbox' or event.type == 'click')
+    input.prop('checked', false)
   else
-    input.prop("checked", true)
-    $("input[name='" + group_name + "']").parent("label").removeClass("selected") unless input.attr('type') == "checkbox"
-    input.parent("label").addClass("selected")
+    input.prop('checked', true)
   input.focus()
   input.change()
 
@@ -26,26 +21,23 @@
     clearSelections(event.target)
   else
     selected_value = String.fromCharCode(event.which)
-    group_name = $(event.target).attr("name")
-    input = $("*[name='"+ group_name + "'][value='" + selected_value + "']")
+    group_name = $(event.target).attr('name')
+    input = $("*[name='#{group_name}'][value='#{selected_value}']")
     toggleGroupInput(input, group_name, event) if input.length > 0
-  $(event.target).change()
-
 
 $(document)
-  .on("keypress", ".radio input:radio", selectWithKeystroke)
-  .on("keypress", ".checkbox input:checkbox", selectWithKeystroke)
-  .on("click", ".radio input:radio", (event) ->
+  .on('keypress', '.checkbox-radio-outline input', selectWithKeystroke)
+  .on('click', '.checkbox-radio-outline input:radio', (event) ->
     radio = $(this)
-    group_name = radio.attr("name")
+    group_name = radio.attr('name')
     toggleGroupInput(radio, group_name, event)
   )
-  .on("click", ".checkbox input:checkbox", ->
+  .on('click', '.checkbox-radio-outline input:checkbox', ->
     $(this).focus()
   )
-  .on("focus", ".radio input:radio, .checkbox input:checkbox", ->
-    $(this).parent().addClass("focus")
+  .on('focus', '.checkbox-radio-outline input', ->
+    $(this).closest('.checkbox-radio-outline').addClass('focus')
   )
-  .on("focusout", ".radio input:radio, .checkbox input:checkbox", ->
-    $(this).parent().removeClass("focus")
+  .on('focusout', '.checkbox-radio-outline input', ->
+    $(this).closest('.checkbox-radio-outline').removeClass('focus')
   )

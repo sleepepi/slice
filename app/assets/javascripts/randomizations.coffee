@@ -65,8 +65,7 @@
 
 @checkRandomizationOption = (element) ->
   $(element).prop('checked', true)
-  $(element).closest('.sheet-container').find('.radio').removeClass('selected')
-  $(element).closest('.radio').addClass('selected')
+  updateSelectedClass($(element).attr('name'))
 
 @randomizationTermSelected = (element, event, datum) ->
   checkRandomizationOption("#stratification_factors_#{$(element).data('sfo-id')}_#{datum['site_id']}")

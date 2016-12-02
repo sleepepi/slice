@@ -5,7 +5,6 @@
     .closest('.checkbox-radio-outline').addClass('selected')
 
 $(document)
-  .on('change', '.checkbox-radio-outline input:checkbox, .checkbox-radio-outline input:radio', ->
-    console.log 'checkbox-radio-outline'
+  .on('change', '.checkbox-radio-outline input', ->
     updateSelectedClass($(this).attr('name'))
   )
