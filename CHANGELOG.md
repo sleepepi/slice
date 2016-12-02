@@ -12,6 +12,10 @@
   - Question styling now alternates dynamically based on hidden questions
   - Sheet coverage is now computed asynchronously
   - Sheets can now be sorted by coverage percentage
+  - Sheets can now be filtered by coverage percentage
+    - `coverage:>=80`
+    - `coverage:missing`
+    - `coverage:100`
 - **Variable Changes**
   - Variable layouts have been simplified to "Inline" and "Underneath"
 - **Gem Changes**

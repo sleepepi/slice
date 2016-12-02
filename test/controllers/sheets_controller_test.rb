@@ -100,6 +100,30 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should search for sheets that have coverage computed' do
+    get :index, params: { project_id: @project, search: 'coverage:any' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets that do not have coverage computed' do
+    get :index, params: { project_id: @project, search: 'coverage:missing' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets that do have coverage greater than 80 percent' do
+    get :index, params: { project_id: @project, search: 'coverage:>80' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets that do have coverage that is not an integer' do
+    get :index, params: { project_id: @project, search: 'coverage:a' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
   test 'should get index with invalid project' do
     get :index, params: { project_id: -1 }
     assert_nil assigns(:sheets)

@@ -124,6 +124,8 @@ class Search
       compute_sheets_for_variable
     elsif @token.key == 'randomized'
       randomized_subjects_sheets
+    elsif @token.key == 'coverage'
+      compute_sheets_for_coverage
     else
       Sheet.none
     end
@@ -176,6 +178,19 @@ class Search
       sheet_scope.where.not(id: select_sheet_ids)
     else
       sheet_scope.where(id: select_sheet_ids)
+    end
+  end
+
+  def compute_sheets_for_coverage
+    sheet_scope = all_viewable_sheets
+    if %w(missing unentered blank).include?(@operator)
+      sheet_scope.where(percent: nil)
+    elsif %w(any entered present).include?(@operator)
+      sheet_scope.where.not(percent: nil)
+    elsif @operator.in?(%w(< > <= >=))
+      sheet_scope.where("sheets.percent #{database_operator} ?", @token.value.to_i)
+    else
+      sheet_scope.where("sheets.percent #{database_operator} (?)", @token.values.collect(&:to_i))
     end
   end
 
