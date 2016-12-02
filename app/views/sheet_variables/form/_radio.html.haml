@@ -3,7 +3,7 @@
 
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 
-- domain_options = variable.domain_options_with_user(current_user)
+- domain_options = variable.domain_options_with_user(response, current_user)
 
 %div{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'radio', status: variable.validator.status(response) } }
   = hidden_field_tag "#{field_name}", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.variable_type }

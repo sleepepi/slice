@@ -40,20 +40,19 @@
         .form-group.error
           %label.col-md-3.control-label= variable.display_name
           .col-md-9
-            %div{ style: 'line-height: 30px;' }
-              This variable has been deleted.
-              - variable.deleted = false
-              - if variable.valid?
-                You can
-                = link_to 'restore', restore_project_variable_path(@project, variable), method: :post, class: 'btn btn-xs btn-success'
-                or
-              - else
-                A new variable with the same name already exists.
-                %br
-                You can
-              = link_to 'remove', project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Remove #{variable.name} from the design?" }, class: 'btn btn-xs btn-danger-inverse'
-              this variable from the design.
-              - variable.deleted = true
+            This variable has been deleted.
+            - variable.deleted = false
+            - if variable.valid?
+              You can
+              = link_to 'restore', restore_project_variable_path(@project, variable), method: :post, class: 'btn btn-xs btn-success'
+              or
+            - else
+              A new variable with the same name already exists.
+              %br
+              You can
+            = link_to 'remove', project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Remove #{variable.name} from the design?" }, class: 'btn btn-xs btn-danger-inverse'
+            this variable from the design.
+            - variable.deleted = true
       - else
         - if !variable.uses_scale? && variable.display_name_visibility == 'gone'
           %label

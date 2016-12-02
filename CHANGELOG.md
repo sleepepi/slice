@@ -7,6 +7,7 @@
   - Improved filtering designs by name on design index
 - **Domain Changes**
   - Improved how domain options are stored and updated
+  - Domain options can now be archived
 - **Sheet Changes**
   - Improved display of changes to signature variables in sheet transactions
   - Question styling now alternates dynamically based on hidden questions

@@ -113,10 +113,11 @@ class Variable < ApplicationRecord
     domain ? domain.domain_options : DomainOption.none
   end
 
-  def domain_options_with_user(current_user)
-    return domain_options unless current_user
+  def domain_options_with_user(response, current_user)
+    unarchived_domain_options = domain_options.where('archived = ? or value = ?', false, response)
+    return unarchived_domain_options unless current_user
     site_ids = current_user.all_editable_sites.where(project_id: project_id).select(:id)
-    domain_options.where(site_id: site_ids).or(domain_options.where(site_id: nil))
+    unarchived_domain_options.where(site_id: site_ids).or(unarchived_domain_options.where(site_id: nil))
   end
 
   def autocomplete_array
@@ -211,9 +212,9 @@ class Variable < ApplicationRecord
     end
   end
 
-  def grouped_by_missing(show_values, current_user = nil)
-    non_missing = domain_options_with_user(current_user).where(missing_code: false)
-    missing = domain_options_with_user(current_user).where(missing_code: true)
+  def grouped_by_missing(show_values, response = nil, current_user = nil)
+    non_missing = domain_options_with_user(response, current_user).where(missing_code: false)
+    missing = domain_options_with_user(response, current_user).where(missing_code: true)
     [['', non_missing.collect { |domain_option| [domain_option.value_and_name(show_values: show_values), domain_option.value] }], ['Missing', missing.collect { |domain_option| [domain_option.value_and_name(show_values: show_values), domain_option.value] }]]
   end
 

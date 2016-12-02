@@ -84,7 +84,7 @@ class DomainsController < ApplicationController
     params[:domain] = Domain.clean_option_tokens(params[:domain])
     params.require(:domain).permit(
       :name, :display_name, :description, :user_id,
-      option_tokens: [:name, :value, :description, :missing_code, :site_id, :domain_option_id]
+      option_tokens: [:name, :value, :description, :missing_code, :site_id, :domain_option_id, :archived]
     )
   end
 

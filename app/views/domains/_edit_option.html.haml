@@ -1,12 +1,3 @@
-- total_count = 0
-- if @domain
-  - # TODO: Refactor how sheet variables and grids are counted
-  - # TODO: Make sure checkbox responses are also counted in this
-  - sheet_variables_count = @domain.sheet_variables.where(response: domain_option.value).count
-  - grid_count = @domain.grids.where(response: domain_option.value).count
-  - checkbox_response_count = @domain.responses.where(value: domain_option.value).count
-  - total_count = sheet_variables_count + grid_count + checkbox_response_count
-
 %tr.domain-option-container{ class: "#{'fieldset_with_errors' if @domain && @domain.errors.keys.include?(:options)}" }
   %td{ style: 'vertical-align: middle;' }
     %span.glyphicon.glyphicon-move
@@ -19,14 +10,18 @@
     %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{'selected' if domain_option.missing_code?}" }
       = check_box_tag "domain[option_tokens][][missing_code]", '1', domain_option.missing_code?, tabindex: '-1'
       Missing Code
+  %td.hidden-xs
+    %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{'selected' if domain_option.archived?}" }
+      = check_box_tag "domain[option_tokens][][archived]", '1', domain_option.archived?, tabindex: '-1'
+      Archived
   - if @project.sites.count > 1
     %td.hidden-xs
       = select_tag 'domain[option_tokens][][site_id]', options_for_select([['--All Sites--', nil]] + @project.sites.order(:name).pluck(:name, :id), domain_option.site_id), class: 'form-control', tabindex: '-1'
   %td{ style: 'vertical-align: middle;' }
+    - total_count = domain_option.captured_values_count
+    - if total_count > 0
+      .btn.btn-xs.btn-default{ style: 'cursor: default', rel: 'tooltip', data: { title: pluralize(total_count, 'response'), container: 'body', placement: 'top' } }
+        %span.glyphicon.glyphicon-stats.text-primary
     = link_to '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove-closest', target: '.domain-option-container', count: total_count }, tabindex: '-1' do
       %span.glyphicon.glyphicon-trash
-    - if total_count > 0
-      %span.text-muted
-        = pluralize total_count, 'response'
-        = "use#{'s' if total_count == 1}"
-        this option.
+

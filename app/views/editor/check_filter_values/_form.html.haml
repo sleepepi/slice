@@ -12,7 +12,7 @@
         .callout.callout-info
           %strong= @check_filter.variable.display_name
           %ul
-            - @check_filter.variable.domain_options_with_user(current_user).each do |domain_option|
+            - @check_filter.variable.domain_options.each do |domain_option|
               %li= domain_option.value_and_name
 
   .form-group
