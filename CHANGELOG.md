@@ -29,6 +29,8 @@
 - Fixed a bug that incorrectly formatted column names in exports for domains
   with negative values
 - Fixed display of designs and sites on project reports
+- Subject code error now displays correctly when entering a format invalid for
+  the currently selected site
 
 ### Refactoring
 - Removed deprecated_grid_variables from variables

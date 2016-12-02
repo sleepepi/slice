@@ -425,6 +425,7 @@ class SubjectsControllerTest < ActionController::TestCase
     get :index, params: { project_id: @project }, format: 'js'
     assert_not_nil assigns(:subjects)
     assert_template 'index'
+    assert_response :success
   end
 
   test 'should get new' do
@@ -465,11 +466,10 @@ class SubjectsControllerTest < ActionController::TestCase
         project_id: @project, subject: { subject_code: 'S100a' }, site_id: sites(:site_with_subject_regex)
       }
     end
-
     assert_not_nil assigns(:subject)
-    assert assigns(:subject).errors.size > 0
-    assert_equal ['Subject Code must be in the following format: S1[0-9][0-9]'], assigns(:subject).errors[:base]
+    assert_equal ['must be in the following format: S1[0-9][0-9]'], assigns(:subject).errors[:subject_code]
     assert_template 'new'
+    assert_response :success
   end
 
   test 'should not create subject with blank subject code' do
@@ -478,11 +478,10 @@ class SubjectsControllerTest < ActionController::TestCase
         project_id: @project, subject: { subject_code: '' }, site_id: @subject.site_id
       }
     end
-
     assert_not_nil assigns(:subject)
-    assert assigns(:subject).errors.size > 0
     assert_equal ["can't be blank"], assigns(:subject).errors[:subject_code]
     assert_template 'new'
+    assert_response :success
   end
 
   test 'should not create subject with a subject code that differs in case to an existing subject code' do
@@ -491,11 +490,10 @@ class SubjectsControllerTest < ActionController::TestCase
         project_id: @project, subject: { subject_code: 'code01' }, site_id: @subject.site_id
       }
     end
-
     assert_not_nil assigns(:subject)
-    assert assigns(:subject).errors.size > 0
     assert_equal ['has already been taken'], assigns(:subject).errors[:subject_code]
     assert_template 'new'
+    assert_response :success
   end
 
   test 'should not create subject for invalid project' do
@@ -504,10 +502,8 @@ class SubjectsControllerTest < ActionController::TestCase
         project_id: projects(:four), subject: { subject_code: 'Code04' }, site_id: @subject.site_id
       }
     end
-
     assert_nil assigns(:project)
     assert_nil assigns(:subject)
-
     assert_redirected_to root_path
   end
 
@@ -542,10 +538,9 @@ class SubjectsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:subject)
-    assert assigns(:subject).errors.size > 0
     assert_equal ["can't be blank"], assigns(:subject).errors[:site_id]
     assert_template 'new'
+    assert_response :success
   end
 
   test 'should show subject' do
@@ -635,9 +630,9 @@ class SubjectsControllerTest < ActionController::TestCase
       project_id: @project, id: @subject, subject: { subject_code: '' }, site_id: @subject.site_id
     }
     assert_not_nil assigns(:subject)
-    assert assigns(:subject).errors.size > 0
     assert_equal ["can't be blank"], assigns(:subject).errors[:subject_code]
     assert_template 'edit'
+    assert_response :success
   end
 
   test 'should not update invalid subject' do
