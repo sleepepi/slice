@@ -7,7 +7,7 @@
 - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
 
 - if variable
-  - case rand(8)
+  - case rand(9)
   - when 0
     .docs-learn-more
       Created this past week:
@@ -60,6 +60,12 @@
     .docs-learn-more
       Adverse Events:
       - search = 'has:adverse-events'
+      = succeed '.' do
+        = link_to search, project_sheets_path(@project, search: search)
+  - when 8
+    .docs-learn-more
+      Coverage:
+      - search = 'coverage:<80'
       = succeed '.' do
         = link_to search, project_sheets_path(@project, search: search)
 
