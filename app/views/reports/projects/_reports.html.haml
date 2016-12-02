@@ -6,8 +6,9 @@
     %col
     %col{ width: '1px' }
     %thead
-      %th Report
-      %th
+      %tr
+        %th Project
+        %th
 
     %tbody
       %tr
@@ -15,22 +16,25 @@
         %td
           = link_to 'View', report_reports_project_path(@project), class: 'btn btn-xs btn-default'
 
-  %table.table.table-striped.table-borderless.table-hover
-    %col
-    %col{ width: '1px' }
-    %col{ width: '1px' }
-    %thead
-      %th Design
-      %th
-      %th
-
-    %tbody
-      - @project.designs.blinding_scope(current_user).order(:name).each do |design|
+  - @project.designs.blinding_scope(current_user).includes(:category).order('categories.position', :name).group_by(&:category).each do |category, designs|
+    %table.table.table-striped.table-borderless.table-hover
+      %col
+      %col{ width: '1px' }
+      %col{ width: '1px' }
+      %thead
         %tr
-          %td
-            %span.hidden-xs= design.name
-            %span.hidden-sm.hidden-md.hidden-lg= design.short_name
-          %td= link_to 'Overview', project_reports_design_overview_path(design.project, design), class: 'btn btn-xs btn-default'
-          %td= link_to 'Advanced', project_reports_design_advanced_path(design.project, design), class: 'btn btn-xs btn-default'
+          %th{ colspan: '3' }
+            - if category
+              = category.name
+            - else
+              Uncategorized
+      %tbody
+        - designs.each do |design|
+          %tr
+            %td
+              %span.hidden-xs= design.name
+              %span.hidden-sm.hidden-md.hidden-lg= design.short_name
+            %td= link_to 'Overview', project_reports_design_overview_path(design.project, design), class: 'btn btn-xs btn-default'
+            %td= link_to 'Advanced', project_reports_design_advanced_path(design.project, design), class: 'btn btn-xs btn-default'
 
 
