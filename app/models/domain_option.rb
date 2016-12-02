@@ -63,17 +63,4 @@ class DomainOption < ApplicationRecord
       domain.grids.where(response: value).count +
       domain.responses.where(value: value).count
   end
-
-  # def update_from_hash!(option_hash, index)
-  #   return if new_record?
-  #   update(
-  #     name: option_hash[:name],
-  #     value: option_hash[:value],
-  #     description: option_hash[:description],
-  #     missing_code: option_hash[:missing_code],
-  #     site_id: option_hash[:site_id],
-  #     archived: option_hash[:archived],
-  #     position: index
-  #   )
-  # end
 end
