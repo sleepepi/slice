@@ -24,7 +24,11 @@ class ApplicationControllerTest < ActionController::TestCase
     assert_equal Slice::VERSION::MAJOR, version['version']['major']
     assert_equal Slice::VERSION::MINOR, version['version']['minor']
     assert_equal Slice::VERSION::TINY, version['version']['tiny']
-    assert_equal Slice::VERSION::BUILD, version['version']['build']
+    if Slice::VERSION::BUILD.nil?
+      assert_nil version['version']['build']
+    else
+      assert_equal Slice::VERSION::BUILD, version['version']['build']
+    end
     assert_response :success
   end
 end
