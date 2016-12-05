@@ -359,7 +359,7 @@ class Design < ApplicationRecord
 
   private
 
-  # Reset all associated sheets total_response_count to zero to trigger refresh of sheet answer coverage
+  # Reset all associated sheets total_response_count to nil to trigger refresh of sheet answer coverage
   def reset_sheet_total_response_count
     sheets.update_all(total_response_count: nil, percent: nil)
   end
