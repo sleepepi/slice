@@ -1,4 +1,4 @@
-## 0.46.0
+## 0.46.0 (December 5, 2016)
 
 ### Enhancements
 - **Check Changes**
