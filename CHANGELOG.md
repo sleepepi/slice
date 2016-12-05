@@ -1,8 +1,10 @@
 ## 0.46.1
 
-### Bug Fix
+### Bug Fixes
 - Fixed a bug that incorrectly set domains as characters instead of numeric in
   SAS export
+- Fixed a bug that occurred when returning an empty set of sheets for projects
+  without date variables
 
 ## 0.46.0 (December 5, 2016)
 

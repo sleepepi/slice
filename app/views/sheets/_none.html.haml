@@ -16,8 +16,8 @@
         = link_to search, project_sheets_path(@project, search: search)
   - when 1
     - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
-    - values = variable.sheet_variables.pluck_domain_option_value_or_response.uniq.reject(&:blank?).sort
     - if variable
+      - values = variable.sheet_variables.pluck_domain_option_value_or_response.uniq.reject(&:blank?).sort
       .docs-learn-more
         Try:
         - search = "#{variable.name}:>=#{values.last}"
@@ -25,8 +25,8 @@
           = link_to search, project_sheets_path(@project, search: search)
   - when 2
     - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
-    - values = variable.sheet_variables.pluck_domain_option_value_or_response.uniq.reject(&:blank?).sort
     - if variable
+      - values = variable.sheet_variables.pluck_domain_option_value_or_response.uniq.reject(&:blank?).sort
       .docs-learn-more
         Try:
         - search = "#{variable.name}:#{values.join(',')}"
