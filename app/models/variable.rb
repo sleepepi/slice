@@ -114,7 +114,7 @@ class Variable < ApplicationRecord
   end
 
   def domain_options_with_user(response, current_user)
-    unarchived_domain_options = domain_options.where('archived = ? or value = ?', false, response)
+    unarchived_domain_options = domain_options.where('domain_options.archived = ? OR domain_options.value IN (?)', false, response)
     return unarchived_domain_options unless current_user
     site_ids = current_user.all_editable_sites.where(project_id: project_id).select(:id)
     unarchived_domain_options.where(site_id: site_ids).or(unarchived_domain_options.where(site_id: nil))

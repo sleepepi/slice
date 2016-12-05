@@ -5,6 +5,8 @@
   SAS export
 - Fixed a bug that occurred when returning an empty set of sheets for projects
   without date variables
+- Fixed a bug that prevented sheet editing when comparing multiple checkbox
+  responses against archived domain options
 
 ## 0.46.0 (December 5, 2016)
 
