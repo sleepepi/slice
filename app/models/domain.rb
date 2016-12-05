@@ -51,7 +51,7 @@ class Domain < ApplicationRecord
   # TODO: Currently doesn't allow decimals.
   def all_numeric?
     @all_numeric ||= begin
-      domain_options.count { |o| !(o.value =~ /^[-+]?[0-9]+$/) } == 0
+      domain_options.pluck(:value).count { |v| !(v =~ /^[-+]?[0-9]+$/) }.zero?
     end
   end
 

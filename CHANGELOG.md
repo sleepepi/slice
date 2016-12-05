@@ -1,5 +1,9 @@
 ## 0.46.1
 
+### Bug Fix
+- Fixed a bug that incorrectly set domains as characters instead of numeric in
+  SAS export
+
 ## 0.46.0 (December 5, 2016)
 
 ### Enhancements
