@@ -1,5 +1,8 @@
 ## 0.46.2
 
+### Bug Fix
+- Fixed an issue selecting radio buttons in Internet Explorer
+
 ## 0.46.1 (December 5, 2016)
 
 ### Bug Fixes

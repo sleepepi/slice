@@ -1,13 +1,14 @@
-@updateSelectedClass = (group_name) ->
-  $("input[name='#{group_name}']:not(:checked)")
+@updateSelectedClass = (element) ->
+  $("input[name='#{$(element).attr('name')}']:not(:checked)")
     .closest('.checkbox-radio-outline').removeClass('selected')
-  $("input[name='#{group_name}']:checked")
+  $("input[name='#{$(element).attr('name')}']:checked")
     .closest('.checkbox-radio-outline').addClass('selected')
 
 @clearSelections = (element) ->
   group_name = $(element).attr('name')
   $("input[name='#{group_name}']").prop('checked', false)
   $(element).change()
+  updateSelectedClass(element)
   updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
 
@@ -16,6 +17,7 @@
     input.prop('checked', false)
   else
     input.prop('checked', true)
+  updateSelectedClass(input)
   input.focus()
   input.change()
 
@@ -34,9 +36,7 @@
 $(document)
   .on('keypress', '.checkbox-radio-outline input', selectWithKeystroke)
   .on('click', '.checkbox-radio-outline input:radio', (event) ->
-    radio = $(this)
-    group_name = radio.attr('name')
-    toggleGroupInput(radio, group_name, event)
+    toggleGroupInput($(this), $(this).attr('name'), event)
   )
   .on('click', '.checkbox-radio-outline input:checkbox', ->
     $(this).focus()
@@ -47,6 +47,6 @@ $(document)
   .on('focusout', '.checkbox-radio-outline input', ->
     $(this).closest('.checkbox-radio-outline').removeClass('focus')
   )
-  .on('change', '.checkbox-radio-outline input', ->
-    updateSelectedClass($(this).attr('name'))
+  .on('change', '.checkbox-radio-outline input:checkbox', ->
+    updateSelectedClass($(this))
   )
