@@ -1,4 +1,4 @@
-## 0.46.3
+## 0.46.3 (December 6, 2016)
 
 ### Enhancements
 - **Project Changes**
