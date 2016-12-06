@@ -4,6 +4,14 @@
 - **Gem Changes**
   - Updated to rails 5.0.1.rc1
 
+## 0.46.3 (December 6, 2016)
+
+### Enhancements
+- **Project Changes**
+  - Simplified actions dropdown on team page
+- **Pats Changes**
+  - Simplified the PATS Data Quality tables
+
 ## 0.46.2 (December 5, 2016)
 
 ### Bug Fix

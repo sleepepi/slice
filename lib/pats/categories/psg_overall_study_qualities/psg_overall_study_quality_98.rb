@@ -4,19 +4,19 @@ require 'pats/categories/default'
 
 module Pats
   module Categories
-    module PSGStudyPassed
-      # Defines PSG Study Passed
-      class PSGStudyPassedNo < Default
+    module PSGOverallStudyQualities
+      # Defines PSG Overall Study Quality
+      class PSGOverallStudyQuality98 < Default
         def label
-          '0: No'
+          '98: Other'
         end
 
         def variable_name
-          'psg_study_passed'
+          'psg_overall_study_quality'
         end
 
         def subquery
-          "#{database_value} = 0"
+          "#{database_value} = 98"
         end
       end
     end

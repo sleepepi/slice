@@ -21,7 +21,6 @@ require 'pats/categories/disinterested/all'
 require 'pats/categories/ent_failures/all'
 require 'pats/categories/psg_failures/all'
 require 'pats/categories/psg_overall_study_qualities/all'
-require 'pats/categories/psg_study_passed/all'
 
 module Pats
   # Defines categories of variables.
@@ -90,11 +89,9 @@ module Pats
       'psg-3-very-good' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality3,
       'psg-2-good' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality2,
       'psg-1-fair' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality1,
+      'psg-98-other' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality98,
       'psg-0-failed' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality0,
-      'psg-unknown' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQualityUnknown,
-      'psg-study-passed-yes' => Pats::Categories::PSGStudyPassed::PSGStudyPassedYes,
-      'psg-study-passed-no' => Pats::Categories::PSGStudyPassed::PSGStudyPassedNo,
-      'psg-study-passed-unknown' => Pats::Categories::PSGStudyPassed::PSGStudyPassedUnknown
+      'psg-unknown' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQualityUnknown
     }
 
     def self.for(category, project)
