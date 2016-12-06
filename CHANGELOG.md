@@ -1,6 +1,8 @@
 ## 0.46.3
 
 ### Enhancements
+- **Project Changes**
+  - Simplified actions dropdown on team page
 - **Pats Changes**
   - Simplified the PATS Data Quality tables
 
