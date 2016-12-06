@@ -1,5 +1,9 @@
 ## 0.46.3
 
+### Enhancements
+- **Pats Changes**
+  - Simplified the PATS Data Quality tables
+
 ## 0.46.2 (December 5, 2016)
 
 ### Bug Fix

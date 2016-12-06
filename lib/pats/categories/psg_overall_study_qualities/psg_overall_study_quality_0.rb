@@ -12,7 +12,7 @@ module Pats
         end
 
         def variable_name
-          'psg_overall_study_quality'
+          'psg_study_passed'
         end
 
         def subquery

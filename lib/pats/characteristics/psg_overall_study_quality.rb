@@ -17,6 +17,7 @@ module Pats
           Pats::Categories.for('psg-3-very-good', project),
           Pats::Categories.for('psg-2-good', project),
           Pats::Categories.for('psg-1-fair', project),
+          Pats::Categories.for('psg-98-other', project),
           Pats::Categories.for('psg-0-failed', project),
           Pats::Categories.for('psg-unknown', project)
         ]
