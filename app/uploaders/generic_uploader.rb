@@ -18,11 +18,6 @@ class GenericUploader < CarrierWave::Uploader::Base
   # end
 
   # # Add a white list of extensions which are allowed to be uploaded.
-  # # TODO: Remove this function with carrierwave 1.0.0
-  # def extension_white_list
-  #   %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
-  # end
-  # # TODO: This will replace the above function in carrierwave 1.0.0
   # def extension_whitelist
   #   %w(jpg jpeg gif png doc docx pdf xls xlsx rtf)
   # end

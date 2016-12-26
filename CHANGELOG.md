@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 5.0.1
+  - Updated to carrierwave 1.0.0
 
 ## 0.46.3 (December 6, 2016)
 
