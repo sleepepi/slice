@@ -2,7 +2,7 @@
 
 ### Enhancements
 - **Gem Changes**
-  - Updated to rails 5.0.1.rc1
+  - Updated to rails 5.0.1
 
 ## 0.46.3 (December 6, 2016)
 
