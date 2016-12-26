@@ -14,8 +14,8 @@
 #= require jquery_ujs
 #= require bootstrap-sprockets
 #= require turbolinks
-#= require jquery-ui/droppable
-#= require jquery-ui/sortable
+#= require jquery-ui/widgets/droppable
+#= require jquery-ui/widgets/sortable
 
 # Compatibility
 

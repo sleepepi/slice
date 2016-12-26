@@ -2,7 +2,8 @@
   $('.filter-sort-container').sortable(
     placeholder: 'filter-bubble-faded'
     connectWith: '.filter-sort-container, #trash'
-    activeClass: 'droppable-hover'
+    classes:
+      'ui-droppable-active': 'droppable-hover'
     # start: $('[rel~=tooltip]').tooltip('hide')
     update: ( event, ui ) ->
       axis = $(ui.item).parent('.filter-sort-container').data('axis')
@@ -13,9 +14,13 @@
     #   $.post($('#reorder_report_form').attr('action'), '&columns='+columns+'&rows='+rows, null, 'script');
     #   showWaiting('#report_table', ' Loading Report', true);
     # }
-  ).disableSelection()
+  )
 
-  $('.filter-sort-container').droppable( activeClass: 'droppable-hover', tolerance: 'pointer' )
+  $('.filter-sort-container').droppable(
+    classes:
+      'ui-droppable-active': 'droppable-hover'
+    tolerance: 'pointer'
+  )
 
 @filtersReady = ->
   activateFilterSortable()

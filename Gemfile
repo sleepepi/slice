@@ -20,7 +20,7 @@ gem 'haml',                 '~> 4.0.7'
 gem 'figaro',               '~> 1.1.1'
 gem 'differ',               '~> 0.1.2'
 gem 'colorize',             '~> 0.8.1'
-gem 'jquery-ui-rails',      '~> 5.0.5'
+gem 'jquery-ui-rails',      '~> 6.0.1'
 gem 'font-awesome-rails'
 gem 'sitemap_generator',    '~> 5.2.0'
 

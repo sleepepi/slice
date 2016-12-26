@@ -9,7 +9,8 @@
 
 @activateEventDroppables = ->
   $('[data-object~="event-droppable"]').droppable(
-    hoverClass: "event-droppable-hover"
+    classes:
+      'ui-droppable-hover': 'event-droppable-hover'
     tolerance: "pointer"
     drop: ( event, ui ) ->
       project_id = $(this).data('project-id')

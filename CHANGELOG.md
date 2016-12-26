@@ -6,6 +6,7 @@
   - Updated to rails 5.0.1
   - Updated to carrierwave 1.0.0
   - Updated to redcarpet 3.4.0
+  - Updated to jquery-ui-rails 6.0.1
 
 ## 0.46.3 (December 6, 2016)
 
