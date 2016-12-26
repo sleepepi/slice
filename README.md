@@ -8,7 +8,7 @@ A clinical research interface geared at collecting robust and consistent data by
 providing a strong framework for designing data dictionaries and collection
 forms. Slice also provides exports of the data and the data dictionaries created
 as well as providing a simple reporting interface. Using Rails 5.0+ and
-Ruby 2.3+.
+Ruby 2.4+.
 
 ## Installation
 
@@ -62,9 +62,9 @@ Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
 
 ```
 SHELL=/bin/bash
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.3.3/bin/bundle exec rake daily_digest RAILS_ENV=production
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.3.3/bin/bundle exec rake passwords:expire RAILS_ENV=production
-0 2 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.3.3/bin/bundle exec rake sitemap:refresh RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.4.0/bin/bundle exec rake daily_digest RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.4.0/bin/bundle exec rake passwords:expire RAILS_ENV=production
+0 2 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && /usr/local/rvm/gems/ruby-2.4.0/bin/bundle exec rake sitemap:refresh RAILS_ENV=production
 ```
 
 ## Contributing to Slice
