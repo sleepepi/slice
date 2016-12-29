@@ -21,7 +21,7 @@
     .form-group
       = label_tag :subject_id, 'Reassign To Subject', class: 'col-md-2 control-label'
       .col-md-10
-        = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: 'form-control chzn-select'
+        = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: 'form-control chosen-select'
 
     .form-group
       .col-md-offset-2.col-md-10

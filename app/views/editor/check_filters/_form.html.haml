@@ -11,7 +11,7 @@
   .form-group
     = f.label :variable_id, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.select :variable_id, @project.variables.order(:name).pluck(:name, :id), { include_blank: true }, class: 'form-control chzn-select'
+      = f.select :variable_id, @project.variables.order(:name).pluck(:name, :id), { include_blank: true }, class: 'form-control chosen-select'
       = render 'layouts/errors', object: @check_filter, key: :variable_id
 
   .form-group

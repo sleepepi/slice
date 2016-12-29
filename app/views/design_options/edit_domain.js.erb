@@ -1,7 +1,7 @@
 $("#interactive-design-container").html("<%=j render 'design_options/edit_domain' %>");
 showInteractiveDesignModal();
 $("#interactive-design-container").find('input, textarea').first().focus();
-$(".chzn-select").chosen({ allow_single_deselect: true });
+$(".chosen-select").chosen({ allow_single_deselect: true });
 datepickerReady();
 
 $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });

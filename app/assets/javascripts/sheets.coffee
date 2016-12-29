@@ -22,7 +22,7 @@
   )
 
 @initializeSheet = (filter_element = '') ->
-  $("#{filter_element} .chzn-select").chosen({ allow_single_deselect: true })
+  $("#{filter_element} .chosen-select").chosen({ allow_single_deselect: true })
   updateAllDesignOptionsVisibility()
   updateCalculatedVariables()
   $('[data-object~="grid-sortable"]').sortable(
