@@ -82,8 +82,6 @@ SHELL=/bin/bash
   have your own version, or is otherwise necessary, that is fine, but please
   isolate to its own commit so I can cherry-pick around it.
 
-## Copyright [![Creative Commons 3.0](http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/3.0)
+## License
 
-Copyright (c) 2016 Remo Mueller. See
-[LICENSE](https://github.com/remomueller/slice/blob/master/LICENSE) for further
-details.
+Slice is released under the [MIT License](http://www.opensource.org/licenses/MIT).
