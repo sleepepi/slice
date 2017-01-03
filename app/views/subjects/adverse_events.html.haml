@@ -7,8 +7,9 @@
   .background-gradient
   .header-container
     .container
-      .pull-right
-        = link_to plus_or('Report Adverse Event'), new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-accent btn-shadow'
+      - if @subject.editable_by?(current_user)
+        .pull-right
+          = link_to plus_or('Report Adverse Event'), new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: 'btn btn-accent btn-shadow'
 
       %h1.page-heading
         = render 'layouts/side_nav_header_button'

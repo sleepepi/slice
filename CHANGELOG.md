@@ -15,6 +15,8 @@
   invite
 - Navigating across index pages no longer resets the search criteria and filters
 - Fixed an issue filtering sheets from links on the summary report
+- Viewers no longer are shown New Sheet, New Event, and Report Adverse Event
+  buttons on subject pages
 
 ## 0.46.3 (December 6, 2016)
 
