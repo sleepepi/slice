@@ -1,6 +1,8 @@
 ## 0.46.4
 
 ### Enhancements
+- **General Changes**
+  - Slice now provides better feedback when failing to login
 - **Check Changes**
   - Deleted checks are no longer run when resetting sheet checks
 - **Project Changes**
