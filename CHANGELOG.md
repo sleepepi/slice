@@ -4,6 +4,8 @@
 - Fixed an issue where missing project email preferences would cause daily
   digests emails to not be sent out
 - Site editors now correctly see all their projects in the project archives
+- Site viewers no longer see a create subject prompt after searching for a
+  non-existent subject code
 
 ## 0.46.3 (December 6, 2016)
 
