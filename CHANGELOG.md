@@ -1,5 +1,10 @@
 ## 0.46.4
 
+### Bug Fixes
+- Fixed an issue where missing project email preferences would cause daily
+  digests emails to not be sent out
+- Site editors now correctly see all their projects in the project archives
+
 ## 0.46.3 (December 6, 2016)
 
 ### Enhancements

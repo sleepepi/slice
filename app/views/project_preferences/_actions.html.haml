@@ -7,12 +7,12 @@
     - if project.archived_by?(current_user)
       %li
         = link_to project_preferences_update_path(project_id: project, archived: '0'), remote: true, method: :patch do
-          %span.glyphicon.glyphicon-eye-open
+          %span.glyphicon.glyphicon-blackboard
           Unarchive
     - else
       %li
         = link_to project_preferences_update_path(project_id: project, archived: '1'), remote: true, method: :patch do
-          %span.glyphicon.glyphicon-eye-close
+          %span.glyphicon.glyphicon-briefcase
           Archive
 
       - if project.favorited_by?(current_user)
@@ -36,8 +36,8 @@
         = link_to project_preferences_update_path(project_id: project, emails_enabled: '1'), remote: true, method: :patch do
           %span.glyphicon.glyphicon-envelope
           Enable Emails
-    %li.divider{ role: 'separator' }
     - if project.editable_by?(current_user)
+      %li.divider{ role: 'separator' }
       %li
         = link_to edit_editor_project_path(project) do
           %span.glyphicon.glyphicon-edit

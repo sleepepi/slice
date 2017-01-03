@@ -144,18 +144,22 @@ class Project < ApplicationRecord
   end
 
   def favorited_by?(current_user)
-    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference = preference_for_user(current_user)
     project_preference.present? && project_preference.favorited?
   end
 
   def archived_by?(current_user)
-    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference = preference_for_user(current_user)
     project_preference.present? && project_preference.archived?
   end
 
   def emails_enabled?(current_user)
-    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference = preference_for_user(current_user)
     project_preference.nil? || (project_preference.present? && project_preference.emails_enabled?)
+  end
+
+  def preference_for_user(current_user)
+    project_preferences.where(user_id: current_user.id).first_or_create
   end
 
   def unblinded?(current_user)

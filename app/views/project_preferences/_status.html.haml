@@ -1,6 +1,6 @@
 - if project.archived_by?(current_user)
-  %span.glyphicon.glyphicon-eye-close.text-muted
+  %span.glyphicon.glyphicon-briefcase.text-muted{ rel: 'tooltip', data: { title: 'Archived', container: 'body', placement: 'right' } }
 - elsif project.favorited_by?(current_user)
-  %span.glyphicon.glyphicon-star.text-accent
+  %span.glyphicon.glyphicon-star.text-accent{ rel: 'tooltip', data: { title: 'Favorited', container: 'body', placement: 'right' } }
 - else
-  %span.glyphicon.glyphicon-eye-open.text-accent
+  %span.glyphicon.glyphicon-blackboard.text-accent{ rel: 'tooltip', data: { title: 'Current', container: 'body', placement: 'right' } }
