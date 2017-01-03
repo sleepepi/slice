@@ -6,6 +6,8 @@
 - Site editors now correctly see all their projects in the project archives
 - Site viewers no longer see a create subject prompt after searching for a
   non-existent subject code
+- Project invite links are now only displayed to the user who generates the
+  invite
 
 ## 0.46.3 (December 6, 2016)
 
