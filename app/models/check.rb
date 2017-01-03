@@ -11,7 +11,7 @@ class Check < ApplicationRecord
   squish :name, :message
 
   # Scopes
-  scope :runnable, -> { where(archived: false).where.not(message: [nil, '']) }
+  scope :runnable, -> { current.where(archived: false).where.not(message: [nil, '']) }
 
   # Validation
   validates :project_id, :user_id, :name, presence: true

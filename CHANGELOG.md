@@ -1,6 +1,8 @@
 ## 0.46.4
 
 ### Enhancements
+- **Check Changes**
+  - Deleted checks are no longer run when resetting sheet checks
 - **Project Changes**
   - The default site created for projects now has a short name of "Default Site"
     instead of "DS"
