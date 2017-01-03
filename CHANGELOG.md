@@ -1,4 +1,4 @@
-## 0.46.4 (January 3, 2016)
+## 0.46.4 (January 3, 2017)
 
 ### Enhancements
 - **General Changes**
