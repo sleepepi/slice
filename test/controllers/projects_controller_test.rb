@@ -116,6 +116,7 @@ class ProjectsControllerTest < ActionController::TestCase
     )
     assert_equal 1, assigns(:project).sites.count
     assert_equal 'Default Site', assigns(:project).sites.first.name
+    assert_equal 'Default Site', assigns(:project).sites.first.short_name
     assert_redirected_to setup_project_sites_path(assigns(:project))
   end
 

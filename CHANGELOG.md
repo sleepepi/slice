@@ -1,5 +1,10 @@
 ## 0.46.4
 
+### Enhancements
+- **Project Changes**
+  - The default site created for projects now has a short name of "Default Site"
+    instead of "DS"
+
 ### Bug Fixes
 - Fixed an issue where missing project email preferences would cause daily
   digests emails to not be sent out
