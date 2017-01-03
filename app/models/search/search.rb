@@ -27,6 +27,8 @@ class Search
     case @token.key
     when 'checks'
       set_checks
+    when 'designs', 'design'
+      set_designs
     when 'events'
       set_events
     when 'comments', 'comment'
@@ -46,6 +48,19 @@ class Search
         @project.checks.runnable
       else
         @project.checks.where(slug: @token.values)
+      end
+  end
+
+  def set_designs
+    @designs = \
+      if %w(any missing).include?(@operator)
+        @project.designs
+      else
+        @project.designs.where(
+          'slug ilike any (array[?]) or id IN (?)',
+          @token.values,
+          @token.values.collect(&:to_i)
+        )
       end
   end
 
@@ -118,6 +133,8 @@ class Search
         .or(all_viewable_sheets.where(id: Grid.with_files.joins(:sheet_variable).select('sheet_variables.sheet_id')))
     elsif @checks
       compute_sheets_for_checks
+    elsif @designs
+      compute_sheets_for_designs
     elsif @events
       compute_sheets_for_events
     elsif @variable
@@ -148,14 +165,24 @@ class Search
 
   def compute_sheets_for_checks
     sheet_scope = all_viewable_sheets
-    return sheet_scope if @checks.count == 0
+    return sheet_scope if @checks.count.zero?
     sheet_ids = StatusCheck.where(check_id: @checks.select(:id), failed: true).select(:sheet_id)
     sheet_scope.where(id: sheet_ids)
   end
 
+  def compute_sheets_for_designs
+    sheet_scope = all_viewable_sheets
+    return sheet_scope if @designs.count.zero?
+    if @operator == 'missing'
+      sheet_scope.where.not(design_id: @designs.select(:id))
+    else
+      sheet_scope.where(design_id: @designs.select(:id))
+    end
+  end
+
   def compute_sheets_for_events
     sheet_scope = all_viewable_sheets
-    return sheet_scope if @events.count == 0
+    return sheet_scope if @events.count.zero?
     sheet_ids = []
     @events.each do |event|
       sheet_ids << all_viewable_sheets.where(subject_events: { event_id: event.id }).pluck(:id)

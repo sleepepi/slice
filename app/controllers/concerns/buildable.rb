@@ -87,7 +87,7 @@ module Buildable
     @by = %w(week month year).include?(params[:by]) ? params[:by] : 'month'
     @percent = %w(none row column).include?(params[:percent]) ? params[:percent] : 'none'
     sheet_scope = current_user.all_viewable_sheets
-    sheet_scope = sheet_scope.where(design_id: @design ? @design.id : @project.designs.pluck(:id))
+    sheet_scope = sheet_scope.where(design_id: @design ? @design.id : @project.designs.select(:id))
     sheet_scope = sheet_scope.where(missing: false)
     @sheets = sheet_scope
   end

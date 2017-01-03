@@ -14,6 +14,7 @@
 - Project invite links are now only displayed to the user who generates the
   invite
 - Navigating across index pages no longer resets the search criteria and filters
+- Fixed an issue filtering sheets from links on the summary report
 
 ## 0.46.3 (December 6, 2016)
 
