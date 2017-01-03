@@ -8,6 +8,7 @@
   non-existent subject code
 - Project invite links are now only displayed to the user who generates the
   invite
+- Navigating across index pages no longer resets the search criteria and filters
 
 ## 0.46.3 (December 6, 2016)
 
