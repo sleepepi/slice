@@ -61,7 +61,7 @@ class ProjectsController < ApplicationController
     elsif @order == 'projects.name desc'
       @order = 'lower(projects.name) desc'
     end
-    @projects = current_user.all_viewable_projects.search(params[:search]).order(@order).page(params[:page]).per(40)
+    @projects = current_user.all_viewable_and_site_projects.search(params[:search]).order(@order).page(params[:page]).per(40)
   end
 
   # GET /projects/1

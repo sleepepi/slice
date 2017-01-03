@@ -85,7 +85,7 @@
                     %span.glyphicon.glyphicon-trash
                     Remove
 
-- unless member.user
+- if member.user.nil? && member.creator == current_user
   %tr{ class: "#{'success' if @member == member}" }
     %td{ colspan: @project.blinding_enabled? ? 5 : 4 }
       - if member.is_a?(ProjectUser)

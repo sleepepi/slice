@@ -9,6 +9,30 @@
   - Updated to jquery-ui-rails 6.0.1
   - Updated to chosen 1.6.2
 
+## 0.46.4 (January 3, 2016)
+
+### Enhancements
+- **General Changes**
+  - Slice now provides better feedback when failing to login
+- **Check Changes**
+  - Deleted checks are no longer run when resetting sheet checks
+- **Project Changes**
+  - The default site created for projects now has a short name of "Default Site"
+    instead of "DS"
+
+### Bug Fixes
+- Fixed an issue where missing project email preferences would cause daily
+  digests emails to not be sent out
+- Site editors now correctly see all their projects in the project archives
+- Site viewers no longer see a create subject prompt after searching for a
+  non-existent subject code
+- Project invite links are now only displayed to the user who generates the
+  invite
+- Navigating across index pages no longer resets the search criteria and filters
+- Fixed an issue filtering sheets from links on the summary report
+- Viewers no longer are shown New Sheet, New Event, and Report Adverse Event
+  buttons on subject pages
+
 ## 0.46.3 (December 6, 2016)
 
 ### Enhancements

@@ -144,18 +144,22 @@ class Project < ApplicationRecord
   end
 
   def favorited_by?(current_user)
-    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference = preference_for_user(current_user)
     project_preference.present? && project_preference.favorited?
   end
 
   def archived_by?(current_user)
-    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference = preference_for_user(current_user)
     project_preference.present? && project_preference.archived?
   end
 
   def emails_enabled?(current_user)
-    project_preference = project_preferences.find_by user_id: current_user.id
+    project_preference = preference_for_user(current_user)
     project_preference.nil? || (project_preference.present? && project_preference.emails_enabled?)
+  end
+
+  def preference_for_user(current_user)
+    project_preferences.where(user_id: current_user.id).first_or_create
   end
 
   def unblinded?(current_user)
@@ -235,7 +239,7 @@ class Project < ApplicationRecord
   # Creates a default site if the project has no site associated with it
   def create_default_site
     return if sites.count > 0
-    sites.create(name: 'Default Site', user_id: user_id)
+    sites.create(name: 'Default Site', short_name: 'Default Site', user_id: user_id)
   end
 
   def create_default_categories

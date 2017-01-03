@@ -3,7 +3,7 @@
 namespace :checks do
   desc 'Rerun all checks for all sheets'
   task reset: :environment do
-    Check.find_each do |check|
+    Check.current.find_each do |check|
       puts check.name.to_s.colorize(:blue).on_white
       check.reset_checks!
       total_count = check.status_checks.count

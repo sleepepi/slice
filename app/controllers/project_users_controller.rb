@@ -62,7 +62,7 @@ class ProjectUsersController < ApplicationController
     @project_user = ProjectUser.find_by_id params[:id]
     @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
     if @project.blank? && @project_user && current_user == @project_user.user
-      @project = current_user.all_viewable_projects.find_by_id(@project_user.project_id)
+      @project = current_user.all_viewable_and_site_projects.find_by_id(@project_user.project_id)
     end
 
     if @project && @project_user
