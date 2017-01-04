@@ -2,8 +2,6 @@
 
 # Represents a finite set of options for a given variable
 class Domain < ApplicationRecord
-  serialize :deprecated_options, Array
-
   # Concerns
   include Searchable, Deletable
 
