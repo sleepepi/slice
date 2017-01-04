@@ -9,7 +9,7 @@
   - Updated to jquery-ui-rails 6.0.1
   - Updated to chosen 1.6.2
 
-## 0.46.4 (January 3, 2016)
+## 0.46.4 (January 3, 2017)
 
 ### Enhancements
 - **General Changes**
