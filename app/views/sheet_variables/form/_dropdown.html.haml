@@ -4,4 +4,4 @@
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 
 .dropdown-input{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'dropdown', status: variable.validator.status(response) } }
-  = select_tag field_name, grouped_options_for_select(variable.grouped_by_missing(show_values, response, current_user), response), include_blank: true, data: { object: 'condition', name: variable.name }, disabled: disabled, class: "chosen-select #{'form-control' unless is_grid}"
+  = select_tag field_name, options_for_select(variable.domain_options_with_user(response, current_user).collect{ |domain_option| [domain_option.value_and_name(show_values: show_values), domain_option.value]}, response), include_blank: true, data: { object: 'condition', name: variable.name }, disabled: disabled, class: "chosen-select #{'form-control' unless is_grid}"

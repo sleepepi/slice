@@ -212,15 +212,6 @@ class Variable < ApplicationRecord
     end
   end
 
-  def grouped_by_missing(show_values, response = nil, current_user = nil)
-    non_missing = domain_options_with_user(response, current_user).where(missing_code: false)
-    missing = domain_options_with_user(response, current_user).where(missing_code: true)
-    all_options = []
-    all_options << ['', non_missing.collect { |domain_option| [domain_option.value_and_name(show_values: show_values), domain_option.value] }] if non_missing.count > 0
-    all_options << ['Missing', missing.collect { |domain_option| [domain_option.value_and_name(show_values: show_values), domain_option.value] }] if missing.count > 0
-    all_options
-  end
-
   def options_or_autocomplete(include_missing)
     if variable_type == 'string'
       NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.response, value: sv.response, info: 'User Submitted' } }.uniq { |a| a[:value].downcase })
