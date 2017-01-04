@@ -15,6 +15,7 @@ $chosen-sprite-retina: url('chosen-sprite@2x.png') !default;
 .chosen-container {
   display: inline-block;
   font-size: 13px;
+  padding-top: 7px;
   position: relative;
   user-select: none;
   vertical-align: middle;
@@ -342,7 +343,6 @@ $chosen-sprite-retina: url('chosen-sprite@2x.png') !default;
       border: 1px solid $dropdown-fallback-border;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-      box-shadow: 0 1px 0 $dropdown-bg inset;
 
       div {
         background: transparent;
