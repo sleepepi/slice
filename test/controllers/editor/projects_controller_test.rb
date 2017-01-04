@@ -66,7 +66,8 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
       }, format: 'js'
     end
     assert_not_nil assigns(:member)
-    assert_template 'members'
+    assert_template 'invite_user'
+    assert_response :success
   end
 
   test 'should only create blinded members as blinded project user' do
@@ -80,7 +81,8 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:member)
     assert_equal false, assigns(:member).unblinded?
-    assert_template 'members'
+    assert_template 'invite_user'
+    assert_response :success
   end
 
   test 'should create project user and automatically add associated user' do
@@ -93,7 +95,8 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:member)
-    assert_template 'members'
+    assert_template 'invite_user'
+    assert_response :success
   end
 
   test 'should create project user invitation' do
@@ -106,7 +109,8 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:member)
     assert_not_nil assigns(:member).invite_token
-    assert_template 'members'
+    assert_template 'invite_user'
+    assert_response :success
   end
 
   test 'should not create project user with invalid project id' do
@@ -117,7 +121,6 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
         invite_email: users(:two).name + " [#{users(:two).email}]"
       }, format: 'js'
     end
-
     assert_nil assigns(:member)
     assert_response :success
   end
@@ -132,7 +135,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:member)
     assert_equal true, assigns(:member).editor
-    assert_template 'members'
+    assert_template 'invite_user'
     assert_response :success
   end
 
@@ -146,7 +149,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:member)
     assert_equal false, assigns(:member).editor
-    assert_template 'members'
+    assert_template 'invite_user'
     assert_response :success
   end
 

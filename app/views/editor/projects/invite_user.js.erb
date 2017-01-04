@@ -1,0 +1,6 @@
+$("#project-members").html("<%=j render 'projects/members' %>");
+<% if @member %>
+  inviteSuccess();
+<% else %>
+  alert("Enter an email address.");
+<% end %>

@@ -1,6 +1,9 @@
 ## 0.47.0
 
 ### Enhancements
+- **Project Changes**
+  - Project editors receive an additional notification that a project invite was
+    successfully sent
 - **Gem Changes**
   - Updated to Ruby 2.4.0
   - Updated to rails 5.0.1

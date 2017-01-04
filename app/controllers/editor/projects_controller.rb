@@ -32,7 +32,6 @@ class Editor::ProjectsController < ApplicationController
   # POST /editor/projects/1/invite_user.js
   def invite_user
     create_member_invite
-    render 'projects/members'
   end
 
   # GET /editor/projects/1/edit
