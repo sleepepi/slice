@@ -33,7 +33,7 @@
 
     = yield :side_nav
 
-    = render 'layouts/menu' unless @no_footer
+    #top-menu= render 'layouts/menu' unless @no_footer
 
     %div{ class: @side_nav ? 'header-slide' : '' }
       = yield :header

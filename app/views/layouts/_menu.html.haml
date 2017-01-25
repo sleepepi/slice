@@ -15,11 +15,14 @@
             %span.icon-bar
       - if @project && !@project.new_record?
         %span.hidden-sm.hidden-md.hidden-lg{ style: 'max-width: 300px;' }
-          = link_to @project.name, @project, class: 'navbar-brand overflow-hidden nowrap', style: 'max-width: 100%;'
-        %span.hidden-xs= link_to @project.name, @project, class: 'navbar-brand'
+          = link_to @project.name, @project, class: 'navbar-brand overflow-hidden nowrap navbar-hide-scrolled', style: 'max-width: 100%;'
+        %span.hidden-xs= link_to @project.name, @project, class: 'navbar-brand navbar-hide-scrolled'
       - else
-        = link_to ENV['website_name'], current_user ? root_path : landing_path, class: 'navbar-brand'
-      = link_to @menu_title || @title, '#top', data: { object: 'remove-collapse-in scroll-anchor', target: '.navbar-full-menu' }, class: 'navbar-brand page-title' if @menu_title || @title
+        = link_to ENV['website_name'], current_user ? root_path : landing_path, class: 'navbar-brand navbar-hide-scrolled'
+      - if @menu_title || @title
+        = link_to '#top', data: { object: 'remove-collapse-in scroll-anchor', target: '.navbar-full-menu' }, class: 'navbar-brand navbar-show-scrolled' do
+          %i.fa.fa-level-up.fa-flip-horizontal{ aria: { hidden: 'true' } }
+          = (@menu_title || @title).html_safe
       = render 'layouts/menu_flash'
 
     .collapse.navbar-collapse.navbar-full-menu
