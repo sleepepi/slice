@@ -28,10 +28,9 @@
           minTickInterval: 1
           title:
             text: $(@).data('yaxis')
-          # labels:
-          #   formatter: -> return bytes(this.value, true, 0)
-        # tooltip:
-        #   formatter: -> return bytes(this.y, true, 1)
+        tooltip:
+          shared: true
+          crosshairs: true
         plotOptions:
           column:
             pointPadding: 0.2
