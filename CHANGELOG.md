@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Added autoprefixer-rails
+  - Updated to kaminari 1.0.1
 
 ### Bug Fix
 - Fixed a bug that incorrectly loaded some pages at a lower scroll position
