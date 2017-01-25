@@ -12,7 +12,8 @@ module Pats
         [
           Pats::Categories.for('ent-eligibility-not-met', project),
           Pats::Categories.for('psg-eligibility-not-met', project),
-          Pats::Categories.for('bmi-z-score-le3', project),
+          Pats::Categories.for('prev-upper-airway-surgery', project),
+          Pats::Categories.for('bmi-z-score-le3', project)
         ]
       end
     end

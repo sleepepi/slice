@@ -7,6 +7,9 @@
   - Focused dropdowns now display a border similar to other input elements
 - **Sheet Changes**
   - Subject code now remains visible when scrolling through long sheets
+- **PATS Changes**
+  - Added Previous Upper Airway Surgery to Screen Failures table for consented
+    subjects on the Eligibility Status page
 - **Gem Changes**
   - Added autoprefixer-rails
   - Updated to kaminari 1.0.1
