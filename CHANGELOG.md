@@ -1,6 +1,8 @@
 ## 0.47.1
 
 ### Enhancements
+- **General Changes**
+  - Improved chart display in night mode
 - **Gem Changes**
   - Added autoprefixer-rails
   - Updated to kaminari 1.0.1

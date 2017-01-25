@@ -1,0 +1,14 @@
+.chart-container {
+  background-color: $dashboard-bg;
+  border-radius: 3px;
+  box-shadow: 0 30px 60px $standard-shadow-color;
+  color: $text-color;
+  margin-bottom: 40px;
+  padding: 5px 0 0 0;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .chart-container {
+    padding: 10px 5px 0;
+  }
+}

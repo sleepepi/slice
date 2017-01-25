@@ -11,6 +11,7 @@
         credits:
           enabled: false
         chart:
+          backgroundColor: null
           zoomType: 'x'
         title:
           text: $(@).data('title')
