@@ -5,6 +5,7 @@
   - Added autoprefixer-rails
   - Updated to kaminari 1.0.1
   - Updated to font-awesome-rails 4.7.0
+  - Updated to jquery-rails 4.2.2
 
 ### Bug Fix
 - Fixed a bug that incorrectly loaded some pages at a lower scroll position
