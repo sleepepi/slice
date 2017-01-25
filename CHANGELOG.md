@@ -1,5 +1,9 @@
 ## 0.47.1
 
+### Enhancements
+- **Gem Changes**
+  - Added autoprefixer-rails
+
 ## 0.47.0 (January 5, 2017)
 
 ### Enhancements
