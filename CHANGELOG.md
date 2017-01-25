@@ -4,6 +4,9 @@
 - **Gem Changes**
   - Added autoprefixer-rails
 
+### Bug Fix
+- Fixed a bug that incorrectly loaded some pages at a lower scroll position
+
 ## 0.47.0 (January 5, 2017)
 
 ### Enhancements
