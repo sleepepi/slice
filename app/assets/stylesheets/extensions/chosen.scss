@@ -27,9 +27,8 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
 
   .chosen-drop {
     background: $input-bg;
-    border: 1px solid $dropdown-fallback-border;
+    border: 1px solid $input-border-focus;
     border-top: 0;
-    box-shadow: 0 4px 5px $dropdown-border;
     clip: rect(0, 0, 0, 0);
     position: absolute;
     top: 100%;
@@ -334,15 +333,16 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
 // @group Active
 .chosen-container-active {
   .chosen-single {
-    border: 1px solid $dropdown-fallback-border;
-    box-shadow: $input-shadow, 0 0 6px $dropdown-bg;
+    border: 1px solid $input-border-focus;
+    box-shadow: $input-shadow, 0 0 6px $input-border-focus;
   }
 
   &.chosen-with-drop {
     .chosen-single {
-      border: 1px solid $dropdown-fallback-border;
+      border: 1px solid $input-border-focus;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+      box-shadow: none;
 
       div {
         background: transparent;

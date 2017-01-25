@@ -4,6 +4,7 @@
 - **General Changes**
   - Improved chart display in night mode
   - Tooltips on charts now display all values even when series overlap
+  - Focused dropdowns now display a border similar to other input elements
 - **Gem Changes**
   - Added autoprefixer-rails
   - Updated to kaminari 1.0.1
