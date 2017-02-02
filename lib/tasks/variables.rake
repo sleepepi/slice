@@ -9,6 +9,7 @@ namespace :variables do
     puts "Updated layout for #{variable_count} variable#{'s' if variable_count != 1}."
   end
 
+  # TODO: Remove in v0.49.0
   desc 'Migrate Time of Day Variables'
   task migrate_time_of_day: :environment do
     include DateAndTimeParser
@@ -43,8 +44,10 @@ namespace :variables do
 
     puts "\nMigration of Time of Day Variables Complete"
   end
+  # End TODO: Remove in v0.49.0
 end
 
+# TODO: Remove in v0.49.0
 def change_response_to_seconds(time_string)
   time_of_day = parse_time_deprecated(time_string)
   if time_of_day
@@ -54,3 +57,4 @@ def change_response_to_seconds(time_string)
   end
   parse_time_of_day_from_hash_to_s(parse_time_of_day(seconds_since_midnight))
 end
+# End TODO: Remove in v0.49.0
