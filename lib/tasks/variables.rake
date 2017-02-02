@@ -14,17 +14,31 @@ namespace :variables do
     include DateAndTimeParser
 
     sheet_variables = SheetVariable.where(variable_id: Variable.current.where(variable_type: 'time').select(:id))
-    object_count = sheet_variables.count
-    sheet_variables.find_each.with_index do |object, index|
-      print "\r#{index + 1} of #{object_count} #{format('%0.2f%', (index + 1) * 100.0 / object_count)} "
-      object.update response: change_response_to_seconds(object.response)
+    responses = sheet_variables.select(:response).distinct.order(:response).pluck(:response)
+    response_count = responses.count
+    responses.each_with_index do |response, index|
+      print "\r#{index + 1} of #{response_count} #{format('%0.2f%', (index + 1) * 100.0 / response_count)} "
+      new_time_of_day = change_response_to_seconds(response)
+      if new_time_of_day.present?
+        print 'Changes from '.colorize(:white) + time_string.to_s.colorize(:red) +
+          ' to '.colorize(:white) + new_time_of_day.to_s.colorize(:green)
+        sheet_variables.where(response: response).update_all response: new_time_of_day
+      end
     end
+
     grids = Grid.where(variable_id: Variable.current.where(variable_type: 'time').select(:id))
-    object_count = grids.count
-    grids.find_each.with_index do |object, index|
-      print "\r#{index + 1} of #{object_count} #{format('%0.2f%', (index + 1) * 100.0 / object_count)} "
-      object.update response: change_response_to_seconds(object.response)
+    responses = grids.select(:response).distinct.order(:response).pluck(:response)
+    response_count = responses.count
+    responses.each_with_index do |response, index|
+      print "\r#{index + 1} of #{response_count} #{format('%0.2f%', (index + 1) * 100.0 / response_count)} "
+      new_time_of_day = change_response_to_seconds(response)
+      if new_time_of_day.present?
+        print 'Changes from '.colorize(:white) + time_string.to_s.colorize(:red) +
+          ' to '.colorize(:white) + new_time_of_day.to_s.colorize(:green)
+        grids.where(response: response).update_all response: new_time_of_day
+      end
     end
+
     puts "\nMigration of Time of Day Variables Complete"
   end
 end
@@ -36,11 +50,5 @@ def change_response_to_seconds(time_string)
   else
     seconds_since_midnight = nil
   end
-  new_time_of_day = parse_time_of_day_from_hash_to_s(parse_time_of_day(seconds_since_midnight))
-
-  if time_string.present? && new_time_of_day.present?
-    print 'Changes from '.colorize(:white) + time_string.to_s.colorize(:red) +
-      ' to '.colorize(:white) + new_time_of_day.to_s.colorize(:green)
-  end
-  new_time_of_day
+  parse_time_of_day_from_hash_to_s(parse_time_of_day(seconds_since_midnight))
 end
