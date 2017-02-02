@@ -41,7 +41,7 @@ module DateAndTimeParser
     minutes = parse_integer(time_of_day_hash[:minutes]) || 0
     seconds = parse_integer(time_of_day_hash[:seconds]) || 0
     period = time_of_day_hash[:period]
-    if hours && ((period.nil? && hours.in?(0..24)) || (hours.in?(1..12))) && minutes.in?(0..59) && seconds.in?(0..59)
+    if hours && ((period.nil? && hours.in?(0..23)) || (hours.in?(1..12))) && minutes.in?(0..59) && seconds.in?(0..59)
       if period == 'pm'
         hours = (hours % 12) + 12
       elsif period == 'am'
