@@ -1,14 +1,1 @@
-- blank_responses = responses.select(&:blank?)
-- valid_responses = responses.reject(&:blank?)
-
-%table.table.table-fixed.table-borderless
-  %thead
-    %tr
-      %th.center N
-      %th.center.text-muted Blank
-      %th.center Total
-  %tbody
-    %tr
-      %td.center= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', event_id: event_id
-      %td.center= filter_link Sheet.array_count(blank_responses), @design, variable, ':blank', event_id: event_id
-      %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id
+= render 'reports/designs/overview/integer', variable: variable, sheet_scope: sheet_scope, responses: responses, event_id: event_id

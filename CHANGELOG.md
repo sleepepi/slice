@@ -1,6 +1,8 @@
 ## 0.48.0
 
 ### Enhancements
+- **Variable Changes**
+  - Time of day is now stored as total seconds since midnight in database
 - **Gem Changes**
   - Updated to simplecov 0.13.0
 

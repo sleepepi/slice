@@ -20,7 +20,12 @@ module Validation
       end
 
       def value_in_range?(value)
-        { status: status(value), message: message(value), formatted_value: formatted_value(value), raw_value: raw_value(value) }
+        {
+          status: status(value),
+          message: message(value),
+          formatted_value: formatted_value(value),
+          raw_value: raw_value(value)
+        }
       end
 
       def blank_value?(value)

@@ -20,7 +20,6 @@
   $("##{target_name}_month").parent().removeClass('has-warning has-error')
   $("##{target_name}_day").parent().removeClass('has-warning has-error')
   $("##{target_name}_year").parent().removeClass('has-warning has-error')
-  $("##{target_name}_hour").parent().removeClass('has-warning has-error')
   $("##{target_name}_hours").parent().removeClass('has-warning has-error')
   $("##{target_name}_minutes").parent().removeClass('has-warning has-error')
   $("##{target_name}_seconds").parent().removeClass('has-warning has-error')
@@ -97,13 +96,11 @@
 
   if data['status'] == 'invalid' or data['status'] == 'out_of_range'
     $("##{target_name}_alert_box").addClass('callout-danger')
-    $("##{target_name}_hour").parent().addClass('has-error')
     $("##{target_name}_hours").parent().addClass('has-error')
     $("##{target_name}_minutes").parent().addClass('has-error')
     $("##{target_name}_seconds").parent().addClass('has-error')
     $("##{target_name}_period").parent().addClass('has-error')
   if data['status'] == 'in_hard_range'
-    $("##{target_name}_hour").parent().addClass('has-warning')
     $("##{target_name}_hours").parent().addClass('has-warning')
     $("##{target_name}_minutes").parent().addClass('has-warning')
     $("##{target_name}_seconds").parent().addClass('has-warning')
@@ -168,7 +165,7 @@
       value["year"]   = $("##{$(parent).data('target-name')}_year").val()
     when 'time'
       value = {}
-      value["hour"]    = $("##{$(parent).data('target-name')}_hour").val()
+      value["hours"]    = $("##{$(parent).data('target-name')}_hours").val()
       value["minutes"] = $("##{$(parent).data('target-name')}_minutes").val()
       value["seconds"] = $("##{$(parent).data('target-name')}_seconds").val()
       value["period"]  = $("##{$(parent).data('target-name')}_period").val()

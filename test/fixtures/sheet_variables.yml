@@ -26,10 +26,11 @@ dropdown_two:
   domain_option: checkbox_two_domain_yes
   # response: 1
 
+# Represents 22:30:45
 time_two:
   variable: time_two
   sheet: two
-  response: 22:30:45
+  response: 81045
   user: valid
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
@@ -107,10 +108,11 @@ date:
   response: "2013-04-17"
   user: valid
 
+# Represents 22:30:00
 time:
   variable: time
   sheet: all_variables
-  response: "22:30:00"
+  response: 81000
   user: valid
 
 string:

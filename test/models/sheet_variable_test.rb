@@ -75,7 +75,7 @@ class SheetVariableTest < ActiveSupport::TestCase
   test 'get time of day' do
     assert_equal Formatters::TimeFormatter, Formatters.for(sheet_variables(:time).variable).class
     assert_equal '22:30:00', sheet_variables(:time).get_response(:name)
-    assert_equal '22:30:00', sheet_variables(:time).get_response(:raw)
+    assert_equal '81000', sheet_variables(:time).get_response(:raw)
   end
 
   test 'get time duration' do

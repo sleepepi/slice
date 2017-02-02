@@ -3,17 +3,25 @@
 module Formatters
   # Formats times based on 24 or 12 hour clock.
   class TimeFormatter < DefaultFormatter
-    # def raw_response(response)
-    #   response
-    # end
+    include DateAndTimeParser
 
     def name_response(response)
-      format = if %w(12hour 12hour-pm).include?(@variable.format)
-                 @variable.show_seconds? ? '%-l:%M:%S %P' : '%-l:%M %P'
-               else
-                 @variable.show_seconds? ? '%H:%M:%S' : '%H:%M'
-               end
-      Time.zone.strptime(response, '%H:%M:%S').strftime(format)
+      hash = parse_time_of_day(response)
+      minutes = format('%02d', hash[:minutes])
+      seconds = format('%02d', hash[:seconds])
+      if %w(12hour 12hour-pm).include?(@variable.format)
+        if @variable.show_seconds?
+          "#{hash[:hours]}:#{minutes}:#{seconds} #{hash[:period]}"
+        else
+          "#{hash[:hours]}:#{minutes} #{hash[:period]}"
+        end
+      else
+        if @variable.show_seconds?
+          "#{format('%02d', hash[:hours_24])}:#{minutes}:#{seconds}"
+        else
+          "#{format('%02d', hash[:hours_24])}:#{minutes}"
+        end
+      end
     rescue
       response
     end

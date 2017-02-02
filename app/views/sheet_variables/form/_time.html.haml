@@ -1,11 +1,13 @@
 - is_grid = defined?(grid)
 - target_name = field_name.gsub('[', '_').gsub(']', '')
 - value = variable.response_to_value(response)
+- raw_value = variable.response_to_raw_value(response)
 
 .time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time', status: variable.validator.status(value) } }
+  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: 'condition', name: variable.name, raw_value_for: target_name }
   - if %w(12hour 12hour-pm).include?(variable.format)
     %span.hour-box
-      = text_field_tag "#{field_name}[hour]", (value[:hour] ? format('%02d', value[:hour]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
+      = text_field_tag "#{field_name}[hours]", (value[:hours] ? format('%02d', value[:hours]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
     &#58;
     %span.min-box
       = text_field_tag "#{field_name}[minutes]", (value[:minutes] ? format('%02d', value[:minutes]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'
@@ -19,7 +21,7 @@
       = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time-12hour', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
   - else
     %span.hour-box
-      = text_field_tag "#{field_name}[hour]", (value[:hour] ? format('%02d', value[:hour]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
+      = text_field_tag "#{field_name}[hours]", (value[:hours] ? format('%02d', value[:hours]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
     &#58;
     %span.min-box
       = text_field_tag "#{field_name}[minutes]", (value[:minutes] ? format('%02d', value[:minutes]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'mm', class: 'form-control', style: 'display: inline-block;'

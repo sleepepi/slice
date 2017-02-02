@@ -68,8 +68,8 @@ module Valuable
       # Save valuable to string in "%Y-%m-%d" db format, passing in a date
       response = { response: parse_date("#{month}/#{day}/#{year}") }
     when 'time'
-      # Save valuable to string in "%H:%M:%S" db format
-      response = { response: parse_time_from_hash_to_s(response) }
+      # Save valuable to string in total seconds since midnight db format
+      response = { response: parse_time_of_day_from_hash_to_s(response) }
     when 'time_duration'
       # Save valuable to string in total seconds db format
       response = { response: parse_time_duration_from_hash_to_s(response) }

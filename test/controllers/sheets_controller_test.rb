@@ -308,7 +308,7 @@ d est laborum.',
             },
             variables(:file).id.to_s => { response_file: '' },
             variables(:time).id.to_s => {
-              hour: '14', minutes: '30', seconds: '00'
+              hours: '14', minutes: '30', seconds: '00'
             },
             variables(:calculated).id.to_s => '1234'
           }
@@ -373,7 +373,7 @@ d est laborum.',
           sheet: { design_id: designs(:has_no_validations).id },
           variables: {
             variables(:time_of_day_no_range).id.to_s => {
-              hour: '13', minutes: '2', seconds: ''
+              hours: '13', minutes: '2', seconds: ''
             }
           }
         }
@@ -381,7 +381,7 @@ d est laborum.',
     end
     assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
-    assert_equal '13:02:00', assigns(:sheet).sheet_variables.first.get_response(:raw)
+    assert_equal '46920', assigns(:sheet).sheet_variables.first.get_response(:raw)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
@@ -703,7 +703,7 @@ d est laborum.',
             variables(:weight).id.to_s => '70.0',
             variables(:calculated).id.to_s => '31.11',
             variables(:integer).id.to_s => '25',
-            variables(:time).id.to_s => { hour: '11', minutes: '30', seconds: '59' }
+            variables(:time).id.to_s => { hours: '11', minutes: '30', seconds: '59' }
           },
           '1' => {
             variables(:change_options).id.to_s => '2',
@@ -713,7 +713,7 @@ d est laborum.',
             variables(:weight).id.to_s => '0.0',
             variables(:calculated).id.to_s => '',
             variables(:integer).id.to_s => '25',
-            variables(:time).id.to_s => { hour: '13', minutes: '20', seconds: '01' }
+            variables(:time).id.to_s => { hours: '13', minutes: '20', seconds: '01' }
           },
           '2' => {
             variables(:change_options).id.to_s => '3',
@@ -723,7 +723,7 @@ d est laborum.',
             variables(:weight).id.to_s => '70.0',
             variables(:calculated).id.to_s => '31.11',
             variables(:integer).id.to_s => '25',
-            variables(:time).id.to_s => { hour: '14', minutes: '56', seconds: '33' }
+            variables(:time).id.to_s => { hours: '14', minutes: '56', seconds: '33' }
           }
         }
       }
@@ -748,7 +748,7 @@ d est laborum.',
             variables(:weight).id.to_s => '0.0',
             variables(:calculated).id.to_s => '',
             variables(:integer).id.to_s => '25',
-            variables(:time).id.to_s => { hour: '13', minutes: '20', seconds: '01' }
+            variables(:time).id.to_s => { hours: '13', minutes: '20', seconds: '01' }
           },
           '2' => {
             variables(:change_options).id.to_s => '3',
@@ -758,7 +758,7 @@ d est laborum.',
             variables(:weight).id.to_s => '70.0',
             variables(:calculated).id.to_s => '31.11',
             variables(:integer).id.to_s => '25',
-            variables(:time).id.to_s => { hour: '14', minutes: '56', seconds: '33' }
+            variables(:time).id.to_s => { hours: '14', minutes: '56', seconds: '33' }
           }
         }
       }

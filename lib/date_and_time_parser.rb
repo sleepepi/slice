@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Helps parse dates and times in different formats to Ruby objects
+# Helps parse dates and times in different formats to Ruby objects.
 module DateAndTimeParser
   def parse_date(date_string, default_date = nil)
     if date_string.to_s.split('/', -1).last.size == 2
@@ -30,7 +30,37 @@ module DateAndTimeParser
     default_date
   end
 
-  def parse_time(time_string, default_time = nil)
+  def parse_time_of_day(seconds_since_midnight_string)
+    total_seconds_since_midnight = parse_integer(seconds_since_midnight_string)
+    hmsampm_hash(total_seconds_since_midnight)
+  end
+
+  def parse_time_of_day_from_hash(time_of_day_hash)
+    return unless time_of_day_hash.is_a?(Hash)
+    hours = parse_integer(time_of_day_hash[:hours])
+    minutes = parse_integer(time_of_day_hash[:minutes]) || 0
+    seconds = parse_integer(time_of_day_hash[:seconds]) || 0
+    period = time_of_day_hash[:period]
+    if hours && ((period.nil? && hours.in?(0..24)) || (hours.in?(1..12))) && minutes.in?(0..59) && seconds.in?(0..59)
+      if period == 'pm'
+        hours = (hours % 12) + 12
+      elsif period == 'am'
+        hours = (hours % 12)
+      end
+      total_seconds_since_midnight = ((hours || 0).abs * 3600 + (minutes || 0).abs * 60 + (seconds || 0).abs)
+      hmsampm_hash(total_seconds_since_midnight)
+    end
+  end
+
+  def parse_time_of_day_from_hash_to_s(time_of_day_hash, default_time_of_day: '')
+    hash = parse_time_of_day_from_hash(time_of_day_hash)
+    hash[:total_seconds_since_midnight].to_s
+  rescue
+    default_time_of_day
+  end
+
+  # TODO: Remove in v0.49.0
+  def parse_time_deprecated(time_string, default_time = nil)
     if time_string.to_s.split(':', -1).last.size > 0
       Time.strptime(time_string, '%H:%M:%S')
     else
@@ -41,15 +71,15 @@ module DateAndTimeParser
   end
 
   # String is returned in database format '%H:%M:%S'
-  def parse_time_to_s(time_string, default_time = '')
-    parse_time(time_string, default_time).strftime('%H:%M:%S')
+  def parse_time_to_s_deprecated(time_string, default_time = '')
+    parse_time_deprecated(time_string, default_time).strftime('%H:%M:%S')
   rescue
     default_time
   end
 
-  def parse_time_from_hash(time_hash)
+  def parse_time_from_hash_deprecated(time_hash)
     if time_hash.is_a?(Hash)
-      hour = parse_integer(time_hash[:hour])
+      hour = parse_integer(time_hash[:hours])
       if %w(am pm).include?(time_hash[:period]) && hour
         hour = nil if hour < 1 || hour > 12
         if hour
@@ -59,18 +89,19 @@ module DateAndTimeParser
       end
       minutes = parse_integer(time_hash[:minutes])
       seconds = parse_integer(time_hash[:seconds])
-      parse_time("#{hour}:#{minutes}:#{seconds}")
+      parse_time_deprecated("#{hour}:#{minutes}:#{seconds}")
     else
-      parse_time('')
+      parse_time_deprecated('')
     end
   end
 
   # String is returned in database format '%H:%M:%S'
-  def parse_time_from_hash_to_s(time_hash, default_time = '')
-    parse_time_from_hash(time_hash).strftime('%H:%M:%S')
+  def parse_time_from_hash_to_s_deprecated(time_hash, default_time = '')
+    parse_time_from_hash_deprecated(time_hash).strftime('%H:%M:%S')
   rescue
     default_time
   end
+  # END Remove v0.49.0 TODO
 
   def parse_time_duration(time_duration_string)
     total_seconds = parse_integer(time_duration_string)
@@ -182,6 +213,23 @@ module DateAndTimeParser
     hash
   end
   # END TODO
+
+  def hmsampm_hash(total_seconds_since_midnight)
+    return unless total_seconds_since_midnight
+    return if total_seconds_since_midnight >= 24 * 3600
+    hours = total_seconds_since_midnight.abs / 3600
+    minutes = (total_seconds_since_midnight.abs - hours * 3600) / 60
+    seconds = total_seconds_since_midnight.abs % 60
+    hash = {}
+    hash[:hours_24] = hours
+    hash[:hours] = hours % 12
+    hash[:hours] = 12 if hash[:hours].zero?
+    hash[:minutes] = minutes
+    hash[:seconds] = seconds
+    hash[:period] = hours < 12 ? 'am' : 'pm'
+    hash[:total_seconds_since_midnight] = total_seconds_since_midnight
+    hash
+  end
 
   def hms_hash(total_seconds)
     return unless total_seconds

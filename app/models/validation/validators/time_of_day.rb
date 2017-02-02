@@ -5,9 +5,9 @@ module Validation
     class TimeOfDay < Validation::Validators::Default
       MESSAGES = {
         blank: '',
-        invalid: 'Not a Valid Time',
-        out_of_range: 'Time Outside of Range',
-        in_hard_range: 'Time Outside of Soft Range',
+        invalid: 'Not a Valid Time of Day',
+        out_of_range: 'Time of Day Outside of Range',
+        in_hard_range: 'Time of Day Outside of Soft Range',
         in_soft_range: ''
       }
 
@@ -17,15 +17,15 @@ module Validation
 
       def message(value)
         full_message = messages[status(value).to_sym]
-        time = get_time(value)
-        if time
-          prepend = if time.hour == 12 && time.min == 0 && time.sec == 0
+        time_of_day = parse_time_of_day_from_hash(value)
+        if time_of_day
+          prepend = if time_of_day[:hours_24] == 12 && time_of_day[:minutes].zero? && time_of_day[:seconds].zero?
                       'at noon'
-                    elsif time.hour == 0 && time.min == 0 && time.sec == 0
+                    elsif time_of_day[:hours_24].zero? && time_of_day[:minutes].zero? && time_of_day[:seconds].zero?
                       'at midnight'
-                    elsif time.hour < 12
+                    elsif time_of_day[:hours_24] < 12
                       'in the morning'
-                    elsif time.hour < 17
+                    elsif time_of_day[:hours_24] < 17
                       'in the afternoon'
                     else
                       'in the evening'
@@ -36,20 +36,31 @@ module Validation
       end
 
       def blank_value?(value)
-        value[:hour].blank? && value[:minutes].blank? && value[:seconds].blank?
+        value[:hours].blank? && value[:minutes].blank? && value[:seconds].blank?
       rescue
         true
       end
 
       def invalid_format?(value)
-        !blank_value?(value) && !get_time(value)
+        !blank_value?(value) && !parse_time_of_day_from_hash(value)
       end
 
       def formatted_value(value)
-        if @variable.show_seconds?
-          get_time(value).strftime('%-l:%M:%S %P')
+        hash = parse_time_of_day_from_hash(value)
+        minutes = format('%02d', hash[:minutes])
+        seconds = format('%02d', hash[:seconds])
+        if %w(12hour 12hour-pm).include?(@variable.format)
+          if @variable.show_seconds?
+            "#{hash[:hours]}:#{minutes}:#{seconds} #{hash[:period]}"
+          else
+            "#{hash[:hours]}:#{minutes} #{hash[:period]}"
+          end
         else
-          get_time(value).strftime('%-l:%M %P')
+          if @variable.show_seconds?
+            "#{format('%02d', hash[:hours_24])}:#{minutes}:#{seconds}"
+          else
+            "#{format('%02d', hash[:hours_24])}:#{minutes}"
+          end
         end
       rescue
         nil
@@ -61,28 +72,22 @@ module Validation
 
       def response_to_value(response)
         if response.is_a?(Hash)
-          response[:hour] = parse_integer(response[:hour])
+          response[:hours] = parse_integer(response[:hours])
           response[:minutes] = parse_integer(response[:minutes])
           response[:seconds] = parse_integer(response[:seconds])
           response
         else
-          time = parse_time(response)
+          time = parse_time_of_day(response)
           if %w(12hour 12hour-pm).include?(@variable.format)
-            (time ? { hour: time.strftime('%I').to_i, minutes: time.min, seconds: time.sec, period: time.strftime('%P') } : { period: @variable.format == '12hour-pm' ? 'pm' : 'am' })
+            (time ? { hours: time[:hours], minutes: time[:minutes], seconds: time[:seconds], period: time[:period] } : { period: @variable.format == '12hour-pm' ? 'pm' : 'am' })
           else
-            (time ? { hour: time.hour, minutes: time.min, seconds: time.sec } : {})
+            (time ? { hours: time[:hours_24], minutes: time[:minutes], seconds: time[:seconds] } : {})
           end
         end
       end
 
       def db_key_value_pairs(response)
-        { response: parse_time_from_hash_to_s(response) }
-      end
-
-      private
-
-      def get_time(value)
-        parse_time_from_hash(value)
+        { response: parse_time_of_day_from_hash_to_s(response) }
       end
     end
   end
