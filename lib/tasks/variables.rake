@@ -22,9 +22,11 @@ namespace :variables do
       if new_time_of_day.present?
         print 'Changes from '.colorize(:white) + response.to_s.colorize(:red) +
           ' to '.colorize(:white) + new_time_of_day.to_s.colorize(:green)
-        sheet_variables.where(response: response).update_all response: new_time_of_day
+        sheet_variables.where(response: response).update_all(response: new_time_of_day)
       end
     end
+
+    puts "\n"
 
     grids = Grid.where(variable_id: Variable.current.where(variable_type: 'time').select(:id))
     responses = grids.select(:response).distinct.order(:response).pluck(:response)
@@ -35,7 +37,7 @@ namespace :variables do
       if new_time_of_day.present?
         print 'Changes from '.colorize(:white) + response.to_s.colorize(:red) +
           ' to '.colorize(:white) + new_time_of_day.to_s.colorize(:green)
-        grids.where(response: response).update_all response: new_time_of_day
+        grids.where(response: response).update_all(response: new_time_of_day)
       end
     end
 
