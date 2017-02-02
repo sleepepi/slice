@@ -13,6 +13,7 @@
         chart:
           backgroundColor: null
           zoomType: 'x'
+          type: $(@).data('chart-type')
         title:
           text: $(@).data('title')
         subtitle:

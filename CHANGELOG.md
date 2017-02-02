@@ -3,6 +3,7 @@
 ### Enhancements
 - **Variable Changes**
   - Time of day is now stored as total seconds since midnight in database
+  - Time of day is now displayed as a bar chart on the design overview report
 - **Gem Changes**
   - Updated to simplecov 0.13.0
 

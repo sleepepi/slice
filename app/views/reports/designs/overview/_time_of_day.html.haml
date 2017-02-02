@@ -1,0 +1,77 @@
+- missing_responses = responses.select(&:blank?)
+- valid_responses = responses.reject(&:blank?).map(&:to_i).sort
+- valid_sheets = sheet_scope.with_stratum(current_user, variable.id, nil, 'any')
+- no_responses = (valid_responses.count == 0)
+
+- categories = []
+- data = []
+- thirty_minutes = 1800
+- (0..47).each do |increment|
+  - from_time = increment * thirty_minutes
+  - to_time = from_time + thirty_minutes - 1
+  - time_f = parse_time_of_day(from_time)
+  - time_t = parse_time_of_day(to_time)
+  - long_name = "#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period]} to #{time_t[:hours]}#{format(':%02d', time_t[:minutes])}#{time_t[:period]}"
+  - categories << (time_f[:minutes].zero? ? "#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period] if increment.in?([0,24,46])}" : "")
+  - data << { y: valid_responses.count { |r| r.in?(from_time..to_time) }, name: long_name }
+
+- series = [{ data: data, showInLegend: false, name: 'Count' }]
+
+- unless no_responses
+  %div{ data: { object: 'draw-chart', series: series.to_json, categories: categories.to_json, yaxis: '# at Half Hour', chart_type: 'column' } }
+
+%table.table.table-fixed.table-borderless
+  %thead
+    %tr
+      %th.center N
+      %th.center Mean
+      %th.center.hidden-xs StdDev
+      %th.center Med
+      %th.center Min
+      %th.center Max
+      %th.center.text-muted.hidden-xs Missing
+      %th.center Total
+  %tbody
+    %tr
+      %td.center= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', event_id: event_id
+      %td.center
+        - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
+        - if mean
+          - time_of_day_mean = parse_time_of_day(mean.to_i)
+          = "#{time_of_day_mean[:hours]}#{format(':%02d', time_of_day_mean[:minutes])}#{time_of_day_mean[:period]}"
+        - else
+          \-
+      %td.center.nowrap.hidden-xs
+        - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
+        - if stdev
+          - time_duration = parse_time_duration(stdev.to_i)
+          &plusmn;
+          = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{time_duration[:minutes]}m"
+        - else
+          \-
+      %td.center
+        - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
+        - if median
+          - time_of_day_median = parse_time_of_day(median.to_i)
+          - link_text = "#{time_of_day_median[:hours]}#{format(':%02d', time_of_day_median[:minutes])}#{time_of_day_median[:period]}"
+          = filter_link(link_text, @design, variable, median.to_i, event_id: event_id)
+        - else
+          \-
+      %td.center
+        - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
+        - if min
+          - time_of_day_min = parse_time_of_day(min.to_i)
+          - link_text = "#{time_of_day_min[:hours]}#{format(':%02d', time_of_day_min[:minutes])}#{time_of_day_min[:period]}"
+          = filter_link(link_text, @design, variable, min.to_i, event_id: event_id)
+        - else
+          \-
+      %td.center
+        - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
+        - if max
+          - time_of_day_max = parse_time_of_day(max.to_i)
+          - link_text = "#{time_of_day_max[:hours]}#{format(':%02d', time_of_day_max[:minutes])}#{time_of_day_max[:period]}"
+          = filter_link(link_text, @design, variable, max.to_i, event_id: event_id)
+        - else
+          \-
+      %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+      %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id
