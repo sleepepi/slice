@@ -20,7 +20,7 @@ namespace :variables do
       print "\r#{index + 1} of #{response_count} #{format('%0.2f%', (index + 1) * 100.0 / response_count)} "
       new_time_of_day = change_response_to_seconds(response)
       if new_time_of_day.present?
-        print 'Changes from '.colorize(:white) + time_string.to_s.colorize(:red) +
+        print 'Changes from '.colorize(:white) + response.to_s.colorize(:red) +
           ' to '.colorize(:white) + new_time_of_day.to_s.colorize(:green)
         sheet_variables.where(response: response).update_all response: new_time_of_day
       end
@@ -33,7 +33,7 @@ namespace :variables do
       print "\r#{index + 1} of #{response_count} #{format('%0.2f%', (index + 1) * 100.0 / response_count)} "
       new_time_of_day = change_response_to_seconds(response)
       if new_time_of_day.present?
-        print 'Changes from '.colorize(:white) + time_string.to_s.colorize(:red) +
+        print 'Changes from '.colorize(:white) + response.to_s.colorize(:red) +
           ' to '.colorize(:white) + new_time_of_day.to_s.colorize(:green)
         grids.where(response: response).update_all response: new_time_of_day
       end
