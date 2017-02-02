@@ -14,11 +14,14 @@ namespace :variables do
     include DateAndTimeParser
 
     sheet_variables = SheetVariable.where(variable_id: Variable.current.where(variable_type: 'time').select(:id))
+    object_count = sheet_variables.count
+    sheet_variables.find_each.with_index do |object, index|
+      print "\r#{index + 1} of #{object_count} #{format('%0.2f%', (index + 1) * 100.0 / object_count)} "
+      object.update response: change_response_to_seconds(object.response)
+    end
     grids = Grid.where(variable_id: Variable.current.where(variable_type: 'time').select(:id))
-    objects = sheet_variables.to_a + grids.to_a
-
-    object_count = objects.size
-    objects.each_with_index do |object, index|
+    object_count = grids.count
+    grids.find_each.with_index do |object, index|
       print "\r#{index + 1} of #{object_count} #{format('%0.2f%', (index + 1) * 100.0 / object_count)} "
       object.update response: change_response_to_seconds(object.response)
     end
