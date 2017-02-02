@@ -69,38 +69,6 @@ module DateAndTimeParser
   rescue
     default_time
   end
-
-  # String is returned in database format '%H:%M:%S'
-  def parse_time_to_s_deprecated(time_string, default_time = '')
-    parse_time_deprecated(time_string, default_time).strftime('%H:%M:%S')
-  rescue
-    default_time
-  end
-
-  def parse_time_from_hash_deprecated(time_hash)
-    if time_hash.is_a?(Hash)
-      hour = parse_integer(time_hash[:hours])
-      if %w(am pm).include?(time_hash[:period]) && hour
-        hour = nil if hour < 1 || hour > 12
-        if hour
-          hour += 12 if time_hash[:period] == 'pm' && hour != 12
-          hour = 0 if time_hash[:period] == 'am' && hour == 12
-        end
-      end
-      minutes = parse_integer(time_hash[:minutes])
-      seconds = parse_integer(time_hash[:seconds])
-      parse_time_deprecated("#{hour}:#{minutes}:#{seconds}")
-    else
-      parse_time_deprecated('')
-    end
-  end
-
-  # String is returned in database format '%H:%M:%S'
-  def parse_time_from_hash_to_s_deprecated(time_hash, default_time = '')
-    parse_time_from_hash_deprecated(time_hash).strftime('%H:%M:%S')
-  rescue
-    default_time
-  end
   # END Remove v0.49.0 TODO
 
   def parse_time_duration(time_duration_string)
@@ -125,31 +93,6 @@ module DateAndTimeParser
   rescue
     default_time_duration
   end
-
-  # TODO: Remove in v0.46.0
-  def parse_time_duration_deprecated(time_duration_string)
-    sections = time_duration_string.to_s.split(':')
-    hours = parse_integer(sections[0])
-    minutes = parse_integer(sections[1])
-    seconds = parse_integer(sections[2])
-    hms_hash_deprecated(hours, minutes, seconds)
-  end
-
-  def parse_time_duration_from_hash_deprecated(time_duration_hash)
-    return unless time_duration_hash.is_a?(Hash)
-    hours = parse_integer(time_duration_hash[:hours])
-    minutes = parse_integer(time_duration_hash[:minutes])
-    seconds = parse_integer(time_duration_hash[:seconds])
-    hms_hash_deprecated(hours, minutes, seconds)
-  end
-
-  def parse_time_duration_from_hash_to_s_deprecated(time_duration_hash, default_time_duration: '')
-    hash = parse_time_duration_from_hash(time_duration_hash)
-    "#{hash[:hours]}:#{hash[:minutes]}:#{hash[:seconds]}"
-  rescue
-    default_time_duration
-  end
-  # END
 
   def parse_integer(string)
     Integer(format('%g', string))
@@ -202,17 +145,6 @@ module DateAndTimeParser
   end
 
   private
-
-  # TODO: Remove in v0.46.0
-  def hms_hash_deprecated(hours, minutes, seconds)
-    return unless hours || minutes || seconds
-    hash = {}
-    hash[:hours]   = hours   || 0
-    hash[:minutes] = minutes || 0
-    hash[:seconds] = seconds || 0
-    hash
-  end
-  # END TODO
 
   def hmsampm_hash(total_seconds_since_midnight)
     return unless total_seconds_since_midnight
