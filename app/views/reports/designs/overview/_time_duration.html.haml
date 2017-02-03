@@ -1,1 +1,48 @@
-= render 'reports/designs/overview/integer', variable: variable, sheet_scope: sheet_scope, responses: responses, event_id: event_id
+- missing_responses = responses.select(&:blank?)
+- valid_responses = responses.reject(&:blank?).map(&:to_i).sort
+- valid_sheets = sheet_scope.with_stratum(current_user, variable.id, nil, 'any')
+- no_responses = (valid_responses.count == 0)
+
+- unless no_responses
+  .center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'box', values: valid_responses } }
+
+%table.table.table-fixed.table-borderless
+  %thead
+    %tr
+      %th.center N
+      %th.center Mean
+      %th.center.hidden-xs StdDev
+      %th.center Med
+      %th.center Min
+      %th.center Max
+      %th.center.text-muted.hidden-xs Missing
+      %th.center Total
+  %tbody
+    %tr
+      %td.center= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', event_id: event_id
+      %td.center
+        - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
+        - if mean
+          - time_duration = parse_time_duration(mean.to_i)
+          = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{"#{time_duration[:minutes]}m" unless time_duration[:minutes].zero?} #{"#{time_duration[:seconds]}s" if time_duration[:hours].zero? && time_duration[:minutes].zero? || !time_duration[:seconds].zero?}"
+        - else
+          \-
+      %td.center.nowrap.hidden-xs
+        - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
+        - if stdev
+          - time_duration = parse_time_duration(stdev.to_i)
+          &plusmn;
+          = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{"#{time_duration[:minutes]}m" unless time_duration[:minutes].zero?} #{"#{time_duration[:seconds]}s" if time_duration[:hours].zero? && time_duration[:minutes].zero? || !time_duration[:seconds].zero?}"
+        - else
+          \-
+      %td.center
+        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_median')
+        = render 'reports/designs/overview/time/time_duration_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+      %td.center
+        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_min')
+        = render 'reports/designs/overview/time/time_duration_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+      %td.center
+        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_max')
+        = render 'reports/designs/overview/time/time_duration_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+      %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+      %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id

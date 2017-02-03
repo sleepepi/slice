@@ -12,6 +12,11 @@
       - `time_of_day:<=14:05:04`
       - `time_of_day:noon`
       - `time_of_day:midnight`
+  - Time duration is now displayed in hours, minutes, and seconds on overview
+    report
+  - Sheets can now be filtered by time durations that contain hours, minutes,
+    and seconds, for example:
+      - `time_duration:>1h30m`
 - **Gem Changes**
   - Updated to simplecov 0.13.0
 

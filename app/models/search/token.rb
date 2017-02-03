@@ -104,12 +104,26 @@ class Token
   end
 
   def convert_time_duration(val)
-    if !(/^(\d+)s$/ =~ val).nil?
-      val.gsub(/s$/, '')
-    elsif !(/^(\d+)m$/ =~ val).nil?
-      (val.gsub(/m$/, '').to_i * 60).to_s
-    elsif !(/^(\d+)h$/ =~ val).nil?
-      (val.gsub(/h$/, '').to_i * 3600).to_s
+    hours = nil
+    minutes = nil
+    seconds = nil
+    if val.split('h', 2).size == 2
+      (hours, val) = val.split('h', 2)
+      hours = parse_integer(hours)
+    end
+
+    if val.split('m', 2).size == 2
+      (minutes, val) = val.split('m', 2)
+      minutes = parse_integer(minutes)
+    end
+
+    if val.split('s', 2).size == 2
+      (seconds, val) = val.split('s', 2)
+      seconds = parse_integer(seconds)
+    end
+
+    if hours || minutes || seconds
+      ((hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0)).to_s
     else
       val
     end
