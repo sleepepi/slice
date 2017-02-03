@@ -78,7 +78,7 @@ class Search
   end
 
   def set_variable
-    @variable = @project.variables.find_by_name(@token.key)
+    @variable = @project.variables.find_by(name: @token.key)
     return unless @variable
     if %w(any missing).include?(@operator)
       @values = []
@@ -97,23 +97,7 @@ class Search
 
   def parse_values_for_variable
     values = @token.values.reject(&:blank?).collect(&:strip).reject(&:blank?).uniq.collect do |val|
-      if !(/^(\d+)s$/ =~ val).nil?
-        val.gsub(/s$/, '')
-      elsif !(/^(\d+)m$/ =~ val).nil?
-        (val.gsub(/m$/, '').to_i * 60).to_s
-      elsif !(/^(\d+)h$/ =~ val).nil?
-        (val.gsub(/h$/, '').to_i * 3600).to_s
-      elsif !(/^(\d+)oz$/ =~ val).nil?
-        val.gsub(/oz$/, '')
-      elsif !(/^(\d+)lb$/ =~ val).nil?
-        (val.gsub(/lb$/, '').to_i * 16).to_s
-      elsif !(/^(\d+)in$/ =~ val).nil?
-        val.gsub(/in$/, '')
-      elsif !(/^(\d+)ft$/ =~ val).nil?
-        (val.gsub(/ft$/, '').to_i * 12).to_s
-      else
-        val
-      end
+      @token.convert_value(val, @variable)
     end
     values.uniq
   end

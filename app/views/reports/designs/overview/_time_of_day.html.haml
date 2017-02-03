@@ -18,7 +18,7 @@
 - series = [{ data: data, showInLegend: false, name: 'Count' }]
 
 - unless no_responses
-  %div{ data: { object: 'draw-chart', series: series.to_json, categories: categories.to_json, yaxis: '# at Half Hour', chart_type: 'column' } }
+  %div{ data: { object: 'draw-chart', series: series.to_json, categories: categories.to_json, yaxis: '# of Sheets', chart_type: 'column' } }
 
 %table.table.table-fixed.table-borderless
   %thead
@@ -50,28 +50,13 @@
         - else
           \-
       %td.center
-        - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
-        - if median
-          - time_of_day_median = parse_time_of_day(median.to_i)
-          - link_text = "#{time_of_day_median[:hours]}#{format(':%02d', time_of_day_median[:minutes])}#{time_of_day_median[:period]}"
-          = filter_link(link_text, @design, variable, median.to_i, event_id: event_id)
-        - else
-          \-
+        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_median')
+        = render 'reports/designs/overview/time/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.center
-        - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
-        - if min
-          - time_of_day_min = parse_time_of_day(min.to_i)
-          - link_text = "#{time_of_day_min[:hours]}#{format(':%02d', time_of_day_min[:minutes])}#{time_of_day_min[:period]}"
-          = filter_link(link_text, @design, variable, min.to_i, event_id: event_id)
-        - else
-          \-
+        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_min')
+        = render 'reports/designs/overview/time/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.center
-        - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
-        - if max
-          - time_of_day_max = parse_time_of_day(max.to_i)
-          - link_text = "#{time_of_day_max[:hours]}#{format(':%02d', time_of_day_max[:minutes])}#{time_of_day_max[:period]}"
-          = filter_link(link_text, @design, variable, max.to_i, event_id: event_id)
-        - else
-          \-
+        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_max')
+        = render 'reports/designs/overview/time/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
       %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id

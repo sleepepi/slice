@@ -1,0 +1,6 @@
+- if seconds
+  - time_of_day = parse_time_of_day(seconds.to_i)
+  - link_text = "#{time_of_day[:hours]}#{format(':%02d', time_of_day[:minutes])}#{time_of_day[:period]}"
+  = filter_link(link_text, design, variable, link_text, event_id: event_id)
+- else
+  \-

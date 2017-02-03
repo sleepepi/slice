@@ -4,6 +4,14 @@
 - **Variable Changes**
   - Time of day is now stored as total seconds since midnight in database
   - Time of day is now displayed as a bar chart on the design overview report
+  - Time of Day variables can now be filtered by entering clock times on the
+    sheets index
+      - `time_of_day:>1pm`
+      - `time_of_day:>13:00`
+      - `time_of_day:<=2:05:04pm`
+      - `time_of_day:<=14:05:04`
+      - `time_of_day:noon`
+      - `time_of_day:midnight`
 - **Gem Changes**
   - Updated to simplecov 0.13.0
 
