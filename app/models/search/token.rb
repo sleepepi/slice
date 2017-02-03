@@ -104,6 +104,7 @@ class Token
   end
 
   def convert_time_duration(val)
+    original_value = val
     hours = nil
     minutes = nil
     seconds = nil
@@ -125,7 +126,7 @@ class Token
     if hours || minutes || seconds
       ((hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0)).to_s
     else
-      val
+      original_value
     end
   end
 
