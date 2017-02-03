@@ -1,3 +1,9 @@
+@visitURL = (event, url) ->
+  if nonStandardClick(event)
+    window.open(url)
+  else
+    Turbolinks.visit(url)
+
 @loadRandomizationsByMonth = ->
   Highcharts.setOptions(
     lang:
@@ -7,6 +13,7 @@
   )
   if $('[data-object~="draw-chart"]').length > 0
     $.each($('[data-object~=draw-chart]'), ->
+      $this = $(this)
       $(@).highcharts(
         credits:
           enabled: false
@@ -14,6 +21,12 @@
           backgroundColor: null
           zoomType: 'x'
           type: $(@).data('chart-type')
+          events:
+            click: (e) ->
+              if $this.data('category-urls')?
+                return if $this.data('category-urls')[Math.round(e.xAxis[0].value)].count == 0
+                url = $this.data('category-urls')[Math.round(e.xAxis[0].value)].url
+                visitURL(e, url)
         title:
           text: $(@).data('title')
         subtitle:
@@ -37,6 +50,11 @@
             pointPadding: 0.2
             borderWidth: 0
             # stacking: 'normal'
+            events:
+              click: (e) ->
+                url = e.point.options.url
+                if url? and this.options.y != 0
+                  visitURL(e, url)
         series: $(@).data('series')
       )
     )
