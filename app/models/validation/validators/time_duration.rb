@@ -22,11 +22,11 @@ module Validation
       end
 
       def invalid_format?(value)
-        !blank_value?(value) && !parse_time_duration_from_hash(value)
+        !blank_value?(value) && !parse_time_duration_from_hash(value, no_hours: @variable.no_hours?)
       end
 
       def formatted_value(value)
-        hash = parse_time_duration_from_hash(value)
+        hash = parse_time_duration_from_hash(value, no_hours: @variable.no_hours?)
         h = (hash[:hours] == 1 ? 'hour' : 'hours')
         m = (hash[:minutes] == 1 ? 'minute' : 'minutes')
         s = (hash[:seconds] == 1 ? 'second' : 'seconds')
@@ -53,13 +53,13 @@ module Validation
           response[:seconds] = parse_integer(response[:seconds])
           response
         else
-          time = parse_time_duration(response)
+          time = parse_time_duration(response, no_hours: @variable.no_hours?)
           (time ? { hours: time[:hours], minutes: time[:minutes], seconds: time[:seconds] } : {})
         end
       end
 
       def db_key_value_pairs(response)
-        { response: parse_time_duration_from_hash_to_s(response) }
+        { response: parse_time_duration_from_hash_to_s(response, no_hours: @variable.no_hours?) }
       end
     end
   end

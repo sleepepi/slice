@@ -626,6 +626,11 @@ class Variable < ApplicationRecord
     variable_type != 'checkbox'
   end
 
+  # For Time Duration Variables
+  def no_hours?
+    time_duration_format == 'mm:ss'
+  end
+
   def update_domain_values!
     return unless changes.key?(:domain_id)
     (old_domain_id, new_domain_id) = changes[:domain_id]

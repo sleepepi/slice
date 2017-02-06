@@ -20,6 +20,10 @@
 - **Gem Changes**
   - Updated to simplecov 0.13.0
 
+### Bug Fix
+- Fixed an issue saving time durations over an hour for variables formatted to
+  only include minutes and seconds
+
 ## 0.47.1 (January 25, 2017)
 
 ### Enhancements

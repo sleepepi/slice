@@ -23,14 +23,14 @@
       %td.center
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         - if mean
-          - time_duration = parse_time_duration(mean.to_i)
+          - time_duration = parse_time_duration(mean.to_i, no_hours: variable.no_hours?)
           = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{"#{time_duration[:minutes]}m" unless time_duration[:minutes].zero?} #{"#{time_duration[:seconds]}s" if time_duration[:hours].zero? && time_duration[:minutes].zero? || !time_duration[:seconds].zero?}"
         - else
           \-
       %td.center.nowrap.hidden-xs
         - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
         - if stdev
-          - time_duration = parse_time_duration(stdev.to_i)
+          - time_duration = parse_time_duration(stdev.to_i, no_hours: variable.no_hours?)
           &plusmn;
           = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{"#{time_duration[:minutes]}m" unless time_duration[:minutes].zero?} #{"#{time_duration[:seconds]}s" if time_duration[:hours].zero? && time_duration[:minutes].zero? || !time_duration[:seconds].zero?}"
         - else

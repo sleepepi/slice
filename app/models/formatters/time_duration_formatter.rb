@@ -6,7 +6,7 @@ module Formatters
     include DateAndTimeParser
 
     def name_response(response)
-      hash = parse_time_duration(response)
+      hash = parse_time_duration(response, no_hours: @variable.no_hours?)
       h = (hash[:hours] == 1 ? 'hour' : 'hours')
       m = (hash[:minutes] == 1 ? 'minute' : 'minutes')
       s = (hash[:seconds] == 1 ? 'second' : 'seconds')

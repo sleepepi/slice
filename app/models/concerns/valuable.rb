@@ -51,13 +51,13 @@ module Valuable
     Response.where(id: old_response_ids, class_foreign_key => nil).destroy_all
   end
 
-  # Returns response as a hash that can sent to update_attributes
-  def format_response(variable_type, response)
+  # Returns response as a hash that can sent to update method
+  def format_response(response)
     if response.is_a?(ActionController::Parameters)
       response = response.to_unsafe_hash
     end
 
-    case variable_type
+    case variable.variable_type
     when 'file'
       response = {} if response.blank?
     when 'date'
@@ -72,7 +72,7 @@ module Valuable
       response = { response: parse_time_of_day_from_hash_to_s(response) }
     when 'time_duration'
       # Save valuable to string in total seconds db format
-      response = { response: parse_time_duration_from_hash_to_s(response) }
+      response = { response: parse_time_duration_from_hash_to_s(response, no_hours: variable.no_hours?) }
     when 'imperial_height'
       # Save valuable to string in total inches db format
       response = { response: parse_imperial_height_from_hash_to_s(response) }

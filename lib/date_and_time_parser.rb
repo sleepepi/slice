@@ -71,24 +71,24 @@ module DateAndTimeParser
   end
   # END Remove v0.49.0 TODO
 
-  def parse_time_duration(time_duration_string)
+  def parse_time_duration(time_duration_string, no_hours: false)
     total_seconds = parse_integer(time_duration_string)
-    hms_hash(total_seconds)
+    hms_hash(total_seconds, no_hours: no_hours)
   end
 
-  def parse_time_duration_from_hash(time_duration_hash)
+  def parse_time_duration_from_hash(time_duration_hash, no_hours: false)
     return unless time_duration_hash.is_a?(Hash)
     hours = parse_integer(time_duration_hash[:hours])
     minutes = parse_integer(time_duration_hash[:minutes])
     seconds = parse_integer(time_duration_hash[:seconds])
     if hours || minutes || seconds
       total_seconds = ((hours || 0).abs * 3600 + (minutes || 0).abs * 60 + (seconds || 0).abs)
-      hms_hash(total_seconds)
+      hms_hash(total_seconds, no_hours: no_hours)
     end
   end
 
-  def parse_time_duration_from_hash_to_s(time_duration_hash, default_time_duration: '')
-    hash = parse_time_duration_from_hash(time_duration_hash)
+  def parse_time_duration_from_hash_to_s(time_duration_hash, default_time_duration: '', no_hours: false)
+    hash = parse_time_duration_from_hash(time_duration_hash, no_hours: no_hours)
     hash[:total_seconds].to_s
   rescue
     default_time_duration
@@ -163,9 +163,14 @@ module DateAndTimeParser
     hash
   end
 
-  def hms_hash(total_seconds)
+  def hms_hash(total_seconds, no_hours: false)
     return unless total_seconds
-    hours = total_seconds.abs / 3600
+    hours = \
+      if no_hours
+        0
+      else
+        total_seconds.abs / 3600
+      end
     minutes = (total_seconds.abs - hours * 3600) / 60
     seconds = total_seconds.abs % 60
     hash = {}

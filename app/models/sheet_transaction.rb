@@ -123,7 +123,7 @@ class SheetTransaction < ApplicationRecord
       response = [] if response.blank?
       object.update_responses!(response, current_user, sheet) # Response should be an array
     else
-      object.update_attributes object.format_response(object.variable.variable_type, response)
+      object.update(object.format_response(response))
     end
 
     value_after = object.get_response(:raw).to_s
