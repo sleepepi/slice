@@ -12,7 +12,12 @@
 .variable-blind,
 .variable-shade {
   border-left: 2px solid transparent;
+  margin-bottom: 15px;
   padding: 10px;
+
+  .form-group {
+    margin-bottom: 0;
+  }
 }
 
 .variable-shade {
