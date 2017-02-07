@@ -6,6 +6,7 @@
 - **Report Changes**
   - Overview reports now display variable units as well
   - Only sections and subsections are now displayed on overview reports
+  - Improved display of imperial weight on design overview report
 - **Variable Changes**
   - Time of day is now stored as total seconds since midnight in database
   - Time of day is now displayed as a bar chart on the design overview report

@@ -84,12 +84,23 @@ class Token
   end
 
   def convert_imperial_weight(val)
-    if !(/^(\d+)oz$/ =~ val).nil?
-      val.gsub(/oz$/, '')
-    elsif !(/^(\d+)lb$/ =~ val).nil?
-      (val.gsub(/lb$/, '').to_i * 16).to_s
+    original_value = val
+    pounds = nil
+    ounces = nil
+    if val.split('lb', 2).size == 2
+      (pounds, val) = val.split('lb', 2)
+      pounds = parse_integer(pounds)
+    end
+
+    if val.split('oz', 2).size == 2
+      (ounces, val) = val.split('oz', 2)
+      ounces = parse_integer(ounces)
+    end
+
+    if pounds || ounces
+      ((pounds || 0) * 16 + (ounces || 0)).to_s
     else
-      val
+      original_value
     end
   end
 
