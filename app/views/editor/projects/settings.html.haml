@@ -96,12 +96,12 @@
   .panel-body
     - if @project.disable_all_emails?
       %p
-        Daily Digest and Sheet Comment
-        %strong emails are disabled
+        Daily digest emails are
+        %strong disabled
         for this project.
     - else
       %p
-        This project sends daily digest emails.
+        Daily digest emails are enabled for this project.
         = link_to 'Learn more...', docs_notifications_path, class: 'alert-link'
 
 .panel.panel-default
