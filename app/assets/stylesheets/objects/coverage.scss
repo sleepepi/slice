@@ -4,6 +4,8 @@
 
   &.coverage-100 {
     background-color: $p900;
+    border-left: 2px solid $a200;
+    border-right: 2px solid $a200;
   }
 
   &.coverage-90 {

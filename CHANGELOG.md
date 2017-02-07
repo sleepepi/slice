@@ -8,6 +8,9 @@
   - Only sections and subsections are now displayed on overview reports
   - Improved display of imperial height on design overview report
   - Improved display of imperial weight on design overview report
+- **Sheet Changes**
+  - Sheets with 100% coverage now look visually different from other sheets with
+    coverage in the 90% coverage range
 - **Variable Changes**
   - Time of day is now stored as total seconds since midnight in database
   - Time of day is now displayed as a bar chart on the design overview report
