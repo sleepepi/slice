@@ -14,9 +14,8 @@
             %span.icon-bar
             %span.icon-bar
       - if @project && !@project.new_record?
-        %span.hidden-sm.hidden-md.hidden-lg{ style: 'max-width: 300px;' }
-          = link_to @project.name, @project, class: 'navbar-brand overflow-hidden nowrap navbar-hide-scrolled', style: 'max-width: 100%;'
-        %span.hidden-xs= link_to @project.name, @project, class: 'navbar-brand navbar-hide-scrolled'
+        .drawer-hidden= link_to @project.name, '#', data: { object: 'toggle-drawer' }, class: 'navbar-brand navbar-hide-scrolled'
+        .drawer-visible= link_to @project.name, @project, class: 'navbar-brand navbar-hide-scrolled'
       - else
         = link_to ENV['website_name'], current_user ? root_path : landing_path, class: 'navbar-brand navbar-hide-scrolled'
       - if @menu_title || @title

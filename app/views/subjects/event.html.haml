@@ -25,7 +25,6 @@
                   %span.glyphicon.glyphicon-trash
                   Delete
       %h1.page-heading
-        = render 'layouts/side_nav_header_button'
         = link_to @subject.name, [@project, @subject]
         = @title
         = render 'layouts/unblinded_only', project: @project, object: @event, placement: 'top'

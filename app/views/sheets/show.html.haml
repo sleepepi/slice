@@ -14,7 +14,6 @@
       %h1.page-heading
         .pull-right
           #sheet_actions= render 'sheets/actions', project: @project, sheet: @sheet
-        = render 'layouts/side_nav_header_button'
         = render 'sheets/status/checks_bullet', sheet: @sheet
         = @title
         = render 'layouts/unblinded_only', project: @project, object: @sheet.design, placement: 'top'

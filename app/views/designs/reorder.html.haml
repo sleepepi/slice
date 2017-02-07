@@ -13,10 +13,7 @@
             .btn-group
               = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
               = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: 'preview'), class: 'btn btn-xs btn-default'
-
             = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default active'
-
-        = render 'layouts/side_nav_header_button'
         = link_to @design.short_name, edit_project_design_path(@project, @design)
         Reorder
 

@@ -11,7 +11,6 @@
         .pull-right
           = link_to plus_or('New Export'), new_project_export_path(@project), class: 'btn btn-accent btn-shadow'
           .per-page= render 'layouts/per_page', per_page: 20, object_count: @exports.total_count
-        = render 'layouts/side_nav_header_button'
         = @title
 
 = render 'exports/exports'

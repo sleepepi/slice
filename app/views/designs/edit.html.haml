@@ -22,7 +22,6 @@
                   = succeed 'ode' do
                     %u M
             = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
-        = render 'layouts/side_nav_header_button'
         = link_to @design.short_name, [@project, @design]
         Edit
 

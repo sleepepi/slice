@@ -11,7 +11,6 @@
         .pull-right
           = link_to plus_or('New Event'), choose_event_project_subject_path(@project, @subject), class: 'btn btn-accent btn-shadow'
       %h1.page-heading
-        = render 'layouts/side_nav_header_button'
         = link_to @subject.name, [@project, @subject]
         = @title
 

@@ -8,7 +8,6 @@
   .header-container
     .container
       %h1.page-heading
-        = render 'layouts/side_nav_header_button'
         = @title
 
 - @file_uploaded = (@variables.size > 0 && @design.csv_file_cache.present? && @design.errors[:csv_file].blank?)

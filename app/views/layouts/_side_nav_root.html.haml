@@ -1,4 +1,6 @@
 %ul.side-nav-navigation
   %li.side-nav-section
     .side-nav-section-header
-      = link_to ENV['website_name'], dashboard_path
+      = link_to dashboard_path do
+        %i.fa.fa-caret-left{ aria: { hidden: 'true' } }
+        = ENV['website_name']

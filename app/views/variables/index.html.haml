@@ -11,7 +11,6 @@
         .pull-right
           = link_to plus_or('New Variable'), new_project_variable_path(@project), class: 'btn btn-accent btn-shadow'
           .per-page= render 'layouts/per_page', per_page: 20, object_count: @variables.total_count
-        = render 'layouts/side_nav_header_button'
         = @title
         = render 'search/toggle'
 

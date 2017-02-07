@@ -7,7 +7,9 @@
       %ul.side-nav-navigation
         %li.side-nav-section
           .side-nav-section-header
-            = link_to @project.short_name, @project
+            = link_to @project do
+              %i.fa.fa-caret-left{ aria: { hidden: 'true' } }
+              = @project.name
 
       %ul.side-nav-navigation
         %li.side-nav-section

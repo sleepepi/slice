@@ -10,7 +10,6 @@
   .header-container
     .container
       %h1.page-heading
-        = render 'layouts/side_nav_header_button'
         = link_to @treatment_arm.name_was, [@project, @randomization_scheme, @treatment_arm]
         Edit
 

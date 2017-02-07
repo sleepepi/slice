@@ -46,7 +46,6 @@
                   Delete Subject
 
       %h1.page-heading
-        = render 'layouts/side_nav_header_button'
         = @title
 
 - if @project.events.where(archived: false).count > 0

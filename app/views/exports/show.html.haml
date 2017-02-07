@@ -20,8 +20,6 @@
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete
-
-        = render 'layouts/side_nav_header_button'
         = @title
 
 #progress{ data: { object: "#{'ajax-timer' if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }

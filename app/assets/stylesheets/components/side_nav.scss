@@ -148,28 +148,35 @@ $side-nav-width: 240px;
   margin-left: 15px;
 }
 
-.side-nav-header-button-container {
-  display: block;
-  float: left;
+$screen-drawer-min: 1480px;
 
-  .navbar-toggle .icon-bar {
-    background-color: $brand-muted;
+.drawer-visible {
+  display: none;
+}
+
+.drawer-hidden {
+  display: inline;
+}
+
+@media screen and (min-width: $screen-drawer-min) {
+  .drawer-visible {
+    display: inline;
   }
 
-  .side-nav-button {
-    margin: -1px 0;
+  .drawer-hidden {
+    display: none;
   }
 }
 
 .side-nav-button {
   border-color: transparent !important;
-  display: none;
+  display: block;
   margin: 8px 0;
 }
 
-@media screen and (max-width: 1479px) {
+@media screen and (min-width: $screen-drawer-min) {
   .side-nav-button {
-    display: block;
+    display: none;
   }
 }
 
@@ -177,15 +184,6 @@ $side-nav-width: 240px;
   .side-nav-button-container {
     margin: 0;
     padding: 0 15px 0 0;
-  }
-
-  .side-nav-header-button-container {
-    margin: 0;
-    padding: 0 15px 0 0;
-
-    .side-nav-button {
-      margin: 5px 0;
-    }
   }
 }
 

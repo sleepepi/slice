@@ -10,7 +10,6 @@
   .header-container
     .container
       %h1.page-heading
-        = render 'layouts/side_nav_header_button'
         = link_to @check_filter.name_was, editor_project_check_check_filter_path(@project, @check, @check_filter)
         Edit
 

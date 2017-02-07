@@ -15,7 +15,6 @@
           - unless @randomization_scheme.published?
             = link_to plus_or('New Stratification Factor'), new_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme), class: 'btn btn-accent btn-shadow'
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @stratification_factors.total_count
-        = render 'layouts/side_nav_header_button'
         %span= @title
 
 .dashboard-container
