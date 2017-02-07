@@ -105,12 +105,23 @@ class Token
   end
 
   def convert_imperial_height(val)
-    if !(/^(\d+)in$/ =~ val).nil?
-      val.gsub(/in$/, '')
-    elsif !(/^(\d+)ft$/ =~ val).nil?
-      (val.gsub(/ft$/, '').to_i * 12).to_s
+    original_value = val
+    feet = nil
+    inches = nil
+    if val.split('ft', 2).size == 2
+      (feet, val) = val.split('ft', 2)
+      feet = parse_integer(feet)
+    end
+
+    if val.split('in', 2).size == 2
+      (inches, val) = val.split('in', 2)
+      inches = parse_integer(inches)
+    end
+
+    if feet || inches
+      ((feet || 0) * 12 + (inches || 0)).to_s
     else
-      val
+      original_value
     end
   end
 
