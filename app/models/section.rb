@@ -33,4 +33,8 @@ class Section < ApplicationRecord
   rescue
     'Section'
   end
+
+  def display_on_report?
+    level.in?(0..1)
+  end
 end
